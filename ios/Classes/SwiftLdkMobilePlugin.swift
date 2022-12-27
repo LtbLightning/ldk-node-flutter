@@ -8,7 +8,8 @@ public class SwiftLdkMobilePlugin: NSObject, FlutterPlugin {
     registrar.addMethodCallDelegate(instance, channel: channel)
   }
 
-  public func handle(_ call: FlutterMethodCall, result: @escaping FlutterResult) {
-    result("iOS " + UIDevice.current.systemVersion)
-  }
+  public func dummyMethodToEnforceBundling() {
+              dummy_method_to_enforce_bundling();
+     }
+    public func handle(_ call: FlutterMethodCall, result: @escaping FlutterResult) {}
 }

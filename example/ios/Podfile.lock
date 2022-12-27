@@ -1,0 +1,28 @@
+PODS:
+  - Flutter (1.0.0)
+  - ldk_mobile (0.0.1):
+    - Flutter
+  - path_provider_ios (0.0.1):
+    - Flutter
+
+DEPENDENCIES:
+  - Flutter (from `Flutter`)
+  - ldk_mobile (from `.symlinks/plugins/ldk_mobile/ios`)
+  - path_provider_ios (from `.symlinks/plugins/path_provider_ios/ios`)
+
+EXTERNAL SOURCES:
+  Flutter:
+    :path: Flutter
+  ldk_mobile:
+    :path: ".symlinks/plugins/ldk_mobile/ios"
+  path_provider_ios:
+    :path: ".symlinks/plugins/path_provider_ios/ios"
+
+SPEC CHECKSUMS:
+  Flutter: f04841e97a9d0b0a8025694d0796dd46242b2854
+  ldk_mobile: 85cf2138cfd04bc7d3daafbcfe7d689104a176bd
+  path_provider_ios: 14f3d2fd28c4fdb42f44e0f751d12861c43cee02
+
+PODFILE CHECKSUM: ef19549a9bc3046e7bb7d2fab4d021637c0c58a3
+
+COCOAPODS: 1.11.3

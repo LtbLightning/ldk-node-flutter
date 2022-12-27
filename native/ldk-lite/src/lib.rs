@@ -145,7 +145,6 @@ impl Builder {
 	/// Creates a new builder instance with the default configuration.
 	pub fn new() -> Self {
 		let config = Config::default();
-
 		Self { config }
 	}
 
@@ -795,7 +794,6 @@ impl LdkLite {
 		tokio::task::block_in_place(move || {
 			runtime.tokio_runtime.block_on(async move { tx_sync.sync(confirmables).await })
 		})?;
-
 		Ok(())
 	}
 
