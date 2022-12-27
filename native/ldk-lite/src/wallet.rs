@@ -10,7 +10,7 @@ use lightning::chain::chaininterface::{
 use bdk::blockchain::{Blockchain, EsploraBlockchain};
 use bdk::database::BatchDatabase;
 use bdk::wallet::AddressIndex;
-use bdk::{FeeRate, SignOptions, SyncOptions};
+use bdk::{ FeeRate, SignOptions, SyncOptions};
 
 use bitcoin::{Script, Transaction};
 
@@ -18,8 +18,8 @@ use std::collections::HashMap;
 use std::sync::{Arc, Mutex, RwLock};
 
 pub struct Wallet<D>
-where
-	D: BatchDatabase,
+	where
+		D: BatchDatabase,
 {
 	// A BDK blockchain used for wallet sync.
 	blockchain: EsploraBlockchain,
@@ -32,8 +32,8 @@ where
 }
 
 impl<D> Wallet<D>
-where
-	D: BatchDatabase,
+	where
+		D: BatchDatabase,
 {
 	pub(crate) fn new(
 		blockchain: EsploraBlockchain, wallet: bdk::Wallet<D>, logger: Arc<FilesystemLogger>,
@@ -43,8 +43,12 @@ where
 		let tokio_runtime = RwLock::new(None);
 		Self { blockchain, wallet, fee_rate_cache, tokio_runtime, logger }
 	}
+	pub fn balance(&self) -> Result<u64, bdk::Error>{
+		let wallet = self.wallet.lock().unwrap();
+		Ok(wallet.get_balance().unwrap().confirmed)
+	}
 
-	pub(crate) async fn sync(&self) -> Result<(), Error> {
+	pub async fn sync(&self) -> Result<(), Error> {
 		let sync_options = SyncOptions { progress: None };
 		match self.wallet.lock().unwrap().sync(&self.blockchain, sync_options).await {
 			Ok(()) => Ok(()),
@@ -145,8 +149,8 @@ where
 }
 
 impl<D> FeeEstimator for Wallet<D>
-where
-	D: BatchDatabase,
+	where
+		D: BatchDatabase,
 {
 	fn get_est_sat_per_1000_weight(&self, confirmation_target: ConfirmationTarget) -> u32 {
 		(self.estimate_fee_rate(confirmation_target).fee_wu(1000) as u32)
@@ -155,8 +159,8 @@ where
 }
 
 impl<D> BroadcasterInterface for Wallet<D>
-where
-	D: BatchDatabase,
+	where
+		D: BatchDatabase,
 {
 	fn broadcast_transaction(&self, tx: &Transaction) {
 		let locked_runtime = self.tokio_runtime.read().unwrap();

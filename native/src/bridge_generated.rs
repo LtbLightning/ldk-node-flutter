@@ -19,9 +19,8 @@ use std::sync::Arc;
 
 // Section: imports
 
-use crate::types::Config;
+use crate::types::LogEntry;
 use crate::types::Network;
-use crate::types::NodeInfo;
 
 // Section: wire functions
 
@@ -38,19 +37,35 @@ fn wire_init_builder_impl(port_: MessagePort, config: impl Wire2Api<Config> + Un
         },
     )
 }
-fn wire_start_ldk_node_impl(
+fn wire_start_impl(
     port_: MessagePort,
     ldk_lite_instance: impl Wire2Api<Opaque<LdkLiteInstance>> + UnwindSafe,
 ) {
     FLUTTER_RUST_BRIDGE_HANDLER.wrap(
         WrapInfo {
-            debug_name: "start_ldk_node",
+            debug_name: "start",
             port: Some(port_),
             mode: FfiCallMode::Normal,
         },
         move || {
             let api_ldk_lite_instance = ldk_lite_instance.wire2api();
-            move |task_callback| Ok(start_ldk_node(api_ldk_lite_instance))
+            move |task_callback| Ok(start(api_ldk_lite_instance))
+        },
+    )
+}
+fn wire_get_balance_impl(
+    port_: MessagePort,
+    ldk_lite_instance: impl Wire2Api<Opaque<LdkLiteInstance>> + UnwindSafe,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap(
+        WrapInfo {
+            debug_name: "get_balance",
+            port: Some(port_),
+            mode: FfiCallMode::Normal,
+        },
+        move || {
+            let api_ldk_lite_instance = ldk_lite_instance.wire2api();
+            move |task_callback| Ok(get_balance(api_ldk_lite_instance))
         },
     )
 }
@@ -86,19 +101,19 @@ fn wire_sync_impl(
         },
     )
 }
-fn wire_get_node_info_impl(
+fn wire_get_node_addr_impl(
     port_: MessagePort,
     ldk_lite_instance: impl Wire2Api<Opaque<LdkLiteInstance>> + UnwindSafe,
 ) {
     FLUTTER_RUST_BRIDGE_HANDLER.wrap(
         WrapInfo {
-            debug_name: "get_node_info",
+            debug_name: "get_node_addr",
             port: Some(port_),
             mode: FfiCallMode::Normal,
         },
         move || {
             let api_ldk_lite_instance = ldk_lite_instance.wire2api();
-            move |task_callback| Ok(get_node_info(api_ldk_lite_instance))
+            move |task_callback| Ok(get_node_addr(api_ldk_lite_instance))
         },
     )
 }
@@ -129,6 +144,26 @@ fn wire_connect_open_channel_impl(
                 ))
             }
         },
+    )
+}
+fn wire_create_log_stream_impl(port_: MessagePort) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap(
+        WrapInfo {
+            debug_name: "create_log_stream",
+            port: Some(port_),
+            mode: FfiCallMode::Stream,
+        },
+        move || move |task_callback| create_log_stream(task_callback.stream_sink()),
+    )
+}
+fn wire_rust_set_up_impl(port_: MessagePort) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap(
+        WrapInfo {
+            debug_name: "rust_set_up",
+            port: Some(port_),
+            mode: FfiCallMode::Normal,
+        },
+        move || move |task_callback| Ok(rust_set_up()),
     )
 }
 // Section: wrapper structs
@@ -195,19 +230,18 @@ impl Wire2Api<u8> for u8 {
 
 // Section: impl IntoDart
 
-impl support::IntoDart for NodeInfo {
+impl support::IntoDart for LogEntry {
     fn into_dart(self) -> support::DartAbi {
         vec![
-            self.node_pub_key.into_dart(),
-            self.num_channels.into_dart(),
-            self.num_usable_channels.into_dart(),
-            self.local_balance_msat.into_dart(),
-            self.num_peers.into_dart(),
+            self.time_millis.into_dart(),
+            self.level.into_dart(),
+            self.tag.into_dart(),
+            self.msg.into_dart(),
         ]
         .into_dart()
     }
 }
-impl support::IntoDartExceptPrimitive for NodeInfo {}
+impl support::IntoDartExceptPrimitive for LogEntry {}
 
 // Section: executor
 

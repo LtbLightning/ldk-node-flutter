@@ -1,1 +1,0 @@
-{"dockerExe":"/usr/local/bin/docker","dockerfileDir":"/Users/bz/Desktop/Dev/ldk/ldk_mobile/native/docker","dockerImgUrl":"","isImage":false,"makefilePath":"../native","makefileFile":"makefile","target":"target/armv7-linux-androideabi/release/libexample.so","codePath":"/Users/bz/Desktop/Dev/ldk/ldk_mobile","m2Path":"/Users/bz/.m2","envScript":"","advancedDockerSettings":""}

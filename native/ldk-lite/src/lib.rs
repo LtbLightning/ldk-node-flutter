@@ -73,7 +73,6 @@ use bdk::bitcoin::secp256k1::Secp256k1;
 use bdk::blockchain::esplora::EsploraBlockchain;
 use bdk::sled;
 use bdk::template::Bip84;
-
 use bitcoin::hashes::sha256::Hash as Sha256;
 use bitcoin::hashes::Hash;
 use bitcoin::secp256k1::PublicKey;
@@ -89,6 +88,7 @@ use std::net::SocketAddr;
 use std::sync::atomic::{AtomicBool, Ordering};
 use std::sync::{Arc, Mutex, RwLock};
 use std::time::{Duration, Instant, SystemTime};
+use bdk::sled::Tree;
 
 // The used 'stop gap' parameter used by BDK's wallet sync. This seems to configure the threshold
 // number of blocks after which BDK stops looking for scripts belonging to the wallet.
@@ -99,6 +99,8 @@ const BDK_CLIENT_CONCURRENCY: u8 = 8;
 
 // The timeout after which we abandon retrying failed payments.
 const LDK_PAYMENT_RETRY_TIMEOUT: Duration = Duration::from_secs(10);
+
+
 
 #[derive(Debug, Clone)]
 /// Represents the configuration of an [`LdkLite`] instance.
@@ -483,10 +485,16 @@ pub struct LdkLite {
 }
 
 impl LdkLite {
+	//=============== Custom Functions================
+	/// Get Wallet
+	pub fn get_wallet(&self) -> Result<Arc<Wallet<Tree>>, Error>{
+		Ok(self.wallet.clone())
+	}
 	/// Starts the necessary background tasks, such as handling events coming from user input,
 	/// LDK/BDK, and the peer-to-peer network. After this returns, the [`LdkLite`] instance can be
 	/// controlled via the provided API methods in a thread-safe manner.
 	pub fn start(&mut self) -> Result<(), Error> {
+
 		// Acquire a run lock and hold it until we're setup.
 		let mut run_lock = self.running.write().unwrap();
 		if run_lock.is_some() {
@@ -667,6 +675,7 @@ impl LdkLite {
 		Ok(Runtime { tokio_runtime, _background_processor, stop_networking, stop_wallet_sync })
 	}
 
+
 	/// Blocks until the next event is available.
 	///
 	/// Note: this will always return the same event until handling is confirmed via [`LdkLite::event_handled`].
@@ -772,7 +781,7 @@ impl LdkLite {
 		}
 	}
 	/// Syncing Node
-	pub fn sync_wallets(&self) -> Result<(), Error> {
+	pub fn sync_wallet(&self) -> Result<(), Error> {
 		let runtime_lock = self.running.read().unwrap();
 		if runtime_lock.is_none() {
 			return Err(Error::NotRunning);

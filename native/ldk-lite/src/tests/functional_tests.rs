@@ -135,21 +135,21 @@ fn channel_full_cycle() {
 	let addr_b = node_b.new_funding_address().unwrap();
 
 	premine_and_distribute_funds(vec![addr_a, addr_b], Amount::from_sat(100000));
-	node_a.sync_wallets().unwrap();
-	node_b.sync_wallets().unwrap();
+	node_a.sync_wallet().unwrap();
+	node_b.sync_wallet().unwrap();
 
 	println!("\nA -- connect_open_channel -> B");
 	let node_b_addr =
 		format!("{}@{}", node_b.node_id().unwrap(), node_b.listening_address().unwrap());
 	node_a.connect_open_channel(&node_b_addr, 50000, true).unwrap();
 	// TODO: why are those needed?
-	node_a.sync_wallets().unwrap();
-	node_b.sync_wallets().unwrap();
+	node_a.sync_wallet().unwrap();
+	node_b.sync_wallet().unwrap();
 
 	println!("\n .. generating blocks, syncing wallets .. ");
 	generate_blocks_and_wait(6);
-	node_a.sync_wallets().unwrap();
-	node_b.sync_wallets().unwrap();
+	node_a.sync_wallet().unwrap();
+	node_b.sync_wallet().unwrap();
 
 	expect_event!(node_a, ChannelReady);
 

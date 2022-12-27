@@ -7,8 +7,13 @@ pub extern "C" fn wire_init_builder(port_: i64, config: *mut wire_Config) {
 }
 
 #[no_mangle]
-pub extern "C" fn wire_start_ldk_node(port_: i64, ldk_lite_instance: wire_LdkLiteInstance) {
-    wire_start_ldk_node_impl(port_, ldk_lite_instance)
+pub extern "C" fn wire_start(port_: i64, ldk_lite_instance: wire_LdkLiteInstance) {
+    wire_start_impl(port_, ldk_lite_instance)
+}
+
+#[no_mangle]
+pub extern "C" fn wire_get_balance(port_: i64, ldk_lite_instance: wire_LdkLiteInstance) {
+    wire_get_balance_impl(port_, ldk_lite_instance)
 }
 
 #[no_mangle]
@@ -22,8 +27,8 @@ pub extern "C" fn wire_sync(port_: i64, ldk_lite_instance: wire_LdkLiteInstance)
 }
 
 #[no_mangle]
-pub extern "C" fn wire_get_node_info(port_: i64, ldk_lite_instance: wire_LdkLiteInstance) {
-    wire_get_node_info_impl(port_, ldk_lite_instance)
+pub extern "C" fn wire_get_node_addr(port_: i64, ldk_lite_instance: wire_LdkLiteInstance) {
+    wire_get_node_addr_impl(port_, ldk_lite_instance)
 }
 
 #[no_mangle]
@@ -41,6 +46,16 @@ pub extern "C" fn wire_connect_open_channel(
         channel_amount_sats,
         announce_channel,
     )
+}
+
+#[no_mangle]
+pub extern "C" fn wire_create_log_stream(port_: i64) {
+    wire_create_log_stream_impl(port_)
+}
+
+#[no_mangle]
+pub extern "C" fn wire_rust_set_up(port_: i64) {
+    wire_rust_set_up_impl(port_)
 }
 
 // Section: allocate functions

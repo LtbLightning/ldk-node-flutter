@@ -44,9 +44,9 @@ target/armv7-linux-androideabi/release/libexample.so: $(SOURCES)
 target/i686-linux-android/release/libexample.so: $(SOURCES)
 		cargo ndk -t x86 build --release
 	@echo "[Done ✅] $@"
-target/x86_64-linux-android/release/libexample.so: $(SOURCES)
-		 cargo ndk -t x86_64 build --release
-	@echo "[Done ✅] $@"
+#target/x86_64-linux-android/release/libexample.so: $(SOURCES)
+#		 cargo ndk -t x86_64 build --release
+#	@echo "[Done ✅] $@"
 
 bindings: copy/bindings
 copy/bindings: $(SOURCES)

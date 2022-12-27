@@ -13,24 +13,22 @@ package = "ldk-lite"
 [build-dependencies]
 flutter_rust_bridge_codegen = "1.51.0"
 
-
-
-
-
 [dependencies]
 rand = "0.8.5"
-chrono = "0.4"
-futures = "0.3"
-serde_json = { version = "1.0" }
-tokio = { version = "1", features = [ "full" ] }
-flutter_rust_bridge = "1.51.0"
-bitcoin = "0.29.2"
-openssl = { version = "0.10.35", features = ["vendored"] }
-openssl-sys = {version = "0.9.66", features = ["vendored"]}
 #electrsd = { version = "0.22.0", features = ["legacy", "esplora_a33e97e1", "bitcoind_23_0"] }
 #electrum-client = "0.12.0"
 lazy_static = "1.4.0"
 once_cell = "1.16.0"
+
+
+
+flutter_rust_bridge = "1.51.0"
+bitcoin = "0.29.2"
+openssl = { version = "0.10.35", features = ["vendored"] }
+openssl-sys = {version = "0.9.66", features = ["vendored"]}
+
+log = "0.4.17"
+simplelog = "0.12.0"
 
 [profile.release]
 strip = true  # Automatically strip symbols from the binary.
