@@ -1,5 +1,8 @@
 use std::sync::Mutex;
-use external_lib::LdkLite;
+use ldk_lite::LdkLite;
+
+
+// use external_lib::Invoice;
 pub struct LdkLiteInstance {
     pub ldk_lite_mutex: Mutex<LdkLite>,
 }

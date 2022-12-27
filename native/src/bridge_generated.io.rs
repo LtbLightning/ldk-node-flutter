@@ -12,18 +12,8 @@ pub extern "C" fn wire_start(port_: i64, ldk_lite_instance: wire_LdkLiteInstance
 }
 
 #[no_mangle]
-pub extern "C" fn wire_get_balance(port_: i64, ldk_lite_instance: wire_LdkLiteInstance) {
-    wire_get_balance_impl(port_, ldk_lite_instance)
-}
-
-#[no_mangle]
 pub extern "C" fn wire_new_funding_address(port_: i64, ldk_lite_instance: wire_LdkLiteInstance) {
     wire_new_funding_address_impl(port_, ldk_lite_instance)
-}
-
-#[no_mangle]
-pub extern "C" fn wire_sync(port_: i64, ldk_lite_instance: wire_LdkLiteInstance) {
-    wire_sync_impl(port_, ldk_lite_instance)
 }
 
 #[no_mangle]
@@ -32,20 +22,71 @@ pub extern "C" fn wire_get_node_addr(port_: i64, ldk_lite_instance: wire_LdkLite
 }
 
 #[no_mangle]
-pub extern "C" fn wire_connect_open_channel(
+pub extern "C" fn wire_next_event(port_: i64, ldk_lite_instance: wire_LdkLiteInstance) {
+    wire_next_event_impl(port_, ldk_lite_instance)
+}
+
+#[no_mangle]
+pub extern "C" fn wire_handle_event(port_: i64, ldk_lite_instance: wire_LdkLiteInstance) {
+    wire_handle_event_impl(port_, ldk_lite_instance)
+}
+
+#[no_mangle]
+pub extern "C" fn wire_receive_payment(
     port_: i64,
     ldk_lite_instance: wire_LdkLiteInstance,
+    amount_msat: *mut u64,
+    description: *mut wire_uint_8_list,
+    expiry_secs: u32,
+) {
+    wire_receive_payment_impl(
+        port_,
+        ldk_lite_instance,
+        amount_msat,
+        description,
+        expiry_secs,
+    )
+}
+
+#[no_mangle]
+pub extern "C" fn wire_send_payment(
+    port_: i64,
+    ldk_lite_instance: wire_LdkLiteInstance,
+    invoice: *mut wire_uint_8_list,
+) {
+    wire_send_payment_impl(port_, ldk_lite_instance, invoice)
+}
+
+#[no_mangle]
+pub extern "C" fn wire_get_channel_id(port_: i64, ldk_lite_instance: wire_LdkLiteInstance) {
+    wire_get_channel_id_impl(port_, ldk_lite_instance)
+}
+
+#[no_mangle]
+pub extern "C" fn wire_connect_open_channel(
+    port_: i64,
+    ldk_lite: wire_LdkLiteInstance,
     node_pubkey_and_address: *mut wire_uint_8_list,
     channel_amount_sats: u64,
     announce_channel: bool,
 ) {
     wire_connect_open_channel_impl(
         port_,
-        ldk_lite_instance,
+        ldk_lite,
         node_pubkey_and_address,
         channel_amount_sats,
         announce_channel,
     )
+}
+
+#[no_mangle]
+pub extern "C" fn wire_close_channel(
+    port_: i64,
+    ldk_lite: wire_LdkLiteInstance,
+    channel_id: *mut wire_uint_8_list,
+    counterparty_node_id: *mut wire_uint_8_list,
+) {
+    wire_close_channel_impl(port_, ldk_lite, channel_id, counterparty_node_id)
 }
 
 #[no_mangle]
@@ -68,6 +109,11 @@ pub extern "C" fn new_LdkLiteInstance() -> wire_LdkLiteInstance {
 #[no_mangle]
 pub extern "C" fn new_box_autoadd_config_0() -> *mut wire_Config {
     support::new_leak_box_ptr(wire_Config::new_with_null_ptr())
+}
+
+#[no_mangle]
+pub extern "C" fn new_box_autoadd_u64_0(value: u64) -> *mut u64 {
+    support::new_leak_box_ptr(value)
 }
 
 #[no_mangle]
@@ -98,8 +144,8 @@ pub extern "C" fn share_opaque_LdkLiteInstance(ptr: *const c_void) -> *const c_v
 
 // Section: impl Wire2Api
 
-impl Wire2Api<Opaque<LdkLiteInstance>> for wire_LdkLiteInstance {
-    fn wire2api(self) -> Opaque<LdkLiteInstance> {
+impl Wire2Api<RustOpaque<LdkLiteInstance>> for wire_LdkLiteInstance {
+    fn wire2api(self) -> RustOpaque<LdkLiteInstance> {
         unsafe { support::opaque_from_dart(self.ptr as _) }
     }
 }
@@ -116,6 +162,7 @@ impl Wire2Api<Config> for *mut wire_Config {
         Wire2Api::<Config>::wire2api(*wrap).into()
     }
 }
+
 impl Wire2Api<Config> for wire_Config {
     fn wire2api(self) -> Config {
         Config {
@@ -128,6 +175,12 @@ impl Wire2Api<Config> for wire_Config {
     }
 }
 
+impl Wire2Api<[u8; 32]> for *mut wire_uint_8_list {
+    fn wire2api(self) -> [u8; 32] {
+        let vec: Vec<u8> = self.wire2api();
+        support::from_vec_to_array(vec)
+    }
+}
 impl Wire2Api<Vec<u8>> for *mut wire_uint_8_list {
     fn wire2api(self) -> Vec<u8> {
         unsafe {

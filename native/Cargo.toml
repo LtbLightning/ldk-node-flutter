@@ -6,23 +6,22 @@ edition = "2021"
 [lib]
 crate-type = ["staticlib", "cdylib"]
 
-[dependencies.external-lib]
-path = "./ldk-lite"
-package = "ldk-lite"
+#[dependencies.external-lib]
+#path = "./ldk-lite"
+#package = "ldk-lite"
 
 [build-dependencies]
-flutter_rust_bridge_codegen = "1.51.0"
+flutter_rust_bridge_codegen = "1.56.0"
 
 [dependencies]
 rand = "0.8.5"
-#electrsd = { version = "0.22.0", features = ["legacy", "esplora_a33e97e1", "bitcoind_23_0"] }
+ldk-lite = { git = "https://github.com/tnull/ldk-lite", branch="2022-09-initial-setup-and-api" }
+lightning-invoice = { git = "https://github.com/tnull/rust-lightning", branch="2022-11-add-transaction-sync-crate" }
+#electrsd = { version = "0.22.0", fea tures = ["legacy", "esplora_a33e97e1", "bitcoind_23_0"] }
 #electrum-client = "0.12.0"
 lazy_static = "1.4.0"
 once_cell = "1.16.0"
-
-
-
-flutter_rust_bridge = "1.51.0"
+flutter_rust_bridge = "1.56.0"
 bitcoin = "0.29.2"
 openssl = { version = "0.10.35", features = ["vendored"] }
 openssl-sys = {version = "0.9.66", features = ["vendored"]}
