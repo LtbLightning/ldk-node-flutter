@@ -18,18 +18,21 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  late  LdkNode liteNode;
-  late  LdkNode liteNode2;
+  late  LdkNode liteNodeOne;
+  late  LdkNode liteNodeTwo;
   String ? nodeId;
   int balance = 0;
   String displayText = "";
   String listeningAddress="";
   String invoice= "";
+  U8Array32? channelId;
+
   @override
   void initState() {
     initNodes();
     super.initState();
   }
+
   Future<int> getUnusedPort(InternetAddress address) {
     return ServerSocket.bind(address ?? InternetAddress.anyIPv4, 0).then((socket) {
       var port = socket.port;
@@ -48,8 +51,8 @@ class _MyAppState extends State<MyApp> {
     Random random =  Random();
     int randPort = random.nextInt(10000);
     const host =  "127.0.0.1";
-    listeningAddress = "$host:$randPort";
-    const esploraUrl="https://blockstream.info/testnet/api";
+    final listeningAddress = "$host:$randPort";
+    const esploraUrl="https://blockstream.info/testnet/api/";
     final config = LiteConfig(
         storageDirPath:randPath,
         esploraServerUrl: esploraUrl ,
@@ -57,122 +60,109 @@ class _MyAppState extends State<MyApp> {
         listeningAddress:  listeningAddress);
     return config;
   }
-  receivePayment()async{
-    final res = await liteNode.receivePayments("asdf", 9217, 1000);
-  }
   getNodeWalletBalance() async{
-    final res = await liteNode.getBalance();
-    final res2 = await liteNode2.getBalance();
-    print("liteNode1: $res");
-    print("liteNode2: $res2");
+    final res = await liteNodeOne.getBalance();
+    final res2 = await liteNodeTwo.getBalance();
+    print("liteNode1: ${res.total}");
+    print("liteNode2: ${res2.total}");
     setState(() {
-      balance= res.total;
+      balance= res2.total;
     });
   }
-  getChannelId()async{
-   final res = await  liteNode.getChannelId();
-   print(res.toString());
-  }
-  Future<LiteConfig> getConfig1(String path)async{
+  Future<LiteConfig> getConfigOne(String path)async{
     final  storagePath = "$path/ldk_cache/node1";
     const host =  "0.0.0.0";
-    listeningAddress = "$host:3314";
-    const esploraUrl="https://blockstream.info/testnet/api";
+    final listeningAddress = "$host:3314";
+    const esploraUrl="http://127.0.0.1:3002";
     final config = LiteConfig(
         storageDirPath:storagePath,
         esploraServerUrl: esploraUrl ,
-        network: Network.Testnet,
+        network: Network.Regtest,
         listeningAddress:  listeningAddress);
     return config;
   }
-
-  Future<LiteConfig> getConfig2(String path)async{
+  Future<LiteConfig> getConfigTwo(String path)async{
     final  storagePath = "$path/ldk_cache/node2";
     const host =  "0.0.0.0";
-    listeningAddress = "$host:7731";
-    const esploraUrl="https://blockstream.info/testnet/api";
+    final listeningAddress = "$host:7731";
+    const esploraUrl="http://127.0.0.1:3002";
     final config = LiteConfig(
         storageDirPath:storagePath,
         esploraServerUrl: esploraUrl ,
-        network: Network.Testnet,
+        network: Network.Regtest,
         listeningAddress: listeningAddress);
     return config;
   }
   initNodes() async {
     final path = await getApplicationSupportDirectory();
-    print("loading config");
-    final randConfig = await getConfig1(path.path);
-    print("initializing builder");
+    final randConfig = await getConfigOne(path.path);
     LiteBuilder liteBuilder = LiteBuilder.fromConfig(config: randConfig);
-    liteNode = await liteBuilder.toLdkNode();
-    print("starting node");
-    await liteNode.start();
+    liteNodeOne = await liteBuilder.toLdkNode();
+    await liteNodeOne.start();
     setState(() {
-      nodeId = liteNode.nodeId!;
+      nodeId = liteNodeOne.nodeId!;
     });
-    print("$nodeId started");
-    print("==========");
-    print("loading config");
-    final randConfig2 =  await getConfig2(path.path);
-    print("initializing builder");
+    final randConfig2 =  await getConfigTwo(path.path);
     LiteBuilder liteBuilder2 = LiteBuilder.fromConfig(config: randConfig2);
-    liteNode2 = await liteBuilder2.toLdkNode();
-    print("starting node");
-    await liteNode2.start();
-    print("${liteNode2.nodeId} started");
+    liteNodeTwo = await liteBuilder2.toLdkNode();
+    await liteNodeTwo.start();
   }
-  initNode() async {
+  initRandomNode() async {
     final path = await getApplicationSupportDirectory();
     final randConfig = await getRandomConfig(path.path);
     LiteBuilder liteBuilder = LiteBuilder.fromConfig(config: randConfig);
-    liteNode = await liteBuilder.toLdkNode();
-    await liteNode.start();
+    liteNodeOne = await liteBuilder.toLdkNode();
+    await liteNodeOne.start();
     setState(() {
-      nodeId = liteNode.nodeId!;
+      nodeId = liteNodeOne.nodeId!;
     });
   }
-  node1Sync() async{
-    await liteNode.sync();
+  nodeOneSync() async{
+    await liteNodeOne.sync();
   }
-  node2Sync() async{
-    await liteNode2.sync();
+  nodeTwoSync() async{
+    await liteNodeTwo.sync();
   }
-  getNewAddress() async{
-    final res = await liteNode.getNewAddress();
-    final res2 = await liteNode2.getNewAddress();
+  getNewWalletAddress() async{
+    final res = await liteNodeOne.getNewAddress();
+    final res2 = await liteNodeTwo.getNewAddress();
     if (kDebugMode) {
-      print("liteNode1: $res");
-      print("liteNode2: $res2");
+      print("liteNode1 address: $res");
+      print("liteNode2 address: $res2");
     }
     setState(() {
       displayText= res;
     });
   }
-  getNodeAddress() async{
-    final res = await liteNode.getPeerListeningAddress();
-    final res2 = await liteNode2.getPeerListeningAddress();
+  getNodePeerAddress() async{
+    final res = await liteNodeOne.getPeerListeningAddress();
+    final res2 = await liteNodeTwo.getPeerListeningAddress();
     if (kDebugMode) {
-      print("liteNode1: $res");
-      print("liteNode2: $res2");
+      print("liteNode1 Peer: $res");
+      print("liteNode2 Peer: $res2");
     }
     setState(() {
+      listeningAddress = res;
       displayText= res;
     });
   }
   connectChannel() async{
-    await liteNode.connectOpenChannel(
-       nodePubKeyAndAddress: "0328b4c9c2753096e672b4938a203fe629bae60ff9c7dcda42c80fab730afb1f76@0.0.0.0:7731",
-        channelAmountSats: 10000, announceChannel:true);
+    await liteNodeTwo.connectOpenChannel(
+       nodePubKeyAndAddress: listeningAddress,
+        channelAmountSats: 100000, announceChannel:true);
   }
-  receivedPayment() async{
-    final res  = await liteNode.receivePayments("asdf", 9217, 1000);
-    setState(() {
-      invoice = res;
-    });
-    print(invoice);
+  receiveAndSendPayments()async{
+    invoice = await liteNodeTwo.receivePayments("asdf", 9217, 10000);
+    await liteNodeOne.sendPayments(invoice);
+  }
+  getChannelId()async{
+    channelId = await  liteNodeOne.getChannelId();
+    if (kDebugMode) {
+      print(channelId.toString());
+    }
   }
  nextEvent() async{
-   await liteNode2.nextEvent();
+   await liteNodeTwo.nextEvent();
  }
 
   @override
@@ -230,14 +220,14 @@ class _MyAppState extends State<MyApp> {
                     ],
                   ),
                   TextButton(onPressed: () async {
-                    await node1Sync();
+                    await nodeOneSync();
                   },
                       child:  Text('Node1 Sync',
                         style:   GoogleFonts.nunito(color: Colors.indigoAccent, fontSize: 12, height: 1.5,
                             fontWeight: FontWeight.w800),)),
 
                   TextButton(onPressed: () async {
-                    await node2Sync();
+                    await nodeTwoSync();
                   },
                       child:  Text('Node2 Sync',
                         style:   GoogleFonts.nunito(color: Colors.indigoAccent, fontSize: 12, height: 1.5,
@@ -251,21 +241,29 @@ class _MyAppState extends State<MyApp> {
                         style:   GoogleFonts.nunito(color: Colors.indigoAccent, fontSize: 12, height: 1.5,
                             fontWeight: FontWeight.w800),)),
                   TextButton(onPressed: () async {
-                    await getNewAddress();
+                    await  getNodeWalletBalance();
+                  },
+                      child:Text('Get Balance',
+                        overflow:TextOverflow.clip,
+                        textAlign: TextAlign.center,
+                        style:   GoogleFonts.nunito(color: Colors.indigoAccent, fontSize: 12, height: 1.5,
+                            fontWeight: FontWeight.w800),)),
+                  TextButton(onPressed: () async {
+                    await getNewWalletAddress();
                   },
                       child:  Text('Get new address',
                         style:   GoogleFonts.nunito(color: Colors.indigoAccent, fontSize: 12, height: 1.5,
                             fontWeight: FontWeight.w800),)),
                   TextButton(onPressed: () async {
-                    await receivePayment();
+                    await receiveAndSendPayments();
                   },
-                      child:  Text('Receive payment',
+                      child:  Text('Receive & Send Payment',
                         textAlign: TextAlign.center,
                         style:   GoogleFonts.nunito(color: Colors.indigoAccent, fontSize: 12, height: 1.5,
                             fontWeight: FontWeight.w800),)),
 
                   TextButton(onPressed: () async {
-                    await getNodeAddress();
+                    await getNodePeerAddress();
                   },
                       child:  Text('Get node address',
                         style:   GoogleFonts.nunito(color: Colors.indigoAccent, fontSize: 12, height: 1.5,

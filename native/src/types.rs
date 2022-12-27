@@ -1,5 +1,6 @@
 use std::sync::Mutex;
-use external_lib::LdkLite;
+use crate::ffi::LdkLite;
+
 
 
 // use external_lib::Invoice;

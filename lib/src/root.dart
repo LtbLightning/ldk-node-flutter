@@ -6,7 +6,7 @@ import 'generated/bindings.dart';
 
 
 
-/// Represents the configuration of an [`LdkLite`] instance.
+/// Represents the configuration of an [`LiteConfig`] instance.
 class LiteConfig {
   LdkConfig ?_config ;
   LiteConfig(
@@ -101,5 +101,4 @@ class LdkNode{
   Future<void> sendPayments(String invoice) async{
     await loaderApi.sendPayment(ldkLiteInstance: _ldkLiteInstance!,invoice: invoice );
   }
-
 }
