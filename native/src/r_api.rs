@@ -3,17 +3,17 @@ use std::sync::Mutex;
 use bitcoin::hashes::hex::ToHex;
 use bitcoin::secp256k1::PublicKey;
 // use external_lib::Invoice;
-use ldk_lite::{Builder,  Config as LdkLiteConfig, Event};
 
 use flutter_rust_bridge::{RustOpaque, StreamSink};
+use external_lib::{Builder, Config, Event};
 use log::{info};
-use crate::logger;
+use crate::simple_log;
 pub use crate::types:: LdkLiteInstance;
 // pub use crate::types:: LdkInvoice;
-use crate::types::{LogEntry, Network};
+use crate::types::{Balance, LogEntry, Network};
 use crate::utils::config_network;
 
-pub struct Config {
+pub struct LdkConfig {
     /// The path where the underlying LDK and BDK persist their data.
     pub storage_dir_path: String,
     /// The URL of the utilized Esplora server. default 'https://blockstream.info/api'
@@ -25,11 +25,11 @@ pub struct Config {
     /// The default CLTV expiry delta to be used for payments.
     pub default_cltv_expiry_delta: u32,
 }
-impl Config {
-    fn to_ldk_config(self)-> LdkLiteConfig{
+impl LdkConfig {
+    fn to_ldk_config(self)-> Config{
         let btc_network = config_network(self.network);
         info!("Setting listening address: {:?}", self.listening_address);
-        LdkLiteConfig{
+        Config{
             storage_dir_path: self.storage_dir_path,
             esplora_server_url:self.esplora_server_url,
             network: btc_network,
@@ -39,7 +39,7 @@ impl Config {
     }
 }
 //=============Builder=========
-pub fn init_builder(config: Config) -> RustOpaque<LdkLiteInstance>{
+pub fn init_builder(config: LdkConfig) -> RustOpaque<LdkLiteInstance>{
     let lite_config = config.to_ldk_config();
     info!("{:?}", "Initializing builder");
     let  node = Builder::from_config(lite_config).build();
@@ -60,7 +60,17 @@ pub fn start(ldk_lite_instance: RustOpaque<LdkLiteInstance>) -> String {
     }
 }
 
-
+pub fn get_balance(ldk_lite_instance: RustOpaque<LdkLiteInstance>) ->   Balance {
+    let mut node =   ldk_lite_instance.ldk_lite_mutex.lock().unwrap();
+  let balance = node.on_chain_balance().unwrap();
+    Balance{
+        total: balance.get_total().clone(),
+        immature: balance.immature.clone(),
+        trusted_pending: balance.trusted_pending.clone(),
+        untrusted_pending: balance.untrusted_pending.clone(),
+        confirmed: balance.confirmed.clone()
+    }
+}
 
 pub fn new_funding_address(ldk_lite_instance: RustOpaque<LdkLiteInstance>) -> String {
     let mut node =   ldk_lite_instance.ldk_lite_mutex.lock().unwrap();
@@ -74,18 +84,18 @@ pub fn new_funding_address(ldk_lite_instance: RustOpaque<LdkLiteInstance>) -> St
     }
 }
 
-// pub fn sync(ldk_lite_instance: RustOpaque<LdkLiteInstance>)  {
-//     info!(" {:?}","Syncing wallet");
-//     let node =   ldk_lite_instance.ldk_lite_mutex.lock().unwrap();
-//     match node.sync_wallets(){
-//         Ok(_) => {
-//             info!(" {:?}","Syncing completed");
-//         }
-//         Err(e) => {
-//             panic!("sync_wallets_error:{:?}", e)
-//         }
-//     }
-// }
+pub fn sync(ldk_lite_instance: RustOpaque<LdkLiteInstance>)  {
+    info!(" {:?}","Syncing wallet");
+    let node =   ldk_lite_instance.ldk_lite_mutex.lock().unwrap();
+    match node.sync_wallets(){
+        Ok(_) => {
+            info!(" {:?}","Syncing completed");
+        }
+        Err(e) => {
+            panic!("sync_wallets_error:{:?}", e)
+        }
+    }
+}
 pub fn get_node_addr(ldk_lite_instance: RustOpaque<LdkLiteInstance>)-> String{
     let node =   ldk_lite_instance.ldk_lite_mutex.lock().unwrap();
     let node_id = node.node_id().unwrap().to_string();
@@ -180,12 +190,12 @@ pub fn close_channel(ldk_lite: RustOpaque<LdkLiteInstance>, channel_id: [u8; 32]
 }
 
     pub fn create_log_stream<E>(s: StreamSink<LogEntry>) -> Result<(), E> {
-        logger::SendToDartLogger::set_stream_sink(s);
+        simple_log::SendToDartLogger::set_stream_sink(s);
         Ok(())
     }
 
     pub fn rust_set_up() {
-        logger::init_logger();
+        simple_log::init_logger();
     }
 
 

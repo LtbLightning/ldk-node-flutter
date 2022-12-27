@@ -8,14 +8,14 @@ import 'generated/bindings.dart';
 
 /// Represents the configuration of an [`LdkLite`] instance.
 class LiteConfig {
-  Config ?_config ;
+  LdkConfig ?_config ;
   LiteConfig(
       {required this.storageDirPath,
         this.esploraServerUrl,
         required this.network,
         this.listeningAddress,
         this.defaultCltvExpiryDelta}){
-    _config = Config(
+    _config = LdkConfig(
         storageDirPath: storageDirPath,
         esploraServerUrl: esploraServerUrl??'https://blockstream.info/testnet/api' ,
         listeningAddress: listeningAddress,
@@ -42,7 +42,7 @@ class LiteBuilder{
   }
 
   Future<LdkNode> toLdkNode()async{
-    // await loaderApi.rustSetUp();
+    await loaderApi.rustSetUp();
     final res = await  loaderApi.initBuilder(config:_liteConfig!._config!);
     return LdkNode._setLdkLiteInstance(res);
   }
@@ -57,13 +57,13 @@ class LdkNode{
     _ldkLiteInstance =liteInstance;
   }
   Future<LdkNode> start() async{
-    // LdkEventHandler(callback: loaderApi.createLogStream()).init();
+    LdkEventHandler(callback: loaderApi.createLogStream()).init();
     nodeId =  await loaderApi.start(ldkLiteInstance: _ldkLiteInstance!);
     return this;
   }
 
   Future<LdkNode> sync() async{
-    // await loaderApi.sync(ldkLiteInstance: _ldkLiteInstance!);
+    await loaderApi.sync(ldkLiteInstance: _ldkLiteInstance!);
     return this;
   }
 
@@ -72,10 +72,9 @@ class LdkNode{
     return id;
   }
 
-  Future<int> getBalance() async{
-    // final balance=  await loaderApi.getBalance(ldkLiteInstance: _ldkLiteInstance!);
-    // return balance;f
-    return 1;
+  Future<Balance> getBalance() async{
+    final balance=  await loaderApi.getBalance(ldkLiteInstance: _ldkLiteInstance!);
+    return balance;
   }
 
   Future<String> getPeerListeningAddress() async {

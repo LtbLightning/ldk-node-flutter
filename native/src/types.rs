@@ -1,5 +1,5 @@
 use std::sync::Mutex;
-use ldk_lite::LdkLite;
+use external_lib::LdkLite;
 
 
 // use external_lib::Invoice;
@@ -7,6 +7,13 @@ pub struct LdkLiteInstance {
     pub ldk_lite_mutex: Mutex<LdkLite>,
 }
 
+pub struct Balance {
+    pub total:u64,
+    pub immature: u64,
+    pub trusted_pending: u64,
+    pub untrusted_pending: u64,
+    pub confirmed: u64,
+}
 pub enum Network {
     ///Classic Bitcoin
     Bitcoin,

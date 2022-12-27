@@ -66,7 +66,7 @@ class _MyAppState extends State<MyApp> {
     print("liteNode1: $res");
     print("liteNode2: $res2");
     setState(() {
-      balance= res;
+      balance= res.total;
     });
   }
   getChannelId()async{
@@ -229,6 +229,19 @@ class _MyAppState extends State<MyApp> {
                             color: Colors.blue),),
                     ],
                   ),
+                  TextButton(onPressed: () async {
+                    await node1Sync();
+                  },
+                      child:  Text('Node1 Sync',
+                        style:   GoogleFonts.nunito(color: Colors.indigoAccent, fontSize: 12, height: 1.5,
+                            fontWeight: FontWeight.w800),)),
+
+                  TextButton(onPressed: () async {
+                    await node2Sync();
+                  },
+                      child:  Text('Node2 Sync',
+                        style:   GoogleFonts.nunito(color: Colors.indigoAccent, fontSize: 12, height: 1.5,
+                            fontWeight: FontWeight.w800),)),
                   TextButton(onPressed: () async {
                      await  getChannelId();
                   },

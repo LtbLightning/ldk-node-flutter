@@ -13,7 +13,7 @@ import 'package:meta/meta.dart';
 import 'dart:ffi' as ffi;
 
 abstract class Native {
-  Future<LdkLiteInstance> initBuilder({required Config config, dynamic hint});
+  Future<LdkLiteInstance> initBuilder({required LdkConfig config, dynamic hint});
 
   FlutterRustBridgeTaskConstMeta get kInitBuilderConstMeta;
 
@@ -21,9 +21,17 @@ abstract class Native {
 
   FlutterRustBridgeTaskConstMeta get kStartConstMeta;
 
+  Future<Balance> getBalance({required LdkLiteInstance ldkLiteInstance, dynamic hint});
+
+  FlutterRustBridgeTaskConstMeta get kGetBalanceConstMeta;
+
   Future<String> newFundingAddress({required LdkLiteInstance ldkLiteInstance, dynamic hint});
 
   FlutterRustBridgeTaskConstMeta get kNewFundingAddressConstMeta;
+
+  Future<void> sync({required LdkLiteInstance ldkLiteInstance, dynamic hint});
+
+  FlutterRustBridgeTaskConstMeta get kSyncConstMeta;
 
   Future<String> getNodeAddr({required LdkLiteInstance ldkLiteInstance, dynamic hint});
 
@@ -98,7 +106,23 @@ class LdkLiteInstance extends FrbOpaque {
   OpaqueTypeFinalizer get staticFinalizer => bridge.LdkLiteInstanceFinalizer;
 }
 
-class Config {
+class Balance {
+  final int total;
+  final int immature;
+  final int trustedPending;
+  final int untrustedPending;
+  final int confirmed;
+
+  Balance({
+    required this.total,
+    required this.immature,
+    required this.trustedPending,
+    required this.untrustedPending,
+    required this.confirmed,
+  });
+}
+
+class LdkConfig {
   /// The path where the underlying LDK and BDK persist their data.
   final String storageDirPath;
 
@@ -114,7 +138,7 @@ class Config {
   /// The default CLTV expiry delta to be used for payments.
   final int defaultCltvExpiryDelta;
 
-  Config({
+  LdkConfig({
     required this.storageDirPath,
     required this.esploraServerUrl,
     required this.network,
@@ -167,8 +191,8 @@ class NativeImpl implements Native {
   /// Only valid on web/WASM platforms.
   factory NativeImpl.wasm(FutureOr<WasmModule> module) => NativeImpl(module as ExternalLibrary);
   NativeImpl.raw(this._platform);
-  Future<LdkLiteInstance> initBuilder({required Config config, dynamic hint}) {
-    var arg0 = _platform.api2wire_box_autoadd_config(config);
+  Future<LdkLiteInstance> initBuilder({required LdkConfig config, dynamic hint}) {
+    var arg0 = _platform.api2wire_box_autoadd_ldk_config(config);
     return _platform.executeNormal(FlutterRustBridgeTask(
       callFfi: (port_) => _platform.inner.wire_init_builder(port_, arg0),
       parseSuccessData: _wire2api_LdkLiteInstance,
@@ -199,6 +223,22 @@ class NativeImpl implements Native {
         argNames: ["ldkLiteInstance"],
       );
 
+  Future<Balance> getBalance({required LdkLiteInstance ldkLiteInstance, dynamic hint}) {
+    var arg0 = _platform.api2wire_LdkLiteInstance(ldkLiteInstance);
+    return _platform.executeNormal(FlutterRustBridgeTask(
+      callFfi: (port_) => _platform.inner.wire_get_balance(port_, arg0),
+      parseSuccessData: _wire2api_balance,
+      constMeta: kGetBalanceConstMeta,
+      argValues: [ldkLiteInstance],
+      hint: hint,
+    ));
+  }
+
+  FlutterRustBridgeTaskConstMeta get kGetBalanceConstMeta => const FlutterRustBridgeTaskConstMeta(
+        debugName: "get_balance",
+        argNames: ["ldkLiteInstance"],
+      );
+
   Future<String> newFundingAddress({required LdkLiteInstance ldkLiteInstance, dynamic hint}) {
     var arg0 = _platform.api2wire_LdkLiteInstance(ldkLiteInstance);
     return _platform.executeNormal(FlutterRustBridgeTask(
@@ -212,6 +252,22 @@ class NativeImpl implements Native {
 
   FlutterRustBridgeTaskConstMeta get kNewFundingAddressConstMeta => const FlutterRustBridgeTaskConstMeta(
         debugName: "new_funding_address",
+        argNames: ["ldkLiteInstance"],
+      );
+
+  Future<void> sync({required LdkLiteInstance ldkLiteInstance, dynamic hint}) {
+    var arg0 = _platform.api2wire_LdkLiteInstance(ldkLiteInstance);
+    return _platform.executeNormal(FlutterRustBridgeTask(
+      callFfi: (port_) => _platform.inner.wire_sync(port_, arg0),
+      parseSuccessData: _wire2api_unit,
+      constMeta: kSyncConstMeta,
+      argValues: [ldkLiteInstance],
+      hint: hint,
+    ));
+  }
+
+  FlutterRustBridgeTaskConstMeta get kSyncConstMeta => const FlutterRustBridgeTaskConstMeta(
+        debugName: "sync",
         argNames: ["ldkLiteInstance"],
       );
 
@@ -413,6 +469,18 @@ class NativeImpl implements Native {
     return raw as String;
   }
 
+  Balance _wire2api_balance(dynamic raw) {
+    final arr = raw as List<dynamic>;
+    if (arr.length != 5) throw Exception('unexpected arr length: expect 5 but see ${arr.length}');
+    return Balance(
+      total: _wire2api_u64(arr[0]),
+      immature: _wire2api_u64(arr[1]),
+      trustedPending: _wire2api_u64(arr[2]),
+      untrustedPending: _wire2api_u64(arr[3]),
+      confirmed: _wire2api_u64(arr[4]),
+    );
+  }
+
   int _wire2api_i32(dynamic raw) {
     return raw as int;
   }
@@ -430,6 +498,10 @@ class NativeImpl implements Native {
       tag: _wire2api_String(arr[2]),
       msg: _wire2api_String(arr[3]),
     );
+  }
+
+  int _wire2api_u64(dynamic raw) {
+    return castInt(raw);
   }
 
   int _wire2api_u8(dynamic raw) {
@@ -496,9 +568,9 @@ class NativePlatform extends FlutterRustBridgeBase<NativeWire> {
   }
 
   @protected
-  ffi.Pointer<wire_Config> api2wire_box_autoadd_config(Config raw) {
-    final ptr = inner.new_box_autoadd_config_0();
-    _api_fill_to_wire_config(raw, ptr.ref);
+  ffi.Pointer<wire_LdkConfig> api2wire_box_autoadd_ldk_config(LdkConfig raw) {
+    final ptr = inner.new_box_autoadd_ldk_config_0();
+    _api_fill_to_wire_ldk_config(raw, ptr.ref);
     return ptr;
   }
 
@@ -545,11 +617,11 @@ class NativePlatform extends FlutterRustBridgeBase<NativeWire> {
     wireObj.ptr = apiObj.shareOrMove();
   }
 
-  void _api_fill_to_wire_box_autoadd_config(Config apiObj, ffi.Pointer<wire_Config> wireObj) {
-    _api_fill_to_wire_config(apiObj, wireObj.ref);
+  void _api_fill_to_wire_box_autoadd_ldk_config(LdkConfig apiObj, ffi.Pointer<wire_LdkConfig> wireObj) {
+    _api_fill_to_wire_ldk_config(apiObj, wireObj.ref);
   }
 
-  void _api_fill_to_wire_config(Config apiObj, wire_Config wireObj) {
+  void _api_fill_to_wire_ldk_config(LdkConfig apiObj, wire_LdkConfig wireObj) {
     wireObj.storage_dir_path = api2wire_String(apiObj.storageDirPath);
     wireObj.esplora_server_url = api2wire_String(apiObj.esploraServerUrl);
     wireObj.network = api2wire_network(apiObj.network);
@@ -637,7 +709,7 @@ class NativeWire implements FlutterRustBridgeWireBase {
 
   void wire_init_builder(
     int port_,
-    ffi.Pointer<wire_Config> config,
+    ffi.Pointer<wire_LdkConfig> config,
   ) {
     return _wire_init_builder(
       port_,
@@ -646,8 +718,8 @@ class NativeWire implements FlutterRustBridgeWireBase {
   }
 
   late final _wire_init_builderPtr =
-      _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Int64, ffi.Pointer<wire_Config>)>>('wire_init_builder');
-  late final _wire_init_builder = _wire_init_builderPtr.asFunction<void Function(int, ffi.Pointer<wire_Config>)>();
+      _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Int64, ffi.Pointer<wire_LdkConfig>)>>('wire_init_builder');
+  late final _wire_init_builder = _wire_init_builderPtr.asFunction<void Function(int, ffi.Pointer<wire_LdkConfig>)>();
 
   void wire_start(
     int port_,
@@ -663,6 +735,20 @@ class NativeWire implements FlutterRustBridgeWireBase {
       _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Int64, wire_LdkLiteInstance)>>('wire_start');
   late final _wire_start = _wire_startPtr.asFunction<void Function(int, wire_LdkLiteInstance)>();
 
+  void wire_get_balance(
+    int port_,
+    wire_LdkLiteInstance ldk_lite_instance,
+  ) {
+    return _wire_get_balance(
+      port_,
+      ldk_lite_instance,
+    );
+  }
+
+  late final _wire_get_balancePtr =
+      _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Int64, wire_LdkLiteInstance)>>('wire_get_balance');
+  late final _wire_get_balance = _wire_get_balancePtr.asFunction<void Function(int, wire_LdkLiteInstance)>();
+
   void wire_new_funding_address(
     int port_,
     wire_LdkLiteInstance ldk_lite_instance,
@@ -677,6 +763,20 @@ class NativeWire implements FlutterRustBridgeWireBase {
       _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Int64, wire_LdkLiteInstance)>>('wire_new_funding_address');
   late final _wire_new_funding_address =
       _wire_new_funding_addressPtr.asFunction<void Function(int, wire_LdkLiteInstance)>();
+
+  void wire_sync(
+    int port_,
+    wire_LdkLiteInstance ldk_lite_instance,
+  ) {
+    return _wire_sync(
+      port_,
+      ldk_lite_instance,
+    );
+  }
+
+  late final _wire_syncPtr =
+      _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Int64, wire_LdkLiteInstance)>>('wire_sync');
+  late final _wire_sync = _wire_syncPtr.asFunction<void Function(int, wire_LdkLiteInstance)>();
 
   void wire_get_node_addr(
     int port_,
@@ -850,13 +950,14 @@ class NativeWire implements FlutterRustBridgeWireBase {
       _lookup<ffi.NativeFunction<wire_LdkLiteInstance Function()>>('new_LdkLiteInstance');
   late final _new_LdkLiteInstance = _new_LdkLiteInstancePtr.asFunction<wire_LdkLiteInstance Function()>();
 
-  ffi.Pointer<wire_Config> new_box_autoadd_config_0() {
-    return _new_box_autoadd_config_0();
+  ffi.Pointer<wire_LdkConfig> new_box_autoadd_ldk_config_0() {
+    return _new_box_autoadd_ldk_config_0();
   }
 
-  late final _new_box_autoadd_config_0Ptr =
-      _lookup<ffi.NativeFunction<ffi.Pointer<wire_Config> Function()>>('new_box_autoadd_config_0');
-  late final _new_box_autoadd_config_0 = _new_box_autoadd_config_0Ptr.asFunction<ffi.Pointer<wire_Config> Function()>();
+  late final _new_box_autoadd_ldk_config_0Ptr =
+      _lookup<ffi.NativeFunction<ffi.Pointer<wire_LdkConfig> Function()>>('new_box_autoadd_ldk_config_0');
+  late final _new_box_autoadd_ldk_config_0 =
+      _new_box_autoadd_ldk_config_0Ptr.asFunction<ffi.Pointer<wire_LdkConfig> Function()>();
 
   ffi.Pointer<ffi.Uint64> new_box_autoadd_u64_0(
     int value,
@@ -932,7 +1033,7 @@ class wire_uint_8_list extends ffi.Struct {
   external int len;
 }
 
-class wire_Config extends ffi.Struct {
+class wire_LdkConfig extends ffi.Struct {
   external ffi.Pointer<wire_uint_8_list> storage_dir_path;
 
   external ffi.Pointer<wire_uint_8_list> esplora_server_url;

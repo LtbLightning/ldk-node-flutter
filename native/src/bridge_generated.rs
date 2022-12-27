@@ -19,12 +19,13 @@ use std::sync::Arc;
 
 // Section: imports
 
+use crate::types::Balance;
 use crate::types::LogEntry;
 use crate::types::Network;
 
 // Section: wire functions
 
-fn wire_init_builder_impl(port_: MessagePort, config: impl Wire2Api<Config> + UnwindSafe) {
+fn wire_init_builder_impl(port_: MessagePort, config: impl Wire2Api<LdkConfig> + UnwindSafe) {
     FLUTTER_RUST_BRIDGE_HANDLER.wrap(
         WrapInfo {
             debug_name: "init_builder",
@@ -53,6 +54,22 @@ fn wire_start_impl(
         },
     )
 }
+fn wire_get_balance_impl(
+    port_: MessagePort,
+    ldk_lite_instance: impl Wire2Api<RustOpaque<LdkLiteInstance>> + UnwindSafe,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap(
+        WrapInfo {
+            debug_name: "get_balance",
+            port: Some(port_),
+            mode: FfiCallMode::Normal,
+        },
+        move || {
+            let api_ldk_lite_instance = ldk_lite_instance.wire2api();
+            move |task_callback| Ok(get_balance(api_ldk_lite_instance))
+        },
+    )
+}
 fn wire_new_funding_address_impl(
     port_: MessagePort,
     ldk_lite_instance: impl Wire2Api<RustOpaque<LdkLiteInstance>> + UnwindSafe,
@@ -66,6 +83,22 @@ fn wire_new_funding_address_impl(
         move || {
             let api_ldk_lite_instance = ldk_lite_instance.wire2api();
             move |task_callback| Ok(new_funding_address(api_ldk_lite_instance))
+        },
+    )
+}
+fn wire_sync_impl(
+    port_: MessagePort,
+    ldk_lite_instance: impl Wire2Api<RustOpaque<LdkLiteInstance>> + UnwindSafe,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap(
+        WrapInfo {
+            debug_name: "sync",
+            port: Some(port_),
+            mode: FfiCallMode::Normal,
+        },
+        move || {
+            let api_ldk_lite_instance = ldk_lite_instance.wire2api();
+            move |task_callback| Ok(sync(api_ldk_lite_instance))
         },
     )
 }
@@ -289,12 +322,12 @@ impl Wire2Api<u64> for *mut u64 {
         unsafe { *support::box_from_leak_ptr(self) }
     }
 }
-
 impl Wire2Api<i32> for i32 {
     fn wire2api(self) -> i32 {
         self
     }
 }
+
 impl Wire2Api<Network> for i32 {
     fn wire2api(self) -> Network {
         match self {
@@ -324,6 +357,20 @@ impl Wire2Api<u8> for u8 {
 }
 
 // Section: impl IntoDart
+
+impl support::IntoDart for Balance {
+    fn into_dart(self) -> support::DartAbi {
+        vec![
+            self.total.into_dart(),
+            self.immature.into_dart(),
+            self.trusted_pending.into_dart(),
+            self.untrusted_pending.into_dart(),
+            self.confirmed.into_dart(),
+        ]
+        .into_dart()
+    }
+}
+impl support::IntoDartExceptPrimitive for Balance {}
 
 impl support::IntoDart for LogEntry {
     fn into_dart(self) -> support::DartAbi {

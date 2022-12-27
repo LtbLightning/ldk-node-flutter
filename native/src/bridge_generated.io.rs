@@ -2,7 +2,7 @@ use super::*;
 // Section: wire functions
 
 #[no_mangle]
-pub extern "C" fn wire_init_builder(port_: i64, config: *mut wire_Config) {
+pub extern "C" fn wire_init_builder(port_: i64, config: *mut wire_LdkConfig) {
     wire_init_builder_impl(port_, config)
 }
 
@@ -12,8 +12,18 @@ pub extern "C" fn wire_start(port_: i64, ldk_lite_instance: wire_LdkLiteInstance
 }
 
 #[no_mangle]
+pub extern "C" fn wire_get_balance(port_: i64, ldk_lite_instance: wire_LdkLiteInstance) {
+    wire_get_balance_impl(port_, ldk_lite_instance)
+}
+
+#[no_mangle]
 pub extern "C" fn wire_new_funding_address(port_: i64, ldk_lite_instance: wire_LdkLiteInstance) {
     wire_new_funding_address_impl(port_, ldk_lite_instance)
+}
+
+#[no_mangle]
+pub extern "C" fn wire_sync(port_: i64, ldk_lite_instance: wire_LdkLiteInstance) {
+    wire_sync_impl(port_, ldk_lite_instance)
 }
 
 #[no_mangle]
@@ -107,8 +117,8 @@ pub extern "C" fn new_LdkLiteInstance() -> wire_LdkLiteInstance {
 }
 
 #[no_mangle]
-pub extern "C" fn new_box_autoadd_config_0() -> *mut wire_Config {
-    support::new_leak_box_ptr(wire_Config::new_with_null_ptr())
+pub extern "C" fn new_box_autoadd_ldk_config_0() -> *mut wire_LdkConfig {
+    support::new_leak_box_ptr(wire_LdkConfig::new_with_null_ptr())
 }
 
 #[no_mangle]
@@ -156,16 +166,16 @@ impl Wire2Api<String> for *mut wire_uint_8_list {
     }
 }
 
-impl Wire2Api<Config> for *mut wire_Config {
-    fn wire2api(self) -> Config {
+impl Wire2Api<LdkConfig> for *mut wire_LdkConfig {
+    fn wire2api(self) -> LdkConfig {
         let wrap = unsafe { support::box_from_leak_ptr(self) };
-        Wire2Api::<Config>::wire2api(*wrap).into()
+        Wire2Api::<LdkConfig>::wire2api(*wrap).into()
     }
 }
 
-impl Wire2Api<Config> for wire_Config {
-    fn wire2api(self) -> Config {
-        Config {
+impl Wire2Api<LdkConfig> for wire_LdkConfig {
+    fn wire2api(self) -> LdkConfig {
+        LdkConfig {
             storage_dir_path: self.storage_dir_path.wire2api(),
             esplora_server_url: self.esplora_server_url.wire2api(),
             network: self.network.wire2api(),
@@ -199,7 +209,7 @@ pub struct wire_LdkLiteInstance {
 
 #[repr(C)]
 #[derive(Clone)]
-pub struct wire_Config {
+pub struct wire_LdkConfig {
     storage_dir_path: *mut wire_uint_8_list,
     esplora_server_url: *mut wire_uint_8_list,
     network: i32,
@@ -234,7 +244,7 @@ impl NewWithNullPtr for wire_LdkLiteInstance {
     }
 }
 
-impl NewWithNullPtr for wire_Config {
+impl NewWithNullPtr for wire_LdkConfig {
     fn new_with_null_ptr() -> Self {
         Self {
             storage_dir_path: core::ptr::null_mut(),
