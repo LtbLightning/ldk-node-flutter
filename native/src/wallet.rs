@@ -206,12 +206,8 @@ where
             log_error!(self.logger, "Failed to broadcast transaction: No runtime.");
             panic!("Failed to broadcast transaction {:?}: No runtime.", tx);
         }
-        info!("{:?}", "broadcast_transaction triggered");
         tokio::task::block_in_place(move || {
-            locked_runtime
-                .as_ref()
-                .unwrap()
-                .block_on(async move {
+            locked_runtime.as_ref().unwrap().block_on(async move {
                 let res = self.blockchain.broadcast(tx).await;
                 match res {
                     Ok(_) => {

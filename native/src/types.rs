@@ -1,7 +1,5 @@
-use std::sync::Mutex;
 use crate::ffi::LdkLite;
-
-
+use std::sync::Mutex;
 
 // use external_lib::Invoice;
 pub struct LdkLiteInstance {
@@ -9,7 +7,7 @@ pub struct LdkLiteInstance {
 }
 
 pub struct Balance {
-    pub total:u64,
+    pub total: u64,
     pub immature: u64,
     pub trusted_pending: u64,
     pub untrusted_pending: u64,
@@ -26,31 +24,30 @@ pub enum Network {
     Regtest,
 }
 
-
 #[derive(Clone)]
 pub struct NodeInfo {
-    pub node_pub_key:String,
+    pub node_pub_key: String,
     pub total_balance: u64,
-    pub immature:u64,
+    pub immature: u64,
     pub num_channels: usize,
     pub num_usable_channels: usize,
     pub num_peers: usize,
 }
 
 #[derive(Clone)]
-pub struct  ChannelInfo{
-    pub  channel_id: String,
-    pub  funding_txid: Option<String>,
-    pub  peer_pubkey: String,
-    pub peer_alias:Option<String>,
-    pub  short_channel_id: Option<String>,
-    pub  is_channel_ready: bool,
-    pub  channel_value_satoshis: u64,
-    pub  local_balance_msat: u64,
-    pub  available_balance_for_send_msat: u64,
-    pub  available_balance_for_recv_msat: u64,
-    pub  channel_can_send_payments: bool,
-    pub  public: bool,
+pub struct ChannelInfo {
+    pub channel_id: String,
+    pub funding_txid: Option<String>,
+    pub peer_pubkey: String,
+    pub peer_alias: Option<String>,
+    pub short_channel_id: Option<String>,
+    pub is_channel_ready: bool,
+    pub channel_value_satoshis: u64,
+    pub local_balance_msat: u64,
+    pub available_balance_for_send_msat: u64,
+    pub available_balance_for_recv_msat: u64,
+    pub channel_can_send_payments: bool,
+    pub public: bool,
     pub is_channel_usable: bool,
 }
 pub struct LogEntry {
@@ -59,4 +56,3 @@ pub struct LogEntry {
     pub tag: String,
     pub msg: String,
 }
-

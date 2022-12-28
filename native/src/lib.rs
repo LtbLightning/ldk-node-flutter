@@ -2,13 +2,13 @@ mod bridge_generated; /* AUTO INJECTED BY flutter_rust_bridge. This line may not
 
 mod error;
 mod event;
+mod ffi;
 mod hex_utils;
 mod io_utils;
 mod logger;
 mod peer_store;
-mod wallet;
 mod r_api;
 mod simple_log;
-mod utils;
 mod types;
-mod ffi;
+mod utils;
+mod wallet;

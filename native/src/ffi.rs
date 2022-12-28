@@ -1,16 +1,16 @@
+use chainmonitor::ChainMonitor as LdkChainMonitor;
 pub use gossip::NetworkGraph as LdkNetworkGraph;
-use lightning::onion_message::OnionMessenger as LdkOnionMessenger ;
 use lightning::chain::keysinterface::{InMemorySigner, KeysInterface, Recipient};
-use lightning::chain::{chainmonitor, Access, BestBlock, Confirm, Watch, Filter, channelmonitor};
+use lightning::chain::{chainmonitor, Access, BestBlock, Confirm, Watch};
 use lightning::ln::channelmanager;
 use lightning::ln::channelmanager::{ChainParameters, ChannelManagerReadArgs};
+use lightning::ln::peer_handler::PeerManager as LdkPeerManager;
 use lightning::ln::peer_handler::{IgnoringMessageHandler, MessageHandler};
 use lightning::ln::{PaymentHash, PaymentPreimage, PaymentSecret};
+use lightning::onion_message::OnionMessenger as LdkOnionMessenger;
 use lightning::routing::gossip;
 use lightning::routing::gossip::P2PGossipSync;
 use lightning::routing::scoring::ProbabilisticScorer;
-use chainmonitor::ChainMonitor as LdkChainMonitor;
-use lightning::ln::peer_handler::PeerManager as LdkPeerManager;
 use lightning::util::config::{ChannelHandshakeConfig, ChannelHandshakeLimits, UserConfig};
 use lightning::util::ser::ReadableArgs;
 
@@ -22,17 +22,25 @@ use lightning_transaction_sync::EsploraSyncClient;
 
 use lightning_net_tokio::SocketDescriptor;
 
+use bdk::bitcoin::secp256k1::Secp256k1;
+use bdk::sled;
+use bdk::template::Bip84;
+pub use lightning::ln::channelmanager::ChannelManager as LdkChannelManager;
 use lightning::routing::router::DefaultRouter;
 use lightning_invoice::{payment, Currency, Invoice};
-pub use lightning::ln::channelmanager::ChannelManager as LdkChannelManager;
-use bdk::bitcoin::secp256k1::Secp256k1;
-use bdk::{sled};
-use bdk::template::Bip84;
 
+use crate::error::Error;
+use crate::event::{Event, EventHandler, EventQueue};
+use crate::logger::{log_error, log_given_level, log_info, log_internal, FilesystemLogger, Logger};
+use crate::peer_store::{PeerInfo, PeerInfoStorage};
+use crate::wallet::{Wallet, WalletKeysManager};
+use crate::{event, hex_utils, io_utils, peer_store};
+use bdk::blockchain::EsploraBlockchain;
 use bitcoin::hashes::sha256::Hash as Sha256;
 use bitcoin::hashes::Hash;
 use bitcoin::secp256k1::PublicKey;
 use bitcoin::BlockHash;
+use log::info;
 use rand::Rng;
 use std::collections::HashMap;
 use std::convert::{TryFrom, TryInto};
@@ -42,13 +50,6 @@ use std::net::SocketAddr;
 use std::sync::atomic::{AtomicBool, Ordering};
 use std::sync::{Arc, Mutex, RwLock};
 use std::time::{Duration, Instant, SystemTime};
-use bdk::blockchain::EsploraBlockchain;
-use crate::logger::{log_error, log_given_level, log_info, log_internal, FilesystemLogger, Logger};
-use crate::{event, hex_utils, io_utils, peer_store};
-use crate::error::Error;
-use crate::event::{Event, EventHandler, EventQueue};
-use crate::peer_store::{PeerInfo, PeerInfoStorage};
-use crate::wallet::{Wallet, WalletKeysManager};
 
 // The used 'stop gap' parameter used by BDK's wallet sync. This seems to configure the threshold
 // number of blocks after which BDK stops looking for scripts belonging to the wallet.
@@ -102,8 +103,6 @@ pub struct Builder {
 }
 
 impl Builder {
-
-
     /// Creates a new builder instance from an [`Config`].
     pub fn from_config(config: Config) -> Self {
         Self { config }
@@ -134,10 +133,11 @@ impl Builder {
             config.network,
             &Secp256k1::new(),
         )
-            .expect("Failed to derive on-chain wallet name");
+        .expect("Failed to derive on-chain wallet name");
         let database = sled::open(bdk_data_dir).expect("Failed to open BDK database");
-        let database =
-            database.open_tree(wallet_name.clone()).expect("Failed to open BDK database");
+        let database = database
+            .open_tree(wallet_name.clone())
+            .expect("Failed to open BDK database");
 
         let bdk_wallet = bdk::Wallet::new(
             Bip84(xprv.clone(), bdk::KeychainKind::External),
@@ -145,7 +145,7 @@ impl Builder {
             config.network,
             database,
         )
-            .expect("Failed to setup on-chain wallet");
+        .expect("Failed to setup on-chain wallet");
 
         // TODO: Check that we can be sure that the Esplora client re-connects in case of failure
         let blockchain = EsploraBlockchain::new(&config.esplora_server_url, BDK_CLIENT_STOP_GAP)
@@ -188,7 +188,9 @@ impl Builder {
 
         // Step 7: Initialize the ChannelManager
         let mut user_config = UserConfig::default();
-        user_config.channel_handshake_limits.force_announced_channel_preference = false;
+        user_config
+            .channel_handshake_limits
+            .force_announced_channel_preference = false;
         let channel_manager = {
             if let Ok(mut f) = fs::File::open(format!("{}/manager", ldk_data_dir.clone())) {
                 let mut channel_monitor_mut_references = Vec::new();
@@ -288,9 +290,11 @@ impl Builder {
         let outbound_payments = Arc::new(Mutex::new(HashMap::new()));
 
         // Step 14: Restore event handler from disk or create a new one.
-        let event_queue = if let Ok(mut f) =
-        fs::File::open(format!("{}/{}", ldk_data_dir.clone(), event::EVENTS_PERSISTENCE_KEY))
-        {
+        let event_queue = if let Ok(mut f) = fs::File::open(format!(
+            "{}/{}",
+            ldk_data_dir.clone(),
+            event::EVENTS_PERSISTENCE_KEY
+        )) {
             Arc::new(
                 EventQueue::read(&mut f, Arc::clone(&persister))
                     .expect("Failed to read event queue from disk."),
@@ -369,9 +373,9 @@ impl Builder {
 /// upon [`LdkLite::stop()`].
 pub struct Runtime {
     pub(crate) tokio_runtime: Arc<tokio::runtime::Runtime>,
-    pub(crate)  _background_processor: BackgroundProcessor,
-    pub(crate)  stop_networking: Arc<AtomicBool>,
-    pub(crate)  stop_wallet_sync: Arc<AtomicBool>,
+    pub(crate) _background_processor: BackgroundProcessor,
+    pub(crate) stop_networking: Arc<AtomicBool>,
+    pub(crate) stop_wallet_sync: Arc<AtomicBool>,
 }
 
 /// The main interface object of the simplified API, wrapping the necessary LDK and BDK functionalities.
@@ -379,9 +383,9 @@ pub struct Runtime {
 /// Needs to be initialized and instantiated through [`Builder::build`].
 pub struct LdkLite {
     pub(crate) running: RwLock<Option<Runtime>>,
-    pub(crate)  config: Arc<Config>,
+    pub(crate) config: Arc<Config>,
     pub(crate) wallet: Arc<Wallet<bdk::sled::Tree>>,
-    pub(crate)  tx_sync: Arc<EsploraSyncClient<Arc<FilesystemLogger>>>,
+    pub(crate) tx_sync: Arc<EsploraSyncClient<Arc<FilesystemLogger>>>,
     pub(crate) event_queue: Arc<EventQueue<Arc<FilesystemPersister>>>,
     pub(crate) event_handler: Arc<EventHandler<Arc<FilesystemPersister>, Arc<FilesystemLogger>>>,
     pub(crate) channel_manager: Arc<ChannelManager>,
@@ -389,13 +393,13 @@ pub struct LdkLite {
     pub(crate) peer_manager: Arc<PeerManager>,
     pub(crate) keys_manager: Arc<KeysManager>,
     pub(crate) gossip_sync: Arc<GossipSync>,
-    pub(crate)  persister: Arc<FilesystemPersister>,
+    pub(crate) persister: Arc<FilesystemPersister>,
     pub(crate) logger: Arc<FilesystemLogger>,
     pub(crate) scorer: Arc<Mutex<Scorer>>,
-    pub(crate)  invoice_payer:
-    Arc<InvoicePayer<Arc<EventHandler<Arc<FilesystemPersister>, Arc<FilesystemLogger>>>>>,
-    pub(crate)  inbound_payments: Arc<PaymentInfoStorage>,
-    pub(crate)  outbound_payments: Arc<PaymentInfoStorage>,
+    pub(crate) invoice_payer:
+        Arc<InvoicePayer<Arc<EventHandler<Arc<FilesystemPersister>, Arc<FilesystemLogger>>>>>,
+    pub(crate) inbound_payments: Arc<PaymentInfoStorage>,
+    pub(crate) outbound_payments: Arc<PaymentInfoStorage>,
     pub(crate) peer_store: Arc<PeerInfoStorage<FilesystemPersister>>,
 }
 
@@ -442,8 +446,12 @@ impl LdkLite {
     }
 
     fn setup_runtime(&self) -> Result<Runtime, Error> {
-        let tokio_runtime =
-            Arc::new(tokio::runtime::Builder::new_multi_thread().enable_all().build().unwrap());
+        let tokio_runtime = Arc::new(
+            tokio::runtime::Builder::new_multi_thread()
+                .enable_all()
+                .build()
+                .unwrap(),
+        );
 
         self.wallet.set_runtime(Arc::clone(&tokio_runtime));
         self.event_handler.set_runtime(Arc::clone(&tokio_runtime));
@@ -458,8 +466,11 @@ impl LdkLite {
         let stop_sync = Arc::clone(&stop_wallet_sync);
 
         std::thread::spawn(move || {
-            tokio::runtime::Builder::new_current_thread().enable_all().build().unwrap().block_on(
-                async move {
+            tokio::runtime::Builder::new_current_thread()
+                .enable_all()
+                .build()
+                .unwrap()
+                .block_on(async move {
                     loop {
                         if stop_sync.load(Ordering::Acquire) {
                             return;
@@ -467,18 +478,17 @@ impl LdkLite {
                         let now = Instant::now();
                         match wallet.sync().await {
                             Ok(()) => log_info!(
-								sync_logger,
-								"On-chain wallet sync finished in {}ms.",
-								now.elapsed().as_millis()
-							),
+                                sync_logger,
+                                "On-chain wallet sync finished in {}ms.",
+                                now.elapsed().as_millis()
+                            ),
                             Err(err) => {
                                 log_error!(sync_logger, "On-chain wallet sync failed: {}", err)
                             }
                         }
                         tokio::time::sleep(Duration::from_secs(20)).await;
                     }
-                },
-            );
+                });
         });
 
         let sync_logger = Arc::clone(&self.logger);
@@ -495,10 +505,10 @@ impl LdkLite {
                 ];
                 match tx_sync.sync(confirmables).await {
                     Ok(()) => log_info!(
-						sync_logger,
-						"Lightning wallet sync finished in {}ms.",
-						now.elapsed().as_millis()
-					),
+                        sync_logger,
+                        "Lightning wallet sync finished in {}ms.",
+                        now.elapsed().as_millis()
+                    ),
                     Err(e) => {
                         log_error!(sync_logger, "Lightning wallet sync failed: {}", e)
                     }
@@ -564,7 +574,7 @@ impl LdkLite {
                                 Arc::clone(&connect_pm),
                                 Arc::clone(&connect_logger),
                             )
-                                .await;
+                            .await;
                         }
                     }
                 }
@@ -585,10 +595,13 @@ impl LdkLite {
 
         // TODO: frequently check back on background_processor if there was an error
 
-        Ok(Runtime { tokio_runtime, _background_processor, stop_networking, stop_wallet_sync })
+        Ok(Runtime {
+            tokio_runtime,
+            _background_processor,
+            stop_networking,
+            stop_wallet_sync,
+        })
     }
-
-
 
     /// Blocks until the next event is available.
     ///
@@ -615,10 +628,13 @@ impl LdkLite {
     /// Retrieve a new on-chain/funding address.
     pub fn new_funding_address(&mut self) -> Result<bitcoin::Address, Error> {
         let funding_address = self.wallet.get_new_address()?;
-        log_info!(self.logger, "Generated new funding address: {}", funding_address);
+        log_info!(
+            self.logger,
+            "Generated new funding address: {}",
+            funding_address
+        );
         Ok(funding_address)
     }
-
 
     /// Retrieve the current on-chain balance.
     pub fn on_chain_balance(&mut self) -> Result<bdk::Balance, Error> {
@@ -629,7 +645,10 @@ impl LdkLite {
     ///
     /// Returns a temporary channel id
     pub fn connect_open_channel(
-        &self, node_pubkey_and_address: &str, channel_amount_sats: u64, announce_channel: bool,
+        &self,
+        node_pubkey_and_address: &str,
+        channel_amount_sats: u64,
+        announce_channel: bool,
     ) -> Result<(), Error> {
         let runtime_lock = self.running.read().unwrap();
         if runtime_lock.is_none() {
@@ -654,7 +673,7 @@ impl LdkLite {
                     con_pm,
                     con_logger,
                 )
-                    .await;
+                .await;
                 con_success_cloned.store(res.is_ok(), Ordering::Release);
             })
         });
@@ -688,10 +707,10 @@ impl LdkLite {
             Ok(_) => {
                 self.peer_store.add_peer(peer_info.clone())?;
                 log_info!(
-					self.logger,
-					"Initiated channel creation with peer {}. ",
-					peer_info.pubkey
-				);
+                    self.logger,
+                    "Initiated channel creation with peer {}. ",
+                    peer_info.pubkey
+                );
                 Ok(())
             }
             Err(e) => {
@@ -708,7 +727,7 @@ impl LdkLite {
             return Err(Error::NotRunning);
         }
         let wallet = Arc::clone(&self.wallet);
-         let tx_sync = Arc::clone(&self.tx_sync);
+        let tx_sync = Arc::clone(&self.tx_sync);
         let sync_cman = Arc::clone(&self.channel_manager);
         let sync_cmon = Arc::clone(&self.chain_monitor);
         let confirmables = vec![
@@ -718,11 +737,15 @@ impl LdkLite {
 
         let runtime = runtime_lock.as_ref().unwrap();
         tokio::task::block_in_place(move || {
-            runtime.tokio_runtime.block_on(async move { wallet.sync().await })
+            runtime
+                .tokio_runtime
+                .block_on(async move { wallet.sync().await })
         })?;
 
         tokio::task::block_in_place(move || {
-            runtime.tokio_runtime.block_on(async move { tx_sync.sync(confirmables).await })
+            runtime
+                .tokio_runtime
+                .block_on(async move { tx_sync.sync(confirmables).await })
         })?;
 
         Ok(())
@@ -730,10 +753,15 @@ impl LdkLite {
 
     /// Close a previously opened channel.
     pub fn close_channel(
-        &self, channel_id: &[u8; 32], counterparty_node_id: &PublicKey,
+        &self,
+        channel_id: &[u8; 32],
+        counterparty_node_id: &PublicKey,
     ) -> Result<(), Error> {
         self.peer_store.remove_peer(counterparty_node_id)?;
-        match self.channel_manager.close_channel(channel_id, counterparty_node_id) {
+        match self
+            .channel_manager
+            .close_channel(channel_id, counterparty_node_id)
+        {
             Ok(_) => Ok(()),
             Err(_) => Err(Error::ChannelClosingFailed),
         }
@@ -753,15 +781,29 @@ impl LdkLite {
                 // succeed? Should we allow to set the amount in the interface or via a dedicated
                 // method?
                 let amt_msat = invoice.amount_milli_satoshis().unwrap();
-                log_info!(self.logger, "Initiated sending {} msats to {}", amt_msat, payee_pubkey);
+                log_info!(
+                    self.logger,
+                    "Initiated sending {} msats to {}",
+                    amt_msat,
+                    payee_pubkey
+                );
                 PaymentStatus::Pending
             }
             Err(payment::PaymentError::Invoice(e)) => {
-                log_error!(self.logger, "Failed to send payment due to invalid invoice: {}", e);
+                log_error!(
+                    self.logger,
+                    "Failed to send payment due to invalid invoice: {}",
+                    e
+                );
                 return Err(Error::InvoiceInvalid);
             }
             Err(payment::PaymentError::Routing(e)) => {
-                log_error!(self.logger, "Failed to send payment due to routing failure: {}", e.err);
+                info!("Failed to send payment due to routing failure: {}", e.err);
+                log_error!(
+                    self.logger,
+                    "Failed to send payment due to routing failure: {}",
+                    e.err
+                );
                 return Err(Error::RoutingFailed);
             }
             Err(payment::PaymentError::Sending(e)) => {
@@ -789,7 +831,9 @@ impl LdkLite {
 
     /// Send a spontaneous, aka. "keysend", payment
     pub fn send_spontaneous_payment(
-        &self, amount_msat: u64, node_id: &str,
+        &self,
+        amount_msat: u64,
+        node_id: &str,
     ) -> Result<PaymentHash, Error> {
         if self.running.read().unwrap().is_none() {
             return Err(Error::NotRunning);
@@ -807,15 +851,28 @@ impl LdkLite {
             self.config.default_cltv_expiry_delta,
         ) {
             Ok(_payment_id) => {
-                log_info!(self.logger, "Initiated sending {} msats to {}.", amount_msat, node_id);
+                log_info!(
+                    self.logger,
+                    "Initiated sending {} msats to {}.",
+                    amount_msat,
+                    node_id
+                );
                 PaymentStatus::Pending
             }
             Err(payment::PaymentError::Invoice(e)) => {
-                log_error!(self.logger, "Failed to send payment due to invalid invoice: {}", e);
+                log_error!(
+                    self.logger,
+                    "Failed to send payment due to invalid invoice: {}",
+                    e
+                );
                 return Err(Error::InvoiceInvalid);
             }
             Err(payment::PaymentError::Routing(e)) => {
-                log_error!(self.logger, "Failed to send payment due to routing failure: {}", e.err);
+                log_error!(
+                    self.logger,
+                    "Failed to send payment due to routing failure: {}",
+                    e.err
+                );
                 return Err(Error::RoutingFailed);
             }
             Err(payment::PaymentError::Sending(e)) => {
@@ -827,7 +884,12 @@ impl LdkLite {
         let mut outbound_payments_lock = self.outbound_payments.lock().unwrap();
         outbound_payments_lock.insert(
             payment_hash,
-            PaymentInfo { preimage: None, secret: None, status, amount_msat: Some(amount_msat) },
+            PaymentInfo {
+                preimage: None,
+                secret: None,
+                status,
+                amount_msat: Some(amount_msat),
+            },
         );
 
         Ok(payment_hash)
@@ -835,7 +897,10 @@ impl LdkLite {
 
     /// Returns a payable invoice that can be used to request and receive a payment.
     pub fn receive_payment(
-        &self, amount_msat: Option<u64>, description: &str, expiry_secs: u32,
+        &self,
+        amount_msat: Option<u64>,
+        description: &str,
+        expiry_secs: u32,
     ) -> Result<Invoice, Error> {
         let mut inbound_payments_lock = self.inbound_payments.lock().unwrap();
 
@@ -901,7 +966,9 @@ impl LdkLite {
 }
 
 async fn connect_peer_if_necessary(
-    pubkey: PublicKey, peer_addr: SocketAddr, peer_manager: Arc<PeerManager>,
+    pubkey: PublicKey,
+    peer_addr: SocketAddr,
+    peer_manager: Arc<PeerManager>,
     logger: Arc<FilesystemLogger>,
 ) -> Result<(), Error> {
     for node_pubkey in peer_manager.get_peer_node_ids() {
@@ -914,7 +981,9 @@ async fn connect_peer_if_necessary(
 }
 
 async fn do_connect_peer(
-    pubkey: PublicKey, peer_addr: SocketAddr, peer_manager: Arc<PeerManager>,
+    pubkey: PublicKey,
+    peer_addr: SocketAddr,
+    peer_manager: Arc<PeerManager>,
     logger: Arc<FilesystemLogger>,
 ) -> Result<(), Error> {
     log_info!(logger, "connecting to peer: {}@{}", pubkey, peer_addr);
@@ -931,14 +1000,23 @@ async fn do_connect_peer(
                     std::task::Poll::Pending => {}
                 }
                 // Avoid blocking the tokio context by sleeping a bit
-                match peer_manager.get_peer_node_ids().iter().find(|id| **id == pubkey) {
+                match peer_manager
+                    .get_peer_node_ids()
+                    .iter()
+                    .find(|id| **id == pubkey)
+                {
                     Some(_) => return Ok(()),
                     None => tokio::time::sleep(Duration::from_millis(10)).await,
                 }
             }
         }
         None => {
-            log_error!(logger, "failed to connect to peer: {}@{}", pubkey, peer_addr);
+            log_error!(
+                logger,
+                "failed to connect to peer: {}@{}",
+                pubkey,
+                peer_addr
+            );
             Err(Error::ConnectionFailed)
         }
     }
@@ -1006,7 +1084,7 @@ type Router = DefaultRouter<Arc<NetworkGraph>, Arc<FilesystemLogger>, Arc<Mutex<
 pub(crate) type Scorer = ProbabilisticScorer<Arc<NetworkGraph>, Arc<FilesystemLogger>>;
 
 type GossipSync =
-P2PGossipSync<Arc<NetworkGraph>, Arc<dyn Access + Send + Sync>, Arc<FilesystemLogger>>;
+    P2PGossipSync<Arc<NetworkGraph>, Arc<dyn Access + Send + Sync>, Arc<FilesystemLogger>>;
 
 pub(crate) type NetworkGraph = LdkNetworkGraph<Arc<FilesystemLogger>>;
 
