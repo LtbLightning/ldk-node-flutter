@@ -1,6 +1,6 @@
-# ldk_mobile_example
+# ldk_node_example
 
-Demonstrates how to use the ldk_mobile plugin.
+Demonstrates how to use the ldk_node plugin.
 
 ## Getting Started
 

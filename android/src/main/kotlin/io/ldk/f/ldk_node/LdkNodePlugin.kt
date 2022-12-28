@@ -1,4 +1,4 @@
-package io.ldk.f.ldk_mobile
+package io.ldk.f.ldk_node
 
 import androidx.annotation.NonNull
 
@@ -9,7 +9,7 @@ import io.flutter.plugin.common.MethodChannel.MethodCallHandler
 import io.flutter.plugin.common.MethodChannel.Result
 
 /** LdkMobilePlugin */
-class LdkMobilePlugin: FlutterPlugin, MethodCallHandler {
+class LdkNodePlugin: FlutterPlugin, MethodCallHandler {
   /// The MethodChannel that will the communication between Flutter and native Android
   ///
   /// This local reference serves to register the plugin with the Flutter Engine and unregister it
@@ -17,7 +17,7 @@ class LdkMobilePlugin: FlutterPlugin, MethodCallHandler {
   private lateinit var channel : MethodChannel
 
   override fun onAttachedToEngine(@NonNull flutterPluginBinding: FlutterPlugin.FlutterPluginBinding) {
-    channel = MethodChannel(flutterPluginBinding.binaryMessenger, "ldk_mobile")
+    channel = MethodChannel(flutterPluginBinding.binaryMessenger, "ldk_node")
     channel.setMethodCallHandler(this)
   }
 

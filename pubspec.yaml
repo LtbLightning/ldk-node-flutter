@@ -1,4 +1,4 @@
-name: ldk_mobile
+name: ldk_node
 description: A new Flutter project.
 version: 0.0.1
 homepage:
@@ -12,7 +12,7 @@ dependencies:
 
   flutter:
     sdk: flutter
-  flutter_rust_bridge: ^1.56.0
+  flutter_rust_bridge: ^1.58.2
   freezed: ^2.3.0
   freezed_annotation: ^2.2.0
 
@@ -41,10 +41,10 @@ flutter:
   plugin:
     platforms:
       android:
-        package: io.ldk.f.ldk_mobile
-        pluginClass: LdkMobilePlugin
+        package: io.ldk.f.ldk_node
+        pluginClass: LdkNodePlugin
       ios:
-        pluginClass: LdkMobilePlugin
+        pluginClass: LdkNodePlugin
 
   # To add assets to your plugin package, add an assets section, like this:
   # assets:

@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 import 'package:http/http.dart' as http;
 
 Future<Map<String, dynamic>> getResponse(String method, List params) async {
@@ -8,8 +9,8 @@ Future<Map<String, dynamic>> getResponse(String method, List params) async {
     'Authorization': authorization,
   };
   final data =
-      '{"jsonrpc": "1.0", "id": "curl", "method":"$method" , "params": $params}';
-  var url = Uri.parse('http://127.0.0.1:8332/');
+      '{"jsonrpc": "1.0", "method":"$method" , "params": $params}';
+  var url = Uri.parse(Platform.isAndroid? "http://10.0.2.2:3002/":'http://127.0.0.1:8332/');
   var res = await http.post(url, headers: headers, body: data);
   if (res.statusCode == 200) {
     final transactionJson = json.decode(res.body) as Map<String, dynamic>;

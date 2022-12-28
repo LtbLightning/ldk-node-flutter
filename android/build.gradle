@@ -1,4 +1,4 @@
-group 'io.ldk.f.ldk_mobile'
+group 'io.ldk.f.ldk_node'
 version '1.0-SNAPSHOT'
 
 buildscript {

@@ -3,9 +3,9 @@ import 'dart:math';
 import 'package:flutter/foundation.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter/material.dart';
-import 'package:ldk_mobile/ldk_mobile.dart';
-import 'package:ldk_mobile_example/utils/electrs.dart';
+import 'package:ldk_node_example/utils/electrs.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:ldk_node/ldk_node.dart';
 
 void main() {
   runApp(const MyApp());
@@ -63,7 +63,7 @@ class _MyAppState extends State<MyApp> {
   }
   Future<Config> configureLiteConfig(
       String path, String nodePubKeyAndAddress) async {
-    const esploraUrl = "http://127.0.0.1:3002";
+    final  esploraUrl = Platform.isAndroid? "http://10.0.2.2:3002":"http://127.0.0.1:3002";
     final config = Config(
         storageDirPath: path,
         esploraServerUrl: esploraUrl,
