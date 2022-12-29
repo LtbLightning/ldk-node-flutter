@@ -2,7 +2,7 @@ use crate::event::Event;
 use crate::ffi::{Builder, Config};
 use crate::simple_log;
 pub use crate::types::LdkLiteInstance;
-use crate::types::{Balance, LogEntry, Network};
+use crate::types::{Balance, LogEntry, Network, NodeInfo};
 use crate::utils::config_network;
 use bitcoin::hashes::hex::ToHex;
 use bitcoin::secp256k1::PublicKey;
@@ -10,6 +10,8 @@ use flutter_rust_bridge::{RustOpaque, StreamSink};
 use log::info;
 use std::str::FromStr;
 use std::sync::Mutex;
+use lightning::ln::PaymentHash;
+use crate::error::Error;
 
 pub struct LdkConfig {
     /// The path where the underlying LDK and BDK persist their data.
@@ -138,6 +140,13 @@ pub fn receive_payment(
         Err(e) => {
             panic!("receive_payment_error :{:?}", e);
         }
+    }
+}
+pub fn node_info(ldk_lite_instance: RustOpaque<LdkLiteInstance>)-> NodeInfo{
+    let node = ldk_lite_instance.ldk_lite_mutex.lock().unwrap();
+    match node.node_info(){
+        Ok(e) => {e}
+        Err(e) => { panic!("send_payment_error :{:?}", e);}
     }
 }
 pub fn send_payment(ldk_lite_instance: RustOpaque<LdkLiteInstance>, invoice: String) -> String {

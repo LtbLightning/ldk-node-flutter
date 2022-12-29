@@ -27,20 +27,17 @@ pub enum Network {
 #[derive(Clone)]
 pub struct NodeInfo {
     pub node_pub_key: String,
-    pub total_balance: u64,
-    pub immature: u64,
-    pub num_channels: usize,
-    pub num_usable_channels: usize,
-    pub num_peers: usize,
+    pub channels:Vec<ChannelInfo>,
+    pub peers:Vec<String>
 }
 
 #[derive(Clone)]
 pub struct ChannelInfo {
     pub channel_id: String,
     pub funding_txid: Option<String>,
-    pub peer_pubkey: String,
+    pub peer_pubkey: Option<String>,
     pub peer_alias: Option<String>,
-    pub short_channel_id: Option<String>,
+    pub short_channel_id:Option<u64>,
     pub is_channel_ready: bool,
     pub channel_value_satoshis: u64,
     pub local_balance_msat: u64,
@@ -48,7 +45,6 @@ pub struct ChannelInfo {
     pub available_balance_for_recv_msat: u64,
     pub channel_can_send_payments: bool,
     pub public: bool,
-    pub is_channel_usable: bool,
 }
 pub struct LogEntry {
     pub time_millis: i64,

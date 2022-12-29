@@ -73,7 +73,10 @@ class LdkNode {
         await loaderApi.newFundingAddress(ldkLiteInstance: _ldkLiteInstance!);
     return id;
   }
-
+  Future<NodeInfo> getNodeInfo() async {
+    final info = await loaderApi.nodeInfo(ldkLiteInstance: _ldkLiteInstance!);
+    return info;
+  }
   Future<Balance> getBalance() async {
     final balance =
         await loaderApi.getBalance(ldkLiteInstance: _ldkLiteInstance!);
@@ -120,5 +123,9 @@ class LdkNode {
   Future<void> sendPayments(String invoice) async {
     await loaderApi.sendPayment(
         ldkLiteInstance: _ldkLiteInstance!, invoice: invoice);
+  }
+
+  Future<void> closeChannel(U8Array32 channelId, String counterpartyNodeId) async {
+    await loaderApi.closeChannel(ldkLite: _ldkLiteInstance!, channelId: channelId, counterpartyNodeId: counterpartyNodeId);
   }
 }

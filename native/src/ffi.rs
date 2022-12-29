@@ -50,6 +50,9 @@ use std::net::SocketAddr;
 use std::sync::atomic::{AtomicBool, Ordering};
 use std::sync::{Arc, Mutex, RwLock};
 use std::time::{Duration, Instant, SystemTime};
+use bitcoin::hashes::hex::ToHex;
+use lightning_invoice::payment::Payer;
+use crate::types::{ChannelInfo, NodeInfo};
 
 // The used 'stop gap' parameter used by BDK's wallet sync. This seems to configure the threshold
 // number of blocks after which BDK stops looking for scripts belonging to the wallet.
@@ -609,6 +612,41 @@ impl LdkLite {
     pub fn next_event(&self) -> Event {
         self.event_queue.next_event()
     }
+
+  /// Returns a Node Info
+  ///
+
+   pub fn node_info(&self)-> Result<NodeInfo, Error>{
+      let mut channel_infos:Vec<ChannelInfo> = Vec::new();
+      let mut peer_ids:Vec<String> = Vec::new();
+      let cman = Arc::clone(&self.channel_manager);
+      let pm = Arc::clone(&self.peer_manager);
+    for id in   pm.get_peer_node_ids(){
+        peer_ids.push(id.to_string())
+    }
+     for chan_info in cman.list_channels(){
+          let _info = ChannelInfo{
+              channel_id: chan_info.channel_id.to_hex().clone(),
+              funding_txid: if let Some(funding_txo) = chan_info.funding_txo { Some(funding_txo.txid.to_string()) } else{None},
+              peer_pubkey: None,
+              peer_alias: None,
+              short_channel_id: chan_info.short_channel_id,
+              is_channel_ready: chan_info.is_channel_ready,
+              channel_value_satoshis: chan_info.channel_value_satoshis,
+              local_balance_msat:chan_info.balance_msat,
+              available_balance_for_send_msat: chan_info.outbound_capacity_msat,
+              available_balance_for_recv_msat: chan_info.inbound_capacity_msat,
+              channel_can_send_payments: chan_info.is_usable,
+              public: chan_info.is_public,
+          };
+         channel_infos.push(_info);
+      }
+     Ok( NodeInfo{
+          node_pub_key: cman.clone().node_id().to_string(),
+          channels: channel_infos,
+          peers: peer_ids
+      })
+  }
 
     /// Confirm the last retrieved event handled.
     pub fn event_handled(&self) {

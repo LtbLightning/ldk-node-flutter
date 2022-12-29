@@ -54,6 +54,10 @@ abstract class Native {
 
   FlutterRustBridgeTaskConstMeta get kReceivePaymentConstMeta;
 
+  Future<NodeInfo> nodeInfo({required LdkLiteInstance ldkLiteInstance, dynamic hint});
+
+  FlutterRustBridgeTaskConstMeta get kNodeInfoConstMeta;
+
   Future<String> sendPayment({required LdkLiteInstance ldkLiteInstance, required String invoice, dynamic hint});
 
   FlutterRustBridgeTaskConstMeta get kSendPaymentConstMeta;
@@ -122,6 +126,36 @@ class Balance {
   });
 }
 
+class ChannelInfo {
+  final String channelId;
+  final String? fundingTxid;
+  final String? peerPubkey;
+  final String? peerAlias;
+  final int? shortChannelId;
+  final bool isChannelReady;
+  final int channelValueSatoshis;
+  final int localBalanceMsat;
+  final int availableBalanceForSendMsat;
+  final int availableBalanceForRecvMsat;
+  final bool channelCanSendPayments;
+  final bool public;
+
+  ChannelInfo({
+    required this.channelId,
+    this.fundingTxid,
+    this.peerPubkey,
+    this.peerAlias,
+    this.shortChannelId,
+    required this.isChannelReady,
+    required this.channelValueSatoshis,
+    required this.localBalanceMsat,
+    required this.availableBalanceForSendMsat,
+    required this.availableBalanceForRecvMsat,
+    required this.channelCanSendPayments,
+    required this.public,
+  });
+}
+
 class LdkConfig {
   /// The path where the underlying LDK and BDK persist their data.
   final String storageDirPath;
@@ -173,6 +207,18 @@ enum Network {
 
   ///Bitcoin’s regtest
   Regtest,
+}
+
+class NodeInfo {
+  final String nodePubKey;
+  final List<ChannelInfo> channels;
+  final List<String> peers;
+
+  NodeInfo({
+    required this.nodePubKey,
+    required this.channels,
+    required this.peers,
+  });
 }
 
 class U8Array32 extends NonGrowableListView<int> {
@@ -343,6 +389,22 @@ class NativeImpl implements Native {
         argNames: ["ldkLiteInstance", "amountMsat", "description", "expirySecs"],
       );
 
+  Future<NodeInfo> nodeInfo({required LdkLiteInstance ldkLiteInstance, dynamic hint}) {
+    var arg0 = _platform.api2wire_LdkLiteInstance(ldkLiteInstance);
+    return _platform.executeNormal(FlutterRustBridgeTask(
+      callFfi: (port_) => _platform.inner.wire_node_info(port_, arg0),
+      parseSuccessData: _wire2api_node_info,
+      constMeta: kNodeInfoConstMeta,
+      argValues: [ldkLiteInstance],
+      hint: hint,
+    ));
+  }
+
+  FlutterRustBridgeTaskConstMeta get kNodeInfoConstMeta => const FlutterRustBridgeTaskConstMeta(
+        debugName: "node_info",
+        argNames: ["ldkLiteInstance"],
+      );
+
   Future<String> sendPayment({required LdkLiteInstance ldkLiteInstance, required String invoice, dynamic hint}) {
     var arg0 = _platform.api2wire_LdkLiteInstance(ldkLiteInstance);
     var arg1 = _platform.api2wire_String(invoice);
@@ -469,6 +531,10 @@ class NativeImpl implements Native {
     return raw as String;
   }
 
+  List<String> _wire2api_StringList(dynamic raw) {
+    return (raw as List<dynamic>).cast<String>();
+  }
+
   Balance _wire2api_balance(dynamic raw) {
     final arr = raw as List<dynamic>;
     if (arr.length != 5) throw Exception('unexpected arr length: expect 5 but see ${arr.length}');
@@ -481,12 +547,43 @@ class NativeImpl implements Native {
     );
   }
 
+  bool _wire2api_bool(dynamic raw) {
+    return raw as bool;
+  }
+
+  int _wire2api_box_autoadd_u64(dynamic raw) {
+    return _wire2api_u64(raw);
+  }
+
+  ChannelInfo _wire2api_channel_info(dynamic raw) {
+    final arr = raw as List<dynamic>;
+    if (arr.length != 12) throw Exception('unexpected arr length: expect 12 but see ${arr.length}');
+    return ChannelInfo(
+      channelId: _wire2api_String(arr[0]),
+      fundingTxid: _wire2api_opt_String(arr[1]),
+      peerPubkey: _wire2api_opt_String(arr[2]),
+      peerAlias: _wire2api_opt_String(arr[3]),
+      shortChannelId: _wire2api_opt_box_autoadd_u64(arr[4]),
+      isChannelReady: _wire2api_bool(arr[5]),
+      channelValueSatoshis: _wire2api_u64(arr[6]),
+      localBalanceMsat: _wire2api_u64(arr[7]),
+      availableBalanceForSendMsat: _wire2api_u64(arr[8]),
+      availableBalanceForRecvMsat: _wire2api_u64(arr[9]),
+      channelCanSendPayments: _wire2api_bool(arr[10]),
+      public: _wire2api_bool(arr[11]),
+    );
+  }
+
   int _wire2api_i32(dynamic raw) {
     return raw as int;
   }
 
   int _wire2api_i64(dynamic raw) {
     return castInt(raw);
+  }
+
+  List<ChannelInfo> _wire2api_list_channel_info(dynamic raw) {
+    return (raw as List<dynamic>).map(_wire2api_channel_info).toList();
   }
 
   LogEntry _wire2api_log_entry(dynamic raw) {
@@ -498,6 +595,24 @@ class NativeImpl implements Native {
       tag: _wire2api_String(arr[2]),
       msg: _wire2api_String(arr[3]),
     );
+  }
+
+  NodeInfo _wire2api_node_info(dynamic raw) {
+    final arr = raw as List<dynamic>;
+    if (arr.length != 3) throw Exception('unexpected arr length: expect 3 but see ${arr.length}');
+    return NodeInfo(
+      nodePubKey: _wire2api_String(arr[0]),
+      channels: _wire2api_list_channel_info(arr[1]),
+      peers: _wire2api_StringList(arr[2]),
+    );
+  }
+
+  String? _wire2api_opt_String(dynamic raw) {
+    return raw == null ? null : _wire2api_String(raw);
+  }
+
+  int? _wire2api_opt_box_autoadd_u64(dynamic raw) {
+    return raw == null ? null : _wire2api_box_autoadd_u64(raw);
   }
 
   int _wire2api_u64(dynamic raw) {
@@ -842,6 +957,20 @@ class NativeWire implements FlutterRustBridgeWireBase {
               ffi.Uint32)>>('wire_receive_payment');
   late final _wire_receive_payment = _wire_receive_paymentPtr.asFunction<
       void Function(int, wire_LdkLiteInstance, ffi.Pointer<ffi.Uint64>, ffi.Pointer<wire_uint_8_list>, int)>();
+
+  void wire_node_info(
+    int port_,
+    wire_LdkLiteInstance ldk_lite_instance,
+  ) {
+    return _wire_node_info(
+      port_,
+      ldk_lite_instance,
+    );
+  }
+
+  late final _wire_node_infoPtr =
+      _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Int64, wire_LdkLiteInstance)>>('wire_node_info');
+  late final _wire_node_info = _wire_node_infoPtr.asFunction<void Function(int, wire_LdkLiteInstance)>();
 
   void wire_send_payment(
     int port_,

@@ -1,4 +1,4 @@
-#import "LdkMobilePlugin.h"
+#import "LdkNodePlugin.h"
 #if __has_include(<ldk_node/ldk_node-Swift.h>)
 #import <ldk_node/ldk_node-Swift.h>
 #else
@@ -8,8 +8,8 @@
 #import "ldk_node-Swift.h"
 #endif
 
-@implementation LdkMobilePlugin
+@implementation LdkNodePlugin
 + (void)registerWithRegistrar:(NSObject<FlutterPluginRegistrar>*)registrar {
-  [SwiftLdkMobilePlugin registerWithRegistrar:registrar];
+  [SwiftLdkNodePlugin registerWithRegistrar:registrar];
 }
 @end

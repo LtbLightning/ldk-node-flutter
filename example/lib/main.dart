@@ -74,7 +74,7 @@ class _MyAppState extends State<MyApp> {
   initAliceNode() async {
     final path = await getApplicationSupportDirectory();
     final aliceConfig = await configureLiteConfig(
-        "${path.path}/ldk_cache/node1", "0.0.0.0:3314");
+        "${path.path}/ldk_cache/node_.1", "0.0.0.0:3314");
     NodeBuilder aliceBuilder = NodeBuilder.fromConfig(config: aliceConfig);
     aliceNode = await aliceBuilder.toLdkNode();
     await aliceNode.start();
@@ -84,7 +84,7 @@ class _MyAppState extends State<MyApp> {
   }
   initBobNode() async {
     final path = await getApplicationSupportDirectory();
-    final bobConfig = await configureLiteConfig("${path.path}/ldk_cache/node2", "0.0.0.0:7731");
+    final bobConfig = await configureLiteConfig("${path.path}/ldk_cache/node_.2", "0.0.0.0:7731");
     NodeBuilder bobBuilder = NodeBuilder.fromConfig(config: bobConfig);
     bobNode = await bobBuilder.toLdkNode();
     await bobNode.start();
@@ -102,6 +102,21 @@ class _MyAppState extends State<MyApp> {
   }
   aliceLdkNodeSync() async {
     await aliceNode.sync();
+  }
+  getNodeInfo() async {
+    final res =   await aliceNode.getNodeInfo();
+    print("======Channels========");
+    for (var e in res.channels){
+      print("channelId: ${e.channelId}");
+      print("isChannelReady: ${e.isChannelReady}");
+      print("localBalanceMsat: ${e.localBalanceMsat}");
+      print("availableBalanceForRecvMsat: ${e.availableBalanceForRecvMsat}");
+      print("isChannelReadyToSendPayments: ${e.channelCanSendPayments}");
+    }
+    print("======Peers========");
+    for (var e in res.peers){
+      print("peerId: $e");
+    }
   }
   bobLdkNodeSync() async {
     await bobNode.sync();
@@ -145,9 +160,10 @@ class _MyAppState extends State<MyApp> {
         channelAmountSats: 100000,
         announceChannel: true);
   }
+  //Failed to send payment due to routing failure: Failed to find a path to the given destination
   receiveAndSendPayments() async {
-    invoice = await bobNode.receivePayments("asdf", 10000, 10000);
-    await aliceNode.sendPayments(invoice);
+    invoice = await aliceNode.receivePayments("asdf", 10000, 10000);
+    await bobNode.sendPayments(invoice);
   }
   getChannelId() async {
     channelId = await aliceNode.getChannelId();
@@ -157,6 +173,9 @@ class _MyAppState extends State<MyApp> {
   }
   nextEvent() async {
     await bobNode.nextEvent();
+  }
+  closeChannel() async{
+    await bobNode.closeChannel(channelId!,  aliceNodePubKeyAndAddress);
   }
   @override
   Widget build(BuildContext context) {
@@ -269,6 +288,21 @@ class _MyAppState extends State<MyApp> {
                       )),
                   TextButton(
                       onPressed: () async {
+                        await getNodeInfo();
+                      },
+                      child: Text(
+                        'Get NodeInfo',
+                        overflow: TextOverflow.clip,
+                        textAlign: TextAlign.center,
+                        style: GoogleFonts.nunito(
+                            color: Colors.indigoAccent,
+                            fontSize: 12,
+                            height: 1.5,
+                            fontWeight: FontWeight.w800),
+                      )),
+
+                  TextButton(
+                      onPressed: () async {
                         await getNodeBalance();
                       },
                       child: Text(
@@ -359,6 +393,19 @@ class _MyAppState extends State<MyApp> {
                       },
                       child: Text(
                         'Receive & Send Payment',
+                        textAlign: TextAlign.center,
+                        style: GoogleFonts.nunito(
+                            color: Colors.indigoAccent,
+                            fontSize: 12,
+                            height: 1.5,
+                            fontWeight: FontWeight.w800),
+                      )),
+                  TextButton(
+                      onPressed: () async {
+                        await closeChannel();
+                      },
+                      child: Text(
+                        'Close Channel',
                         textAlign: TextAlign.center,
                         style: GoogleFonts.nunito(
                             color: Colors.indigoAccent,

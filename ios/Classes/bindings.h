@@ -60,6 +60,8 @@ void wire_receive_payment(int64_t port_,
                           struct wire_uint_8_list *description,
                           uint32_t expiry_secs);
 
+void wire_node_info(int64_t port_, struct wire_LdkLiteInstance ldk_lite_instance);
+
 void wire_send_payment(int64_t port_,
                        struct wire_LdkLiteInstance ldk_lite_instance,
                        struct wire_uint_8_list *invoice);
@@ -106,6 +108,7 @@ static int64_t dummy_method_to_enforce_bundling(void) {
     dummy_var ^= ((int64_t) (void*) wire_next_event);
     dummy_var ^= ((int64_t) (void*) wire_handle_event);
     dummy_var ^= ((int64_t) (void*) wire_receive_payment);
+    dummy_var ^= ((int64_t) (void*) wire_node_info);
     dummy_var ^= ((int64_t) (void*) wire_send_payment);
     dummy_var ^= ((int64_t) (void*) wire_get_channel_id);
     dummy_var ^= ((int64_t) (void*) wire_connect_open_channel);

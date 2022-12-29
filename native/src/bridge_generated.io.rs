@@ -59,6 +59,11 @@ pub extern "C" fn wire_receive_payment(
 }
 
 #[no_mangle]
+pub extern "C" fn wire_node_info(port_: i64, ldk_lite_instance: wire_LdkLiteInstance) {
+    wire_node_info_impl(port_, ldk_lite_instance)
+}
+
+#[no_mangle]
 pub extern "C" fn wire_send_payment(
     port_: i64,
     ldk_lite_instance: wire_LdkLiteInstance,

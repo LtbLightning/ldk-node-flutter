@@ -1,10 +1,10 @@
 import Flutter
 import UIKit
 
-public class SwiftLdkMobilePlugin: NSObject, FlutterPlugin {
+public class SwiftLdkNodePlugin: NSObject, FlutterPlugin {
   public static func register(with registrar: FlutterPluginRegistrar) {
     let channel = FlutterMethodChannel(name: "ldk_node", binaryMessenger: registrar.messenger())
-    let instance = SwiftLdkMobilePlugin()
+    let instance = SwiftLdkNodePlugin()
     registrar.addMethodCallDelegate(instance, channel: channel)
   }
 

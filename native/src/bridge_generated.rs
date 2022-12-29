@@ -20,8 +20,10 @@ use std::sync::Arc;
 // Section: imports
 
 use crate::types::Balance;
+use crate::types::ChannelInfo;
 use crate::types::LogEntry;
 use crate::types::Network;
+use crate::types::NodeInfo;
 
 // Section: wire functions
 
@@ -176,6 +178,22 @@ fn wire_receive_payment_impl(
                     api_expiry_secs,
                 ))
             }
+        },
+    )
+}
+fn wire_node_info_impl(
+    port_: MessagePort,
+    ldk_lite_instance: impl Wire2Api<RustOpaque<LdkLiteInstance>> + UnwindSafe,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap(
+        WrapInfo {
+            debug_name: "node_info",
+            port: Some(port_),
+            mode: FfiCallMode::Normal,
+        },
+        move || {
+            let api_ldk_lite_instance = ldk_lite_instance.wire2api();
+            move |task_callback| Ok(node_info(api_ldk_lite_instance))
         },
     )
 }
@@ -372,6 +390,27 @@ impl support::IntoDart for Balance {
 }
 impl support::IntoDartExceptPrimitive for Balance {}
 
+impl support::IntoDart for ChannelInfo {
+    fn into_dart(self) -> support::DartAbi {
+        vec![
+            self.channel_id.into_dart(),
+            self.funding_txid.into_dart(),
+            self.peer_pubkey.into_dart(),
+            self.peer_alias.into_dart(),
+            self.short_channel_id.into_dart(),
+            self.is_channel_ready.into_dart(),
+            self.channel_value_satoshis.into_dart(),
+            self.local_balance_msat.into_dart(),
+            self.available_balance_for_send_msat.into_dart(),
+            self.available_balance_for_recv_msat.into_dart(),
+            self.channel_can_send_payments.into_dart(),
+            self.public.into_dart(),
+        ]
+        .into_dart()
+    }
+}
+impl support::IntoDartExceptPrimitive for ChannelInfo {}
+
 impl support::IntoDart for LogEntry {
     fn into_dart(self) -> support::DartAbi {
         vec![
@@ -384,6 +423,18 @@ impl support::IntoDart for LogEntry {
     }
 }
 impl support::IntoDartExceptPrimitive for LogEntry {}
+
+impl support::IntoDart for NodeInfo {
+    fn into_dart(self) -> support::DartAbi {
+        vec![
+            self.node_pub_key.into_dart(),
+            self.channels.into_dart(),
+            self.peers.into_dart(),
+        ]
+        .into_dart()
+    }
+}
+impl support::IntoDartExceptPrimitive for NodeInfo {}
 
 // Section: executor
 
