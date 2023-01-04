@@ -7,80 +7,98 @@ pub extern "C" fn wire_init_builder(port_: i64, config: *mut wire_LdkConfig) {
 }
 
 #[no_mangle]
-pub extern "C" fn wire_start(port_: i64, ldk_lite_instance: wire_LdkLiteInstance) {
-    wire_start_impl(port_, ldk_lite_instance)
+pub extern "C" fn wire_start(port_: i64, ldk_node: wire_LdkNodeInstance) {
+    wire_start_impl(port_, ldk_node)
 }
 
 #[no_mangle]
-pub extern "C" fn wire_get_balance(port_: i64, ldk_lite_instance: wire_LdkLiteInstance) {
-    wire_get_balance_impl(port_, ldk_lite_instance)
+pub extern "C" fn wire_get_balance(port_: i64, ldk_node: wire_LdkNodeInstance) {
+    wire_get_balance_impl(port_, ldk_node)
 }
 
 #[no_mangle]
-pub extern "C" fn wire_new_funding_address(port_: i64, ldk_lite_instance: wire_LdkLiteInstance) {
-    wire_new_funding_address_impl(port_, ldk_lite_instance)
+pub extern "C" fn wire_new_funding_address(port_: i64, ldk_node: wire_LdkNodeInstance) {
+    wire_new_funding_address_impl(port_, ldk_node)
 }
 
 #[no_mangle]
-pub extern "C" fn wire_sync(port_: i64, ldk_lite_instance: wire_LdkLiteInstance) {
-    wire_sync_impl(port_, ldk_lite_instance)
+pub extern "C" fn wire_sync(port_: i64, ldk_node: wire_LdkNodeInstance) {
+    wire_sync_impl(port_, ldk_node)
 }
 
 #[no_mangle]
-pub extern "C" fn wire_get_node_addr(port_: i64, ldk_lite_instance: wire_LdkLiteInstance) {
-    wire_get_node_addr_impl(port_, ldk_lite_instance)
+pub extern "C" fn wire_get_node_addr(port_: i64, ldk_node: wire_LdkNodeInstance) {
+    wire_get_node_addr_impl(port_, ldk_node)
 }
 
 #[no_mangle]
-pub extern "C" fn wire_next_event(port_: i64, ldk_lite_instance: wire_LdkLiteInstance) {
-    wire_next_event_impl(port_, ldk_lite_instance)
+pub extern "C" fn wire_next_event(port_: i64, ldk_node: wire_LdkNodeInstance) {
+    wire_next_event_impl(port_, ldk_node)
 }
 
 #[no_mangle]
-pub extern "C" fn wire_handle_event(port_: i64, ldk_lite_instance: wire_LdkLiteInstance) {
-    wire_handle_event_impl(port_, ldk_lite_instance)
+pub extern "C" fn wire_stop(port_: i64, ldk_node: wire_LdkNodeInstance) {
+    wire_stop_impl(port_, ldk_node)
+}
+
+#[no_mangle]
+pub extern "C" fn wire_handle_event(port_: i64, ldk_node: wire_LdkNodeInstance) {
+    wire_handle_event_impl(port_, ldk_node)
 }
 
 #[no_mangle]
 pub extern "C" fn wire_receive_payment(
     port_: i64,
-    ldk_lite_instance: wire_LdkLiteInstance,
+    ldk_node: wire_LdkNodeInstance,
     amount_msat: *mut u64,
     description: *mut wire_uint_8_list,
     expiry_secs: u32,
 ) {
-    wire_receive_payment_impl(
-        port_,
-        ldk_lite_instance,
-        amount_msat,
-        description,
-        expiry_secs,
-    )
+    wire_receive_payment_impl(port_, ldk_node, amount_msat, description, expiry_secs)
 }
 
 #[no_mangle]
-pub extern "C" fn wire_node_info(port_: i64, ldk_lite_instance: wire_LdkLiteInstance) {
-    wire_node_info_impl(port_, ldk_lite_instance)
+pub extern "C" fn wire_node_info(port_: i64, ldk_node: wire_LdkNodeInstance) {
+    wire_node_info_impl(port_, ldk_node)
+}
+
+#[no_mangle]
+pub extern "C" fn wire_payment_info(
+    port_: i64,
+    ldk_node: wire_LdkNodeInstance,
+    payment_hash: *mut wire_uint_8_list,
+) {
+    wire_payment_info_impl(port_, ldk_node, payment_hash)
 }
 
 #[no_mangle]
 pub extern "C" fn wire_send_payment(
     port_: i64,
-    ldk_lite_instance: wire_LdkLiteInstance,
+    ldk_node: wire_LdkNodeInstance,
     invoice: *mut wire_uint_8_list,
 ) {
-    wire_send_payment_impl(port_, ldk_lite_instance, invoice)
+    wire_send_payment_impl(port_, ldk_node, invoice)
 }
 
 #[no_mangle]
-pub extern "C" fn wire_get_channel_id(port_: i64, ldk_lite_instance: wire_LdkLiteInstance) {
-    wire_get_channel_id_impl(port_, ldk_lite_instance)
+pub extern "C" fn wire_send_spontaneous_payment(
+    port_: i64,
+    ldk_node: wire_LdkNodeInstance,
+    amount_msat: u64,
+    node_id: *mut wire_uint_8_list,
+) {
+    wire_send_spontaneous_payment_impl(port_, ldk_node, amount_msat, node_id)
+}
+
+#[no_mangle]
+pub extern "C" fn wire_get_channel_id(port_: i64, ldk_node: wire_LdkNodeInstance) {
+    wire_get_channel_id_impl(port_, ldk_node)
 }
 
 #[no_mangle]
 pub extern "C" fn wire_connect_open_channel(
     port_: i64,
-    ldk_lite: wire_LdkLiteInstance,
+    ldk_lite: wire_LdkNodeInstance,
     node_pubkey_and_address: *mut wire_uint_8_list,
     channel_amount_sats: u64,
     announce_channel: bool,
@@ -97,7 +115,7 @@ pub extern "C" fn wire_connect_open_channel(
 #[no_mangle]
 pub extern "C" fn wire_close_channel(
     port_: i64,
-    ldk_lite: wire_LdkLiteInstance,
+    ldk_lite: wire_LdkNodeInstance,
     channel_id: *mut wire_uint_8_list,
     counterparty_node_id: *mut wire_uint_8_list,
 ) {
@@ -117,8 +135,8 @@ pub extern "C" fn wire_rust_set_up(port_: i64) {
 // Section: allocate functions
 
 #[no_mangle]
-pub extern "C" fn new_LdkLiteInstance() -> wire_LdkLiteInstance {
-    wire_LdkLiteInstance::new_with_null_ptr()
+pub extern "C" fn new_LdkNodeInstance() -> wire_LdkNodeInstance {
+    wire_LdkNodeInstance::new_with_null_ptr()
 }
 
 #[no_mangle]
@@ -143,24 +161,24 @@ pub extern "C" fn new_uint_8_list_0(len: i32) -> *mut wire_uint_8_list {
 // Section: related functions
 
 #[no_mangle]
-pub extern "C" fn drop_opaque_LdkLiteInstance(ptr: *const c_void) {
+pub extern "C" fn drop_opaque_LdkNodeInstance(ptr: *const c_void) {
     unsafe {
-        Arc::<LdkLiteInstance>::decrement_strong_count(ptr as _);
+        Arc::<LdkNodeInstance>::decrement_strong_count(ptr as _);
     }
 }
 
 #[no_mangle]
-pub extern "C" fn share_opaque_LdkLiteInstance(ptr: *const c_void) -> *const c_void {
+pub extern "C" fn share_opaque_LdkNodeInstance(ptr: *const c_void) -> *const c_void {
     unsafe {
-        Arc::<LdkLiteInstance>::increment_strong_count(ptr as _);
+        Arc::<LdkNodeInstance>::increment_strong_count(ptr as _);
         ptr
     }
 }
 
 // Section: impl Wire2Api
 
-impl Wire2Api<RustOpaque<LdkLiteInstance>> for wire_LdkLiteInstance {
-    fn wire2api(self) -> RustOpaque<LdkLiteInstance> {
+impl Wire2Api<RustOpaque<LdkNodeInstance>> for wire_LdkNodeInstance {
+    fn wire2api(self) -> RustOpaque<LdkNodeInstance> {
         unsafe { support::opaque_from_dart(self.ptr as _) }
     }
 }
@@ -208,7 +226,7 @@ impl Wire2Api<Vec<u8>> for *mut wire_uint_8_list {
 
 #[repr(C)]
 #[derive(Clone)]
-pub struct wire_LdkLiteInstance {
+pub struct wire_LdkNodeInstance {
     ptr: *const core::ffi::c_void,
 }
 
@@ -241,7 +259,7 @@ impl<T> NewWithNullPtr for *mut T {
     }
 }
 
-impl NewWithNullPtr for wire_LdkLiteInstance {
+impl NewWithNullPtr for wire_LdkNodeInstance {
     fn new_with_null_ptr() -> Self {
         Self {
             ptr: core::ptr::null(),

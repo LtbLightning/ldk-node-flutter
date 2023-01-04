@@ -13,40 +13,44 @@ import 'package:meta/meta.dart';
 import 'dart:ffi' as ffi;
 
 abstract class Native {
-  Future<LdkLiteInstance> initBuilder({required LdkConfig config, dynamic hint});
+  Future<LdkNodeInstance> initBuilder({required LdkConfig config, dynamic hint});
 
   FlutterRustBridgeTaskConstMeta get kInitBuilderConstMeta;
 
-  Future<String> start({required LdkLiteInstance ldkLiteInstance, dynamic hint});
+  Future<String> start({required LdkNodeInstance ldkNode, dynamic hint});
 
   FlutterRustBridgeTaskConstMeta get kStartConstMeta;
 
-  Future<Balance> getBalance({required LdkLiteInstance ldkLiteInstance, dynamic hint});
+  Future<Balance> getBalance({required LdkNodeInstance ldkNode, dynamic hint});
 
   FlutterRustBridgeTaskConstMeta get kGetBalanceConstMeta;
 
-  Future<String> newFundingAddress({required LdkLiteInstance ldkLiteInstance, dynamic hint});
+  Future<String> newFundingAddress({required LdkNodeInstance ldkNode, dynamic hint});
 
   FlutterRustBridgeTaskConstMeta get kNewFundingAddressConstMeta;
 
-  Future<void> sync({required LdkLiteInstance ldkLiteInstance, dynamic hint});
+  Future<void> sync({required LdkNodeInstance ldkNode, dynamic hint});
 
   FlutterRustBridgeTaskConstMeta get kSyncConstMeta;
 
-  Future<String> getNodeAddr({required LdkLiteInstance ldkLiteInstance, dynamic hint});
+  Future<String> getNodeAddr({required LdkNodeInstance ldkNode, dynamic hint});
 
   FlutterRustBridgeTaskConstMeta get kGetNodeAddrConstMeta;
 
-  Future<void> nextEvent({required LdkLiteInstance ldkLiteInstance, dynamic hint});
+  Future<void> nextEvent({required LdkNodeInstance ldkNode, dynamic hint});
 
   FlutterRustBridgeTaskConstMeta get kNextEventConstMeta;
 
-  Future<void> handleEvent({required LdkLiteInstance ldkLiteInstance, dynamic hint});
+  Future<void> stop({required LdkNodeInstance ldkNode, dynamic hint});
+
+  FlutterRustBridgeTaskConstMeta get kStopConstMeta;
+
+  Future<void> handleEvent({required LdkNodeInstance ldkNode, dynamic hint});
 
   FlutterRustBridgeTaskConstMeta get kHandleEventConstMeta;
 
   Future<String> receivePayment(
-      {required LdkLiteInstance ldkLiteInstance,
+      {required LdkNodeInstance ldkNode,
       int? amountMsat,
       required String description,
       required int expirySecs,
@@ -54,20 +58,30 @@ abstract class Native {
 
   FlutterRustBridgeTaskConstMeta get kReceivePaymentConstMeta;
 
-  Future<NodeInfo> nodeInfo({required LdkLiteInstance ldkLiteInstance, dynamic hint});
+  Future<NodeInfo> nodeInfo({required LdkNodeInstance ldkNode, dynamic hint});
 
   FlutterRustBridgeTaskConstMeta get kNodeInfoConstMeta;
 
-  Future<String> sendPayment({required LdkLiteInstance ldkLiteInstance, required String invoice, dynamic hint});
+  ///	Query for information about the status of a specific payment.
+  Future<PaymentStatus> paymentInfo({required LdkNodeInstance ldkNode, required U8Array32 paymentHash, dynamic hint});
+
+  FlutterRustBridgeTaskConstMeta get kPaymentInfoConstMeta;
+
+  Future<String> sendPayment({required LdkNodeInstance ldkNode, required String invoice, dynamic hint});
 
   FlutterRustBridgeTaskConstMeta get kSendPaymentConstMeta;
 
-  Future<U8Array32> getChannelId({required LdkLiteInstance ldkLiteInstance, dynamic hint});
+  Future<String> sendSpontaneousPayment(
+      {required LdkNodeInstance ldkNode, required int amountMsat, required String nodeId, dynamic hint});
+
+  FlutterRustBridgeTaskConstMeta get kSendSpontaneousPaymentConstMeta;
+
+  Future<U8Array32> getChannelId({required LdkNodeInstance ldkNode, dynamic hint});
 
   FlutterRustBridgeTaskConstMeta get kGetChannelIdConstMeta;
 
   Future<void> connectOpenChannel(
-      {required LdkLiteInstance ldkLite,
+      {required LdkNodeInstance ldkLite,
       required String nodePubkeyAndAddress,
       required int channelAmountSats,
       required bool announceChannel,
@@ -76,7 +90,7 @@ abstract class Native {
   FlutterRustBridgeTaskConstMeta get kConnectOpenChannelConstMeta;
 
   Future<void> closeChannel(
-      {required LdkLiteInstance ldkLite,
+      {required LdkNodeInstance ldkLite,
       required U8Array32 channelId,
       required String counterpartyNodeId,
       dynamic hint});
@@ -91,23 +105,23 @@ abstract class Native {
 
   FlutterRustBridgeTaskConstMeta get kRustSetUpConstMeta;
 
-  DropFnType get dropOpaqueLdkLiteInstance;
-  ShareFnType get shareOpaqueLdkLiteInstance;
-  OpaqueTypeFinalizer get LdkLiteInstanceFinalizer;
+  DropFnType get dropOpaqueLdkNodeInstance;
+  ShareFnType get shareOpaqueLdkNodeInstance;
+  OpaqueTypeFinalizer get LdkNodeInstanceFinalizer;
 }
 
 @sealed
-class LdkLiteInstance extends FrbOpaque {
+class LdkNodeInstance extends FrbOpaque {
   final Native bridge;
-  LdkLiteInstance.fromRaw(int ptr, int size, this.bridge) : super.unsafe(ptr, size);
+  LdkNodeInstance.fromRaw(int ptr, int size, this.bridge) : super.unsafe(ptr, size);
   @override
-  DropFnType get dropFn => bridge.dropOpaqueLdkLiteInstance;
+  DropFnType get dropFn => bridge.dropOpaqueLdkNodeInstance;
 
   @override
-  ShareFnType get shareFn => bridge.shareOpaqueLdkLiteInstance;
+  ShareFnType get shareFn => bridge.shareOpaqueLdkNodeInstance;
 
   @override
-  OpaqueTypeFinalizer get staticFinalizer => bridge.LdkLiteInstanceFinalizer;
+  OpaqueTypeFinalizer get staticFinalizer => bridge.LdkNodeInstanceFinalizer;
 }
 
 class Balance {
@@ -221,6 +235,18 @@ class NodeInfo {
   });
 }
 
+/// Represents the current status of a payment.
+enum PaymentStatus {
+  /// The payment is still pending.
+  Pending,
+
+  /// The payment suceeded.
+  Succeeded,
+
+  /// The payment failed.
+  Failed,
+}
+
 class U8Array32 extends NonGrowableListView<int> {
   static const arraySize = 32;
   U8Array32(Uint8List inner)
@@ -237,11 +263,11 @@ class NativeImpl implements Native {
   /// Only valid on web/WASM platforms.
   factory NativeImpl.wasm(FutureOr<WasmModule> module) => NativeImpl(module as ExternalLibrary);
   NativeImpl.raw(this._platform);
-  Future<LdkLiteInstance> initBuilder({required LdkConfig config, dynamic hint}) {
+  Future<LdkNodeInstance> initBuilder({required LdkConfig config, dynamic hint}) {
     var arg0 = _platform.api2wire_box_autoadd_ldk_config(config);
     return _platform.executeNormal(FlutterRustBridgeTask(
       callFfi: (port_) => _platform.inner.wire_init_builder(port_, arg0),
-      parseSuccessData: _wire2api_LdkLiteInstance,
+      parseSuccessData: _wire2api_LdkNodeInstance,
       constMeta: kInitBuilderConstMeta,
       argValues: [config],
       hint: hint,
@@ -253,125 +279,141 @@ class NativeImpl implements Native {
         argNames: ["config"],
       );
 
-  Future<String> start({required LdkLiteInstance ldkLiteInstance, dynamic hint}) {
-    var arg0 = _platform.api2wire_LdkLiteInstance(ldkLiteInstance);
+  Future<String> start({required LdkNodeInstance ldkNode, dynamic hint}) {
+    var arg0 = _platform.api2wire_LdkNodeInstance(ldkNode);
     return _platform.executeNormal(FlutterRustBridgeTask(
       callFfi: (port_) => _platform.inner.wire_start(port_, arg0),
       parseSuccessData: _wire2api_String,
       constMeta: kStartConstMeta,
-      argValues: [ldkLiteInstance],
+      argValues: [ldkNode],
       hint: hint,
     ));
   }
 
   FlutterRustBridgeTaskConstMeta get kStartConstMeta => const FlutterRustBridgeTaskConstMeta(
         debugName: "start",
-        argNames: ["ldkLiteInstance"],
+        argNames: ["ldkNode"],
       );
 
-  Future<Balance> getBalance({required LdkLiteInstance ldkLiteInstance, dynamic hint}) {
-    var arg0 = _platform.api2wire_LdkLiteInstance(ldkLiteInstance);
+  Future<Balance> getBalance({required LdkNodeInstance ldkNode, dynamic hint}) {
+    var arg0 = _platform.api2wire_LdkNodeInstance(ldkNode);
     return _platform.executeNormal(FlutterRustBridgeTask(
       callFfi: (port_) => _platform.inner.wire_get_balance(port_, arg0),
       parseSuccessData: _wire2api_balance,
       constMeta: kGetBalanceConstMeta,
-      argValues: [ldkLiteInstance],
+      argValues: [ldkNode],
       hint: hint,
     ));
   }
 
   FlutterRustBridgeTaskConstMeta get kGetBalanceConstMeta => const FlutterRustBridgeTaskConstMeta(
         debugName: "get_balance",
-        argNames: ["ldkLiteInstance"],
+        argNames: ["ldkNode"],
       );
 
-  Future<String> newFundingAddress({required LdkLiteInstance ldkLiteInstance, dynamic hint}) {
-    var arg0 = _platform.api2wire_LdkLiteInstance(ldkLiteInstance);
+  Future<String> newFundingAddress({required LdkNodeInstance ldkNode, dynamic hint}) {
+    var arg0 = _platform.api2wire_LdkNodeInstance(ldkNode);
     return _platform.executeNormal(FlutterRustBridgeTask(
       callFfi: (port_) => _platform.inner.wire_new_funding_address(port_, arg0),
       parseSuccessData: _wire2api_String,
       constMeta: kNewFundingAddressConstMeta,
-      argValues: [ldkLiteInstance],
+      argValues: [ldkNode],
       hint: hint,
     ));
   }
 
   FlutterRustBridgeTaskConstMeta get kNewFundingAddressConstMeta => const FlutterRustBridgeTaskConstMeta(
         debugName: "new_funding_address",
-        argNames: ["ldkLiteInstance"],
+        argNames: ["ldkNode"],
       );
 
-  Future<void> sync({required LdkLiteInstance ldkLiteInstance, dynamic hint}) {
-    var arg0 = _platform.api2wire_LdkLiteInstance(ldkLiteInstance);
+  Future<void> sync({required LdkNodeInstance ldkNode, dynamic hint}) {
+    var arg0 = _platform.api2wire_LdkNodeInstance(ldkNode);
     return _platform.executeNormal(FlutterRustBridgeTask(
       callFfi: (port_) => _platform.inner.wire_sync(port_, arg0),
       parseSuccessData: _wire2api_unit,
       constMeta: kSyncConstMeta,
-      argValues: [ldkLiteInstance],
+      argValues: [ldkNode],
       hint: hint,
     ));
   }
 
   FlutterRustBridgeTaskConstMeta get kSyncConstMeta => const FlutterRustBridgeTaskConstMeta(
         debugName: "sync",
-        argNames: ["ldkLiteInstance"],
+        argNames: ["ldkNode"],
       );
 
-  Future<String> getNodeAddr({required LdkLiteInstance ldkLiteInstance, dynamic hint}) {
-    var arg0 = _platform.api2wire_LdkLiteInstance(ldkLiteInstance);
+  Future<String> getNodeAddr({required LdkNodeInstance ldkNode, dynamic hint}) {
+    var arg0 = _platform.api2wire_LdkNodeInstance(ldkNode);
     return _platform.executeNormal(FlutterRustBridgeTask(
       callFfi: (port_) => _platform.inner.wire_get_node_addr(port_, arg0),
       parseSuccessData: _wire2api_String,
       constMeta: kGetNodeAddrConstMeta,
-      argValues: [ldkLiteInstance],
+      argValues: [ldkNode],
       hint: hint,
     ));
   }
 
   FlutterRustBridgeTaskConstMeta get kGetNodeAddrConstMeta => const FlutterRustBridgeTaskConstMeta(
         debugName: "get_node_addr",
-        argNames: ["ldkLiteInstance"],
+        argNames: ["ldkNode"],
       );
 
-  Future<void> nextEvent({required LdkLiteInstance ldkLiteInstance, dynamic hint}) {
-    var arg0 = _platform.api2wire_LdkLiteInstance(ldkLiteInstance);
+  Future<void> nextEvent({required LdkNodeInstance ldkNode, dynamic hint}) {
+    var arg0 = _platform.api2wire_LdkNodeInstance(ldkNode);
     return _platform.executeNormal(FlutterRustBridgeTask(
       callFfi: (port_) => _platform.inner.wire_next_event(port_, arg0),
       parseSuccessData: _wire2api_unit,
       constMeta: kNextEventConstMeta,
-      argValues: [ldkLiteInstance],
+      argValues: [ldkNode],
       hint: hint,
     ));
   }
 
   FlutterRustBridgeTaskConstMeta get kNextEventConstMeta => const FlutterRustBridgeTaskConstMeta(
         debugName: "next_event",
-        argNames: ["ldkLiteInstance"],
+        argNames: ["ldkNode"],
       );
 
-  Future<void> handleEvent({required LdkLiteInstance ldkLiteInstance, dynamic hint}) {
-    var arg0 = _platform.api2wire_LdkLiteInstance(ldkLiteInstance);
+  Future<void> stop({required LdkNodeInstance ldkNode, dynamic hint}) {
+    var arg0 = _platform.api2wire_LdkNodeInstance(ldkNode);
+    return _platform.executeNormal(FlutterRustBridgeTask(
+      callFfi: (port_) => _platform.inner.wire_stop(port_, arg0),
+      parseSuccessData: _wire2api_unit,
+      constMeta: kStopConstMeta,
+      argValues: [ldkNode],
+      hint: hint,
+    ));
+  }
+
+  FlutterRustBridgeTaskConstMeta get kStopConstMeta => const FlutterRustBridgeTaskConstMeta(
+        debugName: "stop",
+        argNames: ["ldkNode"],
+      );
+
+  Future<void> handleEvent({required LdkNodeInstance ldkNode, dynamic hint}) {
+    var arg0 = _platform.api2wire_LdkNodeInstance(ldkNode);
     return _platform.executeNormal(FlutterRustBridgeTask(
       callFfi: (port_) => _platform.inner.wire_handle_event(port_, arg0),
       parseSuccessData: _wire2api_unit,
       constMeta: kHandleEventConstMeta,
-      argValues: [ldkLiteInstance],
+      argValues: [ldkNode],
       hint: hint,
     ));
   }
 
   FlutterRustBridgeTaskConstMeta get kHandleEventConstMeta => const FlutterRustBridgeTaskConstMeta(
         debugName: "handle_event",
-        argNames: ["ldkLiteInstance"],
+        argNames: ["ldkNode"],
       );
 
   Future<String> receivePayment(
-      {required LdkLiteInstance ldkLiteInstance,
+      {required LdkNodeInstance ldkNode,
       int? amountMsat,
       required String description,
       required int expirySecs,
       dynamic hint}) {
-    var arg0 = _platform.api2wire_LdkLiteInstance(ldkLiteInstance);
+    var arg0 = _platform.api2wire_LdkNodeInstance(ldkNode);
     var arg1 = _platform.api2wire_opt_box_autoadd_u64(amountMsat);
     var arg2 = _platform.api2wire_String(description);
     var arg3 = api2wire_u32(expirySecs);
@@ -379,72 +421,108 @@ class NativeImpl implements Native {
       callFfi: (port_) => _platform.inner.wire_receive_payment(port_, arg0, arg1, arg2, arg3),
       parseSuccessData: _wire2api_String,
       constMeta: kReceivePaymentConstMeta,
-      argValues: [ldkLiteInstance, amountMsat, description, expirySecs],
+      argValues: [ldkNode, amountMsat, description, expirySecs],
       hint: hint,
     ));
   }
 
   FlutterRustBridgeTaskConstMeta get kReceivePaymentConstMeta => const FlutterRustBridgeTaskConstMeta(
         debugName: "receive_payment",
-        argNames: ["ldkLiteInstance", "amountMsat", "description", "expirySecs"],
+        argNames: ["ldkNode", "amountMsat", "description", "expirySecs"],
       );
 
-  Future<NodeInfo> nodeInfo({required LdkLiteInstance ldkLiteInstance, dynamic hint}) {
-    var arg0 = _platform.api2wire_LdkLiteInstance(ldkLiteInstance);
+  Future<NodeInfo> nodeInfo({required LdkNodeInstance ldkNode, dynamic hint}) {
+    var arg0 = _platform.api2wire_LdkNodeInstance(ldkNode);
     return _platform.executeNormal(FlutterRustBridgeTask(
       callFfi: (port_) => _platform.inner.wire_node_info(port_, arg0),
       parseSuccessData: _wire2api_node_info,
       constMeta: kNodeInfoConstMeta,
-      argValues: [ldkLiteInstance],
+      argValues: [ldkNode],
       hint: hint,
     ));
   }
 
   FlutterRustBridgeTaskConstMeta get kNodeInfoConstMeta => const FlutterRustBridgeTaskConstMeta(
         debugName: "node_info",
-        argNames: ["ldkLiteInstance"],
+        argNames: ["ldkNode"],
       );
 
-  Future<String> sendPayment({required LdkLiteInstance ldkLiteInstance, required String invoice, dynamic hint}) {
-    var arg0 = _platform.api2wire_LdkLiteInstance(ldkLiteInstance);
+  Future<PaymentStatus> paymentInfo({required LdkNodeInstance ldkNode, required U8Array32 paymentHash, dynamic hint}) {
+    var arg0 = _platform.api2wire_LdkNodeInstance(ldkNode);
+    var arg1 = _platform.api2wire_u8_array_32(paymentHash);
+    return _platform.executeNormal(FlutterRustBridgeTask(
+      callFfi: (port_) => _platform.inner.wire_payment_info(port_, arg0, arg1),
+      parseSuccessData: _wire2api_payment_status,
+      constMeta: kPaymentInfoConstMeta,
+      argValues: [ldkNode, paymentHash],
+      hint: hint,
+    ));
+  }
+
+  FlutterRustBridgeTaskConstMeta get kPaymentInfoConstMeta => const FlutterRustBridgeTaskConstMeta(
+        debugName: "payment_info",
+        argNames: ["ldkNode", "paymentHash"],
+      );
+
+  Future<String> sendPayment({required LdkNodeInstance ldkNode, required String invoice, dynamic hint}) {
+    var arg0 = _platform.api2wire_LdkNodeInstance(ldkNode);
     var arg1 = _platform.api2wire_String(invoice);
     return _platform.executeNormal(FlutterRustBridgeTask(
       callFfi: (port_) => _platform.inner.wire_send_payment(port_, arg0, arg1),
       parseSuccessData: _wire2api_String,
       constMeta: kSendPaymentConstMeta,
-      argValues: [ldkLiteInstance, invoice],
+      argValues: [ldkNode, invoice],
       hint: hint,
     ));
   }
 
   FlutterRustBridgeTaskConstMeta get kSendPaymentConstMeta => const FlutterRustBridgeTaskConstMeta(
         debugName: "send_payment",
-        argNames: ["ldkLiteInstance", "invoice"],
+        argNames: ["ldkNode", "invoice"],
       );
 
-  Future<U8Array32> getChannelId({required LdkLiteInstance ldkLiteInstance, dynamic hint}) {
-    var arg0 = _platform.api2wire_LdkLiteInstance(ldkLiteInstance);
+  Future<String> sendSpontaneousPayment(
+      {required LdkNodeInstance ldkNode, required int amountMsat, required String nodeId, dynamic hint}) {
+    var arg0 = _platform.api2wire_LdkNodeInstance(ldkNode);
+    var arg1 = _platform.api2wire_u64(amountMsat);
+    var arg2 = _platform.api2wire_String(nodeId);
+    return _platform.executeNormal(FlutterRustBridgeTask(
+      callFfi: (port_) => _platform.inner.wire_send_spontaneous_payment(port_, arg0, arg1, arg2),
+      parseSuccessData: _wire2api_String,
+      constMeta: kSendSpontaneousPaymentConstMeta,
+      argValues: [ldkNode, amountMsat, nodeId],
+      hint: hint,
+    ));
+  }
+
+  FlutterRustBridgeTaskConstMeta get kSendSpontaneousPaymentConstMeta => const FlutterRustBridgeTaskConstMeta(
+        debugName: "send_spontaneous_payment",
+        argNames: ["ldkNode", "amountMsat", "nodeId"],
+      );
+
+  Future<U8Array32> getChannelId({required LdkNodeInstance ldkNode, dynamic hint}) {
+    var arg0 = _platform.api2wire_LdkNodeInstance(ldkNode);
     return _platform.executeNormal(FlutterRustBridgeTask(
       callFfi: (port_) => _platform.inner.wire_get_channel_id(port_, arg0),
       parseSuccessData: _wire2api_u8_array_32,
       constMeta: kGetChannelIdConstMeta,
-      argValues: [ldkLiteInstance],
+      argValues: [ldkNode],
       hint: hint,
     ));
   }
 
   FlutterRustBridgeTaskConstMeta get kGetChannelIdConstMeta => const FlutterRustBridgeTaskConstMeta(
         debugName: "get_channel_id",
-        argNames: ["ldkLiteInstance"],
+        argNames: ["ldkNode"],
       );
 
   Future<void> connectOpenChannel(
-      {required LdkLiteInstance ldkLite,
+      {required LdkNodeInstance ldkLite,
       required String nodePubkeyAndAddress,
       required int channelAmountSats,
       required bool announceChannel,
       dynamic hint}) {
-    var arg0 = _platform.api2wire_LdkLiteInstance(ldkLite);
+    var arg0 = _platform.api2wire_LdkNodeInstance(ldkLite);
     var arg1 = _platform.api2wire_String(nodePubkeyAndAddress);
     var arg2 = _platform.api2wire_u64(channelAmountSats);
     var arg3 = announceChannel;
@@ -463,11 +541,11 @@ class NativeImpl implements Native {
       );
 
   Future<void> closeChannel(
-      {required LdkLiteInstance ldkLite,
+      {required LdkNodeInstance ldkLite,
       required U8Array32 channelId,
       required String counterpartyNodeId,
       dynamic hint}) {
-    var arg0 = _platform.api2wire_LdkLiteInstance(ldkLite);
+    var arg0 = _platform.api2wire_LdkNodeInstance(ldkLite);
     var arg1 = _platform.api2wire_u8_array_32(channelId);
     var arg2 = _platform.api2wire_String(counterpartyNodeId);
     return _platform.executeNormal(FlutterRustBridgeTask(
@@ -514,17 +592,17 @@ class NativeImpl implements Native {
         argNames: [],
       );
 
-  DropFnType get dropOpaqueLdkLiteInstance => _platform.inner.drop_opaque_LdkLiteInstance;
-  ShareFnType get shareOpaqueLdkLiteInstance => _platform.inner.share_opaque_LdkLiteInstance;
-  OpaqueTypeFinalizer get LdkLiteInstanceFinalizer => _platform.LdkLiteInstanceFinalizer;
+  DropFnType get dropOpaqueLdkNodeInstance => _platform.inner.drop_opaque_LdkNodeInstance;
+  ShareFnType get shareOpaqueLdkNodeInstance => _platform.inner.share_opaque_LdkNodeInstance;
+  OpaqueTypeFinalizer get LdkNodeInstanceFinalizer => _platform.LdkNodeInstanceFinalizer;
 
   void dispose() {
     _platform.dispose();
   }
 // Section: wire2api
 
-  LdkLiteInstance _wire2api_LdkLiteInstance(dynamic raw) {
-    return LdkLiteInstance.fromRaw(raw[0], raw[1], this);
+  LdkNodeInstance _wire2api_LdkNodeInstance(dynamic raw) {
+    return LdkNodeInstance.fromRaw(raw[0], raw[1], this);
   }
 
   String _wire2api_String(dynamic raw) {
@@ -615,6 +693,10 @@ class NativeImpl implements Native {
     return raw == null ? null : _wire2api_box_autoadd_u64(raw);
   }
 
+  PaymentStatus _wire2api_payment_status(dynamic raw) {
+    return PaymentStatus.values[raw];
+  }
+
   int _wire2api_u64(dynamic raw) {
     return castInt(raw);
   }
@@ -671,9 +753,9 @@ class NativePlatform extends FlutterRustBridgeBase<NativeWire> {
 // Section: api2wire
 
   @protected
-  wire_LdkLiteInstance api2wire_LdkLiteInstance(LdkLiteInstance raw) {
-    final ptr = inner.new_LdkLiteInstance();
-    _api_fill_to_wire_LdkLiteInstance(raw, ptr);
+  wire_LdkNodeInstance api2wire_LdkNodeInstance(LdkNodeInstance raw) {
+    final ptr = inner.new_LdkNodeInstance();
+    _api_fill_to_wire_LdkNodeInstance(raw, ptr);
     return ptr;
   }
 
@@ -724,11 +806,11 @@ class NativePlatform extends FlutterRustBridgeBase<NativeWire> {
   }
 // Section: finalizer
 
-  late final OpaqueTypeFinalizer _LdkLiteInstanceFinalizer = OpaqueTypeFinalizer(inner._drop_opaque_LdkLiteInstancePtr);
-  OpaqueTypeFinalizer get LdkLiteInstanceFinalizer => _LdkLiteInstanceFinalizer;
+  late final OpaqueTypeFinalizer _LdkNodeInstanceFinalizer = OpaqueTypeFinalizer(inner._drop_opaque_LdkNodeInstancePtr);
+  OpaqueTypeFinalizer get LdkNodeInstanceFinalizer => _LdkNodeInstanceFinalizer;
 // Section: api_fill_to_wire
 
-  void _api_fill_to_wire_LdkLiteInstance(LdkLiteInstance apiObj, wire_LdkLiteInstance wireObj) {
+  void _api_fill_to_wire_LdkNodeInstance(LdkNodeInstance apiObj, wire_LdkNodeInstance wireObj) {
     wireObj.ptr = apiObj.shareOrMove();
   }
 
@@ -838,113 +920,127 @@ class NativeWire implements FlutterRustBridgeWireBase {
 
   void wire_start(
     int port_,
-    wire_LdkLiteInstance ldk_lite_instance,
+    wire_LdkNodeInstance ldk_node,
   ) {
     return _wire_start(
       port_,
-      ldk_lite_instance,
+      ldk_node,
     );
   }
 
   late final _wire_startPtr =
-      _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Int64, wire_LdkLiteInstance)>>('wire_start');
-  late final _wire_start = _wire_startPtr.asFunction<void Function(int, wire_LdkLiteInstance)>();
+      _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Int64, wire_LdkNodeInstance)>>('wire_start');
+  late final _wire_start = _wire_startPtr.asFunction<void Function(int, wire_LdkNodeInstance)>();
 
   void wire_get_balance(
     int port_,
-    wire_LdkLiteInstance ldk_lite_instance,
+    wire_LdkNodeInstance ldk_node,
   ) {
     return _wire_get_balance(
       port_,
-      ldk_lite_instance,
+      ldk_node,
     );
   }
 
   late final _wire_get_balancePtr =
-      _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Int64, wire_LdkLiteInstance)>>('wire_get_balance');
-  late final _wire_get_balance = _wire_get_balancePtr.asFunction<void Function(int, wire_LdkLiteInstance)>();
+      _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Int64, wire_LdkNodeInstance)>>('wire_get_balance');
+  late final _wire_get_balance = _wire_get_balancePtr.asFunction<void Function(int, wire_LdkNodeInstance)>();
 
   void wire_new_funding_address(
     int port_,
-    wire_LdkLiteInstance ldk_lite_instance,
+    wire_LdkNodeInstance ldk_node,
   ) {
     return _wire_new_funding_address(
       port_,
-      ldk_lite_instance,
+      ldk_node,
     );
   }
 
   late final _wire_new_funding_addressPtr =
-      _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Int64, wire_LdkLiteInstance)>>('wire_new_funding_address');
+      _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Int64, wire_LdkNodeInstance)>>('wire_new_funding_address');
   late final _wire_new_funding_address =
-      _wire_new_funding_addressPtr.asFunction<void Function(int, wire_LdkLiteInstance)>();
+      _wire_new_funding_addressPtr.asFunction<void Function(int, wire_LdkNodeInstance)>();
 
   void wire_sync(
     int port_,
-    wire_LdkLiteInstance ldk_lite_instance,
+    wire_LdkNodeInstance ldk_node,
   ) {
     return _wire_sync(
       port_,
-      ldk_lite_instance,
+      ldk_node,
     );
   }
 
   late final _wire_syncPtr =
-      _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Int64, wire_LdkLiteInstance)>>('wire_sync');
-  late final _wire_sync = _wire_syncPtr.asFunction<void Function(int, wire_LdkLiteInstance)>();
+      _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Int64, wire_LdkNodeInstance)>>('wire_sync');
+  late final _wire_sync = _wire_syncPtr.asFunction<void Function(int, wire_LdkNodeInstance)>();
 
   void wire_get_node_addr(
     int port_,
-    wire_LdkLiteInstance ldk_lite_instance,
+    wire_LdkNodeInstance ldk_node,
   ) {
     return _wire_get_node_addr(
       port_,
-      ldk_lite_instance,
+      ldk_node,
     );
   }
 
   late final _wire_get_node_addrPtr =
-      _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Int64, wire_LdkLiteInstance)>>('wire_get_node_addr');
-  late final _wire_get_node_addr = _wire_get_node_addrPtr.asFunction<void Function(int, wire_LdkLiteInstance)>();
+      _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Int64, wire_LdkNodeInstance)>>('wire_get_node_addr');
+  late final _wire_get_node_addr = _wire_get_node_addrPtr.asFunction<void Function(int, wire_LdkNodeInstance)>();
 
   void wire_next_event(
     int port_,
-    wire_LdkLiteInstance ldk_lite_instance,
+    wire_LdkNodeInstance ldk_node,
   ) {
     return _wire_next_event(
       port_,
-      ldk_lite_instance,
+      ldk_node,
     );
   }
 
   late final _wire_next_eventPtr =
-      _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Int64, wire_LdkLiteInstance)>>('wire_next_event');
-  late final _wire_next_event = _wire_next_eventPtr.asFunction<void Function(int, wire_LdkLiteInstance)>();
+      _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Int64, wire_LdkNodeInstance)>>('wire_next_event');
+  late final _wire_next_event = _wire_next_eventPtr.asFunction<void Function(int, wire_LdkNodeInstance)>();
+
+  void wire_stop(
+    int port_,
+    wire_LdkNodeInstance ldk_node,
+  ) {
+    return _wire_stop(
+      port_,
+      ldk_node,
+    );
+  }
+
+  late final _wire_stopPtr =
+      _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Int64, wire_LdkNodeInstance)>>('wire_stop');
+  late final _wire_stop = _wire_stopPtr.asFunction<void Function(int, wire_LdkNodeInstance)>();
 
   void wire_handle_event(
     int port_,
-    wire_LdkLiteInstance ldk_lite_instance,
+    wire_LdkNodeInstance ldk_node,
   ) {
     return _wire_handle_event(
       port_,
-      ldk_lite_instance,
+      ldk_node,
     );
   }
 
   late final _wire_handle_eventPtr =
-      _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Int64, wire_LdkLiteInstance)>>('wire_handle_event');
-  late final _wire_handle_event = _wire_handle_eventPtr.asFunction<void Function(int, wire_LdkLiteInstance)>();
+      _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Int64, wire_LdkNodeInstance)>>('wire_handle_event');
+  late final _wire_handle_event = _wire_handle_eventPtr.asFunction<void Function(int, wire_LdkNodeInstance)>();
 
   void wire_receive_payment(
     int port_,
-    wire_LdkLiteInstance ldk_lite_instance,
+    wire_LdkNodeInstance ldk_node,
     ffi.Pointer<ffi.Uint64> amount_msat,
     ffi.Pointer<wire_uint_8_list> description,
     int expiry_secs,
   ) {
     return _wire_receive_payment(
       port_,
-      ldk_lite_instance,
+      ldk_node,
       amount_msat,
       description,
       expiry_secs,
@@ -953,60 +1049,99 @@ class NativeWire implements FlutterRustBridgeWireBase {
 
   late final _wire_receive_paymentPtr = _lookup<
       ffi.NativeFunction<
-          ffi.Void Function(ffi.Int64, wire_LdkLiteInstance, ffi.Pointer<ffi.Uint64>, ffi.Pointer<wire_uint_8_list>,
+          ffi.Void Function(ffi.Int64, wire_LdkNodeInstance, ffi.Pointer<ffi.Uint64>, ffi.Pointer<wire_uint_8_list>,
               ffi.Uint32)>>('wire_receive_payment');
   late final _wire_receive_payment = _wire_receive_paymentPtr.asFunction<
-      void Function(int, wire_LdkLiteInstance, ffi.Pointer<ffi.Uint64>, ffi.Pointer<wire_uint_8_list>, int)>();
+      void Function(int, wire_LdkNodeInstance, ffi.Pointer<ffi.Uint64>, ffi.Pointer<wire_uint_8_list>, int)>();
 
   void wire_node_info(
     int port_,
-    wire_LdkLiteInstance ldk_lite_instance,
+    wire_LdkNodeInstance ldk_node,
   ) {
     return _wire_node_info(
       port_,
-      ldk_lite_instance,
+      ldk_node,
     );
   }
 
   late final _wire_node_infoPtr =
-      _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Int64, wire_LdkLiteInstance)>>('wire_node_info');
-  late final _wire_node_info = _wire_node_infoPtr.asFunction<void Function(int, wire_LdkLiteInstance)>();
+      _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Int64, wire_LdkNodeInstance)>>('wire_node_info');
+  late final _wire_node_info = _wire_node_infoPtr.asFunction<void Function(int, wire_LdkNodeInstance)>();
+
+  void wire_payment_info(
+    int port_,
+    wire_LdkNodeInstance ldk_node,
+    ffi.Pointer<wire_uint_8_list> payment_hash,
+  ) {
+    return _wire_payment_info(
+      port_,
+      ldk_node,
+      payment_hash,
+    );
+  }
+
+  late final _wire_payment_infoPtr =
+      _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Int64, wire_LdkNodeInstance, ffi.Pointer<wire_uint_8_list>)>>(
+          'wire_payment_info');
+  late final _wire_payment_info =
+      _wire_payment_infoPtr.asFunction<void Function(int, wire_LdkNodeInstance, ffi.Pointer<wire_uint_8_list>)>();
 
   void wire_send_payment(
     int port_,
-    wire_LdkLiteInstance ldk_lite_instance,
+    wire_LdkNodeInstance ldk_node,
     ffi.Pointer<wire_uint_8_list> invoice,
   ) {
     return _wire_send_payment(
       port_,
-      ldk_lite_instance,
+      ldk_node,
       invoice,
     );
   }
 
   late final _wire_send_paymentPtr =
-      _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Int64, wire_LdkLiteInstance, ffi.Pointer<wire_uint_8_list>)>>(
+      _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Int64, wire_LdkNodeInstance, ffi.Pointer<wire_uint_8_list>)>>(
           'wire_send_payment');
   late final _wire_send_payment =
-      _wire_send_paymentPtr.asFunction<void Function(int, wire_LdkLiteInstance, ffi.Pointer<wire_uint_8_list>)>();
+      _wire_send_paymentPtr.asFunction<void Function(int, wire_LdkNodeInstance, ffi.Pointer<wire_uint_8_list>)>();
+
+  void wire_send_spontaneous_payment(
+    int port_,
+    wire_LdkNodeInstance ldk_node,
+    int amount_msat,
+    ffi.Pointer<wire_uint_8_list> node_id,
+  ) {
+    return _wire_send_spontaneous_payment(
+      port_,
+      ldk_node,
+      amount_msat,
+      node_id,
+    );
+  }
+
+  late final _wire_send_spontaneous_paymentPtr = _lookup<
+      ffi.NativeFunction<
+          ffi.Void Function(ffi.Int64, wire_LdkNodeInstance, ffi.Uint64,
+              ffi.Pointer<wire_uint_8_list>)>>('wire_send_spontaneous_payment');
+  late final _wire_send_spontaneous_payment = _wire_send_spontaneous_paymentPtr
+      .asFunction<void Function(int, wire_LdkNodeInstance, int, ffi.Pointer<wire_uint_8_list>)>();
 
   void wire_get_channel_id(
     int port_,
-    wire_LdkLiteInstance ldk_lite_instance,
+    wire_LdkNodeInstance ldk_node,
   ) {
     return _wire_get_channel_id(
       port_,
-      ldk_lite_instance,
+      ldk_node,
     );
   }
 
   late final _wire_get_channel_idPtr =
-      _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Int64, wire_LdkLiteInstance)>>('wire_get_channel_id');
-  late final _wire_get_channel_id = _wire_get_channel_idPtr.asFunction<void Function(int, wire_LdkLiteInstance)>();
+      _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Int64, wire_LdkNodeInstance)>>('wire_get_channel_id');
+  late final _wire_get_channel_id = _wire_get_channel_idPtr.asFunction<void Function(int, wire_LdkNodeInstance)>();
 
   void wire_connect_open_channel(
     int port_,
-    wire_LdkLiteInstance ldk_lite,
+    wire_LdkNodeInstance ldk_lite,
     ffi.Pointer<wire_uint_8_list> node_pubkey_and_address,
     int channel_amount_sats,
     bool announce_channel,
@@ -1022,14 +1157,14 @@ class NativeWire implements FlutterRustBridgeWireBase {
 
   late final _wire_connect_open_channelPtr = _lookup<
       ffi.NativeFunction<
-          ffi.Void Function(ffi.Int64, wire_LdkLiteInstance, ffi.Pointer<wire_uint_8_list>, ffi.Uint64,
+          ffi.Void Function(ffi.Int64, wire_LdkNodeInstance, ffi.Pointer<wire_uint_8_list>, ffi.Uint64,
               ffi.Bool)>>('wire_connect_open_channel');
   late final _wire_connect_open_channel = _wire_connect_open_channelPtr
-      .asFunction<void Function(int, wire_LdkLiteInstance, ffi.Pointer<wire_uint_8_list>, int, bool)>();
+      .asFunction<void Function(int, wire_LdkNodeInstance, ffi.Pointer<wire_uint_8_list>, int, bool)>();
 
   void wire_close_channel(
     int port_,
-    wire_LdkLiteInstance ldk_lite,
+    wire_LdkNodeInstance ldk_lite,
     ffi.Pointer<wire_uint_8_list> channel_id,
     ffi.Pointer<wire_uint_8_list> counterparty_node_id,
   ) {
@@ -1043,10 +1178,10 @@ class NativeWire implements FlutterRustBridgeWireBase {
 
   late final _wire_close_channelPtr = _lookup<
       ffi.NativeFunction<
-          ffi.Void Function(ffi.Int64, wire_LdkLiteInstance, ffi.Pointer<wire_uint_8_list>,
+          ffi.Void Function(ffi.Int64, wire_LdkNodeInstance, ffi.Pointer<wire_uint_8_list>,
               ffi.Pointer<wire_uint_8_list>)>>('wire_close_channel');
   late final _wire_close_channel = _wire_close_channelPtr.asFunction<
-      void Function(int, wire_LdkLiteInstance, ffi.Pointer<wire_uint_8_list>, ffi.Pointer<wire_uint_8_list>)>();
+      void Function(int, wire_LdkNodeInstance, ffi.Pointer<wire_uint_8_list>, ffi.Pointer<wire_uint_8_list>)>();
 
   void wire_create_log_stream(
     int port_,
@@ -1071,13 +1206,13 @@ class NativeWire implements FlutterRustBridgeWireBase {
   late final _wire_rust_set_upPtr = _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Int64)>>('wire_rust_set_up');
   late final _wire_rust_set_up = _wire_rust_set_upPtr.asFunction<void Function(int)>();
 
-  wire_LdkLiteInstance new_LdkLiteInstance() {
-    return _new_LdkLiteInstance();
+  wire_LdkNodeInstance new_LdkNodeInstance() {
+    return _new_LdkNodeInstance();
   }
 
-  late final _new_LdkLiteInstancePtr =
-      _lookup<ffi.NativeFunction<wire_LdkLiteInstance Function()>>('new_LdkLiteInstance');
-  late final _new_LdkLiteInstance = _new_LdkLiteInstancePtr.asFunction<wire_LdkLiteInstance Function()>();
+  late final _new_LdkNodeInstancePtr =
+      _lookup<ffi.NativeFunction<wire_LdkNodeInstance Function()>>('new_LdkNodeInstance');
+  late final _new_LdkNodeInstance = _new_LdkNodeInstancePtr.asFunction<wire_LdkNodeInstance Function()>();
 
   ffi.Pointer<wire_LdkConfig> new_box_autoadd_ldk_config_0() {
     return _new_box_autoadd_ldk_config_0();
@@ -1112,32 +1247,32 @@ class NativeWire implements FlutterRustBridgeWireBase {
       _lookup<ffi.NativeFunction<ffi.Pointer<wire_uint_8_list> Function(ffi.Int32)>>('new_uint_8_list_0');
   late final _new_uint_8_list_0 = _new_uint_8_list_0Ptr.asFunction<ffi.Pointer<wire_uint_8_list> Function(int)>();
 
-  void drop_opaque_LdkLiteInstance(
+  void drop_opaque_LdkNodeInstance(
     ffi.Pointer<ffi.Void> ptr,
   ) {
-    return _drop_opaque_LdkLiteInstance(
+    return _drop_opaque_LdkNodeInstance(
       ptr,
     );
   }
 
-  late final _drop_opaque_LdkLiteInstancePtr =
-      _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void>)>>('drop_opaque_LdkLiteInstance');
-  late final _drop_opaque_LdkLiteInstance =
-      _drop_opaque_LdkLiteInstancePtr.asFunction<void Function(ffi.Pointer<ffi.Void>)>();
+  late final _drop_opaque_LdkNodeInstancePtr =
+      _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void>)>>('drop_opaque_LdkNodeInstance');
+  late final _drop_opaque_LdkNodeInstance =
+      _drop_opaque_LdkNodeInstancePtr.asFunction<void Function(ffi.Pointer<ffi.Void>)>();
 
-  ffi.Pointer<ffi.Void> share_opaque_LdkLiteInstance(
+  ffi.Pointer<ffi.Void> share_opaque_LdkNodeInstance(
     ffi.Pointer<ffi.Void> ptr,
   ) {
-    return _share_opaque_LdkLiteInstance(
+    return _share_opaque_LdkNodeInstance(
       ptr,
     );
   }
 
-  late final _share_opaque_LdkLiteInstancePtr =
+  late final _share_opaque_LdkNodeInstancePtr =
       _lookup<ffi.NativeFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>>(
-          'share_opaque_LdkLiteInstance');
-  late final _share_opaque_LdkLiteInstance =
-      _share_opaque_LdkLiteInstancePtr.asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
+          'share_opaque_LdkNodeInstance');
+  late final _share_opaque_LdkNodeInstance =
+      _share_opaque_LdkNodeInstancePtr.asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
 
   void free_WireSyncReturn(
     WireSyncReturn ptr,
@@ -1175,7 +1310,7 @@ class wire_LdkConfig extends ffi.Struct {
   external int default_cltv_expiry_delta;
 }
 
-class wire_LdkLiteInstance extends ffi.Struct {
+class wire_LdkNodeInstance extends ffi.Struct {
   external ffi.Pointer<ffi.Void> ptr;
 }
 

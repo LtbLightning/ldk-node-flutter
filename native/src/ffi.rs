@@ -65,7 +65,7 @@ const BDK_CLIENT_CONCURRENCY: u8 = 8;
 const LDK_PAYMENT_RETRY_TIMEOUT: Duration = Duration::from_secs(10);
 
 #[derive(Debug, Clone)]
-/// Represents the configuration of an [`LdkLite`] instance.
+/// Represents the configuration of an [`LdkNode`] instance.
 pub struct Config {
     /// The path where the underlying LDK and BDK persist their data.
     pub storage_dir_path: String,
@@ -694,7 +694,6 @@ impl LdkLite {
         }
 
         let peer_info = PeerInfo::try_from(node_pubkey_and_address.to_string())?;
-
         let runtime = runtime_lock.as_ref().unwrap();
 
         let con_peer_info = peer_info.clone();
@@ -743,7 +742,22 @@ impl LdkLite {
             Some(user_config),
         ) {
             Ok(_) => {
-                self.peer_store.add_peer(peer_info.clone())?;
+                info!(
+                "Adding to storage",
+            );
+                info!(
+                "ip {:?}",
+                peer_info.clone().address.ip()
+            );
+                info!(
+                "port {:?}",
+                peer_info.clone().address.port()
+            );
+                info!(
+                "address {:?}",
+                peer_info.clone().pubkey
+            );
+                self.peer_store.clone().add_peer(peer_info.clone())?;
                 log_info!(
                     self.logger,
                     "Initiated channel creation with peer {}. ",
@@ -1025,6 +1039,7 @@ async fn do_connect_peer(
     logger: Arc<FilesystemLogger>,
 ) -> Result<(), Error> {
     log_info!(logger, "connecting to peer: {}@{}", pubkey, peer_addr);
+    info!("connecting to peer: {}@{}", pubkey, peer_addr);
     match lightning_net_tokio::connect_outbound(Arc::clone(&peer_manager), pubkey, peer_addr).await
     {
         Some(connection_closed_future) => {
@@ -1032,6 +1047,7 @@ async fn do_connect_peer(
             loop {
                 match futures::poll!(&mut connection_closed_future) {
                     std::task::Poll::Ready(_) => {
+                        info!("peer connection closed: {}@{}", pubkey, peer_addr);
                         log_info!(logger, "peer connection closed: {}@{}", pubkey, peer_addr);
                         return Err(Error::ConnectionFailed);
                     }
@@ -1049,6 +1065,9 @@ async fn do_connect_peer(
             }
         }
         None => {
+            info!("failed to connect to peer: {}@{}",
+                pubkey,
+                peer_addr);
             log_error!(
                 logger,
                 "failed to connect to peer: {}@{}",

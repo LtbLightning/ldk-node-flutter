@@ -19,6 +19,7 @@ use std::sync::Arc;
 
 // Section: imports
 
+use crate::ffi::PaymentStatus;
 use crate::types::Balance;
 use crate::types::ChannelInfo;
 use crate::types::LogEntry;
@@ -42,7 +43,7 @@ fn wire_init_builder_impl(port_: MessagePort, config: impl Wire2Api<LdkConfig> +
 }
 fn wire_start_impl(
     port_: MessagePort,
-    ldk_lite_instance: impl Wire2Api<RustOpaque<LdkLiteInstance>> + UnwindSafe,
+    ldk_node: impl Wire2Api<RustOpaque<LdkNodeInstance>> + UnwindSafe,
 ) {
     FLUTTER_RUST_BRIDGE_HANDLER.wrap(
         WrapInfo {
@@ -51,14 +52,14 @@ fn wire_start_impl(
             mode: FfiCallMode::Normal,
         },
         move || {
-            let api_ldk_lite_instance = ldk_lite_instance.wire2api();
-            move |task_callback| Ok(start(api_ldk_lite_instance))
+            let api_ldk_node = ldk_node.wire2api();
+            move |task_callback| Ok(start(api_ldk_node))
         },
     )
 }
 fn wire_get_balance_impl(
     port_: MessagePort,
-    ldk_lite_instance: impl Wire2Api<RustOpaque<LdkLiteInstance>> + UnwindSafe,
+    ldk_node: impl Wire2Api<RustOpaque<LdkNodeInstance>> + UnwindSafe,
 ) {
     FLUTTER_RUST_BRIDGE_HANDLER.wrap(
         WrapInfo {
@@ -67,14 +68,14 @@ fn wire_get_balance_impl(
             mode: FfiCallMode::Normal,
         },
         move || {
-            let api_ldk_lite_instance = ldk_lite_instance.wire2api();
-            move |task_callback| Ok(get_balance(api_ldk_lite_instance))
+            let api_ldk_node = ldk_node.wire2api();
+            move |task_callback| Ok(get_balance(api_ldk_node))
         },
     )
 }
 fn wire_new_funding_address_impl(
     port_: MessagePort,
-    ldk_lite_instance: impl Wire2Api<RustOpaque<LdkLiteInstance>> + UnwindSafe,
+    ldk_node: impl Wire2Api<RustOpaque<LdkNodeInstance>> + UnwindSafe,
 ) {
     FLUTTER_RUST_BRIDGE_HANDLER.wrap(
         WrapInfo {
@@ -83,14 +84,14 @@ fn wire_new_funding_address_impl(
             mode: FfiCallMode::Normal,
         },
         move || {
-            let api_ldk_lite_instance = ldk_lite_instance.wire2api();
-            move |task_callback| Ok(new_funding_address(api_ldk_lite_instance))
+            let api_ldk_node = ldk_node.wire2api();
+            move |task_callback| Ok(new_funding_address(api_ldk_node))
         },
     )
 }
 fn wire_sync_impl(
     port_: MessagePort,
-    ldk_lite_instance: impl Wire2Api<RustOpaque<LdkLiteInstance>> + UnwindSafe,
+    ldk_node: impl Wire2Api<RustOpaque<LdkNodeInstance>> + UnwindSafe,
 ) {
     FLUTTER_RUST_BRIDGE_HANDLER.wrap(
         WrapInfo {
@@ -99,14 +100,14 @@ fn wire_sync_impl(
             mode: FfiCallMode::Normal,
         },
         move || {
-            let api_ldk_lite_instance = ldk_lite_instance.wire2api();
-            move |task_callback| Ok(sync(api_ldk_lite_instance))
+            let api_ldk_node = ldk_node.wire2api();
+            move |task_callback| Ok(sync(api_ldk_node))
         },
     )
 }
 fn wire_get_node_addr_impl(
     port_: MessagePort,
-    ldk_lite_instance: impl Wire2Api<RustOpaque<LdkLiteInstance>> + UnwindSafe,
+    ldk_node: impl Wire2Api<RustOpaque<LdkNodeInstance>> + UnwindSafe,
 ) {
     FLUTTER_RUST_BRIDGE_HANDLER.wrap(
         WrapInfo {
@@ -115,14 +116,14 @@ fn wire_get_node_addr_impl(
             mode: FfiCallMode::Normal,
         },
         move || {
-            let api_ldk_lite_instance = ldk_lite_instance.wire2api();
-            move |task_callback| Ok(get_node_addr(api_ldk_lite_instance))
+            let api_ldk_node = ldk_node.wire2api();
+            move |task_callback| Ok(get_node_addr(api_ldk_node))
         },
     )
 }
 fn wire_next_event_impl(
     port_: MessagePort,
-    ldk_lite_instance: impl Wire2Api<RustOpaque<LdkLiteInstance>> + UnwindSafe,
+    ldk_node: impl Wire2Api<RustOpaque<LdkNodeInstance>> + UnwindSafe,
 ) {
     FLUTTER_RUST_BRIDGE_HANDLER.wrap(
         WrapInfo {
@@ -131,14 +132,30 @@ fn wire_next_event_impl(
             mode: FfiCallMode::Normal,
         },
         move || {
-            let api_ldk_lite_instance = ldk_lite_instance.wire2api();
-            move |task_callback| Ok(next_event(api_ldk_lite_instance))
+            let api_ldk_node = ldk_node.wire2api();
+            move |task_callback| Ok(next_event(api_ldk_node))
+        },
+    )
+}
+fn wire_stop_impl(
+    port_: MessagePort,
+    ldk_node: impl Wire2Api<RustOpaque<LdkNodeInstance>> + UnwindSafe,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap(
+        WrapInfo {
+            debug_name: "stop",
+            port: Some(port_),
+            mode: FfiCallMode::Normal,
+        },
+        move || {
+            let api_ldk_node = ldk_node.wire2api();
+            move |task_callback| Ok(stop(api_ldk_node))
         },
     )
 }
 fn wire_handle_event_impl(
     port_: MessagePort,
-    ldk_lite_instance: impl Wire2Api<RustOpaque<LdkLiteInstance>> + UnwindSafe,
+    ldk_node: impl Wire2Api<RustOpaque<LdkNodeInstance>> + UnwindSafe,
 ) {
     FLUTTER_RUST_BRIDGE_HANDLER.wrap(
         WrapInfo {
@@ -147,14 +164,14 @@ fn wire_handle_event_impl(
             mode: FfiCallMode::Normal,
         },
         move || {
-            let api_ldk_lite_instance = ldk_lite_instance.wire2api();
-            move |task_callback| Ok(handle_event(api_ldk_lite_instance))
+            let api_ldk_node = ldk_node.wire2api();
+            move |task_callback| Ok(handle_event(api_ldk_node))
         },
     )
 }
 fn wire_receive_payment_impl(
     port_: MessagePort,
-    ldk_lite_instance: impl Wire2Api<RustOpaque<LdkLiteInstance>> + UnwindSafe,
+    ldk_node: impl Wire2Api<RustOpaque<LdkNodeInstance>> + UnwindSafe,
     amount_msat: impl Wire2Api<Option<u64>> + UnwindSafe,
     description: impl Wire2Api<String> + UnwindSafe,
     expiry_secs: impl Wire2Api<u32> + UnwindSafe,
@@ -166,13 +183,13 @@ fn wire_receive_payment_impl(
             mode: FfiCallMode::Normal,
         },
         move || {
-            let api_ldk_lite_instance = ldk_lite_instance.wire2api();
+            let api_ldk_node = ldk_node.wire2api();
             let api_amount_msat = amount_msat.wire2api();
             let api_description = description.wire2api();
             let api_expiry_secs = expiry_secs.wire2api();
             move |task_callback| {
                 Ok(receive_payment(
-                    api_ldk_lite_instance,
+                    api_ldk_node,
                     api_amount_msat,
                     api_description,
                     api_expiry_secs,
@@ -183,7 +200,7 @@ fn wire_receive_payment_impl(
 }
 fn wire_node_info_impl(
     port_: MessagePort,
-    ldk_lite_instance: impl Wire2Api<RustOpaque<LdkLiteInstance>> + UnwindSafe,
+    ldk_node: impl Wire2Api<RustOpaque<LdkNodeInstance>> + UnwindSafe,
 ) {
     FLUTTER_RUST_BRIDGE_HANDLER.wrap(
         WrapInfo {
@@ -192,14 +209,32 @@ fn wire_node_info_impl(
             mode: FfiCallMode::Normal,
         },
         move || {
-            let api_ldk_lite_instance = ldk_lite_instance.wire2api();
-            move |task_callback| Ok(node_info(api_ldk_lite_instance))
+            let api_ldk_node = ldk_node.wire2api();
+            move |task_callback| Ok(node_info(api_ldk_node))
+        },
+    )
+}
+fn wire_payment_info_impl(
+    port_: MessagePort,
+    ldk_node: impl Wire2Api<RustOpaque<LdkNodeInstance>> + UnwindSafe,
+    payment_hash: impl Wire2Api<[u8; 32]> + UnwindSafe,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap(
+        WrapInfo {
+            debug_name: "payment_info",
+            port: Some(port_),
+            mode: FfiCallMode::Normal,
+        },
+        move || {
+            let api_ldk_node = ldk_node.wire2api();
+            let api_payment_hash = payment_hash.wire2api();
+            move |task_callback| Ok(payment_info(api_ldk_node, api_payment_hash))
         },
     )
 }
 fn wire_send_payment_impl(
     port_: MessagePort,
-    ldk_lite_instance: impl Wire2Api<RustOpaque<LdkLiteInstance>> + UnwindSafe,
+    ldk_node: impl Wire2Api<RustOpaque<LdkNodeInstance>> + UnwindSafe,
     invoice: impl Wire2Api<String> + UnwindSafe,
 ) {
     FLUTTER_RUST_BRIDGE_HANDLER.wrap(
@@ -209,15 +244,41 @@ fn wire_send_payment_impl(
             mode: FfiCallMode::Normal,
         },
         move || {
-            let api_ldk_lite_instance = ldk_lite_instance.wire2api();
+            let api_ldk_node = ldk_node.wire2api();
             let api_invoice = invoice.wire2api();
-            move |task_callback| Ok(send_payment(api_ldk_lite_instance, api_invoice))
+            move |task_callback| Ok(send_payment(api_ldk_node, api_invoice))
+        },
+    )
+}
+fn wire_send_spontaneous_payment_impl(
+    port_: MessagePort,
+    ldk_node: impl Wire2Api<RustOpaque<LdkNodeInstance>> + UnwindSafe,
+    amount_msat: impl Wire2Api<u64> + UnwindSafe,
+    node_id: impl Wire2Api<String> + UnwindSafe,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap(
+        WrapInfo {
+            debug_name: "send_spontaneous_payment",
+            port: Some(port_),
+            mode: FfiCallMode::Normal,
+        },
+        move || {
+            let api_ldk_node = ldk_node.wire2api();
+            let api_amount_msat = amount_msat.wire2api();
+            let api_node_id = node_id.wire2api();
+            move |task_callback| {
+                Ok(send_spontaneous_payment(
+                    api_ldk_node,
+                    api_amount_msat,
+                    api_node_id,
+                ))
+            }
         },
     )
 }
 fn wire_get_channel_id_impl(
     port_: MessagePort,
-    ldk_lite_instance: impl Wire2Api<RustOpaque<LdkLiteInstance>> + UnwindSafe,
+    ldk_node: impl Wire2Api<RustOpaque<LdkNodeInstance>> + UnwindSafe,
 ) {
     FLUTTER_RUST_BRIDGE_HANDLER.wrap(
         WrapInfo {
@@ -226,14 +287,14 @@ fn wire_get_channel_id_impl(
             mode: FfiCallMode::Normal,
         },
         move || {
-            let api_ldk_lite_instance = ldk_lite_instance.wire2api();
-            move |task_callback| Ok(get_channel_id(api_ldk_lite_instance))
+            let api_ldk_node = ldk_node.wire2api();
+            move |task_callback| Ok(get_channel_id(api_ldk_node))
         },
     )
 }
 fn wire_connect_open_channel_impl(
     port_: MessagePort,
-    ldk_lite: impl Wire2Api<RustOpaque<LdkLiteInstance>> + UnwindSafe,
+    ldk_lite: impl Wire2Api<RustOpaque<LdkNodeInstance>> + UnwindSafe,
     node_pubkey_and_address: impl Wire2Api<String> + UnwindSafe,
     channel_amount_sats: impl Wire2Api<u64> + UnwindSafe,
     announce_channel: impl Wire2Api<bool> + UnwindSafe,
@@ -262,7 +323,7 @@ fn wire_connect_open_channel_impl(
 }
 fn wire_close_channel_impl(
     port_: MessagePort,
-    ldk_lite: impl Wire2Api<RustOpaque<LdkLiteInstance>> + UnwindSafe,
+    ldk_lite: impl Wire2Api<RustOpaque<LdkNodeInstance>> + UnwindSafe,
     channel_id: impl Wire2Api<[u8; 32]> + UnwindSafe,
     counterparty_node_id: impl Wire2Api<String> + UnwindSafe,
 ) {
@@ -435,6 +496,17 @@ impl support::IntoDart for NodeInfo {
     }
 }
 impl support::IntoDartExceptPrimitive for NodeInfo {}
+
+impl support::IntoDart for PaymentStatus {
+    fn into_dart(self) -> support::DartAbi {
+        match self {
+            Self::Pending => 0,
+            Self::Succeeded => 1,
+            Self::Failed => 2,
+        }
+        .into_dart()
+    }
+}
 
 // Section: executor
 

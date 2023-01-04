@@ -1,7 +1,7 @@
 use crate::event::Event;
-use crate::ffi::{Builder, Config};
+use crate::ffi::{Builder, Config, PaymentStatus};
 use crate::simple_log;
-pub use crate::types::LdkLiteInstance;
+pub use crate::types::LdkNodeInstance;
 use crate::types::{Balance, LogEntry, Network, NodeInfo};
 use crate::utils::config_network;
 use bitcoin::hashes::hex::ToHex;
@@ -10,8 +10,6 @@ use flutter_rust_bridge::{RustOpaque, StreamSink};
 use log::info;
 use std::str::FromStr;
 use std::sync::Mutex;
-use lightning::ln::PaymentHash;
-use crate::error::Error;
 
 pub struct LdkConfig {
     /// The path where the underlying LDK and BDK persist their data.
@@ -39,18 +37,18 @@ impl LdkConfig {
     }
 }
 //=============Builder=========
-pub fn init_builder(config: LdkConfig) -> RustOpaque<LdkLiteInstance> {
+pub fn init_builder(config: LdkConfig) -> RustOpaque<LdkNodeInstance> {
     let lite_config = config.to_ldk_config();
     info!("{:?}", "Initializing builder");
     let node = Builder::from_config(lite_config).build();
-    RustOpaque::new(LdkLiteInstance {
+    RustOpaque::new(LdkNodeInstance {
         ldk_lite_mutex: Mutex::new(node),
     })
 }
 
-pub fn start(ldk_lite_instance: RustOpaque<LdkLiteInstance>) -> String {
+pub fn start(ldk_node: RustOpaque<LdkNodeInstance>) -> String {
     info!("{:?}", "Starting node");
-    let mut node = ldk_lite_instance.ldk_lite_mutex.lock().unwrap();
+    let mut node = ldk_node.ldk_lite_mutex.lock().unwrap();
     match node.start() {
         Ok(_) => {
             info!(
@@ -65,8 +63,8 @@ pub fn start(ldk_lite_instance: RustOpaque<LdkLiteInstance>) -> String {
     }
 }
 
-pub fn get_balance(ldk_lite_instance: RustOpaque<LdkLiteInstance>) -> Balance {
-    let mut node = ldk_lite_instance.ldk_lite_mutex.lock().unwrap();
+pub fn get_balance(ldk_node: RustOpaque<LdkNodeInstance>) -> Balance {
+    let mut node = ldk_node.ldk_lite_mutex.lock().unwrap();
     let balance = node.on_chain_balance().unwrap();
     Balance {
         total: balance.get_total().clone(),
@@ -77,8 +75,8 @@ pub fn get_balance(ldk_lite_instance: RustOpaque<LdkLiteInstance>) -> Balance {
     }
 }
 
-pub fn new_funding_address(ldk_lite_instance: RustOpaque<LdkLiteInstance>) -> String {
-    let mut node = ldk_lite_instance.ldk_lite_mutex.lock().unwrap();
+pub fn new_funding_address(ldk_node: RustOpaque<LdkNodeInstance>) -> String {
+    let mut node = ldk_node.ldk_lite_mutex.lock().unwrap();
 
     match node.new_funding_address() {
         Ok(e) => e.to_string(),
@@ -88,9 +86,9 @@ pub fn new_funding_address(ldk_lite_instance: RustOpaque<LdkLiteInstance>) -> St
     }
 }
 
-pub fn sync(ldk_lite_instance: RustOpaque<LdkLiteInstance>) {
+pub fn sync(ldk_node: RustOpaque<LdkNodeInstance>) {
     info!(" {:?}", "Syncing wallet");
-    let node = ldk_lite_instance.ldk_lite_mutex.lock().unwrap();
+    let node = ldk_node.ldk_lite_mutex.lock().unwrap();
     match node.sync_wallets() {
         Ok(_) => {
             info!(" {:?}", "Syncing completed");
@@ -100,40 +98,49 @@ pub fn sync(ldk_lite_instance: RustOpaque<LdkLiteInstance>) {
         }
     }
 }
-pub fn get_node_addr(ldk_lite_instance: RustOpaque<LdkLiteInstance>) -> String {
-    let node = ldk_lite_instance.ldk_lite_mutex.lock().unwrap();
-    let node_id = node.node_id().unwrap().to_string();
+pub fn get_node_addr(ldk_node: RustOpaque<LdkNodeInstance>) -> String {
+    let node = ldk_node.ldk_lite_mutex.lock().unwrap();
     match node.listening_address() {
         None => {
             panic!(" get_node_addr_error")
         }
         Some(e) => {
-            format!("{}@{}", node_id, e)
+           e
         }
     }
 }
-pub fn next_event(ldk_lite_instance: RustOpaque<LdkLiteInstance>) {
-    let node = ldk_lite_instance.ldk_lite_mutex.lock().unwrap();
+pub fn next_event(ldk_node: RustOpaque<LdkNodeInstance>) {
+    let node = ldk_node.ldk_lite_mutex.lock().unwrap();
     let event = node.next_event();
     info!("{:?}", event);
 }
-
-pub fn handle_event(ldk_lite_instance: RustOpaque<LdkLiteInstance>) {
-    let node = ldk_lite_instance.ldk_lite_mutex.lock().unwrap();
+pub fn stop(ldk_node: RustOpaque<LdkNodeInstance>) {
+    let mut node = ldk_node.ldk_lite_mutex.lock().unwrap();
+    match node.stop() {
+        Ok(_) => {
+            info!("{:?}", "node_stop_success");
+        }
+        Err(e) => {
+            panic!("node_stop_error :{:?}", e);
+        }
+    }
+}
+pub fn handle_event(ldk_node: RustOpaque<LdkNodeInstance>) {
+    let node = ldk_node.ldk_lite_mutex.lock().unwrap();
     node.event_handled();
     info!("{:?}", "Event handled");
 }
 
 pub fn receive_payment(
-    ldk_lite_instance: RustOpaque<LdkLiteInstance>,
+    ldk_node: RustOpaque<LdkNodeInstance>,
     amount_msat: Option<u64>,
     description: String,
     expiry_secs: u32,
 ) -> String {
-    let node = ldk_lite_instance.ldk_lite_mutex.lock().unwrap();
+    let node = ldk_node.ldk_lite_mutex.lock().unwrap();
     match node.receive_payment(amount_msat, &*description, expiry_secs) {
         Ok(e) => {
-            info!("{:?}", "Successfully created an invoice");
+            info!("{:?}", "receive_payment_successfully");
             return e.to_string();
             // return RustOpaque::new(LdkInvoice{mutex:Mutex::new(e)})
         }
@@ -142,19 +149,24 @@ pub fn receive_payment(
         }
     }
 }
-pub fn node_info(ldk_lite_instance: RustOpaque<LdkLiteInstance>)-> NodeInfo{
-    let node = ldk_lite_instance.ldk_lite_mutex.lock().unwrap();
+pub fn node_info(ldk_node: RustOpaque<LdkNodeInstance>) -> NodeInfo{
+    let node = ldk_node.ldk_lite_mutex.lock().unwrap();
     match node.node_info(){
         Ok(e) => {e}
         Err(e) => { panic!("send_payment_error :{:?}", e);}
     }
 }
-pub fn send_payment(ldk_lite_instance: RustOpaque<LdkLiteInstance>, invoice: String) -> String {
-    let node = ldk_lite_instance.ldk_lite_mutex.lock().unwrap();
+///	Query for information about the status of a specific payment.
+pub fn payment_info(ldk_node: RustOpaque<LdkNodeInstance>, payment_hash: [u8; 32]) -> PaymentStatus {
+    let node = ldk_node.ldk_lite_mutex.lock().unwrap();
+    node.payment_info(&payment_hash).unwrap().status
+}
+pub fn send_payment(ldk_node: RustOpaque<LdkNodeInstance>, invoice: String) -> String {
+    let node = ldk_node.ldk_lite_mutex.lock().unwrap();
     let inv = lightning_invoice::Invoice::from_str(&*invoice).unwrap();
     match node.send_payment(inv) {
         Ok(e) => {
-            info!("{:?}", "Successfully send payment");
+            info!("{:?}", "send_payment_success");
             return e.0.to_hex().to_string();
         }
         Err(e) => {
@@ -162,10 +174,22 @@ pub fn send_payment(ldk_lite_instance: RustOpaque<LdkLiteInstance>, invoice: Str
         }
     };
 }
-pub fn get_channel_id(ldk_lite_instance: RustOpaque<LdkLiteInstance>) -> [u8; 32] {
-    let node = ldk_lite_instance.ldk_lite_mutex.lock().unwrap();
+pub fn send_spontaneous_payment(ldk_node: RustOpaque<LdkNodeInstance>, amount_msat: u64, node_id:String) -> String {
+    let node = ldk_node.ldk_lite_mutex.lock().unwrap();
+    match node.send_spontaneous_payment(amount_msat,node_id.as_str()) {
+        Ok(e) => {
+            info!("{:?}", "send_spontaneous_payment success");
+            return e.0.to_hex().to_string();
+        }
+        Err(e) => {
+            panic!("send_payment_error :{:?}", e);
+        }
+    };
+}
+pub fn get_channel_id(ldk_node: RustOpaque<LdkNodeInstance>) -> [u8; 32] {
+    let node = ldk_node.ldk_lite_mutex.lock().unwrap();
     let channel_id = match node.next_event() {
-        ref e @ Event::ChannelReady { ref channel_id, .. } => {
+        ref _e @ Event::ChannelReady { ref channel_id, .. } => {
             node.event_handled();
             channel_id.clone()
         }
@@ -175,9 +199,8 @@ pub fn get_channel_id(ldk_lite_instance: RustOpaque<LdkLiteInstance>) -> [u8; 32
     };
     channel_id
 }
-
 pub fn connect_open_channel(
-    ldk_lite: RustOpaque<LdkLiteInstance>,
+    ldk_lite: RustOpaque<LdkNodeInstance>,
     node_pubkey_and_address: String,
     channel_amount_sats: u64,
     announce_channel: bool,
@@ -201,7 +224,7 @@ pub fn connect_open_channel(
 }
 
 pub fn close_channel(
-    ldk_lite: RustOpaque<LdkLiteInstance>,
+    ldk_lite: RustOpaque<LdkNodeInstance>,
     channel_id: [u8; 32],
     counterparty_node_id: String,
 ) {

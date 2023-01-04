@@ -2,29 +2,76 @@ import 'generated/bindings.dart';
 import 'utils/event_handler.dart';
 import 'utils/loader.dart';
 
-/// Represents the configuration of an [`LiteConfig`] instance.
+class NodeBuilder{
+  Config? config;
+  /// Creates a new builder instance with the default configuration.
+  NodeBuilder(){
+    config = Config(
+        storageDirPath: '',
+        network: Network.Testnet,
+        esploraServerUrl: 'https://blockstream.info/testnet/api',
+        listeningAddress: "0.0.0.0:9735",
+        defaultCltvExpiryDelta: 144
+    );
+    /// Sets the node StorageDirPath.
+  }
+  /// Sets the IP address and TCP port on which [`LdkNode`] will listen for incoming network connections.
+  ///
+  /// Format: `ADDR:PORT`
+  /// Default: `0.0.0.0:9735`
+  NodeBuilder.setListeningAddress(String url){
+    config!.listeningAddress = url;
+  }
+  /// Sets the Bitcoin network used.
+  ///
+  /// Default: `Network.Testnet`
+  NodeBuilder.setNetwork(Network network){
+    config!.network = network;
+  }
+  /// Sets the Esplora server URL.
+  ///
+  /// Default: `https://blockstream.info/testnet/api`
+  NodeBuilder.setEsploraServerUrl(String url ){
+  config!.esploraServerUrl = url;
+}
+  /// Sets the used storage directory path.
+
+  NodeBuilder.setStorageDirPath(String path)
+  {
+    config!.storageDirPath = path;
+  }
+  /// Creates a new builder instance from an [`Config`].
+  NodeBuilder.fromConfig(this.config);
+  Future<LdkNode> build() async{
+    await loaderApi.rustSetUp();
+    final ldkConfig = config!._toLdkConfig();
+    final res = await loaderApi.initBuilder(config: ldkConfig);
+    return LdkNode._setLdkLiteInstance(res);
+  }
+}
+/// Represents the configuration of an [`Config`] instance.
 class Config {
-  LdkConfig? _config;
-  Config(
-      {required this.storageDirPath,
-      this.esploraServerUrl,
-      required this.network,
-      this.listeningAddress,
-      this.defaultCltvExpiryDelta}) {
-    _config = LdkConfig(
+  LdkConfig _toLdkConfig(){
+    if(storageDirPath == '') throw Exception("Unable to create builder with default storageDirPath");
+    return LdkConfig(
         storageDirPath: storageDirPath,
-        esploraServerUrl:
-            esploraServerUrl ?? 'https://blockstream.info/testnet/api',
+        esploraServerUrl: esploraServerUrl,
         listeningAddress: listeningAddress,
         network: network,
-        defaultCltvExpiryDelta: defaultCltvExpiryDelta ?? 144);
+        defaultCltvExpiryDelta: defaultCltvExpiryDelta?? 144);
   }
+  Config(
+      {required this.storageDirPath,
+        required this.esploraServerUrl,
+        required this.network,
+        this.listeningAddress,
+        this.defaultCltvExpiryDelta});
 
   /// The path where the underlying LDK and BDK persist their data.
-  final String storageDirPath;
+  String storageDirPath;
 
   /// The URL of the utilized Esplora server. default 'https://blockstream.info/testnet/api'
-  String? esploraServerUrl;
+  String esploraServerUrl;
 
   /// The used Bitcoin network.
   Network network = Network.Regtest;
@@ -34,98 +81,120 @@ class Config {
 
   /// The default CLTV expiry delta to be used for payments.
   int? defaultCltvExpiryDelta;
+
 }
 
-/// A builder for a [`Node`] instance, allowing to set some configuration and module choices from
+/// A builder for a [`LdkNode`] instance, allowing to set some configuration and module choices from
 /// the get go.
-class NodeBuilder {
-  Config? _liteConfig;
-  NodeBuilder.fromConfig({required Config config}) {
-    _liteConfig = config;
-  }
-
-  Future<LdkNode> toLdkNode() async {
-    await loaderApi.rustSetUp();
-    final res = await loaderApi.initBuilder(config: _liteConfig!._config!);
-    return LdkNode._setLdkLiteInstance(res);
-  }
-}
-
 class LdkNode {
-  LdkLiteInstance? _ldkLiteInstance;
-  String? nodeId;
-  LdkNode._setLdkLiteInstance(LdkLiteInstance liteInstance) {
-    _ldkLiteInstance = liteInstance;
+  LdkNodeInstance? _ldkNode;
+  String? _ldkNodeId;
+  LdkNode._setLdkLiteInstance(LdkNodeInstance liteInstance) {
+    _ldkNode = liteInstance;
   }
+  /// Starts the necessary background tasks, such as handling events coming from user input,
+  /// LDK/BDK, and the peer-to-peer network. After this returns, the [`LdkNode`] instance can be
+  /// controlled via the provided API methods in a thread-safe manner.
   Future<LdkNode> start() async {
     LdkEventHandler(callback: loaderApi.createLogStream()).init();
-    nodeId = await loaderApi.start(ldkLiteInstance: _ldkLiteInstance!);
+    _ldkNodeId = await loaderApi.start(ldkNode: _ldkNode!);
     return this;
   }
-
-  Future<LdkNode> sync() async {
-    await loaderApi.sync(ldkLiteInstance: _ldkLiteInstance!);
-    return this;
+  /// Disconnects all peers, stops all running background tasks, and shuts down [`LdkNode`].
+  Future<void> stop() async {
+    await loaderApi.stop(ldkNode: _ldkNode!);
   }
-
-  Future<String> getNewAddress() async {
-    final id =
-        await loaderApi.newFundingAddress(ldkLiteInstance: _ldkLiteInstance!);
-    return id;
+  /// Blocks until the next event is available.
+  ///
+  /// Note: this will always return the same event until handling is confirmed
+  Future<void> nextEvent() async {
+    await loaderApi.nextEvent(ldkNode: _ldkNode!);
   }
-  Future<NodeInfo> getNodeInfo() async {
-    final info = await loaderApi.nodeInfo(ldkLiteInstance: _ldkLiteInstance!);
-    return info;
+  /// Confirm the last retrieved event handled.
+  Future<void> eventHandled() async {
+    await loaderApi.handleEvent(ldkNode: _ldkNode!);
   }
-  Future<Balance> getBalance() async {
-    final balance =
-        await loaderApi.getBalance(ldkLiteInstance: _ldkLiteInstance!);
+  /// Returns our own node id
+  String nodeId()  {
+    return _ldkNodeId!;
+  }
+  /// Returns our own listening address and port.
+  Future<String> listeningAddress() async {
+    final res = await loaderApi.getNodeAddr(ldkNode: _ldkNode!);
+    return res;
+  }
+  /// Retrieve a new on-chain/funding address.
+  Future<String> newFundingAddress() async {
+      final id =
+      await loaderApi.newFundingAddress(ldkNode: _ldkNode!);
+      return id;
+    }
+  /// Retrieve the current on-chain balance.
+  Future<Balance> onChainBalance() async {
+    final balance = await loaderApi.getBalance(ldkNode: _ldkNode!);
     return balance;
   }
-
-  Future<String> getPeerListeningAddress() async {
-    final res = await loaderApi.getNodeAddr(ldkLiteInstance: _ldkLiteInstance!);
-    return res;
+/// Sync the node wallet with the blockchain
+  Future<LdkNode> syncWallet() async {
+    await loaderApi.sync(ldkNode: _ldkNode!);
+    return this;
   }
-
-  Future<void> nextEvent() async {
-    await loaderApi.nextEvent(ldkLiteInstance: _ldkLiteInstance!);
-  }
-
-  Future<U8Array32> getChannelId() async {
-    final res =
-        await loaderApi.getChannelId(ldkLiteInstance: _ldkLiteInstance!);
-    return res;
-  }
-
-  Future<void> openChannel({
+  /// Connect to a node and open a new channel. Disconnects and re-connects are handled automatically
+  ///
+  /// Returns a temporary channel id
+  Future<void> connectOpenChannel({
     required String nodePubKeyAndAddress,
     required int channelAmountSats,
     required bool announceChannel,
   }) async {
     await loaderApi.connectOpenChannel(
-        ldkLite: _ldkLiteInstance!,
+        ldkLite: _ldkNode!,
         nodePubkeyAndAddress: nodePubKeyAndAddress,
         channelAmountSats: channelAmountSats,
         announceChannel: announceChannel);
   }
 
-  Future<String> receivePayments(
+  /// Returns a payable invoice that can be used to request and receive a payment.
+  Future<String> receivePayment(
       String description, int expirySecs, int? amount) async {
     final res = await loaderApi.receivePayment(
-        ldkLiteInstance: _ldkLiteInstance!,
+        ldkNode: _ldkNode!,
         description: description,
         expirySecs: expirySecs,
         amountMsat: amount);
     return res;
   }
-
-  Future<void> sendPayments(String invoice) async {
+  /// Send a payment given an invoice.
+  Future<void> sendPayment(String invoice) async {
     await loaderApi.sendPayment(
-        ldkLiteInstance: _ldkLiteInstance!, invoice: invoice);
+        ldkNode: _ldkNode!, invoice: invoice);
   }
+  /// Send a spontaneous, aka. "keysend", payment
+  Future<String> sendSpontaneousPayment(String nodeId, int  amountMsat) async{
+    final res =  loaderApi.sendSpontaneousPayment(
+        ldkNode: _ldkNode!,
+        amountMsat: amountMsat,
+        nodeId: nodeId);
+    return res;
+  }
+  ///	Query for information about the status of a specific payment.
+  Future<NodeInfo> getNodeInfo() async {
+    final info = await loaderApi.nodeInfo(ldkNode: _ldkNode!);
+    return info;
+  }
+//Todo Update Event handler to get the payment hash
 
+  Future<PaymentStatus> paymentInfo(U8Array32 paymentHash) async{
+    final res = await loaderApi.paymentInfo(ldkNode: _ldkNode!, paymentHash: paymentHash);
+    return res;
+  }
+  Future<U8Array32> getChannelId() async {
+    final res =
+    await loaderApi.getChannelId(ldkNode: _ldkNode!);
+    return res;
+  }
+  /// Close a previously opened channel.
   Future<void> closeChannel(U8Array32 channelId, String counterpartyNodeId) async {
-    await loaderApi.closeChannel(ldkLite: _ldkLiteInstance!, channelId: channelId, counterpartyNodeId: counterpartyNodeId);
+    await loaderApi.closeChannel(ldkLite: _ldkNode!, channelId: channelId, counterpartyNodeId: counterpartyNodeId);
   }
 }

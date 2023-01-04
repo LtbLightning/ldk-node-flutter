@@ -21,7 +21,8 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   late LdkNode aliceNode;
   late LdkNode bobNode;
-  String? nodeId;
+  String? aliceNodeId;
+  String? bobNodeId;
   int aliceBalance = 0;
   String displayText = "";
   String aliceNodePubKeyAndAddress = "";
@@ -45,6 +46,8 @@ class _MyAppState extends State<MyApp> {
     return String.fromCharCodes(
         List.generate(len, (index) => r.nextInt(33) + 89));
   }
+
+  // Helper method created, not part of ldk
   initRandomNode() async {
     final path = await getApplicationSupportDirectory();
     final randDir = generateRandomString(4);
@@ -53,17 +56,19 @@ class _MyAppState extends State<MyApp> {
     int randPort = random.nextInt(10000);
     const host = "127.0.0.1";
     final nodePubKeyAndAddress = "$host:$randPort";
-    final randConfig = await configureLiteConfig(randPath, nodePubKeyAndAddress);
-    NodeBuilder liteBuilder = NodeBuilder.fromConfig(config: randConfig);
-    aliceNode = await liteBuilder.toLdkNode();
+    final randConfig = await configureLdkConfig(randPath, nodePubKeyAndAddress);
+    NodeBuilder builder = NodeBuilder.fromConfig(randConfig);
+    aliceNode = await builder.build();
     await aliceNode.start();
     setState(() {
-      nodeId = aliceNode.nodeId!;
+      aliceNodeId = aliceNode.nodeId();
     });
   }
-  Future<Config> configureLiteConfig(
+
+  Future<Config> configureLdkConfig(
       String path, String nodePubKeyAndAddress) async {
     final  esploraUrl = Platform.isAndroid? "http://10.0.2.2:3002":"http://127.0.0.1:3002";
+
     final config = Config(
         storageDirPath: path,
         esploraServerUrl: esploraUrl,
@@ -73,25 +78,28 @@ class _MyAppState extends State<MyApp> {
   }
   initAliceNode() async {
     final path = await getApplicationSupportDirectory();
-    final aliceConfig = await configureLiteConfig(
-        "${path.path}/ldk_cache/node_.1", "0.0.0.0:3314");
-    NodeBuilder aliceBuilder = NodeBuilder.fromConfig(config: aliceConfig);
-    aliceNode = await aliceBuilder.toLdkNode();
+    final aliceConfig = await configureLdkConfig(
+        "${path.path}/ldk_cache/node_1", "0.0.0.0:3314");
+    NodeBuilder aliceBuilder = NodeBuilder.fromConfig(aliceConfig);
+    aliceNode = await aliceBuilder.build();
     await aliceNode.start();
     setState(() {
-      nodeId = aliceNode.nodeId!;
+      aliceNodeId = aliceNode.nodeId();
     });
   }
   initBobNode() async {
     final path = await getApplicationSupportDirectory();
-    final bobConfig = await configureLiteConfig("${path.path}/ldk_cache/node_.2", "0.0.0.0:7731");
-    NodeBuilder bobBuilder = NodeBuilder.fromConfig(config: bobConfig);
-    bobNode = await bobBuilder.toLdkNode();
+    final bobConfig = await configureLdkConfig("${path.path}/ldk_cache/node_2", "0.0.0.0:7731");
+    NodeBuilder bobBuilder = NodeBuilder.fromConfig(bobConfig);
+    bobNode = await bobBuilder.build();
     await bobNode.start();
+    setState(() {
+      bobNodeId = bobNode.nodeId();
+    });
   }
   getNodeBalance() async {
-    final alice = await aliceNode.getBalance();
-    final bob = await bobNode.getBalance();
+    final alice = await aliceNode.onChainBalance();
+    final bob = await bobNode.onChainBalance();
     if (kDebugMode) {
       print("alice balance: ${alice.total}");
       print("bob balance: ${bob.total}");
@@ -101,29 +109,32 @@ class _MyAppState extends State<MyApp> {
     });
   }
   aliceLdkNodeSync() async {
-    await aliceNode.sync();
+    await aliceNode.syncWallet();
   }
   getNodeInfo() async {
     final res =   await aliceNode.getNodeInfo();
-    print("======Channels========");
-    for (var e in res.channels){
-      print("channelId: ${e.channelId}");
-      print("isChannelReady: ${e.isChannelReady}");
-      print("localBalanceMsat: ${e.localBalanceMsat}");
-      print("availableBalanceForRecvMsat: ${e.availableBalanceForRecvMsat}");
-      print("isChannelReadyToSendPayments: ${e.channelCanSendPayments}");
+    if (kDebugMode) {
+      print("======Channels========");
+      for (var e in res.channels){
+        print("channelId: ${e.channelId}");
+        print("isChannelReady: ${e.isChannelReady}");
+        print("localBalanceMsat: ${e.localBalanceMsat}");
+        print("availableBalanceForRecvMsat: ${e.availableBalanceForRecvMsat}");
+        print("isChannelReadyToSendPayments: ${e.channelCanSendPayments}");
+      }
+      print("======Peers========");
+      for (var e in res.peers){
+        print("peerId: $e");
+      }
     }
-    print("======Peers========");
-    for (var e in res.peers){
-      print("peerId: $e");
-    }
+
   }
   bobLdkNodeSync() async {
-    await bobNode.sync();
+    await bobNode.syncWallet();
   }
   Future<List<String>> generateNewAddresses() async {
-    final alice = await aliceNode.getNewAddress();
-    final bob = await bobNode.getNewAddress();
+    final alice = await aliceNode.newFundingAddress();
+    final bob = await bobNode.newFundingAddress();
     if (kDebugMode) {
       print("alice address: $alice");
       print("bob address: $bob");
@@ -143,11 +154,11 @@ class _MyAppState extends State<MyApp> {
     }
   }
   getNodePubKeyAndAddress() async {
-    final alice = await aliceNode.getPeerListeningAddress();
-    final bob = await bobNode.getPeerListeningAddress();
+    final alice = await aliceNode.listeningAddress();
+    final bob = await bobNode.listeningAddress();
     setState(() {
-      aliceNodePubKeyAndAddress = alice;
-      displayText = alice;
+      aliceNodePubKeyAndAddress = "$aliceNodeId@$alice";
+      displayText = aliceNodePubKeyAndAddress;
     });
     if (kDebugMode) {
       print("alice nodePubKeyAndAddress : $alice");
@@ -155,15 +166,15 @@ class _MyAppState extends State<MyApp> {
     }
   }
   openChannel() async {
-    await bobNode.openChannel(
+    await bobNode.connectOpenChannel(
         nodePubKeyAndAddress: aliceNodePubKeyAndAddress,
         channelAmountSats: 100000,
         announceChannel: true);
   }
   //Failed to send payment due to routing failure: Failed to find a path to the given destination
   receiveAndSendPayments() async {
-    invoice = await aliceNode.receivePayments("asdf", 10000, 10000);
-    await bobNode.sendPayments(invoice);
+    invoice = await aliceNode.receivePayment("asdf", 10000, 10000);
+    await bobNode.sendPayment(invoice);
   }
   getChannelId() async {
     channelId = await aliceNode.getChannelId();
@@ -415,9 +426,9 @@ class _MyAppState extends State<MyApp> {
                       )),
                   const Spacer(),
                   Text(
-                    nodeId == null
+                    aliceNodeId == null
                         ? "Node not initialized"
-                        : "@Id_:${nodeId.toString()}",
+                        : "@Id_:${aliceNodeId.toString()}",
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                     textAlign: TextAlign.center,

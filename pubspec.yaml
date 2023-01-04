@@ -13,6 +13,7 @@ dependencies:
   flutter:
     sdk: flutter
   flutter_rust_bridge: ^1.58.2
+  path_provider: ^2.0.11
   freezed: ^2.3.0
   freezed_annotation: ^2.2.0
 

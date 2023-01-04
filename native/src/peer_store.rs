@@ -8,6 +8,7 @@ use crate::hex_utils;
 use std::convert::TryFrom;
 use std::net::{IpAddr, SocketAddr, ToSocketAddrs};
 use std::sync::{Arc, RwLock};
+use log::info;
 
 /// The peer information will be persisted under this key.
 pub(crate) const PEER_INFO_PERSISTENCE_KEY: &str = "peers";
@@ -28,7 +29,9 @@ impl<K: KVStorePersister> PeerInfoStorage<K> {
 
         // Check if we have the peer. If so, either update it or do nothing.
         for stored_info in locked_peers.0.iter_mut() {
+            info!("{:?}", "Check if we have the peer.");
             if stored_info.pubkey == peer_info.pubkey {
+                info!("Peer exists{:?}", peer_info.pubkey);
                 if stored_info.address != peer_info.address {
                     stored_info.address = peer_info.address;
                 }

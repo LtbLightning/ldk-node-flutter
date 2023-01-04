@@ -1,6 +1,7 @@
 use std::fmt;
 
 #[derive(Debug)]
+#[allow(dead_code)]
 /// An error that possibly needs to be handled by the user.
 pub enum Error {
     /// Returned when trying to start LdkLite while it is already running.

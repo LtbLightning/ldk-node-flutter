@@ -1,8 +1,7 @@
 use crate::ffi::LdkLite;
 use std::sync::Mutex;
 
-// use external_lib::Invoice;
-pub struct LdkLiteInstance {
+pub struct LdkNodeInstance {
     pub ldk_lite_mutex: Mutex<LdkLite>,
 }
 
