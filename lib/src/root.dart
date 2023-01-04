@@ -19,8 +19,8 @@ class NodeBuilder{
   ///
   /// Format: `ADDR:PORT`
   /// Default: `0.0.0.0:9735`
-  NodeBuilder.setListeningAddress(String url){
-    config!.listeningAddress = url;
+  NodeBuilder.setListeningAddress(String listeningAddress){
+    config!.listeningAddress = listeningAddress;
   }
   /// Sets the Bitcoin network used.
   ///
@@ -31,14 +31,14 @@ class NodeBuilder{
   /// Sets the Esplora server URL.
   ///
   /// Default: `https://blockstream.info/testnet/api`
-  NodeBuilder.setEsploraServerUrl(String url ){
-  config!.esploraServerUrl = url;
-}
+  NodeBuilder.setEsploraServerUrl(String esploraServerUrl){
+    config!.esploraServerUrl = esploraServerUrl;
+  }
   /// Sets the used storage directory path.
 
-  NodeBuilder.setStorageDirPath(String path)
+  NodeBuilder.setStorageDirPath(String storageDirPath)
   {
-    config!.storageDirPath = path;
+    config!.storageDirPath = storageDirPath;
   }
   /// Creates a new builder instance from an [`Config`].
   NodeBuilder.fromConfig(this.config);
@@ -125,20 +125,11 @@ class LdkNode {
   }
   /// Retrieve a new on-chain/funding address.
   Future<String> newFundingAddress() async {
-      final id =
-      await loaderApi.newFundingAddress(ldkNode: _ldkNode!);
-      return id;
-    }
-  /// Retrieve the current on-chain balance.
-  Future<Balance> onChainBalance() async {
-    final balance = await loaderApi.getBalance(ldkNode: _ldkNode!);
-    return balance;
+    final id =
+    await loaderApi.newFundingAddress(ldkNode: _ldkNode!);
+    return id;
   }
-/// Sync the node wallet with the blockchain
-  Future<LdkNode> syncWallet() async {
-    await loaderApi.sync(ldkNode: _ldkNode!);
-    return this;
-  }
+
   /// Connect to a node and open a new channel. Disconnects and re-connects are handled automatically
   ///
   /// Returns a temporary channel id
@@ -165,9 +156,10 @@ class LdkNode {
     return res;
   }
   /// Send a payment given an invoice.
-  Future<void> sendPayment(String invoice) async {
-    await loaderApi.sendPayment(
+  Future<String> sendPayment(String invoice) async {
+  final res =   await loaderApi.sendPayment(
         ldkNode: _ldkNode!, invoice: invoice);
+  return res;
   }
   /// Send a spontaneous, aka. "keysend", payment
   Future<String> sendSpontaneousPayment(String nodeId, int  amountMsat) async{
@@ -177,13 +169,27 @@ class LdkNode {
         nodeId: nodeId);
     return res;
   }
+  /// Close a previously opened channel.
+  Future<void> closeChannel(U8Array32 channelId, String counterpartyNodeId) async {
+    await loaderApi.closeChannel(ldkLite: _ldkNode!, channelId: channelId, counterpartyNodeId: counterpartyNodeId);
+  }
+
+  /// Retrieve the current on-chain balance.
+  Future<Balance> onChainBalance() async {
+    final balance = await loaderApi.getBalance(ldkNode: _ldkNode!);
+    return balance;
+  }
+  /// Sync the node wallet with the blockchain
+  Future<void> syncWallet() async {
+    await loaderApi.sync(ldkNode: _ldkNode!);
+  }
+
   ///	Query for information about the status of a specific payment.
   Future<NodeInfo> getNodeInfo() async {
     final info = await loaderApi.nodeInfo(ldkNode: _ldkNode!);
     return info;
   }
 //Todo Update Event handler to get the payment hash
-
   Future<PaymentStatus> paymentInfo(U8Array32 paymentHash) async{
     final res = await loaderApi.paymentInfo(ldkNode: _ldkNode!, paymentHash: paymentHash);
     return res;
@@ -192,9 +198,5 @@ class LdkNode {
     final res =
     await loaderApi.getChannelId(ldkNode: _ldkNode!);
     return res;
-  }
-  /// Close a previously opened channel.
-  Future<void> closeChannel(U8Array32 channelId, String counterpartyNodeId) async {
-    await loaderApi.closeChannel(ldkLite: _ldkNode!, channelId: channelId, counterpartyNodeId: counterpartyNodeId);
   }
 }

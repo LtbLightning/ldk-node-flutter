@@ -570,6 +570,7 @@ impl LdkLite {
                     .filter(|id| !pm_peers.contains(id))
                 {
                     for peer_info in connect_peer_store.peers() {
+                        info!("address: {:?}, ip: {:?}, port: {:?}",peer_info.clone().pubkey, peer_info.clone().address.ip(), peer_info.clone().address.port());
                         if peer_info.pubkey == node_id {
                             let _ = do_connect_peer(
                                 peer_info.pubkey,
@@ -693,7 +694,7 @@ impl LdkLite {
             return Err(Error::NotRunning);
         }
 
-        let peer_info = PeerInfo::try_from(node_pubkey_and_address.to_string())?;
+        let peer_info = PeerInfo::try_from(node_pubkey_and_address.to_string().clone())?;
         let runtime = runtime_lock.as_ref().unwrap();
 
         let con_peer_info = peer_info.clone();
@@ -742,21 +743,6 @@ impl LdkLite {
             Some(user_config),
         ) {
             Ok(_) => {
-                info!(
-                "Adding to storage",
-            );
-                info!(
-                "ip {:?}",
-                peer_info.clone().address.ip()
-            );
-                info!(
-                "port {:?}",
-                peer_info.clone().address.port()
-            );
-                info!(
-                "address {:?}",
-                peer_info.clone().pubkey
-            );
                 self.peer_store.clone().add_peer(peer_info.clone())?;
                 log_info!(
                     self.logger,

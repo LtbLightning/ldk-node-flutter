@@ -84,7 +84,9 @@ class _MyAppState extends State<MyApp> {
     aliceNode = await aliceBuilder.build();
     await aliceNode.start();
     setState(() {
+
       aliceNodeId = aliceNode.nodeId();
+      displayText = "$aliceNodeId started successfully";
     });
   }
   initBobNode() async {
@@ -95,6 +97,7 @@ class _MyAppState extends State<MyApp> {
     await bobNode.start();
     setState(() {
       bobNodeId = bobNode.nodeId();
+      displayText = "$bobNodeId started successfully";
     });
   }
   getNodeBalance() async {
@@ -110,12 +113,17 @@ class _MyAppState extends State<MyApp> {
   }
   aliceLdkNodeSync() async {
     await aliceNode.syncWallet();
+    setState(() {
+      displayText = "aliceNode Sync Complete";
+    });
   }
   getNodeInfo() async {
-    final res =   await aliceNode.getNodeInfo();
+
+    final res =  await bobNode.getNodeInfo();
     if (kDebugMode) {
       print("======Channels========");
       for (var e in res.channels){
+
         print("channelId: ${e.channelId}");
         print("isChannelReady: ${e.isChannelReady}");
         print("localBalanceMsat: ${e.localBalanceMsat}");
@@ -131,6 +139,9 @@ class _MyAppState extends State<MyApp> {
   }
   bobLdkNodeSync() async {
     await bobNode.syncWallet();
+    setState(() {
+      displayText = "bobNode Sync Complete";
+    });
   }
   Future<List<String>> generateNewAddresses() async {
     final alice = await aliceNode.newFundingAddress();
@@ -174,13 +185,20 @@ class _MyAppState extends State<MyApp> {
   //Failed to send payment due to routing failure: Failed to find a path to the given destination
   receiveAndSendPayments() async {
     invoice = await aliceNode.receivePayment("asdf", 10000, 10000);
-    await bobNode.sendPayment(invoice);
+   final res =  await bobNode.sendPayment(invoice);
+    setState(() {
+      displayText ="send payment success $res";
+    });
   }
+
   getChannelId() async {
     channelId = await aliceNode.getChannelId();
     if (kDebugMode) {
       print(channelId.toString());
     }
+    setState(() {
+      displayText = channelId.toString();
+    });
   }
   nextEvent() async {
     await bobNode.nextEvent();

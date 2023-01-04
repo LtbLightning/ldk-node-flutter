@@ -25,13 +25,14 @@ impl<K: KVStorePersister> PeerInfoStorage<K> {
     }
 
     pub(crate) fn add_peer(&self, peer_info: PeerInfo) -> Result<(), Error> {
-        let mut locked_peers = self.peers.write().unwrap();
-
+        let mut  locked_peers = self.peers.write().unwrap();
         // Check if we have the peer. If so, either update it or do nothing.
+          info!(
+                "address: {:?}, ip: {:?}, port: {:?}",
+                peer_info.clone().pubkey, peer_info.clone().address.ip(), peer_info.clone().address.port()
+            );
         for stored_info in locked_peers.0.iter_mut() {
-            info!("{:?}", "Check if we have the peer.");
             if stored_info.pubkey == peer_info.pubkey {
-                info!("Peer exists{:?}", peer_info.pubkey);
                 if stored_info.address != peer_info.address {
                     stored_info.address = peer_info.address;
                 }
@@ -76,7 +77,7 @@ impl<K: KVStorePersister> ReadableArgs<Arc<K>> for PeerInfoStorage<K> {
 }
 
 #[derive(Clone, Debug, PartialEq, Eq)]
-pub(crate) struct PeerInfoStorageSerWrapper(Vec<PeerInfo>);
+ pub(crate) struct PeerInfoStorageSerWrapper(Vec<PeerInfo>);
 
 impl Readable for PeerInfoStorageSerWrapper {
     fn read<R: lightning::io::Read>(
