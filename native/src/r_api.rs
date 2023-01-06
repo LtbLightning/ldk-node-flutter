@@ -1,6 +1,5 @@
-use crate::event::Event;
 use crate::ffi::{Builder, Config, PaymentStatus};
-use crate::simple_log;
+use crate::{hex_utils, simple_log};
 pub use crate::types::LdkNodeInstance;
 use crate::types::{Balance, LogEntry, Network, NodeInfo};
 use crate::utils::config_network;
@@ -186,19 +185,7 @@ pub fn send_spontaneous_payment(ldk_node: RustOpaque<LdkNodeInstance>, amount_ms
         }
     };
 }
-pub fn get_channel_id(ldk_node: RustOpaque<LdkNodeInstance>) -> [u8; 32] {
-    let node = ldk_node.ldk_lite_mutex.lock().unwrap();
-    let channel_id = match node.next_event() {
-        ref _e @ Event::ChannelReady { ref channel_id, .. } => {
-            node.event_handled();
-            channel_id.clone()
-        }
-        ref e => {
-            panic!("{} got unexpected event!: {:?}", stringify!(node), e);
-        }
-    };
-    channel_id
-}
+
 pub fn connect_open_channel(
     ldk_lite: RustOpaque<LdkNodeInstance>,
     node_pubkey_and_address: String,
@@ -225,12 +212,15 @@ pub fn connect_open_channel(
 
 pub fn close_channel(
     ldk_lite: RustOpaque<LdkNodeInstance>,
-    channel_id: [u8; 32],
+    channel_id: String,
     counterparty_node_id: String,
 ) {
+    let channel_id_vec = hex_utils::to_vec(channel_id.as_str());
+    let mut channel_id_u8 = [0; 32];
+    channel_id_u8.copy_from_slice(&channel_id_vec.unwrap());
     let node = ldk_lite.ldk_lite_mutex.lock().unwrap();
     let pub_key = PublicKey::from_str(&*counterparty_node_id).unwrap();
-    match node.close_channel(&channel_id, &pub_key) {
+    match node.close_channel(&channel_id_u8, &pub_key) {
         Ok(_) => {
             info!("{:?}", "Successfully closed the channel");
         }

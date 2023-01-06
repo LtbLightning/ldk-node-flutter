@@ -77,8 +77,6 @@ void wire_send_spontaneous_payment(int64_t port_,
                                    uint64_t amount_msat,
                                    struct wire_uint_8_list *node_id);
 
-void wire_get_channel_id(int64_t port_, struct wire_LdkNodeInstance ldk_node);
-
 void wire_connect_open_channel(int64_t port_,
                                struct wire_LdkNodeInstance ldk_lite,
                                struct wire_uint_8_list *node_pubkey_and_address,
@@ -124,7 +122,6 @@ static int64_t dummy_method_to_enforce_bundling(void) {
     dummy_var ^= ((int64_t) (void*) wire_payment_info);
     dummy_var ^= ((int64_t) (void*) wire_send_payment);
     dummy_var ^= ((int64_t) (void*) wire_send_spontaneous_payment);
-    dummy_var ^= ((int64_t) (void*) wire_get_channel_id);
     dummy_var ^= ((int64_t) (void*) wire_connect_open_channel);
     dummy_var ^= ((int64_t) (void*) wire_close_channel);
     dummy_var ^= ((int64_t) (void*) wire_create_log_stream);

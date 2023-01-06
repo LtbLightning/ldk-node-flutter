@@ -91,11 +91,6 @@ pub extern "C" fn wire_send_spontaneous_payment(
 }
 
 #[no_mangle]
-pub extern "C" fn wire_get_channel_id(port_: i64, ldk_node: wire_LdkNodeInstance) {
-    wire_get_channel_id_impl(port_, ldk_node)
-}
-
-#[no_mangle]
 pub extern "C" fn wire_connect_open_channel(
     port_: i64,
     ldk_lite: wire_LdkNodeInstance,

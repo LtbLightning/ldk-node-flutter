@@ -276,22 +276,6 @@ fn wire_send_spontaneous_payment_impl(
         },
     )
 }
-fn wire_get_channel_id_impl(
-    port_: MessagePort,
-    ldk_node: impl Wire2Api<RustOpaque<LdkNodeInstance>> + UnwindSafe,
-) {
-    FLUTTER_RUST_BRIDGE_HANDLER.wrap(
-        WrapInfo {
-            debug_name: "get_channel_id",
-            port: Some(port_),
-            mode: FfiCallMode::Normal,
-        },
-        move || {
-            let api_ldk_node = ldk_node.wire2api();
-            move |task_callback| Ok(get_channel_id(api_ldk_node))
-        },
-    )
-}
 fn wire_connect_open_channel_impl(
     port_: MessagePort,
     ldk_lite: impl Wire2Api<RustOpaque<LdkNodeInstance>> + UnwindSafe,
@@ -324,7 +308,7 @@ fn wire_connect_open_channel_impl(
 fn wire_close_channel_impl(
     port_: MessagePort,
     ldk_lite: impl Wire2Api<RustOpaque<LdkNodeInstance>> + UnwindSafe,
-    channel_id: impl Wire2Api<[u8; 32]> + UnwindSafe,
+    channel_id: impl Wire2Api<String> + UnwindSafe,
     counterparty_node_id: impl Wire2Api<String> + UnwindSafe,
 ) {
     FLUTTER_RUST_BRIDGE_HANDLER.wrap(

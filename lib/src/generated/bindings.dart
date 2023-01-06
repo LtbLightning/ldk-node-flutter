@@ -76,10 +76,6 @@ abstract class Native {
 
   FlutterRustBridgeTaskConstMeta get kSendSpontaneousPaymentConstMeta;
 
-  Future<U8Array32> getChannelId({required LdkNodeInstance ldkNode, dynamic hint});
-
-  FlutterRustBridgeTaskConstMeta get kGetChannelIdConstMeta;
-
   Future<void> connectOpenChannel(
       {required LdkNodeInstance ldkLite,
       required String nodePubkeyAndAddress,
@@ -90,10 +86,7 @@ abstract class Native {
   FlutterRustBridgeTaskConstMeta get kConnectOpenChannelConstMeta;
 
   Future<void> closeChannel(
-      {required LdkNodeInstance ldkLite,
-      required U8Array32 channelId,
-      required String counterpartyNodeId,
-      dynamic hint});
+      {required LdkNodeInstance ldkLite, required String channelId, required String counterpartyNodeId, dynamic hint});
 
   FlutterRustBridgeTaskConstMeta get kCloseChannelConstMeta;
 
@@ -500,22 +493,6 @@ class NativeImpl implements Native {
         argNames: ["ldkNode", "amountMsat", "nodeId"],
       );
 
-  Future<U8Array32> getChannelId({required LdkNodeInstance ldkNode, dynamic hint}) {
-    var arg0 = _platform.api2wire_LdkNodeInstance(ldkNode);
-    return _platform.executeNormal(FlutterRustBridgeTask(
-      callFfi: (port_) => _platform.inner.wire_get_channel_id(port_, arg0),
-      parseSuccessData: _wire2api_u8_array_32,
-      constMeta: kGetChannelIdConstMeta,
-      argValues: [ldkNode],
-      hint: hint,
-    ));
-  }
-
-  FlutterRustBridgeTaskConstMeta get kGetChannelIdConstMeta => const FlutterRustBridgeTaskConstMeta(
-        debugName: "get_channel_id",
-        argNames: ["ldkNode"],
-      );
-
   Future<void> connectOpenChannel(
       {required LdkNodeInstance ldkLite,
       required String nodePubkeyAndAddress,
@@ -541,12 +518,9 @@ class NativeImpl implements Native {
       );
 
   Future<void> closeChannel(
-      {required LdkNodeInstance ldkLite,
-      required U8Array32 channelId,
-      required String counterpartyNodeId,
-      dynamic hint}) {
+      {required LdkNodeInstance ldkLite, required String channelId, required String counterpartyNodeId, dynamic hint}) {
     var arg0 = _platform.api2wire_LdkNodeInstance(ldkLite);
-    var arg1 = _platform.api2wire_u8_array_32(channelId);
+    var arg1 = _platform.api2wire_String(channelId);
     var arg2 = _platform.api2wire_String(counterpartyNodeId);
     return _platform.executeNormal(FlutterRustBridgeTask(
       callFfi: (port_) => _platform.inner.wire_close_channel(port_, arg0, arg1, arg2),
@@ -703,10 +677,6 @@ class NativeImpl implements Native {
 
   int _wire2api_u8(dynamic raw) {
     return raw as int;
-  }
-
-  U8Array32 _wire2api_u8_array_32(dynamic raw) {
-    return U8Array32(_wire2api_uint_8_list(raw));
   }
 
   Uint8List _wire2api_uint_8_list(dynamic raw) {
@@ -1124,20 +1094,6 @@ class NativeWire implements FlutterRustBridgeWireBase {
               ffi.Pointer<wire_uint_8_list>)>>('wire_send_spontaneous_payment');
   late final _wire_send_spontaneous_payment = _wire_send_spontaneous_paymentPtr
       .asFunction<void Function(int, wire_LdkNodeInstance, int, ffi.Pointer<wire_uint_8_list>)>();
-
-  void wire_get_channel_id(
-    int port_,
-    wire_LdkNodeInstance ldk_node,
-  ) {
-    return _wire_get_channel_id(
-      port_,
-      ldk_node,
-    );
-  }
-
-  late final _wire_get_channel_idPtr =
-      _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Int64, wire_LdkNodeInstance)>>('wire_get_channel_id');
-  late final _wire_get_channel_id = _wire_get_channel_idPtr.asFunction<void Function(int, wire_LdkNodeInstance)>();
 
   void wire_connect_open_channel(
     int port_,

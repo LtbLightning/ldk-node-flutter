@@ -19,6 +19,7 @@ class NodeBuilder{
   ///
   /// Format: `ADDR:PORT`
   /// Default: `0.0.0.0:9735`
+
   NodeBuilder.setListeningAddress(String listeningAddress){
     config!.listeningAddress = listeningAddress;
   }
@@ -42,6 +43,7 @@ class NodeBuilder{
   }
   /// Creates a new builder instance from an [`Config`].
   NodeBuilder.fromConfig(this.config);
+
   Future<LdkNode> build() async{
     await loaderApi.rustSetUp();
     final ldkConfig = config!._toLdkConfig();
@@ -81,7 +83,6 @@ class Config {
 
   /// The default CLTV expiry delta to be used for payments.
   int? defaultCltvExpiryDelta;
-
 }
 
 /// A builder for a [`LdkNode`] instance, allowing to set some configuration and module choices from
@@ -92,15 +93,18 @@ class LdkNode {
   LdkNode._setLdkLiteInstance(LdkNodeInstance liteInstance) {
     _ldkNode = liteInstance;
   }
+
   /// Starts the necessary background tasks, such as handling events coming from user input,
   /// LDK/BDK, and the peer-to-peer network. After this returns, the [`LdkNode`] instance can be
   /// controlled via the provided API methods in a thread-safe manner.
+  ///
   Future<LdkNode> start() async {
     LdkEventHandler(callback: loaderApi.createLogStream()).init();
     _ldkNodeId = await loaderApi.start(ldkNode: _ldkNode!);
     return this;
   }
   /// Disconnects all peers, stops all running background tasks, and shuts down [`LdkNode`].
+  ///
   Future<void> stop() async {
     await loaderApi.stop(ldkNode: _ldkNode!);
   }
@@ -110,6 +114,7 @@ class LdkNode {
   Future<void> nextEvent() async {
     await loaderApi.nextEvent(ldkNode: _ldkNode!);
   }
+
   /// Confirm the last retrieved event handled.
   Future<void> eventHandled() async {
     await loaderApi.handleEvent(ldkNode: _ldkNode!);
@@ -169,8 +174,9 @@ class LdkNode {
         nodeId: nodeId);
     return res;
   }
+
   /// Close a previously opened channel.
-  Future<void> closeChannel(U8Array32 channelId, String counterpartyNodeId) async {
+  Future<void> closeChannel(String channelId, String counterpartyNodeId) async {
     await loaderApi.closeChannel(ldkLite: _ldkNode!, channelId: channelId, counterpartyNodeId: counterpartyNodeId);
   }
 
@@ -184,19 +190,23 @@ class LdkNode {
     await loaderApi.sync(ldkNode: _ldkNode!);
   }
 
-  ///	Query for information about the status of a specific payment.
-  Future<NodeInfo> getNodeInfo() async {
-    final info = await loaderApi.nodeInfo(ldkNode: _ldkNode!);
-    return info;
-  }
 //Todo Update Event handler to get the payment hash
   Future<PaymentStatus> paymentInfo(U8Array32 paymentHash) async{
     final res = await loaderApi.paymentInfo(ldkNode: _ldkNode!, paymentHash: paymentHash);
     return res;
   }
-  Future<U8Array32> getChannelId() async {
-    final res =
-    await loaderApi.getChannelId(ldkNode: _ldkNode!);
-    return res;
+  ///	Query for information about the status of a specific payment.
+  Future<NodeInfo> getNodeInfo() async {
+    final info = await loaderApi.nodeInfo(ldkNode: _ldkNode!);
+    return info;
   }
+  Future<List<String>> getChannelIds() async {
+    final List<String> channelIds = [];
+    final nodeInfo = await  getNodeInfo();
+    for (var e in nodeInfo.channels){
+      channelIds.add(e.channelId);
+    }
+    return channelIds;
+  }
+
 }

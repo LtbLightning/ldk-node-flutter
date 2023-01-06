@@ -3,7 +3,6 @@ import 'dart:math';
 import 'package:flutter/foundation.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter/material.dart';
-import 'package:ldk_node_example/utils/electrs.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:ldk_node/ldk_node.dart';
 
@@ -27,13 +26,13 @@ class _MyAppState extends State<MyApp> {
   String displayText = "";
   String aliceNodePubKeyAndAddress = "";
   String invoice = "";
-  U8Array32? channelId;
+  String? channelId;
   @override
   void initState() {
     initAliceNode();
     super.initState();
   }
-  Future<int> getUnusedPort(InternetAddress address) {
+  Future<int> getUnusedPort(InternetAddress? address) {
     return ServerSocket.bind(address ?? InternetAddress.anyIPv4, 0)
         .then((socket) {
       var port = socket.port;
@@ -67,8 +66,9 @@ class _MyAppState extends State<MyApp> {
 
   Future<Config> configureLdkConfig(
       String path, String nodePubKeyAndAddress) async {
+    // Please replace this url with your Electrum RPC Api url
+    // Please use 10.0.2.2, instead of 127.0.0.1, when connecting from an android emulator to connect to 127.0.0.1
     final  esploraUrl = Platform.isAndroid? "http://10.0.2.2:3002":"http://127.0.0.1:3002";
-
     final config = Config(
         storageDirPath: path,
         esploraServerUrl: esploraUrl,
@@ -77,21 +77,25 @@ class _MyAppState extends State<MyApp> {
     return config;
   }
   initAliceNode() async {
+    //Path to a directory where the application may place application support files.
     final path = await getApplicationSupportDirectory();
-    final aliceConfig = await configureLdkConfig(
-        "${path.path}/ldk_cache/node_1", "0.0.0.0:3314");
+    //Specifying node folder
+    final aliceConfig = await configureLdkConfig("${path.path}/ldk_cache/node_1", "0.0.0.0:3314");
     NodeBuilder aliceBuilder = NodeBuilder.fromConfig(aliceConfig);
     aliceNode = await aliceBuilder.build();
     await aliceNode.start();
     setState(() {
-
       aliceNodeId = aliceNode.nodeId();
       displayText = "$aliceNodeId started successfully";
     });
   }
   initBobNode() async {
+    //Path to a directory where the application may place application support files
     final path = await getApplicationSupportDirectory();
-    final bobConfig = await configureLdkConfig("${path.path}/ldk_cache/node_2", "0.0.0.0:7731");
+    //Specifying node folder
+    final bobConfig = await configureLdkConfig(
+        "${path.path}/ldk_cache/node_2",
+        "0.0.0.0:7731");
     NodeBuilder bobBuilder = NodeBuilder.fromConfig(bobConfig);
     bobNode = await bobBuilder.build();
     await bobNode.start();
@@ -118,7 +122,6 @@ class _MyAppState extends State<MyApp> {
     });
   }
   getNodeInfo() async {
-
     final res =  await bobNode.getNodeInfo();
     if (kDebugMode) {
       print("======Channels========");
@@ -155,15 +158,7 @@ class _MyAppState extends State<MyApp> {
     });
     return [alice, bob];
   }
-  mineBlocks() async {
-    final address = await getNewAddress();
-    final res = await generateToAddress(address, 5);
-    for (var e in res) {
-      if (kDebugMode) {
-        print(e);
-      }
-    }
-  }
+
   getNodePubKeyAndAddress() async {
     final alice = await aliceNode.listeningAddress();
     final bob = await bobNode.listeningAddress();
@@ -172,8 +167,8 @@ class _MyAppState extends State<MyApp> {
       displayText = aliceNodePubKeyAndAddress;
     });
     if (kDebugMode) {
-      print("alice nodePubKeyAndAddress : $alice");
-      print("bob nodePubKeyAndAddress: $bob");
+      print("alice nodeAddress : $alice");
+      print("bob nodeAddress: $bob");
     }
   }
   openChannel() async {
@@ -192,7 +187,8 @@ class _MyAppState extends State<MyApp> {
   }
 
   getChannelId() async {
-    channelId = await aliceNode.getChannelId();
+    final channelInfos = await aliceNode.getChannelIds();
+    channelId = channelInfos.first;
     if (kDebugMode) {
       print(channelId.toString());
     }
@@ -203,8 +199,12 @@ class _MyAppState extends State<MyApp> {
   nextEvent() async {
     await bobNode.nextEvent();
   }
-  closeChannel() async{
-    await bobNode.closeChannel(channelId!,  aliceNodePubKeyAndAddress);
+  closeChannel() async {
+    await bobNode.closeChannel(channelId!,  aliceNodeId!);
+  }
+  stop() async {
+    await bobNode.stop();
+    await aliceNode.stop();
   }
   @override
   Widget build(BuildContext context) {
@@ -255,214 +255,217 @@ class _MyAppState extends State<MyApp> {
                   ]),
             ),
           ),
-          body: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-            child: Center(
+          body: SingleChildScrollView(
+            child: Container(
+              padding: const EdgeInsets.only(top: 40, left: 10, right: 10),
               child: Column(
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        "$aliceBalance",
-                        style: GoogleFonts.montserrat(
-                            fontWeight: FontWeight.w900,
-                            fontSize: 40,
-                            color: Colors.blue),
-                      ),
-                      Text(
-                        " sats",
-                        style: GoogleFonts.montserrat(
-                            fontWeight: FontWeight.w900,
-                            fontSize: 20,
-                            color: Colors.blue),
-                      ),
-                    ],
-                  ),
-                  TextButton(
-                      onPressed: () async {
-                        await initBobNode();
-                      },
-                      child: Text(
-                        'Init Bob Wallet',
-                        style: GoogleFonts.nunito(
-                            color: Colors.indigoAccent,
-                            fontSize: 12,
-                            height: 1.5,
-                            fontWeight: FontWeight.w800),
-                      )),
-                  TextButton(
-                      onPressed: () async {
-                        await aliceLdkNodeSync();
-                      },
-                      child: Text(
-                        'Sync Alice Node',
-                        style: GoogleFonts.nunito(
-                            color: Colors.indigoAccent,
-                            fontSize: 12,
-                            height: 1.5,
-                            fontWeight: FontWeight.w800),
-                      )),
-                  TextButton(
-                      onPressed: () async {
-                        await bobLdkNodeSync();
-                      },
-                      child: Text(
-                        'Sync Bob Node',
-                        style: GoogleFonts.nunito(
-                            color: Colors.indigoAccent,
-                            fontSize: 12,
-                            height: 1.5,
-                            fontWeight: FontWeight.w800),
-                      )),
-                  TextButton(
-                      onPressed: () async {
-                        await getNodeInfo();
-                      },
-                      child: Text(
-                        'Get NodeInfo',
-                        overflow: TextOverflow.clip,
-                        textAlign: TextAlign.center,
-                        style: GoogleFonts.nunito(
-                            color: Colors.indigoAccent,
-                            fontSize: 12,
-                            height: 1.5,
-                            fontWeight: FontWeight.w800),
-                      )),
-
-                  TextButton(
-                      onPressed: () async {
-                        await getNodeBalance();
-                      },
-                      child: Text(
-                        'Get Balance',
-                        overflow: TextOverflow.clip,
-                        textAlign: TextAlign.center,
-                        style: GoogleFonts.nunito(
-                            color: Colors.indigoAccent,
-                            fontSize: 12,
-                            height: 1.5,
-                            fontWeight: FontWeight.w800),
-                      )),
-                  TextButton(
-                      onPressed: () async {
-                        await generateNewAddresses();
-                      },
-                      child: Text(
-                        'Get Address',
-                        style: GoogleFonts.nunito(
-                            color: Colors.indigoAccent,
-                            fontSize: 12,
-                            height: 1.5,
-                            fontWeight: FontWeight.w800),
-                      )),
-                  TextButton(
-                      onPressed: () async {
-                        await mineBlocks();
-                      },
-                      child: Text(
-                        'Mine Blocks',
-                        style: GoogleFonts.nunito(
-                            color: Colors.red,
-                            fontSize: 12,
-                            height: 1.5,
-                            fontWeight: FontWeight.w800),
-                      )),
-                  TextButton(
-                      onPressed: () async {
-                        await getNodePubKeyAndAddress();
-                      },
-                      child: Text(
-                        'Get Node PubKey & Address',
-                        style: GoogleFonts.nunito(
-                            color: Colors.indigoAccent,
-                            fontSize: 12,
-                            height: 1.5,
-                            fontWeight: FontWeight.w800),
-                      )),
-                  TextButton(
-                      onPressed: () async {
-                        await openChannel();
-                      },
-                      child: Text(
-                        'Open channel',
-                        style: GoogleFonts.nunito(
-                            color: Colors.indigoAccent,
-                            fontSize: 12,
-                            height: 1.5,
-                            fontWeight: FontWeight.w800),
-                      )),
-                  TextButton(
-                      onPressed: () async {
-                        await nextEvent();
-                      },
-                      child: Text('Next event',
+                crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          "$aliceBalance",
+                          style: GoogleFonts.montserrat(
+                              fontWeight: FontWeight.w900,
+                              fontSize: 40,
+                              color: Colors.blue),
+                        ),
+                        Text(
+                          " sats",
+                          style: GoogleFonts.montserrat(
+                              fontWeight: FontWeight.w900,
+                              fontSize: 20,
+                              color: Colors.blue),
+                        ),
+                      ],
+                    ),
+                    TextButton(
+                        onPressed: () async {
+                          await initBobNode();
+                        },
+                        child: Text(
+                          "Initialise Bob's Node",
                           style: GoogleFonts.nunito(
                               color: Colors.indigoAccent,
                               fontSize: 12,
                               height: 1.5,
-                              fontWeight: FontWeight.w800))),
-                  TextButton(
-                      onPressed: () async {
-                        await getChannelId();
-                      },
-                      child: Text(
-                        'Get ChannelId',
-                        overflow: TextOverflow.clip,
-                        textAlign: TextAlign.center,
-                        style: GoogleFonts.nunito(
-                            color: Colors.indigoAccent,
-                            fontSize: 12,
-                            height: 1.5,
-                            fontWeight: FontWeight.w800),
-                      )),
-                  TextButton(
-                      onPressed: () async {
-                        await receiveAndSendPayments();
-                      },
-                      child: Text(
-                        'Receive & Send Payment',
-                        textAlign: TextAlign.center,
-                        style: GoogleFonts.nunito(
-                            color: Colors.indigoAccent,
-                            fontSize: 12,
-                            height: 1.5,
-                            fontWeight: FontWeight.w800),
-                      )),
-                  TextButton(
-                      onPressed: () async {
-                        await closeChannel();
-                      },
-                      child: Text(
-                        'Close Channel',
-                        textAlign: TextAlign.center,
-                        style: GoogleFonts.nunito(
-                            color: Colors.indigoAccent,
-                            fontSize: 12,
-                            height: 1.5,
-                            fontWeight: FontWeight.w800),
-                      )),
-                  const Spacer(),
-                  Text(
-                    aliceNodeId == null
-                        ? "Node not initialized"
-                        : "@Id_:${aliceNodeId.toString()}",
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    textAlign: TextAlign.center,
-                    style: GoogleFonts.nunito(
-                        color: Colors.black.withOpacity(.3),
-                        fontSize: 12,
-                        height: 2,
-                        fontWeight: FontWeight.w700),
-                  ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                ],
+                              fontWeight: FontWeight.w800),
+                        )),
+                    TextButton(
+                        onPressed: () async {
+                          await aliceLdkNodeSync();
+                        },
+                        child: Text(
+                          "Sync Alice's Node",
+                          style: GoogleFonts.nunito(
+                              color: Colors.indigoAccent,
+                              fontSize: 12,
+                              height: 1.5,
+                              fontWeight: FontWeight.w800),
+                        )),
+                    TextButton(
+                        onPressed: () async {
+                          await bobLdkNodeSync();
+                        },
+                        child: Text(
+                          "Sync Bob's Node",
+                          style: GoogleFonts.nunito(
+                              color: Colors.indigoAccent,
+                              fontSize: 12,
+                              height: 1.5,
+                              fontWeight: FontWeight.w800),
+                        )),
+                    TextButton(
+                        onPressed: () async {
+                          await getNodeInfo();
+                        },
+                        child: Text(
+                          'Get Node Info',
+                          overflow: TextOverflow.clip,
+                          textAlign: TextAlign.center,
+                          style: GoogleFonts.nunito(
+                              color: Colors.indigoAccent,
+                              fontSize: 12,
+                              height: 1.5,
+                              fontWeight: FontWeight.w800),
+                        )),
+
+                    TextButton(
+                        onPressed: () async {
+                          await getNodeBalance();
+                        },
+                        child: Text(
+                          'Get Balances',
+                          overflow: TextOverflow.clip,
+                          textAlign: TextAlign.center,
+                          style: GoogleFonts.nunito(
+                              color: Colors.indigoAccent,
+                              fontSize: 12,
+                              height: 1.5,
+                              fontWeight: FontWeight.w800),
+                        )),
+                    TextButton(
+                        onPressed: () async {
+                          await generateNewAddresses();
+                        },
+                        child: Text(
+                          'Get Addresses',
+                          style: GoogleFonts.nunito(
+                              color: Colors.indigoAccent,
+                              fontSize: 12,
+                              height: 1.5,
+                              fontWeight: FontWeight.w800),
+                        )),
+
+                    TextButton(
+                        onPressed: () async {
+                          await getNodePubKeyAndAddress();
+                        },
+                        child: Text(
+                          'Get Node PubKey & Address',
+                          style: GoogleFonts.nunito(
+                              color: Colors.indigoAccent,
+                              fontSize: 12,
+                              height: 1.5,
+                              fontWeight: FontWeight.w800),
+                        )),
+                    TextButton(
+                        onPressed: () async {
+                          await openChannel();
+                        },
+                        child: Text(
+                          'Open channel',
+                          style: GoogleFonts.nunito(
+                              color: Colors.indigoAccent,
+                              fontSize: 12,
+                              height: 1.5,
+                              fontWeight: FontWeight.w800),
+                        )),
+                    TextButton(
+                        onPressed: () async {
+                          await nextEvent();
+                        },
+                        child: Text('Next event',
+                            style: GoogleFonts.nunito(
+                                color: Colors.indigoAccent,
+                                fontSize: 12,
+                                height: 1.5,
+                                fontWeight: FontWeight.w800))),
+                    TextButton(
+                        onPressed: () async {
+                          await getChannelId();
+                        },
+                        child: Text(
+                          'Get ChannelId',
+                          overflow: TextOverflow.clip,
+                          textAlign: TextAlign.center,
+                          style: GoogleFonts.nunito(
+                              color: Colors.indigoAccent,
+                              fontSize: 12,
+                              height: 1.5,
+                              fontWeight: FontWeight.w800),
+                        )),
+                    TextButton(
+                        onPressed: () async {
+                          await receiveAndSendPayments();
+                        },
+                        child: Text(
+                          'Make Invoice Payment',
+                          textAlign: TextAlign.center,
+                          style: GoogleFonts.nunito(
+                              color: Colors.indigoAccent,
+                              fontSize: 12,
+                              height: 1.5,
+                              fontWeight: FontWeight.w800),
+                        )),
+                    TextButton(
+                        onPressed: () async {
+                          await closeChannel();
+                        },
+                        child: Text(
+                          'Close Channel',
+                          textAlign: TextAlign.center,
+                          style: GoogleFonts.nunito(
+                              color: Colors.indigoAccent,
+                              fontSize: 12,
+                              height: 1.5,
+                              fontWeight: FontWeight.w800),
+                        )),
+                    TextButton(
+                        onPressed: () async {
+                          await stop();
+                        },
+                        child: Text(
+                          'Stop Nodes',
+                          textAlign: TextAlign.center,
+                          style: GoogleFonts.nunito(
+                              color: Colors.indigoAccent,
+                              fontSize: 12,
+                              height: 1.5,
+                              fontWeight: FontWeight.w800),
+                        )),
+                    const SizedBox(height: 25),
+                    Text(
+                      aliceNodeId == null
+                          ? "Node not initialized"
+                          : "@Id_:${aliceNodeId.toString()}",
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      textAlign: TextAlign.center,
+                      style: GoogleFonts.nunito(
+                          color: Colors.black.withOpacity(.3),
+                          fontSize: 12,
+                          height: 2,
+                          fontWeight: FontWeight.w700),
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                  ],
+                ),
               ),
             ),
-          ),
         ));
   }
 }

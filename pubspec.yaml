@@ -1,5 +1,5 @@
 name: ldk_node
-description: A new Flutter project.
+description: A Flutter library for Lightning Dev Kit(LDK)
 version: 0.0.1
 homepage:
 
