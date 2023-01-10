@@ -83,6 +83,7 @@ class Config {
 
   /// The default CLTV expiry delta to be used for payments.
   int? defaultCltvExpiryDelta;
+
 }
 
 /// A builder for a [`LdkNode`] instance, allowing to set some configuration and module choices from
