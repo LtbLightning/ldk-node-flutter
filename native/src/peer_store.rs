@@ -8,7 +8,6 @@ use crate::hex_utils;
 use std::convert::TryFrom;
 use std::net::{IpAddr, SocketAddr, ToSocketAddrs};
 use std::sync::{Arc, RwLock};
-use log::info;
 
 /// The peer information will be persisted under this key.
 pub(crate) const PEER_INFO_PERSISTENCE_KEY: &str = "peers";
@@ -25,17 +24,16 @@ impl<K: KVStorePersister> PeerInfoStorage<K> {
     }
 
     pub(crate) fn add_peer(&self, peer_info: String) -> Result<(), Error> {
-        let mut  locked_peers = self.peers.write().unwrap();
+        let mut locked_peers = self.peers.write().unwrap();
         // Check if we have the peer. If so, either update it or do nothing.
         for stored_info in locked_peers.0.iter_mut() {
-            info!("{:?}", "Check if we have the peer.");
             if stored_info.peer_info == peer_info {
-                info!("Peer exists{:?}", peer_info);
+                // info!("Peer exists{:?}", peer_info);
                 return Ok(());
             }
         }
 
-        locked_peers.0.push(StoragePeerInfo{peer_info});
+        locked_peers.0.push(StoragePeerInfo { peer_info });
         self.persister
             .persist(PEER_INFO_PERSISTENCE_KEY, &*locked_peers)
             .map_err(|_| Error::PersistenceFailed)?;
@@ -46,7 +44,9 @@ impl<K: KVStorePersister> PeerInfoStorage<K> {
     pub(crate) fn remove_peer(&self, peer_pubkey: &PublicKey) -> Result<(), Error> {
         let mut locked_peers = self.peers.write().unwrap();
 
-        locked_peers.0.retain(|info| !info.peer_info.contains(&peer_pubkey.to_string()) );
+        locked_peers
+            .0
+            .retain(|info| !info.peer_info.contains(&peer_pubkey.to_string()));
 
         self.persister
             .persist(PEER_INFO_PERSISTENCE_KEY, &*locked_peers)
@@ -56,12 +56,12 @@ impl<K: KVStorePersister> PeerInfoStorage<K> {
     }
 
     pub(crate) fn peers(&self) -> Vec<PeerInfo> {
-        let mut peers:Vec<PeerInfo> = Vec::new();
+        let mut peers: Vec<PeerInfo> = Vec::new();
         for stored_info in self.peers.read().unwrap().0.clone() {
             let peer_info = PeerInfo::try_from(stored_info.peer_info).unwrap();
             peers.push(peer_info);
         }
-        return  peers;
+        return peers;
     }
 }
 
@@ -76,8 +76,8 @@ impl<K: KVStorePersister> ReadableArgs<Arc<K>> for PeerInfoStorage<K> {
     }
 }
 #[derive(Clone, Debug, PartialEq, Eq)]
-struct StoragePeerInfo{
-    pub peer_info:String
+struct StoragePeerInfo {
+    pub peer_info: String,
 }
 #[derive(Clone, Debug, PartialEq, Eq)]
 // pub(crate) struct PeerInfoStorageSerWrapper(Vec<PeerInfo>);
@@ -153,7 +153,7 @@ impl Writeable for PeerInfo {
         Ok(())
     }
 }
-impl Readable for  StoragePeerInfo {
+impl Readable for StoragePeerInfo {
     fn read<R: lightning::io::Read>(
         reader: &mut R,
     ) -> Result<Self, lightning::ln::msgs::DecodeError> {
@@ -162,7 +162,7 @@ impl Readable for  StoragePeerInfo {
     }
 }
 
-impl Writeable for  StoragePeerInfo {
+impl Writeable for StoragePeerInfo {
     fn write<W: Writer>(&self, writer: &mut W) -> Result<(), lightning::io::Error> {
         self.peer_info.write(writer)?;
         Ok(())

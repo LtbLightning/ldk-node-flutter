@@ -190,6 +190,11 @@ impl Wire2Api<LdkConfig> for *mut wire_LdkConfig {
         Wire2Api::<LdkConfig>::wire2api(*wrap).into()
     }
 }
+impl Wire2Api<u64> for *mut u64 {
+    fn wire2api(self) -> u64 {
+        unsafe { *support::box_from_leak_ptr(self) }
+    }
+}
 
 impl Wire2Api<LdkConfig> for wire_LdkConfig {
     fn wire2api(self) -> LdkConfig {

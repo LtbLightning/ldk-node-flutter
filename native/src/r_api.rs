@@ -1,8 +1,8 @@
 use crate::ffi::{Builder, Config, PaymentStatus};
-use crate::{hex_utils, simple_log};
 pub use crate::types::LdkNodeInstance;
 use crate::types::{Balance, LogEntry, Network, NodeInfo};
 use crate::utils::config_network;
+use crate::{hex_utils, simple_log};
 use bitcoin::hashes::hex::ToHex;
 use bitcoin::secp256k1::PublicKey;
 use flutter_rust_bridge::{RustOpaque, StreamSink};
@@ -90,7 +90,7 @@ pub fn sync(ldk_node: RustOpaque<LdkNodeInstance>) {
     let node = ldk_node.ldk_lite_mutex.lock().unwrap();
     match node.sync_wallets() {
         Ok(_) => {
-            info!(" {:?}", "Syncing completed");
+            info!(" {:?}", "Sync completed");
         }
         Err(e) => {
             panic!("sync_wallets_error:{:?}", e)
@@ -101,17 +101,15 @@ pub fn get_node_addr(ldk_node: RustOpaque<LdkNodeInstance>) -> String {
     let node = ldk_node.ldk_lite_mutex.lock().unwrap();
     match node.listening_address() {
         None => {
-            panic!(" get_node_addr_error")
+            panic!("get_node_addr_error")
         }
-        Some(e) => {
-           e
-        }
+        Some(e) => e,
     }
 }
-pub fn next_event(ldk_node: RustOpaque<LdkNodeInstance>) {
+pub fn next_event(ldk_node: RustOpaque<LdkNodeInstance>) -> String {
     let node = ldk_node.ldk_lite_mutex.lock().unwrap();
     let event = node.next_event();
-    info!("{:?}", event);
+    serde_json::to_string_pretty(&event).unwrap()
 }
 pub fn stop(ldk_node: RustOpaque<LdkNodeInstance>) {
     let mut node = ldk_node.ldk_lite_mutex.lock().unwrap();
@@ -141,22 +139,26 @@ pub fn receive_payment(
         Ok(e) => {
             info!("{:?}", "receive_payment_successfully");
             return e.to_string();
-            // return RustOpaque::new(LdkInvoice{mutex:Mutex::new(e)})
         }
         Err(e) => {
             panic!("receive_payment_error :{:?}", e);
         }
     }
 }
-pub fn node_info(ldk_node: RustOpaque<LdkNodeInstance>) -> NodeInfo{
+pub fn node_info(ldk_node: RustOpaque<LdkNodeInstance>) -> NodeInfo {
     let node = ldk_node.ldk_lite_mutex.lock().unwrap();
-    match node.node_info(){
-        Ok(e) => {e}
-        Err(e) => { panic!("send_payment_error :{:?}", e);}
+    match node.node_info() {
+        Ok(e) => e,
+        Err(e) => {
+            panic!("send_payment_error :{:?}", e);
+        }
     }
 }
 ///	Query for information about the status of a specific payment.
-pub fn payment_info(ldk_node: RustOpaque<LdkNodeInstance>, payment_hash: [u8; 32]) -> PaymentStatus {
+pub fn payment_info(
+    ldk_node: RustOpaque<LdkNodeInstance>,
+    payment_hash: [u8; 32],
+) -> PaymentStatus {
     let node = ldk_node.ldk_lite_mutex.lock().unwrap();
     node.payment_info(&payment_hash).unwrap().status
 }
@@ -173,9 +175,13 @@ pub fn send_payment(ldk_node: RustOpaque<LdkNodeInstance>, invoice: String) -> S
         }
     };
 }
-pub fn send_spontaneous_payment(ldk_node: RustOpaque<LdkNodeInstance>, amount_msat: u64, node_id:String) -> String {
+pub fn send_spontaneous_payment(
+    ldk_node: RustOpaque<LdkNodeInstance>,
+    amount_msat: u64,
+    node_id: String,
+) -> String {
     let node = ldk_node.ldk_lite_mutex.lock().unwrap();
-    match node.send_spontaneous_payment(amount_msat,node_id.as_str()) {
+    match node.send_spontaneous_payment(amount_msat, node_id.as_str()) {
         Ok(e) => {
             info!("{:?}", "send_spontaneous_payment success");
             return e.0.to_hex().to_string();

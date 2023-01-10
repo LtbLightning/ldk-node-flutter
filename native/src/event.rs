@@ -18,8 +18,9 @@ use crate::ffi::{
 use crate::hex_utils;
 use crate::wallet::Wallet;
 use bitcoin::secp256k1::Secp256k1;
-use log::info;
 use rand::{thread_rng, Rng};
+use serde::ser::SerializeMap;
+use serde::{Serialize, Serializer};
 use std::collections::{hash_map, VecDeque};
 use std::ops::Deref;
 use std::sync::{Arc, Condvar, Mutex, RwLock};
@@ -64,6 +65,69 @@ pub enum Event {
         /// The `user_channel_id` of the channel.
         user_channel_id: u128,
     },
+}
+impl Serialize for Event {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: Serializer,
+    {
+        match *self {
+            Event::PaymentSuccessful { payment_hash } => {
+                let mut map = serializer.serialize_map(Some(1))?;
+                map.serialize_entry(
+                    "payment_hash",
+                    &hex_utils::to_string(payment_hash.0.as_slice()),
+                )
+                .unwrap();
+                map.end()
+            }
+            Event::PaymentFailed { payment_hash } => {
+                let mut map = serializer.serialize_map(Some(1))?;
+                map.serialize_entry(
+                    "payment_hash",
+                    &hex_utils::to_string(payment_hash.0.as_slice()),
+                )
+                .unwrap();
+                map.end()
+            }
+            Event::PaymentReceived {
+                payment_hash,
+                amount_msat,
+            } => {
+                let mut map = serializer.serialize_map(Some(2))?;
+                map.serialize_entry(
+                    "payment_hash",
+                    &hex_utils::to_string(payment_hash.0.as_slice()),
+                )
+                .unwrap();
+                map.serialize_entry("amount_msat", &amount_msat.to_string())
+                    .unwrap();
+                map.end()
+            }
+            Event::ChannelReady {
+                channel_id,
+                user_channel_id,
+            } => {
+                let mut map = serializer.serialize_map(Some(2))?;
+                map.serialize_entry("channel_id", &hex_utils::to_string(channel_id.as_slice()))
+                    .unwrap();
+                map.serialize_entry("amount_msat", &user_channel_id.to_string())
+                    .unwrap();
+                map.end()
+            }
+            Event::ChannelClosed {
+                channel_id,
+                user_channel_id,
+            } => {
+                let mut map = serializer.serialize_map(Some(2))?;
+                map.serialize_entry("channel_id", &hex_utils::to_string(channel_id.as_slice()))
+                    .unwrap();
+                map.serialize_entry("amount_msat", &user_channel_id.to_string())
+                    .unwrap();
+                map.end()
+            }
+        }
+    }
 }
 
 // TODO: Figure out serialization more concretely - see issue #30
@@ -348,9 +412,7 @@ where
                             &counterparty_node_id,
                             final_tx.clone(),
                         ) {
-                            Ok(_) => {
-                                info!("Funding Transaction Generated OK  {:?}", final_tx);
-                            }
+                            Ok(_) => {}
                             Err(APIError::APIMisuseError { err }) => {
                                 log_error!(self.logger, "Panicking due to APIMisuseError: {}", err);
                                 panic!("APIMisuseError: {}", err);

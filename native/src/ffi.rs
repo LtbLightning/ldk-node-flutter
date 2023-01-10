@@ -1,6 +1,6 @@
 use chainmonitor::ChainMonitor as LdkChainMonitor;
 pub use gossip::NetworkGraph as LdkNetworkGraph;
-use lightning::chain::keysinterface::{InMemorySigner, KeysInterface, Recipient};
+use lightning::chain::keysinterface::{EntropySource, InMemorySigner, NodeSigner, Recipient};
 use lightning::chain::{chainmonitor, Access, BestBlock, Confirm, Watch};
 use lightning::ln::channelmanager;
 use lightning::ln::channelmanager::{ChainParameters, ChannelManagerReadArgs};
@@ -51,8 +51,8 @@ use std::sync::atomic::{AtomicBool, Ordering};
 use std::sync::{Arc, Mutex, RwLock};
 use std::time::{Duration, Instant, SystemTime};
 
-use lightning_invoice::payment::Payer;
 use crate::types::{ChannelInfo, NodeInfo};
+use lightning_invoice::payment::Payer;
 
 // The used 'stop gap' parameter used by BDK's wallet sync. This seems to configure the threshold
 // number of blocks after which BDK stops looking for scripts belonging to the wallet.
@@ -136,7 +136,7 @@ impl Builder {
             config.network,
             &Secp256k1::new(),
         )
-            .expect("Failed to derive on-chain wallet name");
+        .expect("Failed to derive on-chain wallet name");
         let database = sled::open(bdk_data_dir).expect("Failed to open BDK database");
         let database = database
             .open_tree(wallet_name.clone())
@@ -148,7 +148,7 @@ impl Builder {
             config.network,
             database,
         )
-            .expect("Failed to setup on-chain wallet");
+        .expect("Failed to setup on-chain wallet");
 
         // TODO: Check that we can be sure that the Esplora client re-connects in case of failure
         let blockchain = EsploraBlockchain::new(&config.esplora_server_url, BDK_CLIENT_STOP_GAP)
@@ -400,7 +400,7 @@ pub struct LdkLite {
     pub(crate) logger: Arc<FilesystemLogger>,
     pub(crate) scorer: Arc<Mutex<Scorer>>,
     pub(crate) invoice_payer:
-    Arc<InvoicePayer<Arc<EventHandler<Arc<FilesystemPersister>, Arc<FilesystemLogger>>>>>,
+        Arc<InvoicePayer<Arc<EventHandler<Arc<FilesystemPersister>, Arc<FilesystemLogger>>>>>,
     pub(crate) inbound_payments: Arc<PaymentInfoStorage>,
     pub(crate) outbound_payments: Arc<PaymentInfoStorage>,
     pub(crate) peer_store: Arc<PeerInfoStorage<FilesystemPersister>>,
@@ -570,7 +570,12 @@ impl LdkLite {
                     .filter(|id| !pm_peers.contains(id))
                 {
                     for peer_info in connect_peer_store.peers() {
-                        info!("ip:{:?}, port:{:?}, address:{:?}", peer_info.address.ip(), peer_info.address.port(),peer_info.pubkey);
+                        info!(
+                            "ip:{:?}, port:{:?}, address:{:?}",
+                            peer_info.address.ip(),
+                            peer_info.address.port(),
+                            peer_info.pubkey
+                        );
                         if peer_info.pubkey == node_id {
                             let _ = do_connect_peer(
                                 peer_info.pubkey,
@@ -578,7 +583,7 @@ impl LdkLite {
                                 Arc::clone(&connect_pm),
                                 Arc::clone(&connect_logger),
                             )
-                                .await;
+                            .await;
                         }
                     }
                 }
@@ -617,15 +622,15 @@ impl LdkLite {
     /// Returns a Node Info
     ///
 
-    pub fn node_info(&self)-> Result<NodeInfo, Error>{
-        let mut channel_infos:Vec<ChannelInfo> = Vec::new();
-        let mut peer_ids:Vec<String> = Vec::new();
+    pub fn node_info(&self) -> Result<NodeInfo, Error> {
+        let mut channel_infos: Vec<ChannelInfo> = Vec::new();
+        let mut peer_ids: Vec<String> = Vec::new();
         let cman = Arc::clone(&self.channel_manager);
         let pm = Arc::clone(&self.peer_manager);
-        for id in   pm.get_peer_node_ids(){
+        for id in pm.get_peer_node_ids() {
             peer_ids.push(id.to_string())
         }
-        for chan_info in cman.list_channels(){
+        for chan_info in cman.list_channels() {
             // let id = hex_utils::to_string(chan_info.channel_id.as_slice());
             // let channel_id_vec = hex_utils::to_vec(id.as_str());
             // let mut channel_id = [0; 32];
@@ -634,15 +639,19 @@ impl LdkLite {
             // info!(
             //     "is hex Channel Same:  {} ", (id2 ==id ) ,
             // );
-            let _info = ChannelInfo{
+            let _info = ChannelInfo {
                 channel_id: hex_utils::to_string(chan_info.channel_id.as_slice().clone()),
-                funding_txid: if let Some(funding_txo) = chan_info.funding_txo { Some(funding_txo.txid.to_string()) } else{None},
+                funding_txid: if let Some(funding_txo) = chan_info.funding_txo {
+                    Some(funding_txo.txid.to_string())
+                } else {
+                    None
+                },
                 peer_pubkey: None,
                 peer_alias: None,
                 short_channel_id: chan_info.short_channel_id,
                 is_channel_ready: chan_info.is_channel_ready,
                 channel_value_satoshis: chan_info.channel_value_satoshis,
-                local_balance_msat:chan_info.balance_msat,
+                local_balance_msat: chan_info.balance_msat,
                 available_balance_for_send_msat: chan_info.outbound_capacity_msat,
                 available_balance_for_recv_msat: chan_info.inbound_capacity_msat,
                 channel_can_send_payments: chan_info.is_usable,
@@ -650,10 +659,10 @@ impl LdkLite {
             };
             channel_infos.push(_info);
         }
-        Ok( NodeInfo{
+        Ok(NodeInfo {
             node_pub_key: cman.clone().node_id().to_string(),
             channels: channel_infos,
-            peers: peer_ids
+            peers: peer_ids,
         })
     }
 
@@ -719,7 +728,7 @@ impl LdkLite {
                     con_pm,
                     con_logger,
                 )
-                    .await;
+                .await;
                 con_success_cloned.store(res.is_ok(), Ordering::Release);
             })
         });
@@ -751,22 +760,13 @@ impl LdkLite {
             Some(user_config),
         ) {
             Ok(_) => {
+                self.peer_store
+                    .clone()
+                    .add_peer(node_pubkey_and_address.to_string().clone())?;
                 info!(
-                "Adding to storage",
-            );
-                info!(
-                "ip {:?}",
-                peer_info.clone().address.ip()
-            );
-                info!(
-                "port {:?}",
-                peer_info.clone().address.port()
-            );
-                info!(
-                "address {:?}",
-                peer_info.clone().pubkey
-            );
-                self.peer_store.clone().add_peer(node_pubkey_and_address.to_string().clone())?;
+                    "Initiated channel creation with peer {}. ",
+                    peer_info.pubkey
+                );
                 log_info!(
                     self.logger,
                     "Initiated channel creation with peer {}. ",
@@ -1074,9 +1074,7 @@ async fn do_connect_peer(
             }
         }
         None => {
-            info!("failed to connect to peer: {}@{}",
-                pubkey,
-                peer_addr);
+            info!("failed to connect to peer: {}@{}", pubkey, peer_addr);
             log_error!(
                 logger,
                 "failed to connect to peer: {}@{}",
@@ -1150,7 +1148,7 @@ type Router = DefaultRouter<Arc<NetworkGraph>, Arc<FilesystemLogger>, Arc<Mutex<
 pub(crate) type Scorer = ProbabilisticScorer<Arc<NetworkGraph>, Arc<FilesystemLogger>>;
 
 type GossipSync =
-P2PGossipSync<Arc<NetworkGraph>, Arc<dyn Access + Send + Sync>, Arc<FilesystemLogger>>;
+    P2PGossipSync<Arc<NetworkGraph>, Arc<dyn Access + Send + Sync>, Arc<FilesystemLogger>>;
 
 pub(crate) type NetworkGraph = LdkNetworkGraph<Arc<FilesystemLogger>>;
 

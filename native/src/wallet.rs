@@ -7,7 +7,8 @@ use lightning::chain::chaininterface::{
 };
 
 use lightning::chain::keysinterface::{
-    InMemorySigner, KeyMaterial, KeysInterface, KeysManager, Recipient, SpendableOutputDescriptor,
+    EntropySource, InMemorySigner, KeyMaterial, KeysInterface, KeysManager, NodeSigner, Recipient,
+    SignerProvider, SpendableOutputDescriptor,
 };
 use lightning::ln::msgs::DecodeError;
 use lightning::ln::script::ShutdownScript;
@@ -153,9 +154,7 @@ where
                 self.logger,
                 "Failed to update fee rate estimation: No runtime."
             );
-            return *locked_fee_rate_cache
-                .get(&confirmation_target)
-                .unwrap_or(&fallback_rate);
+            unreachable!("Failed to broadcast transaction: No runtime.");
         }
 
         let est_fee_rate = tokio::task::block_in_place(move || {
@@ -204,24 +203,28 @@ where
         let locked_runtime = self.tokio_runtime.read().unwrap();
         if locked_runtime.as_ref().is_none() {
             log_error!(self.logger, "Failed to broadcast transaction: No runtime.");
-            panic!("Failed to broadcast transaction {:?}: No runtime.", tx);
+            unreachable!("Failed to broadcast transaction: No runtime.");
         }
-        tokio::task::block_in_place(move || {
-            locked_runtime.as_ref().unwrap().block_on(async move {
-                let res = self.blockchain.broadcast(tx).await;
-                match res {
-                    Ok(_) => {
-                        info!("{:?}", "broadcast_transaction successful");
-                    }
-                    Err(err) => {
-                        log_error!(self.logger, "Failed to broadcast transaction: {}", err);
-                        panic!("Failed to broadcast transaction: {}", err);
-                    }
-                }
-            });
+
+        let res = tokio::task::block_in_place(move || {
+            locked_runtime
+                .as_ref()
+                .unwrap()
+                .block_on(async move { self.blockchain.broadcast(tx).await })
         });
+
+        match res {
+            Ok(_) => {
+                info!("Broadcast transaction success");
+            }
+            Err(err) => {
+                info!("Failed to broadcast transaction: {}", err);
+                log_error!(self.logger, "Failed to broadcast transaction: {}", err);
+            }
+        }
     }
 }
+
 fn num_blocks_from_conf_target(confirmation_target: ConfirmationTarget) -> usize {
     match confirmation_target {
         ConfirmationTarget::Background => 12,
@@ -298,12 +301,10 @@ where
     }
 }
 
-impl<D> KeysInterface for WalletKeysManager<D>
+impl<D> NodeSigner for WalletKeysManager<D>
 where
     D: BatchDatabase,
 {
-    type Signer = InMemorySigner;
-
     fn get_node_secret(&self, recipient: Recipient) -> Result<SecretKey, ()> {
         self.inner.get_node_secret(recipient)
     }
@@ -319,6 +320,60 @@ where
         tweak: Option<&Scalar>,
     ) -> Result<SharedSecret, ()> {
         self.inner.ecdh(recipient, other_key, tweak)
+    }
+
+    fn get_inbound_payment_key_material(&self) -> KeyMaterial {
+        self.inner.get_inbound_payment_key_material()
+    }
+
+    fn sign_invoice(
+        &self,
+        hrp_bytes: &[u8],
+        invoice_data: &[u5],
+        recipient: Recipient,
+    ) -> Result<RecoverableSignature, ()> {
+        self.inner.sign_invoice(hrp_bytes, invoice_data, recipient)
+    }
+}
+
+impl<D> KeysInterface for WalletKeysManager<D> where D: BatchDatabase {}
+
+impl<D> EntropySource for WalletKeysManager<D>
+where
+    D: BatchDatabase,
+{
+    fn get_secure_random_bytes(&self) -> [u8; 32] {
+        self.inner.get_secure_random_bytes()
+    }
+}
+
+impl<D> SignerProvider for WalletKeysManager<D>
+where
+    D: BatchDatabase,
+{
+    type Signer = InMemorySigner;
+
+    fn generate_channel_keys_id(
+        &self,
+        inbound: bool,
+        channel_value_satoshis: u64,
+        user_channel_id: u128,
+    ) -> [u8; 32] {
+        self.inner
+            .generate_channel_keys_id(inbound, channel_value_satoshis, user_channel_id)
+    }
+
+    fn derive_channel_signer(
+        &self,
+        channel_value_satoshis: u64,
+        channel_keys_id: [u8; 32],
+    ) -> Self::Signer {
+        self.inner
+            .derive_channel_signer(channel_value_satoshis, channel_keys_id)
+    }
+
+    fn read_chan_signer(&self, reader: &[u8]) -> Result<Self::Signer, DecodeError> {
+        self.inner.read_chan_signer(reader)
     }
 
     fn get_destination_script(&self) -> Script {
@@ -341,45 +396,5 @@ where
             }
             _ => panic!("Tried to use a non-witness address. This must not ever happen."),
         }
-    }
-
-    fn generate_channel_keys_id(
-        &self,
-        inbound: bool,
-        channel_value_satoshis: u64,
-        user_channel_id: u128,
-    ) -> [u8; 32] {
-        self.inner
-            .generate_channel_keys_id(inbound, channel_value_satoshis, user_channel_id)
-    }
-
-    fn derive_channel_signer(
-        &self,
-        channel_value_satoshis: u64,
-        channel_keys_id: [u8; 32],
-    ) -> Self::Signer {
-        self.inner
-            .derive_channel_signer(channel_value_satoshis, channel_keys_id)
-    }
-
-    fn get_secure_random_bytes(&self) -> [u8; 32] {
-        self.inner.get_secure_random_bytes()
-    }
-
-    fn read_chan_signer(&self, reader: &[u8]) -> Result<Self::Signer, DecodeError> {
-        self.inner.read_chan_signer(reader)
-    }
-
-    fn sign_invoice(
-        &self,
-        hrp_bytes: &[u8],
-        invoice_data: &[u5],
-        recipient: Recipient,
-    ) -> Result<RecoverableSignature, ()> {
-        self.inner.sign_invoice(hrp_bytes, invoice_data, recipient)
-    }
-
-    fn get_inbound_payment_key_material(&self) -> KeyMaterial {
-        self.inner.get_inbound_payment_key_material()
     }
 }
