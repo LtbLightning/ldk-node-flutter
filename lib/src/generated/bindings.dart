@@ -17,15 +17,19 @@ abstract class Native {
 
   FlutterRustBridgeTaskConstMeta get kInitBuilderConstMeta;
 
-  Future<String> start({required LdkNodeInstance ldkNode, dynamic hint});
+  Future<void> start({required LdkNodeInstance ldkNode, dynamic hint});
 
   FlutterRustBridgeTaskConstMeta get kStartConstMeta;
+
+  Future<PublicKey> nodeId({required LdkNodeInstance ldkNode, dynamic hint});
+
+  FlutterRustBridgeTaskConstMeta get kNodeIdConstMeta;
 
   Future<Balance> getBalance({required LdkNodeInstance ldkNode, dynamic hint});
 
   FlutterRustBridgeTaskConstMeta get kGetBalanceConstMeta;
 
-  Future<String> newFundingAddress({required LdkNodeInstance ldkNode, dynamic hint});
+  Future<Address> newFundingAddress({required LdkNodeInstance ldkNode, dynamic hint});
 
   FlutterRustBridgeTaskConstMeta get kNewFundingAddressConstMeta;
 
@@ -49,7 +53,11 @@ abstract class Native {
 
   FlutterRustBridgeTaskConstMeta get kHandleEventConstMeta;
 
-  Future<String> receivePayment(
+  Future<NodeInfo> nodeInfo({required LdkNodeInstance ldkNode, dynamic hint});
+
+  FlutterRustBridgeTaskConstMeta get kNodeInfoConstMeta;
+
+  Future<Invoice> receivePayment(
       {required LdkNodeInstance ldkNode,
       int? amountMsat,
       required String description,
@@ -58,23 +66,19 @@ abstract class Native {
 
   FlutterRustBridgeTaskConstMeta get kReceivePaymentConstMeta;
 
-  Future<NodeInfo> nodeInfo({required LdkNodeInstance ldkNode, dynamic hint});
+  Future<PaymentHash> sendPayment({required LdkNodeInstance ldkNode, required Invoice invoice, dynamic hint});
 
-  FlutterRustBridgeTaskConstMeta get kNodeInfoConstMeta;
+  FlutterRustBridgeTaskConstMeta get kSendPaymentConstMeta;
+
+  Future<PaymentHash> sendSpontaneousPayment(
+      {required LdkNodeInstance ldkNode, required int amountMsat, required String nodeId, dynamic hint});
+
+  FlutterRustBridgeTaskConstMeta get kSendSpontaneousPaymentConstMeta;
 
   ///	Query for information about the status of a specific payment.
   Future<PaymentStatus> paymentInfo({required LdkNodeInstance ldkNode, required U8Array32 paymentHash, dynamic hint});
 
   FlutterRustBridgeTaskConstMeta get kPaymentInfoConstMeta;
-
-  Future<String> sendPayment({required LdkNodeInstance ldkNode, required String invoice, dynamic hint});
-
-  FlutterRustBridgeTaskConstMeta get kSendPaymentConstMeta;
-
-  Future<String> sendSpontaneousPayment(
-      {required LdkNodeInstance ldkNode, required int amountMsat, required String nodeId, dynamic hint});
-
-  FlutterRustBridgeTaskConstMeta get kSendSpontaneousPaymentConstMeta;
 
   Future<void> connectOpenChannel(
       {required LdkNodeInstance ldkLite,
@@ -86,7 +90,10 @@ abstract class Native {
   FlutterRustBridgeTaskConstMeta get kConnectOpenChannelConstMeta;
 
   Future<void> closeChannel(
-      {required LdkNodeInstance ldkLite, required String channelId, required String counterpartyNodeId, dynamic hint});
+      {required LdkNodeInstance ldkLite,
+      required String channelId,
+      required PublicKey counterpartyNodeId,
+      dynamic hint});
 
   FlutterRustBridgeTaskConstMeta get kCloseChannelConstMeta;
 
@@ -97,6 +104,30 @@ abstract class Native {
   Future<void> rustSetUp({dynamic hint});
 
   FlutterRustBridgeTaskConstMeta get kRustSetUpConstMeta;
+
+  Future<int?> amountMilliSatoshisStaticMethodInvoice({required Invoice invoice, dynamic hint});
+
+  FlutterRustBridgeTaskConstMeta get kAmountMilliSatoshisStaticMethodInvoiceConstMeta;
+
+  Future<bool> isExpiredStaticMethodInvoice({required Invoice invoice, dynamic hint});
+
+  FlutterRustBridgeTaskConstMeta get kIsExpiredStaticMethodInvoiceConstMeta;
+
+  Future<int> expiryTimeStaticMethodInvoice({required Invoice invoice, dynamic hint});
+
+  FlutterRustBridgeTaskConstMeta get kExpiryTimeStaticMethodInvoiceConstMeta;
+
+  Future<String> paymentHashStaticMethodInvoice({required Invoice invoice, dynamic hint});
+
+  FlutterRustBridgeTaskConstMeta get kPaymentHashStaticMethodInvoiceConstMeta;
+
+  Future<String?> payeePubKeyStaticMethodInvoice({required Invoice invoice, dynamic hint});
+
+  FlutterRustBridgeTaskConstMeta get kPayeePubKeyStaticMethodInvoiceConstMeta;
+
+  Future<PaymentSecret> paymentSecretStaticMethodInvoice({required Invoice invoice, dynamic hint});
+
+  FlutterRustBridgeTaskConstMeta get kPaymentSecretStaticMethodInvoiceConstMeta;
 
   DropFnType get dropOpaqueLdkNodeInstance;
   ShareFnType get shareOpaqueLdkNodeInstance;
@@ -115,6 +146,14 @@ class LdkNodeInstance extends FrbOpaque {
 
   @override
   OpaqueTypeFinalizer get staticFinalizer => bridge.LdkNodeInstanceFinalizer;
+}
+
+class Address {
+  final String asString;
+
+  Address({
+    required this.asString,
+  });
 }
 
 class Balance {
@@ -161,6 +200,34 @@ class ChannelInfo {
     required this.channelCanSendPayments,
     required this.public,
   });
+}
+
+class Invoice {
+  final Native bridge;
+  final String asString;
+
+  Invoice({
+    required this.bridge,
+    required this.asString,
+  });
+
+  static Future<int?> amountMilliSatoshis({required Native bridge, required Invoice invoice, dynamic hint}) =>
+      bridge.amountMilliSatoshisStaticMethodInvoice(invoice: invoice, hint: hint);
+
+  static Future<bool> isExpired({required Native bridge, required Invoice invoice, dynamic hint}) =>
+      bridge.isExpiredStaticMethodInvoice(invoice: invoice, hint: hint);
+
+  static Future<int> expiryTime({required Native bridge, required Invoice invoice, dynamic hint}) =>
+      bridge.expiryTimeStaticMethodInvoice(invoice: invoice, hint: hint);
+
+  static Future<String> paymentHash({required Native bridge, required Invoice invoice, dynamic hint}) =>
+      bridge.paymentHashStaticMethodInvoice(invoice: invoice, hint: hint);
+
+  static Future<String?> payeePubKey({required Native bridge, required Invoice invoice, dynamic hint}) =>
+      bridge.payeePubKeyStaticMethodInvoice(invoice: invoice, hint: hint);
+
+  static Future<PaymentSecret> paymentSecret({required Native bridge, required Invoice invoice, dynamic hint}) =>
+      bridge.paymentSecretStaticMethodInvoice(invoice: invoice, hint: hint);
 }
 
 class LdkConfig {
@@ -228,6 +295,22 @@ class NodeInfo {
   });
 }
 
+class PaymentHash {
+  final U8Array32 asUArray;
+
+  PaymentHash({
+    required this.asUArray,
+  });
+}
+
+class PaymentSecret {
+  final U8Array32 asUArray;
+
+  PaymentSecret({
+    required this.asUArray,
+  });
+}
+
 /// Represents the current status of a payment.
 enum PaymentStatus {
   /// The payment is still pending.
@@ -238,6 +321,14 @@ enum PaymentStatus {
 
   /// The payment failed.
   Failed,
+}
+
+class PublicKey {
+  final String asString;
+
+  PublicKey({
+    required this.asString,
+  });
 }
 
 class U8Array32 extends NonGrowableListView<int> {
@@ -272,11 +363,11 @@ class NativeImpl implements Native {
         argNames: ["config"],
       );
 
-  Future<String> start({required LdkNodeInstance ldkNode, dynamic hint}) {
+  Future<void> start({required LdkNodeInstance ldkNode, dynamic hint}) {
     var arg0 = _platform.api2wire_LdkNodeInstance(ldkNode);
     return _platform.executeNormal(FlutterRustBridgeTask(
       callFfi: (port_) => _platform.inner.wire_start(port_, arg0),
-      parseSuccessData: _wire2api_String,
+      parseSuccessData: _wire2api_unit,
       constMeta: kStartConstMeta,
       argValues: [ldkNode],
       hint: hint,
@@ -285,6 +376,22 @@ class NativeImpl implements Native {
 
   FlutterRustBridgeTaskConstMeta get kStartConstMeta => const FlutterRustBridgeTaskConstMeta(
         debugName: "start",
+        argNames: ["ldkNode"],
+      );
+
+  Future<PublicKey> nodeId({required LdkNodeInstance ldkNode, dynamic hint}) {
+    var arg0 = _platform.api2wire_LdkNodeInstance(ldkNode);
+    return _platform.executeNormal(FlutterRustBridgeTask(
+      callFfi: (port_) => _platform.inner.wire_node_id(port_, arg0),
+      parseSuccessData: _wire2api_public_key,
+      constMeta: kNodeIdConstMeta,
+      argValues: [ldkNode],
+      hint: hint,
+    ));
+  }
+
+  FlutterRustBridgeTaskConstMeta get kNodeIdConstMeta => const FlutterRustBridgeTaskConstMeta(
+        debugName: "node_id",
         argNames: ["ldkNode"],
       );
 
@@ -304,11 +411,11 @@ class NativeImpl implements Native {
         argNames: ["ldkNode"],
       );
 
-  Future<String> newFundingAddress({required LdkNodeInstance ldkNode, dynamic hint}) {
+  Future<Address> newFundingAddress({required LdkNodeInstance ldkNode, dynamic hint}) {
     var arg0 = _platform.api2wire_LdkNodeInstance(ldkNode);
     return _platform.executeNormal(FlutterRustBridgeTask(
       callFfi: (port_) => _platform.inner.wire_new_funding_address(port_, arg0),
-      parseSuccessData: _wire2api_String,
+      parseSuccessData: _wire2api_address,
       constMeta: kNewFundingAddressConstMeta,
       argValues: [ldkNode],
       hint: hint,
@@ -400,30 +507,6 @@ class NativeImpl implements Native {
         argNames: ["ldkNode"],
       );
 
-  Future<String> receivePayment(
-      {required LdkNodeInstance ldkNode,
-      int? amountMsat,
-      required String description,
-      required int expirySecs,
-      dynamic hint}) {
-    var arg0 = _platform.api2wire_LdkNodeInstance(ldkNode);
-    var arg1 = _platform.api2wire_opt_box_autoadd_u64(amountMsat);
-    var arg2 = _platform.api2wire_String(description);
-    var arg3 = api2wire_u32(expirySecs);
-    return _platform.executeNormal(FlutterRustBridgeTask(
-      callFfi: (port_) => _platform.inner.wire_receive_payment(port_, arg0, arg1, arg2, arg3),
-      parseSuccessData: _wire2api_String,
-      constMeta: kReceivePaymentConstMeta,
-      argValues: [ldkNode, amountMsat, description, expirySecs],
-      hint: hint,
-    ));
-  }
-
-  FlutterRustBridgeTaskConstMeta get kReceivePaymentConstMeta => const FlutterRustBridgeTaskConstMeta(
-        debugName: "receive_payment",
-        argNames: ["ldkNode", "amountMsat", "description", "expirySecs"],
-      );
-
   Future<NodeInfo> nodeInfo({required LdkNodeInstance ldkNode, dynamic hint}) {
     var arg0 = _platform.api2wire_LdkNodeInstance(ldkNode);
     return _platform.executeNormal(FlutterRustBridgeTask(
@@ -438,6 +521,66 @@ class NativeImpl implements Native {
   FlutterRustBridgeTaskConstMeta get kNodeInfoConstMeta => const FlutterRustBridgeTaskConstMeta(
         debugName: "node_info",
         argNames: ["ldkNode"],
+      );
+
+  Future<Invoice> receivePayment(
+      {required LdkNodeInstance ldkNode,
+      int? amountMsat,
+      required String description,
+      required int expirySecs,
+      dynamic hint}) {
+    var arg0 = _platform.api2wire_LdkNodeInstance(ldkNode);
+    var arg1 = _platform.api2wire_opt_box_autoadd_u64(amountMsat);
+    var arg2 = _platform.api2wire_String(description);
+    var arg3 = api2wire_u32(expirySecs);
+    return _platform.executeNormal(FlutterRustBridgeTask(
+      callFfi: (port_) => _platform.inner.wire_receive_payment(port_, arg0, arg1, arg2, arg3),
+      parseSuccessData: (d) => _wire2api_invoice(d),
+      constMeta: kReceivePaymentConstMeta,
+      argValues: [ldkNode, amountMsat, description, expirySecs],
+      hint: hint,
+    ));
+  }
+
+  FlutterRustBridgeTaskConstMeta get kReceivePaymentConstMeta => const FlutterRustBridgeTaskConstMeta(
+        debugName: "receive_payment",
+        argNames: ["ldkNode", "amountMsat", "description", "expirySecs"],
+      );
+
+  Future<PaymentHash> sendPayment({required LdkNodeInstance ldkNode, required Invoice invoice, dynamic hint}) {
+    var arg0 = _platform.api2wire_LdkNodeInstance(ldkNode);
+    var arg1 = _platform.api2wire_box_autoadd_invoice(invoice);
+    return _platform.executeNormal(FlutterRustBridgeTask(
+      callFfi: (port_) => _platform.inner.wire_send_payment(port_, arg0, arg1),
+      parseSuccessData: _wire2api_payment_hash,
+      constMeta: kSendPaymentConstMeta,
+      argValues: [ldkNode, invoice],
+      hint: hint,
+    ));
+  }
+
+  FlutterRustBridgeTaskConstMeta get kSendPaymentConstMeta => const FlutterRustBridgeTaskConstMeta(
+        debugName: "send_payment",
+        argNames: ["ldkNode", "invoice"],
+      );
+
+  Future<PaymentHash> sendSpontaneousPayment(
+      {required LdkNodeInstance ldkNode, required int amountMsat, required String nodeId, dynamic hint}) {
+    var arg0 = _platform.api2wire_LdkNodeInstance(ldkNode);
+    var arg1 = _platform.api2wire_u64(amountMsat);
+    var arg2 = _platform.api2wire_String(nodeId);
+    return _platform.executeNormal(FlutterRustBridgeTask(
+      callFfi: (port_) => _platform.inner.wire_send_spontaneous_payment(port_, arg0, arg1, arg2),
+      parseSuccessData: _wire2api_payment_hash,
+      constMeta: kSendSpontaneousPaymentConstMeta,
+      argValues: [ldkNode, amountMsat, nodeId],
+      hint: hint,
+    ));
+  }
+
+  FlutterRustBridgeTaskConstMeta get kSendSpontaneousPaymentConstMeta => const FlutterRustBridgeTaskConstMeta(
+        debugName: "send_spontaneous_payment",
+        argNames: ["ldkNode", "amountMsat", "nodeId"],
       );
 
   Future<PaymentStatus> paymentInfo({required LdkNodeInstance ldkNode, required U8Array32 paymentHash, dynamic hint}) {
@@ -455,42 +598,6 @@ class NativeImpl implements Native {
   FlutterRustBridgeTaskConstMeta get kPaymentInfoConstMeta => const FlutterRustBridgeTaskConstMeta(
         debugName: "payment_info",
         argNames: ["ldkNode", "paymentHash"],
-      );
-
-  Future<String> sendPayment({required LdkNodeInstance ldkNode, required String invoice, dynamic hint}) {
-    var arg0 = _platform.api2wire_LdkNodeInstance(ldkNode);
-    var arg1 = _platform.api2wire_String(invoice);
-    return _platform.executeNormal(FlutterRustBridgeTask(
-      callFfi: (port_) => _platform.inner.wire_send_payment(port_, arg0, arg1),
-      parseSuccessData: _wire2api_String,
-      constMeta: kSendPaymentConstMeta,
-      argValues: [ldkNode, invoice],
-      hint: hint,
-    ));
-  }
-
-  FlutterRustBridgeTaskConstMeta get kSendPaymentConstMeta => const FlutterRustBridgeTaskConstMeta(
-        debugName: "send_payment",
-        argNames: ["ldkNode", "invoice"],
-      );
-
-  Future<String> sendSpontaneousPayment(
-      {required LdkNodeInstance ldkNode, required int amountMsat, required String nodeId, dynamic hint}) {
-    var arg0 = _platform.api2wire_LdkNodeInstance(ldkNode);
-    var arg1 = _platform.api2wire_u64(amountMsat);
-    var arg2 = _platform.api2wire_String(nodeId);
-    return _platform.executeNormal(FlutterRustBridgeTask(
-      callFfi: (port_) => _platform.inner.wire_send_spontaneous_payment(port_, arg0, arg1, arg2),
-      parseSuccessData: _wire2api_String,
-      constMeta: kSendSpontaneousPaymentConstMeta,
-      argValues: [ldkNode, amountMsat, nodeId],
-      hint: hint,
-    ));
-  }
-
-  FlutterRustBridgeTaskConstMeta get kSendSpontaneousPaymentConstMeta => const FlutterRustBridgeTaskConstMeta(
-        debugName: "send_spontaneous_payment",
-        argNames: ["ldkNode", "amountMsat", "nodeId"],
       );
 
   Future<void> connectOpenChannel(
@@ -518,10 +625,13 @@ class NativeImpl implements Native {
       );
 
   Future<void> closeChannel(
-      {required LdkNodeInstance ldkLite, required String channelId, required String counterpartyNodeId, dynamic hint}) {
+      {required LdkNodeInstance ldkLite,
+      required String channelId,
+      required PublicKey counterpartyNodeId,
+      dynamic hint}) {
     var arg0 = _platform.api2wire_LdkNodeInstance(ldkLite);
     var arg1 = _platform.api2wire_String(channelId);
-    var arg2 = _platform.api2wire_String(counterpartyNodeId);
+    var arg2 = _platform.api2wire_box_autoadd_public_key(counterpartyNodeId);
     return _platform.executeNormal(FlutterRustBridgeTask(
       callFfi: (port_) => _platform.inner.wire_close_channel(port_, arg0, arg1, arg2),
       parseSuccessData: _wire2api_unit,
@@ -566,6 +676,103 @@ class NativeImpl implements Native {
         argNames: [],
       );
 
+  Future<int?> amountMilliSatoshisStaticMethodInvoice({required Invoice invoice, dynamic hint}) {
+    var arg0 = _platform.api2wire_box_autoadd_invoice(invoice);
+    return _platform.executeNormal(FlutterRustBridgeTask(
+      callFfi: (port_) => _platform.inner.wire_amount_milli_satoshis__static_method__Invoice(port_, arg0),
+      parseSuccessData: _wire2api_opt_box_autoadd_u64,
+      constMeta: kAmountMilliSatoshisStaticMethodInvoiceConstMeta,
+      argValues: [invoice],
+      hint: hint,
+    ));
+  }
+
+  FlutterRustBridgeTaskConstMeta get kAmountMilliSatoshisStaticMethodInvoiceConstMeta =>
+      const FlutterRustBridgeTaskConstMeta(
+        debugName: "amount_milli_satoshis__static_method__Invoice",
+        argNames: ["invoice"],
+      );
+
+  Future<bool> isExpiredStaticMethodInvoice({required Invoice invoice, dynamic hint}) {
+    var arg0 = _platform.api2wire_box_autoadd_invoice(invoice);
+    return _platform.executeNormal(FlutterRustBridgeTask(
+      callFfi: (port_) => _platform.inner.wire_is_expired__static_method__Invoice(port_, arg0),
+      parseSuccessData: _wire2api_bool,
+      constMeta: kIsExpiredStaticMethodInvoiceConstMeta,
+      argValues: [invoice],
+      hint: hint,
+    ));
+  }
+
+  FlutterRustBridgeTaskConstMeta get kIsExpiredStaticMethodInvoiceConstMeta => const FlutterRustBridgeTaskConstMeta(
+        debugName: "is_expired__static_method__Invoice",
+        argNames: ["invoice"],
+      );
+
+  Future<int> expiryTimeStaticMethodInvoice({required Invoice invoice, dynamic hint}) {
+    var arg0 = _platform.api2wire_box_autoadd_invoice(invoice);
+    return _platform.executeNormal(FlutterRustBridgeTask(
+      callFfi: (port_) => _platform.inner.wire_expiry_time__static_method__Invoice(port_, arg0),
+      parseSuccessData: _wire2api_u64,
+      constMeta: kExpiryTimeStaticMethodInvoiceConstMeta,
+      argValues: [invoice],
+      hint: hint,
+    ));
+  }
+
+  FlutterRustBridgeTaskConstMeta get kExpiryTimeStaticMethodInvoiceConstMeta => const FlutterRustBridgeTaskConstMeta(
+        debugName: "expiry_time__static_method__Invoice",
+        argNames: ["invoice"],
+      );
+
+  Future<String> paymentHashStaticMethodInvoice({required Invoice invoice, dynamic hint}) {
+    var arg0 = _platform.api2wire_box_autoadd_invoice(invoice);
+    return _platform.executeNormal(FlutterRustBridgeTask(
+      callFfi: (port_) => _platform.inner.wire_payment_hash__static_method__Invoice(port_, arg0),
+      parseSuccessData: _wire2api_String,
+      constMeta: kPaymentHashStaticMethodInvoiceConstMeta,
+      argValues: [invoice],
+      hint: hint,
+    ));
+  }
+
+  FlutterRustBridgeTaskConstMeta get kPaymentHashStaticMethodInvoiceConstMeta => const FlutterRustBridgeTaskConstMeta(
+        debugName: "payment_hash__static_method__Invoice",
+        argNames: ["invoice"],
+      );
+
+  Future<String?> payeePubKeyStaticMethodInvoice({required Invoice invoice, dynamic hint}) {
+    var arg0 = _platform.api2wire_box_autoadd_invoice(invoice);
+    return _platform.executeNormal(FlutterRustBridgeTask(
+      callFfi: (port_) => _platform.inner.wire_payee_pub_key__static_method__Invoice(port_, arg0),
+      parseSuccessData: _wire2api_opt_String,
+      constMeta: kPayeePubKeyStaticMethodInvoiceConstMeta,
+      argValues: [invoice],
+      hint: hint,
+    ));
+  }
+
+  FlutterRustBridgeTaskConstMeta get kPayeePubKeyStaticMethodInvoiceConstMeta => const FlutterRustBridgeTaskConstMeta(
+        debugName: "payee_pub_key__static_method__Invoice",
+        argNames: ["invoice"],
+      );
+
+  Future<PaymentSecret> paymentSecretStaticMethodInvoice({required Invoice invoice, dynamic hint}) {
+    var arg0 = _platform.api2wire_box_autoadd_invoice(invoice);
+    return _platform.executeNormal(FlutterRustBridgeTask(
+      callFfi: (port_) => _platform.inner.wire_payment_secret__static_method__Invoice(port_, arg0),
+      parseSuccessData: _wire2api_payment_secret,
+      constMeta: kPaymentSecretStaticMethodInvoiceConstMeta,
+      argValues: [invoice],
+      hint: hint,
+    ));
+  }
+
+  FlutterRustBridgeTaskConstMeta get kPaymentSecretStaticMethodInvoiceConstMeta => const FlutterRustBridgeTaskConstMeta(
+        debugName: "payment_secret__static_method__Invoice",
+        argNames: ["invoice"],
+      );
+
   DropFnType get dropOpaqueLdkNodeInstance => _platform.inner.drop_opaque_LdkNodeInstance;
   ShareFnType get shareOpaqueLdkNodeInstance => _platform.inner.share_opaque_LdkNodeInstance;
   OpaqueTypeFinalizer get LdkNodeInstanceFinalizer => _platform.LdkNodeInstanceFinalizer;
@@ -585,6 +792,14 @@ class NativeImpl implements Native {
 
   List<String> _wire2api_StringList(dynamic raw) {
     return (raw as List<dynamic>).cast<String>();
+  }
+
+  Address _wire2api_address(dynamic raw) {
+    final arr = raw as List<dynamic>;
+    if (arr.length != 1) throw Exception('unexpected arr length: expect 1 but see ${arr.length}');
+    return Address(
+      asString: _wire2api_String(arr[0]),
+    );
   }
 
   Balance _wire2api_balance(dynamic raw) {
@@ -634,6 +849,15 @@ class NativeImpl implements Native {
     return castInt(raw);
   }
 
+  Invoice _wire2api_invoice(dynamic raw) {
+    final arr = raw as List<dynamic>;
+    if (arr.length != 1) throw Exception('unexpected arr length: expect 1 but see ${arr.length}');
+    return Invoice(
+      bridge: this,
+      asString: _wire2api_String(arr[0]),
+    );
+  }
+
   List<ChannelInfo> _wire2api_list_channel_info(dynamic raw) {
     return (raw as List<dynamic>).map(_wire2api_channel_info).toList();
   }
@@ -667,8 +891,32 @@ class NativeImpl implements Native {
     return raw == null ? null : _wire2api_box_autoadd_u64(raw);
   }
 
+  PaymentHash _wire2api_payment_hash(dynamic raw) {
+    final arr = raw as List<dynamic>;
+    if (arr.length != 1) throw Exception('unexpected arr length: expect 1 but see ${arr.length}');
+    return PaymentHash(
+      asUArray: _wire2api_u8_array_32(arr[0]),
+    );
+  }
+
+  PaymentSecret _wire2api_payment_secret(dynamic raw) {
+    final arr = raw as List<dynamic>;
+    if (arr.length != 1) throw Exception('unexpected arr length: expect 1 but see ${arr.length}');
+    return PaymentSecret(
+      asUArray: _wire2api_u8_array_32(arr[0]),
+    );
+  }
+
   PaymentStatus _wire2api_payment_status(dynamic raw) {
     return PaymentStatus.values[raw];
+  }
+
+  PublicKey _wire2api_public_key(dynamic raw) {
+    final arr = raw as List<dynamic>;
+    if (arr.length != 1) throw Exception('unexpected arr length: expect 1 but see ${arr.length}');
+    return PublicKey(
+      asString: _wire2api_String(arr[0]),
+    );
   }
 
   int _wire2api_u64(dynamic raw) {
@@ -677,6 +925,10 @@ class NativeImpl implements Native {
 
   int _wire2api_u8(dynamic raw) {
     return raw as int;
+  }
+
+  U8Array32 _wire2api_u8_array_32(dynamic raw) {
+    return U8Array32(_wire2api_uint_8_list(raw));
   }
 
   Uint8List _wire2api_uint_8_list(dynamic raw) {
@@ -735,9 +987,23 @@ class NativePlatform extends FlutterRustBridgeBase<NativeWire> {
   }
 
   @protected
+  ffi.Pointer<wire_Invoice> api2wire_box_autoadd_invoice(Invoice raw) {
+    final ptr = inner.new_box_autoadd_invoice_0();
+    _api_fill_to_wire_invoice(raw, ptr.ref);
+    return ptr;
+  }
+
+  @protected
   ffi.Pointer<wire_LdkConfig> api2wire_box_autoadd_ldk_config(LdkConfig raw) {
     final ptr = inner.new_box_autoadd_ldk_config_0();
     _api_fill_to_wire_ldk_config(raw, ptr.ref);
+    return ptr;
+  }
+
+  @protected
+  ffi.Pointer<wire_PublicKey> api2wire_box_autoadd_public_key(PublicKey raw) {
+    final ptr = inner.new_box_autoadd_public_key_0();
+    _api_fill_to_wire_public_key(raw, ptr.ref);
     return ptr;
   }
 
@@ -784,8 +1050,20 @@ class NativePlatform extends FlutterRustBridgeBase<NativeWire> {
     wireObj.ptr = apiObj.shareOrMove();
   }
 
+  void _api_fill_to_wire_box_autoadd_invoice(Invoice apiObj, ffi.Pointer<wire_Invoice> wireObj) {
+    _api_fill_to_wire_invoice(apiObj, wireObj.ref);
+  }
+
   void _api_fill_to_wire_box_autoadd_ldk_config(LdkConfig apiObj, ffi.Pointer<wire_LdkConfig> wireObj) {
     _api_fill_to_wire_ldk_config(apiObj, wireObj.ref);
+  }
+
+  void _api_fill_to_wire_box_autoadd_public_key(PublicKey apiObj, ffi.Pointer<wire_PublicKey> wireObj) {
+    _api_fill_to_wire_public_key(apiObj, wireObj.ref);
+  }
+
+  void _api_fill_to_wire_invoice(Invoice apiObj, wire_Invoice wireObj) {
+    wireObj.as_string = api2wire_String(apiObj.asString);
   }
 
   void _api_fill_to_wire_ldk_config(LdkConfig apiObj, wire_LdkConfig wireObj) {
@@ -794,6 +1072,10 @@ class NativePlatform extends FlutterRustBridgeBase<NativeWire> {
     wireObj.network = api2wire_network(apiObj.network);
     wireObj.listening_address = api2wire_opt_String(apiObj.listeningAddress);
     wireObj.default_cltv_expiry_delta = api2wire_u32(apiObj.defaultCltvExpiryDelta);
+  }
+
+  void _api_fill_to_wire_public_key(PublicKey apiObj, wire_PublicKey wireObj) {
+    wireObj.as_string = api2wire_String(apiObj.asString);
   }
 }
 
@@ -902,6 +1184,20 @@ class NativeWire implements FlutterRustBridgeWireBase {
       _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Int64, wire_LdkNodeInstance)>>('wire_start');
   late final _wire_start = _wire_startPtr.asFunction<void Function(int, wire_LdkNodeInstance)>();
 
+  void wire_node_id(
+    int port_,
+    wire_LdkNodeInstance ldk_node,
+  ) {
+    return _wire_node_id(
+      port_,
+      ldk_node,
+    );
+  }
+
+  late final _wire_node_idPtr =
+      _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Int64, wire_LdkNodeInstance)>>('wire_node_id');
+  late final _wire_node_id = _wire_node_idPtr.asFunction<void Function(int, wire_LdkNodeInstance)>();
+
   void wire_get_balance(
     int port_,
     wire_LdkNodeInstance ldk_node,
@@ -1001,6 +1297,20 @@ class NativeWire implements FlutterRustBridgeWireBase {
       _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Int64, wire_LdkNodeInstance)>>('wire_handle_event');
   late final _wire_handle_event = _wire_handle_eventPtr.asFunction<void Function(int, wire_LdkNodeInstance)>();
 
+  void wire_node_info(
+    int port_,
+    wire_LdkNodeInstance ldk_node,
+  ) {
+    return _wire_node_info(
+      port_,
+      ldk_node,
+    );
+  }
+
+  late final _wire_node_infoPtr =
+      _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Int64, wire_LdkNodeInstance)>>('wire_node_info');
+  late final _wire_node_info = _wire_node_infoPtr.asFunction<void Function(int, wire_LdkNodeInstance)>();
+
   void wire_receive_payment(
     int port_,
     wire_LdkNodeInstance ldk_node,
@@ -1024,42 +1334,10 @@ class NativeWire implements FlutterRustBridgeWireBase {
   late final _wire_receive_payment = _wire_receive_paymentPtr.asFunction<
       void Function(int, wire_LdkNodeInstance, ffi.Pointer<ffi.Uint64>, ffi.Pointer<wire_uint_8_list>, int)>();
 
-  void wire_node_info(
-    int port_,
-    wire_LdkNodeInstance ldk_node,
-  ) {
-    return _wire_node_info(
-      port_,
-      ldk_node,
-    );
-  }
-
-  late final _wire_node_infoPtr =
-      _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Int64, wire_LdkNodeInstance)>>('wire_node_info');
-  late final _wire_node_info = _wire_node_infoPtr.asFunction<void Function(int, wire_LdkNodeInstance)>();
-
-  void wire_payment_info(
-    int port_,
-    wire_LdkNodeInstance ldk_node,
-    ffi.Pointer<wire_uint_8_list> payment_hash,
-  ) {
-    return _wire_payment_info(
-      port_,
-      ldk_node,
-      payment_hash,
-    );
-  }
-
-  late final _wire_payment_infoPtr =
-      _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Int64, wire_LdkNodeInstance, ffi.Pointer<wire_uint_8_list>)>>(
-          'wire_payment_info');
-  late final _wire_payment_info =
-      _wire_payment_infoPtr.asFunction<void Function(int, wire_LdkNodeInstance, ffi.Pointer<wire_uint_8_list>)>();
-
   void wire_send_payment(
     int port_,
     wire_LdkNodeInstance ldk_node,
-    ffi.Pointer<wire_uint_8_list> invoice,
+    ffi.Pointer<wire_Invoice> invoice,
   ) {
     return _wire_send_payment(
       port_,
@@ -1069,10 +1347,10 @@ class NativeWire implements FlutterRustBridgeWireBase {
   }
 
   late final _wire_send_paymentPtr =
-      _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Int64, wire_LdkNodeInstance, ffi.Pointer<wire_uint_8_list>)>>(
+      _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Int64, wire_LdkNodeInstance, ffi.Pointer<wire_Invoice>)>>(
           'wire_send_payment');
   late final _wire_send_payment =
-      _wire_send_paymentPtr.asFunction<void Function(int, wire_LdkNodeInstance, ffi.Pointer<wire_uint_8_list>)>();
+      _wire_send_paymentPtr.asFunction<void Function(int, wire_LdkNodeInstance, ffi.Pointer<wire_Invoice>)>();
 
   void wire_send_spontaneous_payment(
     int port_,
@@ -1094,6 +1372,24 @@ class NativeWire implements FlutterRustBridgeWireBase {
               ffi.Pointer<wire_uint_8_list>)>>('wire_send_spontaneous_payment');
   late final _wire_send_spontaneous_payment = _wire_send_spontaneous_paymentPtr
       .asFunction<void Function(int, wire_LdkNodeInstance, int, ffi.Pointer<wire_uint_8_list>)>();
+
+  void wire_payment_info(
+    int port_,
+    wire_LdkNodeInstance ldk_node,
+    ffi.Pointer<wire_uint_8_list> payment_hash,
+  ) {
+    return _wire_payment_info(
+      port_,
+      ldk_node,
+      payment_hash,
+    );
+  }
+
+  late final _wire_payment_infoPtr =
+      _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Int64, wire_LdkNodeInstance, ffi.Pointer<wire_uint_8_list>)>>(
+          'wire_payment_info');
+  late final _wire_payment_info =
+      _wire_payment_infoPtr.asFunction<void Function(int, wire_LdkNodeInstance, ffi.Pointer<wire_uint_8_list>)>();
 
   void wire_connect_open_channel(
     int port_,
@@ -1122,7 +1418,7 @@ class NativeWire implements FlutterRustBridgeWireBase {
     int port_,
     wire_LdkNodeInstance ldk_lite,
     ffi.Pointer<wire_uint_8_list> channel_id,
-    ffi.Pointer<wire_uint_8_list> counterparty_node_id,
+    ffi.Pointer<wire_PublicKey> counterparty_node_id,
   ) {
     return _wire_close_channel(
       port_,
@@ -1135,9 +1431,9 @@ class NativeWire implements FlutterRustBridgeWireBase {
   late final _wire_close_channelPtr = _lookup<
       ffi.NativeFunction<
           ffi.Void Function(ffi.Int64, wire_LdkNodeInstance, ffi.Pointer<wire_uint_8_list>,
-              ffi.Pointer<wire_uint_8_list>)>>('wire_close_channel');
+              ffi.Pointer<wire_PublicKey>)>>('wire_close_channel');
   late final _wire_close_channel = _wire_close_channelPtr.asFunction<
-      void Function(int, wire_LdkNodeInstance, ffi.Pointer<wire_uint_8_list>, ffi.Pointer<wire_uint_8_list>)>();
+      void Function(int, wire_LdkNodeInstance, ffi.Pointer<wire_uint_8_list>, ffi.Pointer<wire_PublicKey>)>();
 
   void wire_create_log_stream(
     int port_,
@@ -1162,6 +1458,103 @@ class NativeWire implements FlutterRustBridgeWireBase {
   late final _wire_rust_set_upPtr = _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Int64)>>('wire_rust_set_up');
   late final _wire_rust_set_up = _wire_rust_set_upPtr.asFunction<void Function(int)>();
 
+  void wire_amount_milli_satoshis__static_method__Invoice(
+    int port_,
+    ffi.Pointer<wire_Invoice> invoice,
+  ) {
+    return _wire_amount_milli_satoshis__static_method__Invoice(
+      port_,
+      invoice,
+    );
+  }
+
+  late final _wire_amount_milli_satoshis__static_method__InvoicePtr =
+      _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Int64, ffi.Pointer<wire_Invoice>)>>(
+          'wire_amount_milli_satoshis__static_method__Invoice');
+  late final _wire_amount_milli_satoshis__static_method__Invoice =
+      _wire_amount_milli_satoshis__static_method__InvoicePtr
+          .asFunction<void Function(int, ffi.Pointer<wire_Invoice>)>();
+
+  void wire_is_expired__static_method__Invoice(
+    int port_,
+    ffi.Pointer<wire_Invoice> invoice,
+  ) {
+    return _wire_is_expired__static_method__Invoice(
+      port_,
+      invoice,
+    );
+  }
+
+  late final _wire_is_expired__static_method__InvoicePtr =
+      _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Int64, ffi.Pointer<wire_Invoice>)>>(
+          'wire_is_expired__static_method__Invoice');
+  late final _wire_is_expired__static_method__Invoice =
+      _wire_is_expired__static_method__InvoicePtr.asFunction<void Function(int, ffi.Pointer<wire_Invoice>)>();
+
+  void wire_expiry_time__static_method__Invoice(
+    int port_,
+    ffi.Pointer<wire_Invoice> invoice,
+  ) {
+    return _wire_expiry_time__static_method__Invoice(
+      port_,
+      invoice,
+    );
+  }
+
+  late final _wire_expiry_time__static_method__InvoicePtr =
+      _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Int64, ffi.Pointer<wire_Invoice>)>>(
+          'wire_expiry_time__static_method__Invoice');
+  late final _wire_expiry_time__static_method__Invoice =
+      _wire_expiry_time__static_method__InvoicePtr.asFunction<void Function(int, ffi.Pointer<wire_Invoice>)>();
+
+  void wire_payment_hash__static_method__Invoice(
+    int port_,
+    ffi.Pointer<wire_Invoice> invoice,
+  ) {
+    return _wire_payment_hash__static_method__Invoice(
+      port_,
+      invoice,
+    );
+  }
+
+  late final _wire_payment_hash__static_method__InvoicePtr =
+      _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Int64, ffi.Pointer<wire_Invoice>)>>(
+          'wire_payment_hash__static_method__Invoice');
+  late final _wire_payment_hash__static_method__Invoice =
+      _wire_payment_hash__static_method__InvoicePtr.asFunction<void Function(int, ffi.Pointer<wire_Invoice>)>();
+
+  void wire_payee_pub_key__static_method__Invoice(
+    int port_,
+    ffi.Pointer<wire_Invoice> invoice,
+  ) {
+    return _wire_payee_pub_key__static_method__Invoice(
+      port_,
+      invoice,
+    );
+  }
+
+  late final _wire_payee_pub_key__static_method__InvoicePtr =
+      _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Int64, ffi.Pointer<wire_Invoice>)>>(
+          'wire_payee_pub_key__static_method__Invoice');
+  late final _wire_payee_pub_key__static_method__Invoice =
+      _wire_payee_pub_key__static_method__InvoicePtr.asFunction<void Function(int, ffi.Pointer<wire_Invoice>)>();
+
+  void wire_payment_secret__static_method__Invoice(
+    int port_,
+    ffi.Pointer<wire_Invoice> invoice,
+  ) {
+    return _wire_payment_secret__static_method__Invoice(
+      port_,
+      invoice,
+    );
+  }
+
+  late final _wire_payment_secret__static_method__InvoicePtr =
+      _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Int64, ffi.Pointer<wire_Invoice>)>>(
+          'wire_payment_secret__static_method__Invoice');
+  late final _wire_payment_secret__static_method__Invoice =
+      _wire_payment_secret__static_method__InvoicePtr.asFunction<void Function(int, ffi.Pointer<wire_Invoice>)>();
+
   wire_LdkNodeInstance new_LdkNodeInstance() {
     return _new_LdkNodeInstance();
   }
@@ -1169,6 +1562,15 @@ class NativeWire implements FlutterRustBridgeWireBase {
   late final _new_LdkNodeInstancePtr =
       _lookup<ffi.NativeFunction<wire_LdkNodeInstance Function()>>('new_LdkNodeInstance');
   late final _new_LdkNodeInstance = _new_LdkNodeInstancePtr.asFunction<wire_LdkNodeInstance Function()>();
+
+  ffi.Pointer<wire_Invoice> new_box_autoadd_invoice_0() {
+    return _new_box_autoadd_invoice_0();
+  }
+
+  late final _new_box_autoadd_invoice_0Ptr =
+      _lookup<ffi.NativeFunction<ffi.Pointer<wire_Invoice> Function()>>('new_box_autoadd_invoice_0');
+  late final _new_box_autoadd_invoice_0 =
+      _new_box_autoadd_invoice_0Ptr.asFunction<ffi.Pointer<wire_Invoice> Function()>();
 
   ffi.Pointer<wire_LdkConfig> new_box_autoadd_ldk_config_0() {
     return _new_box_autoadd_ldk_config_0();
@@ -1178,6 +1580,15 @@ class NativeWire implements FlutterRustBridgeWireBase {
       _lookup<ffi.NativeFunction<ffi.Pointer<wire_LdkConfig> Function()>>('new_box_autoadd_ldk_config_0');
   late final _new_box_autoadd_ldk_config_0 =
       _new_box_autoadd_ldk_config_0Ptr.asFunction<ffi.Pointer<wire_LdkConfig> Function()>();
+
+  ffi.Pointer<wire_PublicKey> new_box_autoadd_public_key_0() {
+    return _new_box_autoadd_public_key_0();
+  }
+
+  late final _new_box_autoadd_public_key_0Ptr =
+      _lookup<ffi.NativeFunction<ffi.Pointer<wire_PublicKey> Function()>>('new_box_autoadd_public_key_0');
+  late final _new_box_autoadd_public_key_0 =
+      _new_box_autoadd_public_key_0Ptr.asFunction<ffi.Pointer<wire_PublicKey> Function()>();
 
   ffi.Pointer<ffi.Uint64> new_box_autoadd_u64_0(
     int value,
@@ -1268,6 +1679,14 @@ class wire_LdkConfig extends ffi.Struct {
 
 class wire_LdkNodeInstance extends ffi.Struct {
   external ffi.Pointer<ffi.Void> ptr;
+}
+
+class wire_Invoice extends ffi.Struct {
+  external ffi.Pointer<wire_uint_8_list> as_string;
+}
+
+class wire_PublicKey extends ffi.Struct {
+  external ffi.Pointer<wire_uint_8_list> as_string;
 }
 
 typedef DartPostCObjectFnType = ffi.Pointer<ffi.NativeFunction<ffi.Bool Function(DartPort, ffi.Pointer<ffi.Void>)>>;

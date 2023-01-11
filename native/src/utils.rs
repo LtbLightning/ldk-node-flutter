@@ -1,11 +1,160 @@
-use crate::types::Network;
-use bitcoin::Network as BitcoinNetwork;
+use std::str::FromStr;
+use bitcoin::secp256k1;
+use crate::types::{Address, Invoice, Network, PaymentHash, PaymentSecret, PublicKey};
+use serde::{Serialize, Serializer};
+use serde::ser::SerializeMap;
+use crate::event::Event;
+use crate::hex_utils;
 
-pub fn config_network(network: Network) -> BitcoinNetwork {
-    return match network {
-        Network::Signet => BitcoinNetwork::Signet,
-        Network::Testnet => BitcoinNetwork::Testnet,
-        Network::Regtest => BitcoinNetwork::Regtest,
-        Network::Bitcoin => BitcoinNetwork::Bitcoin,
-    };
+impl From<Network> for bdk::bitcoin::Network {
+    fn from(network: Network) -> Self {
+        match network{
+            Network::Signet => bdk::bitcoin::Network::Signet,
+            Network::Testnet => bdk::bitcoin::Network::Testnet,
+            Network::Regtest => bdk::bitcoin::Network::Regtest,
+            Network::Bitcoin => bdk::bitcoin::Network::Bitcoin,
+        }
+    }
+}
+
+impl From<Invoice> for lightning_invoice::Invoice {
+    fn from(invoice: Invoice) -> Self {
+        return  lightning_invoice::Invoice::from_str(invoice.as_string.as_str()).unwrap()
+    }
+}
+
+impl From<lightning_invoice::Invoice> for Invoice {
+    fn from(invoice:lightning_invoice::Invoice) -> Self {
+        return  Invoice{as_string:invoice.to_string()};
+    }
+}
+impl From<&lightning::ln::PaymentSecret> for PaymentSecret {
+    fn from(payment_secret:&lightning::ln::PaymentSecret) -> Self {
+        return  PaymentSecret{
+            as_u_array:payment_secret.0
+        };
+    }
+}
+
+impl From<bitcoin::Address> for Address {
+    fn from(address: bitcoin::Address) -> Self {
+        Address{
+            as_string:address.to_string()
+        }
+    }
+}
+impl From<Address> for bitcoin::Address {
+    fn from(address: Address) -> Self {
+        match  bitcoin::Address::from_str(address.as_string.as_str()){
+            Ok(e) => e,
+            Err(e) =>  panic!("invalid_address {:?}", e)
+        }
+    }
+}
+impl From<PublicKey> for secp256k1::PublicKey {
+    fn from(key:PublicKey) -> Self {
+        match secp256k1::PublicKey::from_str(key.as_string.as_str()){
+            Ok(e) => {e}
+            Err(e) => panic!("invalid_public_key {:?}", e)
+        }
+    }
+}
+impl From<secp256k1::PublicKey> for PublicKey {
+    fn from(key:secp256k1::PublicKey) -> Self {
+        PublicKey{ as_string: key.to_string() }
+    }
+}
+impl From<lightning::ln::PaymentHash> for PaymentHash {
+    fn from(hash:lightning::ln::PaymentHash) -> Self {
+        PaymentHash{ as_u_array: hash.0 }
+    }
+}
+
+impl Serialize for Event {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+        where
+            S: Serializer,
+    {
+        match *self {
+            Event::PaymentSuccessful { payment_hash } => {
+                let mut map = serializer.serialize_map(Some(1))?;
+
+                map.serialize_entry(
+                    "payment_hash",
+                    &hex_utils::to_string(payment_hash.0.as_slice()),
+                )
+                    .unwrap();
+                map.serialize_entry(
+                    "event",
+                    &"Event::PaymentSuccessful").unwrap();
+                map.end()
+            }
+            Event::PaymentFailed { payment_hash } => {
+                let mut map = serializer.serialize_map(Some(1))?;
+
+                map.serialize_entry(
+                    "payment_hash",
+                    &hex_utils::to_string(payment_hash.0.as_slice()),
+                )
+                    .unwrap();
+                map.serialize_entry(
+                    "event",
+                    &"Event::PaymentFailed",
+                )
+                    .unwrap();
+                map.end()
+            }
+            Event::PaymentReceived {
+                payment_hash,
+                amount_msat,
+            } => {
+                let mut map = serializer.serialize_map(Some(2))?;
+                map.serialize_entry(
+                    "payment_hash",
+                    &hex_utils::to_string(payment_hash.0.as_slice()),
+                )
+                    .unwrap();
+                map.serialize_entry("amount_msat", &amount_msat.to_string())
+                    .unwrap();
+                map.serialize_entry(
+                    "event",
+                    &"Event::PaymentReceived",
+                )
+                    .unwrap();
+                map.end()
+            }
+            Event::ChannelReady {
+                channel_id,
+                user_channel_id,
+            } => {
+                let mut map = serializer.serialize_map(Some(2))?;
+                map.serialize_entry("channel_id", &hex_utils::to_string(channel_id.as_slice()))
+                    .unwrap();
+                map.serialize_entry("amount_msat", &user_channel_id.to_string())
+                    .unwrap();
+                map.serialize_entry(
+                    "event",
+                    &"Event::ChannelReady",
+                )
+                    .unwrap();
+                map.end()
+            }
+            Event::ChannelClosed {
+                channel_id,
+                user_channel_id,
+            } => {
+                let mut map = serializer.serialize_map(Some(2))?;
+                map.serialize_entry("channel_id", &hex_utils::to_string(channel_id.as_slice()))
+                    .unwrap();
+                map.serialize_entry("amount_msat", &user_channel_id.to_string())
+                    .unwrap();
+                map.serialize_entry(
+                    "event",
+                    &"Event::ChannelClosed",
+                )
+                    .unwrap();
+                map.end()
+            }
+        }
+    }
 }

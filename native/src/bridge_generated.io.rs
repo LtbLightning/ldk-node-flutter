@@ -12,6 +12,11 @@ pub extern "C" fn wire_start(port_: i64, ldk_node: wire_LdkNodeInstance) {
 }
 
 #[no_mangle]
+pub extern "C" fn wire_node_id(port_: i64, ldk_node: wire_LdkNodeInstance) {
+    wire_node_id_impl(port_, ldk_node)
+}
+
+#[no_mangle]
 pub extern "C" fn wire_get_balance(port_: i64, ldk_node: wire_LdkNodeInstance) {
     wire_get_balance_impl(port_, ldk_node)
 }
@@ -47,6 +52,11 @@ pub extern "C" fn wire_handle_event(port_: i64, ldk_node: wire_LdkNodeInstance) 
 }
 
 #[no_mangle]
+pub extern "C" fn wire_node_info(port_: i64, ldk_node: wire_LdkNodeInstance) {
+    wire_node_info_impl(port_, ldk_node)
+}
+
+#[no_mangle]
 pub extern "C" fn wire_receive_payment(
     port_: i64,
     ldk_node: wire_LdkNodeInstance,
@@ -58,24 +68,10 @@ pub extern "C" fn wire_receive_payment(
 }
 
 #[no_mangle]
-pub extern "C" fn wire_node_info(port_: i64, ldk_node: wire_LdkNodeInstance) {
-    wire_node_info_impl(port_, ldk_node)
-}
-
-#[no_mangle]
-pub extern "C" fn wire_payment_info(
-    port_: i64,
-    ldk_node: wire_LdkNodeInstance,
-    payment_hash: *mut wire_uint_8_list,
-) {
-    wire_payment_info_impl(port_, ldk_node, payment_hash)
-}
-
-#[no_mangle]
 pub extern "C" fn wire_send_payment(
     port_: i64,
     ldk_node: wire_LdkNodeInstance,
-    invoice: *mut wire_uint_8_list,
+    invoice: *mut wire_Invoice,
 ) {
     wire_send_payment_impl(port_, ldk_node, invoice)
 }
@@ -88,6 +84,15 @@ pub extern "C" fn wire_send_spontaneous_payment(
     node_id: *mut wire_uint_8_list,
 ) {
     wire_send_spontaneous_payment_impl(port_, ldk_node, amount_msat, node_id)
+}
+
+#[no_mangle]
+pub extern "C" fn wire_payment_info(
+    port_: i64,
+    ldk_node: wire_LdkNodeInstance,
+    payment_hash: *mut wire_uint_8_list,
+) {
+    wire_payment_info_impl(port_, ldk_node, payment_hash)
 }
 
 #[no_mangle]
@@ -112,7 +117,7 @@ pub extern "C" fn wire_close_channel(
     port_: i64,
     ldk_lite: wire_LdkNodeInstance,
     channel_id: *mut wire_uint_8_list,
-    counterparty_node_id: *mut wire_uint_8_list,
+    counterparty_node_id: *mut wire_PublicKey,
 ) {
     wire_close_channel_impl(port_, ldk_lite, channel_id, counterparty_node_id)
 }
@@ -127,6 +132,48 @@ pub extern "C" fn wire_rust_set_up(port_: i64) {
     wire_rust_set_up_impl(port_)
 }
 
+#[no_mangle]
+pub extern "C" fn wire_amount_milli_satoshis__static_method__Invoice(
+    port_: i64,
+    invoice: *mut wire_Invoice,
+) {
+    wire_amount_milli_satoshis__static_method__Invoice_impl(port_, invoice)
+}
+
+#[no_mangle]
+pub extern "C" fn wire_is_expired__static_method__Invoice(port_: i64, invoice: *mut wire_Invoice) {
+    wire_is_expired__static_method__Invoice_impl(port_, invoice)
+}
+
+#[no_mangle]
+pub extern "C" fn wire_expiry_time__static_method__Invoice(port_: i64, invoice: *mut wire_Invoice) {
+    wire_expiry_time__static_method__Invoice_impl(port_, invoice)
+}
+
+#[no_mangle]
+pub extern "C" fn wire_payment_hash__static_method__Invoice(
+    port_: i64,
+    invoice: *mut wire_Invoice,
+) {
+    wire_payment_hash__static_method__Invoice_impl(port_, invoice)
+}
+
+#[no_mangle]
+pub extern "C" fn wire_payee_pub_key__static_method__Invoice(
+    port_: i64,
+    invoice: *mut wire_Invoice,
+) {
+    wire_payee_pub_key__static_method__Invoice_impl(port_, invoice)
+}
+
+#[no_mangle]
+pub extern "C" fn wire_payment_secret__static_method__Invoice(
+    port_: i64,
+    invoice: *mut wire_Invoice,
+) {
+    wire_payment_secret__static_method__Invoice_impl(port_, invoice)
+}
+
 // Section: allocate functions
 
 #[no_mangle]
@@ -135,8 +182,18 @@ pub extern "C" fn new_LdkNodeInstance() -> wire_LdkNodeInstance {
 }
 
 #[no_mangle]
+pub extern "C" fn new_box_autoadd_invoice_0() -> *mut wire_Invoice {
+    support::new_leak_box_ptr(wire_Invoice::new_with_null_ptr())
+}
+
+#[no_mangle]
 pub extern "C" fn new_box_autoadd_ldk_config_0() -> *mut wire_LdkConfig {
     support::new_leak_box_ptr(wire_LdkConfig::new_with_null_ptr())
+}
+
+#[no_mangle]
+pub extern "C" fn new_box_autoadd_public_key_0() -> *mut wire_PublicKey {
+    support::new_leak_box_ptr(wire_PublicKey::new_with_null_ptr())
 }
 
 #[no_mangle]
@@ -184,10 +241,22 @@ impl Wire2Api<String> for *mut wire_uint_8_list {
     }
 }
 
+impl Wire2Api<Invoice> for *mut wire_Invoice {
+    fn wire2api(self) -> Invoice {
+        let wrap = unsafe { support::box_from_leak_ptr(self) };
+        Wire2Api::<Invoice>::wire2api(*wrap).into()
+    }
+}
 impl Wire2Api<LdkConfig> for *mut wire_LdkConfig {
     fn wire2api(self) -> LdkConfig {
         let wrap = unsafe { support::box_from_leak_ptr(self) };
         Wire2Api::<LdkConfig>::wire2api(*wrap).into()
+    }
+}
+impl Wire2Api<PublicKey> for *mut wire_PublicKey {
+    fn wire2api(self) -> PublicKey {
+        let wrap = unsafe { support::box_from_leak_ptr(self) };
+        Wire2Api::<PublicKey>::wire2api(*wrap).into()
     }
 }
 impl Wire2Api<u64> for *mut u64 {
@@ -196,6 +265,13 @@ impl Wire2Api<u64> for *mut u64 {
     }
 }
 
+impl Wire2Api<Invoice> for wire_Invoice {
+    fn wire2api(self) -> Invoice {
+        Invoice {
+            as_string: self.as_string.wire2api(),
+        }
+    }
+}
 impl Wire2Api<LdkConfig> for wire_LdkConfig {
     fn wire2api(self) -> LdkConfig {
         LdkConfig {
@@ -204,6 +280,14 @@ impl Wire2Api<LdkConfig> for wire_LdkConfig {
             network: self.network.wire2api(),
             listening_address: self.listening_address.wire2api(),
             default_cltv_expiry_delta: self.default_cltv_expiry_delta.wire2api(),
+        }
+    }
+}
+
+impl Wire2Api<PublicKey> for wire_PublicKey {
+    fn wire2api(self) -> PublicKey {
+        PublicKey {
+            as_string: self.as_string.wire2api(),
         }
     }
 }
@@ -232,12 +316,24 @@ pub struct wire_LdkNodeInstance {
 
 #[repr(C)]
 #[derive(Clone)]
+pub struct wire_Invoice {
+    as_string: *mut wire_uint_8_list,
+}
+
+#[repr(C)]
+#[derive(Clone)]
 pub struct wire_LdkConfig {
     storage_dir_path: *mut wire_uint_8_list,
     esplora_server_url: *mut wire_uint_8_list,
     network: i32,
     listening_address: *mut wire_uint_8_list,
     default_cltv_expiry_delta: u32,
+}
+
+#[repr(C)]
+#[derive(Clone)]
+pub struct wire_PublicKey {
+    as_string: *mut wire_uint_8_list,
 }
 
 #[repr(C)]
@@ -267,6 +363,14 @@ impl NewWithNullPtr for wire_LdkNodeInstance {
     }
 }
 
+impl NewWithNullPtr for wire_Invoice {
+    fn new_with_null_ptr() -> Self {
+        Self {
+            as_string: core::ptr::null_mut(),
+        }
+    }
+}
+
 impl NewWithNullPtr for wire_LdkConfig {
     fn new_with_null_ptr() -> Self {
         Self {
@@ -275,6 +379,14 @@ impl NewWithNullPtr for wire_LdkConfig {
             network: Default::default(),
             listening_address: core::ptr::null_mut(),
             default_cltv_expiry_delta: Default::default(),
+        }
+    }
+}
+
+impl NewWithNullPtr for wire_PublicKey {
+    fn new_with_null_ptr() -> Self {
+        Self {
+            as_string: core::ptr::null_mut(),
         }
     }
 }

@@ -20,11 +20,16 @@ use std::sync::Arc;
 // Section: imports
 
 use crate::ffi::PaymentStatus;
+use crate::types::Address;
 use crate::types::Balance;
 use crate::types::ChannelInfo;
+use crate::types::Invoice;
 use crate::types::LogEntry;
 use crate::types::Network;
 use crate::types::NodeInfo;
+use crate::types::PaymentHash;
+use crate::types::PaymentSecret;
+use crate::types::PublicKey;
 
 // Section: wire functions
 
@@ -54,6 +59,22 @@ fn wire_start_impl(
         move || {
             let api_ldk_node = ldk_node.wire2api();
             move |task_callback| Ok(start(api_ldk_node))
+        },
+    )
+}
+fn wire_node_id_impl(
+    port_: MessagePort,
+    ldk_node: impl Wire2Api<RustOpaque<LdkNodeInstance>> + UnwindSafe,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap(
+        WrapInfo {
+            debug_name: "node_id",
+            port: Some(port_),
+            mode: FfiCallMode::Normal,
+        },
+        move || {
+            let api_ldk_node = ldk_node.wire2api();
+            move |task_callback| Ok(node_id(api_ldk_node))
         },
     )
 }
@@ -169,6 +190,22 @@ fn wire_handle_event_impl(
         },
     )
 }
+fn wire_node_info_impl(
+    port_: MessagePort,
+    ldk_node: impl Wire2Api<RustOpaque<LdkNodeInstance>> + UnwindSafe,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap(
+        WrapInfo {
+            debug_name: "node_info",
+            port: Some(port_),
+            mode: FfiCallMode::Normal,
+        },
+        move || {
+            let api_ldk_node = ldk_node.wire2api();
+            move |task_callback| Ok(node_info(api_ldk_node))
+        },
+    )
+}
 fn wire_receive_payment_impl(
     port_: MessagePort,
     ldk_node: impl Wire2Api<RustOpaque<LdkNodeInstance>> + UnwindSafe,
@@ -198,44 +235,10 @@ fn wire_receive_payment_impl(
         },
     )
 }
-fn wire_node_info_impl(
-    port_: MessagePort,
-    ldk_node: impl Wire2Api<RustOpaque<LdkNodeInstance>> + UnwindSafe,
-) {
-    FLUTTER_RUST_BRIDGE_HANDLER.wrap(
-        WrapInfo {
-            debug_name: "node_info",
-            port: Some(port_),
-            mode: FfiCallMode::Normal,
-        },
-        move || {
-            let api_ldk_node = ldk_node.wire2api();
-            move |task_callback| Ok(node_info(api_ldk_node))
-        },
-    )
-}
-fn wire_payment_info_impl(
-    port_: MessagePort,
-    ldk_node: impl Wire2Api<RustOpaque<LdkNodeInstance>> + UnwindSafe,
-    payment_hash: impl Wire2Api<[u8; 32]> + UnwindSafe,
-) {
-    FLUTTER_RUST_BRIDGE_HANDLER.wrap(
-        WrapInfo {
-            debug_name: "payment_info",
-            port: Some(port_),
-            mode: FfiCallMode::Normal,
-        },
-        move || {
-            let api_ldk_node = ldk_node.wire2api();
-            let api_payment_hash = payment_hash.wire2api();
-            move |task_callback| Ok(payment_info(api_ldk_node, api_payment_hash))
-        },
-    )
-}
 fn wire_send_payment_impl(
     port_: MessagePort,
     ldk_node: impl Wire2Api<RustOpaque<LdkNodeInstance>> + UnwindSafe,
-    invoice: impl Wire2Api<String> + UnwindSafe,
+    invoice: impl Wire2Api<Invoice> + UnwindSafe,
 ) {
     FLUTTER_RUST_BRIDGE_HANDLER.wrap(
         WrapInfo {
@@ -276,6 +279,24 @@ fn wire_send_spontaneous_payment_impl(
         },
     )
 }
+fn wire_payment_info_impl(
+    port_: MessagePort,
+    ldk_node: impl Wire2Api<RustOpaque<LdkNodeInstance>> + UnwindSafe,
+    payment_hash: impl Wire2Api<[u8; 32]> + UnwindSafe,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap(
+        WrapInfo {
+            debug_name: "payment_info",
+            port: Some(port_),
+            mode: FfiCallMode::Normal,
+        },
+        move || {
+            let api_ldk_node = ldk_node.wire2api();
+            let api_payment_hash = payment_hash.wire2api();
+            move |task_callback| Ok(payment_info(api_ldk_node, api_payment_hash))
+        },
+    )
+}
 fn wire_connect_open_channel_impl(
     port_: MessagePort,
     ldk_lite: impl Wire2Api<RustOpaque<LdkNodeInstance>> + UnwindSafe,
@@ -309,7 +330,7 @@ fn wire_close_channel_impl(
     port_: MessagePort,
     ldk_lite: impl Wire2Api<RustOpaque<LdkNodeInstance>> + UnwindSafe,
     channel_id: impl Wire2Api<String> + UnwindSafe,
-    counterparty_node_id: impl Wire2Api<String> + UnwindSafe,
+    counterparty_node_id: impl Wire2Api<PublicKey> + UnwindSafe,
 ) {
     FLUTTER_RUST_BRIDGE_HANDLER.wrap(
         WrapInfo {
@@ -349,6 +370,102 @@ fn wire_rust_set_up_impl(port_: MessagePort) {
             mode: FfiCallMode::Normal,
         },
         move || move |task_callback| Ok(rust_set_up()),
+    )
+}
+fn wire_amount_milli_satoshis__static_method__Invoice_impl(
+    port_: MessagePort,
+    invoice: impl Wire2Api<Invoice> + UnwindSafe,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap(
+        WrapInfo {
+            debug_name: "amount_milli_satoshis__static_method__Invoice",
+            port: Some(port_),
+            mode: FfiCallMode::Normal,
+        },
+        move || {
+            let api_invoice = invoice.wire2api();
+            move |task_callback| Ok(Invoice::amount_milli_satoshis(api_invoice))
+        },
+    )
+}
+fn wire_is_expired__static_method__Invoice_impl(
+    port_: MessagePort,
+    invoice: impl Wire2Api<Invoice> + UnwindSafe,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap(
+        WrapInfo {
+            debug_name: "is_expired__static_method__Invoice",
+            port: Some(port_),
+            mode: FfiCallMode::Normal,
+        },
+        move || {
+            let api_invoice = invoice.wire2api();
+            move |task_callback| Ok(Invoice::is_expired(api_invoice))
+        },
+    )
+}
+fn wire_expiry_time__static_method__Invoice_impl(
+    port_: MessagePort,
+    invoice: impl Wire2Api<Invoice> + UnwindSafe,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap(
+        WrapInfo {
+            debug_name: "expiry_time__static_method__Invoice",
+            port: Some(port_),
+            mode: FfiCallMode::Normal,
+        },
+        move || {
+            let api_invoice = invoice.wire2api();
+            move |task_callback| Ok(Invoice::expiry_time(api_invoice))
+        },
+    )
+}
+fn wire_payment_hash__static_method__Invoice_impl(
+    port_: MessagePort,
+    invoice: impl Wire2Api<Invoice> + UnwindSafe,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap(
+        WrapInfo {
+            debug_name: "payment_hash__static_method__Invoice",
+            port: Some(port_),
+            mode: FfiCallMode::Normal,
+        },
+        move || {
+            let api_invoice = invoice.wire2api();
+            move |task_callback| Ok(Invoice::payment_hash(api_invoice))
+        },
+    )
+}
+fn wire_payee_pub_key__static_method__Invoice_impl(
+    port_: MessagePort,
+    invoice: impl Wire2Api<Invoice> + UnwindSafe,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap(
+        WrapInfo {
+            debug_name: "payee_pub_key__static_method__Invoice",
+            port: Some(port_),
+            mode: FfiCallMode::Normal,
+        },
+        move || {
+            let api_invoice = invoice.wire2api();
+            move |task_callback| Ok(Invoice::payee_pub_key(api_invoice))
+        },
+    )
+}
+fn wire_payment_secret__static_method__Invoice_impl(
+    port_: MessagePort,
+    invoice: impl Wire2Api<Invoice> + UnwindSafe,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap(
+        WrapInfo {
+            debug_name: "payment_secret__static_method__Invoice",
+            port: Some(port_),
+            mode: FfiCallMode::Normal,
+        },
+        move || {
+            let api_invoice = invoice.wire2api();
+            move |task_callback| Ok(Invoice::payment_secret(api_invoice))
+        },
     )
 }
 // Section: wrapper structs
@@ -416,6 +533,13 @@ impl Wire2Api<u8> for u8 {
 
 // Section: impl IntoDart
 
+impl support::IntoDart for Address {
+    fn into_dart(self) -> support::DartAbi {
+        vec![self.as_string.into_dart()].into_dart()
+    }
+}
+impl support::IntoDartExceptPrimitive for Address {}
+
 impl support::IntoDart for Balance {
     fn into_dart(self) -> support::DartAbi {
         vec![
@@ -451,6 +575,13 @@ impl support::IntoDart for ChannelInfo {
 }
 impl support::IntoDartExceptPrimitive for ChannelInfo {}
 
+impl support::IntoDart for Invoice {
+    fn into_dart(self) -> support::DartAbi {
+        vec![self.as_string.into_dart()].into_dart()
+    }
+}
+impl support::IntoDartExceptPrimitive for Invoice {}
+
 impl support::IntoDart for LogEntry {
     fn into_dart(self) -> support::DartAbi {
         vec![
@@ -476,6 +607,20 @@ impl support::IntoDart for NodeInfo {
 }
 impl support::IntoDartExceptPrimitive for NodeInfo {}
 
+impl support::IntoDart for PaymentHash {
+    fn into_dart(self) -> support::DartAbi {
+        vec![self.as_u_array.into_dart()].into_dart()
+    }
+}
+impl support::IntoDartExceptPrimitive for PaymentHash {}
+
+impl support::IntoDart for PaymentSecret {
+    fn into_dart(self) -> support::DartAbi {
+        vec![self.as_u_array.into_dart()].into_dart()
+    }
+}
+impl support::IntoDartExceptPrimitive for PaymentSecret {}
+
 impl support::IntoDart for PaymentStatus {
     fn into_dart(self) -> support::DartAbi {
         match self {
@@ -486,6 +631,12 @@ impl support::IntoDart for PaymentStatus {
         .into_dart()
     }
 }
+impl support::IntoDart for PublicKey {
+    fn into_dart(self) -> support::DartAbi {
+        vec![self.as_string.into_dart()].into_dart()
+    }
+}
+impl support::IntoDartExceptPrimitive for PublicKey {}
 
 // Section: executor
 

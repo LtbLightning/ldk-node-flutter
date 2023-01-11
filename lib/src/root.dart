@@ -97,7 +97,6 @@ class Config {
 /// the get go.
 class LdkNode {
   LdkNodeInstance? _ldkNode;
-  String? _ldkNodeId;
   LdkNode._setLdkLiteInstance(LdkNodeInstance liteInstance) {
     _ldkNode = liteInstance;
   }
@@ -108,7 +107,7 @@ class LdkNode {
   ///
   Future<LdkNode> start() async {
     LdkEventHandler(callback: loaderApi.createLogStream()).init();
-    _ldkNodeId = await loaderApi.start(ldkNode: _ldkNode!);
+     await loaderApi.start(ldkNode: _ldkNode!);
     return this;
   }
 
@@ -133,8 +132,9 @@ class LdkNode {
   }
 
   /// Returns our own node id
-  String nodeId() {
-    return _ldkNodeId!;
+  Future<PublicKey> nodeId() async {
+    final res = await  loaderApi.nodeId(ldkNode: _ldkNode!);
+    return res;
   }
 
   /// Returns our own listening address and port.
@@ -144,9 +144,9 @@ class LdkNode {
   }
 
   /// Retrieve a new on-chain/funding address.
-  Future<String> newFundingAddress() async {
-    final id = await loaderApi.newFundingAddress(ldkNode: _ldkNode!);
-    return id;
+  Future<Address> newFundingAddress() async {
+    final res = await loaderApi.newFundingAddress(ldkNode: _ldkNode!);
+    return res;
   }
 
   /// Connect to a node and open a new channel. Disconnects and re-connects are handled automatically
@@ -165,7 +165,7 @@ class LdkNode {
   }
 
   /// Returns a payable invoice that can be used to request and receive a payment.
-  Future<String> receivePayment(
+  Future<Invoice> receivePayment(
       String description, int expirySecs, int? amount) async {
     final res = await loaderApi.receivePayment(
         ldkNode: _ldkNode!,
@@ -176,21 +176,21 @@ class LdkNode {
   }
 
   /// Send a payment given an invoice.
-  Future<String> sendPayment(String invoice) async {
+  Future<PaymentHash> sendPayment(Invoice invoice) async {
     final res =
         await loaderApi.sendPayment(ldkNode: _ldkNode!, invoice: invoice);
     return res;
   }
 
   /// Send a spontaneous, aka. "keysend", payment
-  Future<String> sendSpontaneousPayment(String nodeId, int amountMsat) async {
-    final res = loaderApi.sendSpontaneousPayment(
+  Future<PaymentHash> sendSpontaneousPayment(String nodeId, int amountMsat) async {
+    final res = await loaderApi.sendSpontaneousPayment(
         ldkNode: _ldkNode!, amountMsat: amountMsat, nodeId: nodeId);
     return res;
   }
 
   /// Close a previously opened channel.
-  Future<void> closeChannel(String channelId, String counterpartyNodeId) async {
+  Future<void> closeChannel(String channelId, PublicKey counterpartyNodeId) async {
     await loaderApi.closeChannel(
         ldkLite: _ldkNode!,
         channelId: channelId,

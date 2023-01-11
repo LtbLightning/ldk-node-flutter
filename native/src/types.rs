@@ -4,6 +4,23 @@ use std::sync::Mutex;
 pub struct LdkNodeInstance {
     pub ldk_lite_mutex: Mutex<LdkLite>,
 }
+#[derive(Debug)]
+#[allow(dead_code)]
+/// An error that possibly needs to be handled by the user.
+pub enum Error {
+    LdkInitError,
+    NodeIdError,
+    GetBalanceError,
+    NewFundingAddressError,
+    SyncWalletError,
+    GetNodeAddrError,
+    NodeStopError,
+    SendPaymentError,
+    GetNodeInfoError,
+    ReceivePaymentError,
+    ConnectOpenChannelError,
+    CloseChannelError
+}
 
 pub struct Balance {
     pub total: u64,
@@ -50,4 +67,20 @@ pub struct LogEntry {
     pub level: i32,
     pub tag: String,
     pub msg: String,
+}
+
+pub struct Invoice{
+    pub as_string:String
+}
+pub struct PaymentSecret{
+    pub as_u_array: [u8; 32]
+}
+pub struct PublicKey{
+    pub as_string:String
+}
+pub struct Address{
+    pub as_string:String
+}
+pub struct PaymentHash{
+    pub as_u_array: [u8; 32]
 }
