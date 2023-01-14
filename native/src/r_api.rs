@@ -88,6 +88,7 @@ pub fn get_balance(ldk_node: RustOpaque<LdkNodeInstance>) -> Balance {
 }
 
 pub fn new_funding_address(ldk_node: RustOpaque<LdkNodeInstance>) -> Address {
+
     let mut node = ldk_node.ldk_lite_mutex.lock().unwrap();
     match node.new_funding_address() {
         Ok(e) =>  e.into(),

@@ -656,7 +656,6 @@ where
             }
             LdkEvent::DiscardFunding { .. } => {}
             LdkEvent::HTLCIntercepted { .. } => {}
-            _ => {}
         }
     }
 }

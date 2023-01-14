@@ -1,3 +1,6 @@
+import 'dart:async';
+import 'dart:convert';
+
 import 'generated/bindings.dart';
 import 'utils/event_handler.dart';
 import 'utils/loader.dart';
@@ -106,7 +109,7 @@ class LdkNode {
   /// controlled via the provided API methods in a thread-safe manner.
   ///
   Future<LdkNode> start() async {
-    LdkEventHandler(callback: loaderApi.createLogStream()).init();
+    StreamHandler(callback: loaderApi.createLogStream()).init();
      await loaderApi.start(ldkNode: _ldkNode!);
     return this;
   }
@@ -121,9 +124,9 @@ class LdkNode {
   ///
   /// Note: this will always return the same event until handling is confirmed
 
-  Future<void> nextEvent() async {
+  Future<Event?> nextEvent() async {
     final res = await loaderApi.nextEvent(ldkNode: _ldkNode!);
-    print(res);
+    return handleLdkEvent(res);
   }
 
   /// Confirm the last retrieved event handled.

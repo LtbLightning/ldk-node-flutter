@@ -86,7 +86,7 @@ impl Serialize for Event {
                     .unwrap();
                 map.serialize_entry(
                     "event",
-                    &"Event::PaymentSuccessful").unwrap();
+                    &"PaymentSuccessful").unwrap();
                 map.end()
             }
             Event::PaymentFailed { payment_hash } => {
@@ -99,7 +99,7 @@ impl Serialize for Event {
                     .unwrap();
                 map.serialize_entry(
                     "event",
-                    &"Event::PaymentFailed",
+                    &"PaymentFailed",
                 )
                     .unwrap();
                 map.end()
@@ -118,7 +118,7 @@ impl Serialize for Event {
                     .unwrap();
                 map.serialize_entry(
                     "event",
-                    &"Event::PaymentReceived",
+                    &"PaymentReceived",
                 )
                     .unwrap();
                 map.end()
@@ -130,11 +130,11 @@ impl Serialize for Event {
                 let mut map = serializer.serialize_map(Some(2))?;
                 map.serialize_entry("channel_id", &hex_utils::to_string(channel_id.as_slice()))
                     .unwrap();
-                map.serialize_entry("amount_msat", &user_channel_id.to_string())
+                map.serialize_entry("user_channel_id", &user_channel_id.to_string())
                     .unwrap();
                 map.serialize_entry(
                     "event",
-                    &"Event::ChannelReady",
+                    &"ChannelReady",
                 )
                     .unwrap();
                 map.end()
@@ -150,7 +150,7 @@ impl Serialize for Event {
                     .unwrap();
                 map.serialize_entry(
                     "event",
-                    &"Event::ChannelClosed",
+                    &"ChannelClosed",
                 )
                     .unwrap();
                 map.end()

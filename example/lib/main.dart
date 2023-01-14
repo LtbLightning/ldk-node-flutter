@@ -85,7 +85,7 @@ class _MyAppState extends State<MyApp> {
     final path = await getApplicationSupportDirectory();
     //Specifying node folder
     final aliceConfig = await initLdkConfig(
-        "${path.path}/ldk_cache/alice's_node", "0.0.0.0:3314");
+        "${path.path}/ldk_cache/alice's-node", "0.0.0.0:3314");
     NodeBuilder aliceBuilder = NodeBuilder.fromConfig(aliceConfig);
     aliceNode = await aliceBuilder.build();
     await aliceNode.start();
@@ -101,7 +101,7 @@ class _MyAppState extends State<MyApp> {
     final path = await getApplicationSupportDirectory();
     //Specifying node folder
     final bobConfig =
-        await initLdkConfig("${path.path}/ldk_cache/bob's_node", "0.0.0.0:7731");
+        await initLdkConfig("${path.path}/ldk_cache/bob's-node", "0.0.0.0:7731");
     NodeBuilder bobBuilder = NodeBuilder.fromConfig(bobConfig);
     bobNode = await bobBuilder.build();
     await bobNode.start();
@@ -113,6 +113,7 @@ class _MyAppState extends State<MyApp> {
   }
 
   getNodeBalances() async {
+
     final alice = await aliceNode.onChainBalance();
     final bob = await bobNode.onChainBalance();
     if (kDebugMode) {
@@ -173,7 +174,7 @@ class _MyAppState extends State<MyApp> {
     final alice = await aliceNode.listeningAddress();
     final bob = await bobNode.listeningAddress();
     setState(() {
-      bobNodePubKeyAndAddress = "$bobNodeId@$bob";
+      bobNodePubKeyAndAddress = "${bobNodeId!.asString}@$bob";
       displayText = "bob's node pubKey & Address : $bobNodePubKeyAndAddress";
     });
     if (kDebugMode) {
@@ -210,7 +211,10 @@ class _MyAppState extends State<MyApp> {
   }
 
   nextEvent() async {
-    await bobNode.nextEvent();
+  final res =   await bobNode.nextEvent();
+  if (kDebugMode) {
+    print(res.toString());
+  }
   }
 
   closeChannel() async {
