@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:convert';
 
 import 'generated/bindings.dart';
 import 'utils/event_handler.dart';
@@ -110,7 +109,7 @@ class LdkNode {
   ///
   Future<LdkNode> start() async {
     StreamHandler(callback: loaderApi.createLogStream()).init();
-     await loaderApi.start(ldkNode: _ldkNode!);
+    await loaderApi.start(ldkNode: _ldkNode!);
     return this;
   }
 
@@ -136,7 +135,7 @@ class LdkNode {
 
   /// Returns our own node id
   Future<PublicKey> nodeId() async {
-    final res = await  loaderApi.nodeId(ldkNode: _ldkNode!);
+    final res = await loaderApi.nodeId(ldkNode: _ldkNode!);
     return res;
   }
 
@@ -186,14 +185,16 @@ class LdkNode {
   }
 
   /// Send a spontaneous, aka. "keysend", payment
-  Future<PaymentHash> sendSpontaneousPayment(String nodeId, int amountMsat) async {
+  Future<PaymentHash> sendSpontaneousPayment(
+      String nodeId, int amountMsat) async {
     final res = await loaderApi.sendSpontaneousPayment(
         ldkNode: _ldkNode!, amountMsat: amountMsat, nodeId: nodeId);
     return res;
   }
 
   /// Close a previously opened channel.
-  Future<void> closeChannel(String channelId, PublicKey counterpartyNodeId) async {
+  Future<void> closeChannel(
+      String channelId, PublicKey counterpartyNodeId) async {
     await loaderApi.closeChannel(
         ldkLite: _ldkNode!,
         channelId: channelId,
@@ -211,10 +212,9 @@ class LdkNode {
     await loaderApi.sync(ldkNode: _ldkNode!);
   }
 
-//Todo Update Event handler to get the payment hash
-  Future<PaymentStatus> paymentInfo(U8Array32 paymentHash) async {
+  Future<PaymentInfo?> paymentInfo(PaymentHash paymentHash) async {
     final res = await loaderApi.paymentInfo(
-        ldkNode: _ldkNode!, paymentHash: paymentHash);
+        ldkNode: _ldkNode!, paymentHash: paymentHash.asUArray);
     return res;
   }
 

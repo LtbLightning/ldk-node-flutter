@@ -72,6 +72,7 @@ pub struct LogEntry {
 pub struct Invoice{
     pub as_string:String
 }
+#[derive(Clone,  PartialEq, Eq)]
 pub struct PaymentSecret{
     pub as_u_array: [u8; 32]
 }
@@ -82,5 +83,33 @@ pub struct Address{
     pub as_string:String
 }
 pub struct PaymentHash{
+    pub as_u_array: [u8; 32]
+}
+// Structs wrapping the particular information which should easily be
+// understandable, parseable, and transformable, i.e., we'll try to avoid
+// exposing too many technical detail here.
+/// Represents a payment.
+#[derive(Clone,  PartialEq, Eq)]
+pub struct PaymentInfo {
+    /// The pre-image used by the payment.
+    pub preimage: Option<PaymentPreimage>,
+    /// The secret used by the payment.
+    pub secret: Option<PaymentSecret>,
+    /// The status of the payment.
+    pub status: PaymentStatus,
+    /// The amount transferred.
+    pub amount_msat: Option<u64>,
+}
+#[derive(Clone, Debug, PartialEq, Eq)]
+pub enum PaymentStatus {
+    /// The payment is still pending.
+    Pending,
+    /// The payment suceeded.
+    Succeeded,
+    /// The payment failed.
+    Failed,
+}
+#[derive(Clone, Debug, PartialEq, Eq)]
+pub struct PaymentPreimage{
     pub as_u_array: [u8; 32]
 }

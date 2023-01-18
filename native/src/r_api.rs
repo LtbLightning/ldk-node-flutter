@@ -1,7 +1,7 @@
 
-use crate::ffi::{Builder, Config, PaymentStatus};
+use crate::ffi::{Builder, Config};
 pub use crate::types::LdkNodeInstance;
-use crate::types::{Address, Balance, Error, Invoice, LogEntry, Network, NodeInfo, PaymentHash, PaymentSecret, PublicKey};
+use crate::types::{Address, Balance, Error, Invoice, LogEntry, Network, NodeInfo, PaymentHash, PaymentInfo, PaymentSecret, PublicKey};
 use crate::{hex_utils, simple_log};
 use flutter_rust_bridge::{RustOpaque, StreamSink};
 use log::info;
@@ -200,9 +200,9 @@ pub fn send_spontaneous_payment(
 pub fn payment_info(
     ldk_node: RustOpaque<LdkNodeInstance>,
     payment_hash: [u8; 32],
-) -> PaymentStatus {
+) -> Option<PaymentInfo> {
     let node = ldk_node.ldk_lite_mutex.lock().unwrap();
-    node.payment_info(&payment_hash).unwrap().status
+    node.payment_info(&payment_hash).map(|x| x.into())
 }
 pub fn connect_open_channel(
     ldk_lite: RustOpaque<LdkNodeInstance>,

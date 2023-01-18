@@ -19,7 +19,6 @@ use std::sync::Arc;
 
 // Section: imports
 
-use crate::ffi::PaymentStatus;
 use crate::types::Address;
 use crate::types::Balance;
 use crate::types::ChannelInfo;
@@ -28,7 +27,10 @@ use crate::types::LogEntry;
 use crate::types::Network;
 use crate::types::NodeInfo;
 use crate::types::PaymentHash;
+use crate::types::PaymentInfo;
+use crate::types::PaymentPreimage;
 use crate::types::PaymentSecret;
+use crate::types::PaymentStatus;
 use crate::types::PublicKey;
 
 // Section: wire functions
@@ -613,6 +615,26 @@ impl support::IntoDart for PaymentHash {
     }
 }
 impl support::IntoDartExceptPrimitive for PaymentHash {}
+
+impl support::IntoDart for PaymentInfo {
+    fn into_dart(self) -> support::DartAbi {
+        vec![
+            self.preimage.into_dart(),
+            self.secret.into_dart(),
+            self.status.into_dart(),
+            self.amount_msat.into_dart(),
+        ]
+        .into_dart()
+    }
+}
+impl support::IntoDartExceptPrimitive for PaymentInfo {}
+
+impl support::IntoDart for PaymentPreimage {
+    fn into_dart(self) -> support::DartAbi {
+        vec![self.as_u_array.into_dart()].into_dart()
+    }
+}
+impl support::IntoDartExceptPrimitive for PaymentPreimage {}
 
 impl support::IntoDart for PaymentSecret {
     fn into_dart(self) -> support::DartAbi {

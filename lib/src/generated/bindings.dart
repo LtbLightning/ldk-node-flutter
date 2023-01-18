@@ -76,7 +76,7 @@ abstract class Native {
   FlutterRustBridgeTaskConstMeta get kSendSpontaneousPaymentConstMeta;
 
   ///	Query for information about the status of a specific payment.
-  Future<PaymentStatus> paymentInfo({required LdkNodeInstance ldkNode, required U8Array32 paymentHash, dynamic hint});
+  Future<PaymentInfo?> paymentInfo({required LdkNodeInstance ldkNode, required U8Array32 paymentHash, dynamic hint});
 
   FlutterRustBridgeTaskConstMeta get kPaymentInfoConstMeta;
 
@@ -303,6 +303,36 @@ class PaymentHash {
   });
 }
 
+/// Represents a payment.
+class PaymentInfo {
+  /// The pre-image used by the payment.
+  final PaymentPreimage? preimage;
+
+  /// The secret used by the payment.
+  final PaymentSecret? secret;
+
+  /// The status of the payment.
+  final PaymentStatus status;
+
+  /// The amount transferred.
+  final int? amountMsat;
+
+  PaymentInfo({
+    this.preimage,
+    this.secret,
+    required this.status,
+    this.amountMsat,
+  });
+}
+
+class PaymentPreimage {
+  final U8Array32 asUArray;
+
+  PaymentPreimage({
+    required this.asUArray,
+  });
+}
+
 class PaymentSecret {
   final U8Array32 asUArray;
 
@@ -311,7 +341,6 @@ class PaymentSecret {
   });
 }
 
-/// Represents the current status of a payment.
 enum PaymentStatus {
   /// The payment is still pending.
   Pending,
@@ -583,12 +612,12 @@ class NativeImpl implements Native {
         argNames: ["ldkNode", "amountMsat", "nodeId"],
       );
 
-  Future<PaymentStatus> paymentInfo({required LdkNodeInstance ldkNode, required U8Array32 paymentHash, dynamic hint}) {
+  Future<PaymentInfo?> paymentInfo({required LdkNodeInstance ldkNode, required U8Array32 paymentHash, dynamic hint}) {
     var arg0 = _platform.api2wire_LdkNodeInstance(ldkNode);
     var arg1 = _platform.api2wire_u8_array_32(paymentHash);
     return _platform.executeNormal(FlutterRustBridgeTask(
       callFfi: (port_) => _platform.inner.wire_payment_info(port_, arg0, arg1),
-      parseSuccessData: _wire2api_payment_status,
+      parseSuccessData: _wire2api_opt_box_autoadd_payment_info,
       constMeta: kPaymentInfoConstMeta,
       argValues: [ldkNode, paymentHash],
       hint: hint,
@@ -818,6 +847,18 @@ class NativeImpl implements Native {
     return raw as bool;
   }
 
+  PaymentInfo _wire2api_box_autoadd_payment_info(dynamic raw) {
+    return _wire2api_payment_info(raw);
+  }
+
+  PaymentPreimage _wire2api_box_autoadd_payment_preimage(dynamic raw) {
+    return _wire2api_payment_preimage(raw);
+  }
+
+  PaymentSecret _wire2api_box_autoadd_payment_secret(dynamic raw) {
+    return _wire2api_payment_secret(raw);
+  }
+
   int _wire2api_box_autoadd_u64(dynamic raw) {
     return _wire2api_u64(raw);
   }
@@ -887,6 +928,18 @@ class NativeImpl implements Native {
     return raw == null ? null : _wire2api_String(raw);
   }
 
+  PaymentInfo? _wire2api_opt_box_autoadd_payment_info(dynamic raw) {
+    return raw == null ? null : _wire2api_box_autoadd_payment_info(raw);
+  }
+
+  PaymentPreimage? _wire2api_opt_box_autoadd_payment_preimage(dynamic raw) {
+    return raw == null ? null : _wire2api_box_autoadd_payment_preimage(raw);
+  }
+
+  PaymentSecret? _wire2api_opt_box_autoadd_payment_secret(dynamic raw) {
+    return raw == null ? null : _wire2api_box_autoadd_payment_secret(raw);
+  }
+
   int? _wire2api_opt_box_autoadd_u64(dynamic raw) {
     return raw == null ? null : _wire2api_box_autoadd_u64(raw);
   }
@@ -895,6 +948,25 @@ class NativeImpl implements Native {
     final arr = raw as List<dynamic>;
     if (arr.length != 1) throw Exception('unexpected arr length: expect 1 but see ${arr.length}');
     return PaymentHash(
+      asUArray: _wire2api_u8_array_32(arr[0]),
+    );
+  }
+
+  PaymentInfo _wire2api_payment_info(dynamic raw) {
+    final arr = raw as List<dynamic>;
+    if (arr.length != 4) throw Exception('unexpected arr length: expect 4 but see ${arr.length}');
+    return PaymentInfo(
+      preimage: _wire2api_opt_box_autoadd_payment_preimage(arr[0]),
+      secret: _wire2api_opt_box_autoadd_payment_secret(arr[1]),
+      status: _wire2api_payment_status(arr[2]),
+      amountMsat: _wire2api_opt_box_autoadd_u64(arr[3]),
+    );
+  }
+
+  PaymentPreimage _wire2api_payment_preimage(dynamic raw) {
+    final arr = raw as List<dynamic>;
+    if (arr.length != 1) throw Exception('unexpected arr length: expect 1 but see ${arr.length}');
+    return PaymentPreimage(
       asUArray: _wire2api_u8_array_32(arr[0]),
     );
   }
