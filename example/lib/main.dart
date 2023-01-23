@@ -85,7 +85,7 @@ class _MyAppState extends State<MyApp> {
     final path = await getApplicationSupportDirectory();
     //Specifying node folder
     final aliceConfig = await initLdkConfig(
-        "${path.path}/ldk_cache/alice's_node", "0.0.0.0:3314");
+        "${path.path}/ldk_cache/alice's node", "0.0.0.0:3314");
     NodeBuilder aliceBuilder = NodeBuilder.fromConfig(aliceConfig);
     aliceNode = await aliceBuilder.build();
     await aliceNode.start();
@@ -101,7 +101,7 @@ class _MyAppState extends State<MyApp> {
     final path = await getApplicationSupportDirectory();
     //Specifying node folder
     final bobConfig = await initLdkConfig(
-        "${path.path}/ldk_cache/bob's_node", "0.0.0.0:7731");
+        "${path.path}/ldk_cache/bob's node", "0.0.0.0:7731");
     NodeBuilder bobBuilder = NodeBuilder.fromConfig(bobConfig);
     bobNode = await bobBuilder.build();
     await bobNode.start();

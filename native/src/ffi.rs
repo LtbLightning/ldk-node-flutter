@@ -112,7 +112,7 @@ impl Builder {
     }
 
     /// Builds an [`LdkLite`] instance according to the options previously configured.
-    pub fn build(&self) -> LdkLite {
+    pub fn build(&self) -> Node {
         let config = Arc::new(self.config.clone());
 
         let ldk_data_dir = format!("{}/ldk", &config.storage_dir_path.clone());
@@ -306,34 +306,6 @@ impl Builder {
             Arc::new(EventQueue::new(Arc::clone(&persister)))
         };
 
-        let event_handler = Arc::new(EventHandler::new(
-            Arc::clone(&wallet),
-            Arc::clone(&event_queue),
-            Arc::clone(&channel_manager),
-            Arc::clone(&network_graph),
-            Arc::clone(&keys_manager),
-            Arc::clone(&inbound_payments),
-            Arc::clone(&outbound_payments),
-            Arc::clone(&logger),
-            Arc::clone(&config),
-        ));
-
-        //// Step 16: Create Router and InvoicePayer
-        let router = DefaultRouter::new(
-            Arc::clone(&network_graph),
-            Arc::clone(&logger),
-            keys_manager.get_secure_random_bytes(),
-            Arc::clone(&scorer),
-        );
-
-        let invoice_payer = Arc::new(InvoicePayer::new(
-            Arc::clone(&channel_manager),
-            router,
-            Arc::clone(&logger),
-            Arc::clone(&event_handler),
-            payment::Retry::Timeout(LDK_PAYMENT_RETRY_TIMEOUT),
-        ));
-
         let peer_store = if let Ok(mut f) = fs::File::open(format!(
             "{}/{}",
             ldk_data_dir.clone(),
@@ -349,22 +321,21 @@ impl Builder {
 
         let running = RwLock::new(None);
 
-        LdkLite {
+        Node {
             running,
             config,
             wallet,
             tx_sync,
             event_queue,
-            event_handler,
             channel_manager,
             chain_monitor,
             peer_manager,
             keys_manager,
+            network_graph,
             gossip_sync,
             persister,
             logger,
             scorer,
-            invoice_payer,
             inbound_payments,
             outbound_payments,
             peer_store,
@@ -377,6 +348,8 @@ impl Builder {
 pub struct Runtime {
     pub(crate) tokio_runtime: Arc<tokio::runtime::Runtime>,
     pub(crate) _background_processor: BackgroundProcessor,
+    pub(crate) invoice_payer:
+    Arc<InvoicePayer<Arc<EventHandler<Arc<FilesystemPersister>, Arc<FilesystemLogger>>>>>,
     pub(crate) stop_networking: Arc<AtomicBool>,
     pub(crate) stop_wallet_sync: Arc<AtomicBool>,
 }
@@ -384,29 +357,27 @@ pub struct Runtime {
 /// The main interface object of the simplified API, wrapping the necessary LDK and BDK functionalities.
 ///
 /// Needs to be initialized and instantiated through [`Builder::build`].
-pub struct LdkLite {
+pub struct Node {
     pub(crate) running: RwLock<Option<Runtime>>,
     pub(crate) config: Arc<Config>,
     pub(crate) wallet: Arc<Wallet<bdk::sled::Tree>>,
     pub(crate) tx_sync: Arc<EsploraSyncClient<Arc<FilesystemLogger>>>,
     pub(crate) event_queue: Arc<EventQueue<Arc<FilesystemPersister>>>,
-    pub(crate) event_handler: Arc<EventHandler<Arc<FilesystemPersister>, Arc<FilesystemLogger>>>,
     pub(crate) channel_manager: Arc<ChannelManager>,
     pub(crate) chain_monitor: Arc<ChainMonitor>,
     pub(crate) peer_manager: Arc<PeerManager>,
     pub(crate) keys_manager: Arc<KeysManager>,
+    pub(crate) network_graph: Arc<NetworkGraph>,
     pub(crate) gossip_sync: Arc<GossipSync>,
     pub(crate) persister: Arc<FilesystemPersister>,
     pub(crate) logger: Arc<FilesystemLogger>,
     pub(crate) scorer: Arc<Mutex<Scorer>>,
-    pub(crate) invoice_payer:
-        Arc<InvoicePayer<Arc<EventHandler<Arc<FilesystemPersister>, Arc<FilesystemLogger>>>>>,
     pub(crate) inbound_payments: Arc<PaymentInfoStorage>,
     pub(crate) outbound_payments: Arc<PaymentInfoStorage>,
     pub(crate) peer_store: Arc<PeerInfoStorage<FilesystemPersister>>,
 }
 
-impl LdkLite {
+impl Node {
     /// Starts the necessary background tasks, such as handling events coming from user input,
     /// LDK/BDK, and the peer-to-peer network. After this returns, the [`LdkLite`] instance can be
     /// controlled via the provided API methods in a thread-safe manner.
@@ -441,7 +412,6 @@ impl LdkLite {
 
         // Drop the held runtimes.
         self.wallet.drop_runtime();
-        self.event_handler.drop_runtime();
 
         // Drop the runtime, which stops the background processor and any possibly remaining tokio threads.
         *run_lock = None;
@@ -449,15 +419,36 @@ impl LdkLite {
     }
 
     fn setup_runtime(&self) -> Result<Runtime, Error> {
-        let tokio_runtime = Arc::new(
-            tokio::runtime::Builder::new_multi_thread()
-                .enable_all()
-                .build()
-                .unwrap(),
-        );
+        let tokio_runtime =
+            Arc::new(tokio::runtime::Builder::new_multi_thread().enable_all().build().unwrap());
 
         self.wallet.set_runtime(Arc::clone(&tokio_runtime));
-        self.event_handler.set_runtime(Arc::clone(&tokio_runtime));
+        let event_handler = Arc::new(EventHandler::new(
+            Arc::clone(&self.wallet),
+            Arc::clone(&self.event_queue),
+            Arc::clone(&self.channel_manager),
+            Arc::clone(&self.network_graph),
+            Arc::clone(&self.keys_manager),
+            Arc::clone(&self.inbound_payments),
+            Arc::clone(&self.outbound_payments),
+            Arc::clone(&tokio_runtime),
+            Arc::clone(&self.logger),
+            Arc::clone(&self.config),
+        ));
+
+        let router = DefaultRouter::new(
+            Arc::clone(&self.network_graph),
+            Arc::clone(&self.logger),
+            self.keys_manager.get_secure_random_bytes(),
+            Arc::clone(&self.scorer),
+        );
+        let invoice_payer = Arc::new(InvoicePayer::new(
+            Arc::clone(&self.channel_manager),
+            router,
+            Arc::clone(&self.logger),
+            Arc::clone(&event_handler),
+            payment::Retry::Timeout(LDK_PAYMENT_RETRY_TIMEOUT),
+        ));
 
         // Setup wallet sync
         let wallet = Arc::clone(&self.wallet);
@@ -469,11 +460,8 @@ impl LdkLite {
         let stop_sync = Arc::clone(&stop_wallet_sync);
 
         std::thread::spawn(move || {
-            tokio::runtime::Builder::new_current_thread()
-                .enable_all()
-                .build()
-                .unwrap()
-                .block_on(async move {
+            tokio::runtime::Builder::new_current_thread().enable_all().build().unwrap().block_on(
+                async move {
                     loop {
                         if stop_sync.load(Ordering::Acquire) {
                             return;
@@ -481,17 +469,18 @@ impl LdkLite {
                         let now = Instant::now();
                         match wallet.sync().await {
                             Ok(()) => log_info!(
-                                sync_logger,
-                                "On-chain wallet sync finished in {}ms.",
-                                now.elapsed().as_millis()
-                            ),
+								sync_logger,
+								"On-chain wallet sync finished in {}ms.",
+								now.elapsed().as_millis()
+							),
                             Err(err) => {
                                 log_error!(sync_logger, "On-chain wallet sync failed: {}", err)
                             }
                         }
                         tokio::time::sleep(Duration::from_secs(20)).await;
                     }
-                });
+                },
+            );
         });
 
         let sync_logger = Arc::clone(&self.logger);
@@ -570,12 +559,6 @@ impl LdkLite {
                     .filter(|id| !pm_peers.contains(id))
                 {
                     for peer_info in connect_peer_store.peers() {
-                        info!(
-                            "ip:{:?}, port:{:?}, address:{:?}",
-                            peer_info.address.ip(),
-                            peer_info.address.port(),
-                            peer_info.pubkey
-                        );
                         if peer_info.pubkey == node_id {
                             let _ = do_connect_peer(
                                 peer_info.pubkey,
@@ -593,7 +576,7 @@ impl LdkLite {
         // Setup background processing
         let _background_processor = BackgroundProcessor::start(
             Arc::clone(&self.persister),
-            Arc::clone(&self.invoice_payer),
+            Arc::clone(&invoice_payer),
             Arc::clone(&self.chain_monitor),
             Arc::clone(&self.channel_manager),
             BPGossipSync::p2p(Arc::clone(&self.gossip_sync)),
@@ -607,6 +590,7 @@ impl LdkLite {
         Ok(Runtime {
             tokio_runtime,
             _background_processor,
+            invoice_payer,
             stop_networking,
             stop_wallet_sync,
         })
@@ -830,41 +814,31 @@ impl LdkLite {
 
     /// Send a payement given an invoice.
     pub fn send_payment(&self, invoice: Invoice) -> Result<PaymentHash, Error> {
-        if self.running.read().unwrap().is_none() {
+
+        let runtime_lock = self.running.read().unwrap();
+        if runtime_lock.is_none() {
             return Err(Error::NotRunning);
         }
 
+        let runtime = runtime_lock.as_ref().unwrap();
+
         // TODO: ensure we never tried paying the given payment hash before
-        let status = match self.invoice_payer.pay_invoice(&invoice) {
+        let status = match runtime.invoice_payer.pay_invoice(&invoice) {
             Ok(_payment_id) => {
                 let payee_pubkey = invoice.recover_payee_pub_key();
                 // TODO: is this unwrap safe? Would a payment to an invoice with None amount ever
                 // succeed? Should we allow to set the amount in the interface or via a dedicated
                 // method?
                 let amt_msat = invoice.amount_milli_satoshis().unwrap();
-                log_info!(
-                    self.logger,
-                    "Initiated sending {} msats to {}",
-                    amt_msat,
-                    payee_pubkey
-                );
+                log_info!(self.logger, "Initiated sending {} msats to {}", amt_msat, payee_pubkey);
                 PaymentStatus::Pending
             }
             Err(payment::PaymentError::Invoice(e)) => {
-                log_error!(
-                    self.logger,
-                    "Failed to send payment due to invalid invoice: {}",
-                    e
-                );
+                log_error!(self.logger, "Failed to send payment due to invalid invoice: {}", e);
                 return Err(Error::InvoiceInvalid);
             }
             Err(payment::PaymentError::Routing(e)) => {
-                info!("Failed to send payment due to routing failure: {}", e.err);
-                log_error!(
-                    self.logger,
-                    "Failed to send payment due to routing failure: {}",
-                    e.err
-                );
+                log_error!(self.logger, "Failed to send payment due to routing failure: {}", e.err);
                 return Err(Error::RoutingFailed);
             }
             Err(payment::PaymentError::Sending(e)) => {
@@ -873,8 +847,8 @@ impl LdkLite {
             }
         };
 
-        let payment_hash = PaymentHash(invoice.payment_hash().clone().into_inner());
-        let payment_secret = Some(invoice.payment_secret().clone());
+        let payment_hash = PaymentHash((*invoice.payment_hash()).into_inner());
+        let payment_secret = Some(*invoice.payment_secret());
 
         let mut outbound_payments_lock = self.outbound_payments.lock().unwrap();
         outbound_payments_lock.insert(
@@ -888,6 +862,7 @@ impl LdkLite {
         );
 
         Ok(payment_hash)
+
     }
 
     /// Send a spontaneous, aka. "keysend", payment
@@ -896,44 +871,33 @@ impl LdkLite {
         amount_msat: u64,
         node_id: &str,
     ) -> Result<PaymentHash, Error> {
-        if self.running.read().unwrap().is_none() {
+        let runtime_lock = self.running.read().unwrap();
+        if runtime_lock.is_none() {
             return Err(Error::NotRunning);
         }
 
+        let runtime = runtime_lock.as_ref().unwrap();
         let pubkey = hex_utils::to_compressed_pubkey(node_id).ok_or(Error::PeerInfoParseFailed)?;
 
         let payment_preimage = PaymentPreimage(self.keys_manager.get_secure_random_bytes());
         let payment_hash = PaymentHash(Sha256::hash(&payment_preimage.0).into_inner());
 
-        let status = match self.invoice_payer.pay_pubkey(
+        let status = match runtime.invoice_payer.pay_pubkey(
             pubkey,
             payment_preimage,
             amount_msat,
             self.config.default_cltv_expiry_delta,
         ) {
             Ok(_payment_id) => {
-                log_info!(
-                    self.logger,
-                    "Initiated sending {} msats to {}.",
-                    amount_msat,
-                    node_id
-                );
+                log_info!(self.logger, "Initiated sending {} msats to {}.", amount_msat, node_id);
                 PaymentStatus::Pending
             }
             Err(payment::PaymentError::Invoice(e)) => {
-                log_error!(
-                    self.logger,
-                    "Failed to send payment due to invalid invoice: {}",
-                    e
-                );
+                log_error!(self.logger, "Failed to send payment due to invalid invoice: {}", e);
                 return Err(Error::InvoiceInvalid);
             }
             Err(payment::PaymentError::Routing(e)) => {
-                log_error!(
-                    self.logger,
-                    "Failed to send payment due to routing failure: {}",
-                    e.err
-                );
+                log_error!(self.logger, "Failed to send payment due to routing failure: {}", e.err);
                 return Err(Error::RoutingFailed);
             }
             Err(payment::PaymentError::Sending(e)) => {
@@ -945,12 +909,7 @@ impl LdkLite {
         let mut outbound_payments_lock = self.outbound_payments.lock().unwrap();
         outbound_payments_lock.insert(
             payment_hash,
-            PaymentInfo {
-                preimage: None,
-                secret: None,
-                status,
-                amount_msat: Some(amount_msat),
-            },
+            PaymentInfo { preimage: None, secret: None, status, amount_msat: Some(amount_msat) },
         );
 
         Ok(payment_hash)
