@@ -19,11 +19,9 @@ use crate::hex_utils;
 use crate::wallet::Wallet;
 use bitcoin::secp256k1::Secp256k1;
 use rand::{thread_rng, Rng};
-use serde::ser::SerializeMap;
-use serde::{Serialize, Serializer};
 use std::collections::{hash_map, VecDeque};
 use std::ops::Deref;
-use std::sync::{Arc, Condvar, Mutex, RwLock};
+use std::sync::{Arc, Condvar, Mutex};
 use std::time::Duration;
 
 /// The event queue will be persisted under this key.
@@ -66,69 +64,7 @@ pub enum Event {
         user_channel_id: u128,
     },
 }
-impl Serialize for Event {
-    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
-    where
-        S: Serializer,
-    {
-        match *self {
-            Event::PaymentSuccessful { payment_hash } => {
-                let mut map = serializer.serialize_map(Some(1))?;
-                map.serialize_entry(
-                    "payment_hash",
-                    &hex_utils::to_string(payment_hash.0.as_slice()),
-                )
-                .unwrap();
-                map.end()
-            }
-            Event::PaymentFailed { payment_hash } => {
-                let mut map = serializer.serialize_map(Some(1))?;
-                map.serialize_entry(
-                    "payment_hash",
-                    &hex_utils::to_string(payment_hash.0.as_slice()),
-                )
-                .unwrap();
-                map.end()
-            }
-            Event::PaymentReceived {
-                payment_hash,
-                amount_msat,
-            } => {
-                let mut map = serializer.serialize_map(Some(2))?;
-                map.serialize_entry(
-                    "payment_hash",
-                    &hex_utils::to_string(payment_hash.0.as_slice()),
-                )
-                .unwrap();
-                map.serialize_entry("amount_msat", &amount_msat.to_string())
-                    .unwrap();
-                map.end()
-            }
-            Event::ChannelReady {
-                channel_id,
-                user_channel_id,
-            } => {
-                let mut map = serializer.serialize_map(Some(2))?;
-                map.serialize_entry("channel_id", &hex_utils::to_string(channel_id.as_slice()))
-                    .unwrap();
-                map.serialize_entry("amount_msat", &user_channel_id.to_string())
-                    .unwrap();
-                map.end()
-            }
-            Event::ChannelClosed {
-                channel_id,
-                user_channel_id,
-            } => {
-                let mut map = serializer.serialize_map(Some(2))?;
-                map.serialize_entry("channel_id", &hex_utils::to_string(channel_id.as_slice()))
-                    .unwrap();
-                map.serialize_entry("amount_msat", &user_channel_id.to_string())
-                    .unwrap();
-                map.end()
-            }
-        }
-    }
-}
+
 
 // TODO: Figure out serialization more concretely - see issue #30
 impl Readable for Event {
@@ -336,7 +272,7 @@ where
     keys_manager: Arc<KeysManager>,
     inbound_payments: Arc<PaymentInfoStorage>,
     outbound_payments: Arc<PaymentInfoStorage>,
-    tokio_runtime: RwLock<Option<Arc<tokio::runtime::Runtime>>>,
+    tokio_runtime: Arc<tokio::runtime::Runtime>,
     logger: L,
     _config: Arc<Config>,
 }
@@ -354,10 +290,10 @@ where
         keys_manager: Arc<KeysManager>,
         inbound_payments: Arc<PaymentInfoStorage>,
         outbound_payments: Arc<PaymentInfoStorage>,
+        tokio_runtime: Arc<tokio::runtime::Runtime>,
         logger: L,
         _config: Arc<Config>,
     ) -> Self {
-        let tokio_runtime = RwLock::new(None);
         Self {
             event_queue,
             wallet,
@@ -370,14 +306,6 @@ where
             tokio_runtime,
             _config,
         }
-    }
-
-    pub(crate) fn set_runtime(&self, tokio_runtime: Arc<tokio::runtime::Runtime>) {
-        *self.tokio_runtime.write().unwrap() = Some(tokio_runtime);
-    }
-
-    pub(crate) fn drop_runtime(&self) {
-        *self.tokio_runtime.write().unwrap() = None;
     }
 }
 
@@ -585,15 +513,10 @@ where
             LdkEvent::ProbeFailed { .. } => {}
             LdkEvent::HTLCHandlingFailed { .. } => {}
             LdkEvent::PendingHTLCsForwardable { time_forwardable } => {
-                let locked_runtime = self.tokio_runtime.read().unwrap();
-                if locked_runtime.as_ref().is_none() {
-                    return;
-                }
-
                 let forwarding_channel_manager = self.channel_manager.clone();
                 let min = time_forwardable.as_millis() as u64;
 
-                locked_runtime.as_ref().unwrap().spawn(async move {
+                self.tokio_runtime.spawn(async move {
                     let millis_to_sleep = thread_rng().gen_range(min..min * 5) as u64;
                     tokio::time::sleep(Duration::from_millis(millis_to_sleep)).await;
 

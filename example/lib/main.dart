@@ -20,12 +20,12 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   late LdkNode aliceNode;
   late LdkNode bobNode;
-  String? aliceNodeId;
-  String? bobNodeId;
+  PublicKey? aliceNodeId;
+  PublicKey? bobNodeId;
   int aliceBalance = 0;
   String displayText = "";
   String bobNodePubKeyAndAddress = "";
-  String invoice = "";
+  Invoice? invoice;
   String? channelId;
   @override
   void initState() {
@@ -61,8 +61,9 @@ class _MyAppState extends State<MyApp> {
     NodeBuilder builder = NodeBuilder.fromConfig(randConfig);
     aliceNode = await builder.build();
     await aliceNode.start();
+    final res = await aliceNode.nodeId();
     setState(() {
-      aliceNodeId = aliceNode.nodeId();
+      aliceNodeId = res;
     });
   }
 
@@ -84,12 +85,13 @@ class _MyAppState extends State<MyApp> {
     final path = await getApplicationSupportDirectory();
     //Specifying node folder
     final aliceConfig = await initLdkConfig(
-        "${path.path}/ldk_cache/alice_.node", "0.0.0.0:3314");
+        "${path.path}/ldk_cache/alice's node", "0.0.0.0:3314");
     NodeBuilder aliceBuilder = NodeBuilder.fromConfig(aliceConfig);
     aliceNode = await aliceBuilder.build();
     await aliceNode.start();
+    final res = await aliceNode.nodeId();
     setState(() {
-      aliceNodeId = aliceNode.nodeId();
+      aliceNodeId = res;
       displayText = "$aliceNodeId started successfully";
     });
   }
@@ -98,13 +100,14 @@ class _MyAppState extends State<MyApp> {
     //Path to a directory where the application may place application support files
     final path = await getApplicationSupportDirectory();
     //Specifying node folder
-    final bobConfig =
-        await initLdkConfig("${path.path}/ldk_cache/bob_.node", "0.0.0.0:7731");
+    final bobConfig = await initLdkConfig(
+        "${path.path}/ldk_cache/bob's node", "0.0.0.0:7731");
     NodeBuilder bobBuilder = NodeBuilder.fromConfig(bobConfig);
     bobNode = await bobBuilder.build();
     await bobNode.start();
+    final res = await bobNode.nodeId();
     setState(() {
-      bobNodeId = bobNode.nodeId();
+      bobNodeId = res;
       displayText = "$bobNodeId started successfully";
     });
   }
@@ -157,20 +160,20 @@ class _MyAppState extends State<MyApp> {
     final alice = await aliceNode.newFundingAddress();
     final bob = await bobNode.newFundingAddress();
     if (kDebugMode) {
-      print("alice's address: $alice");
-      print("bob's address: $bob");
+      print("alice's address: ${alice.asString}");
+      print("bob's address: ${bob.asString}");
     }
     setState(() {
-      displayText = alice;
+      displayText = alice.asString;
     });
-    return [alice, bob];
+    return [alice.asString, bob.asString];
   }
 
   getListeningAddresses() async {
     final alice = await aliceNode.listeningAddress();
     final bob = await bobNode.listeningAddress();
     setState(() {
-      bobNodePubKeyAndAddress = "$bobNodeId@$bob";
+      bobNodePubKeyAndAddress = "${bobNodeId!.asString}@$bob";
       displayText = "bob's node pubKey & Address : $bobNodePubKeyAndAddress";
     });
     if (kDebugMode) {
@@ -189,9 +192,10 @@ class _MyAppState extends State<MyApp> {
   //Failed to send payment due to routing failure: Failed to find a path to the given destination
   receiveAndSendPayments() async {
     invoice = await bobNode.receivePayment("asdf", 10000, 10000);
-    final res = await aliceNode.sendPayment(invoice);
+    final paymentHash = await aliceNode.sendPayment(invoice!);
+    final res = await aliceNode.paymentInfo(paymentHash);
     setState(() {
-      displayText = "send payment success $res";
+      displayText = "send payment success ${res?.status}";
     });
   }
 
@@ -207,7 +211,10 @@ class _MyAppState extends State<MyApp> {
   }
 
   nextEvent() async {
-    await bobNode.nextEvent();
+    final res = await aliceNode.nextEvent();
+    if (kDebugMode) {
+      print(res.toString());
+    }
   }
 
   closeChannel() async {
@@ -460,7 +467,7 @@ class _MyAppState extends State<MyApp> {
                   Text(
                     aliceNodeId == null
                         ? "Node not initialized"
-                        : "@Id_:${aliceNodeId.toString()}",
+                        : "@Id_:${aliceNodeId!.asString}",
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                     textAlign: TextAlign.center,

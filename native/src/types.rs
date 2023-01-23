@@ -1,8 +1,25 @@
-use crate::ffi::LdkLite;
+use crate::ffi::Node;
 use std::sync::Mutex;
 
 pub struct LdkNodeInstance {
-    pub ldk_lite_mutex: Mutex<LdkLite>,
+    pub ldk_lite_mutex: Mutex<Node>,
+}
+#[derive(Debug)]
+#[allow(dead_code)]
+/// An error that possibly needs to be handled by the user.
+pub enum Error {
+    LdkInitError,
+    NodeIdError,
+    GetBalanceError,
+    NewFundingAddressError,
+    SyncWalletError,
+    GetNodeAddrError,
+    NodeStopError,
+    SendPaymentError,
+    GetNodeInfoError,
+    ReceivePaymentError,
+    ConnectOpenChannelError,
+    CloseChannelError
 }
 
 pub struct Balance {
@@ -50,4 +67,49 @@ pub struct LogEntry {
     pub level: i32,
     pub tag: String,
     pub msg: String,
+}
+
+pub struct Invoice{
+    pub as_string:String
+}
+#[derive(Clone,  PartialEq, Eq)]
+pub struct PaymentSecret{
+    pub as_u_array: [u8; 32]
+}
+pub struct PublicKey{
+    pub as_string:String
+}
+pub struct Address{
+    pub as_string:String
+}
+pub struct PaymentHash{
+    pub as_u_array: [u8; 32]
+}
+// Structs wrapping the particular information which should easily be
+// understandable, parseable, and transformable, i.e., we'll try to avoid
+// exposing too many technical detail here.
+/// Represents a payment.
+#[derive(Clone,  PartialEq, Eq)]
+pub struct PaymentInfo {
+    /// The pre-image used by the payment.
+    pub preimage: Option<PaymentPreimage>,
+    /// The secret used by the payment.
+    pub secret: Option<PaymentSecret>,
+    /// The status of the payment.
+    pub status: PaymentStatus,
+    /// The amount transferred.
+    pub amount_msat: Option<u64>,
+}
+#[derive(Clone, Debug, PartialEq, Eq)]
+pub enum PaymentStatus {
+    /// The payment is still pending.
+    Pending,
+    /// The payment suceeded.
+    Succeeded,
+    /// The payment failed.
+    Failed,
+}
+#[derive(Clone, Debug, PartialEq, Eq)]
+pub struct PaymentPreimage{
+    pub as_u_array: [u8; 32]
 }
