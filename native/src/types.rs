@@ -1,8 +1,8 @@
-use crate::ffi::LdkLite;
+use crate::ffi::Node;
 use std::sync::Mutex;
 
 pub struct LdkNodeInstance {
-    pub ldk_lite_mutex: Mutex<LdkLite>,
+    pub ldk_lite_mutex: Mutex<Node>,
 }
 #[derive(Debug)]
 #[allow(dead_code)]

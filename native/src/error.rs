@@ -184,9 +184,7 @@ impl From<bdk::Error> for Error {
 }
 
 impl From<lightning_transaction_sync::TxSyncError> for Error {
-    fn from(e: lightning_transaction_sync::TxSyncError) -> Self {
-        match e {
-            _ => Self::TxSyncFailed,
-        }
+    fn from(_e: lightning_transaction_sync::TxSyncError) -> Self {
+        Self::TxSyncFailed
     }
 }

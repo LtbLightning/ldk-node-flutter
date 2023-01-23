@@ -246,26 +246,23 @@ fn fallback_fee_from_conf_target(confirmation_target: ConfirmationTarget) -> Fee
 /// Similar to [`KeysManager`], but overrides the destination and shutdown scripts so they are
 /// directly spendable by the BDK wallet.
 pub struct WalletKeysManager<D>
-where
-    D: BatchDatabase,
+    where
+        D: BatchDatabase,
 {
     inner: KeysManager,
     wallet: Arc<Wallet<D>>,
 }
 
 impl<D> WalletKeysManager<D>
-where
-    D: BatchDatabase,
+    where
+        D: BatchDatabase,
 {
     /// Constructs a `WalletKeysManager` that
     ///
     /// See [`KeysManager::new`] for more information on `seed`, `starting_time_secs`, and
     /// `starting_time_nanos`.
     pub fn new(
-        seed: &[u8; 32],
-        starting_time_secs: u64,
-        starting_time_nanos: u32,
-        wallet: Arc<Wallet<D>>,
+        seed: &[u8; 32], starting_time_secs: u64, starting_time_nanos: u32, wallet: Arc<Wallet<D>>,
     ) -> Self {
         let inner = KeysManager::new(seed, starting_time_secs, starting_time_nanos);
         Self { inner, wallet }
@@ -273,22 +270,13 @@ where
 
     /// See [`KeysManager::spend_spendable_outputs`] for documentation on this method.
     pub fn spend_spendable_outputs<C: Signing>(
-        &self,
-        descriptors: &[&SpendableOutputDescriptor],
-        outputs: Vec<TxOut>,
-        change_destination_script: Script,
-        feerate_sat_per_1000_weight: u32,
+        &self, descriptors: &[&SpendableOutputDescriptor], outputs: Vec<TxOut>,
+        change_destination_script: Script, feerate_sat_per_1000_weight: u32,
         secp_ctx: &Secp256k1<C>,
     ) -> Result<Transaction, ()> {
         let only_non_static = &descriptors
             .iter()
-            .filter(|desc| {
-                if let SpendableOutputDescriptor::StaticOutput { .. } = desc {
-                    false
-                } else {
-                    true
-                }
-            })
+            .filter(|desc| !matches!(desc, SpendableOutputDescriptor::StaticOutput { .. }))
             .copied()
             .collect::<Vec<_>>();
         self.inner.spend_spendable_outputs(
@@ -302,11 +290,15 @@ where
 }
 
 impl<D> NodeSigner for WalletKeysManager<D>
-where
-    D: BatchDatabase,
+    where
+        D: BatchDatabase,
 {
     fn get_node_secret(&self, recipient: Recipient) -> Result<SecretKey, ()> {
         self.inner.get_node_secret(recipient)
+    }
+
+    fn get_inbound_payment_key_material(&self) -> KeyMaterial {
+        self.inner.get_inbound_payment_key_material()
     }
 
     fn get_node_id(&self, recipient: Recipient) -> Result<PublicKey, ()> {
@@ -314,23 +306,13 @@ where
     }
 
     fn ecdh(
-        &self,
-        recipient: Recipient,
-        other_key: &PublicKey,
-        tweak: Option<&Scalar>,
+        &self, recipient: Recipient, other_key: &PublicKey, tweak: Option<&Scalar>,
     ) -> Result<SharedSecret, ()> {
         self.inner.ecdh(recipient, other_key, tweak)
     }
 
-    fn get_inbound_payment_key_material(&self) -> KeyMaterial {
-        self.inner.get_inbound_payment_key_material()
-    }
-
     fn sign_invoice(
-        &self,
-        hrp_bytes: &[u8],
-        invoice_data: &[u5],
-        recipient: Recipient,
+        &self, hrp_bytes: &[u8], invoice_data: &[u5], recipient: Recipient,
     ) -> Result<RecoverableSignature, ()> {
         self.inner.sign_invoice(hrp_bytes, invoice_data, recipient)
     }
@@ -339,8 +321,8 @@ where
 impl<D> KeysInterface for WalletKeysManager<D> where D: BatchDatabase {}
 
 impl<D> EntropySource for WalletKeysManager<D>
-where
-    D: BatchDatabase,
+    where
+        D: BatchDatabase,
 {
     fn get_secure_random_bytes(&self) -> [u8; 32] {
         self.inner.get_secure_random_bytes()
@@ -348,28 +330,21 @@ where
 }
 
 impl<D> SignerProvider for WalletKeysManager<D>
-where
-    D: BatchDatabase,
+    where
+        D: BatchDatabase,
 {
     type Signer = InMemorySigner;
 
     fn generate_channel_keys_id(
-        &self,
-        inbound: bool,
-        channel_value_satoshis: u64,
-        user_channel_id: u128,
+        &self, inbound: bool, channel_value_satoshis: u64, user_channel_id: u128,
     ) -> [u8; 32] {
-        self.inner
-            .generate_channel_keys_id(inbound, channel_value_satoshis, user_channel_id)
+        self.inner.generate_channel_keys_id(inbound, channel_value_satoshis, user_channel_id)
     }
 
     fn derive_channel_signer(
-        &self,
-        channel_value_satoshis: u64,
-        channel_keys_id: [u8; 32],
+        &self, channel_value_satoshis: u64, channel_keys_id: [u8; 32],
     ) -> Self::Signer {
-        self.inner
-            .derive_channel_signer(channel_value_satoshis, channel_keys_id)
+        self.inner.derive_channel_signer(channel_value_satoshis, channel_keys_id)
     }
 
     fn read_chan_signer(&self, reader: &[u8]) -> Result<Self::Signer, DecodeError> {
@@ -377,18 +352,14 @@ where
     }
 
     fn get_destination_script(&self) -> Script {
-        let address = self
-            .wallet
-            .get_new_address()
-            .expect("Failed to retrieve new address from wallet.");
+        let address =
+            self.wallet.get_new_address().expect("Failed to retrieve new address from wallet.");
         address.script_pubkey()
     }
 
     fn get_shutdown_scriptpubkey(&self) -> ShutdownScript {
-        let address = self
-            .wallet
-            .get_new_address()
-            .expect("Failed to retrieve new address from wallet.");
+        let address =
+            self.wallet.get_new_address().expect("Failed to retrieve new address from wallet.");
         match address.payload {
             bitcoin::util::address::Payload::WitnessProgram { version, program } => {
                 return ShutdownScript::new_witness_program(version, &program)
