@@ -71,7 +71,7 @@ class _MyAppState extends State<MyApp> {
     // Please replace this url with your Electrum RPC Api url
     // Please use 10.0.2.2, instead of 127.0.0.1, when connecting from an android emulator to connect to 127.0.0.1
     final esploraUrl =
-        Platform.isAndroid ? "http://10.0.2.2:3002" : "http://127.0.0.1:3002";
+    Platform.isAndroid ? "http://10.0.2.2:3002" : "http://127.0.0.1:3002";
     final config = Config(
         storageDirPath: path,
         esploraServerUrl: esploraUrl,
@@ -85,7 +85,7 @@ class _MyAppState extends State<MyApp> {
     final path = await getApplicationSupportDirectory();
     //Specifying node folder
     final aliceConfig = await initLdkConfig(
-        "${path.path}/ldk_cache/alice's node", "0.0.0.0:3314");
+        "${path.path}/ldk_cache/alice_s.node", "0.0.0.0:3314");
     NodeBuilder aliceBuilder = NodeBuilder.fromConfig(aliceConfig);
     aliceNode = await aliceBuilder.build();
     await aliceNode.start();
@@ -101,7 +101,7 @@ class _MyAppState extends State<MyApp> {
     final path = await getApplicationSupportDirectory();
     //Specifying node folder
     final bobConfig = await initLdkConfig(
-        "${path.path}/ldk_cache/bob's node", "0.0.0.0:7731");
+        "${path.path}/ldk_cache/bob_s.node", "0.0.0.0:7731");
     NodeBuilder bobBuilder = NodeBuilder.fromConfig(bobConfig);
     bobNode = await bobBuilder.build();
     await bobNode.start();
@@ -169,6 +169,7 @@ class _MyAppState extends State<MyApp> {
     return [alice.asString, bob.asString];
   }
 
+//149981786
   getListeningAddresses() async {
     final alice = await aliceNode.listeningAddress();
     final bob = await bobNode.listeningAddress();
@@ -185,13 +186,13 @@ class _MyAppState extends State<MyApp> {
   openChannel() async {
     await aliceNode.connectOpenChannel(
         nodePubKeyAndAddress: bobNodePubKeyAndAddress,
-        channelAmountSats: 100000,
+        channelAmountSats: 5000000,
         announceChannel: true);
   }
 
   //Failed to send payment due to routing failure: Failed to find a path to the given destination
   receiveAndSendPayments() async {
-    invoice = await bobNode.receivePayment("asdf", 10000, 10000);
+    invoice = await bobNode.receivePayment("asdf", 10000, 50000);
     final paymentHash = await aliceNode.sendPayment(invoice!);
     final res = await aliceNode.paymentInfo(paymentHash);
     setState(() {
@@ -201,20 +202,49 @@ class _MyAppState extends State<MyApp> {
 
   getChannelId() async {
     final channelInfos = await aliceNode.getChannelIds();
-    channelId = channelInfos.first;
-    if (kDebugMode) {
-      print(channelId.toString());
+    if(channelInfos.isNotEmpty){
+      channelId = channelInfos.first;
+      if (kDebugMode) {
+        print(channelId.toString());
+      }
+      setState(() {
+        displayText = channelId.toString();
+      });
+    } else{
+      if (kDebugMode) {
+        print("No open channels available");
+      }
     }
-    setState(() {
-      displayText = channelId.toString();
-    });
   }
 
-  nextEvent() async {
-    final res = await aliceNode.nextEvent();
-    if (kDebugMode) {
-      print(res.toString());
-    }
+  Future  handleEvent(LdkNode node ) async {
+    final res = await node.nextEvent();
+    res?.map(
+        paymentSuccessful: (e){
+          if (kDebugMode) {
+            print("paymentSuccessful: ${e.paymentHash.asString}");
+          }},
+        paymentFailed: (e){
+          if (kDebugMode) {
+            print("paymentFailed: ${e.paymentHash.asString}");
+          }
+        },
+        paymentReceived: (e){
+          if (kDebugMode) {
+            print("paymentReceived: ${e.paymentHash.asString}");
+          }
+        },
+        channelReady: (e){
+          if (kDebugMode) {
+            print("channelReady: ${e.channelId}, userChannelId: ${e.userChannelId}");
+          }
+        },
+        channelClosed: (e){
+          if (kDebugMode) {
+            print("channelClosed: ${e.channelId}, userChannelId: ${e.userChannelId}");
+          }
+        });
+    await node.eventHandled();
   }
 
   closeChannel() async {
@@ -402,7 +432,8 @@ class _MyAppState extends State<MyApp> {
                       )),
                   TextButton(
                       onPressed: () async {
-                        await nextEvent();
+                        await handleEvent(aliceNode);
+                        await handleEvent(bobNode);
                       },
                       child: Text('Next event',
                           style: GoogleFonts.nunito(

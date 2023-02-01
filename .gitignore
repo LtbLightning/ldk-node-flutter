@@ -31,3 +31,4 @@ migrate_working_dir/
 build/
 native/target/
 native/ldk-lite/target/
+example/.vscode/settings.json

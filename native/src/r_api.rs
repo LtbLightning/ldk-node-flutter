@@ -199,10 +199,13 @@ pub fn send_spontaneous_payment(
 ///	Query for information about the status of a specific payment.
 pub fn payment_info(
     ldk_node: RustOpaque<LdkNodeInstance>,
-    payment_hash: [u8; 32],
+    payment_hash: String,
 ) -> Option<PaymentInfo> {
     let node = ldk_node.ldk_lite_mutex.lock().unwrap();
-    node.payment_info(&payment_hash).map(|x| x.into())
+    let hash_vec = hex_utils::to_vec(payment_hash.as_str());
+    let mut hash_u8 = [0; 32];
+    hash_u8.copy_from_slice(&hash_vec.unwrap());
+    node.payment_info(&hash_u8).map(|x| x.into())
 }
 pub fn connect_open_channel(
     ldk_lite: RustOpaque<LdkNodeInstance>,

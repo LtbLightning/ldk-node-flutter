@@ -58,17 +58,18 @@ Event? handleLdkEvent(String jsonStr) {
       break;
     case "PaymentReceived":
       {
-        event = Event.paymentReceived( paymentHash: PaymentHash(asUArray: U8Array32(Uint8List.fromList(List.from(res["payment_hash"])))), amountMsat: BigInt.parse(res["amount_msat"]) );
+        event = Event.paymentReceived( paymentHash: PaymentHash(asString: res["payment_hash"]), amountMsat: BigInt.parse(res["amount_msat"]) );
       }
       break;
     case "PaymentFailed":
       {
-        event = Event.paymentFailed( paymentHash: PaymentHash(asUArray: U8Array32(Uint8List.fromList(List.from(res["payment_hash"])))),);
+        print(res["payment_hash"]);
+        event = Event.paymentFailed( paymentHash:  PaymentHash(asString: res["payment_hash"]),);
       }
       break;
     case "PaymentSuccessful":
       {
-        event = Event.paymentSuccessful( paymentHash: PaymentHash(asUArray: U8Array32(Uint8List.fromList(List.from(res["payment_hash"])))));
+        event = Event.paymentSuccessful(paymentHash:  PaymentHash(asString: res["payment_hash"]),);
       }
       break;
   }

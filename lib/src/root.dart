@@ -118,7 +118,6 @@ class LdkNode {
   Future<void> stop() async {
     await loaderApi.stop(ldkNode: _ldkNode!);
   }
-//TODO Update Event Handler
   /// Blocks until the next event is available.
   ///
   /// Note: this will always return the same event until handling is confirmed
@@ -214,7 +213,7 @@ class LdkNode {
 
   Future<PaymentInfo?> paymentInfo(PaymentHash paymentHash) async {
     final res = await loaderApi.paymentInfo(
-        ldkNode: _ldkNode!, paymentHash: paymentHash.asUArray);
+        ldkNode: _ldkNode!, paymentHash: paymentHash.asString);
     return res;
   }
 

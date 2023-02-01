@@ -292,12 +292,6 @@ impl Wire2Api<PublicKey> for wire_PublicKey {
     }
 }
 
-impl Wire2Api<[u8; 32]> for *mut wire_uint_8_list {
-    fn wire2api(self) -> [u8; 32] {
-        let vec: Vec<u8> = self.wire2api();
-        support::from_vec_to_array(vec)
-    }
-}
 impl Wire2Api<Vec<u8>> for *mut wire_uint_8_list {
     fn wire2api(self) -> Vec<u8> {
         unsafe {
