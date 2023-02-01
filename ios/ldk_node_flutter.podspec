@@ -3,15 +3,15 @@
 # Run `pod lib lint ldk_node.podspec` to validate before publishing.
 #
 Pod::Spec.new do |s|
-  s.name             = 'ldk_node'
+  s.name             = 'ldk_node_flutter'
   s.version          = '0.0.1'
   s.summary          = 'A new Flutter project.'
   s.description      = <<-DESC
 A new Flutter project.
                        DESC
-  s.homepage         = 'http://example.com'
+  s.homepage         = 'https://github.com/LtbLightning/Ldk-Node-Flutter'
   s.license          = { :file => '../LICENSE' }
-  s.author           = { 'Your Company' => 'email@example.com' }
+  s.author           = { 'Bitcoin Zavior' => 'BitcoinZavior@GMail.Com' }
   s.source           = { :path => '.' }
   s.source_files = 'Classes/**/*'
   s.dependency 'Flutter'

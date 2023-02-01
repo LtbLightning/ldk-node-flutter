@@ -1,10 +1,10 @@
 import Flutter
 import UIKit
 
-public class SwiftLdkNodePlugin: NSObject, FlutterPlugin {
+public class SwiftLdkNodeFlutterPlugin: NSObject, FlutterPlugin {
   public static func register(with registrar: FlutterPluginRegistrar) {
-    let channel = FlutterMethodChannel(name: "ldk_node", binaryMessenger: registrar.messenger())
-    let instance = SwiftLdkNodePlugin()
+    let channel = FlutterMethodChannel(name: "ldk_node_flutter", binaryMessenger: registrar.messenger())
+    let instance = SwiftLdkNodeFlutterPlugin()
     registrar.addMethodCallDelegate(instance, channel: channel)
   }
 

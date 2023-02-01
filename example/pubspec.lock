@@ -228,7 +228,7 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "4.7.0"
-  ldk_node:
+  ldk_node_flutter:
     dependency: "direct main"
     description:
       path: ".."

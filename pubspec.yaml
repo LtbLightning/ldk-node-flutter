@@ -1,5 +1,5 @@
-name: ldk_node
-description: A Flutter library for Lightning Dev Kit(LDK)
+name: ldk_node_flutter
+description: A new Flutter project.
 version: 0.1.2
 homepage:
 
@@ -41,10 +41,10 @@ flutter:
   plugin:
     platforms:
       android:
-        package: io.ldk.f.ldk_node
-        pluginClass: LdkNodePlugin
+        package: io.ldk.f.ldk_node_flutter
+        pluginClass: LdkNodeFlutterPlugin
       ios:
-        pluginClass: LdkNodePlugin
+        pluginClass: LdkNodeFlutterPlugin
 
   # To add assets to your plugin package, add an assets section, like this:
   # assets:

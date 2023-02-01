@@ -4,7 +4,7 @@ import 'package:flutter/foundation.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:ldk_node/ldk_node.dart';
+import 'package:ldk_node_flutter/ldk_node_flutter.dart';
 
 void main() {
   runApp(const MyApp());
