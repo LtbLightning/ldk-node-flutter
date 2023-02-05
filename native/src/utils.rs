@@ -86,7 +86,7 @@ impl From<secp256k1::PublicKey> for PublicKey {
 }
 impl From<lightning::ln::PaymentHash> for PaymentHash {
     fn from(hash:lightning::ln::PaymentHash) -> Self {
-        PaymentHash{ as_u_array: hash.0 }
+        PaymentHash{ as_string:  hex_utils::to_string(&hash.0), }
     }
 }
 

@@ -83,7 +83,7 @@ pub struct Address{
     pub as_string:String
 }
 pub struct PaymentHash{
-    pub as_u_array: [u8; 32]
+    pub as_string:String
 }
 // Structs wrapping the particular information which should easily be
 // understandable, parseable, and transformable, i.e., we'll try to avoid

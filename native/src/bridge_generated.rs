@@ -284,7 +284,7 @@ fn wire_send_spontaneous_payment_impl(
 fn wire_payment_info_impl(
     port_: MessagePort,
     ldk_node: impl Wire2Api<RustOpaque<LdkNodeInstance>> + UnwindSafe,
-    payment_hash: impl Wire2Api<[u8; 32]> + UnwindSafe,
+    payment_hash: impl Wire2Api<String> + UnwindSafe,
 ) {
     FLUTTER_RUST_BRIDGE_HANDLER.wrap(
         WrapInfo {
@@ -611,7 +611,7 @@ impl support::IntoDartExceptPrimitive for NodeInfo {}
 
 impl support::IntoDart for PaymentHash {
     fn into_dart(self) -> support::DartAbi {
-        vec![self.as_u_array.into_dart()].into_dart()
+        vec![self.as_string.into_dart()].into_dart()
     }
 }
 impl support::IntoDartExceptPrimitive for PaymentHash {}

@@ -76,7 +76,7 @@ abstract class Native {
   FlutterRustBridgeTaskConstMeta get kSendSpontaneousPaymentConstMeta;
 
   ///	Query for information about the status of a specific payment.
-  Future<PaymentInfo?> paymentInfo({required LdkNodeInstance ldkNode, required U8Array32 paymentHash, dynamic hint});
+  Future<PaymentInfo?> paymentInfo({required LdkNodeInstance ldkNode, required String paymentHash, dynamic hint});
 
   FlutterRustBridgeTaskConstMeta get kPaymentInfoConstMeta;
 
@@ -296,10 +296,10 @@ class NodeInfo {
 }
 
 class PaymentHash {
-  final U8Array32 asUArray;
+  final String asString;
 
   PaymentHash({
-    required this.asUArray,
+    required this.asString,
   });
 }
 
@@ -612,9 +612,9 @@ class NativeImpl implements Native {
         argNames: ["ldkNode", "amountMsat", "nodeId"],
       );
 
-  Future<PaymentInfo?> paymentInfo({required LdkNodeInstance ldkNode, required U8Array32 paymentHash, dynamic hint}) {
+  Future<PaymentInfo?> paymentInfo({required LdkNodeInstance ldkNode, required String paymentHash, dynamic hint}) {
     var arg0 = _platform.api2wire_LdkNodeInstance(ldkNode);
-    var arg1 = _platform.api2wire_u8_array_32(paymentHash);
+    var arg1 = _platform.api2wire_String(paymentHash);
     return _platform.executeNormal(FlutterRustBridgeTask(
       callFfi: (port_) => _platform.inner.wire_payment_info(port_, arg0, arg1),
       parseSuccessData: _wire2api_opt_box_autoadd_payment_info,
@@ -948,7 +948,7 @@ class NativeImpl implements Native {
     final arr = raw as List<dynamic>;
     if (arr.length != 1) throw Exception('unexpected arr length: expect 1 but see ${arr.length}');
     return PaymentHash(
-      asUArray: _wire2api_u8_array_32(arr[0]),
+      asString: _wire2api_String(arr[0]),
     );
   }
 
@@ -1097,13 +1097,6 @@ class NativePlatform extends FlutterRustBridgeBase<NativeWire> {
   @protected
   int api2wire_u64(int raw) {
     return raw;
-  }
-
-  @protected
-  ffi.Pointer<wire_uint_8_list> api2wire_u8_array_32(U8Array32 raw) {
-    final ans = inner.new_uint_8_list_0(32);
-    ans.ref.ptr.asTypedList(32).setAll(0, raw);
-    return ans;
   }
 
   @protected
