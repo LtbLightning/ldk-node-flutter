@@ -7,7 +7,7 @@ use lightning::chain::chaininterface::{
 };
 
 use lightning::chain::keysinterface::{
-    EntropySource, InMemorySigner, KeyMaterial, KeysInterface, KeysManager, NodeSigner, Recipient,
+    EntropySource, InMemorySigner, KeyMaterial,  KeysManager, NodeSigner, Recipient,
     SignerProvider, SpendableOutputDescriptor,
 };
 use lightning::ln::msgs::DecodeError;
@@ -201,27 +201,28 @@ where
 {
     fn broadcast_transaction(&self, tx: &Transaction) {
         let locked_runtime = self.tokio_runtime.read().unwrap();
-        if locked_runtime.as_ref().is_none() {
-            log_error!(self.logger, "Failed to broadcast transaction: No runtime.");
-            unreachable!("Failed to broadcast transaction: No runtime.");
+        if locked_runtime.as_ref().is_some() {
+            let res = tokio::task::block_in_place(move || {
+                locked_runtime
+                    .as_ref()
+                    .unwrap()
+                    .block_on(async move { self.blockchain.broadcast(tx).await })
+            });
+
+            match res {
+                Ok(_) => {
+                    info!("Broadcast transaction success");
+                }
+                Err(err) => {
+                    info!("Failed to broadcast transaction: {}", err);
+                    log_error!(self.logger, "Failed to broadcast transaction: {}", err);
+                }
+            }
+        } else{
+            info!("Failed to broadcast transaction: No runtime.");
         }
 
-        let res = tokio::task::block_in_place(move || {
-            locked_runtime
-                .as_ref()
-                .unwrap()
-                .block_on(async move { self.blockchain.broadcast(tx).await })
-        });
 
-        match res {
-            Ok(_) => {
-                info!("Broadcast transaction success");
-            }
-            Err(err) => {
-                info!("Failed to broadcast transaction: {}", err);
-                log_error!(self.logger, "Failed to broadcast transaction: {}", err);
-            }
-        }
     }
 }
 
@@ -318,7 +319,6 @@ impl<D> NodeSigner for WalletKeysManager<D>
     }
 }
 
-impl<D> KeysInterface for WalletKeysManager<D> where D: BatchDatabase {}
 
 impl<D> EntropySource for WalletKeysManager<D>
     where

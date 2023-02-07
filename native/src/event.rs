@@ -11,10 +11,6 @@ use lightning::util::persist::KVStorePersister;
 use lightning::util::ser::{Readable, ReadableArgs, Writeable, Writer};
 
 use crate::error::Error;
-use crate::ffi::{
-    ChannelManager, Config, KeysManager, NetworkGraph, PaymentInfo, PaymentInfoStorage,
-    PaymentStatus,
-};
 use crate::hex_utils;
 use crate::wallet::Wallet;
 use bitcoin::secp256k1::Secp256k1;
@@ -23,6 +19,8 @@ use std::collections::{hash_map, VecDeque};
 use std::ops::Deref;
 use std::sync::{Arc, Condvar, Mutex};
 use std::time::Duration;
+use crate::ffi::Config;
+use crate::types::{ChannelManager, KeysManager, LdkPaymentInfo, NetworkGraph, PaymentInfoStorage, PaymentStatus};
 
 /// The event queue will be persisted under this key.
 pub(crate) const EVENTS_PERSISTENCE_KEY: &str = "events";
@@ -443,7 +441,7 @@ where
                         payment.secret = payment_secret;
                     }
                     hash_map::Entry::Vacant(e) => {
-                        e.insert(PaymentInfo {
+                        e.insert(LdkPaymentInfo {
                             preimage: payment_preimage,
                             secret: payment_secret,
                             status: PaymentStatus::Succeeded,
@@ -517,7 +515,7 @@ where
                 let min = time_forwardable.as_millis() as u64;
 
                 self.tokio_runtime.spawn(async move {
-                    let millis_to_sleep = thread_rng().gen_range(min..min * 5) as u64;
+                    let millis_to_sleep = thread_rng().gen_range(min, min * 5) as u64;
                     tokio::time::sleep(Duration::from_millis(millis_to_sleep)).await;
 
                     forwarding_channel_manager.process_pending_htlc_forwards();

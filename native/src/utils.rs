@@ -1,10 +1,10 @@
 use std::str::FromStr;
 use bitcoin::secp256k1;
-use crate::types::{Address, Invoice, Network, PaymentHash, PaymentInfo, PaymentPreimage, PaymentSecret, PaymentStatus, PublicKey};
+use crate::types::{Address, Invoice, LdkPaymentInfo, Network, PaymentHash, PaymentInfo, PaymentPreimage, PaymentSecret, PublicKey};
 use serde::{Serialize, Serializer};
 use serde::ser::SerializeMap;
 use crate::event::Event;
-use crate::{ffi, hex_utils};
+use crate::{ hex_utils};
 
 impl From<Network> for bdk::bitcoin::Network {
     fn from(network: Network) -> Self {
@@ -59,8 +59,8 @@ impl From<PublicKey> for secp256k1::PublicKey {
         }
     }
 }
-impl From<ffi::PaymentInfo> for PaymentInfo {
-    fn from(info:ffi::PaymentInfo) -> Self {
+impl From<LdkPaymentInfo> for PaymentInfo {
+    fn from(info:LdkPaymentInfo) -> Self {
        PaymentInfo{
            preimage: Some(PaymentPreimage{ as_u_array: info.secret.unwrap().0 }),
            secret: Some(PaymentSecret{ as_u_array: info.secret.unwrap().0 }),
@@ -70,15 +70,7 @@ impl From<ffi::PaymentInfo> for PaymentInfo {
     }
 }
 
-impl From<ffi::PaymentStatus> for PaymentStatus {
-    fn from(status: ffi::PaymentStatus) -> Self {
-        match status{
-            ffi::PaymentStatus::Pending => PaymentStatus::Pending,
-            ffi::PaymentStatus::Succeeded => PaymentStatus::Succeeded,
-            ffi::PaymentStatus::Failed => PaymentStatus::Failed
-        }
-    }
-}
+
 impl From<secp256k1::PublicKey> for PublicKey {
     fn from(key:secp256k1::PublicKey) -> Self {
         PublicKey{ as_string: key.to_string() }

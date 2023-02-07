@@ -9,7 +9,9 @@ public class SwiftLdkNodeFlutterPlugin: NSObject, FlutterPlugin {
   }
 
   public func dummyMethodToEnforceBundling() {
-              dummy_method_to_enforce_bundling();
+            let dummy = dummy_method_to_enforce_bundling()
+            print(dummy)
+
      }
     public func handle(_ call: FlutterMethodCall, result: @escaping FlutterResult) {}
 }

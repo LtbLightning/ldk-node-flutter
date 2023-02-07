@@ -1,4 +1,4 @@
-package io.ldk.f.ldk_node
+package io.ldk.f.ldk_node_flutter
 
 import androidx.annotation.NonNull
 

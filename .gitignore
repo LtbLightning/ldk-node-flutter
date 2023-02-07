@@ -20,7 +20,6 @@ migrate_working_dir/
 # VS Code which you may wish to be included in version control, so this line
 # is commented out by default.
 #.vscode/
-.vscode/settings.json
 
 # Flutter/Dart/Pub related
 # Libraries should not include pubspec.lock, per https://dart.dev/guides/libraries/private-files#pubspeclock.
@@ -31,4 +30,6 @@ migrate_working_dir/
 build/
 native/target/
 native/ldk-lite/target/
+
+.vscode/settings.json
 example/.vscode/settings.json

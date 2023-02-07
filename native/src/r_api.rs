@@ -1,7 +1,9 @@
-
 use crate::ffi::{Builder, Config};
 pub use crate::types::LdkNodeInstance;
-use crate::types::{Address, Balance, Error, Invoice, LogEntry, Network, NodeInfo, PaymentHash, PaymentInfo, PaymentSecret, PublicKey};
+use crate::types::{
+    Address, Balance, Error, Invoice, LogEntry, Network, NodeInfo, PaymentHash, PaymentInfo,
+    PaymentSecret, PublicKey,
+};
 use crate::{hex_utils, simple_log};
 use flutter_rust_bridge::{RustOpaque, StreamSink};
 use log::info;
@@ -20,10 +22,10 @@ pub struct LdkConfig {
     /// The default CLTV expiry delta to be used for payments.
     pub default_cltv_expiry_delta: u32,
 }
+
 impl LdkConfig {
     fn to_ldk_config(self) -> Config {
         let btc_network = self.network.into();
-        info!("Setting listening address: {:?}", self.listening_address);
         Config {
             storage_dir_path: self.storage_dir_path,
             esplora_server_url: self.esplora_server_url,
@@ -35,15 +37,15 @@ impl LdkConfig {
 }
 //=============Builder=========
 pub fn init_builder(config: LdkConfig) -> RustOpaque<LdkNodeInstance> {
+    info!("Initializing builder");
     let lite_config = config.to_ldk_config();
-    info!("{:?}", "Initializing builder");
     let node = Builder::from_config(lite_config).build();
     RustOpaque::new(LdkNodeInstance {
         ldk_lite_mutex: Mutex::new(node),
     })
 }
 
-pub fn start(ldk_node: RustOpaque<LdkNodeInstance>)  {
+pub fn start(ldk_node: RustOpaque<LdkNodeInstance>) {
     info!("{:?}", "Starting node");
     let mut node = ldk_node.ldk_lite_mutex.lock().unwrap();
     match node.start() {
@@ -54,46 +56,41 @@ pub fn start(ldk_node: RustOpaque<LdkNodeInstance>)  {
             );
         }
         Err(e) => {
-            panic!("{:?}:{:?}",Error::LdkInitError, e);
+            panic!("{:?}:{:?}", Error::LdkInitError, e);
         }
     }
 }
-pub fn node_id(ldk_node: RustOpaque<LdkNodeInstance>)-> PublicKey{
-    let  node = ldk_node.ldk_lite_mutex.lock().unwrap();
+pub fn node_id(ldk_node: RustOpaque<LdkNodeInstance>) -> PublicKey {
+    let node = ldk_node.ldk_lite_mutex.lock().unwrap();
     match node.node_id() {
-        Ok(e) => {
-            e.into()
-        }
+        Ok(e) => e.into(),
         Err(e) => {
-            panic!("{:?}:{:?}",Error::NodeIdError, e);
+            panic!("{:?}:{:?}", Error::NodeIdError, e);
         }
     }
 }
 pub fn get_balance(ldk_node: RustOpaque<LdkNodeInstance>) -> Balance {
     let mut node = ldk_node.ldk_lite_mutex.lock().unwrap();
-   match  node.on_chain_balance(){
-       Ok(balance) => {
-           Balance {
-               total: balance.get_total().clone(),
-               immature: balance.immature.clone(),
-               trusted_pending: balance.trusted_pending.clone(),
-               untrusted_pending: balance.untrusted_pending.clone(),
-               confirmed: balance.confirmed.clone(),
-           }
-       }
-       Err(e) => {
-           panic!("{:?}:{:?}",Error::GetBalanceError, e);
-       }
-   }
+    match node.on_chain_balance() {
+        Ok(balance) => Balance {
+            total: balance.get_total().clone(),
+            immature: balance.immature.clone(),
+            trusted_pending: balance.trusted_pending.clone(),
+            untrusted_pending: balance.untrusted_pending.clone(),
+            confirmed: balance.confirmed.clone(),
+        },
+        Err(e) => {
+            panic!("{:?}:{:?}", Error::GetBalanceError, e);
+        }
+    }
 }
 
 pub fn new_funding_address(ldk_node: RustOpaque<LdkNodeInstance>) -> Address {
-
     let mut node = ldk_node.ldk_lite_mutex.lock().unwrap();
     match node.new_funding_address() {
-        Ok(e) =>  e.into(),
+        Ok(e) => e.into(),
         Err(e) => {
-            panic!("{:?}:{:?}",Error::NewFundingAddressError, e);
+            panic!("{:?}:{:?}", Error::NewFundingAddressError, e);
         }
     }
 }
@@ -106,7 +103,7 @@ pub fn sync(ldk_node: RustOpaque<LdkNodeInstance>) {
             info!("{:?}", "Sync completed");
         }
         Err(e) => {
-            panic!("{:?}:{:?}",Error::SyncWalletError, e);
+            panic!("{:?}:{:?}", Error::SyncWalletError, e);
         }
     }
 }
@@ -114,7 +111,7 @@ pub fn get_node_addr(ldk_node: RustOpaque<LdkNodeInstance>) -> String {
     let node = ldk_node.ldk_lite_mutex.lock().unwrap();
     match node.listening_address() {
         None => {
-            panic!("{:?}",Error::GetBalanceError);
+            panic!("{:?}", Error::GetBalanceError);
         }
         Some(e) => e,
     }
@@ -131,7 +128,7 @@ pub fn stop(ldk_node: RustOpaque<LdkNodeInstance>) {
             info!("{:?}", "node_stop_success");
         }
         Err(e) => {
-            panic!("{:?}:{:?}",Error::NodeStopError, e);
+            panic!("{:?}:{:?}", Error::NodeStopError, e);
         }
     }
 }
@@ -145,7 +142,7 @@ pub fn node_info(ldk_node: RustOpaque<LdkNodeInstance>) -> NodeInfo {
     match node.node_info() {
         Ok(e) => e,
         Err(e) => {
-            panic!("{:?}:{:?}",Error::GetNodeInfoError, e);
+            panic!("{:?}:{:?}", Error::GetNodeInfoError, e);
         }
     }
 }
@@ -162,11 +159,10 @@ pub fn receive_payment(
             return e.into();
         }
         Err(e) => {
-            panic!("{:?}:{:?}",Error::ReceivePaymentError, e);
+            panic!("{:?}:{:?}", Error::ReceivePaymentError, e);
         }
     }
 }
-
 
 pub fn send_payment(ldk_node: RustOpaque<LdkNodeInstance>, invoice: Invoice) -> PaymentHash {
     let node = ldk_node.ldk_lite_mutex.lock().unwrap();
@@ -176,7 +172,7 @@ pub fn send_payment(ldk_node: RustOpaque<LdkNodeInstance>, invoice: Invoice) -> 
             return e.into();
         }
         Err(e) => {
-            panic!("{:?}:{:?}",Error::SendPaymentError, e);
+            panic!("{:?}:{:?}", Error::SendPaymentError, e);
         }
     };
 }
@@ -192,7 +188,7 @@ pub fn send_spontaneous_payment(
             return e.into();
         }
         Err(e) => {
-            panic!("{:?}:{:?}",Error::SendPaymentError, e);
+            panic!("{:?}:{:?}", Error::SendPaymentError, e);
         }
     };
 }
@@ -205,7 +201,7 @@ pub fn payment_info(
     let hash_vec = hex_utils::to_vec(payment_hash.as_str());
     let mut hash_u8 = [0; 32];
     hash_u8.copy_from_slice(&hash_vec.unwrap());
-    node.payment_info(&hash_u8).map(|x| x.into())
+    return Some(node.payment_info(&hash_u8).unwrap().into());
 }
 pub fn connect_open_channel(
     ldk_lite: RustOpaque<LdkNodeInstance>,
@@ -226,7 +222,7 @@ pub fn connect_open_channel(
             );
         }
         Err(e) => {
-            panic!("{:?}:{:?}",Error::ConnectOpenChannelError, e);
+            panic!("{:?}:{:?}", Error::ConnectOpenChannelError, e);
         }
     }
 }
@@ -240,13 +236,13 @@ pub fn close_channel(
     let mut channel_id_u8 = [0; 32];
     channel_id_u8.copy_from_slice(&channel_id_vec.unwrap());
     let node = ldk_lite.ldk_lite_mutex.lock().unwrap();
-    let pub_key =counterparty_node_id.into() ;
+    let pub_key = counterparty_node_id.into();
     match node.close_channel(&channel_id_u8, &pub_key) {
         Ok(_) => {
             info!("{:?}", "Successfully closed the channel");
         }
         Err(e) => {
-            panic!("{:?}:{:?}",Error::CloseChannelError, e);
+            panic!("{:?}:{:?}", Error::CloseChannelError, e);
         }
     };
 }
@@ -262,28 +258,28 @@ pub fn rust_set_up() {
 
 impl Invoice {
     ///Returns the amount if specified in the invoice as millisatoshis.
-    pub fn amount_milli_satoshis(invoice:Invoice) -> Option<u64>{
-        let inv:lightning_invoice::Invoice = invoice.into();
-      inv.amount_milli_satoshis()
+    pub fn amount_milli_satoshis(invoice: Invoice) -> Option<u64> {
+        let inv: lightning_invoice::Invoice = invoice.into();
+        inv.amount_milli_satoshis()
     }
-    pub fn is_expired(invoice:Invoice) -> bool{
-        let inv:lightning_invoice::Invoice = invoice.into();
+    pub fn is_expired(invoice: Invoice) -> bool {
+        let inv: lightning_invoice::Invoice = invoice.into();
         inv.is_expired()
     }
-    pub fn expiry_time(invoice:Invoice) -> u64 {
-        let inv:lightning_invoice::Invoice = invoice.into();
+    pub fn expiry_time(invoice: Invoice) -> u64 {
+        let inv: lightning_invoice::Invoice = invoice.into();
         inv.expiry_time().as_secs()
     }
-    pub fn payment_hash(invoice:Invoice) -> String{
-        let inv:lightning_invoice::Invoice = invoice.into();
+    pub fn payment_hash(invoice: Invoice) -> String {
+        let inv: lightning_invoice::Invoice = invoice.into();
         inv.payment_hash().to_string()
     }
-    pub fn payee_pub_key(invoice:Invoice) -> Option<String> {
-        let inv:lightning_invoice::Invoice = invoice.into();
+    pub fn payee_pub_key(invoice: Invoice) -> Option<String> {
+        let inv: lightning_invoice::Invoice = invoice.into();
         inv.payee_pub_key().map(|x| x.to_string())
     }
-    pub fn payment_secret(invoice:Invoice) -> PaymentSecret{
-        let inv:lightning_invoice::Invoice = invoice.into();
+    pub fn payment_secret(invoice: Invoice) -> PaymentSecret {
+        let inv: lightning_invoice::Invoice = invoice.into();
         inv.payment_secret().into()
     }
 }

@@ -1,5 +1,78 @@
-use crate::ffi::Node;
-use std::sync::Mutex;
+use crate::ffi::{ Node};
+use lightning::ln::channelmanager::ChannelManager as LdkChannelManager;
+use crate::logger::FilesystemLogger;
+use crate::wallet::{Wallet, WalletKeysManager};
+use lightning::chain::keysinterface::InMemorySigner;
+use lightning::chain::{chainmonitor, Access};
+use chainmonitor::ChainMonitor as LdkChainMonitor;
+pub use gossip::NetworkGraph as LdkNetworkGraph;
+use lightning::ln::peer_handler::PeerManager as LdkPeerManager;
+use lightning::onion_message::OnionMessenger as LdkOnionMessenger;
+use lightning::ln::peer_handler::IgnoringMessageHandler;
+use lightning::routing::gossip;
+use lightning::routing::gossip::P2PGossipSync;
+use lightning::routing::router::DefaultRouter;
+use lightning::routing::scoring::ProbabilisticScorer;
+use lightning_invoice::payment;
+use lightning_net_tokio::SocketDescriptor;
+use lightning_persister::FilesystemPersister;
+use lightning_transaction_sync::EsploraSyncClient;
+
+use std::collections::HashMap;
+use std::sync::{Arc, Mutex};
+
+
+pub(crate) type ChainMonitor = LdkChainMonitor<
+    InMemorySigner,
+    Arc<EsploraSyncClient<Arc<FilesystemLogger>>>,
+    Arc<Wallet<bdk::sled::Tree>>,
+    Arc<Wallet<bdk::sled::Tree>>,
+    Arc<FilesystemLogger>,
+    Arc<FilesystemPersister>,
+>;
+
+pub(crate) type PeerManager = LdkPeerManager<
+    SocketDescriptor,
+    Arc<ChannelManager>,
+    Arc<GossipSync>,
+    Arc<OnionMessenger>,
+    Arc<FilesystemLogger>,
+    IgnoringMessageHandler,
+>;
+
+pub(crate) type ChannelManager = LdkChannelManager<
+    Arc<ChainMonitor>,
+    Arc<Wallet<bdk::sled::Tree>>,
+    Arc<WalletKeysManager<bdk::sled::Tree>>,
+    Arc<WalletKeysManager<bdk::sled::Tree>>,
+    Arc<WalletKeysManager<bdk::sled::Tree>>,
+    Arc<Wallet<bdk::sled::Tree>>,
+    Arc<Router>,
+    Arc<FilesystemLogger>,
+>;
+
+pub(crate) type KeysManager = WalletKeysManager<bdk::sled::Tree>;
+
+pub(crate) type InvoicePayer<F> =
+payment::InvoicePayer<Arc<ChannelManager>, Arc<Router>, Arc<FilesystemLogger>, F>;
+
+pub(crate) type Router =
+DefaultRouter<Arc<NetworkGraph>, Arc<FilesystemLogger>, Arc<Mutex<Scorer>>>;
+pub(crate) type Scorer = ProbabilisticScorer<Arc<NetworkGraph>, Arc<FilesystemLogger>>;
+
+pub(crate) type GossipSync =
+P2PGossipSync<Arc<NetworkGraph>, Arc<dyn Access + Send + Sync>, Arc<FilesystemLogger>>;
+
+pub(crate) type NetworkGraph = LdkNetworkGraph<Arc<FilesystemLogger>>;
+
+pub(crate) type PaymentInfoStorage = Mutex<HashMap<lightning::ln::PaymentHash, LdkPaymentInfo>>;
+
+pub(crate) type OnionMessenger = LdkOnionMessenger<
+    Arc<WalletKeysManager<bdk::sled::Tree>>,
+    Arc<WalletKeysManager<bdk::sled::Tree>>,
+    Arc<FilesystemLogger>,
+    IgnoringMessageHandler,
+>;
 
 pub struct LdkNodeInstance {
     pub ldk_lite_mutex: Mutex<Node>,
@@ -63,7 +136,6 @@ pub struct ChannelInfo {
     pub public: bool,
 }
 pub struct LogEntry {
-    pub time_millis: i64,
     pub level: i32,
     pub tag: String,
     pub msg: String,
@@ -112,4 +184,21 @@ pub enum PaymentStatus {
 #[derive(Clone, Debug, PartialEq, Eq)]
 pub struct PaymentPreimage{
     pub as_u_array: [u8; 32]
+}
+
+//
+// Structs wrapping the particular information which should easily be
+// understandable, parseable, and transformable, i.e., we'll try to avoid
+// exposing too many technical detail here.
+/// Represents a payment.
+#[derive(Clone, Debug, PartialEq, Eq)]
+pub struct LdkPaymentInfo {
+    /// The pre-image used by the payment.
+    pub preimage: Option<lightning::ln::PaymentPreimage>,
+    /// The secret used by the payment.
+    pub secret: Option<lightning::ln::PaymentSecret>,
+    /// The status of the payment.
+    pub status: PaymentStatus,
+    /// The amount transferred.
+    pub amount_msat: Option<u64>,
 }

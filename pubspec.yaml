@@ -9,10 +9,10 @@ environment:
 
 dependencies:
   ffi: ^2.0.1
-
   flutter:
     sdk: flutter
-  flutter_rust_bridge: "1.60.0"
+  flutter_rust_bridge: ">1.59.0 <= 1.60.0"
+
   freezed: ^2.3.0
   freezed_annotation: ^2.2.0
 
@@ -21,7 +21,7 @@ dev_dependencies:
     sdk: flutter
   flutter_lints: ^2.0.0
   ffigen: ^7.2.2
-  build_runner: ^2.3.2
+  build_runner: ^2.3.3
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

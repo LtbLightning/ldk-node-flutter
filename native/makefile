@@ -1,4 +1,4 @@
-.DEFAULT_GOAL := help
+DEFAULT_GOAL := help
 PROJECTNAME=$(shell basename "$(PWD)")
 SOURCES=$(sort $(wildcard ./src/*.rs ./src/**/*.rs))
 # ##############################################################################
@@ -44,9 +44,9 @@ target/armv7-linux-androideabi/release/libexample.so: $(SOURCES)
 target/i686-linux-android/release/libexample.so: $(SOURCES)
 		cargo ndk -t x86 build --release
 	@echo "[Done ✅] $@"
-#target/x86_64-linux-android/release/libexample.so: $(SOURCES)
-#		 cargo ndk -t x86_64 build --release
-#	@echo "[Done ✅] $@"
+target/x86_64-linux-android/release/libexample.so: $(SOURCES)
+		 cargo ndk -t x86_64 build --release
+	@echo "[Done ✅] $@"
 
 bindings: copy/bindings
 copy/bindings: $(SOURCES)
@@ -55,5 +55,3 @@ copy/bindings: $(SOURCES)
 	sh copy.sh
 	@echo "[Done ✅]"
 	@echo "[*** ALL TASKS Completed ✅ ***]"
-
-

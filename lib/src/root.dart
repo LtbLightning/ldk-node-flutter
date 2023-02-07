@@ -74,10 +74,10 @@ class Config {
 
   Config(
       {required this.storageDirPath,
-      required this.esploraServerUrl,
-      required this.network,
-      this.listeningAddress,
-      this.defaultCltvExpiryDelta});
+        required this.esploraServerUrl,
+        required this.network,
+        this.listeningAddress,
+        this.defaultCltvExpiryDelta});
 
   /// The path where the underlying LDK and BDK persist their data.
   String storageDirPath;
@@ -179,15 +179,16 @@ class LdkNode {
   /// Send a payment given an invoice.
   Future<PaymentHash> sendPayment(Invoice invoice) async {
     final res =
-        await loaderApi.sendPayment(ldkNode: _ldkNode!, invoice: invoice);
+    await loaderApi.sendPayment(ldkNode: _ldkNode!, invoice: invoice);
     return res;
   }
 
   /// Send a spontaneous, aka. "keysend", payment
+  ///
   Future<PaymentHash> sendSpontaneousPayment(
-      String nodeId, int amountMsat) async {
+      String nodeId, int amountInMilliSat) async {
     final res = await loaderApi.sendSpontaneousPayment(
-        ldkNode: _ldkNode!, amountMsat: amountMsat, nodeId: nodeId);
+        ldkNode: _ldkNode!, amountMsat: amountInMilliSat, nodeId: nodeId);
     return res;
   }
 

@@ -256,13 +256,11 @@ class LdkConfig {
 }
 
 class LogEntry {
-  final int timeMillis;
   final int level;
   final String tag;
   final String msg;
 
   LogEntry({
-    required this.timeMillis,
     required this.level,
     required this.tag,
     required this.msg,
@@ -886,10 +884,6 @@ class NativeImpl implements Native {
     return raw as int;
   }
 
-  int _wire2api_i64(dynamic raw) {
-    return castInt(raw);
-  }
-
   Invoice _wire2api_invoice(dynamic raw) {
     final arr = raw as List<dynamic>;
     if (arr.length != 1) throw Exception('unexpected arr length: expect 1 but see ${arr.length}');
@@ -905,12 +899,11 @@ class NativeImpl implements Native {
 
   LogEntry _wire2api_log_entry(dynamic raw) {
     final arr = raw as List<dynamic>;
-    if (arr.length != 4) throw Exception('unexpected arr length: expect 4 but see ${arr.length}');
+    if (arr.length != 3) throw Exception('unexpected arr length: expect 3 but see ${arr.length}');
     return LogEntry(
-      timeMillis: _wire2api_i64(arr[0]),
-      level: _wire2api_i32(arr[1]),
-      tag: _wire2api_String(arr[2]),
-      msg: _wire2api_String(arr[3]),
+      level: _wire2api_i32(arr[0]),
+      tag: _wire2api_String(arr[1]),
+      msg: _wire2api_String(arr[2]),
     );
   }
 

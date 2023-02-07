@@ -1,4 +1,4 @@
-group 'io.ldk.f.ldk_node'
+group 'io.ldk.f.ldk_node_flutter'
 version '1.0-SNAPSHOT'
 
 buildscript {

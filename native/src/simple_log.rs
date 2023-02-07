@@ -3,7 +3,7 @@ use flutter_rust_bridge::StreamSink;
 use lazy_static::lazy_static;
 use simplelog::{ CombinedLogger, Config,  LevelFilter, SharedLogger};
 use std::sync::RwLock;
-use std::time::{Duration, SystemTime, UNIX_EPOCH};
+// use std::time::{Duration, SystemTime, UNIX_EPOCH};
 use log::{warn, Log, Metadata, Record, Level, error, info};
 use crate::types::LogEntry;
 
@@ -70,10 +70,6 @@ impl SendToDartLogger {
     }
 
     fn record_to_entry(record: &Record) -> LogEntry {
-        let time_millis = SystemTime::now()
-            .duration_since(UNIX_EPOCH)
-            .unwrap_or_else(|_| Duration::from_secs(0))
-            .as_millis() as i64;
 
         let level = match record.level() {
             Level::Trace => Self::LEVEL_TRACE,
@@ -88,7 +84,6 @@ impl SendToDartLogger {
         let msg = format!("{}", record.args());
 
         LogEntry {
-            time_millis,
             level,
             tag,
             msg,

@@ -1,10 +1,9 @@
 import 'dart:io';
-import 'dart:math';
 import 'package:flutter/foundation.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter/material.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:ldk_node_flutter/ldk_node_flutter.dart';
+import 'package:path_provider/path_provider.dart';
 
 void main() {
   runApp(const MyApp());
@@ -27,51 +26,19 @@ class _MyAppState extends State<MyApp> {
   String bobNodePubKeyAndAddress = "";
   Invoice? invoice;
   String? channelId;
+
   @override
   void initState() {
     initAliceNode();
     super.initState();
   }
 
-  Future<int> getUnusedPort(InternetAddress? address) {
-    return ServerSocket.bind(address ?? InternetAddress.anyIPv4, 0)
-        .then((socket) {
-      var port = socket.port;
-      socket.close();
-      return port;
-    });
-  }
-
-  String generateRandomString(int len) {
-    var r = Random();
-    return String.fromCharCodes(
-        List.generate(len, (index) => r.nextInt(33) + 89));
-  }
-
-  // Helper method created, not part of ldk
-  initRandomNode() async {
-    final path = await getApplicationSupportDirectory();
-    final randDir = generateRandomString(4);
-    final randPath = "$path/ldk_cache/$randDir";
-    Random random = Random();
-    int randPort = random.nextInt(10000);
-    const host = "127.0.0.1";
-    final nodePubKeyAndAddress = "$host:$randPort";
-    final randConfig = await initLdkConfig(randPath, nodePubKeyAndAddress);
-    NodeBuilder builder = NodeBuilder.fromConfig(randConfig);
-    aliceNode = await builder.build();
-    await aliceNode.start();
-    final res = await aliceNode.nodeId();
-    setState(() {
-      aliceNodeId = res;
-    });
-  }
 
   Future<Config> initLdkConfig(String path, String nodePubKeyAndAddress) async {
     // Please replace this url with your Electrum RPC Api url
-    // Please use 10.0.2.2, instead of 127.0.0.1, when connecting from an android emulator to connect to 127.0.0.1
+    // Please use 10.0.2.2, instead of 0.0.0.0
     final esploraUrl =
-    Platform.isAndroid ? "http://10.0.2.2:3002" : "http://127.0.0.1:3002";
+    Platform.isAndroid ? "http://10.0.2.2:3002" : "http://0.0.0.0:3002";
     final config = Config(
         storageDirPath: path,
         esploraServerUrl: esploraUrl,
@@ -82,14 +49,16 @@ class _MyAppState extends State<MyApp> {
 
   initAliceNode() async {
     //Path to a directory where the application may place application support files.
-    final path = await getApplicationSupportDirectory();
-    //Specifying node folder
-    final aliceConfig = await initLdkConfig(
-        "${path.path}/ldk_cache/alice_s.node", "0.0.0.0:3314");
+    final directory = await getApplicationDocumentsDirectory();
+    final alicePath = "${directory.path}/ldk_cache/alice_.node";
+
+    print(alicePath);
+    final aliceConfig = await initLdkConfig(alicePath, "0.0.0.0:3361");
     NodeBuilder aliceBuilder = NodeBuilder.fromConfig(aliceConfig);
     aliceNode = await aliceBuilder.build();
     await aliceNode.start();
     final res = await aliceNode.nodeId();
+
     setState(() {
       aliceNodeId = res;
       displayText = "$aliceNodeId started successfully";
@@ -98,10 +67,10 @@ class _MyAppState extends State<MyApp> {
 
   initBobNode() async {
     //Path to a directory where the application may place application support files
-    final path = await getApplicationSupportDirectory();
+    final path = await getApplicationDocumentsDirectory();
     //Specifying node folder
     final bobConfig = await initLdkConfig(
-        "${path.path}/ldk_cache/bob_s.node", "0.0.0.0:7731");
+        "${path.path}/ldk_cache/bob's_node", "0.0.0.0:7791");
     NodeBuilder bobBuilder = NodeBuilder.fromConfig(bobConfig);
     bobNode = await bobBuilder.build();
     await bobNode.start();
@@ -116,7 +85,7 @@ class _MyAppState extends State<MyApp> {
     final alice = await aliceNode.onChainBalance();
     final bob = await bobNode.onChainBalance();
     if (kDebugMode) {
-      print("alice's balance: ${alice.total}");
+      print("alice's_balance: ${alice.total}");
       print("bob's balance: ${bob.total}");
     }
     setState(() {
@@ -169,7 +138,6 @@ class _MyAppState extends State<MyApp> {
     return [alice.asString, bob.asString];
   }
 
-//149981786
   getListeningAddresses() async {
     final alice = await aliceNode.listeningAddress();
     final bob = await bobNode.listeningAddress();
@@ -192,7 +160,7 @@ class _MyAppState extends State<MyApp> {
 
   //Failed to send payment due to routing failure: Failed to find a path to the given destination
   receiveAndSendPayments() async {
-    invoice = await bobNode.receivePayment("asdf", 10000, 50000);
+    invoice = await bobNode.receivePayment("asdf", 10000, 100000000);
     final paymentHash = await aliceNode.sendPayment(invoice!);
     final res = await aliceNode.paymentInfo(paymentHash);
     setState(() {
@@ -202,7 +170,7 @@ class _MyAppState extends State<MyApp> {
 
   getChannelId() async {
     final channelInfos = await aliceNode.getChannelIds();
-    if(channelInfos.isNotEmpty){
+    if (channelInfos.isNotEmpty) {
       channelId = channelInfos.first;
       if (kDebugMode) {
         print(channelId.toString());
@@ -210,40 +178,38 @@ class _MyAppState extends State<MyApp> {
       setState(() {
         displayText = channelId.toString();
       });
-    } else{
+    } else {
       if (kDebugMode) {
         print("No open channels available");
       }
     }
   }
 
-  Future  handleEvent(LdkNode node ) async {
+  Future handleEvent(LdkNode node) async {
     final res = await node.nextEvent();
-    res?.map(
-        paymentSuccessful: (e){
-          if (kDebugMode) {
-            print("paymentSuccessful: ${e.paymentHash.asString}");
-          }},
-        paymentFailed: (e){
-          if (kDebugMode) {
-            print("paymentFailed: ${e.paymentHash.asString}");
-          }
-        },
-        paymentReceived: (e){
-          if (kDebugMode) {
-            print("paymentReceived: ${e.paymentHash.asString}");
-          }
-        },
-        channelReady: (e){
-          if (kDebugMode) {
-            print("channelReady: ${e.channelId}, userChannelId: ${e.userChannelId}");
-          }
-        },
-        channelClosed: (e){
-          if (kDebugMode) {
-            print("channelClosed: ${e.channelId}, userChannelId: ${e.userChannelId}");
-          }
-        });
+    res?.map(paymentSuccessful: (e) {
+      if (kDebugMode) {
+        print("paymentSuccessful: ${e.paymentHash.asString}");
+      }
+    }, paymentFailed: (e) {
+      if (kDebugMode) {
+        print("paymentFailed: ${e.paymentHash.asString}");
+      }
+    }, paymentReceived: (e) {
+      if (kDebugMode) {
+        print("paymentReceived: ${e.paymentHash.asString}");
+      }
+    }, channelReady: (e) {
+      if (kDebugMode) {
+        print(
+            "channelReady: ${e.channelId}, userChannelId: ${e.userChannelId}");
+      }
+    }, channelClosed: (e) {
+      if (kDebugMode) {
+        print(
+            "channelClosed: ${e.channelId}, userChannelId: ${e.userChannelId}");
+      }
+    });
     await node.eventHandled();
   }
 

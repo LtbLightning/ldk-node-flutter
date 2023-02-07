@@ -1,45 +1,32 @@
-use chainmonitor::ChainMonitor as LdkChainMonitor;
-pub use gossip::NetworkGraph as LdkNetworkGraph;
-use lightning::chain::keysinterface::{EntropySource, InMemorySigner, NodeSigner, Recipient};
-use lightning::chain::{chainmonitor, Access, BestBlock, Confirm, Watch};
-use lightning::ln::channelmanager;
-use lightning::ln::channelmanager::{ChainParameters, ChannelManagerReadArgs};
-use lightning::ln::peer_handler::PeerManager as LdkPeerManager;
-use lightning::ln::peer_handler::{IgnoringMessageHandler, MessageHandler};
-use lightning::ln::{PaymentHash, PaymentPreimage, PaymentSecret};
-use lightning::onion_message::OnionMessenger as LdkOnionMessenger;
-use lightning::routing::gossip;
-use lightning::routing::gossip::P2PGossipSync;
-use lightning::routing::scoring::ProbabilisticScorer;
-use lightning::util::config::{ChannelHandshakeConfig, ChannelHandshakeLimits, UserConfig};
-use lightning::util::ser::ReadableArgs;
-
-use lightning_background_processor::BackgroundProcessor;
-use lightning_background_processor::GossipSync as BPGossipSync;
-use lightning_persister::FilesystemPersister;
-
-use lightning_transaction_sync::EsploraSyncClient;
-
-use lightning_net_tokio::SocketDescriptor;
-
-use bdk::bitcoin::secp256k1::Secp256k1;
-use bdk::sled;
-use bdk::template::Bip84;
-pub use lightning::ln::channelmanager::ChannelManager as LdkChannelManager;
-use lightning::routing::router::DefaultRouter;
-use lightning_invoice::{payment, Currency, Invoice};
-
 use crate::error::Error;
 use crate::event::{Event, EventHandler, EventQueue};
 use crate::logger::{log_error, log_given_level, log_info, log_internal, FilesystemLogger, Logger};
 use crate::peer_store::{PeerInfo, PeerInfoStorage};
-use crate::wallet::{Wallet, WalletKeysManager};
+use crate::wallet::Wallet;
 use crate::{event, hex_utils, io_utils, peer_store};
+use bdk::bitcoin::secp256k1::Secp256k1;
 use bdk::blockchain::EsploraBlockchain;
+use bdk::sled;
+use bdk::template::Bip84;
 use bitcoin::hashes::sha256::Hash as Sha256;
 use bitcoin::hashes::Hash;
 use bitcoin::secp256k1::PublicKey;
 use bitcoin::BlockHash;
+use lightning::chain::keysinterface::{EntropySource, NodeSigner, Recipient};
+use lightning::chain::{chainmonitor, Access, BestBlock, Confirm, Watch};
+use lightning::ln::channelmanager;
+use lightning::ln::channelmanager::{ChainParameters, ChannelManagerReadArgs};
+use lightning::ln::peer_handler::{IgnoringMessageHandler, MessageHandler};
+use lightning::ln::{PaymentHash, PaymentPreimage};
+use lightning::routing::gossip::P2PGossipSync;
+use lightning::routing::router::DefaultRouter;
+use lightning::util::config::{ChannelHandshakeConfig, ChannelHandshakeLimits, UserConfig};
+use lightning::util::ser::ReadableArgs;
+use lightning_background_processor::BackgroundProcessor;
+use lightning_background_processor::GossipSync as BPGossipSync;
+use lightning_invoice::{payment, Currency, Invoice};
+use lightning_persister::FilesystemPersister;
+use lightning_transaction_sync::EsploraSyncClient;
 use log::info;
 use rand::Rng;
 use std::collections::HashMap;
@@ -51,7 +38,11 @@ use std::sync::atomic::{AtomicBool, Ordering};
 use std::sync::{Arc, Mutex, RwLock};
 use std::time::{Duration, Instant, SystemTime};
 
-use crate::types::{ChannelInfo, NodeInfo};
+use crate::types::{
+    ChainMonitor, ChannelInfo, ChannelManager, GossipSync, InvoicePayer, KeysManager,
+    LdkPaymentInfo, NetworkGraph, NodeInfo, OnionMessenger, PaymentInfoStorage, PaymentStatus,
+    PeerManager, Router, Scorer,
+};
 use lightning_invoice::payment::Payer;
 
 // The used 'stop gap' parameter used by BDK's wallet sync. This seems to configure the threshold
@@ -115,58 +106,58 @@ impl Builder {
     pub fn build(&self) -> Node {
         let config = Arc::new(self.config.clone());
 
-        let ldk_data_dir = format!("{}/ldk", &config.storage_dir_path.clone());
+        let ldk_data_dir = format!("{}/ldk", config.storage_dir_path);
         fs::create_dir_all(ldk_data_dir.clone()).expect("Failed to create LDK data directory");
 
-        let bdk_data_dir = format!("{}/bdk", config.storage_dir_path.clone());
+        let bdk_data_dir = format!("{}/bdk", config.storage_dir_path);
         fs::create_dir_all(bdk_data_dir.clone()).expect("Failed to create BDK data directory");
 
         // Step 0: Initialize the Logger
-        let log_file_path = format!("{}/ldk_lite.log", config.storage_dir_path.clone());
+        let log_file_path = format!("{}/ldk_node.log", config.storage_dir_path);
         let logger = Arc::new(FilesystemLogger::new(log_file_path));
 
         // Step 1: Initialize the on-chain wallet and chain access
-        let seed = io_utils::read_or_generate_seed_file(Arc::clone(&config));
+        let seed = io_utils::read_or_generate_seed_file(config.clone());
         let xprv = bitcoin::util::bip32::ExtendedPrivKey::new_master(config.network, &seed)
             .expect("Failed to read wallet master key");
 
         let wallet_name = bdk::wallet::wallet_name_from_descriptor(
-            Bip84(xprv.clone(), bdk::KeychainKind::External),
-            Some(Bip84(xprv.clone(), bdk::KeychainKind::Internal)),
+            Bip84(xprv, bdk::KeychainKind::External),
+            Some(Bip84(xprv, bdk::KeychainKind::Internal)),
             config.network,
             &Secp256k1::new(),
         )
         .expect("Failed to derive on-chain wallet name");
         let database = sled::open(bdk_data_dir).expect("Failed to open BDK database");
         let database = database
-            .open_tree(wallet_name.clone())
+            .open_tree(wallet_name)
             .expect("Failed to open BDK database");
 
         let bdk_wallet = bdk::Wallet::new(
-            Bip84(xprv.clone(), bdk::KeychainKind::External),
-            Some(Bip84(xprv.clone(), bdk::KeychainKind::Internal)),
+            Bip84(xprv, bdk::KeychainKind::External),
+            Some(Bip84(xprv, bdk::KeychainKind::Internal)),
             config.network,
             database,
         )
         .expect("Failed to setup on-chain wallet");
-
-        // TODO: Check that we can be sure that the Esplora client re-connects in case of failure
-        let blockchain = EsploraBlockchain::new(&config.esplora_server_url, BDK_CLIENT_STOP_GAP)
-            .with_concurrency(BDK_CLIENT_CONCURRENCY);
-
-        let wallet = Arc::new(Wallet::new(blockchain, bdk_wallet, Arc::clone(&logger)));
 
         let tx_sync = Arc::new(EsploraSyncClient::new(
             config.esplora_server_url.clone(),
             Arc::clone(&logger),
         ));
 
+        let blockchain =
+            EsploraBlockchain::from_client(tx_sync.client().clone(), BDK_CLIENT_STOP_GAP)
+                .with_concurrency(BDK_CLIENT_CONCURRENCY);
+
+        let wallet = Arc::new(Wallet::new(blockchain, bdk_wallet, Arc::clone(&logger)));
+
         // Step 3: Initialize Persist
         let persister = Arc::new(FilesystemPersister::new(ldk_data_dir.clone()));
 
         // Step 4: Initialize the ChainMonitor
         let chain_monitor: Arc<ChainMonitor> = Arc::new(chainmonitor::ChainMonitor::new(
-            None,
+            Some(Arc::clone(&tx_sync)),
             Arc::clone(&wallet),
             Arc::clone(&logger),
             Arc::clone(&wallet),
@@ -184,9 +175,27 @@ impl Builder {
             Arc::clone(&wallet),
         ));
 
+        // Step 12: Initialize the network graph, scorer, and router
+        let network_graph = Arc::new(
+            io_utils::read_network_graph(config.clone(), Arc::clone(&logger))
+                .expect("Failed to read the network graph"),
+        );
+        let scorer = Arc::new(Mutex::new(io_utils::read_scorer(
+            config.clone(),
+            Arc::clone(&network_graph),
+            Arc::clone(&logger),
+        )));
+
+        let router = Arc::new(DefaultRouter::new(
+            Arc::clone(&network_graph),
+            Arc::clone(&logger),
+            keys_manager.get_secure_random_bytes(),
+            Arc::clone(&scorer),
+        ));
+
         // Step 6: Read ChannelMonitor state from disk
         let mut channel_monitors = persister
-            .read_channelmonitors(keys_manager.clone())
+            .read_channelmonitors(Arc::clone(&keys_manager), Arc::clone(&keys_manager))
             .expect("Failed to read channel monitors from disk");
 
         // Step 7: Initialize the ChannelManager
@@ -195,16 +204,19 @@ impl Builder {
             .channel_handshake_limits
             .force_announced_channel_preference = false;
         let channel_manager = {
-            if let Ok(mut f) = fs::File::open(format!("{}/manager", ldk_data_dir.clone())) {
+            if let Ok(mut f) = fs::File::open(format!("{}/manager", ldk_data_dir)) {
                 let mut channel_monitor_mut_references = Vec::new();
                 for (_, channel_monitor) in channel_monitors.iter_mut() {
                     channel_monitor_mut_references.push(channel_monitor);
                 }
                 let read_args = ChannelManagerReadArgs::new(
                     Arc::clone(&keys_manager),
+                    Arc::clone(&keys_manager),
+                    Arc::clone(&keys_manager),
                     Arc::clone(&wallet),
                     Arc::clone(&chain_monitor),
                     Arc::clone(&wallet),
+                    Arc::clone(&router),
                     Arc::clone(&logger),
                     user_config,
                     channel_monitor_mut_references,
@@ -223,32 +235,30 @@ impl Builder {
                     network: config.network,
                     best_block: BestBlock::new(dummy_block_hash, 0),
                 };
-                let fresh_channel_manager = channelmanager::ChannelManager::new(
+                channelmanager::ChannelManager::new(
                     Arc::clone(&wallet),
                     Arc::clone(&chain_monitor),
                     Arc::clone(&wallet),
+                    Arc::clone(&router),
                     Arc::clone(&logger),
+                    Arc::clone(&keys_manager),
+                    Arc::clone(&keys_manager),
                     Arc::clone(&keys_manager),
                     user_config,
                     chain_params,
-                );
-                fresh_channel_manager
+                )
             }
         };
 
         let channel_manager = Arc::new(channel_manager);
 
         // Step 8: Give ChannelMonitors to ChainMonitor
-        for (_blockhash, channel_monitor) in channel_monitors.drain(..) {
+        for (_blockhash, channel_monitor) in channel_monitors.into_iter() {
             let funding_outpoint = channel_monitor.get_funding_txo().0;
             chain_monitor.watch_channel(funding_outpoint, channel_monitor);
         }
 
         // Step 10: Initialize the P2PGossipSync
-        let network_graph = Arc::new(
-            io_utils::read_network_graph(Arc::clone(&config), Arc::clone(&logger))
-                .expect("Failed to read the network graph"),
-        );
         let gossip_sync = Arc::new(P2PGossipSync::new(
             Arc::clone(&network_graph),
             None::<Arc<dyn Access + Send + Sync>>,
@@ -258,10 +268,11 @@ impl Builder {
         //// Step 11: Initialize the PeerManager
         let onion_messenger: Arc<OnionMessenger> = Arc::new(OnionMessenger::new(
             Arc::clone(&keys_manager),
+            Arc::clone(&keys_manager),
             Arc::clone(&logger),
             IgnoringMessageHandler {},
         ));
-        let ephemeral_bytes: [u8; 32] = rand::thread_rng().gen();
+        let ephemeral_bytes: [u8; 32] = keys_manager.get_secure_random_bytes();
         let lightning_msg_handler = MessageHandler {
             chan_handler: Arc::clone(&channel_manager),
             route_handler: Arc::clone(&gossip_sync),
@@ -280,13 +291,6 @@ impl Builder {
             IgnoringMessageHandler {},
         ));
 
-        // Step 12: Initialize routing ProbabilisticScorer
-        let scorer = Arc::new(Mutex::new(io_utils::read_scorer(
-            Arc::clone(&config),
-            Arc::clone(&network_graph),
-            Arc::clone(&logger),
-        )));
-
         // Step 13: Init payment info storage
         // TODO: persist payment info to disk
         let inbound_payments = Arc::new(Mutex::new(HashMap::new()));
@@ -295,7 +299,7 @@ impl Builder {
         // Step 14: Restore event handler from disk or create a new one.
         let event_queue = if let Ok(mut f) = fs::File::open(format!(
             "{}/{}",
-            ldk_data_dir.clone(),
+            ldk_data_dir,
             event::EVENTS_PERSISTENCE_KEY
         )) {
             Arc::new(
@@ -308,7 +312,7 @@ impl Builder {
 
         let peer_store = if let Ok(mut f) = fs::File::open(format!(
             "{}/{}",
-            ldk_data_dir.clone(),
+            ldk_data_dir,
             peer_store::PEER_INFO_PERSISTENCE_KEY
         )) {
             Arc::new(
@@ -335,6 +339,7 @@ impl Builder {
             gossip_sync,
             persister,
             logger,
+            router,
             scorer,
             inbound_payments,
             outbound_payments,
@@ -345,11 +350,12 @@ impl Builder {
 
 /// Wraps all objects that need to be preserved during the run time of [`LdkLite`]. Will be dropped
 /// upon [`LdkLite::stop()`].
+
 pub struct Runtime {
     pub(crate) tokio_runtime: Arc<tokio::runtime::Runtime>,
     pub(crate) _background_processor: BackgroundProcessor,
     pub(crate) invoice_payer:
-    Arc<InvoicePayer<Arc<EventHandler<Arc<FilesystemPersister>, Arc<FilesystemLogger>>>>>,
+        Arc<InvoicePayer<Arc<EventHandler<Arc<FilesystemPersister>, Arc<FilesystemLogger>>>>>,
     pub(crate) stop_networking: Arc<AtomicBool>,
     pub(crate) stop_wallet_sync: Arc<AtomicBool>,
 }
@@ -360,7 +366,7 @@ pub struct Runtime {
 pub struct Node {
     pub(crate) running: RwLock<Option<Runtime>>,
     pub(crate) config: Arc<Config>,
-    pub(crate) wallet: Arc<Wallet<bdk::sled::Tree>>,
+    pub(crate) wallet: Arc<Wallet<sled::Tree>>,
     pub(crate) tx_sync: Arc<EsploraSyncClient<Arc<FilesystemLogger>>>,
     pub(crate) event_queue: Arc<EventQueue<Arc<FilesystemPersister>>>,
     pub(crate) channel_manager: Arc<ChannelManager>,
@@ -372,6 +378,7 @@ pub struct Node {
     pub(crate) persister: Arc<FilesystemPersister>,
     pub(crate) logger: Arc<FilesystemLogger>,
     pub(crate) scorer: Arc<Mutex<Scorer>>,
+    pub(crate) router: Arc<Router>,
     pub(crate) inbound_payments: Arc<PaymentInfoStorage>,
     pub(crate) outbound_payments: Arc<PaymentInfoStorage>,
     pub(crate) peer_store: Arc<PeerInfoStorage<FilesystemPersister>>,
@@ -419,10 +426,15 @@ impl Node {
     }
 
     fn setup_runtime(&self) -> Result<Runtime, Error> {
-        let tokio_runtime =
-            Arc::new(tokio::runtime::Builder::new_multi_thread().enable_all().build().unwrap());
+        let tokio_runtime = Arc::new(
+            tokio::runtime::Builder::new_multi_thread()
+                .enable_all()
+                .build()
+                .unwrap(),
+        );
 
         self.wallet.set_runtime(Arc::clone(&tokio_runtime));
+
         let event_handler = Arc::new(EventHandler::new(
             Arc::clone(&self.wallet),
             Arc::clone(&self.event_queue),
@@ -436,15 +448,9 @@ impl Node {
             Arc::clone(&self.config),
         ));
 
-        let router = DefaultRouter::new(
-            Arc::clone(&self.network_graph),
-            Arc::clone(&self.logger),
-            self.keys_manager.get_secure_random_bytes(),
-            Arc::clone(&self.scorer),
-        );
         let invoice_payer = Arc::new(InvoicePayer::new(
             Arc::clone(&self.channel_manager),
-            router,
+            Arc::clone(&self.router),
             Arc::clone(&self.logger),
             Arc::clone(&event_handler),
             payment::Retry::Timeout(LDK_PAYMENT_RETRY_TIMEOUT),
@@ -460,8 +466,11 @@ impl Node {
         let stop_sync = Arc::clone(&stop_wallet_sync);
 
         std::thread::spawn(move || {
-            tokio::runtime::Builder::new_current_thread().enable_all().build().unwrap().block_on(
-                async move {
+            tokio::runtime::Builder::new_current_thread()
+                .enable_all()
+                .build()
+                .unwrap()
+                .block_on(async move {
                     loop {
                         if stop_sync.load(Ordering::Acquire) {
                             return;
@@ -469,18 +478,17 @@ impl Node {
                         let now = Instant::now();
                         match wallet.sync().await {
                             Ok(()) => log_info!(
-								sync_logger,
-								"On-chain wallet sync finished in {}ms.",
-								now.elapsed().as_millis()
-							),
+                                sync_logger,
+                                "On-chain wallet sync finished in {}ms.",
+                                now.elapsed().as_millis()
+                            ),
                             Err(err) => {
                                 log_error!(sync_logger, "On-chain wallet sync failed: {}", err)
                             }
                         }
                         tokio::time::sleep(Duration::from_secs(20)).await;
                     }
-                },
-            );
+                });
         });
 
         let sync_logger = Arc::clone(&self.logger);
@@ -562,7 +570,7 @@ impl Node {
                         if peer_info.pubkey == node_id {
                             let _ = do_connect_peer(
                                 peer_info.pubkey,
-                                peer_info.address.clone(),
+                                peer_info.address,
                                 Arc::clone(&connect_pm),
                                 Arc::clone(&connect_logger),
                             )
@@ -586,7 +594,6 @@ impl Node {
         );
 
         // TODO: frequently check back on background_processor if there was an error
-
         Ok(Runtime {
             tokio_runtime,
             _background_processor,
@@ -814,7 +821,6 @@ impl Node {
 
     /// Send a payement given an invoice.
     pub fn send_payment(&self, invoice: Invoice) -> Result<PaymentHash, Error> {
-
         let runtime_lock = self.running.read().unwrap();
         if runtime_lock.is_none() {
             return Err(Error::NotRunning);
@@ -830,15 +836,28 @@ impl Node {
                 // succeed? Should we allow to set the amount in the interface or via a dedicated
                 // method?
                 let amt_msat = invoice.amount_milli_satoshis().unwrap();
-                log_info!(self.logger, "Initiated sending {} msats to {}", amt_msat, payee_pubkey);
+                log_info!(
+                    self.logger,
+                    "Initiated sending {} msats to {}",
+                    amt_msat,
+                    payee_pubkey
+                );
                 PaymentStatus::Pending
             }
             Err(payment::PaymentError::Invoice(e)) => {
-                log_error!(self.logger, "Failed to send payment due to invalid invoice: {}", e);
+                log_error!(
+                    self.logger,
+                    "Failed to send payment due to invalid invoice: {}",
+                    e
+                );
                 return Err(Error::InvoiceInvalid);
             }
             Err(payment::PaymentError::Routing(e)) => {
-                log_error!(self.logger, "Failed to send payment due to routing failure: {}", e.err);
+                log_error!(
+                    self.logger,
+                    "Failed to send payment due to routing failure: {}",
+                    e.err
+                );
                 return Err(Error::RoutingFailed);
             }
             Err(payment::PaymentError::Sending(e)) => {
@@ -852,8 +871,8 @@ impl Node {
 
         let mut outbound_payments_lock = self.outbound_payments.lock().unwrap();
         outbound_payments_lock.insert(
-            payment_hash,
-            PaymentInfo {
+            PaymentHash::from(payment_hash),
+            LdkPaymentInfo {
                 preimage: None,
                 secret: payment_secret,
                 status,
@@ -862,7 +881,6 @@ impl Node {
         );
 
         Ok(payment_hash)
-
     }
 
     /// Send a spontaneous, aka. "keysend", payment
@@ -889,15 +907,28 @@ impl Node {
             self.config.default_cltv_expiry_delta,
         ) {
             Ok(_payment_id) => {
-                log_info!(self.logger, "Initiated sending {} msats to {}.", amount_msat, node_id);
+                log_info!(
+                    self.logger,
+                    "Initiated sending {} msats to {}.",
+                    amount_msat,
+                    node_id
+                );
                 PaymentStatus::Pending
             }
             Err(payment::PaymentError::Invoice(e)) => {
-                log_error!(self.logger, "Failed to send payment due to invalid invoice: {}", e);
+                log_error!(
+                    self.logger,
+                    "Failed to send payment due to invalid invoice: {}",
+                    e
+                );
                 return Err(Error::InvoiceInvalid);
             }
             Err(payment::PaymentError::Routing(e)) => {
-                log_error!(self.logger, "Failed to send payment due to routing failure: {}", e.err);
+                log_error!(
+                    self.logger,
+                    "Failed to send payment due to routing failure: {}",
+                    e.err
+                );
                 return Err(Error::RoutingFailed);
             }
             Err(payment::PaymentError::Sending(e)) => {
@@ -909,7 +940,12 @@ impl Node {
         let mut outbound_payments_lock = self.outbound_payments.lock().unwrap();
         outbound_payments_lock.insert(
             payment_hash,
-            PaymentInfo { preimage: None, secret: None, status, amount_msat: Some(amount_msat) },
+            LdkPaymentInfo {
+                preimage: None,
+                secret: None,
+                status,
+                amount_msat: Some(amount_msat),
+            },
         );
 
         Ok(payment_hash)
@@ -953,9 +989,9 @@ impl Node {
         let payment_hash = PaymentHash(invoice.payment_hash().clone().into_inner());
         inbound_payments_lock.insert(
             payment_hash,
-            PaymentInfo {
+            LdkPaymentInfo {
                 preimage: None,
-                secret: Some(invoice.payment_secret().clone()),
+                secret: Some(*invoice.payment_secret()),
                 status: PaymentStatus::Pending,
                 amount_msat,
             },
@@ -964,7 +1000,7 @@ impl Node {
     }
 
     ///	Query for information about the status of a specific payment.
-    pub fn payment_info(&self, payment_hash: &[u8; 32]) -> Option<PaymentInfo> {
+    pub fn payment_info(&self, payment_hash: &[u8; 32]) -> Option<LdkPaymentInfo> {
         let payment_hash = PaymentHash(*payment_hash);
 
         {
@@ -1044,77 +1080,3 @@ async fn do_connect_peer(
         }
     }
 }
-
-//
-// Structs wrapping the particular information which should easily be
-// understandable, parseable, and transformable, i.e., we'll try to avoid
-// exposing too many technical detail here.
-/// Represents a payment.
-#[derive(Clone, Debug, PartialEq, Eq)]
-pub struct PaymentInfo {
-    /// The pre-image used by the payment.
-    pub preimage: Option<PaymentPreimage>,
-    /// The secret used by the payment.
-    pub secret: Option<PaymentSecret>,
-    /// The status of the payment.
-    pub status: PaymentStatus,
-    /// The amount transferred.
-    pub amount_msat: Option<u64>,
-}
-
-/// Represents the current status of a payment.
-#[derive(Clone, Debug, PartialEq, Eq)]
-pub enum PaymentStatus {
-    /// The payment is still pending.
-    Pending,
-    /// The payment suceeded.
-    Succeeded,
-    /// The payment failed.
-    Failed,
-}
-
-type ChainMonitor = LdkChainMonitor<
-    InMemorySigner,
-    Arc<EsploraSyncClient<Arc<FilesystemLogger>>>,
-    Arc<Wallet<bdk::sled::Tree>>,
-    Arc<Wallet<bdk::sled::Tree>>,
-    Arc<FilesystemLogger>,
-    Arc<FilesystemPersister>,
->;
-
-pub(crate) type PeerManager = LdkPeerManager<
-    SocketDescriptor,
-    Arc<ChannelManager>,
-    Arc<GossipSync>,
-    Arc<OnionMessenger>,
-    Arc<FilesystemLogger>,
-    IgnoringMessageHandler,
->;
-
-pub(crate) type ChannelManager = LdkChannelManager<
-    Arc<ChainMonitor>,
-    Arc<Wallet<bdk::sled::Tree>>,
-    Arc<WalletKeysManager<bdk::sled::Tree>>,
-    Arc<Wallet<bdk::sled::Tree>>,
-    Arc<FilesystemLogger>,
->;
-
-pub(crate) type KeysManager = WalletKeysManager<bdk::sled::Tree>;
-
-type InvoicePayer<F> = payment::InvoicePayer<Arc<ChannelManager>, Router, Arc<FilesystemLogger>, F>;
-
-type Router = DefaultRouter<Arc<NetworkGraph>, Arc<FilesystemLogger>, Arc<Mutex<Scorer>>>;
-pub(crate) type Scorer = ProbabilisticScorer<Arc<NetworkGraph>, Arc<FilesystemLogger>>;
-
-type GossipSync =
-    P2PGossipSync<Arc<NetworkGraph>, Arc<dyn Access + Send + Sync>, Arc<FilesystemLogger>>;
-
-pub(crate) type NetworkGraph = LdkNetworkGraph<Arc<FilesystemLogger>>;
-
-pub(crate) type PaymentInfoStorage = Mutex<HashMap<PaymentHash, PaymentInfo>>;
-
-pub(crate) type OnionMessenger = LdkOnionMessenger<
-    Arc<WalletKeysManager<bdk::sled::Tree>>,
-    Arc<FilesystemLogger>,
-    IgnoringMessageHandler,
->;

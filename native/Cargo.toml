@@ -9,10 +9,9 @@ crate-type = ["staticlib", "cdylib"]
 
 
 [build-dependencies]
-flutter_rust_bridge_codegen = "1.60.0"
+flutter_rust_bridge_codegen = { version = "= 1.60.0"  } 
 
 [dependencies]
-flutter_rust_bridge = "1.60.0"
 lightning = { git = "https://github.com/tnull/rust-lightning", branch="2022-11-add-transaction-sync-crate", features = ["max_level_trace", "std"] }
 lightning-invoice = { git = "https://github.com/tnull/rust-lightning", branch="2022-11-add-transaction-sync-crate" }
 lightning-net-tokio = { git = "https://github.com/tnull/rust-lightning", branch="2022-11-add-transaction-sync-crate" }
@@ -20,13 +19,14 @@ lightning-persister = { git = "https://github.com/tnull/rust-lightning", branch=
 lightning-background-processor = { git = "https://github.com/tnull/rust-lightning", branch="2022-11-add-transaction-sync-crate" }
 lightning-rapid-gossip-sync = { git = "https://github.com/tnull/rust-lightning", branch="2022-11-add-transaction-sync-crate" }
 lightning-transaction-sync = { git = "https://github.com/tnull/rust-lightning", branch="2022-11-add-transaction-sync-crate", features = ["esplora-async"] }
+
 openssl = { version = "0.10.35", features = ["vendored"] }
 openssl-sys = {version = "0.9.66", features = ["vendored"]}
 bdk = { version = "0.26.0", default-features = false, features = ["async-interface", "use-esplora-async", "key-value-db"]}
 bitcoin = "0.29.2"
 log = "0.4.17"
 simplelog = "0.12.0"
-rand = "0.8.5"
+rand = "0.6.0"
 chrono = "0.4"
 futures = "0.3"
 serde_json = { version = "1.0" }
@@ -34,6 +34,8 @@ serde = { version = "1", features = ["derive"] }
 lazy_static = "1.4.0"
 once_cell = "1.16.0"
 tokio = { version = "1", features = [ "full" ] }
+flutter_rust_bridge = { version = "= 1.60.0"  }
+
 
 [profile.release]
 opt-level = 'z'     # Optimize for size

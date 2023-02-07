@@ -587,7 +587,6 @@ impl support::IntoDartExceptPrimitive for Invoice {}
 impl support::IntoDart for LogEntry {
     fn into_dart(self) -> support::DartAbi {
         vec![
-            self.time_millis.into_dart(),
             self.level.into_dart(),
             self.tag.into_dart(),
             self.msg.into_dart(),
