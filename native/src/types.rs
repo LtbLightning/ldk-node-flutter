@@ -141,7 +141,7 @@ pub struct LogEntry {
     pub msg: String,
 }
 
-pub struct Invoice{
+pub struct LdkInvoice {
     pub as_string:String
 }
 #[derive(Clone,  PartialEq, Eq)]

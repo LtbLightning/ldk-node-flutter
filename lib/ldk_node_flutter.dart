@@ -1,3 +1,3 @@
 
 export 'src/root.dart';
-export 'src/generated/bindings.dart';
+export 'src/generated/bridge_definitions.dart';

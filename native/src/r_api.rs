@@ -1,7 +1,7 @@
 use crate::ffi::{Builder, Config};
 pub use crate::types::LdkNodeInstance;
 use crate::types::{
-    Address, Balance, Error, Invoice, LogEntry, Network, NodeInfo, PaymentHash, PaymentInfo,
+    Address, Balance, Error, LdkInvoice, LogEntry, Network, NodeInfo, PaymentHash, PaymentInfo,
     PaymentSecret, PublicKey,
 };
 use crate::{hex_utils, simple_log};
@@ -151,7 +151,7 @@ pub fn receive_payment(
     amount_msat: Option<u64>,
     description: String,
     expiry_secs: u32,
-) -> Invoice {
+) -> LdkInvoice {
     let node = ldk_node.ldk_lite_mutex.lock().unwrap();
     match node.receive_payment(amount_msat, &*description, expiry_secs) {
         Ok(e) => {
@@ -164,7 +164,7 @@ pub fn receive_payment(
     }
 }
 
-pub fn send_payment(ldk_node: RustOpaque<LdkNodeInstance>, invoice: Invoice) -> PaymentHash {
+pub fn send_payment(ldk_node: RustOpaque<LdkNodeInstance>, invoice: LdkInvoice) -> PaymentHash {
     let node = ldk_node.ldk_lite_mutex.lock().unwrap();
     match node.send_payment(invoice.into()) {
         Ok(e) => {
@@ -256,29 +256,34 @@ pub fn rust_set_up() {
     simple_log::init_logger();
 }
 
-impl Invoice {
+impl LdkInvoice {
+    pub fn create(invoice: String) -> LdkInvoice {
+        LdkInvoice{
+            as_string:invoice
+        }
+    }
     ///Returns the amount if specified in the invoice as millisatoshis.
-    pub fn amount_milli_satoshis(invoice: Invoice) -> Option<u64> {
+    pub fn amount_milli_satoshis(invoice: LdkInvoice) -> Option<u64> {
         let inv: lightning_invoice::Invoice = invoice.into();
         inv.amount_milli_satoshis()
     }
-    pub fn is_expired(invoice: Invoice) -> bool {
+    pub fn is_expired(invoice: LdkInvoice) -> bool {
         let inv: lightning_invoice::Invoice = invoice.into();
         inv.is_expired()
     }
-    pub fn expiry_time(invoice: Invoice) -> u64 {
+    pub fn expiry_time(invoice: LdkInvoice) -> u64 {
         let inv: lightning_invoice::Invoice = invoice.into();
         inv.expiry_time().as_secs()
     }
-    pub fn payment_hash(invoice: Invoice) -> String {
+    pub fn payment_hash(invoice: LdkInvoice) -> String {
         let inv: lightning_invoice::Invoice = invoice.into();
         inv.payment_hash().to_string()
     }
-    pub fn payee_pub_key(invoice: Invoice) -> Option<String> {
+    pub fn payee_pub_key(invoice: LdkInvoice) -> Option<String> {
         let inv: lightning_invoice::Invoice = invoice.into();
         inv.payee_pub_key().map(|x| x.to_string())
     }
-    pub fn payment_secret(invoice: Invoice) -> PaymentSecret {
+    pub fn payment_secret(invoice: LdkInvoice) -> PaymentSecret {
         let inv: lightning_invoice::Invoice = invoice.into();
         inv.payment_secret().into()
     }

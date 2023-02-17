@@ -26,9 +26,9 @@ typedef struct wire_LdkNodeInstance {
   const void *ptr;
 } wire_LdkNodeInstance;
 
-typedef struct wire_Invoice {
+typedef struct wire_LdkInvoice {
   struct wire_uint_8_list *as_string;
-} wire_Invoice;
+} wire_LdkInvoice;
 
 typedef struct wire_PublicKey {
   struct wire_uint_8_list *as_string;
@@ -76,7 +76,7 @@ void wire_receive_payment(int64_t port_,
 
 void wire_send_payment(int64_t port_,
                        struct wire_LdkNodeInstance ldk_node,
-                       struct wire_Invoice *invoice);
+                       struct wire_LdkInvoice *invoice);
 
 void wire_send_spontaneous_payment(int64_t port_,
                                    struct wire_LdkNodeInstance ldk_node,
@@ -102,24 +102,26 @@ void wire_create_log_stream(int64_t port_);
 
 void wire_rust_set_up(int64_t port_);
 
-void wire_amount_milli_satoshis__static_method__Invoice(int64_t port_,
-                                                        struct wire_Invoice *invoice);
+void wire_create__static_method__LdkInvoice(int64_t port_, struct wire_uint_8_list *invoice);
 
-void wire_is_expired__static_method__Invoice(int64_t port_, struct wire_Invoice *invoice);
+void wire_amount_milli_satoshis__static_method__LdkInvoice(int64_t port_,
+                                                           struct wire_LdkInvoice *invoice);
 
-void wire_expiry_time__static_method__Invoice(int64_t port_, struct wire_Invoice *invoice);
+void wire_is_expired__static_method__LdkInvoice(int64_t port_, struct wire_LdkInvoice *invoice);
 
-void wire_payment_hash__static_method__Invoice(int64_t port_, struct wire_Invoice *invoice);
+void wire_expiry_time__static_method__LdkInvoice(int64_t port_, struct wire_LdkInvoice *invoice);
 
-void wire_payee_pub_key__static_method__Invoice(int64_t port_, struct wire_Invoice *invoice);
+void wire_payment_hash__static_method__LdkInvoice(int64_t port_, struct wire_LdkInvoice *invoice);
 
-void wire_payment_secret__static_method__Invoice(int64_t port_, struct wire_Invoice *invoice);
+void wire_payee_pub_key__static_method__LdkInvoice(int64_t port_, struct wire_LdkInvoice *invoice);
+
+void wire_payment_secret__static_method__LdkInvoice(int64_t port_, struct wire_LdkInvoice *invoice);
 
 struct wire_LdkNodeInstance new_LdkNodeInstance(void);
 
-struct wire_Invoice *new_box_autoadd_invoice_0(void);
-
 struct wire_LdkConfig *new_box_autoadd_ldk_config_0(void);
+
+struct wire_LdkInvoice *new_box_autoadd_ldk_invoice_0(void);
 
 struct wire_PublicKey *new_box_autoadd_public_key_0(void);
 
@@ -154,15 +156,16 @@ static int64_t dummy_method_to_enforce_bundling(void) {
     dummy_var ^= ((int64_t) (void*) wire_close_channel);
     dummy_var ^= ((int64_t) (void*) wire_create_log_stream);
     dummy_var ^= ((int64_t) (void*) wire_rust_set_up);
-    dummy_var ^= ((int64_t) (void*) wire_amount_milli_satoshis__static_method__Invoice);
-    dummy_var ^= ((int64_t) (void*) wire_is_expired__static_method__Invoice);
-    dummy_var ^= ((int64_t) (void*) wire_expiry_time__static_method__Invoice);
-    dummy_var ^= ((int64_t) (void*) wire_payment_hash__static_method__Invoice);
-    dummy_var ^= ((int64_t) (void*) wire_payee_pub_key__static_method__Invoice);
-    dummy_var ^= ((int64_t) (void*) wire_payment_secret__static_method__Invoice);
+    dummy_var ^= ((int64_t) (void*) wire_create__static_method__LdkInvoice);
+    dummy_var ^= ((int64_t) (void*) wire_amount_milli_satoshis__static_method__LdkInvoice);
+    dummy_var ^= ((int64_t) (void*) wire_is_expired__static_method__LdkInvoice);
+    dummy_var ^= ((int64_t) (void*) wire_expiry_time__static_method__LdkInvoice);
+    dummy_var ^= ((int64_t) (void*) wire_payment_hash__static_method__LdkInvoice);
+    dummy_var ^= ((int64_t) (void*) wire_payee_pub_key__static_method__LdkInvoice);
+    dummy_var ^= ((int64_t) (void*) wire_payment_secret__static_method__LdkInvoice);
     dummy_var ^= ((int64_t) (void*) new_LdkNodeInstance);
-    dummy_var ^= ((int64_t) (void*) new_box_autoadd_invoice_0);
     dummy_var ^= ((int64_t) (void*) new_box_autoadd_ldk_config_0);
+    dummy_var ^= ((int64_t) (void*) new_box_autoadd_ldk_invoice_0);
     dummy_var ^= ((int64_t) (void*) new_box_autoadd_public_key_0);
     dummy_var ^= ((int64_t) (void*) new_box_autoadd_u64_0);
     dummy_var ^= ((int64_t) (void*) new_uint_8_list_0);

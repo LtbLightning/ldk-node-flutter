@@ -1,6 +1,6 @@
 use std::str::FromStr;
 use bitcoin::secp256k1;
-use crate::types::{Address, Invoice, LdkPaymentInfo, Network, PaymentHash, PaymentInfo, PaymentPreimage, PaymentSecret, PublicKey};
+use crate::types::{Address, LdkInvoice, LdkPaymentInfo, Network, PaymentHash, PaymentInfo, PaymentPreimage, PaymentSecret, PublicKey};
 use serde::{Serialize, Serializer};
 use serde::ser::SerializeMap;
 use crate::event::Event;
@@ -17,15 +17,15 @@ impl From<Network> for bdk::bitcoin::Network {
     }
 }
 
-impl From<Invoice> for lightning_invoice::Invoice {
-    fn from(invoice: Invoice) -> Self {
+impl From<LdkInvoice> for lightning_invoice::Invoice {
+    fn from(invoice: LdkInvoice) -> Self {
         return  lightning_invoice::Invoice::from_str(invoice.as_string.as_str()).unwrap()
     }
 }
 
-impl From<lightning_invoice::Invoice> for Invoice {
+impl From<lightning_invoice::Invoice> for LdkInvoice {
     fn from(invoice:lightning_invoice::Invoice) -> Self {
-        return  Invoice{as_string:invoice.to_string()};
+        return  LdkInvoice {as_string:invoice.to_string()};
     }
 }
 impl From<&lightning::ln::PaymentSecret> for PaymentSecret {

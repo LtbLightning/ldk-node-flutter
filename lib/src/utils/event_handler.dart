@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import '../generated/bindings.dart';
+import '../generated/bridge_definitions.dart';
 part 'event_handler.freezed.dart';
 @freezed
 class Event with _$Event {

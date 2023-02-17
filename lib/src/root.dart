@@ -1,6 +1,5 @@
 import 'dart:async';
-
-import 'generated/bindings.dart';
+import 'generated/bridge_definitions.dart';
 import 'utils/event_handler.dart';
 import 'utils/loader.dart';
 
@@ -173,13 +172,12 @@ class LdkNode {
         description: description,
         expirySecs: expirySecs,
         amountMsat: amount);
-    return res;
+    return  Invoice._()._setInvoice(res);
   }
 
   /// Send a payment given an invoice.
   Future<PaymentHash> sendPayment(Invoice invoice) async {
-    final res =
-    await loaderApi.sendPayment(ldkNode: _ldkNode!, invoice: invoice);
+    final res = await loaderApi.sendPayment(ldkNode: _ldkNode!, invoice: invoice._invoice!);
     return res;
   }
 
@@ -231,5 +229,40 @@ class LdkNode {
       channelIds.add(e.channelId);
     }
     return channelIds;
+  }
+}
+class Invoice{
+  LdkInvoice? _invoice;
+  Invoice._();
+  Invoice _setInvoice(LdkInvoice invoice) {
+    _invoice = invoice;
+    return this;
+  }
+  static Future<Invoice> create({required String invoice}) async{
+    final res  = await LdkInvoice.create(bridge: loaderApi, invoice: invoice);
+    return Invoice._()._setInvoice(res);
+  }
+  Future<int?> amountMilliSatoshis() async {
+    return await LdkInvoice.amountMilliSatoshis(bridge: loaderApi, invoice: _invoice!);
+  }
+
+  Future<bool> isExpired() async {
+    return await LdkInvoice.isExpired(bridge: loaderApi, invoice: _invoice!);
+  }
+
+  Future<int> expiryTime({required Native bridge, required LdkInvoice invoice, dynamic hint})async {
+    return await LdkInvoice.expiryTime(bridge: loaderApi, invoice: _invoice!);
+  }
+
+  Future<String> paymentHash() async {
+    return await LdkInvoice.paymentHash(bridge: loaderApi, invoice: _invoice!);
+  }
+
+  Future<String?> payeePubKey() async{
+    return await LdkInvoice.paymentHash(bridge: loaderApi, invoice: _invoice!);
+  }
+
+  Future<PaymentSecret> paymentSecret() async {
+    return await LdkInvoice.paymentSecret(bridge: loaderApi, invoice: _invoice!);
   }
 }
