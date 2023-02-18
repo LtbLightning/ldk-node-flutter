@@ -50,9 +50,7 @@ class _MyAppState extends State<MyApp> {
   initAliceNode() async {
     //Path to a directory where the application may place application support files.
     final directory = await getApplicationDocumentsDirectory();
-    final alicePath = "${directory.path}/ldk_cache/alice_.node";
-
-    print(alicePath);
+    final alicePath = "${directory.path}/ldk_cache/alice's.node";
     final aliceConfig = await initLdkConfig(alicePath, "0.0.0.0:3361");
     NodeBuilder aliceBuilder = NodeBuilder.fromConfig(aliceConfig);
     aliceNode = await aliceBuilder.build();
@@ -70,7 +68,7 @@ class _MyAppState extends State<MyApp> {
     final path = await getApplicationDocumentsDirectory();
     //Specifying node folder
     final bobConfig = await initLdkConfig(
-        "${path.path}/ldk_cache/bob's_node", "0.0.0.0:7791");
+        "${path.path}/ldk_cache/bob's.node", "0.0.0.0:7791");
     NodeBuilder bobBuilder = NodeBuilder.fromConfig(bobConfig);
     bobNode = await bobBuilder.build();
     await bobNode.start();
@@ -161,6 +159,9 @@ class _MyAppState extends State<MyApp> {
   //Failed to send payment due to routing failure: Failed to find a path to the given destination
   receiveAndSendPayments() async {
     invoice = await bobNode.receivePayment("asdf", 10000, 100000000);
+    setState(() {
+      displayText = invoice.toString();
+    });
     final paymentHash = await aliceNode.sendPayment(invoice!);
     final res = await aliceNode.paymentInfo(paymentHash);
     setState(() {

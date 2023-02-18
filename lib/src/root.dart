@@ -234,6 +234,11 @@ class LdkNode {
 class Invoice{
   LdkInvoice? _invoice;
   Invoice._();
+
+  @override
+  toString(){
+    return _invoice!.asString;
+  }
   Invoice _setInvoice(LdkInvoice invoice) {
     _invoice = invoice;
     return this;
