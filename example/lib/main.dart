@@ -33,24 +33,24 @@ class _MyAppState extends State<MyApp> {
     super.initState();
   }
 
-
-  Future<Config> initLdkConfig(String path, String nodePubKeyAndAddress) async {
+  Future<Config> initLdkConfig(String path, String listeningAddress) async {
     // Please replace this url with your Electrum RPC Api url
     // Please use 10.0.2.2, instead of 0.0.0.0
-    final esploraUrl =
-    Platform.isAndroid ? "http://10.0.2.2:3002" : "http://0.0.0.0:3002";
+    // final esploraUrl =
+    //     Platform.isAndroid ? "http://10.0.2.2:3002" : "http://0.0.0.0:3002";
+    const esploraUrl = "https://blockstream.info/testnet/api";
     final config = Config(
         storageDirPath: path,
         esploraServerUrl: esploraUrl,
-        network: Network.Regtest,
-        listeningAddress: nodePubKeyAndAddress);
+        network: Network.Testnet,
+        listeningAddress: listeningAddress);
     return config;
   }
 
   initAliceNode() async {
     //Path to a directory where the application may place application support files.
     final directory = await getApplicationDocumentsDirectory();
-    final alicePath = "${directory.path}/ldk_cache/alice's.node";
+    final alicePath = "${directory.path}/ldk_cache/alice's_node";
     final aliceConfig = await initLdkConfig(alicePath, "0.0.0.0:3361");
     NodeBuilder aliceBuilder = NodeBuilder.fromConfig(aliceConfig);
     aliceNode = await aliceBuilder.build();
@@ -68,7 +68,7 @@ class _MyAppState extends State<MyApp> {
     final path = await getApplicationDocumentsDirectory();
     //Specifying node folder
     final bobConfig = await initLdkConfig(
-        "${path.path}/ldk_cache/bob's.node", "0.0.0.0:7791");
+        "${path.path}/ldk_cache/bob's_node", "0.0.0.0:7791");
     NodeBuilder bobBuilder = NodeBuilder.fromConfig(bobConfig);
     bobNode = await bobBuilder.build();
     await bobNode.start();
