@@ -73,10 +73,10 @@ class Config {
 
   Config(
       {required this.storageDirPath,
-        required this.esploraServerUrl,
-        required this.network,
-        this.listeningAddress,
-        this.defaultCltvExpiryDelta});
+      required this.esploraServerUrl,
+      required this.network,
+      this.listeningAddress,
+      this.defaultCltvExpiryDelta});
 
   /// The path where the underlying LDK and BDK persist their data.
   String storageDirPath;
@@ -117,6 +117,7 @@ class LdkNode {
   Future<void> stop() async {
     await loaderApi.stop(ldkNode: _ldkNode!);
   }
+
   /// Blocks until the next event is available.
   ///
   /// Note: this will always return the same event until handling is confirmed
@@ -172,12 +173,13 @@ class LdkNode {
         description: description,
         expirySecs: expirySecs,
         amountMsat: amount);
-    return  Invoice._()._setInvoice(res);
+    return Invoice._()._setInvoice(res);
   }
 
   /// Send a payment given an invoice.
   Future<PaymentHash> sendPayment(Invoice invoice) async {
-    final res = await loaderApi.sendPayment(ldkNode: _ldkNode!, invoice: invoice._invoice!);
+    final res = await loaderApi.sendPayment(
+        ldkNode: _ldkNode!, invoice: invoice._invoice!);
     return res;
   }
 
@@ -231,31 +233,39 @@ class LdkNode {
     return channelIds;
   }
 }
-class Invoice{
+
+class Invoice {
   LdkInvoice? _invoice;
   Invoice._();
 
   @override
-  toString(){
+  toString() {
     return _invoice!.asString;
   }
+
   Invoice _setInvoice(LdkInvoice invoice) {
     _invoice = invoice;
     return this;
   }
-  static Future<Invoice> create({required String invoice}) async{
-    final res  = await LdkInvoice.create(bridge: loaderApi, invoice: invoice);
+
+  static Future<Invoice> create({required String invoice}) async {
+    final res = await LdkInvoice.create(bridge: loaderApi, invoice: invoice);
     return Invoice._()._setInvoice(res);
   }
+
   Future<int?> amountMilliSatoshis() async {
-    return await LdkInvoice.amountMilliSatoshis(bridge: loaderApi, invoice: _invoice!);
+    return await LdkInvoice.amountMilliSatoshis(
+        bridge: loaderApi, invoice: _invoice!);
   }
 
   Future<bool> isExpired() async {
     return await LdkInvoice.isExpired(bridge: loaderApi, invoice: _invoice!);
   }
 
-  Future<int> expiryTime({required Native bridge, required LdkInvoice invoice, dynamic hint})async {
+  Future<int> expiryTime(
+      {required Native bridge,
+      required LdkInvoice invoice,
+      dynamic hint}) async {
     return await LdkInvoice.expiryTime(bridge: loaderApi, invoice: _invoice!);
   }
 
@@ -263,11 +273,12 @@ class Invoice{
     return await LdkInvoice.paymentHash(bridge: loaderApi, invoice: _invoice!);
   }
 
-  Future<String?> payeePubKey() async{
+  Future<String?> payeePubKey() async {
     return await LdkInvoice.paymentHash(bridge: loaderApi, invoice: _invoice!);
   }
 
   Future<PaymentSecret> paymentSecret() async {
-    return await LdkInvoice.paymentSecret(bridge: loaderApi, invoice: _invoice!);
+    return await LdkInvoice.paymentSecret(
+        bridge: loaderApi, invoice: _invoice!);
   }
 }

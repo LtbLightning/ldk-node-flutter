@@ -3,7 +3,7 @@ use lightning::ln::channelmanager::ChannelManager as LdkChannelManager;
 use crate::logger::FilesystemLogger;
 use crate::wallet::{Wallet, WalletKeysManager};
 use lightning::chain::keysinterface::InMemorySigner;
-use lightning::chain::{chainmonitor, Access};
+use lightning::chain::{chainmonitor};
 use chainmonitor::ChainMonitor as LdkChainMonitor;
 pub use gossip::NetworkGraph as LdkNetworkGraph;
 use lightning::ln::peer_handler::PeerManager as LdkPeerManager;
@@ -13,13 +13,13 @@ use lightning::routing::gossip;
 use lightning::routing::gossip::P2PGossipSync;
 use lightning::routing::router::DefaultRouter;
 use lightning::routing::scoring::ProbabilisticScorer;
-use lightning_invoice::payment;
 use lightning_net_tokio::SocketDescriptor;
 use lightning_persister::FilesystemPersister;
 use lightning_transaction_sync::EsploraSyncClient;
 
 use std::collections::HashMap;
 use std::sync::{Arc, Mutex};
+use lightning::routing::utxo::UtxoLookup;
 
 
 pub(crate) type ChainMonitor = LdkChainMonitor<
@@ -38,6 +38,7 @@ pub(crate) type PeerManager = LdkPeerManager<
     Arc<OnionMessenger>,
     Arc<FilesystemLogger>,
     IgnoringMessageHandler,
+    Arc<WalletKeysManager<bdk::sled::Tree>>,
 >;
 
 pub(crate) type ChannelManager = LdkChannelManager<
@@ -53,15 +54,14 @@ pub(crate) type ChannelManager = LdkChannelManager<
 
 pub(crate) type KeysManager = WalletKeysManager<bdk::sled::Tree>;
 
-pub(crate) type InvoicePayer<F> =
-payment::InvoicePayer<Arc<ChannelManager>, Arc<Router>, Arc<FilesystemLogger>, F>;
+// pub(crate) type InvoicePayer<F> = payment::InvoicePayer<Arc<ChannelManager>, Arc<Router>, Arc<FilesystemLogger>, F>;
 
 pub(crate) type Router =
 DefaultRouter<Arc<NetworkGraph>, Arc<FilesystemLogger>, Arc<Mutex<Scorer>>>;
 pub(crate) type Scorer = ProbabilisticScorer<Arc<NetworkGraph>, Arc<FilesystemLogger>>;
 
 pub(crate) type GossipSync =
-P2PGossipSync<Arc<NetworkGraph>, Arc<dyn Access + Send + Sync>, Arc<FilesystemLogger>>;
+P2PGossipSync<Arc<NetworkGraph>, Arc<dyn UtxoLookup + Send + Sync>, Arc<FilesystemLogger>>;
 
 pub(crate) type NetworkGraph = LdkNetworkGraph<Arc<FilesystemLogger>>;
 

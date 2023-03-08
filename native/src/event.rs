@@ -1,4 +1,4 @@
-use crate::logger::{log_error, log_given_level, log_info, log_internal, Logger};
+use crate::logger::{log_error, log_info,Logger};
 
 use lightning::chain::chaininterface::{BroadcasterInterface, ConfirmationTarget, FeeEstimator};
 use lightning::ln::PaymentHash;
@@ -19,6 +19,7 @@ use std::collections::{hash_map, VecDeque};
 use std::ops::Deref;
 use std::sync::{Arc, Condvar, Mutex};
 use std::time::Duration;
+use log::info;
 use crate::ffi::Config;
 use crate::types::{ChannelManager, KeysManager, LdkPaymentInfo, NetworkGraph, PaymentInfoStorage, PaymentStatus};
 
@@ -324,7 +325,6 @@ where
                 // Construct the raw transaction with the output that is paid the amount of the
                 // channel.
                 let confirmation_target = ConfirmationTarget::Normal;
-
                 // Sign the final funding transaction and broadcast it.
                 match self.wallet.create_funding_transaction(
                     &output_script,
@@ -632,6 +632,9 @@ where
                     hex_utils::to_string(&channel_id),
                     reason
                 );
+                info!("Channel {} closed due to: {:?}",
+                    hex_utils::to_string(&channel_id),
+                    reason);
                 self.event_queue
                     .add_event(Event::ChannelClosed {
                         channel_id,

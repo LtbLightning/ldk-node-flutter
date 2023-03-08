@@ -25,7 +25,7 @@ init:
 ## :
 
 ## all: Compile iOS, Android and bindings targets
-all: init ios android bindings
+all: init android ios bindings
 
 ## ios: Compile the iOS universal library
 ios: target/universal/release/libexample.a

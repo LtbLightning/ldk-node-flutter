@@ -1,5 +1,5 @@
 use crate::logger::{
-    log_error, log_given_level, log_internal, log_trace, FilesystemLogger, Logger,
+    log_error, log_trace, FilesystemLogger, Logger,
 };
 
 use lightning::chain::chaininterface::{
@@ -10,7 +10,7 @@ use lightning::chain::keysinterface::{
     EntropySource, InMemorySigner, KeyMaterial,  KeysManager, NodeSigner, Recipient,
     SignerProvider, SpendableOutputDescriptor,
 };
-use lightning::ln::msgs::DecodeError;
+use lightning::ln::msgs::{DecodeError, UnsignedGossipMessage};
 use lightning::ln::script::ShutdownScript;
 
 use bdk::blockchain::{Blockchain, EsploraBlockchain};
@@ -20,8 +20,8 @@ use bdk::{FeeRate, SignOptions, SyncOptions};
 
 use bitcoin::bech32::u5;
 use bitcoin::secp256k1::ecdh::SharedSecret;
-use bitcoin::secp256k1::ecdsa::RecoverableSignature;
-use bitcoin::secp256k1::{PublicKey, Scalar, Secp256k1, SecretKey, Signing};
+use bitcoin::secp256k1::ecdsa::{RecoverableSignature, Signature};
+use bitcoin::secp256k1::{PublicKey, Scalar, Secp256k1, Signing};
 use bitcoin::{Script, Transaction, TxOut};
 
 use crate::error::Error;
@@ -220,6 +220,7 @@ where
             }
         } else{
             info!("Failed to broadcast transaction: No runtime.");
+            return;
         }
 
 
@@ -258,7 +259,7 @@ impl<D> WalletKeysManager<D>
     where
         D: BatchDatabase,
 {
-    /// Constructs a `WalletKeysManager` that
+    /// Constructs a `WalletKeysManager` that overrides the destination and shutdown scripts.
     ///
     /// See [`KeysManager::new`] for more information on `seed`, `starting_time_secs`, and
     /// `starting_time_nanos`.
@@ -294,10 +295,6 @@ impl<D> NodeSigner for WalletKeysManager<D>
     where
         D: BatchDatabase,
 {
-    fn get_node_secret(&self, recipient: Recipient) -> Result<SecretKey, ()> {
-        self.inner.get_node_secret(recipient)
-    }
-
     fn get_inbound_payment_key_material(&self) -> KeyMaterial {
         self.inner.get_inbound_payment_key_material()
     }
@@ -317,8 +314,11 @@ impl<D> NodeSigner for WalletKeysManager<D>
     ) -> Result<RecoverableSignature, ()> {
         self.inner.sign_invoice(hrp_bytes, invoice_data, recipient)
     }
-}
 
+    fn sign_gossip_message(&self, msg: UnsignedGossipMessage<'_>) -> Result<Signature, ()> {
+        self.inner.sign_gossip_message(msg)
+    }
+}
 
 impl<D> EntropySource for WalletKeysManager<D>
     where

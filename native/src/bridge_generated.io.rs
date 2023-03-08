@@ -383,6 +383,12 @@ impl NewWithNullPtr for wire_LdkConfig {
     }
 }
 
+impl Default for wire_LdkConfig {
+    fn default() -> Self {
+        Self::new_with_null_ptr()
+    }
+}
+
 impl NewWithNullPtr for wire_LdkInvoice {
     fn new_with_null_ptr() -> Self {
         Self {
@@ -391,11 +397,23 @@ impl NewWithNullPtr for wire_LdkInvoice {
     }
 }
 
+impl Default for wire_LdkInvoice {
+    fn default() -> Self {
+        Self::new_with_null_ptr()
+    }
+}
+
 impl NewWithNullPtr for wire_PublicKey {
     fn new_with_null_ptr() -> Self {
         Self {
             as_string: core::ptr::null_mut(),
         }
+    }
+}
+
+impl Default for wire_PublicKey {
+    fn default() -> Self {
+        Self::new_with_null_ptr()
     }
 }
 

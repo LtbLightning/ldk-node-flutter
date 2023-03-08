@@ -158,7 +158,7 @@ impl Serialize for Event {
                 let mut map = serializer.serialize_map(Some(2))?;
                 map.serialize_entry("channel_id", &hex_utils::to_string(channel_id.as_slice()))
                     .unwrap();
-                map.serialize_entry("amount_msat", &user_channel_id.to_string())
+                map.serialize_entry("user_channel_id", &user_channel_id.to_string())
                     .unwrap();
                 map.serialize_entry(
                     "event",

@@ -41,11 +41,7 @@ pub(crate) fn read_network_graph(
             return Ok(graph);
         }
     }
-
-    let genesis_hash = bitcoin::blockdata::constants::genesis_block(config.network)
-        .header
-        .block_hash();
-    Ok(NetworkGraph::new(genesis_hash, logger))
+    Ok(NetworkGraph::new(config.network, logger))
 }
 
 pub(crate) fn read_scorer(

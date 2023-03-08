@@ -28,6 +28,8 @@ pub enum Error {
     ChannelClosingFailed,
     /// Persistence failed.
     PersistenceFailed,
+    /// An attempted payment has failed.
+    PaymentFailed,
     /// A wallet operation failed.
     WalletOperationFailed {
         /// The hash of the payment.
@@ -61,6 +63,7 @@ impl fmt::Display for Error {
             }
             Self::WalletSigningFailed => write!(f, "Failed to sign given transaction."),
             Self::TxSyncFailed => write!(f, "Failed to sync transactions."),
+            Self::PaymentFailed => write!(f, "Failed to send the given payment."),
         }
     }
 }
