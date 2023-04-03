@@ -19,9 +19,8 @@ lightning-persister = { version = "0.0.114" }
 lightning-background-processor = { version = "0.0.114" }
 lightning-rapid-gossip-sync = { version = "0.0.114" }
 lightning-transaction-sync = { version = "0.0.114", features = ["esplora-async"] }
-#openssl = { version = "= 0.10.35", features = ["vendored"] }
-#openssl-sys = {version = "= 0.9.66", features = ["vendored"]}
 bdk = { version = "0.27.1", default-features = false, features = ["async-interface", "use-esplora-async", "key-value-db"]}
+reqwest = { version = "0.11", default-features = false, features = ["json", "rustls-tls"] }
 bitcoin = "0.29.2"
 log = "0.4.17"
 simplelog = "0.12.0"

@@ -1,4 +1,4 @@
-use crate::ffi::{ Node};
+use crate::ldk::{ Node};
 use lightning::ln::channelmanager::ChannelManager as LdkChannelManager;
 use crate::logger::FilesystemLogger;
 use crate::wallet::{Wallet, WalletKeysManager};

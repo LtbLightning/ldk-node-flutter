@@ -183,6 +183,15 @@ class LdkNode {
     return res;
   }
 
+  Future<PaymentHash> sendAdjustableValuePayment(
+      Invoice invoice, int amountInSats) async {
+    final res = await loaderApi.sendAdjustableValuePayment(
+        ldkNode: _ldkNode!,
+        invoice: invoice._invoice!,
+        amountMsat: amountInSats * 1000);
+    return res;
+  }
+
   /// Send a spontaneous, aka. "keysend", payment
   ///
   Future<PaymentHash> sendSpontaneousPayment(

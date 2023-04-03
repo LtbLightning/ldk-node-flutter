@@ -77,6 +77,16 @@ pub extern "C" fn wire_send_payment(
 }
 
 #[no_mangle]
+pub extern "C" fn wire_send_adjustable_value_payment(
+    port_: i64,
+    ldk_node: wire_LdkNodeInstance,
+    invoice: *mut wire_LdkInvoice,
+    amount_msat: u64,
+) {
+    wire_send_adjustable_value_payment_impl(port_, ldk_node, invoice, amount_msat)
+}
+
+#[no_mangle]
 pub extern "C" fn wire_send_spontaneous_payment(
     port_: i64,
     ldk_node: wire_LdkNodeInstance,

@@ -1,5 +1,5 @@
 use crate::error::Error;
-use crate::ffi::Config;
+use crate::ldk::Config;
 use crate::logger::FilesystemLogger;
 use crate::types::{NetworkGraph, Scorer};
 use lightning::routing::scoring::{ProbabilisticScorer, ProbabilisticScoringParameters};

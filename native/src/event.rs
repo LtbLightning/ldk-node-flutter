@@ -20,7 +20,7 @@ use std::ops::Deref;
 use std::sync::{Arc, Condvar, Mutex};
 use std::time::Duration;
 use log::info;
-use crate::ffi::Config;
+use crate::ldk::Config;
 use crate::types::{ChannelManager, KeysManager, LdkPaymentInfo, NetworkGraph, PaymentInfoStorage, PaymentStatus};
 
 /// The event queue will be persisted under this key.
@@ -327,7 +327,7 @@ where
                 let confirmation_target = ConfirmationTarget::Normal;
                 // Sign the final funding transaction and broadcast it.
                 match self.wallet.create_funding_transaction(
-                    &output_script,
+                    output_script,
                     channel_value_satoshis,
                     confirmation_target,
                 ) {

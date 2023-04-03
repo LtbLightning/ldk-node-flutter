@@ -255,6 +255,32 @@ fn wire_send_payment_impl(
         },
     )
 }
+fn wire_send_adjustable_value_payment_impl(
+    port_: MessagePort,
+    ldk_node: impl Wire2Api<RustOpaque<LdkNodeInstance>> + UnwindSafe,
+    invoice: impl Wire2Api<LdkInvoice> + UnwindSafe,
+    amount_msat: impl Wire2Api<u64> + UnwindSafe,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap(
+        WrapInfo {
+            debug_name: "send_adjustable_value_payment",
+            port: Some(port_),
+            mode: FfiCallMode::Normal,
+        },
+        move || {
+            let api_ldk_node = ldk_node.wire2api();
+            let api_invoice = invoice.wire2api();
+            let api_amount_msat = amount_msat.wire2api();
+            move |task_callback| {
+                Ok(send_adjustable_value_payment(
+                    api_ldk_node,
+                    api_invoice,
+                    api_amount_msat,
+                ))
+            }
+        },
+    )
+}
 fn wire_send_spontaneous_payment_impl(
     port_: MessagePort,
     ldk_node: impl Wire2Api<RustOpaque<LdkNodeInstance>> + UnwindSafe,

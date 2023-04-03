@@ -1,4 +1,4 @@
-use crate::ffi::{Builder, Config};
+use crate::ldk::{Builder, Config};
 pub use crate::types::LdkNodeInstance;
 use crate::types::{
     Address, Balance, Error, LdkInvoice, LogEntry, Network, NodeInfo, PaymentHash, PaymentInfo,
@@ -163,7 +163,6 @@ pub fn receive_payment(
         }
     }
 }
-
 pub fn send_payment(ldk_node: RustOpaque<LdkNodeInstance>, invoice: LdkInvoice) -> PaymentHash {
     let node = ldk_node.ldk_lite_mutex.lock().unwrap();
     match node.send_payment(invoice.into()) {
@@ -176,6 +175,21 @@ pub fn send_payment(ldk_node: RustOpaque<LdkNodeInstance>, invoice: LdkInvoice) 
         }
     };
 }
+pub fn send_adjustable_value_payment(
+    ldk_node: RustOpaque<LdkNodeInstance>, invoice: LdkInvoice, amount_msat: u64
+) -> PaymentHash {
+    let node = ldk_node.ldk_lite_mutex.lock().unwrap();
+    match node.send_adjustable_value_payment(invoice.into(), amount_msat) {
+        Ok(e) => {
+            info!("{:?}", "send_adjustable_value_payment");
+            return e.into();
+        }
+        Err(e) => {
+            panic!("{:?}:{:?}", Error::SendPaymentError, e);
+        }
+    };
+}
+
 pub fn send_spontaneous_payment(
     ldk_node: RustOpaque<LdkNodeInstance>,
     amount_msat: u64,
@@ -192,6 +206,7 @@ pub fn send_spontaneous_payment(
         }
     };
 }
+
 ///	Query for information about the status of a specific payment.
 pub fn payment_info(
     ldk_node: RustOpaque<LdkNodeInstance>,

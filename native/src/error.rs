@@ -30,6 +30,8 @@ pub enum Error {
     PersistenceFailed,
     /// An attempted payment has failed.
     PaymentFailed,
+    /// The given invoice is invalid.
+    InvalidInvoice,
     /// A wallet operation failed.
     WalletOperationFailed {
         /// The hash of the payment.
@@ -64,6 +66,7 @@ impl fmt::Display for Error {
             Self::WalletSigningFailed => write!(f, "Failed to sign given transaction."),
             Self::TxSyncFailed => write!(f, "Failed to sync transactions."),
             Self::PaymentFailed => write!(f, "Failed to send the given payment."),
+            Self::InvalidInvoice => write!(f, "The given invoice is invalid."),
         }
     }
 }

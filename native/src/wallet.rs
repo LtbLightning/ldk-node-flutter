@@ -27,58 +27,94 @@ use bitcoin::{Script, Transaction, TxOut};
 use crate::error::Error;
 use log::info;
 use std::collections::HashMap;
-use std::sync::{Arc, Mutex, RwLock};
+use std::sync::{Arc, Condvar, Mutex, RwLock};
+use std::time::Duration;
 
 pub struct Wallet<D>
-where
-    D: BatchDatabase,
+    where
+        D: BatchDatabase,
 {
     // A BDK blockchain used for wallet sync.
     blockchain: EsploraBlockchain,
     // A BDK on-chain wallet.
     inner: Mutex<bdk::Wallet<D>>,
     // A cache storing the most recently retrieved fee rate estimations.
-    fee_rate_cache: Mutex<HashMap<ConfirmationTarget, FeeRate>>,
+    fee_rate_cache: RwLock<HashMap<ConfirmationTarget, FeeRate>>,
     tokio_runtime: RwLock<Option<Arc<tokio::runtime::Runtime>>>,
+    sync_lock: (Mutex<()>, Condvar),
     logger: Arc<FilesystemLogger>,
 }
 
 impl<D> Wallet<D>
-where
-    D: BatchDatabase,
+    where
+        D: BatchDatabase,
 {
     pub(crate) fn new(
-        blockchain: EsploraBlockchain,
-        wallet: bdk::Wallet<D>,
-        logger: Arc<FilesystemLogger>,
+        blockchain: EsploraBlockchain, wallet: bdk::Wallet<D>, logger: Arc<FilesystemLogger>,
     ) -> Self {
         let inner = Mutex::new(wallet);
-        let fee_rate_cache = Mutex::new(HashMap::new());
+        let fee_rate_cache = RwLock::new(HashMap::new());
         let tokio_runtime = RwLock::new(None);
-        Self {
-            blockchain,
-            inner,
-            fee_rate_cache,
-            tokio_runtime,
-            logger,
-        }
+        let sync_lock = (Mutex::new(()), Condvar::new());
+        Self { blockchain, inner, fee_rate_cache, tokio_runtime, sync_lock, logger }
     }
 
     pub(crate) async fn sync(&self) -> Result<(), Error> {
-        let sync_options = SyncOptions { progress: None };
-        match self
-            .inner
-            .lock()
-            .unwrap()
-            .sync(&self.blockchain, sync_options)
-            .await
-        {
-            Ok(()) => Ok(()),
+        let (lock, cvar) = &self.sync_lock;
+
+        let guard = match lock.try_lock() {
+            Ok(guard) => guard,
+            Err(_) => {
+                info!( "Sync in progress, skipping.");
+                let guard = cvar.wait(lock.lock().unwrap());
+                drop(guard);
+                cvar.notify_all();
+                return Ok(());
+            }
+        };
+
+        match self.update_fee_estimates().await {
+            Ok(()) => (),
             Err(e) => {
-                log_error!(self.logger, "Wallet sync error: {}", e);
-                Err(e)?
+                log_error!(self.logger, "Fee estimation error: {}", e);
+                return Err(e);
             }
         }
+
+        let sync_options = SyncOptions { progress: None };
+        let wallet_lock = self.inner.lock().unwrap();
+        let res = match wallet_lock.sync(&self.blockchain, sync_options).await {
+            Ok(()) => Ok(()),
+            Err(e) => match e {
+                bdk::Error::Esplora(ref be) => match **be {
+                    bdk::blockchain::esplora::EsploraError::Reqwest(_) => {
+                        tokio::time::sleep(Duration::from_secs(1)).await;
+                        log_error!(
+							self.logger,
+							"Sync failed due to HTTP connection error, retrying: {}",
+							e
+						);
+                        let sync_options = SyncOptions { progress: None };
+                        wallet_lock
+                            .sync(&self.blockchain, sync_options)
+                            .await
+                            .map_err(|e| From::from(e))
+                    }
+                    _ => {
+                        log_error!(self.logger, "Sync failed due to Esplora error: {}", e);
+                        Err(From::from(e))
+                    }
+                },
+                _ => {
+                    log_error!(self.logger, "Wallet sync error: {}", e);
+                    Err(From::from(e))
+                }
+            },
+        };
+
+        drop(guard);
+        cvar.notify_all();
+        res
     }
 
     pub(crate) fn set_runtime(&self, tokio_runtime: Arc<tokio::runtime::Runtime>) {
@@ -89,21 +125,55 @@ where
         *self.tokio_runtime.write().unwrap() = None;
     }
 
+    pub(crate) async fn update_fee_estimates(&self) -> Result<(), Error> {
+        let mut locked_fee_rate_cache = self.fee_rate_cache.write().unwrap();
+
+        let confirmation_targets = vec![
+            ConfirmationTarget::Background,
+            ConfirmationTarget::Normal,
+            ConfirmationTarget::HighPriority,
+        ];
+        for target in confirmation_targets {
+            let num_blocks = match target {
+                ConfirmationTarget::Background => 12,
+                ConfirmationTarget::Normal => 6,
+                ConfirmationTarget::HighPriority => 3,
+            };
+
+            let est_fee_rate = self.blockchain.estimate_fee(num_blocks).await;
+
+            match est_fee_rate {
+                Ok(rate) => {
+                    locked_fee_rate_cache.insert(target, rate);
+                    log_trace!(
+						self.logger,
+						"Fee rate estimation updated for {:?}: {} sats/kwu",
+						target,
+						rate.fee_wu(1000)
+					);
+                }
+                Err(e) => {
+                    log_error!(
+						self.logger,
+						"Failed to update fee rate estimation for {:?}: {}",
+						target,
+						e
+					);
+                }
+            }
+        }
+        Ok(())
+    }
+
     pub(crate) fn create_funding_transaction(
-        &self,
-        output_script: &Script,
-        value_sats: u64,
-        confirmation_target: ConfirmationTarget,
+        &self, output_script: Script, value_sats: u64, confirmation_target: ConfirmationTarget,
     ) -> Result<Transaction, Error> {
         let fee_rate = self.estimate_fee_rate(confirmation_target);
 
         let locked_wallet = self.inner.lock().unwrap();
         let mut tx_builder = locked_wallet.build_tx();
 
-        tx_builder
-            .add_recipient(output_script.clone(), value_sats)
-            .fee_rate(fee_rate)
-            .enable_rbf();
+        tx_builder.add_recipient(output_script, value_sats).fee_rate(fee_rate).enable_rbf();
 
         let mut psbt = match tx_builder.finish() {
             Ok((psbt, _)) => {
@@ -112,21 +182,20 @@ where
             }
             Err(err) => {
                 log_error!(self.logger, "Failed to create funding transaction: {}", err);
-                Err(err)?
+                return Err(err.into());
             }
         };
 
-        // We double-check that no inputs try to spend non-witness outputs. As we use a SegWit
-        // wallet descriptor this technically shouldn't ever happen, but better safe than sorry.
-        for input in &psbt.inputs {
-            if input.witness_utxo.is_none() {
-                log_error!(self.logger, "Tried to spend a non-witness funding output. This must not ever happen. Panicking!");
-                panic!("Tried to spend a non-witness funding output. This must not ever happen.");
+        match locked_wallet.sign(&mut psbt, SignOptions::default()) {
+            Ok(finalized) => {
+                if !finalized {
+                    return Err(Error::FundingTxCreationFailed);
+                }
             }
-        }
-
-        if !locked_wallet.sign(&mut psbt, SignOptions::default())? {
-            return Err(Error::FundingTxCreationFailed);
+            Err(err) => {
+                log_error!(self.logger, "Failed to create funding transaction: {}", err);
+                return Err(err.into());
+            }
         }
 
         Ok(psbt.extract_tx())
@@ -142,52 +211,24 @@ where
     }
 
     fn estimate_fee_rate(&self, confirmation_target: ConfirmationTarget) -> FeeRate {
-        let mut locked_fee_rate_cache = self.fee_rate_cache.lock().unwrap();
-        let num_blocks = num_blocks_from_conf_target(confirmation_target);
+        let locked_fee_rate_cache = self.fee_rate_cache.read().unwrap();
+
+        let fallback_sats_kwu = match confirmation_target {
+            ConfirmationTarget::Background => FEERATE_FLOOR_SATS_PER_KW,
+            ConfirmationTarget::Normal => 2000,
+            ConfirmationTarget::HighPriority => 5000,
+        };
 
         // We'll fall back on this, if we really don't have any other information.
-        let fallback_rate = fallback_fee_from_conf_target(confirmation_target);
+        let fallback_rate = FeeRate::from_sat_per_kwu(fallback_sats_kwu as f32);
 
-        let locked_runtime = self.tokio_runtime.read().unwrap();
-        if locked_runtime.as_ref().is_none() {
-            log_error!(
-                self.logger,
-                "Failed to update fee rate estimation: No runtime."
-            );
-            unreachable!("Failed to broadcast transaction: No runtime.");
-        }
-
-        let est_fee_rate = tokio::task::block_in_place(move || {
-            locked_runtime
-                .as_ref()
-                .unwrap()
-                .handle()
-                .block_on(async move { self.blockchain.estimate_fee(num_blocks).await })
-        });
-
-        match est_fee_rate {
-            Ok(rate) => {
-                locked_fee_rate_cache.insert(confirmation_target, rate);
-                log_trace!(
-                    self.logger,
-                    "Fee rate estimation updated: {} sats/kwu",
-                    rate.fee_wu(1000)
-                );
-                rate
-            }
-            Err(e) => {
-                log_error!(self.logger, "Failed to update fee rate estimation: {}", e);
-                *locked_fee_rate_cache
-                    .get(&confirmation_target)
-                    .unwrap_or(&fallback_rate)
-            }
-        }
+        *locked_fee_rate_cache.get(&confirmation_target).unwrap_or(&fallback_rate)
     }
 }
 
 impl<D> FeeEstimator for Wallet<D>
-where
-    D: BatchDatabase,
+    where
+        D: BatchDatabase,
 {
     fn get_est_sat_per_1000_weight(&self, confirmation_target: ConfirmationTarget) -> u32 {
         (self.estimate_fee_rate(confirmation_target).fee_wu(1000) as u32)
@@ -211,7 +252,7 @@ where
 
             match res {
                 Ok(_) => {
-                    info!("Broadcast transaction success");
+                    info!("Transaction: {:?} broadcast", tx.txid().to_string());
                 }
                 Err(err) => {
                     info!("Failed to broadcast transaction: {}", err);
@@ -225,24 +266,6 @@ where
 
 
     }
-}
-
-fn num_blocks_from_conf_target(confirmation_target: ConfirmationTarget) -> usize {
-    match confirmation_target {
-        ConfirmationTarget::Background => 12,
-        ConfirmationTarget::Normal => 6,
-        ConfirmationTarget::HighPriority => 3,
-    }
-}
-
-fn fallback_fee_from_conf_target(confirmation_target: ConfirmationTarget) -> FeeRate {
-    let sats_kwu = match confirmation_target {
-        ConfirmationTarget::Background => FEERATE_FLOOR_SATS_PER_KW,
-        ConfirmationTarget::Normal => 2000,
-        ConfirmationTarget::HighPriority => 5000,
-    };
-
-    FeeRate::from_sat_per_kwu(sats_kwu as f32)
 }
 
 /// Similar to [`KeysManager`], but overrides the destination and shutdown scripts so they are

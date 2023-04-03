@@ -39,6 +39,7 @@ use std::sync::{Arc, Mutex, RwLock};
 use std::time::{Duration, Instant, SystemTime};
 use bitcoin::hashes::hex::ToHex;
 use lightning::routing::utxo::UtxoLookup;
+use lightning_invoice::payment::PaymentError;
 
 use crate::types::{ChainMonitor, ChannelInfo, ChannelManager, GossipSync, KeysManager, LdkPaymentInfo, NetworkGraph,
                    NodeInfo, OnionMessenger, PaymentInfoStorage, PaymentStatus, PeerManager,  Scorer};
@@ -110,11 +111,11 @@ impl Builder {
         let bdk_data_dir = format!("{}/bdk", config.storage_dir_path);
         fs::create_dir_all(bdk_data_dir.clone()).expect("Failed to create BDK data directory");
 
-        // Step 0: Initialize the Logger
+        //  Initialize the Logger
         let log_file_path = format!("{}/ldk_node.log", config.storage_dir_path);
         let logger = Arc::new(FilesystemLogger::new(log_file_path));
 
-        // Step 1: Initialize the on-chain wallet and chain access
+        // Initialize the on-chain wallet and chain access
         let seed = io_utils::read_or_generate_seed_file(config.clone());
         let xprv = bitcoin::util::bip32::ExtendedPrivKey::new_master(config.network, &seed)
             .expect("Failed to read wallet master key");
@@ -150,10 +151,10 @@ impl Builder {
 
         let wallet = Arc::new(Wallet::new(blockchain, bdk_wallet, Arc::clone(&logger)));
 
-        // Step 3: Initialize Persist
+        //  Initialize Persist
         let persister = Arc::new(FilesystemPersister::new(ldk_data_dir.clone()));
 
-        // Step 4: Initialize the ChainMonitor
+        //  Initialize the ChainMonitor
         let chain_monitor: Arc<ChainMonitor> = Arc::new(chainmonitor::ChainMonitor::new(
             Some(Arc::clone(&tx_sync)),
             Arc::clone(&wallet),
@@ -162,7 +163,7 @@ impl Builder {
             Arc::clone(&persister),
         ));
 
-        // Step 5: Initialize the KeysManager
+        //  Initialize the KeysManager
         let cur_time = SystemTime::now()
             .duration_since(SystemTime::UNIX_EPOCH)
             .expect("System time error: Clock may have gone backwards");
@@ -173,7 +174,7 @@ impl Builder {
             Arc::clone(&wallet),
         ));
 
-        // Step 12: Initialize the network graph, scorer, and router
+        //  Initialize the network graph, scorer, and router
         let network_graph = Arc::new(
             io_utils::read_network_graph(config.clone(), Arc::clone(&logger))
                 .expect("Failed to read the network graph"),
@@ -191,22 +192,20 @@ impl Builder {
             Arc::clone(&scorer),
         ));
 
-        // Step 6: Read ChannelMonitor state from disk
+        //  Read ChannelMonitor state from disk
         let mut channel_monitors = persister
             .read_channelmonitors(Arc::clone(&keys_manager), Arc::clone(&keys_manager))
             .expect("Failed to read channel monitors from disk");
 
-        // Step 7: Initialize the ChannelManager
+        // Initialize the ChannelManager
         let mut user_config = UserConfig::default();
         user_config
             .channel_handshake_limits
             .force_announced_channel_preference = false;
         let channel_manager = {
             if let Ok(mut f) = fs::File::open(format!("{}/manager", ldk_data_dir)) {
-                let mut channel_monitor_mut_references = Vec::new();
-                for (_, channel_monitor) in channel_monitors.iter_mut() {
-                    channel_monitor_mut_references.push(channel_monitor);
-                }
+                let channel_monitor_references =
+                    channel_monitors.iter_mut().map(|(_, chanmon)| chanmon).collect();
                 let read_args = ChannelManagerReadArgs::new(
                     Arc::clone(&keys_manager),
                     Arc::clone(&keys_manager),
@@ -217,7 +216,7 @@ impl Builder {
                     Arc::clone(&router),
                     Arc::clone(&logger),
                     user_config,
-                    channel_monitor_mut_references,
+                    channel_monitor_references,
                 );
                 let (_hash, channel_manager) =
                     <(BlockHash, ChannelManager)>::read(&mut f, read_args)
@@ -250,20 +249,20 @@ impl Builder {
 
         let channel_manager = Arc::new(channel_manager);
 
-        // Step 8: Give ChannelMonitors to ChainMonitor
+        //  Give ChannelMonitors to ChainMonitor
         for (_blockhash, channel_monitor) in channel_monitors.into_iter() {
             let funding_outpoint = channel_monitor.get_funding_txo().0;
             chain_monitor.watch_channel(funding_outpoint, channel_monitor);
         }
 
-        // Step 10: Initialize the P2PGossipSync
+        //  Initialize the P2PGossipSync
         let gossip_sync = Arc::new(P2PGossipSync::new(
             Arc::clone(&network_graph),
             None::<Arc<dyn UtxoLookup + Send + Sync>>,
             Arc::clone(&logger),
         ));
 
-        //// Step 11: Initialize the PeerManager
+        ////  Initialize the PeerManager
         let onion_messenger: Arc<OnionMessenger> = Arc::new(OnionMessenger::new(
             Arc::clone(&keys_manager),
             Arc::clone(&keys_manager),
@@ -289,12 +288,12 @@ impl Builder {
             Arc::clone(&keys_manager),
         ));
 
-        // Step 13: Init payment info storage
+        //  Init payment info storage
         // TODO: persist payment info to disk
         let inbound_payments = Arc::new(Mutex::new(HashMap::new()));
         let outbound_payments = Arc::new(Mutex::new(HashMap::new()));
 
-        // Step 14: Restore event handler from disk or create a new one.
+        //  Restore event handler from disk or create a new one.
         let event_queue = if let Ok(mut f) =
         fs::File::open(format!("{}/{}", ldk_data_dir, event::EVENTS_PERSISTENCE_KEY))
         {
@@ -753,6 +752,7 @@ impl Node {
         let tx_sync = Arc::clone(&self.tx_sync);
         let sync_cman = Arc::clone(&self.channel_manager);
         let sync_cmon = Arc::clone(&self.chain_monitor);
+        let sync_logger = Arc::clone(&self.logger);
         let confirmables = vec![
             &*sync_cman as &(dyn Confirm + Sync + Send),
             &*sync_cmon as &(dyn Confirm + Sync + Send),
@@ -760,15 +760,46 @@ impl Node {
 
         let runtime = runtime_lock.as_ref().unwrap();
         tokio::task::block_in_place(move || {
-            tokio::runtime::Builder::new_current_thread()
-                .enable_all()
-                .build()
-                .unwrap()
-                .block_on(async move { wallet.sync().await })
+            tokio::runtime::Builder::new_current_thread().enable_all().build().unwrap().block_on(
+                async move {
+                    let now = Instant::now();
+                    match wallet.sync().await {
+                        Ok(()) => {
+                            log_info!(
+								sync_logger,
+								"Sync of on-chain wallet finished in {}ms.",
+								now.elapsed().as_millis()
+							);
+                            Ok(())
+                        }
+                        Err(e) => {
+                            log_error!(sync_logger, "Sync of on-chain wallet failed: {}", e);
+                            Err(e)
+                        }
+                    }
+                },
+            )
         })?;
 
+        let sync_logger = Arc::clone(&self.logger);
         tokio::task::block_in_place(move || {
-            runtime.tokio_runtime.block_on(async move { tx_sync.sync(confirmables).await })
+            runtime.tokio_runtime.block_on(async move {
+                let now = Instant::now();
+                match tx_sync.sync(confirmables).await {
+                    Ok(()) => {
+                        log_info!(
+							sync_logger,
+							"Sync of Lightning wallet finished in {}ms.",
+							now.elapsed().as_millis()
+						);
+                        Ok(())
+                    }
+                    Err(e) => {
+                        log_error!(sync_logger, "Sync of Lightning wallet failed: {}", e);
+                        Err(e)
+                    }
+                }
+            })
         })?;
 
         Ok(())
@@ -808,14 +839,78 @@ impl Node {
         ) {
             Ok(_payment_id) => {
                 let payee_pubkey = invoice.recover_payee_pub_key();
-                // TODO: is this unwrap safe? Would a payment to an invoice with None amount ever
-                // succeed? Should we allow to set the amount in the interface or via a dedicated
-                // method?
                 let amt_msat = invoice.amount_milli_satoshis().unwrap();
                 log_info!(self.logger, "Initiated sending {} msats to {}", amt_msat, payee_pubkey);
 
                 outbound_payments_lock.insert(
-                    PaymentHash::from(payment_hash),
+                    payment_hash,
+                    LdkPaymentInfo {
+                        preimage: None,
+                        secret: payment_secret,
+                        status: PaymentStatus::Pending,
+                        amount_msat: invoice.amount_milli_satoshis(),
+                    },
+                );
+
+                Ok(payment_hash)
+            }
+
+            Err(PaymentError::Sending(e)) => {
+                log_error!(self.logger, "Failed to send payment: {:?}", e);
+               info!("Failed to send payment: {:?}", e);
+                outbound_payments_lock.insert(
+                    payment_hash,
+                    LdkPaymentInfo {
+                        preimage: None,
+                        secret: payment_secret,
+                        status: PaymentStatus::Failed,
+                        amount_msat: invoice.amount_milli_satoshis(),
+                    },
+                );
+                Err(Error::PaymentFailed)
+            }
+            Err(payment::PaymentError::Invoice(e)) => {
+                log_error!(self.logger, "Failed to send payment due to invalid invoice: {}", e);
+                Err(Error::InvalidInvoice)
+            }
+        }
+    }
+
+    /// Send a payement given a so-called "zero amount" invoice, i.e., an invoice that leaves the
+    /// amount paid to be determined by the user.
+    pub fn send_adjustable_value_payment(
+        &self, invoice: Invoice, amount_msat: u64,
+    ) -> Result<PaymentHash, Error> {
+        if self.running.read().unwrap().is_none() {
+            return Err(Error::NotRunning);
+        }
+
+        let mut outbound_payments_lock = self.outbound_payments.lock().unwrap();
+
+        let payment_hash = PaymentHash((*invoice.payment_hash()).into_inner());
+        let payment_secret = Some(*invoice.payment_secret());
+
+        if invoice.amount_milli_satoshis().is_some() {
+            log_error!(
+				self.logger,
+				"Failed to pay the given invoice: expected \"zero-amount\" invoice, please use send_payment."
+			);
+            return Err(Error::InvalidInvoice);
+        }
+
+        match lightning_invoice::payment::pay_zero_value_invoice(
+            &invoice,
+            amount_msat,
+            Retry::Timeout(LDK_PAYMENT_RETRY_TIMEOUT),
+            self.channel_manager.as_ref(),
+        ) {
+            Ok(_payment_id) => {
+                let payee_pubkey = invoice.recover_payee_pub_key();
+                let amt_msat = invoice.amount_milli_satoshis().unwrap();
+                log_info!(self.logger, "Initiated sending {} msats to {}", amt_msat, payee_pubkey);
+
+                outbound_payments_lock.insert(
+                    payment_hash,
                     LdkPaymentInfo {
                         preimage: None,
                         secret: payment_secret,
@@ -828,13 +923,13 @@ impl Node {
             }
             Err(payment::PaymentError::Invoice(e)) => {
                 log_error!(self.logger, "Failed to send payment due to invalid invoice: {}", e);
-                Err(Error::InvoiceInvalid)
+                Err(Error::InvalidInvoice)
             }
             Err(payment::PaymentError::Sending(e)) => {
                 log_error!(self.logger, "Failed to send payment: {:?}", e);
 
                 outbound_payments_lock.insert(
-                    PaymentHash::from(payment_hash),
+                    payment_hash,
                     LdkPaymentInfo {
                         preimage: None,
                         secret: payment_secret,
@@ -846,6 +941,7 @@ impl Node {
             }
         }
     }
+
 
     /// Send a spontaneous, aka. "keysend", payment
     pub fn send_spontaneous_payment(

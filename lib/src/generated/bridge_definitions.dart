@@ -72,6 +72,14 @@ abstract class Native {
 
   FlutterRustBridgeTaskConstMeta get kSendPaymentConstMeta;
 
+  Future<PaymentHash> sendAdjustableValuePayment(
+      {required LdkNodeInstance ldkNode,
+      required LdkInvoice invoice,
+      required int amountMsat,
+      dynamic hint});
+
+  FlutterRustBridgeTaskConstMeta get kSendAdjustableValuePaymentConstMeta;
+
   Future<PaymentHash> sendSpontaneousPayment(
       {required LdkNodeInstance ldkNode,
       required int amountMsat,

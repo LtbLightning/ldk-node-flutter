@@ -13,29 +13,28 @@ use std::sync::{Arc, RwLock};
 pub(crate) const PEER_INFO_PERSISTENCE_KEY: &str = "peers";
 
 pub(crate) struct PeerInfoStorage<K: KVStorePersister> {
-    peers: RwLock<PeerInfoStorageSerWrapper>,
+    peers: RwLock<Vec<StoragePeerInfo>>,
     persister: Arc<K>,
 }
 
 impl<K: KVStorePersister> PeerInfoStorage<K> {
     pub(crate) fn new(persister: Arc<K>) -> Self {
-        let peers = RwLock::new(PeerInfoStorageSerWrapper(Vec::new()));
+        let peers = RwLock::new(Vec::new());
         Self { peers, persister }
     }
 
     pub(crate) fn add_peer(&self, peer_info: String) -> Result<(), Error> {
         let mut locked_peers = self.peers.write().unwrap();
         // Check if we have the peer. If so, either update it or do nothing.
-        for stored_info in locked_peers.0.iter_mut() {
+        for stored_info in locked_peers.iter_mut() {
             if stored_info.peer_info == peer_info {
-                // info!("Peer exists{:?}", peer_info);
                 return Ok(());
             }
         }
 
-        locked_peers.0.push(StoragePeerInfo { peer_info });
+        locked_peers.push(StoragePeerInfo { peer_info });
         self.persister
-            .persist(PEER_INFO_PERSISTENCE_KEY, &*locked_peers)
+            .persist(PEER_INFO_PERSISTENCE_KEY, &PeerInfoStorageSerWrapper(&*locked_peers))
             .map_err(|_| Error::PersistenceFailed)?;
 
         return Ok(());
@@ -45,11 +44,10 @@ impl<K: KVStorePersister> PeerInfoStorage<K> {
         let mut locked_peers = self.peers.write().unwrap();
 
         locked_peers
-            .0
-            .retain(|info| !info.peer_info.contains(&peer_pubkey.to_string()));
+            .retain(|stored_info| !stored_info.peer_info.contains(&peer_pubkey.to_string()));
 
         self.persister
-            .persist(PEER_INFO_PERSISTENCE_KEY, &*locked_peers)
+            .persist(PEER_INFO_PERSISTENCE_KEY, &PeerInfoStorageSerWrapper(&*locked_peers))
             .map_err(|_| Error::PersistenceFailed)?;
 
         return Ok(());
@@ -57,33 +55,32 @@ impl<K: KVStorePersister> PeerInfoStorage<K> {
 
     pub(crate) fn peers(&self) -> Vec<PeerInfo> {
         let mut peers: Vec<PeerInfo> = Vec::new();
-        for stored_info in self.peers.read().unwrap().0.clone() {
+        for stored_info in self.peers.read().unwrap().clone() {
             let peer_info = PeerInfo::try_from(stored_info.peer_info).unwrap();
             peers.push(peer_info);
         }
         return peers;
     }
 }
-
 impl<K: KVStorePersister> ReadableArgs<Arc<K>> for PeerInfoStorage<K> {
     #[inline]
     fn read<R: lightning::io::Read>(
-        reader: &mut R,
-        persister: Arc<K>,
+        reader: &mut R, persister: Arc<K>,
     ) -> Result<Self, lightning::ln::msgs::DecodeError> {
-        let peers: RwLock<PeerInfoStorageSerWrapper> = RwLock::new(Readable::read(reader)?);
+        let read_peers: PeerInfoStorageDeserWrapper = Readable::read(reader)?;
+        let peers: RwLock<Vec<StoragePeerInfo>> = RwLock::new(read_peers.0);
         Ok(Self { peers, persister })
     }
 }
+
 #[derive(Clone, Debug, PartialEq, Eq)]
 struct StoragePeerInfo {
     pub peer_info: String,
 }
 #[derive(Clone, Debug, PartialEq, Eq)]
-// pub(crate) struct PeerInfoStorageSerWrapper(Vec<PeerInfo>);
-pub(crate) struct PeerInfoStorageSerWrapper(Vec<StoragePeerInfo>);
+pub(crate) struct PeerInfoStorageDeserWrapper(Vec<StoragePeerInfo>);
 
-impl Readable for PeerInfoStorageSerWrapper {
+impl Readable for PeerInfoStorageDeserWrapper {
     fn read<R: lightning::io::Read>(
         reader: &mut R,
     ) -> Result<Self, lightning::ln::msgs::DecodeError> {
@@ -92,11 +89,25 @@ impl Readable for PeerInfoStorageSerWrapper {
         for _ in 0..len {
             peers.push(Readable::read(reader)?);
         }
-        Ok(PeerInfoStorageSerWrapper(peers))
+        Ok(Self(peers))
     }
 }
 
-impl Writeable for PeerInfoStorageSerWrapper {
+#[derive(Clone, Debug, PartialEq, Eq)]
+pub(crate) struct PeerInfoStorageSerWrapper<'a>(&'a Vec<StoragePeerInfo>);
+// impl Readable for PeerInfoStorageSerWrapper {
+//     fn read<R: lightning::io::Read>(
+//         reader: &mut R,
+//     ) -> Result<Self, lightning::ln::msgs::DecodeError> {
+//         let len: u16 = Readable::read(reader)?;
+//         let mut peers = Vec::with_capacity(len as usize);
+//         for _ in 0..len {
+//             peers.push(Readable::read(reader)?);
+//         }
+//         Ok(PeerInfoStorageSerWrapper(peers))
+//     }
+// }
+impl Writeable for PeerInfoStorageSerWrapper<'_> {
     fn write<W: Writer>(&self, writer: &mut W) -> Result<(), lightning::io::Error> {
         (self.0.len() as u16).write(writer)?;
         for e in self.0.iter() {
@@ -105,6 +116,7 @@ impl Writeable for PeerInfoStorageSerWrapper {
         Ok(())
     }
 }
+
 
 #[derive(Clone, Debug, PartialEq, Eq)]
 pub(crate) struct PeerInfo {

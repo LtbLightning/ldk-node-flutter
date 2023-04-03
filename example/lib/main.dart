@@ -38,7 +38,7 @@ class _MyAppState extends State<MyApp> {
     // Please use 10.0.2.2, instead of 0.0.0.0
     final esploraUrl =
         Platform.isAndroid ? "http://10.0.2.2:3002" : "http://0.0.0.0:3002";
-    //const esploraUrl = "https://blockstream.info/testnet/api";
+    // const esploraUrl = "https://blockstream.info/testnet/api";
     final config = Config(
         storageDirPath: path,
         esploraServerUrl: esploraUrl,
@@ -50,7 +50,7 @@ class _MyAppState extends State<MyApp> {
   initAliceNode() async {
     //Path to a directory where the application may place application support files.
     final directory = await getApplicationDocumentsDirectory();
-    final alicePath = "${directory.path}/ldk_cache/alice's_node";
+    final alicePath = "${directory.path}/ldk_cache/alice's_.node";
     final aliceConfig = await initLdkConfig(alicePath, "0.0.0.0:80");
     NodeBuilder aliceBuilder = NodeBuilder.fromConfig(aliceConfig);
     aliceNode = await aliceBuilder.build();

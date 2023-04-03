@@ -4,7 +4,7 @@ mod bridge_generated; /* AUTO INJECTED BY flutter_rust_bridge. This line may not
 
 mod error;
 mod event;
-mod ffi;
+mod ldk;
 mod hex_utils;
 mod io_utils;
 mod logger;

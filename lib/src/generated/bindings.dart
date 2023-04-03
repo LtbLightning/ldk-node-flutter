@@ -260,6 +260,30 @@ class NativeImpl implements Native {
         argNames: ["ldkNode", "invoice"],
       );
 
+  Future<PaymentHash> sendAdjustableValuePayment(
+      {required LdkNodeInstance ldkNode,
+      required LdkInvoice invoice,
+      required int amountMsat,
+      dynamic hint}) {
+    var arg0 = _platform.api2wire_LdkNodeInstance(ldkNode);
+    var arg1 = _platform.api2wire_box_autoadd_ldk_invoice(invoice);
+    var arg2 = _platform.api2wire_u64(amountMsat);
+    return _platform.executeNormal(FlutterRustBridgeTask(
+      callFfi: (port_) => _platform.inner
+          .wire_send_adjustable_value_payment(port_, arg0, arg1, arg2),
+      parseSuccessData: _wire2api_payment_hash,
+      constMeta: kSendAdjustableValuePaymentConstMeta,
+      argValues: [ldkNode, invoice, amountMsat],
+      hint: hint,
+    ));
+  }
+
+  FlutterRustBridgeTaskConstMeta get kSendAdjustableValuePaymentConstMeta =>
+      const FlutterRustBridgeTaskConstMeta(
+        debugName: "send_adjustable_value_payment",
+        argNames: ["ldkNode", "invoice", "amountMsat"],
+      );
+
   Future<PaymentHash> sendSpontaneousPayment(
       {required LdkNodeInstance ldkNode,
       required int amountMsat,
@@ -1219,6 +1243,32 @@ class NativeWire implements FlutterRustBridgeWireBase {
               ffi.Pointer<wire_LdkInvoice>)>>('wire_send_payment');
   late final _wire_send_payment = _wire_send_paymentPtr.asFunction<
       void Function(int, wire_LdkNodeInstance, ffi.Pointer<wire_LdkInvoice>)>();
+
+  void wire_send_adjustable_value_payment(
+    int port_,
+    wire_LdkNodeInstance ldk_node,
+    ffi.Pointer<wire_LdkInvoice> invoice,
+    int amount_msat,
+  ) {
+    return _wire_send_adjustable_value_payment(
+      port_,
+      ldk_node,
+      invoice,
+      amount_msat,
+    );
+  }
+
+  late final _wire_send_adjustable_value_paymentPtr = _lookup<
+      ffi.NativeFunction<
+          ffi.Void Function(
+              ffi.Int64,
+              wire_LdkNodeInstance,
+              ffi.Pointer<wire_LdkInvoice>,
+              ffi.Uint64)>>('wire_send_adjustable_value_payment');
+  late final _wire_send_adjustable_value_payment =
+      _wire_send_adjustable_value_paymentPtr.asFunction<
+          void Function(
+              int, wire_LdkNodeInstance, ffi.Pointer<wire_LdkInvoice>, int)>();
 
   void wire_send_spontaneous_payment(
     int port_,

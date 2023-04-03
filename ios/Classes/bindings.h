@@ -78,6 +78,11 @@ void wire_send_payment(int64_t port_,
                        struct wire_LdkNodeInstance ldk_node,
                        struct wire_LdkInvoice *invoice);
 
+void wire_send_adjustable_value_payment(int64_t port_,
+                                        struct wire_LdkNodeInstance ldk_node,
+                                        struct wire_LdkInvoice *invoice,
+                                        uint64_t amount_msat);
+
 void wire_send_spontaneous_payment(int64_t port_,
                                    struct wire_LdkNodeInstance ldk_node,
                                    uint64_t amount_msat,
@@ -150,6 +155,7 @@ static int64_t dummy_method_to_enforce_bundling(void) {
     dummy_var ^= ((int64_t) (void*) wire_node_info);
     dummy_var ^= ((int64_t) (void*) wire_receive_payment);
     dummy_var ^= ((int64_t) (void*) wire_send_payment);
+    dummy_var ^= ((int64_t) (void*) wire_send_adjustable_value_payment);
     dummy_var ^= ((int64_t) (void*) wire_send_spontaneous_payment);
     dummy_var ^= ((int64_t) (void*) wire_payment_info);
     dummy_var ^= ((int64_t) (void*) wire_connect_open_channel);
