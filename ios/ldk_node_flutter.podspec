@@ -22,5 +22,5 @@ A new Flutter project.
     s.public_header_files = 'Classes**/*.h'
     s.source_files = 'Classes/**/*'
     s.static_framework = true
-    s.vendored_libraries = "libnative.a"
+    s.vendored_libraries = "librust.a"
 end

@@ -1,8 +1,9 @@
 import 'dart:io';
+
 import 'package:flutter/foundation.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter/material.dart';
-import 'package:ldk_node_flutter/ldk_node_flutter.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:ldk_node_flutter/ldk_node_flutter.dart' as ldk;
 import 'package:path_provider/path_provider.dart';
 
 void main() {
@@ -17,15 +18,15 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  late LdkNode aliceNode;
-  late LdkNode bobNode;
-  PublicKey? aliceNodeId;
-  PublicKey? bobNodeId;
+  late ldk.Node aliceNode;
+  late ldk.Node bobNode;
+  ldk.PublicKey? aliceNodeId;
+  ldk.PublicKey? bobNodeId;
   int aliceBalance = 0;
   String displayText = "";
   String bobNodePubKeyAndAddress = "";
-  Invoice? invoice;
-  String? channelId;
+  ldk.Invoice? invoice;
+  ldk.U8Array32? channelId;
 
   @override
   void initState() {
@@ -33,43 +34,43 @@ class _MyAppState extends State<MyApp> {
     super.initState();
   }
 
-  Future<Config> initLdkConfig(String path, String listeningAddress) async {
+  Future<ldk.Config> initLdkConfig(String path, String listeningAddress) async {
     // Please replace this url with your Electrum RPC Api url
     // Please use 10.0.2.2, instead of 0.0.0.0
+    final directory = await getApplicationDocumentsDirectory();
+    final nodePath = "${directory.path}/ldk_cache/$path";
     final esploraUrl =
         Platform.isAndroid ? "http://10.0.2.2:3002" : "http://0.0.0.0:3002";
     // const esploraUrl = "https://blockstream.info/testnet/api";
-    final config = Config(
-        storageDirPath: path,
+    final config = ldk.Config(
+        storageDirPath: nodePath,
         esploraServerUrl: esploraUrl,
-        network: Network.Regtest,
-        listeningAddress: listeningAddress);
+        network: ldk.Network.Regtest,
+        listeningAddress: listeningAddress,
+        defaultCltvExpiryDelta: 144);
     return config;
   }
 
+  closeChannel() async {
+    await aliceNode.closeChannel(
+        channelId: channelId!, counterpartyNodeId: bobNodeId!);
+  }
+
   initAliceNode() async {
-    //Path to a directory where the application may place application support files.
-    final directory = await getApplicationDocumentsDirectory();
-    final alicePath = "${directory.path}/ldk_cache/alice's_.node";
-    final aliceConfig = await initLdkConfig(alicePath, "0.0.0.0:80");
-    NodeBuilder aliceBuilder = NodeBuilder.fromConfig(aliceConfig);
+    final aliceConfig = await initLdkConfig('alice', "0.0.0.0:80");
+    ldk.Builder aliceBuilder = ldk.Builder.fromConfig(config: aliceConfig);
     aliceNode = await aliceBuilder.build();
     await aliceNode.start();
     final res = await aliceNode.nodeId();
-
     setState(() {
       aliceNodeId = res;
-      displayText = "$aliceNodeId started successfully";
+      displayText = "${aliceNodeId?.keyHex} started successfully";
     });
   }
 
   initBobNode() async {
-    //Path to a directory where the application may place application support files
-    final path = await getApplicationDocumentsDirectory();
-    //Specifying node folder
-    final bobConfig =
-        await initLdkConfig("${path.path}/ldk_cache/bob's_node", "0.0.0.0:81");
-    NodeBuilder bobBuilder = NodeBuilder.fromConfig(bobConfig);
+    final bobConfig = await initLdkConfig("bob", "0.0.0.0:81");
+    ldk.Builder bobBuilder = ldk.Builder.fromConfig(config: bobConfig);
     bobNode = await bobBuilder.build();
     await bobNode.start();
     final res = await bobNode.nodeId();
@@ -83,41 +84,36 @@ class _MyAppState extends State<MyApp> {
     final alice = await aliceNode.onChainBalance();
     final bob = await bobNode.onChainBalance();
     if (kDebugMode) {
-      print("alice's_balance: ${alice.total}");
-      print("bob's balance: ${bob.total}");
+      print("alice's_balance: ${alice.confirmed}");
+      print("bob's balance: ${bob.confirmed}");
     }
     setState(() {
-      aliceBalance = alice.total;
+      aliceBalance = alice.confirmed;
     });
   }
 
   syncAliceNode() async {
-    await aliceNode.syncWallet();
+    await aliceNode.syncWallets();
     setState(() {
       displayText = "aliceNode: Sync Completed";
     });
   }
 
   getNodeInfo() async {
-    final res = await bobNode.getNodeInfo();
+    final res = await aliceNode.listChannels();
     if (kDebugMode) {
       print("======Channels========");
-      for (var e in res.channels) {
+      for (var e in res) {
         print("channelId: ${e.channelId}");
         print("isChannelReady: ${e.isChannelReady}");
-        print("localBalanceMsat: ${e.localBalanceMsat}");
-        print("availableBalanceForRecvMsat: ${e.availableBalanceForRecvMsat}");
-        print("isChannelReadyToSendPayments: ${e.channelCanSendPayments}");
-      }
-      print("======Peers========");
-      for (var e in res.peers) {
-        print("peerId: $e");
+        print("isUsable: ${e.isUsable}");
+        print("channelValueSatoshis: ${e.outboundCapacityMsat}");
       }
     }
   }
 
   syncBobNode() async {
-    await bobNode.syncWallet();
+    await bobNode.syncWallets();
     setState(() {
       displayText = "bobNode: Sync Completed";
     });
@@ -127,20 +123,20 @@ class _MyAppState extends State<MyApp> {
     final alice = await aliceNode.newFundingAddress();
     final bob = await bobNode.newFundingAddress();
     if (kDebugMode) {
-      print("alice's address: ${alice.asString}");
-      print("bob's address: ${bob.asString}");
+      print("alice's address: ${alice.addressHex}");
+      print("bob's address: ${bob.addressHex}");
     }
     setState(() {
-      displayText = alice.asString;
+      displayText = alice.addressHex;
     });
-    return [alice.asString, bob.asString];
+    return [alice.addressHex, bob.addressHex];
   }
 
   getListeningAddresses() async {
     final alice = await aliceNode.listeningAddress();
     final bob = await bobNode.listeningAddress();
     setState(() {
-      bobNodePubKeyAndAddress = "${bobNodeId!.asString}@$bob";
+      bobNodePubKeyAndAddress = "${bobNodeId!.keyHex}@$bob";
       displayText = "bob's node pubKey & Address : $bobNodePubKeyAndAddress";
     });
     if (kDebugMode) {
@@ -151,28 +147,30 @@ class _MyAppState extends State<MyApp> {
 
   openChannel() async {
     await aliceNode.connectOpenChannel(
-        nodePubKeyAndAddress: bobNodePubKeyAndAddress,
         channelAmountSats: 5000000,
-        announceChannel: true);
+        announceChannel: true,
+        nodePubkeyAndAddress: bobNodePubKeyAndAddress);
+    print("temporary channel created");
   }
 
   //Failed to send payment due to routing failure: Failed to find a path to the given destination
   receiveAndSendPayments() async {
-    invoice = await bobNode.receivePayment("asdf", 10000, 100000000);
+    invoice = await bobNode.receivePayment(
+        amountMsat: 100000000, description: 'ALICE', expirySecs: 10000);
     setState(() {
       displayText = invoice.toString();
     });
-    final paymentHash = await aliceNode.sendPayment(invoice!);
-    final res = await aliceNode.paymentInfo(paymentHash);
+    final paymentHash = await aliceNode.sendPayment(invoice: invoice!);
+    final res = await aliceNode.paymentInfo(paymentHash: paymentHash);
     setState(() {
       displayText = "send payment success ${res?.status}";
     });
   }
 
   getChannelId() async {
-    final channelInfos = await aliceNode.getChannelIds();
+    final channelInfos = await aliceNode.listChannels();
     if (channelInfos.isNotEmpty) {
-      channelId = channelInfos.first;
+      channelId = channelInfos.first.channelId;
       if (kDebugMode) {
         print(channelId.toString());
       }
@@ -186,19 +184,24 @@ class _MyAppState extends State<MyApp> {
     }
   }
 
-  Future handleEvent(LdkNode node) async {
+  stop() async {
+    await bobNode.stop();
+    await aliceNode.stop();
+  }
+
+  Future handleEvent(ldk.Node node) async {
     final res = await node.nextEvent();
     res?.map(paymentSuccessful: (e) {
       if (kDebugMode) {
-        print("paymentSuccessful: ${e.paymentHash.asString}");
+        print("paymentSuccessful: ${e.paymentHash.field0}");
       }
     }, paymentFailed: (e) {
       if (kDebugMode) {
-        print("paymentFailed: ${e.paymentHash.asString}");
+        print("paymentFailed: ${e.paymentHash.field0}");
       }
     }, paymentReceived: (e) {
       if (kDebugMode) {
-        print("paymentReceived: ${e.paymentHash.asString}");
+        print("paymentReceived: ${e.paymentHash.field0}");
       }
     }, channelReady: (e) {
       if (kDebugMode) {
@@ -214,15 +217,6 @@ class _MyAppState extends State<MyApp> {
     await node.eventHandled();
   }
 
-  closeChannel() async {
-    await bobNode.closeChannel(channelId!, aliceNodeId!);
-  }
-
-  stop() async {
-    await bobNode.stop();
-    await aliceNode.stop();
-  }
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -236,7 +230,7 @@ class _MyAppState extends State<MyApp> {
               child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text('Ldk Node',
+                    Text('Node',
                         style: GoogleFonts.montserrat(
                             fontWeight: FontWeight.w900,
                             fontSize: 16,
@@ -282,7 +276,7 @@ class _MyAppState extends State<MyApp> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        "$aliceBalance",
+                        aliceBalance.toString(),
                         style: GoogleFonts.montserrat(
                             fontWeight: FontWeight.w900,
                             fontSize: 40,
@@ -465,7 +459,7 @@ class _MyAppState extends State<MyApp> {
                   Text(
                     aliceNodeId == null
                         ? "Node not initialized"
-                        : "@Id_:${aliceNodeId!.asString}",
+                        : "@Id_:${aliceNodeId!.keyHex}",
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                     textAlign: TextAlign.center,

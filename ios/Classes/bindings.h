@@ -14,25 +14,56 @@ typedef struct wire_uint_8_list {
   int32_t len;
 } wire_uint_8_list;
 
-typedef struct wire_LdkConfig {
+typedef struct wire_Config {
   struct wire_uint_8_list *storage_dir_path;
   struct wire_uint_8_list *esplora_server_url;
   int32_t network;
   struct wire_uint_8_list *listening_address;
   uint32_t default_cltv_expiry_delta;
-} wire_LdkConfig;
+} wire_Config;
 
-typedef struct wire_LdkNodeInstance {
+typedef struct wire_WalletEntropySource_SeedFile {
+  struct wire_uint_8_list *field0;
+} wire_WalletEntropySource_SeedFile;
+
+typedef struct wire_WalletEntropySource_SeedBytes {
+  struct wire_uint_8_list *field0;
+} wire_WalletEntropySource_SeedBytes;
+
+typedef union WalletEntropySourceKind {
+  struct wire_WalletEntropySource_SeedFile *SeedFile;
+  struct wire_WalletEntropySource_SeedBytes *SeedBytes;
+} WalletEntropySourceKind;
+
+typedef struct wire_WalletEntropySource {
+  int32_t tag;
+  union WalletEntropySourceKind *kind;
+} wire_WalletEntropySource;
+
+typedef struct wire_BuilderBase {
+  struct wire_Config config;
+  struct wire_WalletEntropySource *entropy_source;
+} wire_BuilderBase;
+
+typedef struct wire_NodePointer {
   const void *ptr;
-} wire_LdkNodeInstance;
+} wire_NodePointer;
 
-typedef struct wire_LdkInvoice {
-  struct wire_uint_8_list *as_string;
-} wire_LdkInvoice;
+typedef struct wire_NodeBase {
+  struct wire_NodePointer node_pointer;
+} wire_NodeBase;
 
 typedef struct wire_PublicKey {
-  struct wire_uint_8_list *as_string;
+  struct wire_uint_8_list *key_hex;
 } wire_PublicKey;
+
+typedef struct wire_Invoice {
+  struct wire_uint_8_list *hex;
+} wire_Invoice;
+
+typedef struct wire_PaymentHash {
+  struct wire_uint_8_list *field0;
+} wire_PaymentHash;
 
 typedef struct DartCObject *WireSyncReturn;
 
@@ -46,137 +77,160 @@ uintptr_t new_dart_opaque(Dart_Handle handle);
 
 intptr_t init_frb_dart_api_dl(void *obj);
 
-void wire_init_builder(int64_t port_, struct wire_LdkConfig *config);
+void wire_new__static_method__BuilderBase(int64_t port_);
 
-void wire_start(int64_t port_, struct wire_LdkNodeInstance ldk_node);
+void wire_set_entropy_seed_path__method__BuilderBase(int64_t port_,
+                                                     struct wire_BuilderBase *that,
+                                                     struct wire_uint_8_list *seed_path);
 
-void wire_node_id(int64_t port_, struct wire_LdkNodeInstance ldk_node);
+void wire_set_entropy_seed_bytes__method__BuilderBase(int64_t port_,
+                                                      struct wire_BuilderBase *that,
+                                                      struct wire_uint_8_list *seed_bytes);
 
-void wire_get_balance(int64_t port_, struct wire_LdkNodeInstance ldk_node);
+void wire_set_storage_dir_path__method__BuilderBase(int64_t port_,
+                                                    struct wire_BuilderBase *that,
+                                                    struct wire_uint_8_list *storage_dir_path);
 
-void wire_new_funding_address(int64_t port_, struct wire_LdkNodeInstance ldk_node);
+void wire_set_esplora_server_url__method__BuilderBase(int64_t port_,
+                                                      struct wire_BuilderBase *that,
+                                                      struct wire_uint_8_list *esplora_server_url);
 
-void wire_sync(int64_t port_, struct wire_LdkNodeInstance ldk_node);
+void wire_set_network__method__BuilderBase(int64_t port_,
+                                           struct wire_BuilderBase *that,
+                                           int32_t network);
 
-void wire_get_node_addr(int64_t port_, struct wire_LdkNodeInstance ldk_node);
+void wire_set_listening_address__method__BuilderBase(int64_t port_,
+                                                     struct wire_BuilderBase *that,
+                                                     struct wire_uint_8_list *listening_address);
 
-void wire_next_event(int64_t port_, struct wire_LdkNodeInstance ldk_node);
+void wire_build__static_method__BuilderBase(int64_t port_, struct wire_BuilderBase *builder);
 
-void wire_stop(int64_t port_, struct wire_LdkNodeInstance ldk_node);
+void wire_start__method__NodeBase(int64_t port_, struct wire_NodeBase *that);
 
-void wire_handle_event(int64_t port_, struct wire_LdkNodeInstance ldk_node);
+void wire_stop__method__NodeBase(int64_t port_, struct wire_NodeBase *that);
 
-void wire_node_info(int64_t port_, struct wire_LdkNodeInstance ldk_node);
+void wire_event_handled__method__NodeBase(int64_t port_, struct wire_NodeBase *that);
 
-void wire_receive_payment(int64_t port_,
-                          struct wire_LdkNodeInstance ldk_node,
-                          uint64_t *amount_msat,
-                          struct wire_uint_8_list *description,
-                          uint32_t expiry_secs);
+void wire_next_event__method__NodeBase(int64_t port_, struct wire_NodeBase *that);
 
-void wire_send_payment(int64_t port_,
-                       struct wire_LdkNodeInstance ldk_node,
-                       struct wire_LdkInvoice *invoice);
+void wire_node_id__method__NodeBase(int64_t port_, struct wire_NodeBase *that);
 
-void wire_send_adjustable_value_payment(int64_t port_,
-                                        struct wire_LdkNodeInstance ldk_node,
-                                        struct wire_LdkInvoice *invoice,
-                                        uint64_t amount_msat);
+void wire_listening_address__method__NodeBase(int64_t port_, struct wire_NodeBase *that);
 
-void wire_send_spontaneous_payment(int64_t port_,
-                                   struct wire_LdkNodeInstance ldk_node,
-                                   uint64_t amount_msat,
-                                   struct wire_uint_8_list *node_id);
+void wire_new_funding_address__method__NodeBase(int64_t port_, struct wire_NodeBase *that);
 
-void wire_payment_info(int64_t port_,
-                       struct wire_LdkNodeInstance ldk_node,
-                       struct wire_uint_8_list *payment_hash);
+void wire_on_chain_balance__method__NodeBase(int64_t port_, struct wire_NodeBase *that);
 
-void wire_connect_open_channel(int64_t port_,
-                               struct wire_LdkNodeInstance ldk_lite,
-                               struct wire_uint_8_list *node_pubkey_and_address,
-                               uint64_t channel_amount_sats,
-                               bool announce_channel);
+void wire_connect_open_channel__method__NodeBase(int64_t port_,
+                                                 struct wire_NodeBase *that,
+                                                 struct wire_uint_8_list *node_pubkey_and_address,
+                                                 uint64_t channel_amount_sats,
+                                                 bool announce_channel);
 
-void wire_close_channel(int64_t port_,
-                        struct wire_LdkNodeInstance ldk_lite,
-                        struct wire_uint_8_list *channel_id,
-                        struct wire_PublicKey *counterparty_node_id);
+void wire_list_channels__method__NodeBase(int64_t port_, struct wire_NodeBase *that);
 
-void wire_create_log_stream(int64_t port_);
+void wire_sync_wallets__method__NodeBase(int64_t port_, struct wire_NodeBase *that);
 
-void wire_rust_set_up(int64_t port_);
+void wire_close_channel__method__NodeBase(int64_t port_,
+                                          struct wire_NodeBase *that,
+                                          struct wire_uint_8_list *channel_id,
+                                          struct wire_PublicKey *counterparty_node_id);
 
-void wire_create__static_method__LdkInvoice(int64_t port_, struct wire_uint_8_list *invoice);
+void wire_send_payment__method__NodeBase(int64_t port_,
+                                         struct wire_NodeBase *that,
+                                         struct wire_Invoice *invoice);
 
-void wire_amount_milli_satoshis__static_method__LdkInvoice(int64_t port_,
-                                                           struct wire_LdkInvoice *invoice);
+void wire_send_payment_using_amount__method__NodeBase(int64_t port_,
+                                                      struct wire_NodeBase *that,
+                                                      struct wire_Invoice *invoice,
+                                                      uint64_t amount_msat);
 
-void wire_is_expired__static_method__LdkInvoice(int64_t port_, struct wire_LdkInvoice *invoice);
+void wire_send_spontaneous_payment__method__NodeBase(int64_t port_,
+                                                     struct wire_NodeBase *that,
+                                                     uint64_t amount_msat,
+                                                     struct wire_uint_8_list *node_id);
 
-void wire_expiry_time__static_method__LdkInvoice(int64_t port_, struct wire_LdkInvoice *invoice);
+void wire_receive_payment__method__NodeBase(int64_t port_,
+                                            struct wire_NodeBase *that,
+                                            uint64_t amount_msat,
+                                            struct wire_uint_8_list *description,
+                                            uint32_t expiry_secs);
 
-void wire_payment_hash__static_method__LdkInvoice(int64_t port_, struct wire_LdkInvoice *invoice);
+void wire_receive_variable_amount_payment__method__NodeBase(int64_t port_,
+                                                            struct wire_NodeBase *that,
+                                                            struct wire_uint_8_list *description,
+                                                            uint32_t expiry_secs);
 
-void wire_payee_pub_key__static_method__LdkInvoice(int64_t port_, struct wire_LdkInvoice *invoice);
+void wire_payment_info__method__NodeBase(int64_t port_,
+                                         struct wire_NodeBase *that,
+                                         struct wire_PaymentHash *payment_hash);
 
-void wire_payment_secret__static_method__LdkInvoice(int64_t port_, struct wire_LdkInvoice *invoice);
+struct wire_NodePointer new_NodePointer(void);
 
-struct wire_LdkNodeInstance new_LdkNodeInstance(void);
+struct wire_BuilderBase *new_box_autoadd_builder_base_0(void);
 
-struct wire_LdkConfig *new_box_autoadd_ldk_config_0(void);
+struct wire_Invoice *new_box_autoadd_invoice_0(void);
 
-struct wire_LdkInvoice *new_box_autoadd_ldk_invoice_0(void);
+struct wire_NodeBase *new_box_autoadd_node_base_0(void);
+
+struct wire_PaymentHash *new_box_autoadd_payment_hash_0(void);
 
 struct wire_PublicKey *new_box_autoadd_public_key_0(void);
 
-uint64_t *new_box_autoadd_u64_0(uint64_t value);
+struct wire_WalletEntropySource *new_box_autoadd_wallet_entropy_source_0(void);
 
 struct wire_uint_8_list *new_uint_8_list_0(int32_t len);
 
-void drop_opaque_LdkNodeInstance(const void *ptr);
+void drop_opaque_NodePointer(const void *ptr);
 
-const void *share_opaque_LdkNodeInstance(const void *ptr);
+const void *share_opaque_NodePointer(const void *ptr);
+
+union WalletEntropySourceKind *inflate_WalletEntropySource_SeedFile(void);
+
+union WalletEntropySourceKind *inflate_WalletEntropySource_SeedBytes(void);
 
 void free_WireSyncReturn(WireSyncReturn ptr);
 
 static int64_t dummy_method_to_enforce_bundling(void) {
     int64_t dummy_var = 0;
-    dummy_var ^= ((int64_t) (void*) wire_init_builder);
-    dummy_var ^= ((int64_t) (void*) wire_start);
-    dummy_var ^= ((int64_t) (void*) wire_node_id);
-    dummy_var ^= ((int64_t) (void*) wire_get_balance);
-    dummy_var ^= ((int64_t) (void*) wire_new_funding_address);
-    dummy_var ^= ((int64_t) (void*) wire_sync);
-    dummy_var ^= ((int64_t) (void*) wire_get_node_addr);
-    dummy_var ^= ((int64_t) (void*) wire_next_event);
-    dummy_var ^= ((int64_t) (void*) wire_stop);
-    dummy_var ^= ((int64_t) (void*) wire_handle_event);
-    dummy_var ^= ((int64_t) (void*) wire_node_info);
-    dummy_var ^= ((int64_t) (void*) wire_receive_payment);
-    dummy_var ^= ((int64_t) (void*) wire_send_payment);
-    dummy_var ^= ((int64_t) (void*) wire_send_adjustable_value_payment);
-    dummy_var ^= ((int64_t) (void*) wire_send_spontaneous_payment);
-    dummy_var ^= ((int64_t) (void*) wire_payment_info);
-    dummy_var ^= ((int64_t) (void*) wire_connect_open_channel);
-    dummy_var ^= ((int64_t) (void*) wire_close_channel);
-    dummy_var ^= ((int64_t) (void*) wire_create_log_stream);
-    dummy_var ^= ((int64_t) (void*) wire_rust_set_up);
-    dummy_var ^= ((int64_t) (void*) wire_create__static_method__LdkInvoice);
-    dummy_var ^= ((int64_t) (void*) wire_amount_milli_satoshis__static_method__LdkInvoice);
-    dummy_var ^= ((int64_t) (void*) wire_is_expired__static_method__LdkInvoice);
-    dummy_var ^= ((int64_t) (void*) wire_expiry_time__static_method__LdkInvoice);
-    dummy_var ^= ((int64_t) (void*) wire_payment_hash__static_method__LdkInvoice);
-    dummy_var ^= ((int64_t) (void*) wire_payee_pub_key__static_method__LdkInvoice);
-    dummy_var ^= ((int64_t) (void*) wire_payment_secret__static_method__LdkInvoice);
-    dummy_var ^= ((int64_t) (void*) new_LdkNodeInstance);
-    dummy_var ^= ((int64_t) (void*) new_box_autoadd_ldk_config_0);
-    dummy_var ^= ((int64_t) (void*) new_box_autoadd_ldk_invoice_0);
+    dummy_var ^= ((int64_t) (void*) wire_new__static_method__BuilderBase);
+    dummy_var ^= ((int64_t) (void*) wire_set_entropy_seed_path__method__BuilderBase);
+    dummy_var ^= ((int64_t) (void*) wire_set_entropy_seed_bytes__method__BuilderBase);
+    dummy_var ^= ((int64_t) (void*) wire_set_storage_dir_path__method__BuilderBase);
+    dummy_var ^= ((int64_t) (void*) wire_set_esplora_server_url__method__BuilderBase);
+    dummy_var ^= ((int64_t) (void*) wire_set_network__method__BuilderBase);
+    dummy_var ^= ((int64_t) (void*) wire_set_listening_address__method__BuilderBase);
+    dummy_var ^= ((int64_t) (void*) wire_build__static_method__BuilderBase);
+    dummy_var ^= ((int64_t) (void*) wire_start__method__NodeBase);
+    dummy_var ^= ((int64_t) (void*) wire_stop__method__NodeBase);
+    dummy_var ^= ((int64_t) (void*) wire_event_handled__method__NodeBase);
+    dummy_var ^= ((int64_t) (void*) wire_next_event__method__NodeBase);
+    dummy_var ^= ((int64_t) (void*) wire_node_id__method__NodeBase);
+    dummy_var ^= ((int64_t) (void*) wire_listening_address__method__NodeBase);
+    dummy_var ^= ((int64_t) (void*) wire_new_funding_address__method__NodeBase);
+    dummy_var ^= ((int64_t) (void*) wire_on_chain_balance__method__NodeBase);
+    dummy_var ^= ((int64_t) (void*) wire_connect_open_channel__method__NodeBase);
+    dummy_var ^= ((int64_t) (void*) wire_list_channels__method__NodeBase);
+    dummy_var ^= ((int64_t) (void*) wire_sync_wallets__method__NodeBase);
+    dummy_var ^= ((int64_t) (void*) wire_close_channel__method__NodeBase);
+    dummy_var ^= ((int64_t) (void*) wire_send_payment__method__NodeBase);
+    dummy_var ^= ((int64_t) (void*) wire_send_payment_using_amount__method__NodeBase);
+    dummy_var ^= ((int64_t) (void*) wire_send_spontaneous_payment__method__NodeBase);
+    dummy_var ^= ((int64_t) (void*) wire_receive_payment__method__NodeBase);
+    dummy_var ^= ((int64_t) (void*) wire_receive_variable_amount_payment__method__NodeBase);
+    dummy_var ^= ((int64_t) (void*) wire_payment_info__method__NodeBase);
+    dummy_var ^= ((int64_t) (void*) new_NodePointer);
+    dummy_var ^= ((int64_t) (void*) new_box_autoadd_builder_base_0);
+    dummy_var ^= ((int64_t) (void*) new_box_autoadd_invoice_0);
+    dummy_var ^= ((int64_t) (void*) new_box_autoadd_node_base_0);
+    dummy_var ^= ((int64_t) (void*) new_box_autoadd_payment_hash_0);
     dummy_var ^= ((int64_t) (void*) new_box_autoadd_public_key_0);
-    dummy_var ^= ((int64_t) (void*) new_box_autoadd_u64_0);
+    dummy_var ^= ((int64_t) (void*) new_box_autoadd_wallet_entropy_source_0);
     dummy_var ^= ((int64_t) (void*) new_uint_8_list_0);
-    dummy_var ^= ((int64_t) (void*) drop_opaque_LdkNodeInstance);
-    dummy_var ^= ((int64_t) (void*) share_opaque_LdkNodeInstance);
+    dummy_var ^= ((int64_t) (void*) drop_opaque_NodePointer);
+    dummy_var ^= ((int64_t) (void*) share_opaque_NodePointer);
+    dummy_var ^= ((int64_t) (void*) inflate_WalletEntropySource_SeedFile);
+    dummy_var ^= ((int64_t) (void*) inflate_WalletEntropySource_SeedBytes);
     dummy_var ^= ((int64_t) (void*) free_WireSyncReturn);
     dummy_var ^= ((int64_t) (void*) store_dart_post_cobject);
     dummy_var ^= ((int64_t) (void*) get_dart_object);
