@@ -1,13 +1,15 @@
+use std::net::IpAddr;
 pub use anyhow::anyhow;
 use flutter_rust_bridge::*;
-use ldk_node::Builder;
+use ldk_node::{Builder};
 pub use ldk_node::Node;
 use std::str::FromStr;
 use std::sync::Mutex;
+use ldk_node::bitcoin::hashes::hex::ToHex;
 
 /// An event emitted by [`Node`], which should be handled by the user.
 ///
-/// [`Node`]: [`crate::Node`]
+
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub enum Event {
     /// A sent payment was successful.
@@ -41,6 +43,19 @@ pub enum Event {
         /// The `user_channel_id` of the channel.
         user_channel_id: usize,
     },
+    /// A channel has been created and is pending confirmation on-chain.
+    ChannelPending {
+        /// The `channel_id` of the channel.
+        channel_id: [u8; 32],
+        /// The `user_channel_id` of the channel.
+        user_channel_id: usize,
+        /// The `temporary_channel_id` this channel used to be known by during channel establishment.
+        former_temporary_channel_id: [u8; 32],
+        /// The `node_id` of the channel counterparty.
+        counterparty_node_id: PublicKey,
+        /// The outpoint of the channel's funding transaction.
+        funding_txo: OutPoint,
+    },
 }
 
 impl From<ldk_node::Event> for Event {
@@ -73,10 +88,32 @@ impl From<ldk_node::Event> for Event {
                 channel_id,
                 user_channel_id: user_channel_id as usize,
             },
+            ldk_node::Event::ChannelPending { channel_id, user_channel_id, former_temporary_channel_id, counterparty_node_id, funding_txo } =>
+                Event::ChannelPending {
+                    channel_id,
+                    user_channel_id:user_channel_id as usize,
+                    former_temporary_channel_id,
+                    counterparty_node_id: PublicKey { key_hex: counterparty_node_id.to_hex() },
+                    funding_txo: funding_txo.into()
+                }
         }
     }
 }
 
+#[derive(Debug, Clone, PartialEq, Eq)]
+pub struct Txid(pub String);
+
+#[derive(Debug, Clone, PartialEq, Eq)]
+pub struct OutPoint {
+    pub txid: Txid,
+    pub vout: u32,
+}
+
+impl From <ldk_node::bitcoin::OutPoint> for OutPoint{
+    fn from(value: ldk_node::bitcoin::OutPoint) -> Self {
+        OutPoint{ txid: Txid(value.txid.to_string()), vout: value.vout }
+    }
+}
 /// Represents the current status of a payment.
 #[derive(Clone, Debug, PartialEq, Eq)]
 pub enum PaymentStatus {
@@ -98,29 +135,61 @@ impl From<ldk_node::PaymentStatus> for PaymentStatus {
     }
 }
 
+/// Represents the direction of a payment.
+#[derive(Copy, Clone, Debug, PartialEq, Eq)]
+pub enum PaymentDirection {
+    /// The payment is inbound.
+    Inbound,
+    /// The payment is outbound.
+    Outbound,
+}
+
+impl From<ldk_node::PaymentDirection> for PaymentDirection {
+    fn from(value: ldk_node::PaymentDirection) -> Self {
+        match value {
+            ldk_node::PaymentDirection::Inbound => PaymentDirection::Inbound,
+            ldk_node::PaymentDirection::Outbound => PaymentDirection::Outbound
+        }
+    }
+}
+impl From<PaymentDirection> for ldk_node::PaymentDirection {
+    fn from(value: PaymentDirection) -> Self {
+        match value {
+            PaymentDirection::Inbound => ldk_node::PaymentDirection::Inbound,
+            PaymentDirection::Outbound => ldk_node::PaymentDirection::Outbound
+        }
+    }
+}
+
 // Structs wrapping the particular information which should easily be
 // understandable, parseable, and transformable, i.e., we'll try to avoid
 // exposing too many technical detail here.
 /// Represents a payment.
 #[derive(Clone, Debug, PartialEq, Eq)]
-pub struct PaymentInfo {
+pub struct PaymentDetails {
+    /// The payment hash, i.e., the hash of the `preimage`.
+    pub hash: PaymentHash,
     /// The pre-image used by the payment.
     pub preimage: Option<PaymentPreimage>,
     /// The secret used by the payment.
     pub secret: Option<PaymentSecret>,
-    /// The status of the payment.
-    pub status: PaymentStatus,
     /// The amount transferred.
     pub amount_msat: Option<u64>,
+    /// The direction of the payment.
+    pub direction: PaymentDirection,
+    /// The status of the payment.
+    pub status: PaymentStatus,
 }
 
-impl From<ldk_node::PaymentInfo> for PaymentInfo {
-    fn from(value: ldk_node::PaymentInfo) -> Self {
-        PaymentInfo {
+impl From<ldk_node::PaymentDetails> for PaymentDetails {
+    fn from(value: ldk_node::PaymentDetails) -> Self {
+        PaymentDetails {
+            hash: PaymentHash(value.hash.0),
             preimage: value.preimage.map(|x| PaymentPreimage(x.0)),
             secret: value.secret.map(|x| PaymentSecret(x.0)),
             status: value.status.into(),
             amount_msat: value.amount_msat,
+            direction: PaymentDirection::Inbound
         }
     }
 }
@@ -307,7 +376,7 @@ pub struct ChannelDetails {
     pub inbound_htlc_maximum_msat: Option<u64>,
 }
 
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, PartialEq, Eq)]
 pub struct PublicKey {
     pub key_hex: String,
 }
@@ -388,13 +457,32 @@ impl From<Network> for ldk_node::bitcoin::Network {
         }
     }
 }
+
+#[derive(Debug, Clone)]
+pub struct SocketAddr{
+    ///Ipv4 address
+     pub ip:String,
+     pub port:u16
+}
+
+impl From<SocketAddr> for std::net::SocketAddr {
+    fn from(value: SocketAddr) -> Self {
+        let ip = IpAddr::from_str(value.ip.as_str()).expect("Invalid IP address");
+        std::net::SocketAddr::new(ip,value.port )
+    }
+}
+impl From<std::net::SocketAddr> for SocketAddr {
+    fn from(value: std::net::SocketAddr) -> Self {
+        SocketAddr{ ip: value.ip().to_string(), port: value.port() }
+    }
+}
 impl From<Config> for ldk_node::Config {
     fn from(value: Config) -> Self {
         ldk_node::Config {
             storage_dir_path: value.storage_dir_path,
             esplora_server_url: value.esplora_server_url,
             network: value.network.into(),
-            listening_address: value.listening_address,
+            listening_address: value.listening_address.map(|x|  x.into()),
             default_cltv_expiry_delta: value.default_cltv_expiry_delta,
         }
     }
@@ -407,7 +495,7 @@ pub struct Config {
     /// The used Bitcoin network.
     pub network: Network,
     /// The IP address and TCP port the node will listen on.
-    pub listening_address: Option<String>,
+    pub listening_address: Option<SocketAddr>,
     /// The default CLTV expiry delta to be used for payments.
     pub default_cltv_expiry_delta: u32,
 }
@@ -417,7 +505,7 @@ impl Default for Config {
             storage_dir_path: "/tmp/ldk_node/".to_string(),
             esplora_server_url: "http://localhost:3002".to_string(),
             network: Network::Regtest,
-            listening_address: Some("0.0.0.0:9735".to_string()),
+            listening_address: None,
             default_cltv_expiry_delta: 144,
         }
     }
@@ -426,6 +514,7 @@ impl Default for Config {
 pub enum WalletEntropySource {
     SeedFile(String),
     SeedBytes([u8; 64]),
+    Bip39Mnemonic { mnemonic: String, passphrase: Option<String> },
 }
 #[derive(Debug, Clone)]
 pub struct BuilderBase {
@@ -439,6 +528,7 @@ impl From<BuilderBase> for Builder {
             match source {
                 WalletEntropySource::SeedFile(e) => builder.set_entropy_seed_path(e),
                 WalletEntropySource::SeedBytes(e) => builder.set_entropy_seed_bytes(e),
+                WalletEntropySource::Bip39Mnemonic { mnemonic, passphrase } => builder.set_entropy_bip39_mnemonic(ldk_node::bip39::Mnemonic::from_str(mnemonic.as_str()).expect("Invalid Mnemonic"), passphrase)
             };
             builder
         } else {
@@ -475,6 +565,7 @@ impl BuilderBase {
         }
     }
 
+
     /// Sets the used storage directory path.
     ///
     /// Default: `/tmp/ldk_node/`
@@ -509,7 +600,7 @@ impl BuilderBase {
             ..self.clone()
         }
     }
-    pub fn set_listening_address(&self, listening_address: String) -> BuilderBase {
+    pub fn set_listening_address(&self, listening_address: SocketAddr) -> BuilderBase {
         BuilderBase {
             config: Config {
                 listening_address: Some(listening_address),
@@ -527,9 +618,11 @@ impl BuilderBase {
         }
     }
 }
+
 pub struct NodeBase {
     pub node_pointer: RustOpaque<NodePointer>,
 }
+
 pub struct NodePointer(Mutex<Node>);
 
 impl NodeBase {
@@ -555,10 +648,11 @@ impl NodeBase {
             key_hex: node_lock.node_id().to_string(),
         })
     }
-    pub fn listening_address(&self) -> Option<String> {
+    pub fn listening_address(&self) -> Option<SocketAddr> {
         let node_lock = self.node_pointer.0.lock().unwrap();
-        node_lock.listening_address()
+        node_lock.listening_address().map(|x| x.to_owned().into())
     }
+    /// Retrieve a new on-chain/funding address.
     pub fn new_funding_address(&self) -> anyhow::Result<Address> {
         let node_lock = self.node_pointer.0.lock().unwrap();
         match node_lock.new_funding_address() {
@@ -568,31 +662,22 @@ impl NodeBase {
             Err(e) => Err(anyhow!(e.to_string())),
         }
     }
-    pub fn on_chain_balance(&self) -> anyhow::Result<Balance> {
-        let node_lock = self.node_pointer.0.lock().unwrap();
-        match node_lock.on_chain_balance() {
-            Ok(e) => Ok(Balance {
-                immature: e.immature,
-                trusted_pending: e.trusted_pending,
-                untrusted_pending: e.untrusted_pending,
-                confirmed: e.confirmed,
-            }),
-            Err(e) => Err(anyhow!(e.to_string())),
-        }
-    }
+
     ///Retrieve the current on-chain balance.
     pub fn connect_open_channel(
         &self,
-        node_pubkey_and_address: String,
+        address: SocketAddr,
+        node_id:PublicKey,
         channel_amount_sats: u64,
+        push_to_counterparty_msat: Option<u64>,
         announce_channel: bool,
     ) -> anyhow::Result<()> {
         let node_lock = self.node_pointer.0.lock().unwrap();
-        match node_lock.connect_open_channel(
-            node_pubkey_and_address.as_str(),
-            channel_amount_sats,
-            announce_channel,
-        ) {
+        match node_lock.connect_open_channel(node_id.into(),
+                                             address.into(),
+                                             channel_amount_sats,
+                                             push_to_counterparty_msat,
+                                             announce_channel) {
             Ok(_) => Ok(()),
             Err(e) => Err(anyhow!(e.to_string())),
         }
@@ -626,7 +711,7 @@ impl NodeBase {
     /// Send a payement given an invoice.
     pub fn send_payment(&self, invoice: Invoice) -> anyhow::Result<PaymentHash> {
         let node_lock = self.node_pointer.0.lock().unwrap();
-        match node_lock.send_payment(invoice.into()) {
+        match node_lock.send_payment(&invoice.into()) {
             Ok(e) => Ok(PaymentHash(e.0)),
             Err(e) => Err(anyhow!(e.to_string())),
         }
@@ -643,7 +728,7 @@ impl NodeBase {
         amount_msat: u64,
     ) -> anyhow::Result<PaymentHash> {
         let node_lock = self.node_pointer.0.lock().unwrap();
-        match node_lock.send_payment_using_amount(invoice.into(), amount_msat) {
+        match node_lock.send_payment_using_amount(&invoice.into(), amount_msat) {
             Ok(e) => Ok(PaymentHash(e.0)),
             Err(e) => Err(anyhow!(e.to_string())),
         }
@@ -652,10 +737,10 @@ impl NodeBase {
     pub fn send_spontaneous_payment(
         &self,
         amount_msat: u64,
-        node_id: String,
+        node_id: PublicKey,
     ) -> anyhow::Result<PaymentHash> {
         let node_lock = self.node_pointer.0.lock().unwrap();
-        match node_lock.send_spontaneous_payment(amount_msat, node_id.as_str()) {
+        match node_lock.send_spontaneous_payment(amount_msat, &node_id.into()) {
             Ok(e) => Ok(PaymentHash(e.0)),
             Err(e) => Err(anyhow!(e.to_string())),
         }
@@ -687,9 +772,12 @@ impl NodeBase {
             Err(e) => Err(anyhow!(e.to_string())),
         }
     }
-    pub fn payment_info(&self, payment_hash: PaymentHash) -> Option<PaymentInfo> {
+    /// Retrieve the details of a specific payment with the given hash.
+    ///
+    /// Returns `PaymentDetails` if the payment was known and `null` otherwise.
+    pub fn payment(&self, payment_hash: PaymentHash) -> Option<PaymentDetails> {
         let node_lock = self.node_pointer.0.lock().unwrap();
-        match node_lock.payment_info(&payment_hash.0) {
+        match node_lock.payment(&ldk_node::lightning::ln::PaymentHash(payment_hash.0)) {
             None => None,
             Some(e) => Some(e.into()),
         }

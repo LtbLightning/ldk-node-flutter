@@ -14,11 +14,16 @@ typedef struct wire_uint_8_list {
   int32_t len;
 } wire_uint_8_list;
 
+typedef struct wire_SocketAddr {
+  struct wire_uint_8_list *ip;
+  uint16_t port;
+} wire_SocketAddr;
+
 typedef struct wire_Config {
   struct wire_uint_8_list *storage_dir_path;
   struct wire_uint_8_list *esplora_server_url;
   int32_t network;
-  struct wire_uint_8_list *listening_address;
+  struct wire_SocketAddr *listening_address;
   uint32_t default_cltv_expiry_delta;
 } wire_Config;
 
@@ -30,9 +35,15 @@ typedef struct wire_WalletEntropySource_SeedBytes {
   struct wire_uint_8_list *field0;
 } wire_WalletEntropySource_SeedBytes;
 
+typedef struct wire_WalletEntropySource_Bip39Mnemonic {
+  struct wire_uint_8_list *mnemonic;
+  struct wire_uint_8_list *passphrase;
+} wire_WalletEntropySource_Bip39Mnemonic;
+
 typedef union WalletEntropySourceKind {
   struct wire_WalletEntropySource_SeedFile *SeedFile;
   struct wire_WalletEntropySource_SeedBytes *SeedBytes;
+  struct wire_WalletEntropySource_Bip39Mnemonic *Bip39Mnemonic;
 } WalletEntropySourceKind;
 
 typedef struct wire_WalletEntropySource {
@@ -101,7 +112,7 @@ void wire_set_network__method__BuilderBase(int64_t port_,
 
 void wire_set_listening_address__method__BuilderBase(int64_t port_,
                                                      struct wire_BuilderBase *that,
-                                                     struct wire_uint_8_list *listening_address);
+                                                     struct wire_SocketAddr *listening_address);
 
 void wire_build__static_method__BuilderBase(int64_t port_, struct wire_BuilderBase *builder);
 
@@ -119,12 +130,12 @@ void wire_listening_address__method__NodeBase(int64_t port_, struct wire_NodeBas
 
 void wire_new_funding_address__method__NodeBase(int64_t port_, struct wire_NodeBase *that);
 
-void wire_on_chain_balance__method__NodeBase(int64_t port_, struct wire_NodeBase *that);
-
 void wire_connect_open_channel__method__NodeBase(int64_t port_,
                                                  struct wire_NodeBase *that,
-                                                 struct wire_uint_8_list *node_pubkey_and_address,
+                                                 struct wire_SocketAddr *address,
+                                                 struct wire_PublicKey *node_id,
                                                  uint64_t channel_amount_sats,
+                                                 uint64_t *push_to_counterparty_msat,
                                                  bool announce_channel);
 
 void wire_list_channels__method__NodeBase(int64_t port_, struct wire_NodeBase *that);
@@ -148,7 +159,7 @@ void wire_send_payment_using_amount__method__NodeBase(int64_t port_,
 void wire_send_spontaneous_payment__method__NodeBase(int64_t port_,
                                                      struct wire_NodeBase *that,
                                                      uint64_t amount_msat,
-                                                     struct wire_uint_8_list *node_id);
+                                                     struct wire_PublicKey *node_id);
 
 void wire_receive_payment__method__NodeBase(int64_t port_,
                                             struct wire_NodeBase *that,
@@ -161,9 +172,9 @@ void wire_receive_variable_amount_payment__method__NodeBase(int64_t port_,
                                                             struct wire_uint_8_list *description,
                                                             uint32_t expiry_secs);
 
-void wire_payment_info__method__NodeBase(int64_t port_,
-                                         struct wire_NodeBase *that,
-                                         struct wire_PaymentHash *payment_hash);
+void wire_payment__method__NodeBase(int64_t port_,
+                                    struct wire_NodeBase *that,
+                                    struct wire_PaymentHash *payment_hash);
 
 struct wire_NodePointer new_NodePointer(void);
 
@@ -177,6 +188,10 @@ struct wire_PaymentHash *new_box_autoadd_payment_hash_0(void);
 
 struct wire_PublicKey *new_box_autoadd_public_key_0(void);
 
+struct wire_SocketAddr *new_box_autoadd_socket_addr_0(void);
+
+uint64_t *new_box_autoadd_u64_0(uint64_t value);
+
 struct wire_WalletEntropySource *new_box_autoadd_wallet_entropy_source_0(void);
 
 struct wire_uint_8_list *new_uint_8_list_0(int32_t len);
@@ -188,6 +203,8 @@ const void *share_opaque_NodePointer(const void *ptr);
 union WalletEntropySourceKind *inflate_WalletEntropySource_SeedFile(void);
 
 union WalletEntropySourceKind *inflate_WalletEntropySource_SeedBytes(void);
+
+union WalletEntropySourceKind *inflate_WalletEntropySource_Bip39Mnemonic(void);
 
 void free_WireSyncReturn(WireSyncReturn ptr);
 
@@ -208,7 +225,6 @@ static int64_t dummy_method_to_enforce_bundling(void) {
     dummy_var ^= ((int64_t) (void*) wire_node_id__method__NodeBase);
     dummy_var ^= ((int64_t) (void*) wire_listening_address__method__NodeBase);
     dummy_var ^= ((int64_t) (void*) wire_new_funding_address__method__NodeBase);
-    dummy_var ^= ((int64_t) (void*) wire_on_chain_balance__method__NodeBase);
     dummy_var ^= ((int64_t) (void*) wire_connect_open_channel__method__NodeBase);
     dummy_var ^= ((int64_t) (void*) wire_list_channels__method__NodeBase);
     dummy_var ^= ((int64_t) (void*) wire_sync_wallets__method__NodeBase);
@@ -218,19 +234,22 @@ static int64_t dummy_method_to_enforce_bundling(void) {
     dummy_var ^= ((int64_t) (void*) wire_send_spontaneous_payment__method__NodeBase);
     dummy_var ^= ((int64_t) (void*) wire_receive_payment__method__NodeBase);
     dummy_var ^= ((int64_t) (void*) wire_receive_variable_amount_payment__method__NodeBase);
-    dummy_var ^= ((int64_t) (void*) wire_payment_info__method__NodeBase);
+    dummy_var ^= ((int64_t) (void*) wire_payment__method__NodeBase);
     dummy_var ^= ((int64_t) (void*) new_NodePointer);
     dummy_var ^= ((int64_t) (void*) new_box_autoadd_builder_base_0);
     dummy_var ^= ((int64_t) (void*) new_box_autoadd_invoice_0);
     dummy_var ^= ((int64_t) (void*) new_box_autoadd_node_base_0);
     dummy_var ^= ((int64_t) (void*) new_box_autoadd_payment_hash_0);
     dummy_var ^= ((int64_t) (void*) new_box_autoadd_public_key_0);
+    dummy_var ^= ((int64_t) (void*) new_box_autoadd_socket_addr_0);
+    dummy_var ^= ((int64_t) (void*) new_box_autoadd_u64_0);
     dummy_var ^= ((int64_t) (void*) new_box_autoadd_wallet_entropy_source_0);
     dummy_var ^= ((int64_t) (void*) new_uint_8_list_0);
     dummy_var ^= ((int64_t) (void*) drop_opaque_NodePointer);
     dummy_var ^= ((int64_t) (void*) share_opaque_NodePointer);
     dummy_var ^= ((int64_t) (void*) inflate_WalletEntropySource_SeedFile);
     dummy_var ^= ((int64_t) (void*) inflate_WalletEntropySource_SeedBytes);
+    dummy_var ^= ((int64_t) (void*) inflate_WalletEntropySource_Bip39Mnemonic);
     dummy_var ^= ((int64_t) (void*) free_WireSyncReturn);
     dummy_var ^= ((int64_t) (void*) store_dart_post_cobject);
     dummy_var ^= ((int64_t) (void*) get_dart_object);

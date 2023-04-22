@@ -55,7 +55,7 @@ pub extern "C" fn wire_set_network__method__BuilderBase(
 pub extern "C" fn wire_set_listening_address__method__BuilderBase(
     port_: i64,
     that: *mut wire_BuilderBase,
-    listening_address: *mut wire_uint_8_list,
+    listening_address: *mut wire_SocketAddr,
 ) {
     wire_set_listening_address__method__BuilderBase_impl(port_, that, listening_address)
 }
@@ -104,23 +104,22 @@ pub extern "C" fn wire_new_funding_address__method__NodeBase(port_: i64, that: *
 }
 
 #[no_mangle]
-pub extern "C" fn wire_on_chain_balance__method__NodeBase(port_: i64, that: *mut wire_NodeBase) {
-    wire_on_chain_balance__method__NodeBase_impl(port_, that)
-}
-
-#[no_mangle]
 pub extern "C" fn wire_connect_open_channel__method__NodeBase(
     port_: i64,
     that: *mut wire_NodeBase,
-    node_pubkey_and_address: *mut wire_uint_8_list,
+    address: *mut wire_SocketAddr,
+    node_id: *mut wire_PublicKey,
     channel_amount_sats: u64,
+    push_to_counterparty_msat: *mut u64,
     announce_channel: bool,
 ) {
     wire_connect_open_channel__method__NodeBase_impl(
         port_,
         that,
-        node_pubkey_and_address,
+        address,
+        node_id,
         channel_amount_sats,
+        push_to_counterparty_msat,
         announce_channel,
     )
 }
@@ -169,7 +168,7 @@ pub extern "C" fn wire_send_spontaneous_payment__method__NodeBase(
     port_: i64,
     that: *mut wire_NodeBase,
     amount_msat: u64,
-    node_id: *mut wire_uint_8_list,
+    node_id: *mut wire_PublicKey,
 ) {
     wire_send_spontaneous_payment__method__NodeBase_impl(port_, that, amount_msat, node_id)
 }
@@ -201,12 +200,12 @@ pub extern "C" fn wire_receive_variable_amount_payment__method__NodeBase(
 }
 
 #[no_mangle]
-pub extern "C" fn wire_payment_info__method__NodeBase(
+pub extern "C" fn wire_payment__method__NodeBase(
     port_: i64,
     that: *mut wire_NodeBase,
     payment_hash: *mut wire_PaymentHash,
 ) {
-    wire_payment_info__method__NodeBase_impl(port_, that, payment_hash)
+    wire_payment__method__NodeBase_impl(port_, that, payment_hash)
 }
 
 // Section: allocate functions
@@ -239,6 +238,16 @@ pub extern "C" fn new_box_autoadd_payment_hash_0() -> *mut wire_PaymentHash {
 #[no_mangle]
 pub extern "C" fn new_box_autoadd_public_key_0() -> *mut wire_PublicKey {
     support::new_leak_box_ptr(wire_PublicKey::new_with_null_ptr())
+}
+
+#[no_mangle]
+pub extern "C" fn new_box_autoadd_socket_addr_0() -> *mut wire_SocketAddr {
+    support::new_leak_box_ptr(wire_SocketAddr::new_with_null_ptr())
+}
+
+#[no_mangle]
+pub extern "C" fn new_box_autoadd_u64_0(value: u64) -> *mut u64 {
+    support::new_leak_box_ptr(value)
 }
 
 #[no_mangle]
@@ -316,6 +325,17 @@ impl Wire2Api<PublicKey> for *mut wire_PublicKey {
         Wire2Api::<PublicKey>::wire2api(*wrap).into()
     }
 }
+impl Wire2Api<SocketAddr> for *mut wire_SocketAddr {
+    fn wire2api(self) -> SocketAddr {
+        let wrap = unsafe { support::box_from_leak_ptr(self) };
+        Wire2Api::<SocketAddr>::wire2api(*wrap).into()
+    }
+}
+impl Wire2Api<u64> for *mut u64 {
+    fn wire2api(self) -> u64 {
+        unsafe { *support::box_from_leak_ptr(self) }
+    }
+}
 impl Wire2Api<WalletEntropySource> for *mut wire_WalletEntropySource {
     fn wire2api(self) -> WalletEntropySource {
         let wrap = unsafe { support::box_from_leak_ptr(self) };
@@ -370,6 +390,14 @@ impl Wire2Api<PublicKey> for wire_PublicKey {
         }
     }
 }
+impl Wire2Api<SocketAddr> for wire_SocketAddr {
+    fn wire2api(self) -> SocketAddr {
+        SocketAddr {
+            ip: self.ip.wire2api(),
+            port: self.port.wire2api(),
+        }
+    }
+}
 
 impl Wire2Api<[u8; 32]> for *mut wire_uint_8_list {
     fn wire2api(self) -> [u8; 32] {
@@ -404,6 +432,14 @@ impl Wire2Api<WalletEntropySource> for wire_WalletEntropySource {
                 let ans = support::box_from_leak_ptr(ans.SeedBytes);
                 WalletEntropySource::SeedBytes(ans.field0.wire2api())
             },
+            2 => unsafe {
+                let ans = support::box_from_leak_ptr(self.kind);
+                let ans = support::box_from_leak_ptr(ans.Bip39Mnemonic);
+                WalletEntropySource::Bip39Mnemonic {
+                    mnemonic: ans.mnemonic.wire2api(),
+                    passphrase: ans.passphrase.wire2api(),
+                }
+            },
             _ => unreachable!(),
         }
     }
@@ -429,7 +465,7 @@ pub struct wire_Config {
     storage_dir_path: *mut wire_uint_8_list,
     esplora_server_url: *mut wire_uint_8_list,
     network: i32,
-    listening_address: *mut wire_uint_8_list,
+    listening_address: *mut wire_SocketAddr,
     default_cltv_expiry_delta: u32,
 }
 
@@ -459,6 +495,13 @@ pub struct wire_PublicKey {
 
 #[repr(C)]
 #[derive(Clone)]
+pub struct wire_SocketAddr {
+    ip: *mut wire_uint_8_list,
+    port: u16,
+}
+
+#[repr(C)]
+#[derive(Clone)]
 pub struct wire_uint_8_list {
     ptr: *mut u8,
     len: i32,
@@ -475,6 +518,7 @@ pub struct wire_WalletEntropySource {
 pub union WalletEntropySourceKind {
     SeedFile: *mut wire_WalletEntropySource_SeedFile,
     SeedBytes: *mut wire_WalletEntropySource_SeedBytes,
+    Bip39Mnemonic: *mut wire_WalletEntropySource_Bip39Mnemonic,
 }
 
 #[repr(C)]
@@ -487,6 +531,13 @@ pub struct wire_WalletEntropySource_SeedFile {
 #[derive(Clone)]
 pub struct wire_WalletEntropySource_SeedBytes {
     field0: *mut wire_uint_8_list,
+}
+
+#[repr(C)]
+#[derive(Clone)]
+pub struct wire_WalletEntropySource_Bip39Mnemonic {
+    mnemonic: *mut wire_uint_8_list,
+    passphrase: *mut wire_uint_8_list,
 }
 // Section: impl NewWithNullPtr
 
@@ -597,6 +648,21 @@ impl Default for wire_PublicKey {
     }
 }
 
+impl NewWithNullPtr for wire_SocketAddr {
+    fn new_with_null_ptr() -> Self {
+        Self {
+            ip: core::ptr::null_mut(),
+            port: Default::default(),
+        }
+    }
+}
+
+impl Default for wire_SocketAddr {
+    fn default() -> Self {
+        Self::new_with_null_ptr()
+    }
+}
+
 impl NewWithNullPtr for wire_WalletEntropySource {
     fn new_with_null_ptr() -> Self {
         Self {
@@ -620,6 +686,16 @@ pub extern "C" fn inflate_WalletEntropySource_SeedBytes() -> *mut WalletEntropyS
     support::new_leak_box_ptr(WalletEntropySourceKind {
         SeedBytes: support::new_leak_box_ptr(wire_WalletEntropySource_SeedBytes {
             field0: core::ptr::null_mut(),
+        }),
+    })
+}
+
+#[no_mangle]
+pub extern "C" fn inflate_WalletEntropySource_Bip39Mnemonic() -> *mut WalletEntropySourceKind {
+    support::new_leak_box_ptr(WalletEntropySourceKind {
+        Bip39Mnemonic: support::new_leak_box_ptr(wire_WalletEntropySource_Bip39Mnemonic {
+            mnemonic: core::ptr::null_mut(),
+            passphrase: core::ptr::null_mut(),
         }),
     })
 }

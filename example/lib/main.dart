@@ -24,7 +24,7 @@ class _MyAppState extends State<MyApp> {
   ldk.PublicKey? bobNodeId;
   int aliceBalance = 0;
   String displayText = "";
-  String bobNodePubKeyAndAddress = "";
+  ldk.SocketAddr? bobAddr;
   ldk.Invoice? invoice;
   ldk.U8Array32? channelId;
 
@@ -34,19 +34,18 @@ class _MyAppState extends State<MyApp> {
     super.initState();
   }
 
-  Future<ldk.Config> initLdkConfig(String path, String listeningAddress) async {
+  Future<ldk.Config> initLdkConfig(String path, ldk.SocketAddr address) async {
     // Please replace this url with your Electrum RPC Api url
     // Please use 10.0.2.2, instead of 0.0.0.0
     final directory = await getApplicationDocumentsDirectory();
     final nodePath = "${directory.path}/ldk_cache/$path";
     final esploraUrl =
         Platform.isAndroid ? "http://10.0.2.2:3002" : "http://0.0.0.0:3002";
-    // const esploraUrl = "https://blockstream.info/testnet/api";
     final config = ldk.Config(
         storageDirPath: nodePath,
         esploraServerUrl: esploraUrl,
         network: ldk.Network.Regtest,
-        listeningAddress: listeningAddress,
+        listeningAddress: address,
         defaultCltvExpiryDelta: 144);
     return config;
   }
@@ -57,7 +56,8 @@ class _MyAppState extends State<MyApp> {
   }
 
   initAliceNode() async {
-    final aliceConfig = await initLdkConfig('alice', "0.0.0.0:80");
+    final aliceConfig = await initLdkConfig(
+        'alice', const ldk.SocketAddr(ip: "10.0.0.116", port: 7011));
     ldk.Builder aliceBuilder = ldk.Builder.fromConfig(config: aliceConfig);
     aliceNode = await aliceBuilder.build();
     await aliceNode.start();
@@ -69,7 +69,8 @@ class _MyAppState extends State<MyApp> {
   }
 
   initBobNode() async {
-    final bobConfig = await initLdkConfig("bob", "0.0.0.0:81");
+    final bobConfig = await initLdkConfig(
+        "bob", const ldk.SocketAddr(ip: "10.0.0.116", port: 1104));
     ldk.Builder bobBuilder = ldk.Builder.fromConfig(config: bobConfig);
     bobNode = await bobBuilder.build();
     await bobNode.start();
@@ -81,15 +82,15 @@ class _MyAppState extends State<MyApp> {
   }
 
   getNodeBalances() async {
-    final alice = await aliceNode.onChainBalance();
-    final bob = await bobNode.onChainBalance();
-    if (kDebugMode) {
-      print("alice's_balance: ${alice.confirmed}");
-      print("bob's balance: ${bob.confirmed}");
-    }
-    setState(() {
-      aliceBalance = alice.confirmed;
-    });
+    // final alice = await aliceNode.onChainBalance();
+    // final bob = await bobNode.onChainBalance();
+    // if (kDebugMode) {
+    //   print("alice's_balance: ${alice.confirmed}");
+    //   print("bob's balance: ${bob.confirmed}");
+    // }
+    // setState(() {
+    //   aliceBalance = alice.confirmed;
+    // });
   }
 
   syncAliceNode() async {
@@ -104,6 +105,7 @@ class _MyAppState extends State<MyApp> {
     if (kDebugMode) {
       print("======Channels========");
       for (var e in res) {
+        print("nodeId: ${aliceNodeId!.keyHex}");
         print("channelId: ${e.channelId}");
         print("isChannelReady: ${e.isChannelReady}");
         print("isUsable: ${e.isUsable}");
@@ -136,10 +138,12 @@ class _MyAppState extends State<MyApp> {
     final alice = await aliceNode.listeningAddress();
     final bob = await bobNode.listeningAddress();
     setState(() {
-      bobNodePubKeyAndAddress = "${bobNodeId!.keyHex}@$bob";
-      displayText = "bob's node pubKey & Address : $bobNodePubKeyAndAddress";
+      // bobAddr = bob;
+      // displayText = "bob's node pubKey & Address : $bobNodePubKeyAndAddress";
     });
     if (kDebugMode) {
+      print("${aliceNodeId!.keyHex}@$alice");
+      print("${bobNodeId!.keyHex}@$bob");
       print("alice's listeningAddress : $alice");
       print("bob's listeningAddress: $bob");
     }
@@ -149,10 +153,12 @@ class _MyAppState extends State<MyApp> {
     await aliceNode.connectOpenChannel(
         channelAmountSats: 5000000,
         announceChannel: true,
-        nodePubkeyAndAddress: bobNodePubKeyAndAddress);
+        address: bobAddr!,
+        nodeId: bobNodeId!);
     print("temporary channel created");
   }
 
+  //Failed to send payment due to routing failure: Failed to find a path to the given destination
   //Failed to send payment due to routing failure: Failed to find a path to the given destination
   receiveAndSendPayments() async {
     invoice = await bobNode.receivePayment(
@@ -161,7 +167,7 @@ class _MyAppState extends State<MyApp> {
       displayText = invoice.toString();
     });
     final paymentHash = await aliceNode.sendPayment(invoice: invoice!);
-    final res = await aliceNode.paymentInfo(paymentHash: paymentHash);
+    final res = await aliceNode.payment(paymentHash: paymentHash);
     setState(() {
       displayText = "send payment success ${res?.status}";
     });
@@ -209,6 +215,11 @@ class _MyAppState extends State<MyApp> {
             "channelReady: ${e.channelId}, userChannelId: ${e.userChannelId}");
       }
     }, channelClosed: (e) {
+      if (kDebugMode) {
+        print(
+            "channelClosed: ${e.channelId}, userChannelId: ${e.userChannelId}");
+      }
+    }, channelPending: (e) {
       if (kDebugMode) {
         print(
             "channelClosed: ${e.channelId}, userChannelId: ${e.userChannelId}");

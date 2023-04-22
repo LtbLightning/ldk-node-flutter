@@ -139,7 +139,7 @@ fn wire_set_network__method__BuilderBase_impl(
 fn wire_set_listening_address__method__BuilderBase_impl(
     port_: MessagePort,
     that: impl Wire2Api<BuilderBase> + UnwindSafe,
-    listening_address: impl Wire2Api<String> + UnwindSafe,
+    listening_address: impl Wire2Api<SocketAddr> + UnwindSafe,
 ) {
     FLUTTER_RUST_BRIDGE_HANDLER.wrap(
         WrapInfo {
@@ -287,27 +287,13 @@ fn wire_new_funding_address__method__NodeBase_impl(
         },
     )
 }
-fn wire_on_chain_balance__method__NodeBase_impl(
-    port_: MessagePort,
-    that: impl Wire2Api<NodeBase> + UnwindSafe,
-) {
-    FLUTTER_RUST_BRIDGE_HANDLER.wrap(
-        WrapInfo {
-            debug_name: "on_chain_balance__method__NodeBase",
-            port: Some(port_),
-            mode: FfiCallMode::Normal,
-        },
-        move || {
-            let api_that = that.wire2api();
-            move |task_callback| NodeBase::on_chain_balance(&api_that)
-        },
-    )
-}
 fn wire_connect_open_channel__method__NodeBase_impl(
     port_: MessagePort,
     that: impl Wire2Api<NodeBase> + UnwindSafe,
-    node_pubkey_and_address: impl Wire2Api<String> + UnwindSafe,
+    address: impl Wire2Api<SocketAddr> + UnwindSafe,
+    node_id: impl Wire2Api<PublicKey> + UnwindSafe,
     channel_amount_sats: impl Wire2Api<u64> + UnwindSafe,
+    push_to_counterparty_msat: impl Wire2Api<Option<u64>> + UnwindSafe,
     announce_channel: impl Wire2Api<bool> + UnwindSafe,
 ) {
     FLUTTER_RUST_BRIDGE_HANDLER.wrap(
@@ -318,14 +304,18 @@ fn wire_connect_open_channel__method__NodeBase_impl(
         },
         move || {
             let api_that = that.wire2api();
-            let api_node_pubkey_and_address = node_pubkey_and_address.wire2api();
+            let api_address = address.wire2api();
+            let api_node_id = node_id.wire2api();
             let api_channel_amount_sats = channel_amount_sats.wire2api();
+            let api_push_to_counterparty_msat = push_to_counterparty_msat.wire2api();
             let api_announce_channel = announce_channel.wire2api();
             move |task_callback| {
                 NodeBase::connect_open_channel(
                     &api_that,
-                    api_node_pubkey_and_address,
+                    api_address,
+                    api_node_id,
                     api_channel_amount_sats,
+                    api_push_to_counterparty_msat,
                     api_announce_channel,
                 )
             }
@@ -430,7 +420,7 @@ fn wire_send_spontaneous_payment__method__NodeBase_impl(
     port_: MessagePort,
     that: impl Wire2Api<NodeBase> + UnwindSafe,
     amount_msat: impl Wire2Api<u64> + UnwindSafe,
-    node_id: impl Wire2Api<String> + UnwindSafe,
+    node_id: impl Wire2Api<PublicKey> + UnwindSafe,
 ) {
     FLUTTER_RUST_BRIDGE_HANDLER.wrap(
         WrapInfo {
@@ -503,21 +493,21 @@ fn wire_receive_variable_amount_payment__method__NodeBase_impl(
         },
     )
 }
-fn wire_payment_info__method__NodeBase_impl(
+fn wire_payment__method__NodeBase_impl(
     port_: MessagePort,
     that: impl Wire2Api<NodeBase> + UnwindSafe,
     payment_hash: impl Wire2Api<PaymentHash> + UnwindSafe,
 ) {
     FLUTTER_RUST_BRIDGE_HANDLER.wrap(
         WrapInfo {
-            debug_name: "payment_info__method__NodeBase",
+            debug_name: "payment__method__NodeBase",
             port: Some(port_),
             mode: FfiCallMode::Normal,
         },
         move || {
             let api_that = that.wire2api();
             let api_payment_hash = payment_hash.wire2api();
-            move |task_callback| Ok(NodeBase::payment_info(&api_that, api_payment_hash))
+            move |task_callback| Ok(NodeBase::payment(&api_that, api_payment_hash))
         },
     )
 }
@@ -568,6 +558,11 @@ impl Wire2Api<Network> for i32 {
     }
 }
 
+impl Wire2Api<u16> for u16 {
+    fn wire2api(self) -> u16 {
+        self
+    }
+}
 impl Wire2Api<u32> for u32 {
     fn wire2api(self) -> u32 {
         self
@@ -592,19 +587,6 @@ impl support::IntoDart for Address {
     }
 }
 impl support::IntoDartExceptPrimitive for Address {}
-
-impl support::IntoDart for Balance {
-    fn into_dart(self) -> support::DartAbi {
-        vec![
-            self.immature.into_dart(),
-            self.trusted_pending.into_dart(),
-            self.untrusted_pending.into_dart(),
-            self.confirmed.into_dart(),
-        ]
-        .into_dart()
-    }
-}
-impl support::IntoDartExceptPrimitive for Balance {}
 
 impl support::IntoDart for BuilderBase {
     fn into_dart(self) -> support::DartAbi {
@@ -689,6 +671,20 @@ impl support::IntoDart for Event {
                 channel_id.into_dart(),
                 user_channel_id.into_dart(),
             ],
+            Self::ChannelPending {
+                channel_id,
+                user_channel_id,
+                former_temporary_channel_id,
+                counterparty_node_id,
+                funding_txo,
+            } => vec![
+                5.into_dart(),
+                channel_id.into_dart(),
+                user_channel_id.into_dart(),
+                former_temporary_channel_id.into_dart(),
+                counterparty_node_id.into_dart(),
+                funding_txo.into_dart(),
+            ],
         }
         .into_dart()
     }
@@ -721,25 +717,44 @@ impl support::IntoDart for NodeBase {
 }
 impl support::IntoDartExceptPrimitive for NodeBase {}
 
+impl support::IntoDart for OutPoint {
+    fn into_dart(self) -> support::DartAbi {
+        vec![self.txid.into_dart(), self.vout.into_dart()].into_dart()
+    }
+}
+impl support::IntoDartExceptPrimitive for OutPoint {}
+
+impl support::IntoDart for PaymentDetails {
+    fn into_dart(self) -> support::DartAbi {
+        vec![
+            self.hash.into_dart(),
+            self.preimage.into_dart(),
+            self.secret.into_dart(),
+            self.amount_msat.into_dart(),
+            self.direction.into_dart(),
+            self.status.into_dart(),
+        ]
+        .into_dart()
+    }
+}
+impl support::IntoDartExceptPrimitive for PaymentDetails {}
+
+impl support::IntoDart for PaymentDirection {
+    fn into_dart(self) -> support::DartAbi {
+        match self {
+            Self::Inbound => 0,
+            Self::Outbound => 1,
+        }
+        .into_dart()
+    }
+}
+impl support::IntoDartExceptPrimitive for PaymentDirection {}
 impl support::IntoDart for PaymentHash {
     fn into_dart(self) -> support::DartAbi {
         vec![self.0.into_dart()].into_dart()
     }
 }
 impl support::IntoDartExceptPrimitive for PaymentHash {}
-
-impl support::IntoDart for PaymentInfo {
-    fn into_dart(self) -> support::DartAbi {
-        vec![
-            self.preimage.into_dart(),
-            self.secret.into_dart(),
-            self.status.into_dart(),
-            self.amount_msat.into_dart(),
-        ]
-        .into_dart()
-    }
-}
-impl support::IntoDartExceptPrimitive for PaymentInfo {}
 
 impl support::IntoDart for PaymentPreimage {
     fn into_dart(self) -> support::DartAbi {
@@ -773,11 +788,29 @@ impl support::IntoDart for PublicKey {
 }
 impl support::IntoDartExceptPrimitive for PublicKey {}
 
+impl support::IntoDart for SocketAddr {
+    fn into_dart(self) -> support::DartAbi {
+        vec![self.ip.into_dart(), self.port.into_dart()].into_dart()
+    }
+}
+impl support::IntoDartExceptPrimitive for SocketAddr {}
+
+impl support::IntoDart for Txid {
+    fn into_dart(self) -> support::DartAbi {
+        vec![self.0.into_dart()].into_dart()
+    }
+}
+impl support::IntoDartExceptPrimitive for Txid {}
+
 impl support::IntoDart for WalletEntropySource {
     fn into_dart(self) -> support::DartAbi {
         match self {
             Self::SeedFile(field0) => vec![0.into_dart(), field0.into_dart()],
             Self::SeedBytes(field0) => vec![1.into_dart(), field0.into_dart()],
+            Self::Bip39Mnemonic {
+                mnemonic,
+                passphrase,
+            } => vec![2.into_dart(), mnemonic.into_dart(), passphrase.into_dart()],
         }
         .into_dart()
     }

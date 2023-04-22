@@ -22,13 +22,11 @@ class RustImpl implements Rust {
   factory RustImpl(ExternalLibrary dylib) => RustImpl.raw(RustPlatform(dylib));
 
   /// Only valid on web/WASM platforms.
-  factory RustImpl.wasm(FutureOr<WasmModule> module) =>
-      RustImpl(module as ExternalLibrary);
+  factory RustImpl.wasm(FutureOr<WasmModule> module) => RustImpl(module as ExternalLibrary);
   RustImpl.raw(this._platform);
   Future<BuilderBase> newStaticMethodBuilderBase({dynamic hint}) {
     return _platform.executeNormal(FlutterRustBridgeTask(
-      callFfi: (port_) =>
-          _platform.inner.wire_new__static_method__BuilderBase(port_),
+      callFfi: (port_) => _platform.inner.wire_new__static_method__BuilderBase(port_),
       parseSuccessData: (d) => _wire2api_builder_base(d),
       constMeta: kNewStaticMethodBuilderBaseConstMeta,
       argValues: [],
@@ -36,8 +34,7 @@ class RustImpl implements Rust {
     ));
   }
 
-  FlutterRustBridgeTaskConstMeta get kNewStaticMethodBuilderBaseConstMeta =>
-      const FlutterRustBridgeTaskConstMeta(
+  FlutterRustBridgeTaskConstMeta get kNewStaticMethodBuilderBaseConstMeta => const FlutterRustBridgeTaskConstMeta(
         debugName: "new__static_method__BuilderBase",
         argNames: [],
       );
@@ -47,8 +44,7 @@ class RustImpl implements Rust {
     var arg0 = _platform.api2wire_box_autoadd_builder_base(that);
     var arg1 = _platform.api2wire_String(seedPath);
     return _platform.executeNormal(FlutterRustBridgeTask(
-      callFfi: (port_) => _platform.inner
-          .wire_set_entropy_seed_path__method__BuilderBase(port_, arg0, arg1),
+      callFfi: (port_) => _platform.inner.wire_set_entropy_seed_path__method__BuilderBase(port_, arg0, arg1),
       parseSuccessData: (d) => _wire2api_builder_base(d),
       constMeta: kSetEntropySeedPathMethodBuilderBaseConstMeta,
       argValues: [that, seedPath],
@@ -56,20 +52,18 @@ class RustImpl implements Rust {
     ));
   }
 
-  FlutterRustBridgeTaskConstMeta
-      get kSetEntropySeedPathMethodBuilderBaseConstMeta =>
-          const FlutterRustBridgeTaskConstMeta(
-            debugName: "set_entropy_seed_path__method__BuilderBase",
-            argNames: ["that", "seedPath"],
-          );
+  FlutterRustBridgeTaskConstMeta get kSetEntropySeedPathMethodBuilderBaseConstMeta =>
+      const FlutterRustBridgeTaskConstMeta(
+        debugName: "set_entropy_seed_path__method__BuilderBase",
+        argNames: ["that", "seedPath"],
+      );
 
   Future<BuilderBase> setEntropySeedBytesMethodBuilderBase(
       {required BuilderBase that, required U8Array64 seedBytes, dynamic hint}) {
     var arg0 = _platform.api2wire_box_autoadd_builder_base(that);
     var arg1 = _platform.api2wire_u8_array_64(seedBytes);
     return _platform.executeNormal(FlutterRustBridgeTask(
-      callFfi: (port_) => _platform.inner
-          .wire_set_entropy_seed_bytes__method__BuilderBase(port_, arg0, arg1),
+      callFfi: (port_) => _platform.inner.wire_set_entropy_seed_bytes__method__BuilderBase(port_, arg0, arg1),
       parseSuccessData: (d) => _wire2api_builder_base(d),
       constMeta: kSetEntropySeedBytesMethodBuilderBaseConstMeta,
       argValues: [that, seedBytes],
@@ -77,22 +71,18 @@ class RustImpl implements Rust {
     ));
   }
 
-  FlutterRustBridgeTaskConstMeta
-      get kSetEntropySeedBytesMethodBuilderBaseConstMeta =>
-          const FlutterRustBridgeTaskConstMeta(
-            debugName: "set_entropy_seed_bytes__method__BuilderBase",
-            argNames: ["that", "seedBytes"],
-          );
+  FlutterRustBridgeTaskConstMeta get kSetEntropySeedBytesMethodBuilderBaseConstMeta =>
+      const FlutterRustBridgeTaskConstMeta(
+        debugName: "set_entropy_seed_bytes__method__BuilderBase",
+        argNames: ["that", "seedBytes"],
+      );
 
   Future<BuilderBase> setStorageDirPathMethodBuilderBase(
-      {required BuilderBase that,
-      required String storageDirPath,
-      dynamic hint}) {
+      {required BuilderBase that, required String storageDirPath, dynamic hint}) {
     var arg0 = _platform.api2wire_box_autoadd_builder_base(that);
     var arg1 = _platform.api2wire_String(storageDirPath);
     return _platform.executeNormal(FlutterRustBridgeTask(
-      callFfi: (port_) => _platform.inner
-          .wire_set_storage_dir_path__method__BuilderBase(port_, arg0, arg1),
+      callFfi: (port_) => _platform.inner.wire_set_storage_dir_path__method__BuilderBase(port_, arg0, arg1),
       parseSuccessData: (d) => _wire2api_builder_base(d),
       constMeta: kSetStorageDirPathMethodBuilderBaseConstMeta,
       argValues: [that, storageDirPath],
@@ -100,22 +90,18 @@ class RustImpl implements Rust {
     ));
   }
 
-  FlutterRustBridgeTaskConstMeta
-      get kSetStorageDirPathMethodBuilderBaseConstMeta =>
-          const FlutterRustBridgeTaskConstMeta(
-            debugName: "set_storage_dir_path__method__BuilderBase",
-            argNames: ["that", "storageDirPath"],
-          );
+  FlutterRustBridgeTaskConstMeta get kSetStorageDirPathMethodBuilderBaseConstMeta =>
+      const FlutterRustBridgeTaskConstMeta(
+        debugName: "set_storage_dir_path__method__BuilderBase",
+        argNames: ["that", "storageDirPath"],
+      );
 
   Future<BuilderBase> setEsploraServerUrlMethodBuilderBase(
-      {required BuilderBase that,
-      required String esploraServerUrl,
-      dynamic hint}) {
+      {required BuilderBase that, required String esploraServerUrl, dynamic hint}) {
     var arg0 = _platform.api2wire_box_autoadd_builder_base(that);
     var arg1 = _platform.api2wire_String(esploraServerUrl);
     return _platform.executeNormal(FlutterRustBridgeTask(
-      callFfi: (port_) => _platform.inner
-          .wire_set_esplora_server_url__method__BuilderBase(port_, arg0, arg1),
+      callFfi: (port_) => _platform.inner.wire_set_esplora_server_url__method__BuilderBase(port_, arg0, arg1),
       parseSuccessData: (d) => _wire2api_builder_base(d),
       constMeta: kSetEsploraServerUrlMethodBuilderBaseConstMeta,
       argValues: [that, esploraServerUrl],
@@ -123,20 +109,17 @@ class RustImpl implements Rust {
     ));
   }
 
-  FlutterRustBridgeTaskConstMeta
-      get kSetEsploraServerUrlMethodBuilderBaseConstMeta =>
-          const FlutterRustBridgeTaskConstMeta(
-            debugName: "set_esplora_server_url__method__BuilderBase",
-            argNames: ["that", "esploraServerUrl"],
-          );
+  FlutterRustBridgeTaskConstMeta get kSetEsploraServerUrlMethodBuilderBaseConstMeta =>
+      const FlutterRustBridgeTaskConstMeta(
+        debugName: "set_esplora_server_url__method__BuilderBase",
+        argNames: ["that", "esploraServerUrl"],
+      );
 
-  Future<BuilderBase> setNetworkMethodBuilderBase(
-      {required BuilderBase that, required Network network, dynamic hint}) {
+  Future<BuilderBase> setNetworkMethodBuilderBase({required BuilderBase that, required Network network, dynamic hint}) {
     var arg0 = _platform.api2wire_box_autoadd_builder_base(that);
     var arg1 = api2wire_network(network);
     return _platform.executeNormal(FlutterRustBridgeTask(
-      callFfi: (port_) => _platform.inner
-          .wire_set_network__method__BuilderBase(port_, arg0, arg1),
+      callFfi: (port_) => _platform.inner.wire_set_network__method__BuilderBase(port_, arg0, arg1),
       parseSuccessData: (d) => _wire2api_builder_base(d),
       constMeta: kSetNetworkMethodBuilderBaseConstMeta,
       argValues: [that, network],
@@ -144,21 +127,17 @@ class RustImpl implements Rust {
     ));
   }
 
-  FlutterRustBridgeTaskConstMeta get kSetNetworkMethodBuilderBaseConstMeta =>
-      const FlutterRustBridgeTaskConstMeta(
+  FlutterRustBridgeTaskConstMeta get kSetNetworkMethodBuilderBaseConstMeta => const FlutterRustBridgeTaskConstMeta(
         debugName: "set_network__method__BuilderBase",
         argNames: ["that", "network"],
       );
 
   Future<BuilderBase> setListeningAddressMethodBuilderBase(
-      {required BuilderBase that,
-      required String listeningAddress,
-      dynamic hint}) {
+      {required BuilderBase that, required SocketAddr listeningAddress, dynamic hint}) {
     var arg0 = _platform.api2wire_box_autoadd_builder_base(that);
-    var arg1 = _platform.api2wire_String(listeningAddress);
+    var arg1 = _platform.api2wire_box_autoadd_socket_addr(listeningAddress);
     return _platform.executeNormal(FlutterRustBridgeTask(
-      callFfi: (port_) => _platform.inner
-          .wire_set_listening_address__method__BuilderBase(port_, arg0, arg1),
+      callFfi: (port_) => _platform.inner.wire_set_listening_address__method__BuilderBase(port_, arg0, arg1),
       parseSuccessData: (d) => _wire2api_builder_base(d),
       constMeta: kSetListeningAddressMethodBuilderBaseConstMeta,
       argValues: [that, listeningAddress],
@@ -166,19 +145,16 @@ class RustImpl implements Rust {
     ));
   }
 
-  FlutterRustBridgeTaskConstMeta
-      get kSetListeningAddressMethodBuilderBaseConstMeta =>
-          const FlutterRustBridgeTaskConstMeta(
-            debugName: "set_listening_address__method__BuilderBase",
-            argNames: ["that", "listeningAddress"],
-          );
+  FlutterRustBridgeTaskConstMeta get kSetListeningAddressMethodBuilderBaseConstMeta =>
+      const FlutterRustBridgeTaskConstMeta(
+        debugName: "set_listening_address__method__BuilderBase",
+        argNames: ["that", "listeningAddress"],
+      );
 
-  Future<NodeBase> buildStaticMethodBuilderBase(
-      {required BuilderBase builder, dynamic hint}) {
+  Future<NodeBase> buildStaticMethodBuilderBase({required BuilderBase builder, dynamic hint}) {
     var arg0 = _platform.api2wire_box_autoadd_builder_base(builder);
     return _platform.executeNormal(FlutterRustBridgeTask(
-      callFfi: (port_) =>
-          _platform.inner.wire_build__static_method__BuilderBase(port_, arg0),
+      callFfi: (port_) => _platform.inner.wire_build__static_method__BuilderBase(port_, arg0),
       parseSuccessData: (d) => _wire2api_node_base(d),
       constMeta: kBuildStaticMethodBuilderBaseConstMeta,
       argValues: [builder],
@@ -186,8 +162,7 @@ class RustImpl implements Rust {
     ));
   }
 
-  FlutterRustBridgeTaskConstMeta get kBuildStaticMethodBuilderBaseConstMeta =>
-      const FlutterRustBridgeTaskConstMeta(
+  FlutterRustBridgeTaskConstMeta get kBuildStaticMethodBuilderBaseConstMeta => const FlutterRustBridgeTaskConstMeta(
         debugName: "build__static_method__BuilderBase",
         argNames: ["builder"],
       );
@@ -195,8 +170,7 @@ class RustImpl implements Rust {
   Future<void> startMethodNodeBase({required NodeBase that, dynamic hint}) {
     var arg0 = _platform.api2wire_box_autoadd_node_base(that);
     return _platform.executeNormal(FlutterRustBridgeTask(
-      callFfi: (port_) =>
-          _platform.inner.wire_start__method__NodeBase(port_, arg0),
+      callFfi: (port_) => _platform.inner.wire_start__method__NodeBase(port_, arg0),
       parseSuccessData: _wire2api_unit,
       constMeta: kStartMethodNodeBaseConstMeta,
       argValues: [that],
@@ -204,8 +178,7 @@ class RustImpl implements Rust {
     ));
   }
 
-  FlutterRustBridgeTaskConstMeta get kStartMethodNodeBaseConstMeta =>
-      const FlutterRustBridgeTaskConstMeta(
+  FlutterRustBridgeTaskConstMeta get kStartMethodNodeBaseConstMeta => const FlutterRustBridgeTaskConstMeta(
         debugName: "start__method__NodeBase",
         argNames: ["that"],
       );
@@ -213,8 +186,7 @@ class RustImpl implements Rust {
   Future<void> stopMethodNodeBase({required NodeBase that, dynamic hint}) {
     var arg0 = _platform.api2wire_box_autoadd_node_base(that);
     return _platform.executeNormal(FlutterRustBridgeTask(
-      callFfi: (port_) =>
-          _platform.inner.wire_stop__method__NodeBase(port_, arg0),
+      callFfi: (port_) => _platform.inner.wire_stop__method__NodeBase(port_, arg0),
       parseSuccessData: _wire2api_unit,
       constMeta: kStopMethodNodeBaseConstMeta,
       argValues: [that],
@@ -222,18 +194,15 @@ class RustImpl implements Rust {
     ));
   }
 
-  FlutterRustBridgeTaskConstMeta get kStopMethodNodeBaseConstMeta =>
-      const FlutterRustBridgeTaskConstMeta(
+  FlutterRustBridgeTaskConstMeta get kStopMethodNodeBaseConstMeta => const FlutterRustBridgeTaskConstMeta(
         debugName: "stop__method__NodeBase",
         argNames: ["that"],
       );
 
-  Future<void> eventHandledMethodNodeBase(
-      {required NodeBase that, dynamic hint}) {
+  Future<void> eventHandledMethodNodeBase({required NodeBase that, dynamic hint}) {
     var arg0 = _platform.api2wire_box_autoadd_node_base(that);
     return _platform.executeNormal(FlutterRustBridgeTask(
-      callFfi: (port_) =>
-          _platform.inner.wire_event_handled__method__NodeBase(port_, arg0),
+      callFfi: (port_) => _platform.inner.wire_event_handled__method__NodeBase(port_, arg0),
       parseSuccessData: _wire2api_unit,
       constMeta: kEventHandledMethodNodeBaseConstMeta,
       argValues: [that],
@@ -241,18 +210,15 @@ class RustImpl implements Rust {
     ));
   }
 
-  FlutterRustBridgeTaskConstMeta get kEventHandledMethodNodeBaseConstMeta =>
-      const FlutterRustBridgeTaskConstMeta(
+  FlutterRustBridgeTaskConstMeta get kEventHandledMethodNodeBaseConstMeta => const FlutterRustBridgeTaskConstMeta(
         debugName: "event_handled__method__NodeBase",
         argNames: ["that"],
       );
 
-  Future<Event> nextEventMethodNodeBase(
-      {required NodeBase that, dynamic hint}) {
+  Future<Event> nextEventMethodNodeBase({required NodeBase that, dynamic hint}) {
     var arg0 = _platform.api2wire_box_autoadd_node_base(that);
     return _platform.executeNormal(FlutterRustBridgeTask(
-      callFfi: (port_) =>
-          _platform.inner.wire_next_event__method__NodeBase(port_, arg0),
+      callFfi: (port_) => _platform.inner.wire_next_event__method__NodeBase(port_, arg0),
       parseSuccessData: _wire2api_event,
       constMeta: kNextEventMethodNodeBaseConstMeta,
       argValues: [that],
@@ -260,18 +226,15 @@ class RustImpl implements Rust {
     ));
   }
 
-  FlutterRustBridgeTaskConstMeta get kNextEventMethodNodeBaseConstMeta =>
-      const FlutterRustBridgeTaskConstMeta(
+  FlutterRustBridgeTaskConstMeta get kNextEventMethodNodeBaseConstMeta => const FlutterRustBridgeTaskConstMeta(
         debugName: "next_event__method__NodeBase",
         argNames: ["that"],
       );
 
-  Future<PublicKey> nodeIdMethodNodeBase(
-      {required NodeBase that, dynamic hint}) {
+  Future<PublicKey> nodeIdMethodNodeBase({required NodeBase that, dynamic hint}) {
     var arg0 = _platform.api2wire_box_autoadd_node_base(that);
     return _platform.executeNormal(FlutterRustBridgeTask(
-      callFfi: (port_) =>
-          _platform.inner.wire_node_id__method__NodeBase(port_, arg0),
+      callFfi: (port_) => _platform.inner.wire_node_id__method__NodeBase(port_, arg0),
       parseSuccessData: _wire2api_public_key,
       constMeta: kNodeIdMethodNodeBaseConstMeta,
       argValues: [that],
@@ -279,37 +242,31 @@ class RustImpl implements Rust {
     ));
   }
 
-  FlutterRustBridgeTaskConstMeta get kNodeIdMethodNodeBaseConstMeta =>
-      const FlutterRustBridgeTaskConstMeta(
+  FlutterRustBridgeTaskConstMeta get kNodeIdMethodNodeBaseConstMeta => const FlutterRustBridgeTaskConstMeta(
         debugName: "node_id__method__NodeBase",
         argNames: ["that"],
       );
 
-  Future<String?> listeningAddressMethodNodeBase(
-      {required NodeBase that, dynamic hint}) {
+  Future<SocketAddr?> listeningAddressMethodNodeBase({required NodeBase that, dynamic hint}) {
     var arg0 = _platform.api2wire_box_autoadd_node_base(that);
     return _platform.executeNormal(FlutterRustBridgeTask(
-      callFfi: (port_) =>
-          _platform.inner.wire_listening_address__method__NodeBase(port_, arg0),
-      parseSuccessData: _wire2api_opt_String,
+      callFfi: (port_) => _platform.inner.wire_listening_address__method__NodeBase(port_, arg0),
+      parseSuccessData: _wire2api_opt_box_autoadd_socket_addr,
       constMeta: kListeningAddressMethodNodeBaseConstMeta,
       argValues: [that],
       hint: hint,
     ));
   }
 
-  FlutterRustBridgeTaskConstMeta get kListeningAddressMethodNodeBaseConstMeta =>
-      const FlutterRustBridgeTaskConstMeta(
+  FlutterRustBridgeTaskConstMeta get kListeningAddressMethodNodeBaseConstMeta => const FlutterRustBridgeTaskConstMeta(
         debugName: "listening_address__method__NodeBase",
         argNames: ["that"],
       );
 
-  Future<Address> newFundingAddressMethodNodeBase(
-      {required NodeBase that, dynamic hint}) {
+  Future<Address> newFundingAddressMethodNodeBase({required NodeBase that, dynamic hint}) {
     var arg0 = _platform.api2wire_box_autoadd_node_base(that);
     return _platform.executeNormal(FlutterRustBridgeTask(
-      callFfi: (port_) => _platform.inner
-          .wire_new_funding_address__method__NodeBase(port_, arg0),
+      callFfi: (port_) => _platform.inner.wire_new_funding_address__method__NodeBase(port_, arg0),
       parseSuccessData: _wire2api_address,
       constMeta: kNewFundingAddressMethodNodeBaseConstMeta,
       argValues: [that],
@@ -317,76 +274,44 @@ class RustImpl implements Rust {
     ));
   }
 
-  FlutterRustBridgeTaskConstMeta
-      get kNewFundingAddressMethodNodeBaseConstMeta =>
-          const FlutterRustBridgeTaskConstMeta(
-            debugName: "new_funding_address__method__NodeBase",
-            argNames: ["that"],
-          );
-
-  Future<Balance> onChainBalanceMethodNodeBase(
-      {required NodeBase that, dynamic hint}) {
-    var arg0 = _platform.api2wire_box_autoadd_node_base(that);
-    return _platform.executeNormal(FlutterRustBridgeTask(
-      callFfi: (port_) =>
-          _platform.inner.wire_on_chain_balance__method__NodeBase(port_, arg0),
-      parseSuccessData: _wire2api_balance,
-      constMeta: kOnChainBalanceMethodNodeBaseConstMeta,
-      argValues: [that],
-      hint: hint,
-    ));
-  }
-
-  FlutterRustBridgeTaskConstMeta get kOnChainBalanceMethodNodeBaseConstMeta =>
-      const FlutterRustBridgeTaskConstMeta(
-        debugName: "on_chain_balance__method__NodeBase",
+  FlutterRustBridgeTaskConstMeta get kNewFundingAddressMethodNodeBaseConstMeta => const FlutterRustBridgeTaskConstMeta(
+        debugName: "new_funding_address__method__NodeBase",
         argNames: ["that"],
       );
 
   Future<void> connectOpenChannelMethodNodeBase(
       {required NodeBase that,
-      required String nodePubkeyAndAddress,
+      required SocketAddr address,
+      required PublicKey nodeId,
       required int channelAmountSats,
+      int? pushToCounterpartyMsat,
       required bool announceChannel,
       dynamic hint}) {
     var arg0 = _platform.api2wire_box_autoadd_node_base(that);
-    var arg1 = _platform.api2wire_String(nodePubkeyAndAddress);
-    var arg2 = _platform.api2wire_u64(channelAmountSats);
-    var arg3 = announceChannel;
+    var arg1 = _platform.api2wire_box_autoadd_socket_addr(address);
+    var arg2 = _platform.api2wire_box_autoadd_public_key(nodeId);
+    var arg3 = _platform.api2wire_u64(channelAmountSats);
+    var arg4 = _platform.api2wire_opt_box_autoadd_u64(pushToCounterpartyMsat);
+    var arg5 = announceChannel;
     return _platform.executeNormal(FlutterRustBridgeTask(
-      callFfi: (port_) => _platform.inner
-          .wire_connect_open_channel__method__NodeBase(
-              port_, arg0, arg1, arg2, arg3),
+      callFfi: (port_) =>
+          _platform.inner.wire_connect_open_channel__method__NodeBase(port_, arg0, arg1, arg2, arg3, arg4, arg5),
       parseSuccessData: _wire2api_unit,
       constMeta: kConnectOpenChannelMethodNodeBaseConstMeta,
-      argValues: [
-        that,
-        nodePubkeyAndAddress,
-        channelAmountSats,
-        announceChannel
-      ],
+      argValues: [that, address, nodeId, channelAmountSats, pushToCounterpartyMsat, announceChannel],
       hint: hint,
     ));
   }
 
-  FlutterRustBridgeTaskConstMeta
-      get kConnectOpenChannelMethodNodeBaseConstMeta =>
-          const FlutterRustBridgeTaskConstMeta(
-            debugName: "connect_open_channel__method__NodeBase",
-            argNames: [
-              "that",
-              "nodePubkeyAndAddress",
-              "channelAmountSats",
-              "announceChannel"
-            ],
-          );
+  FlutterRustBridgeTaskConstMeta get kConnectOpenChannelMethodNodeBaseConstMeta => const FlutterRustBridgeTaskConstMeta(
+        debugName: "connect_open_channel__method__NodeBase",
+        argNames: ["that", "address", "nodeId", "channelAmountSats", "pushToCounterpartyMsat", "announceChannel"],
+      );
 
-  Future<List<ChannelDetails>> listChannelsMethodNodeBase(
-      {required NodeBase that, dynamic hint}) {
+  Future<List<ChannelDetails>> listChannelsMethodNodeBase({required NodeBase that, dynamic hint}) {
     var arg0 = _platform.api2wire_box_autoadd_node_base(that);
     return _platform.executeNormal(FlutterRustBridgeTask(
-      callFfi: (port_) =>
-          _platform.inner.wire_list_channels__method__NodeBase(port_, arg0),
+      callFfi: (port_) => _platform.inner.wire_list_channels__method__NodeBase(port_, arg0),
       parseSuccessData: _wire2api_list_channel_details,
       constMeta: kListChannelsMethodNodeBaseConstMeta,
       argValues: [that],
@@ -394,18 +319,15 @@ class RustImpl implements Rust {
     ));
   }
 
-  FlutterRustBridgeTaskConstMeta get kListChannelsMethodNodeBaseConstMeta =>
-      const FlutterRustBridgeTaskConstMeta(
+  FlutterRustBridgeTaskConstMeta get kListChannelsMethodNodeBaseConstMeta => const FlutterRustBridgeTaskConstMeta(
         debugName: "list_channels__method__NodeBase",
         argNames: ["that"],
       );
 
-  Future<void> syncWalletsMethodNodeBase(
-      {required NodeBase that, dynamic hint}) {
+  Future<void> syncWalletsMethodNodeBase({required NodeBase that, dynamic hint}) {
     var arg0 = _platform.api2wire_box_autoadd_node_base(that);
     return _platform.executeNormal(FlutterRustBridgeTask(
-      callFfi: (port_) =>
-          _platform.inner.wire_sync_wallets__method__NodeBase(port_, arg0),
+      callFfi: (port_) => _platform.inner.wire_sync_wallets__method__NodeBase(port_, arg0),
       parseSuccessData: _wire2api_unit,
       constMeta: kSyncWalletsMethodNodeBaseConstMeta,
       argValues: [that],
@@ -413,23 +335,18 @@ class RustImpl implements Rust {
     ));
   }
 
-  FlutterRustBridgeTaskConstMeta get kSyncWalletsMethodNodeBaseConstMeta =>
-      const FlutterRustBridgeTaskConstMeta(
+  FlutterRustBridgeTaskConstMeta get kSyncWalletsMethodNodeBaseConstMeta => const FlutterRustBridgeTaskConstMeta(
         debugName: "sync_wallets__method__NodeBase",
         argNames: ["that"],
       );
 
   Future<void> closeChannelMethodNodeBase(
-      {required NodeBase that,
-      required U8Array32 channelId,
-      required PublicKey counterpartyNodeId,
-      dynamic hint}) {
+      {required NodeBase that, required U8Array32 channelId, required PublicKey counterpartyNodeId, dynamic hint}) {
     var arg0 = _platform.api2wire_box_autoadd_node_base(that);
     var arg1 = _platform.api2wire_u8_array_32(channelId);
     var arg2 = _platform.api2wire_box_autoadd_public_key(counterpartyNodeId);
     return _platform.executeNormal(FlutterRustBridgeTask(
-      callFfi: (port_) => _platform.inner
-          .wire_close_channel__method__NodeBase(port_, arg0, arg1, arg2),
+      callFfi: (port_) => _platform.inner.wire_close_channel__method__NodeBase(port_, arg0, arg1, arg2),
       parseSuccessData: _wire2api_unit,
       constMeta: kCloseChannelMethodNodeBaseConstMeta,
       argValues: [that, channelId, counterpartyNodeId],
@@ -437,19 +354,16 @@ class RustImpl implements Rust {
     ));
   }
 
-  FlutterRustBridgeTaskConstMeta get kCloseChannelMethodNodeBaseConstMeta =>
-      const FlutterRustBridgeTaskConstMeta(
+  FlutterRustBridgeTaskConstMeta get kCloseChannelMethodNodeBaseConstMeta => const FlutterRustBridgeTaskConstMeta(
         debugName: "close_channel__method__NodeBase",
         argNames: ["that", "channelId", "counterpartyNodeId"],
       );
 
-  Future<PaymentHash> sendPaymentMethodNodeBase(
-      {required NodeBase that, required Invoice invoice, dynamic hint}) {
+  Future<PaymentHash> sendPaymentMethodNodeBase({required NodeBase that, required Invoice invoice, dynamic hint}) {
     var arg0 = _platform.api2wire_box_autoadd_node_base(that);
     var arg1 = _platform.api2wire_box_autoadd_invoice(invoice);
     return _platform.executeNormal(FlutterRustBridgeTask(
-      callFfi: (port_) => _platform.inner
-          .wire_send_payment__method__NodeBase(port_, arg0, arg1),
+      callFfi: (port_) => _platform.inner.wire_send_payment__method__NodeBase(port_, arg0, arg1),
       parseSuccessData: _wire2api_payment_hash,
       constMeta: kSendPaymentMethodNodeBaseConstMeta,
       argValues: [that, invoice],
@@ -457,24 +371,18 @@ class RustImpl implements Rust {
     ));
   }
 
-  FlutterRustBridgeTaskConstMeta get kSendPaymentMethodNodeBaseConstMeta =>
-      const FlutterRustBridgeTaskConstMeta(
+  FlutterRustBridgeTaskConstMeta get kSendPaymentMethodNodeBaseConstMeta => const FlutterRustBridgeTaskConstMeta(
         debugName: "send_payment__method__NodeBase",
         argNames: ["that", "invoice"],
       );
 
   Future<PaymentHash> sendPaymentUsingAmountMethodNodeBase(
-      {required NodeBase that,
-      required Invoice invoice,
-      required int amountMsat,
-      dynamic hint}) {
+      {required NodeBase that, required Invoice invoice, required int amountMsat, dynamic hint}) {
     var arg0 = _platform.api2wire_box_autoadd_node_base(that);
     var arg1 = _platform.api2wire_box_autoadd_invoice(invoice);
     var arg2 = _platform.api2wire_u64(amountMsat);
     return _platform.executeNormal(FlutterRustBridgeTask(
-      callFfi: (port_) => _platform.inner
-          .wire_send_payment_using_amount__method__NodeBase(
-              port_, arg0, arg1, arg2),
+      callFfi: (port_) => _platform.inner.wire_send_payment_using_amount__method__NodeBase(port_, arg0, arg1, arg2),
       parseSuccessData: _wire2api_payment_hash,
       constMeta: kSendPaymentUsingAmountMethodNodeBaseConstMeta,
       argValues: [that, invoice, amountMsat],
@@ -482,25 +390,19 @@ class RustImpl implements Rust {
     ));
   }
 
-  FlutterRustBridgeTaskConstMeta
-      get kSendPaymentUsingAmountMethodNodeBaseConstMeta =>
-          const FlutterRustBridgeTaskConstMeta(
-            debugName: "send_payment_using_amount__method__NodeBase",
-            argNames: ["that", "invoice", "amountMsat"],
-          );
+  FlutterRustBridgeTaskConstMeta get kSendPaymentUsingAmountMethodNodeBaseConstMeta =>
+      const FlutterRustBridgeTaskConstMeta(
+        debugName: "send_payment_using_amount__method__NodeBase",
+        argNames: ["that", "invoice", "amountMsat"],
+      );
 
   Future<PaymentHash> sendSpontaneousPaymentMethodNodeBase(
-      {required NodeBase that,
-      required int amountMsat,
-      required String nodeId,
-      dynamic hint}) {
+      {required NodeBase that, required int amountMsat, required PublicKey nodeId, dynamic hint}) {
     var arg0 = _platform.api2wire_box_autoadd_node_base(that);
     var arg1 = _platform.api2wire_u64(amountMsat);
-    var arg2 = _platform.api2wire_String(nodeId);
+    var arg2 = _platform.api2wire_box_autoadd_public_key(nodeId);
     return _platform.executeNormal(FlutterRustBridgeTask(
-      callFfi: (port_) => _platform.inner
-          .wire_send_spontaneous_payment__method__NodeBase(
-              port_, arg0, arg1, arg2),
+      callFfi: (port_) => _platform.inner.wire_send_spontaneous_payment__method__NodeBase(port_, arg0, arg1, arg2),
       parseSuccessData: _wire2api_payment_hash,
       constMeta: kSendSpontaneousPaymentMethodNodeBaseConstMeta,
       argValues: [that, amountMsat, nodeId],
@@ -508,12 +410,11 @@ class RustImpl implements Rust {
     ));
   }
 
-  FlutterRustBridgeTaskConstMeta
-      get kSendSpontaneousPaymentMethodNodeBaseConstMeta =>
-          const FlutterRustBridgeTaskConstMeta(
-            debugName: "send_spontaneous_payment__method__NodeBase",
-            argNames: ["that", "amountMsat", "nodeId"],
-          );
+  FlutterRustBridgeTaskConstMeta get kSendSpontaneousPaymentMethodNodeBaseConstMeta =>
+      const FlutterRustBridgeTaskConstMeta(
+        debugName: "send_spontaneous_payment__method__NodeBase",
+        argNames: ["that", "amountMsat", "nodeId"],
+      );
 
   Future<Invoice> receivePaymentMethodNodeBase(
       {required NodeBase that,
@@ -526,9 +427,7 @@ class RustImpl implements Rust {
     var arg2 = _platform.api2wire_String(description);
     var arg3 = api2wire_u32(expirySecs);
     return _platform.executeNormal(FlutterRustBridgeTask(
-      callFfi: (port_) => _platform.inner
-          .wire_receive_payment__method__NodeBase(
-              port_, arg0, arg1, arg2, arg3),
+      callFfi: (port_) => _platform.inner.wire_receive_payment__method__NodeBase(port_, arg0, arg1, arg2, arg3),
       parseSuccessData: _wire2api_invoice,
       constMeta: kReceivePaymentMethodNodeBaseConstMeta,
       argValues: [that, amountMsat, description, expirySecs],
@@ -536,24 +435,19 @@ class RustImpl implements Rust {
     ));
   }
 
-  FlutterRustBridgeTaskConstMeta get kReceivePaymentMethodNodeBaseConstMeta =>
-      const FlutterRustBridgeTaskConstMeta(
+  FlutterRustBridgeTaskConstMeta get kReceivePaymentMethodNodeBaseConstMeta => const FlutterRustBridgeTaskConstMeta(
         debugName: "receive_payment__method__NodeBase",
         argNames: ["that", "amountMsat", "description", "expirySecs"],
       );
 
   Future<Invoice> receiveVariableAmountPaymentMethodNodeBase(
-      {required NodeBase that,
-      required String description,
-      required int expirySecs,
-      dynamic hint}) {
+      {required NodeBase that, required String description, required int expirySecs, dynamic hint}) {
     var arg0 = _platform.api2wire_box_autoadd_node_base(that);
     var arg1 = _platform.api2wire_String(description);
     var arg2 = api2wire_u32(expirySecs);
     return _platform.executeNormal(FlutterRustBridgeTask(
-      callFfi: (port_) => _platform.inner
-          .wire_receive_variable_amount_payment__method__NodeBase(
-              port_, arg0, arg1, arg2),
+      callFfi: (port_) =>
+          _platform.inner.wire_receive_variable_amount_payment__method__NodeBase(port_, arg0, arg1, arg2),
       parseSuccessData: _wire2api_invoice,
       constMeta: kReceiveVariableAmountPaymentMethodNodeBaseConstMeta,
       argValues: [that, description, expirySecs],
@@ -561,41 +455,33 @@ class RustImpl implements Rust {
     ));
   }
 
-  FlutterRustBridgeTaskConstMeta
-      get kReceiveVariableAmountPaymentMethodNodeBaseConstMeta =>
-          const FlutterRustBridgeTaskConstMeta(
-            debugName: "receive_variable_amount_payment__method__NodeBase",
-            argNames: ["that", "description", "expirySecs"],
-          );
+  FlutterRustBridgeTaskConstMeta get kReceiveVariableAmountPaymentMethodNodeBaseConstMeta =>
+      const FlutterRustBridgeTaskConstMeta(
+        debugName: "receive_variable_amount_payment__method__NodeBase",
+        argNames: ["that", "description", "expirySecs"],
+      );
 
-  Future<PaymentInfo?> paymentInfoMethodNodeBase(
-      {required NodeBase that,
-      required PaymentHash paymentHash,
-      dynamic hint}) {
+  Future<PaymentDetails?> paymentMethodNodeBase(
+      {required NodeBase that, required PaymentHash paymentHash, dynamic hint}) {
     var arg0 = _platform.api2wire_box_autoadd_node_base(that);
     var arg1 = _platform.api2wire_box_autoadd_payment_hash(paymentHash);
     return _platform.executeNormal(FlutterRustBridgeTask(
-      callFfi: (port_) => _platform.inner
-          .wire_payment_info__method__NodeBase(port_, arg0, arg1),
-      parseSuccessData: _wire2api_opt_box_autoadd_payment_info,
-      constMeta: kPaymentInfoMethodNodeBaseConstMeta,
+      callFfi: (port_) => _platform.inner.wire_payment__method__NodeBase(port_, arg0, arg1),
+      parseSuccessData: _wire2api_opt_box_autoadd_payment_details,
+      constMeta: kPaymentMethodNodeBaseConstMeta,
       argValues: [that, paymentHash],
       hint: hint,
     ));
   }
 
-  FlutterRustBridgeTaskConstMeta get kPaymentInfoMethodNodeBaseConstMeta =>
-      const FlutterRustBridgeTaskConstMeta(
-        debugName: "payment_info__method__NodeBase",
+  FlutterRustBridgeTaskConstMeta get kPaymentMethodNodeBaseConstMeta => const FlutterRustBridgeTaskConstMeta(
+        debugName: "payment__method__NodeBase",
         argNames: ["that", "paymentHash"],
       );
 
-  DropFnType get dropOpaqueNodePointer =>
-      _platform.inner.drop_opaque_NodePointer;
-  ShareFnType get shareOpaqueNodePointer =>
-      _platform.inner.share_opaque_NodePointer;
-  OpaqueTypeFinalizer get NodePointerFinalizer =>
-      _platform.NodePointerFinalizer;
+  DropFnType get dropOpaqueNodePointer => _platform.inner.drop_opaque_NodePointer;
+  ShareFnType get shareOpaqueNodePointer => _platform.inner.share_opaque_NodePointer;
+  OpaqueTypeFinalizer get NodePointerFinalizer => _platform.NodePointerFinalizer;
 
   void dispose() {
     _platform.dispose();
@@ -612,22 +498,9 @@ class RustImpl implements Rust {
 
   Address _wire2api_address(dynamic raw) {
     final arr = raw as List<dynamic>;
-    if (arr.length != 1)
-      throw Exception('unexpected arr length: expect 1 but see ${arr.length}');
+    if (arr.length != 1) throw Exception('unexpected arr length: expect 1 but see ${arr.length}');
     return Address(
       addressHex: _wire2api_String(arr[0]),
-    );
-  }
-
-  Balance _wire2api_balance(dynamic raw) {
-    final arr = raw as List<dynamic>;
-    if (arr.length != 4)
-      throw Exception('unexpected arr length: expect 4 but see ${arr.length}');
-    return Balance(
-      immature: _wire2api_u64(arr[0]),
-      trustedPending: _wire2api_u64(arr[1]),
-      untrustedPending: _wire2api_u64(arr[2]),
-      confirmed: _wire2api_u64(arr[3]),
     );
   }
 
@@ -635,12 +508,16 @@ class RustImpl implements Rust {
     return raw as bool;
   }
 
-  PaymentHash _wire2api_box_autoadd_payment_hash(dynamic raw) {
-    return _wire2api_payment_hash(raw);
+  OutPoint _wire2api_box_autoadd_out_point(dynamic raw) {
+    return _wire2api_out_point(raw);
   }
 
-  PaymentInfo _wire2api_box_autoadd_payment_info(dynamic raw) {
-    return _wire2api_payment_info(raw);
+  PaymentDetails _wire2api_box_autoadd_payment_details(dynamic raw) {
+    return _wire2api_payment_details(raw);
+  }
+
+  PaymentHash _wire2api_box_autoadd_payment_hash(dynamic raw) {
+    return _wire2api_payment_hash(raw);
   }
 
   PaymentPreimage _wire2api_box_autoadd_payment_preimage(dynamic raw) {
@@ -649,6 +526,14 @@ class RustImpl implements Rust {
 
   PaymentSecret _wire2api_box_autoadd_payment_secret(dynamic raw) {
     return _wire2api_payment_secret(raw);
+  }
+
+  PublicKey _wire2api_box_autoadd_public_key(dynamic raw) {
+    return _wire2api_public_key(raw);
+  }
+
+  SocketAddr _wire2api_box_autoadd_socket_addr(dynamic raw) {
+    return _wire2api_socket_addr(raw);
   }
 
   int _wire2api_box_autoadd_u16(dynamic raw) {
@@ -669,8 +554,7 @@ class RustImpl implements Rust {
 
   BuilderBase _wire2api_builder_base(dynamic raw) {
     final arr = raw as List<dynamic>;
-    if (arr.length != 2)
-      throw Exception('unexpected arr length: expect 2 but see ${arr.length}');
+    if (arr.length != 2) throw Exception('unexpected arr length: expect 2 but see ${arr.length}');
     return BuilderBase(
       bridge: this,
       config: _wire2api_config(arr[0]),
@@ -680,8 +564,7 @@ class RustImpl implements Rust {
 
   ChannelDetails _wire2api_channel_details(dynamic raw) {
     final arr = raw as List<dynamic>;
-    if (arr.length != 22)
-      throw Exception('unexpected arr length: expect 22 but see ${arr.length}');
+    if (arr.length != 22) throw Exception('unexpected arr length: expect 22 but see ${arr.length}');
     return ChannelDetails(
       channelId: _wire2api_u8_array_32(arr[0]),
       fundingTxo: _wire2api_opt_String(arr[1]),
@@ -710,13 +593,12 @@ class RustImpl implements Rust {
 
   Config _wire2api_config(dynamic raw) {
     final arr = raw as List<dynamic>;
-    if (arr.length != 5)
-      throw Exception('unexpected arr length: expect 5 but see ${arr.length}');
+    if (arr.length != 5) throw Exception('unexpected arr length: expect 5 but see ${arr.length}');
     return Config(
       storageDirPath: _wire2api_String(arr[0]),
       esploraServerUrl: _wire2api_String(arr[1]),
       network: _wire2api_network(arr[2]),
-      listeningAddress: _wire2api_opt_String(arr[3]),
+      listeningAddress: _wire2api_opt_box_autoadd_socket_addr(arr[3]),
       defaultCltvExpiryDelta: _wire2api_u32(arr[4]),
     );
   }
@@ -746,6 +628,14 @@ class RustImpl implements Rust {
           channelId: _wire2api_u8_array_32(raw[1]),
           userChannelId: _wire2api_usize(raw[2]),
         );
+      case 5:
+        return Event_ChannelPending(
+          channelId: _wire2api_u8_array_32(raw[1]),
+          userChannelId: _wire2api_usize(raw[2]),
+          formerTemporaryChannelId: _wire2api_u8_array_32(raw[3]),
+          counterpartyNodeId: _wire2api_box_autoadd_public_key(raw[4]),
+          fundingTxo: _wire2api_box_autoadd_out_point(raw[5]),
+        );
       default:
         throw Exception("unreachable");
     }
@@ -757,8 +647,7 @@ class RustImpl implements Rust {
 
   Invoice _wire2api_invoice(dynamic raw) {
     final arr = raw as List<dynamic>;
-    if (arr.length != 1)
-      throw Exception('unexpected arr length: expect 1 but see ${arr.length}');
+    if (arr.length != 1) throw Exception('unexpected arr length: expect 1 but see ${arr.length}');
     return Invoice(
       hex: _wire2api_String(arr[0]),
     );
@@ -774,8 +663,7 @@ class RustImpl implements Rust {
 
   NodeBase _wire2api_node_base(dynamic raw) {
     final arr = raw as List<dynamic>;
-    if (arr.length != 1)
-      throw Exception('unexpected arr length: expect 1 but see ${arr.length}');
+    if (arr.length != 1) throw Exception('unexpected arr length: expect 1 but see ${arr.length}');
     return NodeBase(
       bridge: this,
       nodePointer: _wire2api_NodePointer(arr[0]),
@@ -786,8 +674,8 @@ class RustImpl implements Rust {
     return raw == null ? null : _wire2api_String(raw);
   }
 
-  PaymentInfo? _wire2api_opt_box_autoadd_payment_info(dynamic raw) {
-    return raw == null ? null : _wire2api_box_autoadd_payment_info(raw);
+  PaymentDetails? _wire2api_opt_box_autoadd_payment_details(dynamic raw) {
+    return raw == null ? null : _wire2api_box_autoadd_payment_details(raw);
   }
 
   PaymentPreimage? _wire2api_opt_box_autoadd_payment_preimage(dynamic raw) {
@@ -796,6 +684,10 @@ class RustImpl implements Rust {
 
   PaymentSecret? _wire2api_opt_box_autoadd_payment_secret(dynamic raw) {
     return raw == null ? null : _wire2api_box_autoadd_payment_secret(raw);
+  }
+
+  SocketAddr? _wire2api_opt_box_autoadd_socket_addr(dynamic raw) {
+    return raw == null ? null : _wire2api_box_autoadd_socket_addr(raw);
   }
 
   int? _wire2api_opt_box_autoadd_u16(dynamic raw) {
@@ -810,38 +702,47 @@ class RustImpl implements Rust {
     return raw == null ? null : _wire2api_box_autoadd_u64(raw);
   }
 
-  WalletEntropySource? _wire2api_opt_box_autoadd_wallet_entropy_source(
-      dynamic raw) {
-    return raw == null
-        ? null
-        : _wire2api_box_autoadd_wallet_entropy_source(raw);
+  WalletEntropySource? _wire2api_opt_box_autoadd_wallet_entropy_source(dynamic raw) {
+    return raw == null ? null : _wire2api_box_autoadd_wallet_entropy_source(raw);
+  }
+
+  OutPoint _wire2api_out_point(dynamic raw) {
+    final arr = raw as List<dynamic>;
+    if (arr.length != 2) throw Exception('unexpected arr length: expect 2 but see ${arr.length}');
+    return OutPoint(
+      txid: _wire2api_txid(arr[0]),
+      vout: _wire2api_u32(arr[1]),
+    );
+  }
+
+  PaymentDetails _wire2api_payment_details(dynamic raw) {
+    final arr = raw as List<dynamic>;
+    if (arr.length != 6) throw Exception('unexpected arr length: expect 6 but see ${arr.length}');
+    return PaymentDetails(
+      hash: _wire2api_payment_hash(arr[0]),
+      preimage: _wire2api_opt_box_autoadd_payment_preimage(arr[1]),
+      secret: _wire2api_opt_box_autoadd_payment_secret(arr[2]),
+      amountMsat: _wire2api_opt_box_autoadd_u64(arr[3]),
+      direction: _wire2api_payment_direction(arr[4]),
+      status: _wire2api_payment_status(arr[5]),
+    );
+  }
+
+  PaymentDirection _wire2api_payment_direction(dynamic raw) {
+    return PaymentDirection.values[raw];
   }
 
   PaymentHash _wire2api_payment_hash(dynamic raw) {
     final arr = raw as List<dynamic>;
-    if (arr.length != 1)
-      throw Exception('unexpected arr length: expect 1 but see ${arr.length}');
+    if (arr.length != 1) throw Exception('unexpected arr length: expect 1 but see ${arr.length}');
     return PaymentHash(
       field0: _wire2api_u8_array_32(arr[0]),
     );
   }
 
-  PaymentInfo _wire2api_payment_info(dynamic raw) {
-    final arr = raw as List<dynamic>;
-    if (arr.length != 4)
-      throw Exception('unexpected arr length: expect 4 but see ${arr.length}');
-    return PaymentInfo(
-      preimage: _wire2api_opt_box_autoadd_payment_preimage(arr[0]),
-      secret: _wire2api_opt_box_autoadd_payment_secret(arr[1]),
-      status: _wire2api_payment_status(arr[2]),
-      amountMsat: _wire2api_opt_box_autoadd_u64(arr[3]),
-    );
-  }
-
   PaymentPreimage _wire2api_payment_preimage(dynamic raw) {
     final arr = raw as List<dynamic>;
-    if (arr.length != 1)
-      throw Exception('unexpected arr length: expect 1 but see ${arr.length}');
+    if (arr.length != 1) throw Exception('unexpected arr length: expect 1 but see ${arr.length}');
     return PaymentPreimage(
       field0: _wire2api_u8_array_32(arr[0]),
     );
@@ -849,8 +750,7 @@ class RustImpl implements Rust {
 
   PaymentSecret _wire2api_payment_secret(dynamic raw) {
     final arr = raw as List<dynamic>;
-    if (arr.length != 1)
-      throw Exception('unexpected arr length: expect 1 but see ${arr.length}');
+    if (arr.length != 1) throw Exception('unexpected arr length: expect 1 but see ${arr.length}');
     return PaymentSecret(
       field0: _wire2api_u8_array_32(arr[0]),
     );
@@ -862,10 +762,26 @@ class RustImpl implements Rust {
 
   PublicKey _wire2api_public_key(dynamic raw) {
     final arr = raw as List<dynamic>;
-    if (arr.length != 1)
-      throw Exception('unexpected arr length: expect 1 but see ${arr.length}');
+    if (arr.length != 1) throw Exception('unexpected arr length: expect 1 but see ${arr.length}');
     return PublicKey(
       keyHex: _wire2api_String(arr[0]),
+    );
+  }
+
+  SocketAddr _wire2api_socket_addr(dynamic raw) {
+    final arr = raw as List<dynamic>;
+    if (arr.length != 2) throw Exception('unexpected arr length: expect 2 but see ${arr.length}');
+    return SocketAddr(
+      ip: _wire2api_String(arr[0]),
+      port: _wire2api_u16(arr[1]),
+    );
+  }
+
+  Txid _wire2api_txid(dynamic raw) {
+    final arr = raw as List<dynamic>;
+    if (arr.length != 1) throw Exception('unexpected arr length: expect 1 but see ${arr.length}');
+    return Txid(
+      field0: _wire2api_String(arr[0]),
     );
   }
 
@@ -915,6 +831,11 @@ class RustImpl implements Rust {
         return WalletEntropySource_SeedBytes(
           _wire2api_u8_array_64(raw[1]),
         );
+      case 2:
+        return WalletEntropySource_Bip39Mnemonic(
+          mnemonic: _wire2api_String(raw[1]),
+          passphrase: _wire2api_opt_String(raw[2]),
+        );
       default:
         throw Exception("unreachable");
     }
@@ -936,6 +857,11 @@ int api2wire_i32(int raw) {
 @protected
 int api2wire_network(Network raw) {
   return api2wire_i32(raw.index);
+}
+
+@protected
+int api2wire_u16(int raw) {
+  return raw;
 }
 
 @protected
@@ -968,8 +894,7 @@ class RustPlatform extends FlutterRustBridgeBase<RustWire> {
   }
 
   @protected
-  ffi.Pointer<wire_BuilderBase> api2wire_box_autoadd_builder_base(
-      BuilderBase raw) {
+  ffi.Pointer<wire_BuilderBase> api2wire_box_autoadd_builder_base(BuilderBase raw) {
     final ptr = inner.new_box_autoadd_builder_base_0();
     _api_fill_to_wire_builder_base(raw, ptr.ref);
     return ptr;
@@ -990,8 +915,7 @@ class RustPlatform extends FlutterRustBridgeBase<RustWire> {
   }
 
   @protected
-  ffi.Pointer<wire_PaymentHash> api2wire_box_autoadd_payment_hash(
-      PaymentHash raw) {
+  ffi.Pointer<wire_PaymentHash> api2wire_box_autoadd_payment_hash(PaymentHash raw) {
     final ptr = inner.new_box_autoadd_payment_hash_0();
     _api_fill_to_wire_payment_hash(raw, ptr.ref);
     return ptr;
@@ -1005,8 +929,19 @@ class RustPlatform extends FlutterRustBridgeBase<RustWire> {
   }
 
   @protected
-  ffi.Pointer<wire_WalletEntropySource>
-      api2wire_box_autoadd_wallet_entropy_source(WalletEntropySource raw) {
+  ffi.Pointer<wire_SocketAddr> api2wire_box_autoadd_socket_addr(SocketAddr raw) {
+    final ptr = inner.new_box_autoadd_socket_addr_0();
+    _api_fill_to_wire_socket_addr(raw, ptr.ref);
+    return ptr;
+  }
+
+  @protected
+  ffi.Pointer<ffi.Uint64> api2wire_box_autoadd_u64(int raw) {
+    return inner.new_box_autoadd_u64_0(api2wire_u64(raw));
+  }
+
+  @protected
+  ffi.Pointer<wire_WalletEntropySource> api2wire_box_autoadd_wallet_entropy_source(WalletEntropySource raw) {
     final ptr = inner.new_box_autoadd_wallet_entropy_source_0();
     _api_fill_to_wire_wallet_entropy_source(raw, ptr.ref);
     return ptr;
@@ -1018,11 +953,18 @@ class RustPlatform extends FlutterRustBridgeBase<RustWire> {
   }
 
   @protected
-  ffi.Pointer<wire_WalletEntropySource>
-      api2wire_opt_box_autoadd_wallet_entropy_source(WalletEntropySource? raw) {
-    return raw == null
-        ? ffi.nullptr
-        : api2wire_box_autoadd_wallet_entropy_source(raw);
+  ffi.Pointer<wire_SocketAddr> api2wire_opt_box_autoadd_socket_addr(SocketAddr? raw) {
+    return raw == null ? ffi.nullptr : api2wire_box_autoadd_socket_addr(raw);
+  }
+
+  @protected
+  ffi.Pointer<ffi.Uint64> api2wire_opt_box_autoadd_u64(int? raw) {
+    return raw == null ? ffi.nullptr : api2wire_box_autoadd_u64(raw);
+  }
+
+  @protected
+  ffi.Pointer<wire_WalletEntropySource> api2wire_opt_box_autoadd_wallet_entropy_source(WalletEntropySource? raw) {
+    return raw == null ? ffi.nullptr : api2wire_box_autoadd_wallet_entropy_source(raw);
   }
 
   @protected
@@ -1053,61 +995,54 @@ class RustPlatform extends FlutterRustBridgeBase<RustWire> {
 
 // Section: finalizer
 
-  late final OpaqueTypeFinalizer _NodePointerFinalizer =
-      OpaqueTypeFinalizer(inner._drop_opaque_NodePointerPtr);
+  late final OpaqueTypeFinalizer _NodePointerFinalizer = OpaqueTypeFinalizer(inner._drop_opaque_NodePointerPtr);
   OpaqueTypeFinalizer get NodePointerFinalizer => _NodePointerFinalizer;
 // Section: api_fill_to_wire
 
-  void _api_fill_to_wire_NodePointer(
-      NodePointer apiObj, wire_NodePointer wireObj) {
+  void _api_fill_to_wire_NodePointer(NodePointer apiObj, wire_NodePointer wireObj) {
     wireObj.ptr = apiObj.shareOrMove();
   }
 
-  void _api_fill_to_wire_box_autoadd_builder_base(
-      BuilderBase apiObj, ffi.Pointer<wire_BuilderBase> wireObj) {
+  void _api_fill_to_wire_box_autoadd_builder_base(BuilderBase apiObj, ffi.Pointer<wire_BuilderBase> wireObj) {
     _api_fill_to_wire_builder_base(apiObj, wireObj.ref);
   }
 
-  void _api_fill_to_wire_box_autoadd_invoice(
-      Invoice apiObj, ffi.Pointer<wire_Invoice> wireObj) {
+  void _api_fill_to_wire_box_autoadd_invoice(Invoice apiObj, ffi.Pointer<wire_Invoice> wireObj) {
     _api_fill_to_wire_invoice(apiObj, wireObj.ref);
   }
 
-  void _api_fill_to_wire_box_autoadd_node_base(
-      NodeBase apiObj, ffi.Pointer<wire_NodeBase> wireObj) {
+  void _api_fill_to_wire_box_autoadd_node_base(NodeBase apiObj, ffi.Pointer<wire_NodeBase> wireObj) {
     _api_fill_to_wire_node_base(apiObj, wireObj.ref);
   }
 
-  void _api_fill_to_wire_box_autoadd_payment_hash(
-      PaymentHash apiObj, ffi.Pointer<wire_PaymentHash> wireObj) {
+  void _api_fill_to_wire_box_autoadd_payment_hash(PaymentHash apiObj, ffi.Pointer<wire_PaymentHash> wireObj) {
     _api_fill_to_wire_payment_hash(apiObj, wireObj.ref);
   }
 
-  void _api_fill_to_wire_box_autoadd_public_key(
-      PublicKey apiObj, ffi.Pointer<wire_PublicKey> wireObj) {
+  void _api_fill_to_wire_box_autoadd_public_key(PublicKey apiObj, ffi.Pointer<wire_PublicKey> wireObj) {
     _api_fill_to_wire_public_key(apiObj, wireObj.ref);
   }
 
+  void _api_fill_to_wire_box_autoadd_socket_addr(SocketAddr apiObj, ffi.Pointer<wire_SocketAddr> wireObj) {
+    _api_fill_to_wire_socket_addr(apiObj, wireObj.ref);
+  }
+
   void _api_fill_to_wire_box_autoadd_wallet_entropy_source(
-      WalletEntropySource apiObj,
-      ffi.Pointer<wire_WalletEntropySource> wireObj) {
+      WalletEntropySource apiObj, ffi.Pointer<wire_WalletEntropySource> wireObj) {
     _api_fill_to_wire_wallet_entropy_source(apiObj, wireObj.ref);
   }
 
-  void _api_fill_to_wire_builder_base(
-      BuilderBase apiObj, wire_BuilderBase wireObj) {
+  void _api_fill_to_wire_builder_base(BuilderBase apiObj, wire_BuilderBase wireObj) {
     _api_fill_to_wire_config(apiObj.config, wireObj.config);
-    wireObj.entropy_source =
-        api2wire_opt_box_autoadd_wallet_entropy_source(apiObj.entropySource);
+    wireObj.entropy_source = api2wire_opt_box_autoadd_wallet_entropy_source(apiObj.entropySource);
   }
 
   void _api_fill_to_wire_config(Config apiObj, wire_Config wireObj) {
     wireObj.storage_dir_path = api2wire_String(apiObj.storageDirPath);
     wireObj.esplora_server_url = api2wire_String(apiObj.esploraServerUrl);
     wireObj.network = api2wire_network(apiObj.network);
-    wireObj.listening_address = api2wire_opt_String(apiObj.listeningAddress);
-    wireObj.default_cltv_expiry_delta =
-        api2wire_u32(apiObj.defaultCltvExpiryDelta);
+    wireObj.listening_address = api2wire_opt_box_autoadd_socket_addr(apiObj.listeningAddress);
+    wireObj.default_cltv_expiry_delta = api2wire_u32(apiObj.defaultCltvExpiryDelta);
   }
 
   void _api_fill_to_wire_invoice(Invoice apiObj, wire_Invoice wireObj) {
@@ -1118,15 +1053,16 @@ class RustPlatform extends FlutterRustBridgeBase<RustWire> {
     wireObj.node_pointer = api2wire_NodePointer(apiObj.nodePointer);
   }
 
-  void _api_fill_to_wire_opt_box_autoadd_wallet_entropy_source(
-      WalletEntropySource? apiObj,
-      ffi.Pointer<wire_WalletEntropySource> wireObj) {
-    if (apiObj != null)
-      _api_fill_to_wire_box_autoadd_wallet_entropy_source(apiObj, wireObj);
+  void _api_fill_to_wire_opt_box_autoadd_socket_addr(SocketAddr? apiObj, ffi.Pointer<wire_SocketAddr> wireObj) {
+    if (apiObj != null) _api_fill_to_wire_box_autoadd_socket_addr(apiObj, wireObj);
   }
 
-  void _api_fill_to_wire_payment_hash(
-      PaymentHash apiObj, wire_PaymentHash wireObj) {
+  void _api_fill_to_wire_opt_box_autoadd_wallet_entropy_source(
+      WalletEntropySource? apiObj, ffi.Pointer<wire_WalletEntropySource> wireObj) {
+    if (apiObj != null) _api_fill_to_wire_box_autoadd_wallet_entropy_source(apiObj, wireObj);
+  }
+
+  void _api_fill_to_wire_payment_hash(PaymentHash apiObj, wire_PaymentHash wireObj) {
     wireObj.field0 = api2wire_u8_array_32(apiObj.field0);
   }
 
@@ -1134,8 +1070,12 @@ class RustPlatform extends FlutterRustBridgeBase<RustWire> {
     wireObj.key_hex = api2wire_String(apiObj.keyHex);
   }
 
-  void _api_fill_to_wire_wallet_entropy_source(
-      WalletEntropySource apiObj, wire_WalletEntropySource wireObj) {
+  void _api_fill_to_wire_socket_addr(SocketAddr apiObj, wire_SocketAddr wireObj) {
+    wireObj.ip = api2wire_String(apiObj.ip);
+    wireObj.port = api2wire_u16(apiObj.port);
+  }
+
+  void _api_fill_to_wire_wallet_entropy_source(WalletEntropySource apiObj, wire_WalletEntropySource wireObj) {
     if (apiObj is WalletEntropySource_SeedFile) {
       var pre_field0 = api2wire_String(apiObj.field0);
       wireObj.tag = 0;
@@ -1148,6 +1088,15 @@ class RustPlatform extends FlutterRustBridgeBase<RustWire> {
       wireObj.tag = 1;
       wireObj.kind = inner.inflate_WalletEntropySource_SeedBytes();
       wireObj.kind.ref.SeedBytes.ref.field0 = pre_field0;
+      return;
+    }
+    if (apiObj is WalletEntropySource_Bip39Mnemonic) {
+      var pre_mnemonic = api2wire_String(apiObj.mnemonic);
+      var pre_passphrase = api2wire_opt_String(apiObj.passphrase);
+      wireObj.tag = 2;
+      wireObj.kind = inner.inflate_WalletEntropySource_Bip39Mnemonic();
+      wireObj.kind.ref.Bip39Mnemonic.ref.mnemonic = pre_mnemonic;
+      wireObj.kind.ref.Bip39Mnemonic.ref.passphrase = pre_passphrase;
       return;
     }
   }
@@ -1166,17 +1115,13 @@ class RustWire implements FlutterRustBridgeWireBase {
   late final dartApi = DartApiDl(init_frb_dart_api_dl);
 
   /// Holds the symbol lookup function.
-  final ffi.Pointer<T> Function<T extends ffi.NativeType>(String symbolName)
-      _lookup;
+  final ffi.Pointer<T> Function<T extends ffi.NativeType>(String symbolName) _lookup;
 
   /// The symbols are looked up in [dynamicLibrary].
   RustWire(ffi.DynamicLibrary dynamicLibrary) : _lookup = dynamicLibrary.lookup;
 
   /// The symbols are looked up with [lookup].
-  RustWire.fromLookup(
-      ffi.Pointer<T> Function<T extends ffi.NativeType>(String symbolName)
-          lookup)
-      : _lookup = lookup;
+  RustWire.fromLookup(ffi.Pointer<T> Function<T extends ffi.NativeType>(String symbolName) lookup) : _lookup = lookup;
 
   void store_dart_post_cobject(
     DartPostCObjectFnType ptr,
@@ -1187,10 +1132,8 @@ class RustWire implements FlutterRustBridgeWireBase {
   }
 
   late final _store_dart_post_cobjectPtr =
-      _lookup<ffi.NativeFunction<ffi.Void Function(DartPostCObjectFnType)>>(
-          'store_dart_post_cobject');
-  late final _store_dart_post_cobject = _store_dart_post_cobjectPtr
-      .asFunction<void Function(DartPostCObjectFnType)>();
+      _lookup<ffi.NativeFunction<ffi.Void Function(DartPostCObjectFnType)>>('store_dart_post_cobject');
+  late final _store_dart_post_cobject = _store_dart_post_cobjectPtr.asFunction<void Function(DartPostCObjectFnType)>();
 
   Object get_dart_object(
     int ptr,
@@ -1200,11 +1143,8 @@ class RustWire implements FlutterRustBridgeWireBase {
     );
   }
 
-  late final _get_dart_objectPtr =
-      _lookup<ffi.NativeFunction<ffi.Handle Function(ffi.UintPtr)>>(
-          'get_dart_object');
-  late final _get_dart_object =
-      _get_dart_objectPtr.asFunction<Object Function(int)>();
+  late final _get_dart_objectPtr = _lookup<ffi.NativeFunction<ffi.Handle Function(ffi.UintPtr)>>('get_dart_object');
+  late final _get_dart_object = _get_dart_objectPtr.asFunction<Object Function(int)>();
 
   void drop_dart_object(
     int ptr,
@@ -1214,11 +1154,8 @@ class RustWire implements FlutterRustBridgeWireBase {
     );
   }
 
-  late final _drop_dart_objectPtr =
-      _lookup<ffi.NativeFunction<ffi.Void Function(ffi.UintPtr)>>(
-          'drop_dart_object');
-  late final _drop_dart_object =
-      _drop_dart_objectPtr.asFunction<void Function(int)>();
+  late final _drop_dart_objectPtr = _lookup<ffi.NativeFunction<ffi.Void Function(ffi.UintPtr)>>('drop_dart_object');
+  late final _drop_dart_object = _drop_dart_objectPtr.asFunction<void Function(int)>();
 
   int new_dart_opaque(
     Object handle,
@@ -1228,11 +1165,8 @@ class RustWire implements FlutterRustBridgeWireBase {
     );
   }
 
-  late final _new_dart_opaquePtr =
-      _lookup<ffi.NativeFunction<ffi.UintPtr Function(ffi.Handle)>>(
-          'new_dart_opaque');
-  late final _new_dart_opaque =
-      _new_dart_opaquePtr.asFunction<int Function(Object)>();
+  late final _new_dart_opaquePtr = _lookup<ffi.NativeFunction<ffi.UintPtr Function(ffi.Handle)>>('new_dart_opaque');
+  late final _new_dart_opaque = _new_dart_opaquePtr.asFunction<int Function(Object)>();
 
   int init_frb_dart_api_dl(
     ffi.Pointer<ffi.Void> obj,
@@ -1243,10 +1177,8 @@ class RustWire implements FlutterRustBridgeWireBase {
   }
 
   late final _init_frb_dart_api_dlPtr =
-      _lookup<ffi.NativeFunction<ffi.IntPtr Function(ffi.Pointer<ffi.Void>)>>(
-          'init_frb_dart_api_dl');
-  late final _init_frb_dart_api_dl = _init_frb_dart_api_dlPtr
-      .asFunction<int Function(ffi.Pointer<ffi.Void>)>();
+      _lookup<ffi.NativeFunction<ffi.IntPtr Function(ffi.Pointer<ffi.Void>)>>('init_frb_dart_api_dl');
+  late final _init_frb_dart_api_dl = _init_frb_dart_api_dlPtr.asFunction<int Function(ffi.Pointer<ffi.Void>)>();
 
   void wire_new__static_method__BuilderBase(
     int port_,
@@ -1257,8 +1189,7 @@ class RustWire implements FlutterRustBridgeWireBase {
   }
 
   late final _wire_new__static_method__BuilderBasePtr =
-      _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Int64)>>(
-          'wire_new__static_method__BuilderBase');
+      _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Int64)>>('wire_new__static_method__BuilderBase');
   late final _wire_new__static_method__BuilderBase =
       _wire_new__static_method__BuilderBasePtr.asFunction<void Function(int)>();
 
@@ -1275,14 +1206,11 @@ class RustWire implements FlutterRustBridgeWireBase {
   }
 
   late final _wire_set_entropy_seed_path__method__BuilderBasePtr = _lookup<
-          ffi.NativeFunction<
-              ffi.Void Function(ffi.Int64, ffi.Pointer<wire_BuilderBase>,
-                  ffi.Pointer<wire_uint_8_list>)>>(
-      'wire_set_entropy_seed_path__method__BuilderBase');
-  late final _wire_set_entropy_seed_path__method__BuilderBase =
-      _wire_set_entropy_seed_path__method__BuilderBasePtr.asFunction<
-          void Function(int, ffi.Pointer<wire_BuilderBase>,
-              ffi.Pointer<wire_uint_8_list>)>();
+      ffi.NativeFunction<
+          ffi.Void Function(ffi.Int64, ffi.Pointer<wire_BuilderBase>,
+              ffi.Pointer<wire_uint_8_list>)>>('wire_set_entropy_seed_path__method__BuilderBase');
+  late final _wire_set_entropy_seed_path__method__BuilderBase = _wire_set_entropy_seed_path__method__BuilderBasePtr
+      .asFunction<void Function(int, ffi.Pointer<wire_BuilderBase>, ffi.Pointer<wire_uint_8_list>)>();
 
   void wire_set_entropy_seed_bytes__method__BuilderBase(
     int port_,
@@ -1297,14 +1225,11 @@ class RustWire implements FlutterRustBridgeWireBase {
   }
 
   late final _wire_set_entropy_seed_bytes__method__BuilderBasePtr = _lookup<
-          ffi.NativeFunction<
-              ffi.Void Function(ffi.Int64, ffi.Pointer<wire_BuilderBase>,
-                  ffi.Pointer<wire_uint_8_list>)>>(
-      'wire_set_entropy_seed_bytes__method__BuilderBase');
-  late final _wire_set_entropy_seed_bytes__method__BuilderBase =
-      _wire_set_entropy_seed_bytes__method__BuilderBasePtr.asFunction<
-          void Function(int, ffi.Pointer<wire_BuilderBase>,
-              ffi.Pointer<wire_uint_8_list>)>();
+      ffi.NativeFunction<
+          ffi.Void Function(ffi.Int64, ffi.Pointer<wire_BuilderBase>,
+              ffi.Pointer<wire_uint_8_list>)>>('wire_set_entropy_seed_bytes__method__BuilderBase');
+  late final _wire_set_entropy_seed_bytes__method__BuilderBase = _wire_set_entropy_seed_bytes__method__BuilderBasePtr
+      .asFunction<void Function(int, ffi.Pointer<wire_BuilderBase>, ffi.Pointer<wire_uint_8_list>)>();
 
   void wire_set_storage_dir_path__method__BuilderBase(
     int port_,
@@ -1319,14 +1244,11 @@ class RustWire implements FlutterRustBridgeWireBase {
   }
 
   late final _wire_set_storage_dir_path__method__BuilderBasePtr = _lookup<
-          ffi.NativeFunction<
-              ffi.Void Function(ffi.Int64, ffi.Pointer<wire_BuilderBase>,
-                  ffi.Pointer<wire_uint_8_list>)>>(
-      'wire_set_storage_dir_path__method__BuilderBase');
-  late final _wire_set_storage_dir_path__method__BuilderBase =
-      _wire_set_storage_dir_path__method__BuilderBasePtr.asFunction<
-          void Function(int, ffi.Pointer<wire_BuilderBase>,
-              ffi.Pointer<wire_uint_8_list>)>();
+      ffi.NativeFunction<
+          ffi.Void Function(ffi.Int64, ffi.Pointer<wire_BuilderBase>,
+              ffi.Pointer<wire_uint_8_list>)>>('wire_set_storage_dir_path__method__BuilderBase');
+  late final _wire_set_storage_dir_path__method__BuilderBase = _wire_set_storage_dir_path__method__BuilderBasePtr
+      .asFunction<void Function(int, ffi.Pointer<wire_BuilderBase>, ffi.Pointer<wire_uint_8_list>)>();
 
   void wire_set_esplora_server_url__method__BuilderBase(
     int port_,
@@ -1341,14 +1263,11 @@ class RustWire implements FlutterRustBridgeWireBase {
   }
 
   late final _wire_set_esplora_server_url__method__BuilderBasePtr = _lookup<
-          ffi.NativeFunction<
-              ffi.Void Function(ffi.Int64, ffi.Pointer<wire_BuilderBase>,
-                  ffi.Pointer<wire_uint_8_list>)>>(
-      'wire_set_esplora_server_url__method__BuilderBase');
-  late final _wire_set_esplora_server_url__method__BuilderBase =
-      _wire_set_esplora_server_url__method__BuilderBasePtr.asFunction<
-          void Function(int, ffi.Pointer<wire_BuilderBase>,
-              ffi.Pointer<wire_uint_8_list>)>();
+      ffi.NativeFunction<
+          ffi.Void Function(ffi.Int64, ffi.Pointer<wire_BuilderBase>,
+              ffi.Pointer<wire_uint_8_list>)>>('wire_set_esplora_server_url__method__BuilderBase');
+  late final _wire_set_esplora_server_url__method__BuilderBase = _wire_set_esplora_server_url__method__BuilderBasePtr
+      .asFunction<void Function(int, ffi.Pointer<wire_BuilderBase>, ffi.Pointer<wire_uint_8_list>)>();
 
   void wire_set_network__method__BuilderBase(
     int port_,
@@ -1362,18 +1281,16 @@ class RustWire implements FlutterRustBridgeWireBase {
     );
   }
 
-  late final _wire_set_network__method__BuilderBasePtr = _lookup<
-      ffi.NativeFunction<
-          ffi.Void Function(ffi.Int64, ffi.Pointer<wire_BuilderBase>,
-              ffi.Int32)>>('wire_set_network__method__BuilderBase');
+  late final _wire_set_network__method__BuilderBasePtr =
+      _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Int64, ffi.Pointer<wire_BuilderBase>, ffi.Int32)>>(
+          'wire_set_network__method__BuilderBase');
   late final _wire_set_network__method__BuilderBase =
-      _wire_set_network__method__BuilderBasePtr
-          .asFunction<void Function(int, ffi.Pointer<wire_BuilderBase>, int)>();
+      _wire_set_network__method__BuilderBasePtr.asFunction<void Function(int, ffi.Pointer<wire_BuilderBase>, int)>();
 
   void wire_set_listening_address__method__BuilderBase(
     int port_,
     ffi.Pointer<wire_BuilderBase> that,
-    ffi.Pointer<wire_uint_8_list> listening_address,
+    ffi.Pointer<wire_SocketAddr> listening_address,
   ) {
     return _wire_set_listening_address__method__BuilderBase(
       port_,
@@ -1383,14 +1300,11 @@ class RustWire implements FlutterRustBridgeWireBase {
   }
 
   late final _wire_set_listening_address__method__BuilderBasePtr = _lookup<
-          ffi.NativeFunction<
-              ffi.Void Function(ffi.Int64, ffi.Pointer<wire_BuilderBase>,
-                  ffi.Pointer<wire_uint_8_list>)>>(
-      'wire_set_listening_address__method__BuilderBase');
-  late final _wire_set_listening_address__method__BuilderBase =
-      _wire_set_listening_address__method__BuilderBasePtr.asFunction<
-          void Function(int, ffi.Pointer<wire_BuilderBase>,
-              ffi.Pointer<wire_uint_8_list>)>();
+      ffi.NativeFunction<
+          ffi.Void Function(ffi.Int64, ffi.Pointer<wire_BuilderBase>,
+              ffi.Pointer<wire_SocketAddr>)>>('wire_set_listening_address__method__BuilderBase');
+  late final _wire_set_listening_address__method__BuilderBase = _wire_set_listening_address__method__BuilderBasePtr
+      .asFunction<void Function(int, ffi.Pointer<wire_BuilderBase>, ffi.Pointer<wire_SocketAddr>)>();
 
   void wire_build__static_method__BuilderBase(
     int port_,
@@ -1402,13 +1316,11 @@ class RustWire implements FlutterRustBridgeWireBase {
     );
   }
 
-  late final _wire_build__static_method__BuilderBasePtr = _lookup<
-          ffi.NativeFunction<
-              ffi.Void Function(ffi.Int64, ffi.Pointer<wire_BuilderBase>)>>(
-      'wire_build__static_method__BuilderBase');
+  late final _wire_build__static_method__BuilderBasePtr =
+      _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Int64, ffi.Pointer<wire_BuilderBase>)>>(
+          'wire_build__static_method__BuilderBase');
   late final _wire_build__static_method__BuilderBase =
-      _wire_build__static_method__BuilderBasePtr
-          .asFunction<void Function(int, ffi.Pointer<wire_BuilderBase>)>();
+      _wire_build__static_method__BuilderBasePtr.asFunction<void Function(int, ffi.Pointer<wire_BuilderBase>)>();
 
   void wire_start__method__NodeBase(
     int port_,
@@ -1420,12 +1332,11 @@ class RustWire implements FlutterRustBridgeWireBase {
     );
   }
 
-  late final _wire_start__method__NodeBasePtr = _lookup<
-      ffi.NativeFunction<
-          ffi.Void Function(ffi.Int64,
-              ffi.Pointer<wire_NodeBase>)>>('wire_start__method__NodeBase');
-  late final _wire_start__method__NodeBase = _wire_start__method__NodeBasePtr
-      .asFunction<void Function(int, ffi.Pointer<wire_NodeBase>)>();
+  late final _wire_start__method__NodeBasePtr =
+      _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Int64, ffi.Pointer<wire_NodeBase>)>>(
+          'wire_start__method__NodeBase');
+  late final _wire_start__method__NodeBase =
+      _wire_start__method__NodeBasePtr.asFunction<void Function(int, ffi.Pointer<wire_NodeBase>)>();
 
   void wire_stop__method__NodeBase(
     int port_,
@@ -1437,12 +1348,11 @@ class RustWire implements FlutterRustBridgeWireBase {
     );
   }
 
-  late final _wire_stop__method__NodeBasePtr = _lookup<
-      ffi.NativeFunction<
-          ffi.Void Function(ffi.Int64,
-              ffi.Pointer<wire_NodeBase>)>>('wire_stop__method__NodeBase');
-  late final _wire_stop__method__NodeBase = _wire_stop__method__NodeBasePtr
-      .asFunction<void Function(int, ffi.Pointer<wire_NodeBase>)>();
+  late final _wire_stop__method__NodeBasePtr =
+      _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Int64, ffi.Pointer<wire_NodeBase>)>>(
+          'wire_stop__method__NodeBase');
+  late final _wire_stop__method__NodeBase =
+      _wire_stop__method__NodeBasePtr.asFunction<void Function(int, ffi.Pointer<wire_NodeBase>)>();
 
   void wire_event_handled__method__NodeBase(
     int port_,
@@ -1454,13 +1364,11 @@ class RustWire implements FlutterRustBridgeWireBase {
     );
   }
 
-  late final _wire_event_handled__method__NodeBasePtr = _lookup<
-          ffi.NativeFunction<
-              ffi.Void Function(ffi.Int64, ffi.Pointer<wire_NodeBase>)>>(
-      'wire_event_handled__method__NodeBase');
+  late final _wire_event_handled__method__NodeBasePtr =
+      _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Int64, ffi.Pointer<wire_NodeBase>)>>(
+          'wire_event_handled__method__NodeBase');
   late final _wire_event_handled__method__NodeBase =
-      _wire_event_handled__method__NodeBasePtr
-          .asFunction<void Function(int, ffi.Pointer<wire_NodeBase>)>();
+      _wire_event_handled__method__NodeBasePtr.asFunction<void Function(int, ffi.Pointer<wire_NodeBase>)>();
 
   void wire_next_event__method__NodeBase(
     int port_,
@@ -1472,13 +1380,11 @@ class RustWire implements FlutterRustBridgeWireBase {
     );
   }
 
-  late final _wire_next_event__method__NodeBasePtr = _lookup<
-          ffi.NativeFunction<
-              ffi.Void Function(ffi.Int64, ffi.Pointer<wire_NodeBase>)>>(
-      'wire_next_event__method__NodeBase');
+  late final _wire_next_event__method__NodeBasePtr =
+      _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Int64, ffi.Pointer<wire_NodeBase>)>>(
+          'wire_next_event__method__NodeBase');
   late final _wire_next_event__method__NodeBase =
-      _wire_next_event__method__NodeBasePtr
-          .asFunction<void Function(int, ffi.Pointer<wire_NodeBase>)>();
+      _wire_next_event__method__NodeBasePtr.asFunction<void Function(int, ffi.Pointer<wire_NodeBase>)>();
 
   void wire_node_id__method__NodeBase(
     int port_,
@@ -1490,13 +1396,11 @@ class RustWire implements FlutterRustBridgeWireBase {
     );
   }
 
-  late final _wire_node_id__method__NodeBasePtr = _lookup<
-      ffi.NativeFunction<
-          ffi.Void Function(ffi.Int64,
-              ffi.Pointer<wire_NodeBase>)>>('wire_node_id__method__NodeBase');
+  late final _wire_node_id__method__NodeBasePtr =
+      _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Int64, ffi.Pointer<wire_NodeBase>)>>(
+          'wire_node_id__method__NodeBase');
   late final _wire_node_id__method__NodeBase =
-      _wire_node_id__method__NodeBasePtr
-          .asFunction<void Function(int, ffi.Pointer<wire_NodeBase>)>();
+      _wire_node_id__method__NodeBasePtr.asFunction<void Function(int, ffi.Pointer<wire_NodeBase>)>();
 
   void wire_listening_address__method__NodeBase(
     int port_,
@@ -1508,13 +1412,11 @@ class RustWire implements FlutterRustBridgeWireBase {
     );
   }
 
-  late final _wire_listening_address__method__NodeBasePtr = _lookup<
-          ffi.NativeFunction<
-              ffi.Void Function(ffi.Int64, ffi.Pointer<wire_NodeBase>)>>(
-      'wire_listening_address__method__NodeBase');
+  late final _wire_listening_address__method__NodeBasePtr =
+      _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Int64, ffi.Pointer<wire_NodeBase>)>>(
+          'wire_listening_address__method__NodeBase');
   late final _wire_listening_address__method__NodeBase =
-      _wire_listening_address__method__NodeBasePtr
-          .asFunction<void Function(int, ffi.Pointer<wire_NodeBase>)>();
+      _wire_listening_address__method__NodeBasePtr.asFunction<void Function(int, ffi.Pointer<wire_NodeBase>)>();
 
   void wire_new_funding_address__method__NodeBase(
     int port_,
@@ -1526,44 +1428,28 @@ class RustWire implements FlutterRustBridgeWireBase {
     );
   }
 
-  late final _wire_new_funding_address__method__NodeBasePtr = _lookup<
-          ffi.NativeFunction<
-              ffi.Void Function(ffi.Int64, ffi.Pointer<wire_NodeBase>)>>(
-      'wire_new_funding_address__method__NodeBase');
+  late final _wire_new_funding_address__method__NodeBasePtr =
+      _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Int64, ffi.Pointer<wire_NodeBase>)>>(
+          'wire_new_funding_address__method__NodeBase');
   late final _wire_new_funding_address__method__NodeBase =
-      _wire_new_funding_address__method__NodeBasePtr
-          .asFunction<void Function(int, ffi.Pointer<wire_NodeBase>)>();
-
-  void wire_on_chain_balance__method__NodeBase(
-    int port_,
-    ffi.Pointer<wire_NodeBase> that,
-  ) {
-    return _wire_on_chain_balance__method__NodeBase(
-      port_,
-      that,
-    );
-  }
-
-  late final _wire_on_chain_balance__method__NodeBasePtr = _lookup<
-          ffi.NativeFunction<
-              ffi.Void Function(ffi.Int64, ffi.Pointer<wire_NodeBase>)>>(
-      'wire_on_chain_balance__method__NodeBase');
-  late final _wire_on_chain_balance__method__NodeBase =
-      _wire_on_chain_balance__method__NodeBasePtr
-          .asFunction<void Function(int, ffi.Pointer<wire_NodeBase>)>();
+      _wire_new_funding_address__method__NodeBasePtr.asFunction<void Function(int, ffi.Pointer<wire_NodeBase>)>();
 
   void wire_connect_open_channel__method__NodeBase(
     int port_,
     ffi.Pointer<wire_NodeBase> that,
-    ffi.Pointer<wire_uint_8_list> node_pubkey_and_address,
+    ffi.Pointer<wire_SocketAddr> address,
+    ffi.Pointer<wire_PublicKey> node_id,
     int channel_amount_sats,
+    ffi.Pointer<ffi.Uint64> push_to_counterparty_msat,
     bool announce_channel,
   ) {
     return _wire_connect_open_channel__method__NodeBase(
       port_,
       that,
-      node_pubkey_and_address,
+      address,
+      node_id,
       channel_amount_sats,
+      push_to_counterparty_msat,
       announce_channel,
     );
   }
@@ -1573,13 +1459,14 @@ class RustWire implements FlutterRustBridgeWireBase {
           ffi.Void Function(
               ffi.Int64,
               ffi.Pointer<wire_NodeBase>,
-              ffi.Pointer<wire_uint_8_list>,
+              ffi.Pointer<wire_SocketAddr>,
+              ffi.Pointer<wire_PublicKey>,
               ffi.Uint64,
+              ffi.Pointer<ffi.Uint64>,
               ffi.Bool)>>('wire_connect_open_channel__method__NodeBase');
-  late final _wire_connect_open_channel__method__NodeBase =
-      _wire_connect_open_channel__method__NodeBasePtr.asFunction<
-          void Function(int, ffi.Pointer<wire_NodeBase>,
-              ffi.Pointer<wire_uint_8_list>, int, bool)>();
+  late final _wire_connect_open_channel__method__NodeBase = _wire_connect_open_channel__method__NodeBasePtr.asFunction<
+      void Function(int, ffi.Pointer<wire_NodeBase>, ffi.Pointer<wire_SocketAddr>, ffi.Pointer<wire_PublicKey>, int,
+          ffi.Pointer<ffi.Uint64>, bool)>();
 
   void wire_list_channels__method__NodeBase(
     int port_,
@@ -1591,13 +1478,11 @@ class RustWire implements FlutterRustBridgeWireBase {
     );
   }
 
-  late final _wire_list_channels__method__NodeBasePtr = _lookup<
-          ffi.NativeFunction<
-              ffi.Void Function(ffi.Int64, ffi.Pointer<wire_NodeBase>)>>(
-      'wire_list_channels__method__NodeBase');
+  late final _wire_list_channels__method__NodeBasePtr =
+      _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Int64, ffi.Pointer<wire_NodeBase>)>>(
+          'wire_list_channels__method__NodeBase');
   late final _wire_list_channels__method__NodeBase =
-      _wire_list_channels__method__NodeBasePtr
-          .asFunction<void Function(int, ffi.Pointer<wire_NodeBase>)>();
+      _wire_list_channels__method__NodeBasePtr.asFunction<void Function(int, ffi.Pointer<wire_NodeBase>)>();
 
   void wire_sync_wallets__method__NodeBase(
     int port_,
@@ -1609,13 +1494,11 @@ class RustWire implements FlutterRustBridgeWireBase {
     );
   }
 
-  late final _wire_sync_wallets__method__NodeBasePtr = _lookup<
-          ffi.NativeFunction<
-              ffi.Void Function(ffi.Int64, ffi.Pointer<wire_NodeBase>)>>(
-      'wire_sync_wallets__method__NodeBase');
+  late final _wire_sync_wallets__method__NodeBasePtr =
+      _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Int64, ffi.Pointer<wire_NodeBase>)>>(
+          'wire_sync_wallets__method__NodeBase');
   late final _wire_sync_wallets__method__NodeBase =
-      _wire_sync_wallets__method__NodeBasePtr
-          .asFunction<void Function(int, ffi.Pointer<wire_NodeBase>)>();
+      _wire_sync_wallets__method__NodeBasePtr.asFunction<void Function(int, ffi.Pointer<wire_NodeBase>)>();
 
   void wire_close_channel__method__NodeBase(
     int port_,
@@ -1632,14 +1515,11 @@ class RustWire implements FlutterRustBridgeWireBase {
   }
 
   late final _wire_close_channel__method__NodeBasePtr = _lookup<
-          ffi.NativeFunction<
-              ffi.Void Function(ffi.Int64, ffi.Pointer<wire_NodeBase>,
-                  ffi.Pointer<wire_uint_8_list>, ffi.Pointer<wire_PublicKey>)>>(
-      'wire_close_channel__method__NodeBase');
-  late final _wire_close_channel__method__NodeBase =
-      _wire_close_channel__method__NodeBasePtr.asFunction<
-          void Function(int, ffi.Pointer<wire_NodeBase>,
-              ffi.Pointer<wire_uint_8_list>, ffi.Pointer<wire_PublicKey>)>();
+      ffi.NativeFunction<
+          ffi.Void Function(ffi.Int64, ffi.Pointer<wire_NodeBase>, ffi.Pointer<wire_uint_8_list>,
+              ffi.Pointer<wire_PublicKey>)>>('wire_close_channel__method__NodeBase');
+  late final _wire_close_channel__method__NodeBase = _wire_close_channel__method__NodeBasePtr.asFunction<
+      void Function(int, ffi.Pointer<wire_NodeBase>, ffi.Pointer<wire_uint_8_list>, ffi.Pointer<wire_PublicKey>)>();
 
   void wire_send_payment__method__NodeBase(
     int port_,
@@ -1653,15 +1533,11 @@ class RustWire implements FlutterRustBridgeWireBase {
     );
   }
 
-  late final _wire_send_payment__method__NodeBasePtr = _lookup<
-          ffi.NativeFunction<
-              ffi.Void Function(ffi.Int64, ffi.Pointer<wire_NodeBase>,
-                  ffi.Pointer<wire_Invoice>)>>(
-      'wire_send_payment__method__NodeBase');
-  late final _wire_send_payment__method__NodeBase =
-      _wire_send_payment__method__NodeBasePtr.asFunction<
-          void Function(
-              int, ffi.Pointer<wire_NodeBase>, ffi.Pointer<wire_Invoice>)>();
+  late final _wire_send_payment__method__NodeBasePtr =
+      _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Int64, ffi.Pointer<wire_NodeBase>, ffi.Pointer<wire_Invoice>)>>(
+          'wire_send_payment__method__NodeBase');
+  late final _wire_send_payment__method__NodeBase = _wire_send_payment__method__NodeBasePtr
+      .asFunction<void Function(int, ffi.Pointer<wire_NodeBase>, ffi.Pointer<wire_Invoice>)>();
 
   void wire_send_payment_using_amount__method__NodeBase(
     int port_,
@@ -1679,21 +1555,16 @@ class RustWire implements FlutterRustBridgeWireBase {
 
   late final _wire_send_payment_using_amount__method__NodeBasePtr = _lookup<
       ffi.NativeFunction<
-          ffi.Void Function(
-              ffi.Int64,
-              ffi.Pointer<wire_NodeBase>,
-              ffi.Pointer<wire_Invoice>,
+          ffi.Void Function(ffi.Int64, ffi.Pointer<wire_NodeBase>, ffi.Pointer<wire_Invoice>,
               ffi.Uint64)>>('wire_send_payment_using_amount__method__NodeBase');
-  late final _wire_send_payment_using_amount__method__NodeBase =
-      _wire_send_payment_using_amount__method__NodeBasePtr.asFunction<
-          void Function(int, ffi.Pointer<wire_NodeBase>,
-              ffi.Pointer<wire_Invoice>, int)>();
+  late final _wire_send_payment_using_amount__method__NodeBase = _wire_send_payment_using_amount__method__NodeBasePtr
+      .asFunction<void Function(int, ffi.Pointer<wire_NodeBase>, ffi.Pointer<wire_Invoice>, int)>();
 
   void wire_send_spontaneous_payment__method__NodeBase(
     int port_,
     ffi.Pointer<wire_NodeBase> that,
     int amount_msat,
-    ffi.Pointer<wire_uint_8_list> node_id,
+    ffi.Pointer<wire_PublicKey> node_id,
   ) {
     return _wire_send_spontaneous_payment__method__NodeBase(
       port_,
@@ -1704,14 +1575,11 @@ class RustWire implements FlutterRustBridgeWireBase {
   }
 
   late final _wire_send_spontaneous_payment__method__NodeBasePtr = _lookup<
-          ffi.NativeFunction<
-              ffi.Void Function(ffi.Int64, ffi.Pointer<wire_NodeBase>,
-                  ffi.Uint64, ffi.Pointer<wire_uint_8_list>)>>(
-      'wire_send_spontaneous_payment__method__NodeBase');
-  late final _wire_send_spontaneous_payment__method__NodeBase =
-      _wire_send_spontaneous_payment__method__NodeBasePtr.asFunction<
-          void Function(int, ffi.Pointer<wire_NodeBase>, int,
-              ffi.Pointer<wire_uint_8_list>)>();
+      ffi.NativeFunction<
+          ffi.Void Function(ffi.Int64, ffi.Pointer<wire_NodeBase>, ffi.Uint64,
+              ffi.Pointer<wire_PublicKey>)>>('wire_send_spontaneous_payment__method__NodeBase');
+  late final _wire_send_spontaneous_payment__method__NodeBase = _wire_send_spontaneous_payment__method__NodeBasePtr
+      .asFunction<void Function(int, ffi.Pointer<wire_NodeBase>, int, ffi.Pointer<wire_PublicKey>)>();
 
   void wire_receive_payment__method__NodeBase(
     int port_,
@@ -1731,16 +1599,10 @@ class RustWire implements FlutterRustBridgeWireBase {
 
   late final _wire_receive_payment__method__NodeBasePtr = _lookup<
       ffi.NativeFunction<
-          ffi.Void Function(
-              ffi.Int64,
-              ffi.Pointer<wire_NodeBase>,
-              ffi.Uint64,
-              ffi.Pointer<wire_uint_8_list>,
+          ffi.Void Function(ffi.Int64, ffi.Pointer<wire_NodeBase>, ffi.Uint64, ffi.Pointer<wire_uint_8_list>,
               ffi.Uint32)>>('wire_receive_payment__method__NodeBase');
-  late final _wire_receive_payment__method__NodeBase =
-      _wire_receive_payment__method__NodeBasePtr.asFunction<
-          void Function(int, ffi.Pointer<wire_NodeBase>, int,
-              ffi.Pointer<wire_uint_8_list>, int)>();
+  late final _wire_receive_payment__method__NodeBase = _wire_receive_payment__method__NodeBasePtr
+      .asFunction<void Function(int, ffi.Pointer<wire_NodeBase>, int, ffi.Pointer<wire_uint_8_list>, int)>();
 
   void wire_receive_variable_amount_payment__method__NodeBase(
     int port_,
@@ -1756,112 +1618,114 @@ class RustWire implements FlutterRustBridgeWireBase {
     );
   }
 
-  late final _wire_receive_variable_amount_payment__method__NodeBasePtr =
-      _lookup<
-              ffi.NativeFunction<
-                  ffi.Void Function(ffi.Int64, ffi.Pointer<wire_NodeBase>,
-                      ffi.Pointer<wire_uint_8_list>, ffi.Uint32)>>(
-          'wire_receive_variable_amount_payment__method__NodeBase');
+  late final _wire_receive_variable_amount_payment__method__NodeBasePtr = _lookup<
+      ffi.NativeFunction<
+          ffi.Void Function(ffi.Int64, ffi.Pointer<wire_NodeBase>, ffi.Pointer<wire_uint_8_list>,
+              ffi.Uint32)>>('wire_receive_variable_amount_payment__method__NodeBase');
   late final _wire_receive_variable_amount_payment__method__NodeBase =
-      _wire_receive_variable_amount_payment__method__NodeBasePtr.asFunction<
-          void Function(int, ffi.Pointer<wire_NodeBase>,
-              ffi.Pointer<wire_uint_8_list>, int)>();
+      _wire_receive_variable_amount_payment__method__NodeBasePtr
+          .asFunction<void Function(int, ffi.Pointer<wire_NodeBase>, ffi.Pointer<wire_uint_8_list>, int)>();
 
-  void wire_payment_info__method__NodeBase(
+  void wire_payment__method__NodeBase(
     int port_,
     ffi.Pointer<wire_NodeBase> that,
     ffi.Pointer<wire_PaymentHash> payment_hash,
   ) {
-    return _wire_payment_info__method__NodeBase(
+    return _wire_payment__method__NodeBase(
       port_,
       that,
       payment_hash,
     );
   }
 
-  late final _wire_payment_info__method__NodeBasePtr = _lookup<
-          ffi.NativeFunction<
-              ffi.Void Function(ffi.Int64, ffi.Pointer<wire_NodeBase>,
-                  ffi.Pointer<wire_PaymentHash>)>>(
-      'wire_payment_info__method__NodeBase');
-  late final _wire_payment_info__method__NodeBase =
-      _wire_payment_info__method__NodeBasePtr.asFunction<
-          void Function(int, ffi.Pointer<wire_NodeBase>,
-              ffi.Pointer<wire_PaymentHash>)>();
+  late final _wire_payment__method__NodeBasePtr = _lookup<
+          ffi.NativeFunction<ffi.Void Function(ffi.Int64, ffi.Pointer<wire_NodeBase>, ffi.Pointer<wire_PaymentHash>)>>(
+      'wire_payment__method__NodeBase');
+  late final _wire_payment__method__NodeBase = _wire_payment__method__NodeBasePtr
+      .asFunction<void Function(int, ffi.Pointer<wire_NodeBase>, ffi.Pointer<wire_PaymentHash>)>();
 
   wire_NodePointer new_NodePointer() {
     return _new_NodePointer();
   }
 
-  late final _new_NodePointerPtr =
-      _lookup<ffi.NativeFunction<wire_NodePointer Function()>>(
-          'new_NodePointer');
-  late final _new_NodePointer =
-      _new_NodePointerPtr.asFunction<wire_NodePointer Function()>();
+  late final _new_NodePointerPtr = _lookup<ffi.NativeFunction<wire_NodePointer Function()>>('new_NodePointer');
+  late final _new_NodePointer = _new_NodePointerPtr.asFunction<wire_NodePointer Function()>();
 
   ffi.Pointer<wire_BuilderBase> new_box_autoadd_builder_base_0() {
     return _new_box_autoadd_builder_base_0();
   }
 
   late final _new_box_autoadd_builder_base_0Ptr =
-      _lookup<ffi.NativeFunction<ffi.Pointer<wire_BuilderBase> Function()>>(
-          'new_box_autoadd_builder_base_0');
+      _lookup<ffi.NativeFunction<ffi.Pointer<wire_BuilderBase> Function()>>('new_box_autoadd_builder_base_0');
   late final _new_box_autoadd_builder_base_0 =
-      _new_box_autoadd_builder_base_0Ptr
-          .asFunction<ffi.Pointer<wire_BuilderBase> Function()>();
+      _new_box_autoadd_builder_base_0Ptr.asFunction<ffi.Pointer<wire_BuilderBase> Function()>();
 
   ffi.Pointer<wire_Invoice> new_box_autoadd_invoice_0() {
     return _new_box_autoadd_invoice_0();
   }
 
   late final _new_box_autoadd_invoice_0Ptr =
-      _lookup<ffi.NativeFunction<ffi.Pointer<wire_Invoice> Function()>>(
-          'new_box_autoadd_invoice_0');
-  late final _new_box_autoadd_invoice_0 = _new_box_autoadd_invoice_0Ptr
-      .asFunction<ffi.Pointer<wire_Invoice> Function()>();
+      _lookup<ffi.NativeFunction<ffi.Pointer<wire_Invoice> Function()>>('new_box_autoadd_invoice_0');
+  late final _new_box_autoadd_invoice_0 =
+      _new_box_autoadd_invoice_0Ptr.asFunction<ffi.Pointer<wire_Invoice> Function()>();
 
   ffi.Pointer<wire_NodeBase> new_box_autoadd_node_base_0() {
     return _new_box_autoadd_node_base_0();
   }
 
   late final _new_box_autoadd_node_base_0Ptr =
-      _lookup<ffi.NativeFunction<ffi.Pointer<wire_NodeBase> Function()>>(
-          'new_box_autoadd_node_base_0');
-  late final _new_box_autoadd_node_base_0 = _new_box_autoadd_node_base_0Ptr
-      .asFunction<ffi.Pointer<wire_NodeBase> Function()>();
+      _lookup<ffi.NativeFunction<ffi.Pointer<wire_NodeBase> Function()>>('new_box_autoadd_node_base_0');
+  late final _new_box_autoadd_node_base_0 =
+      _new_box_autoadd_node_base_0Ptr.asFunction<ffi.Pointer<wire_NodeBase> Function()>();
 
   ffi.Pointer<wire_PaymentHash> new_box_autoadd_payment_hash_0() {
     return _new_box_autoadd_payment_hash_0();
   }
 
   late final _new_box_autoadd_payment_hash_0Ptr =
-      _lookup<ffi.NativeFunction<ffi.Pointer<wire_PaymentHash> Function()>>(
-          'new_box_autoadd_payment_hash_0');
+      _lookup<ffi.NativeFunction<ffi.Pointer<wire_PaymentHash> Function()>>('new_box_autoadd_payment_hash_0');
   late final _new_box_autoadd_payment_hash_0 =
-      _new_box_autoadd_payment_hash_0Ptr
-          .asFunction<ffi.Pointer<wire_PaymentHash> Function()>();
+      _new_box_autoadd_payment_hash_0Ptr.asFunction<ffi.Pointer<wire_PaymentHash> Function()>();
 
   ffi.Pointer<wire_PublicKey> new_box_autoadd_public_key_0() {
     return _new_box_autoadd_public_key_0();
   }
 
   late final _new_box_autoadd_public_key_0Ptr =
-      _lookup<ffi.NativeFunction<ffi.Pointer<wire_PublicKey> Function()>>(
-          'new_box_autoadd_public_key_0');
-  late final _new_box_autoadd_public_key_0 = _new_box_autoadd_public_key_0Ptr
-      .asFunction<ffi.Pointer<wire_PublicKey> Function()>();
+      _lookup<ffi.NativeFunction<ffi.Pointer<wire_PublicKey> Function()>>('new_box_autoadd_public_key_0');
+  late final _new_box_autoadd_public_key_0 =
+      _new_box_autoadd_public_key_0Ptr.asFunction<ffi.Pointer<wire_PublicKey> Function()>();
 
-  ffi.Pointer<wire_WalletEntropySource>
-      new_box_autoadd_wallet_entropy_source_0() {
+  ffi.Pointer<wire_SocketAddr> new_box_autoadd_socket_addr_0() {
+    return _new_box_autoadd_socket_addr_0();
+  }
+
+  late final _new_box_autoadd_socket_addr_0Ptr =
+      _lookup<ffi.NativeFunction<ffi.Pointer<wire_SocketAddr> Function()>>('new_box_autoadd_socket_addr_0');
+  late final _new_box_autoadd_socket_addr_0 =
+      _new_box_autoadd_socket_addr_0Ptr.asFunction<ffi.Pointer<wire_SocketAddr> Function()>();
+
+  ffi.Pointer<ffi.Uint64> new_box_autoadd_u64_0(
+    int value,
+  ) {
+    return _new_box_autoadd_u64_0(
+      value,
+    );
+  }
+
+  late final _new_box_autoadd_u64_0Ptr =
+      _lookup<ffi.NativeFunction<ffi.Pointer<ffi.Uint64> Function(ffi.Uint64)>>('new_box_autoadd_u64_0');
+  late final _new_box_autoadd_u64_0 = _new_box_autoadd_u64_0Ptr.asFunction<ffi.Pointer<ffi.Uint64> Function(int)>();
+
+  ffi.Pointer<wire_WalletEntropySource> new_box_autoadd_wallet_entropy_source_0() {
     return _new_box_autoadd_wallet_entropy_source_0();
   }
 
-  late final _new_box_autoadd_wallet_entropy_source_0Ptr = _lookup<
-          ffi.NativeFunction<ffi.Pointer<wire_WalletEntropySource> Function()>>(
-      'new_box_autoadd_wallet_entropy_source_0');
+  late final _new_box_autoadd_wallet_entropy_source_0Ptr =
+      _lookup<ffi.NativeFunction<ffi.Pointer<wire_WalletEntropySource> Function()>>(
+          'new_box_autoadd_wallet_entropy_source_0');
   late final _new_box_autoadd_wallet_entropy_source_0 =
-      _new_box_autoadd_wallet_entropy_source_0Ptr
-          .asFunction<ffi.Pointer<wire_WalletEntropySource> Function()>();
+      _new_box_autoadd_wallet_entropy_source_0Ptr.asFunction<ffi.Pointer<wire_WalletEntropySource> Function()>();
 
   ffi.Pointer<wire_uint_8_list> new_uint_8_list_0(
     int len,
@@ -1871,12 +1735,9 @@ class RustWire implements FlutterRustBridgeWireBase {
     );
   }
 
-  late final _new_uint_8_list_0Ptr = _lookup<
-      ffi.NativeFunction<
-          ffi.Pointer<wire_uint_8_list> Function(
-              ffi.Int32)>>('new_uint_8_list_0');
-  late final _new_uint_8_list_0 = _new_uint_8_list_0Ptr
-      .asFunction<ffi.Pointer<wire_uint_8_list> Function(int)>();
+  late final _new_uint_8_list_0Ptr =
+      _lookup<ffi.NativeFunction<ffi.Pointer<wire_uint_8_list> Function(ffi.Int32)>>('new_uint_8_list_0');
+  late final _new_uint_8_list_0 = _new_uint_8_list_0Ptr.asFunction<ffi.Pointer<wire_uint_8_list> Function(int)>();
 
   void drop_opaque_NodePointer(
     ffi.Pointer<ffi.Void> ptr,
@@ -1887,10 +1748,8 @@ class RustWire implements FlutterRustBridgeWireBase {
   }
 
   late final _drop_opaque_NodePointerPtr =
-      _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void>)>>(
-          'drop_opaque_NodePointer');
-  late final _drop_opaque_NodePointer = _drop_opaque_NodePointerPtr
-      .asFunction<void Function(ffi.Pointer<ffi.Void>)>();
+      _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void>)>>('drop_opaque_NodePointer');
+  late final _drop_opaque_NodePointer = _drop_opaque_NodePointerPtr.asFunction<void Function(ffi.Pointer<ffi.Void>)>();
 
   ffi.Pointer<ffi.Void> share_opaque_NodePointer(
     ffi.Pointer<ffi.Void> ptr,
@@ -1900,34 +1759,40 @@ class RustWire implements FlutterRustBridgeWireBase {
     );
   }
 
-  late final _share_opaque_NodePointerPtr = _lookup<
-      ffi.NativeFunction<
-          ffi.Pointer<ffi.Void> Function(
-              ffi.Pointer<ffi.Void>)>>('share_opaque_NodePointer');
-  late final _share_opaque_NodePointer = _share_opaque_NodePointerPtr
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
+  late final _share_opaque_NodePointerPtr =
+      _lookup<ffi.NativeFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>>('share_opaque_NodePointer');
+  late final _share_opaque_NodePointer =
+      _share_opaque_NodePointerPtr.asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
 
   ffi.Pointer<WalletEntropySourceKind> inflate_WalletEntropySource_SeedFile() {
     return _inflate_WalletEntropySource_SeedFile();
   }
 
-  late final _inflate_WalletEntropySource_SeedFilePtr = _lookup<
-          ffi.NativeFunction<ffi.Pointer<WalletEntropySourceKind> Function()>>(
-      'inflate_WalletEntropySource_SeedFile');
+  late final _inflate_WalletEntropySource_SeedFilePtr =
+      _lookup<ffi.NativeFunction<ffi.Pointer<WalletEntropySourceKind> Function()>>(
+          'inflate_WalletEntropySource_SeedFile');
   late final _inflate_WalletEntropySource_SeedFile =
-      _inflate_WalletEntropySource_SeedFilePtr
-          .asFunction<ffi.Pointer<WalletEntropySourceKind> Function()>();
+      _inflate_WalletEntropySource_SeedFilePtr.asFunction<ffi.Pointer<WalletEntropySourceKind> Function()>();
 
   ffi.Pointer<WalletEntropySourceKind> inflate_WalletEntropySource_SeedBytes() {
     return _inflate_WalletEntropySource_SeedBytes();
   }
 
-  late final _inflate_WalletEntropySource_SeedBytesPtr = _lookup<
-          ffi.NativeFunction<ffi.Pointer<WalletEntropySourceKind> Function()>>(
-      'inflate_WalletEntropySource_SeedBytes');
+  late final _inflate_WalletEntropySource_SeedBytesPtr =
+      _lookup<ffi.NativeFunction<ffi.Pointer<WalletEntropySourceKind> Function()>>(
+          'inflate_WalletEntropySource_SeedBytes');
   late final _inflate_WalletEntropySource_SeedBytes =
-      _inflate_WalletEntropySource_SeedBytesPtr
-          .asFunction<ffi.Pointer<WalletEntropySourceKind> Function()>();
+      _inflate_WalletEntropySource_SeedBytesPtr.asFunction<ffi.Pointer<WalletEntropySourceKind> Function()>();
+
+  ffi.Pointer<WalletEntropySourceKind> inflate_WalletEntropySource_Bip39Mnemonic() {
+    return _inflate_WalletEntropySource_Bip39Mnemonic();
+  }
+
+  late final _inflate_WalletEntropySource_Bip39MnemonicPtr =
+      _lookup<ffi.NativeFunction<ffi.Pointer<WalletEntropySourceKind> Function()>>(
+          'inflate_WalletEntropySource_Bip39Mnemonic');
+  late final _inflate_WalletEntropySource_Bip39Mnemonic =
+      _inflate_WalletEntropySource_Bip39MnemonicPtr.asFunction<ffi.Pointer<WalletEntropySourceKind> Function()>();
 
   void free_WireSyncReturn(
     WireSyncReturn ptr,
@@ -1938,10 +1803,8 @@ class RustWire implements FlutterRustBridgeWireBase {
   }
 
   late final _free_WireSyncReturnPtr =
-      _lookup<ffi.NativeFunction<ffi.Void Function(WireSyncReturn)>>(
-          'free_WireSyncReturn');
-  late final _free_WireSyncReturn =
-      _free_WireSyncReturnPtr.asFunction<void Function(WireSyncReturn)>();
+      _lookup<ffi.NativeFunction<ffi.Void Function(WireSyncReturn)>>('free_WireSyncReturn');
+  late final _free_WireSyncReturn = _free_WireSyncReturnPtr.asFunction<void Function(WireSyncReturn)>();
 }
 
 class _Dart_Handle extends ffi.Opaque {}
@@ -1953,6 +1816,13 @@ class wire_uint_8_list extends ffi.Struct {
   external int len;
 }
 
+class wire_SocketAddr extends ffi.Struct {
+  external ffi.Pointer<wire_uint_8_list> ip;
+
+  @ffi.Uint16()
+  external int port;
+}
+
 class wire_Config extends ffi.Struct {
   external ffi.Pointer<wire_uint_8_list> storage_dir_path;
 
@@ -1961,7 +1831,7 @@ class wire_Config extends ffi.Struct {
   @ffi.Int32()
   external int network;
 
-  external ffi.Pointer<wire_uint_8_list> listening_address;
+  external ffi.Pointer<wire_SocketAddr> listening_address;
 
   @ffi.Uint32()
   external int default_cltv_expiry_delta;
@@ -1975,10 +1845,18 @@ class wire_WalletEntropySource_SeedBytes extends ffi.Struct {
   external ffi.Pointer<wire_uint_8_list> field0;
 }
 
+class wire_WalletEntropySource_Bip39Mnemonic extends ffi.Struct {
+  external ffi.Pointer<wire_uint_8_list> mnemonic;
+
+  external ffi.Pointer<wire_uint_8_list> passphrase;
+}
+
 class WalletEntropySourceKind extends ffi.Union {
   external ffi.Pointer<wire_WalletEntropySource_SeedFile> SeedFile;
 
   external ffi.Pointer<wire_WalletEntropySource_SeedBytes> SeedBytes;
+
+  external ffi.Pointer<wire_WalletEntropySource_Bip39Mnemonic> Bip39Mnemonic;
 }
 
 class wire_WalletEntropySource extends ffi.Struct {
@@ -2014,6 +1892,6 @@ class wire_PaymentHash extends ffi.Struct {
   external ffi.Pointer<wire_uint_8_list> field0;
 }
 
-typedef DartPostCObjectFnType = ffi.Pointer<
-    ffi.NativeFunction<ffi.Bool Function(DartPort, ffi.Pointer<ffi.Void>)>>;
+typedef DartPostCObjectFnType
+    = ffi.Pointer<ffi.NativeFunction<ffi.Bool Function(DartPort port_id, ffi.Pointer<ffi.Void> message)>>;
 typedef DartPort = ffi.Int64;
