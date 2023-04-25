@@ -114,6 +114,11 @@ void wire_set_listening_address__method__BuilderBase(int64_t port_,
                                                      struct wire_BuilderBase *that,
                                                      struct wire_SocketAddr *listening_address);
 
+void wire_set_entropy_bip39_mnemonic__method__BuilderBase(int64_t port_,
+                                                          struct wire_BuilderBase *that,
+                                                          struct wire_uint_8_list *mnemonic,
+                                                          struct wire_uint_8_list *passphrase);
+
 void wire_build__static_method__BuilderBase(int64_t port_, struct wire_BuilderBase *builder);
 
 void wire_start__method__NodeBase(int64_t port_, struct wire_NodeBase *that);
@@ -217,6 +222,7 @@ static int64_t dummy_method_to_enforce_bundling(void) {
     dummy_var ^= ((int64_t) (void*) wire_set_esplora_server_url__method__BuilderBase);
     dummy_var ^= ((int64_t) (void*) wire_set_network__method__BuilderBase);
     dummy_var ^= ((int64_t) (void*) wire_set_listening_address__method__BuilderBase);
+    dummy_var ^= ((int64_t) (void*) wire_set_entropy_bip39_mnemonic__method__BuilderBase);
     dummy_var ^= ((int64_t) (void*) wire_build__static_method__BuilderBase);
     dummy_var ^= ((int64_t) (void*) wire_start__method__NodeBase);
     dummy_var ^= ((int64_t) (void*) wire_stop__method__NodeBase);

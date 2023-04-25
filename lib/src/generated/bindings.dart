@@ -151,6 +151,26 @@ class RustImpl implements Rust {
         argNames: ["that", "listeningAddress"],
       );
 
+  Future<BuilderBase> setEntropyBip39MnemonicMethodBuilderBase(
+      {required BuilderBase that, required String mnemonic, String? passphrase, dynamic hint}) {
+    var arg0 = _platform.api2wire_box_autoadd_builder_base(that);
+    var arg1 = _platform.api2wire_String(mnemonic);
+    var arg2 = _platform.api2wire_opt_String(passphrase);
+    return _platform.executeNormal(FlutterRustBridgeTask(
+      callFfi: (port_) => _platform.inner.wire_set_entropy_bip39_mnemonic__method__BuilderBase(port_, arg0, arg1, arg2),
+      parseSuccessData: (d) => _wire2api_builder_base(d),
+      constMeta: kSetEntropyBip39MnemonicMethodBuilderBaseConstMeta,
+      argValues: [that, mnemonic, passphrase],
+      hint: hint,
+    ));
+  }
+
+  FlutterRustBridgeTaskConstMeta get kSetEntropyBip39MnemonicMethodBuilderBaseConstMeta =>
+      const FlutterRustBridgeTaskConstMeta(
+        debugName: "set_entropy_bip39_mnemonic__method__BuilderBase",
+        argNames: ["that", "mnemonic", "passphrase"],
+      );
+
   Future<NodeBase> buildStaticMethodBuilderBase({required BuilderBase builder, dynamic hint}) {
     var arg0 = _platform.api2wire_box_autoadd_builder_base(builder);
     return _platform.executeNormal(FlutterRustBridgeTask(
@@ -1305,6 +1325,29 @@ class RustWire implements FlutterRustBridgeWireBase {
               ffi.Pointer<wire_SocketAddr>)>>('wire_set_listening_address__method__BuilderBase');
   late final _wire_set_listening_address__method__BuilderBase = _wire_set_listening_address__method__BuilderBasePtr
       .asFunction<void Function(int, ffi.Pointer<wire_BuilderBase>, ffi.Pointer<wire_SocketAddr>)>();
+
+  void wire_set_entropy_bip39_mnemonic__method__BuilderBase(
+    int port_,
+    ffi.Pointer<wire_BuilderBase> that,
+    ffi.Pointer<wire_uint_8_list> mnemonic,
+    ffi.Pointer<wire_uint_8_list> passphrase,
+  ) {
+    return _wire_set_entropy_bip39_mnemonic__method__BuilderBase(
+      port_,
+      that,
+      mnemonic,
+      passphrase,
+    );
+  }
+
+  late final _wire_set_entropy_bip39_mnemonic__method__BuilderBasePtr = _lookup<
+      ffi.NativeFunction<
+          ffi.Void Function(ffi.Int64, ffi.Pointer<wire_BuilderBase>, ffi.Pointer<wire_uint_8_list>,
+              ffi.Pointer<wire_uint_8_list>)>>('wire_set_entropy_bip39_mnemonic__method__BuilderBase');
+  late final _wire_set_entropy_bip39_mnemonic__method__BuilderBase =
+      _wire_set_entropy_bip39_mnemonic__method__BuilderBasePtr.asFunction<
+          void Function(
+              int, ffi.Pointer<wire_BuilderBase>, ffi.Pointer<wire_uint_8_list>, ffi.Pointer<wire_uint_8_list>)>();
 
   void wire_build__static_method__BuilderBase(
     int port_,

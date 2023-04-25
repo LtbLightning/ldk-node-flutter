@@ -609,6 +609,19 @@ impl BuilderBase {
             ..self.clone()
         }
     }
+    /// Configures the [`Node`] instance to source its wallet entropy from a [BIP 39] mnemonic.
+    ///
+    /// [BIP 39]: https://github.com/bitcoin/bips/blob/master/bip-0039.mediawiki
+    ///
+    pub fn set_entropy_bip39_mnemonic(
+        &self, mnemonic: String, passphrase: Option<String>,
+    ) -> BuilderBase {
+        BuilderBase {
+            entropy_source: Some(WalletEntropySource::Bip39Mnemonic { mnemonic, passphrase }),
+            ..self.clone()
+        }
+    }
+
     pub fn build(builder: BuilderBase) -> NodeBase {
         let builder: Builder = builder.into();
         let node = builder.build();

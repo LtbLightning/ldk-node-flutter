@@ -57,6 +57,15 @@ abstract class Rust {
 
   FlutterRustBridgeTaskConstMeta get kSetListeningAddressMethodBuilderBaseConstMeta;
 
+  /// Configures the [`Node`] instance to source its wallet entropy from a [BIP 39] mnemonic.
+  ///
+  /// [BIP 39]: https://github.com/bitcoin/bips/blob/master/bip-0039.mediawiki
+  ///
+  Future<BuilderBase> setEntropyBip39MnemonicMethodBuilderBase(
+      {required BuilderBase that, required String mnemonic, String? passphrase, dynamic hint});
+
+  FlutterRustBridgeTaskConstMeta get kSetEntropyBip39MnemonicMethodBuilderBaseConstMeta;
+
   Future<NodeBase> buildStaticMethodBuilderBase({required BuilderBase builder, dynamic hint});
 
   FlutterRustBridgeTaskConstMeta get kBuildStaticMethodBuilderBaseConstMeta;
@@ -251,6 +260,17 @@ class BuilderBase {
       bridge.setListeningAddressMethodBuilderBase(
         that: this,
         listeningAddress: listeningAddress,
+      );
+
+  /// Configures the [`Node`] instance to source its wallet entropy from a [BIP 39] mnemonic.
+  ///
+  /// [BIP 39]: https://github.com/bitcoin/bips/blob/master/bip-0039.mediawiki
+  ///
+  Future<BuilderBase> setEntropyBip39Mnemonic({required String mnemonic, String? passphrase, dynamic hint}) =>
+      bridge.setEntropyBip39MnemonicMethodBuilderBase(
+        that: this,
+        mnemonic: mnemonic,
+        passphrase: passphrase,
       );
 
   static Future<NodeBase> build({required Rust bridge, required BuilderBase builder, dynamic hint}) =>

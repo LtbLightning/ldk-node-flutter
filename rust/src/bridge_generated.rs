@@ -159,6 +159,32 @@ fn wire_set_listening_address__method__BuilderBase_impl(
         },
     )
 }
+fn wire_set_entropy_bip39_mnemonic__method__BuilderBase_impl(
+    port_: MessagePort,
+    that: impl Wire2Api<BuilderBase> + UnwindSafe,
+    mnemonic: impl Wire2Api<String> + UnwindSafe,
+    passphrase: impl Wire2Api<Option<String>> + UnwindSafe,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap(
+        WrapInfo {
+            debug_name: "set_entropy_bip39_mnemonic__method__BuilderBase",
+            port: Some(port_),
+            mode: FfiCallMode::Normal,
+        },
+        move || {
+            let api_that = that.wire2api();
+            let api_mnemonic = mnemonic.wire2api();
+            let api_passphrase = passphrase.wire2api();
+            move |task_callback| {
+                Ok(BuilderBase::set_entropy_bip39_mnemonic(
+                    &api_that,
+                    api_mnemonic,
+                    api_passphrase,
+                ))
+            }
+        },
+    )
+}
 fn wire_build__static_method__BuilderBase_impl(
     port_: MessagePort,
     builder: impl Wire2Api<BuilderBase> + UnwindSafe,

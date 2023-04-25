@@ -61,6 +61,16 @@ pub extern "C" fn wire_set_listening_address__method__BuilderBase(
 }
 
 #[no_mangle]
+pub extern "C" fn wire_set_entropy_bip39_mnemonic__method__BuilderBase(
+    port_: i64,
+    that: *mut wire_BuilderBase,
+    mnemonic: *mut wire_uint_8_list,
+    passphrase: *mut wire_uint_8_list,
+) {
+    wire_set_entropy_bip39_mnemonic__method__BuilderBase_impl(port_, that, mnemonic, passphrase)
+}
+
+#[no_mangle]
 pub extern "C" fn wire_build__static_method__BuilderBase(
     port_: i64,
     builder: *mut wire_BuilderBase,
