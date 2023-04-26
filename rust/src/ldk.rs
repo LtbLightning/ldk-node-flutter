@@ -675,6 +675,39 @@ impl NodeBase {
             Err(e) => Err(anyhow!(e.to_string())),
         }
     }
+    /// Retrieve the current on-chain balance.
+    pub fn on_chain_balance(&self) -> anyhow::Result<Balance> {
+        let node_lock = self.node_pointer.0.lock().unwrap();
+        match node_lock.onchain_balance() {
+            Ok(e) => Ok(Balance {
+                immature: e.immature,
+                trusted_pending: e.trusted_pending,
+                untrusted_pending: e.untrusted_pending,
+                confirmed: e.confirmed,
+            }),
+            Err(e) => Err(anyhow!(e.to_string())),
+        }
+    }
+    /// Send an on-chain payment to the given address.
+    pub fn send_to_on_chain_address(
+        &self, address: Address, amount_sats: u64,
+    ) -> anyhow::Result<Txid>{
+        let node_lock = self.node_pointer.0.lock().unwrap();
+        match node_lock.send_to_onchain_address(&address.into(), amount_sats){
+            Ok(e) => Ok(Txid(e.to_string())),
+            Err(e) => Err(anyhow!(e.to_string())),
+        }
+    }
+    /// Send an on-chain payment to the given address, draining all the available funds.
+    pub fn send_all_to_on_chain_address(
+        &self, address: Address
+    ) -> anyhow::Result<Txid>{
+        let node_lock = self.node_pointer.0.lock().unwrap();
+        match node_lock.send_all_to_onchain_address(&address.into()){
+            Ok(e) => Ok(Txid(e.to_string())),
+            Err(e) => Err(anyhow!(e.to_string())),
+        }
+    }
 
     ///Retrieve the current on-chain balance.
     pub fn connect_open_channel(

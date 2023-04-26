@@ -299,6 +299,60 @@ class RustImpl implements Rust {
         argNames: ["that"],
       );
 
+  Future<Balance> onChainBalanceMethodNodeBase({required NodeBase that, dynamic hint}) {
+    var arg0 = _platform.api2wire_box_autoadd_node_base(that);
+    return _platform.executeNormal(FlutterRustBridgeTask(
+      callFfi: (port_) => _platform.inner.wire_on_chain_balance__method__NodeBase(port_, arg0),
+      parseSuccessData: _wire2api_balance,
+      constMeta: kOnChainBalanceMethodNodeBaseConstMeta,
+      argValues: [that],
+      hint: hint,
+    ));
+  }
+
+  FlutterRustBridgeTaskConstMeta get kOnChainBalanceMethodNodeBaseConstMeta => const FlutterRustBridgeTaskConstMeta(
+        debugName: "on_chain_balance__method__NodeBase",
+        argNames: ["that"],
+      );
+
+  Future<Txid> sendToOnChainAddressMethodNodeBase(
+      {required NodeBase that, required Address address, required int amountSats, dynamic hint}) {
+    var arg0 = _platform.api2wire_box_autoadd_node_base(that);
+    var arg1 = _platform.api2wire_box_autoadd_address(address);
+    var arg2 = _platform.api2wire_u64(amountSats);
+    return _platform.executeNormal(FlutterRustBridgeTask(
+      callFfi: (port_) => _platform.inner.wire_send_to_on_chain_address__method__NodeBase(port_, arg0, arg1, arg2),
+      parseSuccessData: _wire2api_txid,
+      constMeta: kSendToOnChainAddressMethodNodeBaseConstMeta,
+      argValues: [that, address, amountSats],
+      hint: hint,
+    ));
+  }
+
+  FlutterRustBridgeTaskConstMeta get kSendToOnChainAddressMethodNodeBaseConstMeta =>
+      const FlutterRustBridgeTaskConstMeta(
+        debugName: "send_to_on_chain_address__method__NodeBase",
+        argNames: ["that", "address", "amountSats"],
+      );
+
+  Future<Txid> sendAllToOnChainAddressMethodNodeBase({required NodeBase that, required Address address, dynamic hint}) {
+    var arg0 = _platform.api2wire_box_autoadd_node_base(that);
+    var arg1 = _platform.api2wire_box_autoadd_address(address);
+    return _platform.executeNormal(FlutterRustBridgeTask(
+      callFfi: (port_) => _platform.inner.wire_send_all_to_on_chain_address__method__NodeBase(port_, arg0, arg1),
+      parseSuccessData: _wire2api_txid,
+      constMeta: kSendAllToOnChainAddressMethodNodeBaseConstMeta,
+      argValues: [that, address],
+      hint: hint,
+    ));
+  }
+
+  FlutterRustBridgeTaskConstMeta get kSendAllToOnChainAddressMethodNodeBaseConstMeta =>
+      const FlutterRustBridgeTaskConstMeta(
+        debugName: "send_all_to_on_chain_address__method__NodeBase",
+        argNames: ["that", "address"],
+      );
+
   Future<void> connectOpenChannelMethodNodeBase(
       {required NodeBase that,
       required SocketAddr address,
@@ -521,6 +575,17 @@ class RustImpl implements Rust {
     if (arr.length != 1) throw Exception('unexpected arr length: expect 1 but see ${arr.length}');
     return Address(
       addressHex: _wire2api_String(arr[0]),
+    );
+  }
+
+  Balance _wire2api_balance(dynamic raw) {
+    final arr = raw as List<dynamic>;
+    if (arr.length != 4) throw Exception('unexpected arr length: expect 4 but see ${arr.length}');
+    return Balance(
+      immature: _wire2api_u64(arr[0]),
+      trustedPending: _wire2api_u64(arr[1]),
+      untrustedPending: _wire2api_u64(arr[2]),
+      confirmed: _wire2api_u64(arr[3]),
     );
   }
 
@@ -914,6 +979,13 @@ class RustPlatform extends FlutterRustBridgeBase<RustWire> {
   }
 
   @protected
+  ffi.Pointer<wire_Address> api2wire_box_autoadd_address(Address raw) {
+    final ptr = inner.new_box_autoadd_address_0();
+    _api_fill_to_wire_address(raw, ptr.ref);
+    return ptr;
+  }
+
+  @protected
   ffi.Pointer<wire_BuilderBase> api2wire_box_autoadd_builder_base(BuilderBase raw) {
     final ptr = inner.new_box_autoadd_builder_base_0();
     _api_fill_to_wire_builder_base(raw, ptr.ref);
@@ -1021,6 +1093,14 @@ class RustPlatform extends FlutterRustBridgeBase<RustWire> {
 
   void _api_fill_to_wire_NodePointer(NodePointer apiObj, wire_NodePointer wireObj) {
     wireObj.ptr = apiObj.shareOrMove();
+  }
+
+  void _api_fill_to_wire_address(Address apiObj, wire_Address wireObj) {
+    wireObj.address_hex = api2wire_String(apiObj.addressHex);
+  }
+
+  void _api_fill_to_wire_box_autoadd_address(Address apiObj, ffi.Pointer<wire_Address> wireObj) {
+    _api_fill_to_wire_address(apiObj, wireObj.ref);
   }
 
   void _api_fill_to_wire_box_autoadd_builder_base(BuilderBase apiObj, ffi.Pointer<wire_BuilderBase> wireObj) {
@@ -1477,6 +1557,62 @@ class RustWire implements FlutterRustBridgeWireBase {
   late final _wire_new_funding_address__method__NodeBase =
       _wire_new_funding_address__method__NodeBasePtr.asFunction<void Function(int, ffi.Pointer<wire_NodeBase>)>();
 
+  void wire_on_chain_balance__method__NodeBase(
+    int port_,
+    ffi.Pointer<wire_NodeBase> that,
+  ) {
+    return _wire_on_chain_balance__method__NodeBase(
+      port_,
+      that,
+    );
+  }
+
+  late final _wire_on_chain_balance__method__NodeBasePtr =
+      _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Int64, ffi.Pointer<wire_NodeBase>)>>(
+          'wire_on_chain_balance__method__NodeBase');
+  late final _wire_on_chain_balance__method__NodeBase =
+      _wire_on_chain_balance__method__NodeBasePtr.asFunction<void Function(int, ffi.Pointer<wire_NodeBase>)>();
+
+  void wire_send_to_on_chain_address__method__NodeBase(
+    int port_,
+    ffi.Pointer<wire_NodeBase> that,
+    ffi.Pointer<wire_Address> address,
+    int amount_sats,
+  ) {
+    return _wire_send_to_on_chain_address__method__NodeBase(
+      port_,
+      that,
+      address,
+      amount_sats,
+    );
+  }
+
+  late final _wire_send_to_on_chain_address__method__NodeBasePtr = _lookup<
+      ffi.NativeFunction<
+          ffi.Void Function(ffi.Int64, ffi.Pointer<wire_NodeBase>, ffi.Pointer<wire_Address>,
+              ffi.Uint64)>>('wire_send_to_on_chain_address__method__NodeBase');
+  late final _wire_send_to_on_chain_address__method__NodeBase = _wire_send_to_on_chain_address__method__NodeBasePtr
+      .asFunction<void Function(int, ffi.Pointer<wire_NodeBase>, ffi.Pointer<wire_Address>, int)>();
+
+  void wire_send_all_to_on_chain_address__method__NodeBase(
+    int port_,
+    ffi.Pointer<wire_NodeBase> that,
+    ffi.Pointer<wire_Address> address,
+  ) {
+    return _wire_send_all_to_on_chain_address__method__NodeBase(
+      port_,
+      that,
+      address,
+    );
+  }
+
+  late final _wire_send_all_to_on_chain_address__method__NodeBasePtr =
+      _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Int64, ffi.Pointer<wire_NodeBase>, ffi.Pointer<wire_Address>)>>(
+          'wire_send_all_to_on_chain_address__method__NodeBase');
+  late final _wire_send_all_to_on_chain_address__method__NodeBase =
+      _wire_send_all_to_on_chain_address__method__NodeBasePtr
+          .asFunction<void Function(int, ffi.Pointer<wire_NodeBase>, ffi.Pointer<wire_Address>)>();
+
   void wire_connect_open_channel__method__NodeBase(
     int port_,
     ffi.Pointer<wire_NodeBase> that,
@@ -1693,6 +1829,15 @@ class RustWire implements FlutterRustBridgeWireBase {
 
   late final _new_NodePointerPtr = _lookup<ffi.NativeFunction<wire_NodePointer Function()>>('new_NodePointer');
   late final _new_NodePointer = _new_NodePointerPtr.asFunction<wire_NodePointer Function()>();
+
+  ffi.Pointer<wire_Address> new_box_autoadd_address_0() {
+    return _new_box_autoadd_address_0();
+  }
+
+  late final _new_box_autoadd_address_0Ptr =
+      _lookup<ffi.NativeFunction<ffi.Pointer<wire_Address> Function()>>('new_box_autoadd_address_0');
+  late final _new_box_autoadd_address_0 =
+      _new_box_autoadd_address_0Ptr.asFunction<ffi.Pointer<wire_Address> Function()>();
 
   ffi.Pointer<wire_BuilderBase> new_box_autoadd_builder_base_0() {
     return _new_box_autoadd_builder_base_0();
@@ -1921,6 +2066,10 @@ class wire_NodePointer extends ffi.Struct {
 
 class wire_NodeBase extends ffi.Struct {
   external wire_NodePointer node_pointer;
+}
+
+class wire_Address extends ffi.Struct {
+  external ffi.Pointer<wire_uint_8_list> address_hex;
 }
 
 class wire_PublicKey extends ffi.Struct {

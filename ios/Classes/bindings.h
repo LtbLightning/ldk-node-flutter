@@ -64,6 +64,10 @@ typedef struct wire_NodeBase {
   struct wire_NodePointer node_pointer;
 } wire_NodeBase;
 
+typedef struct wire_Address {
+  struct wire_uint_8_list *address_hex;
+} wire_Address;
+
 typedef struct wire_PublicKey {
   struct wire_uint_8_list *key_hex;
 } wire_PublicKey;
@@ -135,6 +139,17 @@ void wire_listening_address__method__NodeBase(int64_t port_, struct wire_NodeBas
 
 void wire_new_funding_address__method__NodeBase(int64_t port_, struct wire_NodeBase *that);
 
+void wire_on_chain_balance__method__NodeBase(int64_t port_, struct wire_NodeBase *that);
+
+void wire_send_to_on_chain_address__method__NodeBase(int64_t port_,
+                                                     struct wire_NodeBase *that,
+                                                     struct wire_Address *address,
+                                                     uint64_t amount_sats);
+
+void wire_send_all_to_on_chain_address__method__NodeBase(int64_t port_,
+                                                         struct wire_NodeBase *that,
+                                                         struct wire_Address *address);
+
 void wire_connect_open_channel__method__NodeBase(int64_t port_,
                                                  struct wire_NodeBase *that,
                                                  struct wire_SocketAddr *address,
@@ -182,6 +197,8 @@ void wire_payment__method__NodeBase(int64_t port_,
                                     struct wire_PaymentHash *payment_hash);
 
 struct wire_NodePointer new_NodePointer(void);
+
+struct wire_Address *new_box_autoadd_address_0(void);
 
 struct wire_BuilderBase *new_box_autoadd_builder_base_0(void);
 
@@ -231,6 +248,9 @@ static int64_t dummy_method_to_enforce_bundling(void) {
     dummy_var ^= ((int64_t) (void*) wire_node_id__method__NodeBase);
     dummy_var ^= ((int64_t) (void*) wire_listening_address__method__NodeBase);
     dummy_var ^= ((int64_t) (void*) wire_new_funding_address__method__NodeBase);
+    dummy_var ^= ((int64_t) (void*) wire_on_chain_balance__method__NodeBase);
+    dummy_var ^= ((int64_t) (void*) wire_send_to_on_chain_address__method__NodeBase);
+    dummy_var ^= ((int64_t) (void*) wire_send_all_to_on_chain_address__method__NodeBase);
     dummy_var ^= ((int64_t) (void*) wire_connect_open_channel__method__NodeBase);
     dummy_var ^= ((int64_t) (void*) wire_list_channels__method__NodeBase);
     dummy_var ^= ((int64_t) (void*) wire_sync_wallets__method__NodeBase);
@@ -242,6 +262,7 @@ static int64_t dummy_method_to_enforce_bundling(void) {
     dummy_var ^= ((int64_t) (void*) wire_receive_variable_amount_payment__method__NodeBase);
     dummy_var ^= ((int64_t) (void*) wire_payment__method__NodeBase);
     dummy_var ^= ((int64_t) (void*) new_NodePointer);
+    dummy_var ^= ((int64_t) (void*) new_box_autoadd_address_0);
     dummy_var ^= ((int64_t) (void*) new_box_autoadd_builder_base_0);
     dummy_var ^= ((int64_t) (void*) new_box_autoadd_invoice_0);
     dummy_var ^= ((int64_t) (void*) new_box_autoadd_node_base_0);

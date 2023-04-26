@@ -114,6 +114,30 @@ pub extern "C" fn wire_new_funding_address__method__NodeBase(port_: i64, that: *
 }
 
 #[no_mangle]
+pub extern "C" fn wire_on_chain_balance__method__NodeBase(port_: i64, that: *mut wire_NodeBase) {
+    wire_on_chain_balance__method__NodeBase_impl(port_, that)
+}
+
+#[no_mangle]
+pub extern "C" fn wire_send_to_on_chain_address__method__NodeBase(
+    port_: i64,
+    that: *mut wire_NodeBase,
+    address: *mut wire_Address,
+    amount_sats: u64,
+) {
+    wire_send_to_on_chain_address__method__NodeBase_impl(port_, that, address, amount_sats)
+}
+
+#[no_mangle]
+pub extern "C" fn wire_send_all_to_on_chain_address__method__NodeBase(
+    port_: i64,
+    that: *mut wire_NodeBase,
+    address: *mut wire_Address,
+) {
+    wire_send_all_to_on_chain_address__method__NodeBase_impl(port_, that, address)
+}
+
+#[no_mangle]
 pub extern "C" fn wire_connect_open_channel__method__NodeBase(
     port_: i64,
     that: *mut wire_NodeBase,
@@ -226,6 +250,11 @@ pub extern "C" fn new_NodePointer() -> wire_NodePointer {
 }
 
 #[no_mangle]
+pub extern "C" fn new_box_autoadd_address_0() -> *mut wire_Address {
+    support::new_leak_box_ptr(wire_Address::new_with_null_ptr())
+}
+
+#[no_mangle]
 pub extern "C" fn new_box_autoadd_builder_base_0() -> *mut wire_BuilderBase {
     support::new_leak_box_ptr(wire_BuilderBase::new_with_null_ptr())
 }
@@ -304,7 +333,20 @@ impl Wire2Api<String> for *mut wire_uint_8_list {
         String::from_utf8_lossy(&vec).into_owned()
     }
 }
+impl Wire2Api<Address> for wire_Address {
+    fn wire2api(self) -> Address {
+        Address {
+            address_hex: self.address_hex.wire2api(),
+        }
+    }
+}
 
+impl Wire2Api<Address> for *mut wire_Address {
+    fn wire2api(self) -> Address {
+        let wrap = unsafe { support::box_from_leak_ptr(self) };
+        Wire2Api::<Address>::wire2api(*wrap).into()
+    }
+}
 impl Wire2Api<BuilderBase> for *mut wire_BuilderBase {
     fn wire2api(self) -> BuilderBase {
         let wrap = unsafe { support::box_from_leak_ptr(self) };
@@ -464,6 +506,12 @@ pub struct wire_NodePointer {
 
 #[repr(C)]
 #[derive(Clone)]
+pub struct wire_Address {
+    address_hex: *mut wire_uint_8_list,
+}
+
+#[repr(C)]
+#[derive(Clone)]
 pub struct wire_BuilderBase {
     config: wire_Config,
     entropy_source: *mut wire_WalletEntropySource,
@@ -566,6 +614,20 @@ impl NewWithNullPtr for wire_NodePointer {
         Self {
             ptr: core::ptr::null(),
         }
+    }
+}
+
+impl NewWithNullPtr for wire_Address {
+    fn new_with_null_ptr() -> Self {
+        Self {
+            address_hex: core::ptr::null_mut(),
+        }
+    }
+}
+
+impl Default for wire_Address {
+    fn default() -> Self {
+        Self::new_with_null_ptr()
     }
 }
 

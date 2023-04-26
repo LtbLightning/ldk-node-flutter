@@ -313,6 +313,62 @@ fn wire_new_funding_address__method__NodeBase_impl(
         },
     )
 }
+fn wire_on_chain_balance__method__NodeBase_impl(
+    port_: MessagePort,
+    that: impl Wire2Api<NodeBase> + UnwindSafe,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap(
+        WrapInfo {
+            debug_name: "on_chain_balance__method__NodeBase",
+            port: Some(port_),
+            mode: FfiCallMode::Normal,
+        },
+        move || {
+            let api_that = that.wire2api();
+            move |task_callback| NodeBase::on_chain_balance(&api_that)
+        },
+    )
+}
+fn wire_send_to_on_chain_address__method__NodeBase_impl(
+    port_: MessagePort,
+    that: impl Wire2Api<NodeBase> + UnwindSafe,
+    address: impl Wire2Api<Address> + UnwindSafe,
+    amount_sats: impl Wire2Api<u64> + UnwindSafe,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap(
+        WrapInfo {
+            debug_name: "send_to_on_chain_address__method__NodeBase",
+            port: Some(port_),
+            mode: FfiCallMode::Normal,
+        },
+        move || {
+            let api_that = that.wire2api();
+            let api_address = address.wire2api();
+            let api_amount_sats = amount_sats.wire2api();
+            move |task_callback| {
+                NodeBase::send_to_on_chain_address(&api_that, api_address, api_amount_sats)
+            }
+        },
+    )
+}
+fn wire_send_all_to_on_chain_address__method__NodeBase_impl(
+    port_: MessagePort,
+    that: impl Wire2Api<NodeBase> + UnwindSafe,
+    address: impl Wire2Api<Address> + UnwindSafe,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap(
+        WrapInfo {
+            debug_name: "send_all_to_on_chain_address__method__NodeBase",
+            port: Some(port_),
+            mode: FfiCallMode::Normal,
+        },
+        move || {
+            let api_that = that.wire2api();
+            let api_address = address.wire2api();
+            move |task_callback| NodeBase::send_all_to_on_chain_address(&api_that, api_address)
+        },
+    )
+}
 fn wire_connect_open_channel__method__NodeBase_impl(
     port_: MessagePort,
     that: impl Wire2Api<NodeBase> + UnwindSafe,
@@ -613,6 +669,19 @@ impl support::IntoDart for Address {
     }
 }
 impl support::IntoDartExceptPrimitive for Address {}
+
+impl support::IntoDart for Balance {
+    fn into_dart(self) -> support::DartAbi {
+        vec![
+            self.immature.into_dart(),
+            self.trusted_pending.into_dart(),
+            self.untrusted_pending.into_dart(),
+            self.confirmed.into_dart(),
+        ]
+        .into_dart()
+    }
+}
+impl support::IntoDartExceptPrimitive for Balance {}
 
 impl support::IntoDart for BuilderBase {
     fn into_dart(self) -> support::DartAbi {
