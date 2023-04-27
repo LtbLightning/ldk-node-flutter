@@ -115,6 +115,26 @@ abstract class Rust {
 
   FlutterRustBridgeTaskConstMeta get kSendAllToOnChainAddressMethodNodeBaseConstMeta;
 
+  /// Connect to a node on the peer-to-peer network.
+  ///
+  /// If `permanently` is set to `true`, we'll remember the peer and reconnect to it on restart.
+  Future<void> connectMethodNodeBase(
+      {required NodeBase that,
+      required PublicKey nodeId,
+      required SocketAddr address,
+      required bool permanently,
+      dynamic hint});
+
+  FlutterRustBridgeTaskConstMeta get kConnectMethodNodeBaseConstMeta;
+
+  /// Disconnects the peer with the given node id.
+  ///
+  /// Will also remove the peer from the peer store, i.e., after this has been called we won't
+  /// try to reconnect on restart.
+  Future<void> disconnectMethodNodeBase({required NodeBase that, required PublicKey counterpartyNodeId, dynamic hint});
+
+  FlutterRustBridgeTaskConstMeta get kDisconnectMethodNodeBaseConstMeta;
+
   ///Retrieve the current on-chain balance.
   Future<void> connectOpenChannelMethodNodeBase(
       {required NodeBase that,
@@ -678,6 +698,27 @@ class NodeBase {
       bridge.sendAllToOnChainAddressMethodNodeBase(
         that: this,
         address: address,
+      );
+
+  /// Connect to a node on the peer-to-peer network.
+  ///
+  /// If `permanently` is set to `true`, we'll remember the peer and reconnect to it on restart.
+  Future<void> connect(
+          {required PublicKey nodeId, required SocketAddr address, required bool permanently, dynamic hint}) =>
+      bridge.connectMethodNodeBase(
+        that: this,
+        nodeId: nodeId,
+        address: address,
+        permanently: permanently,
+      );
+
+  /// Disconnects the peer with the given node id.
+  ///
+  /// Will also remove the peer from the peer store, i.e., after this has been called we won't
+  /// try to reconnect on restart.
+  Future<void> disconnect({required PublicKey counterpartyNodeId, dynamic hint}) => bridge.disconnectMethodNodeBase(
+        that: this,
+        counterpartyNodeId: counterpartyNodeId,
       );
 
   ///Retrieve the current on-chain balance.

@@ -709,6 +709,30 @@ impl NodeBase {
         }
     }
 
+    /// Connect to a node on the peer-to-peer network.
+    ///
+    /// If `permanently` is set to `true`, we'll remember the peer and reconnect to it on restart.
+    pub fn connect(
+        &self, node_id: PublicKey,  address: SocketAddr, permanently: bool,
+    )->anyhow::Result<()>{
+        let node_lock = self.node_pointer.0.lock().unwrap();
+        match node_lock.connect(node_id.into(), address.into(), permanently){
+            Ok(_) => Ok(()),
+            Err(e) => Err(anyhow!(e.to_string())),
+        }
+    }
+
+    /// Disconnects the peer with the given node id.
+    ///
+    /// Will also remove the peer from the peer store, i.e., after this has been called we won't
+    /// try to reconnect on restart.
+    pub fn disconnect(&self, counterparty_node_id: PublicKey) -> anyhow::Result<()>{
+        let node_lock = self.node_pointer.0.lock().unwrap();
+        match node_lock.disconnect(&counterparty_node_id.into()){
+            Ok(_) => Ok(()),
+            Err(e) => Err(anyhow!(e.to_string())),
+        }
+    }
     ///Retrieve the current on-chain balance.
     pub fn connect_open_channel(
         &self,

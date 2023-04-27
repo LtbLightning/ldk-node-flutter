@@ -82,15 +82,15 @@ class _MyAppState extends State<MyApp> {
   }
 
   getNodeBalances() async {
-    // final alice = await aliceNode.onChainBalance();
-    // final bob = await bobNode.onChainBalance();
-    // if (kDebugMode) {
-    //   print("alice's_balance: ${alice.confirmed}");
-    //   print("bob's balance: ${bob.confirmed}");
-    // }
-    // setState(() {
-    //   aliceBalance = alice.confirmed;
-    // });
+    final alice = await aliceNode.onChainBalance();
+    final bob = await bobNode.onChainBalance();
+    if (kDebugMode) {
+      print("alice's_balance: ${alice.confirmed}");
+      print("bob's balance: ${bob.confirmed}");
+    }
+    setState(() {
+      aliceBalance = alice.confirmed;
+    });
   }
 
   syncAliceNode() async {

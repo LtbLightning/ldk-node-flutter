@@ -150,6 +150,16 @@ void wire_send_all_to_on_chain_address__method__NodeBase(int64_t port_,
                                                          struct wire_NodeBase *that,
                                                          struct wire_Address *address);
 
+void wire_connect__method__NodeBase(int64_t port_,
+                                    struct wire_NodeBase *that,
+                                    struct wire_PublicKey *node_id,
+                                    struct wire_SocketAddr *address,
+                                    bool permanently);
+
+void wire_disconnect__method__NodeBase(int64_t port_,
+                                       struct wire_NodeBase *that,
+                                       struct wire_PublicKey *counterparty_node_id);
+
 void wire_connect_open_channel__method__NodeBase(int64_t port_,
                                                  struct wire_NodeBase *that,
                                                  struct wire_SocketAddr *address,
@@ -251,6 +261,8 @@ static int64_t dummy_method_to_enforce_bundling(void) {
     dummy_var ^= ((int64_t) (void*) wire_on_chain_balance__method__NodeBase);
     dummy_var ^= ((int64_t) (void*) wire_send_to_on_chain_address__method__NodeBase);
     dummy_var ^= ((int64_t) (void*) wire_send_all_to_on_chain_address__method__NodeBase);
+    dummy_var ^= ((int64_t) (void*) wire_connect__method__NodeBase);
+    dummy_var ^= ((int64_t) (void*) wire_disconnect__method__NodeBase);
     dummy_var ^= ((int64_t) (void*) wire_connect_open_channel__method__NodeBase);
     dummy_var ^= ((int64_t) (void*) wire_list_channels__method__NodeBase);
     dummy_var ^= ((int64_t) (void*) wire_sync_wallets__method__NodeBase);

@@ -138,6 +138,26 @@ pub extern "C" fn wire_send_all_to_on_chain_address__method__NodeBase(
 }
 
 #[no_mangle]
+pub extern "C" fn wire_connect__method__NodeBase(
+    port_: i64,
+    that: *mut wire_NodeBase,
+    node_id: *mut wire_PublicKey,
+    address: *mut wire_SocketAddr,
+    permanently: bool,
+) {
+    wire_connect__method__NodeBase_impl(port_, that, node_id, address, permanently)
+}
+
+#[no_mangle]
+pub extern "C" fn wire_disconnect__method__NodeBase(
+    port_: i64,
+    that: *mut wire_NodeBase,
+    counterparty_node_id: *mut wire_PublicKey,
+) {
+    wire_disconnect__method__NodeBase_impl(port_, that, counterparty_node_id)
+}
+
+#[no_mangle]
 pub extern "C" fn wire_connect_open_channel__method__NodeBase(
     port_: i64,
     that: *mut wire_NodeBase,

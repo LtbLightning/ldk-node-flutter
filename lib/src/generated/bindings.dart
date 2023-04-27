@@ -353,6 +353,47 @@ class RustImpl implements Rust {
         argNames: ["that", "address"],
       );
 
+  Future<void> connectMethodNodeBase(
+      {required NodeBase that,
+      required PublicKey nodeId,
+      required SocketAddr address,
+      required bool permanently,
+      dynamic hint}) {
+    var arg0 = _platform.api2wire_box_autoadd_node_base(that);
+    var arg1 = _platform.api2wire_box_autoadd_public_key(nodeId);
+    var arg2 = _platform.api2wire_box_autoadd_socket_addr(address);
+    var arg3 = permanently;
+    return _platform.executeNormal(FlutterRustBridgeTask(
+      callFfi: (port_) => _platform.inner.wire_connect__method__NodeBase(port_, arg0, arg1, arg2, arg3),
+      parseSuccessData: _wire2api_unit,
+      constMeta: kConnectMethodNodeBaseConstMeta,
+      argValues: [that, nodeId, address, permanently],
+      hint: hint,
+    ));
+  }
+
+  FlutterRustBridgeTaskConstMeta get kConnectMethodNodeBaseConstMeta => const FlutterRustBridgeTaskConstMeta(
+        debugName: "connect__method__NodeBase",
+        argNames: ["that", "nodeId", "address", "permanently"],
+      );
+
+  Future<void> disconnectMethodNodeBase({required NodeBase that, required PublicKey counterpartyNodeId, dynamic hint}) {
+    var arg0 = _platform.api2wire_box_autoadd_node_base(that);
+    var arg1 = _platform.api2wire_box_autoadd_public_key(counterpartyNodeId);
+    return _platform.executeNormal(FlutterRustBridgeTask(
+      callFfi: (port_) => _platform.inner.wire_disconnect__method__NodeBase(port_, arg0, arg1),
+      parseSuccessData: _wire2api_unit,
+      constMeta: kDisconnectMethodNodeBaseConstMeta,
+      argValues: [that, counterpartyNodeId],
+      hint: hint,
+    ));
+  }
+
+  FlutterRustBridgeTaskConstMeta get kDisconnectMethodNodeBaseConstMeta => const FlutterRustBridgeTaskConstMeta(
+        debugName: "disconnect__method__NodeBase",
+        argNames: ["that", "counterpartyNodeId"],
+      );
+
   Future<void> connectOpenChannelMethodNodeBase(
       {required NodeBase that,
       required SocketAddr address,
@@ -1612,6 +1653,48 @@ class RustWire implements FlutterRustBridgeWireBase {
   late final _wire_send_all_to_on_chain_address__method__NodeBase =
       _wire_send_all_to_on_chain_address__method__NodeBasePtr
           .asFunction<void Function(int, ffi.Pointer<wire_NodeBase>, ffi.Pointer<wire_Address>)>();
+
+  void wire_connect__method__NodeBase(
+    int port_,
+    ffi.Pointer<wire_NodeBase> that,
+    ffi.Pointer<wire_PublicKey> node_id,
+    ffi.Pointer<wire_SocketAddr> address,
+    bool permanently,
+  ) {
+    return _wire_connect__method__NodeBase(
+      port_,
+      that,
+      node_id,
+      address,
+      permanently,
+    );
+  }
+
+  late final _wire_connect__method__NodeBasePtr = _lookup<
+      ffi.NativeFunction<
+          ffi.Void Function(ffi.Int64, ffi.Pointer<wire_NodeBase>, ffi.Pointer<wire_PublicKey>,
+              ffi.Pointer<wire_SocketAddr>, ffi.Bool)>>('wire_connect__method__NodeBase');
+  late final _wire_connect__method__NodeBase = _wire_connect__method__NodeBasePtr.asFunction<
+      void Function(
+          int, ffi.Pointer<wire_NodeBase>, ffi.Pointer<wire_PublicKey>, ffi.Pointer<wire_SocketAddr>, bool)>();
+
+  void wire_disconnect__method__NodeBase(
+    int port_,
+    ffi.Pointer<wire_NodeBase> that,
+    ffi.Pointer<wire_PublicKey> counterparty_node_id,
+  ) {
+    return _wire_disconnect__method__NodeBase(
+      port_,
+      that,
+      counterparty_node_id,
+    );
+  }
+
+  late final _wire_disconnect__method__NodeBasePtr = _lookup<
+          ffi.NativeFunction<ffi.Void Function(ffi.Int64, ffi.Pointer<wire_NodeBase>, ffi.Pointer<wire_PublicKey>)>>(
+      'wire_disconnect__method__NodeBase');
+  late final _wire_disconnect__method__NodeBase = _wire_disconnect__method__NodeBasePtr
+      .asFunction<void Function(int, ffi.Pointer<wire_NodeBase>, ffi.Pointer<wire_PublicKey>)>();
 
   void wire_connect_open_channel__method__NodeBase(
     int port_,

@@ -369,6 +369,48 @@ fn wire_send_all_to_on_chain_address__method__NodeBase_impl(
         },
     )
 }
+fn wire_connect__method__NodeBase_impl(
+    port_: MessagePort,
+    that: impl Wire2Api<NodeBase> + UnwindSafe,
+    node_id: impl Wire2Api<PublicKey> + UnwindSafe,
+    address: impl Wire2Api<SocketAddr> + UnwindSafe,
+    permanently: impl Wire2Api<bool> + UnwindSafe,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap(
+        WrapInfo {
+            debug_name: "connect__method__NodeBase",
+            port: Some(port_),
+            mode: FfiCallMode::Normal,
+        },
+        move || {
+            let api_that = that.wire2api();
+            let api_node_id = node_id.wire2api();
+            let api_address = address.wire2api();
+            let api_permanently = permanently.wire2api();
+            move |task_callback| {
+                NodeBase::connect(&api_that, api_node_id, api_address, api_permanently)
+            }
+        },
+    )
+}
+fn wire_disconnect__method__NodeBase_impl(
+    port_: MessagePort,
+    that: impl Wire2Api<NodeBase> + UnwindSafe,
+    counterparty_node_id: impl Wire2Api<PublicKey> + UnwindSafe,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap(
+        WrapInfo {
+            debug_name: "disconnect__method__NodeBase",
+            port: Some(port_),
+            mode: FfiCallMode::Normal,
+        },
+        move || {
+            let api_that = that.wire2api();
+            let api_counterparty_node_id = counterparty_node_id.wire2api();
+            move |task_callback| NodeBase::disconnect(&api_that, api_counterparty_node_id)
+        },
+    )
+}
 fn wire_connect_open_channel__method__NodeBase_impl(
     port_: MessagePort,
     that: impl Wire2Api<NodeBase> + UnwindSafe,
