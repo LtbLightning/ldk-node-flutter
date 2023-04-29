@@ -635,6 +635,47 @@ fn wire_payment__method__NodeBase_impl(
         },
     )
 }
+fn wire_remove_payment__method__NodeBase_impl(
+    port_: MessagePort,
+    that: impl Wire2Api<NodeBase> + UnwindSafe,
+    payment_hash: impl Wire2Api<PaymentHash> + UnwindSafe,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap(
+        WrapInfo {
+            debug_name: "remove_payment__method__NodeBase",
+            port: Some(port_),
+            mode: FfiCallMode::Normal,
+        },
+        move || {
+            let api_that = that.wire2api();
+            let api_payment_hash = payment_hash.wire2api();
+            move |task_callback| NodeBase::remove_payment(&api_that, api_payment_hash)
+        },
+    )
+}
+fn wire_list_payments_with_filter__method__NodeBase_impl(
+    port_: MessagePort,
+    that: impl Wire2Api<NodeBase> + UnwindSafe,
+    payment_direction: impl Wire2Api<PaymentDirection> + UnwindSafe,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap(
+        WrapInfo {
+            debug_name: "list_payments_with_filter__method__NodeBase",
+            port: Some(port_),
+            mode: FfiCallMode::Normal,
+        },
+        move || {
+            let api_that = that.wire2api();
+            let api_payment_direction = payment_direction.wire2api();
+            move |task_callback| {
+                Ok(NodeBase::list_payments_with_filter(
+                    &api_that,
+                    api_payment_direction,
+                ))
+            }
+        },
+    )
+}
 // Section: wrapper structs
 
 // Section: static checks
@@ -678,6 +719,16 @@ impl Wire2Api<Network> for i32 {
             2 => Network::Signet,
             3 => Network::Regtest,
             _ => unreachable!("Invalid variant for Network: {}", self),
+        }
+    }
+}
+
+impl Wire2Api<PaymentDirection> for i32 {
+    fn wire2api(self) -> PaymentDirection {
+        match self {
+            0 => PaymentDirection::Inbound,
+            1 => PaymentDirection::Outbound,
+            _ => unreachable!("Invalid variant for PaymentDirection: {}", self),
         }
     }
 }

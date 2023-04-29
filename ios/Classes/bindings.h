@@ -206,6 +206,14 @@ void wire_payment__method__NodeBase(int64_t port_,
                                     struct wire_NodeBase *that,
                                     struct wire_PaymentHash *payment_hash);
 
+void wire_remove_payment__method__NodeBase(int64_t port_,
+                                           struct wire_NodeBase *that,
+                                           struct wire_PaymentHash *payment_hash);
+
+void wire_list_payments_with_filter__method__NodeBase(int64_t port_,
+                                                      struct wire_NodeBase *that,
+                                                      int32_t payment_direction);
+
 struct wire_NodePointer new_NodePointer(void);
 
 struct wire_Address *new_box_autoadd_address_0(void);
@@ -273,6 +281,8 @@ static int64_t dummy_method_to_enforce_bundling(void) {
     dummy_var ^= ((int64_t) (void*) wire_receive_payment__method__NodeBase);
     dummy_var ^= ((int64_t) (void*) wire_receive_variable_amount_payment__method__NodeBase);
     dummy_var ^= ((int64_t) (void*) wire_payment__method__NodeBase);
+    dummy_var ^= ((int64_t) (void*) wire_remove_payment__method__NodeBase);
+    dummy_var ^= ((int64_t) (void*) wire_list_payments_with_filter__method__NodeBase);
     dummy_var ^= ((int64_t) (void*) new_NodePointer);
     dummy_var ^= ((int64_t) (void*) new_box_autoadd_address_0);
     dummy_var ^= ((int64_t) (void*) new_box_autoadd_builder_base_0);

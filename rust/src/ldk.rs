@@ -152,6 +152,7 @@ impl From<ldk_node::PaymentDirection> for PaymentDirection {
         }
     }
 }
+
 impl From<PaymentDirection> for ldk_node::PaymentDirection {
     fn from(value: PaymentDirection) -> Self {
         match value {
@@ -160,6 +161,24 @@ impl From<PaymentDirection> for ldk_node::PaymentDirection {
         }
     }
 }
+
+/// payment_hash type, use to cross-lock hop
+///
+/// This is not exported to bindings users as we just use [u8; 32] directly
+#[derive(Copy, Clone, Debug, PartialEq, Eq)]
+pub struct PaymentHash(pub [u8; 32]);
+
+/// payment_preimage type, use to route payment between hop
+///
+/// This is not exported to bindings users as we just use [u8; 32] directly
+#[derive(Hash, Copy, Clone, PartialEq, Eq, Debug)]
+pub struct PaymentPreimage(pub [u8; 32]);
+
+/// payment_secret type, use to authenticate sender to the receiver and tie MPP HTLCs together
+///
+/// This is not exported to bindings users as we just use [u8; 32] directly
+#[derive(Hash, Copy, Clone, PartialEq, Eq, Debug)]
+pub struct PaymentSecret(pub [u8; 32]);
 
 // Structs wrapping the particular information which should easily be
 // understandable, parseable, and transformable, i.e., we'll try to avoid
@@ -193,21 +212,6 @@ impl From<ldk_node::PaymentDetails> for PaymentDetails {
         }
     }
 }
-/// payment_hash type, use to cross-lock hop
-///
-/// This is not exported to bindings users as we just use [u8; 32] directly
-#[derive(Copy, Clone, Debug, PartialEq, Eq)]
-pub struct PaymentHash(pub [u8; 32]);
-/// payment_preimage type, use to route payment between hop
-///
-/// This is not exported to bindings users as we just use [u8; 32] directly
-#[derive(Hash, Copy, Clone, PartialEq, Eq, Debug)]
-pub struct PaymentPreimage(pub [u8; 32]);
-/// payment_secret type, use to authenticate sender to the receiver and tie MPP HTLCs together
-///
-/// This is not exported to bindings users as we just use [u8; 32] directly
-#[derive(Hash, Copy, Clone, PartialEq, Eq, Debug)]
-pub struct PaymentSecret(pub [u8; 32]);
 
 pub struct Invoice {
     pub hex: String,
@@ -387,14 +391,17 @@ impl From<PublicKey> for ldk_node::bitcoin::secp256k1::PublicKey {
             .expect("Invalid Public Key")
     }
 }
+
 pub struct Address {
     pub address_hex: String,
 }
+
 impl From<Address> for ldk_node::bitcoin::Address {
     fn from(value: Address) -> Self {
         ldk_node::bitcoin::Address::from_str(value.address_hex.as_str()).expect("Invalid Address")
     }
 }
+
 #[derive(Debug, PartialEq, Eq, Clone, Default)]
 pub struct Balance {
     /// All coinbase outputs not yet matured
@@ -447,6 +454,7 @@ pub enum Network {
     ///Bitcoin’s regtest
     Regtest,
 }
+
 impl From<Network> for ldk_node::bitcoin::Network {
     fn from(value: Network) -> Self {
         match value {
@@ -471,11 +479,13 @@ impl From<SocketAddr> for std::net::SocketAddr {
         std::net::SocketAddr::new(ip,value.port )
     }
 }
+
 impl From<std::net::SocketAddr> for SocketAddr {
     fn from(value: std::net::SocketAddr) -> Self {
         SocketAddr{ ip: value.ip().to_string(), port: value.port() }
     }
 }
+
 impl From<Config> for ldk_node::Config {
     fn from(value: Config) -> Self {
         ldk_node::Config {
@@ -487,6 +497,7 @@ impl From<Config> for ldk_node::Config {
         }
     }
 }
+
 #[derive(Debug, Clone)]
 pub struct Config {
     pub storage_dir_path: String,
@@ -499,6 +510,7 @@ pub struct Config {
     /// The default CLTV expiry delta to be used for payments.
     pub default_cltv_expiry_delta: u32,
 }
+
 impl Default for Config {
     fn default() -> Self {
         Self {
@@ -510,12 +522,14 @@ impl Default for Config {
         }
     }
 }
+
 #[derive(Debug, Clone)]
 pub enum WalletEntropySource {
     SeedFile(String),
     SeedBytes([u8; 64]),
     Bip39Mnemonic { mnemonic: String, passphrase: Option<String> },
 }
+
 #[derive(Debug, Clone)]
 pub struct BuilderBase {
     pub config: Config,
@@ -536,6 +550,7 @@ impl From<BuilderBase> for Builder {
         }
     }
 }
+
 impl BuilderBase {
     pub fn new() -> BuilderBase {
         let config = Config::default();
@@ -565,7 +580,6 @@ impl BuilderBase {
         }
     }
 
-
     /// Sets the used storage directory path.
     ///
     /// Default: `/tmp/ldk_node/`
@@ -591,6 +605,7 @@ impl BuilderBase {
             ..self.clone()
         }
     }
+
     pub fn set_network(&self, network: Network) -> BuilderBase {
         BuilderBase {
             config: Config {
@@ -600,6 +615,7 @@ impl BuilderBase {
             ..self.clone()
         }
     }
+
     pub fn set_listening_address(&self, listening_address: SocketAddr) -> BuilderBase {
         BuilderBase {
             config: Config {
@@ -609,6 +625,7 @@ impl BuilderBase {
             ..self.clone()
         }
     }
+
     /// Configures the [`Node`] instance to source its wallet entropy from a [BIP 39] mnemonic.
     ///
     /// [BIP 39]: https://github.com/bitcoin/bips/blob/master/bip-0039.mediawiki
@@ -639,32 +656,54 @@ pub struct NodeBase {
 pub struct NodePointer(Mutex<Node>);
 
 impl NodeBase {
+    /// Starts the necessary background tasks, such as handling events coming from user input,
+    /// LDK/BDK, and the peer-to-peer network.
+    ///
+    /// After this returns, the [`Node`] instance can be controlled via the provided API methods in
+    /// a thread-safe manner.
     pub fn start(&self) -> anyhow::Result<()> {
         let node_lock = self.node_pointer.0.lock().unwrap();
         node_lock.start().map_err(|e| anyhow!(e.to_string()))
     }
+
+    /// Disconnects all peers, stops all running background tasks, and shuts down [`Node`].
+    ///
+    /// After this returns most API methods will throw NotRunning Exception.
     pub fn stop(&self) -> anyhow::Result<()> {
         let node_lock = self.node_pointer.0.lock().unwrap();
         node_lock.stop().map_err(|e| anyhow!(e.to_string()))
     }
+
+    /// Blocks until the next event is available.
+    ///
+    /// **Note:** this will always return the same event until handling is confirmed via node.event_handled().
     pub fn event_handled(&self) -> anyhow::Result<()> {
         let node_lock = self.node_pointer.0.lock().unwrap();
         Ok(node_lock.event_handled())
     }
+
+    /// Confirm the last retrieved event handled.
+    ///
+    /// **Note:** This **MUST** be called after each event has been handled.
     pub fn next_event(&self) -> anyhow::Result<Event> {
         let node_lock = self.node_pointer.0.lock().unwrap();
         Ok(node_lock.next_event().into())
     }
+
+    /// Returns our own node id
     pub fn node_id(&self) -> anyhow::Result<PublicKey> {
         let node_lock = self.node_pointer.0.lock().unwrap();
         Ok(PublicKey {
             key_hex: node_lock.node_id().to_string(),
         })
     }
+
+    /// Returns our own listening address.
     pub fn listening_address(&self) -> Option<SocketAddr> {
         let node_lock = self.node_pointer.0.lock().unwrap();
         node_lock.listening_address().map(|x| x.to_owned().into())
     }
+
     /// Retrieve a new on-chain/funding address.
     pub fn new_funding_address(&self) -> anyhow::Result<Address> {
         let node_lock = self.node_pointer.0.lock().unwrap();
@@ -675,6 +714,7 @@ impl NodeBase {
             Err(e) => Err(anyhow!(e.to_string())),
         }
     }
+
     /// Retrieve the current on-chain balance.
     pub fn on_chain_balance(&self) -> anyhow::Result<Balance> {
         let node_lock = self.node_pointer.0.lock().unwrap();
@@ -688,6 +728,7 @@ impl NodeBase {
             Err(e) => Err(anyhow!(e.to_string())),
         }
     }
+
     /// Send an on-chain payment to the given address.
     pub fn send_to_on_chain_address(
         &self, address: Address, amount_sats: u64,
@@ -698,6 +739,7 @@ impl NodeBase {
             Err(e) => Err(anyhow!(e.to_string())),
         }
     }
+
     /// Send an on-chain payment to the given address, draining all the available funds.
     pub fn send_all_to_on_chain_address(
         &self, address: Address
@@ -733,7 +775,16 @@ impl NodeBase {
             Err(e) => Err(anyhow!(e.to_string())),
         }
     }
-    ///Retrieve the current on-chain balance.
+
+    /// Connect to a node and open a new channel. Disconnects and re-connects are handled automatically
+    ///
+    /// Disconnects and reconnects are handled automatically.
+    ///
+    /// If `pushToCounterpartyMsat` is set, the given value will be pushed (read: sent) to the
+    /// channel counterparty on channel open. This can be useful to start out with the balance not
+    /// entirely shifted to one side, therefore allowing to receive payments from the getgo.
+    ///
+    /// Returns a temporary channel id.
     pub fn connect_open_channel(
         &self,
         address: SocketAddr,
@@ -752,11 +803,13 @@ impl NodeBase {
             Err(e) => Err(anyhow!(e.to_string())),
         }
     }
+
     ///Retrieve a list of known channels.
     pub fn list_channels(&self) -> Vec<ChannelDetails> {
         let node_lock = self.node_pointer.0.lock().unwrap();
         node_lock.list_channels().iter().map(|x| x.into()).collect()
     }
+
     ///Sync the LDK and BDK wallets with the current chain state.
     // Note that the wallets will be also synced regularly in the background
     pub fn sync_wallets(&self) -> anyhow::Result<()> {
@@ -766,6 +819,7 @@ impl NodeBase {
             Err(e) => Err(anyhow!(e.to_string())),
         }
     }
+
     /// Close a previously opened channel.
     pub fn close_channel(
         &self,
@@ -778,6 +832,7 @@ impl NodeBase {
             Err(e) => Err(anyhow!(e.to_string())),
         }
     }
+
     /// Send a payement given an invoice.
     pub fn send_payment(&self, invoice: Invoice) -> anyhow::Result<PaymentHash> {
         let node_lock = self.node_pointer.0.lock().unwrap();
@@ -786,6 +841,7 @@ impl NodeBase {
             Err(e) => Err(anyhow!(e.to_string())),
         }
     }
+
     /// Send a payment given an invoice and an amount in millisatoshi.
     ///
     /// This will fail if the amount given is less than the value required by the given invoice.
@@ -803,6 +859,7 @@ impl NodeBase {
             Err(e) => Err(anyhow!(e.to_string())),
         }
     }
+
     /// Send a spontaneous, aka. "keysend", payment
     pub fn send_spontaneous_payment(
         &self,
@@ -815,6 +872,7 @@ impl NodeBase {
             Err(e) => Err(anyhow!(e.to_string())),
         }
     }
+
     /// Returns a payable invoice that can be used to request and receive a payment of the amount
     /// given.
     pub fn receive_payment(
@@ -829,6 +887,7 @@ impl NodeBase {
             Err(e) => Err(anyhow!(e.to_string())),
         }
     }
+
     /// Returns a payable invoice that can be used to request and receive a payment for which the
     /// amount is to be determined by the user, also known as a "zero-amount" invoice.
     pub fn receive_variable_amount_payment(
@@ -842,6 +901,7 @@ impl NodeBase {
             Err(e) => Err(anyhow!(e.to_string())),
         }
     }
+
     /// Retrieve the details of a specific payment with the given hash.
     ///
     /// Returns `PaymentDetails` if the payment was known and `null` otherwise.
@@ -851,5 +911,24 @@ impl NodeBase {
             None => None,
             Some(e) => Some(e.into()),
         }
+    }
+
+    /// Remove the payment with the given hash from the store.
+    ///
+    /// Returns `true` if the payment was present and `false` otherwise.
+    pub fn remove_payment(&self, payment_hash: PaymentHash) -> anyhow::Result<bool> {
+        let node_lock = self.node_pointer.0.lock().unwrap();
+        match node_lock.remove_payment(&ldk_node::lightning::ln::PaymentHash(payment_hash.0)) {
+            Ok(e) => Ok(e),
+            Err(e) => Err(anyhow!(e.to_string())),
+        }
+    }
+
+    /// Retrieves all payments that match the given predicate.
+    ///
+    pub fn list_payments_with_filter(&self, payment_direction:PaymentDirection)-> Vec<PaymentDetails>{
+        let node_lock = self.node_pointer.0.lock().unwrap();
+        let payment_details = node_lock.list_payments_with_filter(|p| p.direction == payment_direction.into());
+        payment_details.iter().map(|x| x.to_owned().into()).collect()
     }
 }

@@ -594,6 +594,42 @@ class RustImpl implements Rust {
         argNames: ["that", "paymentHash"],
       );
 
+  Future<bool> removePaymentMethodNodeBase({required NodeBase that, required PaymentHash paymentHash, dynamic hint}) {
+    var arg0 = _platform.api2wire_box_autoadd_node_base(that);
+    var arg1 = _platform.api2wire_box_autoadd_payment_hash(paymentHash);
+    return _platform.executeNormal(FlutterRustBridgeTask(
+      callFfi: (port_) => _platform.inner.wire_remove_payment__method__NodeBase(port_, arg0, arg1),
+      parseSuccessData: _wire2api_bool,
+      constMeta: kRemovePaymentMethodNodeBaseConstMeta,
+      argValues: [that, paymentHash],
+      hint: hint,
+    ));
+  }
+
+  FlutterRustBridgeTaskConstMeta get kRemovePaymentMethodNodeBaseConstMeta => const FlutterRustBridgeTaskConstMeta(
+        debugName: "remove_payment__method__NodeBase",
+        argNames: ["that", "paymentHash"],
+      );
+
+  Future<List<PaymentDetails>> listPaymentsWithFilterMethodNodeBase(
+      {required NodeBase that, required PaymentDirection paymentDirection, dynamic hint}) {
+    var arg0 = _platform.api2wire_box_autoadd_node_base(that);
+    var arg1 = api2wire_payment_direction(paymentDirection);
+    return _platform.executeNormal(FlutterRustBridgeTask(
+      callFfi: (port_) => _platform.inner.wire_list_payments_with_filter__method__NodeBase(port_, arg0, arg1),
+      parseSuccessData: _wire2api_list_payment_details,
+      constMeta: kListPaymentsWithFilterMethodNodeBaseConstMeta,
+      argValues: [that, paymentDirection],
+      hint: hint,
+    ));
+  }
+
+  FlutterRustBridgeTaskConstMeta get kListPaymentsWithFilterMethodNodeBaseConstMeta =>
+      const FlutterRustBridgeTaskConstMeta(
+        debugName: "list_payments_with_filter__method__NodeBase",
+        argNames: ["that", "paymentDirection"],
+      );
+
   DropFnType get dropOpaqueNodePointer => _platform.inner.drop_opaque_NodePointer;
   ShareFnType get shareOpaqueNodePointer => _platform.inner.share_opaque_NodePointer;
   OpaqueTypeFinalizer get NodePointerFinalizer => _platform.NodePointerFinalizer;
@@ -781,6 +817,10 @@ class RustImpl implements Rust {
 
   List<ChannelDetails> _wire2api_list_channel_details(dynamic raw) {
     return (raw as List<dynamic>).map(_wire2api_channel_details).toList();
+  }
+
+  List<PaymentDetails> _wire2api_list_payment_details(dynamic raw) {
+    return (raw as List<dynamic>).map(_wire2api_payment_details).toList();
   }
 
   Network _wire2api_network(dynamic raw) {
@@ -982,6 +1022,11 @@ int api2wire_i32(int raw) {
 
 @protected
 int api2wire_network(Network raw) {
+  return api2wire_i32(raw.index);
+}
+
+@protected
+int api2wire_payment_direction(PaymentDirection raw) {
   return api2wire_i32(raw.index);
 }
 
@@ -1905,6 +1950,42 @@ class RustWire implements FlutterRustBridgeWireBase {
       'wire_payment__method__NodeBase');
   late final _wire_payment__method__NodeBase = _wire_payment__method__NodeBasePtr
       .asFunction<void Function(int, ffi.Pointer<wire_NodeBase>, ffi.Pointer<wire_PaymentHash>)>();
+
+  void wire_remove_payment__method__NodeBase(
+    int port_,
+    ffi.Pointer<wire_NodeBase> that,
+    ffi.Pointer<wire_PaymentHash> payment_hash,
+  ) {
+    return _wire_remove_payment__method__NodeBase(
+      port_,
+      that,
+      payment_hash,
+    );
+  }
+
+  late final _wire_remove_payment__method__NodeBasePtr = _lookup<
+          ffi.NativeFunction<ffi.Void Function(ffi.Int64, ffi.Pointer<wire_NodeBase>, ffi.Pointer<wire_PaymentHash>)>>(
+      'wire_remove_payment__method__NodeBase');
+  late final _wire_remove_payment__method__NodeBase = _wire_remove_payment__method__NodeBasePtr
+      .asFunction<void Function(int, ffi.Pointer<wire_NodeBase>, ffi.Pointer<wire_PaymentHash>)>();
+
+  void wire_list_payments_with_filter__method__NodeBase(
+    int port_,
+    ffi.Pointer<wire_NodeBase> that,
+    int payment_direction,
+  ) {
+    return _wire_list_payments_with_filter__method__NodeBase(
+      port_,
+      that,
+      payment_direction,
+    );
+  }
+
+  late final _wire_list_payments_with_filter__method__NodeBasePtr =
+      _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Int64, ffi.Pointer<wire_NodeBase>, ffi.Int32)>>(
+          'wire_list_payments_with_filter__method__NodeBase');
+  late final _wire_list_payments_with_filter__method__NodeBase = _wire_list_payments_with_filter__method__NodeBasePtr
+      .asFunction<void Function(int, ffi.Pointer<wire_NodeBase>, int)>();
 
   wire_NodePointer new_NodePointer() {
     return _new_NodePointer();

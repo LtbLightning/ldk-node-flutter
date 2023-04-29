@@ -262,6 +262,24 @@ pub extern "C" fn wire_payment__method__NodeBase(
     wire_payment__method__NodeBase_impl(port_, that, payment_hash)
 }
 
+#[no_mangle]
+pub extern "C" fn wire_remove_payment__method__NodeBase(
+    port_: i64,
+    that: *mut wire_NodeBase,
+    payment_hash: *mut wire_PaymentHash,
+) {
+    wire_remove_payment__method__NodeBase_impl(port_, that, payment_hash)
+}
+
+#[no_mangle]
+pub extern "C" fn wire_list_payments_with_filter__method__NodeBase(
+    port_: i64,
+    that: *mut wire_NodeBase,
+    payment_direction: i32,
+) {
+    wire_list_payments_with_filter__method__NodeBase_impl(port_, that, payment_direction)
+}
+
 // Section: allocate functions
 
 #[no_mangle]

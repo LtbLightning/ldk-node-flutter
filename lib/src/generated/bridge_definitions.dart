@@ -70,26 +70,42 @@ abstract class Rust {
 
   FlutterRustBridgeTaskConstMeta get kBuildStaticMethodBuilderBaseConstMeta;
 
+  /// Starts the necessary background tasks, such as handling events coming from user input,
+  /// LDK/BDK, and the peer-to-peer network.
+  ///
+  /// After this returns, the [`Node`] instance can be controlled via the provided API methods in
+  /// a thread-safe manner.
   Future<void> startMethodNodeBase({required NodeBase that, dynamic hint});
 
   FlutterRustBridgeTaskConstMeta get kStartMethodNodeBaseConstMeta;
 
+  /// Disconnects all peers, stops all running background tasks, and shuts down [`Node`].
+  ///
+  /// After this returns most API methods will throw NotRunning Exception.
   Future<void> stopMethodNodeBase({required NodeBase that, dynamic hint});
 
   FlutterRustBridgeTaskConstMeta get kStopMethodNodeBaseConstMeta;
 
+  /// Blocks until the next event is available.
+  ///
+  /// **Note:** this will always return the same event until handling is confirmed via node.event_handled().
   Future<void> eventHandledMethodNodeBase({required NodeBase that, dynamic hint});
 
   FlutterRustBridgeTaskConstMeta get kEventHandledMethodNodeBaseConstMeta;
 
+  /// Confirm the last retrieved event handled.
+  ///
+  /// **Note:** This **MUST** be called after each event has been handled.
   Future<Event> nextEventMethodNodeBase({required NodeBase that, dynamic hint});
 
   FlutterRustBridgeTaskConstMeta get kNextEventMethodNodeBaseConstMeta;
 
+  /// Returns our own node id
   Future<PublicKey> nodeIdMethodNodeBase({required NodeBase that, dynamic hint});
 
   FlutterRustBridgeTaskConstMeta get kNodeIdMethodNodeBaseConstMeta;
 
+  /// Returns our own listening address.
   Future<SocketAddr?> listeningAddressMethodNodeBase({required NodeBase that, dynamic hint});
 
   FlutterRustBridgeTaskConstMeta get kListeningAddressMethodNodeBaseConstMeta;
@@ -135,7 +151,15 @@ abstract class Rust {
 
   FlutterRustBridgeTaskConstMeta get kDisconnectMethodNodeBaseConstMeta;
 
-  ///Retrieve the current on-chain balance.
+  /// Connect to a node and open a new channel. Disconnects and re-connects are handled automatically
+  ///
+  /// Disconnects and reconnects are handled automatically.
+  ///
+  /// If `pushToCounterpartyMsat` is set, the given value will be pushed (read: sent) to the
+  /// channel counterparty on channel open. This can be useful to start out with the balance not
+  /// entirely shifted to one side, therefore allowing to receive payments from the getgo.
+  ///
+  /// Returns a temporary channel id.
   Future<void> connectOpenChannelMethodNodeBase(
       {required NodeBase that,
       required SocketAddr address,
@@ -210,6 +234,20 @@ abstract class Rust {
       {required NodeBase that, required PaymentHash paymentHash, dynamic hint});
 
   FlutterRustBridgeTaskConstMeta get kPaymentMethodNodeBaseConstMeta;
+
+  /// Remove the payment with the given hash from the store.
+  ///
+  /// Returns `true` if the payment was present and `false` otherwise.
+  Future<bool> removePaymentMethodNodeBase({required NodeBase that, required PaymentHash paymentHash, dynamic hint});
+
+  FlutterRustBridgeTaskConstMeta get kRemovePaymentMethodNodeBaseConstMeta;
+
+  /// Retrieves all payments that match the given predicate.
+  ///
+  Future<List<PaymentDetails>> listPaymentsWithFilterMethodNodeBase(
+      {required NodeBase that, required PaymentDirection paymentDirection, dynamic hint});
+
+  FlutterRustBridgeTaskConstMeta get kListPaymentsWithFilterMethodNodeBaseConstMeta;
 
   DropFnType get dropOpaqueNodePointer;
   ShareFnType get shareOpaqueNodePointer;
@@ -651,26 +689,42 @@ class NodeBase {
     required this.nodePointer,
   });
 
+  /// Starts the necessary background tasks, such as handling events coming from user input,
+  /// LDK/BDK, and the peer-to-peer network.
+  ///
+  /// After this returns, the [`Node`] instance can be controlled via the provided API methods in
+  /// a thread-safe manner.
   Future<void> start({dynamic hint}) => bridge.startMethodNodeBase(
         that: this,
       );
 
+  /// Disconnects all peers, stops all running background tasks, and shuts down [`Node`].
+  ///
+  /// After this returns most API methods will throw NotRunning Exception.
   Future<void> stop({dynamic hint}) => bridge.stopMethodNodeBase(
         that: this,
       );
 
+  /// Blocks until the next event is available.
+  ///
+  /// **Note:** this will always return the same event until handling is confirmed via node.event_handled().
   Future<void> eventHandled({dynamic hint}) => bridge.eventHandledMethodNodeBase(
         that: this,
       );
 
+  /// Confirm the last retrieved event handled.
+  ///
+  /// **Note:** This **MUST** be called after each event has been handled.
   Future<Event> nextEvent({dynamic hint}) => bridge.nextEventMethodNodeBase(
         that: this,
       );
 
+  /// Returns our own node id
   Future<PublicKey> nodeId({dynamic hint}) => bridge.nodeIdMethodNodeBase(
         that: this,
       );
 
+  /// Returns our own listening address.
   Future<SocketAddr?> listeningAddress({dynamic hint}) => bridge.listeningAddressMethodNodeBase(
         that: this,
       );
@@ -721,7 +775,15 @@ class NodeBase {
         counterpartyNodeId: counterpartyNodeId,
       );
 
-  ///Retrieve the current on-chain balance.
+  /// Connect to a node and open a new channel. Disconnects and re-connects are handled automatically
+  ///
+  /// Disconnects and reconnects are handled automatically.
+  ///
+  /// If `pushToCounterpartyMsat` is set, the given value will be pushed (read: sent) to the
+  /// channel counterparty on channel open. This can be useful to start out with the balance not
+  /// entirely shifted to one side, therefore allowing to receive payments from the getgo.
+  ///
+  /// Returns a temporary channel id.
   Future<void> connectOpenChannel(
           {required SocketAddr address,
           required PublicKey nodeId,
@@ -809,6 +871,22 @@ class NodeBase {
   Future<PaymentDetails?> payment({required PaymentHash paymentHash, dynamic hint}) => bridge.paymentMethodNodeBase(
         that: this,
         paymentHash: paymentHash,
+      );
+
+  /// Remove the payment with the given hash from the store.
+  ///
+  /// Returns `true` if the payment was present and `false` otherwise.
+  Future<bool> removePayment({required PaymentHash paymentHash, dynamic hint}) => bridge.removePaymentMethodNodeBase(
+        that: this,
+        paymentHash: paymentHash,
+      );
+
+  /// Retrieves all payments that match the given predicate.
+  ///
+  Future<List<PaymentDetails>> listPaymentsWithFilter({required PaymentDirection paymentDirection, dynamic hint}) =>
+      bridge.listPaymentsWithFilterMethodNodeBase(
+        that: this,
+        paymentDirection: paymentDirection,
       );
 }
 
