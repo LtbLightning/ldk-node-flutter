@@ -620,9 +620,9 @@ dependencies = [
 
 [[package]]
 name = "flutter_rust_bridge"
-version = "1.72.1"
+version = "1.75.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "a85cf0e90d520425ac9bfca66e97b400782475d3091f4b75cadc210897c098c2"
+checksum = "f29eab4bcef83a8266245c863fdbe5bce9180f17810b24d55b8ff7b358859ada"
 dependencies = [
  "allo-isolate",
  "anyhow",
@@ -645,9 +645,9 @@ dependencies = [
 
 [[package]]
 name = "flutter_rust_bridge_codegen"
-version = "1.72.1"
+version = "1.75.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "77f6545fe9767e82d3817b511753273b26903cd3658970cbed03a729b409a550"
+checksum = "8cf31310bb78258d1920d628f2581a2b9cdaa44211836c67a495666684633452"
 dependencies = [
  "anyhow",
  "atty",
@@ -1049,8 +1049,9 @@ checksum = "e2abad23fbc42b3700f2f279844dc832adb2b2eb069b2df918f455c4e18cc646"
 
 [[package]]
 name = "ldk-node"
-version = "0.1.0"
-source = "git+https://github.com/lightningdevkit/ldk-node#f83a5c6fc3563cbc77bffb628f92b33337baa47a"
+version = "0.1.0-alpha"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "d30b494b6c7f9d471be1fcc03069f9a588088999b86520c94fba973d6f2b3f4e"
 dependencies = [
  "bdk",
  "bip39",

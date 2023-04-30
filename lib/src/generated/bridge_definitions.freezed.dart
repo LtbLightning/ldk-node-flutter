@@ -638,11 +638,11 @@ class __$$Event_ChannelReadyCopyWithImpl<$Res> extends _$EventCopyWithImpl<$Res,
 class _$Event_ChannelReady implements Event_ChannelReady {
   const _$Event_ChannelReady({required this.channelId, required this.userChannelId});
 
-  /// The `channel_id` of the channel.
+  /// The channel_id of the channel.
   @override
   final U8Array32 channelId;
 
-  /// The `user_channel_id` of the channel.
+  /// The user_channel_id of the channel.
   @override
   final int userChannelId;
 
@@ -766,10 +766,10 @@ abstract class Event_ChannelReady implements Event {
   const factory Event_ChannelReady({required final U8Array32 channelId, required final int userChannelId}) =
       _$Event_ChannelReady;
 
-  /// The `channel_id` of the channel.
+  /// The channel_id of the channel.
   U8Array32 get channelId;
 
-  /// The `user_channel_id` of the channel.
+  /// The user_channel_id of the channel.
   int get userChannelId;
   @JsonKey(ignore: true)
   _$$Event_ChannelReadyCopyWith<_$Event_ChannelReady> get copyWith => throw _privateConstructorUsedError;
@@ -813,11 +813,11 @@ class __$$Event_ChannelClosedCopyWithImpl<$Res> extends _$EventCopyWithImpl<$Res
 class _$Event_ChannelClosed implements Event_ChannelClosed {
   const _$Event_ChannelClosed({required this.channelId, required this.userChannelId});
 
-  /// The `channel_id` of the channel.
+  /// The channel_id of the channel.
   @override
   final U8Array32 channelId;
 
-  /// The `user_channel_id` of the channel.
+  /// The user_channel_id of the channel.
   @override
   final int userChannelId;
 
@@ -941,10 +941,10 @@ abstract class Event_ChannelClosed implements Event {
   const factory Event_ChannelClosed({required final U8Array32 channelId, required final int userChannelId}) =
       _$Event_ChannelClosed;
 
-  /// The `channel_id` of the channel.
+  /// The channel_id of the channel.
   U8Array32 get channelId;
 
-  /// The `user_channel_id` of the channel.
+  /// The user_channel_id of the channel.
   int get userChannelId;
   @JsonKey(ignore: true)
   _$$Event_ChannelClosedCopyWith<_$Event_ChannelClosed> get copyWith => throw _privateConstructorUsedError;
@@ -1013,19 +1013,19 @@ class _$Event_ChannelPending implements Event_ChannelPending {
       required this.counterpartyNodeId,
       required this.fundingTxo});
 
-  /// The `channel_id` of the channel.
+  /// The channel_id of the channel.
   @override
   final U8Array32 channelId;
 
-  /// The `user_channel_id` of the channel.
+  /// The user_channel_id of the channel.
   @override
   final int userChannelId;
 
-  /// The `temporary_channel_id` this channel used to be known by during channel establishment.
+  /// The temporary_channel_id this channel used to be known by during channel establishment.
   @override
   final U8Array32 formerTemporaryChannelId;
 
-  /// The `node_id` of the channel counterparty.
+  /// The node_id of the channel counterparty.
   @override
   final PublicKey counterpartyNodeId;
 
@@ -1162,16 +1162,16 @@ abstract class Event_ChannelPending implements Event {
       required final PublicKey counterpartyNodeId,
       required final OutPoint fundingTxo}) = _$Event_ChannelPending;
 
-  /// The `channel_id` of the channel.
+  /// The channel_id of the channel.
   U8Array32 get channelId;
 
-  /// The `user_channel_id` of the channel.
+  /// The user_channel_id of the channel.
   int get userChannelId;
 
-  /// The `temporary_channel_id` this channel used to be known by during channel establishment.
+  /// The temporary_channel_id this channel used to be known by during channel establishment.
   U8Array32 get formerTemporaryChannelId;
 
-  /// The `node_id` of the channel counterparty.
+  /// The node_id of the channel counterparty.
   PublicKey get counterpartyNodeId;
 
   /// The outpoint of the channel's funding transaction.

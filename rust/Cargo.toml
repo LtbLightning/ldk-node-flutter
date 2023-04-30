@@ -9,21 +9,22 @@ crate-type = ["staticlib", "cdylib"]
 
 
 [build-dependencies]
-flutter_rust_bridge_codegen = { version = "= 1.72.1"  }
+flutter_rust_bridge_codegen = { version = "= 1.75.1"  }
 
 
 [dependencies]
-flutter_rust_bridge = { version = "= 1.72.1"  }
+flutter_rust_bridge = { version = "= 1.75.1"  }
 
 log = "0.4.17"
 simplelog = "0.12.0"
 lazy_static = "1.4.0"
 once_cell = "1.16.0"
-ldk-node = { git = "https://github.com/lightningdevkit/ldk-node"}
+ldk-node = "0.1.0-alpha"
 anyhow= { version = "1.0.70"}
 
 [profile.release]
 opt-level = 'z'     # Optimize for size
 lto = true          # Enable link-time optimization
 codegen-units = 1   # Reduce number of codegen units to increase optimizations
-strip = true        # Strip symbols from binary*
+strip = true    # Strip symbols from binary*
+panic = 'abort'

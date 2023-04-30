@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="io.ldk.f.ldk_node_flutter_example">
+    package="io.ldk.f.ldk_node_example">
    <application
         android:label="ldk_node_example"
         android:name="${applicationName}"

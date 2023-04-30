@@ -1,32 +1,32 @@
+## Ldk_Node
 
-
-## Ldk_Node_Flutter
-A Flutter library for **[Lightning Development Kit](https://lightningdevkit.org/)** 
-
+A Flutter library for **[Lightning Development Kit](https://lightningdevkit.org/)**
 
 ### How to Use
 
 From Github (copy and paste the following code to pubsepc.yaml):
 
 ```bash
-ldk_node_flutter:
+ldk_node:
     git:
       url: https://github.com/LtbLightning/ldk-node-flutter.git
       ref: main
 ```
 
-API implemented from **`ldk_node_flutter`** and available in this flutter library:
-                                                                                                                                              
-### NodeBuilder   
+API implemented from **`ldk_node`** and available in this flutter library:
+
+### Builder
+
 - `setListeningAddress( String listeningAddress )`,
 - `setNetwork( Network netowrk )`
-- `setEsploraServerUrl( String esploraServerUrl )` 
-- `setStorageDirPath( String storageDirPath )` 
-- `fromConfig( Config config )` 
-- `build()` 
+- `setEsploraServerUrl( String esploraServerUrl )`
+- `setStorageDirPath( String storageDirPath )`
+- `fromConfig( Config config )`
+- `build()`
 
-### LdkNode    
-- `start()` 
+### LdkNode
+
+- `start()`
 - `stop()`
 - `nodeId()`
 - `newFundingAddress()`
@@ -34,14 +34,14 @@ API implemented from **`ldk_node_flutter`** and available in this flutter librar
 - `syncWallet()`
 - `getNodeInfo()`
 - `listeningAddress()`
-- `connectOpenChannel( String nodePubKeyAndAddress, int channelAmountSats, bool announceChannel )` 
+- `connectOpenChannel( String nodePubKeyAndAddress, int channelAmountSats, bool announceChannel )`
 - `closeChannel( String channelId, PublicKey counterpartyNodeId )`
 - `getChannelIds()`
 - `receivePayment(  String description, int expirySecs,  int? amountInSats )`
 - `sendPayment( Invoice invoice )`
 - `sendAdjustableValuePayment( Invoice invoice, int amountInSats )`
 - `sendSpontaneousPayment( String nodeId, int amountInSats )`
-- `eventHandled()` 
+- `eventHandled()`
 - `nextEvent()`
 
 ### Examples
@@ -49,7 +49,7 @@ API implemented from **`ldk_node_flutter`** and available in this flutter librar
 ### Build, Start & Sync the local node
 
 ```dart
-import 'package:ldk_node_flutter/ldk_node_flutter.dart';
+import 'package:ldk_node/ldk_node.dart';
 
 // ....
 
@@ -68,11 +68,10 @@ final config = Config( storageDirPath: path,
 NodeBuilder builder = NodeBuilder.fromConfig(config);
 final node = await builder.build();
 
-//Starting the node 
-await node.start();                      
-   
-//Syncing the node    
-await node.syncWallet();                   
-                       
-```
+//Starting the node
+await node.start();
 
+//Syncing the node
+await node.syncWallet();
+
+```

@@ -186,10 +186,10 @@ packages:
     dependency: transitive
     description:
       name: flutter_rust_bridge
-      sha256: "34f5becca2df35955b2ec5e875349028ea609a826de7aade4de80534cf876b27"
+      sha256: "83d4b4d2847e438eb647437c14d780f293dc2407f04854b227c18af2e6426eab"
       url: "https://pub.dev"
     source: hosted
-    version: "1.72.1"
+    version: "1.75.1"
   flutter_test:
     dependency: "direct dev"
     description: flutter
@@ -259,13 +259,13 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "4.7.0"
-  ldk_node_flutter:
+  ldk_node:
     dependency: "direct main"
     description:
       path: ".."
       relative: true
     source: path
-    version: "0.0.1"
+    version: "0.1.0"
   lints:
     dependency: transitive
     description:
@@ -331,7 +331,7 @@ packages:
     source: hosted
     version: "1.8.2"
   path_provider:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: path_provider
       sha256: c7edf82217d4b2952b2129a61d3ad60f1075b9299e629e149a8d2e39c2e6aad4

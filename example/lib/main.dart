@@ -3,8 +3,8 @@ import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:ldk_node_flutter/ldk_node_flutter.dart' as ldk;
-import 'package:path_provider/path_provider.dart';
+import 'package:ldk_node/ldk_node.dart' as ldk;
+// import 'package:path_provider/path_provider.dart';
 
 void main() {
   runApp(const MyApp());
@@ -37,8 +37,8 @@ class _MyAppState extends State<MyApp> {
   Future<ldk.Config> initLdkConfig(String path, ldk.SocketAddr address) async {
     // Please replace this url with your Electrum RPC Api url
     // Please use 10.0.2.2, instead of 0.0.0.0
-    final directory = await getApplicationDocumentsDirectory();
-    final nodePath = "${directory.path}/ldk_cache/$path";
+    //final directory = await getApplicationDocumentsDirectory();
+    final nodePath = "{directory.path}/ldk_cache/$path";
     final esploraUrl =
         Platform.isAndroid ? "http://10.0.2.2:3002" : "http://0.0.0.0:3002";
     final config = ldk.Config(
@@ -57,7 +57,7 @@ class _MyAppState extends State<MyApp> {
 
   initAliceNode() async {
     final aliceConfig = await initLdkConfig(
-        'alice', const ldk.SocketAddr(ip: "10.0.0.116", port: 7011));
+        'alice', const ldk.SocketAddr(ip: "0.0.0.0", port: 3006));
     ldk.Builder aliceBuilder = ldk.Builder.fromConfig(config: aliceConfig);
     aliceNode = await aliceBuilder.build();
     await aliceNode.start();
@@ -70,7 +70,7 @@ class _MyAppState extends State<MyApp> {
 
   initBobNode() async {
     final bobConfig = await initLdkConfig(
-        "bob", const ldk.SocketAddr(ip: "10.0.0.116", port: 1104));
+        "bob", const ldk.SocketAddr(ip: "0.0.0.0", port: 8077));
     ldk.Builder bobBuilder = ldk.Builder.fromConfig(config: bobConfig);
     bobNode = await bobBuilder.build();
     await bobNode.start();
@@ -103,13 +103,50 @@ class _MyAppState extends State<MyApp> {
   getNodeInfo() async {
     final res = await aliceNode.listChannels();
     if (kDebugMode) {
-      print("======Channels========");
-      for (var e in res) {
-        print("nodeId: ${aliceNodeId!.keyHex}");
-        print("channelId: ${e.channelId}");
-        print("isChannelReady: ${e.isChannelReady}");
-        print("isUsable: ${e.isUsable}");
-        print("channelValueSatoshis: ${e.outboundCapacityMsat}");
+      if (res.isNotEmpty) {
+        print("======Channels========");
+        for (var e in res) {
+          print("nodeId: ${aliceNodeId!.keyHex}");
+          print("channelId: ${e.channelId}");
+          print("isChannelReady: ${e.isChannelReady}");
+          print("isUsable: ${e.isUsable}");
+          print("channelValueSatoshis: ${e.outboundCapacityMsat}");
+        }
+      }
+    }
+  }
+
+  Future<ldk.PaymentDetails?> listPayments(bool printPayments) async {
+    final res = await aliceNode.listPaymentsWithFilter(
+        paymentDirection: ldk.PaymentDirection.Outbound);
+    if (res.isNotEmpty) {
+      if (printPayments) {
+        if (kDebugMode) {
+          print("======Payments========");
+          for (var e in res) {
+            print("amountMsat: ${e.amountMsat}");
+            print("hash: ${e.hash.field0}");
+            print("preimage: ${e.preimage!.field0}");
+            print("secret: ${e.secret!.field0}");
+          }
+        }
+      }
+      return res.last;
+    } else {
+      return null;
+    }
+  }
+
+  removeLastPayment() async {
+    final lastPayment = await listPayments(false);
+    if (lastPayment != null) {
+      final res = await aliceNode.removePayment(paymentHash: lastPayment.hash);
+      if (res) {
+        setState(() {
+          displayText = "${lastPayment.hash.field0} removed";
+        });
+      } else {
+        displayText = "payment not found";
       }
     }
   }
@@ -138,14 +175,11 @@ class _MyAppState extends State<MyApp> {
     final alice = await aliceNode.listeningAddress();
     final bob = await bobNode.listeningAddress();
     setState(() {
-      // bobAddr = bob;
-      // displayText = "bob's node pubKey & Address : $bobNodePubKeyAndAddress";
+      bobAddr = bob;
     });
     if (kDebugMode) {
-      print("${aliceNodeId!.keyHex}@$alice");
-      print("${bobNodeId!.keyHex}@$bob");
-      print("alice's listeningAddress : $alice");
-      print("bob's listeningAddress: $bob");
+      print("alice's listeningAddress : ${alice!.ip}:${alice.port}");
+      print("bob's listeningAddress: ${bob!.ip}:${bob.port}");
     }
   }
 
@@ -154,12 +188,10 @@ class _MyAppState extends State<MyApp> {
         channelAmountSats: 5000000,
         announceChannel: true,
         address: bobAddr!,
+        pushToCounterpartyMsat: 50000,
         nodeId: bobNodeId!);
-    print("temporary channel created");
   }
 
-  //Failed to send payment due to routing failure: Failed to find a path to the given destination
-  //Failed to send payment due to routing failure: Failed to find a path to the given destination
   receiveAndSendPayments() async {
     invoice = await bobNode.receivePayment(
         amountMsat: 100000000, description: 'ALICE', expirySecs: 10000);
@@ -197,7 +229,7 @@ class _MyAppState extends State<MyApp> {
 
   Future handleEvent(ldk.Node node) async {
     final res = await node.nextEvent();
-    res?.map(paymentSuccessful: (e) {
+    res.map(paymentSuccessful: (e) {
       if (kDebugMode) {
         print("paymentSuccessful: ${e.paymentHash.field0}");
       }
@@ -433,6 +465,32 @@ class _MyAppState extends State<MyApp> {
                       },
                       child: Text(
                         'Send Invoice Payment',
+                        textAlign: TextAlign.center,
+                        style: GoogleFonts.nunito(
+                            color: Colors.indigoAccent,
+                            fontSize: 12,
+                            height: 1.5,
+                            fontWeight: FontWeight.w800),
+                      )),
+                  TextButton(
+                      onPressed: () async {
+                        await listPayments(true);
+                      },
+                      child: Text(
+                        'List Payments',
+                        textAlign: TextAlign.center,
+                        style: GoogleFonts.nunito(
+                            color: Colors.indigoAccent,
+                            fontSize: 12,
+                            height: 1.5,
+                            fontWeight: FontWeight.w800),
+                      )),
+                  TextButton(
+                      onPressed: () async {
+                        await listPayments(true);
+                      },
+                      child: Text(
+                        'Remove the last payment',
                         textAlign: TextAlign.center,
                         style: GoogleFonts.nunito(
                             color: Colors.indigoAccent,
