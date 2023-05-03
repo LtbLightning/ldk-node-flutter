@@ -4,8 +4,8 @@
 #
 Pod::Spec.new do |s|
   s.name             = 'ldk_node'
-  s.version          = '0.0.1'
-  s.summary          = 'A new Flutter project.'
+  s.version          = '0.1.0'
+  s.summary          = 'A ready-to-go Lightning node library built using LDK and BDK.'
   s.description      = <<-DESC
 A new Flutter project.
                        DESC

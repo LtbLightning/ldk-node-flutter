@@ -24,49 +24,66 @@ abstract class Rust {
   Future<BuilderBase> setEntropySeedPathMethodBuilderBase(
       {required BuilderBase that, required String seedPath, dynamic hint});
 
-  FlutterRustBridgeTaskConstMeta get kSetEntropySeedPathMethodBuilderBaseConstMeta;
+  FlutterRustBridgeTaskConstMeta
+      get kSetEntropySeedPathMethodBuilderBaseConstMeta;
 
   /// Configures the [Node] instance to source its wallet entropy from the given seed bytes.
   Future<BuilderBase> setEntropySeedBytesMethodBuilderBase(
       {required BuilderBase that, required U8Array64 seedBytes, dynamic hint});
 
-  FlutterRustBridgeTaskConstMeta get kSetEntropySeedBytesMethodBuilderBaseConstMeta;
+  FlutterRustBridgeTaskConstMeta
+      get kSetEntropySeedBytesMethodBuilderBaseConstMeta;
 
   /// Sets the used storage directory path.
   ///
   /// Default: `/tmp/ldk_node/`
   Future<BuilderBase> setStorageDirPathMethodBuilderBase(
-      {required BuilderBase that, required String storageDirPath, dynamic hint});
+      {required BuilderBase that,
+      required String storageDirPath,
+      dynamic hint});
 
-  FlutterRustBridgeTaskConstMeta get kSetStorageDirPathMethodBuilderBaseConstMeta;
+  FlutterRustBridgeTaskConstMeta
+      get kSetStorageDirPathMethodBuilderBaseConstMeta;
 
   /// Sets the Esplora server URL.
   ///
   /// Default: `https://blockstream.info/api`
   Future<BuilderBase> setEsploraServerUrlMethodBuilderBase(
-      {required BuilderBase that, required String esploraServerUrl, dynamic hint});
+      {required BuilderBase that,
+      required String esploraServerUrl,
+      dynamic hint});
 
-  FlutterRustBridgeTaskConstMeta get kSetEsploraServerUrlMethodBuilderBaseConstMeta;
+  FlutterRustBridgeTaskConstMeta
+      get kSetEsploraServerUrlMethodBuilderBaseConstMeta;
 
-  Future<BuilderBase> setNetworkMethodBuilderBase({required BuilderBase that, required Network network, dynamic hint});
+  Future<BuilderBase> setNetworkMethodBuilderBase(
+      {required BuilderBase that, required Network network, dynamic hint});
 
   FlutterRustBridgeTaskConstMeta get kSetNetworkMethodBuilderBaseConstMeta;
 
   Future<BuilderBase> setListeningAddressMethodBuilderBase(
-      {required BuilderBase that, required SocketAddr listeningAddress, dynamic hint});
+      {required BuilderBase that,
+      required SocketAddr listeningAddress,
+      dynamic hint});
 
-  FlutterRustBridgeTaskConstMeta get kSetListeningAddressMethodBuilderBaseConstMeta;
+  FlutterRustBridgeTaskConstMeta
+      get kSetListeningAddressMethodBuilderBaseConstMeta;
 
   /// Configures the [Node] instance to source its wallet entropy from a [BIP 39] mnemonic.
   ///
   /// [BIP 39]: https://github.com/bitcoin/bips/blob/master/bip-0039.mediawiki
   ///
   Future<BuilderBase> setEntropyBip39MnemonicMethodBuilderBase(
-      {required BuilderBase that, required String mnemonic, String? passphrase, dynamic hint});
+      {required BuilderBase that,
+      required String mnemonic,
+      String? passphrase,
+      dynamic hint});
 
-  FlutterRustBridgeTaskConstMeta get kSetEntropyBip39MnemonicMethodBuilderBaseConstMeta;
+  FlutterRustBridgeTaskConstMeta
+      get kSetEntropyBip39MnemonicMethodBuilderBaseConstMeta;
 
-  Future<NodeBase> buildStaticMethodBuilderBase({required BuilderBase builder, dynamic hint});
+  Future<NodeBase> buildStaticMethodBuilderBase(
+      {required BuilderBase builder, dynamic hint});
 
   FlutterRustBridgeTaskConstMeta get kBuildStaticMethodBuilderBaseConstMeta;
 
@@ -89,7 +106,8 @@ abstract class Rust {
   /// Blocks until the next event is available.
   ///
   /// **Note:** this will always return the same event until handling is confirmed via node.event_handled().
-  Future<void> eventHandledMethodNodeBase({required NodeBase that, dynamic hint});
+  Future<void> eventHandledMethodNodeBase(
+      {required NodeBase that, dynamic hint});
 
   FlutterRustBridgeTaskConstMeta get kEventHandledMethodNodeBaseConstMeta;
 
@@ -101,35 +119,45 @@ abstract class Rust {
   FlutterRustBridgeTaskConstMeta get kNextEventMethodNodeBaseConstMeta;
 
   /// Returns our own node id
-  Future<PublicKey> nodeIdMethodNodeBase({required NodeBase that, dynamic hint});
+  Future<PublicKey> nodeIdMethodNodeBase(
+      {required NodeBase that, dynamic hint});
 
   FlutterRustBridgeTaskConstMeta get kNodeIdMethodNodeBaseConstMeta;
 
   /// Returns our own listening address.
-  Future<SocketAddr?> listeningAddressMethodNodeBase({required NodeBase that, dynamic hint});
+  Future<SocketAddr?> listeningAddressMethodNodeBase(
+      {required NodeBase that, dynamic hint});
 
   FlutterRustBridgeTaskConstMeta get kListeningAddressMethodNodeBaseConstMeta;
 
   /// Retrieve a new on-chain/funding address.
-  Future<Address> newFundingAddressMethodNodeBase({required NodeBase that, dynamic hint});
+  Future<Address> newFundingAddressMethodNodeBase(
+      {required NodeBase that, dynamic hint});
 
   FlutterRustBridgeTaskConstMeta get kNewFundingAddressMethodNodeBaseConstMeta;
 
   /// Retrieve the current on-chain balance.
-  Future<Balance> onChainBalanceMethodNodeBase({required NodeBase that, dynamic hint});
+  Future<Balance> onChainBalanceMethodNodeBase(
+      {required NodeBase that, dynamic hint});
 
   FlutterRustBridgeTaskConstMeta get kOnChainBalanceMethodNodeBaseConstMeta;
 
   /// Send an on-chain payment to the given address.
   Future<Txid> sendToOnChainAddressMethodNodeBase(
-      {required NodeBase that, required Address address, required int amountSats, dynamic hint});
+      {required NodeBase that,
+      required Address address,
+      required int amountSats,
+      dynamic hint});
 
-  FlutterRustBridgeTaskConstMeta get kSendToOnChainAddressMethodNodeBaseConstMeta;
+  FlutterRustBridgeTaskConstMeta
+      get kSendToOnChainAddressMethodNodeBaseConstMeta;
 
   /// Send an on-chain payment to the given address, draining all the available funds.
-  Future<Txid> sendAllToOnChainAddressMethodNodeBase({required NodeBase that, required Address address, dynamic hint});
+  Future<Txid> sendAllToOnChainAddressMethodNodeBase(
+      {required NodeBase that, required Address address, dynamic hint});
 
-  FlutterRustBridgeTaskConstMeta get kSendAllToOnChainAddressMethodNodeBaseConstMeta;
+  FlutterRustBridgeTaskConstMeta
+      get kSendAllToOnChainAddressMethodNodeBaseConstMeta;
 
   /// Connect to a node on the peer-to-peer network.
   ///
@@ -147,7 +175,10 @@ abstract class Rust {
   ///
   /// Will also remove the peer from the peer store, i.e., after this has been called we won't
   /// try to reconnect on restart.
-  Future<void> disconnectMethodNodeBase({required NodeBase that, required PublicKey counterpartyNodeId, dynamic hint});
+  Future<void> disconnectMethodNodeBase(
+      {required NodeBase that,
+      required PublicKey counterpartyNodeId,
+      dynamic hint});
 
   FlutterRustBridgeTaskConstMeta get kDisconnectMethodNodeBaseConstMeta;
 
@@ -172,23 +203,29 @@ abstract class Rust {
   FlutterRustBridgeTaskConstMeta get kConnectOpenChannelMethodNodeBaseConstMeta;
 
   ///Retrieve a list of known channels.
-  Future<List<ChannelDetails>> listChannelsMethodNodeBase({required NodeBase that, dynamic hint});
+  Future<List<ChannelDetails>> listChannelsMethodNodeBase(
+      {required NodeBase that, dynamic hint});
 
   FlutterRustBridgeTaskConstMeta get kListChannelsMethodNodeBaseConstMeta;
 
   ///Sync the LDK and BDK wallets with the current chain state.
-  Future<void> syncWalletsMethodNodeBase({required NodeBase that, dynamic hint});
+  Future<void> syncWalletsMethodNodeBase(
+      {required NodeBase that, dynamic hint});
 
   FlutterRustBridgeTaskConstMeta get kSyncWalletsMethodNodeBaseConstMeta;
 
   /// Close a previously opened channel.
   Future<void> closeChannelMethodNodeBase(
-      {required NodeBase that, required U8Array32 channelId, required PublicKey counterpartyNodeId, dynamic hint});
+      {required NodeBase that,
+      required U8Array32 channelId,
+      required PublicKey counterpartyNodeId,
+      dynamic hint});
 
   FlutterRustBridgeTaskConstMeta get kCloseChannelMethodNodeBaseConstMeta;
 
   /// Send a payement given an invoice.
-  Future<PaymentHash> sendPaymentMethodNodeBase({required NodeBase that, required Invoice invoice, dynamic hint});
+  Future<PaymentHash> sendPaymentMethodNodeBase(
+      {required NodeBase that, required Invoice invoice, dynamic hint});
 
   FlutterRustBridgeTaskConstMeta get kSendPaymentMethodNodeBaseConstMeta;
 
@@ -199,15 +236,23 @@ abstract class Rust {
   /// This can be used to pay a so-called "zero-amount" invoice, i.e., an invoice that leaves the
   /// amount paid to be determined by the user.
   Future<PaymentHash> sendPaymentUsingAmountMethodNodeBase(
-      {required NodeBase that, required Invoice invoice, required int amountMsat, dynamic hint});
+      {required NodeBase that,
+      required Invoice invoice,
+      required int amountMsat,
+      dynamic hint});
 
-  FlutterRustBridgeTaskConstMeta get kSendPaymentUsingAmountMethodNodeBaseConstMeta;
+  FlutterRustBridgeTaskConstMeta
+      get kSendPaymentUsingAmountMethodNodeBaseConstMeta;
 
   /// Send a spontaneous, aka. "keysend", payment
   Future<PaymentHash> sendSpontaneousPaymentMethodNodeBase(
-      {required NodeBase that, required int amountMsat, required PublicKey nodeId, dynamic hint});
+      {required NodeBase that,
+      required int amountMsat,
+      required PublicKey nodeId,
+      dynamic hint});
 
-  FlutterRustBridgeTaskConstMeta get kSendSpontaneousPaymentMethodNodeBaseConstMeta;
+  FlutterRustBridgeTaskConstMeta
+      get kSendSpontaneousPaymentMethodNodeBaseConstMeta;
 
   /// Returns a payable invoice that can be used to request and receive a payment of the amount
   /// given.
@@ -223,9 +268,13 @@ abstract class Rust {
   /// Returns a payable invoice that can be used to request and receive a payment for which the
   /// amount is to be determined by the user, also known as a "zero-amount" invoice.
   Future<Invoice> receiveVariableAmountPaymentMethodNodeBase(
-      {required NodeBase that, required String description, required int expirySecs, dynamic hint});
+      {required NodeBase that,
+      required String description,
+      required int expirySecs,
+      dynamic hint});
 
-  FlutterRustBridgeTaskConstMeta get kReceiveVariableAmountPaymentMethodNodeBaseConstMeta;
+  FlutterRustBridgeTaskConstMeta
+      get kReceiveVariableAmountPaymentMethodNodeBaseConstMeta;
 
   /// Retrieve the details of a specific payment with the given hash.
   ///
@@ -238,16 +287,20 @@ abstract class Rust {
   /// Remove the payment with the given hash from the store.
   ///
   /// Returns `true` if the payment was present and `false` otherwise.
-  Future<bool> removePaymentMethodNodeBase({required NodeBase that, required PaymentHash paymentHash, dynamic hint});
+  Future<bool> removePaymentMethodNodeBase(
+      {required NodeBase that, required PaymentHash paymentHash, dynamic hint});
 
   FlutterRustBridgeTaskConstMeta get kRemovePaymentMethodNodeBaseConstMeta;
 
   /// Retrieves all payments that match the given predicate.
   ///
   Future<List<PaymentDetails>> listPaymentsWithFilterMethodNodeBase(
-      {required NodeBase that, required PaymentDirection paymentDirection, dynamic hint});
+      {required NodeBase that,
+      required PaymentDirection paymentDirection,
+      dynamic hint});
 
-  FlutterRustBridgeTaskConstMeta get kListPaymentsWithFilterMethodNodeBaseConstMeta;
+  FlutterRustBridgeTaskConstMeta
+      get kListPaymentsWithFilterMethodNodeBaseConstMeta;
 
   DropFnType get dropOpaqueNodePointer;
   ShareFnType get shareOpaqueNodePointer;
@@ -310,21 +363,24 @@ class BuilderBase {
     this.entropySource,
   });
 
-  static Future<BuilderBase> newBuilderBase({required Rust bridge, dynamic hint}) =>
+  static Future<BuilderBase> newBuilderBase(
+          {required Rust bridge, dynamic hint}) =>
       bridge.newStaticMethodBuilderBase(hint: hint);
 
   /// Configures the [Node] instance to source its wallet entropy from a seed file on disk.
   ///
   /// If the given file does not exist a new random seed file will be generated and
   /// stored at the given location.
-  Future<BuilderBase> setEntropySeedPath({required String seedPath, dynamic hint}) =>
+  Future<BuilderBase> setEntropySeedPath(
+          {required String seedPath, dynamic hint}) =>
       bridge.setEntropySeedPathMethodBuilderBase(
         that: this,
         seedPath: seedPath,
       );
 
   /// Configures the [Node] instance to source its wallet entropy from the given seed bytes.
-  Future<BuilderBase> setEntropySeedBytes({required U8Array64 seedBytes, dynamic hint}) =>
+  Future<BuilderBase> setEntropySeedBytes(
+          {required U8Array64 seedBytes, dynamic hint}) =>
       bridge.setEntropySeedBytesMethodBuilderBase(
         that: this,
         seedBytes: seedBytes,
@@ -333,7 +389,8 @@ class BuilderBase {
   /// Sets the used storage directory path.
   ///
   /// Default: `/tmp/ldk_node/`
-  Future<BuilderBase> setStorageDirPath({required String storageDirPath, dynamic hint}) =>
+  Future<BuilderBase> setStorageDirPath(
+          {required String storageDirPath, dynamic hint}) =>
       bridge.setStorageDirPathMethodBuilderBase(
         that: this,
         storageDirPath: storageDirPath,
@@ -342,18 +399,21 @@ class BuilderBase {
   /// Sets the Esplora server URL.
   ///
   /// Default: `https://blockstream.info/api`
-  Future<BuilderBase> setEsploraServerUrl({required String esploraServerUrl, dynamic hint}) =>
+  Future<BuilderBase> setEsploraServerUrl(
+          {required String esploraServerUrl, dynamic hint}) =>
       bridge.setEsploraServerUrlMethodBuilderBase(
         that: this,
         esploraServerUrl: esploraServerUrl,
       );
 
-  Future<BuilderBase> setNetwork({required Network network, dynamic hint}) => bridge.setNetworkMethodBuilderBase(
+  Future<BuilderBase> setNetwork({required Network network, dynamic hint}) =>
+      bridge.setNetworkMethodBuilderBase(
         that: this,
         network: network,
       );
 
-  Future<BuilderBase> setListeningAddress({required SocketAddr listeningAddress, dynamic hint}) =>
+  Future<BuilderBase> setListeningAddress(
+          {required SocketAddr listeningAddress, dynamic hint}) =>
       bridge.setListeningAddressMethodBuilderBase(
         that: this,
         listeningAddress: listeningAddress,
@@ -363,14 +423,16 @@ class BuilderBase {
   ///
   /// [BIP 39]: https://github.com/bitcoin/bips/blob/master/bip-0039.mediawiki
   ///
-  Future<BuilderBase> setEntropyBip39Mnemonic({required String mnemonic, String? passphrase, dynamic hint}) =>
+  Future<BuilderBase> setEntropyBip39Mnemonic(
+          {required String mnemonic, String? passphrase, dynamic hint}) =>
       bridge.setEntropyBip39MnemonicMethodBuilderBase(
         that: this,
         mnemonic: mnemonic,
         passphrase: passphrase,
       );
 
-  static Future<NodeBase> build({required Rust bridge, required BuilderBase builder, dynamic hint}) =>
+  static Future<NodeBase> build(
+          {required Rust bridge, required BuilderBase builder, dynamic hint}) =>
       bridge.buildStaticMethodBuilderBase(builder: builder, hint: hint);
 }
 
@@ -687,7 +749,8 @@ class NodeBase {
   /// Blocks until the next event is available.
   ///
   /// **Note:** this will always return the same event until handling is confirmed via node.event_handled().
-  Future<void> eventHandled({dynamic hint}) => bridge.eventHandledMethodNodeBase(
+  Future<void> eventHandled({dynamic hint}) =>
+      bridge.eventHandledMethodNodeBase(
         that: this,
       );
 
@@ -704,22 +767,26 @@ class NodeBase {
       );
 
   /// Returns our own listening address.
-  Future<SocketAddr?> listeningAddress({dynamic hint}) => bridge.listeningAddressMethodNodeBase(
+  Future<SocketAddr?> listeningAddress({dynamic hint}) =>
+      bridge.listeningAddressMethodNodeBase(
         that: this,
       );
 
   /// Retrieve a new on-chain/funding address.
-  Future<Address> newFundingAddress({dynamic hint}) => bridge.newFundingAddressMethodNodeBase(
+  Future<Address> newFundingAddress({dynamic hint}) =>
+      bridge.newFundingAddressMethodNodeBase(
         that: this,
       );
 
   /// Retrieve the current on-chain balance.
-  Future<Balance> onChainBalance({dynamic hint}) => bridge.onChainBalanceMethodNodeBase(
+  Future<Balance> onChainBalance({dynamic hint}) =>
+      bridge.onChainBalanceMethodNodeBase(
         that: this,
       );
 
   /// Send an on-chain payment to the given address.
-  Future<Txid> sendToOnChainAddress({required Address address, required int amountSats, dynamic hint}) =>
+  Future<Txid> sendToOnChainAddress(
+          {required Address address, required int amountSats, dynamic hint}) =>
       bridge.sendToOnChainAddressMethodNodeBase(
         that: this,
         address: address,
@@ -727,7 +794,8 @@ class NodeBase {
       );
 
   /// Send an on-chain payment to the given address, draining all the available funds.
-  Future<Txid> sendAllToOnChainAddress({required Address address, dynamic hint}) =>
+  Future<Txid> sendAllToOnChainAddress(
+          {required Address address, dynamic hint}) =>
       bridge.sendAllToOnChainAddressMethodNodeBase(
         that: this,
         address: address,
@@ -737,7 +805,10 @@ class NodeBase {
   ///
   /// If `permanently` is set to `true`, we'll remember the peer and reconnect to it on restart.
   Future<void> connect(
-          {required PublicKey nodeId, required SocketAddr address, required bool permanently, dynamic hint}) =>
+          {required PublicKey nodeId,
+          required SocketAddr address,
+          required bool permanently,
+          dynamic hint}) =>
       bridge.connectMethodNodeBase(
         that: this,
         nodeId: nodeId,
@@ -749,7 +820,9 @@ class NodeBase {
   ///
   /// Will also remove the peer from the peer store, i.e., after this has been called we won't
   /// try to reconnect on restart.
-  Future<void> disconnect({required PublicKey counterpartyNodeId, dynamic hint}) => bridge.disconnectMethodNodeBase(
+  Future<void> disconnect(
+          {required PublicKey counterpartyNodeId, dynamic hint}) =>
+      bridge.disconnectMethodNodeBase(
         that: this,
         counterpartyNodeId: counterpartyNodeId,
       );
@@ -780,7 +853,8 @@ class NodeBase {
       );
 
   ///Retrieve a list of known channels.
-  Future<List<ChannelDetails>> listChannels({dynamic hint}) => bridge.listChannelsMethodNodeBase(
+  Future<List<ChannelDetails>> listChannels({dynamic hint}) =>
+      bridge.listChannelsMethodNodeBase(
         that: this,
       );
 
@@ -790,7 +864,10 @@ class NodeBase {
       );
 
   /// Close a previously opened channel.
-  Future<void> closeChannel({required U8Array32 channelId, required PublicKey counterpartyNodeId, dynamic hint}) =>
+  Future<void> closeChannel(
+          {required U8Array32 channelId,
+          required PublicKey counterpartyNodeId,
+          dynamic hint}) =>
       bridge.closeChannelMethodNodeBase(
         that: this,
         channelId: channelId,
@@ -798,7 +875,8 @@ class NodeBase {
       );
 
   /// Send a payement given an invoice.
-  Future<PaymentHash> sendPayment({required Invoice invoice, dynamic hint}) => bridge.sendPaymentMethodNodeBase(
+  Future<PaymentHash> sendPayment({required Invoice invoice, dynamic hint}) =>
+      bridge.sendPaymentMethodNodeBase(
         that: this,
         invoice: invoice,
       );
@@ -809,7 +887,8 @@ class NodeBase {
   ///
   /// This can be used to pay a so-called "zero-amount" invoice, i.e., an invoice that leaves the
   /// amount paid to be determined by the user.
-  Future<PaymentHash> sendPaymentUsingAmount({required Invoice invoice, required int amountMsat, dynamic hint}) =>
+  Future<PaymentHash> sendPaymentUsingAmount(
+          {required Invoice invoice, required int amountMsat, dynamic hint}) =>
       bridge.sendPaymentUsingAmountMethodNodeBase(
         that: this,
         invoice: invoice,
@@ -817,7 +896,8 @@ class NodeBase {
       );
 
   /// Send a spontaneous, aka. "keysend", payment
-  Future<PaymentHash> sendSpontaneousPayment({required int amountMsat, required PublicKey nodeId, dynamic hint}) =>
+  Future<PaymentHash> sendSpontaneousPayment(
+          {required int amountMsat, required PublicKey nodeId, dynamic hint}) =>
       bridge.sendSpontaneousPaymentMethodNodeBase(
         that: this,
         amountMsat: amountMsat,
@@ -827,7 +907,10 @@ class NodeBase {
   /// Returns a payable invoice that can be used to request and receive a payment of the amount
   /// given.
   Future<Invoice> receivePayment(
-          {required int amountMsat, required String description, required int expirySecs, dynamic hint}) =>
+          {required int amountMsat,
+          required String description,
+          required int expirySecs,
+          dynamic hint}) =>
       bridge.receivePaymentMethodNodeBase(
         that: this,
         amountMsat: amountMsat,
@@ -837,7 +920,10 @@ class NodeBase {
 
   /// Returns a payable invoice that can be used to request and receive a payment for which the
   /// amount is to be determined by the user, also known as a "zero-amount" invoice.
-  Future<Invoice> receiveVariableAmountPayment({required String description, required int expirySecs, dynamic hint}) =>
+  Future<Invoice> receiveVariableAmountPayment(
+          {required String description,
+          required int expirySecs,
+          dynamic hint}) =>
       bridge.receiveVariableAmountPaymentMethodNodeBase(
         that: this,
         description: description,
@@ -847,7 +933,9 @@ class NodeBase {
   /// Retrieve the details of a specific payment with the given hash.
   ///
   /// Returns `PaymentDetails` if the payment was known and `null` otherwise.
-  Future<PaymentDetails?> payment({required PaymentHash paymentHash, dynamic hint}) => bridge.paymentMethodNodeBase(
+  Future<PaymentDetails?> payment(
+          {required PaymentHash paymentHash, dynamic hint}) =>
+      bridge.paymentMethodNodeBase(
         that: this,
         paymentHash: paymentHash,
       );
@@ -855,14 +943,17 @@ class NodeBase {
   /// Remove the payment with the given hash from the store.
   ///
   /// Returns `true` if the payment was present and `false` otherwise.
-  Future<bool> removePayment({required PaymentHash paymentHash, dynamic hint}) => bridge.removePaymentMethodNodeBase(
+  Future<bool> removePayment(
+          {required PaymentHash paymentHash, dynamic hint}) =>
+      bridge.removePaymentMethodNodeBase(
         that: this,
         paymentHash: paymentHash,
       );
 
   /// Retrieves all payments that match the given predicate.
   ///
-  Future<List<PaymentDetails>> listPaymentsWithFilter({required PaymentDirection paymentDirection, dynamic hint}) =>
+  Future<List<PaymentDetails>> listPaymentsWithFilter(
+          {required PaymentDirection paymentDirection, dynamic hint}) =>
       bridge.listPaymentsWithFilterMethodNodeBase(
         that: this,
         paymentDirection: paymentDirection,
