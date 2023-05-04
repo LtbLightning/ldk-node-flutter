@@ -19,8 +19,7 @@ migrate_working_dir/
 # The .vscode folder contains launch configuration and tasks you configure in
 # VS Code which you may wish to be included in version control, so this line
 # is commented out by default.
-#.vscode/
-.vscode/settings.json
+.vscode/
 
 # Flutter/Dart/Pub related
 # Libraries should not include pubspec.lock, per https://dart.dev/guides/libraries/private-files#pubspeclock.
@@ -29,6 +28,4 @@ migrate_working_dir/
 .dart_tool/
 .packages
 build/
-native/target/
-native/ldk-lite/target/
-example/.vscode/settings.json
+rust/target/
