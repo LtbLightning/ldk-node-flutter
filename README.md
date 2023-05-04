@@ -5,13 +5,16 @@ A Flutter library for [LDK Node](https://github.com/lightningdevkit/ldk-node), a
 
 ### How to use ldk_node
 
-From Github (copy and paste the following code to pubsepc.yaml):
+To use the `ldk_node` package in your project, add it as a dependency in your project's pubspec.yaml:
 
-```bash
-ldk_node:
-    git:
-      url: https://github.com/LtbLightning/ldk-node-flutter.git
-      ref: main
+```dart
+dependencies:
+  ldk_node: ^0.1.0
+```
+or run this command
+
+```
+  flutter pub add ldk_node
 ```
 
 ### Examples
@@ -33,7 +36,7 @@ final esploraUrl = https://blockstream.info/testnet/api;
 final config = Config( storageDirPath: path,
                        esploraServerUrl: esploraUrl,
                        network: Network.Testnet,
-                       listeningAddress: SocketAddr(io:"0.0.0.0", port:80) );
+                       listeningAddress: SocketAddr(ip:"0.0.0.0", port:80) );
 Builder builder = Builder.fromConfig(config);
 final node = await builder.build();
 
