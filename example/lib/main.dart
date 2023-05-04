@@ -1,10 +1,10 @@
 import 'dart:io';
-import 'dart:math';
+
 import 'package:flutter/foundation.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter/material.dart';
-import 'package:path_provider/path_provider.dart';
-import 'package:ldk_node_flutter/ldk_node_flutter.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:ldk_node/ldk_node.dart' as ldk;
+// import 'package:path_provider/path_provider.dart';
 
 void main() {
   runApp(const MyApp());
@@ -18,91 +18,60 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  late LdkNode aliceNode;
-  late LdkNode bobNode;
-  PublicKey? aliceNodeId;
-  PublicKey? bobNodeId;
+  late ldk.Node aliceNode;
+  late ldk.Node bobNode;
+  ldk.PublicKey? aliceNodeId;
+  ldk.PublicKey? bobNodeId;
   int aliceBalance = 0;
   String displayText = "";
-  String bobNodePubKeyAndAddress = "";
-  Invoice? invoice;
-  String? channelId;
+  ldk.SocketAddr? bobAddr;
+  ldk.Invoice? invoice;
+  ldk.U8Array32? channelId;
+
   @override
   void initState() {
     initAliceNode();
     super.initState();
   }
 
-  Future<int> getUnusedPort(InternetAddress? address) {
-    return ServerSocket.bind(address ?? InternetAddress.anyIPv4, 0)
-        .then((socket) {
-      var port = socket.port;
-      socket.close();
-      return port;
-    });
-  }
-
-  String generateRandomString(int len) {
-    var r = Random();
-    return String.fromCharCodes(
-        List.generate(len, (index) => r.nextInt(33) + 89));
-  }
-
-  // Helper method created, not part of ldk
-  initRandomNode() async {
-    final path = await getApplicationSupportDirectory();
-    final randDir = generateRandomString(4);
-    final randPath = "$path/ldk_cache/$randDir";
-    Random random = Random();
-    int randPort = random.nextInt(10000);
-    const host = "127.0.0.1";
-    final nodePubKeyAndAddress = "$host:$randPort";
-    final randConfig = await initLdkConfig(randPath, nodePubKeyAndAddress);
-    NodeBuilder builder = NodeBuilder.fromConfig(randConfig);
-    aliceNode = await builder.build();
-    await aliceNode.start();
-    final res = await aliceNode.nodeId();
-    setState(() {
-      aliceNodeId = res;
-    });
-  }
-
-  Future<Config> initLdkConfig(String path, String nodePubKeyAndAddress) async {
+  Future<ldk.Config> initLdkConfig(String path, ldk.SocketAddr address) async {
     // Please replace this url with your Electrum RPC Api url
-    // Please use 10.0.2.2, instead of 127.0.0.1, when connecting from an android emulator to connect to 127.0.0.1
+    // Please use 10.0.2.2, instead of 0.0.0.0
+    //final directory = await getApplicationDocumentsDirectory();
+    final nodePath = "{directory.path}/ldk_cache/$path";
     final esploraUrl =
-    Platform.isAndroid ? "http://10.0.2.2:3002" : "http://127.0.0.1:3002";
-    final config = Config(
-        storageDirPath: path,
+        Platform.isAndroid ? "http://10.0.2.2:3002" : "http://0.0.0.0:3002";
+    final config = ldk.Config(
+        storageDirPath: nodePath,
         esploraServerUrl: esploraUrl,
-        network: Network.Regtest,
-        listeningAddress: nodePubKeyAndAddress);
+        network: ldk.Network.Regtest,
+        listeningAddress: address,
+        defaultCltvExpiryDelta: 144);
     return config;
   }
 
+  closeChannel() async {
+    await aliceNode.closeChannel(
+        channelId: channelId!, counterpartyNodeId: bobNodeId!);
+  }
+
   initAliceNode() async {
-    //Path to a directory where the application may place application support files.
-    final path = await getApplicationSupportDirectory();
-    //Specifying node folder
     final aliceConfig = await initLdkConfig(
-        "${path.path}/ldk_cache/alice_s.node", "0.0.0.0:3314");
-    NodeBuilder aliceBuilder = NodeBuilder.fromConfig(aliceConfig);
+        'alice', const ldk.SocketAddr(ip: "0.0.0.0", port: 3006));
+    ldk.Builder aliceBuilder = ldk.Builder.fromConfig(config: aliceConfig);
     aliceNode = await aliceBuilder.build();
     await aliceNode.start();
     final res = await aliceNode.nodeId();
     setState(() {
       aliceNodeId = res;
-      displayText = "$aliceNodeId started successfully";
+      displayText = "${aliceNodeId?.keyHex} started successfully";
     });
   }
 
   initBobNode() async {
-    //Path to a directory where the application may place application support files
-    final path = await getApplicationSupportDirectory();
-    //Specifying node folder
     final bobConfig = await initLdkConfig(
-        "${path.path}/ldk_cache/bob_s.node", "0.0.0.0:7731");
-    NodeBuilder bobBuilder = NodeBuilder.fromConfig(bobConfig);
+        "bob", const ldk.SocketAddr(ip: "0.0.0.0", port: 8077));
+    ldk.Builder bobBuilder = ldk.Builder.fromConfig(config: bobConfig);
     bobNode = await bobBuilder.build();
     await bobNode.start();
     final res = await bobNode.nodeId();
@@ -116,41 +85,74 @@ class _MyAppState extends State<MyApp> {
     final alice = await aliceNode.onChainBalance();
     final bob = await bobNode.onChainBalance();
     if (kDebugMode) {
-      print("alice's balance: ${alice.total}");
-      print("bob's balance: ${bob.total}");
+      print("alice's_balance: ${alice.confirmed}");
+      print("bob's balance: ${bob.confirmed}");
     }
     setState(() {
-      aliceBalance = alice.total;
+      aliceBalance = alice.confirmed;
     });
   }
 
   syncAliceNode() async {
-    await aliceNode.syncWallet();
+    await aliceNode.syncWallets();
     setState(() {
       displayText = "aliceNode: Sync Completed";
     });
   }
 
   getNodeInfo() async {
-    final res = await bobNode.getNodeInfo();
+    final res = await aliceNode.listChannels();
     if (kDebugMode) {
-      print("======Channels========");
-      for (var e in res.channels) {
-        print("channelId: ${e.channelId}");
-        print("isChannelReady: ${e.isChannelReady}");
-        print("localBalanceMsat: ${e.localBalanceMsat}");
-        print("availableBalanceForRecvMsat: ${e.availableBalanceForRecvMsat}");
-        print("isChannelReadyToSendPayments: ${e.channelCanSendPayments}");
+      if (res.isNotEmpty) {
+        print("======Channels========");
+        for (var e in res) {
+          print("nodeId: ${aliceNodeId!.keyHex}");
+          print("channelId: ${e.channelId}");
+          print("isChannelReady: ${e.isChannelReady}");
+          print("isUsable: ${e.isUsable}");
+          print("channelValueSatoshis: ${e.outboundCapacityMsat}");
+        }
       }
-      print("======Peers========");
-      for (var e in res.peers) {
-        print("peerId: $e");
+    }
+  }
+
+  Future<ldk.PaymentDetails?> listPayments(bool printPayments) async {
+    final res = await aliceNode.listPaymentsWithFilter(
+        paymentDirection: ldk.PaymentDirection.Outbound);
+    if (res.isNotEmpty) {
+      if (printPayments) {
+        if (kDebugMode) {
+          print("======Payments========");
+          for (var e in res) {
+            print("amountMsat: ${e.amountMsat}");
+            print("hash: ${e.hash.field0}");
+            print("preimage: ${e.preimage!.field0}");
+            print("secret: ${e.secret!.field0}");
+          }
+        }
+      }
+      return res.last;
+    } else {
+      return null;
+    }
+  }
+
+  removeLastPayment() async {
+    final lastPayment = await listPayments(false);
+    if (lastPayment != null) {
+      final res = await aliceNode.removePayment(paymentHash: lastPayment.hash);
+      if (res) {
+        setState(() {
+          displayText = "${lastPayment.hash.field0} removed";
+        });
+      } else {
+        displayText = "payment not found";
       }
     }
   }
 
   syncBobNode() async {
-    await bobNode.syncWallet();
+    await bobNode.syncWallets();
     setState(() {
       displayText = "bobNode: Sync Completed";
     });
@@ -160,100 +162,102 @@ class _MyAppState extends State<MyApp> {
     final alice = await aliceNode.newFundingAddress();
     final bob = await bobNode.newFundingAddress();
     if (kDebugMode) {
-      print("alice's address: ${alice.asString}");
-      print("bob's address: ${bob.asString}");
+      print("alice's address: ${alice.addressHex}");
+      print("bob's address: ${bob.addressHex}");
     }
     setState(() {
-      displayText = alice.asString;
+      displayText = alice.addressHex;
     });
-    return [alice.asString, bob.asString];
+    return [alice.addressHex, bob.addressHex];
   }
 
-//149981786
   getListeningAddresses() async {
     final alice = await aliceNode.listeningAddress();
     final bob = await bobNode.listeningAddress();
     setState(() {
-      bobNodePubKeyAndAddress = "${bobNodeId!.asString}@$bob";
-      displayText = "bob's node pubKey & Address : $bobNodePubKeyAndAddress";
+      bobAddr = bob;
     });
     if (kDebugMode) {
-      print("alice's listeningAddress : $alice");
-      print("bob's listeningAddress: $bob");
+      print("alice's listeningAddress : ${alice!.ip}:${alice.port}");
+      print("bob's listeningAddress: ${bob!.ip}:${bob.port}");
     }
   }
 
   openChannel() async {
     await aliceNode.connectOpenChannel(
-        nodePubKeyAndAddress: bobNodePubKeyAndAddress,
         channelAmountSats: 5000000,
-        announceChannel: true);
+        announceChannel: true,
+        address: bobAddr!,
+        pushToCounterpartyMsat: 50000,
+        nodeId: bobNodeId!);
   }
 
-  //Failed to send payment due to routing failure: Failed to find a path to the given destination
   receiveAndSendPayments() async {
-    invoice = await bobNode.receivePayment("asdf", 10000, 50000);
-    final paymentHash = await aliceNode.sendPayment(invoice!);
-    final res = await aliceNode.paymentInfo(paymentHash);
+    invoice = await bobNode.receivePayment(
+        amountMsat: 100000000, description: 'ALICE', expirySecs: 10000);
+    setState(() {
+      displayText = invoice.toString();
+    });
+    final paymentHash = await aliceNode.sendPayment(invoice: invoice!);
+    final res = await aliceNode.payment(paymentHash: paymentHash);
     setState(() {
       displayText = "send payment success ${res?.status}";
     });
   }
 
   getChannelId() async {
-    final channelInfos = await aliceNode.getChannelIds();
-    if(channelInfos.isNotEmpty){
-      channelId = channelInfos.first;
+    final channelInfos = await aliceNode.listChannels();
+    if (channelInfos.isNotEmpty) {
+      channelId = channelInfos.first.channelId;
       if (kDebugMode) {
         print(channelId.toString());
       }
       setState(() {
         displayText = channelId.toString();
       });
-    } else{
+    } else {
       if (kDebugMode) {
         print("No open channels available");
       }
     }
   }
 
-  Future  handleEvent(LdkNode node ) async {
-    final res = await node.nextEvent();
-    res?.map(
-        paymentSuccessful: (e){
-          if (kDebugMode) {
-            print("paymentSuccessful: ${e.paymentHash.asString}");
-          }},
-        paymentFailed: (e){
-          if (kDebugMode) {
-            print("paymentFailed: ${e.paymentHash.asString}");
-          }
-        },
-        paymentReceived: (e){
-          if (kDebugMode) {
-            print("paymentReceived: ${e.paymentHash.asString}");
-          }
-        },
-        channelReady: (e){
-          if (kDebugMode) {
-            print("channelReady: ${e.channelId}, userChannelId: ${e.userChannelId}");
-          }
-        },
-        channelClosed: (e){
-          if (kDebugMode) {
-            print("channelClosed: ${e.channelId}, userChannelId: ${e.userChannelId}");
-          }
-        });
-    await node.eventHandled();
-  }
-
-  closeChannel() async {
-    await bobNode.closeChannel(channelId!, aliceNodeId!);
-  }
-
   stop() async {
     await bobNode.stop();
     await aliceNode.stop();
+  }
+
+  Future handleEvent(ldk.Node node) async {
+    final res = await node.nextEvent();
+    res.map(paymentSuccessful: (e) {
+      if (kDebugMode) {
+        print("paymentSuccessful: ${e.paymentHash.field0}");
+      }
+    }, paymentFailed: (e) {
+      if (kDebugMode) {
+        print("paymentFailed: ${e.paymentHash.field0}");
+      }
+    }, paymentReceived: (e) {
+      if (kDebugMode) {
+        print("paymentReceived: ${e.paymentHash.field0}");
+      }
+    }, channelReady: (e) {
+      if (kDebugMode) {
+        print(
+            "channelReady: ${e.channelId}, userChannelId: ${e.userChannelId}");
+      }
+    }, channelClosed: (e) {
+      if (kDebugMode) {
+        print(
+            "channelClosed: ${e.channelId}, userChannelId: ${e.userChannelId}");
+      }
+    }, channelPending: (e) {
+      if (kDebugMode) {
+        print(
+            "channelClosed: ${e.channelId}, userChannelId: ${e.userChannelId}");
+      }
+    });
+    await node.eventHandled();
   }
 
   @override
@@ -269,7 +273,7 @@ class _MyAppState extends State<MyApp> {
               child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text('Ldk Node',
+                    Text('Node',
                         style: GoogleFonts.montserrat(
                             fontWeight: FontWeight.w900,
                             fontSize: 16,
@@ -315,7 +319,7 @@ class _MyAppState extends State<MyApp> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        "$aliceBalance",
+                        aliceBalance.toString(),
                         style: GoogleFonts.montserrat(
                             fontWeight: FontWeight.w900,
                             fontSize: 40,
@@ -470,6 +474,32 @@ class _MyAppState extends State<MyApp> {
                       )),
                   TextButton(
                       onPressed: () async {
+                        await listPayments(true);
+                      },
+                      child: Text(
+                        'List Payments',
+                        textAlign: TextAlign.center,
+                        style: GoogleFonts.nunito(
+                            color: Colors.indigoAccent,
+                            fontSize: 12,
+                            height: 1.5,
+                            fontWeight: FontWeight.w800),
+                      )),
+                  TextButton(
+                      onPressed: () async {
+                        await listPayments(true);
+                      },
+                      child: Text(
+                        'Remove the last payment',
+                        textAlign: TextAlign.center,
+                        style: GoogleFonts.nunito(
+                            color: Colors.indigoAccent,
+                            fontSize: 12,
+                            height: 1.5,
+                            fontWeight: FontWeight.w800),
+                      )),
+                  TextButton(
+                      onPressed: () async {
                         await closeChannel();
                       },
                       child: Text(
@@ -498,7 +528,7 @@ class _MyAppState extends State<MyApp> {
                   Text(
                     aliceNodeId == null
                         ? "Node not initialized"
-                        : "@Id_:${aliceNodeId!.asString}",
+                        : "@Id_:${aliceNodeId!.keyHex}",
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                     textAlign: TextAlign.center,

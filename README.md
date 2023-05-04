@@ -1,42 +1,49 @@
-**LDK-Node(Flutter)**, a Flutter library for **Lightning Development Kit(LDK)**
+## LDK_Node
 
-API implemented from **`Ldk-Node`** and available in this flutter library:
+A Flutter library for [LDK Node](https://github.com/lightningdevkit/ldk-node), a ready-to-go Lightning node library built using [LDK](https://lightningdevkit.org) and [BDK](https://bitcoindevkit.org).
 
-- `setListeningAddress`,
-- `setNetwork`
-- `setEsploraServerUrl` 
-- `setStorageDirPath` 
-- `fromConfig` 
-- `build` 
-- `start` 
-- `stop`
-- `eventHandled` 
-- `listeningAddress`
-- `connectOpenChannel` 
-- `closeChannel`
 
-**The methods which are different from `Ldk Node`**
+### How to use ldk_node
 
-- `paymentInfo` - Returns a PaymentStaus in the Flutter side, but PaymentInfo in ldk-lite
-- `sendSpontaneousPayment` - Returns a hash string in the Flutter side, but a PaymentHash object in ldk-lite
-- `sendPayment` - Returns a hash string in the Flutter side, but a PaymentHash object in ldk-lite
-- `newFundingAddress` - Returns a string in the Flutter side, but an Address object in ldk-lite
-- `nodeId` - Returns a string in the Flutter side, but a PublicKey object in ldk-lite
-- `nextEvent` - Returns a string in the Flutter side, but an Event object in ldk-lite
+To use the `ldk_node` package in your project, add it as a dependency in your project's pubspec.yaml:
 
-**Helper methods added to flutter library but not present in `Ldk Node`**
+```dart
+dependencies:
+  ldk_node: ^0.1.0
+```
+or run this command
 
-- `_toLdkConfig`,
-- `_setLdkLiteInstance`
-- `onChainBalance`
-- `syncWallet`
-- `getNodeInfo`
-- `getChannelId`
+```
+  flutter pub add ldk_node
+```
 
-**Methods which will be useful to add to `Ldk Node`**
+### Examples
 
-- `syncWallet`
-- `getNodeInfo`
-- `onChainBalance`
-- More error parameters in Error enum inside error.rs, to cover most of the bdk errors or  a message variable inside WalletOperationFailed to show the bdk's error message
+### Build, Start & Sync the local node
 
+```dart
+import 'package:ldk_node/ldk_node.dart';
+
+// ....
+
+// Path to a directory where the application may place data that is user-generated
+final path = "${directory.path}alice's_node";
+
+// Your preferred `Esplora` url
+final esploraUrl = https://blockstream.info/testnet/api;
+
+// configuration options for the node
+final config = Config( storageDirPath: path,
+                       esploraServerUrl: esploraUrl,
+                       network: Network.Testnet,
+                       listeningAddress: SocketAddr(ip:"0.0.0.0", port:80) );
+Builder builder = Builder.fromConfig(config);
+final node = await builder.build();
+
+// Starting the node
+await node.start();
+
+// Syncing the node
+await node.syncWallets();
+
+```
