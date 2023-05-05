@@ -6,6 +6,9 @@ LDK Node is a non-custodial Lightning node. Its central goal is to provide a sma
 
 The primary abstraction of the library is the Node, which can be retrieved by setting up and configuring a Builder to your liking and calling build(). Node can then be controlled via commands such as start, stop, connectOpen_channel, sendPayment, etc.:
 
+This release covers the same API from LDK Node 0.1.0 Rust. It has support for sourcing chain data via an Esplora server, filesystem persistence, gossip sourcing via the Lightning peer-to-peer network, and configurable entropy sources for the integrated LDK and BDK-based wallets.
+
+Please note: This release is considered experimental, and should not be run in production
 ### How to use ldk_node
 
 To use the `ldk_node` package in your project, add it as a dependency in your project's pubspec.yaml:
