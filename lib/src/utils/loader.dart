@@ -7,5 +7,5 @@ final DynamicLibrary dylib = Platform.isIOS
     ? DynamicLibrary.process()
     : Platform.isMacOS
         ? DynamicLibrary.executable()
-        : DynamicLibrary.open('librust_ldk_node.so');
+        : DynamicLibrary.open('librust.so');
 RustImpl loaderApi = RustImpl(dylib);

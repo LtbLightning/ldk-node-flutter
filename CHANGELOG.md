@@ -1,6 +1,12 @@
+## [0.1.1]
+
+### Fixed
+
+- setEntropyBip39Mnemonic now correctly sets the entropy to the specified BIP 39 mnemonic.
+
 ## [0.1.0]
 
-This is the first release of `ldk_node`. It features support for sourcing chain data via an `Esplora` server, filesystem persistence, gossip sourcing via the `Lightning` peer-to-peer network, and configurable entropy sources for the integrated LDK & BDK-based wallets.
+This is the first release of `ldk_node`. It features support for sourcing chain data via an `Esplora` server, filesystem persistence, gossip sourcing via the `Lightning` peer-to-peer network, and configurble entropy sources for the integrated LDK & BDK-based wallets.
 
 ### Functionality Added
 

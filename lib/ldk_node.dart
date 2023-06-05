@@ -1,7 +1,6 @@
 export './src/generated/bridge_definitions.dart'
     hide
         Rust,
-        BuilderBase,
         Event_ChannelClosed,
         Event_ChannelReady,
         Event_PaymentFailed,

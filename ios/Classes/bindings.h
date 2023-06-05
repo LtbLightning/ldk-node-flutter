@@ -51,11 +51,6 @@ typedef struct wire_WalletEntropySource {
   union WalletEntropySourceKind *kind;
 } wire_WalletEntropySource;
 
-typedef struct wire_BuilderBase {
-  struct wire_Config config;
-  struct wire_WalletEntropySource *entropy_source;
-} wire_BuilderBase;
-
 typedef struct wire_NodePointer {
   const void *ptr;
 } wire_NodePointer;
@@ -92,38 +87,9 @@ uintptr_t new_dart_opaque(Dart_Handle handle);
 
 intptr_t init_frb_dart_api_dl(void *obj);
 
-void wire_new__static_method__BuilderBase(int64_t port_);
-
-void wire_set_entropy_seed_path__method__BuilderBase(int64_t port_,
-                                                     struct wire_BuilderBase *that,
-                                                     struct wire_uint_8_list *seed_path);
-
-void wire_set_entropy_seed_bytes__method__BuilderBase(int64_t port_,
-                                                      struct wire_BuilderBase *that,
-                                                      struct wire_uint_8_list *seed_bytes);
-
-void wire_set_storage_dir_path__method__BuilderBase(int64_t port_,
-                                                    struct wire_BuilderBase *that,
-                                                    struct wire_uint_8_list *storage_dir_path);
-
-void wire_set_esplora_server_url__method__BuilderBase(int64_t port_,
-                                                      struct wire_BuilderBase *that,
-                                                      struct wire_uint_8_list *esplora_server_url);
-
-void wire_set_network__method__BuilderBase(int64_t port_,
-                                           struct wire_BuilderBase *that,
-                                           int32_t network);
-
-void wire_set_listening_address__method__BuilderBase(int64_t port_,
-                                                     struct wire_BuilderBase *that,
-                                                     struct wire_SocketAddr *listening_address);
-
-void wire_set_entropy_bip39_mnemonic__method__BuilderBase(int64_t port_,
-                                                          struct wire_BuilderBase *that,
-                                                          struct wire_uint_8_list *mnemonic,
-                                                          struct wire_uint_8_list *passphrase);
-
-void wire_build__static_method__BuilderBase(int64_t port_, struct wire_BuilderBase *builder);
+void wire_build_node(int64_t port_,
+                     struct wire_Config *config,
+                     struct wire_WalletEntropySource *entropy_source);
 
 void wire_start__method__NodeBase(int64_t port_, struct wire_NodeBase *that);
 
@@ -218,7 +184,7 @@ struct wire_NodePointer new_NodePointer(void);
 
 struct wire_Address *new_box_autoadd_address_0(void);
 
-struct wire_BuilderBase *new_box_autoadd_builder_base_0(void);
+struct wire_Config *new_box_autoadd_config_0(void);
 
 struct wire_Invoice *new_box_autoadd_invoice_0(void);
 
@@ -250,15 +216,7 @@ void free_WireSyncReturn(WireSyncReturn ptr);
 
 static int64_t dummy_method_to_enforce_bundling(void) {
     int64_t dummy_var = 0;
-    dummy_var ^= ((int64_t) (void*) wire_new__static_method__BuilderBase);
-    dummy_var ^= ((int64_t) (void*) wire_set_entropy_seed_path__method__BuilderBase);
-    dummy_var ^= ((int64_t) (void*) wire_set_entropy_seed_bytes__method__BuilderBase);
-    dummy_var ^= ((int64_t) (void*) wire_set_storage_dir_path__method__BuilderBase);
-    dummy_var ^= ((int64_t) (void*) wire_set_esplora_server_url__method__BuilderBase);
-    dummy_var ^= ((int64_t) (void*) wire_set_network__method__BuilderBase);
-    dummy_var ^= ((int64_t) (void*) wire_set_listening_address__method__BuilderBase);
-    dummy_var ^= ((int64_t) (void*) wire_set_entropy_bip39_mnemonic__method__BuilderBase);
-    dummy_var ^= ((int64_t) (void*) wire_build__static_method__BuilderBase);
+    dummy_var ^= ((int64_t) (void*) wire_build_node);
     dummy_var ^= ((int64_t) (void*) wire_start__method__NodeBase);
     dummy_var ^= ((int64_t) (void*) wire_stop__method__NodeBase);
     dummy_var ^= ((int64_t) (void*) wire_event_handled__method__NodeBase);
@@ -285,7 +243,7 @@ static int64_t dummy_method_to_enforce_bundling(void) {
     dummy_var ^= ((int64_t) (void*) wire_list_payments_with_filter__method__NodeBase);
     dummy_var ^= ((int64_t) (void*) new_NodePointer);
     dummy_var ^= ((int64_t) (void*) new_box_autoadd_address_0);
-    dummy_var ^= ((int64_t) (void*) new_box_autoadd_builder_base_0);
+    dummy_var ^= ((int64_t) (void*) new_box_autoadd_config_0);
     dummy_var ^= ((int64_t) (void*) new_box_autoadd_invoice_0);
     dummy_var ^= ((int64_t) (void*) new_box_autoadd_node_base_0);
     dummy_var ^= ((int64_t) (void*) new_box_autoadd_payment_hash_0);
