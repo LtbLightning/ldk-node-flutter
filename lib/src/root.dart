@@ -11,11 +11,6 @@ class Node extends NodeBase {
 }
 
 class Builder {
-  @override
-  String toString() {
-    return 'entropySource: ${_entropySource.toString()}, config: ${_config.toString()}';
-  }
-
   Config? _config;
   WalletEntropySource? _entropySource;
 
@@ -28,8 +23,8 @@ class Builder {
   /// Creates a new builder instance with the default configuration.
   Builder() {
     Builder._(Config(
-        storageDirPath: '',
-        network: Network.Testnet,
+        storageDirPath: '/temp',
+        network: Network.testnet,
         esploraServerUrl: 'https://blockstream.info/testnet/api',
         listeningAddress: SocketAddr(ip: "0.0.0.0", port: 9735),
         defaultCltvExpiryDelta: 144));

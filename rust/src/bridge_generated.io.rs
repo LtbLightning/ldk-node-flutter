@@ -675,6 +675,12 @@ impl Default for wire_SocketAddr {
     }
 }
 
+impl Default for wire_WalletEntropySource {
+    fn default() -> Self {
+        Self::new_with_null_ptr()
+    }
+}
+
 impl NewWithNullPtr for wire_WalletEntropySource {
     fn new_with_null_ptr() -> Self {
         Self {
