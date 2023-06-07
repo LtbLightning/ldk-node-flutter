@@ -1,9 +1,9 @@
-## [0.1.1]
+## [0.1.1-alpha]
 Support `Dart 3` and `Flutter 3.10`
 
 ### Fixed
  -  `setEntropyBip39Mnemonic` issue resolved
-## [0.1.0]
+## [0.1.0-alpha]
 
 This is the first release of `ldk_node`. It features support for sourcing chain data via an `Esplora` server, filesystem persistence, gossip sourcing via the `Lightning` peer-to-peer network, and configurble entropy sources for the integrated LDK & BDK-based wallets.
 
