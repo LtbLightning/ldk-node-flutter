@@ -2,80 +2,12 @@ use super::*;
 // Section: wire functions
 
 #[no_mangle]
-pub extern "C" fn wire_new__static_method__BuilderBase(port_: i64) {
-    wire_new__static_method__BuilderBase_impl(port_)
-}
-
-#[no_mangle]
-pub extern "C" fn wire_set_entropy_seed_path__method__BuilderBase(
+pub extern "C" fn wire_build_node(
     port_: i64,
-    that: *mut wire_BuilderBase,
-    seed_path: *mut wire_uint_8_list,
+    config: *mut wire_Config,
+    entropy_source: *mut wire_WalletEntropySource,
 ) {
-    wire_set_entropy_seed_path__method__BuilderBase_impl(port_, that, seed_path)
-}
-
-#[no_mangle]
-pub extern "C" fn wire_set_entropy_seed_bytes__method__BuilderBase(
-    port_: i64,
-    that: *mut wire_BuilderBase,
-    seed_bytes: *mut wire_uint_8_list,
-) {
-    wire_set_entropy_seed_bytes__method__BuilderBase_impl(port_, that, seed_bytes)
-}
-
-#[no_mangle]
-pub extern "C" fn wire_set_storage_dir_path__method__BuilderBase(
-    port_: i64,
-    that: *mut wire_BuilderBase,
-    storage_dir_path: *mut wire_uint_8_list,
-) {
-    wire_set_storage_dir_path__method__BuilderBase_impl(port_, that, storage_dir_path)
-}
-
-#[no_mangle]
-pub extern "C" fn wire_set_esplora_server_url__method__BuilderBase(
-    port_: i64,
-    that: *mut wire_BuilderBase,
-    esplora_server_url: *mut wire_uint_8_list,
-) {
-    wire_set_esplora_server_url__method__BuilderBase_impl(port_, that, esplora_server_url)
-}
-
-#[no_mangle]
-pub extern "C" fn wire_set_network__method__BuilderBase(
-    port_: i64,
-    that: *mut wire_BuilderBase,
-    network: i32,
-) {
-    wire_set_network__method__BuilderBase_impl(port_, that, network)
-}
-
-#[no_mangle]
-pub extern "C" fn wire_set_listening_address__method__BuilderBase(
-    port_: i64,
-    that: *mut wire_BuilderBase,
-    listening_address: *mut wire_SocketAddr,
-) {
-    wire_set_listening_address__method__BuilderBase_impl(port_, that, listening_address)
-}
-
-#[no_mangle]
-pub extern "C" fn wire_set_entropy_bip39_mnemonic__method__BuilderBase(
-    port_: i64,
-    that: *mut wire_BuilderBase,
-    mnemonic: *mut wire_uint_8_list,
-    passphrase: *mut wire_uint_8_list,
-) {
-    wire_set_entropy_bip39_mnemonic__method__BuilderBase_impl(port_, that, mnemonic, passphrase)
-}
-
-#[no_mangle]
-pub extern "C" fn wire_build__static_method__BuilderBase(
-    port_: i64,
-    builder: *mut wire_BuilderBase,
-) {
-    wire_build__static_method__BuilderBase_impl(port_, builder)
+    wire_build_node_impl(port_, config, entropy_source)
 }
 
 #[no_mangle]
@@ -293,8 +225,8 @@ pub extern "C" fn new_box_autoadd_address_0() -> *mut wire_Address {
 }
 
 #[no_mangle]
-pub extern "C" fn new_box_autoadd_builder_base_0() -> *mut wire_BuilderBase {
-    support::new_leak_box_ptr(wire_BuilderBase::new_with_null_ptr())
+pub extern "C" fn new_box_autoadd_config_0() -> *mut wire_Config {
+    support::new_leak_box_ptr(wire_Config::new_with_null_ptr())
 }
 
 #[no_mangle]
@@ -385,10 +317,10 @@ impl Wire2Api<Address> for *mut wire_Address {
         Wire2Api::<Address>::wire2api(*wrap).into()
     }
 }
-impl Wire2Api<BuilderBase> for *mut wire_BuilderBase {
-    fn wire2api(self) -> BuilderBase {
+impl Wire2Api<Config> for *mut wire_Config {
+    fn wire2api(self) -> Config {
         let wrap = unsafe { support::box_from_leak_ptr(self) };
-        Wire2Api::<BuilderBase>::wire2api(*wrap).into()
+        Wire2Api::<Config>::wire2api(*wrap).into()
     }
 }
 impl Wire2Api<Invoice> for *mut wire_Invoice {
@@ -430,14 +362,6 @@ impl Wire2Api<WalletEntropySource> for *mut wire_WalletEntropySource {
     fn wire2api(self) -> WalletEntropySource {
         let wrap = unsafe { support::box_from_leak_ptr(self) };
         Wire2Api::<WalletEntropySource>::wire2api(*wrap).into()
-    }
-}
-impl Wire2Api<BuilderBase> for wire_BuilderBase {
-    fn wire2api(self) -> BuilderBase {
-        BuilderBase {
-            config: self.config.wire2api(),
-            entropy_source: self.entropy_source.wire2api(),
-        }
     }
 }
 impl Wire2Api<Config> for wire_Config {
@@ -546,13 +470,6 @@ pub struct wire_NodePointer {
 #[derive(Clone)]
 pub struct wire_Address {
     address_hex: *mut wire_uint_8_list,
-}
-
-#[repr(C)]
-#[derive(Clone)]
-pub struct wire_BuilderBase {
-    config: wire_Config,
-    entropy_source: *mut wire_WalletEntropySource,
 }
 
 #[repr(C)]
@@ -669,21 +586,6 @@ impl Default for wire_Address {
     }
 }
 
-impl NewWithNullPtr for wire_BuilderBase {
-    fn new_with_null_ptr() -> Self {
-        Self {
-            config: Default::default(),
-            entropy_source: core::ptr::null_mut(),
-        }
-    }
-}
-
-impl Default for wire_BuilderBase {
-    fn default() -> Self {
-        Self::new_with_null_ptr()
-    }
-}
-
 impl NewWithNullPtr for wire_Config {
     fn new_with_null_ptr() -> Self {
         Self {
@@ -768,6 +670,12 @@ impl NewWithNullPtr for wire_SocketAddr {
 }
 
 impl Default for wire_SocketAddr {
+    fn default() -> Self {
+        Self::new_with_null_ptr()
+    }
+}
+
+impl Default for wire_WalletEntropySource {
     fn default() -> Self {
         Self::new_with_null_ptr()
     }

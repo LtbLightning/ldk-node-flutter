@@ -488,16 +488,22 @@ impl From<Config> for ldk_node::Config {
 
 /// Represents the configuration of an [Node] instance.
 ///
+#[frb]
 #[derive(Debug, Clone)]
 pub struct Config {
+    #[frb(non_final)]
     pub storage_dir_path: String,
     /// The URL of the utilized Esplora server.
+    #[frb(non_final)]
     pub esplora_server_url: String,
     /// The used Bitcoin network.
+    #[frb(non_final)]
     pub network: Network,
     /// The IP address and TCP port the node will listen on.
+    #[frb(non_final)]
     pub listening_address: Option<SocketAddr>,
     /// The default CLTV expiry delta to be used for payments.
+    #[frb(non_final)]
     pub default_cltv_expiry_delta: u32,
 }
 
@@ -523,136 +529,28 @@ pub enum WalletEntropySource {
     },
 }
 
-#[derive(Debug, Clone)]
-pub struct BuilderBase {
-    pub config: Config,
-    pub entropy_source: Option<WalletEntropySource>,
-}
-impl From<BuilderBase> for Builder {
-    fn from(value: BuilderBase) -> Self {
-        let mut builder = Builder::from_config(value.config.into());
-        if let Some(source) = value.entropy_source {
-            match source {
-                WalletEntropySource::SeedFile(e) => builder.set_entropy_seed_path(e),
-                WalletEntropySource::SeedBytes(e) => builder.set_entropy_seed_bytes(e),
-                WalletEntropySource::Bip39Mnemonic {
-                    mnemonic,
-                    passphrase,
-                } => builder.set_entropy_bip39_mnemonic(
-                    ldk_node::bip39::Mnemonic::from_str(mnemonic.as_str())
-                        .expect("Invalid Mnemonic"),
-                    passphrase,
-                ),
-            };
-            builder
-        } else {
-            builder
-        }
-    }
-}
-
-impl BuilderBase {
-    pub fn new() -> BuilderBase {
-        let config = Config::default();
-        let entropy_source = None;
-        BuilderBase {
-            config,
-            entropy_source,
-        }
-    }
-
-    /// Configures the [Node] instance to source its wallet entropy from a seed file on disk.
-    ///
-    /// If the given file does not exist a new random seed file will be generated and
-    /// stored at the given location.
-    pub fn set_entropy_seed_path(&self, seed_path: String) -> BuilderBase {
-        BuilderBase {
-            entropy_source: Some(WalletEntropySource::SeedFile(seed_path)),
-            ..self.clone()
-        }
-    }
-
-    /// Configures the [Node] instance to source its wallet entropy from the given seed bytes.
-    pub fn set_entropy_seed_bytes(&self, seed_bytes: [u8; 64]) -> BuilderBase {
-        BuilderBase {
-            entropy_source: Some(WalletEntropySource::SeedBytes(seed_bytes)),
-            ..self.clone()
-        }
-    }
-
-    /// Sets the used storage directory path.
-    ///
-    /// Default: `/tmp/ldk_node/`
-    pub fn set_storage_dir_path(&self, storage_dir_path: String) -> BuilderBase {
-        BuilderBase {
-            config: Config {
-                storage_dir_path,
-                ..self.config.clone()
-            },
-            ..self.clone()
-        }
-    }
-
-    /// Sets the Esplora server URL.
-    ///
-    /// Default: `https://blockstream.info/api`
-    pub fn set_esplora_server_url(&self, esplora_server_url: String) -> BuilderBase {
-        BuilderBase {
-            config: Config {
-                esplora_server_url,
-                ..self.config.clone()
-            },
-            ..self.clone()
-        }
-    }
-
-    pub fn set_network(&self, network: Network) -> BuilderBase {
-        BuilderBase {
-            config: Config {
-                network,
-                ..self.config.clone()
-            },
-            ..self.clone()
-        }
-    }
-
-    pub fn set_listening_address(&self, listening_address: SocketAddr) -> BuilderBase {
-        BuilderBase {
-            config: Config {
-                listening_address: Some(listening_address),
-                ..self.config.clone()
-            },
-            ..self.clone()
-        }
-    }
-
-    /// Configures the [Node] instance to source its wallet entropy from a [BIP 39] mnemonic.
-    ///
-    /// [BIP 39]: https://github.com/bitcoin/bips/blob/master/bip-0039.mediawiki
-    ///
-    pub fn set_entropy_bip39_mnemonic(
-        &self,
-        mnemonic: String,
-        passphrase: Option<String>,
-    ) -> BuilderBase {
-        BuilderBase {
-            entropy_source: Some(WalletEntropySource::Bip39Mnemonic {
+pub fn build_node(config: Config, entropy_source: Option<WalletEntropySource>) -> NodeBase {
+    let mut builder = Builder::from_config(config.into());
+    if let Some(source) = entropy_source {
+        match source {
+            WalletEntropySource::SeedFile(e) => builder.set_entropy_seed_path(e),
+            WalletEntropySource::SeedBytes(e) => builder.set_entropy_seed_bytes(e),
+            WalletEntropySource::Bip39Mnemonic {
                 mnemonic,
                 passphrase,
-            }),
-            ..self.clone()
-        }
+            } => builder.set_entropy_bip39_mnemonic(
+                ldk_node::bip39::Mnemonic::from_str(mnemonic.as_str()).expect("Invalid Mnemonic"),
+                passphrase,
+            ),
+        };
     }
+    let node = builder.build();
 
-    pub fn build(builder: BuilderBase) -> NodeBase {
-        let builder: Builder = builder.into();
-        let node = builder.build();
-
-        NodeBase {
-            node_pointer: RustOpaque::new(NodePointer(Mutex::new(node))),
-        }
+    NodeBase {
+        node_pointer: RustOpaque::new(NodePointer(Mutex::new(node))),
     }
 }
+
 ///The main interface object of LDK Node, wrapping the necessary LDK and BDK functionalities.
 ///
 ///Needs to be initialized and instantiated through builder.build().

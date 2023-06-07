@@ -4,7 +4,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:ldk_node/ldk_node.dart' as ldk;
-// import 'package:path_provider/path_provider.dart';
+import 'package:path_provider/path_provider.dart';
 
 void main() {
   runApp(const MyApp());
@@ -37,14 +37,14 @@ class _MyAppState extends State<MyApp> {
   Future<ldk.Config> initLdkConfig(String path, ldk.SocketAddr address) async {
     // Please replace this url with your Electrum RPC Api url
     // Please use 10.0.2.2, instead of 0.0.0.0
-    //final directory = await getApplicationDocumentsDirectory();
-    final nodePath = "{directory.path}/ldk_cache/$path";
+    final directory = await getApplicationDocumentsDirectory();
+    final nodePath = "${directory.path}/ldk_cache/$path";
     final esploraUrl =
         Platform.isAndroid ? "http://10.0.2.2:3002" : "http://0.0.0.0:3002";
     final config = ldk.Config(
         storageDirPath: nodePath,
         esploraServerUrl: esploraUrl,
-        network: ldk.Network.Regtest,
+        network: ldk.Network.regtest,
         listeningAddress: address,
         defaultCltvExpiryDelta: 144);
     return config;
@@ -59,6 +59,9 @@ class _MyAppState extends State<MyApp> {
     final aliceConfig = await initLdkConfig(
         'alice', const ldk.SocketAddr(ip: "0.0.0.0", port: 3006));
     ldk.Builder aliceBuilder = ldk.Builder.fromConfig(config: aliceConfig);
+    aliceBuilder.setEntropyBip39Mnemonic(
+        mnemonic:
+            'certain sense kiss guide crumble hint transfer crime much stereo warm coral');
     aliceNode = await aliceBuilder.build();
     await aliceNode.start();
     final res = await aliceNode.nodeId();
@@ -118,7 +121,7 @@ class _MyAppState extends State<MyApp> {
 
   Future<ldk.PaymentDetails?> listPayments(bool printPayments) async {
     final res = await aliceNode.listPaymentsWithFilter(
-        paymentDirection: ldk.PaymentDirection.Outbound);
+        paymentDirection: ldk.PaymentDirection.outbound);
     if (res.isNotEmpty) {
       if (printPayments) {
         if (kDebugMode) {
