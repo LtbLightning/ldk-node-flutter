@@ -1,18 +1,18 @@
-import 'dart:async';
+import 'package:ldk_node/src/generated/bridge_definitions.dart';
+import 'package:ldk_node/src/utils/loader.dart';
 
-import 'generated/bridge_definitions.dart';
-import 'utils/loader.dart';
-
-class Node extends NodeBase {
-  Node._({required super.bridge, required super.nodePointer});
+class Node extends NodePointer {
+  Node._({required super.bridge, required super.field0});
   factory Node.create({required NodePointer pointer}) {
-    return Node._(bridge: loaderApi, nodePointer: pointer);
+    return Node._(bridge: pointer.bridge, field0: pointer.field0);
   }
 }
 
 class Builder {
   Config? _config;
-  WalletEntropySource? _entropySource;
+  EntropySourceConfig? _entropySource;
+  ChainDataSourceConfig? _chainDataSourceConfig;
+  GossipSourceConfig? _gossipSourceConfig;
 
   /// Creates a new builder instance from an [Config].
   factory Builder.fromConfig({required Config config}) {
@@ -25,8 +25,11 @@ class Builder {
     Builder._(Config(
         storageDirPath: '/temp',
         network: Network.testnet,
-        esploraServerUrl: 'https://blockstream.info/testnet/api',
-        listeningAddress: SocketAddr(ip: "0.0.0.0", port: 9735),
+        listeningAddress: NetAddress.iPv4(addr: "0.0.0.0", port: 9735),
+        onchainWalletSyncIntervalSecs: 60,
+        walletSyncIntervalSecs: 20,
+        feeRateCacheUpdateIntervalSecs: 600,
+        logLevel: LogLevel.info,
         defaultCltvExpiryDelta: 144));
   }
 
@@ -35,14 +38,14 @@ class Builder {
   /// If the given file does not exist a new random seed file will be generated and
   /// stored at the given location.
   Builder setEntropySeedPath(String seedPath) {
-    _entropySource = WalletEntropySource.seedFile(seedPath);
+    _entropySource = EntropySourceConfig.seedFile(seedPath);
     return this;
   }
 
   /// Configures the [Node] instance to source its chain data from the given Esplora server.
   Builder setEntropyBip39Mnemonic(
-      {required String mnemonic, String? passphrase}) {
-    _entropySource = WalletEntropySource.bip39Mnemonic(
+      {required Mnemonic mnemonic, String? passphrase}) {
+    _entropySource = EntropySourceConfig.bip39Mnemonic(
         mnemonic: mnemonic, passphrase: passphrase);
     return this;
   }
@@ -51,13 +54,27 @@ class Builder {
   ///
   /// **Note:** Panics if the length of the given `seedBytes` differs from 64.
   Builder setEntropySeedBytes({required U8Array64 seedBytes}) {
-    _entropySource = WalletEntropySource.seedBytes(seedBytes);
+    _entropySource = EntropySourceConfig.seedBytes(seedBytes);
     return this;
   }
 
-  /// Configures the [Node] instance to source its chain data from the given Esplora server.
-  Builder setEsploraServerUrl(String esploraServerUrl) {
-    Builder()._config!.esploraServerUrl = esploraServerUrl;
+  ///Configures the [Node] instance to source its chain data from the given Esplora server.
+  Builder setEsploraServer({required String esploraServerUrl}) {
+    _chainDataSourceConfig = ChainDataSourceConfig.esplora(esploraServerUrl);
+    return this;
+  }
+
+  /// Configures the [Node] instance to source its gossip data from the Lightning peer-to-peer
+  /// network.
+  Builder setGossipSourceP2p() {
+    _gossipSourceConfig = GossipSourceConfig.p2PNetwork();
+    return this;
+  }
+
+  /// Configures the [`Node`] instance to source its gossip data from the given RapidGossipSync
+  /// server.
+  Builder setGossipSourceRgs({required String rgsServerUrl}) {
+    _gossipSourceConfig = GossipSourceConfig.rapidGossipSync(rgsServerUrl);
     return this;
   }
 
@@ -76,16 +93,25 @@ class Builder {
 
   /// Sets the IP address and TCP port on which [Node] will listen for incoming network connections.
   ///
-  Builder setListeningAddress(SocketAddr listeningAddress) {
+  Builder setListeningAddress(NetAddress listeningAddress) {
     Builder()._config!.listeningAddress = listeningAddress;
     return this;
   }
 
-  /// Builds a [Node] instance with a FilesystemStore backend and according to the options
+  /// Sets the level at which [`Node`] will log messages.
+  Builder setLogLevel({required LogLevel level}) {
+    _config!.logLevel = level;
+    return this;
+  }
+
+  /// Builds a [Node] instance with a SqliteStore backend and according to the options
   /// previously configured.
   Future<Node> build() async {
     final res = await loaderApi.buildNode(
-        config: _config!, entropySource: _entropySource);
-    return Node.create(pointer: res.nodePointer);
+        config: _config!,
+        entropySourceConfig: _entropySource,
+        chainDataSourceConfig: _chainDataSourceConfig!,
+        gossipSourceConfig: _gossipSourceConfig);
+    return Node.create(pointer: res);
   }
 }

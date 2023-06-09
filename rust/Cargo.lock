@@ -1049,9 +1049,9 @@ checksum = "e2abad23fbc42b3700f2f279844dc832adb2b2eb069b2df918f455c4e18cc646"
 
 [[package]]
 name = "ldk-node"
-version = "0.1.0-alpha"
+version = "0.1.0-alpha.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "d30b494b6c7f9d471be1fcc03069f9a588088999b86520c94fba973d6f2b3f4e"
+checksum = "92ba1963cdfeec8513ba31148574e85ce7ad7cf4362d41d43fbca43d80c01b9f"
 dependencies = [
  "bdk",
  "bip39",
@@ -1509,7 +1509,7 @@ dependencies = [
 
 [[package]]
 name = "rust_ldk_node"
-version = "0.1.1"
+version = "0.1.1-alpha"
 dependencies = [
  "anyhow",
  "flutter_rust_bridge",
