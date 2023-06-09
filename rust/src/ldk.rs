@@ -218,7 +218,7 @@ impl From<ldk_node::PaymentDetails> for PaymentDetails {
             secret: value.secret.map(|x| PaymentSecret(x.0)),
             status: value.status.into(),
             amount_msat: value.amount_msat,
-            direction: value.direction.into(),
+            direction: PaymentDirection::Inbound,
         }
     }
 }

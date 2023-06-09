@@ -81,6 +81,8 @@ class Builder {
     return this;
   }
 
+  /// Builds a [Node] instance with a FilesystemStore backend and according to the options
+  /// previously configured.
   Future<Node> build() async {
     final res = await loaderApi.buildNode(
         config: _config!, entropySource: _entropySource);
