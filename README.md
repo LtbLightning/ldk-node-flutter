@@ -4,7 +4,7 @@ A Flutter library for [LDK Node](https://github.com/lightningdevkit/ldk-node), a
 
 LDK Node is a non-custodial Lightning node. Its central goal is to provide a small, simple, and straightforward interface that enables users to easily set up and run a Lightning node with an integrated on-chain wallet. While minimalism is at its core, LDK Node aims to be sufficiently modular and configurable to be useful for a variety of use cases.
 
-The primary abstraction of the library is the Node, which can be retrieved by setting up and configuring a Builder to your liking and calling build(). Node can then be controlled via commands such as start, stop, connectOpen_channel, sendPayment, etc.:
+The primary abstraction of the library is the Node, which can be retrieved by setting up and configuring a Builder to your liking and calling build(). Node can then be controlled via commands such as start, stop, connectOpenChannel, sendPayment, etc.:
 
 This release covers the same API from LDK Node 0.1.0 Rust. It has support for sourcing chain data via an Esplora server, filesystem persistence, gossip sourcing via the Lightning peer-to-peer network, and configurable entropy sources for the integrated LDK and BDK-based wallets.
 
@@ -39,12 +39,25 @@ final path = "${directory.path}alice's_node";
 final esploraUrl = https://blockstream.info/testnet/api;
 
 // configuration options for the node
-final config = Config( storageDirPath: path,
-                       esploraServerUrl: esploraUrl,
-                       network: Network.Testnet,
-                       listeningAddress: SocketAddr(ip:"0.0.0.0", port:80) );
+final config  = Config(
+                        storageDirPath: nodePath,
+                        network: ldk.Network.regtest,
+                        listeningAddress: NetAddress.iPv4(addr: "0.0.0.0", port: 3006),
+                        onchainWalletSyncIntervalSecs: 30,
+                        walletSyncIntervalSecs: 30,
+                        feeRateCacheUpdateIntervalSecs: 100,
+                        logLevel: ldk.LogLevel.info,
+                        defaultCltvExpiryDelta: 144
+                     );
 Builder builder = Builder.fromConfig(config);
-final node = await builder.build();
+    final node  = await builder
+                                .setEntropyBip39Mnemonic( 
+                                     mnemonic: ldk.Mnemonic(
+                                          internal:
+                                                   'certain sense kiss guide crumble hint transfer crime much stereo warm coral'))
+                                .setEsploraServer(
+                                     esploraServerUrl: esploraUrl)
+                                .build();
 
 // Starting the node
 await node.start();

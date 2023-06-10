@@ -71,7 +71,7 @@ class Builder {
     return this;
   }
 
-  /// Configures the [`Node`] instance to source its gossip data from the given RapidGossipSync
+  /// Configures the [Node] instance to source its gossip data from the given RapidGossipSync
   /// server.
   Builder setGossipSourceRgs({required String rgsServerUrl}) {
     _gossipSourceConfig = GossipSourceConfig.rapidGossipSync(rgsServerUrl);
@@ -98,7 +98,7 @@ class Builder {
     return this;
   }
 
-  /// Sets the level at which [`Node`] will log messages.
+  /// Sets the level at which [Node] will log messages.
   Builder setLogLevel({required LogLevel level}) {
     _config!.logLevel = level;
     return this;
