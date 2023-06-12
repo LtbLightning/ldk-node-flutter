@@ -50,7 +50,7 @@ use crate::types::UserChannelId;
 fn wire_build_node_impl(
     port_: MessagePort,
     config: impl Wire2Api<Config> + UnwindSafe,
-    chain_data_source_config: impl Wire2Api<ChainDataSourceConfig> + UnwindSafe,
+    chain_data_source_config: impl Wire2Api<Option<ChainDataSourceConfig>> + UnwindSafe,
     entropy_source_config: impl Wire2Api<Option<EntropySourceConfig>> + UnwindSafe,
     gossip_source_config: impl Wire2Api<Option<GossipSourceConfig>> + UnwindSafe,
 ) {
@@ -769,7 +769,7 @@ impl Wire2Api<u8> for u8 {
 
 impl support::IntoDart for Address {
     fn into_dart(self) -> support::DartAbi {
-        vec![self.address_hex.into_dart()].into_dart()
+        vec![self.internal.into_dart()].into_dart()
     }
 }
 impl support::IntoDartExceptPrimitive for Address {}
@@ -820,7 +820,7 @@ impl support::IntoDartExceptPrimitive for ChannelDetails {}
 
 impl support::IntoDart for ChannelId {
     fn into_dart(self) -> support::DartAbi {
-        vec![self.0.into_dart()].into_dart()
+        vec![self.internal.into_dart()].into_dart()
     }
 }
 impl support::IntoDartExceptPrimitive for ChannelId {}
@@ -878,7 +878,7 @@ impl support::IntoDartExceptPrimitive for Event {}
 
 impl support::IntoDart for Invoice {
     fn into_dart(self) -> support::DartAbi {
-        vec![self.hex.into_dart()].into_dart()
+        vec![self.internal.into_dart()].into_dart()
     }
 }
 impl support::IntoDartExceptPrimitive for Invoice {}
@@ -934,21 +934,21 @@ impl support::IntoDart for PaymentDirection {
 impl support::IntoDartExceptPrimitive for PaymentDirection {}
 impl support::IntoDart for PaymentHash {
     fn into_dart(self) -> support::DartAbi {
-        vec![self.0.into_dart()].into_dart()
+        vec![self.internal.into_dart()].into_dart()
     }
 }
 impl support::IntoDartExceptPrimitive for PaymentHash {}
 
 impl support::IntoDart for PaymentPreimage {
     fn into_dart(self) -> support::DartAbi {
-        vec![self.0.into_dart()].into_dart()
+        vec![self.internal.into_dart()].into_dart()
     }
 }
 impl support::IntoDartExceptPrimitive for PaymentPreimage {}
 
 impl support::IntoDart for PaymentSecret {
     fn into_dart(self) -> support::DartAbi {
-        vec![self.0.into_dart()].into_dart()
+        vec![self.internal.into_dart()].into_dart()
     }
 }
 impl support::IntoDartExceptPrimitive for PaymentSecret {}
@@ -979,21 +979,21 @@ impl support::IntoDartExceptPrimitive for PeerDetails {}
 
 impl support::IntoDart for PublicKey {
     fn into_dart(self) -> support::DartAbi {
-        vec![self.key_hex.into_dart()].into_dart()
+        vec![self.internal.into_dart()].into_dart()
     }
 }
 impl support::IntoDartExceptPrimitive for PublicKey {}
 
 impl support::IntoDart for Txid {
     fn into_dart(self) -> support::DartAbi {
-        vec![self.0.into_dart()].into_dart()
+        vec![self.internal.into_dart()].into_dart()
     }
 }
 impl support::IntoDartExceptPrimitive for Txid {}
 
 impl support::IntoDart for UserChannelId {
     fn into_dart(self) -> support::DartAbi {
-        vec![self.0.into_dart()].into_dart()
+        vec![self.internal.into_dart()].into_dart()
     }
 }
 impl support::IntoDartExceptPrimitive for UserChannelId {}

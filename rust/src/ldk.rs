@@ -9,7 +9,7 @@ pub use std::sync::{Arc, Mutex};
 
 pub fn build_node(
     config: Config,
-    chain_data_source_config: ChainDataSourceConfig,
+    chain_data_source_config: Option<ChainDataSourceConfig>,
     entropy_source_config: Option<EntropySourceConfig>,
     gossip_source_config: Option<GossipSourceConfig>,
 ) -> NodePointer {
@@ -26,7 +26,7 @@ pub fn build_node(
 }
 fn build_builder(
     config: Config,
-    chain_data_source_config: ChainDataSourceConfig,
+    chain_data_source_config: Option<ChainDataSourceConfig>,
     entropy_source_config: Option<EntropySourceConfig>,
     gossip_source_config: Option<GossipSourceConfig>,
 ) -> Builder {
@@ -41,9 +41,12 @@ fn build_builder(
             } => builder.set_entropy_bip39_mnemonic(mnemonic.into(), passphrase),
         };
     }
-    match chain_data_source_config {
-        ChainDataSourceConfig::Esplora(e) => builder.set_esplora_server(e),
-    };
+    if let Some(source) = chain_data_source_config {
+        match source {
+            ChainDataSourceConfig::Esplora(e) => builder.set_esplora_server(e),
+        };
+    }
+
     if let Some(source) = gossip_source_config {
         match source {
             GossipSourceConfig::P2PNetwork => builder.set_gossip_source_p2p(),
@@ -53,9 +56,6 @@ fn build_builder(
     builder
 }
 
-///The main interface object of LDK Node, wrapping the necessary LDK and BDK functionalities.
-///
-///Needs to be initialized and instantiated through builder.build().
 pub struct NodePointer(pub RustOpaque<Mutex<Arc<Node<SqliteStore>>>>);
 impl NodePointer {
     /// Starts the necessary background tasks, such as handling events coming from user input,
@@ -84,7 +84,7 @@ impl NodePointer {
 
     /// Blocks until the next event is available.
     ///
-    /// **Note:** this will always return the same event until handling is confirmed via node.event_handled().
+    /// **Note:** this will always return the same event until handling is confirmed via `node.eventHandled()`.
     pub fn event_handled(&self) -> anyhow::Result<()> {
         let node_lock = self.0.lock().unwrap();
         Ok(node_lock.event_handled())
@@ -104,7 +104,7 @@ impl NodePointer {
     ///
     /// Will block the current thread until the next event is available.
     ///
-    /// **Note:** this will always return the same event until handling is confirmed via [`Node::event_handled`].
+    /// **Note:** this will always return the same event until handling is confirmed via `node.eventHandled()`.
     ///
     pub fn wait_until_next_event(&self) -> Event {
         let node_lock = self.0.lock().unwrap();
@@ -114,7 +114,7 @@ impl NodePointer {
     pub fn node_id(&self) -> anyhow::Result<PublicKey> {
         let node_lock = self.0.lock().unwrap();
         Ok(PublicKey {
-            key_hex: node_lock.node_id().to_string(),
+            internal: node_lock.node_id().to_string(),
         })
     }
 
@@ -129,7 +129,7 @@ impl NodePointer {
         let node_lock = self.0.lock().unwrap();
         match node_lock.new_funding_address() {
             Ok(e) => Ok(Address {
-                address_hex: e.to_string(),
+                internal: e.to_string(),
             }),
             Err(e) => Err(anyhow!(e.to_string())),
         }
@@ -157,7 +157,9 @@ impl NodePointer {
     ) -> anyhow::Result<Txid> {
         let node_lock = self.0.lock().unwrap();
         match node_lock.send_to_onchain_address(&address.into(), amount_sats) {
-            Ok(e) => Ok(Txid(e.to_string())),
+            Ok(e) => Ok(Txid {
+                internal: e.to_string(),
+            }),
             Err(e) => Err(anyhow!(e.to_string())),
         }
     }
@@ -166,7 +168,9 @@ impl NodePointer {
     pub fn send_all_to_on_chain_address(&self, address: Address) -> anyhow::Result<Txid> {
         let node_lock = self.0.lock().unwrap();
         match node_lock.send_all_to_onchain_address(&address.into()) {
-            Ok(e) => Ok(Txid(e.to_string())),
+            Ok(e) => Ok(Txid {
+                internal: e.to_string(),
+            }),
             Err(e) => Err(anyhow!(e.to_string())),
         }
     }
@@ -279,7 +283,7 @@ impl NodePointer {
     pub fn send_payment(&self, invoice: Invoice) -> anyhow::Result<PaymentHash> {
         let node_lock = self.0.lock().unwrap();
         match node_lock.send_payment(&invoice.into()) {
-            Ok(e) => Ok(PaymentHash(e.0)),
+            Ok(e) => Ok(PaymentHash { internal: e.0 }),
             Err(e) => Err(anyhow!(e.to_string())),
         }
     }
@@ -297,7 +301,7 @@ impl NodePointer {
     ) -> anyhow::Result<PaymentHash> {
         let node_lock = self.0.lock().unwrap();
         match node_lock.send_payment_using_amount(&invoice.into(), amount_msat) {
-            Ok(e) => Ok(PaymentHash(e.0)),
+            Ok(e) => Ok(PaymentHash { internal: e.0 }),
             Err(e) => Err(anyhow!(e.to_string())),
         }
     }
@@ -310,7 +314,7 @@ impl NodePointer {
     ) -> anyhow::Result<PaymentHash> {
         let node_lock = self.0.lock().unwrap();
         match node_lock.send_spontaneous_payment(amount_msat, node_id.into()) {
-            Ok(e) => Ok(PaymentHash(e.0)),
+            Ok(e) => Ok(PaymentHash { internal: e.0 }),
             Err(e) => Err(anyhow!(e.to_string())),
         }
     }
@@ -325,7 +329,9 @@ impl NodePointer {
     ) -> anyhow::Result<Invoice> {
         let node_lock = self.0.lock().unwrap();
         match node_lock.receive_payment(amount_msat, description.as_str(), expiry_secs) {
-            Ok(e) => Ok(Invoice { hex: e.to_string() }),
+            Ok(e) => Ok(Invoice {
+                internal: e.to_string(),
+            }),
             Err(e) => Err(anyhow!(e.to_string())),
         }
     }
@@ -339,7 +345,9 @@ impl NodePointer {
     ) -> anyhow::Result<Invoice> {
         let node_lock = self.0.lock().unwrap();
         match node_lock.receive_variable_amount_payment(description.as_str(), expiry_secs) {
-            Ok(e) => Ok(Invoice { hex: e.to_string() }),
+            Ok(e) => Ok(Invoice {
+                internal: e.to_string(),
+            }),
             Err(e) => Err(anyhow!(e.to_string())),
         }
     }
@@ -349,7 +357,7 @@ impl NodePointer {
     /// Returns `PaymentDetails` if the payment was known and `null` otherwise.
     pub fn payment(&self, payment_hash: PaymentHash) -> Option<PaymentDetails> {
         let node_lock = self.0.lock().unwrap();
-        match node_lock.payment(&ldk_node::lightning::ln::PaymentHash(payment_hash.0)) {
+        match node_lock.payment(&ldk_node::lightning::ln::PaymentHash(payment_hash.internal)) {
             None => None,
             Some(e) => Some(e.into()),
         }
@@ -360,7 +368,8 @@ impl NodePointer {
     /// Returns `true` if the payment was present and `false` otherwise.
     pub fn remove_payment(&self, payment_hash: PaymentHash) -> anyhow::Result<bool> {
         let node_lock = self.0.lock().unwrap();
-        match node_lock.remove_payment(&ldk_node::lightning::ln::PaymentHash(payment_hash.0)) {
+        match node_lock.remove_payment(&ldk_node::lightning::ln::PaymentHash(payment_hash.internal))
+        {
             Ok(e) => Ok(e),
             Err(e) => Err(anyhow!(e.to_string())),
         }

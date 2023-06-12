@@ -113,23 +113,23 @@ typedef struct wire_NodePointer {
 } wire_NodePointer;
 
 typedef struct wire_Address {
-  struct wire_uint_8_list *address_hex;
+  struct wire_uint_8_list *internal;
 } wire_Address;
 
 typedef struct wire_PublicKey {
-  struct wire_uint_8_list *key_hex;
+  struct wire_uint_8_list *internal;
 } wire_PublicKey;
 
 typedef struct wire_ChannelId {
-  struct wire_uint_8_list *field0;
+  struct wire_uint_8_list *internal;
 } wire_ChannelId;
 
 typedef struct wire_Invoice {
-  struct wire_uint_8_list *hex;
+  struct wire_uint_8_list *internal;
 } wire_Invoice;
 
 typedef struct wire_PaymentHash {
-  struct wire_uint_8_list *field0;
+  struct wire_uint_8_list *internal;
 } wire_PaymentHash;
 
 typedef struct DartCObject *WireSyncReturn;

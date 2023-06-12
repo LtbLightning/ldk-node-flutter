@@ -28,13 +28,13 @@ class RustLdkNodeImpl implements RustLdkNode {
   RustLdkNodeImpl.raw(this._platform);
   Future<NodePointer> buildNode(
       {required Config config,
-      required ChainDataSourceConfig chainDataSourceConfig,
+      ChainDataSourceConfig? chainDataSourceConfig,
       EntropySourceConfig? entropySourceConfig,
       GossipSourceConfig? gossipSourceConfig,
       dynamic hint}) {
     var arg0 = _platform.api2wire_box_autoadd_config(config);
-    var arg1 = _platform
-        .api2wire_box_autoadd_chain_data_source_config(chainDataSourceConfig);
+    var arg1 = _platform.api2wire_opt_box_autoadd_chain_data_source_config(
+        chainDataSourceConfig);
     var arg2 = _platform
         .api2wire_opt_box_autoadd_entropy_source_config(entropySourceConfig);
     var arg3 = _platform
@@ -790,7 +790,7 @@ class RustLdkNodeImpl implements RustLdkNode {
     if (arr.length != 1)
       throw Exception('unexpected arr length: expect 1 but see ${arr.length}');
     return Address(
-      addressHex: _wire2api_String(arr[0]),
+      internal: _wire2api_String(arr[0]),
     );
   }
 
@@ -897,7 +897,7 @@ class RustLdkNodeImpl implements RustLdkNode {
     if (arr.length != 1)
       throw Exception('unexpected arr length: expect 1 but see ${arr.length}');
     return ChannelId(
-      field0: _wire2api_u8_array_32(arr[0]),
+      internal: _wire2api_u8_array_32(arr[0]),
     );
   }
 
@@ -948,7 +948,7 @@ class RustLdkNodeImpl implements RustLdkNode {
     if (arr.length != 1)
       throw Exception('unexpected arr length: expect 1 but see ${arr.length}');
     return Invoice(
-      hex: _wire2api_String(arr[0]),
+      internal: _wire2api_String(arr[0]),
     );
   }
 
@@ -1060,7 +1060,7 @@ class RustLdkNodeImpl implements RustLdkNode {
     if (arr.length != 1)
       throw Exception('unexpected arr length: expect 1 but see ${arr.length}');
     return PaymentHash(
-      field0: _wire2api_u8_array_32(arr[0]),
+      internal: _wire2api_u8_array_32(arr[0]),
     );
   }
 
@@ -1069,7 +1069,7 @@ class RustLdkNodeImpl implements RustLdkNode {
     if (arr.length != 1)
       throw Exception('unexpected arr length: expect 1 but see ${arr.length}');
     return PaymentPreimage(
-      field0: _wire2api_u8_array_32(arr[0]),
+      internal: _wire2api_u8_array_32(arr[0]),
     );
   }
 
@@ -1078,7 +1078,7 @@ class RustLdkNodeImpl implements RustLdkNode {
     if (arr.length != 1)
       throw Exception('unexpected arr length: expect 1 but see ${arr.length}');
     return PaymentSecret(
-      field0: _wire2api_u8_array_32(arr[0]),
+      internal: _wire2api_u8_array_32(arr[0]),
     );
   }
 
@@ -1102,7 +1102,7 @@ class RustLdkNodeImpl implements RustLdkNode {
     if (arr.length != 1)
       throw Exception('unexpected arr length: expect 1 but see ${arr.length}');
     return PublicKey(
-      keyHex: _wire2api_String(arr[0]),
+      internal: _wire2api_String(arr[0]),
     );
   }
 
@@ -1111,7 +1111,7 @@ class RustLdkNodeImpl implements RustLdkNode {
     if (arr.length != 1)
       throw Exception('unexpected arr length: expect 1 but see ${arr.length}');
     return Txid(
-      field0: _wire2api_String(arr[0]),
+      internal: _wire2api_String(arr[0]),
     );
   }
 
@@ -1148,7 +1148,7 @@ class RustLdkNodeImpl implements RustLdkNode {
     if (arr.length != 1)
       throw Exception('unexpected arr length: expect 1 but see ${arr.length}');
     return UserChannelId(
-      field0: _wire2api_u64(arr[0]),
+      internal: _wire2api_u64(arr[0]),
     );
   }
 }
@@ -1316,6 +1316,15 @@ class RustLdkNodePlatform extends FlutterRustBridgeBase<RustLdkNodeWire> {
   }
 
   @protected
+  ffi.Pointer<wire_ChainDataSourceConfig>
+      api2wire_opt_box_autoadd_chain_data_source_config(
+          ChainDataSourceConfig? raw) {
+    return raw == null
+        ? ffi.nullptr
+        : api2wire_box_autoadd_chain_data_source_config(raw);
+  }
+
+  @protected
   ffi.Pointer<wire_EntropySourceConfig>
       api2wire_opt_box_autoadd_entropy_source_config(EntropySourceConfig? raw) {
     return raw == null
@@ -1381,7 +1390,7 @@ class RustLdkNodePlatform extends FlutterRustBridgeBase<RustLdkNodeWire> {
   }
 
   void _api_fill_to_wire_address(Address apiObj, wire_Address wireObj) {
-    wireObj.address_hex = api2wire_String(apiObj.addressHex);
+    wireObj.internal = api2wire_String(apiObj.internal);
   }
 
   void _api_fill_to_wire_box_autoadd_address(
@@ -1458,7 +1467,7 @@ class RustLdkNodePlatform extends FlutterRustBridgeBase<RustLdkNodeWire> {
   }
 
   void _api_fill_to_wire_channel_id(ChannelId apiObj, wire_ChannelId wireObj) {
-    wireObj.field0 = api2wire_u8_array_32(apiObj.field0);
+    wireObj.internal = api2wire_u8_array_32(apiObj.internal);
   }
 
   void _api_fill_to_wire_config(Config apiObj, wire_Config wireObj) {
@@ -1520,7 +1529,7 @@ class RustLdkNodePlatform extends FlutterRustBridgeBase<RustLdkNodeWire> {
   }
 
   void _api_fill_to_wire_invoice(Invoice apiObj, wire_Invoice wireObj) {
-    wireObj.hex = api2wire_String(apiObj.hex);
+    wireObj.internal = api2wire_String(apiObj.internal);
   }
 
   void _api_fill_to_wire_mnemonic(Mnemonic apiObj, wire_Mnemonic wireObj) {
@@ -1554,6 +1563,13 @@ class RustLdkNodePlatform extends FlutterRustBridgeBase<RustLdkNodeWire> {
     wireObj.field0 = api2wire_MutexArcNodeSqliteStore(apiObj.field0);
   }
 
+  void _api_fill_to_wire_opt_box_autoadd_chain_data_source_config(
+      ChainDataSourceConfig? apiObj,
+      ffi.Pointer<wire_ChainDataSourceConfig> wireObj) {
+    if (apiObj != null)
+      _api_fill_to_wire_box_autoadd_chain_data_source_config(apiObj, wireObj);
+  }
+
   void _api_fill_to_wire_opt_box_autoadd_entropy_source_config(
       EntropySourceConfig? apiObj,
       ffi.Pointer<wire_EntropySourceConfig> wireObj) {
@@ -1576,11 +1592,11 @@ class RustLdkNodePlatform extends FlutterRustBridgeBase<RustLdkNodeWire> {
 
   void _api_fill_to_wire_payment_hash(
       PaymentHash apiObj, wire_PaymentHash wireObj) {
-    wireObj.field0 = api2wire_u8_array_32(apiObj.field0);
+    wireObj.internal = api2wire_u8_array_32(apiObj.internal);
   }
 
   void _api_fill_to_wire_public_key(PublicKey apiObj, wire_PublicKey wireObj) {
-    wireObj.key_hex = api2wire_String(apiObj.keyHex);
+    wireObj.internal = api2wire_String(apiObj.internal);
   }
 }
 
@@ -2825,23 +2841,23 @@ final class wire_NodePointer extends ffi.Struct {
 }
 
 final class wire_Address extends ffi.Struct {
-  external ffi.Pointer<wire_uint_8_list> address_hex;
+  external ffi.Pointer<wire_uint_8_list> internal;
 }
 
 final class wire_PublicKey extends ffi.Struct {
-  external ffi.Pointer<wire_uint_8_list> key_hex;
+  external ffi.Pointer<wire_uint_8_list> internal;
 }
 
 final class wire_ChannelId extends ffi.Struct {
-  external ffi.Pointer<wire_uint_8_list> field0;
+  external ffi.Pointer<wire_uint_8_list> internal;
 }
 
 final class wire_Invoice extends ffi.Struct {
-  external ffi.Pointer<wire_uint_8_list> hex;
+  external ffi.Pointer<wire_uint_8_list> internal;
 }
 
 final class wire_PaymentHash extends ffi.Struct {
-  external ffi.Pointer<wire_uint_8_list> field0;
+  external ffi.Pointer<wire_uint_8_list> internal;
 }
 
 typedef DartPostCObjectFnType = ffi.Pointer<

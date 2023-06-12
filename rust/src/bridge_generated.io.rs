@@ -403,7 +403,7 @@ impl Wire2Api<String> for *mut wire_uint_8_list {
 impl Wire2Api<Address> for wire_Address {
     fn wire2api(self) -> Address {
         Address {
-            address_hex: self.address_hex.wire2api(),
+            internal: self.internal.wire2api(),
         }
     }
 }
@@ -499,7 +499,9 @@ impl Wire2Api<ChainDataSourceConfig> for wire_ChainDataSourceConfig {
 }
 impl Wire2Api<ChannelId> for wire_ChannelId {
     fn wire2api(self) -> ChannelId {
-        ChannelId(self.field0.wire2api())
+        ChannelId {
+            internal: self.internal.wire2api(),
+        }
     }
 }
 impl Wire2Api<Config> for wire_Config {
@@ -560,7 +562,7 @@ impl Wire2Api<GossipSourceConfig> for wire_GossipSourceConfig {
 impl Wire2Api<Invoice> for wire_Invoice {
     fn wire2api(self) -> Invoice {
         Invoice {
-            hex: self.hex.wire2api(),
+            internal: self.internal.wire2api(),
         }
     }
 }
@@ -604,13 +606,15 @@ impl Wire2Api<NodePointer> for wire_NodePointer {
 
 impl Wire2Api<PaymentHash> for wire_PaymentHash {
     fn wire2api(self) -> PaymentHash {
-        PaymentHash(self.field0.wire2api())
+        PaymentHash {
+            internal: self.internal.wire2api(),
+        }
     }
 }
 impl Wire2Api<PublicKey> for wire_PublicKey {
     fn wire2api(self) -> PublicKey {
         PublicKey {
-            key_hex: self.key_hex.wire2api(),
+            internal: self.internal.wire2api(),
         }
     }
 }
@@ -646,13 +650,13 @@ pub struct wire_MutexArcNodeSqliteStore {
 #[repr(C)]
 #[derive(Clone)]
 pub struct wire_Address {
-    address_hex: *mut wire_uint_8_list,
+    internal: *mut wire_uint_8_list,
 }
 
 #[repr(C)]
 #[derive(Clone)]
 pub struct wire_ChannelId {
-    field0: *mut wire_uint_8_list,
+    internal: *mut wire_uint_8_list,
 }
 
 #[repr(C)]
@@ -671,7 +675,7 @@ pub struct wire_Config {
 #[repr(C)]
 #[derive(Clone)]
 pub struct wire_Invoice {
-    hex: *mut wire_uint_8_list,
+    internal: *mut wire_uint_8_list,
 }
 
 #[repr(C)]
@@ -689,13 +693,13 @@ pub struct wire_NodePointer {
 #[repr(C)]
 #[derive(Clone)]
 pub struct wire_PaymentHash {
-    field0: *mut wire_uint_8_list,
+    internal: *mut wire_uint_8_list,
 }
 
 #[repr(C)]
 #[derive(Clone)]
 pub struct wire_PublicKey {
-    key_hex: *mut wire_uint_8_list,
+    internal: *mut wire_uint_8_list,
 }
 
 #[repr(C)]
@@ -828,7 +832,7 @@ impl NewWithNullPtr for wire_MutexArcNodeSqliteStore {
 impl NewWithNullPtr for wire_Address {
     fn new_with_null_ptr() -> Self {
         Self {
-            address_hex: core::ptr::null_mut(),
+            internal: core::ptr::null_mut(),
         }
     }
 }
@@ -866,7 +870,7 @@ pub extern "C" fn inflate_ChainDataSourceConfig_Esplora() -> *mut ChainDataSourc
 impl NewWithNullPtr for wire_ChannelId {
     fn new_with_null_ptr() -> Self {
         Self {
-            field0: core::ptr::null_mut(),
+            internal: core::ptr::null_mut(),
         }
     }
 }
@@ -968,7 +972,7 @@ pub extern "C" fn inflate_GossipSourceConfig_RapidGossipSync() -> *mut GossipSou
 impl NewWithNullPtr for wire_Invoice {
     fn new_with_null_ptr() -> Self {
         Self {
-            hex: core::ptr::null_mut(),
+            internal: core::ptr::null_mut(),
         }
     }
 }
@@ -1045,7 +1049,7 @@ impl Default for wire_NodePointer {
 impl NewWithNullPtr for wire_PaymentHash {
     fn new_with_null_ptr() -> Self {
         Self {
-            field0: core::ptr::null_mut(),
+            internal: core::ptr::null_mut(),
         }
     }
 }
@@ -1059,7 +1063,7 @@ impl Default for wire_PaymentHash {
 impl NewWithNullPtr for wire_PublicKey {
     fn new_with_null_ptr() -> Self {
         Self {
-            key_hex: core::ptr::null_mut(),
+            internal: core::ptr::null_mut(),
         }
     }
 }

@@ -6,32 +6,47 @@ use std::net::SocketAddr;
 use std::str::FromStr;
 use std::string::ToString;
 
+/// The global identifier of a channel.
+///
+/// Note that this will start out to be a temporary ID until channel funding negotiation is
+/// finalized, at which point it will change to be a permanent global ID tied to the on-chain
+/// funding transaction.
+///
 #[derive(Debug, Clone, PartialEq, Eq)]
-pub struct ChannelId(pub [u8; 32]);
+pub struct ChannelId {
+    pub internal: [u8; 32],
+}
 
 impl From<ldk_node::ChannelId> for ChannelId {
     fn from(value: ldk_node::ChannelId) -> Self {
-        ChannelId(value.0)
+        ChannelId { internal: value.0 }
     }
 }
 impl From<ChannelId> for ldk_node::ChannelId {
     fn from(value: ChannelId) -> Self {
-        ldk_node::ChannelId(value.0)
+        ldk_node::ChannelId(value.internal)
     }
 }
 ///A local, potentially user-provided, identifier of a channel.
 ///
 /// By default, this will be randomly generated for the user to ensure local uniqueness.
+///
 #[derive(Debug, Clone, PartialEq, Eq)]
-pub struct UserChannelId(pub u64);
+pub struct UserChannelId {
+    pub internal: u64,
+}
 /// An event emitted by [Node], which should be handled by the user.
 ///
 impl From<ldk_node::UserChannelId> for UserChannelId {
     fn from(value: ldk_node::UserChannelId) -> Self {
-        UserChannelId(value.0 as u64)
+        UserChannelId {
+            internal: value.0 as u64,
+        }
     }
 }
 #[derive(Debug, Clone, PartialEq, Eq)]
+/// An event emitted by [Node], which should be handled by the user.
+///
 pub enum Event {
     /// A sent payment was successful.
     PaymentSuccessful {
@@ -83,16 +98,22 @@ impl From<ldk_node::Event> for Event {
     fn from(value: ldk_node::Event) -> Self {
         match value {
             ldk_node::Event::PaymentSuccessful { payment_hash } => Event::PaymentSuccessful {
-                payment_hash: PaymentHash { 0: payment_hash.0 },
+                payment_hash: PaymentHash {
+                    internal: payment_hash.0,
+                },
             },
             ldk_node::Event::PaymentFailed { payment_hash } => Event::PaymentFailed {
-                payment_hash: PaymentHash { 0: payment_hash.0 },
+                payment_hash: PaymentHash {
+                    internal: payment_hash.0,
+                },
             },
             ldk_node::Event::PaymentReceived {
                 payment_hash,
                 amount_msat,
             } => Event::PaymentReceived {
-                payment_hash: PaymentHash { 0: payment_hash.0 },
+                payment_hash: PaymentHash {
+                    internal: payment_hash.0,
+                },
                 amount_msat,
             },
             ldk_node::Event::ChannelReady {
@@ -120,7 +141,7 @@ impl From<ldk_node::Event> for Event {
                 user_channel_id: user_channel_id.into(),
                 former_temporary_channel_id: former_temporary_channel_id.into(),
                 counterparty_node_id: PublicKey {
-                    key_hex: counterparty_node_id.to_hex(),
+                    internal: counterparty_node_id.to_hex(),
                 },
                 funding_txo: funding_txo.into(),
             },
@@ -131,9 +152,12 @@ impl From<ldk_node::Event> for Event {
 ///A bitcoin transaction hash/transaction ID.
 ///
 #[derive(Debug, Clone, PartialEq, Eq)]
-pub struct Txid(pub String);
+pub struct Txid {
+    pub internal: String,
+}
 
 ///A reference to a transaction output.
+///
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub struct OutPoint {
     pub txid: Txid,
@@ -143,13 +167,16 @@ pub struct OutPoint {
 impl From<ldk_node::bitcoin::OutPoint> for OutPoint {
     fn from(value: ldk_node::bitcoin::OutPoint) -> Self {
         OutPoint {
-            txid: Txid(value.txid.to_string()),
+            txid: Txid {
+                internal: value.txid.to_string(),
+            },
             vout: value.vout,
         }
     }
 }
 
 /// Represents the current status of a payment.
+///
 #[derive(Clone, Debug, PartialEq, Eq)]
 pub enum PaymentStatus {
     /// The payment is still pending.
@@ -174,6 +201,7 @@ impl From<ldk_node::PaymentStatus> for PaymentStatus {
 }
 
 /// Represents the direction of a payment.
+///
 #[derive(Copy, Clone, Debug, PartialEq, Eq)]
 pub enum PaymentDirection {
     /// The payment is inbound.
@@ -203,22 +231,29 @@ impl From<PaymentDirection> for ldk_node::PaymentDirection {
 /// paymentHash type, use to cross-lock hop
 ///
 #[derive(Copy, Clone, Debug, PartialEq, Eq)]
-pub struct PaymentHash(pub [u8; 32]);
+pub struct PaymentHash {
+    pub internal: [u8; 32],
+}
 
 /// paymentPreimage type, use to route payment between hop
 ///
 #[derive(Hash, Copy, Clone, PartialEq, Eq, Debug)]
-pub struct PaymentPreimage(pub [u8; 32]);
+pub struct PaymentPreimage {
+    pub internal: [u8; 32],
+}
 
 /// payment_secret type, use to authenticate sender to the receiver and tie MPP HTLCs together
 ///
 #[derive(Hash, Copy, Clone, PartialEq, Eq, Debug)]
-pub struct PaymentSecret(pub [u8; 32]);
+pub struct PaymentSecret {
+    pub internal: [u8; 32],
+}
 
 // Structs wrapping the particular information which should easily be
 // understandable, parseable, and transformable, i.e., we'll try to avoid
 // exposing too many technical detail here.
 /// Represents a payment.
+///
 #[derive(Clone, Debug, PartialEq, Eq)]
 pub struct PaymentDetails {
     /// The payment hash, i.e., the hash of the `preimage`.
@@ -238,9 +273,11 @@ pub struct PaymentDetails {
 impl From<ldk_node::PaymentDetails> for PaymentDetails {
     fn from(value: ldk_node::PaymentDetails) -> Self {
         PaymentDetails {
-            hash: PaymentHash(value.hash.0),
-            preimage: value.preimage.map(|x| PaymentPreimage(x.0)),
-            secret: value.secret.map(|x| PaymentSecret(x.0)),
+            hash: PaymentHash {
+                internal: value.hash.0,
+            },
+            preimage: value.preimage.map(|x| PaymentPreimage { internal: x.0 }),
+            secret: value.secret.map(|x| PaymentSecret { internal: x.0 }),
             status: value.status.into(),
             amount_msat: value.amount_msat,
             direction: PaymentDirection::Inbound,
@@ -250,64 +287,75 @@ impl From<ldk_node::PaymentDetails> for PaymentDetails {
 
 #[derive(Debug, Clone, PartialEq, Eq)]
 ///Represents a syntactically and semantically correct lightning BOLT11 invoice.
+///
 pub struct Invoice {
-    pub hex: String,
+    pub internal: String,
 }
 
 impl From<Invoice> for ldk_node::lightning_invoice::Invoice {
     fn from(value: Invoice) -> Self {
-        ldk_node::lightning_invoice::Invoice::from_str(value.hex.as_str()).expect("Invalid Invoice")
+        ldk_node::lightning_invoice::Invoice::from_str(value.internal.as_str())
+            .expect("Invalid Invoice")
     }
 }
-
+///A Secp256k1 public key, used for verification of signatures.
+///
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub struct PublicKey {
-    pub key_hex: String,
+    pub internal: String,
 }
 
 impl From<PublicKey> for ldk_node::bitcoin::secp256k1::PublicKey {
     fn from(value: PublicKey) -> Self {
-        ldk_node::bitcoin::secp256k1::PublicKey::from_str(value.key_hex.as_str())
+        ldk_node::bitcoin::secp256k1::PublicKey::from_str(value.internal.as_str())
             .expect("Invalid Public Key")
     }
 }
 impl From<ldk_node::bitcoin::secp256k1::PublicKey> for PublicKey {
     fn from(value: ldk_node::bitcoin::secp256k1::PublicKey) -> Self {
         PublicKey {
-            key_hex: value.to_hex(),
+            internal: value.to_hex(),
         }
     }
 }
 /// A Bitcoin address.
+///
 pub struct Address {
-    pub address_hex: String,
+    pub internal: String,
 }
 
 impl From<Address> for ldk_node::bitcoin::Address {
     fn from(value: Address) -> Self {
-        ldk_node::bitcoin::Address::from_str(value.address_hex.as_str()).expect("Invalid Address")
+        ldk_node::bitcoin::Address::from_str(value.internal.as_str()).expect("Invalid Address")
     }
 }
 
 ///Balance differentiated in various categories
+///
 #[derive(Debug, PartialEq, Eq, Clone, Default)]
 pub struct Balance {
     /// All coinbase outputs not yet matured
+    ///
     pub immature: u64,
     /// Unconfirmed UTXOs generated by a wallet tx
+    ///
     pub trusted_pending: u64,
     /// Unconfirmed UTXOs received from an external wallet
+    ///
     pub untrusted_pending: u64,
     /// Confirmed and immediately spendable balance
+    ///
     pub confirmed: u64,
 }
 /// Details of a channel, as returned by node.listChannels()
+///
 #[derive(Clone, Debug, PartialEq, Eq)]
 pub struct ChannelDetails {
     /// The channel's ID (prior to funding transaction generation, this is a random 32 bytes,
     /// thereafter this is the txid of the funding transaction xor the funding transaction output).
     /// Note that this means this value is *not* persistent - it can change once during the
     /// lifetime of the channel.
+    ///
     pub channel_id: ChannelId,
     /// The Channel's funding transaction output, if we've negotiated the funding transaction with
     /// our counterparty already.
@@ -351,11 +399,13 @@ pub struct ChannelDetails {
     /// The userChannelId passed in to create_channel, or a random value if the channel was
     /// inbound. This may be zero for inbound channels serialized with LDK versions prior to
     /// 0.0.113.
+    ///
     pub user_channel_id: UserChannelId,
     /// The currently negotiated fee rate denominated in satoshi per 1000 weight units,
     /// which is applied to commitment and HTLC transactions.
     ///
     /// This value will be null for objects serialized with LDK versions prior to 0.0.115.
+    ///
     pub feerate_sat_per_1000_weight: u32,
     /// Our total balance.  This is the amount we would get if we close the channel.
     /// This value is not exact. Due to various in-flight changes and feerate changes, exactly this
@@ -375,6 +425,7 @@ pub struct ChannelDetails {
     /// This value is not exact. Due to various in-flight changes, feerate changes, and our
     /// conflict-avoidance policy, exactly this amount is not likely to be spendable. However, we
     /// should be able to spend nearly this amount.
+    ///
     pub outbound_capacity_msat: u64,
     /// The available outbound capacity for sending a single HTLC to the remote peer.This is intended for use when routing, allowing us
     /// to use a limit as close as possible to the HTLC limit we can currently send.
@@ -389,6 +440,7 @@ pub struct ChannelDetails {
     /// This value is not exact. Due to various in-flight changes, feerate changes, and our
     /// counterparty's conflict-avoidance policy, exactly this amount is not likely to be spendable.
     /// However, our counterparty should be able to spend nearly this amount.
+    ///
     pub inbound_capacity_msat: u64,
     /// The number of required confirmations on the funding transaction before the funding will be
     /// considered "locked". This number is selected by the channel fundee, and can be selected for inbound channels with
@@ -398,6 +450,7 @@ pub struct ChannelDetails {
     /// The current number of confirmations on the funding transaction.
     ///
     /// This value will be `None` for objects serialized with LDK versions prior to 0.0.113.
+    ///
     pub confirmations: Option<u32>,
     /// The number of blocks (after our commitment transaction confirms) that we will need to wait
     /// until we can claim our funds after we force-close the channel. During this time our
@@ -406,25 +459,32 @@ pub struct ChannelDetails {
     /// time to claim our non-HTLC-encumbered funds.
     ///
     /// This value will be null for outbound channels until the counterparty accepts the channel.
+    ///
     pub force_close_spend_delay: Option<u16>,
     /// True if the channel was initiated (and thus funded) by us.
+    ///
     pub is_outbound: bool,
     /// True if the channel is confirmed, channelReady messages have been exchanged, and the
     /// channel is not currently being shut down. `channelReady` message exchange implies the
     /// required confirmation count has been reached (and we were connected to the peer at some
     /// point after the funding transaction received enough confirmations). The required
+    ///
     pub is_channel_ready: bool,
     /// True if the channel is (a) confirmed and channelReady messages have been exchanged, (b)
     /// the peer is connected, and (c) the channel is not currently negotiating a shutdown.
     ///
     /// This is a strict superset of `isChannelReady`.
+    ///
     pub is_usable: bool,
     /// True if this channel is (or will be) publicly-announced.
+    ///
     pub is_public: bool,
     /// The smallest value HTLC (in msat) we will accept, for this channel. This field
     /// is only `None` for `ChannelDetails` objects serialized prior to LDK 0.0.107
+    ///
     pub inbound_htlc_minimum_msat: Option<u64>,
     /// The largest value HTLC (in msat) we currently will accept, for this channel.
+    ///
     pub inbound_htlc_maximum_msat: Option<u64>,
 }
 impl From<&ldk_node::ChannelDetails> for ChannelDetails {
@@ -457,15 +517,20 @@ impl From<&ldk_node::ChannelDetails> for ChannelDetails {
 }
 
 /// Bitcoin network enum
+///
 #[derive(Debug, Clone)]
 pub enum Network {
     ///Classic Bitcoin
+    ///
     Bitcoin,
     ///Bitcoin’s testnet
+    ///
     Testnet,
     ///Bitcoin’s signet
+    ///
     Signet,
     ///Bitcoin’s regtest
+    ///
     Regtest,
 }
 
@@ -480,16 +545,18 @@ impl From<Network> for ldk_node::bitcoin::Network {
     }
 }
 
-/// Details of a known Lightning peer as returned by [`Node::list_peers`].
+/// Details of a known Lightning peer as returned by `node.listPeers`.
 ///
-/// [`Node::list_peers`]: [`crate::Node::list_peers`]
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub struct PeerDetails {
     /// Our peer's node ID.
+    ///
     pub node_id: PublicKey,
     /// The IP address and TCP port of the peer.
+    ///
     pub address: NetAddress,
     /// Indicates whether or not the user is currently has an active connection with the peer.
+    ///
     pub is_connected: bool,
 }
 
@@ -503,6 +570,7 @@ impl From<ldk_node::PeerDetails> for PeerDetails {
     }
 }
 ///An address which can be used to connect to a remote peer.
+///
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub enum NetAddress {
     IPv4 { addr: String, port: u16 },
@@ -533,19 +601,26 @@ impl From<ldk_node::NetAddress> for NetAddress {
 }
 
 /// An enum representing the available verbosity levels of the logger.
+///
 #[derive(Copy, Clone, PartialEq, Eq, Debug, Hash)]
 pub enum LogLevel {
     /// Designates extremely verbose information, including gossip-induced messages
+    ///
     Gossip,
     /// Designates very low priority, often extremely verbose, information
+    ///
     Trace,
     /// Designates lower priority information
+    ///
     Debug,
     /// Designates useful information
+    ///
     Info,
     /// Designates hazardous situations
+    ///
     Warn,
     /// Designates very serious errors
+    ///
     Error,
 }
 
@@ -585,32 +660,39 @@ pub struct Config {
     #[frb(non_final)]
     pub storage_dir_path: String,
     /// The used Bitcoin network.
+    ///
     #[frb(non_final)]
     pub network: Network,
     ///The time in-between background sync attempts of the onchain wallet, in seconds.
-    // Note: A minimum of 10 seconds is always enforced.
+    /// Note: A minimum of 10 seconds is always enforced.
+
     #[frb(non_final)]
     pub onchain_wallet_sync_interval_secs: u64,
 
     /// The time in-between background sync attempts of the LDK wallet, in seconds.
     /// Note: A minimum of 10 seconds is always enforced.
+    ///
     #[frb(non_final)]
     pub wallet_sync_interval_secs: u64,
 
     ///The time in-between background update attempts to our fee rate cache, in seconds.
     /// Note: A minimum of 10 seconds is always enforced.
+    ///
     #[frb(non_final)]
     pub fee_rate_cache_update_interval_secs: u64,
 
     ///The level at which we log messages.
     /// Any messages below this level will be excluded from the logs.
+    ///
     #[frb(non_final)]
     pub log_level: LogLevel,
 
     /// The IP address and TCP port the node will listen on.
+    ///
     #[frb(non_final)]
     pub listening_address: Option<NetAddress>,
     /// The default CLTV expiry delta to be used for payments.
+    ///
     #[frb(non_final)]
     pub default_cltv_expiry_delta: u32,
 }
@@ -632,6 +714,10 @@ impl Default for Config {
         }
     }
 }
+
+///The from string implementation will try to determine the language of the mnemonic from all the supported languages. (Languages have to be explicitly enabled using the Cargo features.)
+/// Supported number of words are 12, 15, 18, 21, and 24.
+///
 #[derive(Debug, Clone)]
 pub struct Mnemonic {
     pub internal: String,
