@@ -39,14 +39,15 @@ class _MyAppState extends State<MyApp> {
     // Please use 10.0.2.2, instead of 0.0.0.0
     final directory = await getApplicationDocumentsDirectory();
     final nodePath = "${directory.path}/ldk_cache/$path";
+    print(nodePath);
     final config = ldk.Config(
         storageDirPath: nodePath,
-        network: ldk.Network.regtest,
+        network: ldk.Network.testnet,
         listeningAddress: address,
-        onchainWalletSyncIntervalSecs: 0,
-        walletSyncIntervalSecs: 10,
-        feeRateCacheUpdateIntervalSecs: 10,
-        logLevel: ldk.LogLevel.info,
+        onchainWalletSyncIntervalSecs: 60,
+        walletSyncIntervalSecs: 20,
+        feeRateCacheUpdateIntervalSecs: 600,
+        logLevel: ldk.LogLevel.debug,
         defaultCltvExpiryDelta: 144);
     return config;
   }
@@ -64,11 +65,9 @@ class _MyAppState extends State<MyApp> {
         .setEntropyBip39Mnemonic(
             mnemonic: ldk.Mnemonic(
                 internal:
-                    'certain sense kiss guide crumble hint transfer crime much stereo warm coral'))
+                    'cart super leaf clinic pistol plug replace close super tooth wealth usage'))
         .setEsploraServer(
-            esploraServerUrl: Platform.isAndroid
-                ? "http://10.0.2.2:3002"
-                : "http://0.0.0.0:3002")
+            esploraServerUrl: 'https://blockstream.info/testnet/api')
         .build();
     await aliceNode.start();
     final res = await aliceNode.nodeId();

@@ -1,5 +1,6 @@
 import 'package:ldk_node/src/generated/bridge_definitions.dart';
 import 'package:ldk_node/src/utils/loader.dart';
+import 'package:path_provider/path_provider.dart';
 
 ///The main interface object of LDK Node, wrapping the necessary LDK and BDK functionalities.
 ///
@@ -35,15 +36,15 @@ class Builder {
 
   /// Creates a new builder instance with the default configuration.
   ///
-  Builder() {
-    Builder._(Config(
-        storageDirPath: '/temp',
+  factory Builder() {
+    return Builder._(Config(
+        storageDirPath: '',
         network: Network.bitcoin,
         listeningAddress: NetAddress.iPv4(addr: "0.0.0.0", port: 9735),
         onchainWalletSyncIntervalSecs: 60,
         walletSyncIntervalSecs: 20,
         feeRateCacheUpdateIntervalSecs: 600,
-        logLevel: LogLevel.info,
+        logLevel: LogLevel.debug,
         defaultCltvExpiryDelta: 144));
   }
 
@@ -102,14 +103,14 @@ class Builder {
   ///
   ///
   Builder setStorageDirPath(String storageDirPath) {
-    Builder()._config!.storageDirPath = storageDirPath;
+    _config!.storageDirPath = storageDirPath;
     return this;
   }
 
   /// Sets the Bitcoin network used.
   ///
   Builder setNetwork(Network network) {
-    Builder()._config!.network = network;
+    _config!.network = network;
     return this;
   }
 
@@ -117,7 +118,7 @@ class Builder {
   ///
   ///
   Builder setListeningAddress(NetAddress listeningAddress) {
-    Builder()._config!.listeningAddress = listeningAddress;
+    _config!.listeningAddress = listeningAddress;
     return this;
   }
 
@@ -131,7 +132,13 @@ class Builder {
   /// Builds a [Node] instance with a SqliteStore backend and according to the options
   /// previously configured.
   ///
+  ///
   Future<Node> build() async {
+    if (_config!.storageDirPath == '') {
+      final directory = await getApplicationDocumentsDirectory();
+      final nodePath = "${directory.path}/ldk_cache/";
+      _config!.storageDirPath = nodePath;
+    }
     final res = await loaderApi.buildNode(
         config: _config!,
         entropySourceConfig: _entropySource,
