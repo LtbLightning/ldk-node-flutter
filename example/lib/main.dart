@@ -39,7 +39,6 @@ class _MyAppState extends State<MyApp> {
     // Please use 10.0.2.2, instead of 0.0.0.0
     final directory = await getApplicationDocumentsDirectory();
     final nodePath = "${directory.path}/ldk_cache/$path";
-    print(nodePath);
     final config = ldk.Config(
         storageDirPath: nodePath,
         network: ldk.Network.testnet,
