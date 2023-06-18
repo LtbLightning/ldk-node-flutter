@@ -15,7 +15,7 @@ To use the `ldk_node` package in your project, add it as a dependency in your pr
 
 ```dart
 dependencies:
-  ldk_node: ^0.1.1-alpha
+  ldk_node: ^0.1.1
 ```
 or add from pub.dev using `pub add` command
 
@@ -66,3 +66,8 @@ await node.start();
 await node.syncWallets();
 
 ```
+
+### References:
+- Setting up a local Esplora instance for testing:
+https://bitcoin.stackexchange.com/questions/116937/how-do-i-setup-an-esplora-instance-for-local-testing/116938#116938
+

@@ -19,40 +19,12 @@ use std::sync::Arc;
 
 // Section: imports
 
-use crate::types::Address;
-use crate::types::Balance;
-use crate::types::ChainDataSourceConfig;
-use crate::types::ChannelDetails;
-use crate::types::ChannelId;
-use crate::types::Config;
-use crate::types::EntropySourceConfig;
-use crate::types::Event;
-use crate::types::GossipSourceConfig;
-use crate::types::Invoice;
-use crate::types::LogLevel;
-use crate::types::Mnemonic;
-use crate::types::NetAddress;
-use crate::types::Network;
-use crate::types::OutPoint;
-use crate::types::PaymentDetails;
-use crate::types::PaymentDirection;
-use crate::types::PaymentHash;
-use crate::types::PaymentPreimage;
-use crate::types::PaymentSecret;
-use crate::types::PaymentStatus;
-use crate::types::PeerDetails;
-use crate::types::PublicKey;
-use crate::types::Txid;
-use crate::types::UserChannelId;
-
 // Section: wire functions
 
 fn wire_build_node_impl(
     port_: MessagePort,
     config: impl Wire2Api<Config> + UnwindSafe,
-    chain_data_source_config: impl Wire2Api<Option<ChainDataSourceConfig>> + UnwindSafe,
-    entropy_source_config: impl Wire2Api<Option<EntropySourceConfig>> + UnwindSafe,
-    gossip_source_config: impl Wire2Api<Option<GossipSourceConfig>> + UnwindSafe,
+    entropy_source: impl Wire2Api<Option<WalletEntropySource>> + UnwindSafe,
 ) {
     FLUTTER_RUST_BRIDGE_HANDLER.wrap(
         WrapInfo {
@@ -62,173 +34,148 @@ fn wire_build_node_impl(
         },
         move || {
             let api_config = config.wire2api();
-            let api_chain_data_source_config = chain_data_source_config.wire2api();
-            let api_entropy_source_config = entropy_source_config.wire2api();
-            let api_gossip_source_config = gossip_source_config.wire2api();
-            move |task_callback| {
-                Ok(build_node(
-                    api_config,
-                    api_chain_data_source_config,
-                    api_entropy_source_config,
-                    api_gossip_source_config,
-                ))
-            }
+            let api_entropy_source = entropy_source.wire2api();
+            move |task_callback| Ok(build_node(api_config, api_entropy_source))
         },
     )
 }
-fn wire_start__method__NodePointer_impl(
+fn wire_start__method__NodeBase_impl(
     port_: MessagePort,
-    that: impl Wire2Api<NodePointer> + UnwindSafe,
+    that: impl Wire2Api<NodeBase> + UnwindSafe,
 ) {
     FLUTTER_RUST_BRIDGE_HANDLER.wrap(
         WrapInfo {
-            debug_name: "start__method__NodePointer",
+            debug_name: "start__method__NodeBase",
             port: Some(port_),
             mode: FfiCallMode::Normal,
         },
         move || {
             let api_that = that.wire2api();
-            move |task_callback| NodePointer::start(&api_that)
+            move |task_callback| NodeBase::start(&api_that)
         },
     )
 }
-fn wire_stop__method__NodePointer_impl(
+fn wire_stop__method__NodeBase_impl(
     port_: MessagePort,
-    that: impl Wire2Api<NodePointer> + UnwindSafe,
+    that: impl Wire2Api<NodeBase> + UnwindSafe,
 ) {
     FLUTTER_RUST_BRIDGE_HANDLER.wrap(
         WrapInfo {
-            debug_name: "stop__method__NodePointer",
+            debug_name: "stop__method__NodeBase",
             port: Some(port_),
             mode: FfiCallMode::Normal,
         },
         move || {
             let api_that = that.wire2api();
-            move |task_callback| NodePointer::stop(&api_that)
+            move |task_callback| NodeBase::stop(&api_that)
         },
     )
 }
-fn wire_event_handled__method__NodePointer_impl(
+fn wire_event_handled__method__NodeBase_impl(
     port_: MessagePort,
-    that: impl Wire2Api<NodePointer> + UnwindSafe,
+    that: impl Wire2Api<NodeBase> + UnwindSafe,
 ) {
     FLUTTER_RUST_BRIDGE_HANDLER.wrap(
         WrapInfo {
-            debug_name: "event_handled__method__NodePointer",
+            debug_name: "event_handled__method__NodeBase",
             port: Some(port_),
             mode: FfiCallMode::Normal,
         },
         move || {
             let api_that = that.wire2api();
-            move |task_callback| NodePointer::event_handled(&api_that)
+            move |task_callback| NodeBase::event_handled(&api_that)
         },
     )
 }
-fn wire_next_event__method__NodePointer_impl(
+fn wire_next_event__method__NodeBase_impl(
     port_: MessagePort,
-    that: impl Wire2Api<NodePointer> + UnwindSafe,
+    that: impl Wire2Api<NodeBase> + UnwindSafe,
 ) {
     FLUTTER_RUST_BRIDGE_HANDLER.wrap(
         WrapInfo {
-            debug_name: "next_event__method__NodePointer",
+            debug_name: "next_event__method__NodeBase",
             port: Some(port_),
             mode: FfiCallMode::Normal,
         },
         move || {
             let api_that = that.wire2api();
-            move |task_callback| Ok(NodePointer::next_event(&api_that))
+            move |task_callback| NodeBase::next_event(&api_that)
         },
     )
 }
-fn wire_wait_until_next_event__method__NodePointer_impl(
+fn wire_node_id__method__NodeBase_impl(
     port_: MessagePort,
-    that: impl Wire2Api<NodePointer> + UnwindSafe,
+    that: impl Wire2Api<NodeBase> + UnwindSafe,
 ) {
     FLUTTER_RUST_BRIDGE_HANDLER.wrap(
         WrapInfo {
-            debug_name: "wait_until_next_event__method__NodePointer",
+            debug_name: "node_id__method__NodeBase",
             port: Some(port_),
             mode: FfiCallMode::Normal,
         },
         move || {
             let api_that = that.wire2api();
-            move |task_callback| Ok(NodePointer::wait_until_next_event(&api_that))
+            move |task_callback| NodeBase::node_id(&api_that)
         },
     )
 }
-fn wire_node_id__method__NodePointer_impl(
+fn wire_listening_address__method__NodeBase_impl(
     port_: MessagePort,
-    that: impl Wire2Api<NodePointer> + UnwindSafe,
+    that: impl Wire2Api<NodeBase> + UnwindSafe,
 ) {
     FLUTTER_RUST_BRIDGE_HANDLER.wrap(
         WrapInfo {
-            debug_name: "node_id__method__NodePointer",
+            debug_name: "listening_address__method__NodeBase",
             port: Some(port_),
             mode: FfiCallMode::Normal,
         },
         move || {
             let api_that = that.wire2api();
-            move |task_callback| NodePointer::node_id(&api_that)
+            move |task_callback| Ok(NodeBase::listening_address(&api_that))
         },
     )
 }
-fn wire_listening_address__method__NodePointer_impl(
+fn wire_new_funding_address__method__NodeBase_impl(
     port_: MessagePort,
-    that: impl Wire2Api<NodePointer> + UnwindSafe,
+    that: impl Wire2Api<NodeBase> + UnwindSafe,
 ) {
     FLUTTER_RUST_BRIDGE_HANDLER.wrap(
         WrapInfo {
-            debug_name: "listening_address__method__NodePointer",
+            debug_name: "new_funding_address__method__NodeBase",
             port: Some(port_),
             mode: FfiCallMode::Normal,
         },
         move || {
             let api_that = that.wire2api();
-            move |task_callback| Ok(NodePointer::listening_address(&api_that))
+            move |task_callback| NodeBase::new_funding_address(&api_that)
         },
     )
 }
-fn wire_new_funding_address__method__NodePointer_impl(
+fn wire_on_chain_balance__method__NodeBase_impl(
     port_: MessagePort,
-    that: impl Wire2Api<NodePointer> + UnwindSafe,
+    that: impl Wire2Api<NodeBase> + UnwindSafe,
 ) {
     FLUTTER_RUST_BRIDGE_HANDLER.wrap(
         WrapInfo {
-            debug_name: "new_funding_address__method__NodePointer",
+            debug_name: "on_chain_balance__method__NodeBase",
             port: Some(port_),
             mode: FfiCallMode::Normal,
         },
         move || {
             let api_that = that.wire2api();
-            move |task_callback| NodePointer::new_funding_address(&api_that)
+            move |task_callback| NodeBase::on_chain_balance(&api_that)
         },
     )
 }
-fn wire_on_chain_balance__method__NodePointer_impl(
+fn wire_send_to_on_chain_address__method__NodeBase_impl(
     port_: MessagePort,
-    that: impl Wire2Api<NodePointer> + UnwindSafe,
-) {
-    FLUTTER_RUST_BRIDGE_HANDLER.wrap(
-        WrapInfo {
-            debug_name: "on_chain_balance__method__NodePointer",
-            port: Some(port_),
-            mode: FfiCallMode::Normal,
-        },
-        move || {
-            let api_that = that.wire2api();
-            move |task_callback| NodePointer::on_chain_balance(&api_that)
-        },
-    )
-}
-fn wire_send_to_on_chain_address__method__NodePointer_impl(
-    port_: MessagePort,
-    that: impl Wire2Api<NodePointer> + UnwindSafe,
+    that: impl Wire2Api<NodeBase> + UnwindSafe,
     address: impl Wire2Api<Address> + UnwindSafe,
     amount_sats: impl Wire2Api<u64> + UnwindSafe,
 ) {
     FLUTTER_RUST_BRIDGE_HANDLER.wrap(
         WrapInfo {
-            debug_name: "send_to_on_chain_address__method__NodePointer",
+            debug_name: "send_to_on_chain_address__method__NodeBase",
             port: Some(port_),
             mode: FfiCallMode::Normal,
         },
@@ -237,87 +184,39 @@ fn wire_send_to_on_chain_address__method__NodePointer_impl(
             let api_address = address.wire2api();
             let api_amount_sats = amount_sats.wire2api();
             move |task_callback| {
-                NodePointer::send_to_on_chain_address(&api_that, api_address, api_amount_sats)
+                NodeBase::send_to_on_chain_address(&api_that, api_address, api_amount_sats)
             }
         },
     )
 }
-fn wire_send_all_to_on_chain_address__method__NodePointer_impl(
+fn wire_send_all_to_on_chain_address__method__NodeBase_impl(
     port_: MessagePort,
-    that: impl Wire2Api<NodePointer> + UnwindSafe,
+    that: impl Wire2Api<NodeBase> + UnwindSafe,
     address: impl Wire2Api<Address> + UnwindSafe,
 ) {
     FLUTTER_RUST_BRIDGE_HANDLER.wrap(
         WrapInfo {
-            debug_name: "send_all_to_on_chain_address__method__NodePointer",
+            debug_name: "send_all_to_on_chain_address__method__NodeBase",
             port: Some(port_),
             mode: FfiCallMode::Normal,
         },
         move || {
             let api_that = that.wire2api();
             let api_address = address.wire2api();
-            move |task_callback| NodePointer::send_all_to_on_chain_address(&api_that, api_address)
+            move |task_callback| NodeBase::send_all_to_on_chain_address(&api_that, api_address)
         },
     )
 }
-fn wire_spendable_onchain_balance_sats__method__NodePointer_impl(
+fn wire_connect__method__NodeBase_impl(
     port_: MessagePort,
-    that: impl Wire2Api<NodePointer> + UnwindSafe,
-) {
-    FLUTTER_RUST_BRIDGE_HANDLER.wrap(
-        WrapInfo {
-            debug_name: "spendable_onchain_balance_sats__method__NodePointer",
-            port: Some(port_),
-            mode: FfiCallMode::Normal,
-        },
-        move || {
-            let api_that = that.wire2api();
-            move |task_callback| NodePointer::spendable_onchain_balance_sats(&api_that)
-        },
-    )
-}
-fn wire_total_onchain_balance_sats__method__NodePointer_impl(
-    port_: MessagePort,
-    that: impl Wire2Api<NodePointer> + UnwindSafe,
-) {
-    FLUTTER_RUST_BRIDGE_HANDLER.wrap(
-        WrapInfo {
-            debug_name: "total_onchain_balance_sats__method__NodePointer",
-            port: Some(port_),
-            mode: FfiCallMode::Normal,
-        },
-        move || {
-            let api_that = that.wire2api();
-            move |task_callback| NodePointer::total_onchain_balance_sats(&api_that)
-        },
-    )
-}
-fn wire_list_channels__method__NodePointer_impl(
-    port_: MessagePort,
-    that: impl Wire2Api<NodePointer> + UnwindSafe,
-) {
-    FLUTTER_RUST_BRIDGE_HANDLER.wrap(
-        WrapInfo {
-            debug_name: "list_channels__method__NodePointer",
-            port: Some(port_),
-            mode: FfiCallMode::Normal,
-        },
-        move || {
-            let api_that = that.wire2api();
-            move |task_callback| Ok(NodePointer::list_channels(&api_that))
-        },
-    )
-}
-fn wire_connect__method__NodePointer_impl(
-    port_: MessagePort,
-    that: impl Wire2Api<NodePointer> + UnwindSafe,
+    that: impl Wire2Api<NodeBase> + UnwindSafe,
     node_id: impl Wire2Api<PublicKey> + UnwindSafe,
-    address: impl Wire2Api<NetAddress> + UnwindSafe,
+    address: impl Wire2Api<SocketAddr> + UnwindSafe,
     permanently: impl Wire2Api<bool> + UnwindSafe,
 ) {
     FLUTTER_RUST_BRIDGE_HANDLER.wrap(
         WrapInfo {
-            debug_name: "connect__method__NodePointer",
+            debug_name: "connect__method__NodeBase",
             port: Some(port_),
             mode: FfiCallMode::Normal,
         },
@@ -327,33 +226,33 @@ fn wire_connect__method__NodePointer_impl(
             let api_address = address.wire2api();
             let api_permanently = permanently.wire2api();
             move |task_callback| {
-                NodePointer::connect(&api_that, api_node_id, api_address, api_permanently)
+                NodeBase::connect(&api_that, api_node_id, api_address, api_permanently)
             }
         },
     )
 }
-fn wire_disconnect__method__NodePointer_impl(
+fn wire_disconnect__method__NodeBase_impl(
     port_: MessagePort,
-    that: impl Wire2Api<NodePointer> + UnwindSafe,
+    that: impl Wire2Api<NodeBase> + UnwindSafe,
     counterparty_node_id: impl Wire2Api<PublicKey> + UnwindSafe,
 ) {
     FLUTTER_RUST_BRIDGE_HANDLER.wrap(
         WrapInfo {
-            debug_name: "disconnect__method__NodePointer",
+            debug_name: "disconnect__method__NodeBase",
             port: Some(port_),
             mode: FfiCallMode::Normal,
         },
         move || {
             let api_that = that.wire2api();
             let api_counterparty_node_id = counterparty_node_id.wire2api();
-            move |task_callback| NodePointer::disconnect(&api_that, api_counterparty_node_id)
+            move |task_callback| NodeBase::disconnect(&api_that, api_counterparty_node_id)
         },
     )
 }
-fn wire_connect_open_channel__method__NodePointer_impl(
+fn wire_connect_open_channel__method__NodeBase_impl(
     port_: MessagePort,
-    that: impl Wire2Api<NodePointer> + UnwindSafe,
-    address: impl Wire2Api<NetAddress> + UnwindSafe,
+    that: impl Wire2Api<NodeBase> + UnwindSafe,
+    address: impl Wire2Api<SocketAddr> + UnwindSafe,
     node_id: impl Wire2Api<PublicKey> + UnwindSafe,
     channel_amount_sats: impl Wire2Api<u64> + UnwindSafe,
     push_to_counterparty_msat: impl Wire2Api<Option<u64>> + UnwindSafe,
@@ -361,7 +260,7 @@ fn wire_connect_open_channel__method__NodePointer_impl(
 ) {
     FLUTTER_RUST_BRIDGE_HANDLER.wrap(
         WrapInfo {
-            debug_name: "connect_open_channel__method__NodePointer",
+            debug_name: "connect_open_channel__method__NodeBase",
             port: Some(port_),
             mode: FfiCallMode::Normal,
         },
@@ -373,7 +272,7 @@ fn wire_connect_open_channel__method__NodePointer_impl(
             let api_push_to_counterparty_msat = push_to_counterparty_msat.wire2api();
             let api_announce_channel = announce_channel.wire2api();
             move |task_callback| {
-                NodePointer::connect_open_channel(
+                NodeBase::connect_open_channel(
                     &api_that,
                     api_address,
                     api_node_id,
@@ -385,31 +284,47 @@ fn wire_connect_open_channel__method__NodePointer_impl(
         },
     )
 }
-fn wire_sync_wallets__method__NodePointer_impl(
+fn wire_list_channels__method__NodeBase_impl(
     port_: MessagePort,
-    that: impl Wire2Api<NodePointer> + UnwindSafe,
+    that: impl Wire2Api<NodeBase> + UnwindSafe,
 ) {
     FLUTTER_RUST_BRIDGE_HANDLER.wrap(
         WrapInfo {
-            debug_name: "sync_wallets__method__NodePointer",
+            debug_name: "list_channels__method__NodeBase",
             port: Some(port_),
             mode: FfiCallMode::Normal,
         },
         move || {
             let api_that = that.wire2api();
-            move |task_callback| NodePointer::sync_wallets(&api_that)
+            move |task_callback| Ok(NodeBase::list_channels(&api_that))
         },
     )
 }
-fn wire_close_channel__method__NodePointer_impl(
+fn wire_sync_wallets__method__NodeBase_impl(
     port_: MessagePort,
-    that: impl Wire2Api<NodePointer> + UnwindSafe,
-    channel_id: impl Wire2Api<ChannelId> + UnwindSafe,
+    that: impl Wire2Api<NodeBase> + UnwindSafe,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap(
+        WrapInfo {
+            debug_name: "sync_wallets__method__NodeBase",
+            port: Some(port_),
+            mode: FfiCallMode::Normal,
+        },
+        move || {
+            let api_that = that.wire2api();
+            move |task_callback| NodeBase::sync_wallets(&api_that)
+        },
+    )
+}
+fn wire_close_channel__method__NodeBase_impl(
+    port_: MessagePort,
+    that: impl Wire2Api<NodeBase> + UnwindSafe,
+    channel_id: impl Wire2Api<[u8; 32]> + UnwindSafe,
     counterparty_node_id: impl Wire2Api<PublicKey> + UnwindSafe,
 ) {
     FLUTTER_RUST_BRIDGE_HANDLER.wrap(
         WrapInfo {
-            debug_name: "close_channel__method__NodePointer",
+            debug_name: "close_channel__method__NodeBase",
             port: Some(port_),
             mode: FfiCallMode::Normal,
         },
@@ -418,38 +333,38 @@ fn wire_close_channel__method__NodePointer_impl(
             let api_channel_id = channel_id.wire2api();
             let api_counterparty_node_id = counterparty_node_id.wire2api();
             move |task_callback| {
-                NodePointer::close_channel(&api_that, api_channel_id, api_counterparty_node_id)
+                NodeBase::close_channel(&api_that, api_channel_id, api_counterparty_node_id)
             }
         },
     )
 }
-fn wire_send_payment__method__NodePointer_impl(
+fn wire_send_payment__method__NodeBase_impl(
     port_: MessagePort,
-    that: impl Wire2Api<NodePointer> + UnwindSafe,
+    that: impl Wire2Api<NodeBase> + UnwindSafe,
     invoice: impl Wire2Api<Invoice> + UnwindSafe,
 ) {
     FLUTTER_RUST_BRIDGE_HANDLER.wrap(
         WrapInfo {
-            debug_name: "send_payment__method__NodePointer",
+            debug_name: "send_payment__method__NodeBase",
             port: Some(port_),
             mode: FfiCallMode::Normal,
         },
         move || {
             let api_that = that.wire2api();
             let api_invoice = invoice.wire2api();
-            move |task_callback| NodePointer::send_payment(&api_that, api_invoice)
+            move |task_callback| NodeBase::send_payment(&api_that, api_invoice)
         },
     )
 }
-fn wire_send_payment_using_amount__method__NodePointer_impl(
+fn wire_send_payment_using_amount__method__NodeBase_impl(
     port_: MessagePort,
-    that: impl Wire2Api<NodePointer> + UnwindSafe,
+    that: impl Wire2Api<NodeBase> + UnwindSafe,
     invoice: impl Wire2Api<Invoice> + UnwindSafe,
     amount_msat: impl Wire2Api<u64> + UnwindSafe,
 ) {
     FLUTTER_RUST_BRIDGE_HANDLER.wrap(
         WrapInfo {
-            debug_name: "send_payment_using_amount__method__NodePointer",
+            debug_name: "send_payment_using_amount__method__NodeBase",
             port: Some(port_),
             mode: FfiCallMode::Normal,
         },
@@ -458,20 +373,20 @@ fn wire_send_payment_using_amount__method__NodePointer_impl(
             let api_invoice = invoice.wire2api();
             let api_amount_msat = amount_msat.wire2api();
             move |task_callback| {
-                NodePointer::send_payment_using_amount(&api_that, api_invoice, api_amount_msat)
+                NodeBase::send_payment_using_amount(&api_that, api_invoice, api_amount_msat)
             }
         },
     )
 }
-fn wire_send_spontaneous_payment__method__NodePointer_impl(
+fn wire_send_spontaneous_payment__method__NodeBase_impl(
     port_: MessagePort,
-    that: impl Wire2Api<NodePointer> + UnwindSafe,
+    that: impl Wire2Api<NodeBase> + UnwindSafe,
     amount_msat: impl Wire2Api<u64> + UnwindSafe,
     node_id: impl Wire2Api<PublicKey> + UnwindSafe,
 ) {
     FLUTTER_RUST_BRIDGE_HANDLER.wrap(
         WrapInfo {
-            debug_name: "send_spontaneous_payment__method__NodePointer",
+            debug_name: "send_spontaneous_payment__method__NodeBase",
             port: Some(port_),
             mode: FfiCallMode::Normal,
         },
@@ -480,21 +395,21 @@ fn wire_send_spontaneous_payment__method__NodePointer_impl(
             let api_amount_msat = amount_msat.wire2api();
             let api_node_id = node_id.wire2api();
             move |task_callback| {
-                NodePointer::send_spontaneous_payment(&api_that, api_amount_msat, api_node_id)
+                NodeBase::send_spontaneous_payment(&api_that, api_amount_msat, api_node_id)
             }
         },
     )
 }
-fn wire_receive_payment__method__NodePointer_impl(
+fn wire_receive_payment__method__NodeBase_impl(
     port_: MessagePort,
-    that: impl Wire2Api<NodePointer> + UnwindSafe,
+    that: impl Wire2Api<NodeBase> + UnwindSafe,
     amount_msat: impl Wire2Api<u64> + UnwindSafe,
     description: impl Wire2Api<String> + UnwindSafe,
     expiry_secs: impl Wire2Api<u32> + UnwindSafe,
 ) {
     FLUTTER_RUST_BRIDGE_HANDLER.wrap(
         WrapInfo {
-            debug_name: "receive_payment__method__NodePointer",
+            debug_name: "receive_payment__method__NodeBase",
             port: Some(port_),
             mode: FfiCallMode::Normal,
         },
@@ -504,7 +419,7 @@ fn wire_receive_payment__method__NodePointer_impl(
             let api_description = description.wire2api();
             let api_expiry_secs = expiry_secs.wire2api();
             move |task_callback| {
-                NodePointer::receive_payment(
+                NodeBase::receive_payment(
                     &api_that,
                     api_amount_msat,
                     api_description,
@@ -514,15 +429,15 @@ fn wire_receive_payment__method__NodePointer_impl(
         },
     )
 }
-fn wire_receive_variable_amount_payment__method__NodePointer_impl(
+fn wire_receive_variable_amount_payment__method__NodeBase_impl(
     port_: MessagePort,
-    that: impl Wire2Api<NodePointer> + UnwindSafe,
+    that: impl Wire2Api<NodeBase> + UnwindSafe,
     description: impl Wire2Api<String> + UnwindSafe,
     expiry_secs: impl Wire2Api<u32> + UnwindSafe,
 ) {
     FLUTTER_RUST_BRIDGE_HANDLER.wrap(
         WrapInfo {
-            debug_name: "receive_variable_amount_payment__method__NodePointer",
+            debug_name: "receive_variable_amount_payment__method__NodeBase",
             port: Some(port_),
             mode: FfiCallMode::Normal,
         },
@@ -531,7 +446,7 @@ fn wire_receive_variable_amount_payment__method__NodePointer_impl(
             let api_description = description.wire2api();
             let api_expiry_secs = expiry_secs.wire2api();
             move |task_callback| {
-                NodePointer::receive_variable_amount_payment(
+                NodeBase::receive_variable_amount_payment(
                     &api_that,
                     api_description,
                     api_expiry_secs,
@@ -540,50 +455,50 @@ fn wire_receive_variable_amount_payment__method__NodePointer_impl(
         },
     )
 }
-fn wire_payment__method__NodePointer_impl(
+fn wire_payment__method__NodeBase_impl(
     port_: MessagePort,
-    that: impl Wire2Api<NodePointer> + UnwindSafe,
+    that: impl Wire2Api<NodeBase> + UnwindSafe,
     payment_hash: impl Wire2Api<PaymentHash> + UnwindSafe,
 ) {
     FLUTTER_RUST_BRIDGE_HANDLER.wrap(
         WrapInfo {
-            debug_name: "payment__method__NodePointer",
+            debug_name: "payment__method__NodeBase",
             port: Some(port_),
             mode: FfiCallMode::Normal,
         },
         move || {
             let api_that = that.wire2api();
             let api_payment_hash = payment_hash.wire2api();
-            move |task_callback| Ok(NodePointer::payment(&api_that, api_payment_hash))
+            move |task_callback| Ok(NodeBase::payment(&api_that, api_payment_hash))
         },
     )
 }
-fn wire_remove_payment__method__NodePointer_impl(
+fn wire_remove_payment__method__NodeBase_impl(
     port_: MessagePort,
-    that: impl Wire2Api<NodePointer> + UnwindSafe,
+    that: impl Wire2Api<NodeBase> + UnwindSafe,
     payment_hash: impl Wire2Api<PaymentHash> + UnwindSafe,
 ) {
     FLUTTER_RUST_BRIDGE_HANDLER.wrap(
         WrapInfo {
-            debug_name: "remove_payment__method__NodePointer",
+            debug_name: "remove_payment__method__NodeBase",
             port: Some(port_),
             mode: FfiCallMode::Normal,
         },
         move || {
             let api_that = that.wire2api();
             let api_payment_hash = payment_hash.wire2api();
-            move |task_callback| NodePointer::remove_payment(&api_that, api_payment_hash)
+            move |task_callback| NodeBase::remove_payment(&api_that, api_payment_hash)
         },
     )
 }
-fn wire_list_payments_with_filter__method__NodePointer_impl(
+fn wire_list_payments_with_filter__method__NodeBase_impl(
     port_: MessagePort,
-    that: impl Wire2Api<NodePointer> + UnwindSafe,
+    that: impl Wire2Api<NodeBase> + UnwindSafe,
     payment_direction: impl Wire2Api<PaymentDirection> + UnwindSafe,
 ) {
     FLUTTER_RUST_BRIDGE_HANDLER.wrap(
         WrapInfo {
-            debug_name: "list_payments_with_filter__method__NodePointer",
+            debug_name: "list_payments_with_filter__method__NodeBase",
             port: Some(port_),
             mode: FfiCallMode::Normal,
         },
@@ -591,84 +506,10 @@ fn wire_list_payments_with_filter__method__NodePointer_impl(
             let api_that = that.wire2api();
             let api_payment_direction = payment_direction.wire2api();
             move |task_callback| {
-                Ok(NodePointer::list_payments_with_filter(
+                Ok(NodeBase::list_payments_with_filter(
                     &api_that,
                     api_payment_direction,
                 ))
-            }
-        },
-    )
-}
-fn wire_list_payments__method__NodePointer_impl(
-    port_: MessagePort,
-    that: impl Wire2Api<NodePointer> + UnwindSafe,
-) {
-    FLUTTER_RUST_BRIDGE_HANDLER.wrap(
-        WrapInfo {
-            debug_name: "list_payments__method__NodePointer",
-            port: Some(port_),
-            mode: FfiCallMode::Normal,
-        },
-        move || {
-            let api_that = that.wire2api();
-            move |task_callback| Ok(NodePointer::list_payments(&api_that))
-        },
-    )
-}
-fn wire_list_peers__method__NodePointer_impl(
-    port_: MessagePort,
-    that: impl Wire2Api<NodePointer> + UnwindSafe,
-) {
-    FLUTTER_RUST_BRIDGE_HANDLER.wrap(
-        WrapInfo {
-            debug_name: "list_peers__method__NodePointer",
-            port: Some(port_),
-            mode: FfiCallMode::Normal,
-        },
-        move || {
-            let api_that = that.wire2api();
-            move |task_callback| Ok(NodePointer::list_peers(&api_that))
-        },
-    )
-}
-fn wire_sign_message__method__NodePointer_impl(
-    port_: MessagePort,
-    that: impl Wire2Api<NodePointer> + UnwindSafe,
-    msg: impl Wire2Api<Vec<u8>> + UnwindSafe,
-) {
-    FLUTTER_RUST_BRIDGE_HANDLER.wrap(
-        WrapInfo {
-            debug_name: "sign_message__method__NodePointer",
-            port: Some(port_),
-            mode: FfiCallMode::Normal,
-        },
-        move || {
-            let api_that = that.wire2api();
-            let api_msg = msg.wire2api();
-            move |task_callback| NodePointer::sign_message(&api_that, api_msg)
-        },
-    )
-}
-fn wire_verify_signature__method__NodePointer_impl(
-    port_: MessagePort,
-    that: impl Wire2Api<NodePointer> + UnwindSafe,
-    msg: impl Wire2Api<Vec<u8>> + UnwindSafe,
-    sig: impl Wire2Api<String> + UnwindSafe,
-    pkey: impl Wire2Api<PublicKey> + UnwindSafe,
-) {
-    FLUTTER_RUST_BRIDGE_HANDLER.wrap(
-        WrapInfo {
-            debug_name: "verify_signature__method__NodePointer",
-            port: Some(port_),
-            mode: FfiCallMode::Normal,
-        },
-        move || {
-            let api_that = that.wire2api();
-            let api_msg = msg.wire2api();
-            let api_sig = sig.wire2api();
-            let api_pkey = pkey.wire2api();
-            move |task_callback| {
-                NodePointer::verify_signature(&api_that, api_msg, api_sig, api_pkey)
             }
         },
     )
@@ -705,20 +546,6 @@ impl Wire2Api<bool> for bool {
 impl Wire2Api<i32> for i32 {
     fn wire2api(self) -> i32 {
         self
-    }
-}
-
-impl Wire2Api<LogLevel> for i32 {
-    fn wire2api(self) -> LogLevel {
-        match self {
-            0 => LogLevel::Gossip,
-            1 => LogLevel::Trace,
-            2 => LogLevel::Debug,
-            3 => LogLevel::Info,
-            4 => LogLevel::Warn,
-            5 => LogLevel::Error,
-            _ => unreachable!("Invalid variant for LogLevel: {}", self),
-        }
     }
 }
 
@@ -769,7 +596,7 @@ impl Wire2Api<u8> for u8 {
 
 impl support::IntoDart for Address {
     fn into_dart(self) -> support::DartAbi {
-        vec![self.internal.into_dart()].into_dart()
+        vec![self.address_hex.into_dart()].into_dart()
     }
 }
 impl support::IntoDartExceptPrimitive for Address {}
@@ -817,13 +644,6 @@ impl support::IntoDart for ChannelDetails {
     }
 }
 impl support::IntoDartExceptPrimitive for ChannelDetails {}
-
-impl support::IntoDart for ChannelId {
-    fn into_dart(self) -> support::DartAbi {
-        vec![self.internal.into_dart()].into_dart()
-    }
-}
-impl support::IntoDartExceptPrimitive for ChannelId {}
 
 impl support::IntoDart for Event {
     fn into_dart(self) -> support::DartAbi {
@@ -878,27 +698,17 @@ impl support::IntoDartExceptPrimitive for Event {}
 
 impl support::IntoDart for Invoice {
     fn into_dart(self) -> support::DartAbi {
-        vec![self.internal.into_dart()].into_dart()
+        vec![self.hex.into_dart()].into_dart()
     }
 }
 impl support::IntoDartExceptPrimitive for Invoice {}
 
-impl support::IntoDart for NetAddress {
+impl support::IntoDart for NodeBase {
     fn into_dart(self) -> support::DartAbi {
-        match self {
-            Self::IPv4 { addr, port } => vec![0.into_dart(), addr.into_dart(), port.into_dart()],
-            Self::IPv6 { addr, port } => vec![1.into_dart(), addr.into_dart(), port.into_dart()],
-        }
-        .into_dart()
+        vec![self.node_pointer.into_dart()].into_dart()
     }
 }
-impl support::IntoDartExceptPrimitive for NetAddress {}
-impl support::IntoDart for NodePointer {
-    fn into_dart(self) -> support::DartAbi {
-        vec![self.0.into_dart()].into_dart()
-    }
-}
-impl support::IntoDartExceptPrimitive for NodePointer {}
+impl support::IntoDartExceptPrimitive for NodeBase {}
 
 impl support::IntoDart for OutPoint {
     fn into_dart(self) -> support::DartAbi {
@@ -934,21 +744,21 @@ impl support::IntoDart for PaymentDirection {
 impl support::IntoDartExceptPrimitive for PaymentDirection {}
 impl support::IntoDart for PaymentHash {
     fn into_dart(self) -> support::DartAbi {
-        vec![self.internal.into_dart()].into_dart()
+        vec![self.0.into_dart()].into_dart()
     }
 }
 impl support::IntoDartExceptPrimitive for PaymentHash {}
 
 impl support::IntoDart for PaymentPreimage {
     fn into_dart(self) -> support::DartAbi {
-        vec![self.internal.into_dart()].into_dart()
+        vec![self.0.into_dart()].into_dart()
     }
 }
 impl support::IntoDartExceptPrimitive for PaymentPreimage {}
 
 impl support::IntoDart for PaymentSecret {
     fn into_dart(self) -> support::DartAbi {
-        vec![self.internal.into_dart()].into_dart()
+        vec![self.0.into_dart()].into_dart()
     }
 }
 impl support::IntoDartExceptPrimitive for PaymentSecret {}
@@ -959,44 +769,31 @@ impl support::IntoDart for PaymentStatus {
             Self::Pending => 0,
             Self::Succeeded => 1,
             Self::Failed => 2,
-            Self::SendingFailed => 3,
         }
         .into_dart()
     }
 }
 impl support::IntoDartExceptPrimitive for PaymentStatus {}
-impl support::IntoDart for PeerDetails {
-    fn into_dart(self) -> support::DartAbi {
-        vec![
-            self.node_id.into_dart(),
-            self.address.into_dart(),
-            self.is_connected.into_dart(),
-        ]
-        .into_dart()
-    }
-}
-impl support::IntoDartExceptPrimitive for PeerDetails {}
-
 impl support::IntoDart for PublicKey {
     fn into_dart(self) -> support::DartAbi {
-        vec![self.internal.into_dart()].into_dart()
+        vec![self.key_hex.into_dart()].into_dart()
     }
 }
 impl support::IntoDartExceptPrimitive for PublicKey {}
 
+impl support::IntoDart for SocketAddr {
+    fn into_dart(self) -> support::DartAbi {
+        vec![self.ip.into_dart(), self.port.into_dart()].into_dart()
+    }
+}
+impl support::IntoDartExceptPrimitive for SocketAddr {}
+
 impl support::IntoDart for Txid {
     fn into_dart(self) -> support::DartAbi {
-        vec![self.internal.into_dart()].into_dart()
+        vec![self.0.into_dart()].into_dart()
     }
 }
 impl support::IntoDartExceptPrimitive for Txid {}
-
-impl support::IntoDart for UserChannelId {
-    fn into_dart(self) -> support::DartAbi {
-        vec![self.internal.into_dart()].into_dart()
-    }
-}
-impl support::IntoDartExceptPrimitive for UserChannelId {}
 
 // Section: executor
 

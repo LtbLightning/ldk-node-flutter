@@ -24,9 +24,9 @@ class _MyAppState extends State<MyApp> {
   ldk.PublicKey? bobNodeId;
   int aliceBalance = 0;
   String displayText = "";
-  ldk.NetAddress? bobAddr;
+  ldk.SocketAddr? bobAddr;
   ldk.Invoice? invoice;
-  ldk.ChannelId? channelId;
+  ldk.U8Array32? channelId;
 
   @override
   void initState() {
@@ -34,19 +34,18 @@ class _MyAppState extends State<MyApp> {
     super.initState();
   }
 
-  Future<ldk.Config> initLdkConfig(String path, ldk.NetAddress address) async {
+  Future<ldk.Config> initLdkConfig(String path, ldk.SocketAddr address) async {
     // Please replace this url with your Electrum RPC Api url
     // Please use 10.0.2.2, instead of 0.0.0.0
     final directory = await getApplicationDocumentsDirectory();
     final nodePath = "${directory.path}/ldk_cache/$path";
+    final esploraUrl =
+        Platform.isAndroid ? "http://10.0.2.2:3002" : "http://0.0.0.0:3002";
     final config = ldk.Config(
         storageDirPath: nodePath,
-        network: ldk.Network.testnet,
+        esploraServerUrl: esploraUrl,
+        network: ldk.Network.regtest,
         listeningAddress: address,
-        onchainWalletSyncIntervalSecs: 60,
-        walletSyncIntervalSecs: 20,
-        feeRateCacheUpdateIntervalSecs: 600,
-        logLevel: ldk.LogLevel.debug,
         defaultCltvExpiryDelta: 144);
     return config;
   }
@@ -58,38 +57,25 @@ class _MyAppState extends State<MyApp> {
 
   initAliceNode() async {
     final aliceConfig = await initLdkConfig(
-        'alice', ldk.NetAddress.iPv4(addr: "0.0.0.0", port: 3006));
+        'alice', const ldk.SocketAddr(ip: "0.0.0.0", port: 3006));
     ldk.Builder aliceBuilder = ldk.Builder.fromConfig(config: aliceConfig);
-    aliceNode = await aliceBuilder
-        .setEntropyBip39Mnemonic(
-            mnemonic: ldk.Mnemonic(
-                internal:
-                    'cart super leaf clinic pistol plug replace close super tooth wealth usage'))
-        .setEsploraServer(
-            esploraServerUrl: 'https://blockstream.info/testnet/api')
-        .build();
+    aliceBuilder.setEntropyBip39Mnemonic(
+        mnemonic:
+            'certain sense kiss guide crumble hint transfer crime much stereo warm coral');
+    aliceNode = await aliceBuilder.build();
     await aliceNode.start();
     final res = await aliceNode.nodeId();
     setState(() {
       aliceNodeId = res;
-      displayText = "${aliceNodeId?.internal} started successfully";
+      displayText = "${aliceNodeId?.keyHex} started successfully";
     });
   }
 
   initBobNode() async {
     final bobConfig = await initLdkConfig(
-        "bob", ldk.NetAddress.iPv4(addr: "0.0.0.0", port: 3008));
+        "bob", const ldk.SocketAddr(ip: "0.0.0.0", port: 8077));
     ldk.Builder bobBuilder = ldk.Builder.fromConfig(config: bobConfig);
-    bobNode = await bobBuilder
-        .setEntropyBip39Mnemonic(
-            mnemonic: ldk.Mnemonic(
-                internal:
-                    'puppy interest whip tonight dad never sudden response push zone pig patch'))
-        .setEsploraServer(
-            esploraServerUrl: Platform.isAndroid
-                ? "http://10.0.2.2:3002"
-                : "http://0.0.0.0:3002")
-        .build();
+    bobNode = await bobBuilder.build();
     await bobNode.start();
     final res = await bobNode.nodeId();
     setState(() {
@@ -123,8 +109,8 @@ class _MyAppState extends State<MyApp> {
       if (res.isNotEmpty) {
         print("======Channels========");
         for (var e in res) {
-          print("nodeId: ${aliceNodeId!.internal}");
-          print("channelId: ${e.channelId.internal}");
+          print("nodeId: ${aliceNodeId!.keyHex}");
+          print("channelId: ${e.channelId}");
           print("isChannelReady: ${e.isChannelReady}");
           print("isUsable: ${e.isUsable}");
           print("channelValueSatoshis: ${e.outboundCapacityMsat}");
@@ -142,9 +128,9 @@ class _MyAppState extends State<MyApp> {
           print("======Payments========");
           for (var e in res) {
             print("amountMsat: ${e.amountMsat}");
-            print("hash: ${e.hash.internal}");
-            print("preimage: ${e.preimage!.internal}");
-            print("secret: ${e.secret!.internal}");
+            print("hash: ${e.hash.field0}");
+            print("preimage: ${e.preimage!.field0}");
+            print("secret: ${e.secret!.field0}");
           }
         }
       }
@@ -160,7 +146,7 @@ class _MyAppState extends State<MyApp> {
       final res = await aliceNode.removePayment(paymentHash: lastPayment.hash);
       if (res) {
         setState(() {
-          displayText = "${lastPayment.hash.internal} removed";
+          displayText = "${lastPayment.hash.field0} removed";
         });
       } else {
         displayText = "payment not found";
@@ -179,13 +165,13 @@ class _MyAppState extends State<MyApp> {
     final alice = await aliceNode.newFundingAddress();
     final bob = await bobNode.newFundingAddress();
     if (kDebugMode) {
-      print("alice's address: ${alice.internal}");
-      print("bob's address: ${bob.internal}");
+      print("alice's address: ${alice.addressHex}");
+      print("bob's address: ${bob.addressHex}");
     }
     setState(() {
-      displayText = alice.internal;
+      displayText = alice.addressHex;
     });
-    return [alice.internal, bob.internal];
+    return [alice.addressHex, bob.addressHex];
   }
 
   getListeningAddresses() async {
@@ -195,8 +181,8 @@ class _MyAppState extends State<MyApp> {
       bobAddr = bob;
     });
     if (kDebugMode) {
-      print("alice's listeningAddress : ${alice!.addr}:${alice.port}");
-      print("bob's listeningAddress: ${bob!.addr}:${bob.port}");
+      print("alice's listeningAddress : ${alice!.ip}:${alice.port}");
+      print("bob's listeningAddress: ${bob!.ip}:${bob.port}");
     }
   }
 
@@ -246,17 +232,17 @@ class _MyAppState extends State<MyApp> {
 
   Future handleEvent(ldk.Node node) async {
     final res = await node.nextEvent();
-    res?.map(paymentSuccessful: (e) {
+    res.map(paymentSuccessful: (e) {
       if (kDebugMode) {
-        print("paymentSuccessful: ${e.paymentHash.internal}");
+        print("paymentSuccessful: ${e.paymentHash.field0}");
       }
     }, paymentFailed: (e) {
       if (kDebugMode) {
-        print("paymentFailed: ${e.paymentHash.internal}");
+        print("paymentFailed: ${e.paymentHash.field0}");
       }
     }, paymentReceived: (e) {
       if (kDebugMode) {
-        print("paymentReceived: ${e.paymentHash.internal}");
+        print("paymentReceived: ${e.paymentHash.field0}");
       }
     }, channelReady: (e) {
       if (kDebugMode) {
@@ -545,7 +531,7 @@ class _MyAppState extends State<MyApp> {
                   Text(
                     aliceNodeId == null
                         ? "Node not initialized"
-                        : "@Id_:${aliceNodeId!.internal}",
+                        : "@Id_:${aliceNodeId!.keyHex}",
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                     textAlign: TextAlign.center,
