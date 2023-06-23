@@ -1,6 +1,6 @@
 name: ldk_node
 description: A ready-to-go Lightning node library built using LDK and BDK.
-version: 0.1.1
+version: 0.1.2
 homepage: https://github.com/LtbLightning/ldk-node-flutter
 
 environment:
@@ -12,12 +12,12 @@ dependencies:
   ffi: ^2.0.1
   flutter:
     sdk: flutter
-  flutter_rust_bridge: ">1.77.0 <= 1.77.1"
+  flutter_rust_bridge: ">1.77.1 <= 1.78.0"
   freezed: ^2.3.5
   freezed_annotation: ^2.2.0
   meta: ^1.8.0
   uuid: ^3.0.7
-
+  path_provider: ^2.0.15
 dev_dependencies:
   flutter_test:
     sdk: flutter

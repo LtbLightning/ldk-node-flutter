@@ -1,6 +1,6 @@
 [package]
 name = "rust_ldk_node"
-version = "0.1.1"
+version = "0.1.2"
 license = "MIT OR Apache-2.0"
 edition = "2018"
 
@@ -9,18 +9,18 @@ crate-type = ["staticlib", "cdylib"]
 
 
 [build-dependencies]
-flutter_rust_bridge_codegen = { version = "= 1.77.1"  }
+flutter_rust_bridge_codegen = { version = "=1.78.0"  }
 
 
 [dependencies]
-flutter_rust_bridge = { version = "= 1.77.1"  }
+flutter_rust_bridge = { version = "=1.78.0"  }
 
-log = "0.4.17"
-simplelog = "0.12.0"
+log = "0.4.19"
+simplelog = "0.12.1"
 lazy_static = "1.4.0"
-once_cell = "1.16.0"
-ldk-node = "0.1.0-alpha"
-anyhow= { version = "1.0.70"}
+once_cell = "1.18.0"
+ldk-node = "0.1.0"
+anyhow= { version = "1.0.71"}
 
 [profile.release]
 opt-level = 'z'     # Optimize for size

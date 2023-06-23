@@ -1,3 +1,8 @@
+## [0.1.2]
+
+## [0.1.1-alpha]
+Support `Dart 3` and `Flutter 3.10`
+
 ## [0.1.1]
 Support `Dart 3` and `Flutter 3.10`
 
