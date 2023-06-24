@@ -14,6 +14,15 @@ typedef struct wire_uint_8_list {
   int32_t len;
 } wire_uint_8_list;
 
+typedef struct wire_PublicKey {
+  struct wire_uint_8_list *internal;
+} wire_PublicKey;
+
+typedef struct wire_list_public_key {
+  struct wire_PublicKey *ptr;
+  int32_t len;
+} wire_list_public_key;
+
 typedef struct wire_NetAddress_IPv4 {
   struct wire_uint_8_list *addr;
   uint16_t port;
@@ -40,6 +49,7 @@ typedef struct wire_Config {
   uint64_t onchain_wallet_sync_interval_secs;
   uint64_t wallet_sync_interval_secs;
   uint64_t fee_rate_cache_update_interval_secs;
+  struct wire_list_public_key *trusted_peers_0conf;
   int32_t log_level;
   struct wire_NetAddress *listening_address;
   uint32_t default_cltv_expiry_delta;
@@ -104,21 +114,25 @@ typedef struct wire_GossipSourceConfig {
   union GossipSourceConfigKind *kind;
 } wire_GossipSourceConfig;
 
-typedef struct wire_MutexArcNodeSqliteStore {
+typedef struct wire_MutexNodeSqliteStore {
   const void *ptr;
-} wire_MutexArcNodeSqliteStore;
+} wire_MutexNodeSqliteStore;
 
 typedef struct wire_NodePointer {
-  struct wire_MutexArcNodeSqliteStore field0;
+  struct wire_MutexNodeSqliteStore field0;
 } wire_NodePointer;
 
 typedef struct wire_Address {
   struct wire_uint_8_list *internal;
 } wire_Address;
 
-typedef struct wire_PublicKey {
-  struct wire_uint_8_list *internal;
-} wire_PublicKey;
+typedef struct wire_ChannelConfig {
+  uint32_t forwarding_fee_proportional_millionths;
+  uint32_t forwarding_fee_base_msat;
+  uint16_t cltv_expiry_delta;
+  uint64_t max_dust_htlc_exposure_msat;
+  uint64_t force_close_avoidance_max_fee_satoshis;
+} wire_ChannelConfig;
 
 typedef struct wire_ChannelId {
   struct wire_uint_8_list *internal;
@@ -164,18 +178,7 @@ void wire_node_id__method__NodePointer(int64_t port_, struct wire_NodePointer *t
 
 void wire_listening_address__method__NodePointer(int64_t port_, struct wire_NodePointer *that);
 
-void wire_new_funding_address__method__NodePointer(int64_t port_, struct wire_NodePointer *that);
-
-void wire_on_chain_balance__method__NodePointer(int64_t port_, struct wire_NodePointer *that);
-
-void wire_send_to_on_chain_address__method__NodePointer(int64_t port_,
-                                                        struct wire_NodePointer *that,
-                                                        struct wire_Address *address,
-                                                        uint64_t amount_sats);
-
-void wire_send_all_to_on_chain_address__method__NodePointer(int64_t port_,
-                                                            struct wire_NodePointer *that,
-                                                            struct wire_Address *address);
+void wire_new_onchain_address__method__NodePointer(int64_t port_, struct wire_NodePointer *that);
 
 void wire_spendable_onchain_balance_sats__method__NodePointer(int64_t port_,
                                                               struct wire_NodePointer *that);
@@ -183,13 +186,22 @@ void wire_spendable_onchain_balance_sats__method__NodePointer(int64_t port_,
 void wire_total_onchain_balance_sats__method__NodePointer(int64_t port_,
                                                           struct wire_NodePointer *that);
 
+void wire_send_to_onchain_address__method__NodePointer(int64_t port_,
+                                                       struct wire_NodePointer *that,
+                                                       struct wire_Address *address,
+                                                       uint64_t amount_sats);
+
+void wire_send_all_to_onchain_address__method__NodePointer(int64_t port_,
+                                                           struct wire_NodePointer *that,
+                                                           struct wire_Address *address);
+
 void wire_list_channels__method__NodePointer(int64_t port_, struct wire_NodePointer *that);
 
 void wire_connect__method__NodePointer(int64_t port_,
                                        struct wire_NodePointer *that,
                                        struct wire_PublicKey *node_id,
                                        struct wire_NetAddress *address,
-                                       bool permanently);
+                                       bool persist);
 
 void wire_disconnect__method__NodePointer(int64_t port_,
                                           struct wire_NodePointer *that,
@@ -201,7 +213,8 @@ void wire_connect_open_channel__method__NodePointer(int64_t port_,
                                                     struct wire_PublicKey *node_id,
                                                     uint64_t channel_amount_sats,
                                                     uint64_t *push_to_counterparty_msat,
-                                                    bool announce_channel);
+                                                    bool announce_channel,
+                                                    struct wire_ChannelConfig *channel_config);
 
 void wire_sync_wallets__method__NodePointer(int64_t port_, struct wire_NodePointer *that);
 
@@ -209,6 +222,12 @@ void wire_close_channel__method__NodePointer(int64_t port_,
                                              struct wire_NodePointer *that,
                                              struct wire_ChannelId *channel_id,
                                              struct wire_PublicKey *counterparty_node_id);
+
+void wire_update_channel_config__method__NodePointer(int64_t port_,
+                                                     struct wire_NodePointer *that,
+                                                     struct wire_ChannelId *channel_id,
+                                                     struct wire_PublicKey *counterparty_node_id,
+                                                     struct wire_ChannelConfig *channel_config);
 
 void wire_send_payment__method__NodePointer(int64_t port_,
                                             struct wire_NodePointer *that,
@@ -261,11 +280,13 @@ void wire_verify_signature__method__NodePointer(int64_t port_,
                                                 struct wire_uint_8_list *sig,
                                                 struct wire_PublicKey *pkey);
 
-struct wire_MutexArcNodeSqliteStore new_MutexArcNodeSqliteStore(void);
+struct wire_MutexNodeSqliteStore new_MutexNodeSqliteStore(void);
 
 struct wire_Address *new_box_autoadd_address_0(void);
 
 struct wire_ChainDataSourceConfig *new_box_autoadd_chain_data_source_config_0(void);
+
+struct wire_ChannelConfig *new_box_autoadd_channel_config_0(void);
 
 struct wire_ChannelId *new_box_autoadd_channel_id_0(void);
 
@@ -289,11 +310,13 @@ struct wire_PublicKey *new_box_autoadd_public_key_0(void);
 
 uint64_t *new_box_autoadd_u64_0(uint64_t value);
 
+struct wire_list_public_key *new_list_public_key_0(int32_t len);
+
 struct wire_uint_8_list *new_uint_8_list_0(int32_t len);
 
-void drop_opaque_MutexArcNodeSqliteStore(const void *ptr);
+void drop_opaque_MutexNodeSqliteStore(const void *ptr);
 
-const void *share_opaque_MutexArcNodeSqliteStore(const void *ptr);
+const void *share_opaque_MutexNodeSqliteStore(const void *ptr);
 
 union ChainDataSourceConfigKind *inflate_ChainDataSourceConfig_Esplora(void);
 
@@ -321,18 +344,18 @@ static int64_t dummy_method_to_enforce_bundling(void) {
     dummy_var ^= ((int64_t) (void*) wire_wait_until_next_event__method__NodePointer);
     dummy_var ^= ((int64_t) (void*) wire_node_id__method__NodePointer);
     dummy_var ^= ((int64_t) (void*) wire_listening_address__method__NodePointer);
-    dummy_var ^= ((int64_t) (void*) wire_new_funding_address__method__NodePointer);
-    dummy_var ^= ((int64_t) (void*) wire_on_chain_balance__method__NodePointer);
-    dummy_var ^= ((int64_t) (void*) wire_send_to_on_chain_address__method__NodePointer);
-    dummy_var ^= ((int64_t) (void*) wire_send_all_to_on_chain_address__method__NodePointer);
+    dummy_var ^= ((int64_t) (void*) wire_new_onchain_address__method__NodePointer);
     dummy_var ^= ((int64_t) (void*) wire_spendable_onchain_balance_sats__method__NodePointer);
     dummy_var ^= ((int64_t) (void*) wire_total_onchain_balance_sats__method__NodePointer);
+    dummy_var ^= ((int64_t) (void*) wire_send_to_onchain_address__method__NodePointer);
+    dummy_var ^= ((int64_t) (void*) wire_send_all_to_onchain_address__method__NodePointer);
     dummy_var ^= ((int64_t) (void*) wire_list_channels__method__NodePointer);
     dummy_var ^= ((int64_t) (void*) wire_connect__method__NodePointer);
     dummy_var ^= ((int64_t) (void*) wire_disconnect__method__NodePointer);
     dummy_var ^= ((int64_t) (void*) wire_connect_open_channel__method__NodePointer);
     dummy_var ^= ((int64_t) (void*) wire_sync_wallets__method__NodePointer);
     dummy_var ^= ((int64_t) (void*) wire_close_channel__method__NodePointer);
+    dummy_var ^= ((int64_t) (void*) wire_update_channel_config__method__NodePointer);
     dummy_var ^= ((int64_t) (void*) wire_send_payment__method__NodePointer);
     dummy_var ^= ((int64_t) (void*) wire_send_payment_using_amount__method__NodePointer);
     dummy_var ^= ((int64_t) (void*) wire_send_spontaneous_payment__method__NodePointer);
@@ -345,9 +368,10 @@ static int64_t dummy_method_to_enforce_bundling(void) {
     dummy_var ^= ((int64_t) (void*) wire_list_peers__method__NodePointer);
     dummy_var ^= ((int64_t) (void*) wire_sign_message__method__NodePointer);
     dummy_var ^= ((int64_t) (void*) wire_verify_signature__method__NodePointer);
-    dummy_var ^= ((int64_t) (void*) new_MutexArcNodeSqliteStore);
+    dummy_var ^= ((int64_t) (void*) new_MutexNodeSqliteStore);
     dummy_var ^= ((int64_t) (void*) new_box_autoadd_address_0);
     dummy_var ^= ((int64_t) (void*) new_box_autoadd_chain_data_source_config_0);
+    dummy_var ^= ((int64_t) (void*) new_box_autoadd_channel_config_0);
     dummy_var ^= ((int64_t) (void*) new_box_autoadd_channel_id_0);
     dummy_var ^= ((int64_t) (void*) new_box_autoadd_config_0);
     dummy_var ^= ((int64_t) (void*) new_box_autoadd_entropy_source_config_0);
@@ -359,9 +383,10 @@ static int64_t dummy_method_to_enforce_bundling(void) {
     dummy_var ^= ((int64_t) (void*) new_box_autoadd_payment_hash_0);
     dummy_var ^= ((int64_t) (void*) new_box_autoadd_public_key_0);
     dummy_var ^= ((int64_t) (void*) new_box_autoadd_u64_0);
+    dummy_var ^= ((int64_t) (void*) new_list_public_key_0);
     dummy_var ^= ((int64_t) (void*) new_uint_8_list_0);
-    dummy_var ^= ((int64_t) (void*) drop_opaque_MutexArcNodeSqliteStore);
-    dummy_var ^= ((int64_t) (void*) share_opaque_MutexArcNodeSqliteStore);
+    dummy_var ^= ((int64_t) (void*) drop_opaque_MutexNodeSqliteStore);
+    dummy_var ^= ((int64_t) (void*) share_opaque_MutexNodeSqliteStore);
     dummy_var ^= ((int64_t) (void*) inflate_ChainDataSourceConfig_Esplora);
     dummy_var ^= ((int64_t) (void*) inflate_EntropySourceConfig_SeedFile);
     dummy_var ^= ((int64_t) (void*) inflate_EntropySourceConfig_SeedBytes);

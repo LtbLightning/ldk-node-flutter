@@ -60,38 +60,11 @@ pub extern "C" fn wire_listening_address__method__NodePointer(
 }
 
 #[no_mangle]
-pub extern "C" fn wire_new_funding_address__method__NodePointer(
+pub extern "C" fn wire_new_onchain_address__method__NodePointer(
     port_: i64,
     that: *mut wire_NodePointer,
 ) {
-    wire_new_funding_address__method__NodePointer_impl(port_, that)
-}
-
-#[no_mangle]
-pub extern "C" fn wire_on_chain_balance__method__NodePointer(
-    port_: i64,
-    that: *mut wire_NodePointer,
-) {
-    wire_on_chain_balance__method__NodePointer_impl(port_, that)
-}
-
-#[no_mangle]
-pub extern "C" fn wire_send_to_on_chain_address__method__NodePointer(
-    port_: i64,
-    that: *mut wire_NodePointer,
-    address: *mut wire_Address,
-    amount_sats: u64,
-) {
-    wire_send_to_on_chain_address__method__NodePointer_impl(port_, that, address, amount_sats)
-}
-
-#[no_mangle]
-pub extern "C" fn wire_send_all_to_on_chain_address__method__NodePointer(
-    port_: i64,
-    that: *mut wire_NodePointer,
-    address: *mut wire_Address,
-) {
-    wire_send_all_to_on_chain_address__method__NodePointer_impl(port_, that, address)
+    wire_new_onchain_address__method__NodePointer_impl(port_, that)
 }
 
 #[no_mangle]
@@ -111,6 +84,25 @@ pub extern "C" fn wire_total_onchain_balance_sats__method__NodePointer(
 }
 
 #[no_mangle]
+pub extern "C" fn wire_send_to_onchain_address__method__NodePointer(
+    port_: i64,
+    that: *mut wire_NodePointer,
+    address: *mut wire_Address,
+    amount_sats: u64,
+) {
+    wire_send_to_onchain_address__method__NodePointer_impl(port_, that, address, amount_sats)
+}
+
+#[no_mangle]
+pub extern "C" fn wire_send_all_to_onchain_address__method__NodePointer(
+    port_: i64,
+    that: *mut wire_NodePointer,
+    address: *mut wire_Address,
+) {
+    wire_send_all_to_onchain_address__method__NodePointer_impl(port_, that, address)
+}
+
+#[no_mangle]
 pub extern "C" fn wire_list_channels__method__NodePointer(port_: i64, that: *mut wire_NodePointer) {
     wire_list_channels__method__NodePointer_impl(port_, that)
 }
@@ -121,9 +113,9 @@ pub extern "C" fn wire_connect__method__NodePointer(
     that: *mut wire_NodePointer,
     node_id: *mut wire_PublicKey,
     address: *mut wire_NetAddress,
-    permanently: bool,
+    persist: bool,
 ) {
-    wire_connect__method__NodePointer_impl(port_, that, node_id, address, permanently)
+    wire_connect__method__NodePointer_impl(port_, that, node_id, address, persist)
 }
 
 #[no_mangle]
@@ -144,6 +136,7 @@ pub extern "C" fn wire_connect_open_channel__method__NodePointer(
     channel_amount_sats: u64,
     push_to_counterparty_msat: *mut u64,
     announce_channel: bool,
+    channel_config: *mut wire_ChannelConfig,
 ) {
     wire_connect_open_channel__method__NodePointer_impl(
         port_,
@@ -153,6 +146,7 @@ pub extern "C" fn wire_connect_open_channel__method__NodePointer(
         channel_amount_sats,
         push_to_counterparty_msat,
         announce_channel,
+        channel_config,
     )
 }
 
@@ -169,6 +163,23 @@ pub extern "C" fn wire_close_channel__method__NodePointer(
     counterparty_node_id: *mut wire_PublicKey,
 ) {
     wire_close_channel__method__NodePointer_impl(port_, that, channel_id, counterparty_node_id)
+}
+
+#[no_mangle]
+pub extern "C" fn wire_update_channel_config__method__NodePointer(
+    port_: i64,
+    that: *mut wire_NodePointer,
+    channel_id: *mut wire_ChannelId,
+    counterparty_node_id: *mut wire_PublicKey,
+    channel_config: *mut wire_ChannelConfig,
+) {
+    wire_update_channel_config__method__NodePointer_impl(
+        port_,
+        that,
+        channel_id,
+        counterparty_node_id,
+        channel_config,
+    )
 }
 
 #[no_mangle]
@@ -292,8 +303,8 @@ pub extern "C" fn wire_verify_signature__method__NodePointer(
 // Section: allocate functions
 
 #[no_mangle]
-pub extern "C" fn new_MutexArcNodeSqliteStore() -> wire_MutexArcNodeSqliteStore {
-    wire_MutexArcNodeSqliteStore::new_with_null_ptr()
+pub extern "C" fn new_MutexNodeSqliteStore() -> wire_MutexNodeSqliteStore {
+    wire_MutexNodeSqliteStore::new_with_null_ptr()
 }
 
 #[no_mangle]
@@ -304,6 +315,11 @@ pub extern "C" fn new_box_autoadd_address_0() -> *mut wire_Address {
 #[no_mangle]
 pub extern "C" fn new_box_autoadd_chain_data_source_config_0() -> *mut wire_ChainDataSourceConfig {
     support::new_leak_box_ptr(wire_ChainDataSourceConfig::new_with_null_ptr())
+}
+
+#[no_mangle]
+pub extern "C" fn new_box_autoadd_channel_config_0() -> *mut wire_ChannelConfig {
+    support::new_leak_box_ptr(wire_ChannelConfig::new_with_null_ptr())
 }
 
 #[no_mangle]
@@ -362,6 +378,15 @@ pub extern "C" fn new_box_autoadd_u64_0(value: u64) -> *mut u64 {
 }
 
 #[no_mangle]
+pub extern "C" fn new_list_public_key_0(len: i32) -> *mut wire_list_public_key {
+    let wrap = wire_list_public_key {
+        ptr: support::new_leak_vec_ptr(<wire_PublicKey>::new_with_null_ptr(), len),
+        len,
+    };
+    support::new_leak_box_ptr(wrap)
+}
+
+#[no_mangle]
 pub extern "C" fn new_uint_8_list_0(len: i32) -> *mut wire_uint_8_list {
     let ans = wire_uint_8_list {
         ptr: support::new_leak_vec_ptr(Default::default(), len),
@@ -373,24 +398,24 @@ pub extern "C" fn new_uint_8_list_0(len: i32) -> *mut wire_uint_8_list {
 // Section: related functions
 
 #[no_mangle]
-pub extern "C" fn drop_opaque_MutexArcNodeSqliteStore(ptr: *const c_void) {
+pub extern "C" fn drop_opaque_MutexNodeSqliteStore(ptr: *const c_void) {
     unsafe {
-        Arc::<Mutex<Arc<Node<SqliteStore>>>>::decrement_strong_count(ptr as _);
+        Arc::<Mutex<Node<SqliteStore>>>::decrement_strong_count(ptr as _);
     }
 }
 
 #[no_mangle]
-pub extern "C" fn share_opaque_MutexArcNodeSqliteStore(ptr: *const c_void) -> *const c_void {
+pub extern "C" fn share_opaque_MutexNodeSqliteStore(ptr: *const c_void) -> *const c_void {
     unsafe {
-        Arc::<Mutex<Arc<Node<SqliteStore>>>>::increment_strong_count(ptr as _);
+        Arc::<Mutex<Node<SqliteStore>>>::increment_strong_count(ptr as _);
         ptr
     }
 }
 
 // Section: impl Wire2Api
 
-impl Wire2Api<RustOpaque<Mutex<Arc<Node<SqliteStore>>>>> for wire_MutexArcNodeSqliteStore {
-    fn wire2api(self) -> RustOpaque<Mutex<Arc<Node<SqliteStore>>>> {
+impl Wire2Api<RustOpaque<Mutex<Node<SqliteStore>>>> for wire_MutexNodeSqliteStore {
+    fn wire2api(self) -> RustOpaque<Mutex<Node<SqliteStore>>> {
         unsafe { support::opaque_from_dart(self.ptr as _) }
     }
 }
@@ -418,6 +443,12 @@ impl Wire2Api<ChainDataSourceConfig> for *mut wire_ChainDataSourceConfig {
     fn wire2api(self) -> ChainDataSourceConfig {
         let wrap = unsafe { support::box_from_leak_ptr(self) };
         Wire2Api::<ChainDataSourceConfig>::wire2api(*wrap).into()
+    }
+}
+impl Wire2Api<ChannelConfig> for *mut wire_ChannelConfig {
+    fn wire2api(self) -> ChannelConfig {
+        let wrap = unsafe { support::box_from_leak_ptr(self) };
+        Wire2Api::<ChannelConfig>::wire2api(*wrap).into()
     }
 }
 impl Wire2Api<ChannelId> for *mut wire_ChannelId {
@@ -497,6 +528,21 @@ impl Wire2Api<ChainDataSourceConfig> for wire_ChainDataSourceConfig {
         }
     }
 }
+impl Wire2Api<ChannelConfig> for wire_ChannelConfig {
+    fn wire2api(self) -> ChannelConfig {
+        ChannelConfig {
+            forwarding_fee_proportional_millionths: self
+                .forwarding_fee_proportional_millionths
+                .wire2api(),
+            forwarding_fee_base_msat: self.forwarding_fee_base_msat.wire2api(),
+            cltv_expiry_delta: self.cltv_expiry_delta.wire2api(),
+            max_dust_htlc_exposure_msat: self.max_dust_htlc_exposure_msat.wire2api(),
+            force_close_avoidance_max_fee_satoshis: self
+                .force_close_avoidance_max_fee_satoshis
+                .wire2api(),
+        }
+    }
+}
 impl Wire2Api<ChannelId> for wire_ChannelId {
     fn wire2api(self) -> ChannelId {
         ChannelId {
@@ -514,6 +560,7 @@ impl Wire2Api<Config> for wire_Config {
             fee_rate_cache_update_interval_secs: self
                 .fee_rate_cache_update_interval_secs
                 .wire2api(),
+            trusted_peers_0conf: self.trusted_peers_0conf.wire2api(),
             log_level: self.log_level.wire2api(),
             listening_address: self.listening_address.wire2api(),
             default_cltv_expiry_delta: self.default_cltv_expiry_delta.wire2api(),
@@ -564,6 +611,15 @@ impl Wire2Api<Invoice> for wire_Invoice {
         Invoice {
             internal: self.internal.wire2api(),
         }
+    }
+}
+impl Wire2Api<Vec<PublicKey>> for *mut wire_list_public_key {
+    fn wire2api(self) -> Vec<PublicKey> {
+        let vec = unsafe {
+            let wrap = support::box_from_leak_ptr(self);
+            support::vec_from_leak_ptr(wrap.ptr, wrap.len)
+        };
+        vec.into_iter().map(Wire2Api::wire2api).collect()
     }
 }
 
@@ -643,7 +699,7 @@ impl Wire2Api<Vec<u8>> for *mut wire_uint_8_list {
 
 #[repr(C)]
 #[derive(Clone)]
-pub struct wire_MutexArcNodeSqliteStore {
+pub struct wire_MutexNodeSqliteStore {
     ptr: *const core::ffi::c_void,
 }
 
@@ -651,6 +707,16 @@ pub struct wire_MutexArcNodeSqliteStore {
 #[derive(Clone)]
 pub struct wire_Address {
     internal: *mut wire_uint_8_list,
+}
+
+#[repr(C)]
+#[derive(Clone)]
+pub struct wire_ChannelConfig {
+    forwarding_fee_proportional_millionths: u32,
+    forwarding_fee_base_msat: u32,
+    cltv_expiry_delta: u16,
+    max_dust_htlc_exposure_msat: u64,
+    force_close_avoidance_max_fee_satoshis: u64,
 }
 
 #[repr(C)]
@@ -667,6 +733,7 @@ pub struct wire_Config {
     onchain_wallet_sync_interval_secs: u64,
     wallet_sync_interval_secs: u64,
     fee_rate_cache_update_interval_secs: u64,
+    trusted_peers_0conf: *mut wire_list_public_key,
     log_level: i32,
     listening_address: *mut wire_NetAddress,
     default_cltv_expiry_delta: u32,
@@ -680,6 +747,13 @@ pub struct wire_Invoice {
 
 #[repr(C)]
 #[derive(Clone)]
+pub struct wire_list_public_key {
+    ptr: *mut wire_PublicKey,
+    len: i32,
+}
+
+#[repr(C)]
+#[derive(Clone)]
 pub struct wire_Mnemonic {
     internal: *mut wire_uint_8_list,
 }
@@ -687,7 +761,7 @@ pub struct wire_Mnemonic {
 #[repr(C)]
 #[derive(Clone)]
 pub struct wire_NodePointer {
-    field0: wire_MutexArcNodeSqliteStore,
+    field0: wire_MutexNodeSqliteStore,
 }
 
 #[repr(C)]
@@ -821,7 +895,7 @@ impl<T> NewWithNullPtr for *mut T {
     }
 }
 
-impl NewWithNullPtr for wire_MutexArcNodeSqliteStore {
+impl NewWithNullPtr for wire_MutexNodeSqliteStore {
     fn new_with_null_ptr() -> Self {
         Self {
             ptr: core::ptr::null(),
@@ -867,6 +941,24 @@ pub extern "C" fn inflate_ChainDataSourceConfig_Esplora() -> *mut ChainDataSourc
     })
 }
 
+impl NewWithNullPtr for wire_ChannelConfig {
+    fn new_with_null_ptr() -> Self {
+        Self {
+            forwarding_fee_proportional_millionths: Default::default(),
+            forwarding_fee_base_msat: Default::default(),
+            cltv_expiry_delta: Default::default(),
+            max_dust_htlc_exposure_msat: Default::default(),
+            force_close_avoidance_max_fee_satoshis: Default::default(),
+        }
+    }
+}
+
+impl Default for wire_ChannelConfig {
+    fn default() -> Self {
+        Self::new_with_null_ptr()
+    }
+}
+
 impl NewWithNullPtr for wire_ChannelId {
     fn new_with_null_ptr() -> Self {
         Self {
@@ -889,6 +981,7 @@ impl NewWithNullPtr for wire_Config {
             onchain_wallet_sync_interval_secs: Default::default(),
             wallet_sync_interval_secs: Default::default(),
             fee_rate_cache_update_interval_secs: Default::default(),
+            trusted_peers_0conf: core::ptr::null_mut(),
             log_level: Default::default(),
             listening_address: core::ptr::null_mut(),
             default_cltv_expiry_delta: Default::default(),
@@ -1035,7 +1128,7 @@ pub extern "C" fn inflate_NetAddress_IPv6() -> *mut NetAddressKind {
 impl NewWithNullPtr for wire_NodePointer {
     fn new_with_null_ptr() -> Self {
         Self {
-            field0: wire_MutexArcNodeSqliteStore::new_with_null_ptr(),
+            field0: wire_MutexNodeSqliteStore::new_with_null_ptr(),
         }
     }
 }

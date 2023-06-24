@@ -6,6 +6,58 @@ use std::net::SocketAddr;
 use std::str::FromStr;
 use std::string::ToString;
 
+
+
+
+///Options which apply on a per-channel basis and may change at runtime or based on negotiation with our counterparty.
+pub struct ChannelConfig {
+    ///Amount (in millionths of a satoshi) charged per satoshi for payments forwarded outbound over the channel. This may be allowed to change at runtime in a later update, however doing so must result in update messages sent to notify all nodes of our updated relay fee.
+    ///
+    ///Default value: 0.
+    pub forwarding_fee_proportional_millionths: u32,
+     /// Amount (in milli-satoshi) charged for payments forwarded outbound over the channel, in excess of forwardingFeeProportionalMillionths. This may be allowed to change at runtime in a later update, however doing so must result in update messages sent to notify all nodes of our updated relay fee.
+     ///
+     /// The default value of a single satoshi roughly matches the market rate on many routing nodes as of July 2021. Adjusting it upwards or downwards may change whether nodes route through this node.
+     ///
+     ///Default value: 1000.
+    pub forwarding_fee_base_msat: u32,
+    ///The difference in the CLTV value between incoming HTLCs and an outbound HTLC forwarded over the channel this config applies to.
+    ///
+    /// Thus, for HTLC-encumbered balances to be enforced on-chain when a channel is force-closed, we (or one of our watchtowers) MUST be online to check for broadcast of the current commitment transaction at least once per this many blocks (minus some margin to allow us enough time to broadcast and confirm a transaction, possibly with time in between to RBF the spending transaction).
+    ///
+    /// Default value: 72 (12 hours at an average of 6 blocks/hour). Minimum value: MIN_CLTV_EXPIRY_DELTA, any values less than this will be treated as MIN_CLTV_EXPIRY_DELTA instead.
+    pub cltv_expiry_delta: u16,
+    ///Limit our total exposure to in-flight HTLCs which are burned to fees as they are too small to claim on-chain.
+    ///
+    /// When an HTLC present in one of our channels is below a “dust” threshold, the HTLC will not be claimable on-chain, instead being turned into additional miner fees if either party force-closes the channel. Because the threshold is per-HTLC, our total exposure to such payments may be sustantial if there are many dust HTLCs present when the channel is force-closed.
+    ///
+    /// The dust threshold for each HTLC is based on the dustLimitSatoshis for each party in a channel negotiated throughout the channel open process, along with the fees required to have a broadcastable HTLC spending transaction. When a channel supports anchor outputs (specifically the zero fee HTLC transaction variant), this threshold no longer takes into account the HTLC transaction fee as it is zero.
+    ///
+    /// This limit is applied for sent, forwarded, and received HTLCs and limits the total exposure across all three types per-channel. Setting this too low may prevent the sending or receipt of low-value HTLCs on high-traffic nodes, and this limit is very important to prevent stealing of dust HTLCs by miners.
+    pub max_dust_htlc_exposure_msat: u64,
+    ///The additional fee we’re willing to pay to avoid waiting for the counterparty’s toSelfDelay to reclaim funds.
+    ///
+    /// When we close a channel cooperatively with our counterparty, we negotiate a fee for the closing transaction which both sides find acceptable, ultimately paid by the channel funder/initiator.
+    ///
+    /// When we are the funder, because we have to pay the channel closing fee, we bound the acceptable fee by our Background and Normal fees, with the upper bound increased by this value. Because the on-chain fee we’d pay to force-close the channel is kept near our Normal feerate during normal operation, this value represents the additional fee we’re willing to pay in order to avoid waiting for our counterparty’s toSelfDelay to reclaim our funds.
+    ///
+    /// When we are not the funder, we require the closing transaction fee pay at least our Background fee estimate, but allow our counterparty to pay as much fee as they like. Thus, this value is ignored when we are not the funder.
+    ///
+    /// Default value: 1000 satoshis.
+    pub force_close_avoidance_max_fee_satoshis: u64,
+}
+
+impl From<ChannelConfig> for ldk_node::lightning::util::config::ChannelConfig {
+    fn from(x: ChannelConfig) -> Self {
+        ldk_node::lightning::util::config::ChannelConfig{
+            forwarding_fee_proportional_millionths: x.forwarding_fee_proportional_millionths,
+            forwarding_fee_base_msat: x.forwarding_fee_base_msat,
+            cltv_expiry_delta: x.cltv_expiry_delta,
+            max_dust_htlc_exposure_msat: x.max_dust_htlc_exposure_msat,
+            force_close_avoidance_max_fee_satoshis: x.force_close_avoidance_max_fee_satoshis
+        }
+    }
+}
 /// The global identifier of a channel.
 ///
 /// Note that this will start out to be a temporary ID until channel funding negotiation is
@@ -185,8 +237,6 @@ pub enum PaymentStatus {
     Succeeded,
     /// The payment failed.
     Failed,
-    /// The sending of the payment failed and is safe to be retried.
-    SendingFailed,
 }
 
 impl From<ldk_node::PaymentStatus> for PaymentStatus {
@@ -195,7 +245,6 @@ impl From<ldk_node::PaymentStatus> for PaymentStatus {
             ldk_node::PaymentStatus::Pending => PaymentStatus::Pending,
             ldk_node::PaymentStatus::Succeeded => PaymentStatus::Succeeded,
             ldk_node::PaymentStatus::Failed => PaymentStatus::Failed,
-            ldk_node::PaymentStatus::SendingFailed => PaymentStatus::SendingFailed,
         }
     }
 }
@@ -330,23 +379,6 @@ impl From<Address> for ldk_node::bitcoin::Address {
     }
 }
 
-///Balance differentiated in various categories
-///
-#[derive(Debug, PartialEq, Eq, Clone, Default)]
-pub struct Balance {
-    /// All coinbase outputs not yet matured
-    ///
-    pub immature: u64,
-    /// Unconfirmed UTXOs generated by a wallet tx
-    ///
-    pub trusted_pending: u64,
-    /// Unconfirmed UTXOs received from an external wallet
-    ///
-    pub untrusted_pending: u64,
-    /// Confirmed and immediately spendable balance
-    ///
-    pub confirmed: u64,
-}
 /// Details of a channel, as returned by node.listChannels()
 ///
 #[derive(Clone, Debug, PartialEq, Eq)]
@@ -357,36 +389,14 @@ pub struct ChannelDetails {
     /// lifetime of the channel.
     ///
     pub channel_id: ChannelId,
-    /// The Channel's funding transaction output, if we've negotiated the funding transaction with
+   ///The node ID of our the channel’s counterparty.
+    pub counterparty_node_id: PublicKey,
+   /// The Channel's funding transaction output, if we've negotiated the funding transaction with
     /// our counterparty already.
     ///
     pub funding_txo: Option<String>,
-    /// The position of the funding transaction in the chain. None if the funding transaction has
-    /// not yet been confirmed and the channel fully opened.
-    ///
-    /// For channels with `confirmationsrequired` set to `Some(0)`, `outboundScidAlias` may
-    /// be used in place of this in outbound routes.
-    ///
-    pub short_channel_id: Option<u64>,
-    /// An optional `shortChannelId` alias for this channel, randomly generated by us and
-    /// usable in place of `shortChannelId` to reference the channel in outbound routes when
-    /// the channel has not yet been confirmed (as long as `confirmationsRequired` is
-    /// `Some(0)`).
-    ///
-    /// This will be `None` as long as the channel is not available for routing outbound payments.
-    ///
-    pub outbound_scid_alias: Option<u64>,
-    /// An optional `shortChannelId` alias for this channel, randomly generated by our
-    /// counterparty and usable in place of `shortChannelId` in invoice route hints. Our
-    /// counterparty will recognize the alias provided here in place of the `shortChannelId`
-    /// when they see a payment to be routed to us.
-    ///
-    /// Our counterparty may choose to rotate this value at any time, though will always recognize
-    /// previous values for inbound payment forwarding.
-    ///
-    pub inbound_scid_alias: Option<u64>,
-    /// The value, in satoshis, of this channel as appears in the funding output
-    pub channel_value_satoshis: u64,
+   ///The value, in satoshis, of this channel as it appears in the funding output.
+    pub channel_value_sats: u64,
     /// The value, in satoshis, that must always be held in the channel for us. This value ensures
     /// that if we broadcast a revoked state, our counterparty can punish us by claiming at least
     /// this value on chain.
@@ -427,10 +437,6 @@ pub struct ChannelDetails {
     /// should be able to spend nearly this amount.
     ///
     pub outbound_capacity_msat: u64,
-    /// The available outbound capacity for sending a single HTLC to the remote peer.This is intended for use when routing, allowing us
-    /// to use a limit as close as possible to the HTLC limit we can currently send.
-    ///
-    pub next_outbound_htlc_limit_msat: u64,
     /// The available inbound capacity for the remote peer to send HTLCs to us. This does not
     /// include any pending HTLCs which are not yet fully resolved (and, thus, whose balance is not
     /// available for inclusion in new inbound HTLCs).
@@ -452,15 +458,7 @@ pub struct ChannelDetails {
     /// This value will be `None` for objects serialized with LDK versions prior to 0.0.113.
     ///
     pub confirmations: Option<u32>,
-    /// The number of blocks (after our commitment transaction confirms) that we will need to wait
-    /// until we can claim our funds after we force-close the channel. During this time our
-    /// counterparty is allowed to punish us if we broadcasted a stale state. If our counterparty
-    /// force-closes the channel and broadcasts a commitment transaction we do not have to wait any
-    /// time to claim our non-HTLC-encumbered funds.
-    ///
-    /// This value will be null for outbound channels until the counterparty accepts the channel.
-    ///
-    pub force_close_spend_delay: Option<u16>,
+
     /// True if the channel was initiated (and thus funded) by us.
     ///
     pub is_outbound: bool,
@@ -479,32 +477,19 @@ pub struct ChannelDetails {
     /// True if this channel is (or will be) publicly-announced.
     ///
     pub is_public: bool,
-    /// The smallest value HTLC (in msat) we will accept, for this channel. This field
-    /// is only `None` for `ChannelDetails` objects serialized prior to LDK 0.0.107
-    ///
-    pub inbound_htlc_minimum_msat: Option<u64>,
-    /// The largest value HTLC (in msat) we currently will accept, for this channel.
-    ///
-    pub inbound_htlc_maximum_msat: Option<u64>,
 }
 impl From<&ldk_node::ChannelDetails> for ChannelDetails {
     fn from(value: &ldk_node::ChannelDetails) -> Self {
         ChannelDetails {
             channel_id: value.clone().channel_id.into(),
+            counterparty_node_id: value.clone().counterparty_node_id.into(),
             funding_txo: value.clone().funding_txo.map(|x| x.txid.to_string()),
-            short_channel_id: None,
-            outbound_scid_alias: None,
-            inbound_scid_alias: None,
-            force_close_spend_delay: None,
-            inbound_htlc_minimum_msat: None,
-            inbound_htlc_maximum_msat: None,
-            channel_value_satoshis: value.clone().channel_value_satoshis,
+            channel_value_sats: value.clone().channel_value_sats,
             unspendable_punishment_reserve: value.clone().unspendable_punishment_reserve,
             user_channel_id: value.clone().user_channel_id.into(),
             feerate_sat_per_1000_weight: value.clone().feerate_sat_per_1000_weight,
             balance_msat: value.clone().balance_msat,
             outbound_capacity_msat: value.clone().outbound_capacity_msat,
-            next_outbound_htlc_limit_msat: 0,
             inbound_capacity_msat: value.clone().inbound_capacity_msat,
             confirmations_required: value.clone().confirmations_required,
             confirmations: value.clone().confirmations,
@@ -647,6 +632,7 @@ impl From<Config> for ldk_node::Config {
             onchain_wallet_sync_interval_secs: value.onchain_wallet_sync_interval_secs,
             wallet_sync_interval_secs: value.wallet_sync_interval_secs,
             fee_rate_cache_update_interval_secs: value.fee_rate_cache_update_interval_secs,
+            trusted_peers_0conf: value.trusted_peers_0conf.into_iter().map(|x| x.into()).collect(),
             log_level: value.log_level.into(),
         }
     }
@@ -680,7 +666,10 @@ pub struct Config {
     ///
     #[frb(non_final)]
     pub fee_rate_cache_update_interval_secs: u64,
-
+      ///A list of peers that we allow to establish zero confirmation channels to us.
+      ///
+      ///Note: Allowing payments via zero-confirmation channels is potentially insecure if the funding transaction ends up never being confirmed on-chain. Zero-confirmation channels should therefore only be accepted from trusted peers.
+      pub trusted_peers_0conf: Vec<PublicKey>,
     ///The level at which we log messages.
     /// Any messages below this level will be excluded from the logs.
     ///
@@ -710,6 +699,7 @@ impl Default for Config {
             onchain_wallet_sync_interval_secs: DEFAULT_BDK_WALLET_SYNC_INTERVAL_SECS,
             wallet_sync_interval_secs: DEFAULT_LDK_WALLET_SYNC_INTERVAL_SECS,
             fee_rate_cache_update_interval_secs: DEFAULT_FEE_RATE_CACHE_UPDATE_INTERVAL_SECS,
+            trusted_peers_0conf: vec![],
             log_level: DEFAULT_LOG_LEVEL,
         }
     }

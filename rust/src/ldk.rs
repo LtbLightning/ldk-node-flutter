@@ -3,7 +3,7 @@ pub use anyhow::anyhow;
 use flutter_rust_bridge::*;
 pub use ldk_node::io::SqliteStore;
 use ldk_node::lightning::util::ser::Writeable;
-use ldk_node::Builder;
+use ldk_node::{Builder};
 pub use ldk_node::Node;
 pub use std::sync::{Arc, Mutex};
 
@@ -12,7 +12,7 @@ pub fn build_node(
     chain_data_source_config: Option<ChainDataSourceConfig>,
     entropy_source_config: Option<EntropySourceConfig>,
     gossip_source_config: Option<GossipSourceConfig>,
-) -> NodePointer {
+) -> anyhow::Result<NodePointer> {
     let builder = build_builder(
         config,
         chain_data_source_config,
@@ -20,9 +20,11 @@ pub fn build_node(
         gossip_source_config,
     );
 
-    let node = builder.build();
+   match builder.build(){
+       Ok(e) => Ok(NodePointer(RustOpaque::new(Mutex::from(e)))),
+       Err(e) => Err(anyhow!(e.to_string())),
+   }
 
-    NodePointer(RustOpaque::new(Mutex::new(node)))
 }
 fn build_builder(
     config: Config,
@@ -30,11 +32,11 @@ fn build_builder(
     entropy_source_config: Option<EntropySourceConfig>,
     gossip_source_config: Option<GossipSourceConfig>,
 ) -> Builder {
-    let builder = Builder::from_config(config.into());
+    let mut builder = Builder::from_config(config.into());
     if let Some(source) = entropy_source_config {
         match source {
             EntropySourceConfig::SeedFile(e) => builder.set_entropy_seed_path(e),
-            EntropySourceConfig::SeedBytes(e) => builder.set_entropy_seed_bytes(e.encode()),
+            EntropySourceConfig::SeedBytes(e) => builder.set_entropy_seed_bytes(e.encode()).expect("InvalidSeedBytes"),
             EntropySourceConfig::Bip39Mnemonic {
                 mnemonic,
                 passphrase,
@@ -56,7 +58,7 @@ fn build_builder(
     builder
 }
 
-pub struct NodePointer(pub RustOpaque<Mutex<Arc<Node<SqliteStore>>>>);
+pub struct NodePointer(pub RustOpaque<Mutex<Node<SqliteStore>>>);
 impl NodePointer {
     /// Starts the necessary background tasks, such as handling events coming from user input,
     /// LDK/BDK, and the peer-to-peer network.
@@ -125,50 +127,10 @@ impl NodePointer {
     }
 
     /// Retrieve a new on-chain/funding address.
-    pub fn new_funding_address(&self) -> anyhow::Result<Address> {
+    pub fn new_onchain_address(&self) -> anyhow::Result<Address> {
         let node_lock = self.0.lock().unwrap();
-        match node_lock.new_funding_address() {
+        match node_lock.new_onchain_address() {
             Ok(e) => Ok(Address {
-                internal: e.to_string(),
-            }),
-            Err(e) => Err(anyhow!(e.to_string())),
-        }
-    }
-
-    /// Retrieve the current on-chain balance.
-    pub fn on_chain_balance(&self) -> anyhow::Result<Balance> {
-        let node_lock = self.0.lock().unwrap();
-        match node_lock.onchain_balance() {
-            Ok(e) => Ok(Balance {
-                immature: e.immature,
-                trusted_pending: e.trusted_pending,
-                untrusted_pending: e.untrusted_pending,
-                confirmed: e.confirmed,
-            }),
-            Err(e) => Err(anyhow!(e.to_string())),
-        }
-    }
-
-    /// Send an on-chain payment to the given address.
-    pub fn send_to_on_chain_address(
-        &self,
-        address: Address,
-        amount_sats: u64,
-    ) -> anyhow::Result<Txid> {
-        let node_lock = self.0.lock().unwrap();
-        match node_lock.send_to_onchain_address(&address.into(), amount_sats) {
-            Ok(e) => Ok(Txid {
-                internal: e.to_string(),
-            }),
-            Err(e) => Err(anyhow!(e.to_string())),
-        }
-    }
-
-    /// Send an on-chain payment to the given address, draining all the available funds.
-    pub fn send_all_to_on_chain_address(&self, address: Address) -> anyhow::Result<Txid> {
-        let node_lock = self.0.lock().unwrap();
-        match node_lock.send_all_to_onchain_address(&address.into()) {
-            Ok(e) => Ok(Txid {
                 internal: e.to_string(),
             }),
             Err(e) => Err(anyhow!(e.to_string())),
@@ -192,6 +154,32 @@ impl NodePointer {
         }
     }
 
+    /// Send an on-chain payment to the given address.
+    pub fn send_to_onchain_address(
+        &self,
+        address: Address,
+        amount_sats: u64,
+    ) -> anyhow::Result<Txid> {
+        let node_lock = self.0.lock().unwrap();
+        match node_lock.send_to_onchain_address(&address.into(), amount_sats) {
+            Ok(e) => Ok(Txid {
+                internal: e.to_string(),
+            }),
+            Err(e) => Err(anyhow!(e.to_string())),
+        }
+    }
+
+    /// Send an on-chain payment to the given address, draining all the available funds.
+    pub fn send_all_to_onchain_address(&self, address: Address) -> anyhow::Result<Txid> {
+        let node_lock = self.0.lock().unwrap();
+        match node_lock.send_all_to_onchain_address(&address.into()) {
+            Ok(e) => Ok(Txid {
+                internal: e.to_string(),
+            }),
+            Err(e) => Err(anyhow!(e.to_string())),
+        }
+    }
+
     ///Retrieve a list of known channels.
     ///
     pub fn list_channels(&self) -> Vec<ChannelDetails> {
@@ -205,10 +193,10 @@ impl NodePointer {
         &self,
         node_id: PublicKey,
         address: NetAddress,
-        permanently: bool,
+        persist: bool
     ) -> anyhow::Result<()> {
         let node_lock = self.0.lock().unwrap();
-        match node_lock.connect(node_id.into(), address.into(), permanently) {
+        match node_lock.connect(node_id.into(), address.into(), persist) {
             Ok(_) => Ok(()),
             Err(e) => Err(anyhow!(e.to_string())),
         }
@@ -242,15 +230,10 @@ impl NodePointer {
         channel_amount_sats: u64,
         push_to_counterparty_msat: Option<u64>,
         announce_channel: bool,
+        channel_config:Option<ChannelConfig>
     ) -> anyhow::Result<()> {
         let node_lock = self.0.lock().unwrap();
-        match node_lock.connect_open_channel(
-            node_id.into(),
-            address.into(),
-            channel_amount_sats,
-            push_to_counterparty_msat,
-            announce_channel,
-        ) {
+        match node_lock.connect_open_channel(node_id.into(), address.into(), channel_amount_sats, push_to_counterparty_msat, channel_config.map(|x|x.into()),announce_channel) {
             Ok(_) => Ok(()),
             Err(e) => Err(anyhow!(e.to_string())),
         }
@@ -265,7 +248,6 @@ impl NodePointer {
             Err(e) => Err(anyhow!(e.to_string())),
         }
     }
-
     /// Close a previously opened channel.
     pub fn close_channel(
         &self,
@@ -278,7 +260,20 @@ impl NodePointer {
             Err(e) => Err(anyhow!(e.to_string())),
         }
     }
-
+    ///Update the config for a previously opened channel.
+    ///
+    pub fn update_channel_config(
+        &self,
+        channel_id: ChannelId,
+        counterparty_node_id: PublicKey,
+        channel_config: ChannelConfig
+    ) -> anyhow::Result<()>{
+        let node_lock = self.0.lock().unwrap();
+        match node_lock.update_channel_config(&(channel_id.into()), counterparty_node_id.into(), &(channel_config).into()) {
+            Ok(_) => Ok(()),
+            Err(e) => Err(anyhow!(e.to_string())),
+        }
+    }
     /// Send a payement given an invoice.
     pub fn send_payment(&self, invoice: Invoice) -> anyhow::Result<PaymentHash> {
         let node_lock = self.0.lock().unwrap();
@@ -335,7 +330,6 @@ impl NodePointer {
             Err(e) => Err(anyhow!(e.to_string())),
         }
     }
-
     /// Returns a payable invoice that can be used to request and receive a payment for which the
     /// amount is to be determined by the user, also known as a "zero-amount" invoice.
     pub fn receive_variable_amount_payment(

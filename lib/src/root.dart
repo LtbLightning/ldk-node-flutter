@@ -45,7 +45,8 @@ class Builder {
         walletSyncIntervalSecs: 20,
         feeRateCacheUpdateIntervalSecs: 600,
         logLevel: LogLevel.debug,
-        defaultCltvExpiryDelta: 144));
+        defaultCltvExpiryDelta: 144,
+        trustedPeers0Conf: []));
   }
 
   /// Configures the [Node] instance to source its wallet entropy from a seed file on disk.

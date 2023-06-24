@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -35,11 +33,10 @@ class _MyAppState extends State<MyApp> {
   }
 
   Future<ldk.Config> initLdkConfig(String path, ldk.NetAddress address) async {
-    // Please replace this url with your Electrum RPC Api url
-    // Please use 10.0.2.2, instead of 0.0.0.0
     final directory = await getApplicationDocumentsDirectory();
     final nodePath = "${directory.path}/ldk_cache/$path";
     final config = ldk.Config(
+        trustedPeers0Conf: [],
         storageDirPath: nodePath,
         network: ldk.Network.testnet,
         listeningAddress: address,
@@ -86,9 +83,7 @@ class _MyAppState extends State<MyApp> {
                 internal:
                     'puppy interest whip tonight dad never sudden response push zone pig patch'))
         .setEsploraServer(
-            esploraServerUrl: Platform.isAndroid
-                ? "http://10.0.2.2:3002"
-                : "http://0.0.0.0:3002")
+            esploraServerUrl: 'https://blockstream.info/testnet/api')
         .build();
     await bobNode.start();
     final res = await bobNode.nodeId();
@@ -98,26 +93,27 @@ class _MyAppState extends State<MyApp> {
     });
   }
 
-  getNodeBalances() async {
-    final alice = await aliceNode.onChainBalance();
-    final bob = await bobNode.onChainBalance();
+  totalOnchainBalanceSats() async {
+    final alice = await aliceNode.totalOnchainBalanceSats();
+    final bob = await bobNode.totalOnchainBalanceSats();
     if (kDebugMode) {
-      print("alice's_balance: ${alice.confirmed}");
-      print("bob's balance: ${bob.confirmed}");
+      print("alice's_balance: $alice");
+      print("bob's balance: $bob");
     }
     setState(() {
-      aliceBalance = alice.confirmed;
+      aliceBalance = alice;
     });
   }
 
-  syncAliceNode() async {
+  syncWallets() async {
     await aliceNode.syncWallets();
+    await bobNode.syncWallets();
     setState(() {
-      displayText = "aliceNode: Sync Completed";
+      displayText = "aliceNode & bobNode: Sync Completed";
     });
   }
 
-  getNodeInfo() async {
+  listChannels() async {
     final res = await aliceNode.listChannels();
     if (kDebugMode) {
       if (res.isNotEmpty) {
@@ -133,7 +129,7 @@ class _MyAppState extends State<MyApp> {
     }
   }
 
-  Future<ldk.PaymentDetails?> listPayments(bool printPayments) async {
+  Future<ldk.PaymentDetails?> listPaymentsWithFilter(bool printPayments) async {
     final res = await aliceNode.listPaymentsWithFilter(
         paymentDirection: ldk.PaymentDirection.outbound);
     if (res.isNotEmpty) {
@@ -155,7 +151,7 @@ class _MyAppState extends State<MyApp> {
   }
 
   removeLastPayment() async {
-    final lastPayment = await listPayments(false);
+    final lastPayment = await listPaymentsWithFilter(false);
     if (lastPayment != null) {
       final res = await aliceNode.removePayment(paymentHash: lastPayment.hash);
       if (res) {
@@ -168,16 +164,9 @@ class _MyAppState extends State<MyApp> {
     }
   }
 
-  syncBobNode() async {
-    await bobNode.syncWallets();
-    setState(() {
-      displayText = "bobNode: Sync Completed";
-    });
-  }
-
-  Future<List<String>> generateNewAddresses() async {
-    final alice = await aliceNode.newFundingAddress();
-    final bob = await bobNode.newFundingAddress();
+  Future<List<String>> newOnchainAddress() async {
+    final alice = await aliceNode.newOnchainAddress();
+    final bob = await bobNode.newOnchainAddress();
     if (kDebugMode) {
       print("alice's address: ${alice.internal}");
       print("bob's address: ${bob.internal}");
@@ -188,7 +177,7 @@ class _MyAppState extends State<MyApp> {
     return [alice.internal, bob.internal];
   }
 
-  getListeningAddresses() async {
+  listeningAddress() async {
     final alice = await aliceNode.listeningAddress();
     final bob = await bobNode.listeningAddress();
     setState(() {
@@ -200,7 +189,7 @@ class _MyAppState extends State<MyApp> {
     }
   }
 
-  openChannel() async {
+  connectOpenChannel() async {
     await aliceNode.connectOpenChannel(
         channelAmountSats: 5000000,
         announceChannel: true,
@@ -222,15 +211,15 @@ class _MyAppState extends State<MyApp> {
     });
   }
 
-  getChannelId() async {
+  setChannelId() async {
     final channelInfos = await aliceNode.listChannels();
     if (channelInfos.isNotEmpty) {
       channelId = channelInfos.first.channelId;
       if (kDebugMode) {
-        print(channelId.toString());
+        print(channelId?.internal);
       }
       setState(() {
-        displayText = channelId.toString();
+        displayText = channelId!.internal.toString();
       });
     } else {
       if (kDebugMode) {
@@ -365,10 +354,10 @@ class _MyAppState extends State<MyApp> {
                       )),
                   TextButton(
                       onPressed: () async {
-                        await syncAliceNode();
+                        await syncWallets();
                       },
                       child: Text(
-                        "Sync Alice's node",
+                        "Sync Alice's & Bob's node",
                         style: GoogleFonts.nunito(
                             color: Colors.indigoAccent,
                             fontSize: 12,
@@ -377,22 +366,10 @@ class _MyAppState extends State<MyApp> {
                       )),
                   TextButton(
                       onPressed: () async {
-                        await syncBobNode();
+                        await listChannels();
                       },
                       child: Text(
-                        "Sync Bob's node",
-                        style: GoogleFonts.nunito(
-                            color: Colors.indigoAccent,
-                            fontSize: 12,
-                            height: 1.5,
-                            fontWeight: FontWeight.w800),
-                      )),
-                  TextButton(
-                      onPressed: () async {
-                        await getNodeInfo();
-                      },
-                      child: Text(
-                        'Get nodeInfo',
+                        'List Channels',
                         overflow: TextOverflow.clip,
                         textAlign: TextAlign.center,
                         style: GoogleFonts.nunito(
@@ -403,10 +380,10 @@ class _MyAppState extends State<MyApp> {
                       )),
                   TextButton(
                       onPressed: () async {
-                        await getNodeBalances();
+                        await totalOnchainBalanceSats();
                       },
                       child: Text(
-                        'Get node balances',
+                        'Get total Onchain BalanceSats',
                         overflow: TextOverflow.clip,
                         textAlign: TextAlign.center,
                         style: GoogleFonts.nunito(
@@ -417,10 +394,10 @@ class _MyAppState extends State<MyApp> {
                       )),
                   TextButton(
                       onPressed: () async {
-                        await generateNewAddresses();
+                        await newOnchainAddress();
                       },
                       child: Text(
-                        'Get new addresses for Alice and Bob',
+                        'Get new Onchain Address for Alice and Bob',
                         style: GoogleFonts.nunito(
                             color: Colors.indigoAccent,
                             fontSize: 12,
@@ -429,7 +406,7 @@ class _MyAppState extends State<MyApp> {
                       )),
                   TextButton(
                       onPressed: () async {
-                        await getListeningAddresses();
+                        await listeningAddress();
                       },
                       child: Text(
                         'Get node listening addresses',
@@ -441,10 +418,10 @@ class _MyAppState extends State<MyApp> {
                       )),
                   TextButton(
                       onPressed: () async {
-                        await openChannel();
+                        await connectOpenChannel();
                       },
                       child: Text(
-                        'Open channel',
+                        'Connect Open Channel',
                         style: GoogleFonts.nunito(
                             color: Colors.indigoAccent,
                             fontSize: 12,
@@ -456,7 +433,7 @@ class _MyAppState extends State<MyApp> {
                         await handleEvent(aliceNode);
                         await handleEvent(bobNode);
                       },
-                      child: Text('Next event',
+                      child: Text('Handle event',
                           style: GoogleFonts.nunito(
                               color: Colors.indigoAccent,
                               fontSize: 12,
@@ -464,10 +441,10 @@ class _MyAppState extends State<MyApp> {
                               fontWeight: FontWeight.w800))),
                   TextButton(
                       onPressed: () async {
-                        await getChannelId();
+                        await setChannelId();
                       },
                       child: Text(
-                        'Get channelId',
+                        'Set channelId',
                         overflow: TextOverflow.clip,
                         textAlign: TextAlign.center,
                         style: GoogleFonts.nunito(
@@ -481,7 +458,7 @@ class _MyAppState extends State<MyApp> {
                         await receiveAndSendPayments();
                       },
                       child: Text(
-                        'Send Invoice Payment',
+                        'Send & Receive Invoice Payment',
                         textAlign: TextAlign.center,
                         style: GoogleFonts.nunito(
                             color: Colors.indigoAccent,
@@ -491,7 +468,7 @@ class _MyAppState extends State<MyApp> {
                       )),
                   TextButton(
                       onPressed: () async {
-                        await listPayments(true);
+                        await listPaymentsWithFilter(true);
                       },
                       child: Text(
                         'List Payments',
@@ -504,7 +481,7 @@ class _MyAppState extends State<MyApp> {
                       )),
                   TextButton(
                       onPressed: () async {
-                        await listPayments(true);
+                        await listPaymentsWithFilter(true);
                       },
                       child: Text(
                         'Remove the last payment',

@@ -13,7 +13,7 @@ export './src/generated/bridge_definitions.dart'
         ChainDataSourceConfig_Esplora,
         GossipSourceConfig_P2PNetwork,
         GossipSourceConfig_RapidGossipSync,
-        MutexArcNodeSqliteStore,
+        MutexNodeSqliteStore,
         NetAddress_IPv4,
         NetAddress_IPv6,
         U8Array32,
