@@ -7,6 +7,10 @@ use ldk_node::{Builder};
 pub use ldk_node::Node;
 pub use std::sync::{Arc, Mutex};
 
+pub fn generate_entropy_mnemonic() -> Mnemonic {
+    let mnemonic:Mnemonic = ldk_node::generate_entropy_mnemonic().into();
+    mnemonic
+}
 pub fn build_node(
     config: Config,
     chain_data_source_config: Option<ChainDataSourceConfig>,

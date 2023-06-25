@@ -26,6 +26,22 @@ class RustLdkNodeImpl implements RustLdkNode {
   factory RustLdkNodeImpl.wasm(FutureOr<WasmModule> module) =>
       RustLdkNodeImpl(module as ExternalLibrary);
   RustLdkNodeImpl.raw(this._platform);
+  Future<Mnemonic> generateEntropyMnemonic({dynamic hint}) {
+    return _platform.executeNormal(FlutterRustBridgeTask(
+      callFfi: (port_) => _platform.inner.wire_generate_entropy_mnemonic(port_),
+      parseSuccessData: _wire2api_mnemonic,
+      constMeta: kGenerateEntropyMnemonicConstMeta,
+      argValues: [],
+      hint: hint,
+    ));
+  }
+
+  FlutterRustBridgeTaskConstMeta get kGenerateEntropyMnemonicConstMeta =>
+      const FlutterRustBridgeTaskConstMeta(
+        debugName: "generate_entropy_mnemonic",
+        argNames: [],
+      );
+
   Future<NodePointer> buildNode(
       {required Config config,
       ChainDataSourceConfig? chainDataSourceConfig,
@@ -959,6 +975,15 @@ class RustLdkNodeImpl implements RustLdkNode {
     return (raw as List<dynamic>).map(_wire2api_peer_details).toList();
   }
 
+  Mnemonic _wire2api_mnemonic(dynamic raw) {
+    final arr = raw as List<dynamic>;
+    if (arr.length != 1)
+      throw Exception('unexpected arr length: expect 1 but see ${arr.length}');
+    return Mnemonic(
+      internal: _wire2api_String(arr[0]),
+    );
+  }
+
   NetAddress _wire2api_net_address(dynamic raw) {
     switch (raw[0]) {
       case 0:
@@ -1736,6 +1761,20 @@ class RustLdkNodeWire implements FlutterRustBridgeWireBase {
           'init_frb_dart_api_dl');
   late final _init_frb_dart_api_dl = _init_frb_dart_api_dlPtr
       .asFunction<int Function(ffi.Pointer<ffi.Void>)>();
+
+  void wire_generate_entropy_mnemonic(
+    int port_,
+  ) {
+    return _wire_generate_entropy_mnemonic(
+      port_,
+    );
+  }
+
+  late final _wire_generate_entropy_mnemonicPtr =
+      _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Int64)>>(
+          'wire_generate_entropy_mnemonic');
+  late final _wire_generate_entropy_mnemonic =
+      _wire_generate_entropy_mnemonicPtr.asFunction<void Function(int)>();
 
   void wire_build_node(
     int port_,

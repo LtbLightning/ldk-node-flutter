@@ -13,6 +13,10 @@ import 'package:collection/collection.dart';
 part 'bridge_definitions.freezed.dart';
 
 abstract class RustLdkNode {
+  Future<Mnemonic> generateEntropyMnemonic({dynamic hint});
+
+  FlutterRustBridgeTaskConstMeta get kGenerateEntropyMnemonicConstMeta;
+
   Future<NodePointer> buildNode(
       {required Config config,
       ChainDataSourceConfig? chainDataSourceConfig,

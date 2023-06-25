@@ -718,6 +718,11 @@ impl From<Mnemonic> for ldk_node::bip39::Mnemonic {
         ldk_node::bip39::Mnemonic::from_str(&*value.internal).expect("Invalid mnemonic key")
     }
 }
+impl From<ldk_node::bip39::Mnemonic> for Mnemonic {
+    fn from(value: ldk_node::bip39::Mnemonic) -> Self {
+        Mnemonic{ internal: value.to_string() }
+    }
+}
 #[derive(Debug, Clone)]
 pub enum ChainDataSourceConfig {
     Esplora(String),

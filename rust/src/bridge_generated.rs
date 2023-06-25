@@ -47,6 +47,16 @@ use crate::types::UserChannelId;
 
 // Section: wire functions
 
+fn wire_generate_entropy_mnemonic_impl(port_: MessagePort) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap(
+        WrapInfo {
+            debug_name: "generate_entropy_mnemonic",
+            port: Some(port_),
+            mode: FfiCallMode::Normal,
+        },
+        move || move |task_callback| Ok(generate_entropy_mnemonic()),
+    )
+}
 fn wire_build_node_impl(
     port_: MessagePort,
     config: impl Wire2Api<Config> + UnwindSafe,
@@ -879,6 +889,13 @@ impl support::IntoDart for Invoice {
     }
 }
 impl support::IntoDartExceptPrimitive for Invoice {}
+
+impl support::IntoDart for Mnemonic {
+    fn into_dart(self) -> support::DartAbi {
+        vec![self.internal.into_dart()].into_dart()
+    }
+}
+impl support::IntoDartExceptPrimitive for Mnemonic {}
 
 impl support::IntoDart for NetAddress {
     fn into_dart(self) -> support::DartAbi {

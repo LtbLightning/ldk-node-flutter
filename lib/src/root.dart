@@ -2,6 +2,11 @@ import 'package:ldk_node/src/generated/bridge_definitions.dart';
 import 'package:ldk_node/src/utils/loader.dart';
 import 'package:path_provider/path_provider.dart';
 
+Future<Mnemonic> generateEntropyMnemonic() async {
+  final res = await loaderApi.generateEntropyMnemonic();
+  return res;
+}
+
 ///The main interface object of LDK Node, wrapping the necessary LDK and BDK functionalities.
 ///
 ///Needs to be initialized and instantiated through builder.build().

@@ -2,6 +2,11 @@ use super::*;
 // Section: wire functions
 
 #[no_mangle]
+pub extern "C" fn wire_generate_entropy_mnemonic(port_: i64) {
+    wire_generate_entropy_mnemonic_impl(port_)
+}
+
+#[no_mangle]
 pub extern "C" fn wire_build_node(
     port_: i64,
     config: *mut wire_Config,
