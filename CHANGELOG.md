@@ -2,13 +2,13 @@
 #### APIs added
 - Expose `generateEntropyMnemonic` function - a utility method for generating a BIP39 mnemonic.
 - Expose `Node` class's `updateChannelConfig` method.
-- Add `ChannelConfig?` to node.connectOpenChannel() params - A `ChannelConfig` may now be specified on channel open or updated afterwards.
+- Add `ChannelConfig?` to node.connectOpenChannel() params - a `ChannelConfig` may now be specified on channel open or updated afterwards.
 - Expose `counterpartyNodeId` & `channelValueSats` in `ChannelDetails`.
-- Expose `trusted_peers_0conf` in `Config` - allowing inbound trusted 0conf channels.
--  Non-permanently connected peers are now included in node.listPeers().
+- Expose `trustedPeers0Conf` in `Config` - allowing inbound trusted 0conf channels. 
+- Non-permanently connected peers are now included in node.listPeers().
 
 #### API changed
-- node.newFundingAddress() renamed to `newOnchainAddress`.
+- node.newFundingAddress renamed to `newOnchainAddress`.
 - node.sendToOnChainAddress renamed to `sendToOnchainAddress`.
 - node.sendAllToOnChainAddress renamed to `sendAllToOnchainAddress`.
 - Remove node.onChainBalance.
