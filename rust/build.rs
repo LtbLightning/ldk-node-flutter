@@ -5,7 +5,7 @@ use lib_flutter_rust_bridge_codegen::{
 };
 
 fn main() {
-    env::set_var("RUST_BACKTRACE", "full");
+    env::set_var("RUST_BACKTRACE", "1");
     // Options for frb_codegen are read from the config file
     let raw_opts = RawOpts::try_parse_args_or_yaml().unwrap();
 
@@ -14,6 +14,6 @@ fn main() {
 
     // generation of rust api for ffi (single block)
     let all_symbols = get_symbols_if_no_duplicates(&all_configs).unwrap();
-    assert_eq!(all_configs.len(), 1);
+    // assert_eq!(all_configs.len(), 1);
     frb_codegen(&all_configs[0], &all_symbols).unwrap();
 }

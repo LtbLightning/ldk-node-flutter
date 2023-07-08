@@ -1,9 +1,27 @@
+## [0.1.2]
+#### APIs added
+- Expose `generateEntropyMnemonic` function - a utility method for generating a BIP39 mnemonic.
+- Expose `Node` class's `updateChannelConfig` method.
+- Add `ChannelConfig?` to node.connectOpenChannel() params - a `ChannelConfig` may now be specified on channel open or updated afterwards.
+- Expose `counterpartyNodeId` & `channelValueSats` in `ChannelDetails`.
+- Expose `trustedPeers0Conf` in `Config` - allowing inbound trusted 0conf channels. 
+- Non-permanently connected peers are now included in node.listPeers().
+
+#### API changed
+- node.newFundingAddress renamed to `newOnchainAddress`.
+- node.sendToOnChainAddress renamed to `sendToOnchainAddress`.
+- node.sendAllToOnChainAddress renamed to `sendAllToOnchainAddress`.
+- Remove node.onChainBalance.
+
 ## [0.1.1-alpha]
+Support `Dart 3` and `Flutter 3.10`
+
+## [0.1.1]
 Support `Dart 3` and `Flutter 3.10`
 
 ### Fixed
  -  `setEntropyBip39Mnemonic` issue resolved
-## [0.1.0-alpha]
+## [0.1.0]
 
 This is the first release of `ldk_node`. It features support for sourcing chain data via an `Esplora` server, filesystem persistence, gossip sourcing via the `Lightning` peer-to-peer network, and configurble entropy sources for the integrated LDK & BDK-based wallets.
 
