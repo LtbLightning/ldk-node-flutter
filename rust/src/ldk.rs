@@ -3,12 +3,12 @@ pub use anyhow::anyhow;
 use flutter_rust_bridge::*;
 pub use ldk_node::io::SqliteStore;
 use ldk_node::lightning::util::ser::Writeable;
-use ldk_node::{Builder};
+use ldk_node::Builder;
 pub use ldk_node::Node;
 pub use std::sync::{Arc, Mutex};
 
 pub fn generate_entropy_mnemonic() -> Mnemonic {
-    let mnemonic:Mnemonic = ldk_node::generate_entropy_mnemonic().into();
+    let mnemonic: Mnemonic = ldk_node::generate_entropy_mnemonic().into();
     mnemonic
 }
 pub fn build_node(
@@ -24,11 +24,10 @@ pub fn build_node(
         gossip_source_config,
     );
 
-   match builder.build(){
-       Ok(e) => Ok(NodePointer(RustOpaque::new(Mutex::from(e)))),
-       Err(e) => Err(anyhow!(e.to_string())),
-   }
-
+    match builder.build() {
+        Ok(e) => Ok(NodePointer(RustOpaque::new(Mutex::from(e)))),
+        Err(e) => Err(anyhow!(e.to_string())),
+    }
 }
 fn build_builder(
     config: Config,
@@ -40,7 +39,9 @@ fn build_builder(
     if let Some(source) = entropy_source_config {
         match source {
             EntropySourceConfig::SeedFile(e) => builder.set_entropy_seed_path(e),
-            EntropySourceConfig::SeedBytes(e) => builder.set_entropy_seed_bytes(e.encode()).expect("InvalidSeedBytes"),
+            EntropySourceConfig::SeedBytes(e) => builder
+                .set_entropy_seed_bytes(e.encode())
+                .expect("InvalidSeedBytes"),
             EntropySourceConfig::Bip39Mnemonic {
                 mnemonic,
                 passphrase,
@@ -197,7 +198,7 @@ impl NodePointer {
         &self,
         node_id: PublicKey,
         address: NetAddress,
-        persist: bool
+        persist: bool,
     ) -> anyhow::Result<()> {
         let node_lock = self.0.lock().unwrap();
         match node_lock.connect(node_id.into(), address.into(), persist) {
@@ -234,10 +235,17 @@ impl NodePointer {
         channel_amount_sats: u64,
         push_to_counterparty_msat: Option<u64>,
         announce_channel: bool,
-        channel_config:Option<ChannelConfig>
+        channel_config: Option<ChannelConfig>,
     ) -> anyhow::Result<()> {
         let node_lock = self.0.lock().unwrap();
-        match node_lock.connect_open_channel(node_id.into(), address.into(), channel_amount_sats, push_to_counterparty_msat, channel_config.map(|x|x.into()),announce_channel) {
+        match node_lock.connect_open_channel(
+            node_id.into(),
+            address.into(),
+            channel_amount_sats,
+            push_to_counterparty_msat,
+            channel_config.map(|x| x.into()),
+            announce_channel,
+        ) {
             Ok(_) => Ok(()),
             Err(e) => Err(anyhow!(e.to_string())),
         }
@@ -270,10 +278,14 @@ impl NodePointer {
         &self,
         channel_id: ChannelId,
         counterparty_node_id: PublicKey,
-        channel_config: ChannelConfig
-    ) -> anyhow::Result<()>{
+        channel_config: ChannelConfig,
+    ) -> anyhow::Result<()> {
         let node_lock = self.0.lock().unwrap();
-        match node_lock.update_channel_config(&(channel_id.into()), counterparty_node_id.into(), &(channel_config).into()) {
+        match node_lock.update_channel_config(
+            &(channel_id.into()),
+            counterparty_node_id.into(),
+            &(channel_config).into(),
+        ) {
             Ok(_) => Ok(()),
             Err(e) => Err(anyhow!(e.to_string())),
         }

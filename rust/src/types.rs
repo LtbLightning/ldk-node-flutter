@@ -6,20 +6,17 @@ use std::net::SocketAddr;
 use std::str::FromStr;
 use std::string::ToString;
 
-
-
-
 ///Options which apply on a per-channel basis and may change at runtime or based on negotiation with our counterparty.
 pub struct ChannelConfig {
     ///Amount (in millionths of a satoshi) charged per satoshi for payments forwarded outbound over the channel. This may be allowed to change at runtime in a later update, however doing so must result in update messages sent to notify all nodes of our updated relay fee.
     ///
     ///Default value: 0.
     pub forwarding_fee_proportional_millionths: u32,
-     /// Amount (in milli-satoshi) charged for payments forwarded outbound over the channel, in excess of forwardingFeeProportionalMillionths. This may be allowed to change at runtime in a later update, however doing so must result in update messages sent to notify all nodes of our updated relay fee.
-     ///
-     /// The default value of a single satoshi roughly matches the market rate on many routing nodes as of July 2021. Adjusting it upwards or downwards may change whether nodes route through this node.
-     ///
-     ///Default value: 1000.
+    /// Amount (in milli-satoshi) charged for payments forwarded outbound over the channel, in excess of forwardingFeeProportionalMillionths. This may be allowed to change at runtime in a later update, however doing so must result in update messages sent to notify all nodes of our updated relay fee.
+    ///
+    /// The default value of a single satoshi roughly matches the market rate on many routing nodes as of July 2021. Adjusting it upwards or downwards may change whether nodes route through this node.
+    ///
+    ///Default value: 1000.
     pub forwarding_fee_base_msat: u32,
     ///The difference in the CLTV value between incoming HTLCs and an outbound HTLC forwarded over the channel this config applies to.
     ///
@@ -49,12 +46,12 @@ pub struct ChannelConfig {
 
 impl From<ChannelConfig> for ldk_node::lightning::util::config::ChannelConfig {
     fn from(x: ChannelConfig) -> Self {
-        ldk_node::lightning::util::config::ChannelConfig{
+        ldk_node::lightning::util::config::ChannelConfig {
             forwarding_fee_proportional_millionths: x.forwarding_fee_proportional_millionths,
             forwarding_fee_base_msat: x.forwarding_fee_base_msat,
             cltv_expiry_delta: x.cltv_expiry_delta,
             max_dust_htlc_exposure_msat: x.max_dust_htlc_exposure_msat,
-            force_close_avoidance_max_fee_satoshis: x.force_close_avoidance_max_fee_satoshis
+            force_close_avoidance_max_fee_satoshis: x.force_close_avoidance_max_fee_satoshis,
         }
     }
 }
@@ -329,7 +326,7 @@ impl From<ldk_node::PaymentDetails> for PaymentDetails {
             secret: value.secret.map(|x| PaymentSecret { internal: x.0 }),
             status: value.status.into(),
             amount_msat: value.amount_msat,
-            direction: PaymentDirection::Inbound,
+            direction: value.direction.into(),
         }
     }
 }
@@ -389,13 +386,13 @@ pub struct ChannelDetails {
     /// lifetime of the channel.
     ///
     pub channel_id: ChannelId,
-   ///The node ID of our the channel’s counterparty.
+    ///The node ID of our the channel’s counterparty.
     pub counterparty_node_id: PublicKey,
-   /// The Channel's funding transaction output, if we've negotiated the funding transaction with
+    /// The Channel's funding transaction output, if we've negotiated the funding transaction with
     /// our counterparty already.
     ///
     pub funding_txo: Option<String>,
-   ///The value, in satoshis, of this channel as it appears in the funding output.
+    ///The value, in satoshis, of this channel as it appears in the funding output.
     pub channel_value_sats: u64,
     /// The value, in satoshis, that must always be held in the channel for us. This value ensures
     /// that if we broadcast a revoked state, our counterparty can punish us by claiming at least
@@ -632,7 +629,11 @@ impl From<Config> for ldk_node::Config {
             onchain_wallet_sync_interval_secs: value.onchain_wallet_sync_interval_secs,
             wallet_sync_interval_secs: value.wallet_sync_interval_secs,
             fee_rate_cache_update_interval_secs: value.fee_rate_cache_update_interval_secs,
-            trusted_peers_0conf: value.trusted_peers_0conf.into_iter().map(|x| x.into()).collect(),
+            trusted_peers_0conf: value
+                .trusted_peers_0conf
+                .into_iter()
+                .map(|x| x.into())
+                .collect(),
             log_level: value.log_level.into(),
         }
     }
@@ -666,10 +667,10 @@ pub struct Config {
     ///
     #[frb(non_final)]
     pub fee_rate_cache_update_interval_secs: u64,
-      ///A list of peers that we allow to establish zero confirmation channels to us.
-      ///
-      ///Note: Allowing payments via zero-confirmation channels is potentially insecure if the funding transaction ends up never being confirmed on-chain. Zero-confirmation channels should therefore only be accepted from trusted peers.
-      pub trusted_peers_0conf: Vec<PublicKey>,
+    ///A list of peers that we allow to establish zero confirmation channels to us.
+    ///
+    ///Note: Allowing payments via zero-confirmation channels is potentially insecure if the funding transaction ends up never being confirmed on-chain. Zero-confirmation channels should therefore only be accepted from trusted peers.
+    pub trusted_peers_0conf: Vec<PublicKey>,
     ///The level at which we log messages.
     /// Any messages below this level will be excluded from the logs.
     ///
@@ -720,7 +721,9 @@ impl From<Mnemonic> for ldk_node::bip39::Mnemonic {
 }
 impl From<ldk_node::bip39::Mnemonic> for Mnemonic {
     fn from(value: ldk_node::bip39::Mnemonic) -> Self {
-        Mnemonic{ internal: value.to_string() }
+        Mnemonic {
+            internal: value.to_string(),
+        }
     }
 }
 #[derive(Debug, Clone)]
