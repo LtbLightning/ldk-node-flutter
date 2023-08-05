@@ -1,5 +1,29 @@
 ## LDK_Node
 
+<p>
+  <a href="https://github.com/LtbLightning/ldk-node-flutter/blob/HEAD/LICENSE">
+    <img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="LDK Node is released under the MIT license." />
+  </a>
+  <a href="https://pub.dev/documentation/ldk_node/latest/">
+    <img src="https://img.shields.io/badge/docs-red.svg" alt="Docs" />
+  </a>
+  <a href="https://pub.dev/packages/ldk_node">
+    <img src="https://img.shields.io/pub/v/ldk_node?color=blueviolet" alt="Current pub package version." />
+  </a>
+    <a href="https://github.com/LtbLightning/ldk-node-flutter/issues">
+    <img src="https://img.shields.io/github/issues/LtbLightning/ldk-node-flutter.svg" alt="Issues" />
+  </a>
+  <a href="https://github.com/LtbLightning/ldk-node-flutter/stargazers">
+    <img src="https://img.shields.io/github/stars/LtbLightning/ldk-node-flutter.svg" alt="Stars" />
+  </a>
+  <a href="https://github.com/LtbLightning/ldk-node-flutter/forks">
+    <img src="https://img.shields.io/github/forks/LtbLightning/ldk-node-flutter.svg?color=brightgreen" alt="Forks" />
+  </a>
+  <a href="https://github.com/LtbLightning/ldk-node-flutter-demo">
+    <img src="https://img.shields.io/badge/Demo App-orange" alt="Demo App" />
+  </a>
+</p>
+
 A Flutter library for [LDK Node](https://github.com/lightningdevkit/ldk-node), a ready-to-go Lightning node library built using [LDK](https://lightningdevkit.org) and [BDK](https://bitcoindevkit.org).
 
 LDK Node is a non-custodial Lightning node. Its central goal is to provide a small, simple, and straightforward interface that enables users to easily set up and run a Lightning node with an integrated on-chain wallet. While minimalism is at its core, LDK Node aims to be sufficiently modular and configurable to be useful for a variety of use cases.
