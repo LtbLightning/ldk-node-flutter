@@ -243,7 +243,7 @@ impl NodePointer {
             address.into(),
             channel_amount_sats,
             push_to_counterparty_msat,
-            channel_config.map(|x| x.into()),
+            channel_config.map(|x| Arc::new(x.into())),
             announce_channel,
         ) {
             Ok(_) => Ok(()),
@@ -284,14 +284,14 @@ impl NodePointer {
         match node_lock.update_channel_config(
             &(channel_id.into()),
             counterparty_node_id.into(),
-            &(channel_config).into(),
+            Arc::new(channel_config.into()),
         ) {
             Ok(_) => Ok(()),
             Err(e) => Err(anyhow!(e.to_string())),
         }
     }
     /// Send a payement given an invoice.
-    pub fn send_payment(&self, invoice: Invoice) -> anyhow::Result<PaymentHash> {
+    pub fn send_payment(&self, invoice: Bolt11Invoice) -> anyhow::Result<PaymentHash> {
         let node_lock = self.0.lock().unwrap();
         match node_lock.send_payment(&invoice.into()) {
             Ok(e) => Ok(PaymentHash { internal: e.0 }),
@@ -307,7 +307,7 @@ impl NodePointer {
     /// amount paid to be determined by the user.
     pub fn send_payment_using_amount(
         &self,
-        invoice: Invoice,
+        invoice: Bolt11Invoice,
         amount_msat: u64,
     ) -> anyhow::Result<PaymentHash> {
         let node_lock = self.0.lock().unwrap();
@@ -330,6 +330,55 @@ impl NodePointer {
         }
     }
 
+    // Sends payment probes over all paths of a route that would be used to pay the given invoice.
+    ///
+    /// This may be used to send "pre-flight" probes, i.e., to train our scorer before conducting
+    /// the actual payment. Note this is only useful if there likely is sufficient time for the
+    /// probe to settle before sending out the actual payment, e.g., when waiting for user
+    /// confirmation in a wallet UI.
+    ///
+    /// Otherwise, there is a chance the probe could take up some liquidity needed to complete the
+    /// actual payment. Users should therefore be cautious and might avoid sending probes if
+    /// liquidity is scarce and/or they don't expect the probe to return before they send the
+    /// payment. To mitigate this issue, channels with available liquidity less than the required
+    /// amount times [`Config::probing_liquidity_limit_multiplier`] won't be used to send
+    /// pre-flight probes.
+    ///
+    pub fn send_payment_probe(&self, invoice: Bolt11Invoice) -> anyhow::Result<()> {
+        let node_lock = self.0.lock().unwrap();
+        match node_lock.send_payment_probe(&(invoice.into())) {
+            Ok(_) => Ok(()),
+            Err(e) => Err(anyhow!(e.to_string())),
+        }
+    }
+    /// Sends payment probes over all paths of a route that would be used to pay the given
+    /// amount to the given `node_id`.
+    ///
+    /// This may be used to send "pre-flight" probes, i.e., to train our scorer before conducting
+    /// the actual payment. Note this is only useful if there likely is sufficient time for the
+    /// probe to settle before sending out the actual payment, e.g., when waiting for user
+    /// confirmation in a wallet UI.
+    ///
+    /// Otherwise, there is a chance the probe could take up some liquidity needed to complete the
+    /// actual payment. Users should therefore be cautious and might avoid sending probes if
+    /// liquidity is scarce and/or they don't expect the probe to return before they send the
+    /// payment. To mitigate this issue, channels with available liquidity less than the required
+    /// amount times [Config::probing_liquidity_limit_multiplier] won't be used to send
+    /// pre-flight probes.
+    ///
+    ///
+
+    pub fn send_spontaneous_payment_probe(
+        &self,
+        amount_msat: u64,
+        node_id: PublicKey,
+    ) -> anyhow::Result<()> {
+        let node_lock = self.0.lock().unwrap();
+        match node_lock.send_spontaneous_payment_probe(amount_msat, node_id.into()) {
+            Ok(_) => Ok(()),
+            Err(e) => Err(anyhow!(e.to_string())),
+        }
+    }
     /// Returns a payable invoice that can be used to request and receive a payment of the amount
     /// given.
     pub fn receive_payment(
@@ -337,10 +386,10 @@ impl NodePointer {
         amount_msat: u64,
         description: String,
         expiry_secs: u32,
-    ) -> anyhow::Result<Invoice> {
+    ) -> anyhow::Result<Bolt11Invoice> {
         let node_lock = self.0.lock().unwrap();
         match node_lock.receive_payment(amount_msat, description.as_str(), expiry_secs) {
-            Ok(e) => Ok(Invoice {
+            Ok(e) => Ok(Bolt11Invoice {
                 internal: e.to_string(),
             }),
             Err(e) => Err(anyhow!(e.to_string())),
@@ -352,10 +401,10 @@ impl NodePointer {
         &self,
         description: String,
         expiry_secs: u32,
-    ) -> anyhow::Result<Invoice> {
+    ) -> anyhow::Result<Bolt11Invoice> {
         let node_lock = self.0.lock().unwrap();
         match node_lock.receive_variable_amount_payment(description.as_str(), expiry_secs) {
-            Ok(e) => Ok(Invoice {
+            Ok(e) => Ok(Bolt11Invoice {
                 internal: e.to_string(),
             }),
             Err(e) => Err(anyhow!(e.to_string())),
@@ -375,12 +424,11 @@ impl NodePointer {
 
     /// Remove the payment with the given hash from the store.
     ///
-    /// Returns `true` if the payment was present and `false` otherwise.
-    pub fn remove_payment(&self, payment_hash: PaymentHash) -> anyhow::Result<bool> {
+    pub fn remove_payment(&self, payment_hash: PaymentHash) -> anyhow::Result<()> {
         let node_lock = self.0.lock().unwrap();
         match node_lock.remove_payment(&ldk_node::lightning::ln::PaymentHash(payment_hash.internal))
         {
-            Ok(e) => Ok(e),
+            Ok(_) => Ok(()),
             Err(e) => Err(anyhow!(e.to_string())),
         }
     }

@@ -20,6 +20,7 @@ use std::sync::Arc;
 // Section: imports
 
 use crate::types::Address;
+use crate::types::Bolt11Invoice;
 use crate::types::ChainDataSourceConfig;
 use crate::types::ChannelConfig;
 use crate::types::ChannelDetails;
@@ -28,8 +29,8 @@ use crate::types::Config;
 use crate::types::EntropySourceConfig;
 use crate::types::Event;
 use crate::types::GossipSourceConfig;
-use crate::types::Invoice;
 use crate::types::LogLevel;
+use crate::types::MaxDustHTLCExposure;
 use crate::types::Mnemonic;
 use crate::types::NetAddress;
 use crate::types::Network;
@@ -452,7 +453,7 @@ fn wire_update_channel_config__method__NodePointer_impl(
 fn wire_send_payment__method__NodePointer_impl(
     port_: MessagePort,
     that: impl Wire2Api<NodePointer> + UnwindSafe,
-    invoice: impl Wire2Api<Invoice> + UnwindSafe,
+    invoice: impl Wire2Api<Bolt11Invoice> + UnwindSafe,
 ) {
     FLUTTER_RUST_BRIDGE_HANDLER.wrap(
         WrapInfo {
@@ -470,7 +471,7 @@ fn wire_send_payment__method__NodePointer_impl(
 fn wire_send_payment_using_amount__method__NodePointer_impl(
     port_: MessagePort,
     that: impl Wire2Api<NodePointer> + UnwindSafe,
-    invoice: impl Wire2Api<Invoice> + UnwindSafe,
+    invoice: impl Wire2Api<Bolt11Invoice> + UnwindSafe,
     amount_msat: impl Wire2Api<u64> + UnwindSafe,
 ) {
     FLUTTER_RUST_BRIDGE_HANDLER.wrap(
@@ -507,6 +508,46 @@ fn wire_send_spontaneous_payment__method__NodePointer_impl(
             let api_node_id = node_id.wire2api();
             move |task_callback| {
                 NodePointer::send_spontaneous_payment(&api_that, api_amount_msat, api_node_id)
+            }
+        },
+    )
+}
+fn wire_send_payment_probe__method__NodePointer_impl(
+    port_: MessagePort,
+    that: impl Wire2Api<NodePointer> + UnwindSafe,
+    invoice: impl Wire2Api<Bolt11Invoice> + UnwindSafe,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap(
+        WrapInfo {
+            debug_name: "send_payment_probe__method__NodePointer",
+            port: Some(port_),
+            mode: FfiCallMode::Normal,
+        },
+        move || {
+            let api_that = that.wire2api();
+            let api_invoice = invoice.wire2api();
+            move |task_callback| NodePointer::send_payment_probe(&api_that, api_invoice)
+        },
+    )
+}
+fn wire_send_spontaneous_payment_probe__method__NodePointer_impl(
+    port_: MessagePort,
+    that: impl Wire2Api<NodePointer> + UnwindSafe,
+    amount_msat: impl Wire2Api<u64> + UnwindSafe,
+    node_id: impl Wire2Api<PublicKey> + UnwindSafe,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap(
+        WrapInfo {
+            debug_name: "send_spontaneous_payment_probe__method__NodePointer",
+            port: Some(port_),
+            mode: FfiCallMode::Normal,
+        },
+        move || {
+            let api_that = that.wire2api();
+            let api_amount_msat = amount_msat.wire2api();
+            let api_node_id = node_id.wire2api();
+            move |task_callback| {
+                NodePointer::send_spontaneous_payment_probe(&api_that, api_amount_msat, api_node_id)
             }
         },
     )
@@ -800,6 +841,13 @@ impl support::IntoDart for Address {
 }
 impl support::IntoDartExceptPrimitive for Address {}
 
+impl support::IntoDart for Bolt11Invoice {
+    fn into_dart(self) -> support::DartAbi {
+        vec![self.internal.into_dart()].into_dart()
+    }
+}
+impl support::IntoDartExceptPrimitive for Bolt11Invoice {}
+
 impl support::IntoDart for ChannelDetails {
     fn into_dart(self) -> support::DartAbi {
         vec![
@@ -882,13 +930,6 @@ impl support::IntoDart for Event {
     }
 }
 impl support::IntoDartExceptPrimitive for Event {}
-
-impl support::IntoDart for Invoice {
-    fn into_dart(self) -> support::DartAbi {
-        vec![self.internal.into_dart()].into_dart()
-    }
-}
-impl support::IntoDartExceptPrimitive for Invoice {}
 
 impl support::IntoDart for Mnemonic {
     fn into_dart(self) -> support::DartAbi {

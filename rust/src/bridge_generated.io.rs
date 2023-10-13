@@ -191,7 +191,7 @@ pub extern "C" fn wire_update_channel_config__method__NodePointer(
 pub extern "C" fn wire_send_payment__method__NodePointer(
     port_: i64,
     that: *mut wire_NodePointer,
-    invoice: *mut wire_Invoice,
+    invoice: *mut wire_Bolt11Invoice,
 ) {
     wire_send_payment__method__NodePointer_impl(port_, that, invoice)
 }
@@ -200,7 +200,7 @@ pub extern "C" fn wire_send_payment__method__NodePointer(
 pub extern "C" fn wire_send_payment_using_amount__method__NodePointer(
     port_: i64,
     that: *mut wire_NodePointer,
-    invoice: *mut wire_Invoice,
+    invoice: *mut wire_Bolt11Invoice,
     amount_msat: u64,
 ) {
     wire_send_payment_using_amount__method__NodePointer_impl(port_, that, invoice, amount_msat)
@@ -214,6 +214,25 @@ pub extern "C" fn wire_send_spontaneous_payment__method__NodePointer(
     node_id: *mut wire_PublicKey,
 ) {
     wire_send_spontaneous_payment__method__NodePointer_impl(port_, that, amount_msat, node_id)
+}
+
+#[no_mangle]
+pub extern "C" fn wire_send_payment_probe__method__NodePointer(
+    port_: i64,
+    that: *mut wire_NodePointer,
+    invoice: *mut wire_Bolt11Invoice,
+) {
+    wire_send_payment_probe__method__NodePointer_impl(port_, that, invoice)
+}
+
+#[no_mangle]
+pub extern "C" fn wire_send_spontaneous_payment_probe__method__NodePointer(
+    port_: i64,
+    that: *mut wire_NodePointer,
+    amount_msat: u64,
+    node_id: *mut wire_PublicKey,
+) {
+    wire_send_spontaneous_payment_probe__method__NodePointer_impl(port_, that, amount_msat, node_id)
 }
 
 #[no_mangle]
@@ -318,6 +337,11 @@ pub extern "C" fn new_box_autoadd_address_0() -> *mut wire_Address {
 }
 
 #[no_mangle]
+pub extern "C" fn new_box_autoadd_bolt_11_invoice_0() -> *mut wire_Bolt11Invoice {
+    support::new_leak_box_ptr(wire_Bolt11Invoice::new_with_null_ptr())
+}
+
+#[no_mangle]
 pub extern "C" fn new_box_autoadd_chain_data_source_config_0() -> *mut wire_ChainDataSourceConfig {
     support::new_leak_box_ptr(wire_ChainDataSourceConfig::new_with_null_ptr())
 }
@@ -345,11 +369,6 @@ pub extern "C" fn new_box_autoadd_entropy_source_config_0() -> *mut wire_Entropy
 #[no_mangle]
 pub extern "C" fn new_box_autoadd_gossip_source_config_0() -> *mut wire_GossipSourceConfig {
     support::new_leak_box_ptr(wire_GossipSourceConfig::new_with_null_ptr())
-}
-
-#[no_mangle]
-pub extern "C" fn new_box_autoadd_invoice_0() -> *mut wire_Invoice {
-    support::new_leak_box_ptr(wire_Invoice::new_with_null_ptr())
 }
 
 #[no_mangle]
@@ -437,11 +456,24 @@ impl Wire2Api<Address> for wire_Address {
         }
     }
 }
+impl Wire2Api<Bolt11Invoice> for wire_Bolt11Invoice {
+    fn wire2api(self) -> Bolt11Invoice {
+        Bolt11Invoice {
+            internal: self.internal.wire2api(),
+        }
+    }
+}
 
 impl Wire2Api<Address> for *mut wire_Address {
     fn wire2api(self) -> Address {
         let wrap = unsafe { support::box_from_leak_ptr(self) };
         Wire2Api::<Address>::wire2api(*wrap).into()
+    }
+}
+impl Wire2Api<Bolt11Invoice> for *mut wire_Bolt11Invoice {
+    fn wire2api(self) -> Bolt11Invoice {
+        let wrap = unsafe { support::box_from_leak_ptr(self) };
+        Wire2Api::<Bolt11Invoice>::wire2api(*wrap).into()
     }
 }
 impl Wire2Api<ChainDataSourceConfig> for *mut wire_ChainDataSourceConfig {
@@ -478,12 +510,6 @@ impl Wire2Api<GossipSourceConfig> for *mut wire_GossipSourceConfig {
     fn wire2api(self) -> GossipSourceConfig {
         let wrap = unsafe { support::box_from_leak_ptr(self) };
         Wire2Api::<GossipSourceConfig>::wire2api(*wrap).into()
-    }
-}
-impl Wire2Api<Invoice> for *mut wire_Invoice {
-    fn wire2api(self) -> Invoice {
-        let wrap = unsafe { support::box_from_leak_ptr(self) };
-        Wire2Api::<Invoice>::wire2api(*wrap).into()
     }
 }
 impl Wire2Api<Mnemonic> for *mut wire_Mnemonic {
@@ -541,10 +567,11 @@ impl Wire2Api<ChannelConfig> for wire_ChannelConfig {
                 .wire2api(),
             forwarding_fee_base_msat: self.forwarding_fee_base_msat.wire2api(),
             cltv_expiry_delta: self.cltv_expiry_delta.wire2api(),
-            max_dust_htlc_exposure_msat: self.max_dust_htlc_exposure_msat.wire2api(),
+            max_dust_htlc_exposure: self.max_dust_htlc_exposure.wire2api(),
             force_close_avoidance_max_fee_satoshis: self
                 .force_close_avoidance_max_fee_satoshis
                 .wire2api(),
+            accept_underpaying_htlcs: self.accept_underpaying_htlcs.wire2api(),
         }
     }
 }
@@ -559,16 +586,18 @@ impl Wire2Api<Config> for wire_Config {
     fn wire2api(self) -> Config {
         Config {
             storage_dir_path: self.storage_dir_path.wire2api(),
+            log_dir_path: self.log_dir_path.wire2api(),
             network: self.network.wire2api(),
+            listening_address: self.listening_address.wire2api(),
+            default_cltv_expiry_delta: self.default_cltv_expiry_delta.wire2api(),
             onchain_wallet_sync_interval_secs: self.onchain_wallet_sync_interval_secs.wire2api(),
             wallet_sync_interval_secs: self.wallet_sync_interval_secs.wire2api(),
             fee_rate_cache_update_interval_secs: self
                 .fee_rate_cache_update_interval_secs
                 .wire2api(),
             trusted_peers_0conf: self.trusted_peers_0conf.wire2api(),
+            probing_liquidity_limit_multiplier: self.probing_liquidity_limit_multiplier.wire2api(),
             log_level: self.log_level.wire2api(),
-            listening_address: self.listening_address.wire2api(),
-            default_cltv_expiry_delta: self.default_cltv_expiry_delta.wire2api(),
         }
     }
 }
@@ -611,13 +640,6 @@ impl Wire2Api<GossipSourceConfig> for wire_GossipSourceConfig {
     }
 }
 
-impl Wire2Api<Invoice> for wire_Invoice {
-    fn wire2api(self) -> Invoice {
-        Invoice {
-            internal: self.internal.wire2api(),
-        }
-    }
-}
 impl Wire2Api<Vec<PublicKey>> for *mut wire_list_public_key {
     fn wire2api(self) -> Vec<PublicKey> {
         let vec = unsafe {
@@ -628,6 +650,23 @@ impl Wire2Api<Vec<PublicKey>> for *mut wire_list_public_key {
     }
 }
 
+impl Wire2Api<MaxDustHTLCExposure> for wire_MaxDustHTLCExposure {
+    fn wire2api(self) -> MaxDustHTLCExposure {
+        match self.tag {
+            0 => unsafe {
+                let ans = support::box_from_leak_ptr(self.kind);
+                let ans = support::box_from_leak_ptr(ans.FixedLimitMsat);
+                MaxDustHTLCExposure::FixedLimitMsat(ans.field0.wire2api())
+            },
+            1 => unsafe {
+                let ans = support::box_from_leak_ptr(self.kind);
+                let ans = support::box_from_leak_ptr(ans.FeeRateMultiplier);
+                MaxDustHTLCExposure::FeeRateMultiplier(ans.field0.wire2api())
+            },
+            _ => unreachable!(),
+        }
+    }
+}
 impl Wire2Api<Mnemonic> for wire_Mnemonic {
     fn wire2api(self) -> Mnemonic {
         Mnemonic {
@@ -716,12 +755,19 @@ pub struct wire_Address {
 
 #[repr(C)]
 #[derive(Clone)]
+pub struct wire_Bolt11Invoice {
+    internal: *mut wire_uint_8_list,
+}
+
+#[repr(C)]
+#[derive(Clone)]
 pub struct wire_ChannelConfig {
     forwarding_fee_proportional_millionths: u32,
     forwarding_fee_base_msat: u32,
     cltv_expiry_delta: u16,
-    max_dust_htlc_exposure_msat: u64,
+    max_dust_htlc_exposure: wire_MaxDustHTLCExposure,
     force_close_avoidance_max_fee_satoshis: u64,
+    accept_underpaying_htlcs: bool,
 }
 
 #[repr(C)]
@@ -734,20 +780,16 @@ pub struct wire_ChannelId {
 #[derive(Clone)]
 pub struct wire_Config {
     storage_dir_path: *mut wire_uint_8_list,
+    log_dir_path: *mut wire_uint_8_list,
     network: i32,
+    listening_address: *mut wire_NetAddress,
+    default_cltv_expiry_delta: u32,
     onchain_wallet_sync_interval_secs: u64,
     wallet_sync_interval_secs: u64,
     fee_rate_cache_update_interval_secs: u64,
     trusted_peers_0conf: *mut wire_list_public_key,
+    probing_liquidity_limit_multiplier: u64,
     log_level: i32,
-    listening_address: *mut wire_NetAddress,
-    default_cltv_expiry_delta: u32,
-}
-
-#[repr(C)]
-#[derive(Clone)]
-pub struct wire_Invoice {
-    internal: *mut wire_uint_8_list,
 }
 
 #[repr(C)]
@@ -863,6 +905,31 @@ pub struct wire_GossipSourceConfig_RapidGossipSync {
 
 #[repr(C)]
 #[derive(Clone)]
+pub struct wire_MaxDustHTLCExposure {
+    tag: i32,
+    kind: *mut MaxDustHTLCExposureKind,
+}
+
+#[repr(C)]
+pub union MaxDustHTLCExposureKind {
+    FixedLimitMsat: *mut wire_MaxDustHTLCExposure_FixedLimitMsat,
+    FeeRateMultiplier: *mut wire_MaxDustHTLCExposure_FeeRateMultiplier,
+}
+
+#[repr(C)]
+#[derive(Clone)]
+pub struct wire_MaxDustHTLCExposure_FixedLimitMsat {
+    field0: u64,
+}
+
+#[repr(C)]
+#[derive(Clone)]
+pub struct wire_MaxDustHTLCExposure_FeeRateMultiplier {
+    field0: u64,
+}
+
+#[repr(C)]
+#[derive(Clone)]
 pub struct wire_NetAddress {
     tag: i32,
     kind: *mut NetAddressKind,
@@ -922,6 +989,20 @@ impl Default for wire_Address {
     }
 }
 
+impl NewWithNullPtr for wire_Bolt11Invoice {
+    fn new_with_null_ptr() -> Self {
+        Self {
+            internal: core::ptr::null_mut(),
+        }
+    }
+}
+
+impl Default for wire_Bolt11Invoice {
+    fn default() -> Self {
+        Self::new_with_null_ptr()
+    }
+}
+
 impl Default for wire_ChainDataSourceConfig {
     fn default() -> Self {
         Self::new_with_null_ptr()
@@ -952,8 +1033,9 @@ impl NewWithNullPtr for wire_ChannelConfig {
             forwarding_fee_proportional_millionths: Default::default(),
             forwarding_fee_base_msat: Default::default(),
             cltv_expiry_delta: Default::default(),
-            max_dust_htlc_exposure_msat: Default::default(),
+            max_dust_htlc_exposure: Default::default(),
             force_close_avoidance_max_fee_satoshis: Default::default(),
+            accept_underpaying_htlcs: Default::default(),
         }
     }
 }
@@ -982,14 +1064,16 @@ impl NewWithNullPtr for wire_Config {
     fn new_with_null_ptr() -> Self {
         Self {
             storage_dir_path: core::ptr::null_mut(),
+            log_dir_path: core::ptr::null_mut(),
             network: Default::default(),
+            listening_address: core::ptr::null_mut(),
+            default_cltv_expiry_delta: Default::default(),
             onchain_wallet_sync_interval_secs: Default::default(),
             wallet_sync_interval_secs: Default::default(),
             fee_rate_cache_update_interval_secs: Default::default(),
             trusted_peers_0conf: core::ptr::null_mut(),
+            probing_liquidity_limit_multiplier: Default::default(),
             log_level: Default::default(),
-            listening_address: core::ptr::null_mut(),
-            default_cltv_expiry_delta: Default::default(),
         }
     }
 }
@@ -1067,18 +1151,37 @@ pub extern "C" fn inflate_GossipSourceConfig_RapidGossipSync() -> *mut GossipSou
     })
 }
 
-impl NewWithNullPtr for wire_Invoice {
+impl Default for wire_MaxDustHTLCExposure {
+    fn default() -> Self {
+        Self::new_with_null_ptr()
+    }
+}
+
+impl NewWithNullPtr for wire_MaxDustHTLCExposure {
     fn new_with_null_ptr() -> Self {
         Self {
-            internal: core::ptr::null_mut(),
+            tag: -1,
+            kind: core::ptr::null_mut(),
         }
     }
 }
 
-impl Default for wire_Invoice {
-    fn default() -> Self {
-        Self::new_with_null_ptr()
-    }
+#[no_mangle]
+pub extern "C" fn inflate_MaxDustHTLCExposure_FixedLimitMsat() -> *mut MaxDustHTLCExposureKind {
+    support::new_leak_box_ptr(MaxDustHTLCExposureKind {
+        FixedLimitMsat: support::new_leak_box_ptr(wire_MaxDustHTLCExposure_FixedLimitMsat {
+            field0: Default::default(),
+        }),
+    })
+}
+
+#[no_mangle]
+pub extern "C" fn inflate_MaxDustHTLCExposure_FeeRateMultiplier() -> *mut MaxDustHTLCExposureKind {
+    support::new_leak_box_ptr(MaxDustHTLCExposureKind {
+        FeeRateMultiplier: support::new_leak_box_ptr(wire_MaxDustHTLCExposure_FeeRateMultiplier {
+            field0: Default::default(),
+        }),
+    })
 }
 
 impl NewWithNullPtr for wire_Mnemonic {
