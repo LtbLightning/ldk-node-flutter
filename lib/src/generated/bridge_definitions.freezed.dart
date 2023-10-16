@@ -51,18 +51,23 @@ mixin _$ChainDataSourceConfig {
       throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
-  $ChainDataSourceConfigCopyWith<ChainDataSourceConfig> get copyWith => throw _privateConstructorUsedError;
+  $ChainDataSourceConfigCopyWith<ChainDataSourceConfig> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
 abstract class $ChainDataSourceConfigCopyWith<$Res> {
-  factory $ChainDataSourceConfigCopyWith(ChainDataSourceConfig value, $Res Function(ChainDataSourceConfig) then) = _$ChainDataSourceConfigCopyWithImpl<$Res, ChainDataSourceConfig>;
+  factory $ChainDataSourceConfigCopyWith(ChainDataSourceConfig value,
+          $Res Function(ChainDataSourceConfig) then) =
+      _$ChainDataSourceConfigCopyWithImpl<$Res, ChainDataSourceConfig>;
   @useResult
   $Res call({String field0});
 }
 
 /// @nodoc
-class _$ChainDataSourceConfigCopyWithImpl<$Res, $Val extends ChainDataSourceConfig> implements $ChainDataSourceConfigCopyWith<$Res> {
+class _$ChainDataSourceConfigCopyWithImpl<$Res,
+        $Val extends ChainDataSourceConfig>
+    implements $ChainDataSourceConfigCopyWith<$Res> {
   _$ChainDataSourceConfigCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
@@ -85,16 +90,26 @@ class _$ChainDataSourceConfigCopyWithImpl<$Res, $Val extends ChainDataSourceConf
 }
 
 /// @nodoc
-abstract class _$$ChainDataSourceConfig_EsploraCopyWith<$Res> implements $ChainDataSourceConfigCopyWith<$Res> {
-  factory _$$ChainDataSourceConfig_EsploraCopyWith(_$ChainDataSourceConfig_Esplora value, $Res Function(_$ChainDataSourceConfig_Esplora) then) = __$$ChainDataSourceConfig_EsploraCopyWithImpl<$Res>;
+abstract class _$$ChainDataSourceConfig_EsploraCopyWith<$Res>
+    implements $ChainDataSourceConfigCopyWith<$Res> {
+  factory _$$ChainDataSourceConfig_EsploraCopyWith(
+          _$ChainDataSourceConfig_Esplora value,
+          $Res Function(_$ChainDataSourceConfig_Esplora) then) =
+      __$$ChainDataSourceConfig_EsploraCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({String field0});
 }
 
 /// @nodoc
-class __$$ChainDataSourceConfig_EsploraCopyWithImpl<$Res> extends _$ChainDataSourceConfigCopyWithImpl<$Res, _$ChainDataSourceConfig_Esplora> implements _$$ChainDataSourceConfig_EsploraCopyWith<$Res> {
-  __$$ChainDataSourceConfig_EsploraCopyWithImpl(_$ChainDataSourceConfig_Esplora _value, $Res Function(_$ChainDataSourceConfig_Esplora) _then) : super(_value, _then);
+class __$$ChainDataSourceConfig_EsploraCopyWithImpl<$Res>
+    extends _$ChainDataSourceConfigCopyWithImpl<$Res,
+        _$ChainDataSourceConfig_Esplora>
+    implements _$$ChainDataSourceConfig_EsploraCopyWith<$Res> {
+  __$$ChainDataSourceConfig_EsploraCopyWithImpl(
+      _$ChainDataSourceConfig_Esplora _value,
+      $Res Function(_$ChainDataSourceConfig_Esplora) _then)
+      : super(_value, _then);
 
   @pragma('vm:prefer-inline')
   @override
@@ -125,7 +140,10 @@ class _$ChainDataSourceConfig_Esplora implements ChainDataSourceConfig_Esplora {
 
   @override
   bool operator ==(dynamic other) {
-    return identical(this, other) || (other.runtimeType == runtimeType && other is _$ChainDataSourceConfig_Esplora && (identical(other.field0, field0) || other.field0 == field0));
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$ChainDataSourceConfig_Esplora &&
+            (identical(other.field0, field0) || other.field0 == field0));
   }
 
   @override
@@ -134,7 +152,9 @@ class _$ChainDataSourceConfig_Esplora implements ChainDataSourceConfig_Esplora {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$ChainDataSourceConfig_EsploraCopyWith<_$ChainDataSourceConfig_Esplora> get copyWith => __$$ChainDataSourceConfig_EsploraCopyWithImpl<_$ChainDataSourceConfig_Esplora>(this, _$identity);
+  _$$ChainDataSourceConfig_EsploraCopyWith<_$ChainDataSourceConfig_Esplora>
+      get copyWith => __$$ChainDataSourceConfig_EsploraCopyWithImpl<
+          _$ChainDataSourceConfig_Esplora>(this, _$identity);
 
   @override
   @optionalTypeArgs
@@ -194,13 +214,15 @@ class _$ChainDataSourceConfig_Esplora implements ChainDataSourceConfig_Esplora {
 }
 
 abstract class ChainDataSourceConfig_Esplora implements ChainDataSourceConfig {
-  const factory ChainDataSourceConfig_Esplora(final String field0) = _$ChainDataSourceConfig_Esplora;
+  const factory ChainDataSourceConfig_Esplora(final String field0) =
+      _$ChainDataSourceConfig_Esplora;
 
   @override
   String get field0;
   @override
   @JsonKey(ignore: true)
-  _$$ChainDataSourceConfig_EsploraCopyWith<_$ChainDataSourceConfig_Esplora> get copyWith => throw _privateConstructorUsedError;
+  _$$ChainDataSourceConfig_EsploraCopyWith<_$ChainDataSourceConfig_Esplora>
+      get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
@@ -209,7 +231,8 @@ mixin _$EntropySourceConfig {
   TResult when<TResult extends Object?>({
     required TResult Function(String field0) seedFile,
     required TResult Function(U8Array64 field0) seedBytes,
-    required TResult Function(Mnemonic mnemonic, String? passphrase) bip39Mnemonic,
+    required TResult Function(Mnemonic mnemonic, String? passphrase)
+        bip39Mnemonic,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -231,7 +254,8 @@ mixin _$EntropySourceConfig {
   TResult map<TResult extends Object?>({
     required TResult Function(EntropySourceConfig_SeedFile value) seedFile,
     required TResult Function(EntropySourceConfig_SeedBytes value) seedBytes,
-    required TResult Function(EntropySourceConfig_Bip39Mnemonic value) bip39Mnemonic,
+    required TResult Function(EntropySourceConfig_Bip39Mnemonic value)
+        bip39Mnemonic,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -253,11 +277,14 @@ mixin _$EntropySourceConfig {
 
 /// @nodoc
 abstract class $EntropySourceConfigCopyWith<$Res> {
-  factory $EntropySourceConfigCopyWith(EntropySourceConfig value, $Res Function(EntropySourceConfig) then) = _$EntropySourceConfigCopyWithImpl<$Res, EntropySourceConfig>;
+  factory $EntropySourceConfigCopyWith(
+          EntropySourceConfig value, $Res Function(EntropySourceConfig) then) =
+      _$EntropySourceConfigCopyWithImpl<$Res, EntropySourceConfig>;
 }
 
 /// @nodoc
-class _$EntropySourceConfigCopyWithImpl<$Res, $Val extends EntropySourceConfig> implements $EntropySourceConfigCopyWith<$Res> {
+class _$EntropySourceConfigCopyWithImpl<$Res, $Val extends EntropySourceConfig>
+    implements $EntropySourceConfigCopyWith<$Res> {
   _$EntropySourceConfigCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
@@ -268,14 +295,23 @@ class _$EntropySourceConfigCopyWithImpl<$Res, $Val extends EntropySourceConfig> 
 
 /// @nodoc
 abstract class _$$EntropySourceConfig_SeedFileCopyWith<$Res> {
-  factory _$$EntropySourceConfig_SeedFileCopyWith(_$EntropySourceConfig_SeedFile value, $Res Function(_$EntropySourceConfig_SeedFile) then) = __$$EntropySourceConfig_SeedFileCopyWithImpl<$Res>;
+  factory _$$EntropySourceConfig_SeedFileCopyWith(
+          _$EntropySourceConfig_SeedFile value,
+          $Res Function(_$EntropySourceConfig_SeedFile) then) =
+      __$$EntropySourceConfig_SeedFileCopyWithImpl<$Res>;
   @useResult
   $Res call({String field0});
 }
 
 /// @nodoc
-class __$$EntropySourceConfig_SeedFileCopyWithImpl<$Res> extends _$EntropySourceConfigCopyWithImpl<$Res, _$EntropySourceConfig_SeedFile> implements _$$EntropySourceConfig_SeedFileCopyWith<$Res> {
-  __$$EntropySourceConfig_SeedFileCopyWithImpl(_$EntropySourceConfig_SeedFile _value, $Res Function(_$EntropySourceConfig_SeedFile) _then) : super(_value, _then);
+class __$$EntropySourceConfig_SeedFileCopyWithImpl<$Res>
+    extends _$EntropySourceConfigCopyWithImpl<$Res,
+        _$EntropySourceConfig_SeedFile>
+    implements _$$EntropySourceConfig_SeedFileCopyWith<$Res> {
+  __$$EntropySourceConfig_SeedFileCopyWithImpl(
+      _$EntropySourceConfig_SeedFile _value,
+      $Res Function(_$EntropySourceConfig_SeedFile) _then)
+      : super(_value, _then);
 
   @pragma('vm:prefer-inline')
   @override
@@ -306,7 +342,10 @@ class _$EntropySourceConfig_SeedFile implements EntropySourceConfig_SeedFile {
 
   @override
   bool operator ==(dynamic other) {
-    return identical(this, other) || (other.runtimeType == runtimeType && other is _$EntropySourceConfig_SeedFile && (identical(other.field0, field0) || other.field0 == field0));
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$EntropySourceConfig_SeedFile &&
+            (identical(other.field0, field0) || other.field0 == field0));
   }
 
   @override
@@ -315,14 +354,17 @@ class _$EntropySourceConfig_SeedFile implements EntropySourceConfig_SeedFile {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$EntropySourceConfig_SeedFileCopyWith<_$EntropySourceConfig_SeedFile> get copyWith => __$$EntropySourceConfig_SeedFileCopyWithImpl<_$EntropySourceConfig_SeedFile>(this, _$identity);
+  _$$EntropySourceConfig_SeedFileCopyWith<_$EntropySourceConfig_SeedFile>
+      get copyWith => __$$EntropySourceConfig_SeedFileCopyWithImpl<
+          _$EntropySourceConfig_SeedFile>(this, _$identity);
 
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(String field0) seedFile,
     required TResult Function(U8Array64 field0) seedBytes,
-    required TResult Function(Mnemonic mnemonic, String? passphrase) bip39Mnemonic,
+    required TResult Function(Mnemonic mnemonic, String? passphrase)
+        bip39Mnemonic,
   }) {
     return seedFile(field0);
   }
@@ -356,7 +398,8 @@ class _$EntropySourceConfig_SeedFile implements EntropySourceConfig_SeedFile {
   TResult map<TResult extends Object?>({
     required TResult Function(EntropySourceConfig_SeedFile value) seedFile,
     required TResult Function(EntropySourceConfig_SeedBytes value) seedBytes,
-    required TResult Function(EntropySourceConfig_Bip39Mnemonic value) bip39Mnemonic,
+    required TResult Function(EntropySourceConfig_Bip39Mnemonic value)
+        bip39Mnemonic,
   }) {
     return seedFile(this);
   }
@@ -387,23 +430,34 @@ class _$EntropySourceConfig_SeedFile implements EntropySourceConfig_SeedFile {
 }
 
 abstract class EntropySourceConfig_SeedFile implements EntropySourceConfig {
-  const factory EntropySourceConfig_SeedFile(final String field0) = _$EntropySourceConfig_SeedFile;
+  const factory EntropySourceConfig_SeedFile(final String field0) =
+      _$EntropySourceConfig_SeedFile;
 
   String get field0;
   @JsonKey(ignore: true)
-  _$$EntropySourceConfig_SeedFileCopyWith<_$EntropySourceConfig_SeedFile> get copyWith => throw _privateConstructorUsedError;
+  _$$EntropySourceConfig_SeedFileCopyWith<_$EntropySourceConfig_SeedFile>
+      get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
 abstract class _$$EntropySourceConfig_SeedBytesCopyWith<$Res> {
-  factory _$$EntropySourceConfig_SeedBytesCopyWith(_$EntropySourceConfig_SeedBytes value, $Res Function(_$EntropySourceConfig_SeedBytes) then) = __$$EntropySourceConfig_SeedBytesCopyWithImpl<$Res>;
+  factory _$$EntropySourceConfig_SeedBytesCopyWith(
+          _$EntropySourceConfig_SeedBytes value,
+          $Res Function(_$EntropySourceConfig_SeedBytes) then) =
+      __$$EntropySourceConfig_SeedBytesCopyWithImpl<$Res>;
   @useResult
   $Res call({U8Array64 field0});
 }
 
 /// @nodoc
-class __$$EntropySourceConfig_SeedBytesCopyWithImpl<$Res> extends _$EntropySourceConfigCopyWithImpl<$Res, _$EntropySourceConfig_SeedBytes> implements _$$EntropySourceConfig_SeedBytesCopyWith<$Res> {
-  __$$EntropySourceConfig_SeedBytesCopyWithImpl(_$EntropySourceConfig_SeedBytes _value, $Res Function(_$EntropySourceConfig_SeedBytes) _then) : super(_value, _then);
+class __$$EntropySourceConfig_SeedBytesCopyWithImpl<$Res>
+    extends _$EntropySourceConfigCopyWithImpl<$Res,
+        _$EntropySourceConfig_SeedBytes>
+    implements _$$EntropySourceConfig_SeedBytesCopyWith<$Res> {
+  __$$EntropySourceConfig_SeedBytesCopyWithImpl(
+      _$EntropySourceConfig_SeedBytes _value,
+      $Res Function(_$EntropySourceConfig_SeedBytes) _then)
+      : super(_value, _then);
 
   @pragma('vm:prefer-inline')
   @override
@@ -434,23 +488,30 @@ class _$EntropySourceConfig_SeedBytes implements EntropySourceConfig_SeedBytes {
 
   @override
   bool operator ==(dynamic other) {
-    return identical(this, other) || (other.runtimeType == runtimeType && other is _$EntropySourceConfig_SeedBytes && const DeepCollectionEquality().equals(other.field0, field0));
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$EntropySourceConfig_SeedBytes &&
+            const DeepCollectionEquality().equals(other.field0, field0));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, const DeepCollectionEquality().hash(field0));
+  int get hashCode =>
+      Object.hash(runtimeType, const DeepCollectionEquality().hash(field0));
 
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$EntropySourceConfig_SeedBytesCopyWith<_$EntropySourceConfig_SeedBytes> get copyWith => __$$EntropySourceConfig_SeedBytesCopyWithImpl<_$EntropySourceConfig_SeedBytes>(this, _$identity);
+  _$$EntropySourceConfig_SeedBytesCopyWith<_$EntropySourceConfig_SeedBytes>
+      get copyWith => __$$EntropySourceConfig_SeedBytesCopyWithImpl<
+          _$EntropySourceConfig_SeedBytes>(this, _$identity);
 
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(String field0) seedFile,
     required TResult Function(U8Array64 field0) seedBytes,
-    required TResult Function(Mnemonic mnemonic, String? passphrase) bip39Mnemonic,
+    required TResult Function(Mnemonic mnemonic, String? passphrase)
+        bip39Mnemonic,
   }) {
     return seedBytes(field0);
   }
@@ -484,7 +545,8 @@ class _$EntropySourceConfig_SeedBytes implements EntropySourceConfig_SeedBytes {
   TResult map<TResult extends Object?>({
     required TResult Function(EntropySourceConfig_SeedFile value) seedFile,
     required TResult Function(EntropySourceConfig_SeedBytes value) seedBytes,
-    required TResult Function(EntropySourceConfig_Bip39Mnemonic value) bip39Mnemonic,
+    required TResult Function(EntropySourceConfig_Bip39Mnemonic value)
+        bip39Mnemonic,
   }) {
     return seedBytes(this);
   }
@@ -515,25 +577,34 @@ class _$EntropySourceConfig_SeedBytes implements EntropySourceConfig_SeedBytes {
 }
 
 abstract class EntropySourceConfig_SeedBytes implements EntropySourceConfig {
-  const factory EntropySourceConfig_SeedBytes(final U8Array64 field0) = _$EntropySourceConfig_SeedBytes;
+  const factory EntropySourceConfig_SeedBytes(final U8Array64 field0) =
+      _$EntropySourceConfig_SeedBytes;
 
   U8Array64 get field0;
   @JsonKey(ignore: true)
-  _$$EntropySourceConfig_SeedBytesCopyWith<_$EntropySourceConfig_SeedBytes> get copyWith => throw _privateConstructorUsedError;
+  _$$EntropySourceConfig_SeedBytesCopyWith<_$EntropySourceConfig_SeedBytes>
+      get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
 abstract class _$$EntropySourceConfig_Bip39MnemonicCopyWith<$Res> {
-  factory _$$EntropySourceConfig_Bip39MnemonicCopyWith(_$EntropySourceConfig_Bip39Mnemonic value, $Res Function(_$EntropySourceConfig_Bip39Mnemonic) then) =
+  factory _$$EntropySourceConfig_Bip39MnemonicCopyWith(
+          _$EntropySourceConfig_Bip39Mnemonic value,
+          $Res Function(_$EntropySourceConfig_Bip39Mnemonic) then) =
       __$$EntropySourceConfig_Bip39MnemonicCopyWithImpl<$Res>;
   @useResult
   $Res call({Mnemonic mnemonic, String? passphrase});
 }
 
 /// @nodoc
-class __$$EntropySourceConfig_Bip39MnemonicCopyWithImpl<$Res> extends _$EntropySourceConfigCopyWithImpl<$Res, _$EntropySourceConfig_Bip39Mnemonic>
+class __$$EntropySourceConfig_Bip39MnemonicCopyWithImpl<$Res>
+    extends _$EntropySourceConfigCopyWithImpl<$Res,
+        _$EntropySourceConfig_Bip39Mnemonic>
     implements _$$EntropySourceConfig_Bip39MnemonicCopyWith<$Res> {
-  __$$EntropySourceConfig_Bip39MnemonicCopyWithImpl(_$EntropySourceConfig_Bip39Mnemonic _value, $Res Function(_$EntropySourceConfig_Bip39Mnemonic) _then) : super(_value, _then);
+  __$$EntropySourceConfig_Bip39MnemonicCopyWithImpl(
+      _$EntropySourceConfig_Bip39Mnemonic _value,
+      $Res Function(_$EntropySourceConfig_Bip39Mnemonic) _then)
+      : super(_value, _then);
 
   @pragma('vm:prefer-inline')
   @override
@@ -556,8 +627,10 @@ class __$$EntropySourceConfig_Bip39MnemonicCopyWithImpl<$Res> extends _$EntropyS
 
 /// @nodoc
 
-class _$EntropySourceConfig_Bip39Mnemonic implements EntropySourceConfig_Bip39Mnemonic {
-  const _$EntropySourceConfig_Bip39Mnemonic({required this.mnemonic, this.passphrase});
+class _$EntropySourceConfig_Bip39Mnemonic
+    implements EntropySourceConfig_Bip39Mnemonic {
+  const _$EntropySourceConfig_Bip39Mnemonic(
+      {required this.mnemonic, this.passphrase});
 
   @override
   final Mnemonic mnemonic;
@@ -574,8 +647,10 @@ class _$EntropySourceConfig_Bip39Mnemonic implements EntropySourceConfig_Bip39Mn
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$EntropySourceConfig_Bip39Mnemonic &&
-            (identical(other.mnemonic, mnemonic) || other.mnemonic == mnemonic) &&
-            (identical(other.passphrase, passphrase) || other.passphrase == passphrase));
+            (identical(other.mnemonic, mnemonic) ||
+                other.mnemonic == mnemonic) &&
+            (identical(other.passphrase, passphrase) ||
+                other.passphrase == passphrase));
   }
 
   @override
@@ -584,15 +659,18 @@ class _$EntropySourceConfig_Bip39Mnemonic implements EntropySourceConfig_Bip39Mn
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$EntropySourceConfig_Bip39MnemonicCopyWith<_$EntropySourceConfig_Bip39Mnemonic> get copyWith =>
-      __$$EntropySourceConfig_Bip39MnemonicCopyWithImpl<_$EntropySourceConfig_Bip39Mnemonic>(this, _$identity);
+  _$$EntropySourceConfig_Bip39MnemonicCopyWith<
+          _$EntropySourceConfig_Bip39Mnemonic>
+      get copyWith => __$$EntropySourceConfig_Bip39MnemonicCopyWithImpl<
+          _$EntropySourceConfig_Bip39Mnemonic>(this, _$identity);
 
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(String field0) seedFile,
     required TResult Function(U8Array64 field0) seedBytes,
-    required TResult Function(Mnemonic mnemonic, String? passphrase) bip39Mnemonic,
+    required TResult Function(Mnemonic mnemonic, String? passphrase)
+        bip39Mnemonic,
   }) {
     return bip39Mnemonic(mnemonic, passphrase);
   }
@@ -626,7 +704,8 @@ class _$EntropySourceConfig_Bip39Mnemonic implements EntropySourceConfig_Bip39Mn
   TResult map<TResult extends Object?>({
     required TResult Function(EntropySourceConfig_SeedFile value) seedFile,
     required TResult Function(EntropySourceConfig_SeedBytes value) seedBytes,
-    required TResult Function(EntropySourceConfig_Bip39Mnemonic value) bip39Mnemonic,
+    required TResult Function(EntropySourceConfig_Bip39Mnemonic value)
+        bip39Mnemonic,
   }) {
     return bip39Mnemonic(this);
   }
@@ -656,13 +735,18 @@ class _$EntropySourceConfig_Bip39Mnemonic implements EntropySourceConfig_Bip39Mn
   }
 }
 
-abstract class EntropySourceConfig_Bip39Mnemonic implements EntropySourceConfig {
-  const factory EntropySourceConfig_Bip39Mnemonic({required final Mnemonic mnemonic, final String? passphrase}) = _$EntropySourceConfig_Bip39Mnemonic;
+abstract class EntropySourceConfig_Bip39Mnemonic
+    implements EntropySourceConfig {
+  const factory EntropySourceConfig_Bip39Mnemonic(
+      {required final Mnemonic mnemonic,
+      final String? passphrase}) = _$EntropySourceConfig_Bip39Mnemonic;
 
   Mnemonic get mnemonic;
   String? get passphrase;
   @JsonKey(ignore: true)
-  _$$EntropySourceConfig_Bip39MnemonicCopyWith<_$EntropySourceConfig_Bip39Mnemonic> get copyWith => throw _privateConstructorUsedError;
+  _$$EntropySourceConfig_Bip39MnemonicCopyWith<
+          _$EntropySourceConfig_Bip39Mnemonic>
+      get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
@@ -671,10 +755,19 @@ mixin _$Event {
   TResult when<TResult extends Object?>({
     required TResult Function(PaymentHash paymentHash) paymentSuccessful,
     required TResult Function(PaymentHash paymentHash) paymentFailed,
-    required TResult Function(PaymentHash paymentHash, int amountMsat) paymentReceived,
-    required TResult Function(ChannelId channelId, UserChannelId userChannelId) channelReady,
-    required TResult Function(ChannelId channelId, UserChannelId userChannelId) channelClosed,
-    required TResult Function(ChannelId channelId, UserChannelId userChannelId, ChannelId formerTemporaryChannelId, PublicKey counterpartyNodeId, OutPoint fundingTxo) channelPending,
+    required TResult Function(PaymentHash paymentHash, int amountMsat)
+        paymentReceived,
+    required TResult Function(ChannelId channelId, UserChannelId userChannelId)
+        channelReady,
+    required TResult Function(ChannelId channelId, UserChannelId userChannelId)
+        channelClosed,
+    required TResult Function(
+            ChannelId channelId,
+            UserChannelId userChannelId,
+            ChannelId formerTemporaryChannelId,
+            PublicKey counterpartyNodeId,
+            OutPoint fundingTxo)
+        channelPending,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -682,9 +775,17 @@ mixin _$Event {
     TResult? Function(PaymentHash paymentHash)? paymentSuccessful,
     TResult? Function(PaymentHash paymentHash)? paymentFailed,
     TResult? Function(PaymentHash paymentHash, int amountMsat)? paymentReceived,
-    TResult? Function(ChannelId channelId, UserChannelId userChannelId)? channelReady,
-    TResult? Function(ChannelId channelId, UserChannelId userChannelId)? channelClosed,
-    TResult? Function(ChannelId channelId, UserChannelId userChannelId, ChannelId formerTemporaryChannelId, PublicKey counterpartyNodeId, OutPoint fundingTxo)? channelPending,
+    TResult? Function(ChannelId channelId, UserChannelId userChannelId)?
+        channelReady,
+    TResult? Function(ChannelId channelId, UserChannelId userChannelId)?
+        channelClosed,
+    TResult? Function(
+            ChannelId channelId,
+            UserChannelId userChannelId,
+            ChannelId formerTemporaryChannelId,
+            PublicKey counterpartyNodeId,
+            OutPoint fundingTxo)?
+        channelPending,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -692,9 +793,17 @@ mixin _$Event {
     TResult Function(PaymentHash paymentHash)? paymentSuccessful,
     TResult Function(PaymentHash paymentHash)? paymentFailed,
     TResult Function(PaymentHash paymentHash, int amountMsat)? paymentReceived,
-    TResult Function(ChannelId channelId, UserChannelId userChannelId)? channelReady,
-    TResult Function(ChannelId channelId, UserChannelId userChannelId)? channelClosed,
-    TResult Function(ChannelId channelId, UserChannelId userChannelId, ChannelId formerTemporaryChannelId, PublicKey counterpartyNodeId, OutPoint fundingTxo)? channelPending,
+    TResult Function(ChannelId channelId, UserChannelId userChannelId)?
+        channelReady,
+    TResult Function(ChannelId channelId, UserChannelId userChannelId)?
+        channelClosed,
+    TResult Function(
+            ChannelId channelId,
+            UserChannelId userChannelId,
+            ChannelId formerTemporaryChannelId,
+            PublicKey counterpartyNodeId,
+            OutPoint fundingTxo)?
+        channelPending,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -733,11 +842,13 @@ mixin _$Event {
 
 /// @nodoc
 abstract class $EventCopyWith<$Res> {
-  factory $EventCopyWith(Event value, $Res Function(Event) then) = _$EventCopyWithImpl<$Res, Event>;
+  factory $EventCopyWith(Event value, $Res Function(Event) then) =
+      _$EventCopyWithImpl<$Res, Event>;
 }
 
 /// @nodoc
-class _$EventCopyWithImpl<$Res, $Val extends Event> implements $EventCopyWith<$Res> {
+class _$EventCopyWithImpl<$Res, $Val extends Event>
+    implements $EventCopyWith<$Res> {
   _$EventCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
@@ -748,14 +859,20 @@ class _$EventCopyWithImpl<$Res, $Val extends Event> implements $EventCopyWith<$R
 
 /// @nodoc
 abstract class _$$Event_PaymentSuccessfulCopyWith<$Res> {
-  factory _$$Event_PaymentSuccessfulCopyWith(_$Event_PaymentSuccessful value, $Res Function(_$Event_PaymentSuccessful) then) = __$$Event_PaymentSuccessfulCopyWithImpl<$Res>;
+  factory _$$Event_PaymentSuccessfulCopyWith(_$Event_PaymentSuccessful value,
+          $Res Function(_$Event_PaymentSuccessful) then) =
+      __$$Event_PaymentSuccessfulCopyWithImpl<$Res>;
   @useResult
   $Res call({PaymentHash paymentHash});
 }
 
 /// @nodoc
-class __$$Event_PaymentSuccessfulCopyWithImpl<$Res> extends _$EventCopyWithImpl<$Res, _$Event_PaymentSuccessful> implements _$$Event_PaymentSuccessfulCopyWith<$Res> {
-  __$$Event_PaymentSuccessfulCopyWithImpl(_$Event_PaymentSuccessful _value, $Res Function(_$Event_PaymentSuccessful) _then) : super(_value, _then);
+class __$$Event_PaymentSuccessfulCopyWithImpl<$Res>
+    extends _$EventCopyWithImpl<$Res, _$Event_PaymentSuccessful>
+    implements _$$Event_PaymentSuccessfulCopyWith<$Res> {
+  __$$Event_PaymentSuccessfulCopyWithImpl(_$Event_PaymentSuccessful _value,
+      $Res Function(_$Event_PaymentSuccessful) _then)
+      : super(_value, _then);
 
   @pragma('vm:prefer-inline')
   @override
@@ -787,7 +904,11 @@ class _$Event_PaymentSuccessful implements Event_PaymentSuccessful {
 
   @override
   bool operator ==(dynamic other) {
-    return identical(this, other) || (other.runtimeType == runtimeType && other is _$Event_PaymentSuccessful && (identical(other.paymentHash, paymentHash) || other.paymentHash == paymentHash));
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$Event_PaymentSuccessful &&
+            (identical(other.paymentHash, paymentHash) ||
+                other.paymentHash == paymentHash));
   }
 
   @override
@@ -796,17 +917,28 @@ class _$Event_PaymentSuccessful implements Event_PaymentSuccessful {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$Event_PaymentSuccessfulCopyWith<_$Event_PaymentSuccessful> get copyWith => __$$Event_PaymentSuccessfulCopyWithImpl<_$Event_PaymentSuccessful>(this, _$identity);
+  _$$Event_PaymentSuccessfulCopyWith<_$Event_PaymentSuccessful> get copyWith =>
+      __$$Event_PaymentSuccessfulCopyWithImpl<_$Event_PaymentSuccessful>(
+          this, _$identity);
 
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(PaymentHash paymentHash) paymentSuccessful,
     required TResult Function(PaymentHash paymentHash) paymentFailed,
-    required TResult Function(PaymentHash paymentHash, int amountMsat) paymentReceived,
-    required TResult Function(ChannelId channelId, UserChannelId userChannelId) channelReady,
-    required TResult Function(ChannelId channelId, UserChannelId userChannelId) channelClosed,
-    required TResult Function(ChannelId channelId, UserChannelId userChannelId, ChannelId formerTemporaryChannelId, PublicKey counterpartyNodeId, OutPoint fundingTxo) channelPending,
+    required TResult Function(PaymentHash paymentHash, int amountMsat)
+        paymentReceived,
+    required TResult Function(ChannelId channelId, UserChannelId userChannelId)
+        channelReady,
+    required TResult Function(ChannelId channelId, UserChannelId userChannelId)
+        channelClosed,
+    required TResult Function(
+            ChannelId channelId,
+            UserChannelId userChannelId,
+            ChannelId formerTemporaryChannelId,
+            PublicKey counterpartyNodeId,
+            OutPoint fundingTxo)
+        channelPending,
   }) {
     return paymentSuccessful(paymentHash);
   }
@@ -817,9 +949,17 @@ class _$Event_PaymentSuccessful implements Event_PaymentSuccessful {
     TResult? Function(PaymentHash paymentHash)? paymentSuccessful,
     TResult? Function(PaymentHash paymentHash)? paymentFailed,
     TResult? Function(PaymentHash paymentHash, int amountMsat)? paymentReceived,
-    TResult? Function(ChannelId channelId, UserChannelId userChannelId)? channelReady,
-    TResult? Function(ChannelId channelId, UserChannelId userChannelId)? channelClosed,
-    TResult? Function(ChannelId channelId, UserChannelId userChannelId, ChannelId formerTemporaryChannelId, PublicKey counterpartyNodeId, OutPoint fundingTxo)? channelPending,
+    TResult? Function(ChannelId channelId, UserChannelId userChannelId)?
+        channelReady,
+    TResult? Function(ChannelId channelId, UserChannelId userChannelId)?
+        channelClosed,
+    TResult? Function(
+            ChannelId channelId,
+            UserChannelId userChannelId,
+            ChannelId formerTemporaryChannelId,
+            PublicKey counterpartyNodeId,
+            OutPoint fundingTxo)?
+        channelPending,
   }) {
     return paymentSuccessful?.call(paymentHash);
   }
@@ -830,9 +970,17 @@ class _$Event_PaymentSuccessful implements Event_PaymentSuccessful {
     TResult Function(PaymentHash paymentHash)? paymentSuccessful,
     TResult Function(PaymentHash paymentHash)? paymentFailed,
     TResult Function(PaymentHash paymentHash, int amountMsat)? paymentReceived,
-    TResult Function(ChannelId channelId, UserChannelId userChannelId)? channelReady,
-    TResult Function(ChannelId channelId, UserChannelId userChannelId)? channelClosed,
-    TResult Function(ChannelId channelId, UserChannelId userChannelId, ChannelId formerTemporaryChannelId, PublicKey counterpartyNodeId, OutPoint fundingTxo)? channelPending,
+    TResult Function(ChannelId channelId, UserChannelId userChannelId)?
+        channelReady,
+    TResult Function(ChannelId channelId, UserChannelId userChannelId)?
+        channelClosed,
+    TResult Function(
+            ChannelId channelId,
+            UserChannelId userChannelId,
+            ChannelId formerTemporaryChannelId,
+            PublicKey counterpartyNodeId,
+            OutPoint fundingTxo)?
+        channelPending,
     required TResult orElse(),
   }) {
     if (paymentSuccessful != null) {
@@ -886,24 +1034,32 @@ class _$Event_PaymentSuccessful implements Event_PaymentSuccessful {
 }
 
 abstract class Event_PaymentSuccessful implements Event {
-  const factory Event_PaymentSuccessful({required final PaymentHash paymentHash}) = _$Event_PaymentSuccessful;
+  const factory Event_PaymentSuccessful(
+      {required final PaymentHash paymentHash}) = _$Event_PaymentSuccessful;
 
   /// The hash of the payment.
   PaymentHash get paymentHash;
   @JsonKey(ignore: true)
-  _$$Event_PaymentSuccessfulCopyWith<_$Event_PaymentSuccessful> get copyWith => throw _privateConstructorUsedError;
+  _$$Event_PaymentSuccessfulCopyWith<_$Event_PaymentSuccessful> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
 abstract class _$$Event_PaymentFailedCopyWith<$Res> {
-  factory _$$Event_PaymentFailedCopyWith(_$Event_PaymentFailed value, $Res Function(_$Event_PaymentFailed) then) = __$$Event_PaymentFailedCopyWithImpl<$Res>;
+  factory _$$Event_PaymentFailedCopyWith(_$Event_PaymentFailed value,
+          $Res Function(_$Event_PaymentFailed) then) =
+      __$$Event_PaymentFailedCopyWithImpl<$Res>;
   @useResult
   $Res call({PaymentHash paymentHash});
 }
 
 /// @nodoc
-class __$$Event_PaymentFailedCopyWithImpl<$Res> extends _$EventCopyWithImpl<$Res, _$Event_PaymentFailed> implements _$$Event_PaymentFailedCopyWith<$Res> {
-  __$$Event_PaymentFailedCopyWithImpl(_$Event_PaymentFailed _value, $Res Function(_$Event_PaymentFailed) _then) : super(_value, _then);
+class __$$Event_PaymentFailedCopyWithImpl<$Res>
+    extends _$EventCopyWithImpl<$Res, _$Event_PaymentFailed>
+    implements _$$Event_PaymentFailedCopyWith<$Res> {
+  __$$Event_PaymentFailedCopyWithImpl(
+      _$Event_PaymentFailed _value, $Res Function(_$Event_PaymentFailed) _then)
+      : super(_value, _then);
 
   @pragma('vm:prefer-inline')
   @override
@@ -935,7 +1091,11 @@ class _$Event_PaymentFailed implements Event_PaymentFailed {
 
   @override
   bool operator ==(dynamic other) {
-    return identical(this, other) || (other.runtimeType == runtimeType && other is _$Event_PaymentFailed && (identical(other.paymentHash, paymentHash) || other.paymentHash == paymentHash));
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$Event_PaymentFailed &&
+            (identical(other.paymentHash, paymentHash) ||
+                other.paymentHash == paymentHash));
   }
 
   @override
@@ -944,17 +1104,28 @@ class _$Event_PaymentFailed implements Event_PaymentFailed {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$Event_PaymentFailedCopyWith<_$Event_PaymentFailed> get copyWith => __$$Event_PaymentFailedCopyWithImpl<_$Event_PaymentFailed>(this, _$identity);
+  _$$Event_PaymentFailedCopyWith<_$Event_PaymentFailed> get copyWith =>
+      __$$Event_PaymentFailedCopyWithImpl<_$Event_PaymentFailed>(
+          this, _$identity);
 
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(PaymentHash paymentHash) paymentSuccessful,
     required TResult Function(PaymentHash paymentHash) paymentFailed,
-    required TResult Function(PaymentHash paymentHash, int amountMsat) paymentReceived,
-    required TResult Function(ChannelId channelId, UserChannelId userChannelId) channelReady,
-    required TResult Function(ChannelId channelId, UserChannelId userChannelId) channelClosed,
-    required TResult Function(ChannelId channelId, UserChannelId userChannelId, ChannelId formerTemporaryChannelId, PublicKey counterpartyNodeId, OutPoint fundingTxo) channelPending,
+    required TResult Function(PaymentHash paymentHash, int amountMsat)
+        paymentReceived,
+    required TResult Function(ChannelId channelId, UserChannelId userChannelId)
+        channelReady,
+    required TResult Function(ChannelId channelId, UserChannelId userChannelId)
+        channelClosed,
+    required TResult Function(
+            ChannelId channelId,
+            UserChannelId userChannelId,
+            ChannelId formerTemporaryChannelId,
+            PublicKey counterpartyNodeId,
+            OutPoint fundingTxo)
+        channelPending,
   }) {
     return paymentFailed(paymentHash);
   }
@@ -965,9 +1136,17 @@ class _$Event_PaymentFailed implements Event_PaymentFailed {
     TResult? Function(PaymentHash paymentHash)? paymentSuccessful,
     TResult? Function(PaymentHash paymentHash)? paymentFailed,
     TResult? Function(PaymentHash paymentHash, int amountMsat)? paymentReceived,
-    TResult? Function(ChannelId channelId, UserChannelId userChannelId)? channelReady,
-    TResult? Function(ChannelId channelId, UserChannelId userChannelId)? channelClosed,
-    TResult? Function(ChannelId channelId, UserChannelId userChannelId, ChannelId formerTemporaryChannelId, PublicKey counterpartyNodeId, OutPoint fundingTxo)? channelPending,
+    TResult? Function(ChannelId channelId, UserChannelId userChannelId)?
+        channelReady,
+    TResult? Function(ChannelId channelId, UserChannelId userChannelId)?
+        channelClosed,
+    TResult? Function(
+            ChannelId channelId,
+            UserChannelId userChannelId,
+            ChannelId formerTemporaryChannelId,
+            PublicKey counterpartyNodeId,
+            OutPoint fundingTxo)?
+        channelPending,
   }) {
     return paymentFailed?.call(paymentHash);
   }
@@ -978,9 +1157,17 @@ class _$Event_PaymentFailed implements Event_PaymentFailed {
     TResult Function(PaymentHash paymentHash)? paymentSuccessful,
     TResult Function(PaymentHash paymentHash)? paymentFailed,
     TResult Function(PaymentHash paymentHash, int amountMsat)? paymentReceived,
-    TResult Function(ChannelId channelId, UserChannelId userChannelId)? channelReady,
-    TResult Function(ChannelId channelId, UserChannelId userChannelId)? channelClosed,
-    TResult Function(ChannelId channelId, UserChannelId userChannelId, ChannelId formerTemporaryChannelId, PublicKey counterpartyNodeId, OutPoint fundingTxo)? channelPending,
+    TResult Function(ChannelId channelId, UserChannelId userChannelId)?
+        channelReady,
+    TResult Function(ChannelId channelId, UserChannelId userChannelId)?
+        channelClosed,
+    TResult Function(
+            ChannelId channelId,
+            UserChannelId userChannelId,
+            ChannelId formerTemporaryChannelId,
+            PublicKey counterpartyNodeId,
+            OutPoint fundingTxo)?
+        channelPending,
     required TResult orElse(),
   }) {
     if (paymentFailed != null) {
@@ -1034,24 +1221,32 @@ class _$Event_PaymentFailed implements Event_PaymentFailed {
 }
 
 abstract class Event_PaymentFailed implements Event {
-  const factory Event_PaymentFailed({required final PaymentHash paymentHash}) = _$Event_PaymentFailed;
+  const factory Event_PaymentFailed({required final PaymentHash paymentHash}) =
+      _$Event_PaymentFailed;
 
   /// The hash of the payment.
   PaymentHash get paymentHash;
   @JsonKey(ignore: true)
-  _$$Event_PaymentFailedCopyWith<_$Event_PaymentFailed> get copyWith => throw _privateConstructorUsedError;
+  _$$Event_PaymentFailedCopyWith<_$Event_PaymentFailed> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
 abstract class _$$Event_PaymentReceivedCopyWith<$Res> {
-  factory _$$Event_PaymentReceivedCopyWith(_$Event_PaymentReceived value, $Res Function(_$Event_PaymentReceived) then) = __$$Event_PaymentReceivedCopyWithImpl<$Res>;
+  factory _$$Event_PaymentReceivedCopyWith(_$Event_PaymentReceived value,
+          $Res Function(_$Event_PaymentReceived) then) =
+      __$$Event_PaymentReceivedCopyWithImpl<$Res>;
   @useResult
   $Res call({PaymentHash paymentHash, int amountMsat});
 }
 
 /// @nodoc
-class __$$Event_PaymentReceivedCopyWithImpl<$Res> extends _$EventCopyWithImpl<$Res, _$Event_PaymentReceived> implements _$$Event_PaymentReceivedCopyWith<$Res> {
-  __$$Event_PaymentReceivedCopyWithImpl(_$Event_PaymentReceived _value, $Res Function(_$Event_PaymentReceived) _then) : super(_value, _then);
+class __$$Event_PaymentReceivedCopyWithImpl<$Res>
+    extends _$EventCopyWithImpl<$Res, _$Event_PaymentReceived>
+    implements _$$Event_PaymentReceivedCopyWith<$Res> {
+  __$$Event_PaymentReceivedCopyWithImpl(_$Event_PaymentReceived _value,
+      $Res Function(_$Event_PaymentReceived) _then)
+      : super(_value, _then);
 
   @pragma('vm:prefer-inline')
   @override
@@ -1075,7 +1270,8 @@ class __$$Event_PaymentReceivedCopyWithImpl<$Res> extends _$EventCopyWithImpl<$R
 /// @nodoc
 
 class _$Event_PaymentReceived implements Event_PaymentReceived {
-  const _$Event_PaymentReceived({required this.paymentHash, required this.amountMsat});
+  const _$Event_PaymentReceived(
+      {required this.paymentHash, required this.amountMsat});
 
   /// The hash of the payment.
   @override
@@ -1095,8 +1291,10 @@ class _$Event_PaymentReceived implements Event_PaymentReceived {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$Event_PaymentReceived &&
-            (identical(other.paymentHash, paymentHash) || other.paymentHash == paymentHash) &&
-            (identical(other.amountMsat, amountMsat) || other.amountMsat == amountMsat));
+            (identical(other.paymentHash, paymentHash) ||
+                other.paymentHash == paymentHash) &&
+            (identical(other.amountMsat, amountMsat) ||
+                other.amountMsat == amountMsat));
   }
 
   @override
@@ -1105,17 +1303,28 @@ class _$Event_PaymentReceived implements Event_PaymentReceived {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$Event_PaymentReceivedCopyWith<_$Event_PaymentReceived> get copyWith => __$$Event_PaymentReceivedCopyWithImpl<_$Event_PaymentReceived>(this, _$identity);
+  _$$Event_PaymentReceivedCopyWith<_$Event_PaymentReceived> get copyWith =>
+      __$$Event_PaymentReceivedCopyWithImpl<_$Event_PaymentReceived>(
+          this, _$identity);
 
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(PaymentHash paymentHash) paymentSuccessful,
     required TResult Function(PaymentHash paymentHash) paymentFailed,
-    required TResult Function(PaymentHash paymentHash, int amountMsat) paymentReceived,
-    required TResult Function(ChannelId channelId, UserChannelId userChannelId) channelReady,
-    required TResult Function(ChannelId channelId, UserChannelId userChannelId) channelClosed,
-    required TResult Function(ChannelId channelId, UserChannelId userChannelId, ChannelId formerTemporaryChannelId, PublicKey counterpartyNodeId, OutPoint fundingTxo) channelPending,
+    required TResult Function(PaymentHash paymentHash, int amountMsat)
+        paymentReceived,
+    required TResult Function(ChannelId channelId, UserChannelId userChannelId)
+        channelReady,
+    required TResult Function(ChannelId channelId, UserChannelId userChannelId)
+        channelClosed,
+    required TResult Function(
+            ChannelId channelId,
+            UserChannelId userChannelId,
+            ChannelId formerTemporaryChannelId,
+            PublicKey counterpartyNodeId,
+            OutPoint fundingTxo)
+        channelPending,
   }) {
     return paymentReceived(paymentHash, amountMsat);
   }
@@ -1126,9 +1335,17 @@ class _$Event_PaymentReceived implements Event_PaymentReceived {
     TResult? Function(PaymentHash paymentHash)? paymentSuccessful,
     TResult? Function(PaymentHash paymentHash)? paymentFailed,
     TResult? Function(PaymentHash paymentHash, int amountMsat)? paymentReceived,
-    TResult? Function(ChannelId channelId, UserChannelId userChannelId)? channelReady,
-    TResult? Function(ChannelId channelId, UserChannelId userChannelId)? channelClosed,
-    TResult? Function(ChannelId channelId, UserChannelId userChannelId, ChannelId formerTemporaryChannelId, PublicKey counterpartyNodeId, OutPoint fundingTxo)? channelPending,
+    TResult? Function(ChannelId channelId, UserChannelId userChannelId)?
+        channelReady,
+    TResult? Function(ChannelId channelId, UserChannelId userChannelId)?
+        channelClosed,
+    TResult? Function(
+            ChannelId channelId,
+            UserChannelId userChannelId,
+            ChannelId formerTemporaryChannelId,
+            PublicKey counterpartyNodeId,
+            OutPoint fundingTxo)?
+        channelPending,
   }) {
     return paymentReceived?.call(paymentHash, amountMsat);
   }
@@ -1139,9 +1356,17 @@ class _$Event_PaymentReceived implements Event_PaymentReceived {
     TResult Function(PaymentHash paymentHash)? paymentSuccessful,
     TResult Function(PaymentHash paymentHash)? paymentFailed,
     TResult Function(PaymentHash paymentHash, int amountMsat)? paymentReceived,
-    TResult Function(ChannelId channelId, UserChannelId userChannelId)? channelReady,
-    TResult Function(ChannelId channelId, UserChannelId userChannelId)? channelClosed,
-    TResult Function(ChannelId channelId, UserChannelId userChannelId, ChannelId formerTemporaryChannelId, PublicKey counterpartyNodeId, OutPoint fundingTxo)? channelPending,
+    TResult Function(ChannelId channelId, UserChannelId userChannelId)?
+        channelReady,
+    TResult Function(ChannelId channelId, UserChannelId userChannelId)?
+        channelClosed,
+    TResult Function(
+            ChannelId channelId,
+            UserChannelId userChannelId,
+            ChannelId formerTemporaryChannelId,
+            PublicKey counterpartyNodeId,
+            OutPoint fundingTxo)?
+        channelPending,
     required TResult orElse(),
   }) {
     if (paymentReceived != null) {
@@ -1195,7 +1420,9 @@ class _$Event_PaymentReceived implements Event_PaymentReceived {
 }
 
 abstract class Event_PaymentReceived implements Event {
-  const factory Event_PaymentReceived({required final PaymentHash paymentHash, required final int amountMsat}) = _$Event_PaymentReceived;
+  const factory Event_PaymentReceived(
+      {required final PaymentHash paymentHash,
+      required final int amountMsat}) = _$Event_PaymentReceived;
 
   /// The hash of the payment.
   PaymentHash get paymentHash;
@@ -1203,19 +1430,26 @@ abstract class Event_PaymentReceived implements Event {
   /// The value, in thousandths of a satoshi, that has been received.
   int get amountMsat;
   @JsonKey(ignore: true)
-  _$$Event_PaymentReceivedCopyWith<_$Event_PaymentReceived> get copyWith => throw _privateConstructorUsedError;
+  _$$Event_PaymentReceivedCopyWith<_$Event_PaymentReceived> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
 abstract class _$$Event_ChannelReadyCopyWith<$Res> {
-  factory _$$Event_ChannelReadyCopyWith(_$Event_ChannelReady value, $Res Function(_$Event_ChannelReady) then) = __$$Event_ChannelReadyCopyWithImpl<$Res>;
+  factory _$$Event_ChannelReadyCopyWith(_$Event_ChannelReady value,
+          $Res Function(_$Event_ChannelReady) then) =
+      __$$Event_ChannelReadyCopyWithImpl<$Res>;
   @useResult
   $Res call({ChannelId channelId, UserChannelId userChannelId});
 }
 
 /// @nodoc
-class __$$Event_ChannelReadyCopyWithImpl<$Res> extends _$EventCopyWithImpl<$Res, _$Event_ChannelReady> implements _$$Event_ChannelReadyCopyWith<$Res> {
-  __$$Event_ChannelReadyCopyWithImpl(_$Event_ChannelReady _value, $Res Function(_$Event_ChannelReady) _then) : super(_value, _then);
+class __$$Event_ChannelReadyCopyWithImpl<$Res>
+    extends _$EventCopyWithImpl<$Res, _$Event_ChannelReady>
+    implements _$$Event_ChannelReadyCopyWith<$Res> {
+  __$$Event_ChannelReadyCopyWithImpl(
+      _$Event_ChannelReady _value, $Res Function(_$Event_ChannelReady) _then)
+      : super(_value, _then);
 
   @pragma('vm:prefer-inline')
   @override
@@ -1239,7 +1473,8 @@ class __$$Event_ChannelReadyCopyWithImpl<$Res> extends _$EventCopyWithImpl<$Res,
 /// @nodoc
 
 class _$Event_ChannelReady implements Event_ChannelReady {
-  const _$Event_ChannelReady({required this.channelId, required this.userChannelId});
+  const _$Event_ChannelReady(
+      {required this.channelId, required this.userChannelId});
 
   /// The channel_id of the channel.
   @override
@@ -1259,8 +1494,10 @@ class _$Event_ChannelReady implements Event_ChannelReady {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$Event_ChannelReady &&
-            (identical(other.channelId, channelId) || other.channelId == channelId) &&
-            (identical(other.userChannelId, userChannelId) || other.userChannelId == userChannelId));
+            (identical(other.channelId, channelId) ||
+                other.channelId == channelId) &&
+            (identical(other.userChannelId, userChannelId) ||
+                other.userChannelId == userChannelId));
   }
 
   @override
@@ -1269,17 +1506,28 @@ class _$Event_ChannelReady implements Event_ChannelReady {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$Event_ChannelReadyCopyWith<_$Event_ChannelReady> get copyWith => __$$Event_ChannelReadyCopyWithImpl<_$Event_ChannelReady>(this, _$identity);
+  _$$Event_ChannelReadyCopyWith<_$Event_ChannelReady> get copyWith =>
+      __$$Event_ChannelReadyCopyWithImpl<_$Event_ChannelReady>(
+          this, _$identity);
 
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(PaymentHash paymentHash) paymentSuccessful,
     required TResult Function(PaymentHash paymentHash) paymentFailed,
-    required TResult Function(PaymentHash paymentHash, int amountMsat) paymentReceived,
-    required TResult Function(ChannelId channelId, UserChannelId userChannelId) channelReady,
-    required TResult Function(ChannelId channelId, UserChannelId userChannelId) channelClosed,
-    required TResult Function(ChannelId channelId, UserChannelId userChannelId, ChannelId formerTemporaryChannelId, PublicKey counterpartyNodeId, OutPoint fundingTxo) channelPending,
+    required TResult Function(PaymentHash paymentHash, int amountMsat)
+        paymentReceived,
+    required TResult Function(ChannelId channelId, UserChannelId userChannelId)
+        channelReady,
+    required TResult Function(ChannelId channelId, UserChannelId userChannelId)
+        channelClosed,
+    required TResult Function(
+            ChannelId channelId,
+            UserChannelId userChannelId,
+            ChannelId formerTemporaryChannelId,
+            PublicKey counterpartyNodeId,
+            OutPoint fundingTxo)
+        channelPending,
   }) {
     return channelReady(channelId, userChannelId);
   }
@@ -1290,9 +1538,17 @@ class _$Event_ChannelReady implements Event_ChannelReady {
     TResult? Function(PaymentHash paymentHash)? paymentSuccessful,
     TResult? Function(PaymentHash paymentHash)? paymentFailed,
     TResult? Function(PaymentHash paymentHash, int amountMsat)? paymentReceived,
-    TResult? Function(ChannelId channelId, UserChannelId userChannelId)? channelReady,
-    TResult? Function(ChannelId channelId, UserChannelId userChannelId)? channelClosed,
-    TResult? Function(ChannelId channelId, UserChannelId userChannelId, ChannelId formerTemporaryChannelId, PublicKey counterpartyNodeId, OutPoint fundingTxo)? channelPending,
+    TResult? Function(ChannelId channelId, UserChannelId userChannelId)?
+        channelReady,
+    TResult? Function(ChannelId channelId, UserChannelId userChannelId)?
+        channelClosed,
+    TResult? Function(
+            ChannelId channelId,
+            UserChannelId userChannelId,
+            ChannelId formerTemporaryChannelId,
+            PublicKey counterpartyNodeId,
+            OutPoint fundingTxo)?
+        channelPending,
   }) {
     return channelReady?.call(channelId, userChannelId);
   }
@@ -1303,9 +1559,17 @@ class _$Event_ChannelReady implements Event_ChannelReady {
     TResult Function(PaymentHash paymentHash)? paymentSuccessful,
     TResult Function(PaymentHash paymentHash)? paymentFailed,
     TResult Function(PaymentHash paymentHash, int amountMsat)? paymentReceived,
-    TResult Function(ChannelId channelId, UserChannelId userChannelId)? channelReady,
-    TResult Function(ChannelId channelId, UserChannelId userChannelId)? channelClosed,
-    TResult Function(ChannelId channelId, UserChannelId userChannelId, ChannelId formerTemporaryChannelId, PublicKey counterpartyNodeId, OutPoint fundingTxo)? channelPending,
+    TResult Function(ChannelId channelId, UserChannelId userChannelId)?
+        channelReady,
+    TResult Function(ChannelId channelId, UserChannelId userChannelId)?
+        channelClosed,
+    TResult Function(
+            ChannelId channelId,
+            UserChannelId userChannelId,
+            ChannelId formerTemporaryChannelId,
+            PublicKey counterpartyNodeId,
+            OutPoint fundingTxo)?
+        channelPending,
     required TResult orElse(),
   }) {
     if (channelReady != null) {
@@ -1359,7 +1623,9 @@ class _$Event_ChannelReady implements Event_ChannelReady {
 }
 
 abstract class Event_ChannelReady implements Event {
-  const factory Event_ChannelReady({required final ChannelId channelId, required final UserChannelId userChannelId}) = _$Event_ChannelReady;
+  const factory Event_ChannelReady(
+      {required final ChannelId channelId,
+      required final UserChannelId userChannelId}) = _$Event_ChannelReady;
 
   /// The channel_id of the channel.
   ChannelId get channelId;
@@ -1367,19 +1633,26 @@ abstract class Event_ChannelReady implements Event {
   /// The user_channel_id of the channel.
   UserChannelId get userChannelId;
   @JsonKey(ignore: true)
-  _$$Event_ChannelReadyCopyWith<_$Event_ChannelReady> get copyWith => throw _privateConstructorUsedError;
+  _$$Event_ChannelReadyCopyWith<_$Event_ChannelReady> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
 abstract class _$$Event_ChannelClosedCopyWith<$Res> {
-  factory _$$Event_ChannelClosedCopyWith(_$Event_ChannelClosed value, $Res Function(_$Event_ChannelClosed) then) = __$$Event_ChannelClosedCopyWithImpl<$Res>;
+  factory _$$Event_ChannelClosedCopyWith(_$Event_ChannelClosed value,
+          $Res Function(_$Event_ChannelClosed) then) =
+      __$$Event_ChannelClosedCopyWithImpl<$Res>;
   @useResult
   $Res call({ChannelId channelId, UserChannelId userChannelId});
 }
 
 /// @nodoc
-class __$$Event_ChannelClosedCopyWithImpl<$Res> extends _$EventCopyWithImpl<$Res, _$Event_ChannelClosed> implements _$$Event_ChannelClosedCopyWith<$Res> {
-  __$$Event_ChannelClosedCopyWithImpl(_$Event_ChannelClosed _value, $Res Function(_$Event_ChannelClosed) _then) : super(_value, _then);
+class __$$Event_ChannelClosedCopyWithImpl<$Res>
+    extends _$EventCopyWithImpl<$Res, _$Event_ChannelClosed>
+    implements _$$Event_ChannelClosedCopyWith<$Res> {
+  __$$Event_ChannelClosedCopyWithImpl(
+      _$Event_ChannelClosed _value, $Res Function(_$Event_ChannelClosed) _then)
+      : super(_value, _then);
 
   @pragma('vm:prefer-inline')
   @override
@@ -1403,7 +1676,8 @@ class __$$Event_ChannelClosedCopyWithImpl<$Res> extends _$EventCopyWithImpl<$Res
 /// @nodoc
 
 class _$Event_ChannelClosed implements Event_ChannelClosed {
-  const _$Event_ChannelClosed({required this.channelId, required this.userChannelId});
+  const _$Event_ChannelClosed(
+      {required this.channelId, required this.userChannelId});
 
   /// The channel_id of the channel.
   @override
@@ -1423,8 +1697,10 @@ class _$Event_ChannelClosed implements Event_ChannelClosed {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$Event_ChannelClosed &&
-            (identical(other.channelId, channelId) || other.channelId == channelId) &&
-            (identical(other.userChannelId, userChannelId) || other.userChannelId == userChannelId));
+            (identical(other.channelId, channelId) ||
+                other.channelId == channelId) &&
+            (identical(other.userChannelId, userChannelId) ||
+                other.userChannelId == userChannelId));
   }
 
   @override
@@ -1433,17 +1709,28 @@ class _$Event_ChannelClosed implements Event_ChannelClosed {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$Event_ChannelClosedCopyWith<_$Event_ChannelClosed> get copyWith => __$$Event_ChannelClosedCopyWithImpl<_$Event_ChannelClosed>(this, _$identity);
+  _$$Event_ChannelClosedCopyWith<_$Event_ChannelClosed> get copyWith =>
+      __$$Event_ChannelClosedCopyWithImpl<_$Event_ChannelClosed>(
+          this, _$identity);
 
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(PaymentHash paymentHash) paymentSuccessful,
     required TResult Function(PaymentHash paymentHash) paymentFailed,
-    required TResult Function(PaymentHash paymentHash, int amountMsat) paymentReceived,
-    required TResult Function(ChannelId channelId, UserChannelId userChannelId) channelReady,
-    required TResult Function(ChannelId channelId, UserChannelId userChannelId) channelClosed,
-    required TResult Function(ChannelId channelId, UserChannelId userChannelId, ChannelId formerTemporaryChannelId, PublicKey counterpartyNodeId, OutPoint fundingTxo) channelPending,
+    required TResult Function(PaymentHash paymentHash, int amountMsat)
+        paymentReceived,
+    required TResult Function(ChannelId channelId, UserChannelId userChannelId)
+        channelReady,
+    required TResult Function(ChannelId channelId, UserChannelId userChannelId)
+        channelClosed,
+    required TResult Function(
+            ChannelId channelId,
+            UserChannelId userChannelId,
+            ChannelId formerTemporaryChannelId,
+            PublicKey counterpartyNodeId,
+            OutPoint fundingTxo)
+        channelPending,
   }) {
     return channelClosed(channelId, userChannelId);
   }
@@ -1454,9 +1741,17 @@ class _$Event_ChannelClosed implements Event_ChannelClosed {
     TResult? Function(PaymentHash paymentHash)? paymentSuccessful,
     TResult? Function(PaymentHash paymentHash)? paymentFailed,
     TResult? Function(PaymentHash paymentHash, int amountMsat)? paymentReceived,
-    TResult? Function(ChannelId channelId, UserChannelId userChannelId)? channelReady,
-    TResult? Function(ChannelId channelId, UserChannelId userChannelId)? channelClosed,
-    TResult? Function(ChannelId channelId, UserChannelId userChannelId, ChannelId formerTemporaryChannelId, PublicKey counterpartyNodeId, OutPoint fundingTxo)? channelPending,
+    TResult? Function(ChannelId channelId, UserChannelId userChannelId)?
+        channelReady,
+    TResult? Function(ChannelId channelId, UserChannelId userChannelId)?
+        channelClosed,
+    TResult? Function(
+            ChannelId channelId,
+            UserChannelId userChannelId,
+            ChannelId formerTemporaryChannelId,
+            PublicKey counterpartyNodeId,
+            OutPoint fundingTxo)?
+        channelPending,
   }) {
     return channelClosed?.call(channelId, userChannelId);
   }
@@ -1467,9 +1762,17 @@ class _$Event_ChannelClosed implements Event_ChannelClosed {
     TResult Function(PaymentHash paymentHash)? paymentSuccessful,
     TResult Function(PaymentHash paymentHash)? paymentFailed,
     TResult Function(PaymentHash paymentHash, int amountMsat)? paymentReceived,
-    TResult Function(ChannelId channelId, UserChannelId userChannelId)? channelReady,
-    TResult Function(ChannelId channelId, UserChannelId userChannelId)? channelClosed,
-    TResult Function(ChannelId channelId, UserChannelId userChannelId, ChannelId formerTemporaryChannelId, PublicKey counterpartyNodeId, OutPoint fundingTxo)? channelPending,
+    TResult Function(ChannelId channelId, UserChannelId userChannelId)?
+        channelReady,
+    TResult Function(ChannelId channelId, UserChannelId userChannelId)?
+        channelClosed,
+    TResult Function(
+            ChannelId channelId,
+            UserChannelId userChannelId,
+            ChannelId formerTemporaryChannelId,
+            PublicKey counterpartyNodeId,
+            OutPoint fundingTxo)?
+        channelPending,
     required TResult orElse(),
   }) {
     if (channelClosed != null) {
@@ -1523,7 +1826,9 @@ class _$Event_ChannelClosed implements Event_ChannelClosed {
 }
 
 abstract class Event_ChannelClosed implements Event {
-  const factory Event_ChannelClosed({required final ChannelId channelId, required final UserChannelId userChannelId}) = _$Event_ChannelClosed;
+  const factory Event_ChannelClosed(
+      {required final ChannelId channelId,
+      required final UserChannelId userChannelId}) = _$Event_ChannelClosed;
 
   /// The channel_id of the channel.
   ChannelId get channelId;
@@ -1531,19 +1836,31 @@ abstract class Event_ChannelClosed implements Event {
   /// The user_channel_id of the channel.
   UserChannelId get userChannelId;
   @JsonKey(ignore: true)
-  _$$Event_ChannelClosedCopyWith<_$Event_ChannelClosed> get copyWith => throw _privateConstructorUsedError;
+  _$$Event_ChannelClosedCopyWith<_$Event_ChannelClosed> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
 abstract class _$$Event_ChannelPendingCopyWith<$Res> {
-  factory _$$Event_ChannelPendingCopyWith(_$Event_ChannelPending value, $Res Function(_$Event_ChannelPending) then) = __$$Event_ChannelPendingCopyWithImpl<$Res>;
+  factory _$$Event_ChannelPendingCopyWith(_$Event_ChannelPending value,
+          $Res Function(_$Event_ChannelPending) then) =
+      __$$Event_ChannelPendingCopyWithImpl<$Res>;
   @useResult
-  $Res call({ChannelId channelId, UserChannelId userChannelId, ChannelId formerTemporaryChannelId, PublicKey counterpartyNodeId, OutPoint fundingTxo});
+  $Res call(
+      {ChannelId channelId,
+      UserChannelId userChannelId,
+      ChannelId formerTemporaryChannelId,
+      PublicKey counterpartyNodeId,
+      OutPoint fundingTxo});
 }
 
 /// @nodoc
-class __$$Event_ChannelPendingCopyWithImpl<$Res> extends _$EventCopyWithImpl<$Res, _$Event_ChannelPending> implements _$$Event_ChannelPendingCopyWith<$Res> {
-  __$$Event_ChannelPendingCopyWithImpl(_$Event_ChannelPending _value, $Res Function(_$Event_ChannelPending) _then) : super(_value, _then);
+class __$$Event_ChannelPendingCopyWithImpl<$Res>
+    extends _$EventCopyWithImpl<$Res, _$Event_ChannelPending>
+    implements _$$Event_ChannelPendingCopyWith<$Res> {
+  __$$Event_ChannelPendingCopyWithImpl(_$Event_ChannelPending _value,
+      $Res Function(_$Event_ChannelPending) _then)
+      : super(_value, _then);
 
   @pragma('vm:prefer-inline')
   @override
@@ -1582,7 +1899,12 @@ class __$$Event_ChannelPendingCopyWithImpl<$Res> extends _$EventCopyWithImpl<$Re
 /// @nodoc
 
 class _$Event_ChannelPending implements Event_ChannelPending {
-  const _$Event_ChannelPending({required this.channelId, required this.userChannelId, required this.formerTemporaryChannelId, required this.counterpartyNodeId, required this.fundingTxo});
+  const _$Event_ChannelPending(
+      {required this.channelId,
+      required this.userChannelId,
+      required this.formerTemporaryChannelId,
+      required this.counterpartyNodeId,
+      required this.fundingTxo});
 
   /// The channel_id of the channel.
   @override
@@ -1614,32 +1936,51 @@ class _$Event_ChannelPending implements Event_ChannelPending {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$Event_ChannelPending &&
-            (identical(other.channelId, channelId) || other.channelId == channelId) &&
-            (identical(other.userChannelId, userChannelId) || other.userChannelId == userChannelId) &&
-            (identical(other.formerTemporaryChannelId, formerTemporaryChannelId) || other.formerTemporaryChannelId == formerTemporaryChannelId) &&
-            (identical(other.counterpartyNodeId, counterpartyNodeId) || other.counterpartyNodeId == counterpartyNodeId) &&
-            (identical(other.fundingTxo, fundingTxo) || other.fundingTxo == fundingTxo));
+            (identical(other.channelId, channelId) ||
+                other.channelId == channelId) &&
+            (identical(other.userChannelId, userChannelId) ||
+                other.userChannelId == userChannelId) &&
+            (identical(
+                    other.formerTemporaryChannelId, formerTemporaryChannelId) ||
+                other.formerTemporaryChannelId == formerTemporaryChannelId) &&
+            (identical(other.counterpartyNodeId, counterpartyNodeId) ||
+                other.counterpartyNodeId == counterpartyNodeId) &&
+            (identical(other.fundingTxo, fundingTxo) ||
+                other.fundingTxo == fundingTxo));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, channelId, userChannelId, formerTemporaryChannelId, counterpartyNodeId, fundingTxo);
+  int get hashCode => Object.hash(runtimeType, channelId, userChannelId,
+      formerTemporaryChannelId, counterpartyNodeId, fundingTxo);
 
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$Event_ChannelPendingCopyWith<_$Event_ChannelPending> get copyWith => __$$Event_ChannelPendingCopyWithImpl<_$Event_ChannelPending>(this, _$identity);
+  _$$Event_ChannelPendingCopyWith<_$Event_ChannelPending> get copyWith =>
+      __$$Event_ChannelPendingCopyWithImpl<_$Event_ChannelPending>(
+          this, _$identity);
 
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(PaymentHash paymentHash) paymentSuccessful,
     required TResult Function(PaymentHash paymentHash) paymentFailed,
-    required TResult Function(PaymentHash paymentHash, int amountMsat) paymentReceived,
-    required TResult Function(ChannelId channelId, UserChannelId userChannelId) channelReady,
-    required TResult Function(ChannelId channelId, UserChannelId userChannelId) channelClosed,
-    required TResult Function(ChannelId channelId, UserChannelId userChannelId, ChannelId formerTemporaryChannelId, PublicKey counterpartyNodeId, OutPoint fundingTxo) channelPending,
+    required TResult Function(PaymentHash paymentHash, int amountMsat)
+        paymentReceived,
+    required TResult Function(ChannelId channelId, UserChannelId userChannelId)
+        channelReady,
+    required TResult Function(ChannelId channelId, UserChannelId userChannelId)
+        channelClosed,
+    required TResult Function(
+            ChannelId channelId,
+            UserChannelId userChannelId,
+            ChannelId formerTemporaryChannelId,
+            PublicKey counterpartyNodeId,
+            OutPoint fundingTxo)
+        channelPending,
   }) {
-    return channelPending(channelId, userChannelId, formerTemporaryChannelId, counterpartyNodeId, fundingTxo);
+    return channelPending(channelId, userChannelId, formerTemporaryChannelId,
+        counterpartyNodeId, fundingTxo);
   }
 
   @override
@@ -1648,11 +1989,20 @@ class _$Event_ChannelPending implements Event_ChannelPending {
     TResult? Function(PaymentHash paymentHash)? paymentSuccessful,
     TResult? Function(PaymentHash paymentHash)? paymentFailed,
     TResult? Function(PaymentHash paymentHash, int amountMsat)? paymentReceived,
-    TResult? Function(ChannelId channelId, UserChannelId userChannelId)? channelReady,
-    TResult? Function(ChannelId channelId, UserChannelId userChannelId)? channelClosed,
-    TResult? Function(ChannelId channelId, UserChannelId userChannelId, ChannelId formerTemporaryChannelId, PublicKey counterpartyNodeId, OutPoint fundingTxo)? channelPending,
+    TResult? Function(ChannelId channelId, UserChannelId userChannelId)?
+        channelReady,
+    TResult? Function(ChannelId channelId, UserChannelId userChannelId)?
+        channelClosed,
+    TResult? Function(
+            ChannelId channelId,
+            UserChannelId userChannelId,
+            ChannelId formerTemporaryChannelId,
+            PublicKey counterpartyNodeId,
+            OutPoint fundingTxo)?
+        channelPending,
   }) {
-    return channelPending?.call(channelId, userChannelId, formerTemporaryChannelId, counterpartyNodeId, fundingTxo);
+    return channelPending?.call(channelId, userChannelId,
+        formerTemporaryChannelId, counterpartyNodeId, fundingTxo);
   }
 
   @override
@@ -1661,13 +2011,22 @@ class _$Event_ChannelPending implements Event_ChannelPending {
     TResult Function(PaymentHash paymentHash)? paymentSuccessful,
     TResult Function(PaymentHash paymentHash)? paymentFailed,
     TResult Function(PaymentHash paymentHash, int amountMsat)? paymentReceived,
-    TResult Function(ChannelId channelId, UserChannelId userChannelId)? channelReady,
-    TResult Function(ChannelId channelId, UserChannelId userChannelId)? channelClosed,
-    TResult Function(ChannelId channelId, UserChannelId userChannelId, ChannelId formerTemporaryChannelId, PublicKey counterpartyNodeId, OutPoint fundingTxo)? channelPending,
+    TResult Function(ChannelId channelId, UserChannelId userChannelId)?
+        channelReady,
+    TResult Function(ChannelId channelId, UserChannelId userChannelId)?
+        channelClosed,
+    TResult Function(
+            ChannelId channelId,
+            UserChannelId userChannelId,
+            ChannelId formerTemporaryChannelId,
+            PublicKey counterpartyNodeId,
+            OutPoint fundingTxo)?
+        channelPending,
     required TResult orElse(),
   }) {
     if (channelPending != null) {
-      return channelPending(channelId, userChannelId, formerTemporaryChannelId, counterpartyNodeId, fundingTxo);
+      return channelPending(channelId, userChannelId, formerTemporaryChannelId,
+          counterpartyNodeId, fundingTxo);
     }
     return orElse();
   }
@@ -1739,7 +2098,8 @@ abstract class Event_ChannelPending implements Event {
   /// The outpoint of the channel's funding transaction.
   OutPoint get fundingTxo;
   @JsonKey(ignore: true)
-  _$$Event_ChannelPendingCopyWith<_$Event_ChannelPending> get copyWith => throw _privateConstructorUsedError;
+  _$$Event_ChannelPendingCopyWith<_$Event_ChannelPending> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
@@ -1766,13 +2126,15 @@ mixin _$GossipSourceConfig {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(GossipSourceConfig_P2PNetwork value) p2PNetwork,
-    required TResult Function(GossipSourceConfig_RapidGossipSync value) rapidGossipSync,
+    required TResult Function(GossipSourceConfig_RapidGossipSync value)
+        rapidGossipSync,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(GossipSourceConfig_P2PNetwork value)? p2PNetwork,
-    TResult? Function(GossipSourceConfig_RapidGossipSync value)? rapidGossipSync,
+    TResult? Function(GossipSourceConfig_RapidGossipSync value)?
+        rapidGossipSync,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -1786,11 +2148,14 @@ mixin _$GossipSourceConfig {
 
 /// @nodoc
 abstract class $GossipSourceConfigCopyWith<$Res> {
-  factory $GossipSourceConfigCopyWith(GossipSourceConfig value, $Res Function(GossipSourceConfig) then) = _$GossipSourceConfigCopyWithImpl<$Res, GossipSourceConfig>;
+  factory $GossipSourceConfigCopyWith(
+          GossipSourceConfig value, $Res Function(GossipSourceConfig) then) =
+      _$GossipSourceConfigCopyWithImpl<$Res, GossipSourceConfig>;
 }
 
 /// @nodoc
-class _$GossipSourceConfigCopyWithImpl<$Res, $Val extends GossipSourceConfig> implements $GossipSourceConfigCopyWith<$Res> {
+class _$GossipSourceConfigCopyWithImpl<$Res, $Val extends GossipSourceConfig>
+    implements $GossipSourceConfigCopyWith<$Res> {
   _$GossipSourceConfigCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
@@ -1801,12 +2166,21 @@ class _$GossipSourceConfigCopyWithImpl<$Res, $Val extends GossipSourceConfig> im
 
 /// @nodoc
 abstract class _$$GossipSourceConfig_P2PNetworkCopyWith<$Res> {
-  factory _$$GossipSourceConfig_P2PNetworkCopyWith(_$GossipSourceConfig_P2PNetwork value, $Res Function(_$GossipSourceConfig_P2PNetwork) then) = __$$GossipSourceConfig_P2PNetworkCopyWithImpl<$Res>;
+  factory _$$GossipSourceConfig_P2PNetworkCopyWith(
+          _$GossipSourceConfig_P2PNetwork value,
+          $Res Function(_$GossipSourceConfig_P2PNetwork) then) =
+      __$$GossipSourceConfig_P2PNetworkCopyWithImpl<$Res>;
 }
 
 /// @nodoc
-class __$$GossipSourceConfig_P2PNetworkCopyWithImpl<$Res> extends _$GossipSourceConfigCopyWithImpl<$Res, _$GossipSourceConfig_P2PNetwork> implements _$$GossipSourceConfig_P2PNetworkCopyWith<$Res> {
-  __$$GossipSourceConfig_P2PNetworkCopyWithImpl(_$GossipSourceConfig_P2PNetwork _value, $Res Function(_$GossipSourceConfig_P2PNetwork) _then) : super(_value, _then);
+class __$$GossipSourceConfig_P2PNetworkCopyWithImpl<$Res>
+    extends _$GossipSourceConfigCopyWithImpl<$Res,
+        _$GossipSourceConfig_P2PNetwork>
+    implements _$$GossipSourceConfig_P2PNetworkCopyWith<$Res> {
+  __$$GossipSourceConfig_P2PNetworkCopyWithImpl(
+      _$GossipSourceConfig_P2PNetwork _value,
+      $Res Function(_$GossipSourceConfig_P2PNetwork) _then)
+      : super(_value, _then);
 }
 
 /// @nodoc
@@ -1821,7 +2195,9 @@ class _$GossipSourceConfig_P2PNetwork implements GossipSourceConfig_P2PNetwork {
 
   @override
   bool operator ==(dynamic other) {
-    return identical(this, other) || (other.runtimeType == runtimeType && other is _$GossipSourceConfig_P2PNetwork);
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$GossipSourceConfig_P2PNetwork);
   }
 
   @override
@@ -1862,7 +2238,8 @@ class _$GossipSourceConfig_P2PNetwork implements GossipSourceConfig_P2PNetwork {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(GossipSourceConfig_P2PNetwork value) p2PNetwork,
-    required TResult Function(GossipSourceConfig_RapidGossipSync value) rapidGossipSync,
+    required TResult Function(GossipSourceConfig_RapidGossipSync value)
+        rapidGossipSync,
   }) {
     return p2PNetwork(this);
   }
@@ -1871,7 +2248,8 @@ class _$GossipSourceConfig_P2PNetwork implements GossipSourceConfig_P2PNetwork {
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(GossipSourceConfig_P2PNetwork value)? p2PNetwork,
-    TResult? Function(GossipSourceConfig_RapidGossipSync value)? rapidGossipSync,
+    TResult? Function(GossipSourceConfig_RapidGossipSync value)?
+        rapidGossipSync,
   }) {
     return p2PNetwork?.call(this);
   }
@@ -1891,21 +2269,29 @@ class _$GossipSourceConfig_P2PNetwork implements GossipSourceConfig_P2PNetwork {
 }
 
 abstract class GossipSourceConfig_P2PNetwork implements GossipSourceConfig {
-  const factory GossipSourceConfig_P2PNetwork() = _$GossipSourceConfig_P2PNetwork;
+  const factory GossipSourceConfig_P2PNetwork() =
+      _$GossipSourceConfig_P2PNetwork;
 }
 
 /// @nodoc
 abstract class _$$GossipSourceConfig_RapidGossipSyncCopyWith<$Res> {
-  factory _$$GossipSourceConfig_RapidGossipSyncCopyWith(_$GossipSourceConfig_RapidGossipSync value, $Res Function(_$GossipSourceConfig_RapidGossipSync) then) =
+  factory _$$GossipSourceConfig_RapidGossipSyncCopyWith(
+          _$GossipSourceConfig_RapidGossipSync value,
+          $Res Function(_$GossipSourceConfig_RapidGossipSync) then) =
       __$$GossipSourceConfig_RapidGossipSyncCopyWithImpl<$Res>;
   @useResult
   $Res call({String field0});
 }
 
 /// @nodoc
-class __$$GossipSourceConfig_RapidGossipSyncCopyWithImpl<$Res> extends _$GossipSourceConfigCopyWithImpl<$Res, _$GossipSourceConfig_RapidGossipSync>
+class __$$GossipSourceConfig_RapidGossipSyncCopyWithImpl<$Res>
+    extends _$GossipSourceConfigCopyWithImpl<$Res,
+        _$GossipSourceConfig_RapidGossipSync>
     implements _$$GossipSourceConfig_RapidGossipSyncCopyWith<$Res> {
-  __$$GossipSourceConfig_RapidGossipSyncCopyWithImpl(_$GossipSourceConfig_RapidGossipSync _value, $Res Function(_$GossipSourceConfig_RapidGossipSync) _then) : super(_value, _then);
+  __$$GossipSourceConfig_RapidGossipSyncCopyWithImpl(
+      _$GossipSourceConfig_RapidGossipSync _value,
+      $Res Function(_$GossipSourceConfig_RapidGossipSync) _then)
+      : super(_value, _then);
 
   @pragma('vm:prefer-inline')
   @override
@@ -1923,7 +2309,8 @@ class __$$GossipSourceConfig_RapidGossipSyncCopyWithImpl<$Res> extends _$GossipS
 
 /// @nodoc
 
-class _$GossipSourceConfig_RapidGossipSync implements GossipSourceConfig_RapidGossipSync {
+class _$GossipSourceConfig_RapidGossipSync
+    implements GossipSourceConfig_RapidGossipSync {
   const _$GossipSourceConfig_RapidGossipSync(this.field0);
 
   @override
@@ -1936,7 +2323,10 @@ class _$GossipSourceConfig_RapidGossipSync implements GossipSourceConfig_RapidGo
 
   @override
   bool operator ==(dynamic other) {
-    return identical(this, other) || (other.runtimeType == runtimeType && other is _$GossipSourceConfig_RapidGossipSync && (identical(other.field0, field0) || other.field0 == field0));
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$GossipSourceConfig_RapidGossipSync &&
+            (identical(other.field0, field0) || other.field0 == field0));
   }
 
   @override
@@ -1945,8 +2335,10 @@ class _$GossipSourceConfig_RapidGossipSync implements GossipSourceConfig_RapidGo
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$GossipSourceConfig_RapidGossipSyncCopyWith<_$GossipSourceConfig_RapidGossipSync> get copyWith =>
-      __$$GossipSourceConfig_RapidGossipSyncCopyWithImpl<_$GossipSourceConfig_RapidGossipSync>(this, _$identity);
+  _$$GossipSourceConfig_RapidGossipSyncCopyWith<
+          _$GossipSourceConfig_RapidGossipSync>
+      get copyWith => __$$GossipSourceConfig_RapidGossipSyncCopyWithImpl<
+          _$GossipSourceConfig_RapidGossipSync>(this, _$identity);
 
   @override
   @optionalTypeArgs
@@ -1983,7 +2375,8 @@ class _$GossipSourceConfig_RapidGossipSync implements GossipSourceConfig_RapidGo
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(GossipSourceConfig_P2PNetwork value) p2PNetwork,
-    required TResult Function(GossipSourceConfig_RapidGossipSync value) rapidGossipSync,
+    required TResult Function(GossipSourceConfig_RapidGossipSync value)
+        rapidGossipSync,
   }) {
     return rapidGossipSync(this);
   }
@@ -1992,7 +2385,8 @@ class _$GossipSourceConfig_RapidGossipSync implements GossipSourceConfig_RapidGo
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(GossipSourceConfig_P2PNetwork value)? p2PNetwork,
-    TResult? Function(GossipSourceConfig_RapidGossipSync value)? rapidGossipSync,
+    TResult? Function(GossipSourceConfig_RapidGossipSync value)?
+        rapidGossipSync,
   }) {
     return rapidGossipSync?.call(this);
   }
@@ -2011,344 +2405,16 @@ class _$GossipSourceConfig_RapidGossipSync implements GossipSourceConfig_RapidGo
   }
 }
 
-abstract class GossipSourceConfig_RapidGossipSync implements GossipSourceConfig {
-  const factory GossipSourceConfig_RapidGossipSync(final String field0) = _$GossipSourceConfig_RapidGossipSync;
+abstract class GossipSourceConfig_RapidGossipSync
+    implements GossipSourceConfig {
+  const factory GossipSourceConfig_RapidGossipSync(final String field0) =
+      _$GossipSourceConfig_RapidGossipSync;
 
   String get field0;
   @JsonKey(ignore: true)
-  _$$GossipSourceConfig_RapidGossipSyncCopyWith<_$GossipSourceConfig_RapidGossipSync> get copyWith => throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-mixin _$MaxDustHTLCExposure {
-  int get field0 => throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function(int field0) fixedLimitMsat,
-    required TResult Function(int field0) feeRateMultiplier,
-  }) =>
-      throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(int field0)? fixedLimitMsat,
-    TResult? Function(int field0)? feeRateMultiplier,
-  }) =>
-      throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function(int field0)? fixedLimitMsat,
-    TResult Function(int field0)? feeRateMultiplier,
-    required TResult orElse(),
-  }) =>
-      throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(MaxDustHTLCExposure_FixedLimitMsat value) fixedLimitMsat,
-    required TResult Function(MaxDustHTLCExposure_FeeRateMultiplier value) feeRateMultiplier,
-  }) =>
-      throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(MaxDustHTLCExposure_FixedLimitMsat value)? fixedLimitMsat,
-    TResult? Function(MaxDustHTLCExposure_FeeRateMultiplier value)? feeRateMultiplier,
-  }) =>
-      throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(MaxDustHTLCExposure_FixedLimitMsat value)? fixedLimitMsat,
-    TResult Function(MaxDustHTLCExposure_FeeRateMultiplier value)? feeRateMultiplier,
-    required TResult orElse(),
-  }) =>
-      throw _privateConstructorUsedError;
-
-  @JsonKey(ignore: true)
-  $MaxDustHTLCExposureCopyWith<MaxDustHTLCExposure> get copyWith => throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class $MaxDustHTLCExposureCopyWith<$Res> {
-  factory $MaxDustHTLCExposureCopyWith(MaxDustHTLCExposure value, $Res Function(MaxDustHTLCExposure) then) = _$MaxDustHTLCExposureCopyWithImpl<$Res, MaxDustHTLCExposure>;
-  @useResult
-  $Res call({int field0});
-}
-
-/// @nodoc
-class _$MaxDustHTLCExposureCopyWithImpl<$Res, $Val extends MaxDustHTLCExposure> implements $MaxDustHTLCExposureCopyWith<$Res> {
-  _$MaxDustHTLCExposureCopyWithImpl(this._value, this._then);
-
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
-
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? field0 = null,
-  }) {
-    return _then(_value.copyWith(
-      field0: null == field0
-          ? _value.field0
-          : field0 // ignore: cast_nullable_to_non_nullable
-              as int,
-    ) as $Val);
-  }
-}
-
-/// @nodoc
-abstract class _$$MaxDustHTLCExposure_FixedLimitMsatCopyWith<$Res> implements $MaxDustHTLCExposureCopyWith<$Res> {
-  factory _$$MaxDustHTLCExposure_FixedLimitMsatCopyWith(_$MaxDustHTLCExposure_FixedLimitMsat value, $Res Function(_$MaxDustHTLCExposure_FixedLimitMsat) then) =
-      __$$MaxDustHTLCExposure_FixedLimitMsatCopyWithImpl<$Res>;
-  @override
-  @useResult
-  $Res call({int field0});
-}
-
-/// @nodoc
-class __$$MaxDustHTLCExposure_FixedLimitMsatCopyWithImpl<$Res> extends _$MaxDustHTLCExposureCopyWithImpl<$Res, _$MaxDustHTLCExposure_FixedLimitMsat>
-    implements _$$MaxDustHTLCExposure_FixedLimitMsatCopyWith<$Res> {
-  __$$MaxDustHTLCExposure_FixedLimitMsatCopyWithImpl(_$MaxDustHTLCExposure_FixedLimitMsat _value, $Res Function(_$MaxDustHTLCExposure_FixedLimitMsat) _then) : super(_value, _then);
-
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? field0 = null,
-  }) {
-    return _then(_$MaxDustHTLCExposure_FixedLimitMsat(
-      null == field0
-          ? _value.field0
-          : field0 // ignore: cast_nullable_to_non_nullable
-              as int,
-    ));
-  }
-}
-
-/// @nodoc
-
-class _$MaxDustHTLCExposure_FixedLimitMsat implements MaxDustHTLCExposure_FixedLimitMsat {
-  const _$MaxDustHTLCExposure_FixedLimitMsat(this.field0);
-
-  @override
-  final int field0;
-
-  @override
-  String toString() {
-    return 'MaxDustHTLCExposure.fixedLimitMsat(field0: $field0)';
-  }
-
-  @override
-  bool operator ==(dynamic other) {
-    return identical(this, other) || (other.runtimeType == runtimeType && other is _$MaxDustHTLCExposure_FixedLimitMsat && (identical(other.field0, field0) || other.field0 == field0));
-  }
-
-  @override
-  int get hashCode => Object.hash(runtimeType, field0);
-
-  @JsonKey(ignore: true)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$MaxDustHTLCExposure_FixedLimitMsatCopyWith<_$MaxDustHTLCExposure_FixedLimitMsat> get copyWith =>
-      __$$MaxDustHTLCExposure_FixedLimitMsatCopyWithImpl<_$MaxDustHTLCExposure_FixedLimitMsat>(this, _$identity);
-
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function(int field0) fixedLimitMsat,
-    required TResult Function(int field0) feeRateMultiplier,
-  }) {
-    return fixedLimitMsat(field0);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(int field0)? fixedLimitMsat,
-    TResult? Function(int field0)? feeRateMultiplier,
-  }) {
-    return fixedLimitMsat?.call(field0);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function(int field0)? fixedLimitMsat,
-    TResult Function(int field0)? feeRateMultiplier,
-    required TResult orElse(),
-  }) {
-    if (fixedLimitMsat != null) {
-      return fixedLimitMsat(field0);
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(MaxDustHTLCExposure_FixedLimitMsat value) fixedLimitMsat,
-    required TResult Function(MaxDustHTLCExposure_FeeRateMultiplier value) feeRateMultiplier,
-  }) {
-    return fixedLimitMsat(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(MaxDustHTLCExposure_FixedLimitMsat value)? fixedLimitMsat,
-    TResult? Function(MaxDustHTLCExposure_FeeRateMultiplier value)? feeRateMultiplier,
-  }) {
-    return fixedLimitMsat?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(MaxDustHTLCExposure_FixedLimitMsat value)? fixedLimitMsat,
-    TResult Function(MaxDustHTLCExposure_FeeRateMultiplier value)? feeRateMultiplier,
-    required TResult orElse(),
-  }) {
-    if (fixedLimitMsat != null) {
-      return fixedLimitMsat(this);
-    }
-    return orElse();
-  }
-}
-
-abstract class MaxDustHTLCExposure_FixedLimitMsat implements MaxDustHTLCExposure {
-  const factory MaxDustHTLCExposure_FixedLimitMsat(final int field0) = _$MaxDustHTLCExposure_FixedLimitMsat;
-
-  @override
-  int get field0;
-  @override
-  @JsonKey(ignore: true)
-  _$$MaxDustHTLCExposure_FixedLimitMsatCopyWith<_$MaxDustHTLCExposure_FixedLimitMsat> get copyWith => throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class _$$MaxDustHTLCExposure_FeeRateMultiplierCopyWith<$Res> implements $MaxDustHTLCExposureCopyWith<$Res> {
-  factory _$$MaxDustHTLCExposure_FeeRateMultiplierCopyWith(_$MaxDustHTLCExposure_FeeRateMultiplier value, $Res Function(_$MaxDustHTLCExposure_FeeRateMultiplier) then) =
-      __$$MaxDustHTLCExposure_FeeRateMultiplierCopyWithImpl<$Res>;
-  @override
-  @useResult
-  $Res call({int field0});
-}
-
-/// @nodoc
-class __$$MaxDustHTLCExposure_FeeRateMultiplierCopyWithImpl<$Res> extends _$MaxDustHTLCExposureCopyWithImpl<$Res, _$MaxDustHTLCExposure_FeeRateMultiplier>
-    implements _$$MaxDustHTLCExposure_FeeRateMultiplierCopyWith<$Res> {
-  __$$MaxDustHTLCExposure_FeeRateMultiplierCopyWithImpl(_$MaxDustHTLCExposure_FeeRateMultiplier _value, $Res Function(_$MaxDustHTLCExposure_FeeRateMultiplier) _then) : super(_value, _then);
-
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? field0 = null,
-  }) {
-    return _then(_$MaxDustHTLCExposure_FeeRateMultiplier(
-      null == field0
-          ? _value.field0
-          : field0 // ignore: cast_nullable_to_non_nullable
-              as int,
-    ));
-  }
-}
-
-/// @nodoc
-
-class _$MaxDustHTLCExposure_FeeRateMultiplier implements MaxDustHTLCExposure_FeeRateMultiplier {
-  const _$MaxDustHTLCExposure_FeeRateMultiplier(this.field0);
-
-  @override
-  final int field0;
-
-  @override
-  String toString() {
-    return 'MaxDustHTLCExposure.feeRateMultiplier(field0: $field0)';
-  }
-
-  @override
-  bool operator ==(dynamic other) {
-    return identical(this, other) || (other.runtimeType == runtimeType && other is _$MaxDustHTLCExposure_FeeRateMultiplier && (identical(other.field0, field0) || other.field0 == field0));
-  }
-
-  @override
-  int get hashCode => Object.hash(runtimeType, field0);
-
-  @JsonKey(ignore: true)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$MaxDustHTLCExposure_FeeRateMultiplierCopyWith<_$MaxDustHTLCExposure_FeeRateMultiplier> get copyWith =>
-      __$$MaxDustHTLCExposure_FeeRateMultiplierCopyWithImpl<_$MaxDustHTLCExposure_FeeRateMultiplier>(this, _$identity);
-
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function(int field0) fixedLimitMsat,
-    required TResult Function(int field0) feeRateMultiplier,
-  }) {
-    return feeRateMultiplier(field0);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(int field0)? fixedLimitMsat,
-    TResult? Function(int field0)? feeRateMultiplier,
-  }) {
-    return feeRateMultiplier?.call(field0);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function(int field0)? fixedLimitMsat,
-    TResult Function(int field0)? feeRateMultiplier,
-    required TResult orElse(),
-  }) {
-    if (feeRateMultiplier != null) {
-      return feeRateMultiplier(field0);
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(MaxDustHTLCExposure_FixedLimitMsat value) fixedLimitMsat,
-    required TResult Function(MaxDustHTLCExposure_FeeRateMultiplier value) feeRateMultiplier,
-  }) {
-    return feeRateMultiplier(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(MaxDustHTLCExposure_FixedLimitMsat value)? fixedLimitMsat,
-    TResult? Function(MaxDustHTLCExposure_FeeRateMultiplier value)? feeRateMultiplier,
-  }) {
-    return feeRateMultiplier?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(MaxDustHTLCExposure_FixedLimitMsat value)? fixedLimitMsat,
-    TResult Function(MaxDustHTLCExposure_FeeRateMultiplier value)? feeRateMultiplier,
-    required TResult orElse(),
-  }) {
-    if (feeRateMultiplier != null) {
-      return feeRateMultiplier(this);
-    }
-    return orElse();
-  }
-}
-
-abstract class MaxDustHTLCExposure_FeeRateMultiplier implements MaxDustHTLCExposure {
-  const factory MaxDustHTLCExposure_FeeRateMultiplier(final int field0) = _$MaxDustHTLCExposure_FeeRateMultiplier;
-
-  @override
-  int get field0;
-  @override
-  @JsonKey(ignore: true)
-  _$$MaxDustHTLCExposure_FeeRateMultiplierCopyWith<_$MaxDustHTLCExposure_FeeRateMultiplier> get copyWith => throw _privateConstructorUsedError;
+  _$$GossipSourceConfig_RapidGossipSyncCopyWith<
+          _$GossipSourceConfig_RapidGossipSync>
+      get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
@@ -2395,18 +2461,22 @@ mixin _$NetAddress {
       throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
-  $NetAddressCopyWith<NetAddress> get copyWith => throw _privateConstructorUsedError;
+  $NetAddressCopyWith<NetAddress> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
 abstract class $NetAddressCopyWith<$Res> {
-  factory $NetAddressCopyWith(NetAddress value, $Res Function(NetAddress) then) = _$NetAddressCopyWithImpl<$Res, NetAddress>;
+  factory $NetAddressCopyWith(
+          NetAddress value, $Res Function(NetAddress) then) =
+      _$NetAddressCopyWithImpl<$Res, NetAddress>;
   @useResult
   $Res call({String addr, int port});
 }
 
 /// @nodoc
-class _$NetAddressCopyWithImpl<$Res, $Val extends NetAddress> implements $NetAddressCopyWith<$Res> {
+class _$NetAddressCopyWithImpl<$Res, $Val extends NetAddress>
+    implements $NetAddressCopyWith<$Res> {
   _$NetAddressCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
@@ -2434,16 +2504,23 @@ class _$NetAddressCopyWithImpl<$Res, $Val extends NetAddress> implements $NetAdd
 }
 
 /// @nodoc
-abstract class _$$NetAddress_IPv4CopyWith<$Res> implements $NetAddressCopyWith<$Res> {
-  factory _$$NetAddress_IPv4CopyWith(_$NetAddress_IPv4 value, $Res Function(_$NetAddress_IPv4) then) = __$$NetAddress_IPv4CopyWithImpl<$Res>;
+abstract class _$$NetAddress_IPv4CopyWith<$Res>
+    implements $NetAddressCopyWith<$Res> {
+  factory _$$NetAddress_IPv4CopyWith(
+          _$NetAddress_IPv4 value, $Res Function(_$NetAddress_IPv4) then) =
+      __$$NetAddress_IPv4CopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({String addr, int port});
 }
 
 /// @nodoc
-class __$$NetAddress_IPv4CopyWithImpl<$Res> extends _$NetAddressCopyWithImpl<$Res, _$NetAddress_IPv4> implements _$$NetAddress_IPv4CopyWith<$Res> {
-  __$$NetAddress_IPv4CopyWithImpl(_$NetAddress_IPv4 _value, $Res Function(_$NetAddress_IPv4) _then) : super(_value, _then);
+class __$$NetAddress_IPv4CopyWithImpl<$Res>
+    extends _$NetAddressCopyWithImpl<$Res, _$NetAddress_IPv4>
+    implements _$$NetAddress_IPv4CopyWith<$Res> {
+  __$$NetAddress_IPv4CopyWithImpl(
+      _$NetAddress_IPv4 _value, $Res Function(_$NetAddress_IPv4) _then)
+      : super(_value, _then);
 
   @pragma('vm:prefer-inline')
   @override
@@ -2482,7 +2559,10 @@ class _$NetAddress_IPv4 implements NetAddress_IPv4 {
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is _$NetAddress_IPv4 && (identical(other.addr, addr) || other.addr == addr) && (identical(other.port, port) || other.port == port));
+        (other.runtimeType == runtimeType &&
+            other is _$NetAddress_IPv4 &&
+            (identical(other.addr, addr) || other.addr == addr) &&
+            (identical(other.port, port) || other.port == port));
   }
 
   @override
@@ -2491,7 +2571,8 @@ class _$NetAddress_IPv4 implements NetAddress_IPv4 {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$NetAddress_IPv4CopyWith<_$NetAddress_IPv4> get copyWith => __$$NetAddress_IPv4CopyWithImpl<_$NetAddress_IPv4>(this, _$identity);
+  _$$NetAddress_IPv4CopyWith<_$NetAddress_IPv4> get copyWith =>
+      __$$NetAddress_IPv4CopyWithImpl<_$NetAddress_IPv4>(this, _$identity);
 
   @override
   @optionalTypeArgs
@@ -2557,7 +2638,9 @@ class _$NetAddress_IPv4 implements NetAddress_IPv4 {
 }
 
 abstract class NetAddress_IPv4 implements NetAddress {
-  const factory NetAddress_IPv4({required final String addr, required final int port}) = _$NetAddress_IPv4;
+  const factory NetAddress_IPv4(
+      {required final String addr,
+      required final int port}) = _$NetAddress_IPv4;
 
   @override
   String get addr;
@@ -2565,20 +2648,28 @@ abstract class NetAddress_IPv4 implements NetAddress {
   int get port;
   @override
   @JsonKey(ignore: true)
-  _$$NetAddress_IPv4CopyWith<_$NetAddress_IPv4> get copyWith => throw _privateConstructorUsedError;
+  _$$NetAddress_IPv4CopyWith<_$NetAddress_IPv4> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class _$$NetAddress_IPv6CopyWith<$Res> implements $NetAddressCopyWith<$Res> {
-  factory _$$NetAddress_IPv6CopyWith(_$NetAddress_IPv6 value, $Res Function(_$NetAddress_IPv6) then) = __$$NetAddress_IPv6CopyWithImpl<$Res>;
+abstract class _$$NetAddress_IPv6CopyWith<$Res>
+    implements $NetAddressCopyWith<$Res> {
+  factory _$$NetAddress_IPv6CopyWith(
+          _$NetAddress_IPv6 value, $Res Function(_$NetAddress_IPv6) then) =
+      __$$NetAddress_IPv6CopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({String addr, int port});
 }
 
 /// @nodoc
-class __$$NetAddress_IPv6CopyWithImpl<$Res> extends _$NetAddressCopyWithImpl<$Res, _$NetAddress_IPv6> implements _$$NetAddress_IPv6CopyWith<$Res> {
-  __$$NetAddress_IPv6CopyWithImpl(_$NetAddress_IPv6 _value, $Res Function(_$NetAddress_IPv6) _then) : super(_value, _then);
+class __$$NetAddress_IPv6CopyWithImpl<$Res>
+    extends _$NetAddressCopyWithImpl<$Res, _$NetAddress_IPv6>
+    implements _$$NetAddress_IPv6CopyWith<$Res> {
+  __$$NetAddress_IPv6CopyWithImpl(
+      _$NetAddress_IPv6 _value, $Res Function(_$NetAddress_IPv6) _then)
+      : super(_value, _then);
 
   @pragma('vm:prefer-inline')
   @override
@@ -2617,7 +2708,10 @@ class _$NetAddress_IPv6 implements NetAddress_IPv6 {
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is _$NetAddress_IPv6 && (identical(other.addr, addr) || other.addr == addr) && (identical(other.port, port) || other.port == port));
+        (other.runtimeType == runtimeType &&
+            other is _$NetAddress_IPv6 &&
+            (identical(other.addr, addr) || other.addr == addr) &&
+            (identical(other.port, port) || other.port == port));
   }
 
   @override
@@ -2626,7 +2720,8 @@ class _$NetAddress_IPv6 implements NetAddress_IPv6 {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$NetAddress_IPv6CopyWith<_$NetAddress_IPv6> get copyWith => __$$NetAddress_IPv6CopyWithImpl<_$NetAddress_IPv6>(this, _$identity);
+  _$$NetAddress_IPv6CopyWith<_$NetAddress_IPv6> get copyWith =>
+      __$$NetAddress_IPv6CopyWithImpl<_$NetAddress_IPv6>(this, _$identity);
 
   @override
   @optionalTypeArgs
@@ -2692,7 +2787,9 @@ class _$NetAddress_IPv6 implements NetAddress_IPv6 {
 }
 
 abstract class NetAddress_IPv6 implements NetAddress {
-  const factory NetAddress_IPv6({required final String addr, required final int port}) = _$NetAddress_IPv6;
+  const factory NetAddress_IPv6(
+      {required final String addr,
+      required final int port}) = _$NetAddress_IPv6;
 
   @override
   String get addr;
@@ -2700,5 +2797,6 @@ abstract class NetAddress_IPv6 implements NetAddress {
   int get port;
   @override
   @JsonKey(ignore: true)
-  _$$NetAddress_IPv6CopyWith<_$NetAddress_IPv6> get copyWith => throw _privateConstructorUsedError;
+  _$$NetAddress_IPv6CopyWith<_$NetAddress_IPv6> get copyWith =>
+      throw _privateConstructorUsedError;
 }
