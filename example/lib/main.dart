@@ -23,7 +23,7 @@ class _MyAppState extends State<MyApp> {
   int aliceBalance = 0;
   String displayText = "";
   ldk.NetAddress? bobAddr;
-  ldk.Invoice? invoice;
+  ldk.Bolt11Invoice? invoice;
   ldk.ChannelId? channelId;
 
   @override
@@ -36,6 +36,7 @@ class _MyAppState extends State<MyApp> {
     final directory = await getApplicationDocumentsDirectory();
     final nodePath = "${directory.path}/ldk_cache/$path";
     final config = ldk.Config(
+        probingLiquidityLimitMultiplier: 3,
         trustedPeers0Conf: [],
         storageDirPath: nodePath,
         network: ldk.Network.testnet,
@@ -153,14 +154,10 @@ class _MyAppState extends State<MyApp> {
   removeLastPayment() async {
     final lastPayment = await listPaymentsWithFilter(false);
     if (lastPayment != null) {
-      final res = await aliceNode.removePayment(paymentHash: lastPayment.hash);
-      if (res) {
-        setState(() {
-          displayText = "${lastPayment.hash.internal} removed";
-        });
-      } else {
-        displayText = "payment not found";
-      }
+      final _ = await aliceNode.removePayment(paymentHash: lastPayment.hash);
+      setState(() {
+        displayText = "${lastPayment.hash.internal} removed";
+      });
     }
   }
 

@@ -51,7 +51,8 @@ class Builder {
         feeRateCacheUpdateIntervalSecs: 600,
         logLevel: LogLevel.debug,
         defaultCltvExpiryDelta: 144,
-        trustedPeers0Conf: []));
+        trustedPeers0Conf: [],
+        probingLiquidityLimitMultiplier: 3));
   }
 
   /// Configures the [Node] instance to source its wallet entropy from a seed file on disk.
@@ -64,21 +65,21 @@ class Builder {
     return this;
   }
 
-  /// Configures the [Node] instance to source its chain data from the given Esplora server.
-  ///
-  Builder setEntropyBip39Mnemonic(
-      {required Mnemonic mnemonic, String? passphrase}) {
-    _entropySource = EntropySourceConfig.bip39Mnemonic(
-        mnemonic: mnemonic, passphrase: passphrase);
-    return this;
-  }
-
   /// Configures the [Node] instance to source its wallet entropy from the given 64 seed bytes.
   ///
   /// **Note:** Panics if the length of the given `seedBytes` differs from 64.
   ///
   Builder setEntropySeedBytes({required U8Array64 seedBytes}) {
     _entropySource = EntropySourceConfig.seedBytes(seedBytes);
+    return this;
+  }
+
+  /// Configures the [Node] instance to source its chain data from the given Esplora server.
+  ///
+  Builder setEntropyBip39Mnemonic(
+      {required Mnemonic mnemonic, String? passphrase}) {
+    _entropySource = EntropySourceConfig.bip39Mnemonic(
+        mnemonic: mnemonic, passphrase: passphrase);
     return this;
   }
 
@@ -125,13 +126,6 @@ class Builder {
   ///
   Builder setListeningAddress(NetAddress listeningAddress) {
     _config!.listeningAddress = listeningAddress;
-    return this;
-  }
-
-  /// Sets the level at which [Node] will log messages.
-  ///
-  Builder setLogLevel({required LogLevel level}) {
-    _config!.logLevel = level;
     return this;
   }
 
