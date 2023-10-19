@@ -1,10 +1,11 @@
+use crate::errors::{BuilderException, NodeException};
 use crate::types::*;
 pub use anyhow::anyhow;
 use flutter_rust_bridge::*;
 pub use ldk_node::io::SqliteStore;
 use ldk_node::lightning::util::ser::Writeable;
-use ldk_node::Builder;
 pub use ldk_node::Node;
+use ldk_node::{BuildError, Builder};
 pub use std::sync::{Arc, Mutex};
 
 pub fn generate_entropy_mnemonic() -> Mnemonic {
@@ -16,7 +17,7 @@ pub fn build_node(
     chain_data_source_config: Option<ChainDataSourceConfig>,
     entropy_source_config: Option<EntropySourceConfig>,
     gossip_source_config: Option<GossipSourceConfig>,
-) -> anyhow::Result<NodePointer> {
+) -> anyhow::Result<NodePointer, BuilderException> {
     let builder = build_builder(
         config,
         chain_data_source_config,
@@ -24,9 +25,9 @@ pub fn build_node(
         gossip_source_config,
     );
 
-    match builder.build() {
+    match builder?.build() {
         Ok(e) => Ok(NodePointer(RustOpaque::new(Mutex::from(e)))),
-        Err(e) => Err(anyhow!(e.to_string())),
+        Err(e) => Err(e.into()),
     }
 }
 fn build_builder(
@@ -34,14 +35,12 @@ fn build_builder(
     chain_data_source_config: Option<ChainDataSourceConfig>,
     entropy_source_config: Option<EntropySourceConfig>,
     gossip_source_config: Option<GossipSourceConfig>,
-) -> Builder {
+) -> Result<Builder, BuildError> {
     let mut builder = Builder::from_config(config.into());
     if let Some(source) = entropy_source_config {
         match source {
             EntropySourceConfig::SeedFile(e) => builder.set_entropy_seed_path(e),
-            EntropySourceConfig::SeedBytes(e) => builder
-                .set_entropy_seed_bytes(e.encode())
-                .expect("InvalidSeedBytes"),
+            EntropySourceConfig::SeedBytes(e) => builder.set_entropy_seed_bytes(e.encode())?,
             EntropySourceConfig::Bip39Mnemonic {
                 mnemonic,
                 passphrase,
@@ -60,7 +59,7 @@ fn build_builder(
             GossipSourceConfig::RapidGossipSync(e) => builder.set_gossip_source_rgs(e),
         };
     }
-    builder
+    Ok(builder)
 }
 
 pub struct NodePointer(pub RustOpaque<Mutex<Node<SqliteStore>>>);
@@ -70,31 +69,26 @@ impl NodePointer {
     ///
     /// After this returns, the [Node] instance can be controlled via the provided API methods in
     /// a thread-safe manner.
-    pub fn start(&self) -> anyhow::Result<()> {
-        self.0
-            .lock()
-            .unwrap()
-            .start()
-            .map_err(|e| anyhow!(e.to_string()))
+    pub fn start(&self) -> anyhow::Result<(), NodeException> {
+        match self.0.lock().unwrap().start() {
+            Ok(_) => Ok(()),
+            Err(_) => Err(NodeException::AlreadyRunning),
+        }
     }
 
     /// Disconnects all peers, stops all running background tasks, and shuts down [Node].
     ///
     /// After this returns most API methods will throw NotRunning Exception.
-    pub fn stop(&self) -> anyhow::Result<()> {
-        self.0
-            .lock()
-            .unwrap()
-            .stop()
-            .map_err(|e| anyhow!(e.to_string()))
+    pub fn stop(&self) -> anyhow::Result<(), NodeException> {
+        self.0.lock().unwrap().stop().map_err(|e| e.into())
     }
 
     /// Blocks until the next event is available.
     ///
     /// **Note:** this will always return the same event until handling is confirmed via `node.eventHandled()`.
-    pub fn event_handled(&self) -> anyhow::Result<()> {
+    pub fn event_handled(&self) {
         let node_lock = self.0.lock().unwrap();
-        Ok(node_lock.event_handled())
+        node_lock.event_handled()
     }
 
     /// Confirm the last retrieved event handled.
@@ -115,14 +109,14 @@ impl NodePointer {
     ///
     pub fn wait_until_next_event(&self) -> Event {
         let node_lock = self.0.lock().unwrap();
-        (node_lock.wait_next_event()).into()
+        node_lock.wait_next_event().into()
     }
     /// Returns our own node id
-    pub fn node_id(&self) -> anyhow::Result<PublicKey> {
+    pub fn node_id(&self) -> PublicKey {
         let node_lock = self.0.lock().unwrap();
-        Ok(PublicKey {
+        PublicKey {
             internal: node_lock.node_id().to_string(),
-        })
+        }
     }
 
     /// Returns our own listening address.
@@ -132,30 +126,30 @@ impl NodePointer {
     }
 
     /// Retrieve a new on-chain/funding address.
-    pub fn new_onchain_address(&self) -> anyhow::Result<Address> {
+    pub fn new_onchain_address(&self) -> anyhow::Result<Address, NodeException> {
         let node_lock = self.0.lock().unwrap();
         match node_lock.new_onchain_address() {
             Ok(e) => Ok(Address {
                 internal: e.to_string(),
             }),
-            Err(e) => Err(anyhow!(e.to_string())),
+            Err(e) => Err(e.into()),
         }
     }
     /// Retrieve the currently spendable on-chain balance in satoshis.
-    pub fn spendable_onchain_balance_sats(&self) -> anyhow::Result<u64> {
+    pub fn spendable_onchain_balance_sats(&self) -> anyhow::Result<u64, NodeException> {
         let node_lock = self.0.lock().unwrap();
         match node_lock.spendable_onchain_balance_sats() {
             Ok(e) => Ok(e),
-            Err(e) => Err(anyhow!(e.to_string())),
+            Err(e) => Err(e.into()),
         }
     }
 
     /// Retrieve the current total on-chain balance in satoshis.
-    pub fn total_onchain_balance_sats(&self) -> anyhow::Result<u64> {
+    pub fn total_onchain_balance_sats(&self) -> anyhow::Result<u64, NodeException> {
         let node_lock = self.0.lock().unwrap();
         match node_lock.total_onchain_balance_sats() {
             Ok(e) => Ok(e),
-            Err(e) => Err(anyhow!(e.to_string())),
+            Err(e) => Err(e.into()),
         }
     }
 
@@ -164,24 +158,27 @@ impl NodePointer {
         &self,
         address: Address,
         amount_sats: u64,
-    ) -> anyhow::Result<Txid> {
+    ) -> anyhow::Result<Txid, NodeException> {
         let node_lock = self.0.lock().unwrap();
         match node_lock.send_to_onchain_address(&address.into(), amount_sats) {
             Ok(e) => Ok(Txid {
                 internal: e.to_string(),
             }),
-            Err(e) => Err(anyhow!(e.to_string())),
+            Err(e) => Err(e.into()),
         }
     }
 
     /// Send an on-chain payment to the given address, draining all the available funds.
-    pub fn send_all_to_onchain_address(&self, address: Address) -> anyhow::Result<Txid> {
+    pub fn send_all_to_onchain_address(
+        &self,
+        address: Address,
+    ) -> anyhow::Result<Txid, NodeException> {
         let node_lock = self.0.lock().unwrap();
         match node_lock.send_all_to_onchain_address(&address.into()) {
             Ok(e) => Ok(Txid {
                 internal: e.to_string(),
             }),
-            Err(e) => Err(anyhow!(e.to_string())),
+            Err(e) => Err(e.into()),
         }
     }
 
@@ -199,11 +196,11 @@ impl NodePointer {
         node_id: PublicKey,
         address: NetAddress,
         persist: bool,
-    ) -> anyhow::Result<()> {
+    ) -> anyhow::Result<(), NodeException> {
         let node_lock = self.0.lock().unwrap();
         match node_lock.connect(node_id.into(), address.into(), persist) {
             Ok(_) => Ok(()),
-            Err(e) => Err(anyhow!(e.to_string())),
+            Err(e) => Err(e.into()),
         }
     }
 
@@ -211,11 +208,11 @@ impl NodePointer {
     ///
     /// Will also remove the peer from the peer store, i.e., after this has been called we won't
     /// try to reconnect on restart.
-    pub fn disconnect(&self, counterparty_node_id: PublicKey) -> anyhow::Result<()> {
+    pub fn disconnect(&self, counterparty_node_id: PublicKey) -> anyhow::Result<(), NodeException> {
         let node_lock = self.0.lock().unwrap();
         match node_lock.disconnect(counterparty_node_id.into()) {
             Ok(_) => Ok(()),
-            Err(e) => Err(anyhow!(e.to_string())),
+            Err(e) => Err(e.into()),
         }
     }
 
@@ -236,7 +233,7 @@ impl NodePointer {
         push_to_counterparty_msat: Option<u64>,
         announce_channel: bool,
         channel_config: Option<ChannelConfig>,
-    ) -> anyhow::Result<()> {
+    ) -> anyhow::Result<(), NodeException> {
         let node_lock = self.0.lock().unwrap();
         match node_lock.connect_open_channel(
             node_id.into(),
@@ -247,17 +244,17 @@ impl NodePointer {
             announce_channel,
         ) {
             Ok(_) => Ok(()),
-            Err(e) => Err(anyhow!(e.to_string())),
+            Err(e) => Err(e.into()),
         }
     }
 
     ///Sync the LDK and BDK wallets with the current chain state.
     // Note that the wallets will be also synced regularly in the background
-    pub fn sync_wallets(&self) -> anyhow::Result<()> {
+    pub fn sync_wallets(&self) -> anyhow::Result<(), NodeException> {
         let node_lock = self.0.lock().unwrap();
         match node_lock.sync_wallets() {
             Ok(_) => Ok(()),
-            Err(e) => Err(anyhow!(e.to_string())),
+            Err(e) => Err(e.into()),
         }
     }
     /// Close a previously opened channel.
@@ -265,11 +262,11 @@ impl NodePointer {
         &self,
         channel_id: ChannelId,
         counterparty_node_id: PublicKey,
-    ) -> anyhow::Result<()> {
+    ) -> anyhow::Result<(), NodeException> {
         let node_lock = self.0.lock().unwrap();
-        match node_lock.close_channel(&(channel_id.into()), counterparty_node_id.into()) {
+        match node_lock.close_channel(&channel_id.into(), counterparty_node_id.into()) {
             Ok(_) => Ok(()),
-            Err(e) => Err(anyhow!(e.to_string())),
+            Err(e) => Err(e.into()),
         }
     }
     ///Update the config for a previously opened channel.
@@ -279,23 +276,26 @@ impl NodePointer {
         channel_id: ChannelId,
         counterparty_node_id: PublicKey,
         channel_config: ChannelConfig,
-    ) -> anyhow::Result<()> {
+    ) -> anyhow::Result<(), NodeException> {
         let node_lock = self.0.lock().unwrap();
         match node_lock.update_channel_config(
-            &(channel_id.into()),
+            &channel_id.into(),
             counterparty_node_id.into(),
             Arc::new(channel_config.into()),
         ) {
             Ok(_) => Ok(()),
-            Err(e) => Err(anyhow!(e.to_string())),
+            Err(e) => Err(e.into()),
         }
     }
-    /// Send a payement given an invoice.
-    pub fn send_payment(&self, invoice: Bolt11Invoice) -> anyhow::Result<PaymentHash> {
+    /// Send a payment given an invoice.
+    pub fn send_payment(
+        &self,
+        invoice: Bolt11Invoice,
+    ) -> anyhow::Result<PaymentHash, NodeException> {
         let node_lock = self.0.lock().unwrap();
         match node_lock.send_payment(&invoice.into()) {
             Ok(e) => Ok(PaymentHash { internal: e.0 }),
-            Err(e) => Err(anyhow!(e.to_string())),
+            Err(e) => Err(e.into()),
         }
     }
 
@@ -309,11 +309,11 @@ impl NodePointer {
         &self,
         invoice: Bolt11Invoice,
         amount_msat: u64,
-    ) -> anyhow::Result<PaymentHash> {
+    ) -> anyhow::Result<PaymentHash, NodeException> {
         let node_lock = self.0.lock().unwrap();
         match node_lock.send_payment_using_amount(&invoice.into(), amount_msat) {
             Ok(e) => Ok(PaymentHash { internal: e.0 }),
-            Err(e) => Err(anyhow!(e.to_string())),
+            Err(e) => Err(e.into()),
         }
     }
 
@@ -322,11 +322,11 @@ impl NodePointer {
         &self,
         amount_msat: u64,
         node_id: PublicKey,
-    ) -> anyhow::Result<PaymentHash> {
+    ) -> anyhow::Result<PaymentHash, NodeException> {
         let node_lock = self.0.lock().unwrap();
         match node_lock.send_spontaneous_payment(amount_msat, node_id.into()) {
             Ok(e) => Ok(PaymentHash { internal: e.0 }),
-            Err(e) => Err(anyhow!(e.to_string())),
+            Err(e) => Err(e.into()),
         }
     }
 
@@ -344,15 +344,15 @@ impl NodePointer {
     /// amount times [`Config::probing_liquidity_limit_multiplier`] won't be used to send
     /// pre-flight probes.
     ///
-    pub fn send_payment_probe(&self, invoice: Bolt11Invoice) -> anyhow::Result<()> {
+    pub fn send_payment_probe(&self, invoice: Bolt11Invoice) -> anyhow::Result<(), NodeException> {
         let node_lock = self.0.lock().unwrap();
-        match node_lock.send_payment_probe(&(invoice.into())) {
+        match node_lock.send_payment_probe(&invoice.into()) {
             Ok(_) => Ok(()),
-            Err(e) => Err(anyhow!(e.to_string())),
+            Err(e) => Err(e.into()),
         }
     }
     /// Sends payment probes over all paths of a route that would be used to pay the given
-    /// amount to the given `node_id`.
+    /// amount to the given "nodeId".
     ///
     /// This may be used to send "pre-flight" probes, i.e., to train our scorer before conducting
     /// the actual payment. Note this is only useful if there likely is sufficient time for the
@@ -372,11 +372,11 @@ impl NodePointer {
         &self,
         amount_msat: u64,
         node_id: PublicKey,
-    ) -> anyhow::Result<()> {
+    ) -> anyhow::Result<(), NodeException> {
         let node_lock = self.0.lock().unwrap();
         match node_lock.send_spontaneous_payment_probe(amount_msat, node_id.into()) {
             Ok(_) => Ok(()),
-            Err(e) => Err(anyhow!(e.to_string())),
+            Err(e) => Err(e.into()),
         }
     }
     /// Returns a payable invoice that can be used to request and receive a payment of the amount
@@ -386,13 +386,13 @@ impl NodePointer {
         amount_msat: u64,
         description: String,
         expiry_secs: u32,
-    ) -> anyhow::Result<Bolt11Invoice> {
+    ) -> anyhow::Result<Bolt11Invoice, NodeException> {
         let node_lock = self.0.lock().unwrap();
         match node_lock.receive_payment(amount_msat, description.as_str(), expiry_secs) {
             Ok(e) => Ok(Bolt11Invoice {
                 internal: e.to_string(),
             }),
-            Err(e) => Err(anyhow!(e.to_string())),
+            Err(e) => Err(e.into()),
         }
     }
     /// Returns a payable invoice that can be used to request and receive a payment for which the
@@ -401,13 +401,13 @@ impl NodePointer {
         &self,
         description: String,
         expiry_secs: u32,
-    ) -> anyhow::Result<Bolt11Invoice> {
+    ) -> anyhow::Result<Bolt11Invoice, NodeException> {
         let node_lock = self.0.lock().unwrap();
         match node_lock.receive_variable_amount_payment(description.as_str(), expiry_secs) {
             Ok(e) => Ok(Bolt11Invoice {
                 internal: e.to_string(),
             }),
-            Err(e) => Err(anyhow!(e.to_string())),
+            Err(e) => Err(e.into()),
         }
     }
 
@@ -424,12 +424,12 @@ impl NodePointer {
 
     /// Remove the payment with the given hash from the store.
     ///
-    pub fn remove_payment(&self, payment_hash: PaymentHash) -> anyhow::Result<()> {
+    pub fn remove_payment(&self, payment_hash: PaymentHash) -> anyhow::Result<(), NodeException> {
         let node_lock = self.0.lock().unwrap();
         match node_lock.remove_payment(&ldk_node::lightning::ln::PaymentHash(payment_hash.internal))
         {
             Ok(_) => Ok(()),
-            Err(e) => Err(anyhow!(e.to_string())),
+            Err(e) => Err(e.into()),
         }
     }
 
@@ -471,11 +471,11 @@ impl NodePointer {
     /// can be sure that the signature was generated by the caller.
     /// Signatures are EC recoverable, meaning that given the message and the
     /// signature the PublicKey of the signer can be extracted.
-    pub fn sign_message(&self, msg: Vec<u8>) -> anyhow::Result<String> {
+    pub fn sign_message(&self, msg: Vec<u8>) -> anyhow::Result<String, NodeException> {
         let node_lock = self.0.lock().unwrap();
         match node_lock.sign_message(msg.as_slice()) {
             Ok(e) => Ok(e),
-            Err(e) => Err(anyhow!(e.to_string())),
+            Err(e) => Err(e.into()),
         }
     }
 
@@ -486,8 +486,8 @@ impl NodePointer {
         msg: Vec<u8>,
         sig: String,
         pkey: PublicKey,
-    ) -> anyhow::Result<bool> {
+    ) -> anyhow::Result<bool, NodeException> {
         let node_lock = self.0.lock().unwrap();
-        Ok(node_lock.verify_signature(msg.as_slice(), sig.as_str(), &(pkey.into())))
+        Ok(node_lock.verify_signature(msg.as_slice(), sig.as_str(), &pkey.into()))
     }
 }

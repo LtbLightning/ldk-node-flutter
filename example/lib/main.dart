@@ -39,12 +39,12 @@ class _MyAppState extends State<MyApp> {
         probingLiquidityLimitMultiplier: 3,
         trustedPeers0Conf: [],
         storageDirPath: nodePath,
-        network: ldk.Network.testnet,
+        network: ldk.Network.Regtest,
         listeningAddress: address,
         onchainWalletSyncIntervalSecs: 60,
         walletSyncIntervalSecs: 20,
         feeRateCacheUpdateIntervalSecs: 600,
-        logLevel: ldk.LogLevel.debug,
+        logLevel: ldk.LogLevel.Debug,
         defaultCltvExpiryDelta: 144);
     return config;
   }
@@ -56,17 +56,16 @@ class _MyAppState extends State<MyApp> {
 
   initAliceNode() async {
     final aliceConfig = await initLdkConfig(
-        'alice', ldk.NetAddress.iPv4(addr: "0.0.0.0", port: 3006));
+        'alice_regtest', ldk.NetAddress.iPv4(addr: "0.0.0.0", port: 3006));
     ldk.Builder aliceBuilder = ldk.Builder.fromConfig(config: aliceConfig);
     aliceNode = await aliceBuilder
         .setEntropyBip39Mnemonic(
             mnemonic: ldk.Mnemonic(
                 internal:
                     'cart super leaf clinic pistol plug replace close super tooth wealth usage'))
-        .setEsploraServer(
-            esploraServerUrl: 'https://blockstream.info/testnet/api')
+        .setEsploraServer(esploraServerUrl: 'http://0.0.0.0:3002')
         .build();
-    await aliceNode.start();
+    await startNode(aliceNode);
     final res = await aliceNode.nodeId();
     setState(() {
       aliceNodeId = res;
@@ -74,19 +73,26 @@ class _MyAppState extends State<MyApp> {
     });
   }
 
+  startNode(ldk.Node node) async {
+    try {
+      node.start();
+    } on ldk.NodeException catch (e) {
+      print(e.toString());
+    }
+  }
+
   initBobNode() async {
     final bobConfig = await initLdkConfig(
-        "bob", ldk.NetAddress.iPv4(addr: "0.0.0.0", port: 3008));
+        "bob_regtest", ldk.NetAddress.iPv4(addr: "0.0.0.0", port: 3008));
     ldk.Builder bobBuilder = ldk.Builder.fromConfig(config: bobConfig);
     bobNode = await bobBuilder
         .setEntropyBip39Mnemonic(
             mnemonic: ldk.Mnemonic(
                 internal:
                     'puppy interest whip tonight dad never sudden response push zone pig patch'))
-        .setEsploraServer(
-            esploraServerUrl: 'https://blockstream.info/testnet/api')
+        .setEsploraServer(esploraServerUrl: 'http://0.0.0.0:3002')
         .build();
-    await bobNode.start();
+    await startNode(bobNode);
     final res = await bobNode.nodeId();
     setState(() {
       bobNodeId = res;
@@ -130,9 +136,9 @@ class _MyAppState extends State<MyApp> {
     }
   }
 
-  Future<ldk.PaymentDetails?> listPaymentsWithFilter(bool printPayments) async {
+  listPaymentsWithFilter(bool printPayments) async {
     final res = await aliceNode.listPaymentsWithFilter(
-        paymentDirection: ldk.PaymentDirection.outbound);
+        paymentDirection: ldk.PaymentDirection.Outbound);
     if (res.isNotEmpty) {
       if (printPayments) {
         if (kDebugMode) {
@@ -190,7 +196,7 @@ class _MyAppState extends State<MyApp> {
     await aliceNode.connectOpenChannel(
         channelAmountSats: 5000000,
         announceChannel: true,
-        address: bobAddr!,
+        netaddress: bobAddr!,
         pushToCounterpartyMsat: 50000,
         nodeId: bobNodeId!);
   }

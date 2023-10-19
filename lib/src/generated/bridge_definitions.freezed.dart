@@ -2418,6 +2418,390 @@ abstract class GossipSourceConfig_RapidGossipSync
 }
 
 /// @nodoc
+mixin _$MaxDustHTLCExposure {
+  int get field0 => throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(int field0) fixedLimitMsat,
+    required TResult Function(int field0) feeRateMultiplier,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(int field0)? fixedLimitMsat,
+    TResult? Function(int field0)? feeRateMultiplier,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(int field0)? fixedLimitMsat,
+    TResult Function(int field0)? feeRateMultiplier,
+    required TResult orElse(),
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(MaxDustHTLCExposure_FixedLimitMsat value)
+        fixedLimitMsat,
+    required TResult Function(MaxDustHTLCExposure_FeeRateMultiplier value)
+        feeRateMultiplier,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(MaxDustHTLCExposure_FixedLimitMsat value)? fixedLimitMsat,
+    TResult? Function(MaxDustHTLCExposure_FeeRateMultiplier value)?
+        feeRateMultiplier,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(MaxDustHTLCExposure_FixedLimitMsat value)? fixedLimitMsat,
+    TResult Function(MaxDustHTLCExposure_FeeRateMultiplier value)?
+        feeRateMultiplier,
+    required TResult orElse(),
+  }) =>
+      throw _privateConstructorUsedError;
+
+  @JsonKey(ignore: true)
+  $MaxDustHTLCExposureCopyWith<MaxDustHTLCExposure> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $MaxDustHTLCExposureCopyWith<$Res> {
+  factory $MaxDustHTLCExposureCopyWith(
+          MaxDustHTLCExposure value, $Res Function(MaxDustHTLCExposure) then) =
+      _$MaxDustHTLCExposureCopyWithImpl<$Res, MaxDustHTLCExposure>;
+  @useResult
+  $Res call({int field0});
+}
+
+/// @nodoc
+class _$MaxDustHTLCExposureCopyWithImpl<$Res, $Val extends MaxDustHTLCExposure>
+    implements $MaxDustHTLCExposureCopyWith<$Res> {
+  _$MaxDustHTLCExposureCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? field0 = null,
+  }) {
+    return _then(_value.copyWith(
+      field0: null == field0
+          ? _value.field0
+          : field0 // ignore: cast_nullable_to_non_nullable
+              as int,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$MaxDustHTLCExposure_FixedLimitMsatCopyWith<$Res>
+    implements $MaxDustHTLCExposureCopyWith<$Res> {
+  factory _$$MaxDustHTLCExposure_FixedLimitMsatCopyWith(
+          _$MaxDustHTLCExposure_FixedLimitMsat value,
+          $Res Function(_$MaxDustHTLCExposure_FixedLimitMsat) then) =
+      __$$MaxDustHTLCExposure_FixedLimitMsatCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({int field0});
+}
+
+/// @nodoc
+class __$$MaxDustHTLCExposure_FixedLimitMsatCopyWithImpl<$Res>
+    extends _$MaxDustHTLCExposureCopyWithImpl<$Res,
+        _$MaxDustHTLCExposure_FixedLimitMsat>
+    implements _$$MaxDustHTLCExposure_FixedLimitMsatCopyWith<$Res> {
+  __$$MaxDustHTLCExposure_FixedLimitMsatCopyWithImpl(
+      _$MaxDustHTLCExposure_FixedLimitMsat _value,
+      $Res Function(_$MaxDustHTLCExposure_FixedLimitMsat) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? field0 = null,
+  }) {
+    return _then(_$MaxDustHTLCExposure_FixedLimitMsat(
+      null == field0
+          ? _value.field0
+          : field0 // ignore: cast_nullable_to_non_nullable
+              as int,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$MaxDustHTLCExposure_FixedLimitMsat
+    implements MaxDustHTLCExposure_FixedLimitMsat {
+  const _$MaxDustHTLCExposure_FixedLimitMsat(this.field0);
+
+  @override
+  final int field0;
+
+  @override
+  String toString() {
+    return 'MaxDustHTLCExposure.fixedLimitMsat(field0: $field0)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$MaxDustHTLCExposure_FixedLimitMsat &&
+            (identical(other.field0, field0) || other.field0 == field0));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, field0);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$MaxDustHTLCExposure_FixedLimitMsatCopyWith<
+          _$MaxDustHTLCExposure_FixedLimitMsat>
+      get copyWith => __$$MaxDustHTLCExposure_FixedLimitMsatCopyWithImpl<
+          _$MaxDustHTLCExposure_FixedLimitMsat>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(int field0) fixedLimitMsat,
+    required TResult Function(int field0) feeRateMultiplier,
+  }) {
+    return fixedLimitMsat(field0);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(int field0)? fixedLimitMsat,
+    TResult? Function(int field0)? feeRateMultiplier,
+  }) {
+    return fixedLimitMsat?.call(field0);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(int field0)? fixedLimitMsat,
+    TResult Function(int field0)? feeRateMultiplier,
+    required TResult orElse(),
+  }) {
+    if (fixedLimitMsat != null) {
+      return fixedLimitMsat(field0);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(MaxDustHTLCExposure_FixedLimitMsat value)
+        fixedLimitMsat,
+    required TResult Function(MaxDustHTLCExposure_FeeRateMultiplier value)
+        feeRateMultiplier,
+  }) {
+    return fixedLimitMsat(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(MaxDustHTLCExposure_FixedLimitMsat value)? fixedLimitMsat,
+    TResult? Function(MaxDustHTLCExposure_FeeRateMultiplier value)?
+        feeRateMultiplier,
+  }) {
+    return fixedLimitMsat?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(MaxDustHTLCExposure_FixedLimitMsat value)? fixedLimitMsat,
+    TResult Function(MaxDustHTLCExposure_FeeRateMultiplier value)?
+        feeRateMultiplier,
+    required TResult orElse(),
+  }) {
+    if (fixedLimitMsat != null) {
+      return fixedLimitMsat(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class MaxDustHTLCExposure_FixedLimitMsat
+    implements MaxDustHTLCExposure {
+  const factory MaxDustHTLCExposure_FixedLimitMsat(final int field0) =
+      _$MaxDustHTLCExposure_FixedLimitMsat;
+
+  @override
+  int get field0;
+  @override
+  @JsonKey(ignore: true)
+  _$$MaxDustHTLCExposure_FixedLimitMsatCopyWith<
+          _$MaxDustHTLCExposure_FixedLimitMsat>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$MaxDustHTLCExposure_FeeRateMultiplierCopyWith<$Res>
+    implements $MaxDustHTLCExposureCopyWith<$Res> {
+  factory _$$MaxDustHTLCExposure_FeeRateMultiplierCopyWith(
+          _$MaxDustHTLCExposure_FeeRateMultiplier value,
+          $Res Function(_$MaxDustHTLCExposure_FeeRateMultiplier) then) =
+      __$$MaxDustHTLCExposure_FeeRateMultiplierCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({int field0});
+}
+
+/// @nodoc
+class __$$MaxDustHTLCExposure_FeeRateMultiplierCopyWithImpl<$Res>
+    extends _$MaxDustHTLCExposureCopyWithImpl<$Res,
+        _$MaxDustHTLCExposure_FeeRateMultiplier>
+    implements _$$MaxDustHTLCExposure_FeeRateMultiplierCopyWith<$Res> {
+  __$$MaxDustHTLCExposure_FeeRateMultiplierCopyWithImpl(
+      _$MaxDustHTLCExposure_FeeRateMultiplier _value,
+      $Res Function(_$MaxDustHTLCExposure_FeeRateMultiplier) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? field0 = null,
+  }) {
+    return _then(_$MaxDustHTLCExposure_FeeRateMultiplier(
+      null == field0
+          ? _value.field0
+          : field0 // ignore: cast_nullable_to_non_nullable
+              as int,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$MaxDustHTLCExposure_FeeRateMultiplier
+    implements MaxDustHTLCExposure_FeeRateMultiplier {
+  const _$MaxDustHTLCExposure_FeeRateMultiplier(this.field0);
+
+  @override
+  final int field0;
+
+  @override
+  String toString() {
+    return 'MaxDustHTLCExposure.feeRateMultiplier(field0: $field0)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$MaxDustHTLCExposure_FeeRateMultiplier &&
+            (identical(other.field0, field0) || other.field0 == field0));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, field0);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$MaxDustHTLCExposure_FeeRateMultiplierCopyWith<
+          _$MaxDustHTLCExposure_FeeRateMultiplier>
+      get copyWith => __$$MaxDustHTLCExposure_FeeRateMultiplierCopyWithImpl<
+          _$MaxDustHTLCExposure_FeeRateMultiplier>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(int field0) fixedLimitMsat,
+    required TResult Function(int field0) feeRateMultiplier,
+  }) {
+    return feeRateMultiplier(field0);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(int field0)? fixedLimitMsat,
+    TResult? Function(int field0)? feeRateMultiplier,
+  }) {
+    return feeRateMultiplier?.call(field0);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(int field0)? fixedLimitMsat,
+    TResult Function(int field0)? feeRateMultiplier,
+    required TResult orElse(),
+  }) {
+    if (feeRateMultiplier != null) {
+      return feeRateMultiplier(field0);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(MaxDustHTLCExposure_FixedLimitMsat value)
+        fixedLimitMsat,
+    required TResult Function(MaxDustHTLCExposure_FeeRateMultiplier value)
+        feeRateMultiplier,
+  }) {
+    return feeRateMultiplier(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(MaxDustHTLCExposure_FixedLimitMsat value)? fixedLimitMsat,
+    TResult? Function(MaxDustHTLCExposure_FeeRateMultiplier value)?
+        feeRateMultiplier,
+  }) {
+    return feeRateMultiplier?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(MaxDustHTLCExposure_FixedLimitMsat value)? fixedLimitMsat,
+    TResult Function(MaxDustHTLCExposure_FeeRateMultiplier value)?
+        feeRateMultiplier,
+    required TResult orElse(),
+  }) {
+    if (feeRateMultiplier != null) {
+      return feeRateMultiplier(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class MaxDustHTLCExposure_FeeRateMultiplier
+    implements MaxDustHTLCExposure {
+  const factory MaxDustHTLCExposure_FeeRateMultiplier(final int field0) =
+      _$MaxDustHTLCExposure_FeeRateMultiplier;
+
+  @override
+  int get field0;
+  @override
+  @JsonKey(ignore: true)
+  _$$MaxDustHTLCExposure_FeeRateMultiplierCopyWith<
+          _$MaxDustHTLCExposure_FeeRateMultiplier>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
 mixin _$NetAddress {
   String get addr => throw _privateConstructorUsedError;
   int get port => throw _privateConstructorUsedError;
