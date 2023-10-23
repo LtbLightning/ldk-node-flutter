@@ -7,7 +7,12 @@ export './src/generated/bridge_definitions.dart'
         Event_PaymentReceived,
         Event_PaymentSuccessful,
         Event_ChannelPending,
+        MaxDustHTLCExposure,
+        MaxDustHTLCExposure_FeeRateMultiplier,
+        MaxDustHTLCExposure_FixedLimitMsat,
         NodePointer,
+        NodeException,
+        BuilderException,
         EntropySourceConfig_SeedBytes,
         EntropySourceConfig_Bip39Mnemonic,
         ChainDataSourceConfig_Esplora,
@@ -20,3 +25,5 @@ export './src/generated/bridge_definitions.dart'
         U8Array64,
         EntropySourceConfig_SeedFile;
 export 'src/root.dart';
+export 'src/utils/exceptions.dart'
+    hide LdkException, handleBuilderException, handleNodeException;
