@@ -9,11 +9,11 @@ crate-type = ["staticlib", "cdylib"]
 
 
 [build-dependencies]
-flutter_rust_bridge_codegen = { version = "=1.82.1"  }
+flutter_rust_bridge_codegen = { version = "=1.82.4"  }
 
 
 [dependencies]
-flutter_rust_bridge = { version = "=1.82.1"  }
+flutter_rust_bridge = { version = "=1.82.4"  }
 
 log = "0.4.19"
 simplelog = "0.12.1"
