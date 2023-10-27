@@ -1,10 +1,11 @@
 ## [0.1.2]
 #### APIs added
 - Expose `generateEntropyMnemonic` function - a utility method for generating a BIP39 mnemonic.
-- Expose `Node` class's `updateChannelConfig` method.
+- Expose `Node` class's `updateChannelConfig`, `verifySignature`, `signMessage`,  `sendPaymentProbe`, `sendSpontaneousPaymentProbe` methods.
 - Add `ChannelConfig?` to node.connectOpenChannel() params - a `ChannelConfig` may now be specified on channel open or updated afterwards.
-- Expose `counterpartyNodeId` & `channelValueSats` in `ChannelDetails`.
-- Expose `trustedPeers0Conf` in `Config` - allowing inbound trusted 0conf channels. 
+- Expose `counterpartyNodeId`, `funding_txo` & `channelValueSats` in `ChannelDetails`.
+- Expose `trustedPeers0Conf` `probingLiquidityLimitMultiplier`, `logDirPath`, `onchainWalletSyncInterval_secs`, `walletSyncIntervalSecs`, &
+  `feeRateCacheUpdateIntervalSecs` in `Config` - allowing inbound trusted 0conf channels. 
 - Non-permanently connected peers are now included in node.listPeers().
 
 #### API changed
