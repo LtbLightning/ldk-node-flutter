@@ -57,20 +57,22 @@ import 'package:ldk_node/ldk_node.dart';
 // ....
 
 // Path to a directory where the application may place data that is user-generated
-final path = "${directory.path}alice's_node";
+final path = "${directory.path}/alice's_node";
 
 // Your preferred `Esplora` url
 final esploraUrl = https://blockstream.info/testnet/api;
 
 // configuration options for the node
 final config  = Config(
-                        storageDirPath: nodePath,
-                        network: ldk.Network.regtest,
+                        probingLiquidityLimitMultiplier: 3,
+                        trustedPeers0Conf: [],
+                        storageDirPath: path,
+                        network: Network.Testnet,
                         listeningAddress: NetAddress.iPv4(addr: "0.0.0.0", port: 3006),
-                        onchainWalletSyncIntervalSecs: 30,
-                        walletSyncIntervalSecs: 30,
-                        feeRateCacheUpdateIntervalSecs: 100,
-                        logLevel: ldk.LogLevel.info,
+                        onchainWalletSyncIntervalSecs: 60,
+                        walletSyncIntervalSecs: 20,
+                        feeRateCacheUpdateIntervalSecs: 600,
+                        logLevel: ldk.LogLevel.Debug,
                         defaultCltvExpiryDelta: 144
                      );
 Builder builder = Builder.fromConfig(config);
@@ -81,6 +83,7 @@ Builder builder = Builder.fromConfig(config);
                                                    'certain sense kiss guide crumble hint transfer crime much stereo warm coral'))
                                 .setEsploraServer(
                                      esploraServerUrl: esploraUrl)
+                                .setEsploraServer(esploraServerUrl: esploraUrl)
                                 .build();
 
 // Starting the node
