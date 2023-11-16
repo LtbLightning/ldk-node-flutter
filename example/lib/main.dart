@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -26,6 +28,12 @@ class _MyAppState extends State<MyApp> {
   ldk.Bolt11Invoice? invoice;
   ldk.ChannelId? channelId;
 
+  // Replace this with your local esplora url
+  String esploraUrl = Platform.isAndroid
+      ?
+      //10.0.2.2 to access the AVD
+      'http://10.0.2.2:30000'
+      : 'http://127.0.0.1:30000';
   @override
   void initState() {
     initAliceNode();
@@ -63,7 +71,7 @@ class _MyAppState extends State<MyApp> {
             mnemonic: ldk.Mnemonic(
                 internal:
                     'cart super leaf clinic pistol plug replace close super tooth wealth usage'))
-        .setEsploraServer(esploraServerUrl: 'http://0.0.0.0:3002')
+        .setEsploraServer(esploraServerUrl: esploraUrl)
         .build();
     await startNode(aliceNode);
     final res = await aliceNode.nodeId();
@@ -90,7 +98,7 @@ class _MyAppState extends State<MyApp> {
             mnemonic: ldk.Mnemonic(
                 internal:
                     'puppy interest whip tonight dad never sudden response push zone pig patch'))
-        .setEsploraServer(esploraServerUrl: 'http://0.0.0.0:3002')
+        .setEsploraServer(esploraServerUrl: esploraUrl)
         .build();
     await startNode(bobNode);
     final res = await bobNode.nodeId();
