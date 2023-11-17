@@ -4,9 +4,22 @@ import 'package:ldk_node/src/utils/exceptions.dart';
 import 'package:ldk_node/src/utils/loader.dart';
 import 'package:path_provider/path_provider.dart';
 
-Future<bridge.Mnemonic> generateEntropyMnemonic() async {
-  final res = await loaderApi.generateEntropyMnemonic();
-  return res;
+class Mnemonic extends bridge.Mnemonic {
+  Mnemonic(internal) : super(internal: internal);
+
+  static Future<Mnemonic> generate() async {
+    try {
+      final res = await loaderApi.generateEntropyMnemonic();
+      return Mnemonic(res.internal);
+    } on bridge.NodeException catch (e) {
+      throw handleNodeException(e);
+    }
+  }
+
+  @override
+  toString() {
+    return internal;
+  }
 }
 
 ///The main interface object of LDK Node, wrapping the necessary LDK and BDK functionalities.

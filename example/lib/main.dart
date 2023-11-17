@@ -69,8 +69,7 @@ class _MyAppState extends State<MyApp> {
     aliceNode = await aliceBuilder
         .setEntropyBip39Mnemonic(
             mnemonic: ldk.Mnemonic(
-                internal:
-                    'cart super leaf clinic pistol plug replace close super tooth wealth usage'))
+                'cart super leaf clinic pistol plug replace close super tooth wealth usage'))
         .setEsploraServer(esploraServerUrl: esploraUrl)
         .build();
     await startNode(aliceNode);
@@ -96,8 +95,7 @@ class _MyAppState extends State<MyApp> {
     bobNode = await bobBuilder
         .setEntropyBip39Mnemonic(
             mnemonic: ldk.Mnemonic(
-                internal:
-                    'puppy interest whip tonight dad never sudden response push zone pig patch'))
+                'puppy interest whip tonight dad never sudden response push zone pig patch'))
         .setEsploraServer(esploraServerUrl: esploraUrl)
         .build();
     await startNode(bobNode);

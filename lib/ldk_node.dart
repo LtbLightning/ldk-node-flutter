@@ -23,6 +23,7 @@ export './src/generated/bridge_definitions.dart'
         NetAddress_IPv6,
         U8Array32,
         U8Array64,
+        Mnemonic,
         EntropySourceConfig_SeedFile;
 export 'src/root.dart';
 export 'src/utils/exceptions.dart'
