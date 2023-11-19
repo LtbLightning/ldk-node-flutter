@@ -14,15 +14,6 @@ typedef struct wire_uint_8_list {
   int32_t len;
 } wire_uint_8_list;
 
-typedef struct wire_PublicKey {
-  struct wire_uint_8_list *internal;
-} wire_PublicKey;
-
-typedef struct wire_list_public_key {
-  struct wire_PublicKey *ptr;
-  int32_t len;
-} wire_list_public_key;
-
 typedef struct wire_NetAddress_IPv4 {
   struct wire_uint_8_list *addr;
   uint16_t port;
@@ -43,16 +34,27 @@ typedef struct wire_NetAddress {
   union NetAddressKind *kind;
 } wire_NetAddress;
 
+typedef struct wire_PublicKey {
+  struct wire_uint_8_list *internal;
+} wire_PublicKey;
+
+typedef struct wire_list_public_key {
+  struct wire_PublicKey *ptr;
+  int32_t len;
+} wire_list_public_key;
+
 typedef struct wire_Config {
   struct wire_uint_8_list *storage_dir_path;
+  struct wire_uint_8_list *log_dir_path;
   int32_t network;
+  struct wire_NetAddress *listening_address;
+  uint32_t default_cltv_expiry_delta;
   uint64_t onchain_wallet_sync_interval_secs;
   uint64_t wallet_sync_interval_secs;
   uint64_t fee_rate_cache_update_interval_secs;
   struct wire_list_public_key *trusted_peers_0conf;
+  uint64_t probing_liquidity_limit_multiplier;
   int32_t log_level;
-  struct wire_NetAddress *listening_address;
-  uint32_t default_cltv_expiry_delta;
 } wire_Config;
 
 typedef struct wire_ChainDataSourceConfig_Esplora {
@@ -126,21 +128,40 @@ typedef struct wire_Address {
   struct wire_uint_8_list *internal;
 } wire_Address;
 
+typedef struct wire_MaxDustHTLCExposure_FixedLimitMsat {
+  uint64_t field0;
+} wire_MaxDustHTLCExposure_FixedLimitMsat;
+
+typedef struct wire_MaxDustHTLCExposure_FeeRateMultiplier {
+  uint64_t field0;
+} wire_MaxDustHTLCExposure_FeeRateMultiplier;
+
+typedef union MaxDustHTLCExposureKind {
+  struct wire_MaxDustHTLCExposure_FixedLimitMsat *FixedLimitMsat;
+  struct wire_MaxDustHTLCExposure_FeeRateMultiplier *FeeRateMultiplier;
+} MaxDustHTLCExposureKind;
+
+typedef struct wire_MaxDustHTLCExposure {
+  int32_t tag;
+  union MaxDustHTLCExposureKind *kind;
+} wire_MaxDustHTLCExposure;
+
 typedef struct wire_ChannelConfig {
   uint32_t forwarding_fee_proportional_millionths;
   uint32_t forwarding_fee_base_msat;
   uint16_t cltv_expiry_delta;
-  uint64_t max_dust_htlc_exposure_msat;
+  struct wire_MaxDustHTLCExposure max_dust_htlc_exposure;
   uint64_t force_close_avoidance_max_fee_satoshis;
+  bool accept_underpaying_htlcs;
 } wire_ChannelConfig;
 
 typedef struct wire_ChannelId {
   struct wire_uint_8_list *internal;
 } wire_ChannelId;
 
-typedef struct wire_Invoice {
+typedef struct wire_Bolt11Invoice {
   struct wire_uint_8_list *internal;
-} wire_Invoice;
+} wire_Bolt11Invoice;
 
 typedef struct wire_PaymentHash {
   struct wire_uint_8_list *internal;
@@ -233,17 +254,26 @@ void wire_update_channel_config__method__NodePointer(int64_t port_,
 
 void wire_send_payment__method__NodePointer(int64_t port_,
                                             struct wire_NodePointer *that,
-                                            struct wire_Invoice *invoice);
+                                            struct wire_Bolt11Invoice *invoice);
 
 void wire_send_payment_using_amount__method__NodePointer(int64_t port_,
                                                          struct wire_NodePointer *that,
-                                                         struct wire_Invoice *invoice,
+                                                         struct wire_Bolt11Invoice *invoice,
                                                          uint64_t amount_msat);
 
 void wire_send_spontaneous_payment__method__NodePointer(int64_t port_,
                                                         struct wire_NodePointer *that,
                                                         uint64_t amount_msat,
                                                         struct wire_PublicKey *node_id);
+
+void wire_send_payment_probe__method__NodePointer(int64_t port_,
+                                                  struct wire_NodePointer *that,
+                                                  struct wire_Bolt11Invoice *invoice);
+
+void wire_send_spontaneous_payment_probe__method__NodePointer(int64_t port_,
+                                                              struct wire_NodePointer *that,
+                                                              uint64_t amount_msat,
+                                                              struct wire_PublicKey *node_id);
 
 void wire_receive_payment__method__NodePointer(int64_t port_,
                                                struct wire_NodePointer *that,
@@ -286,6 +316,8 @@ struct wire_MutexNodeSqliteStore new_MutexNodeSqliteStore(void);
 
 struct wire_Address *new_box_autoadd_address_0(void);
 
+struct wire_Bolt11Invoice *new_box_autoadd_bolt_11_invoice_0(void);
+
 struct wire_ChainDataSourceConfig *new_box_autoadd_chain_data_source_config_0(void);
 
 struct wire_ChannelConfig *new_box_autoadd_channel_config_0(void);
@@ -297,8 +329,6 @@ struct wire_Config *new_box_autoadd_config_0(void);
 struct wire_EntropySourceConfig *new_box_autoadd_entropy_source_config_0(void);
 
 struct wire_GossipSourceConfig *new_box_autoadd_gossip_source_config_0(void);
-
-struct wire_Invoice *new_box_autoadd_invoice_0(void);
 
 struct wire_Mnemonic *new_box_autoadd_mnemonic_0(void);
 
@@ -329,6 +359,10 @@ union EntropySourceConfigKind *inflate_EntropySourceConfig_SeedBytes(void);
 union EntropySourceConfigKind *inflate_EntropySourceConfig_Bip39Mnemonic(void);
 
 union GossipSourceConfigKind *inflate_GossipSourceConfig_RapidGossipSync(void);
+
+union MaxDustHTLCExposureKind *inflate_MaxDustHTLCExposure_FixedLimitMsat(void);
+
+union MaxDustHTLCExposureKind *inflate_MaxDustHTLCExposure_FeeRateMultiplier(void);
 
 union NetAddressKind *inflate_NetAddress_IPv4(void);
 
@@ -362,6 +396,8 @@ static int64_t dummy_method_to_enforce_bundling(void) {
     dummy_var ^= ((int64_t) (void*) wire_send_payment__method__NodePointer);
     dummy_var ^= ((int64_t) (void*) wire_send_payment_using_amount__method__NodePointer);
     dummy_var ^= ((int64_t) (void*) wire_send_spontaneous_payment__method__NodePointer);
+    dummy_var ^= ((int64_t) (void*) wire_send_payment_probe__method__NodePointer);
+    dummy_var ^= ((int64_t) (void*) wire_send_spontaneous_payment_probe__method__NodePointer);
     dummy_var ^= ((int64_t) (void*) wire_receive_payment__method__NodePointer);
     dummy_var ^= ((int64_t) (void*) wire_receive_variable_amount_payment__method__NodePointer);
     dummy_var ^= ((int64_t) (void*) wire_payment__method__NodePointer);
@@ -373,13 +409,13 @@ static int64_t dummy_method_to_enforce_bundling(void) {
     dummy_var ^= ((int64_t) (void*) wire_verify_signature__method__NodePointer);
     dummy_var ^= ((int64_t) (void*) new_MutexNodeSqliteStore);
     dummy_var ^= ((int64_t) (void*) new_box_autoadd_address_0);
+    dummy_var ^= ((int64_t) (void*) new_box_autoadd_bolt_11_invoice_0);
     dummy_var ^= ((int64_t) (void*) new_box_autoadd_chain_data_source_config_0);
     dummy_var ^= ((int64_t) (void*) new_box_autoadd_channel_config_0);
     dummy_var ^= ((int64_t) (void*) new_box_autoadd_channel_id_0);
     dummy_var ^= ((int64_t) (void*) new_box_autoadd_config_0);
     dummy_var ^= ((int64_t) (void*) new_box_autoadd_entropy_source_config_0);
     dummy_var ^= ((int64_t) (void*) new_box_autoadd_gossip_source_config_0);
-    dummy_var ^= ((int64_t) (void*) new_box_autoadd_invoice_0);
     dummy_var ^= ((int64_t) (void*) new_box_autoadd_mnemonic_0);
     dummy_var ^= ((int64_t) (void*) new_box_autoadd_net_address_0);
     dummy_var ^= ((int64_t) (void*) new_box_autoadd_node_pointer_0);
@@ -395,6 +431,8 @@ static int64_t dummy_method_to_enforce_bundling(void) {
     dummy_var ^= ((int64_t) (void*) inflate_EntropySourceConfig_SeedBytes);
     dummy_var ^= ((int64_t) (void*) inflate_EntropySourceConfig_Bip39Mnemonic);
     dummy_var ^= ((int64_t) (void*) inflate_GossipSourceConfig_RapidGossipSync);
+    dummy_var ^= ((int64_t) (void*) inflate_MaxDustHTLCExposure_FixedLimitMsat);
+    dummy_var ^= ((int64_t) (void*) inflate_MaxDustHTLCExposure_FeeRateMultiplier);
     dummy_var ^= ((int64_t) (void*) inflate_NetAddress_IPv4);
     dummy_var ^= ((int64_t) (void*) inflate_NetAddress_IPv6);
     dummy_var ^= ((int64_t) (void*) free_WireSyncReturn);

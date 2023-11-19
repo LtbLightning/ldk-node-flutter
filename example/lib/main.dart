@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -23,9 +25,15 @@ class _MyAppState extends State<MyApp> {
   int aliceBalance = 0;
   String displayText = "";
   ldk.NetAddress? bobAddr;
-  ldk.Invoice? invoice;
+  ldk.Bolt11Invoice? invoice;
   ldk.ChannelId? channelId;
 
+  // Replace this with your local esplora url
+  String esploraUrl = Platform.isAndroid
+      ?
+      //10.0.2.2 to access the AVD
+      'http://10.0.2.2:30000'
+      : 'http://127.0.0.1:30000';
   @override
   void initState() {
     initAliceNode();
@@ -36,14 +44,15 @@ class _MyAppState extends State<MyApp> {
     final directory = await getApplicationDocumentsDirectory();
     final nodePath = "${directory.path}/ldk_cache/$path";
     final config = ldk.Config(
+        probingLiquidityLimitMultiplier: 3,
         trustedPeers0Conf: [],
         storageDirPath: nodePath,
-        network: ldk.Network.testnet,
+        network: ldk.Network.Regtest,
         listeningAddress: address,
         onchainWalletSyncIntervalSecs: 60,
         walletSyncIntervalSecs: 20,
         feeRateCacheUpdateIntervalSecs: 600,
-        logLevel: ldk.LogLevel.debug,
+        logLevel: ldk.LogLevel.Debug,
         defaultCltvExpiryDelta: 144);
     return config;
   }
@@ -55,17 +64,15 @@ class _MyAppState extends State<MyApp> {
 
   initAliceNode() async {
     final aliceConfig = await initLdkConfig(
-        'alice', ldk.NetAddress.iPv4(addr: "0.0.0.0", port: 3006));
+        'alice_regtest', ldk.NetAddress.iPv4(addr: "0.0.0.0", port: 3006));
     ldk.Builder aliceBuilder = ldk.Builder.fromConfig(config: aliceConfig);
     aliceNode = await aliceBuilder
         .setEntropyBip39Mnemonic(
             mnemonic: ldk.Mnemonic(
-                internal:
-                    'cart super leaf clinic pistol plug replace close super tooth wealth usage'))
-        .setEsploraServer(
-            esploraServerUrl: 'https://blockstream.info/testnet/api')
+                'cart super leaf clinic pistol plug replace close super tooth wealth usage'))
+        .setEsploraServer(esploraServerUrl: esploraUrl)
         .build();
-    await aliceNode.start();
+    await startNode(aliceNode);
     final res = await aliceNode.nodeId();
     setState(() {
       aliceNodeId = res;
@@ -73,19 +80,25 @@ class _MyAppState extends State<MyApp> {
     });
   }
 
+  startNode(ldk.Node node) async {
+    try {
+      node.start();
+    } on ldk.NodeException catch (e) {
+      print(e.toString());
+    }
+  }
+
   initBobNode() async {
     final bobConfig = await initLdkConfig(
-        "bob", ldk.NetAddress.iPv4(addr: "0.0.0.0", port: 3008));
+        "bob_regtest", ldk.NetAddress.iPv4(addr: "0.0.0.0", port: 3008));
     ldk.Builder bobBuilder = ldk.Builder.fromConfig(config: bobConfig);
     bobNode = await bobBuilder
         .setEntropyBip39Mnemonic(
             mnemonic: ldk.Mnemonic(
-                internal:
-                    'puppy interest whip tonight dad never sudden response push zone pig patch'))
-        .setEsploraServer(
-            esploraServerUrl: 'https://blockstream.info/testnet/api')
+                'puppy interest whip tonight dad never sudden response push zone pig patch'))
+        .setEsploraServer(esploraServerUrl: esploraUrl)
         .build();
-    await bobNode.start();
+    await startNode(bobNode);
     final res = await bobNode.nodeId();
     setState(() {
       bobNodeId = res;
@@ -129,9 +142,9 @@ class _MyAppState extends State<MyApp> {
     }
   }
 
-  Future<ldk.PaymentDetails?> listPaymentsWithFilter(bool printPayments) async {
+  listPaymentsWithFilter(bool printPayments) async {
     final res = await aliceNode.listPaymentsWithFilter(
-        paymentDirection: ldk.PaymentDirection.outbound);
+        paymentDirection: ldk.PaymentDirection.Outbound);
     if (res.isNotEmpty) {
       if (printPayments) {
         if (kDebugMode) {
@@ -153,14 +166,10 @@ class _MyAppState extends State<MyApp> {
   removeLastPayment() async {
     final lastPayment = await listPaymentsWithFilter(false);
     if (lastPayment != null) {
-      final res = await aliceNode.removePayment(paymentHash: lastPayment.hash);
-      if (res) {
-        setState(() {
-          displayText = "${lastPayment.hash.internal} removed";
-        });
-      } else {
-        displayText = "payment not found";
-      }
+      final _ = await aliceNode.removePayment(paymentHash: lastPayment.hash);
+      setState(() {
+        displayText = "${lastPayment.hash.internal} removed";
+      });
     }
   }
 
@@ -193,7 +202,7 @@ class _MyAppState extends State<MyApp> {
     await aliceNode.connectOpenChannel(
         channelAmountSats: 5000000,
         announceChannel: true,
-        address: bobAddr!,
+        netaddress: bobAddr!,
         pushToCounterpartyMsat: 50000,
         nodeId: bobNodeId!);
   }

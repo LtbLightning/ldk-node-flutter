@@ -1,0 +1,14 @@
+pre-commit:
+  commands:
+    lint_code:
+      glob: '*.dart'
+      run: dart fix lib --apply && git add .
+    format_code:
+      glob: '*.dart'
+      run: dart format {staged_files} && git add .
+
+pre-push:
+  parallel: true
+  commands:
+    static_code_analysis:
+      run: flutter analyze

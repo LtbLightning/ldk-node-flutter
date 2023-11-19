@@ -9,17 +9,17 @@ crate-type = ["staticlib", "cdylib"]
 
 
 [build-dependencies]
-flutter_rust_bridge_codegen = { version = "=1.78.0"  }
+flutter_rust_bridge_codegen = { version = "=1.82.4"  }
 
 
 [dependencies]
-flutter_rust_bridge = { version = "=1.78.0"  }
+flutter_rust_bridge = { version = "=1.82.4"  }
 
 log = "0.4.19"
 simplelog = "0.12.1"
 lazy_static = "1.4.0"
 once_cell = "1.18.0"
-ldk-node = "0.1.0"
+ldk-node = { git = "https://github.com/lightningdevkit/ldk-node", rev = "db1b7dcc3415ac00455913b48d4b7b8ec6c2e617" }
 anyhow= { version = "1.0.71"}
 
 [profile.release]
