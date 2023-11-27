@@ -111,13 +111,13 @@ impl From<BuildError> for BuilderException {
     fn from(value: BuildError) -> Self {
         match value {
             BuildError::InvalidSeedBytes => BuilderException::InvalidSeedBytes,
-            BuildError::InvalidSeedFile => BuilderException::InvalidSeedBytes,
-            BuildError::InvalidSystemTime => BuilderException::InvalidSeedBytes,
-            BuildError::ReadFailed => BuilderException::InvalidSeedBytes,
-            BuildError::WriteFailed => BuilderException::InvalidSeedBytes,
-            BuildError::StoragePathAccessFailed => BuilderException::InvalidSeedBytes,
-            BuildError::WalletSetupFailed => BuilderException::InvalidSeedBytes,
-            BuildError::LoggerSetupFailed => BuilderException::InvalidSeedBytes,
+            BuildError::InvalidSeedFile => BuilderException::InvalidSeedFile,
+            BuildError::InvalidSystemTime => BuilderException::InvalidSystemTime,
+            BuildError::ReadFailed => BuilderException::ReadFailed,
+            BuildError::WriteFailed => BuilderException::WriteFailed,
+            BuildError::StoragePathAccessFailed => BuilderException::StoragePathAccessFailed,
+            BuildError::WalletSetupFailed => BuilderException::WalletSetupFailed,
+            BuildError::LoggerSetupFailed => BuilderException::LoggerSetupFailed,
         }
     }
 }

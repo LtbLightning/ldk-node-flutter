@@ -60,7 +60,7 @@ import 'package:ldk_node/ldk_node.dart';
 final path = "${directory.path}/alice's_node";
 
 // Your preferred `Esplora` url
-final esploraUrl = https://blockstream.info/testnet/api;
+final esploraUrl = "https://mempool.space/testnet/api";
 
 // configuration options for the node
 final config  = Config(
