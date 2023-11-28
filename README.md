@@ -39,7 +39,7 @@ To use the `ldk_node` package in your project, add it as a dependency in your pr
 
 ```dart
 dependencies:
-  ldk_node: ^0.1.2
+  ldk_node: ^0.1.3
 ```
 or add from pub.dev using `pub add` command
 
