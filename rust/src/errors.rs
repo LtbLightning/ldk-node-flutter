@@ -120,7 +120,9 @@ impl From<NodeError> for NodeException {
             NodeError::InvalidNetwork => NodeException::InvalidNetwork,
             NodeError::DuplicatePayment => NodeException::DuplicatePayment,
             NodeError::InsufficientFunds => NodeException::InsufficientFunds,
-            NodeError::FeerateEstimationUpdateFailed => NodeException::FeerateEstimationUpdateFailed,
+            NodeError::FeerateEstimationUpdateFailed => {
+                NodeException::FeerateEstimationUpdateFailed
+            }
         }
     }
 }
@@ -137,7 +139,7 @@ impl From<BuildError> for BuilderException {
             BuildError::LoggerSetupFailed => BuilderException::LoggerSetupFailed,
             BuildError::InvalidChannelMonitor => BuilderException::InvalidChannelMonitor,
             BuildError::KVStoreSetupFailed => BuilderException::KVStoreSetupFailed,
-            BuildError::InvalidListeningAddresses => BuilderException::InvalidListeningAddresses
+            BuildError::InvalidListeningAddresses => BuilderException::InvalidListeningAddresses,
         }
     }
 }

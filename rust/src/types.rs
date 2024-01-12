@@ -1,11 +1,10 @@
-use std::convert::TryFrom;
 pub use anyhow::anyhow;
 use flutter_rust_bridge::*;
 use ldk_node::bitcoin::hashes::hex::ToHex;
 pub use ldk_node::Node;
+use std::convert::TryFrom;
 use std::str::FromStr;
 use std::string::ToString;
-
 
 ///Options which apply on a per-channel basis and may change at runtime or based on negotiation with our counterparty.
 pub struct ChannelConfig {
@@ -97,7 +96,7 @@ pub struct ChannelId {
 }
 
 impl From<ldk_node::lightning::ln::ChannelId> for ChannelId {
-    fn from(value:ldk_node::lightning::ln::ChannelId) -> Self {
+    fn from(value: ldk_node::lightning::ln::ChannelId) -> Self {
         ChannelId { internal: value.0 }
     }
 }
@@ -151,7 +150,7 @@ pub enum Event {
         /// The user_channel_id of the channel.
         user_channel_id: UserChannelId,
 
-        counterparty_node_id: Option<PublicKey>
+        counterparty_node_id: Option<PublicKey>,
     },
     /// A channel has been closed.
     ChannelClosed {
@@ -159,7 +158,7 @@ pub enum Event {
         channel_id: ChannelId,
         /// The user_channel_id of the channel.
         user_channel_id: UserChannelId,
-        counterparty_node_id: Option<PublicKey>
+        counterparty_node_id: Option<PublicKey>,
     },
     /// A channel has been created and is pending confirmation on-chain.
     ChannelPending {
@@ -589,10 +588,6 @@ impl From<ldk_node::PeerDetails> for PeerDetails {
     }
 }
 
-
-
-
-
 /// An enum representing the available verbosity levels of the logger.
 ///
 #[derive(Copy, Clone, PartialEq, Eq, Debug, Hash)]
@@ -653,52 +648,84 @@ pub enum SocketAddress {
     },
 }
 
-impl From<ldk_node::lightning::ln::msgs::SocketAddress> for SocketAddress{
+impl From<ldk_node::lightning::ln::msgs::SocketAddress> for SocketAddress {
     fn from(value: ldk_node::lightning::ln::msgs::SocketAddress) -> Self {
         match value {
-            ldk_node::lightning::ln::msgs::SocketAddress::TcpIpV4 { addr, port } => SocketAddress::TcpIpV4 {addr, port},
-            ldk_node::lightning::ln::msgs::SocketAddress::TcpIpV6 { addr, port } =>SocketAddress::TcpIpV6 {addr, port},
+            ldk_node::lightning::ln::msgs::SocketAddress::TcpIpV4 { addr, port } => {
+                SocketAddress::TcpIpV4 { addr, port }
+            }
+            ldk_node::lightning::ln::msgs::SocketAddress::TcpIpV6 { addr, port } => {
+                SocketAddress::TcpIpV6 { addr, port }
+            }
             ldk_node::lightning::ln::msgs::SocketAddress::OnionV2(e) => SocketAddress::OnionV2(e),
-            ldk_node::lightning::ln::msgs:: SocketAddress::OnionV3 { ed25519_pubkey, checksum, version, port } => SocketAddress::OnionV3 {
+            ldk_node::lightning::ln::msgs::SocketAddress::OnionV3 {
+                ed25519_pubkey,
+                checksum,
+                version,
+                port,
+            } => SocketAddress::OnionV3 {
                 ed25519_pubkey,
                 checksum,
                 version,
                 port,
             },
-            ldk_node::lightning::ln::msgs::SocketAddress::Hostname { hostname, port } => SocketAddress::Hostname { hostname:hostname.into(), port }
+            ldk_node::lightning::ln::msgs::SocketAddress::Hostname { hostname, port } => {
+                SocketAddress::Hostname {
+                    hostname: hostname.into(),
+                    port,
+                }
+            }
         }
     }
 }
 
-impl From<SocketAddress> for ldk_node::lightning::ln::msgs::SocketAddress{
+impl From<SocketAddress> for ldk_node::lightning::ln::msgs::SocketAddress {
     fn from(value: SocketAddress) -> Self {
         match value {
-            SocketAddress::TcpIpV4 { addr, port } => ldk_node::lightning::ln::msgs::SocketAddress::TcpIpV4 {addr, port},
-            SocketAddress::TcpIpV6 { addr, port } =>ldk_node::lightning::ln::msgs:: SocketAddress::TcpIpV6 {addr, port},
+            SocketAddress::TcpIpV4 { addr, port } => {
+                ldk_node::lightning::ln::msgs::SocketAddress::TcpIpV4 { addr, port }
+            }
+            SocketAddress::TcpIpV6 { addr, port } => {
+                ldk_node::lightning::ln::msgs::SocketAddress::TcpIpV6 { addr, port }
+            }
             SocketAddress::OnionV2(e) => ldk_node::lightning::ln::msgs::SocketAddress::OnionV2(e),
-            SocketAddress::OnionV3 { ed25519_pubkey, checksum, version, port } => ldk_node::lightning::ln::msgs::SocketAddress::OnionV3 {
+            SocketAddress::OnionV3 {
+                ed25519_pubkey,
+                checksum,
+                version,
+                port,
+            } => ldk_node::lightning::ln::msgs::SocketAddress::OnionV3 {
                 ed25519_pubkey,
                 checksum,
                 version,
                 port,
             },
-            SocketAddress::Hostname { hostname, port } => ldk_node::lightning::ln::msgs::SocketAddress::Hostname { hostname:hostname.into(), port }
+            SocketAddress::Hostname { hostname, port } => {
+                ldk_node::lightning::ln::msgs::SocketAddress::Hostname {
+                    hostname: hostname.into(),
+                    port,
+                }
+            }
         }
     }
 }
 #[derive(Eq, PartialEq, Clone, Debug)]
-pub struct  Hostname {pub internal:String}
-impl From<ldk_node::lightning::util::ser::Hostname> for Hostname{
+pub struct Hostname {
+    pub internal: String,
+}
+impl From<ldk_node::lightning::util::ser::Hostname> for Hostname {
     fn from(value: ldk_node::lightning::util::ser::Hostname) -> Self {
-        Hostname{internal: value.to_string()}
+        Hostname {
+            internal: value.to_string(),
+        }
     }
 }
-impl From<Hostname> for ldk_node::lightning::util::ser::Hostname{
+impl From<Hostname> for ldk_node::lightning::util::ser::Hostname {
     fn from(value: Hostname) -> Self {
-        ldk_node::lightning::util::ser::Hostname::try_from(value.internal).expect("Invalid Hostname")
+        ldk_node::lightning::util::ser::Hostname::try_from(value.internal)
+            .expect("Invalid Hostname")
     }
 }
-
 
 impl From<Config> for ldk_node::Config {
     fn from(value: Config) -> Self {
@@ -707,7 +734,10 @@ impl From<Config> for ldk_node::Config {
             log_dir_path: value.log_dir_path,
             network: value.network.into(),
             listening_addresses: value.listening_addresses.map(|vec_socket_addr| {
-                vec_socket_addr.into_iter().map(|socket_addr|  socket_addr.into()).collect()
+                vec_socket_addr
+                    .into_iter()
+                    .map(|socket_addr| socket_addr.into())
+                    .collect()
             }),
             default_cltv_expiry_delta: value.default_cltv_expiry_delta,
             onchain_wallet_sync_interval_secs: value.onchain_wallet_sync_interval_secs,

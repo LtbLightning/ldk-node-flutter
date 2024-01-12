@@ -2,11 +2,11 @@ use crate::errors::{BuilderException, NodeException};
 use crate::types::*;
 pub use anyhow::anyhow;
 use flutter_rust_bridge::*;
+pub use ldk_node::io::sqlite_store::SqliteStore;
 use ldk_node::lightning::util::ser::Writeable;
 pub use ldk_node::Node;
 use ldk_node::{BuildError, Builder};
 pub use std::sync::{Arc, Mutex};
-pub use ldk_node::io::sqlite_store::SqliteStore;
 
 pub fn generate_entropy_mnemonic() -> Mnemonic {
     let mnemonic: Mnemonic = ldk_node::generate_entropy_mnemonic().into();
@@ -30,8 +30,6 @@ pub fn build_sqlite_node(
         Err(e) => Err(e.into()),
     }
 }
-
-
 
 fn create_builder(
     config: Config,
@@ -71,12 +69,9 @@ fn create_builder(
 // }
 // pub struct  PointerNodeWrapper(pub RustOpaque<Mutex<PointerNode>>);
 
-
-
 pub struct NodePointer(pub RustOpaque<Mutex<Node<SqliteStore>>>);
 
 impl NodePointer {
-
     /// Starts the necessary background tasks, such as handling events coming from user input,
     /// LDK/BDK, and the peer-to-peer network.
     ///
@@ -135,9 +130,13 @@ impl NodePointer {
     /// Returns our own listening address.
     pub fn listening_addresses(&self) -> Option<Vec<SocketAddress>> {
         let node_lock = self.0.lock().unwrap();
-        let y: Option<Vec<SocketAddress>> =  node_lock.listening_addresses().map(|vec_socket_addr| {
-             vec_socket_addr.into_iter().map(|socket_addr|  socket_addr.into()).collect()
-         });
+        let y: Option<Vec<SocketAddress>> =
+            node_lock.listening_addresses().map(|vec_socket_addr| {
+                vec_socket_addr
+                    .into_iter()
+                    .map(|socket_addr| socket_addr.into())
+                    .collect()
+            });
         y
     }
 
@@ -346,13 +345,13 @@ impl NodePointer {
         }
     }
 
-///Sends payment probes over all paths of a route that would be used to pay the given invoice.
-/// This may be used to send "pre-flight" probes, i.e., to train our scorer before conducting the actual payment.
-/// Note this is only useful if there likely is sufficient time for the probe to settle before sending out the actual payment,
-/// e.g., when waiting for user confirmation in a wallet UI.
-/// Otherwise, there is a chance the probe could take up some liquidity needed to complete the actual payment.
-/// Users should therefore be cautious and might avoid sending probes if liquidity is scarce and/or they don't expect the probe to return before they send the payment.
-/// To mitigate this issue, channels with available liquidity less than the required amount times Config::probing_liquidity_limit_multiplier won't be used to send pre-flight probes.
+    ///Sends payment probes over all paths of a route that would be used to pay the given invoice.
+    /// This may be used to send "pre-flight" probes, i.e., to train our scorer before conducting the actual payment.
+    /// Note this is only useful if there likely is sufficient time for the probe to settle before sending out the actual payment,
+    /// e.g., when waiting for user confirmation in a wallet UI.
+    /// Otherwise, there is a chance the probe could take up some liquidity needed to complete the actual payment.
+    /// Users should therefore be cautious and might avoid sending probes if liquidity is scarce and/or they don't expect the probe to return before they send the payment.
+    /// To mitigate this issue, channels with available liquidity less than the required amount times Config::probing_liquidity_limit_multiplier won't be used to send pre-flight probes.
     pub fn send_payment_probes(&self, invoice: Bolt11Invoice) -> anyhow::Result<(), NodeException> {
         let node_lock = self.0.lock().unwrap();
         match node_lock.send_payment_probes(&invoice.into()) {
@@ -361,7 +360,7 @@ impl NodePointer {
         }
     }
 
- ///Sends payment probes over all paths of a route that would be used to pay the given amount to the given node_id.
+    ///Sends payment probes over all paths of a route that would be used to pay the given amount to the given node_id.
     pub fn send_spontaneous_payment_probes(
         &self,
         amount_msat: u64,
