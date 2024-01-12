@@ -32,10 +32,10 @@ use crate::types::Config;
 use crate::types::EntropySourceConfig;
 use crate::types::Event;
 use crate::types::GossipSourceConfig;
+use crate::types::Hostname;
 use crate::types::LogLevel;
 use crate::types::MaxDustHTLCExposure;
 use crate::types::Mnemonic;
-use crate::types::NetAddress;
 use crate::types::Network;
 use crate::types::OutPoint;
 use crate::types::PaymentDetails;
@@ -46,6 +46,7 @@ use crate::types::PaymentSecret;
 use crate::types::PaymentStatus;
 use crate::types::PeerDetails;
 use crate::types::PublicKey;
+use crate::types::SocketAddress;
 use crate::types::Txid;
 use crate::types::UserChannelId;
 
@@ -61,7 +62,7 @@ fn wire_generate_entropy_mnemonic_impl(port_: MessagePort) {
         move || move |task_callback| Result::<_, ()>::Ok(generate_entropy_mnemonic()),
     )
 }
-fn wire_build_node_impl(
+fn wire_build_sqlite_node_impl(
     port_: MessagePort,
     config: impl Wire2Api<Config> + UnwindSafe,
     chain_data_source_config: impl Wire2Api<Option<ChainDataSourceConfig>> + UnwindSafe,
@@ -70,7 +71,7 @@ fn wire_build_node_impl(
 ) {
     FLUTTER_RUST_BRIDGE_HANDLER.wrap::<_, _, _, NodePointer, _>(
         WrapInfo {
-            debug_name: "build_node",
+            debug_name: "build_sqlite_node",
             port: Some(port_),
             mode: FfiCallMode::Normal,
         },
@@ -80,7 +81,7 @@ fn wire_build_node_impl(
             let api_entropy_source_config = entropy_source_config.wire2api();
             let api_gossip_source_config = gossip_source_config.wire2api();
             move |task_callback| {
-                build_node(
+                build_sqlite_node(
                     api_config,
                     api_chain_data_source_config,
                     api_entropy_source_config,
@@ -186,19 +187,19 @@ fn wire_node_id__method__NodePointer_impl(
         },
     )
 }
-fn wire_listening_address__method__NodePointer_impl(
+fn wire_listening_addresses__method__NodePointer_impl(
     port_: MessagePort,
     that: impl Wire2Api<NodePointer> + UnwindSafe,
 ) {
-    FLUTTER_RUST_BRIDGE_HANDLER.wrap::<_, _, _, Option<NetAddress>, _>(
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap::<_, _, _, Option<Vec<SocketAddress>>, _>(
         WrapInfo {
-            debug_name: "listening_address__method__NodePointer",
+            debug_name: "listening_addresses__method__NodePointer",
             port: Some(port_),
             mode: FfiCallMode::Normal,
         },
         move || {
             let api_that = that.wire2api();
-            move |task_callback| Result::<_, ()>::Ok(NodePointer::listening_address(&api_that))
+            move |task_callback| Result::<_, ()>::Ok(NodePointer::listening_addresses(&api_that))
         },
     )
 }
@@ -310,7 +311,7 @@ fn wire_connect__method__NodePointer_impl(
     port_: MessagePort,
     that: impl Wire2Api<NodePointer> + UnwindSafe,
     node_id: impl Wire2Api<PublicKey> + UnwindSafe,
-    address: impl Wire2Api<NetAddress> + UnwindSafe,
+    address: impl Wire2Api<SocketAddress> + UnwindSafe,
     persist: impl Wire2Api<bool> + UnwindSafe,
 ) {
     FLUTTER_RUST_BRIDGE_HANDLER.wrap::<_, _, _, (), _>(
@@ -351,7 +352,7 @@ fn wire_disconnect__method__NodePointer_impl(
 fn wire_connect_open_channel__method__NodePointer_impl(
     port_: MessagePort,
     that: impl Wire2Api<NodePointer> + UnwindSafe,
-    address: impl Wire2Api<NetAddress> + UnwindSafe,
+    address: impl Wire2Api<SocketAddress> + UnwindSafe,
     node_id: impl Wire2Api<PublicKey> + UnwindSafe,
     channel_amount_sats: impl Wire2Api<u64> + UnwindSafe,
     push_to_counterparty_msat: impl Wire2Api<Option<u64>> + UnwindSafe,
@@ -515,25 +516,25 @@ fn wire_send_spontaneous_payment__method__NodePointer_impl(
         },
     )
 }
-fn wire_send_payment_probe__method__NodePointer_impl(
+fn wire_send_payment_probes__method__NodePointer_impl(
     port_: MessagePort,
     that: impl Wire2Api<NodePointer> + UnwindSafe,
     invoice: impl Wire2Api<Bolt11Invoice> + UnwindSafe,
 ) {
     FLUTTER_RUST_BRIDGE_HANDLER.wrap::<_, _, _, (), _>(
         WrapInfo {
-            debug_name: "send_payment_probe__method__NodePointer",
+            debug_name: "send_payment_probes__method__NodePointer",
             port: Some(port_),
             mode: FfiCallMode::Normal,
         },
         move || {
             let api_that = that.wire2api();
             let api_invoice = invoice.wire2api();
-            move |task_callback| NodePointer::send_payment_probe(&api_that, api_invoice)
+            move |task_callback| NodePointer::send_payment_probes(&api_that, api_invoice)
         },
     )
 }
-fn wire_send_spontaneous_payment_probe__method__NodePointer_impl(
+fn wire_send_spontaneous_payment_probes__method__NodePointer_impl(
     port_: MessagePort,
     that: impl Wire2Api<NodePointer> + UnwindSafe,
     amount_msat: impl Wire2Api<u64> + UnwindSafe,
@@ -541,7 +542,7 @@ fn wire_send_spontaneous_payment_probe__method__NodePointer_impl(
 ) {
     FLUTTER_RUST_BRIDGE_HANDLER.wrap::<_, _, _, (), _>(
         WrapInfo {
-            debug_name: "send_spontaneous_payment_probe__method__NodePointer",
+            debug_name: "send_spontaneous_payment_probes__method__NodePointer",
             port: Some(port_),
             mode: FfiCallMode::Normal,
         },
@@ -550,7 +551,11 @@ fn wire_send_spontaneous_payment_probe__method__NodePointer_impl(
             let api_amount_msat = amount_msat.wire2api();
             let api_node_id = node_id.wire2api();
             move |task_callback| {
-                NodePointer::send_spontaneous_payment_probe(&api_that, api_amount_msat, api_node_id)
+                NodePointer::send_spontaneous_payment_probes(
+                    &api_that,
+                    api_amount_msat,
+                    api_node_id,
+                )
             }
         },
     )
@@ -869,11 +874,14 @@ impl support::IntoDart for BuilderException {
             Self::InvalidSeedBytes => 0,
             Self::InvalidSeedFile => 1,
             Self::InvalidSystemTime => 2,
-            Self::ReadFailed => 3,
-            Self::WriteFailed => 4,
-            Self::StoragePathAccessFailed => 5,
-            Self::WalletSetupFailed => 6,
-            Self::LoggerSetupFailed => 7,
+            Self::InvalidChannelMonitor => 3,
+            Self::InvalidListeningAddresses => 4,
+            Self::ReadFailed => 5,
+            Self::WriteFailed => 6,
+            Self::StoragePathAccessFailed => 7,
+            Self::KVStoreSetupFailed => 8,
+            Self::WalletSetupFailed => 9,
+            Self::LoggerSetupFailed => 10,
         }
         .into_dart()
     }
@@ -949,18 +957,22 @@ impl support::IntoDart for Event {
             Self::ChannelReady {
                 channel_id,
                 user_channel_id,
+                counterparty_node_id,
             } => vec![
                 3.into_dart(),
                 channel_id.into_into_dart().into_dart(),
                 user_channel_id.into_into_dart().into_dart(),
+                counterparty_node_id.into_dart(),
             ],
             Self::ChannelClosed {
                 channel_id,
                 user_channel_id,
+                counterparty_node_id,
             } => vec![
                 4.into_dart(),
                 channel_id.into_into_dart().into_dart(),
                 user_channel_id.into_into_dart().into_dart(),
+                counterparty_node_id.into_dart(),
             ],
             Self::ChannelPending {
                 channel_id,
@@ -987,6 +999,18 @@ impl rust2dart::IntoIntoDart<Event> for Event {
     }
 }
 
+impl support::IntoDart for Hostname {
+    fn into_dart(self) -> support::DartAbi {
+        vec![self.internal.into_into_dart().into_dart()].into_dart()
+    }
+}
+impl support::IntoDartExceptPrimitive for Hostname {}
+impl rust2dart::IntoIntoDart<Hostname> for Hostname {
+    fn into_into_dart(self) -> Self {
+        self
+    }
+}
+
 impl support::IntoDart for Mnemonic {
     fn into_dart(self) -> support::DartAbi {
         vec![self.internal.into_into_dart().into_dart()].into_dart()
@@ -994,30 +1018,6 @@ impl support::IntoDart for Mnemonic {
 }
 impl support::IntoDartExceptPrimitive for Mnemonic {}
 impl rust2dart::IntoIntoDart<Mnemonic> for Mnemonic {
-    fn into_into_dart(self) -> Self {
-        self
-    }
-}
-
-impl support::IntoDart for NetAddress {
-    fn into_dart(self) -> support::DartAbi {
-        match self {
-            Self::IPv4 { addr, port } => vec![
-                0.into_dart(),
-                addr.into_into_dart().into_dart(),
-                port.into_into_dart().into_dart(),
-            ],
-            Self::IPv6 { addr, port } => vec![
-                1.into_dart(),
-                addr.into_into_dart().into_dart(),
-                port.into_into_dart().into_dart(),
-            ],
-        }
-        .into_dart()
-    }
-}
-impl support::IntoDartExceptPrimitive for NetAddress {}
-impl rust2dart::IntoIntoDart<NetAddress> for NetAddress {
     fn into_into_dart(self) -> Self {
         self
     }
@@ -1043,7 +1043,7 @@ impl support::IntoDart for NodeException {
             Self::TxSyncFailed => 14,
             Self::GossipUpdateFailed => 15,
             Self::InvalidAddress => 16,
-            Self::InvalidNetAddress => 17,
+            Self::InvalidSocketAddress => 17,
             Self::InvalidPublicKey => 18,
             Self::InvalidSecretKey => 19,
             Self::InvalidPaymentHash => 20,
@@ -1207,6 +1207,48 @@ impl support::IntoDart for PublicKey {
 }
 impl support::IntoDartExceptPrimitive for PublicKey {}
 impl rust2dart::IntoIntoDart<PublicKey> for PublicKey {
+    fn into_into_dart(self) -> Self {
+        self
+    }
+}
+
+impl support::IntoDart for SocketAddress {
+    fn into_dart(self) -> support::DartAbi {
+        match self {
+            Self::TcpIpV4 { addr, port } => vec![
+                0.into_dart(),
+                addr.into_into_dart().into_dart(),
+                port.into_into_dart().into_dart(),
+            ],
+            Self::TcpIpV6 { addr, port } => vec![
+                1.into_dart(),
+                addr.into_into_dart().into_dart(),
+                port.into_into_dart().into_dart(),
+            ],
+            Self::OnionV2(field0) => vec![2.into_dart(), field0.into_into_dart().into_dart()],
+            Self::OnionV3 {
+                ed25519_pubkey,
+                checksum,
+                version,
+                port,
+            } => vec![
+                3.into_dart(),
+                ed25519_pubkey.into_into_dart().into_dart(),
+                checksum.into_into_dart().into_dart(),
+                version.into_into_dart().into_dart(),
+                port.into_into_dart().into_dart(),
+            ],
+            Self::Hostname { hostname, port } => vec![
+                4.into_dart(),
+                hostname.into_into_dart().into_dart(),
+                port.into_into_dart().into_dart(),
+            ],
+        }
+        .into_dart()
+    }
+}
+impl support::IntoDartExceptPrimitive for SocketAddress {}
+impl rust2dart::IntoIntoDart<SocketAddress> for SocketAddress {
     fn into_into_dart(self) -> Self {
         self
     }

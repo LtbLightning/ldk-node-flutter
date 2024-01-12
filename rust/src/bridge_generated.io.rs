@@ -7,14 +7,14 @@ pub extern "C" fn wire_generate_entropy_mnemonic(port_: i64) {
 }
 
 #[no_mangle]
-pub extern "C" fn wire_build_node(
+pub extern "C" fn wire_build_sqlite_node(
     port_: i64,
     config: *mut wire_Config,
     chain_data_source_config: *mut wire_ChainDataSourceConfig,
     entropy_source_config: *mut wire_EntropySourceConfig,
     gossip_source_config: *mut wire_GossipSourceConfig,
 ) {
-    wire_build_node_impl(
+    wire_build_sqlite_node_impl(
         port_,
         config,
         chain_data_source_config,
@@ -57,11 +57,11 @@ pub extern "C" fn wire_node_id__method__NodePointer(port_: i64, that: *mut wire_
 }
 
 #[no_mangle]
-pub extern "C" fn wire_listening_address__method__NodePointer(
+pub extern "C" fn wire_listening_addresses__method__NodePointer(
     port_: i64,
     that: *mut wire_NodePointer,
 ) {
-    wire_listening_address__method__NodePointer_impl(port_, that)
+    wire_listening_addresses__method__NodePointer_impl(port_, that)
 }
 
 #[no_mangle]
@@ -117,7 +117,7 @@ pub extern "C" fn wire_connect__method__NodePointer(
     port_: i64,
     that: *mut wire_NodePointer,
     node_id: *mut wire_PublicKey,
-    address: *mut wire_NetAddress,
+    address: *mut wire_SocketAddress,
     persist: bool,
 ) {
     wire_connect__method__NodePointer_impl(port_, that, node_id, address, persist)
@@ -136,7 +136,7 @@ pub extern "C" fn wire_disconnect__method__NodePointer(
 pub extern "C" fn wire_connect_open_channel__method__NodePointer(
     port_: i64,
     that: *mut wire_NodePointer,
-    address: *mut wire_NetAddress,
+    address: *mut wire_SocketAddress,
     node_id: *mut wire_PublicKey,
     channel_amount_sats: u64,
     push_to_counterparty_msat: *mut u64,
@@ -217,22 +217,27 @@ pub extern "C" fn wire_send_spontaneous_payment__method__NodePointer(
 }
 
 #[no_mangle]
-pub extern "C" fn wire_send_payment_probe__method__NodePointer(
+pub extern "C" fn wire_send_payment_probes__method__NodePointer(
     port_: i64,
     that: *mut wire_NodePointer,
     invoice: *mut wire_Bolt11Invoice,
 ) {
-    wire_send_payment_probe__method__NodePointer_impl(port_, that, invoice)
+    wire_send_payment_probes__method__NodePointer_impl(port_, that, invoice)
 }
 
 #[no_mangle]
-pub extern "C" fn wire_send_spontaneous_payment_probe__method__NodePointer(
+pub extern "C" fn wire_send_spontaneous_payment_probes__method__NodePointer(
     port_: i64,
     that: *mut wire_NodePointer,
     amount_msat: u64,
     node_id: *mut wire_PublicKey,
 ) {
-    wire_send_spontaneous_payment_probe__method__NodePointer_impl(port_, that, amount_msat, node_id)
+    wire_send_spontaneous_payment_probes__method__NodePointer_impl(
+        port_,
+        that,
+        amount_msat,
+        node_id,
+    )
 }
 
 #[no_mangle]
@@ -372,13 +377,13 @@ pub extern "C" fn new_box_autoadd_gossip_source_config_0() -> *mut wire_GossipSo
 }
 
 #[no_mangle]
-pub extern "C" fn new_box_autoadd_mnemonic_0() -> *mut wire_Mnemonic {
-    support::new_leak_box_ptr(wire_Mnemonic::new_with_null_ptr())
+pub extern "C" fn new_box_autoadd_hostname_0() -> *mut wire_Hostname {
+    support::new_leak_box_ptr(wire_Hostname::new_with_null_ptr())
 }
 
 #[no_mangle]
-pub extern "C" fn new_box_autoadd_net_address_0() -> *mut wire_NetAddress {
-    support::new_leak_box_ptr(wire_NetAddress::new_with_null_ptr())
+pub extern "C" fn new_box_autoadd_mnemonic_0() -> *mut wire_Mnemonic {
+    support::new_leak_box_ptr(wire_Mnemonic::new_with_null_ptr())
 }
 
 #[no_mangle]
@@ -397,6 +402,11 @@ pub extern "C" fn new_box_autoadd_public_key_0() -> *mut wire_PublicKey {
 }
 
 #[no_mangle]
+pub extern "C" fn new_box_autoadd_socket_address_0() -> *mut wire_SocketAddress {
+    support::new_leak_box_ptr(wire_SocketAddress::new_with_null_ptr())
+}
+
+#[no_mangle]
 pub extern "C" fn new_box_autoadd_u64_0(value: u64) -> *mut u64 {
     support::new_leak_box_ptr(value)
 }
@@ -405,6 +415,15 @@ pub extern "C" fn new_box_autoadd_u64_0(value: u64) -> *mut u64 {
 pub extern "C" fn new_list_public_key_0(len: i32) -> *mut wire_list_public_key {
     let wrap = wire_list_public_key {
         ptr: support::new_leak_vec_ptr(<wire_PublicKey>::new_with_null_ptr(), len),
+        len,
+    };
+    support::new_leak_box_ptr(wrap)
+}
+
+#[no_mangle]
+pub extern "C" fn new_list_socket_address_0(len: i32) -> *mut wire_list_socket_address {
+    let wrap = wire_list_socket_address {
+        ptr: support::new_leak_vec_ptr(<wire_SocketAddress>::new_with_null_ptr(), len),
         len,
     };
     support::new_leak_box_ptr(wrap)
@@ -512,16 +531,16 @@ impl Wire2Api<GossipSourceConfig> for *mut wire_GossipSourceConfig {
         Wire2Api::<GossipSourceConfig>::wire2api(*wrap).into()
     }
 }
+impl Wire2Api<Hostname> for *mut wire_Hostname {
+    fn wire2api(self) -> Hostname {
+        let wrap = unsafe { support::box_from_leak_ptr(self) };
+        Wire2Api::<Hostname>::wire2api(*wrap).into()
+    }
+}
 impl Wire2Api<Mnemonic> for *mut wire_Mnemonic {
     fn wire2api(self) -> Mnemonic {
         let wrap = unsafe { support::box_from_leak_ptr(self) };
         Wire2Api::<Mnemonic>::wire2api(*wrap).into()
-    }
-}
-impl Wire2Api<NetAddress> for *mut wire_NetAddress {
-    fn wire2api(self) -> NetAddress {
-        let wrap = unsafe { support::box_from_leak_ptr(self) };
-        Wire2Api::<NetAddress>::wire2api(*wrap).into()
     }
 }
 impl Wire2Api<NodePointer> for *mut wire_NodePointer {
@@ -540,6 +559,12 @@ impl Wire2Api<PublicKey> for *mut wire_PublicKey {
     fn wire2api(self) -> PublicKey {
         let wrap = unsafe { support::box_from_leak_ptr(self) };
         Wire2Api::<PublicKey>::wire2api(*wrap).into()
+    }
+}
+impl Wire2Api<SocketAddress> for *mut wire_SocketAddress {
+    fn wire2api(self) -> SocketAddress {
+        let wrap = unsafe { support::box_from_leak_ptr(self) };
+        Wire2Api::<SocketAddress>::wire2api(*wrap).into()
     }
 }
 impl Wire2Api<u64> for *mut u64 {
@@ -588,7 +613,7 @@ impl Wire2Api<Config> for wire_Config {
             storage_dir_path: self.storage_dir_path.wire2api(),
             log_dir_path: self.log_dir_path.wire2api(),
             network: self.network.wire2api(),
-            listening_address: self.listening_address.wire2api(),
+            listening_addresses: self.listening_addresses.wire2api(),
             default_cltv_expiry_delta: self.default_cltv_expiry_delta.wire2api(),
             onchain_wallet_sync_interval_secs: self.onchain_wallet_sync_interval_secs.wire2api(),
             wallet_sync_interval_secs: self.wallet_sync_interval_secs.wire2api(),
@@ -639,9 +664,25 @@ impl Wire2Api<GossipSourceConfig> for wire_GossipSourceConfig {
         }
     }
 }
+impl Wire2Api<Hostname> for wire_Hostname {
+    fn wire2api(self) -> Hostname {
+        Hostname {
+            internal: self.internal.wire2api(),
+        }
+    }
+}
 
 impl Wire2Api<Vec<PublicKey>> for *mut wire_list_public_key {
     fn wire2api(self) -> Vec<PublicKey> {
+        let vec = unsafe {
+            let wrap = support::box_from_leak_ptr(self);
+            support::vec_from_leak_ptr(wrap.ptr, wrap.len)
+        };
+        vec.into_iter().map(Wire2Api::wire2api).collect()
+    }
+}
+impl Wire2Api<Vec<SocketAddress>> for *mut wire_list_socket_address {
+    fn wire2api(self) -> Vec<SocketAddress> {
         let vec = unsafe {
             let wrap = support::box_from_leak_ptr(self);
             support::vec_from_leak_ptr(wrap.ptr, wrap.len)
@@ -674,29 +715,6 @@ impl Wire2Api<Mnemonic> for wire_Mnemonic {
         }
     }
 }
-impl Wire2Api<NetAddress> for wire_NetAddress {
-    fn wire2api(self) -> NetAddress {
-        match self.tag {
-            0 => unsafe {
-                let ans = support::box_from_leak_ptr(self.kind);
-                let ans = support::box_from_leak_ptr(ans.IPv4);
-                NetAddress::IPv4 {
-                    addr: ans.addr.wire2api(),
-                    port: ans.port.wire2api(),
-                }
-            },
-            1 => unsafe {
-                let ans = support::box_from_leak_ptr(self.kind);
-                let ans = support::box_from_leak_ptr(ans.IPv6);
-                NetAddress::IPv6 {
-                    addr: ans.addr.wire2api(),
-                    port: ans.port.wire2api(),
-                }
-            },
-            _ => unreachable!(),
-        }
-    }
-}
 
 impl Wire2Api<NodePointer> for wire_NodePointer {
     fn wire2api(self) -> NodePointer {
@@ -718,9 +736,73 @@ impl Wire2Api<PublicKey> for wire_PublicKey {
         }
     }
 }
+impl Wire2Api<SocketAddress> for wire_SocketAddress {
+    fn wire2api(self) -> SocketAddress {
+        match self.tag {
+            0 => unsafe {
+                let ans = support::box_from_leak_ptr(self.kind);
+                let ans = support::box_from_leak_ptr(ans.TcpIpV4);
+                SocketAddress::TcpIpV4 {
+                    addr: ans.addr.wire2api(),
+                    port: ans.port.wire2api(),
+                }
+            },
+            1 => unsafe {
+                let ans = support::box_from_leak_ptr(self.kind);
+                let ans = support::box_from_leak_ptr(ans.TcpIpV6);
+                SocketAddress::TcpIpV6 {
+                    addr: ans.addr.wire2api(),
+                    port: ans.port.wire2api(),
+                }
+            },
+            2 => unsafe {
+                let ans = support::box_from_leak_ptr(self.kind);
+                let ans = support::box_from_leak_ptr(ans.OnionV2);
+                SocketAddress::OnionV2(ans.field0.wire2api())
+            },
+            3 => unsafe {
+                let ans = support::box_from_leak_ptr(self.kind);
+                let ans = support::box_from_leak_ptr(ans.OnionV3);
+                SocketAddress::OnionV3 {
+                    ed25519_pubkey: ans.ed25519_pubkey.wire2api(),
+                    checksum: ans.checksum.wire2api(),
+                    version: ans.version.wire2api(),
+                    port: ans.port.wire2api(),
+                }
+            },
+            4 => unsafe {
+                let ans = support::box_from_leak_ptr(self.kind);
+                let ans = support::box_from_leak_ptr(ans.Hostname);
+                SocketAddress::Hostname {
+                    hostname: ans.hostname.wire2api(),
+                    port: ans.port.wire2api(),
+                }
+            },
+            _ => unreachable!(),
+        }
+    }
+}
 
+impl Wire2Api<[u8; 12]> for *mut wire_uint_8_list {
+    fn wire2api(self) -> [u8; 12] {
+        let vec: Vec<u8> = self.wire2api();
+        support::from_vec_to_array(vec)
+    }
+}
+impl Wire2Api<[u8; 16]> for *mut wire_uint_8_list {
+    fn wire2api(self) -> [u8; 16] {
+        let vec: Vec<u8> = self.wire2api();
+        support::from_vec_to_array(vec)
+    }
+}
 impl Wire2Api<[u8; 32]> for *mut wire_uint_8_list {
     fn wire2api(self) -> [u8; 32] {
+        let vec: Vec<u8> = self.wire2api();
+        support::from_vec_to_array(vec)
+    }
+}
+impl Wire2Api<[u8; 4]> for *mut wire_uint_8_list {
+    fn wire2api(self) -> [u8; 4] {
         let vec: Vec<u8> = self.wire2api();
         support::from_vec_to_array(vec)
     }
@@ -782,7 +864,7 @@ pub struct wire_Config {
     storage_dir_path: *mut wire_uint_8_list,
     log_dir_path: *mut wire_uint_8_list,
     network: i32,
-    listening_address: *mut wire_NetAddress,
+    listening_addresses: *mut wire_list_socket_address,
     default_cltv_expiry_delta: u32,
     onchain_wallet_sync_interval_secs: u64,
     wallet_sync_interval_secs: u64,
@@ -794,8 +876,21 @@ pub struct wire_Config {
 
 #[repr(C)]
 #[derive(Clone)]
+pub struct wire_Hostname {
+    internal: *mut wire_uint_8_list,
+}
+
+#[repr(C)]
+#[derive(Clone)]
 pub struct wire_list_public_key {
     ptr: *mut wire_PublicKey,
+    len: i32,
+}
+
+#[repr(C)]
+#[derive(Clone)]
+pub struct wire_list_socket_address {
+    ptr: *mut wire_SocketAddress,
     len: i32,
 }
 
@@ -930,28 +1025,53 @@ pub struct wire_MaxDustHTLCExposure_FeeRateMultiplier {
 
 #[repr(C)]
 #[derive(Clone)]
-pub struct wire_NetAddress {
+pub struct wire_SocketAddress {
     tag: i32,
-    kind: *mut NetAddressKind,
+    kind: *mut SocketAddressKind,
 }
 
 #[repr(C)]
-pub union NetAddressKind {
-    IPv4: *mut wire_NetAddress_IPv4,
-    IPv6: *mut wire_NetAddress_IPv6,
+pub union SocketAddressKind {
+    TcpIpV4: *mut wire_SocketAddress_TcpIpV4,
+    TcpIpV6: *mut wire_SocketAddress_TcpIpV6,
+    OnionV2: *mut wire_SocketAddress_OnionV2,
+    OnionV3: *mut wire_SocketAddress_OnionV3,
+    Hostname: *mut wire_SocketAddress_Hostname,
 }
 
 #[repr(C)]
 #[derive(Clone)]
-pub struct wire_NetAddress_IPv4 {
+pub struct wire_SocketAddress_TcpIpV4 {
     addr: *mut wire_uint_8_list,
     port: u16,
 }
 
 #[repr(C)]
 #[derive(Clone)]
-pub struct wire_NetAddress_IPv6 {
+pub struct wire_SocketAddress_TcpIpV6 {
     addr: *mut wire_uint_8_list,
+    port: u16,
+}
+
+#[repr(C)]
+#[derive(Clone)]
+pub struct wire_SocketAddress_OnionV2 {
+    field0: *mut wire_uint_8_list,
+}
+
+#[repr(C)]
+#[derive(Clone)]
+pub struct wire_SocketAddress_OnionV3 {
+    ed25519_pubkey: *mut wire_uint_8_list,
+    checksum: u16,
+    version: u8,
+    port: u16,
+}
+
+#[repr(C)]
+#[derive(Clone)]
+pub struct wire_SocketAddress_Hostname {
+    hostname: *mut wire_Hostname,
     port: u16,
 }
 
@@ -1066,7 +1186,7 @@ impl NewWithNullPtr for wire_Config {
             storage_dir_path: core::ptr::null_mut(),
             log_dir_path: core::ptr::null_mut(),
             network: Default::default(),
-            listening_address: core::ptr::null_mut(),
+            listening_addresses: core::ptr::null_mut(),
             default_cltv_expiry_delta: Default::default(),
             onchain_wallet_sync_interval_secs: Default::default(),
             wallet_sync_interval_secs: Default::default(),
@@ -1151,6 +1271,20 @@ pub extern "C" fn inflate_GossipSourceConfig_RapidGossipSync() -> *mut GossipSou
     })
 }
 
+impl NewWithNullPtr for wire_Hostname {
+    fn new_with_null_ptr() -> Self {
+        Self {
+            internal: core::ptr::null_mut(),
+        }
+    }
+}
+
+impl Default for wire_Hostname {
+    fn default() -> Self {
+        Self::new_with_null_ptr()
+    }
+}
+
 impl Default for wire_MaxDustHTLCExposure {
     fn default() -> Self {
         Self::new_with_null_ptr()
@@ -1198,41 +1332,6 @@ impl Default for wire_Mnemonic {
     }
 }
 
-impl Default for wire_NetAddress {
-    fn default() -> Self {
-        Self::new_with_null_ptr()
-    }
-}
-
-impl NewWithNullPtr for wire_NetAddress {
-    fn new_with_null_ptr() -> Self {
-        Self {
-            tag: -1,
-            kind: core::ptr::null_mut(),
-        }
-    }
-}
-
-#[no_mangle]
-pub extern "C" fn inflate_NetAddress_IPv4() -> *mut NetAddressKind {
-    support::new_leak_box_ptr(NetAddressKind {
-        IPv4: support::new_leak_box_ptr(wire_NetAddress_IPv4 {
-            addr: core::ptr::null_mut(),
-            port: Default::default(),
-        }),
-    })
-}
-
-#[no_mangle]
-pub extern "C" fn inflate_NetAddress_IPv6() -> *mut NetAddressKind {
-    support::new_leak_box_ptr(NetAddressKind {
-        IPv6: support::new_leak_box_ptr(wire_NetAddress_IPv6 {
-            addr: core::ptr::null_mut(),
-            port: Default::default(),
-        }),
-    })
-}
-
 impl NewWithNullPtr for wire_NodePointer {
     fn new_with_null_ptr() -> Self {
         Self {
@@ -1273,6 +1372,72 @@ impl Default for wire_PublicKey {
     fn default() -> Self {
         Self::new_with_null_ptr()
     }
+}
+
+impl Default for wire_SocketAddress {
+    fn default() -> Self {
+        Self::new_with_null_ptr()
+    }
+}
+
+impl NewWithNullPtr for wire_SocketAddress {
+    fn new_with_null_ptr() -> Self {
+        Self {
+            tag: -1,
+            kind: core::ptr::null_mut(),
+        }
+    }
+}
+
+#[no_mangle]
+pub extern "C" fn inflate_SocketAddress_TcpIpV4() -> *mut SocketAddressKind {
+    support::new_leak_box_ptr(SocketAddressKind {
+        TcpIpV4: support::new_leak_box_ptr(wire_SocketAddress_TcpIpV4 {
+            addr: core::ptr::null_mut(),
+            port: Default::default(),
+        }),
+    })
+}
+
+#[no_mangle]
+pub extern "C" fn inflate_SocketAddress_TcpIpV6() -> *mut SocketAddressKind {
+    support::new_leak_box_ptr(SocketAddressKind {
+        TcpIpV6: support::new_leak_box_ptr(wire_SocketAddress_TcpIpV6 {
+            addr: core::ptr::null_mut(),
+            port: Default::default(),
+        }),
+    })
+}
+
+#[no_mangle]
+pub extern "C" fn inflate_SocketAddress_OnionV2() -> *mut SocketAddressKind {
+    support::new_leak_box_ptr(SocketAddressKind {
+        OnionV2: support::new_leak_box_ptr(wire_SocketAddress_OnionV2 {
+            field0: core::ptr::null_mut(),
+        }),
+    })
+}
+
+#[no_mangle]
+pub extern "C" fn inflate_SocketAddress_OnionV3() -> *mut SocketAddressKind {
+    support::new_leak_box_ptr(SocketAddressKind {
+        OnionV3: support::new_leak_box_ptr(wire_SocketAddress_OnionV3 {
+            ed25519_pubkey: core::ptr::null_mut(),
+            checksum: Default::default(),
+            version: Default::default(),
+            port: Default::default(),
+        }),
+    })
+}
+
+#[no_mangle]
+pub extern "C" fn inflate_SocketAddress_Hostname() -> *mut SocketAddressKind {
+    support::new_leak_box_ptr(SocketAddressKind {
+        Hostname: support::new_leak_box_ptr(wire_SocketAddress_Hostname {
+            hostname: core::ptr::null_mut(),
+            port: Default::default(),
+        }),
+    })
 }
 
 // Section: sync execution mode utility

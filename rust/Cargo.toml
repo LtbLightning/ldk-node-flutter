@@ -19,7 +19,8 @@ log = "0.4.19"
 simplelog = "0.12.1"
 lazy_static = "1.4.0"
 once_cell = "1.18.0"
-ldk-node = { git = "https://github.com/lightningdevkit/ldk-node", rev = "db1b7dcc3415ac00455913b48d4b7b8ec6c2e617" }
+# Merge pull request #170 from jbesraa/persist-inbound-channels
+ldk-node = { git = "https://github.com/lightningdevkit/ldk-node.git", rev = "fc09bfbfbe43bdedebacfc75305acaed2ad85446" }
 anyhow= { version = "1.0.71"}
 
 [profile.release]
