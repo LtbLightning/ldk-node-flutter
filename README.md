@@ -68,7 +68,10 @@ final config  = Config(
                         trustedPeers0Conf: [],
                         storageDirPath: path,
                         network: Network.Testnet,
-                        listeningAddress: NetAddress.iPv4(addr: "0.0.0.0", port: 3006),
+                        listeningAddresses: [
+                          bridge.SocketAddress.hostname(
+                              hostname: bridge.Hostname(internal: "0.0.0.0"), port: 9735)
+                        ],
                         onchainWalletSyncIntervalSecs: 60,
                         walletSyncIntervalSecs: 20,
                         feeRateCacheUpdateIntervalSecs: 600,
