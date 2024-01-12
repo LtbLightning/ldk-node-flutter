@@ -1,3 +1,13 @@
+## [0.1.3]
+Updated `Rust` and `Flutter` dependencies.
+Invalid `BuilderException` bug resolved
+
+#### APIs added
+- Expose  `generate()` in `Mnemonic` class.
+
+#### API changed
+- Remove `generateEntropyMnemonic()`.
+
 ## [0.1.2]
 #### APIs added
 - Expose `generateEntropyMnemonic` function - a utility method for generating a BIP39 mnemonic.
