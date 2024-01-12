@@ -1,6 +1,16 @@
 DEFAULT_GOAL := help
 PROJECTNAME=$(shell basename "$(PWD)")
 SOURCES=$(sort $(wildcard ./src/*.rs ./src/**/*.rs))
+
+# Add paths for OpenSSL and Android NDK here
+OPENSSL_DIR=$(shell brew --prefix openssl)
+ANDROID_NDK_HOME=~/Library/Android/sdk/ndk/25.2.9519653
+PKG_CONFIG_PATH=$(ANDROID_NDK_HOME)/pkgconfig
+PKG_CONFIG_SYSROOT_DIR=$(ANDROID_NDK_HOME)/sysroot
+
+# Export these variables so they are available to subprocesses
+export OPENSSL_DIR PKG_CONFIG_PATH PKG_CONFIG_SYSROOT_DIR
+
 # ##############################################################################
 # # GENERAL
 # ##############################################################################
@@ -17,7 +27,6 @@ help: makefile
 init:
 	rustup target add aarch64-apple-ios x86_64-apple-ios
 	rustup target add aarch64-apple-darwin x86_64-apple-darwin
-	#rustup target add armv7-apple-ios armv7s-apple-ios i386-apple-ios ## deprecated
 	rustup target add aarch64-linux-android armv7-linux-androideabi i686-linux-android x86_64-linux-android
 	cargo install flutter_rust_bridge_codegen
 	cargo install cargo-ndk
