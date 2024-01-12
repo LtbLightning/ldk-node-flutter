@@ -140,7 +140,7 @@ class _$ChainDataSourceConfig_EsploraImpl
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$ChainDataSourceConfig_EsploraImpl &&
@@ -345,7 +345,7 @@ class _$EntropySourceConfig_SeedFileImpl
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$EntropySourceConfig_SeedFileImpl &&
@@ -494,7 +494,7 @@ class _$EntropySourceConfig_SeedBytesImpl
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$EntropySourceConfig_SeedBytesImpl &&
@@ -652,7 +652,7 @@ class _$EntropySourceConfig_Bip39MnemonicImpl
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$EntropySourceConfig_Bip39MnemonicImpl &&
@@ -920,7 +920,7 @@ class _$Event_PaymentSuccessfulImpl implements Event_PaymentSuccessful {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$Event_PaymentSuccessfulImpl &&
@@ -1113,7 +1113,7 @@ class _$Event_PaymentFailedImpl implements Event_PaymentFailed {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$Event_PaymentFailedImpl &&
@@ -1317,7 +1317,7 @@ class _$Event_PaymentReceivedImpl implements Event_PaymentReceived {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$Event_PaymentReceivedImpl &&
@@ -1538,7 +1538,7 @@ class _$Event_ChannelReadyImpl implements Event_ChannelReady {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$Event_ChannelReadyImpl &&
@@ -1764,7 +1764,7 @@ class _$Event_ChannelClosedImpl implements Event_ChannelClosed {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$Event_ChannelClosedImpl &&
@@ -2014,7 +2014,7 @@ class _$Event_ChannelPendingImpl implements Event_ChannelPending {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$Event_ChannelPendingImpl &&
@@ -2284,7 +2284,7 @@ class _$GossipSourceConfig_P2PNetworkImpl
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$GossipSourceConfig_P2PNetworkImpl);
@@ -2412,7 +2412,7 @@ class _$GossipSourceConfig_RapidGossipSyncImpl
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$GossipSourceConfig_RapidGossipSyncImpl &&
@@ -2642,7 +2642,7 @@ class _$MaxDustHTLCExposure_FixedLimitMsatImpl
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$MaxDustHTLCExposure_FixedLimitMsatImpl &&
@@ -2792,7 +2792,7 @@ class _$MaxDustHTLCExposure_FeeRateMultiplierImpl
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$MaxDustHTLCExposure_FeeRateMultiplierImpl &&
@@ -3028,7 +3028,7 @@ class _$SocketAddress_TcpIpV4Impl implements SocketAddress_TcpIpV4 {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$SocketAddress_TcpIpV4Impl &&
@@ -3199,7 +3199,7 @@ class _$SocketAddress_TcpIpV6Impl implements SocketAddress_TcpIpV6 {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$SocketAddress_TcpIpV6Impl &&
@@ -3363,7 +3363,7 @@ class _$SocketAddress_OnionV2Impl implements SocketAddress_OnionV2 {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$SocketAddress_OnionV2Impl &&
@@ -3549,7 +3549,7 @@ class _$SocketAddress_OnionV3Impl implements SocketAddress_OnionV3 {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$SocketAddress_OnionV3Impl &&
@@ -3734,7 +3734,7 @@ class _$SocketAddress_HostnameImpl implements SocketAddress_Hostname {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$SocketAddress_HostnameImpl &&
