@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -29,11 +27,13 @@ class _MyAppState extends State<MyApp> {
   ldk.ChannelId? channelId;
 
   // Replace this with your local esplora url
-  String esploraUrl = Platform.isAndroid
-      ?
-      //10.0.2.2 to access the AVD
-      'http://10.0.2.2:30000'
-      : 'http://127.0.0.1:30000';
+  String esploraUrl = "https://mempool.space/testnet/api";
+  // Platform.isAndroid
+  //     ?
+  //     //10.0.2.2 to access the AVD
+  //     'http://10.0.2.2:30000'
+  //     : '0.0.0.0:30000';
+
   @override
   void initState() {
     initAliceNode();
@@ -48,7 +48,7 @@ class _MyAppState extends State<MyApp> {
         probingLiquidityLimitMultiplier: 3,
         trustedPeers0Conf: [],
         storageDirPath: nodePath,
-        network: ldk.Network.Regtest,
+        network: ldk.Network.Testnet,
         listeningAddresses: [address],
         onchainWalletSyncIntervalSecs: 60,
         walletSyncIntervalSecs: 20,
@@ -65,14 +65,14 @@ class _MyAppState extends State<MyApp> {
 
   initAliceNode() async {
     final aliceConfig = await initLdkConfig(
-        'alice_regtest',
+        'alice_testnet',
         ldk.SocketAddress.hostname(
             hostname: ldk.Hostname(internal: "0.0.0.0"), port: 9735));
     ldk.Builder aliceBuilder = ldk.Builder.fromConfig(config: aliceConfig);
     aliceNode = await aliceBuilder
         .setEntropyBip39Mnemonic(
             mnemonic: ldk.Mnemonic(
-                'cart super leaf clinic pistol plug replace close super tooth wealth usage'))
+                'puppy interest whip tonight dad never sudden response push zone pig patch'))
         .setEsploraServer(esploraServerUrl: esploraUrl)
         .build();
     await startNode(aliceNode);
@@ -93,14 +93,14 @@ class _MyAppState extends State<MyApp> {
 
   initBobNode() async {
     final bobConfig = await initLdkConfig(
-        "bob_regtest",
+        "bob_testnet",
         ldk.SocketAddress.hostname(
             hostname: ldk.Hostname(internal: "0.0.0.0"), port: 3006));
     ldk.Builder bobBuilder = ldk.Builder.fromConfig(config: bobConfig);
     bobNode = await bobBuilder
         .setEntropyBip39Mnemonic(
             mnemonic: ldk.Mnemonic(
-                'puppy interest whip tonight dad never sudden response push zone pig patch'))
+                'cart super leaf clinic pistol plug replace close super tooth wealth usage'))
         .setEsploraServer(esploraServerUrl: esploraUrl)
         .build();
     await startNode(bobNode);
@@ -195,6 +195,9 @@ class _MyAppState extends State<MyApp> {
     final alice = await aliceNode.listeningAddress();
     final bob = await bobNode.listeningAddress();
 
+    setState(() {
+      bobAddr = bob!.first;
+    });
     if (kDebugMode) {
       print("alice's listeningAddress : ${alice!.first.toString()}");
       print("bob's listeningAddress: ${bob!.first.toString()}");
@@ -203,7 +206,7 @@ class _MyAppState extends State<MyApp> {
 
   connectOpenChannel() async {
     await aliceNode.connectOpenChannel(
-        channelAmountSats: 5000000,
+        channelAmountSats: 5000,
         announceChannel: true,
         netaddress: bobAddr!,
         pushToCounterpartyMsat: 50000,

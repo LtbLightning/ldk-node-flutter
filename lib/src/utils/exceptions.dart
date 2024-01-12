@@ -111,9 +111,12 @@ NodeException handleNodeException(bridge.NodeException e) {
     case bridge.NodeException.DuplicatePayment:
       return NodeException(
           message: "A payment with the given hash has already been initiated.");
+
     case bridge.NodeException.InsufficientFunds:
       return NodeException(
           message:
               "There are insufficient funds to complete the given operation.");
+    case bridge.NodeException.FeerateEstimationUpdateFailed:
+      return NodeException(message: "Failed to update fee rate estimation. ");
   }
 }
