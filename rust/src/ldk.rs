@@ -85,7 +85,7 @@ impl NodePointer {
     pub fn start(&self) -> anyhow::Result<(), NodeException> {
         match self.0.lock().unwrap().start() {
             Ok(_) => Ok(()),
-            Err(_) => Err(NodeException::AlreadyRunning),
+            Err(e) => Err(e.into()),
         }
     }
 

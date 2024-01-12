@@ -1055,6 +1055,7 @@ impl support::IntoDart for NodeException {
             Self::InvalidNetwork => 26,
             Self::DuplicatePayment => 27,
             Self::InsufficientFunds => 28,
+            Self::FeerateEstimationUpdateFailed => 29,
         }
         .into_dart()
     }

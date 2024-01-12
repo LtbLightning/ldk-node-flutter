@@ -7,24 +7,34 @@ import 'dart:async';
 import 'package:meta/meta.dart';
 import 'package:flutter_rust_bridge/flutter_rust_bridge.dart';
 import 'package:uuid/uuid.dart';
-import 'package:freezed_annotation/freezed_annotation.dart' hide protected;
+import 'package:freezed_annotation/freezed_annotation.dart'
+    hide
+        protected;
 import 'package:collection/collection.dart';
 
 part 'bridge_definitions.freezed.dart';
 
 abstract class RustLdkNode {
-  Future<Mnemonic> generateEntropyMnemonic({dynamic hint});
+  Future<Mnemonic>
+      generateEntropyMnemonic({dynamic hint});
 
-  FlutterRustBridgeTaskConstMeta get kGenerateEntropyMnemonicConstMeta;
+  FlutterRustBridgeTaskConstMeta
+      get kGenerateEntropyMnemonicConstMeta;
 
   Future<NodePointer> buildSqliteNode(
-      {required Config config,
-      ChainDataSourceConfig? chainDataSourceConfig,
-      EntropySourceConfig? entropySourceConfig,
-      GossipSourceConfig? gossipSourceConfig,
-      dynamic hint});
+      {required Config
+          config,
+      ChainDataSourceConfig?
+          chainDataSourceConfig,
+      EntropySourceConfig?
+          entropySourceConfig,
+      GossipSourceConfig?
+          gossipSourceConfig,
+      dynamic
+          hint});
 
-  FlutterRustBridgeTaskConstMeta get kBuildSqliteNodeConstMeta;
+  FlutterRustBridgeTaskConstMeta
+      get kBuildSqliteNodeConstMeta;
 
   /// Starts the necessary background tasks, such as handling events coming from user input,
   /// LDK/BDK, and the peer-to-peer network.
@@ -32,32 +42,49 @@ abstract class RustLdkNode {
   /// After this returns, the [Node] instance can be controlled via the provided API methods in
   /// a thread-safe manner.
   Future<void> startMethodNodePointer(
-      {required NodePointer that, dynamic hint});
+      {required NodePointer
+          that,
+      dynamic
+          hint});
 
-  FlutterRustBridgeTaskConstMeta get kStartMethodNodePointerConstMeta;
+  FlutterRustBridgeTaskConstMeta
+      get kStartMethodNodePointerConstMeta;
 
   /// Disconnects all peers, stops all running background tasks, and shuts down [Node].
   ///
   /// After this returns most API methods will throw NotRunning Exception.
-  Future<void> stopMethodNodePointer({required NodePointer that, dynamic hint});
+  Future<void> stopMethodNodePointer(
+      {required NodePointer
+          that,
+      dynamic
+          hint});
 
-  FlutterRustBridgeTaskConstMeta get kStopMethodNodePointerConstMeta;
+  FlutterRustBridgeTaskConstMeta
+      get kStopMethodNodePointerConstMeta;
 
   /// Blocks until the next event is available.
   ///
   /// **Note:** this will always return the same event until handling is confirmed via `node.eventHandled()`.
   Future<void> eventHandledMethodNodePointer(
-      {required NodePointer that, dynamic hint});
+      {required NodePointer
+          that,
+      dynamic
+          hint});
 
-  FlutterRustBridgeTaskConstMeta get kEventHandledMethodNodePointerConstMeta;
+  FlutterRustBridgeTaskConstMeta
+      get kEventHandledMethodNodePointerConstMeta;
 
   /// Confirm the last retrieved event handled.
   ///
   /// **Note:** This **MUST** be called after each event has been handled.
   Future<Event?> nextEventMethodNodePointer(
-      {required NodePointer that, dynamic hint});
+      {required NodePointer
+          that,
+      dynamic
+          hint});
 
-  FlutterRustBridgeTaskConstMeta get kNextEventMethodNodePointerConstMeta;
+  FlutterRustBridgeTaskConstMeta
+      get kNextEventMethodNodePointerConstMeta;
 
   /// Returns the next event in the event queue.
   ///
@@ -66,91 +93,137 @@ abstract class RustLdkNode {
   /// **Note:** this will always return the same event until handling is confirmed via `node.eventHandled()`.
   ///
   Future<Event> waitUntilNextEventMethodNodePointer(
-      {required NodePointer that, dynamic hint});
+      {required NodePointer
+          that,
+      dynamic
+          hint});
 
   FlutterRustBridgeTaskConstMeta
       get kWaitUntilNextEventMethodNodePointerConstMeta;
 
   /// Returns our own node id
   Future<PublicKey> nodeIdMethodNodePointer(
-      {required NodePointer that, dynamic hint});
+      {required NodePointer
+          that,
+      dynamic
+          hint});
 
-  FlutterRustBridgeTaskConstMeta get kNodeIdMethodNodePointerConstMeta;
+  FlutterRustBridgeTaskConstMeta
+      get kNodeIdMethodNodePointerConstMeta;
 
   /// Returns our own listening address.
-  Future<List<SocketAddress>?> listeningAddressesMethodNodePointer(
-      {required NodePointer that, dynamic hint});
+  Future<
+      List<
+          SocketAddress>?> listeningAddressesMethodNodePointer(
+      {required NodePointer
+          that,
+      dynamic
+          hint});
 
   FlutterRustBridgeTaskConstMeta
       get kListeningAddressesMethodNodePointerConstMeta;
 
   /// Retrieve a new on-chain/funding address.
   Future<Address> newOnchainAddressMethodNodePointer(
-      {required NodePointer that, dynamic hint});
+      {required NodePointer
+          that,
+      dynamic
+          hint});
 
   FlutterRustBridgeTaskConstMeta
       get kNewOnchainAddressMethodNodePointerConstMeta;
 
   /// Retrieve the currently spendable on-chain balance in satoshis.
   Future<int> spendableOnchainBalanceSatsMethodNodePointer(
-      {required NodePointer that, dynamic hint});
+      {required NodePointer
+          that,
+      dynamic
+          hint});
 
   FlutterRustBridgeTaskConstMeta
       get kSpendableOnchainBalanceSatsMethodNodePointerConstMeta;
 
   /// Retrieve the current total on-chain balance in satoshis.
   Future<int> totalOnchainBalanceSatsMethodNodePointer(
-      {required NodePointer that, dynamic hint});
+      {required NodePointer
+          that,
+      dynamic
+          hint});
 
   FlutterRustBridgeTaskConstMeta
       get kTotalOnchainBalanceSatsMethodNodePointerConstMeta;
 
   /// Send an on-chain payment to the given address.
   Future<Txid> sendToOnchainAddressMethodNodePointer(
-      {required NodePointer that,
-      required Address address,
-      required int amountSats,
-      dynamic hint});
+      {required NodePointer
+          that,
+      required Address
+          address,
+      required int
+          amountSats,
+      dynamic
+          hint});
 
   FlutterRustBridgeTaskConstMeta
       get kSendToOnchainAddressMethodNodePointerConstMeta;
 
   /// Send an on-chain payment to the given address, draining all the available funds.
   Future<Txid> sendAllToOnchainAddressMethodNodePointer(
-      {required NodePointer that, required Address address, dynamic hint});
+      {required NodePointer
+          that,
+      required Address
+          address,
+      dynamic
+          hint});
 
   FlutterRustBridgeTaskConstMeta
       get kSendAllToOnchainAddressMethodNodePointerConstMeta;
 
   ///Retrieve a list of known channels.
   ///
-  Future<List<ChannelDetails>> listChannelsMethodNodePointer(
-      {required NodePointer that, dynamic hint});
+  Future<
+      List<
+          ChannelDetails>> listChannelsMethodNodePointer(
+      {required NodePointer
+          that,
+      dynamic
+          hint});
 
-  FlutterRustBridgeTaskConstMeta get kListChannelsMethodNodePointerConstMeta;
+  FlutterRustBridgeTaskConstMeta
+      get kListChannelsMethodNodePointerConstMeta;
 
   /// Connect to a node on the peer-to-peer network.
   ///
   /// If `permanently` is set to `true`, we'll remember the peer and reconnect to it on restart.
   Future<void> connectMethodNodePointer(
-      {required NodePointer that,
-      required PublicKey nodeId,
-      required SocketAddress address,
-      required bool persist,
-      dynamic hint});
+      {required NodePointer
+          that,
+      required PublicKey
+          nodeId,
+      required SocketAddress
+          address,
+      required bool
+          persist,
+      dynamic
+          hint});
 
-  FlutterRustBridgeTaskConstMeta get kConnectMethodNodePointerConstMeta;
+  FlutterRustBridgeTaskConstMeta
+      get kConnectMethodNodePointerConstMeta;
 
   /// Disconnects the peer with the given node id.
   ///
   /// Will also remove the peer from the peer store, i.e., after this has been called we won't
   /// try to reconnect on restart.
   Future<void> disconnectMethodNodePointer(
-      {required NodePointer that,
-      required PublicKey counterpartyNodeId,
-      dynamic hint});
+      {required NodePointer
+          that,
+      required PublicKey
+          counterpartyNodeId,
+      dynamic
+          hint});
 
-  FlutterRustBridgeTaskConstMeta get kDisconnectMethodNodePointerConstMeta;
+  FlutterRustBridgeTaskConstMeta
+      get kDisconnectMethodNodePointerConstMeta;
 
   /// Connect to a node and open a new channel. Disconnects and re-connects are handled automatically
   ///
@@ -162,52 +235,78 @@ abstract class RustLdkNode {
   ///
   /// Returns a temporary channel id.
   Future<void> connectOpenChannelMethodNodePointer(
-      {required NodePointer that,
-      required SocketAddress address,
-      required PublicKey nodeId,
-      required int channelAmountSats,
-      int? pushToCounterpartyMsat,
-      required bool announceChannel,
-      ChannelConfig? channelConfig,
-      dynamic hint});
+      {required NodePointer
+          that,
+      required SocketAddress
+          address,
+      required PublicKey
+          nodeId,
+      required int
+          channelAmountSats,
+      int?
+          pushToCounterpartyMsat,
+      required bool
+          announceChannel,
+      ChannelConfig?
+          channelConfig,
+      dynamic
+          hint});
 
   FlutterRustBridgeTaskConstMeta
       get kConnectOpenChannelMethodNodePointerConstMeta;
 
   ///Sync the LDK and BDK wallets with the current chain state.
   Future<void> syncWalletsMethodNodePointer(
-      {required NodePointer that, dynamic hint});
+      {required NodePointer
+          that,
+      dynamic
+          hint});
 
-  FlutterRustBridgeTaskConstMeta get kSyncWalletsMethodNodePointerConstMeta;
+  FlutterRustBridgeTaskConstMeta
+      get kSyncWalletsMethodNodePointerConstMeta;
 
   /// Close a previously opened channel.
   Future<void> closeChannelMethodNodePointer(
-      {required NodePointer that,
-      required ChannelId channelId,
-      required PublicKey counterpartyNodeId,
-      dynamic hint});
+      {required NodePointer
+          that,
+      required ChannelId
+          channelId,
+      required PublicKey
+          counterpartyNodeId,
+      dynamic
+          hint});
 
-  FlutterRustBridgeTaskConstMeta get kCloseChannelMethodNodePointerConstMeta;
+  FlutterRustBridgeTaskConstMeta
+      get kCloseChannelMethodNodePointerConstMeta;
 
   ///Update the config for a previously opened channel.
   ///
   Future<void> updateChannelConfigMethodNodePointer(
-      {required NodePointer that,
-      required ChannelId channelId,
-      required PublicKey counterpartyNodeId,
-      required ChannelConfig channelConfig,
-      dynamic hint});
+      {required NodePointer
+          that,
+      required ChannelId
+          channelId,
+      required PublicKey
+          counterpartyNodeId,
+      required ChannelConfig
+          channelConfig,
+      dynamic
+          hint});
 
   FlutterRustBridgeTaskConstMeta
       get kUpdateChannelConfigMethodNodePointerConstMeta;
 
   /// Send a payment given an invoice.
   Future<PaymentHash> sendPaymentMethodNodePointer(
-      {required NodePointer that,
-      required Bolt11Invoice invoice,
-      dynamic hint});
+      {required NodePointer
+          that,
+      required Bolt11Invoice
+          invoice,
+      dynamic
+          hint});
 
-  FlutterRustBridgeTaskConstMeta get kSendPaymentMethodNodePointerConstMeta;
+  FlutterRustBridgeTaskConstMeta
+      get kSendPaymentMethodNodePointerConstMeta;
 
   /// Send a payment given an invoice and an amount in millisatoshi.
   ///
@@ -216,20 +315,28 @@ abstract class RustLdkNode {
   /// This can be used to pay a so-called "zero-amount" invoice, i.e., an invoice that leaves the
   /// amount paid to be determined by the user.
   Future<PaymentHash> sendPaymentUsingAmountMethodNodePointer(
-      {required NodePointer that,
-      required Bolt11Invoice invoice,
-      required int amountMsat,
-      dynamic hint});
+      {required NodePointer
+          that,
+      required Bolt11Invoice
+          invoice,
+      required int
+          amountMsat,
+      dynamic
+          hint});
 
   FlutterRustBridgeTaskConstMeta
       get kSendPaymentUsingAmountMethodNodePointerConstMeta;
 
   /// Send a spontaneous, aka. "keysend", payment
   Future<PaymentHash> sendSpontaneousPaymentMethodNodePointer(
-      {required NodePointer that,
-      required int amountMsat,
-      required PublicKey nodeId,
-      dynamic hint});
+      {required NodePointer
+          that,
+      required int
+          amountMsat,
+      required PublicKey
+          nodeId,
+      dynamic
+          hint});
 
   FlutterRustBridgeTaskConstMeta
       get kSendSpontaneousPaymentMethodNodePointerConstMeta;
@@ -242,19 +349,26 @@ abstract class RustLdkNode {
   /// Users should therefore be cautious and might avoid sending probes if liquidity is scarce and/or they don't expect the probe to return before they send the payment.
   /// To mitigate this issue, channels with available liquidity less than the required amount times Config::probing_liquidity_limit_multiplier won't be used to send pre-flight probes.
   Future<void> sendPaymentProbesMethodNodePointer(
-      {required NodePointer that,
-      required Bolt11Invoice invoice,
-      dynamic hint});
+      {required NodePointer
+          that,
+      required Bolt11Invoice
+          invoice,
+      dynamic
+          hint});
 
   FlutterRustBridgeTaskConstMeta
       get kSendPaymentProbesMethodNodePointerConstMeta;
 
   ///Sends payment probes over all paths of a route that would be used to pay the given amount to the given node_id.
   Future<void> sendSpontaneousPaymentProbesMethodNodePointer(
-      {required NodePointer that,
-      required int amountMsat,
-      required PublicKey nodeId,
-      dynamic hint});
+      {required NodePointer
+          that,
+      required int
+          amountMsat,
+      required PublicKey
+          nodeId,
+      dynamic
+          hint});
 
   FlutterRustBridgeTaskConstMeta
       get kSendSpontaneousPaymentProbesMethodNodePointerConstMeta;
@@ -262,21 +376,31 @@ abstract class RustLdkNode {
   /// Returns a payable invoice that can be used to request and receive a payment of the amount
   /// given.
   Future<Bolt11Invoice> receivePaymentMethodNodePointer(
-      {required NodePointer that,
-      required int amountMsat,
-      required String description,
-      required int expirySecs,
-      dynamic hint});
+      {required NodePointer
+          that,
+      required int
+          amountMsat,
+      required String
+          description,
+      required int
+          expirySecs,
+      dynamic
+          hint});
 
-  FlutterRustBridgeTaskConstMeta get kReceivePaymentMethodNodePointerConstMeta;
+  FlutterRustBridgeTaskConstMeta
+      get kReceivePaymentMethodNodePointerConstMeta;
 
   /// Returns a payable invoice that can be used to request and receive a payment for which the
   /// amount is to be determined by the user, also known as a "zero-amount" invoice.
   Future<Bolt11Invoice> receiveVariableAmountPaymentMethodNodePointer(
-      {required NodePointer that,
-      required String description,
-      required int expirySecs,
-      dynamic hint});
+      {required NodePointer
+          that,
+      required String
+          description,
+      required int
+          expirySecs,
+      dynamic
+          hint});
 
   FlutterRustBridgeTaskConstMeta
       get kReceiveVariableAmountPaymentMethodNodePointerConstMeta;
@@ -285,42 +409,67 @@ abstract class RustLdkNode {
   ///
   /// Returns `PaymentDetails` if the payment was known and `null` otherwise.
   Future<PaymentDetails?> paymentMethodNodePointer(
-      {required NodePointer that,
-      required PaymentHash paymentHash,
-      dynamic hint});
+      {required NodePointer
+          that,
+      required PaymentHash
+          paymentHash,
+      dynamic
+          hint});
 
-  FlutterRustBridgeTaskConstMeta get kPaymentMethodNodePointerConstMeta;
+  FlutterRustBridgeTaskConstMeta
+      get kPaymentMethodNodePointerConstMeta;
 
   /// Remove the payment with the given hash from the store.
   ///
   Future<void> removePaymentMethodNodePointer(
-      {required NodePointer that,
-      required PaymentHash paymentHash,
-      dynamic hint});
+      {required NodePointer
+          that,
+      required PaymentHash
+          paymentHash,
+      dynamic
+          hint});
 
-  FlutterRustBridgeTaskConstMeta get kRemovePaymentMethodNodePointerConstMeta;
+  FlutterRustBridgeTaskConstMeta
+      get kRemovePaymentMethodNodePointerConstMeta;
 
   /// Retrieves all payments that match the given predicate.
   ///
-  Future<List<PaymentDetails>> listPaymentsWithFilterMethodNodePointer(
-      {required NodePointer that,
-      required PaymentDirection paymentDirection,
-      dynamic hint});
+  Future<
+      List<
+          PaymentDetails>> listPaymentsWithFilterMethodNodePointer(
+      {required NodePointer
+          that,
+      required PaymentDirection
+          paymentDirection,
+      dynamic
+          hint});
 
   FlutterRustBridgeTaskConstMeta
       get kListPaymentsWithFilterMethodNodePointerConstMeta;
 
   /// Retrieves all payments.
-  Future<List<PaymentDetails>> listPaymentsMethodNodePointer(
-      {required NodePointer that, dynamic hint});
+  Future<
+      List<
+          PaymentDetails>> listPaymentsMethodNodePointer(
+      {required NodePointer
+          that,
+      dynamic
+          hint});
 
-  FlutterRustBridgeTaskConstMeta get kListPaymentsMethodNodePointerConstMeta;
+  FlutterRustBridgeTaskConstMeta
+      get kListPaymentsMethodNodePointerConstMeta;
 
   /// Retrieves a list of known peers.
-  Future<List<PeerDetails>> listPeersMethodNodePointer(
-      {required NodePointer that, dynamic hint});
+  Future<
+      List<
+          PeerDetails>> listPeersMethodNodePointer(
+      {required NodePointer
+          that,
+      dynamic
+          hint});
 
-  FlutterRustBridgeTaskConstMeta get kListPeersMethodNodePointerConstMeta;
+  FlutterRustBridgeTaskConstMeta
+      get kListPeersMethodNodePointerConstMeta;
 
   /// Creates a digital ECDSA signature of a message with the node's secret key.
   ///
@@ -329,46 +478,72 @@ abstract class RustLdkNode {
   /// Signatures are EC recoverable, meaning that given the message and the
   /// signature the PublicKey of the signer can be extracted.
   Future<String> signMessageMethodNodePointer(
-      {required NodePointer that, required Uint8List msg, dynamic hint});
+      {required NodePointer
+          that,
+      required Uint8List
+          msg,
+      dynamic
+          hint});
 
-  FlutterRustBridgeTaskConstMeta get kSignMessageMethodNodePointerConstMeta;
+  FlutterRustBridgeTaskConstMeta
+      get kSignMessageMethodNodePointerConstMeta;
 
   /// Verifies that the given ECDSA signature was created for the given message with the
   /// secret key corresponding to the given public key.
   Future<bool> verifySignatureMethodNodePointer(
-      {required NodePointer that,
-      required Uint8List msg,
-      required String sig,
-      required PublicKey pkey,
-      dynamic hint});
+      {required NodePointer
+          that,
+      required Uint8List
+          msg,
+      required String
+          sig,
+      required PublicKey
+          pkey,
+      dynamic
+          hint});
 
-  FlutterRustBridgeTaskConstMeta get kVerifySignatureMethodNodePointerConstMeta;
+  FlutterRustBridgeTaskConstMeta
+      get kVerifySignatureMethodNodePointerConstMeta;
 
-  DropFnType get dropOpaqueMutexNodeSqliteStore;
-  ShareFnType get shareOpaqueMutexNodeSqliteStore;
-  OpaqueTypeFinalizer get MutexNodeSqliteStoreFinalizer;
+  DropFnType
+      get dropOpaqueMutexNodeSqliteStore;
+  ShareFnType
+      get shareOpaqueMutexNodeSqliteStore;
+  OpaqueTypeFinalizer
+      get MutexNodeSqliteStoreFinalizer;
 }
 
 @sealed
-class MutexNodeSqliteStore extends FrbOpaque {
-  final RustLdkNode bridge;
-  MutexNodeSqliteStore.fromRaw(int ptr, int size, this.bridge)
+class MutexNodeSqliteStore
+    extends FrbOpaque {
+  final RustLdkNode
+      bridge;
+  MutexNodeSqliteStore.fromRaw(
+      int ptr,
+      int size,
+      this.bridge)
       : super.unsafe(ptr, size);
   @override
-  DropFnType get dropFn => bridge.dropOpaqueMutexNodeSqliteStore;
+  DropFnType
+      get dropFn =>
+          bridge.dropOpaqueMutexNodeSqliteStore;
 
   @override
-  ShareFnType get shareFn => bridge.shareOpaqueMutexNodeSqliteStore;
+  ShareFnType
+      get shareFn =>
+          bridge.shareOpaqueMutexNodeSqliteStore;
 
   @override
-  OpaqueTypeFinalizer get staticFinalizer =>
-      bridge.MutexNodeSqliteStoreFinalizer;
+  OpaqueTypeFinalizer
+      get staticFinalizer =>
+          bridge.MutexNodeSqliteStoreFinalizer;
 }
 
 /// A Bitcoin address.
 ///
 class Address {
-  final String internal;
+  final String
+      internal;
 
   const Address({
     required this.internal,
@@ -378,7 +553,8 @@ class Address {
 ///Represents a syntactically and semantically correct lightning BOLT11 invoice.
 ///
 class Bolt11Invoice {
-  final String internal;
+  final String
+      internal;
 
   const Bolt11Invoice({
     required this.internal,
@@ -421,9 +597,12 @@ enum BuilderException {
 }
 
 @freezed
-sealed class ChainDataSourceConfig with _$ChainDataSourceConfig {
+sealed class ChainDataSourceConfig
+    with
+        _$ChainDataSourceConfig {
   const factory ChainDataSourceConfig.esplora(
-    String field0,
+    String
+        field0,
   ) = ChainDataSourceConfig_Esplora;
 }
 
@@ -432,24 +611,28 @@ class ChannelConfig {
   ///Amount (in millionths of a satoshi) charged per satoshi for payments forwarded outbound over the channel. This may be allowed to change at runtime in a later update, however doing so must result in update messages sent to notify all nodes of our updated relay fee.
   ///
   ///Default value: 0.
-  final int forwardingFeeProportionalMillionths;
+  final int
+      forwardingFeeProportionalMillionths;
 
   /// Amount (in milli-satoshi) charged for payments forwarded outbound over the channel, in excess of forwardingFeeProportionalMillionths. This may be allowed to change at runtime in a later update, however doing so must result in update messages sent to notify all nodes of our updated relay fee.
   ///
   /// The default value of a single satoshi roughly matches the market rate on many routing nodes as of July 2021. Adjusting it upwards or downwards may change whether nodes route through this node.
   ///
   ///Default value: 1000.
-  final int forwardingFeeBaseMsat;
+  final int
+      forwardingFeeBaseMsat;
 
   ///The difference in the CLTV value between incoming HTLCs and an outbound HTLC forwarded over the channel this config applies to.
   ///
   /// Thus, for HTLC-encumbered balances to be enforced on-chain when a channel is force-closed, we (or one of our watchtowers) MUST be online to check for broadcast of the current commitment transaction at least once per this many blocks (minus some margin to allow us enough time to broadcast and confirm a transaction, possibly with time in between to RBF the spending transaction).
   ///
   /// Default value: 72 (12 hours at an average of 6 blocks/hour). Minimum value: MIN_CLTV_EXPIRY_DELTA, any values less than this will be treated as MIN_CLTV_EXPIRY_DELTA instead.
-  final int cltvExpiryDelta;
+  final int
+      cltvExpiryDelta;
 
   /// Options for how to set the max dust HTLC exposure allowed on a channel.
-  final MaxDustHTLCExposure maxDustHtlcExposure;
+  final MaxDustHTLCExposure
+      maxDustHtlcExposure;
 
   ///The additional fee we’re willing to pay to avoid waiting for the counterparty’s toSelfDelay to reclaim funds.
   ///
@@ -460,10 +643,12 @@ class ChannelConfig {
   /// When we are not the funder, we require the closing transaction fee pay at least our Background fee estimate, but allow our counterparty to pay as much fee as they like. Thus, this value is ignored when we are not the funder.
   ///
   /// Default value: 1000 satoshis.
-  final int forceCloseAvoidanceMaxFeeSatoshis;
+  final int
+      forceCloseAvoidanceMaxFeeSatoshis;
 
   ///If set, allows this channel's counterparty to skim an additional fee off this node's inbound HTLCs. Useful for liquidity providers to offload on-chain channel costs to end users.
-  final bool acceptUnderpayingHtlcs;
+  final bool
+      acceptUnderpayingHtlcs;
 
   const ChannelConfig({
     required this.forwardingFeeProportionalMillionths,
@@ -483,18 +668,22 @@ class ChannelDetails {
   /// Note that this means this value is *not* persistent - it can change once during the
   /// lifetime of the channel.
   ///
-  final ChannelId channelId;
+  final ChannelId
+      channelId;
 
   ///The node ID of our the channel’s counterparty.
-  final PublicKey counterpartyNodeId;
+  final PublicKey
+      counterpartyNodeId;
 
   /// The Channel's funding transaction output, if we've negotiated the funding transaction with
   /// our counterparty already.
   ///
-  final String? fundingTxo;
+  final String?
+      fundingTxo;
 
   ///The value, in satoshis, of this channel as it appears in the funding output.
-  final int channelValueSats;
+  final int
+      channelValueSats;
 
   /// The value, in satoshis, that must always be held in the channel for us. This value ensures
   /// that if we broadcast a revoked state, our counterparty can punish us by claiming at least
@@ -504,20 +693,23 @@ class ChannelDetails {
   ///
   /// This value will be null for outbound channels until the counterparty accepts the channel.
   ///
-  final int? unspendablePunishmentReserve;
+  final int?
+      unspendablePunishmentReserve;
 
   /// The userChannelId passed in to create_channel, or a random value if the channel was
   /// inbound. This may be zero for inbound channels serialized with LDK versions prior to
   /// 0.0.113.
   ///
-  final UserChannelId userChannelId;
+  final UserChannelId
+      userChannelId;
 
   /// The currently negotiated fee rate denominated in satoshi per 1000 weight units,
   /// which is applied to commitment and HTLC transactions.
   ///
   /// This value will be null for objects serialized with LDK versions prior to 0.0.115.
   ///
-  final int feerateSatPer1000Weight;
+  final int
+      feerateSatPer1000Weight;
 
   /// Our total balance.  This is the amount we would get if we close the channel.
   /// This value is not exact. Due to various in-flight changes and feerate changes, exactly this
@@ -528,7 +720,8 @@ class ChannelDetails {
   /// any pending outgoing HTLCs which are awaiting some other resolution to be sent.
   /// This does not consider any on-chain fees.
   ///
-  final int balanceMsat;
+  final int
+      balanceMsat;
 
   /// The available outbound capacity for sending HTLCs to the remote peer. This does not include
   /// any pending HTLCs which are not yet fully resolved (and, thus, whose balance is not
@@ -539,7 +732,8 @@ class ChannelDetails {
   /// conflict-avoidance policy, exactly this amount is not likely to be spendable. However, we
   /// should be able to spend nearly this amount.
   ///
-  final int outboundCapacityMsat;
+  final int
+      outboundCapacityMsat;
 
   /// The available inbound capacity for the remote peer to send HTLCs to us. This does not
   /// include any pending HTLCs which are not yet fully resolved (and, thus, whose balance is not
@@ -551,41 +745,48 @@ class ChannelDetails {
   /// counterparty's conflict-avoidance policy, exactly this amount is not likely to be spendable.
   /// However, our counterparty should be able to spend nearly this amount.
   ///
-  final int inboundCapacityMsat;
+  final int
+      inboundCapacityMsat;
 
   /// The number of required confirmations on the funding transaction before the funding will be
   /// considered "locked". This number is selected by the channel fundee, and can be selected for inbound channels with
   /// This value will be null for outbound channels until the counterparty accepts the channel.
   ///
-  final int? confirmationsRequired;
+  final int?
+      confirmationsRequired;
 
   /// The current number of confirmations on the funding transaction.
   ///
   /// This value will be `None` for objects serialized with LDK versions prior to 0.0.113.
   ///
-  final int? confirmations;
+  final int?
+      confirmations;
 
   /// True if the channel was initiated (and thus funded) by us.
   ///
-  final bool isOutbound;
+  final bool
+      isOutbound;
 
   /// True if the channel is confirmed, channelReady messages have been exchanged, and the
   /// channel is not currently being shut down. `channelReady` message exchange implies the
   /// required confirmation count has been reached (and we were connected to the peer at some
   /// point after the funding transaction received enough confirmations). The required
   ///
-  final bool isChannelReady;
+  final bool
+      isChannelReady;
 
   /// True if the channel is (a) confirmed and channelReady messages have been exchanged, (b)
   /// the peer is connected, and (c) the channel is not currently negotiating a shutdown.
   ///
   /// This is a strict superset of `isChannelReady`.
   ///
-  final bool isUsable;
+  final bool
+      isUsable;
 
   /// True if this channel is (or will be) publicly-announced.
   ///
-  final bool isPublic;
+  final bool
+      isPublic;
 
   const ChannelDetails({
     required this.channelId,
@@ -614,7 +815,8 @@ class ChannelDetails {
 /// funding transaction.
 ///
 class ChannelId {
-  final U8Array32 internal;
+  final U8Array32
+      internal;
 
   const ChannelId({
     required this.internal,
@@ -624,16 +826,20 @@ class ChannelId {
 /// Represents the configuration of an [Node] instance.
 ///
 class Config {
-  String storageDirPath;
-  String? logDirPath;
+  String
+      storageDirPath;
+  String?
+      logDirPath;
 
   /// The used Bitcoin network.
   ///
-  Network network;
+  Network
+      network;
 
   /// The IP address and TCP port the node will listen on.
   ///
-  List<SocketAddress>? listeningAddresses;
+  List<SocketAddress>?
+      listeningAddresses;
 
   /// The default CLTV expiry delta to be used for payments.
   ///
@@ -656,13 +862,16 @@ class Config {
   ///A list of peers that we allow to establish zero confirmation channels to us.
   ///
   ///Note: Allowing payments via zero-confirmation channels is potentially insecure if the funding transaction ends up never being confirmed on-chain. Zero-confirmation channels should therefore only be accepted from trusted peers.
-  final List<PublicKey> trustedPeers0Conf;
-  final int probingLiquidityLimitMultiplier;
+  final List<PublicKey>
+      trustedPeers0Conf;
+  final int
+      probingLiquidityLimitMultiplier;
 
   ///The level at which we log messages.
   /// Any messages below this level will be excluded from the logs.
   ///
-  LogLevel logLevel;
+  LogLevel
+      logLevel;
 
   Config({
     required this.storageDirPath,
@@ -680,91 +889,126 @@ class Config {
 }
 
 @freezed
-sealed class EntropySourceConfig with _$EntropySourceConfig {
+sealed class EntropySourceConfig
+    with
+        _$EntropySourceConfig {
   const factory EntropySourceConfig.seedFile(
-    String field0,
+    String
+        field0,
   ) = EntropySourceConfig_SeedFile;
   const factory EntropySourceConfig.seedBytes(
-    U8Array64 field0,
+    U8Array64
+        field0,
   ) = EntropySourceConfig_SeedBytes;
   const factory EntropySourceConfig.bip39Mnemonic({
-    required Mnemonic mnemonic,
-    String? passphrase,
-  }) = EntropySourceConfig_Bip39Mnemonic;
+    required Mnemonic
+        mnemonic,
+    String?
+        passphrase,
+  }) =
+      EntropySourceConfig_Bip39Mnemonic;
 }
 
 @freezed
-sealed class Event with _$Event {
+sealed class Event
+    with
+        _$Event {
   /// A sent payment was successful.
   const factory Event.paymentSuccessful({
     /// The hash of the payment.
-    required PaymentHash paymentHash,
-  }) = Event_PaymentSuccessful;
+    required PaymentHash
+        paymentHash,
+  }) =
+      Event_PaymentSuccessful;
 
   /// A sent payment has failed.
   const factory Event.paymentFailed({
     /// The hash of the payment.
-    required PaymentHash paymentHash,
-  }) = Event_PaymentFailed;
+    required PaymentHash
+        paymentHash,
+  }) =
+      Event_PaymentFailed;
 
   /// A payment has been received.
   const factory Event.paymentReceived({
     /// The hash of the payment.
-    required PaymentHash paymentHash,
+    required PaymentHash
+        paymentHash,
 
     /// The value, in thousandths of a satoshi, that has been received.
-    required int amountMsat,
-  }) = Event_PaymentReceived;
+    required int
+        amountMsat,
+  }) =
+      Event_PaymentReceived;
 
   /// A channel is ready to be used.
   const factory Event.channelReady({
     /// The channel_id of the channel.
-    required ChannelId channelId,
+    required ChannelId
+        channelId,
 
     /// The user_channel_id of the channel.
-    required UserChannelId userChannelId,
-    PublicKey? counterpartyNodeId,
-  }) = Event_ChannelReady;
+    required UserChannelId
+        userChannelId,
+    PublicKey?
+        counterpartyNodeId,
+  }) =
+      Event_ChannelReady;
 
   /// A channel has been closed.
   const factory Event.channelClosed({
     /// The channel_id of the channel.
-    required ChannelId channelId,
+    required ChannelId
+        channelId,
 
     /// The user_channel_id of the channel.
-    required UserChannelId userChannelId,
-    PublicKey? counterpartyNodeId,
-  }) = Event_ChannelClosed;
+    required UserChannelId
+        userChannelId,
+    PublicKey?
+        counterpartyNodeId,
+  }) =
+      Event_ChannelClosed;
 
   /// A channel has been created and is pending confirmation on-chain.
   const factory Event.channelPending({
     /// The channel_id of the channel.
-    required ChannelId channelId,
+    required ChannelId
+        channelId,
 
     /// The user_channel_id of the channel.
-    required UserChannelId userChannelId,
+    required UserChannelId
+        userChannelId,
 
     /// The temporary_channel_id this channel used to be known by during channel establishment.
-    required ChannelId formerTemporaryChannelId,
+    required ChannelId
+        formerTemporaryChannelId,
 
     /// The node_id of the channel counterparty.
-    required PublicKey counterpartyNodeId,
+    required PublicKey
+        counterpartyNodeId,
 
     /// The outpoint of the channel's funding transaction.
-    required OutPoint fundingTxo,
-  }) = Event_ChannelPending;
+    required OutPoint
+        fundingTxo,
+  }) =
+      Event_ChannelPending;
 }
 
 @freezed
-sealed class GossipSourceConfig with _$GossipSourceConfig {
-  const factory GossipSourceConfig.p2PNetwork() = GossipSourceConfig_P2PNetwork;
+sealed class GossipSourceConfig
+    with
+        _$GossipSourceConfig {
+  const factory GossipSourceConfig.p2PNetwork() =
+      GossipSourceConfig_P2PNetwork;
   const factory GossipSourceConfig.rapidGossipSync(
-    String field0,
+    String
+        field0,
   ) = GossipSourceConfig_RapidGossipSync;
 }
 
 class Hostname {
-  final String internal;
+  final String
+      internal;
 
   const Hostname({
     required this.internal,
@@ -800,7 +1044,9 @@ enum LogLevel {
 }
 
 @freezed
-sealed class MaxDustHTLCExposure with _$MaxDustHTLCExposure {
+sealed class MaxDustHTLCExposure
+    with
+        _$MaxDustHTLCExposure {
   ///This sets a fixed limit on the total dust exposure in millisatoshis. Setting this too low may prevent the sending or receipt of low-value HTLCs on high-traffic nodes, however this limit is very important to prevent stealing of large amounts of dust HTLCs by miners through fee griefing attacks.
   const factory MaxDustHTLCExposure.fixedLimitMsat(
     int field0,
@@ -816,7 +1062,8 @@ sealed class MaxDustHTLCExposure with _$MaxDustHTLCExposure {
 /// Supported number of words are 12, 15, 18, 21, and 24.
 ///
 class Mnemonic {
-  final String internal;
+  final String
+      internal;
 
   const Mnemonic({
     required this.internal,
@@ -930,11 +1177,14 @@ enum NodeException {
 
   /// There are insufficient funds to complete the given operation.
   InsufficientFunds,
+  FeerateEstimationUpdateFailed,
 }
 
 class NodePointer {
-  final RustLdkNode bridge;
-  final MutexNodeSqliteStore field0;
+  final RustLdkNode
+      bridge;
+  final MutexNodeSqliteStore
+      field0;
 
   const NodePointer({
     required this.bridge,
@@ -946,21 +1196,29 @@ class NodePointer {
   ///
   /// After this returns, the [Node] instance can be controlled via the provided API methods in
   /// a thread-safe manner.
-  Future<void> start({dynamic hint}) => bridge.startMethodNodePointer(
+  Future<
+      void> start(
+          {dynamic hint}) =>
+      bridge.startMethodNodePointer(
         that: this,
       );
 
   /// Disconnects all peers, stops all running background tasks, and shuts down [Node].
   ///
   /// After this returns most API methods will throw NotRunning Exception.
-  Future<void> stop({dynamic hint}) => bridge.stopMethodNodePointer(
+  Future<
+      void> stop(
+          {dynamic hint}) =>
+      bridge.stopMethodNodePointer(
         that: this,
       );
 
   /// Blocks until the next event is available.
   ///
   /// **Note:** this will always return the same event until handling is confirmed via `node.eventHandled()`.
-  Future<void> eventHandled({dynamic hint}) =>
+  Future<
+      void> eventHandled(
+          {dynamic hint}) =>
       bridge.eventHandledMethodNodePointer(
         that: this,
       );
@@ -968,7 +1226,10 @@ class NodePointer {
   /// Confirm the last retrieved event handled.
   ///
   /// **Note:** This **MUST** be called after each event has been handled.
-  Future<Event?> nextEvent({dynamic hint}) => bridge.nextEventMethodNodePointer(
+  Future<
+      Event?> nextEvent(
+          {dynamic hint}) =>
+      bridge.nextEventMethodNodePointer(
         that: this,
       );
 
@@ -978,43 +1239,59 @@ class NodePointer {
   ///
   /// **Note:** this will always return the same event until handling is confirmed via `node.eventHandled()`.
   ///
-  Future<Event> waitUntilNextEvent({dynamic hint}) =>
+  Future<
+      Event> waitUntilNextEvent(
+          {dynamic hint}) =>
       bridge.waitUntilNextEventMethodNodePointer(
         that: this,
       );
 
   /// Returns our own node id
-  Future<PublicKey> nodeId({dynamic hint}) => bridge.nodeIdMethodNodePointer(
+  Future<
+      PublicKey> nodeId(
+          {dynamic hint}) =>
+      bridge.nodeIdMethodNodePointer(
         that: this,
       );
 
   /// Returns our own listening address.
-  Future<List<SocketAddress>?> listeningAddresses({dynamic hint}) =>
+  Future<
+      List<SocketAddress>?> listeningAddresses(
+          {dynamic hint}) =>
       bridge.listeningAddressesMethodNodePointer(
         that: this,
       );
 
   /// Retrieve a new on-chain/funding address.
-  Future<Address> newOnchainAddress({dynamic hint}) =>
+  Future<
+      Address> newOnchainAddress(
+          {dynamic hint}) =>
       bridge.newOnchainAddressMethodNodePointer(
         that: this,
       );
 
   /// Retrieve the currently spendable on-chain balance in satoshis.
-  Future<int> spendableOnchainBalanceSats({dynamic hint}) =>
+  Future<
+      int> spendableOnchainBalanceSats(
+          {dynamic hint}) =>
       bridge.spendableOnchainBalanceSatsMethodNodePointer(
         that: this,
       );
 
   /// Retrieve the current total on-chain balance in satoshis.
-  Future<int> totalOnchainBalanceSats({dynamic hint}) =>
+  Future<
+      int> totalOnchainBalanceSats(
+          {dynamic hint}) =>
       bridge.totalOnchainBalanceSatsMethodNodePointer(
         that: this,
       );
 
   /// Send an on-chain payment to the given address.
-  Future<Txid> sendToOnchainAddress(
-          {required Address address, required int amountSats, dynamic hint}) =>
+  Future<
+      Txid> sendToOnchainAddress(
+          {required Address address,
+          required int amountSats,
+          dynamic hint}) =>
       bridge.sendToOnchainAddressMethodNodePointer(
         that: this,
         address: address,
@@ -1022,8 +1299,10 @@ class NodePointer {
       );
 
   /// Send an on-chain payment to the given address, draining all the available funds.
-  Future<Txid> sendAllToOnchainAddress(
-          {required Address address, dynamic hint}) =>
+  Future<
+      Txid> sendAllToOnchainAddress(
+          {required Address address,
+          dynamic hint}) =>
       bridge.sendAllToOnchainAddressMethodNodePointer(
         that: this,
         address: address,
@@ -1031,7 +1310,9 @@ class NodePointer {
 
   ///Retrieve a list of known channels.
   ///
-  Future<List<ChannelDetails>> listChannels({dynamic hint}) =>
+  Future<
+      List<ChannelDetails>> listChannels(
+          {dynamic hint}) =>
       bridge.listChannelsMethodNodePointer(
         that: this,
       );
@@ -1039,7 +1320,8 @@ class NodePointer {
   /// Connect to a node on the peer-to-peer network.
   ///
   /// If `permanently` is set to `true`, we'll remember the peer and reconnect to it on restart.
-  Future<void> connect(
+  Future<
+      void> connect(
           {required PublicKey nodeId,
           required SocketAddress address,
           required bool persist,
@@ -1055,8 +1337,10 @@ class NodePointer {
   ///
   /// Will also remove the peer from the peer store, i.e., after this has been called we won't
   /// try to reconnect on restart.
-  Future<void> disconnect(
-          {required PublicKey counterpartyNodeId, dynamic hint}) =>
+  Future<
+      void> disconnect(
+          {required PublicKey counterpartyNodeId,
+          dynamic hint}) =>
       bridge.disconnectMethodNodePointer(
         that: this,
         counterpartyNodeId: counterpartyNodeId,
@@ -1071,7 +1355,8 @@ class NodePointer {
   /// entirely shifted to one side, therefore allowing to receive payments from the getgo.
   ///
   /// Returns a temporary channel id.
-  Future<void> connectOpenChannel(
+  Future<
+      void> connectOpenChannel(
           {required SocketAddress address,
           required PublicKey nodeId,
           required int channelAmountSats,
@@ -1090,13 +1375,16 @@ class NodePointer {
       );
 
   ///Sync the LDK and BDK wallets with the current chain state.
-  Future<void> syncWallets({dynamic hint}) =>
+  Future<
+      void> syncWallets(
+          {dynamic hint}) =>
       bridge.syncWalletsMethodNodePointer(
         that: this,
       );
 
   /// Close a previously opened channel.
-  Future<void> closeChannel(
+  Future<
+      void> closeChannel(
           {required ChannelId channelId,
           required PublicKey counterpartyNodeId,
           dynamic hint}) =>
@@ -1108,7 +1396,8 @@ class NodePointer {
 
   ///Update the config for a previously opened channel.
   ///
-  Future<void> updateChannelConfig(
+  Future<
+      void> updateChannelConfig(
           {required ChannelId channelId,
           required PublicKey counterpartyNodeId,
           required ChannelConfig channelConfig,
@@ -1121,8 +1410,10 @@ class NodePointer {
       );
 
   /// Send a payment given an invoice.
-  Future<PaymentHash> sendPayment(
-          {required Bolt11Invoice invoice, dynamic hint}) =>
+  Future<
+      PaymentHash> sendPayment(
+          {required Bolt11Invoice invoice,
+          dynamic hint}) =>
       bridge.sendPaymentMethodNodePointer(
         that: this,
         invoice: invoice,
@@ -1134,7 +1425,8 @@ class NodePointer {
   ///
   /// This can be used to pay a so-called "zero-amount" invoice, i.e., an invoice that leaves the
   /// amount paid to be determined by the user.
-  Future<PaymentHash> sendPaymentUsingAmount(
+  Future<
+      PaymentHash> sendPaymentUsingAmount(
           {required Bolt11Invoice invoice,
           required int amountMsat,
           dynamic hint}) =>
@@ -1145,8 +1437,11 @@ class NodePointer {
       );
 
   /// Send a spontaneous, aka. "keysend", payment
-  Future<PaymentHash> sendSpontaneousPayment(
-          {required int amountMsat, required PublicKey nodeId, dynamic hint}) =>
+  Future<
+      PaymentHash> sendSpontaneousPayment(
+          {required int amountMsat,
+          required PublicKey nodeId,
+          dynamic hint}) =>
       bridge.sendSpontaneousPaymentMethodNodePointer(
         that: this,
         amountMsat: amountMsat,
@@ -1160,16 +1455,21 @@ class NodePointer {
   /// Otherwise, there is a chance the probe could take up some liquidity needed to complete the actual payment.
   /// Users should therefore be cautious and might avoid sending probes if liquidity is scarce and/or they don't expect the probe to return before they send the payment.
   /// To mitigate this issue, channels with available liquidity less than the required amount times Config::probing_liquidity_limit_multiplier won't be used to send pre-flight probes.
-  Future<void> sendPaymentProbes(
-          {required Bolt11Invoice invoice, dynamic hint}) =>
+  Future<
+      void> sendPaymentProbes(
+          {required Bolt11Invoice invoice,
+          dynamic hint}) =>
       bridge.sendPaymentProbesMethodNodePointer(
         that: this,
         invoice: invoice,
       );
 
   ///Sends payment probes over all paths of a route that would be used to pay the given amount to the given node_id.
-  Future<void> sendSpontaneousPaymentProbes(
-          {required int amountMsat, required PublicKey nodeId, dynamic hint}) =>
+  Future<
+      void> sendSpontaneousPaymentProbes(
+          {required int amountMsat,
+          required PublicKey nodeId,
+          dynamic hint}) =>
       bridge.sendSpontaneousPaymentProbesMethodNodePointer(
         that: this,
         amountMsat: amountMsat,
@@ -1178,7 +1478,8 @@ class NodePointer {
 
   /// Returns a payable invoice that can be used to request and receive a payment of the amount
   /// given.
-  Future<Bolt11Invoice> receivePayment(
+  Future<
+      Bolt11Invoice> receivePayment(
           {required int amountMsat,
           required String description,
           required int expirySecs,
@@ -1192,7 +1493,8 @@ class NodePointer {
 
   /// Returns a payable invoice that can be used to request and receive a payment for which the
   /// amount is to be determined by the user, also known as a "zero-amount" invoice.
-  Future<Bolt11Invoice> receiveVariableAmountPayment(
+  Future<
+      Bolt11Invoice> receiveVariableAmountPayment(
           {required String description,
           required int expirySecs,
           dynamic hint}) =>
@@ -1205,8 +1507,10 @@ class NodePointer {
   /// Retrieve the details of a specific payment with the given hash.
   ///
   /// Returns `PaymentDetails` if the payment was known and `null` otherwise.
-  Future<PaymentDetails?> payment(
-          {required PaymentHash paymentHash, dynamic hint}) =>
+  Future<
+      PaymentDetails?> payment(
+          {required PaymentHash paymentHash,
+          dynamic hint}) =>
       bridge.paymentMethodNodePointer(
         that: this,
         paymentHash: paymentHash,
@@ -1214,8 +1518,10 @@ class NodePointer {
 
   /// Remove the payment with the given hash from the store.
   ///
-  Future<void> removePayment(
-          {required PaymentHash paymentHash, dynamic hint}) =>
+  Future<
+      void> removePayment(
+          {required PaymentHash paymentHash,
+          dynamic hint}) =>
       bridge.removePaymentMethodNodePointer(
         that: this,
         paymentHash: paymentHash,
@@ -1223,21 +1529,27 @@ class NodePointer {
 
   /// Retrieves all payments that match the given predicate.
   ///
-  Future<List<PaymentDetails>> listPaymentsWithFilter(
-          {required PaymentDirection paymentDirection, dynamic hint}) =>
+  Future<
+      List<PaymentDetails>> listPaymentsWithFilter(
+          {required PaymentDirection paymentDirection,
+          dynamic hint}) =>
       bridge.listPaymentsWithFilterMethodNodePointer(
         that: this,
         paymentDirection: paymentDirection,
       );
 
   /// Retrieves all payments.
-  Future<List<PaymentDetails>> listPayments({dynamic hint}) =>
+  Future<
+      List<PaymentDetails>> listPayments(
+          {dynamic hint}) =>
       bridge.listPaymentsMethodNodePointer(
         that: this,
       );
 
   /// Retrieves a list of known peers.
-  Future<List<PeerDetails>> listPeers({dynamic hint}) =>
+  Future<
+      List<PeerDetails>> listPeers(
+          {dynamic hint}) =>
       bridge.listPeersMethodNodePointer(
         that: this,
       );
@@ -1248,7 +1560,10 @@ class NodePointer {
   /// can be sure that the signature was generated by the caller.
   /// Signatures are EC recoverable, meaning that given the message and the
   /// signature the PublicKey of the signer can be extracted.
-  Future<String> signMessage({required Uint8List msg, dynamic hint}) =>
+  Future<
+      String> signMessage(
+          {required Uint8List msg,
+          dynamic hint}) =>
       bridge.signMessageMethodNodePointer(
         that: this,
         msg: msg,
@@ -1256,7 +1571,8 @@ class NodePointer {
 
   /// Verifies that the given ECDSA signature was created for the given message with the
   /// secret key corresponding to the given public key.
-  Future<bool> verifySignature(
+  Future<
+      bool> verifySignature(
           {required Uint8List msg,
           required String sig,
           required PublicKey pkey,
@@ -1272,8 +1588,10 @@ class NodePointer {
 ///A reference to a transaction output.
 ///
 class OutPoint {
-  final Txid txid;
-  final int vout;
+  final Txid
+      txid;
+  final int
+      vout;
 
   const OutPoint({
     required this.txid,
@@ -1285,22 +1603,28 @@ class OutPoint {
 ///
 class PaymentDetails {
   /// The payment hash, i.e., the hash of the `preimage`.
-  final PaymentHash hash;
+  final PaymentHash
+      hash;
 
   /// The pre-image used by the payment.
-  final PaymentPreimage? preimage;
+  final PaymentPreimage?
+      preimage;
 
   /// The secret used by the payment.
-  final PaymentSecret? secret;
+  final PaymentSecret?
+      secret;
 
   /// The amount transferred.
-  final int? amountMsat;
+  final int?
+      amountMsat;
 
   /// The direction of the payment.
-  final PaymentDirection direction;
+  final PaymentDirection
+      direction;
 
   /// The status of the payment.
-  final PaymentStatus status;
+  final PaymentStatus
+      status;
 
   const PaymentDetails({
     required this.hash,
@@ -1325,7 +1649,8 @@ enum PaymentDirection {
 /// paymentHash type, use to cross-lock hop
 ///
 class PaymentHash {
-  final U8Array32 internal;
+  final U8Array32
+      internal;
 
   const PaymentHash({
     required this.internal,
@@ -1335,7 +1660,8 @@ class PaymentHash {
 /// paymentPreimage type, use to route payment between hop
 ///
 class PaymentPreimage {
-  final U8Array32 internal;
+  final U8Array32
+      internal;
 
   const PaymentPreimage({
     required this.internal,
@@ -1345,7 +1671,8 @@ class PaymentPreimage {
 /// payment_secret type, use to authenticate sender to the receiver and tie MPP HTLCs together
 ///
 class PaymentSecret {
-  final U8Array32 internal;
+  final U8Array32
+      internal;
 
   const PaymentSecret({
     required this.internal,
@@ -1370,15 +1697,18 @@ enum PaymentStatus {
 class PeerDetails {
   /// Our peer's node ID.
   ///
-  final PublicKey nodeId;
+  final PublicKey
+      nodeId;
 
   /// The IP address and TCP port of the peer.
   ///
-  final SocketAddress address;
+  final SocketAddress
+      address;
 
   /// Indicates whether or not the user is currently has an active connection with the peer.
   ///
-  final bool isConnected;
+  final bool
+      isConnected;
 
   const PeerDetails({
     required this.nodeId,
@@ -1390,7 +1720,8 @@ class PeerDetails {
 ///A Secp256k1 public key, used for verification of signatures.
 ///
 class PublicKey {
-  final String internal;
+  final String
+      internal;
 
   const PublicKey({
     required this.internal,
@@ -1398,83 +1729,146 @@ class PublicKey {
 }
 
 @freezed
-sealed class SocketAddress with _$SocketAddress {
+sealed class SocketAddress
+    with
+        _$SocketAddress {
   const factory SocketAddress.tcpIpV4({
-    required U8Array4 addr,
-    required int port,
-  }) = SocketAddress_TcpIpV4;
+    required U8Array4
+        addr,
+    required int
+        port,
+  }) =
+      SocketAddress_TcpIpV4;
   const factory SocketAddress.tcpIpV6({
-    required U8Array16 addr,
-    required int port,
-  }) = SocketAddress_TcpIpV6;
+    required U8Array16
+        addr,
+    required int
+        port,
+  }) =
+      SocketAddress_TcpIpV6;
   const factory SocketAddress.onionV2(
-    U8Array12 field0,
+    U8Array12
+        field0,
   ) = SocketAddress_OnionV2;
   const factory SocketAddress.onionV3({
-    required U8Array32 ed25519Pubkey,
-    required int checksum,
-    required int version,
-    required int port,
-  }) = SocketAddress_OnionV3;
+    required U8Array32
+        ed25519Pubkey,
+    required int
+        checksum,
+    required int
+        version,
+    required int
+        port,
+  }) =
+      SocketAddress_OnionV3;
   const factory SocketAddress.hostname({
-    required Hostname hostname,
-    required int port,
-  }) = SocketAddress_Hostname;
+    required Hostname
+        hostname,
+    required int
+        port,
+  }) =
+      SocketAddress_Hostname;
 }
 
 ///A bitcoin transaction hash/transaction ID.
 ///
 class Txid {
-  final String internal;
+  final String
+      internal;
 
   const Txid({
     required this.internal,
   });
 }
 
-class U8Array12 extends NonGrowableListView<int> {
-  static const arraySize = 12;
-  U8Array12(Uint8List inner)
+class U8Array12
+    extends NonGrowableListView<
+        int> {
+  static const arraySize =
+      12;
+  U8Array12(
+      Uint8List
+          inner)
       : assert(inner.length == arraySize),
         super(inner);
-  U8Array12.unchecked(Uint8List inner) : super(inner);
-  U8Array12.init() : super(Uint8List(arraySize));
+  U8Array12.unchecked(
+      Uint8List
+          inner)
+      : super(inner);
+  U8Array12.init()
+      : super(Uint8List(arraySize));
 }
 
-class U8Array16 extends NonGrowableListView<int> {
-  static const arraySize = 16;
-  U8Array16(Uint8List inner)
+class U8Array16
+    extends NonGrowableListView<
+        int> {
+  static const arraySize =
+      16;
+  U8Array16(
+      Uint8List
+          inner)
       : assert(inner.length == arraySize),
         super(inner);
-  U8Array16.unchecked(Uint8List inner) : super(inner);
-  U8Array16.init() : super(Uint8List(arraySize));
+  U8Array16.unchecked(
+      Uint8List
+          inner)
+      : super(inner);
+  U8Array16.init()
+      : super(Uint8List(arraySize));
 }
 
-class U8Array32 extends NonGrowableListView<int> {
-  static const arraySize = 32;
-  U8Array32(Uint8List inner)
+class U8Array32
+    extends NonGrowableListView<
+        int> {
+  static const arraySize =
+      32;
+  U8Array32(
+      Uint8List
+          inner)
       : assert(inner.length == arraySize),
         super(inner);
-  U8Array32.unchecked(Uint8List inner) : super(inner);
-  U8Array32.init() : super(Uint8List(arraySize));
+  U8Array32.unchecked(
+      Uint8List
+          inner)
+      : super(inner);
+  U8Array32.init()
+      : super(Uint8List(arraySize));
 }
 
-class U8Array4 extends NonGrowableListView<int> {
-  static const arraySize = 4;
-  U8Array4(Uint8List inner)
+class U8Array4
+    extends NonGrowableListView<
+        int> {
+  static const arraySize =
+      4;
+  U8Array4(
+      Uint8List
+          inner)
       : assert(inner.length == arraySize),
         super(inner);
-  U8Array4.unchecked(Uint8List inner) : super(inner);
-  U8Array4.init() : super(Uint8List(arraySize));
+  U8Array4.unchecked(
+      Uint8List
+          inner)
+      : super(inner);
+  U8Array4.init()
+      : super(Uint8List(arraySize));
 }
 
-class U8Array64 extends NonGrowableListView<int> {
-  static const arraySize = 64;
-  U8Array64(Uint8List inner)
+class U8Array64
+    extends NonGrowableListView<
+        int> {
+  static const arraySize =
+      64;
+  U8Array64(
+      Uint8List
+          inner)
       : assert(inner.length == arraySize),
         super(inner);
-  U8Array64.unchecked(Uint8List inner) : super(inner);
-  U8Array64.init() : super(Uint8List(arraySize));
+  U8Array64.unchecked(
+      Uint8List
+          inner)
+      : super(inner);
+  U8Array64.init()
+      : super(Uint8List(arraySize));
 }
 
 ///A local, potentially user-provided, identifier of a channel.
@@ -1482,7 +1876,8 @@ class U8Array64 extends NonGrowableListView<int> {
 /// By default, this will be randomly generated for the user to ensure local uniqueness.
 ///
 class UserChannelId {
-  final int internal;
+  final int
+      internal;
 
   const UserChannelId({
     required this.internal,

@@ -60,6 +60,8 @@ pub enum NodeException {
     DuplicatePayment,
     /// There are insufficient funds to complete the given operation.
     InsufficientFunds,
+
+    FeerateEstimationUpdateFailed,
 }
 #[allow(dead_code)]
 pub enum BuilderException {
@@ -118,6 +120,7 @@ impl From<NodeError> for NodeException {
             NodeError::InvalidNetwork => NodeException::InvalidNetwork,
             NodeError::DuplicatePayment => NodeException::DuplicatePayment,
             NodeError::InsufficientFunds => NodeException::InsufficientFunds,
+            NodeError::FeerateEstimationUpdateFailed => NodeException::FeerateEstimationUpdateFailed,
         }
     }
 }
