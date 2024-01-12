@@ -43,7 +43,7 @@ class RustLdkNodeImpl implements RustLdkNode {
         argNames: [],
       );
 
-  Future<NodePointer> buildNode(
+  Future<NodePointer> buildSqliteNode(
       {required Config config,
       ChainDataSourceConfig? chainDataSourceConfig,
       EntropySourceConfig? entropySourceConfig,
@@ -58,10 +58,10 @@ class RustLdkNodeImpl implements RustLdkNode {
         .api2wire_opt_box_autoadd_gossip_source_config(gossipSourceConfig);
     return _platform.executeNormal(FlutterRustBridgeTask(
       callFfi: (port_) =>
-          _platform.inner.wire_build_node(port_, arg0, arg1, arg2, arg3),
+          _platform.inner.wire_build_sqlite_node(port_, arg0, arg1, arg2, arg3),
       parseSuccessData: (d) => _wire2api_node_pointer(d),
       parseErrorData: _wire2api_builder_exception,
-      constMeta: kBuildNodeConstMeta,
+      constMeta: kBuildSqliteNodeConstMeta,
       argValues: [
         config,
         chainDataSourceConfig,
@@ -72,9 +72,9 @@ class RustLdkNodeImpl implements RustLdkNode {
     ));
   }
 
-  FlutterRustBridgeTaskConstMeta get kBuildNodeConstMeta =>
+  FlutterRustBridgeTaskConstMeta get kBuildSqliteNodeConstMeta =>
       const FlutterRustBridgeTaskConstMeta(
-        debugName: "build_node",
+        debugName: "build_sqlite_node",
         argNames: [
           "config",
           "chainDataSourceConfig",
@@ -204,24 +204,24 @@ class RustLdkNodeImpl implements RustLdkNode {
         argNames: ["that"],
       );
 
-  Future<NetAddress?> listeningAddressMethodNodePointer(
+  Future<List<SocketAddress>?> listeningAddressesMethodNodePointer(
       {required NodePointer that, dynamic hint}) {
     var arg0 = _platform.api2wire_box_autoadd_node_pointer(that);
     return _platform.executeNormal(FlutterRustBridgeTask(
       callFfi: (port_) => _platform.inner
-          .wire_listening_address__method__NodePointer(port_, arg0),
-      parseSuccessData: _wire2api_opt_box_autoadd_net_address,
+          .wire_listening_addresses__method__NodePointer(port_, arg0),
+      parseSuccessData: _wire2api_opt_list_socket_address,
       parseErrorData: null,
-      constMeta: kListeningAddressMethodNodePointerConstMeta,
+      constMeta: kListeningAddressesMethodNodePointerConstMeta,
       argValues: [that],
       hint: hint,
     ));
   }
 
   FlutterRustBridgeTaskConstMeta
-      get kListeningAddressMethodNodePointerConstMeta =>
+      get kListeningAddressesMethodNodePointerConstMeta =>
           const FlutterRustBridgeTaskConstMeta(
-            debugName: "listening_address__method__NodePointer",
+            debugName: "listening_addresses__method__NodePointer",
             argNames: ["that"],
           );
 
@@ -362,12 +362,12 @@ class RustLdkNodeImpl implements RustLdkNode {
   Future<void> connectMethodNodePointer(
       {required NodePointer that,
       required PublicKey nodeId,
-      required NetAddress address,
+      required SocketAddress address,
       required bool persist,
       dynamic hint}) {
     var arg0 = _platform.api2wire_box_autoadd_node_pointer(that);
     var arg1 = _platform.api2wire_box_autoadd_public_key(nodeId);
-    var arg2 = _platform.api2wire_box_autoadd_net_address(address);
+    var arg2 = _platform.api2wire_box_autoadd_socket_address(address);
     var arg3 = persist;
     return _platform.executeNormal(FlutterRustBridgeTask(
       callFfi: (port_) => _platform.inner
@@ -411,7 +411,7 @@ class RustLdkNodeImpl implements RustLdkNode {
 
   Future<void> connectOpenChannelMethodNodePointer(
       {required NodePointer that,
-      required NetAddress address,
+      required SocketAddress address,
       required PublicKey nodeId,
       required int channelAmountSats,
       int? pushToCounterpartyMsat,
@@ -419,7 +419,7 @@ class RustLdkNodeImpl implements RustLdkNode {
       ChannelConfig? channelConfig,
       dynamic hint}) {
     var arg0 = _platform.api2wire_box_autoadd_node_pointer(that);
-    var arg1 = _platform.api2wire_box_autoadd_net_address(address);
+    var arg1 = _platform.api2wire_box_autoadd_socket_address(address);
     var arg2 = _platform.api2wire_box_autoadd_public_key(nodeId);
     var arg3 = _platform.api2wire_u64(channelAmountSats);
     var arg4 = _platform.api2wire_opt_box_autoadd_u64(pushToCounterpartyMsat);
@@ -616,7 +616,7 @@ class RustLdkNodeImpl implements RustLdkNode {
             argNames: ["that", "amountMsat", "nodeId"],
           );
 
-  Future<void> sendPaymentProbeMethodNodePointer(
+  Future<void> sendPaymentProbesMethodNodePointer(
       {required NodePointer that,
       required Bolt11Invoice invoice,
       dynamic hint}) {
@@ -624,23 +624,23 @@ class RustLdkNodeImpl implements RustLdkNode {
     var arg1 = _platform.api2wire_box_autoadd_bolt_11_invoice(invoice);
     return _platform.executeNormal(FlutterRustBridgeTask(
       callFfi: (port_) => _platform.inner
-          .wire_send_payment_probe__method__NodePointer(port_, arg0, arg1),
+          .wire_send_payment_probes__method__NodePointer(port_, arg0, arg1),
       parseSuccessData: _wire2api_unit,
       parseErrorData: _wire2api_node_exception,
-      constMeta: kSendPaymentProbeMethodNodePointerConstMeta,
+      constMeta: kSendPaymentProbesMethodNodePointerConstMeta,
       argValues: [that, invoice],
       hint: hint,
     ));
   }
 
   FlutterRustBridgeTaskConstMeta
-      get kSendPaymentProbeMethodNodePointerConstMeta =>
+      get kSendPaymentProbesMethodNodePointerConstMeta =>
           const FlutterRustBridgeTaskConstMeta(
-            debugName: "send_payment_probe__method__NodePointer",
+            debugName: "send_payment_probes__method__NodePointer",
             argNames: ["that", "invoice"],
           );
 
-  Future<void> sendSpontaneousPaymentProbeMethodNodePointer(
+  Future<void> sendSpontaneousPaymentProbesMethodNodePointer(
       {required NodePointer that,
       required int amountMsat,
       required PublicKey nodeId,
@@ -650,20 +650,20 @@ class RustLdkNodeImpl implements RustLdkNode {
     var arg2 = _platform.api2wire_box_autoadd_public_key(nodeId);
     return _platform.executeNormal(FlutterRustBridgeTask(
       callFfi: (port_) => _platform.inner
-          .wire_send_spontaneous_payment_probe__method__NodePointer(
+          .wire_send_spontaneous_payment_probes__method__NodePointer(
               port_, arg0, arg1, arg2),
       parseSuccessData: _wire2api_unit,
       parseErrorData: _wire2api_node_exception,
-      constMeta: kSendSpontaneousPaymentProbeMethodNodePointerConstMeta,
+      constMeta: kSendSpontaneousPaymentProbesMethodNodePointerConstMeta,
       argValues: [that, amountMsat, nodeId],
       hint: hint,
     ));
   }
 
   FlutterRustBridgeTaskConstMeta
-      get kSendSpontaneousPaymentProbeMethodNodePointerConstMeta =>
+      get kSendSpontaneousPaymentProbesMethodNodePointerConstMeta =>
           const FlutterRustBridgeTaskConstMeta(
-            debugName: "send_spontaneous_payment_probe__method__NodePointer",
+            debugName: "send_spontaneous_payment_probes__method__NodePointer",
             argNames: ["that", "amountMsat", "nodeId"],
           );
 
@@ -934,8 +934,8 @@ class RustLdkNodeImpl implements RustLdkNode {
     return _wire2api_event(raw);
   }
 
-  NetAddress _wire2api_box_autoadd_net_address(dynamic raw) {
-    return _wire2api_net_address(raw);
+  Hostname _wire2api_box_autoadd_hostname(dynamic raw) {
+    return _wire2api_hostname(raw);
   }
 
   OutPoint _wire2api_box_autoadd_out_point(dynamic raw) {
@@ -1030,11 +1030,13 @@ class RustLdkNodeImpl implements RustLdkNode {
         return Event_ChannelReady(
           channelId: _wire2api_box_autoadd_channel_id(raw[1]),
           userChannelId: _wire2api_box_autoadd_user_channel_id(raw[2]),
+          counterpartyNodeId: _wire2api_opt_box_autoadd_public_key(raw[3]),
         );
       case 4:
         return Event_ChannelClosed(
           channelId: _wire2api_box_autoadd_channel_id(raw[1]),
           userChannelId: _wire2api_box_autoadd_user_channel_id(raw[2]),
+          counterpartyNodeId: _wire2api_opt_box_autoadd_public_key(raw[3]),
         );
       case 5:
         return Event_ChannelPending(
@@ -1047,6 +1049,15 @@ class RustLdkNodeImpl implements RustLdkNode {
       default:
         throw Exception("unreachable");
     }
+  }
+
+  Hostname _wire2api_hostname(dynamic raw) {
+    final arr = raw as List<dynamic>;
+    if (arr.length != 1)
+      throw Exception('unexpected arr length: expect 1 but see ${arr.length}');
+    return Hostname(
+      internal: _wire2api_String(arr[0]),
+    );
   }
 
   int _wire2api_i32(dynamic raw) {
@@ -1065,6 +1076,10 @@ class RustLdkNodeImpl implements RustLdkNode {
     return (raw as List<dynamic>).map(_wire2api_peer_details).toList();
   }
 
+  List<SocketAddress> _wire2api_list_socket_address(dynamic raw) {
+    return (raw as List<dynamic>).map(_wire2api_socket_address).toList();
+  }
+
   Mnemonic _wire2api_mnemonic(dynamic raw) {
     final arr = raw as List<dynamic>;
     if (arr.length != 1)
@@ -1072,23 +1087,6 @@ class RustLdkNodeImpl implements RustLdkNode {
     return Mnemonic(
       internal: _wire2api_String(arr[0]),
     );
-  }
-
-  NetAddress _wire2api_net_address(dynamic raw) {
-    switch (raw[0]) {
-      case 0:
-        return NetAddress_IPv4(
-          addr: _wire2api_String(raw[1]),
-          port: _wire2api_u16(raw[2]),
-        );
-      case 1:
-        return NetAddress_IPv6(
-          addr: _wire2api_String(raw[1]),
-          port: _wire2api_u16(raw[2]),
-        );
-      default:
-        throw Exception("unreachable");
-    }
   }
 
   NodeException _wire2api_node_exception(dynamic raw) {
@@ -1113,10 +1111,6 @@ class RustLdkNodeImpl implements RustLdkNode {
     return raw == null ? null : _wire2api_box_autoadd_event(raw);
   }
 
-  NetAddress? _wire2api_opt_box_autoadd_net_address(dynamic raw) {
-    return raw == null ? null : _wire2api_box_autoadd_net_address(raw);
-  }
-
   PaymentDetails? _wire2api_opt_box_autoadd_payment_details(dynamic raw) {
     return raw == null ? null : _wire2api_box_autoadd_payment_details(raw);
   }
@@ -1129,12 +1123,20 @@ class RustLdkNodeImpl implements RustLdkNode {
     return raw == null ? null : _wire2api_box_autoadd_payment_secret(raw);
   }
 
+  PublicKey? _wire2api_opt_box_autoadd_public_key(dynamic raw) {
+    return raw == null ? null : _wire2api_box_autoadd_public_key(raw);
+  }
+
   int? _wire2api_opt_box_autoadd_u32(dynamic raw) {
     return raw == null ? null : _wire2api_box_autoadd_u32(raw);
   }
 
   int? _wire2api_opt_box_autoadd_u64(dynamic raw) {
     return raw == null ? null : _wire2api_box_autoadd_u64(raw);
+  }
+
+  List<SocketAddress>? _wire2api_opt_list_socket_address(dynamic raw) {
+    return raw == null ? null : _wire2api_list_socket_address(raw);
   }
 
   OutPoint _wire2api_out_point(dynamic raw) {
@@ -1202,7 +1204,7 @@ class RustLdkNodeImpl implements RustLdkNode {
       throw Exception('unexpected arr length: expect 3 but see ${arr.length}');
     return PeerDetails(
       nodeId: _wire2api_public_key(arr[0]),
-      address: _wire2api_net_address(arr[1]),
+      address: _wire2api_socket_address(arr[1]),
       isConnected: _wire2api_bool(arr[2]),
     );
   }
@@ -1214,6 +1216,39 @@ class RustLdkNodeImpl implements RustLdkNode {
     return PublicKey(
       internal: _wire2api_String(arr[0]),
     );
+  }
+
+  SocketAddress _wire2api_socket_address(dynamic raw) {
+    switch (raw[0]) {
+      case 0:
+        return SocketAddress_TcpIpV4(
+          addr: _wire2api_u8_array_4(raw[1]),
+          port: _wire2api_u16(raw[2]),
+        );
+      case 1:
+        return SocketAddress_TcpIpV6(
+          addr: _wire2api_u8_array_16(raw[1]),
+          port: _wire2api_u16(raw[2]),
+        );
+      case 2:
+        return SocketAddress_OnionV2(
+          _wire2api_u8_array_12(raw[1]),
+        );
+      case 3:
+        return SocketAddress_OnionV3(
+          ed25519Pubkey: _wire2api_u8_array_32(raw[1]),
+          checksum: _wire2api_u16(raw[2]),
+          version: _wire2api_u8(raw[3]),
+          port: _wire2api_u16(raw[4]),
+        );
+      case 4:
+        return SocketAddress_Hostname(
+          hostname: _wire2api_box_autoadd_hostname(raw[1]),
+          port: _wire2api_u16(raw[2]),
+        );
+      default:
+        throw Exception("unreachable");
+    }
   }
 
   Txid _wire2api_txid(dynamic raw) {
@@ -1241,8 +1276,20 @@ class RustLdkNodeImpl implements RustLdkNode {
     return raw as int;
   }
 
+  U8Array12 _wire2api_u8_array_12(dynamic raw) {
+    return U8Array12(_wire2api_uint_8_list(raw));
+  }
+
+  U8Array16 _wire2api_u8_array_16(dynamic raw) {
+    return U8Array16(_wire2api_uint_8_list(raw));
+  }
+
   U8Array32 _wire2api_u8_array_32(dynamic raw) {
     return U8Array32(_wire2api_uint_8_list(raw));
+  }
+
+  U8Array4 _wire2api_u8_array_4(dynamic raw) {
+    return U8Array4(_wire2api_uint_8_list(raw));
   }
 
   Uint8List _wire2api_uint_8_list(dynamic raw) {
@@ -1387,17 +1434,16 @@ class RustLdkNodePlatform extends FlutterRustBridgeBase<RustLdkNodeWire> {
   }
 
   @protected
-  ffi.Pointer<wire_Mnemonic> api2wire_box_autoadd_mnemonic(Mnemonic raw) {
-    final ptr = inner.new_box_autoadd_mnemonic_0();
-    _api_fill_to_wire_mnemonic(raw, ptr.ref);
+  ffi.Pointer<wire_Hostname> api2wire_box_autoadd_hostname(Hostname raw) {
+    final ptr = inner.new_box_autoadd_hostname_0();
+    _api_fill_to_wire_hostname(raw, ptr.ref);
     return ptr;
   }
 
   @protected
-  ffi.Pointer<wire_NetAddress> api2wire_box_autoadd_net_address(
-      NetAddress raw) {
-    final ptr = inner.new_box_autoadd_net_address_0();
-    _api_fill_to_wire_net_address(raw, ptr.ref);
+  ffi.Pointer<wire_Mnemonic> api2wire_box_autoadd_mnemonic(Mnemonic raw) {
+    final ptr = inner.new_box_autoadd_mnemonic_0();
+    _api_fill_to_wire_mnemonic(raw, ptr.ref);
     return ptr;
   }
 
@@ -1425,6 +1471,14 @@ class RustLdkNodePlatform extends FlutterRustBridgeBase<RustLdkNodeWire> {
   }
 
   @protected
+  ffi.Pointer<wire_SocketAddress> api2wire_box_autoadd_socket_address(
+      SocketAddress raw) {
+    final ptr = inner.new_box_autoadd_socket_address_0();
+    _api_fill_to_wire_socket_address(raw, ptr.ref);
+    return ptr;
+  }
+
+  @protected
   ffi.Pointer<ffi.Uint64> api2wire_box_autoadd_u64(int raw) {
     return inner.new_box_autoadd_u64_0(api2wire_u64(raw));
   }
@@ -1435,6 +1489,16 @@ class RustLdkNodePlatform extends FlutterRustBridgeBase<RustLdkNodeWire> {
     final ans = inner.new_list_public_key_0(raw.length);
     for (var i = 0; i < raw.length; ++i) {
       _api_fill_to_wire_public_key(raw[i], ans.ref.ptr[i]);
+    }
+    return ans;
+  }
+
+  @protected
+  ffi.Pointer<wire_list_socket_address> api2wire_list_socket_address(
+      List<SocketAddress> raw) {
+    final ans = inner.new_list_socket_address_0(raw.length);
+    for (var i = 0; i < raw.length; ++i) {
+      _api_fill_to_wire_socket_address(raw[i], ans.ref.ptr[i]);
     }
     return ans;
   }
@@ -1476,14 +1540,14 @@ class RustLdkNodePlatform extends FlutterRustBridgeBase<RustLdkNodeWire> {
   }
 
   @protected
-  ffi.Pointer<wire_NetAddress> api2wire_opt_box_autoadd_net_address(
-      NetAddress? raw) {
-    return raw == null ? ffi.nullptr : api2wire_box_autoadd_net_address(raw);
+  ffi.Pointer<ffi.Uint64> api2wire_opt_box_autoadd_u64(int? raw) {
+    return raw == null ? ffi.nullptr : api2wire_box_autoadd_u64(raw);
   }
 
   @protected
-  ffi.Pointer<ffi.Uint64> api2wire_opt_box_autoadd_u64(int? raw) {
-    return raw == null ? ffi.nullptr : api2wire_box_autoadd_u64(raw);
+  ffi.Pointer<wire_list_socket_address> api2wire_opt_list_socket_address(
+      List<SocketAddress>? raw) {
+    return raw == null ? ffi.nullptr : api2wire_list_socket_address(raw);
   }
 
   @protected
@@ -1492,9 +1556,30 @@ class RustLdkNodePlatform extends FlutterRustBridgeBase<RustLdkNodeWire> {
   }
 
   @protected
+  ffi.Pointer<wire_uint_8_list> api2wire_u8_array_12(U8Array12 raw) {
+    final ans = inner.new_uint_8_list_0(12);
+    ans.ref.ptr.asTypedList(12).setAll(0, raw);
+    return ans;
+  }
+
+  @protected
+  ffi.Pointer<wire_uint_8_list> api2wire_u8_array_16(U8Array16 raw) {
+    final ans = inner.new_uint_8_list_0(16);
+    ans.ref.ptr.asTypedList(16).setAll(0, raw);
+    return ans;
+  }
+
+  @protected
   ffi.Pointer<wire_uint_8_list> api2wire_u8_array_32(U8Array32 raw) {
     final ans = inner.new_uint_8_list_0(32);
     ans.ref.ptr.asTypedList(32).setAll(0, raw);
+    return ans;
+  }
+
+  @protected
+  ffi.Pointer<wire_uint_8_list> api2wire_u8_array_4(U8Array4 raw) {
+    final ans = inner.new_uint_8_list_0(4);
+    ans.ref.ptr.asTypedList(4).setAll(0, raw);
     return ans;
   }
 
@@ -1575,14 +1660,14 @@ class RustLdkNodePlatform extends FlutterRustBridgeBase<RustLdkNodeWire> {
     _api_fill_to_wire_gossip_source_config(apiObj, wireObj.ref);
   }
 
+  void _api_fill_to_wire_box_autoadd_hostname(
+      Hostname apiObj, ffi.Pointer<wire_Hostname> wireObj) {
+    _api_fill_to_wire_hostname(apiObj, wireObj.ref);
+  }
+
   void _api_fill_to_wire_box_autoadd_mnemonic(
       Mnemonic apiObj, ffi.Pointer<wire_Mnemonic> wireObj) {
     _api_fill_to_wire_mnemonic(apiObj, wireObj.ref);
-  }
-
-  void _api_fill_to_wire_box_autoadd_net_address(
-      NetAddress apiObj, ffi.Pointer<wire_NetAddress> wireObj) {
-    _api_fill_to_wire_net_address(apiObj, wireObj.ref);
   }
 
   void _api_fill_to_wire_box_autoadd_node_pointer(
@@ -1598,6 +1683,11 @@ class RustLdkNodePlatform extends FlutterRustBridgeBase<RustLdkNodeWire> {
   void _api_fill_to_wire_box_autoadd_public_key(
       PublicKey apiObj, ffi.Pointer<wire_PublicKey> wireObj) {
     _api_fill_to_wire_public_key(apiObj, wireObj.ref);
+  }
+
+  void _api_fill_to_wire_box_autoadd_socket_address(
+      SocketAddress apiObj, ffi.Pointer<wire_SocketAddress> wireObj) {
+    _api_fill_to_wire_socket_address(apiObj, wireObj.ref);
   }
 
   void _api_fill_to_wire_chain_data_source_config(
@@ -1634,8 +1724,8 @@ class RustLdkNodePlatform extends FlutterRustBridgeBase<RustLdkNodeWire> {
     wireObj.storage_dir_path = api2wire_String(apiObj.storageDirPath);
     wireObj.log_dir_path = api2wire_opt_String(apiObj.logDirPath);
     wireObj.network = api2wire_network(apiObj.network);
-    wireObj.listening_address =
-        api2wire_opt_box_autoadd_net_address(apiObj.listeningAddress);
+    wireObj.listening_addresses =
+        api2wire_opt_list_socket_address(apiObj.listeningAddresses);
     wireObj.default_cltv_expiry_delta =
         api2wire_u32(apiObj.defaultCltvExpiryDelta);
     wireObj.onchain_wallet_sync_interval_secs =
@@ -1693,6 +1783,10 @@ class RustLdkNodePlatform extends FlutterRustBridgeBase<RustLdkNodeWire> {
     }
   }
 
+  void _api_fill_to_wire_hostname(Hostname apiObj, wire_Hostname wireObj) {
+    wireObj.internal = api2wire_String(apiObj.internal);
+  }
+
   void _api_fill_to_wire_max_dust_htlc_exposure(
       MaxDustHTLCExposure apiObj, wire_MaxDustHTLCExposure wireObj) {
     if (apiObj is MaxDustHTLCExposure_FixedLimitMsat) {
@@ -1715,28 +1809,6 @@ class RustLdkNodePlatform extends FlutterRustBridgeBase<RustLdkNodeWire> {
     wireObj.internal = api2wire_String(apiObj.internal);
   }
 
-  void _api_fill_to_wire_net_address(
-      NetAddress apiObj, wire_NetAddress wireObj) {
-    if (apiObj is NetAddress_IPv4) {
-      var pre_addr = api2wire_String(apiObj.addr);
-      var pre_port = api2wire_u16(apiObj.port);
-      wireObj.tag = 0;
-      wireObj.kind = inner.inflate_NetAddress_IPv4();
-      wireObj.kind.ref.IPv4.ref.addr = pre_addr;
-      wireObj.kind.ref.IPv4.ref.port = pre_port;
-      return;
-    }
-    if (apiObj is NetAddress_IPv6) {
-      var pre_addr = api2wire_String(apiObj.addr);
-      var pre_port = api2wire_u16(apiObj.port);
-      wireObj.tag = 1;
-      wireObj.kind = inner.inflate_NetAddress_IPv6();
-      wireObj.kind.ref.IPv6.ref.addr = pre_addr;
-      wireObj.kind.ref.IPv6.ref.port = pre_port;
-      return;
-    }
-  }
-
   void _api_fill_to_wire_node_pointer(
       NodePointer apiObj, wire_NodePointer wireObj) {
     wireObj.field0 = api2wire_MutexNodeSqliteStore(apiObj.field0);
@@ -1749,6 +1821,57 @@ class RustLdkNodePlatform extends FlutterRustBridgeBase<RustLdkNodeWire> {
 
   void _api_fill_to_wire_public_key(PublicKey apiObj, wire_PublicKey wireObj) {
     wireObj.internal = api2wire_String(apiObj.internal);
+  }
+
+  void _api_fill_to_wire_socket_address(
+      SocketAddress apiObj, wire_SocketAddress wireObj) {
+    if (apiObj is SocketAddress_TcpIpV4) {
+      var pre_addr = api2wire_u8_array_4(apiObj.addr);
+      var pre_port = api2wire_u16(apiObj.port);
+      wireObj.tag = 0;
+      wireObj.kind = inner.inflate_SocketAddress_TcpIpV4();
+      wireObj.kind.ref.TcpIpV4.ref.addr = pre_addr;
+      wireObj.kind.ref.TcpIpV4.ref.port = pre_port;
+      return;
+    }
+    if (apiObj is SocketAddress_TcpIpV6) {
+      var pre_addr = api2wire_u8_array_16(apiObj.addr);
+      var pre_port = api2wire_u16(apiObj.port);
+      wireObj.tag = 1;
+      wireObj.kind = inner.inflate_SocketAddress_TcpIpV6();
+      wireObj.kind.ref.TcpIpV6.ref.addr = pre_addr;
+      wireObj.kind.ref.TcpIpV6.ref.port = pre_port;
+      return;
+    }
+    if (apiObj is SocketAddress_OnionV2) {
+      var pre_field0 = api2wire_u8_array_12(apiObj.field0);
+      wireObj.tag = 2;
+      wireObj.kind = inner.inflate_SocketAddress_OnionV2();
+      wireObj.kind.ref.OnionV2.ref.field0 = pre_field0;
+      return;
+    }
+    if (apiObj is SocketAddress_OnionV3) {
+      var pre_ed25519_pubkey = api2wire_u8_array_32(apiObj.ed25519Pubkey);
+      var pre_checksum = api2wire_u16(apiObj.checksum);
+      var pre_version = api2wire_u8(apiObj.version);
+      var pre_port = api2wire_u16(apiObj.port);
+      wireObj.tag = 3;
+      wireObj.kind = inner.inflate_SocketAddress_OnionV3();
+      wireObj.kind.ref.OnionV3.ref.ed25519_pubkey = pre_ed25519_pubkey;
+      wireObj.kind.ref.OnionV3.ref.checksum = pre_checksum;
+      wireObj.kind.ref.OnionV3.ref.version = pre_version;
+      wireObj.kind.ref.OnionV3.ref.port = pre_port;
+      return;
+    }
+    if (apiObj is SocketAddress_Hostname) {
+      var pre_hostname = api2wire_box_autoadd_hostname(apiObj.hostname);
+      var pre_port = api2wire_u16(apiObj.port);
+      wireObj.tag = 4;
+      wireObj.kind = inner.inflate_SocketAddress_Hostname();
+      wireObj.kind.ref.Hostname.ref.hostname = pre_hostname;
+      wireObj.kind.ref.Hostname.ref.port = pre_port;
+      return;
+    }
   }
 }
 
@@ -1862,14 +1985,14 @@ class RustLdkNodeWire implements FlutterRustBridgeWireBase {
   late final _wire_generate_entropy_mnemonic =
       _wire_generate_entropy_mnemonicPtr.asFunction<void Function(int)>();
 
-  void wire_build_node(
+  void wire_build_sqlite_node(
     int port_,
     ffi.Pointer<wire_Config> config,
     ffi.Pointer<wire_ChainDataSourceConfig> chain_data_source_config,
     ffi.Pointer<wire_EntropySourceConfig> entropy_source_config,
     ffi.Pointer<wire_GossipSourceConfig> gossip_source_config,
   ) {
-    return _wire_build_node(
+    return _wire_build_sqlite_node(
       port_,
       config,
       chain_data_source_config,
@@ -1878,15 +2001,15 @@ class RustLdkNodeWire implements FlutterRustBridgeWireBase {
     );
   }
 
-  late final _wire_build_nodePtr = _lookup<
+  late final _wire_build_sqlite_nodePtr = _lookup<
       ffi.NativeFunction<
           ffi.Void Function(
               ffi.Int64,
               ffi.Pointer<wire_Config>,
               ffi.Pointer<wire_ChainDataSourceConfig>,
               ffi.Pointer<wire_EntropySourceConfig>,
-              ffi.Pointer<wire_GossipSourceConfig>)>>('wire_build_node');
-  late final _wire_build_node = _wire_build_nodePtr.asFunction<
+              ffi.Pointer<wire_GossipSourceConfig>)>>('wire_build_sqlite_node');
+  late final _wire_build_sqlite_node = _wire_build_sqlite_nodePtr.asFunction<
       void Function(
           int,
           ffi.Pointer<wire_Config>,
@@ -2002,22 +2125,22 @@ class RustLdkNodeWire implements FlutterRustBridgeWireBase {
       _wire_node_id__method__NodePointerPtr
           .asFunction<void Function(int, ffi.Pointer<wire_NodePointer>)>();
 
-  void wire_listening_address__method__NodePointer(
+  void wire_listening_addresses__method__NodePointer(
     int port_,
     ffi.Pointer<wire_NodePointer> that,
   ) {
-    return _wire_listening_address__method__NodePointer(
+    return _wire_listening_addresses__method__NodePointer(
       port_,
       that,
     );
   }
 
-  late final _wire_listening_address__method__NodePointerPtr = _lookup<
+  late final _wire_listening_addresses__method__NodePointerPtr = _lookup<
           ffi.NativeFunction<
               ffi.Void Function(ffi.Int64, ffi.Pointer<wire_NodePointer>)>>(
-      'wire_listening_address__method__NodePointer');
-  late final _wire_listening_address__method__NodePointer =
-      _wire_listening_address__method__NodePointerPtr
+      'wire_listening_addresses__method__NodePointer');
+  late final _wire_listening_addresses__method__NodePointer =
+      _wire_listening_addresses__method__NodePointerPtr
           .asFunction<void Function(int, ffi.Pointer<wire_NodePointer>)>();
 
   void wire_new_onchain_address__method__NodePointer(
@@ -2145,7 +2268,7 @@ class RustLdkNodeWire implements FlutterRustBridgeWireBase {
     int port_,
     ffi.Pointer<wire_NodePointer> that,
     ffi.Pointer<wire_PublicKey> node_id,
-    ffi.Pointer<wire_NetAddress> address,
+    ffi.Pointer<wire_SocketAddress> address,
     bool persist,
   ) {
     return _wire_connect__method__NodePointer(
@@ -2163,7 +2286,7 @@ class RustLdkNodeWire implements FlutterRustBridgeWireBase {
               ffi.Int64,
               ffi.Pointer<wire_NodePointer>,
               ffi.Pointer<wire_PublicKey>,
-              ffi.Pointer<wire_NetAddress>,
+              ffi.Pointer<wire_SocketAddress>,
               ffi.Bool)>>('wire_connect__method__NodePointer');
   late final _wire_connect__method__NodePointer =
       _wire_connect__method__NodePointerPtr.asFunction<
@@ -2171,7 +2294,7 @@ class RustLdkNodeWire implements FlutterRustBridgeWireBase {
               int,
               ffi.Pointer<wire_NodePointer>,
               ffi.Pointer<wire_PublicKey>,
-              ffi.Pointer<wire_NetAddress>,
+              ffi.Pointer<wire_SocketAddress>,
               bool)>();
 
   void wire_disconnect__method__NodePointer(
@@ -2199,7 +2322,7 @@ class RustLdkNodeWire implements FlutterRustBridgeWireBase {
   void wire_connect_open_channel__method__NodePointer(
     int port_,
     ffi.Pointer<wire_NodePointer> that,
-    ffi.Pointer<wire_NetAddress> address,
+    ffi.Pointer<wire_SocketAddress> address,
     ffi.Pointer<wire_PublicKey> node_id,
     int channel_amount_sats,
     ffi.Pointer<ffi.Uint64> push_to_counterparty_msat,
@@ -2223,7 +2346,7 @@ class RustLdkNodeWire implements FlutterRustBridgeWireBase {
               ffi.Void Function(
                   ffi.Int64,
                   ffi.Pointer<wire_NodePointer>,
-                  ffi.Pointer<wire_NetAddress>,
+                  ffi.Pointer<wire_SocketAddress>,
                   ffi.Pointer<wire_PublicKey>,
                   ffi.Uint64,
                   ffi.Pointer<ffi.Uint64>,
@@ -2235,7 +2358,7 @@ class RustLdkNodeWire implements FlutterRustBridgeWireBase {
           void Function(
               int,
               ffi.Pointer<wire_NodePointer>,
-              ffi.Pointer<wire_NetAddress>,
+              ffi.Pointer<wire_SocketAddress>,
               ffi.Pointer<wire_PublicKey>,
               int,
               ffi.Pointer<ffi.Uint64>,
@@ -2388,35 +2511,35 @@ class RustLdkNodeWire implements FlutterRustBridgeWireBase {
           void Function(int, ffi.Pointer<wire_NodePointer>, int,
               ffi.Pointer<wire_PublicKey>)>();
 
-  void wire_send_payment_probe__method__NodePointer(
+  void wire_send_payment_probes__method__NodePointer(
     int port_,
     ffi.Pointer<wire_NodePointer> that,
     ffi.Pointer<wire_Bolt11Invoice> invoice,
   ) {
-    return _wire_send_payment_probe__method__NodePointer(
+    return _wire_send_payment_probes__method__NodePointer(
       port_,
       that,
       invoice,
     );
   }
 
-  late final _wire_send_payment_probe__method__NodePointerPtr = _lookup<
+  late final _wire_send_payment_probes__method__NodePointerPtr = _lookup<
           ffi.NativeFunction<
               ffi.Void Function(ffi.Int64, ffi.Pointer<wire_NodePointer>,
                   ffi.Pointer<wire_Bolt11Invoice>)>>(
-      'wire_send_payment_probe__method__NodePointer');
-  late final _wire_send_payment_probe__method__NodePointer =
-      _wire_send_payment_probe__method__NodePointerPtr.asFunction<
+      'wire_send_payment_probes__method__NodePointer');
+  late final _wire_send_payment_probes__method__NodePointer =
+      _wire_send_payment_probes__method__NodePointerPtr.asFunction<
           void Function(int, ffi.Pointer<wire_NodePointer>,
               ffi.Pointer<wire_Bolt11Invoice>)>();
 
-  void wire_send_spontaneous_payment_probe__method__NodePointer(
+  void wire_send_spontaneous_payment_probes__method__NodePointer(
     int port_,
     ffi.Pointer<wire_NodePointer> that,
     int amount_msat,
     ffi.Pointer<wire_PublicKey> node_id,
   ) {
-    return _wire_send_spontaneous_payment_probe__method__NodePointer(
+    return _wire_send_spontaneous_payment_probes__method__NodePointer(
       port_,
       that,
       amount_msat,
@@ -2424,15 +2547,14 @@ class RustLdkNodeWire implements FlutterRustBridgeWireBase {
     );
   }
 
-  late final _wire_send_spontaneous_payment_probe__method__NodePointerPtr =
+  late final _wire_send_spontaneous_payment_probes__method__NodePointerPtr =
       _lookup<
-              ffi
-              .NativeFunction<
+              ffi.NativeFunction<
                   ffi.Void Function(ffi.Int64, ffi.Pointer<wire_NodePointer>,
                       ffi.Uint64, ffi.Pointer<wire_PublicKey>)>>(
-          'wire_send_spontaneous_payment_probe__method__NodePointer');
-  late final _wire_send_spontaneous_payment_probe__method__NodePointer =
-      _wire_send_spontaneous_payment_probe__method__NodePointerPtr.asFunction<
+          'wire_send_spontaneous_payment_probes__method__NodePointer');
+  late final _wire_send_spontaneous_payment_probes__method__NodePointer =
+      _wire_send_spontaneous_payment_probes__method__NodePointerPtr.asFunction<
           void Function(int, ffi.Pointer<wire_NodePointer>, int,
               ffi.Pointer<wire_PublicKey>)>();
 
@@ -2746,6 +2868,16 @@ class RustLdkNodeWire implements FlutterRustBridgeWireBase {
       _new_box_autoadd_gossip_source_config_0Ptr
           .asFunction<ffi.Pointer<wire_GossipSourceConfig> Function()>();
 
+  ffi.Pointer<wire_Hostname> new_box_autoadd_hostname_0() {
+    return _new_box_autoadd_hostname_0();
+  }
+
+  late final _new_box_autoadd_hostname_0Ptr =
+      _lookup<ffi.NativeFunction<ffi.Pointer<wire_Hostname> Function()>>(
+          'new_box_autoadd_hostname_0');
+  late final _new_box_autoadd_hostname_0 = _new_box_autoadd_hostname_0Ptr
+      .asFunction<ffi.Pointer<wire_Hostname> Function()>();
+
   ffi.Pointer<wire_Mnemonic> new_box_autoadd_mnemonic_0() {
     return _new_box_autoadd_mnemonic_0();
   }
@@ -2755,16 +2887,6 @@ class RustLdkNodeWire implements FlutterRustBridgeWireBase {
           'new_box_autoadd_mnemonic_0');
   late final _new_box_autoadd_mnemonic_0 = _new_box_autoadd_mnemonic_0Ptr
       .asFunction<ffi.Pointer<wire_Mnemonic> Function()>();
-
-  ffi.Pointer<wire_NetAddress> new_box_autoadd_net_address_0() {
-    return _new_box_autoadd_net_address_0();
-  }
-
-  late final _new_box_autoadd_net_address_0Ptr =
-      _lookup<ffi.NativeFunction<ffi.Pointer<wire_NetAddress> Function()>>(
-          'new_box_autoadd_net_address_0');
-  late final _new_box_autoadd_net_address_0 = _new_box_autoadd_net_address_0Ptr
-      .asFunction<ffi.Pointer<wire_NetAddress> Function()>();
 
   ffi.Pointer<wire_NodePointer> new_box_autoadd_node_pointer_0() {
     return _new_box_autoadd_node_pointer_0();
@@ -2798,6 +2920,17 @@ class RustLdkNodeWire implements FlutterRustBridgeWireBase {
   late final _new_box_autoadd_public_key_0 = _new_box_autoadd_public_key_0Ptr
       .asFunction<ffi.Pointer<wire_PublicKey> Function()>();
 
+  ffi.Pointer<wire_SocketAddress> new_box_autoadd_socket_address_0() {
+    return _new_box_autoadd_socket_address_0();
+  }
+
+  late final _new_box_autoadd_socket_address_0Ptr =
+      _lookup<ffi.NativeFunction<ffi.Pointer<wire_SocketAddress> Function()>>(
+          'new_box_autoadd_socket_address_0');
+  late final _new_box_autoadd_socket_address_0 =
+      _new_box_autoadd_socket_address_0Ptr
+          .asFunction<ffi.Pointer<wire_SocketAddress> Function()>();
+
   ffi.Pointer<ffi.Uint64> new_box_autoadd_u64_0(
     int value,
   ) {
@@ -2826,6 +2959,21 @@ class RustLdkNodeWire implements FlutterRustBridgeWireBase {
               ffi.Int32)>>('new_list_public_key_0');
   late final _new_list_public_key_0 = _new_list_public_key_0Ptr
       .asFunction<ffi.Pointer<wire_list_public_key> Function(int)>();
+
+  ffi.Pointer<wire_list_socket_address> new_list_socket_address_0(
+    int len,
+  ) {
+    return _new_list_socket_address_0(
+      len,
+    );
+  }
+
+  late final _new_list_socket_address_0Ptr = _lookup<
+      ffi.NativeFunction<
+          ffi.Pointer<wire_list_socket_address> Function(
+              ffi.Int32)>>('new_list_socket_address_0');
+  late final _new_list_socket_address_0 = _new_list_socket_address_0Ptr
+      .asFunction<ffi.Pointer<wire_list_socket_address> Function(int)>();
 
   ffi.Pointer<wire_uint_8_list> new_uint_8_list_0(
     int len,
@@ -2956,25 +3104,56 @@ class RustLdkNodeWire implements FlutterRustBridgeWireBase {
       _inflate_MaxDustHTLCExposure_FeeRateMultiplierPtr
           .asFunction<ffi.Pointer<MaxDustHTLCExposureKind> Function()>();
 
-  ffi.Pointer<NetAddressKind> inflate_NetAddress_IPv4() {
-    return _inflate_NetAddress_IPv4();
+  ffi.Pointer<SocketAddressKind> inflate_SocketAddress_TcpIpV4() {
+    return _inflate_SocketAddress_TcpIpV4();
   }
 
-  late final _inflate_NetAddress_IPv4Ptr =
-      _lookup<ffi.NativeFunction<ffi.Pointer<NetAddressKind> Function()>>(
-          'inflate_NetAddress_IPv4');
-  late final _inflate_NetAddress_IPv4 = _inflate_NetAddress_IPv4Ptr
-      .asFunction<ffi.Pointer<NetAddressKind> Function()>();
+  late final _inflate_SocketAddress_TcpIpV4Ptr =
+      _lookup<ffi.NativeFunction<ffi.Pointer<SocketAddressKind> Function()>>(
+          'inflate_SocketAddress_TcpIpV4');
+  late final _inflate_SocketAddress_TcpIpV4 = _inflate_SocketAddress_TcpIpV4Ptr
+      .asFunction<ffi.Pointer<SocketAddressKind> Function()>();
 
-  ffi.Pointer<NetAddressKind> inflate_NetAddress_IPv6() {
-    return _inflate_NetAddress_IPv6();
+  ffi.Pointer<SocketAddressKind> inflate_SocketAddress_TcpIpV6() {
+    return _inflate_SocketAddress_TcpIpV6();
   }
 
-  late final _inflate_NetAddress_IPv6Ptr =
-      _lookup<ffi.NativeFunction<ffi.Pointer<NetAddressKind> Function()>>(
-          'inflate_NetAddress_IPv6');
-  late final _inflate_NetAddress_IPv6 = _inflate_NetAddress_IPv6Ptr
-      .asFunction<ffi.Pointer<NetAddressKind> Function()>();
+  late final _inflate_SocketAddress_TcpIpV6Ptr =
+      _lookup<ffi.NativeFunction<ffi.Pointer<SocketAddressKind> Function()>>(
+          'inflate_SocketAddress_TcpIpV6');
+  late final _inflate_SocketAddress_TcpIpV6 = _inflate_SocketAddress_TcpIpV6Ptr
+      .asFunction<ffi.Pointer<SocketAddressKind> Function()>();
+
+  ffi.Pointer<SocketAddressKind> inflate_SocketAddress_OnionV2() {
+    return _inflate_SocketAddress_OnionV2();
+  }
+
+  late final _inflate_SocketAddress_OnionV2Ptr =
+      _lookup<ffi.NativeFunction<ffi.Pointer<SocketAddressKind> Function()>>(
+          'inflate_SocketAddress_OnionV2');
+  late final _inflate_SocketAddress_OnionV2 = _inflate_SocketAddress_OnionV2Ptr
+      .asFunction<ffi.Pointer<SocketAddressKind> Function()>();
+
+  ffi.Pointer<SocketAddressKind> inflate_SocketAddress_OnionV3() {
+    return _inflate_SocketAddress_OnionV3();
+  }
+
+  late final _inflate_SocketAddress_OnionV3Ptr =
+      _lookup<ffi.NativeFunction<ffi.Pointer<SocketAddressKind> Function()>>(
+          'inflate_SocketAddress_OnionV3');
+  late final _inflate_SocketAddress_OnionV3 = _inflate_SocketAddress_OnionV3Ptr
+      .asFunction<ffi.Pointer<SocketAddressKind> Function()>();
+
+  ffi.Pointer<SocketAddressKind> inflate_SocketAddress_Hostname() {
+    return _inflate_SocketAddress_Hostname();
+  }
+
+  late final _inflate_SocketAddress_HostnamePtr =
+      _lookup<ffi.NativeFunction<ffi.Pointer<SocketAddressKind> Function()>>(
+          'inflate_SocketAddress_Hostname');
+  late final _inflate_SocketAddress_Hostname =
+      _inflate_SocketAddress_HostnamePtr
+          .asFunction<ffi.Pointer<SocketAddressKind> Function()>();
 
   void free_WireSyncReturn(
     WireSyncReturn ptr,
@@ -3000,31 +3179,72 @@ final class wire_uint_8_list extends ffi.Struct {
   external int len;
 }
 
-final class wire_NetAddress_IPv4 extends ffi.Struct {
+final class wire_SocketAddress_TcpIpV4 extends ffi.Struct {
   external ffi.Pointer<wire_uint_8_list> addr;
 
   @ffi.Uint16()
   external int port;
 }
 
-final class wire_NetAddress_IPv6 extends ffi.Struct {
+final class wire_SocketAddress_TcpIpV6 extends ffi.Struct {
   external ffi.Pointer<wire_uint_8_list> addr;
 
   @ffi.Uint16()
   external int port;
 }
 
-final class NetAddressKind extends ffi.Union {
-  external ffi.Pointer<wire_NetAddress_IPv4> IPv4;
-
-  external ffi.Pointer<wire_NetAddress_IPv6> IPv6;
+final class wire_SocketAddress_OnionV2 extends ffi.Struct {
+  external ffi.Pointer<wire_uint_8_list> field0;
 }
 
-final class wire_NetAddress extends ffi.Struct {
+final class wire_SocketAddress_OnionV3 extends ffi.Struct {
+  external ffi.Pointer<wire_uint_8_list> ed25519_pubkey;
+
+  @ffi.Uint16()
+  external int checksum;
+
+  @ffi.Uint8()
+  external int version;
+
+  @ffi.Uint16()
+  external int port;
+}
+
+final class wire_Hostname extends ffi.Struct {
+  external ffi.Pointer<wire_uint_8_list> internal;
+}
+
+final class wire_SocketAddress_Hostname extends ffi.Struct {
+  external ffi.Pointer<wire_Hostname> hostname;
+
+  @ffi.Uint16()
+  external int port;
+}
+
+final class SocketAddressKind extends ffi.Union {
+  external ffi.Pointer<wire_SocketAddress_TcpIpV4> TcpIpV4;
+
+  external ffi.Pointer<wire_SocketAddress_TcpIpV6> TcpIpV6;
+
+  external ffi.Pointer<wire_SocketAddress_OnionV2> OnionV2;
+
+  external ffi.Pointer<wire_SocketAddress_OnionV3> OnionV3;
+
+  external ffi.Pointer<wire_SocketAddress_Hostname> Hostname;
+}
+
+final class wire_SocketAddress extends ffi.Struct {
   @ffi.Int32()
   external int tag;
 
-  external ffi.Pointer<NetAddressKind> kind;
+  external ffi.Pointer<SocketAddressKind> kind;
+}
+
+final class wire_list_socket_address extends ffi.Struct {
+  external ffi.Pointer<wire_SocketAddress> ptr;
+
+  @ffi.Int32()
+  external int len;
 }
 
 final class wire_PublicKey extends ffi.Struct {
@@ -3046,7 +3266,7 @@ final class wire_Config extends ffi.Struct {
   @ffi.Int32()
   external int network;
 
-  external ffi.Pointer<wire_NetAddress> listening_address;
+  external ffi.Pointer<wire_list_socket_address> listening_addresses;
 
   @ffi.Uint32()
   external int default_cltv_expiry_delta;

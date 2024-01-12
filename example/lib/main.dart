@@ -24,7 +24,7 @@ class _MyAppState extends State<MyApp> {
   ldk.PublicKey? bobNodeId;
   int aliceBalance = 0;
   String displayText = "";
-  ldk.NetAddress? bobAddr;
+  ldk.SocketAddress? bobAddr;
   ldk.Bolt11Invoice? invoice;
   ldk.ChannelId? channelId;
 
@@ -40,7 +40,8 @@ class _MyAppState extends State<MyApp> {
     super.initState();
   }
 
-  Future<ldk.Config> initLdkConfig(String path, ldk.NetAddress address) async {
+  Future<ldk.Config> initLdkConfig(
+      String path, ldk.SocketAddress address) async {
     final directory = await getApplicationDocumentsDirectory();
     final nodePath = "${directory.path}/ldk_cache/$path";
     final config = ldk.Config(
@@ -48,7 +49,7 @@ class _MyAppState extends State<MyApp> {
         trustedPeers0Conf: [],
         storageDirPath: nodePath,
         network: ldk.Network.Regtest,
-        listeningAddress: address,
+        listeningAddresses: [address],
         onchainWalletSyncIntervalSecs: 60,
         walletSyncIntervalSecs: 20,
         feeRateCacheUpdateIntervalSecs: 600,
@@ -64,7 +65,9 @@ class _MyAppState extends State<MyApp> {
 
   initAliceNode() async {
     final aliceConfig = await initLdkConfig(
-        'alice_regtest', ldk.NetAddress.iPv4(addr: "0.0.0.0", port: 3006));
+        'alice_regtest',
+        ldk.SocketAddress.hostname(
+            hostname: ldk.Hostname(internal: "0.0.0.0"), port: 9735));
     ldk.Builder aliceBuilder = ldk.Builder.fromConfig(config: aliceConfig);
     aliceNode = await aliceBuilder
         .setEntropyBip39Mnemonic(
@@ -90,7 +93,9 @@ class _MyAppState extends State<MyApp> {
 
   initBobNode() async {
     final bobConfig = await initLdkConfig(
-        "bob_regtest", ldk.NetAddress.iPv4(addr: "0.0.0.0", port: 3008));
+        "bob_regtest",
+        ldk.SocketAddress.hostname(
+            hostname: ldk.Hostname(internal: "0.0.0.0"), port: 3006));
     ldk.Builder bobBuilder = ldk.Builder.fromConfig(config: bobConfig);
     bobNode = await bobBuilder
         .setEntropyBip39Mnemonic(
@@ -189,12 +194,10 @@ class _MyAppState extends State<MyApp> {
   listeningAddress() async {
     final alice = await aliceNode.listeningAddress();
     final bob = await bobNode.listeningAddress();
-    setState(() {
-      bobAddr = bob;
-    });
+
     if (kDebugMode) {
-      print("alice's listeningAddress : ${alice!.addr}:${alice.port}");
-      print("bob's listeningAddress: ${bob!.addr}:${bob.port}");
+      print("alice's listeningAddress : ${alice!.first.toString()}");
+      print("bob's listeningAddress: ${bob!.first.toString()}");
     }
   }
 

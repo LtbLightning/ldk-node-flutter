@@ -766,9 +766,11 @@ mixin _$Event {
     required TResult Function(PaymentHash paymentHash) paymentFailed,
     required TResult Function(PaymentHash paymentHash, int amountMsat)
         paymentReceived,
-    required TResult Function(ChannelId channelId, UserChannelId userChannelId)
+    required TResult Function(ChannelId channelId, UserChannelId userChannelId,
+            PublicKey? counterpartyNodeId)
         channelReady,
-    required TResult Function(ChannelId channelId, UserChannelId userChannelId)
+    required TResult Function(ChannelId channelId, UserChannelId userChannelId,
+            PublicKey? counterpartyNodeId)
         channelClosed,
     required TResult Function(
             ChannelId channelId,
@@ -784,9 +786,11 @@ mixin _$Event {
     TResult? Function(PaymentHash paymentHash)? paymentSuccessful,
     TResult? Function(PaymentHash paymentHash)? paymentFailed,
     TResult? Function(PaymentHash paymentHash, int amountMsat)? paymentReceived,
-    TResult? Function(ChannelId channelId, UserChannelId userChannelId)?
+    TResult? Function(ChannelId channelId, UserChannelId userChannelId,
+            PublicKey? counterpartyNodeId)?
         channelReady,
-    TResult? Function(ChannelId channelId, UserChannelId userChannelId)?
+    TResult? Function(ChannelId channelId, UserChannelId userChannelId,
+            PublicKey? counterpartyNodeId)?
         channelClosed,
     TResult? Function(
             ChannelId channelId,
@@ -802,9 +806,11 @@ mixin _$Event {
     TResult Function(PaymentHash paymentHash)? paymentSuccessful,
     TResult Function(PaymentHash paymentHash)? paymentFailed,
     TResult Function(PaymentHash paymentHash, int amountMsat)? paymentReceived,
-    TResult Function(ChannelId channelId, UserChannelId userChannelId)?
+    TResult Function(ChannelId channelId, UserChannelId userChannelId,
+            PublicKey? counterpartyNodeId)?
         channelReady,
-    TResult Function(ChannelId channelId, UserChannelId userChannelId)?
+    TResult Function(ChannelId channelId, UserChannelId userChannelId,
+            PublicKey? counterpartyNodeId)?
         channelClosed,
     TResult Function(
             ChannelId channelId,
@@ -939,9 +945,11 @@ class _$Event_PaymentSuccessfulImpl implements Event_PaymentSuccessful {
     required TResult Function(PaymentHash paymentHash) paymentFailed,
     required TResult Function(PaymentHash paymentHash, int amountMsat)
         paymentReceived,
-    required TResult Function(ChannelId channelId, UserChannelId userChannelId)
+    required TResult Function(ChannelId channelId, UserChannelId userChannelId,
+            PublicKey? counterpartyNodeId)
         channelReady,
-    required TResult Function(ChannelId channelId, UserChannelId userChannelId)
+    required TResult Function(ChannelId channelId, UserChannelId userChannelId,
+            PublicKey? counterpartyNodeId)
         channelClosed,
     required TResult Function(
             ChannelId channelId,
@@ -960,9 +968,11 @@ class _$Event_PaymentSuccessfulImpl implements Event_PaymentSuccessful {
     TResult? Function(PaymentHash paymentHash)? paymentSuccessful,
     TResult? Function(PaymentHash paymentHash)? paymentFailed,
     TResult? Function(PaymentHash paymentHash, int amountMsat)? paymentReceived,
-    TResult? Function(ChannelId channelId, UserChannelId userChannelId)?
+    TResult? Function(ChannelId channelId, UserChannelId userChannelId,
+            PublicKey? counterpartyNodeId)?
         channelReady,
-    TResult? Function(ChannelId channelId, UserChannelId userChannelId)?
+    TResult? Function(ChannelId channelId, UserChannelId userChannelId,
+            PublicKey? counterpartyNodeId)?
         channelClosed,
     TResult? Function(
             ChannelId channelId,
@@ -981,9 +991,11 @@ class _$Event_PaymentSuccessfulImpl implements Event_PaymentSuccessful {
     TResult Function(PaymentHash paymentHash)? paymentSuccessful,
     TResult Function(PaymentHash paymentHash)? paymentFailed,
     TResult Function(PaymentHash paymentHash, int amountMsat)? paymentReceived,
-    TResult Function(ChannelId channelId, UserChannelId userChannelId)?
+    TResult Function(ChannelId channelId, UserChannelId userChannelId,
+            PublicKey? counterpartyNodeId)?
         channelReady,
-    TResult Function(ChannelId channelId, UserChannelId userChannelId)?
+    TResult Function(ChannelId channelId, UserChannelId userChannelId,
+            PublicKey? counterpartyNodeId)?
         channelClosed,
     TResult Function(
             ChannelId channelId,
@@ -1126,9 +1138,11 @@ class _$Event_PaymentFailedImpl implements Event_PaymentFailed {
     required TResult Function(PaymentHash paymentHash) paymentFailed,
     required TResult Function(PaymentHash paymentHash, int amountMsat)
         paymentReceived,
-    required TResult Function(ChannelId channelId, UserChannelId userChannelId)
+    required TResult Function(ChannelId channelId, UserChannelId userChannelId,
+            PublicKey? counterpartyNodeId)
         channelReady,
-    required TResult Function(ChannelId channelId, UserChannelId userChannelId)
+    required TResult Function(ChannelId channelId, UserChannelId userChannelId,
+            PublicKey? counterpartyNodeId)
         channelClosed,
     required TResult Function(
             ChannelId channelId,
@@ -1147,9 +1161,11 @@ class _$Event_PaymentFailedImpl implements Event_PaymentFailed {
     TResult? Function(PaymentHash paymentHash)? paymentSuccessful,
     TResult? Function(PaymentHash paymentHash)? paymentFailed,
     TResult? Function(PaymentHash paymentHash, int amountMsat)? paymentReceived,
-    TResult? Function(ChannelId channelId, UserChannelId userChannelId)?
+    TResult? Function(ChannelId channelId, UserChannelId userChannelId,
+            PublicKey? counterpartyNodeId)?
         channelReady,
-    TResult? Function(ChannelId channelId, UserChannelId userChannelId)?
+    TResult? Function(ChannelId channelId, UserChannelId userChannelId,
+            PublicKey? counterpartyNodeId)?
         channelClosed,
     TResult? Function(
             ChannelId channelId,
@@ -1168,9 +1184,11 @@ class _$Event_PaymentFailedImpl implements Event_PaymentFailed {
     TResult Function(PaymentHash paymentHash)? paymentSuccessful,
     TResult Function(PaymentHash paymentHash)? paymentFailed,
     TResult Function(PaymentHash paymentHash, int amountMsat)? paymentReceived,
-    TResult Function(ChannelId channelId, UserChannelId userChannelId)?
+    TResult Function(ChannelId channelId, UserChannelId userChannelId,
+            PublicKey? counterpartyNodeId)?
         channelReady,
-    TResult Function(ChannelId channelId, UserChannelId userChannelId)?
+    TResult Function(ChannelId channelId, UserChannelId userChannelId,
+            PublicKey? counterpartyNodeId)?
         channelClosed,
     TResult Function(
             ChannelId channelId,
@@ -1326,9 +1344,11 @@ class _$Event_PaymentReceivedImpl implements Event_PaymentReceived {
     required TResult Function(PaymentHash paymentHash) paymentFailed,
     required TResult Function(PaymentHash paymentHash, int amountMsat)
         paymentReceived,
-    required TResult Function(ChannelId channelId, UserChannelId userChannelId)
+    required TResult Function(ChannelId channelId, UserChannelId userChannelId,
+            PublicKey? counterpartyNodeId)
         channelReady,
-    required TResult Function(ChannelId channelId, UserChannelId userChannelId)
+    required TResult Function(ChannelId channelId, UserChannelId userChannelId,
+            PublicKey? counterpartyNodeId)
         channelClosed,
     required TResult Function(
             ChannelId channelId,
@@ -1347,9 +1367,11 @@ class _$Event_PaymentReceivedImpl implements Event_PaymentReceived {
     TResult? Function(PaymentHash paymentHash)? paymentSuccessful,
     TResult? Function(PaymentHash paymentHash)? paymentFailed,
     TResult? Function(PaymentHash paymentHash, int amountMsat)? paymentReceived,
-    TResult? Function(ChannelId channelId, UserChannelId userChannelId)?
+    TResult? Function(ChannelId channelId, UserChannelId userChannelId,
+            PublicKey? counterpartyNodeId)?
         channelReady,
-    TResult? Function(ChannelId channelId, UserChannelId userChannelId)?
+    TResult? Function(ChannelId channelId, UserChannelId userChannelId,
+            PublicKey? counterpartyNodeId)?
         channelClosed,
     TResult? Function(
             ChannelId channelId,
@@ -1368,9 +1390,11 @@ class _$Event_PaymentReceivedImpl implements Event_PaymentReceived {
     TResult Function(PaymentHash paymentHash)? paymentSuccessful,
     TResult Function(PaymentHash paymentHash)? paymentFailed,
     TResult Function(PaymentHash paymentHash, int amountMsat)? paymentReceived,
-    TResult Function(ChannelId channelId, UserChannelId userChannelId)?
+    TResult Function(ChannelId channelId, UserChannelId userChannelId,
+            PublicKey? counterpartyNodeId)?
         channelReady,
-    TResult Function(ChannelId channelId, UserChannelId userChannelId)?
+    TResult Function(ChannelId channelId, UserChannelId userChannelId,
+            PublicKey? counterpartyNodeId)?
         channelClosed,
     TResult Function(
             ChannelId channelId,
@@ -1452,7 +1476,10 @@ abstract class _$$Event_ChannelReadyImplCopyWith<$Res> {
           $Res Function(_$Event_ChannelReadyImpl) then) =
       __$$Event_ChannelReadyImplCopyWithImpl<$Res>;
   @useResult
-  $Res call({ChannelId channelId, UserChannelId userChannelId});
+  $Res call(
+      {ChannelId channelId,
+      UserChannelId userChannelId,
+      PublicKey? counterpartyNodeId});
 }
 
 /// @nodoc
@@ -1468,6 +1495,7 @@ class __$$Event_ChannelReadyImplCopyWithImpl<$Res>
   $Res call({
     Object? channelId = null,
     Object? userChannelId = null,
+    Object? counterpartyNodeId = freezed,
   }) {
     return _then(_$Event_ChannelReadyImpl(
       channelId: null == channelId
@@ -1478,6 +1506,10 @@ class __$$Event_ChannelReadyImplCopyWithImpl<$Res>
           ? _value.userChannelId
           : userChannelId // ignore: cast_nullable_to_non_nullable
               as UserChannelId,
+      counterpartyNodeId: freezed == counterpartyNodeId
+          ? _value.counterpartyNodeId
+          : counterpartyNodeId // ignore: cast_nullable_to_non_nullable
+              as PublicKey?,
     ));
   }
 }
@@ -1486,7 +1518,9 @@ class __$$Event_ChannelReadyImplCopyWithImpl<$Res>
 
 class _$Event_ChannelReadyImpl implements Event_ChannelReady {
   const _$Event_ChannelReadyImpl(
-      {required this.channelId, required this.userChannelId});
+      {required this.channelId,
+      required this.userChannelId,
+      this.counterpartyNodeId});
 
   /// The channel_id of the channel.
   @override
@@ -1495,10 +1529,12 @@ class _$Event_ChannelReadyImpl implements Event_ChannelReady {
   /// The user_channel_id of the channel.
   @override
   final UserChannelId userChannelId;
+  @override
+  final PublicKey? counterpartyNodeId;
 
   @override
   String toString() {
-    return 'Event.channelReady(channelId: $channelId, userChannelId: $userChannelId)';
+    return 'Event.channelReady(channelId: $channelId, userChannelId: $userChannelId, counterpartyNodeId: $counterpartyNodeId)';
   }
 
   @override
@@ -1509,11 +1545,14 @@ class _$Event_ChannelReadyImpl implements Event_ChannelReady {
             (identical(other.channelId, channelId) ||
                 other.channelId == channelId) &&
             (identical(other.userChannelId, userChannelId) ||
-                other.userChannelId == userChannelId));
+                other.userChannelId == userChannelId) &&
+            (identical(other.counterpartyNodeId, counterpartyNodeId) ||
+                other.counterpartyNodeId == counterpartyNodeId));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, channelId, userChannelId);
+  int get hashCode =>
+      Object.hash(runtimeType, channelId, userChannelId, counterpartyNodeId);
 
   @JsonKey(ignore: true)
   @override
@@ -1529,9 +1568,11 @@ class _$Event_ChannelReadyImpl implements Event_ChannelReady {
     required TResult Function(PaymentHash paymentHash) paymentFailed,
     required TResult Function(PaymentHash paymentHash, int amountMsat)
         paymentReceived,
-    required TResult Function(ChannelId channelId, UserChannelId userChannelId)
+    required TResult Function(ChannelId channelId, UserChannelId userChannelId,
+            PublicKey? counterpartyNodeId)
         channelReady,
-    required TResult Function(ChannelId channelId, UserChannelId userChannelId)
+    required TResult Function(ChannelId channelId, UserChannelId userChannelId,
+            PublicKey? counterpartyNodeId)
         channelClosed,
     required TResult Function(
             ChannelId channelId,
@@ -1541,7 +1582,7 @@ class _$Event_ChannelReadyImpl implements Event_ChannelReady {
             OutPoint fundingTxo)
         channelPending,
   }) {
-    return channelReady(channelId, userChannelId);
+    return channelReady(channelId, userChannelId, counterpartyNodeId);
   }
 
   @override
@@ -1550,9 +1591,11 @@ class _$Event_ChannelReadyImpl implements Event_ChannelReady {
     TResult? Function(PaymentHash paymentHash)? paymentSuccessful,
     TResult? Function(PaymentHash paymentHash)? paymentFailed,
     TResult? Function(PaymentHash paymentHash, int amountMsat)? paymentReceived,
-    TResult? Function(ChannelId channelId, UserChannelId userChannelId)?
+    TResult? Function(ChannelId channelId, UserChannelId userChannelId,
+            PublicKey? counterpartyNodeId)?
         channelReady,
-    TResult? Function(ChannelId channelId, UserChannelId userChannelId)?
+    TResult? Function(ChannelId channelId, UserChannelId userChannelId,
+            PublicKey? counterpartyNodeId)?
         channelClosed,
     TResult? Function(
             ChannelId channelId,
@@ -1562,7 +1605,7 @@ class _$Event_ChannelReadyImpl implements Event_ChannelReady {
             OutPoint fundingTxo)?
         channelPending,
   }) {
-    return channelReady?.call(channelId, userChannelId);
+    return channelReady?.call(channelId, userChannelId, counterpartyNodeId);
   }
 
   @override
@@ -1571,9 +1614,11 @@ class _$Event_ChannelReadyImpl implements Event_ChannelReady {
     TResult Function(PaymentHash paymentHash)? paymentSuccessful,
     TResult Function(PaymentHash paymentHash)? paymentFailed,
     TResult Function(PaymentHash paymentHash, int amountMsat)? paymentReceived,
-    TResult Function(ChannelId channelId, UserChannelId userChannelId)?
+    TResult Function(ChannelId channelId, UserChannelId userChannelId,
+            PublicKey? counterpartyNodeId)?
         channelReady,
-    TResult Function(ChannelId channelId, UserChannelId userChannelId)?
+    TResult Function(ChannelId channelId, UserChannelId userChannelId,
+            PublicKey? counterpartyNodeId)?
         channelClosed,
     TResult Function(
             ChannelId channelId,
@@ -1585,7 +1630,7 @@ class _$Event_ChannelReadyImpl implements Event_ChannelReady {
     required TResult orElse(),
   }) {
     if (channelReady != null) {
-      return channelReady(channelId, userChannelId);
+      return channelReady(channelId, userChannelId, counterpartyNodeId);
     }
     return orElse();
   }
@@ -1637,13 +1682,15 @@ class _$Event_ChannelReadyImpl implements Event_ChannelReady {
 abstract class Event_ChannelReady implements Event {
   const factory Event_ChannelReady(
       {required final ChannelId channelId,
-      required final UserChannelId userChannelId}) = _$Event_ChannelReadyImpl;
+      required final UserChannelId userChannelId,
+      final PublicKey? counterpartyNodeId}) = _$Event_ChannelReadyImpl;
 
   /// The channel_id of the channel.
   ChannelId get channelId;
 
   /// The user_channel_id of the channel.
   UserChannelId get userChannelId;
+  PublicKey? get counterpartyNodeId;
   @JsonKey(ignore: true)
   _$$Event_ChannelReadyImplCopyWith<_$Event_ChannelReadyImpl> get copyWith =>
       throw _privateConstructorUsedError;
@@ -1655,7 +1702,10 @@ abstract class _$$Event_ChannelClosedImplCopyWith<$Res> {
           $Res Function(_$Event_ChannelClosedImpl) then) =
       __$$Event_ChannelClosedImplCopyWithImpl<$Res>;
   @useResult
-  $Res call({ChannelId channelId, UserChannelId userChannelId});
+  $Res call(
+      {ChannelId channelId,
+      UserChannelId userChannelId,
+      PublicKey? counterpartyNodeId});
 }
 
 /// @nodoc
@@ -1671,6 +1721,7 @@ class __$$Event_ChannelClosedImplCopyWithImpl<$Res>
   $Res call({
     Object? channelId = null,
     Object? userChannelId = null,
+    Object? counterpartyNodeId = freezed,
   }) {
     return _then(_$Event_ChannelClosedImpl(
       channelId: null == channelId
@@ -1681,6 +1732,10 @@ class __$$Event_ChannelClosedImplCopyWithImpl<$Res>
           ? _value.userChannelId
           : userChannelId // ignore: cast_nullable_to_non_nullable
               as UserChannelId,
+      counterpartyNodeId: freezed == counterpartyNodeId
+          ? _value.counterpartyNodeId
+          : counterpartyNodeId // ignore: cast_nullable_to_non_nullable
+              as PublicKey?,
     ));
   }
 }
@@ -1689,7 +1744,9 @@ class __$$Event_ChannelClosedImplCopyWithImpl<$Res>
 
 class _$Event_ChannelClosedImpl implements Event_ChannelClosed {
   const _$Event_ChannelClosedImpl(
-      {required this.channelId, required this.userChannelId});
+      {required this.channelId,
+      required this.userChannelId,
+      this.counterpartyNodeId});
 
   /// The channel_id of the channel.
   @override
@@ -1698,10 +1755,12 @@ class _$Event_ChannelClosedImpl implements Event_ChannelClosed {
   /// The user_channel_id of the channel.
   @override
   final UserChannelId userChannelId;
+  @override
+  final PublicKey? counterpartyNodeId;
 
   @override
   String toString() {
-    return 'Event.channelClosed(channelId: $channelId, userChannelId: $userChannelId)';
+    return 'Event.channelClosed(channelId: $channelId, userChannelId: $userChannelId, counterpartyNodeId: $counterpartyNodeId)';
   }
 
   @override
@@ -1712,11 +1771,14 @@ class _$Event_ChannelClosedImpl implements Event_ChannelClosed {
             (identical(other.channelId, channelId) ||
                 other.channelId == channelId) &&
             (identical(other.userChannelId, userChannelId) ||
-                other.userChannelId == userChannelId));
+                other.userChannelId == userChannelId) &&
+            (identical(other.counterpartyNodeId, counterpartyNodeId) ||
+                other.counterpartyNodeId == counterpartyNodeId));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, channelId, userChannelId);
+  int get hashCode =>
+      Object.hash(runtimeType, channelId, userChannelId, counterpartyNodeId);
 
   @JsonKey(ignore: true)
   @override
@@ -1732,9 +1794,11 @@ class _$Event_ChannelClosedImpl implements Event_ChannelClosed {
     required TResult Function(PaymentHash paymentHash) paymentFailed,
     required TResult Function(PaymentHash paymentHash, int amountMsat)
         paymentReceived,
-    required TResult Function(ChannelId channelId, UserChannelId userChannelId)
+    required TResult Function(ChannelId channelId, UserChannelId userChannelId,
+            PublicKey? counterpartyNodeId)
         channelReady,
-    required TResult Function(ChannelId channelId, UserChannelId userChannelId)
+    required TResult Function(ChannelId channelId, UserChannelId userChannelId,
+            PublicKey? counterpartyNodeId)
         channelClosed,
     required TResult Function(
             ChannelId channelId,
@@ -1744,7 +1808,7 @@ class _$Event_ChannelClosedImpl implements Event_ChannelClosed {
             OutPoint fundingTxo)
         channelPending,
   }) {
-    return channelClosed(channelId, userChannelId);
+    return channelClosed(channelId, userChannelId, counterpartyNodeId);
   }
 
   @override
@@ -1753,9 +1817,11 @@ class _$Event_ChannelClosedImpl implements Event_ChannelClosed {
     TResult? Function(PaymentHash paymentHash)? paymentSuccessful,
     TResult? Function(PaymentHash paymentHash)? paymentFailed,
     TResult? Function(PaymentHash paymentHash, int amountMsat)? paymentReceived,
-    TResult? Function(ChannelId channelId, UserChannelId userChannelId)?
+    TResult? Function(ChannelId channelId, UserChannelId userChannelId,
+            PublicKey? counterpartyNodeId)?
         channelReady,
-    TResult? Function(ChannelId channelId, UserChannelId userChannelId)?
+    TResult? Function(ChannelId channelId, UserChannelId userChannelId,
+            PublicKey? counterpartyNodeId)?
         channelClosed,
     TResult? Function(
             ChannelId channelId,
@@ -1765,7 +1831,7 @@ class _$Event_ChannelClosedImpl implements Event_ChannelClosed {
             OutPoint fundingTxo)?
         channelPending,
   }) {
-    return channelClosed?.call(channelId, userChannelId);
+    return channelClosed?.call(channelId, userChannelId, counterpartyNodeId);
   }
 
   @override
@@ -1774,9 +1840,11 @@ class _$Event_ChannelClosedImpl implements Event_ChannelClosed {
     TResult Function(PaymentHash paymentHash)? paymentSuccessful,
     TResult Function(PaymentHash paymentHash)? paymentFailed,
     TResult Function(PaymentHash paymentHash, int amountMsat)? paymentReceived,
-    TResult Function(ChannelId channelId, UserChannelId userChannelId)?
+    TResult Function(ChannelId channelId, UserChannelId userChannelId,
+            PublicKey? counterpartyNodeId)?
         channelReady,
-    TResult Function(ChannelId channelId, UserChannelId userChannelId)?
+    TResult Function(ChannelId channelId, UserChannelId userChannelId,
+            PublicKey? counterpartyNodeId)?
         channelClosed,
     TResult Function(
             ChannelId channelId,
@@ -1788,7 +1856,7 @@ class _$Event_ChannelClosedImpl implements Event_ChannelClosed {
     required TResult orElse(),
   }) {
     if (channelClosed != null) {
-      return channelClosed(channelId, userChannelId);
+      return channelClosed(channelId, userChannelId, counterpartyNodeId);
     }
     return orElse();
   }
@@ -1840,13 +1908,15 @@ class _$Event_ChannelClosedImpl implements Event_ChannelClosed {
 abstract class Event_ChannelClosed implements Event {
   const factory Event_ChannelClosed(
       {required final ChannelId channelId,
-      required final UserChannelId userChannelId}) = _$Event_ChannelClosedImpl;
+      required final UserChannelId userChannelId,
+      final PublicKey? counterpartyNodeId}) = _$Event_ChannelClosedImpl;
 
   /// The channel_id of the channel.
   ChannelId get channelId;
 
   /// The user_channel_id of the channel.
   UserChannelId get userChannelId;
+  PublicKey? get counterpartyNodeId;
   @JsonKey(ignore: true)
   _$$Event_ChannelClosedImplCopyWith<_$Event_ChannelClosedImpl> get copyWith =>
       throw _privateConstructorUsedError;
@@ -1980,9 +2050,11 @@ class _$Event_ChannelPendingImpl implements Event_ChannelPending {
     required TResult Function(PaymentHash paymentHash) paymentFailed,
     required TResult Function(PaymentHash paymentHash, int amountMsat)
         paymentReceived,
-    required TResult Function(ChannelId channelId, UserChannelId userChannelId)
+    required TResult Function(ChannelId channelId, UserChannelId userChannelId,
+            PublicKey? counterpartyNodeId)
         channelReady,
-    required TResult Function(ChannelId channelId, UserChannelId userChannelId)
+    required TResult Function(ChannelId channelId, UserChannelId userChannelId,
+            PublicKey? counterpartyNodeId)
         channelClosed,
     required TResult Function(
             ChannelId channelId,
@@ -2002,9 +2074,11 @@ class _$Event_ChannelPendingImpl implements Event_ChannelPending {
     TResult? Function(PaymentHash paymentHash)? paymentSuccessful,
     TResult? Function(PaymentHash paymentHash)? paymentFailed,
     TResult? Function(PaymentHash paymentHash, int amountMsat)? paymentReceived,
-    TResult? Function(ChannelId channelId, UserChannelId userChannelId)?
+    TResult? Function(ChannelId channelId, UserChannelId userChannelId,
+            PublicKey? counterpartyNodeId)?
         channelReady,
-    TResult? Function(ChannelId channelId, UserChannelId userChannelId)?
+    TResult? Function(ChannelId channelId, UserChannelId userChannelId,
+            PublicKey? counterpartyNodeId)?
         channelClosed,
     TResult? Function(
             ChannelId channelId,
@@ -2024,9 +2098,11 @@ class _$Event_ChannelPendingImpl implements Event_ChannelPending {
     TResult Function(PaymentHash paymentHash)? paymentSuccessful,
     TResult Function(PaymentHash paymentHash)? paymentFailed,
     TResult Function(PaymentHash paymentHash, int amountMsat)? paymentReceived,
-    TResult Function(ChannelId channelId, UserChannelId userChannelId)?
+    TResult Function(ChannelId channelId, UserChannelId userChannelId,
+            PublicKey? counterpartyNodeId)?
         channelReady,
-    TResult Function(ChannelId channelId, UserChannelId userChannelId)?
+    TResult Function(ChannelId channelId, UserChannelId userChannelId,
+            PublicKey? counterpartyNodeId)?
         channelClosed,
     TResult Function(
             ChannelId channelId,
@@ -2816,108 +2892,105 @@ abstract class MaxDustHTLCExposure_FeeRateMultiplier
 }
 
 /// @nodoc
-mixin _$NetAddress {
-  String get addr => throw _privateConstructorUsedError;
-  int get port => throw _privateConstructorUsedError;
+mixin _$SocketAddress {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(String addr, int port) iPv4,
-    required TResult Function(String addr, int port) iPv6,
+    required TResult Function(U8Array4 addr, int port) tcpIpV4,
+    required TResult Function(U8Array16 addr, int port) tcpIpV6,
+    required TResult Function(U8Array12 field0) onionV2,
+    required TResult Function(
+            U8Array32 ed25519Pubkey, int checksum, int version, int port)
+        onionV3,
+    required TResult Function(Hostname hostname, int port) hostname,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(String addr, int port)? iPv4,
-    TResult? Function(String addr, int port)? iPv6,
+    TResult? Function(U8Array4 addr, int port)? tcpIpV4,
+    TResult? Function(U8Array16 addr, int port)? tcpIpV6,
+    TResult? Function(U8Array12 field0)? onionV2,
+    TResult? Function(
+            U8Array32 ed25519Pubkey, int checksum, int version, int port)?
+        onionV3,
+    TResult? Function(Hostname hostname, int port)? hostname,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(String addr, int port)? iPv4,
-    TResult Function(String addr, int port)? iPv6,
+    TResult Function(U8Array4 addr, int port)? tcpIpV4,
+    TResult Function(U8Array16 addr, int port)? tcpIpV6,
+    TResult Function(U8Array12 field0)? onionV2,
+    TResult Function(
+            U8Array32 ed25519Pubkey, int checksum, int version, int port)?
+        onionV3,
+    TResult Function(Hostname hostname, int port)? hostname,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(NetAddress_IPv4 value) iPv4,
-    required TResult Function(NetAddress_IPv6 value) iPv6,
+    required TResult Function(SocketAddress_TcpIpV4 value) tcpIpV4,
+    required TResult Function(SocketAddress_TcpIpV6 value) tcpIpV6,
+    required TResult Function(SocketAddress_OnionV2 value) onionV2,
+    required TResult Function(SocketAddress_OnionV3 value) onionV3,
+    required TResult Function(SocketAddress_Hostname value) hostname,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(NetAddress_IPv4 value)? iPv4,
-    TResult? Function(NetAddress_IPv6 value)? iPv6,
+    TResult? Function(SocketAddress_TcpIpV4 value)? tcpIpV4,
+    TResult? Function(SocketAddress_TcpIpV6 value)? tcpIpV6,
+    TResult? Function(SocketAddress_OnionV2 value)? onionV2,
+    TResult? Function(SocketAddress_OnionV3 value)? onionV3,
+    TResult? Function(SocketAddress_Hostname value)? hostname,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(NetAddress_IPv4 value)? iPv4,
-    TResult Function(NetAddress_IPv6 value)? iPv6,
+    TResult Function(SocketAddress_TcpIpV4 value)? tcpIpV4,
+    TResult Function(SocketAddress_TcpIpV6 value)? tcpIpV6,
+    TResult Function(SocketAddress_OnionV2 value)? onionV2,
+    TResult Function(SocketAddress_OnionV3 value)? onionV3,
+    TResult Function(SocketAddress_Hostname value)? hostname,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
-
-  @JsonKey(ignore: true)
-  $NetAddressCopyWith<NetAddress> get copyWith =>
-      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $NetAddressCopyWith<$Res> {
-  factory $NetAddressCopyWith(
-          NetAddress value, $Res Function(NetAddress) then) =
-      _$NetAddressCopyWithImpl<$Res, NetAddress>;
-  @useResult
-  $Res call({String addr, int port});
+abstract class $SocketAddressCopyWith<$Res> {
+  factory $SocketAddressCopyWith(
+          SocketAddress value, $Res Function(SocketAddress) then) =
+      _$SocketAddressCopyWithImpl<$Res, SocketAddress>;
 }
 
 /// @nodoc
-class _$NetAddressCopyWithImpl<$Res, $Val extends NetAddress>
-    implements $NetAddressCopyWith<$Res> {
-  _$NetAddressCopyWithImpl(this._value, this._then);
+class _$SocketAddressCopyWithImpl<$Res, $Val extends SocketAddress>
+    implements $SocketAddressCopyWith<$Res> {
+  _$SocketAddressCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
-
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? addr = null,
-    Object? port = null,
-  }) {
-    return _then(_value.copyWith(
-      addr: null == addr
-          ? _value.addr
-          : addr // ignore: cast_nullable_to_non_nullable
-              as String,
-      port: null == port
-          ? _value.port
-          : port // ignore: cast_nullable_to_non_nullable
-              as int,
-    ) as $Val);
-  }
 }
 
 /// @nodoc
-abstract class _$$NetAddress_IPv4ImplCopyWith<$Res>
-    implements $NetAddressCopyWith<$Res> {
-  factory _$$NetAddress_IPv4ImplCopyWith(_$NetAddress_IPv4Impl value,
-          $Res Function(_$NetAddress_IPv4Impl) then) =
-      __$$NetAddress_IPv4ImplCopyWithImpl<$Res>;
-  @override
+abstract class _$$SocketAddress_TcpIpV4ImplCopyWith<$Res> {
+  factory _$$SocketAddress_TcpIpV4ImplCopyWith(
+          _$SocketAddress_TcpIpV4Impl value,
+          $Res Function(_$SocketAddress_TcpIpV4Impl) then) =
+      __$$SocketAddress_TcpIpV4ImplCopyWithImpl<$Res>;
   @useResult
-  $Res call({String addr, int port});
+  $Res call({U8Array4 addr, int port});
 }
 
 /// @nodoc
-class __$$NetAddress_IPv4ImplCopyWithImpl<$Res>
-    extends _$NetAddressCopyWithImpl<$Res, _$NetAddress_IPv4Impl>
-    implements _$$NetAddress_IPv4ImplCopyWith<$Res> {
-  __$$NetAddress_IPv4ImplCopyWithImpl(
-      _$NetAddress_IPv4Impl _value, $Res Function(_$NetAddress_IPv4Impl) _then)
+class __$$SocketAddress_TcpIpV4ImplCopyWithImpl<$Res>
+    extends _$SocketAddressCopyWithImpl<$Res, _$SocketAddress_TcpIpV4Impl>
+    implements _$$SocketAddress_TcpIpV4ImplCopyWith<$Res> {
+  __$$SocketAddress_TcpIpV4ImplCopyWithImpl(_$SocketAddress_TcpIpV4Impl _value,
+      $Res Function(_$SocketAddress_TcpIpV4Impl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -2926,11 +2999,11 @@ class __$$NetAddress_IPv4ImplCopyWithImpl<$Res>
     Object? addr = null,
     Object? port = null,
   }) {
-    return _then(_$NetAddress_IPv4Impl(
+    return _then(_$SocketAddress_TcpIpV4Impl(
       addr: null == addr
           ? _value.addr
           : addr // ignore: cast_nullable_to_non_nullable
-              as String,
+              as U8Array4,
       port: null == port
           ? _value.port
           : port // ignore: cast_nullable_to_non_nullable
@@ -2941,65 +3014,81 @@ class __$$NetAddress_IPv4ImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$NetAddress_IPv4Impl implements NetAddress_IPv4 {
-  const _$NetAddress_IPv4Impl({required this.addr, required this.port});
+class _$SocketAddress_TcpIpV4Impl implements SocketAddress_TcpIpV4 {
+  const _$SocketAddress_TcpIpV4Impl({required this.addr, required this.port});
 
   @override
-  final String addr;
+  final U8Array4 addr;
   @override
   final int port;
 
   @override
   String toString() {
-    return 'NetAddress.iPv4(addr: $addr, port: $port)';
+    return 'SocketAddress.tcpIpV4(addr: $addr, port: $port)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$NetAddress_IPv4Impl &&
-            (identical(other.addr, addr) || other.addr == addr) &&
+            other is _$SocketAddress_TcpIpV4Impl &&
+            const DeepCollectionEquality().equals(other.addr, addr) &&
             (identical(other.port, port) || other.port == port));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, addr, port);
+  int get hashCode =>
+      Object.hash(runtimeType, const DeepCollectionEquality().hash(addr), port);
 
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$NetAddress_IPv4ImplCopyWith<_$NetAddress_IPv4Impl> get copyWith =>
-      __$$NetAddress_IPv4ImplCopyWithImpl<_$NetAddress_IPv4Impl>(
-          this, _$identity);
+  _$$SocketAddress_TcpIpV4ImplCopyWith<_$SocketAddress_TcpIpV4Impl>
+      get copyWith => __$$SocketAddress_TcpIpV4ImplCopyWithImpl<
+          _$SocketAddress_TcpIpV4Impl>(this, _$identity);
 
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(String addr, int port) iPv4,
-    required TResult Function(String addr, int port) iPv6,
+    required TResult Function(U8Array4 addr, int port) tcpIpV4,
+    required TResult Function(U8Array16 addr, int port) tcpIpV6,
+    required TResult Function(U8Array12 field0) onionV2,
+    required TResult Function(
+            U8Array32 ed25519Pubkey, int checksum, int version, int port)
+        onionV3,
+    required TResult Function(Hostname hostname, int port) hostname,
   }) {
-    return iPv4(addr, port);
+    return tcpIpV4(addr, port);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(String addr, int port)? iPv4,
-    TResult? Function(String addr, int port)? iPv6,
+    TResult? Function(U8Array4 addr, int port)? tcpIpV4,
+    TResult? Function(U8Array16 addr, int port)? tcpIpV6,
+    TResult? Function(U8Array12 field0)? onionV2,
+    TResult? Function(
+            U8Array32 ed25519Pubkey, int checksum, int version, int port)?
+        onionV3,
+    TResult? Function(Hostname hostname, int port)? hostname,
   }) {
-    return iPv4?.call(addr, port);
+    return tcpIpV4?.call(addr, port);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(String addr, int port)? iPv4,
-    TResult Function(String addr, int port)? iPv6,
+    TResult Function(U8Array4 addr, int port)? tcpIpV4,
+    TResult Function(U8Array16 addr, int port)? tcpIpV6,
+    TResult Function(U8Array12 field0)? onionV2,
+    TResult Function(
+            U8Array32 ed25519Pubkey, int checksum, int version, int port)?
+        onionV3,
+    TResult Function(Hostname hostname, int port)? hostname,
     required TResult orElse(),
   }) {
-    if (iPv4 != null) {
-      return iPv4(addr, port);
+    if (tcpIpV4 != null) {
+      return tcpIpV4(addr, port);
     }
     return orElse();
   }
@@ -3007,67 +3096,72 @@ class _$NetAddress_IPv4Impl implements NetAddress_IPv4 {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(NetAddress_IPv4 value) iPv4,
-    required TResult Function(NetAddress_IPv6 value) iPv6,
+    required TResult Function(SocketAddress_TcpIpV4 value) tcpIpV4,
+    required TResult Function(SocketAddress_TcpIpV6 value) tcpIpV6,
+    required TResult Function(SocketAddress_OnionV2 value) onionV2,
+    required TResult Function(SocketAddress_OnionV3 value) onionV3,
+    required TResult Function(SocketAddress_Hostname value) hostname,
   }) {
-    return iPv4(this);
+    return tcpIpV4(this);
   }
 
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(NetAddress_IPv4 value)? iPv4,
-    TResult? Function(NetAddress_IPv6 value)? iPv6,
+    TResult? Function(SocketAddress_TcpIpV4 value)? tcpIpV4,
+    TResult? Function(SocketAddress_TcpIpV6 value)? tcpIpV6,
+    TResult? Function(SocketAddress_OnionV2 value)? onionV2,
+    TResult? Function(SocketAddress_OnionV3 value)? onionV3,
+    TResult? Function(SocketAddress_Hostname value)? hostname,
   }) {
-    return iPv4?.call(this);
+    return tcpIpV4?.call(this);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(NetAddress_IPv4 value)? iPv4,
-    TResult Function(NetAddress_IPv6 value)? iPv6,
+    TResult Function(SocketAddress_TcpIpV4 value)? tcpIpV4,
+    TResult Function(SocketAddress_TcpIpV6 value)? tcpIpV6,
+    TResult Function(SocketAddress_OnionV2 value)? onionV2,
+    TResult Function(SocketAddress_OnionV3 value)? onionV3,
+    TResult Function(SocketAddress_Hostname value)? hostname,
     required TResult orElse(),
   }) {
-    if (iPv4 != null) {
-      return iPv4(this);
+    if (tcpIpV4 != null) {
+      return tcpIpV4(this);
     }
     return orElse();
   }
 }
 
-abstract class NetAddress_IPv4 implements NetAddress {
-  const factory NetAddress_IPv4(
-      {required final String addr,
-      required final int port}) = _$NetAddress_IPv4Impl;
+abstract class SocketAddress_TcpIpV4 implements SocketAddress {
+  const factory SocketAddress_TcpIpV4(
+      {required final U8Array4 addr,
+      required final int port}) = _$SocketAddress_TcpIpV4Impl;
 
-  @override
-  String get addr;
-  @override
+  U8Array4 get addr;
   int get port;
-  @override
   @JsonKey(ignore: true)
-  _$$NetAddress_IPv4ImplCopyWith<_$NetAddress_IPv4Impl> get copyWith =>
-      throw _privateConstructorUsedError;
+  _$$SocketAddress_TcpIpV4ImplCopyWith<_$SocketAddress_TcpIpV4Impl>
+      get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class _$$NetAddress_IPv6ImplCopyWith<$Res>
-    implements $NetAddressCopyWith<$Res> {
-  factory _$$NetAddress_IPv6ImplCopyWith(_$NetAddress_IPv6Impl value,
-          $Res Function(_$NetAddress_IPv6Impl) then) =
-      __$$NetAddress_IPv6ImplCopyWithImpl<$Res>;
-  @override
+abstract class _$$SocketAddress_TcpIpV6ImplCopyWith<$Res> {
+  factory _$$SocketAddress_TcpIpV6ImplCopyWith(
+          _$SocketAddress_TcpIpV6Impl value,
+          $Res Function(_$SocketAddress_TcpIpV6Impl) then) =
+      __$$SocketAddress_TcpIpV6ImplCopyWithImpl<$Res>;
   @useResult
-  $Res call({String addr, int port});
+  $Res call({U8Array16 addr, int port});
 }
 
 /// @nodoc
-class __$$NetAddress_IPv6ImplCopyWithImpl<$Res>
-    extends _$NetAddressCopyWithImpl<$Res, _$NetAddress_IPv6Impl>
-    implements _$$NetAddress_IPv6ImplCopyWith<$Res> {
-  __$$NetAddress_IPv6ImplCopyWithImpl(
-      _$NetAddress_IPv6Impl _value, $Res Function(_$NetAddress_IPv6Impl) _then)
+class __$$SocketAddress_TcpIpV6ImplCopyWithImpl<$Res>
+    extends _$SocketAddressCopyWithImpl<$Res, _$SocketAddress_TcpIpV6Impl>
+    implements _$$SocketAddress_TcpIpV6ImplCopyWith<$Res> {
+  __$$SocketAddress_TcpIpV6ImplCopyWithImpl(_$SocketAddress_TcpIpV6Impl _value,
+      $Res Function(_$SocketAddress_TcpIpV6Impl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -3076,11 +3170,11 @@ class __$$NetAddress_IPv6ImplCopyWithImpl<$Res>
     Object? addr = null,
     Object? port = null,
   }) {
-    return _then(_$NetAddress_IPv6Impl(
+    return _then(_$SocketAddress_TcpIpV6Impl(
       addr: null == addr
           ? _value.addr
           : addr // ignore: cast_nullable_to_non_nullable
-              as String,
+              as U8Array16,
       port: null == port
           ? _value.port
           : port // ignore: cast_nullable_to_non_nullable
@@ -3091,65 +3185,81 @@ class __$$NetAddress_IPv6ImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$NetAddress_IPv6Impl implements NetAddress_IPv6 {
-  const _$NetAddress_IPv6Impl({required this.addr, required this.port});
+class _$SocketAddress_TcpIpV6Impl implements SocketAddress_TcpIpV6 {
+  const _$SocketAddress_TcpIpV6Impl({required this.addr, required this.port});
 
   @override
-  final String addr;
+  final U8Array16 addr;
   @override
   final int port;
 
   @override
   String toString() {
-    return 'NetAddress.iPv6(addr: $addr, port: $port)';
+    return 'SocketAddress.tcpIpV6(addr: $addr, port: $port)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$NetAddress_IPv6Impl &&
-            (identical(other.addr, addr) || other.addr == addr) &&
+            other is _$SocketAddress_TcpIpV6Impl &&
+            const DeepCollectionEquality().equals(other.addr, addr) &&
             (identical(other.port, port) || other.port == port));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, addr, port);
+  int get hashCode =>
+      Object.hash(runtimeType, const DeepCollectionEquality().hash(addr), port);
 
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$NetAddress_IPv6ImplCopyWith<_$NetAddress_IPv6Impl> get copyWith =>
-      __$$NetAddress_IPv6ImplCopyWithImpl<_$NetAddress_IPv6Impl>(
-          this, _$identity);
+  _$$SocketAddress_TcpIpV6ImplCopyWith<_$SocketAddress_TcpIpV6Impl>
+      get copyWith => __$$SocketAddress_TcpIpV6ImplCopyWithImpl<
+          _$SocketAddress_TcpIpV6Impl>(this, _$identity);
 
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(String addr, int port) iPv4,
-    required TResult Function(String addr, int port) iPv6,
+    required TResult Function(U8Array4 addr, int port) tcpIpV4,
+    required TResult Function(U8Array16 addr, int port) tcpIpV6,
+    required TResult Function(U8Array12 field0) onionV2,
+    required TResult Function(
+            U8Array32 ed25519Pubkey, int checksum, int version, int port)
+        onionV3,
+    required TResult Function(Hostname hostname, int port) hostname,
   }) {
-    return iPv6(addr, port);
+    return tcpIpV6(addr, port);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(String addr, int port)? iPv4,
-    TResult? Function(String addr, int port)? iPv6,
+    TResult? Function(U8Array4 addr, int port)? tcpIpV4,
+    TResult? Function(U8Array16 addr, int port)? tcpIpV6,
+    TResult? Function(U8Array12 field0)? onionV2,
+    TResult? Function(
+            U8Array32 ed25519Pubkey, int checksum, int version, int port)?
+        onionV3,
+    TResult? Function(Hostname hostname, int port)? hostname,
   }) {
-    return iPv6?.call(addr, port);
+    return tcpIpV6?.call(addr, port);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(String addr, int port)? iPv4,
-    TResult Function(String addr, int port)? iPv6,
+    TResult Function(U8Array4 addr, int port)? tcpIpV4,
+    TResult Function(U8Array16 addr, int port)? tcpIpV6,
+    TResult Function(U8Array12 field0)? onionV2,
+    TResult Function(
+            U8Array32 ed25519Pubkey, int checksum, int version, int port)?
+        onionV3,
+    TResult Function(Hostname hostname, int port)? hostname,
     required TResult orElse(),
   }) {
-    if (iPv6 != null) {
-      return iPv6(addr, port);
+    if (tcpIpV6 != null) {
+      return tcpIpV6(addr, port);
     }
     return orElse();
   }
@@ -3157,46 +3267,587 @@ class _$NetAddress_IPv6Impl implements NetAddress_IPv6 {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(NetAddress_IPv4 value) iPv4,
-    required TResult Function(NetAddress_IPv6 value) iPv6,
+    required TResult Function(SocketAddress_TcpIpV4 value) tcpIpV4,
+    required TResult Function(SocketAddress_TcpIpV6 value) tcpIpV6,
+    required TResult Function(SocketAddress_OnionV2 value) onionV2,
+    required TResult Function(SocketAddress_OnionV3 value) onionV3,
+    required TResult Function(SocketAddress_Hostname value) hostname,
   }) {
-    return iPv6(this);
+    return tcpIpV6(this);
   }
 
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(NetAddress_IPv4 value)? iPv4,
-    TResult? Function(NetAddress_IPv6 value)? iPv6,
+    TResult? Function(SocketAddress_TcpIpV4 value)? tcpIpV4,
+    TResult? Function(SocketAddress_TcpIpV6 value)? tcpIpV6,
+    TResult? Function(SocketAddress_OnionV2 value)? onionV2,
+    TResult? Function(SocketAddress_OnionV3 value)? onionV3,
+    TResult? Function(SocketAddress_Hostname value)? hostname,
   }) {
-    return iPv6?.call(this);
+    return tcpIpV6?.call(this);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(NetAddress_IPv4 value)? iPv4,
-    TResult Function(NetAddress_IPv6 value)? iPv6,
+    TResult Function(SocketAddress_TcpIpV4 value)? tcpIpV4,
+    TResult Function(SocketAddress_TcpIpV6 value)? tcpIpV6,
+    TResult Function(SocketAddress_OnionV2 value)? onionV2,
+    TResult Function(SocketAddress_OnionV3 value)? onionV3,
+    TResult Function(SocketAddress_Hostname value)? hostname,
     required TResult orElse(),
   }) {
-    if (iPv6 != null) {
-      return iPv6(this);
+    if (tcpIpV6 != null) {
+      return tcpIpV6(this);
     }
     return orElse();
   }
 }
 
-abstract class NetAddress_IPv6 implements NetAddress {
-  const factory NetAddress_IPv6(
-      {required final String addr,
-      required final int port}) = _$NetAddress_IPv6Impl;
+abstract class SocketAddress_TcpIpV6 implements SocketAddress {
+  const factory SocketAddress_TcpIpV6(
+      {required final U8Array16 addr,
+      required final int port}) = _$SocketAddress_TcpIpV6Impl;
+
+  U8Array16 get addr;
+  int get port;
+  @JsonKey(ignore: true)
+  _$$SocketAddress_TcpIpV6ImplCopyWith<_$SocketAddress_TcpIpV6Impl>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$SocketAddress_OnionV2ImplCopyWith<$Res> {
+  factory _$$SocketAddress_OnionV2ImplCopyWith(
+          _$SocketAddress_OnionV2Impl value,
+          $Res Function(_$SocketAddress_OnionV2Impl) then) =
+      __$$SocketAddress_OnionV2ImplCopyWithImpl<$Res>;
+  @useResult
+  $Res call({U8Array12 field0});
+}
+
+/// @nodoc
+class __$$SocketAddress_OnionV2ImplCopyWithImpl<$Res>
+    extends _$SocketAddressCopyWithImpl<$Res, _$SocketAddress_OnionV2Impl>
+    implements _$$SocketAddress_OnionV2ImplCopyWith<$Res> {
+  __$$SocketAddress_OnionV2ImplCopyWithImpl(_$SocketAddress_OnionV2Impl _value,
+      $Res Function(_$SocketAddress_OnionV2Impl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? field0 = null,
+  }) {
+    return _then(_$SocketAddress_OnionV2Impl(
+      null == field0
+          ? _value.field0
+          : field0 // ignore: cast_nullable_to_non_nullable
+              as U8Array12,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$SocketAddress_OnionV2Impl implements SocketAddress_OnionV2 {
+  const _$SocketAddress_OnionV2Impl(this.field0);
 
   @override
-  String get addr;
+  final U8Array12 field0;
+
   @override
-  int get port;
+  String toString() {
+    return 'SocketAddress.onionV2(field0: $field0)';
+  }
+
   @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$SocketAddress_OnionV2Impl &&
+            const DeepCollectionEquality().equals(other.field0, field0));
+  }
+
+  @override
+  int get hashCode =>
+      Object.hash(runtimeType, const DeepCollectionEquality().hash(field0));
+
   @JsonKey(ignore: true)
-  _$$NetAddress_IPv6ImplCopyWith<_$NetAddress_IPv6Impl> get copyWith =>
-      throw _privateConstructorUsedError;
+  @override
+  @pragma('vm:prefer-inline')
+  _$$SocketAddress_OnionV2ImplCopyWith<_$SocketAddress_OnionV2Impl>
+      get copyWith => __$$SocketAddress_OnionV2ImplCopyWithImpl<
+          _$SocketAddress_OnionV2Impl>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(U8Array4 addr, int port) tcpIpV4,
+    required TResult Function(U8Array16 addr, int port) tcpIpV6,
+    required TResult Function(U8Array12 field0) onionV2,
+    required TResult Function(
+            U8Array32 ed25519Pubkey, int checksum, int version, int port)
+        onionV3,
+    required TResult Function(Hostname hostname, int port) hostname,
+  }) {
+    return onionV2(field0);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(U8Array4 addr, int port)? tcpIpV4,
+    TResult? Function(U8Array16 addr, int port)? tcpIpV6,
+    TResult? Function(U8Array12 field0)? onionV2,
+    TResult? Function(
+            U8Array32 ed25519Pubkey, int checksum, int version, int port)?
+        onionV3,
+    TResult? Function(Hostname hostname, int port)? hostname,
+  }) {
+    return onionV2?.call(field0);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(U8Array4 addr, int port)? tcpIpV4,
+    TResult Function(U8Array16 addr, int port)? tcpIpV6,
+    TResult Function(U8Array12 field0)? onionV2,
+    TResult Function(
+            U8Array32 ed25519Pubkey, int checksum, int version, int port)?
+        onionV3,
+    TResult Function(Hostname hostname, int port)? hostname,
+    required TResult orElse(),
+  }) {
+    if (onionV2 != null) {
+      return onionV2(field0);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(SocketAddress_TcpIpV4 value) tcpIpV4,
+    required TResult Function(SocketAddress_TcpIpV6 value) tcpIpV6,
+    required TResult Function(SocketAddress_OnionV2 value) onionV2,
+    required TResult Function(SocketAddress_OnionV3 value) onionV3,
+    required TResult Function(SocketAddress_Hostname value) hostname,
+  }) {
+    return onionV2(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(SocketAddress_TcpIpV4 value)? tcpIpV4,
+    TResult? Function(SocketAddress_TcpIpV6 value)? tcpIpV6,
+    TResult? Function(SocketAddress_OnionV2 value)? onionV2,
+    TResult? Function(SocketAddress_OnionV3 value)? onionV3,
+    TResult? Function(SocketAddress_Hostname value)? hostname,
+  }) {
+    return onionV2?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(SocketAddress_TcpIpV4 value)? tcpIpV4,
+    TResult Function(SocketAddress_TcpIpV6 value)? tcpIpV6,
+    TResult Function(SocketAddress_OnionV2 value)? onionV2,
+    TResult Function(SocketAddress_OnionV3 value)? onionV3,
+    TResult Function(SocketAddress_Hostname value)? hostname,
+    required TResult orElse(),
+  }) {
+    if (onionV2 != null) {
+      return onionV2(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class SocketAddress_OnionV2 implements SocketAddress {
+  const factory SocketAddress_OnionV2(final U8Array12 field0) =
+      _$SocketAddress_OnionV2Impl;
+
+  U8Array12 get field0;
+  @JsonKey(ignore: true)
+  _$$SocketAddress_OnionV2ImplCopyWith<_$SocketAddress_OnionV2Impl>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$SocketAddress_OnionV3ImplCopyWith<$Res> {
+  factory _$$SocketAddress_OnionV3ImplCopyWith(
+          _$SocketAddress_OnionV3Impl value,
+          $Res Function(_$SocketAddress_OnionV3Impl) then) =
+      __$$SocketAddress_OnionV3ImplCopyWithImpl<$Res>;
+  @useResult
+  $Res call({U8Array32 ed25519Pubkey, int checksum, int version, int port});
+}
+
+/// @nodoc
+class __$$SocketAddress_OnionV3ImplCopyWithImpl<$Res>
+    extends _$SocketAddressCopyWithImpl<$Res, _$SocketAddress_OnionV3Impl>
+    implements _$$SocketAddress_OnionV3ImplCopyWith<$Res> {
+  __$$SocketAddress_OnionV3ImplCopyWithImpl(_$SocketAddress_OnionV3Impl _value,
+      $Res Function(_$SocketAddress_OnionV3Impl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? ed25519Pubkey = null,
+    Object? checksum = null,
+    Object? version = null,
+    Object? port = null,
+  }) {
+    return _then(_$SocketAddress_OnionV3Impl(
+      ed25519Pubkey: null == ed25519Pubkey
+          ? _value.ed25519Pubkey
+          : ed25519Pubkey // ignore: cast_nullable_to_non_nullable
+              as U8Array32,
+      checksum: null == checksum
+          ? _value.checksum
+          : checksum // ignore: cast_nullable_to_non_nullable
+              as int,
+      version: null == version
+          ? _value.version
+          : version // ignore: cast_nullable_to_non_nullable
+              as int,
+      port: null == port
+          ? _value.port
+          : port // ignore: cast_nullable_to_non_nullable
+              as int,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$SocketAddress_OnionV3Impl implements SocketAddress_OnionV3 {
+  const _$SocketAddress_OnionV3Impl(
+      {required this.ed25519Pubkey,
+      required this.checksum,
+      required this.version,
+      required this.port});
+
+  @override
+  final U8Array32 ed25519Pubkey;
+  @override
+  final int checksum;
+  @override
+  final int version;
+  @override
+  final int port;
+
+  @override
+  String toString() {
+    return 'SocketAddress.onionV3(ed25519Pubkey: $ed25519Pubkey, checksum: $checksum, version: $version, port: $port)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$SocketAddress_OnionV3Impl &&
+            const DeepCollectionEquality()
+                .equals(other.ed25519Pubkey, ed25519Pubkey) &&
+            (identical(other.checksum, checksum) ||
+                other.checksum == checksum) &&
+            (identical(other.version, version) || other.version == version) &&
+            (identical(other.port, port) || other.port == port));
+  }
+
+  @override
+  int get hashCode => Object.hash(
+      runtimeType,
+      const DeepCollectionEquality().hash(ed25519Pubkey),
+      checksum,
+      version,
+      port);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$SocketAddress_OnionV3ImplCopyWith<_$SocketAddress_OnionV3Impl>
+      get copyWith => __$$SocketAddress_OnionV3ImplCopyWithImpl<
+          _$SocketAddress_OnionV3Impl>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(U8Array4 addr, int port) tcpIpV4,
+    required TResult Function(U8Array16 addr, int port) tcpIpV6,
+    required TResult Function(U8Array12 field0) onionV2,
+    required TResult Function(
+            U8Array32 ed25519Pubkey, int checksum, int version, int port)
+        onionV3,
+    required TResult Function(Hostname hostname, int port) hostname,
+  }) {
+    return onionV3(ed25519Pubkey, checksum, version, port);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(U8Array4 addr, int port)? tcpIpV4,
+    TResult? Function(U8Array16 addr, int port)? tcpIpV6,
+    TResult? Function(U8Array12 field0)? onionV2,
+    TResult? Function(
+            U8Array32 ed25519Pubkey, int checksum, int version, int port)?
+        onionV3,
+    TResult? Function(Hostname hostname, int port)? hostname,
+  }) {
+    return onionV3?.call(ed25519Pubkey, checksum, version, port);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(U8Array4 addr, int port)? tcpIpV4,
+    TResult Function(U8Array16 addr, int port)? tcpIpV6,
+    TResult Function(U8Array12 field0)? onionV2,
+    TResult Function(
+            U8Array32 ed25519Pubkey, int checksum, int version, int port)?
+        onionV3,
+    TResult Function(Hostname hostname, int port)? hostname,
+    required TResult orElse(),
+  }) {
+    if (onionV3 != null) {
+      return onionV3(ed25519Pubkey, checksum, version, port);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(SocketAddress_TcpIpV4 value) tcpIpV4,
+    required TResult Function(SocketAddress_TcpIpV6 value) tcpIpV6,
+    required TResult Function(SocketAddress_OnionV2 value) onionV2,
+    required TResult Function(SocketAddress_OnionV3 value) onionV3,
+    required TResult Function(SocketAddress_Hostname value) hostname,
+  }) {
+    return onionV3(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(SocketAddress_TcpIpV4 value)? tcpIpV4,
+    TResult? Function(SocketAddress_TcpIpV6 value)? tcpIpV6,
+    TResult? Function(SocketAddress_OnionV2 value)? onionV2,
+    TResult? Function(SocketAddress_OnionV3 value)? onionV3,
+    TResult? Function(SocketAddress_Hostname value)? hostname,
+  }) {
+    return onionV3?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(SocketAddress_TcpIpV4 value)? tcpIpV4,
+    TResult Function(SocketAddress_TcpIpV6 value)? tcpIpV6,
+    TResult Function(SocketAddress_OnionV2 value)? onionV2,
+    TResult Function(SocketAddress_OnionV3 value)? onionV3,
+    TResult Function(SocketAddress_Hostname value)? hostname,
+    required TResult orElse(),
+  }) {
+    if (onionV3 != null) {
+      return onionV3(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class SocketAddress_OnionV3 implements SocketAddress {
+  const factory SocketAddress_OnionV3(
+      {required final U8Array32 ed25519Pubkey,
+      required final int checksum,
+      required final int version,
+      required final int port}) = _$SocketAddress_OnionV3Impl;
+
+  U8Array32 get ed25519Pubkey;
+  int get checksum;
+  int get version;
+  int get port;
+  @JsonKey(ignore: true)
+  _$$SocketAddress_OnionV3ImplCopyWith<_$SocketAddress_OnionV3Impl>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$SocketAddress_HostnameImplCopyWith<$Res> {
+  factory _$$SocketAddress_HostnameImplCopyWith(
+          _$SocketAddress_HostnameImpl value,
+          $Res Function(_$SocketAddress_HostnameImpl) then) =
+      __$$SocketAddress_HostnameImplCopyWithImpl<$Res>;
+  @useResult
+  $Res call({Hostname hostname, int port});
+}
+
+/// @nodoc
+class __$$SocketAddress_HostnameImplCopyWithImpl<$Res>
+    extends _$SocketAddressCopyWithImpl<$Res, _$SocketAddress_HostnameImpl>
+    implements _$$SocketAddress_HostnameImplCopyWith<$Res> {
+  __$$SocketAddress_HostnameImplCopyWithImpl(
+      _$SocketAddress_HostnameImpl _value,
+      $Res Function(_$SocketAddress_HostnameImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? hostname = null,
+    Object? port = null,
+  }) {
+    return _then(_$SocketAddress_HostnameImpl(
+      hostname: null == hostname
+          ? _value.hostname
+          : hostname // ignore: cast_nullable_to_non_nullable
+              as Hostname,
+      port: null == port
+          ? _value.port
+          : port // ignore: cast_nullable_to_non_nullable
+              as int,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$SocketAddress_HostnameImpl implements SocketAddress_Hostname {
+  const _$SocketAddress_HostnameImpl(
+      {required this.hostname, required this.port});
+
+  @override
+  final Hostname hostname;
+  @override
+  final int port;
+
+  @override
+  String toString() {
+    return 'SocketAddress.hostname(hostname: $hostname, port: $port)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$SocketAddress_HostnameImpl &&
+            (identical(other.hostname, hostname) ||
+                other.hostname == hostname) &&
+            (identical(other.port, port) || other.port == port));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, hostname, port);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$SocketAddress_HostnameImplCopyWith<_$SocketAddress_HostnameImpl>
+      get copyWith => __$$SocketAddress_HostnameImplCopyWithImpl<
+          _$SocketAddress_HostnameImpl>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(U8Array4 addr, int port) tcpIpV4,
+    required TResult Function(U8Array16 addr, int port) tcpIpV6,
+    required TResult Function(U8Array12 field0) onionV2,
+    required TResult Function(
+            U8Array32 ed25519Pubkey, int checksum, int version, int port)
+        onionV3,
+    required TResult Function(Hostname hostname, int port) hostname,
+  }) {
+    return hostname(this.hostname, port);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(U8Array4 addr, int port)? tcpIpV4,
+    TResult? Function(U8Array16 addr, int port)? tcpIpV6,
+    TResult? Function(U8Array12 field0)? onionV2,
+    TResult? Function(
+            U8Array32 ed25519Pubkey, int checksum, int version, int port)?
+        onionV3,
+    TResult? Function(Hostname hostname, int port)? hostname,
+  }) {
+    return hostname?.call(this.hostname, port);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(U8Array4 addr, int port)? tcpIpV4,
+    TResult Function(U8Array16 addr, int port)? tcpIpV6,
+    TResult Function(U8Array12 field0)? onionV2,
+    TResult Function(
+            U8Array32 ed25519Pubkey, int checksum, int version, int port)?
+        onionV3,
+    TResult Function(Hostname hostname, int port)? hostname,
+    required TResult orElse(),
+  }) {
+    if (hostname != null) {
+      return hostname(this.hostname, port);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(SocketAddress_TcpIpV4 value) tcpIpV4,
+    required TResult Function(SocketAddress_TcpIpV6 value) tcpIpV6,
+    required TResult Function(SocketAddress_OnionV2 value) onionV2,
+    required TResult Function(SocketAddress_OnionV3 value) onionV3,
+    required TResult Function(SocketAddress_Hostname value) hostname,
+  }) {
+    return hostname(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(SocketAddress_TcpIpV4 value)? tcpIpV4,
+    TResult? Function(SocketAddress_TcpIpV6 value)? tcpIpV6,
+    TResult? Function(SocketAddress_OnionV2 value)? onionV2,
+    TResult? Function(SocketAddress_OnionV3 value)? onionV3,
+    TResult? Function(SocketAddress_Hostname value)? hostname,
+  }) {
+    return hostname?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(SocketAddress_TcpIpV4 value)? tcpIpV4,
+    TResult Function(SocketAddress_TcpIpV6 value)? tcpIpV6,
+    TResult Function(SocketAddress_OnionV2 value)? onionV2,
+    TResult Function(SocketAddress_OnionV3 value)? onionV3,
+    TResult Function(SocketAddress_Hostname value)? hostname,
+    required TResult orElse(),
+  }) {
+    if (hostname != null) {
+      return hostname(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class SocketAddress_Hostname implements SocketAddress {
+  const factory SocketAddress_Hostname(
+      {required final Hostname hostname,
+      required final int port}) = _$SocketAddress_HostnameImpl;
+
+  Hostname get hostname;
+  int get port;
+  @JsonKey(ignore: true)
+  _$$SocketAddress_HostnameImplCopyWith<_$SocketAddress_HostnameImpl>
+      get copyWith => throw _privateConstructorUsedError;
 }
