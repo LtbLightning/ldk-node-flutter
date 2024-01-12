@@ -19,11 +19,14 @@ export './src/generated/bridge_definitions.dart'
         GossipSourceConfig_P2PNetwork,
         GossipSourceConfig_RapidGossipSync,
         MutexNodeSqliteStore,
-        NetAddress_IPv4,
-        NetAddress_IPv6,
         U8Array32,
         U8Array64,
         Mnemonic,
+        SocketAddress_Hostname,
+        SocketAddress_OnionV2,
+        SocketAddress_OnionV3,
+        SocketAddress_TcpIpV4,
+        SocketAddress_TcpIpV6,
         EntropySourceConfig_SeedFile;
 export 'src/root.dart';
 export 'src/utils/exceptions.dart'
