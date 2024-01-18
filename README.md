@@ -37,7 +37,6 @@ Please note: This release is considered experimental, and should not be run in p
 
 To use the `ldk_node` package in your project, add it as a dependency in your project's pubspec.yaml:
 
-
 ```dart
 dependencies:
   ldk_node: ^0.2.0
