@@ -39,6 +39,15 @@ BuilderException handleBuilderException(bridge.BuilderException e) {
       return BuilderException(message: "Failed to setup onchain wallet.");
     case bridge.BuilderException.LoggerSetupFailed:
       return BuilderException(message: "Failed to setup the logger.");
+
+    case bridge.BuilderException.InvalidChannelMonitor:
+      return BuilderException(
+          message: "Failed to watch a deserialized ChannelMonitor.");
+    case bridge.BuilderException.InvalidListeningAddresses:
+      return BuilderException(
+          message: "Given listening addresses are invalid.");
+    case bridge.BuilderException.KVStoreSetupFailed:
+      return BuilderException(message: "Failed to setup KVStore.");
   }
 }
 
@@ -77,7 +86,7 @@ NodeException handleNodeException(bridge.NodeException e) {
       return NodeException(message: "Failed to update gossip data.");
     case bridge.NodeException.InvalidAddress:
       return NodeException(message: "The given address is invalid.");
-    case bridge.NodeException.InvalidNetAddress:
+    case bridge.NodeException.InvalidSocketAddress:
       return NodeException(message: "The given network address is invalid.");
     case bridge.NodeException.InvalidPublicKey:
       return NodeException(message: "The given public key is invalid.");
@@ -102,9 +111,12 @@ NodeException handleNodeException(bridge.NodeException e) {
     case bridge.NodeException.DuplicatePayment:
       return NodeException(
           message: "A payment with the given hash has already been initiated.");
+
     case bridge.NodeException.InsufficientFunds:
       return NodeException(
           message:
               "There are insufficient funds to complete the given operation.");
+    case bridge.NodeException.FeerateEstimationUpdateFailed:
+      return NodeException(message: "Failed to update fee rate estimation. ");
   }
 }

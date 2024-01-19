@@ -1,8 +1,7 @@
 use crate::errors::{BuilderException, NodeException};
 use crate::types::*;
-pub use anyhow::anyhow;
 use flutter_rust_bridge::*;
-pub use ldk_node::io::SqliteStore;
+pub use ldk_node::io::sqlite_store::SqliteStore;
 use ldk_node::lightning::util::ser::Writeable;
 pub use ldk_node::Node;
 use ldk_node::{BuildError, Builder};
@@ -12,25 +11,26 @@ pub fn generate_entropy_mnemonic() -> Mnemonic {
     let mnemonic: Mnemonic = ldk_node::generate_entropy_mnemonic().into();
     mnemonic
 }
-pub fn build_node(
+
+pub fn build_sqlite_node(
     config: Config,
     chain_data_source_config: Option<ChainDataSourceConfig>,
     entropy_source_config: Option<EntropySourceConfig>,
     gossip_source_config: Option<GossipSourceConfig>,
 ) -> anyhow::Result<NodePointer, BuilderException> {
-    let builder = build_builder(
+    let builder = create_builder(
         config,
         chain_data_source_config,
         entropy_source_config,
         gossip_source_config,
     );
-
     match builder?.build() {
         Ok(e) => Ok(NodePointer(RustOpaque::new(Mutex::from(e)))),
         Err(e) => Err(e.into()),
     }
 }
-fn build_builder(
+
+fn create_builder(
     config: Config,
     chain_data_source_config: Option<ChainDataSourceConfig>,
     entropy_source_config: Option<EntropySourceConfig>,
@@ -62,7 +62,14 @@ fn build_builder(
     Ok(builder)
 }
 
+// pub enum PointerNode{
+//     sqlite_store(Node<SqliteStore>),
+//     vss_store(Node<VssStore>)
+// }
+// pub struct  PointerNodeWrapper(pub RustOpaque<Mutex<PointerNode>>);
+
 pub struct NodePointer(pub RustOpaque<Mutex<Node<SqliteStore>>>);
+
 impl NodePointer {
     /// Starts the necessary background tasks, such as handling events coming from user input,
     /// LDK/BDK, and the peer-to-peer network.
@@ -72,7 +79,7 @@ impl NodePointer {
     pub fn start(&self) -> anyhow::Result<(), NodeException> {
         match self.0.lock().unwrap().start() {
             Ok(_) => Ok(()),
-            Err(_) => Err(NodeException::AlreadyRunning),
+            Err(e) => Err(e.into()),
         }
     }
 
@@ -120,9 +127,16 @@ impl NodePointer {
     }
 
     /// Returns our own listening address.
-    pub fn listening_address(&self) -> Option<NetAddress> {
+    pub fn listening_addresses(&self) -> Option<Vec<SocketAddress>> {
         let node_lock = self.0.lock().unwrap();
-        node_lock.listening_address().map(|x| x.to_owned().into())
+        let y: Option<Vec<SocketAddress>> =
+            node_lock.listening_addresses().map(|vec_socket_addr| {
+                vec_socket_addr
+                    .into_iter()
+                    .map(|socket_addr| socket_addr.into())
+                    .collect()
+            });
+        y
     }
 
     /// Retrieve a new on-chain/funding address.
@@ -194,7 +208,7 @@ impl NodePointer {
     pub fn connect(
         &self,
         node_id: PublicKey,
-        address: NetAddress,
+        address: SocketAddress,
         persist: bool,
     ) -> anyhow::Result<(), NodeException> {
         let node_lock = self.0.lock().unwrap();
@@ -227,7 +241,7 @@ impl NodePointer {
     /// Returns a temporary channel id.
     pub fn connect_open_channel(
         &self,
-        address: NetAddress,
+        address: SocketAddress,
         node_id: PublicKey,
         channel_amount_sats: u64,
         push_to_counterparty_msat: Option<u64>,
@@ -330,51 +344,29 @@ impl NodePointer {
         }
     }
 
-    // Sends payment probes over all paths of a route that would be used to pay the given invoice.
-    ///
-    /// This may be used to send "pre-flight" probes, i.e., to train our scorer before conducting
-    /// the actual payment. Note this is only useful if there likely is sufficient time for the
-    /// probe to settle before sending out the actual payment, e.g., when waiting for user
-    /// confirmation in a wallet UI.
-    ///
-    /// Otherwise, there is a chance the probe could take up some liquidity needed to complete the
-    /// actual payment. Users should therefore be cautious and might avoid sending probes if
-    /// liquidity is scarce and/or they don't expect the probe to return before they send the
-    /// payment. To mitigate this issue, channels with available liquidity less than the required
-    /// amount times [`Config::probing_liquidity_limit_multiplier`] won't be used to send
-    /// pre-flight probes.
-    ///
-    pub fn send_payment_probe(&self, invoice: Bolt11Invoice) -> anyhow::Result<(), NodeException> {
+    ///Sends payment probes over all paths of a route that would be used to pay the given invoice.
+    /// This may be used to send "pre-flight" probes, i.e., to train our scorer before conducting the actual payment.
+    /// Note this is only useful if there likely is sufficient time for the probe to settle before sending out the actual payment,
+    /// e.g., when waiting for user confirmation in a wallet UI.
+    /// Otherwise, there is a chance the probe could take up some liquidity needed to complete the actual payment.
+    /// Users should therefore be cautious and might avoid sending probes if liquidity is scarce and/or they don't expect the probe to return before they send the payment.
+    /// To mitigate this issue, channels with available liquidity less than the required amount times Config::probing_liquidity_limit_multiplier won't be used to send pre-flight probes.
+    pub fn send_payment_probes(&self, invoice: Bolt11Invoice) -> anyhow::Result<(), NodeException> {
         let node_lock = self.0.lock().unwrap();
-        match node_lock.send_payment_probe(&invoice.into()) {
+        match node_lock.send_payment_probes(&invoice.into()) {
             Ok(_) => Ok(()),
             Err(e) => Err(e.into()),
         }
     }
-    /// Sends payment probes over all paths of a route that would be used to pay the given
-    /// amount to the given "nodeId".
-    ///
-    /// This may be used to send "pre-flight" probes, i.e., to train our scorer before conducting
-    /// the actual payment. Note this is only useful if there likely is sufficient time for the
-    /// probe to settle before sending out the actual payment, e.g., when waiting for user
-    /// confirmation in a wallet UI.
-    ///
-    /// Otherwise, there is a chance the probe could take up some liquidity needed to complete the
-    /// actual payment. Users should therefore be cautious and might avoid sending probes if
-    /// liquidity is scarce and/or they don't expect the probe to return before they send the
-    /// payment. To mitigate this issue, channels with available liquidity less than the required
-    /// amount times [Config::probing_liquidity_limit_multiplier] won't be used to send
-    /// pre-flight probes.
-    ///
-    ///
 
-    pub fn send_spontaneous_payment_probe(
+    ///Sends payment probes over all paths of a route that would be used to pay the given amount to the given node_id.
+    pub fn send_spontaneous_payment_probes(
         &self,
         amount_msat: u64,
         node_id: PublicKey,
     ) -> anyhow::Result<(), NodeException> {
         let node_lock = self.0.lock().unwrap();
-        match node_lock.send_spontaneous_payment_probe(amount_msat, node_id.into()) {
+        match node_lock.send_spontaneous_payment_probes(amount_msat, node_id.into()) {
             Ok(_) => Ok(()),
             Err(e) => Err(e.into()),
         }
