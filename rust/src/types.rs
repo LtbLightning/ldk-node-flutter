@@ -2,7 +2,7 @@ pub use anyhow::anyhow;
 use flutter_rust_bridge::*;
 use ldk_node::bitcoin::hashes::hex::ToHex;
 pub use ldk_node::Node;
-use std::net::SocketAddr;
+use std::convert::TryFrom;
 use std::str::FromStr;
 use std::string::ToString;
 
@@ -95,14 +95,14 @@ pub struct ChannelId {
     pub internal: [u8; 32],
 }
 
-impl From<ldk_node::ChannelId> for ChannelId {
-    fn from(value: ldk_node::ChannelId) -> Self {
+impl From<ldk_node::lightning::ln::ChannelId> for ChannelId {
+    fn from(value: ldk_node::lightning::ln::ChannelId) -> Self {
         ChannelId { internal: value.0 }
     }
 }
-impl From<ChannelId> for ldk_node::ChannelId {
+impl From<ChannelId> for ldk_node::lightning::ln::ChannelId {
     fn from(value: ChannelId) -> Self {
-        ldk_node::ChannelId(value.internal)
+        ldk_node::lightning::ln::ChannelId(value.internal)
     }
 }
 ///A local, potentially user-provided, identifier of a channel.
@@ -149,6 +149,8 @@ pub enum Event {
         channel_id: ChannelId,
         /// The user_channel_id of the channel.
         user_channel_id: UserChannelId,
+
+        counterparty_node_id: Option<PublicKey>,
     },
     /// A channel has been closed.
     ChannelClosed {
@@ -156,6 +158,7 @@ pub enum Event {
         channel_id: ChannelId,
         /// The user_channel_id of the channel.
         user_channel_id: UserChannelId,
+        counterparty_node_id: Option<PublicKey>,
     },
     /// A channel has been created and is pending confirmation on-chain.
     ChannelPending {
@@ -197,16 +200,20 @@ impl From<ldk_node::Event> for Event {
             ldk_node::Event::ChannelReady {
                 channel_id,
                 user_channel_id,
+                counterparty_node_id,
             } => Event::ChannelReady {
                 channel_id: channel_id.into(),
                 user_channel_id: user_channel_id.into(),
+                counterparty_node_id: counterparty_node_id.map(|x| x.into()),
             },
             ldk_node::Event::ChannelClosed {
                 channel_id,
                 user_channel_id,
+                counterparty_node_id,
             } => Event::ChannelClosed {
                 channel_id: channel_id.into(),
                 user_channel_id: user_channel_id.into(),
+                counterparty_node_id: counterparty_node_id.map(|x| x.into()),
             },
             ldk_node::Event::ChannelPending {
                 channel_id,
@@ -565,7 +572,7 @@ pub struct PeerDetails {
     pub node_id: PublicKey,
     /// The IP address and TCP port of the peer.
     ///
-    pub address: NetAddress,
+    pub address: SocketAddress,
     /// Indicates whether or not the user is currently has an active connection with the peer.
     ///
     pub is_connected: bool,
@@ -578,36 +585,6 @@ impl From<ldk_node::PeerDetails> for PeerDetails {
             address: value.address.into(),
             is_connected: value.is_connected,
         }
-    }
-}
-///An address which can be used to connect to a remote peer.
-///
-#[derive(Debug, Clone, PartialEq, Eq)]
-pub enum NetAddress {
-    IPv4 { addr: String, port: u16 },
-    IPv6 { addr: String, port: u16 },
-}
-
-impl From<NetAddress> for ldk_node::NetAddress {
-    fn from(value: NetAddress) -> Self {
-        match value {
-            NetAddress::IPv4 { addr, port } => {
-                ldk_node::NetAddress::from_str(&*format!("{addr}:{port}"))
-                    .expect("Invalid IPv4 address")
-            }
-            NetAddress::IPv6 { addr, port } => {
-                ldk_node::NetAddress::from_str(&*format!("{addr}:{port}"))
-                    .expect("Invalid IPv6 address")
-            }
-        }
-    }
-}
-impl From<ldk_node::NetAddress> for NetAddress {
-    fn from(value: ldk_node::NetAddress) -> Self {
-        let addr: SocketAddr = value.to_string().parse().unwrap();
-        let host = addr.ip().to_string();
-        let port = addr.port();
-        NetAddress::IPv4 { addr: host, port }
     }
 }
 
@@ -647,6 +624,108 @@ impl From<LogLevel> for ldk_node::LogLevel {
         }
     }
 }
+///The addresses on which the node will listen for incoming connections.
+#[derive(Debug, Clone, PartialEq, Eq)]
+pub enum SocketAddress {
+    TcpIpV4 {
+        addr: [u8; 4],
+        port: u16,
+    },
+    TcpIpV6 {
+        addr: [u8; 16],
+        port: u16,
+    },
+    OnionV2([u8; 12]),
+    OnionV3 {
+        ed25519_pubkey: [u8; 32],
+        checksum: u16,
+        version: u8,
+        port: u16,
+    },
+    Hostname {
+        hostname: Hostname,
+        port: u16,
+    },
+}
+
+impl From<ldk_node::lightning::ln::msgs::SocketAddress> for SocketAddress {
+    fn from(value: ldk_node::lightning::ln::msgs::SocketAddress) -> Self {
+        match value {
+            ldk_node::lightning::ln::msgs::SocketAddress::TcpIpV4 { addr, port } => {
+                SocketAddress::TcpIpV4 { addr, port }
+            }
+            ldk_node::lightning::ln::msgs::SocketAddress::TcpIpV6 { addr, port } => {
+                SocketAddress::TcpIpV6 { addr, port }
+            }
+            ldk_node::lightning::ln::msgs::SocketAddress::OnionV2(e) => SocketAddress::OnionV2(e),
+            ldk_node::lightning::ln::msgs::SocketAddress::OnionV3 {
+                ed25519_pubkey,
+                checksum,
+                version,
+                port,
+            } => SocketAddress::OnionV3 {
+                ed25519_pubkey,
+                checksum,
+                version,
+                port,
+            },
+            ldk_node::lightning::ln::msgs::SocketAddress::Hostname { hostname, port } => {
+                SocketAddress::Hostname {
+                    hostname: hostname.into(),
+                    port,
+                }
+            }
+        }
+    }
+}
+
+impl From<SocketAddress> for ldk_node::lightning::ln::msgs::SocketAddress {
+    fn from(value: SocketAddress) -> Self {
+        match value {
+            SocketAddress::TcpIpV4 { addr, port } => {
+                ldk_node::lightning::ln::msgs::SocketAddress::TcpIpV4 { addr, port }
+            }
+            SocketAddress::TcpIpV6 { addr, port } => {
+                ldk_node::lightning::ln::msgs::SocketAddress::TcpIpV6 { addr, port }
+            }
+            SocketAddress::OnionV2(e) => ldk_node::lightning::ln::msgs::SocketAddress::OnionV2(e),
+            SocketAddress::OnionV3 {
+                ed25519_pubkey,
+                checksum,
+                version,
+                port,
+            } => ldk_node::lightning::ln::msgs::SocketAddress::OnionV3 {
+                ed25519_pubkey,
+                checksum,
+                version,
+                port,
+            },
+            SocketAddress::Hostname { hostname, port } => {
+                ldk_node::lightning::ln::msgs::SocketAddress::Hostname {
+                    hostname: hostname.into(),
+                    port,
+                }
+            }
+        }
+    }
+}
+#[derive(Eq, PartialEq, Clone, Debug)]
+pub struct Hostname {
+    pub internal: String,
+}
+impl From<ldk_node::lightning::util::ser::Hostname> for Hostname {
+    fn from(value: ldk_node::lightning::util::ser::Hostname) -> Self {
+        Hostname {
+            internal: value.to_string(),
+        }
+    }
+}
+impl From<Hostname> for ldk_node::lightning::util::ser::Hostname {
+    fn from(value: Hostname) -> Self {
+        ldk_node::lightning::util::ser::Hostname::try_from(value.internal)
+            .expect("Invalid Hostname")
+    }
+}
 
 impl From<Config> for ldk_node::Config {
     fn from(value: Config) -> Self {
@@ -654,7 +733,12 @@ impl From<Config> for ldk_node::Config {
             storage_dir_path: value.storage_dir_path,
             log_dir_path: value.log_dir_path,
             network: value.network.into(),
-            listening_address: value.listening_address.map(|x| x.into()),
+            listening_addresses: value.listening_addresses.map(|vec_socket_addr| {
+                vec_socket_addr
+                    .into_iter()
+                    .map(|socket_addr| socket_addr.into())
+                    .collect()
+            }),
             default_cltv_expiry_delta: value.default_cltv_expiry_delta,
             onchain_wallet_sync_interval_secs: value.onchain_wallet_sync_interval_secs,
             wallet_sync_interval_secs: value.wallet_sync_interval_secs,
@@ -686,7 +770,7 @@ pub struct Config {
     /// The IP address and TCP port the node will listen on.
     ///
     #[frb(non_final)]
-    pub listening_address: Option<NetAddress>,
+    pub listening_addresses: Option<Vec<SocketAddress>>,
     /// The default CLTV expiry delta to be used for payments.
     ///
     #[frb(non_final)]
@@ -727,10 +811,7 @@ impl Default for Config {
             storage_dir_path: DEFAULT_STORAGE_DIR_PATH.to_string(),
             log_dir_path: None,
             network: DEFAULT_NETWORK,
-            listening_address: Some(NetAddress::IPv4 {
-                addr: String::from("0.0.0.0"),
-                port: 9735,
-            }),
+            listening_addresses: None,
             default_cltv_expiry_delta: DEFAULT_CLTV_EXPIRY_DELTA,
             onchain_wallet_sync_interval_secs: DEFAULT_BDK_WALLET_SYNC_INTERVAL_SECS,
             wallet_sync_interval_secs: DEFAULT_LDK_WALLET_SYNC_INTERVAL_SECS,

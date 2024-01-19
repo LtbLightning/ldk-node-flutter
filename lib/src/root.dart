@@ -102,9 +102,10 @@ class Node {
   }
 
   /// Returns our listening address
-  Future<bridge.NetAddress?> listeningAddress() async {
+  Future<List<bridge.SocketAddress>?> listeningAddress() async {
     try {
-      return await loaderApi.listeningAddressMethodNodePointer(that: _pointer);
+      return await loaderApi.listeningAddressesMethodNodePointer(
+          that: _pointer);
     } on bridge.NodeException catch (e) {
       throw handleNodeException(e);
     }
@@ -174,7 +175,7 @@ class Node {
   ///
   /// If `permanently` is set to `true`, we'll remember the peer and reconnect to it on restart.
   Future<void> connect(
-      {required bridge.NetAddress netaddress,
+      {required bridge.SocketAddress netaddress,
       required bridge.PublicKey nodeId,
       required bool persist}) async {
     try {
@@ -215,7 +216,7 @@ class Node {
   ///
   /// Returns a temporary channel id.
   Future<void> connectOpenChannel(
-      {required bridge.NetAddress netaddress,
+      {required bridge.SocketAddress netaddress,
       required bridge.PublicKey nodeId,
       required int channelAmountSats,
       required bool announceChannel,
@@ -338,7 +339,7 @@ class Node {
   Future<void> sendSpontaneousPaymentProbe(
       {required bridge.PublicKey nodeId, required int amountMsat}) async {
     try {
-      return await loaderApi.sendSpontaneousPaymentProbeMethodNodePointer(
+      return await loaderApi.sendSpontaneousPaymentProbesMethodNodePointer(
           that: _pointer, amountMsat: amountMsat, nodeId: nodeId);
     } on bridge.NodeException catch (e) {
       throw handleNodeException(e);
@@ -361,7 +362,7 @@ class Node {
   ///
   Future<void> sendPaymentProbe({required bridge.Bolt11Invoice invoice}) async {
     try {
-      return await loaderApi.sendPaymentProbeMethodNodePointer(
+      return await loaderApi.sendPaymentProbesMethodNodePointer(
           that: _pointer, invoice: invoice);
     } on bridge.NodeException catch (e) {
       throw handleNodeException(e);
@@ -512,7 +513,10 @@ class Builder {
     return Builder._(bridge.Config(
         storageDirPath: '',
         network: bridge.Network.Bitcoin,
-        listeningAddress: bridge.NetAddress.iPv4(addr: "0.0.0.0", port: 9735),
+        listeningAddresses: [
+          bridge.SocketAddress.hostname(
+              hostname: bridge.Hostname(internal: "0.0.0.0"), port: 9735)
+        ],
         onchainWalletSyncIntervalSecs: 60,
         walletSyncIntervalSecs: 20,
         feeRateCacheUpdateIntervalSecs: 600,
@@ -593,8 +597,8 @@ class Builder {
   /// Sets the IP address and TCP port on which [Node] will listen for incoming network connections.
   ///
   ///
-  Builder setListeningAddress(bridge.NetAddress listeningAddress) {
-    _config!.listeningAddress = listeningAddress;
+  Builder setListeningAddress(List<bridge.SocketAddress> listeningAddresses) {
+    _config!.listeningAddresses = listeningAddresses;
     return this;
   }
 
@@ -609,7 +613,7 @@ class Builder {
         final nodePath = "${directory.path}/ldk_cache/";
         _config!.storageDirPath = nodePath;
       }
-      final res = await loaderApi.buildNode(
+      final res = await loaderApi.buildSqliteNode(
           config: _config!,
           entropySourceConfig: _entropySource,
           chainDataSourceConfig: _chainDataSourceConfig,

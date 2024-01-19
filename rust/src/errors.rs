@@ -37,7 +37,7 @@ pub enum NodeException {
     /// The given address is invalid.
     InvalidAddress,
     /// The given network address is invalid.
-    InvalidNetAddress,
+    InvalidSocketAddress,
     /// The given public key is invalid.
     InvalidPublicKey,
     /// The given secret key is invalid.
@@ -60,16 +60,32 @@ pub enum NodeException {
     DuplicatePayment,
     /// There are insufficient funds to complete the given operation.
     InsufficientFunds,
+
+    FeerateEstimationUpdateFailed,
 }
 #[allow(dead_code)]
 pub enum BuilderException {
+    /// The given seed bytes are invalid, e.g., have invalid length.
     InvalidSeedBytes,
+    /// The given seed file is invalid, e.g., has invalid length, or could not be read.
     InvalidSeedFile,
+    /// The current system time is invalid, clocks might have gone backwards.
     InvalidSystemTime,
+    /// The a read channel monitor is invalid.
+    InvalidChannelMonitor,
+    /// The given listening addresses are invalid, e.g. too many were passed.
+    InvalidListeningAddresses,
+    /// We failed to read data from the [`KVStore`].
     ReadFailed,
+    /// We failed to write data to the [`KVStore`].
     WriteFailed,
+    /// We failed to access the given `storage_dir_path`.
     StoragePathAccessFailed,
+    /// We failed to setup our [`KVStore`].
+    KVStoreSetupFailed,
+    /// We failed to setup the onchain wallet.
     WalletSetupFailed,
+    /// We failed to setup the logger.
     LoggerSetupFailed,
 }
 impl From<NodeError> for NodeException {
@@ -92,7 +108,7 @@ impl From<NodeError> for NodeException {
             NodeError::TxSyncFailed => NodeException::TxSyncFailed,
             NodeError::GossipUpdateFailed => NodeException::GossipUpdateFailed,
             NodeError::InvalidAddress => NodeException::InvalidAddress,
-            NodeError::InvalidNetAddress => NodeException::InvalidNetAddress,
+            NodeError::InvalidSocketAddress => NodeException::InvalidSocketAddress,
             NodeError::InvalidPublicKey => NodeException::InvalidPublicKey,
             NodeError::InvalidSecretKey => NodeException::InvalidSecretKey,
             NodeError::InvalidPaymentHash => NodeException::InvalidPaymentHash,
@@ -104,6 +120,9 @@ impl From<NodeError> for NodeException {
             NodeError::InvalidNetwork => NodeException::InvalidNetwork,
             NodeError::DuplicatePayment => NodeException::DuplicatePayment,
             NodeError::InsufficientFunds => NodeException::InsufficientFunds,
+            NodeError::FeerateEstimationUpdateFailed => {
+                NodeException::FeerateEstimationUpdateFailed
+            }
         }
     }
 }
@@ -118,6 +137,9 @@ impl From<BuildError> for BuilderException {
             BuildError::StoragePathAccessFailed => BuilderException::StoragePathAccessFailed,
             BuildError::WalletSetupFailed => BuilderException::WalletSetupFailed,
             BuildError::LoggerSetupFailed => BuilderException::LoggerSetupFailed,
+            BuildError::InvalidChannelMonitor => BuilderException::InvalidChannelMonitor,
+            BuildError::KVStoreSetupFailed => BuilderException::KVStoreSetupFailed,
+            BuildError::InvalidListeningAddresses => BuilderException::InvalidListeningAddresses,
         }
     }
 }

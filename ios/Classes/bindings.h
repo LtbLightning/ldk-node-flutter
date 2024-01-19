@@ -14,25 +14,53 @@ typedef struct wire_uint_8_list {
   int32_t len;
 } wire_uint_8_list;
 
-typedef struct wire_NetAddress_IPv4 {
+typedef struct wire_SocketAddress_TcpIpV4 {
   struct wire_uint_8_list *addr;
   uint16_t port;
-} wire_NetAddress_IPv4;
+} wire_SocketAddress_TcpIpV4;
 
-typedef struct wire_NetAddress_IPv6 {
+typedef struct wire_SocketAddress_TcpIpV6 {
   struct wire_uint_8_list *addr;
   uint16_t port;
-} wire_NetAddress_IPv6;
+} wire_SocketAddress_TcpIpV6;
 
-typedef union NetAddressKind {
-  struct wire_NetAddress_IPv4 *IPv4;
-  struct wire_NetAddress_IPv6 *IPv6;
-} NetAddressKind;
+typedef struct wire_SocketAddress_OnionV2 {
+  struct wire_uint_8_list *field0;
+} wire_SocketAddress_OnionV2;
 
-typedef struct wire_NetAddress {
+typedef struct wire_SocketAddress_OnionV3 {
+  struct wire_uint_8_list *ed25519_pubkey;
+  uint16_t checksum;
+  uint8_t version;
+  uint16_t port;
+} wire_SocketAddress_OnionV3;
+
+typedef struct wire_Hostname {
+  struct wire_uint_8_list *internal;
+} wire_Hostname;
+
+typedef struct wire_SocketAddress_Hostname {
+  struct wire_Hostname *hostname;
+  uint16_t port;
+} wire_SocketAddress_Hostname;
+
+typedef union SocketAddressKind {
+  struct wire_SocketAddress_TcpIpV4 *TcpIpV4;
+  struct wire_SocketAddress_TcpIpV6 *TcpIpV6;
+  struct wire_SocketAddress_OnionV2 *OnionV2;
+  struct wire_SocketAddress_OnionV3 *OnionV3;
+  struct wire_SocketAddress_Hostname *Hostname;
+} SocketAddressKind;
+
+typedef struct wire_SocketAddress {
   int32_t tag;
-  union NetAddressKind *kind;
-} wire_NetAddress;
+  union SocketAddressKind *kind;
+} wire_SocketAddress;
+
+typedef struct wire_list_socket_address {
+  struct wire_SocketAddress *ptr;
+  int32_t len;
+} wire_list_socket_address;
 
 typedef struct wire_PublicKey {
   struct wire_uint_8_list *internal;
@@ -47,7 +75,7 @@ typedef struct wire_Config {
   struct wire_uint_8_list *storage_dir_path;
   struct wire_uint_8_list *log_dir_path;
   int32_t network;
-  struct wire_NetAddress *listening_address;
+  struct wire_list_socket_address *listening_addresses;
   uint32_t default_cltv_expiry_delta;
   uint64_t onchain_wallet_sync_interval_secs;
   uint64_t wallet_sync_interval_secs;
@@ -181,11 +209,11 @@ intptr_t init_frb_dart_api_dl(void *obj);
 
 void wire_generate_entropy_mnemonic(int64_t port_);
 
-void wire_build_node(int64_t port_,
-                     struct wire_Config *config,
-                     struct wire_ChainDataSourceConfig *chain_data_source_config,
-                     struct wire_EntropySourceConfig *entropy_source_config,
-                     struct wire_GossipSourceConfig *gossip_source_config);
+void wire_build_sqlite_node(int64_t port_,
+                            struct wire_Config *config,
+                            struct wire_ChainDataSourceConfig *chain_data_source_config,
+                            struct wire_EntropySourceConfig *entropy_source_config,
+                            struct wire_GossipSourceConfig *gossip_source_config);
 
 void wire_start__method__NodePointer(int64_t port_, struct wire_NodePointer *that);
 
@@ -199,7 +227,7 @@ void wire_wait_until_next_event__method__NodePointer(int64_t port_, struct wire_
 
 void wire_node_id__method__NodePointer(int64_t port_, struct wire_NodePointer *that);
 
-void wire_listening_address__method__NodePointer(int64_t port_, struct wire_NodePointer *that);
+void wire_listening_addresses__method__NodePointer(int64_t port_, struct wire_NodePointer *that);
 
 void wire_new_onchain_address__method__NodePointer(int64_t port_, struct wire_NodePointer *that);
 
@@ -223,7 +251,7 @@ void wire_list_channels__method__NodePointer(int64_t port_, struct wire_NodePoin
 void wire_connect__method__NodePointer(int64_t port_,
                                        struct wire_NodePointer *that,
                                        struct wire_PublicKey *node_id,
-                                       struct wire_NetAddress *address,
+                                       struct wire_SocketAddress *address,
                                        bool persist);
 
 void wire_disconnect__method__NodePointer(int64_t port_,
@@ -232,7 +260,7 @@ void wire_disconnect__method__NodePointer(int64_t port_,
 
 void wire_connect_open_channel__method__NodePointer(int64_t port_,
                                                     struct wire_NodePointer *that,
-                                                    struct wire_NetAddress *address,
+                                                    struct wire_SocketAddress *address,
                                                     struct wire_PublicKey *node_id,
                                                     uint64_t channel_amount_sats,
                                                     uint64_t *push_to_counterparty_msat,
@@ -266,14 +294,14 @@ void wire_send_spontaneous_payment__method__NodePointer(int64_t port_,
                                                         uint64_t amount_msat,
                                                         struct wire_PublicKey *node_id);
 
-void wire_send_payment_probe__method__NodePointer(int64_t port_,
-                                                  struct wire_NodePointer *that,
-                                                  struct wire_Bolt11Invoice *invoice);
+void wire_send_payment_probes__method__NodePointer(int64_t port_,
+                                                   struct wire_NodePointer *that,
+                                                   struct wire_Bolt11Invoice *invoice);
 
-void wire_send_spontaneous_payment_probe__method__NodePointer(int64_t port_,
-                                                              struct wire_NodePointer *that,
-                                                              uint64_t amount_msat,
-                                                              struct wire_PublicKey *node_id);
+void wire_send_spontaneous_payment_probes__method__NodePointer(int64_t port_,
+                                                               struct wire_NodePointer *that,
+                                                               uint64_t amount_msat,
+                                                               struct wire_PublicKey *node_id);
 
 void wire_receive_payment__method__NodePointer(int64_t port_,
                                                struct wire_NodePointer *that,
@@ -330,9 +358,9 @@ struct wire_EntropySourceConfig *new_box_autoadd_entropy_source_config_0(void);
 
 struct wire_GossipSourceConfig *new_box_autoadd_gossip_source_config_0(void);
 
-struct wire_Mnemonic *new_box_autoadd_mnemonic_0(void);
+struct wire_Hostname *new_box_autoadd_hostname_0(void);
 
-struct wire_NetAddress *new_box_autoadd_net_address_0(void);
+struct wire_Mnemonic *new_box_autoadd_mnemonic_0(void);
 
 struct wire_NodePointer *new_box_autoadd_node_pointer_0(void);
 
@@ -340,9 +368,13 @@ struct wire_PaymentHash *new_box_autoadd_payment_hash_0(void);
 
 struct wire_PublicKey *new_box_autoadd_public_key_0(void);
 
+struct wire_SocketAddress *new_box_autoadd_socket_address_0(void);
+
 uint64_t *new_box_autoadd_u64_0(uint64_t value);
 
 struct wire_list_public_key *new_list_public_key_0(int32_t len);
+
+struct wire_list_socket_address *new_list_socket_address_0(int32_t len);
 
 struct wire_uint_8_list *new_uint_8_list_0(int32_t len);
 
@@ -364,23 +396,29 @@ union MaxDustHTLCExposureKind *inflate_MaxDustHTLCExposure_FixedLimitMsat(void);
 
 union MaxDustHTLCExposureKind *inflate_MaxDustHTLCExposure_FeeRateMultiplier(void);
 
-union NetAddressKind *inflate_NetAddress_IPv4(void);
+union SocketAddressKind *inflate_SocketAddress_TcpIpV4(void);
 
-union NetAddressKind *inflate_NetAddress_IPv6(void);
+union SocketAddressKind *inflate_SocketAddress_TcpIpV6(void);
+
+union SocketAddressKind *inflate_SocketAddress_OnionV2(void);
+
+union SocketAddressKind *inflate_SocketAddress_OnionV3(void);
+
+union SocketAddressKind *inflate_SocketAddress_Hostname(void);
 
 void free_WireSyncReturn(WireSyncReturn ptr);
 
 static int64_t dummy_method_to_enforce_bundling(void) {
     int64_t dummy_var = 0;
     dummy_var ^= ((int64_t) (void*) wire_generate_entropy_mnemonic);
-    dummy_var ^= ((int64_t) (void*) wire_build_node);
+    dummy_var ^= ((int64_t) (void*) wire_build_sqlite_node);
     dummy_var ^= ((int64_t) (void*) wire_start__method__NodePointer);
     dummy_var ^= ((int64_t) (void*) wire_stop__method__NodePointer);
     dummy_var ^= ((int64_t) (void*) wire_event_handled__method__NodePointer);
     dummy_var ^= ((int64_t) (void*) wire_next_event__method__NodePointer);
     dummy_var ^= ((int64_t) (void*) wire_wait_until_next_event__method__NodePointer);
     dummy_var ^= ((int64_t) (void*) wire_node_id__method__NodePointer);
-    dummy_var ^= ((int64_t) (void*) wire_listening_address__method__NodePointer);
+    dummy_var ^= ((int64_t) (void*) wire_listening_addresses__method__NodePointer);
     dummy_var ^= ((int64_t) (void*) wire_new_onchain_address__method__NodePointer);
     dummy_var ^= ((int64_t) (void*) wire_spendable_onchain_balance_sats__method__NodePointer);
     dummy_var ^= ((int64_t) (void*) wire_total_onchain_balance_sats__method__NodePointer);
@@ -396,8 +434,8 @@ static int64_t dummy_method_to_enforce_bundling(void) {
     dummy_var ^= ((int64_t) (void*) wire_send_payment__method__NodePointer);
     dummy_var ^= ((int64_t) (void*) wire_send_payment_using_amount__method__NodePointer);
     dummy_var ^= ((int64_t) (void*) wire_send_spontaneous_payment__method__NodePointer);
-    dummy_var ^= ((int64_t) (void*) wire_send_payment_probe__method__NodePointer);
-    dummy_var ^= ((int64_t) (void*) wire_send_spontaneous_payment_probe__method__NodePointer);
+    dummy_var ^= ((int64_t) (void*) wire_send_payment_probes__method__NodePointer);
+    dummy_var ^= ((int64_t) (void*) wire_send_spontaneous_payment_probes__method__NodePointer);
     dummy_var ^= ((int64_t) (void*) wire_receive_payment__method__NodePointer);
     dummy_var ^= ((int64_t) (void*) wire_receive_variable_amount_payment__method__NodePointer);
     dummy_var ^= ((int64_t) (void*) wire_payment__method__NodePointer);
@@ -416,13 +454,15 @@ static int64_t dummy_method_to_enforce_bundling(void) {
     dummy_var ^= ((int64_t) (void*) new_box_autoadd_config_0);
     dummy_var ^= ((int64_t) (void*) new_box_autoadd_entropy_source_config_0);
     dummy_var ^= ((int64_t) (void*) new_box_autoadd_gossip_source_config_0);
+    dummy_var ^= ((int64_t) (void*) new_box_autoadd_hostname_0);
     dummy_var ^= ((int64_t) (void*) new_box_autoadd_mnemonic_0);
-    dummy_var ^= ((int64_t) (void*) new_box_autoadd_net_address_0);
     dummy_var ^= ((int64_t) (void*) new_box_autoadd_node_pointer_0);
     dummy_var ^= ((int64_t) (void*) new_box_autoadd_payment_hash_0);
     dummy_var ^= ((int64_t) (void*) new_box_autoadd_public_key_0);
+    dummy_var ^= ((int64_t) (void*) new_box_autoadd_socket_address_0);
     dummy_var ^= ((int64_t) (void*) new_box_autoadd_u64_0);
     dummy_var ^= ((int64_t) (void*) new_list_public_key_0);
+    dummy_var ^= ((int64_t) (void*) new_list_socket_address_0);
     dummy_var ^= ((int64_t) (void*) new_uint_8_list_0);
     dummy_var ^= ((int64_t) (void*) drop_opaque_MutexNodeSqliteStore);
     dummy_var ^= ((int64_t) (void*) share_opaque_MutexNodeSqliteStore);
@@ -433,8 +473,11 @@ static int64_t dummy_method_to_enforce_bundling(void) {
     dummy_var ^= ((int64_t) (void*) inflate_GossipSourceConfig_RapidGossipSync);
     dummy_var ^= ((int64_t) (void*) inflate_MaxDustHTLCExposure_FixedLimitMsat);
     dummy_var ^= ((int64_t) (void*) inflate_MaxDustHTLCExposure_FeeRateMultiplier);
-    dummy_var ^= ((int64_t) (void*) inflate_NetAddress_IPv4);
-    dummy_var ^= ((int64_t) (void*) inflate_NetAddress_IPv6);
+    dummy_var ^= ((int64_t) (void*) inflate_SocketAddress_TcpIpV4);
+    dummy_var ^= ((int64_t) (void*) inflate_SocketAddress_TcpIpV6);
+    dummy_var ^= ((int64_t) (void*) inflate_SocketAddress_OnionV2);
+    dummy_var ^= ((int64_t) (void*) inflate_SocketAddress_OnionV3);
+    dummy_var ^= ((int64_t) (void*) inflate_SocketAddress_Hostname);
     dummy_var ^= ((int64_t) (void*) free_WireSyncReturn);
     dummy_var ^= ((int64_t) (void*) store_dart_post_cobject);
     dummy_var ^= ((int64_t) (void*) get_dart_object);

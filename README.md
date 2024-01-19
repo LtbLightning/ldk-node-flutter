@@ -36,10 +36,12 @@ Please note: This release is considered experimental, and should not be run in p
 ### How to use ldk_node
 
 To use the `ldk_node` package in your project, add it as a dependency in your project's pubspec.yaml:
+psql -h testnetdb.cfvpbm1gzia5.us-east-2.rds.amazonaws.com -p 5432 -U postgres -d postgres -f ./app/src/main/java/org/vss/impl/postgres/sql/v0_create_vss_db.sql
+
 
 ```dart
 dependencies:
-  ldk_node: ^0.1.3
+  ldk_node: ^0.1.4
 ```
 or add from pub.dev using `pub add` command
 
@@ -68,7 +70,10 @@ final config  = Config(
                         trustedPeers0Conf: [],
                         storageDirPath: path,
                         network: Network.Testnet,
-                        listeningAddress: NetAddress.iPv4(addr: "0.0.0.0", port: 3006),
+                        listeningAddresses: [
+                          bridge.SocketAddress.hostname(
+                              hostname: bridge.Hostname(internal: "0.0.0.0"), port: 9735)
+                        ],
                         onchainWalletSyncIntervalSecs: 60,
                         walletSyncIntervalSecs: 20,
                         feeRateCacheUpdateIntervalSecs: 600,
