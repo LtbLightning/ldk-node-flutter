@@ -1,6 +1,5 @@
 use crate::errors::{BuilderException, NodeException};
 use crate::types::*;
-pub use anyhow::anyhow;
 use flutter_rust_bridge::*;
 pub use ldk_node::io::sqlite_store::SqliteStore;
 use ldk_node::lightning::util::ser::Writeable;
