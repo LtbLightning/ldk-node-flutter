@@ -74,10 +74,9 @@ class Node {
   ///
   /// **Note:** this will always return the same event until handling is confirmed via `node.eventHandled()`.
   ///
-  Future<bridge.Event?> waitUntilNextHandled() async {
+  Future<bridge.Event?> waitNextHandled() async {
     try {
-      return await loaderApi.waitUntilNextEventMethodNodePointer(
-          that: _pointer);
+      return await loaderApi.waitNextEventMethodNodePointer(that: _pointer);
     } on bridge.NodeException catch (e) {
       throw handleNodeException(e);
     }
@@ -603,7 +602,7 @@ class Builder {
         final nodePath = "${directory.path}/ldk_cache/";
         _config!.storageDirPath = nodePath;
       }
-      final res = await bridge.LdkBuilder(bridge: loaderApi).finalizeBuilder(
+      final res = await loaderApi.finalizeBuilder(
         config: _config!,
         entropySourceConfig: _entropySource,
         chainDataSourceConfig: _chainDataSourceConfig,
