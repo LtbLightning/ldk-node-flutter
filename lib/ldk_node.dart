@@ -1,6 +1,6 @@
 export './src/generated/bridge_definitions.dart'
     hide
-        Ldknode,
+        RustLdkNode,
         Event_ChannelClosed,
         Event_ChannelReady,
         Event_PaymentFailed,

@@ -37,10 +37,9 @@ Please note: This release is considered experimental, and should not be run in p
 
 To use the `ldk_node` package in your project, add it as a dependency in your project's pubspec.yaml:
 
-
 ```dart
 dependencies:
-  ldk_node: ^0.2.1
+  ldk_node: ^0.1.3
 ```
 or add from pub.dev using `pub add` command
 
@@ -69,10 +68,7 @@ final config  = Config(
                         trustedPeers0Conf: [],
                         storageDirPath: path,
                         network: Network.Testnet,
-                        listeningAddresses: [
-                          bridge.SocketAddress.hostname(
-                              hostname: bridge.Hostname(internal: "0.0.0.0"), port: 9735)
-                        ],
+                        listeningAddress: NetAddress.iPv4(addr: "0.0.0.0", port: 3006),
                         onchainWalletSyncIntervalSecs: 60,
                         walletSyncIntervalSecs: 20,
                         feeRateCacheUpdateIntervalSecs: 600,

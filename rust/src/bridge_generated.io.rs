@@ -2,35 +2,20 @@ use super::*;
 // Section: wire functions
 
 #[no_mangle]
-pub extern "C" fn wire_from_str__static_method__SocketAddress(
+pub extern "C" fn wire_generate_entropy_mnemonic(port_: i64) {
+    wire_generate_entropy_mnemonic_impl(port_)
+}
+
+#[no_mangle]
+pub extern "C" fn wire_build_sqlite_node(
     port_: i64,
-    address: *mut wire_uint_8_list,
-) {
-    wire_from_str__static_method__SocketAddress_impl(port_, address)
-}
-
-#[no_mangle]
-pub extern "C" fn wire_to_string__method__SocketAddress(port_: i64, that: *mut wire_SocketAddress) {
-    wire_to_string__method__SocketAddress_impl(port_, that)
-}
-
-#[no_mangle]
-pub extern "C" fn wire_generate__static_method__Mnemonic(port_: i64) {
-    wire_generate__static_method__Mnemonic_impl(port_)
-}
-
-#[no_mangle]
-pub extern "C" fn wire_finalize_builder__method__LdkBuilder(
-    port_: i64,
-    that: *mut wire_LdkBuilder,
     config: *mut wire_Config,
     chain_data_source_config: *mut wire_ChainDataSourceConfig,
     entropy_source_config: *mut wire_EntropySourceConfig,
     gossip_source_config: *mut wire_GossipSourceConfig,
 ) {
-    wire_finalize_builder__method__LdkBuilder_impl(
+    wire_build_sqlite_node_impl(
         port_,
-        that,
         config,
         chain_data_source_config,
         entropy_source_config,
@@ -392,8 +377,8 @@ pub extern "C" fn new_box_autoadd_gossip_source_config_0() -> *mut wire_GossipSo
 }
 
 #[no_mangle]
-pub extern "C" fn new_box_autoadd_ldk_builder_0() -> *mut wire_LdkBuilder {
-    support::new_leak_box_ptr(wire_LdkBuilder::new_with_null_ptr())
+pub extern "C" fn new_box_autoadd_hostname_0() -> *mut wire_Hostname {
+    support::new_leak_box_ptr(wire_Hostname::new_with_null_ptr())
 }
 
 #[no_mangle]
@@ -486,14 +471,14 @@ impl Wire2Api<String> for *mut wire_uint_8_list {
 impl Wire2Api<Address> for wire_Address {
     fn wire2api(self) -> Address {
         Address {
-            s: self.s.wire2api(),
+            internal: self.internal.wire2api(),
         }
     }
 }
 impl Wire2Api<Bolt11Invoice> for wire_Bolt11Invoice {
     fn wire2api(self) -> Bolt11Invoice {
         Bolt11Invoice {
-            signed_raw_invoice: self.signed_raw_invoice.wire2api(),
+            internal: self.internal.wire2api(),
         }
     }
 }
@@ -546,10 +531,10 @@ impl Wire2Api<GossipSourceConfig> for *mut wire_GossipSourceConfig {
         Wire2Api::<GossipSourceConfig>::wire2api(*wrap).into()
     }
 }
-impl Wire2Api<LdkBuilder> for *mut wire_LdkBuilder {
-    fn wire2api(self) -> LdkBuilder {
+impl Wire2Api<Hostname> for *mut wire_Hostname {
+    fn wire2api(self) -> Hostname {
         let wrap = unsafe { support::box_from_leak_ptr(self) };
-        Wire2Api::<LdkBuilder>::wire2api(*wrap).into()
+        Wire2Api::<Hostname>::wire2api(*wrap).into()
     }
 }
 impl Wire2Api<Mnemonic> for *mut wire_Mnemonic {
@@ -618,7 +603,7 @@ impl Wire2Api<ChannelConfig> for wire_ChannelConfig {
 impl Wire2Api<ChannelId> for wire_ChannelId {
     fn wire2api(self) -> ChannelId {
         ChannelId {
-            data: self.data.wire2api(),
+            internal: self.internal.wire2api(),
         }
     }
 }
@@ -679,12 +664,14 @@ impl Wire2Api<GossipSourceConfig> for wire_GossipSourceConfig {
         }
     }
 }
-
-impl Wire2Api<LdkBuilder> for wire_LdkBuilder {
-    fn wire2api(self) -> LdkBuilder {
-        LdkBuilder {}
+impl Wire2Api<Hostname> for wire_Hostname {
+    fn wire2api(self) -> Hostname {
+        Hostname {
+            internal: self.internal.wire2api(),
+        }
     }
 }
+
 impl Wire2Api<Vec<PublicKey>> for *mut wire_list_public_key {
     fn wire2api(self) -> Vec<PublicKey> {
         let vec = unsafe {
@@ -724,7 +711,7 @@ impl Wire2Api<MaxDustHTLCExposure> for wire_MaxDustHTLCExposure {
 impl Wire2Api<Mnemonic> for wire_Mnemonic {
     fn wire2api(self) -> Mnemonic {
         Mnemonic {
-            seed_phrase: self.seed_phrase.wire2api(),
+            internal: self.internal.wire2api(),
         }
     }
 }
@@ -738,14 +725,14 @@ impl Wire2Api<NodePointer> for wire_NodePointer {
 impl Wire2Api<PaymentHash> for wire_PaymentHash {
     fn wire2api(self) -> PaymentHash {
         PaymentHash {
-            data: self.data.wire2api(),
+            internal: self.internal.wire2api(),
         }
     }
 }
 impl Wire2Api<PublicKey> for wire_PublicKey {
     fn wire2api(self) -> PublicKey {
         PublicKey {
-            hex_code: self.hex_code.wire2api(),
+            internal: self.internal.wire2api(),
         }
     }
 }
@@ -787,7 +774,7 @@ impl Wire2Api<SocketAddress> for wire_SocketAddress {
                 let ans = support::box_from_leak_ptr(self.kind);
                 let ans = support::box_from_leak_ptr(ans.Hostname);
                 SocketAddress::Hostname {
-                    addr: ans.addr.wire2api(),
+                    hostname: ans.hostname.wire2api(),
                     port: ans.port.wire2api(),
                 }
             },
@@ -845,13 +832,13 @@ pub struct wire_MutexNodeSqliteStore {
 #[repr(C)]
 #[derive(Clone)]
 pub struct wire_Address {
-    s: *mut wire_uint_8_list,
+    internal: *mut wire_uint_8_list,
 }
 
 #[repr(C)]
 #[derive(Clone)]
 pub struct wire_Bolt11Invoice {
-    signed_raw_invoice: *mut wire_uint_8_list,
+    internal: *mut wire_uint_8_list,
 }
 
 #[repr(C)]
@@ -868,7 +855,7 @@ pub struct wire_ChannelConfig {
 #[repr(C)]
 #[derive(Clone)]
 pub struct wire_ChannelId {
-    data: *mut wire_uint_8_list,
+    internal: *mut wire_uint_8_list,
 }
 
 #[repr(C)]
@@ -889,7 +876,9 @@ pub struct wire_Config {
 
 #[repr(C)]
 #[derive(Clone)]
-pub struct wire_LdkBuilder {}
+pub struct wire_Hostname {
+    internal: *mut wire_uint_8_list,
+}
 
 #[repr(C)]
 #[derive(Clone)]
@@ -908,7 +897,7 @@ pub struct wire_list_socket_address {
 #[repr(C)]
 #[derive(Clone)]
 pub struct wire_Mnemonic {
-    seed_phrase: *mut wire_uint_8_list,
+    internal: *mut wire_uint_8_list,
 }
 
 #[repr(C)]
@@ -920,13 +909,13 @@ pub struct wire_NodePointer {
 #[repr(C)]
 #[derive(Clone)]
 pub struct wire_PaymentHash {
-    data: *mut wire_uint_8_list,
+    internal: *mut wire_uint_8_list,
 }
 
 #[repr(C)]
 #[derive(Clone)]
 pub struct wire_PublicKey {
-    hex_code: *mut wire_uint_8_list,
+    internal: *mut wire_uint_8_list,
 }
 
 #[repr(C)]
@@ -1082,7 +1071,7 @@ pub struct wire_SocketAddress_OnionV3 {
 #[repr(C)]
 #[derive(Clone)]
 pub struct wire_SocketAddress_Hostname {
-    addr: *mut wire_uint_8_list,
+    hostname: *mut wire_Hostname,
     port: u16,
 }
 
@@ -1109,7 +1098,7 @@ impl NewWithNullPtr for wire_MutexNodeSqliteStore {
 impl NewWithNullPtr for wire_Address {
     fn new_with_null_ptr() -> Self {
         Self {
-            s: core::ptr::null_mut(),
+            internal: core::ptr::null_mut(),
         }
     }
 }
@@ -1123,7 +1112,7 @@ impl Default for wire_Address {
 impl NewWithNullPtr for wire_Bolt11Invoice {
     fn new_with_null_ptr() -> Self {
         Self {
-            signed_raw_invoice: core::ptr::null_mut(),
+            internal: core::ptr::null_mut(),
         }
     }
 }
@@ -1180,7 +1169,7 @@ impl Default for wire_ChannelConfig {
 impl NewWithNullPtr for wire_ChannelId {
     fn new_with_null_ptr() -> Self {
         Self {
-            data: core::ptr::null_mut(),
+            internal: core::ptr::null_mut(),
         }
     }
 }
@@ -1282,13 +1271,15 @@ pub extern "C" fn inflate_GossipSourceConfig_RapidGossipSync() -> *mut GossipSou
     })
 }
 
-impl NewWithNullPtr for wire_LdkBuilder {
+impl NewWithNullPtr for wire_Hostname {
     fn new_with_null_ptr() -> Self {
-        Self {}
+        Self {
+            internal: core::ptr::null_mut(),
+        }
     }
 }
 
-impl Default for wire_LdkBuilder {
+impl Default for wire_Hostname {
     fn default() -> Self {
         Self::new_with_null_ptr()
     }
@@ -1330,7 +1321,7 @@ pub extern "C" fn inflate_MaxDustHTLCExposure_FeeRateMultiplier() -> *mut MaxDus
 impl NewWithNullPtr for wire_Mnemonic {
     fn new_with_null_ptr() -> Self {
         Self {
-            seed_phrase: core::ptr::null_mut(),
+            internal: core::ptr::null_mut(),
         }
     }
 }
@@ -1358,7 +1349,7 @@ impl Default for wire_NodePointer {
 impl NewWithNullPtr for wire_PaymentHash {
     fn new_with_null_ptr() -> Self {
         Self {
-            data: core::ptr::null_mut(),
+            internal: core::ptr::null_mut(),
         }
     }
 }
@@ -1372,7 +1363,7 @@ impl Default for wire_PaymentHash {
 impl NewWithNullPtr for wire_PublicKey {
     fn new_with_null_ptr() -> Self {
         Self {
-            hex_code: core::ptr::null_mut(),
+            internal: core::ptr::null_mut(),
         }
     }
 }
@@ -1443,7 +1434,7 @@ pub extern "C" fn inflate_SocketAddress_OnionV3() -> *mut SocketAddressKind {
 pub extern "C" fn inflate_SocketAddress_Hostname() -> *mut SocketAddressKind {
     support::new_leak_box_ptr(SocketAddressKind {
         Hostname: support::new_leak_box_ptr(wire_SocketAddress_Hostname {
-            addr: core::ptr::null_mut(),
+            hostname: core::ptr::null_mut(),
             port: Default::default(),
         }),
     })

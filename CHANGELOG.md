@@ -1,9 +1,3 @@
-## [0.2.1]
-
-## [0.2.0]
-Updated `Rust` and `Flutter` dependencies.
-
-
 ## [0.1.3]
 Updated `Rust` and `Flutter` dependencies.
 Invalid `BuilderException` bug resolved

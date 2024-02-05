@@ -140,7 +140,7 @@ class _$ChainDataSourceConfig_EsploraImpl
   }
 
   @override
-  bool operator ==(Object other) {
+  bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$ChainDataSourceConfig_EsploraImpl &&
@@ -345,7 +345,7 @@ class _$EntropySourceConfig_SeedFileImpl
   }
 
   @override
-  bool operator ==(Object other) {
+  bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$EntropySourceConfig_SeedFileImpl &&
@@ -494,7 +494,7 @@ class _$EntropySourceConfig_SeedBytesImpl
   }
 
   @override
-  bool operator ==(Object other) {
+  bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$EntropySourceConfig_SeedBytesImpl &&
@@ -652,7 +652,7 @@ class _$EntropySourceConfig_Bip39MnemonicImpl
   }
 
   @override
-  bool operator ==(Object other) {
+  bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$EntropySourceConfig_Bip39MnemonicImpl &&
@@ -920,7 +920,7 @@ class _$Event_PaymentSuccessfulImpl implements Event_PaymentSuccessful {
   }
 
   @override
-  bool operator ==(Object other) {
+  bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$Event_PaymentSuccessfulImpl &&
@@ -1113,7 +1113,7 @@ class _$Event_PaymentFailedImpl implements Event_PaymentFailed {
   }
 
   @override
-  bool operator ==(Object other) {
+  bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$Event_PaymentFailedImpl &&
@@ -1317,7 +1317,7 @@ class _$Event_PaymentReceivedImpl implements Event_PaymentReceived {
   }
 
   @override
-  bool operator ==(Object other) {
+  bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$Event_PaymentReceivedImpl &&
@@ -1538,7 +1538,7 @@ class _$Event_ChannelReadyImpl implements Event_ChannelReady {
   }
 
   @override
-  bool operator ==(Object other) {
+  bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$Event_ChannelReadyImpl &&
@@ -1764,7 +1764,7 @@ class _$Event_ChannelClosedImpl implements Event_ChannelClosed {
   }
 
   @override
-  bool operator ==(Object other) {
+  bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$Event_ChannelClosedImpl &&
@@ -2014,7 +2014,7 @@ class _$Event_ChannelPendingImpl implements Event_ChannelPending {
   }
 
   @override
-  bool operator ==(Object other) {
+  bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$Event_ChannelPendingImpl &&
@@ -2284,7 +2284,7 @@ class _$GossipSourceConfig_P2PNetworkImpl
   }
 
   @override
-  bool operator ==(Object other) {
+  bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$GossipSourceConfig_P2PNetworkImpl);
@@ -2412,7 +2412,7 @@ class _$GossipSourceConfig_RapidGossipSyncImpl
   }
 
   @override
-  bool operator ==(Object other) {
+  bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$GossipSourceConfig_RapidGossipSyncImpl &&
@@ -2642,7 +2642,7 @@ class _$MaxDustHTLCExposure_FixedLimitMsatImpl
   }
 
   @override
-  bool operator ==(Object other) {
+  bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$MaxDustHTLCExposure_FixedLimitMsatImpl &&
@@ -2792,7 +2792,7 @@ class _$MaxDustHTLCExposure_FeeRateMultiplierImpl
   }
 
   @override
-  bool operator ==(Object other) {
+  bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$MaxDustHTLCExposure_FeeRateMultiplierImpl &&
@@ -2901,7 +2901,7 @@ mixin _$SocketAddress {
     required TResult Function(
             U8Array32 ed25519Pubkey, int checksum, int version, int port)
         onionV3,
-    required TResult Function(String addr, int port) hostname,
+    required TResult Function(Hostname hostname, int port) hostname,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -2912,7 +2912,7 @@ mixin _$SocketAddress {
     TResult? Function(
             U8Array32 ed25519Pubkey, int checksum, int version, int port)?
         onionV3,
-    TResult? Function(String addr, int port)? hostname,
+    TResult? Function(Hostname hostname, int port)? hostname,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -2923,7 +2923,7 @@ mixin _$SocketAddress {
     TResult Function(
             U8Array32 ed25519Pubkey, int checksum, int version, int port)?
         onionV3,
-    TResult Function(String addr, int port)? hostname,
+    TResult Function(Hostname hostname, int port)? hostname,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -3028,7 +3028,7 @@ class _$SocketAddress_TcpIpV4Impl implements SocketAddress_TcpIpV4 {
   }
 
   @override
-  bool operator ==(Object other) {
+  bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$SocketAddress_TcpIpV4Impl &&
@@ -3056,7 +3056,7 @@ class _$SocketAddress_TcpIpV4Impl implements SocketAddress_TcpIpV4 {
     required TResult Function(
             U8Array32 ed25519Pubkey, int checksum, int version, int port)
         onionV3,
-    required TResult Function(String addr, int port) hostname,
+    required TResult Function(Hostname hostname, int port) hostname,
   }) {
     return tcpIpV4(addr, port);
   }
@@ -3070,7 +3070,7 @@ class _$SocketAddress_TcpIpV4Impl implements SocketAddress_TcpIpV4 {
     TResult? Function(
             U8Array32 ed25519Pubkey, int checksum, int version, int port)?
         onionV3,
-    TResult? Function(String addr, int port)? hostname,
+    TResult? Function(Hostname hostname, int port)? hostname,
   }) {
     return tcpIpV4?.call(addr, port);
   }
@@ -3084,7 +3084,7 @@ class _$SocketAddress_TcpIpV4Impl implements SocketAddress_TcpIpV4 {
     TResult Function(
             U8Array32 ed25519Pubkey, int checksum, int version, int port)?
         onionV3,
-    TResult Function(String addr, int port)? hostname,
+    TResult Function(Hostname hostname, int port)? hostname,
     required TResult orElse(),
   }) {
     if (tcpIpV4 != null) {
@@ -3199,7 +3199,7 @@ class _$SocketAddress_TcpIpV6Impl implements SocketAddress_TcpIpV6 {
   }
 
   @override
-  bool operator ==(Object other) {
+  bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$SocketAddress_TcpIpV6Impl &&
@@ -3227,7 +3227,7 @@ class _$SocketAddress_TcpIpV6Impl implements SocketAddress_TcpIpV6 {
     required TResult Function(
             U8Array32 ed25519Pubkey, int checksum, int version, int port)
         onionV3,
-    required TResult Function(String addr, int port) hostname,
+    required TResult Function(Hostname hostname, int port) hostname,
   }) {
     return tcpIpV6(addr, port);
   }
@@ -3241,7 +3241,7 @@ class _$SocketAddress_TcpIpV6Impl implements SocketAddress_TcpIpV6 {
     TResult? Function(
             U8Array32 ed25519Pubkey, int checksum, int version, int port)?
         onionV3,
-    TResult? Function(String addr, int port)? hostname,
+    TResult? Function(Hostname hostname, int port)? hostname,
   }) {
     return tcpIpV6?.call(addr, port);
   }
@@ -3255,7 +3255,7 @@ class _$SocketAddress_TcpIpV6Impl implements SocketAddress_TcpIpV6 {
     TResult Function(
             U8Array32 ed25519Pubkey, int checksum, int version, int port)?
         onionV3,
-    TResult Function(String addr, int port)? hostname,
+    TResult Function(Hostname hostname, int port)? hostname,
     required TResult orElse(),
   }) {
     if (tcpIpV6 != null) {
@@ -3363,7 +3363,7 @@ class _$SocketAddress_OnionV2Impl implements SocketAddress_OnionV2 {
   }
 
   @override
-  bool operator ==(Object other) {
+  bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$SocketAddress_OnionV2Impl &&
@@ -3390,7 +3390,7 @@ class _$SocketAddress_OnionV2Impl implements SocketAddress_OnionV2 {
     required TResult Function(
             U8Array32 ed25519Pubkey, int checksum, int version, int port)
         onionV3,
-    required TResult Function(String addr, int port) hostname,
+    required TResult Function(Hostname hostname, int port) hostname,
   }) {
     return onionV2(field0);
   }
@@ -3404,7 +3404,7 @@ class _$SocketAddress_OnionV2Impl implements SocketAddress_OnionV2 {
     TResult? Function(
             U8Array32 ed25519Pubkey, int checksum, int version, int port)?
         onionV3,
-    TResult? Function(String addr, int port)? hostname,
+    TResult? Function(Hostname hostname, int port)? hostname,
   }) {
     return onionV2?.call(field0);
   }
@@ -3418,7 +3418,7 @@ class _$SocketAddress_OnionV2Impl implements SocketAddress_OnionV2 {
     TResult Function(
             U8Array32 ed25519Pubkey, int checksum, int version, int port)?
         onionV3,
-    TResult Function(String addr, int port)? hostname,
+    TResult Function(Hostname hostname, int port)? hostname,
     required TResult orElse(),
   }) {
     if (onionV2 != null) {
@@ -3549,7 +3549,7 @@ class _$SocketAddress_OnionV3Impl implements SocketAddress_OnionV3 {
   }
 
   @override
-  bool operator ==(Object other) {
+  bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$SocketAddress_OnionV3Impl &&
@@ -3585,7 +3585,7 @@ class _$SocketAddress_OnionV3Impl implements SocketAddress_OnionV3 {
     required TResult Function(
             U8Array32 ed25519Pubkey, int checksum, int version, int port)
         onionV3,
-    required TResult Function(String addr, int port) hostname,
+    required TResult Function(Hostname hostname, int port) hostname,
   }) {
     return onionV3(ed25519Pubkey, checksum, version, port);
   }
@@ -3599,7 +3599,7 @@ class _$SocketAddress_OnionV3Impl implements SocketAddress_OnionV3 {
     TResult? Function(
             U8Array32 ed25519Pubkey, int checksum, int version, int port)?
         onionV3,
-    TResult? Function(String addr, int port)? hostname,
+    TResult? Function(Hostname hostname, int port)? hostname,
   }) {
     return onionV3?.call(ed25519Pubkey, checksum, version, port);
   }
@@ -3613,7 +3613,7 @@ class _$SocketAddress_OnionV3Impl implements SocketAddress_OnionV3 {
     TResult Function(
             U8Array32 ed25519Pubkey, int checksum, int version, int port)?
         onionV3,
-    TResult Function(String addr, int port)? hostname,
+    TResult Function(Hostname hostname, int port)? hostname,
     required TResult orElse(),
   }) {
     if (onionV3 != null) {
@@ -3686,7 +3686,7 @@ abstract class _$$SocketAddress_HostnameImplCopyWith<$Res> {
           $Res Function(_$SocketAddress_HostnameImpl) then) =
       __$$SocketAddress_HostnameImplCopyWithImpl<$Res>;
   @useResult
-  $Res call({String addr, int port});
+  $Res call({Hostname hostname, int port});
 }
 
 /// @nodoc
@@ -3701,14 +3701,14 @@ class __$$SocketAddress_HostnameImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? addr = null,
+    Object? hostname = null,
     Object? port = null,
   }) {
     return _then(_$SocketAddress_HostnameImpl(
-      addr: null == addr
-          ? _value.addr
-          : addr // ignore: cast_nullable_to_non_nullable
-              as String,
+      hostname: null == hostname
+          ? _value.hostname
+          : hostname // ignore: cast_nullable_to_non_nullable
+              as Hostname,
       port: null == port
           ? _value.port
           : port // ignore: cast_nullable_to_non_nullable
@@ -3720,29 +3720,31 @@ class __$$SocketAddress_HostnameImplCopyWithImpl<$Res>
 /// @nodoc
 
 class _$SocketAddress_HostnameImpl implements SocketAddress_Hostname {
-  const _$SocketAddress_HostnameImpl({required this.addr, required this.port});
+  const _$SocketAddress_HostnameImpl(
+      {required this.hostname, required this.port});
 
   @override
-  final String addr;
+  final Hostname hostname;
   @override
   final int port;
 
   @override
   String toString() {
-    return 'SocketAddress.hostname(addr: $addr, port: $port)';
+    return 'SocketAddress.hostname(hostname: $hostname, port: $port)';
   }
 
   @override
-  bool operator ==(Object other) {
+  bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$SocketAddress_HostnameImpl &&
-            (identical(other.addr, addr) || other.addr == addr) &&
+            (identical(other.hostname, hostname) ||
+                other.hostname == hostname) &&
             (identical(other.port, port) || other.port == port));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, addr, port);
+  int get hashCode => Object.hash(runtimeType, hostname, port);
 
   @JsonKey(ignore: true)
   @override
@@ -3760,9 +3762,9 @@ class _$SocketAddress_HostnameImpl implements SocketAddress_Hostname {
     required TResult Function(
             U8Array32 ed25519Pubkey, int checksum, int version, int port)
         onionV3,
-    required TResult Function(String addr, int port) hostname,
+    required TResult Function(Hostname hostname, int port) hostname,
   }) {
-    return hostname(addr, port);
+    return hostname(this.hostname, port);
   }
 
   @override
@@ -3774,9 +3776,9 @@ class _$SocketAddress_HostnameImpl implements SocketAddress_Hostname {
     TResult? Function(
             U8Array32 ed25519Pubkey, int checksum, int version, int port)?
         onionV3,
-    TResult? Function(String addr, int port)? hostname,
+    TResult? Function(Hostname hostname, int port)? hostname,
   }) {
-    return hostname?.call(addr, port);
+    return hostname?.call(this.hostname, port);
   }
 
   @override
@@ -3788,11 +3790,11 @@ class _$SocketAddress_HostnameImpl implements SocketAddress_Hostname {
     TResult Function(
             U8Array32 ed25519Pubkey, int checksum, int version, int port)?
         onionV3,
-    TResult Function(String addr, int port)? hostname,
+    TResult Function(Hostname hostname, int port)? hostname,
     required TResult orElse(),
   }) {
     if (hostname != null) {
-      return hostname(addr, port);
+      return hostname(this.hostname, port);
     }
     return orElse();
   }
@@ -3840,10 +3842,10 @@ class _$SocketAddress_HostnameImpl implements SocketAddress_Hostname {
 
 abstract class SocketAddress_Hostname implements SocketAddress {
   const factory SocketAddress_Hostname(
-      {required final String addr,
+      {required final Hostname hostname,
       required final int port}) = _$SocketAddress_HostnameImpl;
 
-  String get addr;
+  Hostname get hostname;
   int get port;
   @JsonKey(ignore: true)
   _$$SocketAddress_HostnameImplCopyWith<_$SocketAddress_HostnameImpl>
