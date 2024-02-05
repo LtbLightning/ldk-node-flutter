@@ -67,14 +67,14 @@ class _MyAppState extends State<MyApp> {
         channelId: channelId!, counterpartyNodeId: bobNodeId!);
   }
 
-  initAliceNode() async {
+  Future initAliceNode() async {
     final aliceConfig = await initLdkConfig('alice_regtest',
-        ldk.SocketAddress.hostname(addr: "0.0.0.0", port: 9735));
+        ldk.SocketAddress.hostname(addr: "0.0.0.0", port: 3003));
     ldk.Builder aliceBuilder = ldk.Builder.fromConfig(config: aliceConfig);
     aliceNode = await aliceBuilder
         .setEntropyBip39Mnemonic(
             mnemonic: ldk.Mnemonic(
-                "puppy interest whip tonight dad never sudden response push zone pig patch"))
+                "cart super leaf clinic pistol plug replace close super tooth wealth usage"))
         .setEsploraServer(esploraUrl)
         .build();
     await startNode(aliceNode);
@@ -95,7 +95,7 @@ class _MyAppState extends State<MyApp> {
 
   initBobNode() async {
     final bobConfig = await initLdkConfig(
-        "bob_regtest", ldk.SocketAddress.hostname(addr: "0.0.0.0", port: 3007));
+        "bob_regtest", ldk.SocketAddress.hostname(addr: "0.0.0.0", port: 3001));
     ldk.Builder bobBuilder = ldk.Builder.fromConfig(config: bobConfig);
     bobNode = await bobBuilder
         .setEntropyBip39Mnemonic(
@@ -145,7 +145,7 @@ class _MyAppState extends State<MyApp> {
           print("channelId: ${e.channelId.data}");
           print("isChannelReady: ${e.isChannelReady}");
           print("isUsable: ${e.isUsable}");
-          print("channelValueSatoshis: ${e.outboundCapacityMsat}");
+          print("outboundCapacityMsat: ${e.outboundCapacityMsat}");
         }
       }
     }
@@ -161,7 +161,7 @@ class _MyAppState extends State<MyApp> {
           for (var e in res) {
             print("amountMsat: ${e.amountMsat}");
             print("hash: ${e.hash.data}");
-            print("preimage: ${e.preimage!.data}");
+            print("preimage: ${e.preimage?.data}");
             print("secret: ${e.secret!.data}");
           }
         }
@@ -209,24 +209,26 @@ class _MyAppState extends State<MyApp> {
   }
 
   connectOpenChannel() async {
+    final funding_amount_sat = 80000;
+    final push_msat = (funding_amount_sat / 2) * 1000;
     await aliceNode.connectOpenChannel(
-        channelAmountSats: 50000,
+        channelAmountSats: funding_amount_sat,
         announceChannel: true,
         netaddress: bobAddr!,
-        pushToCounterpartyMsat: 50000,
+        pushToCounterpartyMsat: push_msat.toInt(),
         nodeId: bobNodeId!);
   }
 
   receiveAndSendPayments() async {
     invoice = await bobNode.receivePayment(
-        amountMsat: 10000, description: 'ALICE', expirySecs: 10000);
+        amountMsat: 2500000, description: 'asdf', expirySecs: 9217);
     setState(() {
       displayText = invoice.toString();
     });
     final paymentHash = await aliceNode.sendPayment(invoice: invoice!);
     final res = await aliceNode.payment(paymentHash: paymentHash);
     setState(() {
-      displayText = "send payment success ${res?.status}";
+      displayText = "send payment success ${res?.hash.data}";
     });
   }
 
@@ -270,17 +272,17 @@ class _MyAppState extends State<MyApp> {
     }, channelReady: (e) {
       if (kDebugMode) {
         print(
-            "channelReady: ${e.channelId}, userChannelId: ${e.userChannelId}");
+            "channelReady: ${e.channelId.data}, userChannelId: ${e.userChannelId.data}");
       }
     }, channelClosed: (e) {
       if (kDebugMode) {
         print(
-            "channelClosed: ${e.channelId}, userChannelId: ${e.userChannelId}");
+            "channelClosed: ${e.channelId.data}, userChannelId: ${e.userChannelId.data}");
       }
     }, channelPending: (e) {
       if (kDebugMode) {
         print(
-            "channelClosed: ${e.channelId}, userChannelId: ${e.userChannelId}");
+            "channelClosed: ${e.channelId.data}, userChannelId: ${e.userChannelId.data}");
       }
     });
     await node.eventHandled();
