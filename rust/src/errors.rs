@@ -65,6 +65,7 @@ pub enum NodeException {
 }
 #[allow(dead_code)]
 pub enum BuilderException {
+    SocketAddressParseError,
     /// The given seed bytes are invalid, e.g., have invalid length.
     InvalidSeedBytes,
     /// The given seed file is invalid, e.g., has invalid length, or could not be read.
@@ -88,6 +89,7 @@ pub enum BuilderException {
     /// We failed to setup the logger.
     LoggerSetupFailed,
 }
+
 impl From<NodeError> for NodeException {
     fn from(value: NodeError) -> Self {
         match value {
