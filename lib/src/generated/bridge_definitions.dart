@@ -13,6 +13,15 @@ import 'package:collection/collection.dart';
 part 'bridge_definitions.freezed.dart';
 
 abstract class Ldknode {
+  Future<NodePointer> finalizeBuilder(
+      {required Config config,
+      ChainDataSourceConfig? chainDataSourceConfig,
+      EntropySourceConfig? entropySourceConfig,
+      GossipSourceConfig? gossipSourceConfig,
+      dynamic hint});
+
+  FlutterRustBridgeTaskConstMeta get kFinalizeBuilderConstMeta;
+
   Future<SocketAddress> fromStrStaticMethodSocketAddress(
       {required String address, dynamic hint});
 
@@ -26,16 +35,6 @@ abstract class Ldknode {
   Future<Mnemonic> generateStaticMethodMnemonic({dynamic hint});
 
   FlutterRustBridgeTaskConstMeta get kGenerateStaticMethodMnemonicConstMeta;
-
-  Future<NodePointer> finalizeBuilderMethodLdkBuilder(
-      {required LdkBuilder that,
-      required Config config,
-      ChainDataSourceConfig? chainDataSourceConfig,
-      EntropySourceConfig? entropySourceConfig,
-      GossipSourceConfig? gossipSourceConfig,
-      dynamic hint});
-
-  FlutterRustBridgeTaskConstMeta get kFinalizeBuilderMethodLdkBuilderConstMeta;
 
   /// Starts the necessary background tasks, such as handling events coming from user input,
   /// LDK/BDK, and the peer-to-peer network.
@@ -76,11 +75,10 @@ abstract class Ldknode {
   ///
   /// **Note:** this will always return the same event until handling is confirmed via `node.eventHandled()`.
   ///
-  Future<Event> waitUntilNextEventMethodNodePointer(
+  Future<Event> waitNextEventMethodNodePointer(
       {required NodePointer that, dynamic hint});
 
-  FlutterRustBridgeTaskConstMeta
-      get kWaitUntilNextEventMethodNodePointerConstMeta;
+  FlutterRustBridgeTaskConstMeta get kWaitNextEventMethodNodePointerConstMeta;
 
   /// Returns our own node id
   Future<PublicKey> nodeIdMethodNodePointer(
@@ -776,28 +774,6 @@ sealed class GossipSourceConfig with _$GossipSourceConfig {
   ) = GossipSourceConfig_RapidGossipSync;
 }
 
-class LdkBuilder {
-  final Ldknode bridge;
-
-  const LdkBuilder({
-    required this.bridge,
-  });
-
-  Future<NodePointer> finalizeBuilder(
-          {required Config config,
-          ChainDataSourceConfig? chainDataSourceConfig,
-          EntropySourceConfig? entropySourceConfig,
-          GossipSourceConfig? gossipSourceConfig,
-          dynamic hint}) =>
-      bridge.finalizeBuilderMethodLdkBuilder(
-        that: this,
-        config: config,
-        chainDataSourceConfig: chainDataSourceConfig,
-        entropySourceConfig: entropySourceConfig,
-        gossipSourceConfig: gossipSourceConfig,
-      );
-}
-
 /// An enum representing the available verbosity levels of the logger.
 ///
 enum LogLevel {
@@ -1011,8 +987,8 @@ class NodePointer {
   ///
   /// **Note:** this will always return the same event until handling is confirmed via `node.eventHandled()`.
   ///
-  Future<Event> waitUntilNextEvent({dynamic hint}) =>
-      bridge.waitUntilNextEventMethodNodePointer(
+  Future<Event> waitNextEvent({dynamic hint}) =>
+      bridge.waitNextEventMethodNodePointer(
         that: this,
       );
 

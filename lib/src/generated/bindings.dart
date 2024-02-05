@@ -26,6 +26,46 @@ class LdknodeImpl implements Ldknode {
   factory LdknodeImpl.wasm(FutureOr<WasmModule> module) =>
       LdknodeImpl(module as ExternalLibrary);
   LdknodeImpl.raw(this._platform);
+  Future<NodePointer> finalizeBuilder(
+      {required Config config,
+      ChainDataSourceConfig? chainDataSourceConfig,
+      EntropySourceConfig? entropySourceConfig,
+      GossipSourceConfig? gossipSourceConfig,
+      dynamic hint}) {
+    var arg0 = _platform.api2wire_box_autoadd_config(config);
+    var arg1 = _platform.api2wire_opt_box_autoadd_chain_data_source_config(
+        chainDataSourceConfig);
+    var arg2 = _platform
+        .api2wire_opt_box_autoadd_entropy_source_config(entropySourceConfig);
+    var arg3 = _platform
+        .api2wire_opt_box_autoadd_gossip_source_config(gossipSourceConfig);
+    return _platform.executeNormal(FlutterRustBridgeTask(
+      callFfi: (port_) =>
+          _platform.inner.wire_finalize_builder(port_, arg0, arg1, arg2, arg3),
+      parseSuccessData: (d) => _wire2api_node_pointer(d),
+      parseErrorData: _wire2api_builder_exception,
+      constMeta: kFinalizeBuilderConstMeta,
+      argValues: [
+        config,
+        chainDataSourceConfig,
+        entropySourceConfig,
+        gossipSourceConfig
+      ],
+      hint: hint,
+    ));
+  }
+
+  FlutterRustBridgeTaskConstMeta get kFinalizeBuilderConstMeta =>
+      const FlutterRustBridgeTaskConstMeta(
+        debugName: "finalize_builder",
+        argNames: [
+          "config",
+          "chainDataSourceConfig",
+          "entropySourceConfig",
+          "gossipSourceConfig"
+        ],
+      );
+
   Future<SocketAddress> fromStrStaticMethodSocketAddress(
       {required String address, dynamic hint}) {
     var arg0 = _platform.api2wire_String(address);
@@ -84,52 +124,6 @@ class LdknodeImpl implements Ldknode {
         debugName: "generate__static_method__Mnemonic",
         argNames: [],
       );
-
-  Future<NodePointer> finalizeBuilderMethodLdkBuilder(
-      {required LdkBuilder that,
-      required Config config,
-      ChainDataSourceConfig? chainDataSourceConfig,
-      EntropySourceConfig? entropySourceConfig,
-      GossipSourceConfig? gossipSourceConfig,
-      dynamic hint}) {
-    var arg0 = _platform.api2wire_box_autoadd_ldk_builder(that);
-    var arg1 = _platform.api2wire_box_autoadd_config(config);
-    var arg2 = _platform.api2wire_opt_box_autoadd_chain_data_source_config(
-        chainDataSourceConfig);
-    var arg3 = _platform
-        .api2wire_opt_box_autoadd_entropy_source_config(entropySourceConfig);
-    var arg4 = _platform
-        .api2wire_opt_box_autoadd_gossip_source_config(gossipSourceConfig);
-    return _platform.executeNormal(FlutterRustBridgeTask(
-      callFfi: (port_) => _platform.inner
-          .wire_finalize_builder__method__LdkBuilder(
-              port_, arg0, arg1, arg2, arg3, arg4),
-      parseSuccessData: (d) => _wire2api_node_pointer(d),
-      parseErrorData: _wire2api_builder_exception,
-      constMeta: kFinalizeBuilderMethodLdkBuilderConstMeta,
-      argValues: [
-        that,
-        config,
-        chainDataSourceConfig,
-        entropySourceConfig,
-        gossipSourceConfig
-      ],
-      hint: hint,
-    ));
-  }
-
-  FlutterRustBridgeTaskConstMeta
-      get kFinalizeBuilderMethodLdkBuilderConstMeta =>
-          const FlutterRustBridgeTaskConstMeta(
-            debugName: "finalize_builder__method__LdkBuilder",
-            argNames: [
-              "that",
-              "config",
-              "chainDataSourceConfig",
-              "entropySourceConfig",
-              "gossipSourceConfig"
-            ],
-          );
 
   Future<void> startMethodNodePointer(
       {required NodePointer that, dynamic hint}) {
@@ -211,26 +205,25 @@ class LdknodeImpl implements Ldknode {
         argNames: ["that"],
       );
 
-  Future<Event> waitUntilNextEventMethodNodePointer(
+  Future<Event> waitNextEventMethodNodePointer(
       {required NodePointer that, dynamic hint}) {
     var arg0 = _platform.api2wire_box_autoadd_node_pointer(that);
     return _platform.executeNormal(FlutterRustBridgeTask(
       callFfi: (port_) => _platform.inner
-          .wire_wait_until_next_event__method__NodePointer(port_, arg0),
+          .wire_wait_next_event__method__NodePointer(port_, arg0),
       parseSuccessData: _wire2api_event,
       parseErrorData: null,
-      constMeta: kWaitUntilNextEventMethodNodePointerConstMeta,
+      constMeta: kWaitNextEventMethodNodePointerConstMeta,
       argValues: [that],
       hint: hint,
     ));
   }
 
-  FlutterRustBridgeTaskConstMeta
-      get kWaitUntilNextEventMethodNodePointerConstMeta =>
-          const FlutterRustBridgeTaskConstMeta(
-            debugName: "wait_until_next_event__method__NodePointer",
-            argNames: ["that"],
-          );
+  FlutterRustBridgeTaskConstMeta get kWaitNextEventMethodNodePointerConstMeta =>
+      const FlutterRustBridgeTaskConstMeta(
+        debugName: "wait_next_event__method__NodePointer",
+        argNames: ["that"],
+      );
 
   Future<PublicKey> nodeIdMethodNodePointer(
       {required NodePointer that, dynamic hint}) {
@@ -1470,13 +1463,6 @@ class LdknodePlatform extends FlutterRustBridgeBase<LdknodeWire> {
   }
 
   @protected
-  ffi.Pointer<wire_LdkBuilder> api2wire_box_autoadd_ldk_builder(
-      LdkBuilder raw) {
-    final ptr = inner.new_box_autoadd_ldk_builder_0();
-    return ptr;
-  }
-
-  @protected
   ffi.Pointer<wire_Mnemonic> api2wire_box_autoadd_mnemonic(Mnemonic raw) {
     final ptr = inner.new_box_autoadd_mnemonic_0();
     _api_fill_to_wire_mnemonic(raw, ptr.ref);
@@ -1814,9 +1800,6 @@ class LdknodePlatform extends FlutterRustBridgeBase<LdknodeWire> {
     }
   }
 
-  void _api_fill_to_wire_ldk_builder(
-      LdkBuilder apiObj, wire_LdkBuilder wireObj) {}
-
   void _api_fill_to_wire_max_dust_htlc_exposure(
       MaxDustHTLCExposure apiObj, wire_MaxDustHTLCExposure wireObj) {
     if (apiObj is MaxDustHTLCExposure_FixedLimitMsat) {
@@ -2001,6 +1984,38 @@ class LdknodeWire implements FlutterRustBridgeWireBase {
   late final _init_frb_dart_api_dl = _init_frb_dart_api_dlPtr
       .asFunction<int Function(ffi.Pointer<ffi.Void>)>();
 
+  void wire_finalize_builder(
+    int port_,
+    ffi.Pointer<wire_Config> config,
+    ffi.Pointer<wire_ChainDataSourceConfig> chain_data_source_config,
+    ffi.Pointer<wire_EntropySourceConfig> entropy_source_config,
+    ffi.Pointer<wire_GossipSourceConfig> gossip_source_config,
+  ) {
+    return _wire_finalize_builder(
+      port_,
+      config,
+      chain_data_source_config,
+      entropy_source_config,
+      gossip_source_config,
+    );
+  }
+
+  late final _wire_finalize_builderPtr = _lookup<
+      ffi.NativeFunction<
+          ffi.Void Function(
+              ffi.Int64,
+              ffi.Pointer<wire_Config>,
+              ffi.Pointer<wire_ChainDataSourceConfig>,
+              ffi.Pointer<wire_EntropySourceConfig>,
+              ffi.Pointer<wire_GossipSourceConfig>)>>('wire_finalize_builder');
+  late final _wire_finalize_builder = _wire_finalize_builderPtr.asFunction<
+      void Function(
+          int,
+          ffi.Pointer<wire_Config>,
+          ffi.Pointer<wire_ChainDataSourceConfig>,
+          ffi.Pointer<wire_EntropySourceConfig>,
+          ffi.Pointer<wire_GossipSourceConfig>)>();
+
   void wire_from_str__static_method__SocketAddress(
     int port_,
     ffi.Pointer<wire_uint_8_list> address,
@@ -2051,44 +2066,6 @@ class LdknodeWire implements FlutterRustBridgeWireBase {
   late final _wire_generate__static_method__Mnemonic =
       _wire_generate__static_method__MnemonicPtr
           .asFunction<void Function(int)>();
-
-  void wire_finalize_builder__method__LdkBuilder(
-    int port_,
-    ffi.Pointer<wire_LdkBuilder> that,
-    ffi.Pointer<wire_Config> config,
-    ffi.Pointer<wire_ChainDataSourceConfig> chain_data_source_config,
-    ffi.Pointer<wire_EntropySourceConfig> entropy_source_config,
-    ffi.Pointer<wire_GossipSourceConfig> gossip_source_config,
-  ) {
-    return _wire_finalize_builder__method__LdkBuilder(
-      port_,
-      that,
-      config,
-      chain_data_source_config,
-      entropy_source_config,
-      gossip_source_config,
-    );
-  }
-
-  late final _wire_finalize_builder__method__LdkBuilderPtr = _lookup<
-          ffi.NativeFunction<
-              ffi.Void Function(
-                  ffi.Int64,
-                  ffi.Pointer<wire_LdkBuilder>,
-                  ffi.Pointer<wire_Config>,
-                  ffi.Pointer<wire_ChainDataSourceConfig>,
-                  ffi.Pointer<wire_EntropySourceConfig>,
-                  ffi.Pointer<wire_GossipSourceConfig>)>>(
-      'wire_finalize_builder__method__LdkBuilder');
-  late final _wire_finalize_builder__method__LdkBuilder =
-      _wire_finalize_builder__method__LdkBuilderPtr.asFunction<
-          void Function(
-              int,
-              ffi.Pointer<wire_LdkBuilder>,
-              ffi.Pointer<wire_Config>,
-              ffi.Pointer<wire_ChainDataSourceConfig>,
-              ffi.Pointer<wire_EntropySourceConfig>,
-              ffi.Pointer<wire_GossipSourceConfig>)>();
 
   void wire_start__method__NodePointer(
     int port_,
@@ -2162,22 +2139,22 @@ class LdknodeWire implements FlutterRustBridgeWireBase {
       _wire_next_event__method__NodePointerPtr
           .asFunction<void Function(int, ffi.Pointer<wire_NodePointer>)>();
 
-  void wire_wait_until_next_event__method__NodePointer(
+  void wire_wait_next_event__method__NodePointer(
     int port_,
     ffi.Pointer<wire_NodePointer> that,
   ) {
-    return _wire_wait_until_next_event__method__NodePointer(
+    return _wire_wait_next_event__method__NodePointer(
       port_,
       that,
     );
   }
 
-  late final _wire_wait_until_next_event__method__NodePointerPtr = _lookup<
+  late final _wire_wait_next_event__method__NodePointerPtr = _lookup<
           ffi.NativeFunction<
               ffi.Void Function(ffi.Int64, ffi.Pointer<wire_NodePointer>)>>(
-      'wire_wait_until_next_event__method__NodePointer');
-  late final _wire_wait_until_next_event__method__NodePointer =
-      _wire_wait_until_next_event__method__NodePointerPtr
+      'wire_wait_next_event__method__NodePointer');
+  late final _wire_wait_next_event__method__NodePointer =
+      _wire_wait_next_event__method__NodePointerPtr
           .asFunction<void Function(int, ffi.Pointer<wire_NodePointer>)>();
 
   void wire_node_id__method__NodePointer(
@@ -2941,16 +2918,6 @@ class LdknodeWire implements FlutterRustBridgeWireBase {
       _new_box_autoadd_gossip_source_config_0Ptr
           .asFunction<ffi.Pointer<wire_GossipSourceConfig> Function()>();
 
-  ffi.Pointer<wire_LdkBuilder> new_box_autoadd_ldk_builder_0() {
-    return _new_box_autoadd_ldk_builder_0();
-  }
-
-  late final _new_box_autoadd_ldk_builder_0Ptr =
-      _lookup<ffi.NativeFunction<ffi.Pointer<wire_LdkBuilder> Function()>>(
-          'new_box_autoadd_ldk_builder_0');
-  late final _new_box_autoadd_ldk_builder_0 = _new_box_autoadd_ldk_builder_0Ptr
-      .asFunction<ffi.Pointer<wire_LdkBuilder> Function()>();
-
   ffi.Pointer<wire_Mnemonic> new_box_autoadd_mnemonic_0() {
     return _new_box_autoadd_mnemonic_0();
   }
@@ -3308,8 +3275,6 @@ final class wire_SocketAddress extends ffi.Struct {
 
   external ffi.Pointer<SocketAddressKind> kind;
 }
-
-final class wire_LdkBuilder extends ffi.Opaque {}
 
 final class wire_list_socket_address extends ffi.Struct {
   external ffi.Pointer<wire_SocketAddress> ptr;

@@ -49,6 +49,35 @@ use crate::types::UserChannelId;
 
 // Section: wire functions
 
+fn wire_finalize_builder_impl(
+    port_: MessagePort,
+    config: impl Wire2Api<Config> + UnwindSafe,
+    chain_data_source_config: impl Wire2Api<Option<ChainDataSourceConfig>> + UnwindSafe,
+    entropy_source_config: impl Wire2Api<Option<EntropySourceConfig>> + UnwindSafe,
+    gossip_source_config: impl Wire2Api<Option<GossipSourceConfig>> + UnwindSafe,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap::<_, _, _, NodePointer, _>(
+        WrapInfo {
+            debug_name: "finalize_builder",
+            port: Some(port_),
+            mode: FfiCallMode::Normal,
+        },
+        move || {
+            let api_config = config.wire2api();
+            let api_chain_data_source_config = chain_data_source_config.wire2api();
+            let api_entropy_source_config = entropy_source_config.wire2api();
+            let api_gossip_source_config = gossip_source_config.wire2api();
+            move |task_callback| {
+                finalize_builder(
+                    api_config,
+                    api_chain_data_source_config,
+                    api_entropy_source_config,
+                    api_gossip_source_config,
+                )
+            }
+        },
+    )
+}
 fn wire_from_str__static_method__SocketAddress_impl(
     port_: MessagePort,
     address: impl Wire2Api<String> + UnwindSafe,
@@ -89,38 +118,6 @@ fn wire_generate__static_method__Mnemonic_impl(port_: MessagePort) {
             mode: FfiCallMode::Normal,
         },
         move || move |task_callback| Result::<_, ()>::Ok(Mnemonic::generate()),
-    )
-}
-fn wire_finalize_builder__method__LdkBuilder_impl(
-    port_: MessagePort,
-    that: impl Wire2Api<LdkBuilder> + UnwindSafe,
-    config: impl Wire2Api<Config> + UnwindSafe,
-    chain_data_source_config: impl Wire2Api<Option<ChainDataSourceConfig>> + UnwindSafe,
-    entropy_source_config: impl Wire2Api<Option<EntropySourceConfig>> + UnwindSafe,
-    gossip_source_config: impl Wire2Api<Option<GossipSourceConfig>> + UnwindSafe,
-) {
-    FLUTTER_RUST_BRIDGE_HANDLER.wrap::<_, _, _, NodePointer, _>(
-        WrapInfo {
-            debug_name: "finalize_builder__method__LdkBuilder",
-            port: Some(port_),
-            mode: FfiCallMode::Normal,
-        },
-        move || {
-            let api_that = that.wire2api();
-            let api_config = config.wire2api();
-            let api_chain_data_source_config = chain_data_source_config.wire2api();
-            let api_entropy_source_config = entropy_source_config.wire2api();
-            let api_gossip_source_config = gossip_source_config.wire2api();
-            move |task_callback| {
-                LdkBuilder::finalize_builder(
-                    &api_that,
-                    api_config,
-                    api_chain_data_source_config,
-                    api_entropy_source_config,
-                    api_gossip_source_config,
-                )
-            }
-        },
     )
 }
 fn wire_start__method__NodePointer_impl(
@@ -187,19 +184,19 @@ fn wire_next_event__method__NodePointer_impl(
         },
     )
 }
-fn wire_wait_until_next_event__method__NodePointer_impl(
+fn wire_wait_next_event__method__NodePointer_impl(
     port_: MessagePort,
     that: impl Wire2Api<NodePointer> + UnwindSafe,
 ) {
     FLUTTER_RUST_BRIDGE_HANDLER.wrap::<_, _, _, Event, _>(
         WrapInfo {
-            debug_name: "wait_until_next_event__method__NodePointer",
+            debug_name: "wait_next_event__method__NodePointer",
             port: Some(port_),
             mode: FfiCallMode::Normal,
         },
         move || {
             let api_that = that.wire2api();
-            move |task_callback| Result::<_, ()>::Ok(NodePointer::wait_until_next_event(&api_that))
+            move |task_callback| Result::<_, ()>::Ok(NodePointer::wait_next_event(&api_that))
         },
     )
 }

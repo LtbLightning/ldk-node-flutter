@@ -2,6 +2,23 @@ use super::*;
 // Section: wire functions
 
 #[no_mangle]
+pub extern "C" fn wire_finalize_builder(
+    port_: i64,
+    config: *mut wire_Config,
+    chain_data_source_config: *mut wire_ChainDataSourceConfig,
+    entropy_source_config: *mut wire_EntropySourceConfig,
+    gossip_source_config: *mut wire_GossipSourceConfig,
+) {
+    wire_finalize_builder_impl(
+        port_,
+        config,
+        chain_data_source_config,
+        entropy_source_config,
+        gossip_source_config,
+    )
+}
+
+#[no_mangle]
 pub extern "C" fn wire_from_str__static_method__SocketAddress(
     port_: i64,
     address: *mut wire_uint_8_list,
@@ -17,25 +34,6 @@ pub extern "C" fn wire_to_string__method__SocketAddress(port_: i64, that: *mut w
 #[no_mangle]
 pub extern "C" fn wire_generate__static_method__Mnemonic(port_: i64) {
     wire_generate__static_method__Mnemonic_impl(port_)
-}
-
-#[no_mangle]
-pub extern "C" fn wire_finalize_builder__method__LdkBuilder(
-    port_: i64,
-    that: *mut wire_LdkBuilder,
-    config: *mut wire_Config,
-    chain_data_source_config: *mut wire_ChainDataSourceConfig,
-    entropy_source_config: *mut wire_EntropySourceConfig,
-    gossip_source_config: *mut wire_GossipSourceConfig,
-) {
-    wire_finalize_builder__method__LdkBuilder_impl(
-        port_,
-        that,
-        config,
-        chain_data_source_config,
-        entropy_source_config,
-        gossip_source_config,
-    )
 }
 
 #[no_mangle]
@@ -59,11 +57,11 @@ pub extern "C" fn wire_next_event__method__NodePointer(port_: i64, that: *mut wi
 }
 
 #[no_mangle]
-pub extern "C" fn wire_wait_until_next_event__method__NodePointer(
+pub extern "C" fn wire_wait_next_event__method__NodePointer(
     port_: i64,
     that: *mut wire_NodePointer,
 ) {
-    wire_wait_until_next_event__method__NodePointer_impl(port_, that)
+    wire_wait_next_event__method__NodePointer_impl(port_, that)
 }
 
 #[no_mangle]
@@ -392,11 +390,6 @@ pub extern "C" fn new_box_autoadd_gossip_source_config_0() -> *mut wire_GossipSo
 }
 
 #[no_mangle]
-pub extern "C" fn new_box_autoadd_ldk_builder_0() -> *mut wire_LdkBuilder {
-    support::new_leak_box_ptr(wire_LdkBuilder::new_with_null_ptr())
-}
-
-#[no_mangle]
 pub extern "C" fn new_box_autoadd_mnemonic_0() -> *mut wire_Mnemonic {
     support::new_leak_box_ptr(wire_Mnemonic::new_with_null_ptr())
 }
@@ -546,12 +539,6 @@ impl Wire2Api<GossipSourceConfig> for *mut wire_GossipSourceConfig {
         Wire2Api::<GossipSourceConfig>::wire2api(*wrap).into()
     }
 }
-impl Wire2Api<LdkBuilder> for *mut wire_LdkBuilder {
-    fn wire2api(self) -> LdkBuilder {
-        let wrap = unsafe { support::box_from_leak_ptr(self) };
-        Wire2Api::<LdkBuilder>::wire2api(*wrap).into()
-    }
-}
 impl Wire2Api<Mnemonic> for *mut wire_Mnemonic {
     fn wire2api(self) -> Mnemonic {
         let wrap = unsafe { support::box_from_leak_ptr(self) };
@@ -680,11 +667,6 @@ impl Wire2Api<GossipSourceConfig> for wire_GossipSourceConfig {
     }
 }
 
-impl Wire2Api<LdkBuilder> for wire_LdkBuilder {
-    fn wire2api(self) -> LdkBuilder {
-        LdkBuilder {}
-    }
-}
 impl Wire2Api<Vec<PublicKey>> for *mut wire_list_public_key {
     fn wire2api(self) -> Vec<PublicKey> {
         let vec = unsafe {
@@ -886,10 +868,6 @@ pub struct wire_Config {
     probing_liquidity_limit_multiplier: u64,
     log_level: i32,
 }
-
-#[repr(C)]
-#[derive(Clone)]
-pub struct wire_LdkBuilder {}
 
 #[repr(C)]
 #[derive(Clone)]
@@ -1280,18 +1258,6 @@ pub extern "C" fn inflate_GossipSourceConfig_RapidGossipSync() -> *mut GossipSou
             field0: core::ptr::null_mut(),
         }),
     })
-}
-
-impl NewWithNullPtr for wire_LdkBuilder {
-    fn new_with_null_ptr() -> Self {
-        Self {}
-    }
-}
-
-impl Default for wire_LdkBuilder {
-    fn default() -> Self {
-        Self::new_with_null_ptr()
-    }
 }
 
 impl Default for wire_MaxDustHTLCExposure {
