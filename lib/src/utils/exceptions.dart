@@ -48,6 +48,8 @@ BuilderException handleBuilderException(bridge.BuilderException e) {
           message: "Given listening addresses are invalid.");
     case bridge.BuilderException.KVStoreSetupFailed:
       return BuilderException(message: "Failed to setup KVStore.");
+    case bridge.BuilderException.SocketAddressParseError:
+      return BuilderException(message: "Invalid SocketAddress.");
   }
 }
 

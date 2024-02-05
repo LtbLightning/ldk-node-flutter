@@ -17,52 +17,98 @@ import 'package:uuid/uuid.dart';
 
 import 'dart:ffi' as ffi;
 
-class RustLdkNodeImpl implements RustLdkNode {
-  final RustLdkNodePlatform _platform;
-  factory RustLdkNodeImpl(ExternalLibrary dylib) =>
-      RustLdkNodeImpl.raw(RustLdkNodePlatform(dylib));
+class LdknodeImpl implements Ldknode {
+  final LdknodePlatform _platform;
+  factory LdknodeImpl(ExternalLibrary dylib) =>
+      LdknodeImpl.raw(LdknodePlatform(dylib));
 
   /// Only valid on web/WASM platforms.
-  factory RustLdkNodeImpl.wasm(FutureOr<WasmModule> module) =>
-      RustLdkNodeImpl(module as ExternalLibrary);
-  RustLdkNodeImpl.raw(this._platform);
-  Future<Mnemonic> generateEntropyMnemonic({dynamic hint}) {
+  factory LdknodeImpl.wasm(FutureOr<WasmModule> module) =>
+      LdknodeImpl(module as ExternalLibrary);
+  LdknodeImpl.raw(this._platform);
+  Future<SocketAddress> fromStrStaticMethodSocketAddress(
+      {required String address, dynamic hint}) {
+    var arg0 = _platform.api2wire_String(address);
     return _platform.executeNormal(FlutterRustBridgeTask(
-      callFfi: (port_) => _platform.inner.wire_generate_entropy_mnemonic(port_),
-      parseSuccessData: _wire2api_mnemonic,
+      callFfi: (port_) => _platform.inner
+          .wire_from_str__static_method__SocketAddress(port_, arg0),
+      parseSuccessData: _wire2api_socket_address,
+      parseErrorData: _wire2api_builder_exception,
+      constMeta: kFromStrStaticMethodSocketAddressConstMeta,
+      argValues: [address],
+      hint: hint,
+    ));
+  }
+
+  FlutterRustBridgeTaskConstMeta
+      get kFromStrStaticMethodSocketAddressConstMeta =>
+          const FlutterRustBridgeTaskConstMeta(
+            debugName: "from_str__static_method__SocketAddress",
+            argNames: ["address"],
+          );
+
+  Future<String> toStringMethodSocketAddress(
+      {required SocketAddress that, dynamic hint}) {
+    var arg0 = _platform.api2wire_box_autoadd_socket_address(that);
+    return _platform.executeNormal(FlutterRustBridgeTask(
+      callFfi: (port_) =>
+          _platform.inner.wire_to_string__method__SocketAddress(port_, arg0),
+      parseSuccessData: _wire2api_String,
       parseErrorData: null,
-      constMeta: kGenerateEntropyMnemonicConstMeta,
+      constMeta: kToStringMethodSocketAddressConstMeta,
+      argValues: [that],
+      hint: hint,
+    ));
+  }
+
+  FlutterRustBridgeTaskConstMeta get kToStringMethodSocketAddressConstMeta =>
+      const FlutterRustBridgeTaskConstMeta(
+        debugName: "to_string__method__SocketAddress",
+        argNames: ["that"],
+      );
+
+  Future<Mnemonic> generateStaticMethodMnemonic({dynamic hint}) {
+    return _platform.executeNormal(FlutterRustBridgeTask(
+      callFfi: (port_) =>
+          _platform.inner.wire_generate__static_method__Mnemonic(port_),
+      parseSuccessData: (d) => _wire2api_mnemonic(d),
+      parseErrorData: null,
+      constMeta: kGenerateStaticMethodMnemonicConstMeta,
       argValues: [],
       hint: hint,
     ));
   }
 
-  FlutterRustBridgeTaskConstMeta get kGenerateEntropyMnemonicConstMeta =>
+  FlutterRustBridgeTaskConstMeta get kGenerateStaticMethodMnemonicConstMeta =>
       const FlutterRustBridgeTaskConstMeta(
-        debugName: "generate_entropy_mnemonic",
+        debugName: "generate__static_method__Mnemonic",
         argNames: [],
       );
 
-  Future<NodePointer> buildSqliteNode(
-      {required Config config,
+  Future<NodePointer> finalizeBuilderMethodLdkBuilder(
+      {required LdkBuilder that,
+      required Config config,
       ChainDataSourceConfig? chainDataSourceConfig,
       EntropySourceConfig? entropySourceConfig,
       GossipSourceConfig? gossipSourceConfig,
       dynamic hint}) {
-    var arg0 = _platform.api2wire_box_autoadd_config(config);
-    var arg1 = _platform.api2wire_opt_box_autoadd_chain_data_source_config(
+    var arg0 = _platform.api2wire_box_autoadd_ldk_builder(that);
+    var arg1 = _platform.api2wire_box_autoadd_config(config);
+    var arg2 = _platform.api2wire_opt_box_autoadd_chain_data_source_config(
         chainDataSourceConfig);
-    var arg2 = _platform
-        .api2wire_opt_box_autoadd_entropy_source_config(entropySourceConfig);
     var arg3 = _platform
+        .api2wire_opt_box_autoadd_entropy_source_config(entropySourceConfig);
+    var arg4 = _platform
         .api2wire_opt_box_autoadd_gossip_source_config(gossipSourceConfig);
     return _platform.executeNormal(FlutterRustBridgeTask(
-      callFfi: (port_) =>
-          _platform.inner.wire_build_sqlite_node(port_, arg0, arg1, arg2, arg3),
+      callFfi: (port_) => _platform.inner
+          .wire_finalize_builder__method__LdkBuilder(
+              port_, arg0, arg1, arg2, arg3, arg4),
       parseSuccessData: (d) => _wire2api_node_pointer(d),
       parseErrorData: _wire2api_builder_exception,
-      constMeta: kBuildSqliteNodeConstMeta,
+      constMeta: kFinalizeBuilderMethodLdkBuilderConstMeta,
       argValues: [
+        that,
         config,
         chainDataSourceConfig,
         entropySourceConfig,
@@ -72,16 +118,18 @@ class RustLdkNodeImpl implements RustLdkNode {
     ));
   }
 
-  FlutterRustBridgeTaskConstMeta get kBuildSqliteNodeConstMeta =>
-      const FlutterRustBridgeTaskConstMeta(
-        debugName: "build_sqlite_node",
-        argNames: [
-          "config",
-          "chainDataSourceConfig",
-          "entropySourceConfig",
-          "gossipSourceConfig"
-        ],
-      );
+  FlutterRustBridgeTaskConstMeta
+      get kFinalizeBuilderMethodLdkBuilderConstMeta =>
+          const FlutterRustBridgeTaskConstMeta(
+            debugName: "finalize_builder__method__LdkBuilder",
+            argNames: [
+              "that",
+              "config",
+              "chainDataSourceConfig",
+              "entropySourceConfig",
+              "gossipSourceConfig"
+            ],
+          );
 
   Future<void> startMethodNodePointer(
       {required NodePointer that, dynamic hint}) {
@@ -909,7 +957,7 @@ class RustLdkNodeImpl implements RustLdkNode {
     if (arr.length != 1)
       throw Exception('unexpected arr length: expect 1 but see ${arr.length}');
     return Address(
-      internal: _wire2api_String(arr[0]),
+      s: _wire2api_String(arr[0]),
     );
   }
 
@@ -918,7 +966,7 @@ class RustLdkNodeImpl implements RustLdkNode {
     if (arr.length != 1)
       throw Exception('unexpected arr length: expect 1 but see ${arr.length}');
     return Bolt11Invoice(
-      internal: _wire2api_String(arr[0]),
+      signedRawInvoice: _wire2api_String(arr[0]),
     );
   }
 
@@ -932,10 +980,6 @@ class RustLdkNodeImpl implements RustLdkNode {
 
   Event _wire2api_box_autoadd_event(dynamic raw) {
     return _wire2api_event(raw);
-  }
-
-  Hostname _wire2api_box_autoadd_hostname(dynamic raw) {
-    return _wire2api_hostname(raw);
   }
 
   OutPoint _wire2api_box_autoadd_out_point(dynamic raw) {
@@ -1007,7 +1051,7 @@ class RustLdkNodeImpl implements RustLdkNode {
     if (arr.length != 1)
       throw Exception('unexpected arr length: expect 1 but see ${arr.length}');
     return ChannelId(
-      internal: _wire2api_u8_array_32(arr[0]),
+      data: _wire2api_u8_array_32(arr[0]),
     );
   }
 
@@ -1051,15 +1095,6 @@ class RustLdkNodeImpl implements RustLdkNode {
     }
   }
 
-  Hostname _wire2api_hostname(dynamic raw) {
-    final arr = raw as List<dynamic>;
-    if (arr.length != 1)
-      throw Exception('unexpected arr length: expect 1 but see ${arr.length}');
-    return Hostname(
-      internal: _wire2api_String(arr[0]),
-    );
-  }
-
   int _wire2api_i32(dynamic raw) {
     return raw as int;
   }
@@ -1085,7 +1120,8 @@ class RustLdkNodeImpl implements RustLdkNode {
     if (arr.length != 1)
       throw Exception('unexpected arr length: expect 1 but see ${arr.length}');
     return Mnemonic(
-      internal: _wire2api_String(arr[0]),
+      bridge: this,
+      seedPhrase: _wire2api_String(arr[0]),
     );
   }
 
@@ -1172,7 +1208,7 @@ class RustLdkNodeImpl implements RustLdkNode {
     if (arr.length != 1)
       throw Exception('unexpected arr length: expect 1 but see ${arr.length}');
     return PaymentHash(
-      internal: _wire2api_u8_array_32(arr[0]),
+      data: _wire2api_u8_array_32(arr[0]),
     );
   }
 
@@ -1181,7 +1217,7 @@ class RustLdkNodeImpl implements RustLdkNode {
     if (arr.length != 1)
       throw Exception('unexpected arr length: expect 1 but see ${arr.length}');
     return PaymentPreimage(
-      internal: _wire2api_u8_array_32(arr[0]),
+      data: _wire2api_u8_array_32(arr[0]),
     );
   }
 
@@ -1190,7 +1226,7 @@ class RustLdkNodeImpl implements RustLdkNode {
     if (arr.length != 1)
       throw Exception('unexpected arr length: expect 1 but see ${arr.length}');
     return PaymentSecret(
-      internal: _wire2api_u8_array_32(arr[0]),
+      data: _wire2api_u8_array_32(arr[0]),
     );
   }
 
@@ -1214,7 +1250,7 @@ class RustLdkNodeImpl implements RustLdkNode {
     if (arr.length != 1)
       throw Exception('unexpected arr length: expect 1 but see ${arr.length}');
     return PublicKey(
-      internal: _wire2api_String(arr[0]),
+      hexCode: _wire2api_String(arr[0]),
     );
   }
 
@@ -1243,7 +1279,7 @@ class RustLdkNodeImpl implements RustLdkNode {
         );
       case 4:
         return SocketAddress_Hostname(
-          hostname: _wire2api_box_autoadd_hostname(raw[1]),
+          addr: _wire2api_String(raw[1]),
           port: _wire2api_u16(raw[2]),
         );
       default:
@@ -1256,7 +1292,7 @@ class RustLdkNodeImpl implements RustLdkNode {
     if (arr.length != 1)
       throw Exception('unexpected arr length: expect 1 but see ${arr.length}');
     return Txid(
-      internal: _wire2api_String(arr[0]),
+      hash: _wire2api_String(arr[0]),
     );
   }
 
@@ -1305,7 +1341,7 @@ class RustLdkNodeImpl implements RustLdkNode {
     if (arr.length != 1)
       throw Exception('unexpected arr length: expect 1 but see ${arr.length}');
     return UserChannelId(
-      internal: _wire2api_u64(arr[0]),
+      data: _wire2api_u64(arr[0]),
     );
   }
 }
@@ -1354,8 +1390,8 @@ int api2wire_u8(int raw) {
 
 // Section: finalizer
 
-class RustLdkNodePlatform extends FlutterRustBridgeBase<RustLdkNodeWire> {
-  RustLdkNodePlatform(ffi.DynamicLibrary dylib) : super(RustLdkNodeWire(dylib));
+class LdknodePlatform extends FlutterRustBridgeBase<LdknodeWire> {
+  LdknodePlatform(ffi.DynamicLibrary dylib) : super(LdknodeWire(dylib));
 
 // Section: api2wire
 
@@ -1434,9 +1470,9 @@ class RustLdkNodePlatform extends FlutterRustBridgeBase<RustLdkNodeWire> {
   }
 
   @protected
-  ffi.Pointer<wire_Hostname> api2wire_box_autoadd_hostname(Hostname raw) {
-    final ptr = inner.new_box_autoadd_hostname_0();
-    _api_fill_to_wire_hostname(raw, ptr.ref);
+  ffi.Pointer<wire_LdkBuilder> api2wire_box_autoadd_ldk_builder(
+      LdkBuilder raw) {
+    final ptr = inner.new_box_autoadd_ldk_builder_0();
     return ptr;
   }
 
@@ -1610,12 +1646,12 @@ class RustLdkNodePlatform extends FlutterRustBridgeBase<RustLdkNodeWire> {
   }
 
   void _api_fill_to_wire_address(Address apiObj, wire_Address wireObj) {
-    wireObj.internal = api2wire_String(apiObj.internal);
+    wireObj.s = api2wire_String(apiObj.s);
   }
 
   void _api_fill_to_wire_bolt_11_invoice(
       Bolt11Invoice apiObj, wire_Bolt11Invoice wireObj) {
-    wireObj.internal = api2wire_String(apiObj.internal);
+    wireObj.signed_raw_invoice = api2wire_String(apiObj.signedRawInvoice);
   }
 
   void _api_fill_to_wire_box_autoadd_address(
@@ -1658,11 +1694,6 @@ class RustLdkNodePlatform extends FlutterRustBridgeBase<RustLdkNodeWire> {
   void _api_fill_to_wire_box_autoadd_gossip_source_config(
       GossipSourceConfig apiObj, ffi.Pointer<wire_GossipSourceConfig> wireObj) {
     _api_fill_to_wire_gossip_source_config(apiObj, wireObj.ref);
-  }
-
-  void _api_fill_to_wire_box_autoadd_hostname(
-      Hostname apiObj, ffi.Pointer<wire_Hostname> wireObj) {
-    _api_fill_to_wire_hostname(apiObj, wireObj.ref);
   }
 
   void _api_fill_to_wire_box_autoadd_mnemonic(
@@ -1717,7 +1748,7 @@ class RustLdkNodePlatform extends FlutterRustBridgeBase<RustLdkNodeWire> {
   }
 
   void _api_fill_to_wire_channel_id(ChannelId apiObj, wire_ChannelId wireObj) {
-    wireObj.internal = api2wire_u8_array_32(apiObj.internal);
+    wireObj.data = api2wire_u8_array_32(apiObj.data);
   }
 
   void _api_fill_to_wire_config(Config apiObj, wire_Config wireObj) {
@@ -1783,9 +1814,8 @@ class RustLdkNodePlatform extends FlutterRustBridgeBase<RustLdkNodeWire> {
     }
   }
 
-  void _api_fill_to_wire_hostname(Hostname apiObj, wire_Hostname wireObj) {
-    wireObj.internal = api2wire_String(apiObj.internal);
-  }
+  void _api_fill_to_wire_ldk_builder(
+      LdkBuilder apiObj, wire_LdkBuilder wireObj) {}
 
   void _api_fill_to_wire_max_dust_htlc_exposure(
       MaxDustHTLCExposure apiObj, wire_MaxDustHTLCExposure wireObj) {
@@ -1806,7 +1836,7 @@ class RustLdkNodePlatform extends FlutterRustBridgeBase<RustLdkNodeWire> {
   }
 
   void _api_fill_to_wire_mnemonic(Mnemonic apiObj, wire_Mnemonic wireObj) {
-    wireObj.internal = api2wire_String(apiObj.internal);
+    wireObj.seed_phrase = api2wire_String(apiObj.seedPhrase);
   }
 
   void _api_fill_to_wire_node_pointer(
@@ -1816,11 +1846,11 @@ class RustLdkNodePlatform extends FlutterRustBridgeBase<RustLdkNodeWire> {
 
   void _api_fill_to_wire_payment_hash(
       PaymentHash apiObj, wire_PaymentHash wireObj) {
-    wireObj.internal = api2wire_u8_array_32(apiObj.internal);
+    wireObj.data = api2wire_u8_array_32(apiObj.data);
   }
 
   void _api_fill_to_wire_public_key(PublicKey apiObj, wire_PublicKey wireObj) {
-    wireObj.internal = api2wire_String(apiObj.internal);
+    wireObj.hex_code = api2wire_String(apiObj.hexCode);
   }
 
   void _api_fill_to_wire_socket_address(
@@ -1864,11 +1894,11 @@ class RustLdkNodePlatform extends FlutterRustBridgeBase<RustLdkNodeWire> {
       return;
     }
     if (apiObj is SocketAddress_Hostname) {
-      var pre_hostname = api2wire_box_autoadd_hostname(apiObj.hostname);
+      var pre_addr = api2wire_String(apiObj.addr);
       var pre_port = api2wire_u16(apiObj.port);
       wireObj.tag = 4;
       wireObj.kind = inner.inflate_SocketAddress_Hostname();
-      wireObj.kind.ref.Hostname.ref.hostname = pre_hostname;
+      wireObj.kind.ref.Hostname.ref.addr = pre_addr;
       wireObj.kind.ref.Hostname.ref.port = pre_port;
       return;
     }
@@ -1883,7 +1913,7 @@ class RustLdkNodePlatform extends FlutterRustBridgeBase<RustLdkNodeWire> {
 // ignore_for_file: type=lint
 
 /// generated by flutter_rust_bridge
-class RustLdkNodeWire implements FlutterRustBridgeWireBase {
+class LdknodeWire implements FlutterRustBridgeWireBase {
   @internal
   late final dartApi = DartApiDl(init_frb_dart_api_dl);
 
@@ -1892,11 +1922,11 @@ class RustLdkNodeWire implements FlutterRustBridgeWireBase {
       _lookup;
 
   /// The symbols are looked up in [dynamicLibrary].
-  RustLdkNodeWire(ffi.DynamicLibrary dynamicLibrary)
+  LdknodeWire(ffi.DynamicLibrary dynamicLibrary)
       : _lookup = dynamicLibrary.lookup;
 
   /// The symbols are looked up with [lookup].
-  RustLdkNodeWire.fromLookup(
+  LdknodeWire.fromLookup(
       ffi.Pointer<T> Function<T extends ffi.NativeType>(String symbolName)
           lookup)
       : _lookup = lookup;
@@ -1971,29 +2001,68 @@ class RustLdkNodeWire implements FlutterRustBridgeWireBase {
   late final _init_frb_dart_api_dl = _init_frb_dart_api_dlPtr
       .asFunction<int Function(ffi.Pointer<ffi.Void>)>();
 
-  void wire_generate_entropy_mnemonic(
+  void wire_from_str__static_method__SocketAddress(
+    int port_,
+    ffi.Pointer<wire_uint_8_list> address,
+  ) {
+    return _wire_from_str__static_method__SocketAddress(
+      port_,
+      address,
+    );
+  }
+
+  late final _wire_from_str__static_method__SocketAddressPtr = _lookup<
+          ffi.NativeFunction<
+              ffi.Void Function(ffi.Int64, ffi.Pointer<wire_uint_8_list>)>>(
+      'wire_from_str__static_method__SocketAddress');
+  late final _wire_from_str__static_method__SocketAddress =
+      _wire_from_str__static_method__SocketAddressPtr
+          .asFunction<void Function(int, ffi.Pointer<wire_uint_8_list>)>();
+
+  void wire_to_string__method__SocketAddress(
+    int port_,
+    ffi.Pointer<wire_SocketAddress> that,
+  ) {
+    return _wire_to_string__method__SocketAddress(
+      port_,
+      that,
+    );
+  }
+
+  late final _wire_to_string__method__SocketAddressPtr = _lookup<
+          ffi.NativeFunction<
+              ffi.Void Function(ffi.Int64, ffi.Pointer<wire_SocketAddress>)>>(
+      'wire_to_string__method__SocketAddress');
+  late final _wire_to_string__method__SocketAddress =
+      _wire_to_string__method__SocketAddressPtr
+          .asFunction<void Function(int, ffi.Pointer<wire_SocketAddress>)>();
+
+  void wire_generate__static_method__Mnemonic(
     int port_,
   ) {
-    return _wire_generate_entropy_mnemonic(
+    return _wire_generate__static_method__Mnemonic(
       port_,
     );
   }
 
-  late final _wire_generate_entropy_mnemonicPtr =
+  late final _wire_generate__static_method__MnemonicPtr =
       _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Int64)>>(
-          'wire_generate_entropy_mnemonic');
-  late final _wire_generate_entropy_mnemonic =
-      _wire_generate_entropy_mnemonicPtr.asFunction<void Function(int)>();
+          'wire_generate__static_method__Mnemonic');
+  late final _wire_generate__static_method__Mnemonic =
+      _wire_generate__static_method__MnemonicPtr
+          .asFunction<void Function(int)>();
 
-  void wire_build_sqlite_node(
+  void wire_finalize_builder__method__LdkBuilder(
     int port_,
+    ffi.Pointer<wire_LdkBuilder> that,
     ffi.Pointer<wire_Config> config,
     ffi.Pointer<wire_ChainDataSourceConfig> chain_data_source_config,
     ffi.Pointer<wire_EntropySourceConfig> entropy_source_config,
     ffi.Pointer<wire_GossipSourceConfig> gossip_source_config,
   ) {
-    return _wire_build_sqlite_node(
+    return _wire_finalize_builder__method__LdkBuilder(
       port_,
+      that,
       config,
       chain_data_source_config,
       entropy_source_config,
@@ -2001,21 +2070,25 @@ class RustLdkNodeWire implements FlutterRustBridgeWireBase {
     );
   }
 
-  late final _wire_build_sqlite_nodePtr = _lookup<
-      ffi.NativeFunction<
-          ffi.Void Function(
-              ffi.Int64,
+  late final _wire_finalize_builder__method__LdkBuilderPtr = _lookup<
+          ffi.NativeFunction<
+              ffi.Void Function(
+                  ffi.Int64,
+                  ffi.Pointer<wire_LdkBuilder>,
+                  ffi.Pointer<wire_Config>,
+                  ffi.Pointer<wire_ChainDataSourceConfig>,
+                  ffi.Pointer<wire_EntropySourceConfig>,
+                  ffi.Pointer<wire_GossipSourceConfig>)>>(
+      'wire_finalize_builder__method__LdkBuilder');
+  late final _wire_finalize_builder__method__LdkBuilder =
+      _wire_finalize_builder__method__LdkBuilderPtr.asFunction<
+          void Function(
+              int,
+              ffi.Pointer<wire_LdkBuilder>,
               ffi.Pointer<wire_Config>,
               ffi.Pointer<wire_ChainDataSourceConfig>,
               ffi.Pointer<wire_EntropySourceConfig>,
-              ffi.Pointer<wire_GossipSourceConfig>)>>('wire_build_sqlite_node');
-  late final _wire_build_sqlite_node = _wire_build_sqlite_nodePtr.asFunction<
-      void Function(
-          int,
-          ffi.Pointer<wire_Config>,
-          ffi.Pointer<wire_ChainDataSourceConfig>,
-          ffi.Pointer<wire_EntropySourceConfig>,
-          ffi.Pointer<wire_GossipSourceConfig>)>();
+              ffi.Pointer<wire_GossipSourceConfig>)>();
 
   void wire_start__method__NodePointer(
     int port_,
@@ -2868,15 +2941,15 @@ class RustLdkNodeWire implements FlutterRustBridgeWireBase {
       _new_box_autoadd_gossip_source_config_0Ptr
           .asFunction<ffi.Pointer<wire_GossipSourceConfig> Function()>();
 
-  ffi.Pointer<wire_Hostname> new_box_autoadd_hostname_0() {
-    return _new_box_autoadd_hostname_0();
+  ffi.Pointer<wire_LdkBuilder> new_box_autoadd_ldk_builder_0() {
+    return _new_box_autoadd_ldk_builder_0();
   }
 
-  late final _new_box_autoadd_hostname_0Ptr =
-      _lookup<ffi.NativeFunction<ffi.Pointer<wire_Hostname> Function()>>(
-          'new_box_autoadd_hostname_0');
-  late final _new_box_autoadd_hostname_0 = _new_box_autoadd_hostname_0Ptr
-      .asFunction<ffi.Pointer<wire_Hostname> Function()>();
+  late final _new_box_autoadd_ldk_builder_0Ptr =
+      _lookup<ffi.NativeFunction<ffi.Pointer<wire_LdkBuilder> Function()>>(
+          'new_box_autoadd_ldk_builder_0');
+  late final _new_box_autoadd_ldk_builder_0 = _new_box_autoadd_ldk_builder_0Ptr
+      .asFunction<ffi.Pointer<wire_LdkBuilder> Function()>();
 
   ffi.Pointer<wire_Mnemonic> new_box_autoadd_mnemonic_0() {
     return _new_box_autoadd_mnemonic_0();
@@ -3210,12 +3283,8 @@ final class wire_SocketAddress_OnionV3 extends ffi.Struct {
   external int port;
 }
 
-final class wire_Hostname extends ffi.Struct {
-  external ffi.Pointer<wire_uint_8_list> internal;
-}
-
 final class wire_SocketAddress_Hostname extends ffi.Struct {
-  external ffi.Pointer<wire_Hostname> hostname;
+  external ffi.Pointer<wire_uint_8_list> addr;
 
   @ffi.Uint16()
   external int port;
@@ -3240,6 +3309,8 @@ final class wire_SocketAddress extends ffi.Struct {
   external ffi.Pointer<SocketAddressKind> kind;
 }
 
+final class wire_LdkBuilder extends ffi.Opaque {}
+
 final class wire_list_socket_address extends ffi.Struct {
   external ffi.Pointer<wire_SocketAddress> ptr;
 
@@ -3248,7 +3319,7 @@ final class wire_list_socket_address extends ffi.Struct {
 }
 
 final class wire_PublicKey extends ffi.Struct {
-  external ffi.Pointer<wire_uint_8_list> internal;
+  external ffi.Pointer<wire_uint_8_list> hex_code;
 }
 
 final class wire_list_public_key extends ffi.Struct {
@@ -3313,7 +3384,7 @@ final class wire_EntropySourceConfig_SeedBytes extends ffi.Struct {
 }
 
 final class wire_Mnemonic extends ffi.Struct {
-  external ffi.Pointer<wire_uint_8_list> internal;
+  external ffi.Pointer<wire_uint_8_list> seed_phrase;
 }
 
 final class wire_EntropySourceConfig_Bip39Mnemonic extends ffi.Struct {
@@ -3365,7 +3436,7 @@ final class wire_NodePointer extends ffi.Struct {
 }
 
 final class wire_Address extends ffi.Struct {
-  external ffi.Pointer<wire_uint_8_list> internal;
+  external ffi.Pointer<wire_uint_8_list> s;
 }
 
 final class wire_MaxDustHTLCExposure_FixedLimitMsat extends ffi.Struct {
@@ -3412,15 +3483,15 @@ final class wire_ChannelConfig extends ffi.Struct {
 }
 
 final class wire_ChannelId extends ffi.Struct {
-  external ffi.Pointer<wire_uint_8_list> internal;
+  external ffi.Pointer<wire_uint_8_list> data;
 }
 
 final class wire_Bolt11Invoice extends ffi.Struct {
-  external ffi.Pointer<wire_uint_8_list> internal;
+  external ffi.Pointer<wire_uint_8_list> signed_raw_invoice;
 }
 
 final class wire_PaymentHash extends ffi.Struct {
-  external ffi.Pointer<wire_uint_8_list> internal;
+  external ffi.Pointer<wire_uint_8_list> data;
 }
 
 typedef DartPostCObjectFnType = ffi.Pointer<

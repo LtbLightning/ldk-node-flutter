@@ -1,4 +1,6 @@
-## [0.1.4]
+## [0.2.1]
+
+## [0.2.0]
 Updated `Rust` and `Flutter` dependencies.
 
 

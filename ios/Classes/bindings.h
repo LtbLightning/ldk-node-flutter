@@ -35,12 +35,8 @@ typedef struct wire_SocketAddress_OnionV3 {
   uint16_t port;
 } wire_SocketAddress_OnionV3;
 
-typedef struct wire_Hostname {
-  struct wire_uint_8_list *internal;
-} wire_Hostname;
-
 typedef struct wire_SocketAddress_Hostname {
-  struct wire_Hostname *hostname;
+  struct wire_uint_8_list *addr;
   uint16_t port;
 } wire_SocketAddress_Hostname;
 
@@ -57,13 +53,17 @@ typedef struct wire_SocketAddress {
   union SocketAddressKind *kind;
 } wire_SocketAddress;
 
+typedef struct wire_LdkBuilder {
+
+} wire_LdkBuilder;
+
 typedef struct wire_list_socket_address {
   struct wire_SocketAddress *ptr;
   int32_t len;
 } wire_list_socket_address;
 
 typedef struct wire_PublicKey {
-  struct wire_uint_8_list *internal;
+  struct wire_uint_8_list *hex_code;
 } wire_PublicKey;
 
 typedef struct wire_list_public_key {
@@ -107,7 +107,7 @@ typedef struct wire_EntropySourceConfig_SeedBytes {
 } wire_EntropySourceConfig_SeedBytes;
 
 typedef struct wire_Mnemonic {
-  struct wire_uint_8_list *internal;
+  struct wire_uint_8_list *seed_phrase;
 } wire_Mnemonic;
 
 typedef struct wire_EntropySourceConfig_Bip39Mnemonic {
@@ -153,7 +153,7 @@ typedef struct wire_NodePointer {
 } wire_NodePointer;
 
 typedef struct wire_Address {
-  struct wire_uint_8_list *internal;
+  struct wire_uint_8_list *s;
 } wire_Address;
 
 typedef struct wire_MaxDustHTLCExposure_FixedLimitMsat {
@@ -184,15 +184,15 @@ typedef struct wire_ChannelConfig {
 } wire_ChannelConfig;
 
 typedef struct wire_ChannelId {
-  struct wire_uint_8_list *internal;
+  struct wire_uint_8_list *data;
 } wire_ChannelId;
 
 typedef struct wire_Bolt11Invoice {
-  struct wire_uint_8_list *internal;
+  struct wire_uint_8_list *signed_raw_invoice;
 } wire_Bolt11Invoice;
 
 typedef struct wire_PaymentHash {
-  struct wire_uint_8_list *internal;
+  struct wire_uint_8_list *data;
 } wire_PaymentHash;
 
 typedef struct DartCObject *WireSyncReturn;
@@ -207,13 +207,18 @@ uintptr_t new_dart_opaque(Dart_Handle handle);
 
 intptr_t init_frb_dart_api_dl(void *obj);
 
-void wire_generate_entropy_mnemonic(int64_t port_);
+void wire_from_str__static_method__SocketAddress(int64_t port_, struct wire_uint_8_list *address);
 
-void wire_build_sqlite_node(int64_t port_,
-                            struct wire_Config *config,
-                            struct wire_ChainDataSourceConfig *chain_data_source_config,
-                            struct wire_EntropySourceConfig *entropy_source_config,
-                            struct wire_GossipSourceConfig *gossip_source_config);
+void wire_to_string__method__SocketAddress(int64_t port_, struct wire_SocketAddress *that);
+
+void wire_generate__static_method__Mnemonic(int64_t port_);
+
+void wire_finalize_builder__method__LdkBuilder(int64_t port_,
+                                               struct wire_LdkBuilder *that,
+                                               struct wire_Config *config,
+                                               struct wire_ChainDataSourceConfig *chain_data_source_config,
+                                               struct wire_EntropySourceConfig *entropy_source_config,
+                                               struct wire_GossipSourceConfig *gossip_source_config);
 
 void wire_start__method__NodePointer(int64_t port_, struct wire_NodePointer *that);
 
@@ -358,7 +363,7 @@ struct wire_EntropySourceConfig *new_box_autoadd_entropy_source_config_0(void);
 
 struct wire_GossipSourceConfig *new_box_autoadd_gossip_source_config_0(void);
 
-struct wire_Hostname *new_box_autoadd_hostname_0(void);
+struct wire_LdkBuilder *new_box_autoadd_ldk_builder_0(void);
 
 struct wire_Mnemonic *new_box_autoadd_mnemonic_0(void);
 
@@ -410,8 +415,10 @@ void free_WireSyncReturn(WireSyncReturn ptr);
 
 static int64_t dummy_method_to_enforce_bundling(void) {
     int64_t dummy_var = 0;
-    dummy_var ^= ((int64_t) (void*) wire_generate_entropy_mnemonic);
-    dummy_var ^= ((int64_t) (void*) wire_build_sqlite_node);
+    dummy_var ^= ((int64_t) (void*) wire_from_str__static_method__SocketAddress);
+    dummy_var ^= ((int64_t) (void*) wire_to_string__method__SocketAddress);
+    dummy_var ^= ((int64_t) (void*) wire_generate__static_method__Mnemonic);
+    dummy_var ^= ((int64_t) (void*) wire_finalize_builder__method__LdkBuilder);
     dummy_var ^= ((int64_t) (void*) wire_start__method__NodePointer);
     dummy_var ^= ((int64_t) (void*) wire_stop__method__NodePointer);
     dummy_var ^= ((int64_t) (void*) wire_event_handled__method__NodePointer);
@@ -454,7 +461,7 @@ static int64_t dummy_method_to_enforce_bundling(void) {
     dummy_var ^= ((int64_t) (void*) new_box_autoadd_config_0);
     dummy_var ^= ((int64_t) (void*) new_box_autoadd_entropy_source_config_0);
     dummy_var ^= ((int64_t) (void*) new_box_autoadd_gossip_source_config_0);
-    dummy_var ^= ((int64_t) (void*) new_box_autoadd_hostname_0);
+    dummy_var ^= ((int64_t) (void*) new_box_autoadd_ldk_builder_0);
     dummy_var ^= ((int64_t) (void*) new_box_autoadd_mnemonic_0);
     dummy_var ^= ((int64_t) (void*) new_box_autoadd_node_pointer_0);
     dummy_var ^= ((int64_t) (void*) new_box_autoadd_payment_hash_0);

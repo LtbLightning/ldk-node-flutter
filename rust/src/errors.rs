@@ -1,6 +1,6 @@
 use ldk_node::{BuildError, NodeError};
 
-#[derive(Debug)]
+#[derive(Debug, PartialEq)]
 pub enum NodeException {
     /// Returned when trying to start [Node] while it is already running.
     AlreadyRunning,
@@ -64,7 +64,9 @@ pub enum NodeException {
     FeerateEstimationUpdateFailed,
 }
 #[allow(dead_code)]
+#[derive(Debug)]
 pub enum BuilderException {
+    SocketAddressParseError,
     /// The given seed bytes are invalid, e.g., have invalid length.
     InvalidSeedBytes,
     /// The given seed file is invalid, e.g., has invalid length, or could not be read.
@@ -88,6 +90,7 @@ pub enum BuilderException {
     /// We failed to setup the logger.
     LoggerSetupFailed,
 }
+
 impl From<NodeError> for NodeException {
     fn from(value: NodeError) -> Self {
         match value {
