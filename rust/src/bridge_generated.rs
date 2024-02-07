@@ -32,10 +32,8 @@ use crate::types::Config;
 use crate::types::EntropySourceConfig;
 use crate::types::Event;
 use crate::types::GossipSourceConfig;
-use crate::types::Hostname;
 use crate::types::LogLevel;
 use crate::types::MaxDustHTLCExposure;
-use crate::types::Mnemonic;
 use crate::types::Network;
 use crate::types::OutPoint;
 use crate::types::PaymentDetails;
@@ -46,23 +44,12 @@ use crate::types::PaymentSecret;
 use crate::types::PaymentStatus;
 use crate::types::PeerDetails;
 use crate::types::PublicKey;
-use crate::types::SocketAddress;
 use crate::types::Txid;
 use crate::types::UserChannelId;
 
 // Section: wire functions
 
-fn wire_generate_entropy_mnemonic_impl(port_: MessagePort) {
-    FLUTTER_RUST_BRIDGE_HANDLER.wrap::<_, _, _, Mnemonic, _>(
-        WrapInfo {
-            debug_name: "generate_entropy_mnemonic",
-            port: Some(port_),
-            mode: FfiCallMode::Normal,
-        },
-        move || move |task_callback| Result::<_, ()>::Ok(generate_entropy_mnemonic()),
-    )
-}
-fn wire_build_sqlite_node_impl(
+fn wire_finalize_builder_impl(
     port_: MessagePort,
     config: impl Wire2Api<Config> + UnwindSafe,
     chain_data_source_config: impl Wire2Api<Option<ChainDataSourceConfig>> + UnwindSafe,
@@ -71,7 +58,7 @@ fn wire_build_sqlite_node_impl(
 ) {
     FLUTTER_RUST_BRIDGE_HANDLER.wrap::<_, _, _, NodePointer, _>(
         WrapInfo {
-            debug_name: "build_sqlite_node",
+            debug_name: "finalize_builder",
             port: Some(port_),
             mode: FfiCallMode::Normal,
         },
@@ -81,7 +68,7 @@ fn wire_build_sqlite_node_impl(
             let api_entropy_source_config = entropy_source_config.wire2api();
             let api_gossip_source_config = gossip_source_config.wire2api();
             move |task_callback| {
-                build_sqlite_node(
+                finalize_builder(
                     api_config,
                     api_chain_data_source_config,
                     api_entropy_source_config,
@@ -89,6 +76,48 @@ fn wire_build_sqlite_node_impl(
                 )
             }
         },
+    )
+}
+fn wire_from_str__static_method__SocketAddress_impl(
+    port_: MessagePort,
+    address: impl Wire2Api<String> + UnwindSafe,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap::<_, _, _, SocketAddress, _>(
+        WrapInfo {
+            debug_name: "from_str__static_method__SocketAddress",
+            port: Some(port_),
+            mode: FfiCallMode::Normal,
+        },
+        move || {
+            let api_address = address.wire2api();
+            move |task_callback| SocketAddress::from_str(api_address)
+        },
+    )
+}
+fn wire_to_string__method__SocketAddress_impl(
+    port_: MessagePort,
+    that: impl Wire2Api<SocketAddress> + UnwindSafe,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap::<_, _, _, String, _>(
+        WrapInfo {
+            debug_name: "to_string__method__SocketAddress",
+            port: Some(port_),
+            mode: FfiCallMode::Normal,
+        },
+        move || {
+            let api_that = that.wire2api();
+            move |task_callback| Result::<_, ()>::Ok(SocketAddress::to_string(&api_that))
+        },
+    )
+}
+fn wire_generate__static_method__Mnemonic_impl(port_: MessagePort) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap::<_, _, _, Mnemonic, _>(
+        WrapInfo {
+            debug_name: "generate__static_method__Mnemonic",
+            port: Some(port_),
+            mode: FfiCallMode::Normal,
+        },
+        move || move |task_callback| Result::<_, ()>::Ok(Mnemonic::generate()),
     )
 }
 fn wire_start__method__NodePointer_impl(
@@ -155,19 +184,19 @@ fn wire_next_event__method__NodePointer_impl(
         },
     )
 }
-fn wire_wait_until_next_event__method__NodePointer_impl(
+fn wire_wait_next_event__method__NodePointer_impl(
     port_: MessagePort,
     that: impl Wire2Api<NodePointer> + UnwindSafe,
 ) {
     FLUTTER_RUST_BRIDGE_HANDLER.wrap::<_, _, _, Event, _>(
         WrapInfo {
-            debug_name: "wait_until_next_event__method__NodePointer",
+            debug_name: "wait_next_event__method__NodePointer",
             port: Some(port_),
             mode: FfiCallMode::Normal,
         },
         move || {
             let api_that = that.wire2api();
-            move |task_callback| Result::<_, ()>::Ok(NodePointer::wait_until_next_event(&api_that))
+            move |task_callback| Result::<_, ()>::Ok(NodePointer::wait_next_event(&api_that))
         },
     )
 }
@@ -846,7 +875,7 @@ impl Wire2Api<u8> for u8 {
 
 impl support::IntoDart for Address {
     fn into_dart(self) -> support::DartAbi {
-        vec![self.internal.into_into_dart().into_dart()].into_dart()
+        vec![self.s.into_into_dart().into_dart()].into_dart()
     }
 }
 impl support::IntoDartExceptPrimitive for Address {}
@@ -858,7 +887,7 @@ impl rust2dart::IntoIntoDart<Address> for Address {
 
 impl support::IntoDart for Bolt11Invoice {
     fn into_dart(self) -> support::DartAbi {
-        vec![self.internal.into_into_dart().into_dart()].into_dart()
+        vec![self.signed_raw_invoice.into_into_dart().into_dart()].into_dart()
     }
 }
 impl support::IntoDartExceptPrimitive for Bolt11Invoice {}
@@ -871,17 +900,18 @@ impl rust2dart::IntoIntoDart<Bolt11Invoice> for Bolt11Invoice {
 impl support::IntoDart for BuilderException {
     fn into_dart(self) -> support::DartAbi {
         match self {
-            Self::InvalidSeedBytes => 0,
-            Self::InvalidSeedFile => 1,
-            Self::InvalidSystemTime => 2,
-            Self::InvalidChannelMonitor => 3,
-            Self::InvalidListeningAddresses => 4,
-            Self::ReadFailed => 5,
-            Self::WriteFailed => 6,
-            Self::StoragePathAccessFailed => 7,
-            Self::KVStoreSetupFailed => 8,
-            Self::WalletSetupFailed => 9,
-            Self::LoggerSetupFailed => 10,
+            Self::SocketAddressParseError => 0,
+            Self::InvalidSeedBytes => 1,
+            Self::InvalidSeedFile => 2,
+            Self::InvalidSystemTime => 3,
+            Self::InvalidChannelMonitor => 4,
+            Self::InvalidListeningAddresses => 5,
+            Self::ReadFailed => 6,
+            Self::WriteFailed => 7,
+            Self::StoragePathAccessFailed => 8,
+            Self::KVStoreSetupFailed => 9,
+            Self::WalletSetupFailed => 10,
+            Self::LoggerSetupFailed => 11,
         }
         .into_dart()
     }
@@ -927,7 +957,7 @@ impl rust2dart::IntoIntoDart<ChannelDetails> for ChannelDetails {
 
 impl support::IntoDart for ChannelId {
     fn into_dart(self) -> support::DartAbi {
-        vec![self.internal.into_into_dart().into_dart()].into_dart()
+        vec![self.data.into_into_dart().into_dart()].into_dart()
     }
 }
 impl support::IntoDartExceptPrimitive for ChannelId {}
@@ -999,21 +1029,9 @@ impl rust2dart::IntoIntoDart<Event> for Event {
     }
 }
 
-impl support::IntoDart for Hostname {
-    fn into_dart(self) -> support::DartAbi {
-        vec![self.internal.into_into_dart().into_dart()].into_dart()
-    }
-}
-impl support::IntoDartExceptPrimitive for Hostname {}
-impl rust2dart::IntoIntoDart<Hostname> for Hostname {
-    fn into_into_dart(self) -> Self {
-        self
-    }
-}
-
 impl support::IntoDart for Mnemonic {
     fn into_dart(self) -> support::DartAbi {
-        vec![self.internal.into_into_dart().into_dart()].into_dart()
+        vec![self.seed_phrase.into_into_dart().into_dart()].into_dart()
     }
 }
 impl support::IntoDartExceptPrimitive for Mnemonic {}
@@ -1133,7 +1151,7 @@ impl rust2dart::IntoIntoDart<PaymentDirection> for PaymentDirection {
 
 impl support::IntoDart for PaymentHash {
     fn into_dart(self) -> support::DartAbi {
-        vec![self.internal.into_into_dart().into_dart()].into_dart()
+        vec![self.data.into_into_dart().into_dart()].into_dart()
     }
 }
 impl support::IntoDartExceptPrimitive for PaymentHash {}
@@ -1145,7 +1163,7 @@ impl rust2dart::IntoIntoDart<PaymentHash> for PaymentHash {
 
 impl support::IntoDart for PaymentPreimage {
     fn into_dart(self) -> support::DartAbi {
-        vec![self.internal.into_into_dart().into_dart()].into_dart()
+        vec![self.data.into_into_dart().into_dart()].into_dart()
     }
 }
 impl support::IntoDartExceptPrimitive for PaymentPreimage {}
@@ -1157,7 +1175,7 @@ impl rust2dart::IntoIntoDart<PaymentPreimage> for PaymentPreimage {
 
 impl support::IntoDart for PaymentSecret {
     fn into_dart(self) -> support::DartAbi {
-        vec![self.internal.into_into_dart().into_dart()].into_dart()
+        vec![self.data.into_into_dart().into_dart()].into_dart()
     }
 }
 impl support::IntoDartExceptPrimitive for PaymentSecret {}
@@ -1203,7 +1221,7 @@ impl rust2dart::IntoIntoDart<PeerDetails> for PeerDetails {
 
 impl support::IntoDart for PublicKey {
     fn into_dart(self) -> support::DartAbi {
-        vec![self.internal.into_into_dart().into_dart()].into_dart()
+        vec![self.hex_code.into_into_dart().into_dart()].into_dart()
     }
 }
 impl support::IntoDartExceptPrimitive for PublicKey {}
@@ -1239,9 +1257,9 @@ impl support::IntoDart for SocketAddress {
                 version.into_into_dart().into_dart(),
                 port.into_into_dart().into_dart(),
             ],
-            Self::Hostname { hostname, port } => vec![
+            Self::Hostname { addr, port } => vec![
                 4.into_dart(),
-                hostname.into_into_dart().into_dart(),
+                addr.into_into_dart().into_dart(),
                 port.into_into_dart().into_dart(),
             ],
         }
@@ -1257,7 +1275,7 @@ impl rust2dart::IntoIntoDart<SocketAddress> for SocketAddress {
 
 impl support::IntoDart for Txid {
     fn into_dart(self) -> support::DartAbi {
-        vec![self.internal.into_into_dart().into_dart()].into_dart()
+        vec![self.hash.into_into_dart().into_dart()].into_dart()
     }
 }
 impl support::IntoDartExceptPrimitive for Txid {}
@@ -1269,7 +1287,7 @@ impl rust2dart::IntoIntoDart<Txid> for Txid {
 
 impl support::IntoDart for UserChannelId {
     fn into_dart(self) -> support::DartAbi {
-        vec![self.internal.into_into_dart().into_dart()].into_dart()
+        vec![self.data.into_into_dart().into_dart()].into_dart()
     }
 }
 impl support::IntoDartExceptPrimitive for UserChannelId {}

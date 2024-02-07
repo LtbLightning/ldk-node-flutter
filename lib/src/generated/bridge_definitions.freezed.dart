@@ -2901,7 +2901,7 @@ mixin _$SocketAddress {
     required TResult Function(
             U8Array32 ed25519Pubkey, int checksum, int version, int port)
         onionV3,
-    required TResult Function(Hostname hostname, int port) hostname,
+    required TResult Function(String addr, int port) hostname,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -2912,7 +2912,7 @@ mixin _$SocketAddress {
     TResult? Function(
             U8Array32 ed25519Pubkey, int checksum, int version, int port)?
         onionV3,
-    TResult? Function(Hostname hostname, int port)? hostname,
+    TResult? Function(String addr, int port)? hostname,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -2923,7 +2923,7 @@ mixin _$SocketAddress {
     TResult Function(
             U8Array32 ed25519Pubkey, int checksum, int version, int port)?
         onionV3,
-    TResult Function(Hostname hostname, int port)? hostname,
+    TResult Function(String addr, int port)? hostname,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -3056,7 +3056,7 @@ class _$SocketAddress_TcpIpV4Impl implements SocketAddress_TcpIpV4 {
     required TResult Function(
             U8Array32 ed25519Pubkey, int checksum, int version, int port)
         onionV3,
-    required TResult Function(Hostname hostname, int port) hostname,
+    required TResult Function(String addr, int port) hostname,
   }) {
     return tcpIpV4(addr, port);
   }
@@ -3070,7 +3070,7 @@ class _$SocketAddress_TcpIpV4Impl implements SocketAddress_TcpIpV4 {
     TResult? Function(
             U8Array32 ed25519Pubkey, int checksum, int version, int port)?
         onionV3,
-    TResult? Function(Hostname hostname, int port)? hostname,
+    TResult? Function(String addr, int port)? hostname,
   }) {
     return tcpIpV4?.call(addr, port);
   }
@@ -3084,7 +3084,7 @@ class _$SocketAddress_TcpIpV4Impl implements SocketAddress_TcpIpV4 {
     TResult Function(
             U8Array32 ed25519Pubkey, int checksum, int version, int port)?
         onionV3,
-    TResult Function(Hostname hostname, int port)? hostname,
+    TResult Function(String addr, int port)? hostname,
     required TResult orElse(),
   }) {
     if (tcpIpV4 != null) {
@@ -3227,7 +3227,7 @@ class _$SocketAddress_TcpIpV6Impl implements SocketAddress_TcpIpV6 {
     required TResult Function(
             U8Array32 ed25519Pubkey, int checksum, int version, int port)
         onionV3,
-    required TResult Function(Hostname hostname, int port) hostname,
+    required TResult Function(String addr, int port) hostname,
   }) {
     return tcpIpV6(addr, port);
   }
@@ -3241,7 +3241,7 @@ class _$SocketAddress_TcpIpV6Impl implements SocketAddress_TcpIpV6 {
     TResult? Function(
             U8Array32 ed25519Pubkey, int checksum, int version, int port)?
         onionV3,
-    TResult? Function(Hostname hostname, int port)? hostname,
+    TResult? Function(String addr, int port)? hostname,
   }) {
     return tcpIpV6?.call(addr, port);
   }
@@ -3255,7 +3255,7 @@ class _$SocketAddress_TcpIpV6Impl implements SocketAddress_TcpIpV6 {
     TResult Function(
             U8Array32 ed25519Pubkey, int checksum, int version, int port)?
         onionV3,
-    TResult Function(Hostname hostname, int port)? hostname,
+    TResult Function(String addr, int port)? hostname,
     required TResult orElse(),
   }) {
     if (tcpIpV6 != null) {
@@ -3390,7 +3390,7 @@ class _$SocketAddress_OnionV2Impl implements SocketAddress_OnionV2 {
     required TResult Function(
             U8Array32 ed25519Pubkey, int checksum, int version, int port)
         onionV3,
-    required TResult Function(Hostname hostname, int port) hostname,
+    required TResult Function(String addr, int port) hostname,
   }) {
     return onionV2(field0);
   }
@@ -3404,7 +3404,7 @@ class _$SocketAddress_OnionV2Impl implements SocketAddress_OnionV2 {
     TResult? Function(
             U8Array32 ed25519Pubkey, int checksum, int version, int port)?
         onionV3,
-    TResult? Function(Hostname hostname, int port)? hostname,
+    TResult? Function(String addr, int port)? hostname,
   }) {
     return onionV2?.call(field0);
   }
@@ -3418,7 +3418,7 @@ class _$SocketAddress_OnionV2Impl implements SocketAddress_OnionV2 {
     TResult Function(
             U8Array32 ed25519Pubkey, int checksum, int version, int port)?
         onionV3,
-    TResult Function(Hostname hostname, int port)? hostname,
+    TResult Function(String addr, int port)? hostname,
     required TResult orElse(),
   }) {
     if (onionV2 != null) {
@@ -3585,7 +3585,7 @@ class _$SocketAddress_OnionV3Impl implements SocketAddress_OnionV3 {
     required TResult Function(
             U8Array32 ed25519Pubkey, int checksum, int version, int port)
         onionV3,
-    required TResult Function(Hostname hostname, int port) hostname,
+    required TResult Function(String addr, int port) hostname,
   }) {
     return onionV3(ed25519Pubkey, checksum, version, port);
   }
@@ -3599,7 +3599,7 @@ class _$SocketAddress_OnionV3Impl implements SocketAddress_OnionV3 {
     TResult? Function(
             U8Array32 ed25519Pubkey, int checksum, int version, int port)?
         onionV3,
-    TResult? Function(Hostname hostname, int port)? hostname,
+    TResult? Function(String addr, int port)? hostname,
   }) {
     return onionV3?.call(ed25519Pubkey, checksum, version, port);
   }
@@ -3613,7 +3613,7 @@ class _$SocketAddress_OnionV3Impl implements SocketAddress_OnionV3 {
     TResult Function(
             U8Array32 ed25519Pubkey, int checksum, int version, int port)?
         onionV3,
-    TResult Function(Hostname hostname, int port)? hostname,
+    TResult Function(String addr, int port)? hostname,
     required TResult orElse(),
   }) {
     if (onionV3 != null) {
@@ -3686,7 +3686,7 @@ abstract class _$$SocketAddress_HostnameImplCopyWith<$Res> {
           $Res Function(_$SocketAddress_HostnameImpl) then) =
       __$$SocketAddress_HostnameImplCopyWithImpl<$Res>;
   @useResult
-  $Res call({Hostname hostname, int port});
+  $Res call({String addr, int port});
 }
 
 /// @nodoc
@@ -3701,14 +3701,14 @@ class __$$SocketAddress_HostnameImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? hostname = null,
+    Object? addr = null,
     Object? port = null,
   }) {
     return _then(_$SocketAddress_HostnameImpl(
-      hostname: null == hostname
-          ? _value.hostname
-          : hostname // ignore: cast_nullable_to_non_nullable
-              as Hostname,
+      addr: null == addr
+          ? _value.addr
+          : addr // ignore: cast_nullable_to_non_nullable
+              as String,
       port: null == port
           ? _value.port
           : port // ignore: cast_nullable_to_non_nullable
@@ -3720,17 +3720,16 @@ class __$$SocketAddress_HostnameImplCopyWithImpl<$Res>
 /// @nodoc
 
 class _$SocketAddress_HostnameImpl implements SocketAddress_Hostname {
-  const _$SocketAddress_HostnameImpl(
-      {required this.hostname, required this.port});
+  const _$SocketAddress_HostnameImpl({required this.addr, required this.port});
 
   @override
-  final Hostname hostname;
+  final String addr;
   @override
   final int port;
 
   @override
   String toString() {
-    return 'SocketAddress.hostname(hostname: $hostname, port: $port)';
+    return 'SocketAddress.hostname(addr: $addr, port: $port)';
   }
 
   @override
@@ -3738,13 +3737,12 @@ class _$SocketAddress_HostnameImpl implements SocketAddress_Hostname {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$SocketAddress_HostnameImpl &&
-            (identical(other.hostname, hostname) ||
-                other.hostname == hostname) &&
+            (identical(other.addr, addr) || other.addr == addr) &&
             (identical(other.port, port) || other.port == port));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, hostname, port);
+  int get hashCode => Object.hash(runtimeType, addr, port);
 
   @JsonKey(ignore: true)
   @override
@@ -3762,9 +3760,9 @@ class _$SocketAddress_HostnameImpl implements SocketAddress_Hostname {
     required TResult Function(
             U8Array32 ed25519Pubkey, int checksum, int version, int port)
         onionV3,
-    required TResult Function(Hostname hostname, int port) hostname,
+    required TResult Function(String addr, int port) hostname,
   }) {
-    return hostname(this.hostname, port);
+    return hostname(addr, port);
   }
 
   @override
@@ -3776,9 +3774,9 @@ class _$SocketAddress_HostnameImpl implements SocketAddress_Hostname {
     TResult? Function(
             U8Array32 ed25519Pubkey, int checksum, int version, int port)?
         onionV3,
-    TResult? Function(Hostname hostname, int port)? hostname,
+    TResult? Function(String addr, int port)? hostname,
   }) {
-    return hostname?.call(this.hostname, port);
+    return hostname?.call(addr, port);
   }
 
   @override
@@ -3790,11 +3788,11 @@ class _$SocketAddress_HostnameImpl implements SocketAddress_Hostname {
     TResult Function(
             U8Array32 ed25519Pubkey, int checksum, int version, int port)?
         onionV3,
-    TResult Function(Hostname hostname, int port)? hostname,
+    TResult Function(String addr, int port)? hostname,
     required TResult orElse(),
   }) {
     if (hostname != null) {
-      return hostname(this.hostname, port);
+      return hostname(addr, port);
     }
     return orElse();
   }
@@ -3842,10 +3840,10 @@ class _$SocketAddress_HostnameImpl implements SocketAddress_Hostname {
 
 abstract class SocketAddress_Hostname implements SocketAddress {
   const factory SocketAddress_Hostname(
-      {required final Hostname hostname,
+      {required final String addr,
       required final int port}) = _$SocketAddress_HostnameImpl;
 
-  Hostname get hostname;
+  String get addr;
   int get port;
   @JsonKey(ignore: true)
   _$$SocketAddress_HostnameImplCopyWith<_$SocketAddress_HostnameImpl>

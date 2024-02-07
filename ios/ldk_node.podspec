@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = 'ldk_node'
-  s.version          = '0.2.0'
+  s.version          = '0.2.1'
   s.summary          = 'A ready-to-go Lightning node library built using LDK and BDK.'
   s.homepage         = 'http://example.com'
   s.license          = { :file => '../LICENSE' }
@@ -14,5 +14,5 @@ Pod::Spec.new do |s|
   s.public_header_files = 'Classes**/*.h'
   s.source_files = 'Classes/**/*'
   s.static_framework = true
-  s.vendored_libraries = "librust_ldk_node.a"
+  s.vendored_libraries = "libldknode.a"
 end

@@ -2,3 +2,6 @@ mod bridge_generated; /* AUTO INJECTED BY flutter_rust_bridge. This line may not
 mod errors;
 mod ldk;
 mod types;
+
+#[cfg(test)]
+mod test;
