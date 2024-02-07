@@ -1,10 +1,12 @@
 ## [0.2.1]
+Android support bug resolved
+
+#### API changed
+- Renamed `waitUntilNextHandled()` to `waitNextHandled`.
+- Renamed `listeningAddress()` to `listeningAddresses`
+- Upgraded `BuilderException` to handle Invalid SocketAddress.
 
 ## [0.2.0]
-Updated `Rust` and `Flutter` dependencies.
-
-
-## [0.1.3]
 Updated `Rust` and `Flutter` dependencies.
 Invalid `BuilderException` bug resolved
 
