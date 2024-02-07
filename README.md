@@ -64,14 +64,13 @@ final path = "${directory.path}/alice's_node";
 final esploraUrl = "https://mempool.space/testnet/api";
 
 // configuration options for the node
-final config  = Config(
+final config   = Config(
                         probingLiquidityLimitMultiplier: 3,
                         trustedPeers0Conf: [],
                         storageDirPath: path,
                         network: Network.Testnet,
                         listeningAddresses: [
-                          bridge.SocketAddress.hostname(
-                              hostname: bridge.Hostname(internal: "0.0.0.0"), port: 9735)
+                         SocketAddress.hostname(addr: "0.0.0.0", port: 3003)
                         ],
                         onchainWalletSyncIntervalSecs: 60,
                         walletSyncIntervalSecs: 20,
@@ -83,11 +82,8 @@ Builder builder = Builder.fromConfig(config);
     final node  = await builder
                                 .setEntropyBip39Mnemonic( 
                                      mnemonic: ldk.Mnemonic(
-                                          internal:
                                                    'certain sense kiss guide crumble hint transfer crime much stereo warm coral'))
-                                .setEsploraServer(
-                                     esploraServerUrl: esploraUrl)
-                                .setEsploraServer(esploraServerUrl: esploraUrl)
+                                .setEsploraServer(esploraUrl)
                                 .build();
 
 // Starting the node
