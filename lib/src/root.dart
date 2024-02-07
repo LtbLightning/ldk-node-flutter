@@ -5,20 +5,11 @@ import 'package:ldk_node/src/utils/loader.dart';
 import 'package:path_provider/path_provider.dart';
 
 class Mnemonic extends bridge.Mnemonic {
-  Mnemonic(internal) : super(internal: internal);
-
-  static Future<Mnemonic> generate() async {
-    try {
-      final res = await loaderApi.generateEntropyMnemonic();
-      return Mnemonic(res.internal);
-    } on bridge.NodeException catch (e) {
-      throw handleNodeException(e);
-    }
-  }
-
-  @override
-  toString() {
-    return internal;
+  Mnemonic(String seedPhrase)
+      : super(bridge: loaderApi, seedPhrase: seedPhrase);
+  static Future<bridge.Mnemonic> generate() async {
+    final res = await bridge.Mnemonic.generate(bridge: loaderApi);
+    return res;
   }
 }
 
@@ -83,10 +74,9 @@ class Node {
   ///
   /// **Note:** this will always return the same event until handling is confirmed via `node.eventHandled()`.
   ///
-  Future<bridge.Event?> waitUntilNextHandled() async {
+  Future<bridge.Event?> waitNextHandled() async {
     try {
-      return await loaderApi.waitUntilNextEventMethodNodePointer(
-          that: _pointer);
+      return await loaderApi.waitNextEventMethodNodePointer(that: _pointer);
     } on bridge.NodeException catch (e) {
       throw handleNodeException(e);
     }
@@ -102,7 +92,7 @@ class Node {
   }
 
   /// Returns our listening address
-  Future<List<bridge.SocketAddress>?> listeningAddress() async {
+  Future<List<bridge.SocketAddress>?> listeningAddresses() async {
     try {
       return await loaderApi.listeningAddressesMethodNodePointer(
           that: _pointer);
@@ -514,8 +504,7 @@ class Builder {
         storageDirPath: '',
         network: bridge.Network.Bitcoin,
         listeningAddresses: [
-          bridge.SocketAddress.hostname(
-              hostname: bridge.Hostname(internal: "0.0.0.0"), port: 9735)
+          bridge.SocketAddress.hostname(addr: "0.0.0.0", port: 9735)
         ],
         onchainWalletSyncIntervalSecs: 60,
         walletSyncIntervalSecs: 20,
@@ -540,7 +529,7 @@ class Builder {
   ///
   /// **Note:** Panics if the length of the given `seedBytes` differs from 64.
   ///
-  Builder setEntropySeedBytes({required bridge.U8Array64 seedBytes}) {
+  Builder setEntropySeedBytes(bridge.U8Array64 seedBytes) {
     _entropySource = bridge.EntropySourceConfig.seedBytes(seedBytes);
     return this;
   }
@@ -556,7 +545,7 @@ class Builder {
 
   ///Configures the [Node] instance to source its chain data from the given Esplora server.
   ///
-  Builder setEsploraServer({required String esploraServerUrl}) {
+  Builder setEsploraServer(String esploraServerUrl) {
     _chainDataSourceConfig =
         bridge.ChainDataSourceConfig.esplora(esploraServerUrl);
     return this;
@@ -573,7 +562,7 @@ class Builder {
   /// Configures the [Node] instance to source its gossip data from the given RapidGossipSync
   /// server.
   ///
-  Builder setGossipSourceRgs({required String rgsServerUrl}) {
+  Builder setGossipSourceRgs(String rgsServerUrl) {
     _gossipSourceConfig =
         bridge.GossipSourceConfig.rapidGossipSync(rgsServerUrl);
     return this;
@@ -597,7 +586,7 @@ class Builder {
   /// Sets the IP address and TCP port on which [Node] will listen for incoming network connections.
   ///
   ///
-  Builder setListeningAddress(List<bridge.SocketAddress> listeningAddresses) {
+  Builder setListeningAddresses(List<bridge.SocketAddress> listeningAddresses) {
     _config!.listeningAddresses = listeningAddresses;
     return this;
   }
@@ -613,11 +602,12 @@ class Builder {
         final nodePath = "${directory.path}/ldk_cache/";
         _config!.storageDirPath = nodePath;
       }
-      final res = await loaderApi.buildSqliteNode(
-          config: _config!,
-          entropySourceConfig: _entropySource,
-          chainDataSourceConfig: _chainDataSourceConfig,
-          gossipSourceConfig: _gossipSourceConfig);
+      final res = await loaderApi.finalizeBuilder(
+        config: _config!,
+        entropySourceConfig: _entropySource,
+        chainDataSourceConfig: _chainDataSourceConfig,
+        gossipSourceConfig: _gossipSourceConfig,
+      );
       return Node._(res);
     } on bridge.BuilderException catch (e) {
       throw handleBuilderException(e);

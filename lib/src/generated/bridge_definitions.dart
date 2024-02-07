@@ -12,19 +12,29 @@ import 'package:collection/collection.dart';
 
 part 'bridge_definitions.freezed.dart';
 
-abstract class RustLdkNode {
-  Future<Mnemonic> generateEntropyMnemonic({dynamic hint});
-
-  FlutterRustBridgeTaskConstMeta get kGenerateEntropyMnemonicConstMeta;
-
-  Future<NodePointer> buildSqliteNode(
+abstract class Ldknode {
+  Future<NodePointer> finalizeBuilder(
       {required Config config,
       ChainDataSourceConfig? chainDataSourceConfig,
       EntropySourceConfig? entropySourceConfig,
       GossipSourceConfig? gossipSourceConfig,
       dynamic hint});
 
-  FlutterRustBridgeTaskConstMeta get kBuildSqliteNodeConstMeta;
+  FlutterRustBridgeTaskConstMeta get kFinalizeBuilderConstMeta;
+
+  Future<SocketAddress> fromStrStaticMethodSocketAddress(
+      {required String address, dynamic hint});
+
+  FlutterRustBridgeTaskConstMeta get kFromStrStaticMethodSocketAddressConstMeta;
+
+  Future<String> toStringMethodSocketAddress(
+      {required SocketAddress that, dynamic hint});
+
+  FlutterRustBridgeTaskConstMeta get kToStringMethodSocketAddressConstMeta;
+
+  Future<Mnemonic> generateStaticMethodMnemonic({dynamic hint});
+
+  FlutterRustBridgeTaskConstMeta get kGenerateStaticMethodMnemonicConstMeta;
 
   /// Starts the necessary background tasks, such as handling events coming from user input,
   /// LDK/BDK, and the peer-to-peer network.
@@ -65,11 +75,10 @@ abstract class RustLdkNode {
   ///
   /// **Note:** this will always return the same event until handling is confirmed via `node.eventHandled()`.
   ///
-  Future<Event> waitUntilNextEventMethodNodePointer(
+  Future<Event> waitNextEventMethodNodePointer(
       {required NodePointer that, dynamic hint});
 
-  FlutterRustBridgeTaskConstMeta
-      get kWaitUntilNextEventMethodNodePointerConstMeta;
+  FlutterRustBridgeTaskConstMeta get kWaitNextEventMethodNodePointerConstMeta;
 
   /// Returns our own node id
   Future<PublicKey> nodeIdMethodNodePointer(
@@ -351,7 +360,7 @@ abstract class RustLdkNode {
 
 @sealed
 class MutexNodeSqliteStore extends FrbOpaque {
-  final RustLdkNode bridge;
+  final Ldknode bridge;
   MutexNodeSqliteStore.fromRaw(int ptr, int size, this.bridge)
       : super.unsafe(ptr, size);
   @override
@@ -368,24 +377,26 @@ class MutexNodeSqliteStore extends FrbOpaque {
 /// A Bitcoin address.
 ///
 class Address {
-  final String internal;
+  final String s;
 
   const Address({
-    required this.internal,
+    required this.s,
   });
 }
 
 ///Represents a syntactically and semantically correct lightning BOLT11 invoice.
 ///
 class Bolt11Invoice {
-  final String internal;
+  final String signedRawInvoice;
 
   const Bolt11Invoice({
-    required this.internal,
+    required this.signedRawInvoice,
   });
 }
 
 enum BuilderException {
+  SocketAddressParseError,
+
   /// The given seed bytes are invalid, e.g., have invalid length.
   InvalidSeedBytes,
 
@@ -614,10 +625,10 @@ class ChannelDetails {
 /// funding transaction.
 ///
 class ChannelId {
-  final U8Array32 internal;
+  final U8Array32 data;
 
   const ChannelId({
-    required this.internal,
+    required this.data,
   });
 }
 
@@ -763,14 +774,6 @@ sealed class GossipSourceConfig with _$GossipSourceConfig {
   ) = GossipSourceConfig_RapidGossipSync;
 }
 
-class Hostname {
-  final String internal;
-
-  const Hostname({
-    required this.internal,
-  });
-}
-
 /// An enum representing the available verbosity levels of the logger.
 ///
 enum LogLevel {
@@ -816,11 +819,16 @@ sealed class MaxDustHTLCExposure with _$MaxDustHTLCExposure {
 /// Supported number of words are 12, 15, 18, 21, and 24.
 ///
 class Mnemonic {
-  final String internal;
+  final Ldknode bridge;
+  final String seedPhrase;
 
   const Mnemonic({
-    required this.internal,
+    required this.bridge,
+    required this.seedPhrase,
   });
+
+  static Future<Mnemonic> generate({required Ldknode bridge, dynamic hint}) =>
+      bridge.generateStaticMethodMnemonic(hint: hint);
 }
 
 /// Bitcoin network enum
@@ -934,7 +942,7 @@ enum NodeException {
 }
 
 class NodePointer {
-  final RustLdkNode bridge;
+  final Ldknode bridge;
   final MutexNodeSqliteStore field0;
 
   const NodePointer({
@@ -979,8 +987,8 @@ class NodePointer {
   ///
   /// **Note:** this will always return the same event until handling is confirmed via `node.eventHandled()`.
   ///
-  Future<Event> waitUntilNextEvent({dynamic hint}) =>
-      bridge.waitUntilNextEventMethodNodePointer(
+  Future<Event> waitNextEvent({dynamic hint}) =>
+      bridge.waitNextEventMethodNodePointer(
         that: this,
       );
 
@@ -1326,30 +1334,30 @@ enum PaymentDirection {
 /// paymentHash type, use to cross-lock hop
 ///
 class PaymentHash {
-  final U8Array32 internal;
+  final U8Array32 data;
 
   const PaymentHash({
-    required this.internal,
+    required this.data,
   });
 }
 
 /// paymentPreimage type, use to route payment between hop
 ///
 class PaymentPreimage {
-  final U8Array32 internal;
+  final U8Array32 data;
 
   const PaymentPreimage({
-    required this.internal,
+    required this.data,
   });
 }
 
 /// payment_secret type, use to authenticate sender to the receiver and tie MPP HTLCs together
 ///
 class PaymentSecret {
-  final U8Array32 internal;
+  final U8Array32 data;
 
   const PaymentSecret({
-    required this.internal,
+    required this.data,
   });
 }
 
@@ -1391,10 +1399,10 @@ class PeerDetails {
 ///A Secp256k1 public key, used for verification of signatures.
 ///
 class PublicKey {
-  final String internal;
+  final String hexCode;
 
   const PublicKey({
-    required this.internal,
+    required this.hexCode,
   });
 }
 
@@ -1418,7 +1426,7 @@ sealed class SocketAddress with _$SocketAddress {
     required int port,
   }) = SocketAddress_OnionV3;
   const factory SocketAddress.hostname({
-    required Hostname hostname,
+    required String addr,
     required int port,
   }) = SocketAddress_Hostname;
 }
@@ -1426,10 +1434,10 @@ sealed class SocketAddress with _$SocketAddress {
 ///A bitcoin transaction hash/transaction ID.
 ///
 class Txid {
-  final String internal;
+  final String hash;
 
   const Txid({
-    required this.internal,
+    required this.hash,
   });
 }
 
@@ -1483,9 +1491,9 @@ class U8Array64 extends NonGrowableListView<int> {
 /// By default, this will be randomly generated for the user to ensure local uniqueness.
 ///
 class UserChannelId {
-  final int internal;
+  final int data;
 
   const UserChannelId({
-    required this.internal,
+    required this.data,
   });
 }

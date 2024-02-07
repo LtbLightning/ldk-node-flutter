@@ -1,6 +1,5 @@
+use crate::ldk::{Mnemonic, SocketAddress};
 use flutter_rust_bridge::*;
-use ldk_node::bitcoin::hashes::hex::ToHex;
-use std::convert::TryFrom;
 use std::str::FromStr;
 use std::string::ToString;
 
@@ -88,19 +87,19 @@ impl From<ChannelConfig> for ldk_node::ChannelConfig {
 /// finalized, at which point it will change to be a permanent global ID tied to the on-chain
 /// funding transaction.
 ///
-#[derive(Debug, Clone, PartialEq, Eq)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub struct ChannelId {
-    pub internal: [u8; 32],
+    pub data: [u8; 32],
 }
 
 impl From<ldk_node::lightning::ln::ChannelId> for ChannelId {
     fn from(value: ldk_node::lightning::ln::ChannelId) -> Self {
-        ChannelId { internal: value.0 }
+        ChannelId { data: value.0 }
     }
 }
 impl From<ChannelId> for ldk_node::lightning::ln::ChannelId {
     fn from(value: ChannelId) -> Self {
-        ldk_node::lightning::ln::ChannelId(value.internal)
+        ldk_node::lightning::ln::ChannelId(value.data)
     }
 }
 ///A local, potentially user-provided, identifier of a channel.
@@ -109,14 +108,14 @@ impl From<ChannelId> for ldk_node::lightning::ln::ChannelId {
 ///
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub struct UserChannelId {
-    pub internal: u64,
+    pub data: u64,
 }
 /// An event emitted by [Node], which should be handled by the user.
 ///
 impl From<ldk_node::UserChannelId> for UserChannelId {
     fn from(value: ldk_node::UserChannelId) -> Self {
         UserChannelId {
-            internal: value.0 as u64,
+            data: value.0 as u64,
         }
     }
 }
@@ -178,12 +177,12 @@ impl From<ldk_node::Event> for Event {
         match value {
             ldk_node::Event::PaymentSuccessful { payment_hash } => Event::PaymentSuccessful {
                 payment_hash: PaymentHash {
-                    internal: payment_hash.0,
+                    data: payment_hash.0,
                 },
             },
             ldk_node::Event::PaymentFailed { payment_hash } => Event::PaymentFailed {
                 payment_hash: PaymentHash {
-                    internal: payment_hash.0,
+                    data: payment_hash.0,
                 },
             },
             ldk_node::Event::PaymentReceived {
@@ -191,7 +190,7 @@ impl From<ldk_node::Event> for Event {
                 amount_msat,
             } => Event::PaymentReceived {
                 payment_hash: PaymentHash {
-                    internal: payment_hash.0,
+                    data: payment_hash.0,
                 },
                 amount_msat,
             },
@@ -224,7 +223,7 @@ impl From<ldk_node::Event> for Event {
                 user_channel_id: user_channel_id.into(),
                 former_temporary_channel_id: former_temporary_channel_id.into(),
                 counterparty_node_id: PublicKey {
-                    internal: counterparty_node_id.to_hex(),
+                    hex_code: counterparty_node_id.to_string(),
                 },
                 funding_txo: funding_txo.into(),
             },
@@ -236,9 +235,22 @@ impl From<ldk_node::Event> for Event {
 ///
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub struct Txid {
-    pub internal: String,
+    pub hash: String,
 }
 
+impl From<Txid> for ldk_node::bitcoin::Txid {
+    fn from(value: Txid) -> Self {
+        ldk_node::bitcoin::Txid::from_str(value.hash.as_str()).expect("Invalid txid")
+    }
+}
+
+impl From<ldk_node::bitcoin::Txid> for Txid {
+    fn from(value: ldk_node::bitcoin::Txid) -> Self {
+        Txid {
+            hash: value.to_string(),
+        }
+    }
+}
 ///A reference to a transaction output.
 ///
 #[derive(Debug, Clone, PartialEq, Eq)]
@@ -251,7 +263,7 @@ impl From<ldk_node::bitcoin::OutPoint> for OutPoint {
     fn from(value: ldk_node::bitcoin::OutPoint) -> Self {
         OutPoint {
             txid: Txid {
-                internal: value.txid.to_string(),
+                hash: value.txid.to_raw_hash().to_string(),
             },
             vout: value.vout,
         }
@@ -312,21 +324,33 @@ impl From<PaymentDirection> for ldk_node::PaymentDirection {
 ///
 #[derive(Copy, Clone, Debug, PartialEq, Eq)]
 pub struct PaymentHash {
-    pub internal: [u8; 32],
+    pub data: [u8; 32],
+}
+
+impl From<PaymentHash> for ldk_node::lightning::ln::PaymentHash {
+    fn from(value: PaymentHash) -> Self {
+        ldk_node::lightning::ln::PaymentHash(value.data)
+    }
+}
+
+impl From<ldk_node::lightning::ln::PaymentHash> for PaymentHash {
+    fn from(value: ldk_node::lightning::ln::PaymentHash) -> Self {
+        PaymentHash { data: value.0 }
+    }
 }
 
 /// paymentPreimage type, use to route payment between hop
 ///
 #[derive(Hash, Copy, Clone, PartialEq, Eq, Debug)]
 pub struct PaymentPreimage {
-    pub internal: [u8; 32],
+    pub data: [u8; 32],
 }
 
 /// payment_secret type, use to authenticate sender to the receiver and tie MPP HTLCs together
 ///
 #[derive(Hash, Copy, Clone, PartialEq, Eq, Debug)]
 pub struct PaymentSecret {
-    pub internal: [u8; 32],
+    pub data: [u8; 32],
 }
 
 // Structs wrapping the particular information which should easily be
@@ -353,11 +377,9 @@ pub struct PaymentDetails {
 impl From<ldk_node::PaymentDetails> for PaymentDetails {
     fn from(value: ldk_node::PaymentDetails) -> Self {
         PaymentDetails {
-            hash: PaymentHash {
-                internal: value.hash.0,
-            },
-            preimage: value.preimage.map(|x| PaymentPreimage { internal: x.0 }),
-            secret: value.secret.map(|x| PaymentSecret { internal: x.0 }),
+            hash: PaymentHash { data: value.hash.0 },
+            preimage: value.preimage.map(|x| PaymentPreimage { data: x.0 }),
+            secret: value.secret.map(|x| PaymentSecret { data: x.0 }),
             status: value.status.into(),
             amount_msat: value.amount_msat,
             direction: value.direction.into(),
@@ -369,44 +391,60 @@ impl From<ldk_node::PaymentDetails> for PaymentDetails {
 ///Represents a syntactically and semantically correct lightning BOLT11 invoice.
 ///
 pub struct Bolt11Invoice {
-    pub internal: String,
+    pub signed_raw_invoice: String,
 }
 
 impl From<Bolt11Invoice> for ldk_node::lightning_invoice::Bolt11Invoice {
     fn from(value: Bolt11Invoice) -> Self {
-        ldk_node::lightning_invoice::Bolt11Invoice::from_str(value.internal.as_str())
+        ldk_node::lightning_invoice::Bolt11Invoice::from_str(value.signed_raw_invoice.as_str())
             .expect("Invalid Invoice")
+    }
+}
+impl From<ldk_node::lightning_invoice::Bolt11Invoice> for Bolt11Invoice {
+    fn from(value: ldk_node::lightning_invoice::Bolt11Invoice) -> Self {
+        Bolt11Invoice {
+            signed_raw_invoice: value.to_string(),
+        }
     }
 }
 ///A Secp256k1 public key, used for verification of signatures.
 ///
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub struct PublicKey {
-    pub internal: String,
+    pub hex_code: String,
 }
 
 impl From<PublicKey> for ldk_node::bitcoin::secp256k1::PublicKey {
     fn from(value: PublicKey) -> Self {
-        ldk_node::bitcoin::secp256k1::PublicKey::from_str(value.internal.as_str())
+        ldk_node::bitcoin::secp256k1::PublicKey::from_str(value.hex_code.as_str())
             .expect("Invalid Public Key")
     }
 }
 impl From<ldk_node::bitcoin::secp256k1::PublicKey> for PublicKey {
     fn from(value: ldk_node::bitcoin::secp256k1::PublicKey) -> Self {
         PublicKey {
-            internal: value.to_hex(),
+            hex_code: value.to_string(),
         }
     }
 }
 /// A Bitcoin address.
 ///
 pub struct Address {
-    pub internal: String,
+    pub s: String,
 }
 
 impl From<Address> for ldk_node::bitcoin::Address {
     fn from(value: Address) -> Self {
-        ldk_node::bitcoin::Address::from_str(value.internal.as_str()).expect("Invalid Address")
+        ldk_node::bitcoin::Address::from_str(value.s.as_str())
+            .expect("Invalid Address")
+            .assume_checked()
+    }
+}
+impl From<ldk_node::bitcoin::Address> for Address {
+    fn from(value: ldk_node::bitcoin::Address) -> Self {
+        Address {
+            s: value.to_string(),
+        }
     }
 }
 
@@ -550,13 +588,13 @@ pub enum Network {
     Regtest,
 }
 
-impl From<Network> for ldk_node::bitcoin::Network {
+impl From<Network> for ldk_node::Network {
     fn from(value: Network) -> Self {
         match value {
-            Network::Bitcoin => ldk_node::bitcoin::Network::Bitcoin,
-            Network::Testnet => ldk_node::bitcoin::Network::Testnet,
-            Network::Signet => ldk_node::bitcoin::Network::Signet,
-            Network::Regtest => ldk_node::bitcoin::Network::Regtest,
+            Network::Bitcoin => ldk_node::Network::Bitcoin,
+            Network::Testnet => ldk_node::Network::Testnet,
+            Network::Signet => ldk_node::Network::Signet,
+            Network::Regtest => ldk_node::Network::Regtest,
         }
     }
 }
@@ -622,108 +660,6 @@ impl From<LogLevel> for ldk_node::LogLevel {
         }
     }
 }
-///The addresses on which the node will listen for incoming connections.
-#[derive(Debug, Clone, PartialEq, Eq)]
-pub enum SocketAddress {
-    TcpIpV4 {
-        addr: [u8; 4],
-        port: u16,
-    },
-    TcpIpV6 {
-        addr: [u8; 16],
-        port: u16,
-    },
-    OnionV2([u8; 12]),
-    OnionV3 {
-        ed25519_pubkey: [u8; 32],
-        checksum: u16,
-        version: u8,
-        port: u16,
-    },
-    Hostname {
-        hostname: Hostname,
-        port: u16,
-    },
-}
-
-impl From<ldk_node::lightning::ln::msgs::SocketAddress> for SocketAddress {
-    fn from(value: ldk_node::lightning::ln::msgs::SocketAddress) -> Self {
-        match value {
-            ldk_node::lightning::ln::msgs::SocketAddress::TcpIpV4 { addr, port } => {
-                SocketAddress::TcpIpV4 { addr, port }
-            }
-            ldk_node::lightning::ln::msgs::SocketAddress::TcpIpV6 { addr, port } => {
-                SocketAddress::TcpIpV6 { addr, port }
-            }
-            ldk_node::lightning::ln::msgs::SocketAddress::OnionV2(e) => SocketAddress::OnionV2(e),
-            ldk_node::lightning::ln::msgs::SocketAddress::OnionV3 {
-                ed25519_pubkey,
-                checksum,
-                version,
-                port,
-            } => SocketAddress::OnionV3 {
-                ed25519_pubkey,
-                checksum,
-                version,
-                port,
-            },
-            ldk_node::lightning::ln::msgs::SocketAddress::Hostname { hostname, port } => {
-                SocketAddress::Hostname {
-                    hostname: hostname.into(),
-                    port,
-                }
-            }
-        }
-    }
-}
-
-impl From<SocketAddress> for ldk_node::lightning::ln::msgs::SocketAddress {
-    fn from(value: SocketAddress) -> Self {
-        match value {
-            SocketAddress::TcpIpV4 { addr, port } => {
-                ldk_node::lightning::ln::msgs::SocketAddress::TcpIpV4 { addr, port }
-            }
-            SocketAddress::TcpIpV6 { addr, port } => {
-                ldk_node::lightning::ln::msgs::SocketAddress::TcpIpV6 { addr, port }
-            }
-            SocketAddress::OnionV2(e) => ldk_node::lightning::ln::msgs::SocketAddress::OnionV2(e),
-            SocketAddress::OnionV3 {
-                ed25519_pubkey,
-                checksum,
-                version,
-                port,
-            } => ldk_node::lightning::ln::msgs::SocketAddress::OnionV3 {
-                ed25519_pubkey,
-                checksum,
-                version,
-                port,
-            },
-            SocketAddress::Hostname { hostname, port } => {
-                ldk_node::lightning::ln::msgs::SocketAddress::Hostname {
-                    hostname: hostname.into(),
-                    port,
-                }
-            }
-        }
-    }
-}
-#[derive(Eq, PartialEq, Clone, Debug)]
-pub struct Hostname {
-    pub internal: String,
-}
-impl From<ldk_node::lightning::util::ser::Hostname> for Hostname {
-    fn from(value: ldk_node::lightning::util::ser::Hostname) -> Self {
-        Hostname {
-            internal: value.to_string(),
-        }
-    }
-}
-impl From<Hostname> for ldk_node::lightning::util::ser::Hostname {
-    fn from(value: Hostname) -> Self {
-        ldk_node::lightning::util::ser::Hostname::try_from(value.internal)
-            .expect("Invalid Hostname")
-    }
-}
 
 impl From<Config> for ldk_node::Config {
     fn from(value: Config) -> Self {
@@ -754,7 +690,8 @@ impl From<Config> for ldk_node::Config {
 
 /// Represents the configuration of an [Node] instance.
 ///
-#[frb]
+
+#[frb(serialize)]
 #[derive(Debug, Clone)]
 pub struct Config {
     #[frb(non_final)]
@@ -821,26 +758,6 @@ impl Default for Config {
     }
 }
 
-///The from string implementation will try to determine the language of the mnemonic from all the supported languages. (Languages have to be explicitly enabled using the Cargo features.)
-/// Supported number of words are 12, 15, 18, 21, and 24.
-///
-#[derive(Debug, Clone)]
-pub struct Mnemonic {
-    pub internal: String,
-}
-
-impl From<Mnemonic> for ldk_node::bip39::Mnemonic {
-    fn from(value: Mnemonic) -> Self {
-        ldk_node::bip39::Mnemonic::from_str(&*value.internal).expect("Invalid mnemonic key")
-    }
-}
-impl From<ldk_node::bip39::Mnemonic> for Mnemonic {
-    fn from(value: ldk_node::bip39::Mnemonic) -> Self {
-        Mnemonic {
-            internal: value.to_string(),
-        }
-    }
-}
 #[derive(Debug, Clone)]
 pub enum ChainDataSourceConfig {
     Esplora(String),
