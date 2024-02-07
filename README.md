@@ -70,7 +70,7 @@ final config   = Config(
                         storageDirPath: path,
                         network: Network.Testnet,
                         listeningAddresses: [
-                         ldk.SocketAddress.hostname(addr: "0.0.0.0", port: 3003)
+                         SocketAddress.hostname(addr: "0.0.0.0", port: 3003)
                         ],
                         onchainWalletSyncIntervalSecs: 60,
                         walletSyncIntervalSecs: 20,
