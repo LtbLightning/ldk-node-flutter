@@ -72,9 +72,7 @@ class _MyAppState extends State<MyApp> {
         ldk.SocketAddress.hostname(addr: "0.0.0.0", port: 3003));
     ldk.Builder aliceBuilder = ldk.Builder.fromConfig(config: aliceConfig);
     aliceNode = await aliceBuilder
-        .setEntropyBip39Mnemonic(
-            mnemonic: ldk.Mnemonic(
-                "cart super leaf clinic pistol plug replace close super tooth wealth usage"))
+        .setEntropyBip39Mnemonic(mnemonic: await ldk.Mnemonic.generate())
         .setEsploraServer(esploraUrl)
         .build();
     await startNode(aliceNode);
