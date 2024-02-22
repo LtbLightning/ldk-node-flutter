@@ -12,7 +12,7 @@ import 'package:collection/collection.dart';
 
 part 'bridge_definitions.freezed.dart';
 
-abstract class LdkNode {
+abstract class Ldknode {
   Future<NodePointer> finalizeBuilder(
       {required Config config,
       ChainDataSourceConfig? chainDataSourceConfig,
@@ -360,7 +360,7 @@ abstract class LdkNode {
 
 @sealed
 class MutexNodeSqliteStore extends FrbOpaque {
-  final LdkNode bridge;
+  final Ldknode bridge;
   MutexNodeSqliteStore.fromRaw(int ptr, int size, this.bridge)
       : super.unsafe(ptr, size);
   @override
@@ -819,7 +819,7 @@ sealed class MaxDustHTLCExposure with _$MaxDustHTLCExposure {
 /// Supported number of words are 12, 15, 18, 21, and 24.
 ///
 class Mnemonic {
-  final LdkNode bridge;
+  final Ldknode bridge;
   final String seedPhrase;
 
   const Mnemonic({
@@ -827,7 +827,7 @@ class Mnemonic {
     required this.seedPhrase,
   });
 
-  static Future<Mnemonic> generate({required LdkNode bridge, dynamic hint}) =>
+  static Future<Mnemonic> generate({required Ldknode bridge, dynamic hint}) =>
       bridge.generateStaticMethodMnemonic(hint: hint);
 }
 
@@ -942,7 +942,7 @@ enum NodeException {
 }
 
 class NodePointer {
-  final LdkNode bridge;
+  final Ldknode bridge;
   final MutexNodeSqliteStore field0;
 
   const NodePointer({

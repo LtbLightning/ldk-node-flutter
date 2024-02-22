@@ -13,6 +13,6 @@ Pod::Spec.new do |s|
   s.swift_version = '5.0'
   s.public_header_files = 'Classes**/*.h'
   s.source_files = 'Classes/**/*'
-  s.preserve_paths = 'ldk_node.xcframework/**/*'
-  s.vendored_frameworks = 'ldk_node.xcframework'
+  s.static_framework = true
+  s.vendored_libraries = "libldknode.a"
 end

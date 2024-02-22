@@ -21,7 +21,7 @@ build-jnilib:
 
 build-ios:
 	  @echo "[Creating libldknode.a ...] $@"
-	  sh darwin.sh
+	  cargo lipo --release
 	  @echo "[Done ✅]"
 
 copy-build:

@@ -30,4 +30,3 @@ migrate_working_dir/
 build/
 rust/target/
 rust/wallets/
-rust/ldk.0.2.1/
