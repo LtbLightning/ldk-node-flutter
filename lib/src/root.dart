@@ -7,9 +7,9 @@ import 'package:path_provider/path_provider.dart';
 class Mnemonic extends bridge.Mnemonic {
   Mnemonic(String seedPhrase)
       : super(bridge: loaderApi, seedPhrase: seedPhrase);
-  static Future<bridge.Mnemonic> generate() async {
+  static Future<Mnemonic> generate() async {
     final res = await bridge.Mnemonic.generate(bridge: loaderApi);
-    return res;
+    return Mnemonic(res.seedPhrase);
   }
 }
 
