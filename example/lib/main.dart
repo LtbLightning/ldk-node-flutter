@@ -47,7 +47,6 @@ class _MyAppState extends State<MyApp> {
       String path, ldk.SocketAddress address) async {
     final directory = await getApplicationDocumentsDirectory();
     final nodePath = "${directory.path}/ldk_cache/$path";
-    print(nodePath);
     final config = ldk.Config(
         probingLiquidityLimitMultiplier: 3,
         trustedPeers0Conf: [],
