@@ -537,7 +537,7 @@ class Builder {
   /// Configures the [Node] instance to source its chain data from the given Esplora server.
   ///
   Builder setEntropyBip39Mnemonic(
-      {required bridge.Mnemonic mnemonic, String? passphrase}) {
+      {required Mnemonic mnemonic, String? passphrase}) {
     _entropySource = bridge.EntropySourceConfig.bip39Mnemonic(
         mnemonic: mnemonic, passphrase: passphrase);
     return this;

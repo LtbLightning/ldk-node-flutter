@@ -2223,8 +2223,7 @@ class LdknodeWire implements FlutterRustBridgeWireBase {
 
   late final _wire_spendable_onchain_balance_sats__method__NodePointerPtr =
       _lookup<
-              ffi
-              .NativeFunction<
+              ffi.NativeFunction<
                   ffi.Void Function(ffi.Int64, ffi.Pointer<wire_NodePointer>)>>(
           'wire_spendable_onchain_balance_sats__method__NodePointer');
   late final _wire_spendable_onchain_balance_sats__method__NodePointer =
