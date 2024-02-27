@@ -1138,6 +1138,20 @@ checksum = "e2abad23fbc42b3700f2f279844dc832adb2b2eb069b2df918f455c4e18cc646"
 [[package]]
 name = "ldk-node"
 version = "0.2.1"
+dependencies = [
+ "anyhow",
+ "flutter_rust_bridge",
+ "flutter_rust_bridge_codegen",
+ "lazy_static",
+ "ldk-node 0.2.1 (registry+https://github.com/rust-lang/crates.io-index)",
+ "log",
+ "once_cell",
+ "simplelog",
+]
+
+[[package]]
+name = "ldk-node"
+version = "0.2.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "c6b8ca6c5ea2c691a7a4ba0183120fa81e45ba79448ba7c3826fe2cdca4accb0"
 dependencies = [
@@ -1162,20 +1176,6 @@ dependencies = [
  "tokio",
  "vss-client",
  "winapi",
-]
-
-[[package]]
-name = "ldknode"
-version = "0.2.1"
-dependencies = [
- "anyhow",
- "flutter_rust_bridge",
- "flutter_rust_bridge_codegen",
- "lazy_static",
- "ldk-node",
- "log",
- "once_cell",
- "simplelog",
 ]
 
 [[package]]
