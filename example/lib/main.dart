@@ -47,7 +47,6 @@ class _MyAppState extends State<MyApp> {
       String path, ldk.SocketAddress address) async {
     final directory = await getApplicationDocumentsDirectory();
     final nodePath = "${directory.path}/ldk_cache/$path";
-    print(nodePath);
     final config = ldk.Config(
         probingLiquidityLimitMultiplier: 3,
         trustedPeers0Conf: [],
@@ -72,7 +71,9 @@ class _MyAppState extends State<MyApp> {
         ldk.SocketAddress.hostname(addr: "0.0.0.0", port: 3003));
     ldk.Builder aliceBuilder = ldk.Builder.fromConfig(config: aliceConfig);
     aliceNode = await aliceBuilder
-        .setEntropyBip39Mnemonic(mnemonic: await ldk.Mnemonic.generate())
+        .setEntropyBip39Mnemonic(
+            mnemonic: ldk.Mnemonic(
+                "cart super leaf clinic pistol plug replace close super tooth wealth usage"))
         .setEsploraServer(esploraUrl)
         .build();
     await startNode(aliceNode);

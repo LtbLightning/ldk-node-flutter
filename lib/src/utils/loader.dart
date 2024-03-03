@@ -7,5 +7,5 @@ final DynamicLibrary dylib = Platform.isIOS
     ? DynamicLibrary.process()
     : Platform.isMacOS
         ? DynamicLibrary.executable()
-        : DynamicLibrary.open('libldknode.so');
-LdknodeImpl loaderApi = LdknodeImpl(dylib);
+        : DynamicLibrary.open('libldk_node.so');
+LdkNodeImpl loaderApi = LdkNodeImpl(dylib);
