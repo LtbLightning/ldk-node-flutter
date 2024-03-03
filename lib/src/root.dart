@@ -46,9 +46,9 @@ class Node {
     }
   }
 
-  /// Blocks until the next event is available.
+  // Confirm the last retrieved event handled.
   ///
-  /// **Note:** this will always return the same event until handling is confirmed via `node.eventHandled()`.
+  /// **Note:** This **MUST** be called after each event has been handled.
   Future<void> eventHandled() async {
     try {
       await loaderApi.eventHandledMethodNodePointer(that: _pointer);
@@ -57,9 +57,9 @@ class Node {
     }
   }
 
-  // Confirm the last retrieved event handled.
+  /// Blocks until the next event is available.
   ///
-  /// **Note:** This **MUST** be called after each event has been handled.
+  /// **Note:** this will always return the same event until handling is confirmed via `node.eventHandled()`.
   Future<bridge.Event?> nextEvent() async {
     try {
       return await loaderApi.nextEventMethodNodePointer(that: _pointer);
