@@ -30,7 +30,6 @@ flutter:
   plugin:
     platforms:
       android:
-        package: io.ldk.f.ldk_node
-        pluginClass: LdkNodePlugin
+        ffiPlugin: true
       ios:
-        pluginClass: LdkNodePlugin
+        ffiPlugin: true
