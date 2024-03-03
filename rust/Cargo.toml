@@ -1,0 +1,27 @@
+[package]
+name = "ldk_node"
+version = "0.2.1"
+edition = "2021"
+
+[lib]
+crate-type = ["staticlib", "cdylib"]
+
+
+[build-dependencies]
+flutter_rust_bridge_codegen = { version = "= 2.0.0-dev.25"  }
+anyhow = "1.0.68"
+[dependencies]
+flutter_rust_bridge = "=2.0.0-dev.25"
+
+log = "0.4.19"
+simplelog = "0.12.1"
+anyhow = { version = "1.0.71"}
+ldk-node = { version = "= 0.2.1"  }
+
+
+[profile.release]
+opt-level = 'z'     # Optimize for size.
+lto = true          # Enable Link Time Optimization
+codegen-units = 1   # Reduce number of codegen units to increase optimizations.
+panic = 'abort'
+
