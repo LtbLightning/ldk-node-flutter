@@ -1,4 +1,4 @@
-import 'package:ldk_node/src/generated/api/errors.dart' as error;
+import 'package:ldk_node/src/generated/api/error.dart' as error;
 import 'package:ldk_node/src/generated/api/types.dart' as types;
 import 'package:ldk_node/src/utils/utils.dart';
 import 'package:path_provider/path_provider.dart';

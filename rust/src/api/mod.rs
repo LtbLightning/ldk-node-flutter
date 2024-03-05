@@ -1,3 +1,3 @@
-pub mod errors;
+pub mod error;
 pub mod types;
 pub mod node;

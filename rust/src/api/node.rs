@@ -1,4 +1,4 @@
-use crate::api::errors::{BuilderException, NodeException};
+use crate::api::error::{BuilderException, NodeException};
 pub use ldk_node::io::sqlite_store::SqliteStore;
 use ldk_node::lightning::util::ser::Writeable;
 use ldk_node::{BuildError};

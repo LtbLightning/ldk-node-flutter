@@ -640,11 +640,11 @@ impl CstDecode<bool> for flutter_rust_bridge::for_generated::wasm_bindgen::JsVal
         self.is_truthy()
     }
 }
-impl CstDecode<crate::api::errors::BuilderException>
+impl CstDecode<crate::api::error::BuilderException>
     for flutter_rust_bridge::for_generated::wasm_bindgen::JsValue
 {
     // Codec=Cst (C-struct based), see doc to use other codecs
-    fn cst_decode(self) -> crate::api::errors::BuilderException {
+    fn cst_decode(self) -> crate::api::error::BuilderException {
         (self.unchecked_into_f64() as i32).cst_decode()
     }
 }
@@ -678,11 +678,11 @@ impl CstDecode<crate::api::types::Network>
         (self.unchecked_into_f64() as i32).cst_decode()
     }
 }
-impl CstDecode<crate::api::errors::NodeException>
+impl CstDecode<crate::api::error::NodeException>
     for flutter_rust_bridge::for_generated::wasm_bindgen::JsValue
 {
     // Codec=Cst (C-struct based), see doc to use other codecs
-    fn cst_decode(self) -> crate::api::errors::NodeException {
+    fn cst_decode(self) -> crate::api::error::NodeException {
         (self.unchecked_into_f64() as i32).cst_decode()
     }
 }

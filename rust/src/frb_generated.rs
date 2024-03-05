@@ -950,22 +950,22 @@ impl CstDecode<bool> for bool {
         self
     }
 }
-impl CstDecode<crate::api::errors::BuilderException> for i32 {
+impl CstDecode<crate::api::error::BuilderException> for i32 {
     // Codec=Cst (C-struct based), see doc to use other codecs
-    fn cst_decode(self) -> crate::api::errors::BuilderException {
+    fn cst_decode(self) -> crate::api::error::BuilderException {
         match self {
-            0 => crate::api::errors::BuilderException::SocketAddressParseError,
-            1 => crate::api::errors::BuilderException::InvalidSeedBytes,
-            2 => crate::api::errors::BuilderException::InvalidSeedFile,
-            3 => crate::api::errors::BuilderException::InvalidSystemTime,
-            4 => crate::api::errors::BuilderException::InvalidChannelMonitor,
-            5 => crate::api::errors::BuilderException::InvalidListeningAddresses,
-            6 => crate::api::errors::BuilderException::ReadFailed,
-            7 => crate::api::errors::BuilderException::WriteFailed,
-            8 => crate::api::errors::BuilderException::StoragePathAccessFailed,
-            9 => crate::api::errors::BuilderException::KVStoreSetupFailed,
-            10 => crate::api::errors::BuilderException::WalletSetupFailed,
-            11 => crate::api::errors::BuilderException::LoggerSetupFailed,
+            0 => crate::api::error::BuilderException::SocketAddressParseError,
+            1 => crate::api::error::BuilderException::InvalidSeedBytes,
+            2 => crate::api::error::BuilderException::InvalidSeedFile,
+            3 => crate::api::error::BuilderException::InvalidSystemTime,
+            4 => crate::api::error::BuilderException::InvalidChannelMonitor,
+            5 => crate::api::error::BuilderException::InvalidListeningAddresses,
+            6 => crate::api::error::BuilderException::ReadFailed,
+            7 => crate::api::error::BuilderException::WriteFailed,
+            8 => crate::api::error::BuilderException::StoragePathAccessFailed,
+            9 => crate::api::error::BuilderException::KVStoreSetupFailed,
+            10 => crate::api::error::BuilderException::WalletSetupFailed,
+            11 => crate::api::error::BuilderException::LoggerSetupFailed,
             _ => unreachable!("Invalid variant for BuilderException: {}", self),
         }
     }
@@ -1002,40 +1002,40 @@ impl CstDecode<crate::api::types::Network> for i32 {
         }
     }
 }
-impl CstDecode<crate::api::errors::NodeException> for i32 {
+impl CstDecode<crate::api::error::NodeException> for i32 {
     // Codec=Cst (C-struct based), see doc to use other codecs
-    fn cst_decode(self) -> crate::api::errors::NodeException {
+    fn cst_decode(self) -> crate::api::error::NodeException {
         match self {
-            0 => crate::api::errors::NodeException::AlreadyRunning,
-            1 => crate::api::errors::NodeException::NotRunning,
-            2 => crate::api::errors::NodeException::OnchainTxCreationFailed,
-            3 => crate::api::errors::NodeException::ConnectionFailed,
-            4 => crate::api::errors::NodeException::InvoiceCreationFailed,
-            5 => crate::api::errors::NodeException::PaymentSendingFailed,
-            6 => crate::api::errors::NodeException::ProbeSendingFailed,
-            7 => crate::api::errors::NodeException::ChannelCreationFailed,
-            8 => crate::api::errors::NodeException::ChannelClosingFailed,
-            9 => crate::api::errors::NodeException::ChannelConfigUpdateFailed,
-            10 => crate::api::errors::NodeException::PersistenceFailed,
-            11 => crate::api::errors::NodeException::WalletOperationFailed,
-            12 => crate::api::errors::NodeException::OnchainTxSigningFailed,
-            13 => crate::api::errors::NodeException::MessageSigningFailed,
-            14 => crate::api::errors::NodeException::TxSyncFailed,
-            15 => crate::api::errors::NodeException::GossipUpdateFailed,
-            16 => crate::api::errors::NodeException::InvalidAddress,
-            17 => crate::api::errors::NodeException::InvalidSocketAddress,
-            18 => crate::api::errors::NodeException::InvalidPublicKey,
-            19 => crate::api::errors::NodeException::InvalidSecretKey,
-            20 => crate::api::errors::NodeException::InvalidPaymentHash,
-            21 => crate::api::errors::NodeException::InvalidPaymentPreimage,
-            22 => crate::api::errors::NodeException::InvalidPaymentSecret,
-            23 => crate::api::errors::NodeException::InvalidAmount,
-            24 => crate::api::errors::NodeException::InvalidInvoice,
-            25 => crate::api::errors::NodeException::InvalidChannelId,
-            26 => crate::api::errors::NodeException::InvalidNetwork,
-            27 => crate::api::errors::NodeException::DuplicatePayment,
-            28 => crate::api::errors::NodeException::InsufficientFunds,
-            29 => crate::api::errors::NodeException::FeerateEstimationUpdateFailed,
+            0 => crate::api::error::NodeException::AlreadyRunning,
+            1 => crate::api::error::NodeException::NotRunning,
+            2 => crate::api::error::NodeException::OnchainTxCreationFailed,
+            3 => crate::api::error::NodeException::ConnectionFailed,
+            4 => crate::api::error::NodeException::InvoiceCreationFailed,
+            5 => crate::api::error::NodeException::PaymentSendingFailed,
+            6 => crate::api::error::NodeException::ProbeSendingFailed,
+            7 => crate::api::error::NodeException::ChannelCreationFailed,
+            8 => crate::api::error::NodeException::ChannelClosingFailed,
+            9 => crate::api::error::NodeException::ChannelConfigUpdateFailed,
+            10 => crate::api::error::NodeException::PersistenceFailed,
+            11 => crate::api::error::NodeException::WalletOperationFailed,
+            12 => crate::api::error::NodeException::OnchainTxSigningFailed,
+            13 => crate::api::error::NodeException::MessageSigningFailed,
+            14 => crate::api::error::NodeException::TxSyncFailed,
+            15 => crate::api::error::NodeException::GossipUpdateFailed,
+            16 => crate::api::error::NodeException::InvalidAddress,
+            17 => crate::api::error::NodeException::InvalidSocketAddress,
+            18 => crate::api::error::NodeException::InvalidPublicKey,
+            19 => crate::api::error::NodeException::InvalidSecretKey,
+            20 => crate::api::error::NodeException::InvalidPaymentHash,
+            21 => crate::api::error::NodeException::InvalidPaymentPreimage,
+            22 => crate::api::error::NodeException::InvalidPaymentSecret,
+            23 => crate::api::error::NodeException::InvalidAmount,
+            24 => crate::api::error::NodeException::InvalidInvoice,
+            25 => crate::api::error::NodeException::InvalidChannelId,
+            26 => crate::api::error::NodeException::InvalidNetwork,
+            27 => crate::api::error::NodeException::DuplicatePayment,
+            28 => crate::api::error::NodeException::InsufficientFunds,
+            29 => crate::api::error::NodeException::FeerateEstimationUpdateFailed,
             _ => unreachable!("Invalid variant for NodeException: {}", self),
         }
     }
@@ -1132,23 +1132,23 @@ impl SseDecode for bool {
     }
 }
 
-impl SseDecode for crate::api::errors::BuilderException {
+impl SseDecode for crate::api::error::BuilderException {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
         let mut inner = <i32>::sse_decode(deserializer);
         return match inner {
-            0 => crate::api::errors::BuilderException::SocketAddressParseError,
-            1 => crate::api::errors::BuilderException::InvalidSeedBytes,
-            2 => crate::api::errors::BuilderException::InvalidSeedFile,
-            3 => crate::api::errors::BuilderException::InvalidSystemTime,
-            4 => crate::api::errors::BuilderException::InvalidChannelMonitor,
-            5 => crate::api::errors::BuilderException::InvalidListeningAddresses,
-            6 => crate::api::errors::BuilderException::ReadFailed,
-            7 => crate::api::errors::BuilderException::WriteFailed,
-            8 => crate::api::errors::BuilderException::StoragePathAccessFailed,
-            9 => crate::api::errors::BuilderException::KVStoreSetupFailed,
-            10 => crate::api::errors::BuilderException::WalletSetupFailed,
-            11 => crate::api::errors::BuilderException::LoggerSetupFailed,
+            0 => crate::api::error::BuilderException::SocketAddressParseError,
+            1 => crate::api::error::BuilderException::InvalidSeedBytes,
+            2 => crate::api::error::BuilderException::InvalidSeedFile,
+            3 => crate::api::error::BuilderException::InvalidSystemTime,
+            4 => crate::api::error::BuilderException::InvalidChannelMonitor,
+            5 => crate::api::error::BuilderException::InvalidListeningAddresses,
+            6 => crate::api::error::BuilderException::ReadFailed,
+            7 => crate::api::error::BuilderException::WriteFailed,
+            8 => crate::api::error::BuilderException::StoragePathAccessFailed,
+            9 => crate::api::error::BuilderException::KVStoreSetupFailed,
+            10 => crate::api::error::BuilderException::WalletSetupFailed,
+            11 => crate::api::error::BuilderException::LoggerSetupFailed,
             _ => unreachable!("Invalid variant for BuilderException: {}", inner),
         };
     }
@@ -1545,41 +1545,41 @@ impl SseDecode for crate::api::node::NodeBase {
     }
 }
 
-impl SseDecode for crate::api::errors::NodeException {
+impl SseDecode for crate::api::error::NodeException {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
         let mut inner = <i32>::sse_decode(deserializer);
         return match inner {
-            0 => crate::api::errors::NodeException::AlreadyRunning,
-            1 => crate::api::errors::NodeException::NotRunning,
-            2 => crate::api::errors::NodeException::OnchainTxCreationFailed,
-            3 => crate::api::errors::NodeException::ConnectionFailed,
-            4 => crate::api::errors::NodeException::InvoiceCreationFailed,
-            5 => crate::api::errors::NodeException::PaymentSendingFailed,
-            6 => crate::api::errors::NodeException::ProbeSendingFailed,
-            7 => crate::api::errors::NodeException::ChannelCreationFailed,
-            8 => crate::api::errors::NodeException::ChannelClosingFailed,
-            9 => crate::api::errors::NodeException::ChannelConfigUpdateFailed,
-            10 => crate::api::errors::NodeException::PersistenceFailed,
-            11 => crate::api::errors::NodeException::WalletOperationFailed,
-            12 => crate::api::errors::NodeException::OnchainTxSigningFailed,
-            13 => crate::api::errors::NodeException::MessageSigningFailed,
-            14 => crate::api::errors::NodeException::TxSyncFailed,
-            15 => crate::api::errors::NodeException::GossipUpdateFailed,
-            16 => crate::api::errors::NodeException::InvalidAddress,
-            17 => crate::api::errors::NodeException::InvalidSocketAddress,
-            18 => crate::api::errors::NodeException::InvalidPublicKey,
-            19 => crate::api::errors::NodeException::InvalidSecretKey,
-            20 => crate::api::errors::NodeException::InvalidPaymentHash,
-            21 => crate::api::errors::NodeException::InvalidPaymentPreimage,
-            22 => crate::api::errors::NodeException::InvalidPaymentSecret,
-            23 => crate::api::errors::NodeException::InvalidAmount,
-            24 => crate::api::errors::NodeException::InvalidInvoice,
-            25 => crate::api::errors::NodeException::InvalidChannelId,
-            26 => crate::api::errors::NodeException::InvalidNetwork,
-            27 => crate::api::errors::NodeException::DuplicatePayment,
-            28 => crate::api::errors::NodeException::InsufficientFunds,
-            29 => crate::api::errors::NodeException::FeerateEstimationUpdateFailed,
+            0 => crate::api::error::NodeException::AlreadyRunning,
+            1 => crate::api::error::NodeException::NotRunning,
+            2 => crate::api::error::NodeException::OnchainTxCreationFailed,
+            3 => crate::api::error::NodeException::ConnectionFailed,
+            4 => crate::api::error::NodeException::InvoiceCreationFailed,
+            5 => crate::api::error::NodeException::PaymentSendingFailed,
+            6 => crate::api::error::NodeException::ProbeSendingFailed,
+            7 => crate::api::error::NodeException::ChannelCreationFailed,
+            8 => crate::api::error::NodeException::ChannelClosingFailed,
+            9 => crate::api::error::NodeException::ChannelConfigUpdateFailed,
+            10 => crate::api::error::NodeException::PersistenceFailed,
+            11 => crate::api::error::NodeException::WalletOperationFailed,
+            12 => crate::api::error::NodeException::OnchainTxSigningFailed,
+            13 => crate::api::error::NodeException::MessageSigningFailed,
+            14 => crate::api::error::NodeException::TxSyncFailed,
+            15 => crate::api::error::NodeException::GossipUpdateFailed,
+            16 => crate::api::error::NodeException::InvalidAddress,
+            17 => crate::api::error::NodeException::InvalidSocketAddress,
+            18 => crate::api::error::NodeException::InvalidPublicKey,
+            19 => crate::api::error::NodeException::InvalidSecretKey,
+            20 => crate::api::error::NodeException::InvalidPaymentHash,
+            21 => crate::api::error::NodeException::InvalidPaymentPreimage,
+            22 => crate::api::error::NodeException::InvalidPaymentSecret,
+            23 => crate::api::error::NodeException::InvalidAmount,
+            24 => crate::api::error::NodeException::InvalidInvoice,
+            25 => crate::api::error::NodeException::InvalidChannelId,
+            26 => crate::api::error::NodeException::InvalidNetwork,
+            27 => crate::api::error::NodeException::DuplicatePayment,
+            28 => crate::api::error::NodeException::InsufficientFunds,
+            29 => crate::api::error::NodeException::FeerateEstimationUpdateFailed,
             _ => unreachable!("Invalid variant for NodeException: {}", inner),
         };
     }
@@ -2051,7 +2051,7 @@ impl flutter_rust_bridge::IntoIntoDart<crate::api::types::Bolt11Invoice>
     }
 }
 // Codec=Dco (DartCObject based), see doc to use other codecs
-impl flutter_rust_bridge::IntoDart for crate::api::errors::BuilderException {
+impl flutter_rust_bridge::IntoDart for crate::api::error::BuilderException {
     fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
         match self {
             Self::SocketAddressParseError => 0.into_dart(),
@@ -2070,13 +2070,13 @@ impl flutter_rust_bridge::IntoDart for crate::api::errors::BuilderException {
     }
 }
 impl flutter_rust_bridge::for_generated::IntoDartExceptPrimitive
-    for crate::api::errors::BuilderException
+    for crate::api::error::BuilderException
 {
 }
-impl flutter_rust_bridge::IntoIntoDart<crate::api::errors::BuilderException>
-    for crate::api::errors::BuilderException
+impl flutter_rust_bridge::IntoIntoDart<crate::api::error::BuilderException>
+    for crate::api::error::BuilderException
 {
-    fn into_into_dart(self) -> crate::api::errors::BuilderException {
+    fn into_into_dart(self) -> crate::api::error::BuilderException {
         self
     }
 }
@@ -2426,7 +2426,7 @@ impl flutter_rust_bridge::IntoIntoDart<crate::api::node::NodeBase> for crate::ap
     }
 }
 // Codec=Dco (DartCObject based), see doc to use other codecs
-impl flutter_rust_bridge::IntoDart for crate::api::errors::NodeException {
+impl flutter_rust_bridge::IntoDart for crate::api::error::NodeException {
     fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
         match self {
             Self::AlreadyRunning => 0.into_dart(),
@@ -2463,13 +2463,13 @@ impl flutter_rust_bridge::IntoDart for crate::api::errors::NodeException {
     }
 }
 impl flutter_rust_bridge::for_generated::IntoDartExceptPrimitive
-    for crate::api::errors::NodeException
+    for crate::api::error::NodeException
 {
 }
-impl flutter_rust_bridge::IntoIntoDart<crate::api::errors::NodeException>
-    for crate::api::errors::NodeException
+impl flutter_rust_bridge::IntoIntoDart<crate::api::error::NodeException>
+    for crate::api::error::NodeException
 {
-    fn into_into_dart(self) -> crate::api::errors::NodeException {
+    fn into_into_dart(self) -> crate::api::error::NodeException {
         self
     }
 }
@@ -2763,23 +2763,23 @@ impl SseEncode for bool {
     }
 }
 
-impl SseEncode for crate::api::errors::BuilderException {
+impl SseEncode for crate::api::error::BuilderException {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
         <i32>::sse_encode(
             match self {
-                crate::api::errors::BuilderException::SocketAddressParseError => 0,
-                crate::api::errors::BuilderException::InvalidSeedBytes => 1,
-                crate::api::errors::BuilderException::InvalidSeedFile => 2,
-                crate::api::errors::BuilderException::InvalidSystemTime => 3,
-                crate::api::errors::BuilderException::InvalidChannelMonitor => 4,
-                crate::api::errors::BuilderException::InvalidListeningAddresses => 5,
-                crate::api::errors::BuilderException::ReadFailed => 6,
-                crate::api::errors::BuilderException::WriteFailed => 7,
-                crate::api::errors::BuilderException::StoragePathAccessFailed => 8,
-                crate::api::errors::BuilderException::KVStoreSetupFailed => 9,
-                crate::api::errors::BuilderException::WalletSetupFailed => 10,
-                crate::api::errors::BuilderException::LoggerSetupFailed => 11,
+                crate::api::error::BuilderException::SocketAddressParseError => 0,
+                crate::api::error::BuilderException::InvalidSeedBytes => 1,
+                crate::api::error::BuilderException::InvalidSeedFile => 2,
+                crate::api::error::BuilderException::InvalidSystemTime => 3,
+                crate::api::error::BuilderException::InvalidChannelMonitor => 4,
+                crate::api::error::BuilderException::InvalidListeningAddresses => 5,
+                crate::api::error::BuilderException::ReadFailed => 6,
+                crate::api::error::BuilderException::WriteFailed => 7,
+                crate::api::error::BuilderException::StoragePathAccessFailed => 8,
+                crate::api::error::BuilderException::KVStoreSetupFailed => 9,
+                crate::api::error::BuilderException::WalletSetupFailed => 10,
+                crate::api::error::BuilderException::LoggerSetupFailed => 11,
                 _ => {
                     unimplemented!("");
                 }
@@ -3103,41 +3103,41 @@ impl SseEncode for crate::api::node::NodeBase {
     }
 }
 
-impl SseEncode for crate::api::errors::NodeException {
+impl SseEncode for crate::api::error::NodeException {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
         <i32>::sse_encode(
             match self {
-                crate::api::errors::NodeException::AlreadyRunning => 0,
-                crate::api::errors::NodeException::NotRunning => 1,
-                crate::api::errors::NodeException::OnchainTxCreationFailed => 2,
-                crate::api::errors::NodeException::ConnectionFailed => 3,
-                crate::api::errors::NodeException::InvoiceCreationFailed => 4,
-                crate::api::errors::NodeException::PaymentSendingFailed => 5,
-                crate::api::errors::NodeException::ProbeSendingFailed => 6,
-                crate::api::errors::NodeException::ChannelCreationFailed => 7,
-                crate::api::errors::NodeException::ChannelClosingFailed => 8,
-                crate::api::errors::NodeException::ChannelConfigUpdateFailed => 9,
-                crate::api::errors::NodeException::PersistenceFailed => 10,
-                crate::api::errors::NodeException::WalletOperationFailed => 11,
-                crate::api::errors::NodeException::OnchainTxSigningFailed => 12,
-                crate::api::errors::NodeException::MessageSigningFailed => 13,
-                crate::api::errors::NodeException::TxSyncFailed => 14,
-                crate::api::errors::NodeException::GossipUpdateFailed => 15,
-                crate::api::errors::NodeException::InvalidAddress => 16,
-                crate::api::errors::NodeException::InvalidSocketAddress => 17,
-                crate::api::errors::NodeException::InvalidPublicKey => 18,
-                crate::api::errors::NodeException::InvalidSecretKey => 19,
-                crate::api::errors::NodeException::InvalidPaymentHash => 20,
-                crate::api::errors::NodeException::InvalidPaymentPreimage => 21,
-                crate::api::errors::NodeException::InvalidPaymentSecret => 22,
-                crate::api::errors::NodeException::InvalidAmount => 23,
-                crate::api::errors::NodeException::InvalidInvoice => 24,
-                crate::api::errors::NodeException::InvalidChannelId => 25,
-                crate::api::errors::NodeException::InvalidNetwork => 26,
-                crate::api::errors::NodeException::DuplicatePayment => 27,
-                crate::api::errors::NodeException::InsufficientFunds => 28,
-                crate::api::errors::NodeException::FeerateEstimationUpdateFailed => 29,
+                crate::api::error::NodeException::AlreadyRunning => 0,
+                crate::api::error::NodeException::NotRunning => 1,
+                crate::api::error::NodeException::OnchainTxCreationFailed => 2,
+                crate::api::error::NodeException::ConnectionFailed => 3,
+                crate::api::error::NodeException::InvoiceCreationFailed => 4,
+                crate::api::error::NodeException::PaymentSendingFailed => 5,
+                crate::api::error::NodeException::ProbeSendingFailed => 6,
+                crate::api::error::NodeException::ChannelCreationFailed => 7,
+                crate::api::error::NodeException::ChannelClosingFailed => 8,
+                crate::api::error::NodeException::ChannelConfigUpdateFailed => 9,
+                crate::api::error::NodeException::PersistenceFailed => 10,
+                crate::api::error::NodeException::WalletOperationFailed => 11,
+                crate::api::error::NodeException::OnchainTxSigningFailed => 12,
+                crate::api::error::NodeException::MessageSigningFailed => 13,
+                crate::api::error::NodeException::TxSyncFailed => 14,
+                crate::api::error::NodeException::GossipUpdateFailed => 15,
+                crate::api::error::NodeException::InvalidAddress => 16,
+                crate::api::error::NodeException::InvalidSocketAddress => 17,
+                crate::api::error::NodeException::InvalidPublicKey => 18,
+                crate::api::error::NodeException::InvalidSecretKey => 19,
+                crate::api::error::NodeException::InvalidPaymentHash => 20,
+                crate::api::error::NodeException::InvalidPaymentPreimage => 21,
+                crate::api::error::NodeException::InvalidPaymentSecret => 22,
+                crate::api::error::NodeException::InvalidAmount => 23,
+                crate::api::error::NodeException::InvalidInvoice => 24,
+                crate::api::error::NodeException::InvalidChannelId => 25,
+                crate::api::error::NodeException::InvalidNetwork => 26,
+                crate::api::error::NodeException::DuplicatePayment => 27,
+                crate::api::error::NodeException::InsufficientFunds => 28,
+                crate::api::error::NodeException::FeerateEstimationUpdateFailed => 29,
                 _ => {
                     unimplemented!("");
                 }

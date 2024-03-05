@@ -2,7 +2,7 @@ use std::str::FromStr;
 use std::string::ToString;
 use crate::api::node::{MnemonicBase};
 use flutter_rust_bridge::frb;
-use crate::api::errors::BuilderException;
+use crate::api::error::BuilderException;
 
 
 ///An address which can be used to connect to a remote peer.
