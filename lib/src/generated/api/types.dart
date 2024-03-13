@@ -4,11 +4,12 @@
 // ignore_for_file: invalid_use_of_internal_member, unused_import, unnecessary_import
 
 import '../frb_generated.dart';
-import 'error.dart';
 import 'node.dart';
 import 'package:flutter_rust_bridge/flutter_rust_bridge_for_generated.dart';
 import 'package:freezed_annotation/freezed_annotation.dart' hide protected;
 part 'types.freezed.dart';
+
+// The type `LiquiditySourceConfig` is not used by any `pub` functions, thus it is ignored.
 
 /// A Bitcoin address.
 ///
@@ -26,6 +27,81 @@ class Address {
   bool operator ==(Object other) =>
       identical(this, other) ||
       other is Address && runtimeType == other.runtimeType && s == other.s;
+}
+
+/// Details of the known available balances returned by [`Node::list_balances`].
+///
+/// [`Node::list_balances`]: crate::Node::list_balances
+class BalanceDetails {
+  /// The total balance of our on-chain wallet.
+  final int totalOnchainBalanceSats;
+
+  /// The currently spendable balance of our on-chain wallet.
+  final int spendableOnchainBalanceSats;
+
+  /// The total balance that we would be able to claim across all our Lightning channels.
+  ///
+  /// Note this excludes balances that we are unsure if we are able to claim (e.g., as we are
+  /// waiting for a preimage or for a timeout to expire). These balances will however be included
+  /// as [`MaybePreimageClaimableHTLC`] and
+  /// [`MaybeTimeoutClaimableHTLC`] in [`lightning_balances`].
+  ///
+  /// [`MaybePreimageClaimableHTLC`]: LightningBalance::MaybePreimageClaimableHTLC
+  /// [`MaybeTimeoutClaimableHTLC`]: LightningBalance::MaybeTimeoutClaimableHTLC
+  /// [`lightning_balances`]: Self::lightning_balances
+  final int totalLightningBalanceSats;
+
+  /// A detailed list of all known Lightning balances that would be claimable on channel closure.
+  ///
+  /// Note that less than the listed amounts are spendable over lightning as further reserve
+  /// restrictions apply. Please refer to [`ChannelDetails::outbound_capacity_msat`] and
+  /// [`ChannelDetails::next_outbound_htlc_limit_msat`] as returned by [`Node::list_channels`]
+  /// for a better approximation of the spendable amounts.
+  ///
+  /// [`ChannelDetails::outbound_capacity_msat`]: crate::ChannelDetails::outbound_capacity_msat
+  /// [`ChannelDetails::next_outbound_htlc_limit_msat`]: crate::ChannelDetails::next_outbound_htlc_limit_msat
+  /// [`Node::list_channels`]: crate::Node::list_channels
+  final List<LightningBalance> lightningBalances;
+
+  /// A detailed list of balances currently being swept from the Lightning to the on-chain
+  /// wallet.
+  ///
+  /// These are balances resulting from channel closures that may have been encumbered by a
+  /// delay, but are now being claimed and useable once sufficiently confirmed on-chain.
+  ///
+  /// Note that, depending on the sync status of the wallets, swept balances listed here might or
+  /// might not already be accounted for in [`total_onchain_balance_sats`].
+  ///
+  /// [`total_onchain_balance_sats`]: Self::total_onchain_balance_sats
+  final List<PendingSweepBalance> pendingBalancesFromChannelClosures;
+
+  const BalanceDetails({
+    required this.totalOnchainBalanceSats,
+    required this.spendableOnchainBalanceSats,
+    required this.totalLightningBalanceSats,
+    required this.lightningBalances,
+    required this.pendingBalancesFromChannelClosures,
+  });
+
+  @override
+  int get hashCode =>
+      totalOnchainBalanceSats.hashCode ^
+      spendableOnchainBalanceSats.hashCode ^
+      totalLightningBalanceSats.hashCode ^
+      lightningBalances.hashCode ^
+      pendingBalancesFromChannelClosures.hashCode;
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is BalanceDetails &&
+          runtimeType == other.runtimeType &&
+          totalOnchainBalanceSats == other.totalOnchainBalanceSats &&
+          spendableOnchainBalanceSats == other.spendableOnchainBalanceSats &&
+          totalLightningBalanceSats == other.totalLightningBalanceSats &&
+          lightningBalances == other.lightningBalances &&
+          pendingBalancesFromChannelClosures ==
+              other.pendingBalancesFromChannelClosures;
 }
 
 ///Represents a syntactically and semantically correct lightning BOLT11 invoice.
@@ -77,7 +153,7 @@ class ChannelConfig {
   final int cltvExpiryDelta;
 
   /// Options for how to set the max dust HTLC exposure allowed on a channel.
-  final MaxDustHTLCExposure maxDustHtlcExposure;
+  final MaxDustHTLCExposure? maxDustHtlcExposure;
 
   ///The additional fee we’re willing to pay to avoid waiting for the counterparty’s toSelfDelay to reclaim funds.
   ///
@@ -97,7 +173,7 @@ class ChannelConfig {
     required this.forwardingFeeProportionalMillionths,
     required this.forwardingFeeBaseMsat,
     required this.cltvExpiryDelta,
-    required this.maxDustHtlcExposure,
+    this.maxDustHtlcExposure,
     required this.forceCloseAvoidanceMaxFeeSatoshis,
     required this.acceptUnderpayingHtlcs,
   });
@@ -126,117 +202,149 @@ class ChannelConfig {
           acceptUnderpayingHtlcs == other.acceptUnderpayingHtlcs;
 }
 
-/// Details of a channel, as returned by node.listChannels()
-///
 class ChannelDetails {
-  /// The channel's ID (prior to funding transaction generation, this is a random 32 bytes,
-  /// thereafter this is the txid of the funding transaction xor the funding transaction output).
+  /// The channel ID (prior to funding transaction generation, this is a random 32-byte
+  /// identifier, afterwards this is the transaction ID of the funding transaction XOR the
+  /// funding transaction output).
+  ///
   /// Note that this means this value is *not* persistent - it can change once during the
   /// lifetime of the channel.
-  ///
   final ChannelId channelId;
 
-  ///The node ID of our the channel’s counterparty.
+  /// The node ID of our the channel's counterparty.
   final PublicKey counterpartyNodeId;
 
-  /// The Channel's funding transaction output, if we've negotiated the funding transaction with
+  /// The channel's funding transaction output, if we've negotiated the funding transaction with
   /// our counterparty already.
-  ///
-  final String? fundingTxo;
+  final OutPoint? fundingTxo;
 
-  ///The value, in satoshis, of this channel as it appears in the funding output.
+  /// The value, in satoshis, of this channel as it appears in the funding output.
   final int channelValueSats;
 
-  /// The value, in satoshis, that must always be held in the channel for us. This value ensures
-  /// that if we broadcast a revoked state, our counterparty can punish us by claiming at least
-  /// this value on chain.
+  /// The value, in satoshis, that must always be held as a reserve in the channel for us. This
+  /// value ensures that if we broadcast a revoked state, our counterparty can punish us by
+  /// claiming at least this value on chain.
   ///
-  /// This value is not included in `outbound_capacity_msat` as it can never be spent.
+  /// This value is not included in [`outbound_capacity_msat`] as it can never be spent.
   ///
-  /// This value will be null for outbound channels until the counterparty accepts the channel.
+  /// This value will be `None` for outbound channels until the counterparty accepts the channel.
   ///
+  /// [`outbound_capacity_msat`]: Self::outbound_capacity_msat
   final int? unspendablePunishmentReserve;
 
-  /// The userChannelId passed in to create_channel, or a random value if the channel was
-  /// inbound. This may be zero for inbound channels serialized with LDK versions prior to
-  /// 0.0.113.
-  ///
+  /// The local `user_channel_id` of this channel.
   final UserChannelId userChannelId;
 
   /// The currently negotiated fee rate denominated in satoshi per 1000 weight units,
   /// which is applied to commitment and HTLC transactions.
-  ///
-  /// This value will be null for objects serialized with LDK versions prior to 0.0.115.
-  ///
   final int feerateSatPer1000Weight;
 
-  /// Our total balance.  This is the amount we would get if we close the channel.
-  /// This value is not exact. Due to various in-flight changes and feerate changes, exactly this
-  /// amount is not likely to be recoverable on close.
+  /// The available outbound capacity for sending HTLCs to the remote peer.
   ///
-  /// This does not include any pending HTLCs which are not yet fully resolved (and, thus, whose
+  /// The amount does not include any pending HTLCs which are not yet resolved (and, thus, whose
   /// balance is not available for inclusion in new outbound HTLCs). This further does not include
   /// any pending outgoing HTLCs which are awaiting some other resolution to be sent.
-  /// This does not consider any on-chain fees.
-  ///
-  final int balanceMsat;
-
-  /// The available outbound capacity for sending HTLCs to the remote peer. This does not include
-  /// any pending HTLCs which are not yet fully resolved (and, thus, whose balance is not
-  /// available for inclusion in new outbound HTLCs). This further does not include any pending
-  /// outgoing HTLCs which are awaiting some other resolution to be sent.
-  ///
-  /// This value is not exact. Due to various in-flight changes, feerate changes, and our
-  /// conflict-avoidance policy, exactly this amount is not likely to be spendable. However, we
-  /// should be able to spend nearly this amount.
-  ///
   final int outboundCapacityMsat;
 
-  /// The available inbound capacity for the remote peer to send HTLCs to us. This does not
-  /// include any pending HTLCs which are not yet fully resolved (and, thus, whose balance is not
-  /// available for inclusion in new inbound HTLCs).
-  /// Note that there are some corner cases not fully handled here, so the actual available
-  /// inbound capacity may be slightly higher than this.
+  /// The available outbound capacity for sending HTLCs to the remote peer.
   ///
-  /// This value is not exact. Due to various in-flight changes, feerate changes, and our
-  /// counterparty's conflict-avoidance policy, exactly this amount is not likely to be spendable.
-  /// However, our counterparty should be able to spend nearly this amount.
-  ///
+  /// The amount does not include any pending HTLCs which are not yet resolved
+  /// (and, thus, whose balance is not available for inclusion in new inbound HTLCs). This further
+  /// does not include any pending outgoing HTLCs which are awaiting some other resolution to be
+  /// sent.
   final int inboundCapacityMsat;
 
-  /// The number of required confirmations on the funding transaction before the funding will be
-  /// considered "locked". This number is selected by the channel fundee, and can be selected for inbound channels with
-  /// This value will be null for outbound channels until the counterparty accepts the channel.
+  /// The number of required confirmations on the funding transactions before the funding is
+  /// considered "locked". The amount is selected by the channel fundee.
   ///
+  /// The value will be `None` for outbound channels until the counterparty accepts the channel.
   final int? confirmationsRequired;
 
   /// The current number of confirmations on the funding transaction.
-  ///
-  /// This value will be `None` for objects serialized with LDK versions prior to 0.0.113.
-  ///
   final int? confirmations;
 
-  /// True if the channel was initiated (and thus funded) by us.
-  ///
+  /// Returns `true` if the channel was initiated (and therefore funded) by us.
   final bool isOutbound;
 
-  /// True if the channel is confirmed, channelReady messages have been exchanged, and the
-  /// channel is not currently being shut down. `channelReady` message exchange implies the
-  /// required confirmation count has been reached (and we were connected to the peer at some
-  /// point after the funding transaction received enough confirmations). The required
-  ///
+  /// Returns `true` if both parties have exchanged `channel_ready` messages, and the channel is
+  /// not currently being shut down. Both parties exchange `channel_ready` messages upon
+  /// independently verifying that the required confirmations count provided by
+  /// `confirmations_required` has been reached.
   final bool isChannelReady;
 
-  /// True if the channel is (a) confirmed and channelReady messages have been exchanged, (b)
-  /// the peer is connected, and (c) the channel is not currently negotiating a shutdown.
+  /// Returns `true` if the channel (a) `channel_ready` messages have been exchanged, (b) the
+  /// peer is connected, and (c) the channel is not currently negotiating shutdown.
   ///
-  /// This is a strict superset of `isChannelReady`.
-  ///
+  /// This is a strict superset of `is_channel_ready`.
   final bool isUsable;
 
-  /// True if this channel is (or will be) publicly-announced.
-  ///
+  /// Returns `true` if this channel is (or will be) publicly-announced
   final bool isPublic;
+
+  /// The difference in the CLTV value between incoming HTLCs and an outbound HTLC forwarded over
+  /// the channel.
+  final int? cltvExpiryDelta;
+
+  /// The value, in satoshis, that must always be held in the channel for our counterparty. This
+  /// value ensures that if our counterparty broadcasts a revoked state, we can punish them by
+  /// claiming at least this value on chain.
+  ///
+  /// This value is not included in [`inbound_capacity_msat`] as it can never be spent.
+  ///
+  /// [`inbound_capacity_msat`]: ChannelDetails::inbound_capacity_msat
+  final int counterpartyUnspendablePunishmentReserve;
+
+  /// The smallest value HTLC (in msat) the remote peer will accept, for this channel.
+  ///
+  /// This field is only `None` before we have received either the `OpenChannel` or
+  /// `AcceptChannel` message from the remote peer.
+  final int? counterpartyOutboundHtlcMinimumMsat;
+
+  /// The largest value HTLC (in msat) the remote peer currently will accept, for this channel.
+  final int? counterpartyOutboundHtlcMaximumMsat;
+
+  /// Base routing fee in millisatoshis.
+  final int? counterpartyForwardingInfoFeeBaseMsat;
+
+  /// Proportional fee, in millionths of a satoshi the channel will charge per transferred satoshi.
+  final int? counterpartyForwardingInfoFeeProportionalMillionths;
+
+  /// The minimum difference in CLTV expiry between an ingoing HTLC and its outgoing counterpart,
+  /// such that the outgoing HTLC is forwardable to this counterparty.
+  final int? counterpartyForwardingInfoCltvExpiryDelta;
+
+  /// The available outbound capacity for sending a single HTLC to the remote peer. This is
+  /// similar to [`ChannelDetails::outbound_capacity_msat`] but it may be further restricted by
+  /// the current state and per-HTLC limit(s). This is intended for use when routing, allowing us
+  /// to use a limit as close as possible to the HTLC limit we can currently send.
+  ///
+  /// See also [`ChannelDetails::next_outbound_htlc_minimum_msat`] and
+  /// [`ChannelDetails::outbound_capacity_msat`].
+  final int nextOutboundHtlcLimitMsat;
+
+  /// The minimum value for sending a single HTLC to the remote peer. This is the equivalent of
+  /// [`ChannelDetails::next_outbound_htlc_limit_msat`] but represents a lower-bound, rather than
+  /// an upper-bound. This is intended for use when routing, allowing us to ensure we pick a
+  /// route which is valid.
+  final int nextOutboundHtlcMinimumMsat;
+
+  /// The number of blocks (after our commitment transaction confirms) that we will need to wait
+  /// until we can claim our funds after we force-close the channel. During this time our
+  /// counterparty is allowed to punish us if we broadcasted a stale state. If our counterparty
+  /// force-closes the channel and broadcasts a commitment transaction we do not have to wait any
+  /// time to claim our non-HTLC-encumbered funds.
+  ///
+  /// This value will be `None` for outbound channels until the counterparty accepts the channel.
+  final int? forceCloseSpendDelay;
+
+  /// The smallest value HTLC (in msat) we will accept, for this channel.
+  final int inboundHtlcMinimumMsat;
+
+  /// The largest value HTLC (in msat) we currently will accept, for this channel.
+  final int? inboundHtlcMaximumMsat;
+
+  /// Set of configurable parameters that affect channel operation.
+  final ChannelConfig config;
 
   const ChannelDetails({
     required this.channelId,
@@ -246,7 +354,6 @@ class ChannelDetails {
     this.unspendablePunishmentReserve,
     required this.userChannelId,
     required this.feerateSatPer1000Weight,
-    required this.balanceMsat,
     required this.outboundCapacityMsat,
     required this.inboundCapacityMsat,
     this.confirmationsRequired,
@@ -255,6 +362,19 @@ class ChannelDetails {
     required this.isChannelReady,
     required this.isUsable,
     required this.isPublic,
+    this.cltvExpiryDelta,
+    required this.counterpartyUnspendablePunishmentReserve,
+    this.counterpartyOutboundHtlcMinimumMsat,
+    this.counterpartyOutboundHtlcMaximumMsat,
+    this.counterpartyForwardingInfoFeeBaseMsat,
+    this.counterpartyForwardingInfoFeeProportionalMillionths,
+    this.counterpartyForwardingInfoCltvExpiryDelta,
+    required this.nextOutboundHtlcLimitMsat,
+    required this.nextOutboundHtlcMinimumMsat,
+    this.forceCloseSpendDelay,
+    required this.inboundHtlcMinimumMsat,
+    this.inboundHtlcMaximumMsat,
+    required this.config,
   });
 
   @override
@@ -266,7 +386,6 @@ class ChannelDetails {
       unspendablePunishmentReserve.hashCode ^
       userChannelId.hashCode ^
       feerateSatPer1000Weight.hashCode ^
-      balanceMsat.hashCode ^
       outboundCapacityMsat.hashCode ^
       inboundCapacityMsat.hashCode ^
       confirmationsRequired.hashCode ^
@@ -274,7 +393,20 @@ class ChannelDetails {
       isOutbound.hashCode ^
       isChannelReady.hashCode ^
       isUsable.hashCode ^
-      isPublic.hashCode;
+      isPublic.hashCode ^
+      cltvExpiryDelta.hashCode ^
+      counterpartyUnspendablePunishmentReserve.hashCode ^
+      counterpartyOutboundHtlcMinimumMsat.hashCode ^
+      counterpartyOutboundHtlcMaximumMsat.hashCode ^
+      counterpartyForwardingInfoFeeBaseMsat.hashCode ^
+      counterpartyForwardingInfoFeeProportionalMillionths.hashCode ^
+      counterpartyForwardingInfoCltvExpiryDelta.hashCode ^
+      nextOutboundHtlcLimitMsat.hashCode ^
+      nextOutboundHtlcMinimumMsat.hashCode ^
+      forceCloseSpendDelay.hashCode ^
+      inboundHtlcMinimumMsat.hashCode ^
+      inboundHtlcMaximumMsat.hashCode ^
+      config.hashCode;
 
   @override
   bool operator ==(Object other) =>
@@ -288,7 +420,6 @@ class ChannelDetails {
           unspendablePunishmentReserve == other.unspendablePunishmentReserve &&
           userChannelId == other.userChannelId &&
           feerateSatPer1000Weight == other.feerateSatPer1000Weight &&
-          balanceMsat == other.balanceMsat &&
           outboundCapacityMsat == other.outboundCapacityMsat &&
           inboundCapacityMsat == other.inboundCapacityMsat &&
           confirmationsRequired == other.confirmationsRequired &&
@@ -296,7 +427,26 @@ class ChannelDetails {
           isOutbound == other.isOutbound &&
           isChannelReady == other.isChannelReady &&
           isUsable == other.isUsable &&
-          isPublic == other.isPublic;
+          isPublic == other.isPublic &&
+          cltvExpiryDelta == other.cltvExpiryDelta &&
+          counterpartyUnspendablePunishmentReserve ==
+              other.counterpartyUnspendablePunishmentReserve &&
+          counterpartyOutboundHtlcMinimumMsat ==
+              other.counterpartyOutboundHtlcMinimumMsat &&
+          counterpartyOutboundHtlcMaximumMsat ==
+              other.counterpartyOutboundHtlcMaximumMsat &&
+          counterpartyForwardingInfoFeeBaseMsat ==
+              other.counterpartyForwardingInfoFeeBaseMsat &&
+          counterpartyForwardingInfoFeeProportionalMillionths ==
+              other.counterpartyForwardingInfoFeeProportionalMillionths &&
+          counterpartyForwardingInfoCltvExpiryDelta ==
+              other.counterpartyForwardingInfoCltvExpiryDelta &&
+          nextOutboundHtlcLimitMsat == other.nextOutboundHtlcLimitMsat &&
+          nextOutboundHtlcMinimumMsat == other.nextOutboundHtlcMinimumMsat &&
+          forceCloseSpendDelay == other.forceCloseSpendDelay &&
+          inboundHtlcMinimumMsat == other.inboundHtlcMinimumMsat &&
+          inboundHtlcMaximumMsat == other.inboundHtlcMaximumMsat &&
+          config == other.config;
 }
 
 /// The global identifier of a channel.
@@ -321,6 +471,77 @@ class ChannelId {
       other is ChannelId &&
           runtimeType == other.runtimeType &&
           data == other.data;
+}
+
+@freezed
+sealed class ClosureReason with _$ClosureReason {
+  /// Closure generated from receiving a peer error message.
+  ///
+  /// Our counterparty may have broadcasted their latest commitment state, and we have
+  /// as well.
+  const factory ClosureReason.counterpartyForceClosed({
+    /// The error which the peer sent us.
+    ///
+    /// Be careful about printing the peer_msg, a well-crafted message could exploit
+    /// a security vulnerability in the terminal emulator or the logging subsystem.
+    /// To be safe, use `Display` on `UntrustedString`
+    ///
+    /// [`UntrustedString`]: crate::util::string::UntrustedString
+    required String peerMsg,
+  }) = ClosureReason_CounterpartyForceClosed;
+
+  /// Closure generated from `ChannelManager.force_close_channel`, called by the user.
+  ///
+  const factory ClosureReason.holderForceClosed() =
+      ClosureReason_HolderForceClosed;
+
+  /// The channel was closed after negotiating a cooperative close and we've now broadcasted
+  /// the cooperative close transaction. Note the shutdown may have been initiated by us.
+  const factory ClosureReason.cooperativeClosure() =
+      ClosureReason_CooperativeClosure;
+
+  /// A commitment transaction was confirmed on chain, closing the channel. Most likely this
+  /// commitment transaction came from our counterparty, but it may also have come from
+  /// a copy of our own `ChannelMonitor`.
+  const factory ClosureReason.commitmentTxConfirmed() =
+      ClosureReason_CommitmentTxConfirmed;
+
+  /// The funding transaction failed to confirm in a timely manner on an inbound channel.
+  const factory ClosureReason.fundingTimedOut() = ClosureReason_FundingTimedOut;
+
+  /// Closure generated from processing an event, likely a HTLC forward/relay/reception.
+  const factory ClosureReason.processingError({
+    /// A developer-readable error message which we generated.
+    required String err,
+  }) = ClosureReason_ProcessingError;
+
+  /// The peer disconnected prior to funding completing. In this case the spec mandates that we
+  /// forget the channel entirely - we can attempt again if the peer reconnects.
+  ///
+  /// This includes cases where we restarted prior to funding completion, including prior to the
+  /// initial `ChannelMonitor` persistence completing.
+  ///
+  /// In LDK versions prior to 0.0.107 this could also occur if we were unable to connect to the
+  /// peer because of mutual incompatibility between us and our channel counterparty.
+  ///
+  const factory ClosureReason.disconnectedPeer() =
+      ClosureReason_DisconnectedPeer;
+
+  /// Closure generated from `channelManager.read` if the `ChannelMonitor` is newer than
+  /// the `ChannelManager` deserialized.
+  ///
+  const factory ClosureReason.outdatedChannelManager() =
+      ClosureReason_OutdatedChannelManager;
+
+  /// The counterparty requested a cooperative close of a channel that had not been funded yet.
+  /// The channel has been immediately closed.
+  const factory ClosureReason.counterpartyCoopClosedUnfundedChannel() =
+      ClosureReason_CounterpartyCoopClosedUnfundedChannel;
+
+  /// Another channel in the same funding batch closed before the funding transaction
+  /// was ready to be broadcast.
+  const factory ClosureReason.fundingBatchClosure() =
+      ClosureReason_FundingBatchClosure;
 }
 
 /// Represents the configuration of an [Node] instance.
@@ -435,12 +656,20 @@ sealed class Event with _$Event {
   const factory Event.paymentSuccessful({
     /// The hash of the payment.
     required PaymentHash paymentHash,
+
+    /// The total fee which was spent at intermediate hops in this payment.
+    int? feePaidMsat,
   }) = Event_PaymentSuccessful;
 
   /// A sent payment has failed.
   const factory Event.paymentFailed({
     /// The hash of the payment.
     required PaymentHash paymentHash,
+
+    /// The reason why the payment failed.
+    ///
+    /// This will be `None` for events serialized by LDK Node v0.2.1 and prior.
+    PaymentFailureReason? reason,
   }) = Event_PaymentFailed;
 
   /// A payment has been received.
@@ -452,43 +681,54 @@ sealed class Event with _$Event {
     required int amountMsat,
   }) = Event_PaymentReceived;
 
-  /// A channel is ready to be used.
-  const factory Event.channelReady({
-    /// The channel_id of the channel.
-    required ChannelId channelId,
-
-    /// The user_channel_id of the channel.
-    required UserChannelId userChannelId,
-    PublicKey? counterpartyNodeId,
-  }) = Event_ChannelReady;
-
-  /// A channel has been closed.
-  const factory Event.channelClosed({
-    /// The channel_id of the channel.
-    required ChannelId channelId,
-
-    /// The user_channel_id of the channel.
-    required UserChannelId userChannelId,
-    PublicKey? counterpartyNodeId,
-  }) = Event_ChannelClosed;
-
   /// A channel has been created and is pending confirmation on-chain.
   const factory Event.channelPending({
-    /// The channel_id of the channel.
+    /// The `channel_id` of the channel.
     required ChannelId channelId,
 
-    /// The user_channel_id of the channel.
+    /// The `user_channel_id` of the channel.
     required UserChannelId userChannelId,
 
-    /// The temporary_channel_id this channel used to be known by during channel establishment.
+    /// The `temporary_channel_id` this channel used to be known by during channel establishment.
     required ChannelId formerTemporaryChannelId,
 
-    /// The node_id of the channel counterparty.
+    /// The `node_id` of the channel counterparty.
     required PublicKey counterpartyNodeId,
 
     /// The outpoint of the channel's funding transaction.
     required OutPoint fundingTxo,
   }) = Event_ChannelPending;
+
+  /// A channel is ready to be used.
+  const factory Event.channelReady({
+    /// The `channel_id` of the channel.
+    required ChannelId channelId,
+
+    /// The `user_channel_id` of the channel.
+    required UserChannelId userChannelId,
+
+    /// The `node_id` of the channel counterparty.
+    ///
+    /// This will be `None` for events serialized by LDK Node v0.1.0 and prior.
+    PublicKey? counterpartyNodeId,
+  }) = Event_ChannelReady;
+
+  /// A channel has been closed.
+  const factory Event.channelClosed({
+    /// The `channel_id` of the channel.
+    required ChannelId channelId,
+
+    /// The `user_channel_id` of the channel.
+    required UserChannelId userChannelId,
+
+    /// The `node_id` of the channel counterparty.
+    ///
+    /// This will be `None` for events serialized by LDK Node v0.1.0 and prior.
+    PublicKey? counterpartyNodeId,
+
+    /// This will be `None` for events serialized by LDK Node v0.2.1 and prior.
+    ClosureReason? reason,
+  }) = Event_ChannelClosed;
 }
 
 @freezed
@@ -497,6 +737,133 @@ sealed class GossipSourceConfig with _$GossipSourceConfig {
   const factory GossipSourceConfig.rapidGossipSync(
     String field0,
   ) = GossipSourceConfig_RapidGossipSync;
+}
+
+@freezed
+sealed class LightningBalance with _$LightningBalance {
+  /// The channel is not yet closed (or the commitment or closing transaction has not yet
+  /// appeared in a block). The given balance is claimable (less on-chain fees) if the channel is
+  /// force-closed now.
+  const factory LightningBalance.claimableOnChannelClose({
+    /// The identifier of the channel this balance belongs to.
+    required ChannelId channelId,
+
+    /// The identifier of our channel counterparty.
+    required PublicKey counterpartyNodeId,
+
+    /// The amount available to claim, in satoshis, excluding the on-chain fees which will be
+    /// required to do so.
+    required int amountSatoshis,
+  }) = LightningBalance_ClaimableOnChannelClose;
+
+  /// The channel has been closed, and the given balance is ours but awaiting confirmations until
+  /// we consider it spendable.
+  const factory LightningBalance.claimableAwaitingConfirmations({
+    /// The identifier of the channel this balance belongs to.
+    required ChannelId channelId,
+
+    /// The identifier of our channel counterparty.
+    required PublicKey counterpartyNodeId,
+
+    /// The amount available to claim, in satoshis, possibly excluding the on-chain fees which
+    /// were spent in broadcasting the transaction.
+    required int amountSatoshis,
+
+    /// The height at which an [`Event::SpendableOutputs`] event will be generated for this
+    /// amount.
+    ///
+    /// [`Event::SpendableOutputs`]: lightning::events::Event::SpendableOutputs
+    required int confirmationHeight,
+  }) = LightningBalance_ClaimableAwaitingConfirmations;
+
+  /// The channel has been closed, and the given balance should be ours but awaiting spending
+  /// transaction confirmation. If the spending transaction does not confirm in time, it is
+  /// possible our counterparty can take the funds by broadcasting an HTLC timeout on-chain.
+  ///
+  /// Once the spending transaction confirms, before it has reached enough confirmations to be
+  /// considered safe from chain reorganizations, the balance will instead be provided via
+  /// [`LightningBalance::ClaimableAwaitingConfirmations`].
+  const factory LightningBalance.contentiousClaimable({
+    /// The identifier of the channel this balance belongs to.
+    required ChannelId channelId,
+
+    /// The identifier of our channel counterparty.
+    required PublicKey counterpartyNodeId,
+
+    /// The amount available to claim, in satoshis, excluding the on-chain fees which will be
+    /// required to do so.
+    required int amountSatoshis,
+
+    /// The height at which the counterparty may be able to claim the balance if we have not
+    /// done so.
+    required int timeoutHeight,
+
+    /// The payment hash that locks this HTLC.
+    required PaymentHash paymentHash,
+
+    /// The preimage that can be used to claim this HTLC.
+    required PaymentPreimage paymentPreimage,
+  }) = LightningBalance_ContentiousClaimable;
+
+  /// HTLCs which we sent to our counterparty which are claimable after a timeout (less on-chain
+  /// fees) if the counterparty does not know the preimage for the HTLCs. These are somewhat
+  /// likely to be claimed by our counterparty before we do.
+  const factory LightningBalance.maybeTimeoutClaimableHtlc({
+    /// The identifier of the channel this balance belongs to.
+    required ChannelId channelId,
+
+    /// The identifier of our channel counterparty.
+    required PublicKey counterpartyNodeId,
+
+    /// The amount potentially available to claim, in satoshis, excluding the on-chain fees
+    /// which will be required to do so.
+    required int amountSatoshis,
+
+    /// The height at which we will be able to claim the balance if our counterparty has not
+    /// done so.
+    required int claimableHeight,
+
+    /// The payment hash whose preimage our counterparty needs to claim this HTLC.
+    required PaymentHash paymentHash,
+  }) = LightningBalance_MaybeTimeoutClaimableHTLC;
+
+  /// HTLCs which we received from our counterparty which are claimable with a preimage which we
+  /// do not currently have. This will only be claimable if we receive the preimage from the node
+  /// to which we forwarded this HTLC before the timeout.
+  const factory LightningBalance.maybePreimageClaimableHtlc({
+    /// The identifier of the channel this balance belongs to.
+    required ChannelId channelId,
+
+    /// The identifier of our channel counterparty.
+    required PublicKey counterpartyNodeId,
+
+    /// The amount potentially available to claim, in satoshis, excluding the on-chain fees
+    /// which will be required to do so.
+    required int amountSatoshis,
+
+    /// The height at which our counterparty will be able to claim the balance if we have not
+    /// yet received the preimage and claimed it ourselves.
+    required int expiryHeight,
+
+    /// The payment hash whose preimage we need to claim this HTLC.
+    required PaymentHash paymentHash,
+  }) = LightningBalance_MaybePreimageClaimableHTLC;
+
+  /// The channel has been closed, and our counterparty broadcasted a revoked commitment
+  /// transaction.
+  ///
+  /// Thus, we're able to claim all outputs in the commitment transaction, one of which has the
+  /// following amount.
+  const factory LightningBalance.counterpartyRevokedOutputClaimable({
+    /// The identifier of the channel this balance belongs to.
+    required ChannelId channelId,
+
+    /// The identifier of our channel counterparty.
+    required PublicKey counterpartyNodeId,
+
+    /// The amount, in satoshis, of the output which we can claim.
+    required int amountSatoshis,
+  }) = LightningBalance_CounterpartyRevokedOutputClaimable;
 }
 
 /// An enum representing the available verbosity levels of the logger.
@@ -645,6 +1012,33 @@ enum PaymentDirection {
   outbound,
 }
 
+/// The reason the payment failed. Used in `Event.PaymentFailed`.
+enum PaymentFailureReason {
+  /// The intended recipient rejected our payment.
+  recipientRejected,
+
+  /// The user chose to abandon this payment by calling `channelManager.abandon_payment`.
+  ///
+  userAbandoned,
+
+  /// We exhausted all of our retry attempts while trying to send the payment, or we
+  /// exhausted the `Retry.Timeout` if the user set one. If at any point a retry
+  /// attempt failed while being forwarded along the path, an `Event::PaymentPathFailed` will
+  /// have come before this.
+  ///
+  retriesExhausted,
+
+  /// The payment expired while retrying, based on the provided
+  paymentExpired,
+
+  /// We failed to find a route while retrying the payment.
+  routeNotFound,
+
+  /// This error should generally never happen. This likely means that there is a problem with
+  /// your router.
+  unexpectedError,
+}
+
 /// paymentHash type, use to cross-lock hop
 ///
 class PaymentHash {
@@ -752,6 +1146,57 @@ class PeerDetails {
           isConnected == other.isConnected;
 }
 
+@freezed
+sealed class PendingSweepBalance with _$PendingSweepBalance {
+  /// The spendable output is about to be swept, but a spending transaction has yet to be generated and
+  /// broadcast.
+  const factory PendingSweepBalance.pendingBroadcast({
+    /// The identifier of the channel this balance belongs to.
+    ChannelId? channelId,
+
+    /// The amount, in satoshis, of the output being swept.
+    required int amountSatoshis,
+  }) = PendingSweepBalance_PendingBroadcast;
+
+  /// A spending transaction has been generated and broadcast and is awaiting confirmation
+  /// on-chain.
+  const factory PendingSweepBalance.broadcastAwaitingConfirmation({
+    /// The identifier of the channel this balance belongs to.
+    ChannelId? channelId,
+
+    /// The best height when we last broadcast a transaction spending the output being swept.
+    required int latestBroadcastHeight,
+
+    /// The identifier of the transaction spending the swept output we last broadcast.
+    required Txid latestSpendingTxid,
+
+    /// The amount, in satoshis, of the output being swept.
+    required int amountSatoshis,
+  }) = PendingSweepBalance_BroadcastAwaitingConfirmation;
+
+  /// A spending transaction has been confirmed on-chain and is awaiting threshold confirmations.
+  ///
+  /// It will be considered irrevocably confirmed after reaching [`ANTI_REORG_DELAY`].
+  ///
+  /// [`ANTI_REORG_DELAY`]: lightning::chain::channelmonitor::ANTI_REORG_DELAY
+  const factory PendingSweepBalance.awaitingThresholdConfirmations({
+    /// The identifier of the channel this balance belongs to.
+    ChannelId? channelId,
+
+    /// The identifier of the confirmed transaction spending the swept output.
+    required Txid latestSpendingTxid,
+
+    /// The hash of the block in which the spending transaction was confirmed.
+    required String confirmationHash,
+
+    /// The height at which the spending transaction was confirmed.
+    required int confirmationHeight,
+
+    /// The amount, in satoshis, of the output being swept.
+    required int amountSatoshis,
+  }) = PendingSweepBalance_AwaitingThresholdConfirmations;
+}
+
 ///A Secp256k1 public key, used for verification of signatures.
 ///
 class PublicKey {
@@ -820,7 +1265,7 @@ class Txid {
 /// By default, this will be randomly generated for the user to ensure local uniqueness.
 ///
 class UserChannelId {
-  final int data;
+  final Uint8List data;
 
   const UserChannelId({
     required this.data,
