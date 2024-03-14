@@ -1,6 +1,6 @@
 [package]
 name = "ldk_node"
-version = "0.2.1-dev"
+version = "0.2.2-dev"
 edition = "2021"
 
 [lib]
@@ -16,7 +16,8 @@ flutter_rust_bridge = "=2.0.0-dev.28"
 log = "0.4.19"
 simplelog = "0.12.1"
 anyhow = { version = "1.0.71"}
-ldk-node = { version = "= 0.2.1"  }
+#ldk-node = { version = "= 0.2.1"  }
+ldk-node = {git = 'https://github.com/lightningdevkit/ldk-node.git', rev = "71b1d3c5594b1901cb88b47defec4c6507fba6db"}
 
 
 [profile.release]

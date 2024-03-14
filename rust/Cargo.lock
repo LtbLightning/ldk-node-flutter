@@ -438,6 +438,7 @@ dependencies = [
  "iana-time-zone",
  "js-sys",
  "num-traits",
+ "serde",
  "wasm-bindgen",
  "windows-targets 0.52.0",
 ]
@@ -1354,8 +1355,7 @@ checksum = "e2abad23fbc42b3700f2f279844dc832adb2b2eb069b2df918f455c4e18cc646"
 [[package]]
 name = "ldk-node"
 version = "0.2.1"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "c6b8ca6c5ea2c691a7a4ba0183120fa81e45ba79448ba7c3826fe2cdca4accb0"
+source = "git+https://github.com/lightningdevkit/ldk-node.git?rev=71b1d3c5594b1901cb88b47defec4c6507fba6db#71b1d3c5594b1901cb88b47defec4c6507fba6db"
 dependencies = [
  "bdk",
  "bip39",
@@ -1367,6 +1367,7 @@ dependencies = [
  "lightning",
  "lightning-background-processor",
  "lightning-invoice",
+ "lightning-liquidity",
  "lightning-net-tokio",
  "lightning-persister",
  "lightning-rapid-gossip-sync",
@@ -1382,7 +1383,7 @@ dependencies = [
 
 [[package]]
 name = "ldk_node"
-version = "0.2.1-dev"
+version = "0.2.2-dev"
 dependencies = [
  "anyhow",
  "flutter_rust_bridge",
@@ -1441,6 +1442,21 @@ dependencies = [
  "lightning",
  "num-traits",
  "secp256k1",
+ "serde",
+]
+
+[[package]]
+name = "lightning-liquidity"
+version = "0.1.0-alpha.2"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "9482742371d445c4ac0884eb263e60bccc06558db21e3ad5c03c16d73f1932f6"
+dependencies = [
+ "bitcoin",
+ "chrono",
+ "lightning",
+ "lightning-invoice",
+ "serde",
+ "serde_json",
 ]
 
 [[package]]
