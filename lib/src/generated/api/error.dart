@@ -43,7 +43,7 @@ enum BuilderException {
   loggerSetupFailed,
 }
 
-enum NodeException {
+enum NodeBaseError {
   /// Returned when trying to start [Node] while it is already running.
   alreadyRunning,
 
@@ -131,4 +131,7 @@ enum NodeException {
   /// There are insufficient funds to complete the given operation.
   insufficientFunds,
   feerateEstimationUpdateFailed,
+  liquidityRequestFailed,
+  liquiditySourceUnavailable,
+  liquidityFeeTooHigh,
 }

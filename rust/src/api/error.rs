@@ -1,7 +1,7 @@
 use ldk_node::{BuildError, NodeError};
 
 #[derive(Debug, PartialEq)]
-pub enum NodeException {
+pub enum NodeBaseError {
     /// Returned when trying to start [Node] while it is already running.
     AlreadyRunning,
     /// Returned when trying to stop [Node] while it is not running.
@@ -60,8 +60,10 @@ pub enum NodeException {
     DuplicatePayment,
     /// There are insufficient funds to complete the given operation.
     InsufficientFunds,
-
     FeerateEstimationUpdateFailed,
+    LiquidityRequestFailed,
+    LiquiditySourceUnavailable,
+    LiquidityFeeTooHigh,
 }
 #[allow(dead_code)]
 #[derive(Debug)]
@@ -91,41 +93,44 @@ pub enum BuilderException {
     LoggerSetupFailed,
 }
 
-impl From<NodeError> for NodeException {
+impl From<NodeError> for NodeBaseError {
     fn from(value: NodeError) -> Self {
         match value {
-            NodeError::AlreadyRunning => NodeException::AlreadyRunning,
-            NodeError::NotRunning => NodeException::NotRunning,
-            NodeError::OnchainTxCreationFailed => NodeException::OnchainTxCreationFailed,
-            NodeError::ConnectionFailed => NodeException::ConnectionFailed,
-            NodeError::InvoiceCreationFailed => NodeException::InvoiceCreationFailed,
-            NodeError::PaymentSendingFailed => NodeException::PaymentSendingFailed,
-            NodeError::ProbeSendingFailed => NodeException::ProbeSendingFailed,
-            NodeError::ChannelCreationFailed => NodeException::ChannelCreationFailed,
-            NodeError::ChannelClosingFailed => NodeException::ChannelClosingFailed,
-            NodeError::ChannelConfigUpdateFailed => NodeException::ChannelConfigUpdateFailed,
-            NodeError::PersistenceFailed => NodeException::PersistenceFailed,
-            NodeError::WalletOperationFailed => NodeException::WalletOperationFailed,
-            NodeError::OnchainTxSigningFailed => NodeException::OnchainTxSigningFailed,
-            NodeError::MessageSigningFailed => NodeException::MessageSigningFailed,
-            NodeError::TxSyncFailed => NodeException::TxSyncFailed,
-            NodeError::GossipUpdateFailed => NodeException::GossipUpdateFailed,
-            NodeError::InvalidAddress => NodeException::InvalidAddress,
-            NodeError::InvalidSocketAddress => NodeException::InvalidSocketAddress,
-            NodeError::InvalidPublicKey => NodeException::InvalidPublicKey,
-            NodeError::InvalidSecretKey => NodeException::InvalidSecretKey,
-            NodeError::InvalidPaymentHash => NodeException::InvalidPaymentHash,
-            NodeError::InvalidPaymentPreimage => NodeException::InvalidPaymentPreimage,
-            NodeError::InvalidPaymentSecret => NodeException::InvalidPaymentSecret,
-            NodeError::InvalidAmount => NodeException::InvalidAmount,
-            NodeError::InvalidInvoice => NodeException::InvalidInvoice,
-            NodeError::InvalidChannelId => NodeException::InvalidChannelId,
-            NodeError::InvalidNetwork => NodeException::InvalidNetwork,
-            NodeError::DuplicatePayment => NodeException::DuplicatePayment,
-            NodeError::InsufficientFunds => NodeException::InsufficientFunds,
+            NodeError::AlreadyRunning => NodeBaseError::AlreadyRunning,
+            NodeError::NotRunning => NodeBaseError::NotRunning,
+            NodeError::OnchainTxCreationFailed => NodeBaseError::OnchainTxCreationFailed,
+            NodeError::ConnectionFailed => NodeBaseError::ConnectionFailed,
+            NodeError::InvoiceCreationFailed => NodeBaseError::InvoiceCreationFailed,
+            NodeError::PaymentSendingFailed => NodeBaseError::PaymentSendingFailed,
+            NodeError::ProbeSendingFailed => NodeBaseError::ProbeSendingFailed,
+            NodeError::ChannelCreationFailed => NodeBaseError::ChannelCreationFailed,
+            NodeError::ChannelClosingFailed => NodeBaseError::ChannelClosingFailed,
+            NodeError::ChannelConfigUpdateFailed => NodeBaseError::ChannelConfigUpdateFailed,
+            NodeError::PersistenceFailed => NodeBaseError::PersistenceFailed,
+            NodeError::WalletOperationFailed => NodeBaseError::WalletOperationFailed,
+            NodeError::OnchainTxSigningFailed => NodeBaseError::OnchainTxSigningFailed,
+            NodeError::MessageSigningFailed => NodeBaseError::MessageSigningFailed,
+            NodeError::TxSyncFailed => NodeBaseError::TxSyncFailed,
+            NodeError::GossipUpdateFailed => NodeBaseError::GossipUpdateFailed,
+            NodeError::InvalidAddress => NodeBaseError::InvalidAddress,
+            NodeError::InvalidSocketAddress => NodeBaseError::InvalidSocketAddress,
+            NodeError::InvalidPublicKey => NodeBaseError::InvalidPublicKey,
+            NodeError::InvalidSecretKey => NodeBaseError::InvalidSecretKey,
+            NodeError::InvalidPaymentHash => NodeBaseError::InvalidPaymentHash,
+            NodeError::InvalidPaymentPreimage => NodeBaseError::InvalidPaymentPreimage,
+            NodeError::InvalidPaymentSecret => NodeBaseError::InvalidPaymentSecret,
+            NodeError::InvalidAmount => NodeBaseError::InvalidAmount,
+            NodeError::InvalidInvoice => NodeBaseError::InvalidInvoice,
+            NodeError::InvalidChannelId => NodeBaseError::InvalidChannelId,
+            NodeError::InvalidNetwork => NodeBaseError::InvalidNetwork,
+            NodeError::DuplicatePayment => NodeBaseError::DuplicatePayment,
+            NodeError::InsufficientFunds => NodeBaseError::InsufficientFunds,
             NodeError::FeerateEstimationUpdateFailed => {
-                NodeException::FeerateEstimationUpdateFailed
+                NodeBaseError::FeerateEstimationUpdateFailed
             }
+            NodeError::LiquidityRequestFailed => NodeBaseError::LiquidityRequestFailed,
+            NodeError::LiquiditySourceUnavailable => NodeBaseError::LiquiditySourceUnavailable,
+            NodeError::LiquidityFeeTooHigh => NodeBaseError::LiquidityFeeTooHigh
         }
     }
 }
