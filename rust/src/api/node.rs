@@ -378,6 +378,41 @@ impl NodeBase {
             })
     }
 
+    pub fn receive_variable_amount_payment_via_jit_channel(
+        &self,
+        description: String,
+        expiry_secs: u32,
+        max_proportional_lsp_fee_limit_ppm_msat: Option<u64>,
+    ) -> anyhow::Result<Bolt11Invoice, NodeBaseError> {
+        match self
+            .ptr
+            .receive_variable_amount_payment_via_jit_channel(
+                description.as_str(),
+                expiry_secs,
+                max_proportional_lsp_fee_limit_ppm_msat,
+            ) {
+            Ok(e) => Ok(e.into()),
+            Err(e) => Err(e.into()),
+        }
+    }
+
+    pub fn receive_payment_via_jit_channel(
+        &self,
+        amount_msat: u64,
+        description: String,
+        expiry_secs: u32,
+        max_total_lsp_fee_limit_msat: Option<u64>,
+    ) -> anyhow::Result<Bolt11Invoice, NodeBaseError> {
+        match self.ptr.receive_payment_via_jit_channel(
+            amount_msat,
+            description.as_str(),
+            expiry_secs,
+            max_total_lsp_fee_limit_msat,
+        ) {
+            Ok(e) => Ok(e.into()),
+            Err(e) => Err(e.into()),
+        }
+    }
     /// Retrieve the details of a specific payment with the given hash.
     ///
     /// Returns `PaymentDetails` if the payment was known and `null` otherwise.

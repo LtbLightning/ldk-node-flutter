@@ -226,6 +226,20 @@ class NodeBase {
         expirySecs: expirySecs,
       );
 
+  Future<Bolt11Invoice> receivePaymentViaJitChannel(
+          {required int amountMsat,
+          required String description,
+          required int expirySecs,
+          int? maxTotalLspFeeLimitMsat,
+          dynamic hint}) =>
+      LdkCore.instance.api.nodeBaseReceivePaymentViaJitChannel(
+        that: this,
+        amountMsat: amountMsat,
+        description: description,
+        expirySecs: expirySecs,
+        maxTotalLspFeeLimitMsat: maxTotalLspFeeLimitMsat,
+      );
+
   /// Returns a payable invoice that can be used to request and receive a payment for which the
   /// amount is to be determined by the user, also known as a "zero-amount" invoice.
   Future<Bolt11Invoice> receiveVariableAmountPayment(
@@ -236,6 +250,18 @@ class NodeBase {
         that: this,
         description: description,
         expirySecs: expirySecs,
+      );
+
+  Future<Bolt11Invoice> receiveVariableAmountPaymentViaJitChannel(
+          {required String description,
+          required int expirySecs,
+          int? maxProportionalLspFeeLimitPpmMsat,
+          dynamic hint}) =>
+      LdkCore.instance.api.nodeBaseReceiveVariableAmountPaymentViaJitChannel(
+        that: this,
+        description: description,
+        expirySecs: expirySecs,
+        maxProportionalLspFeeLimitPpmMsat: maxProportionalLspFeeLimitPpmMsat,
       );
 
   /// Remove the payment with the given hash from the store.
