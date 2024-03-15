@@ -1,16 +1,15 @@
-use crate::api::error::{BuilderException, NodeException};
+use crate::api::error::{BuilderException, NodeBaseError};
+use crate::api::types::*;
+use crate::frb_generated::RustOpaque;
 pub use ldk_node::io::sqlite_store::SqliteStore;
 use ldk_node::lightning::util::ser::Writeable;
-use ldk_node::{BuildError};
+use ldk_node::BuildError;
 pub use ldk_node::Node;
 use std::str::FromStr;
 pub use std::sync::{Arc, Mutex};
-use crate::api::types::*;
-use crate::frb_generated::RustOpaque;
 
-
-
-#[derive(Debug, Clone)]pub struct MnemonicBase {
+#[derive(Debug, Clone)]
+pub struct MnemonicBase {
     pub seed_phrase: String,
 }
 
@@ -45,7 +44,9 @@ pub fn finalize_builder(
         gossip_source_config,
     );
     match builder?.build() {
-        Ok(e) => Ok(NodeBase{ptr:RustOpaque::new(e)}),
+        Ok(e) => Ok(NodeBase {
+            ptr: RustOpaque::new(e),
+        }),
         Err(e) => Err(e.into()),
     }
 }
@@ -81,8 +82,8 @@ fn create_builder(
     Ok(builder)
 }
 
-pub struct NodeBase{
-    pub ptr:  RustOpaque<Node<SqliteStore>>
+pub struct NodeBase {
+    pub ptr: RustOpaque<Node<SqliteStore>>,
 }
 impl NodeBase {
     /// Starts the necessary background tasks, such as handling events coming from user input,
@@ -90,14 +91,14 @@ impl NodeBase {
     ///
     /// After this returns, the [Node] instance can be controlled via the provided API methods in
     /// a thread-safe manner.
-    pub fn start(&self) -> anyhow::Result<(), NodeException> {
+    pub fn start(&self) -> anyhow::Result<(), NodeBaseError> {
         self.ptr.start().map_err(|e| e.into())
     }
 
     /// Disconnects all peers, stops all running background tasks, and shuts down [Node].
     ///
     /// After this returns most API methods will throw NotRunning Exception.
-    pub fn stop(&self) -> anyhow::Result<(), NodeException> {
+    pub fn stop(&self) -> anyhow::Result<(), NodeBaseError> {
         self.ptr.stop().map_err(|e| e.into())
     }
 
@@ -133,61 +134,56 @@ impl NodeBase {
 
     /// Returns our own listening address.
     pub fn listening_addresses(&self) -> Option<Vec<SocketAddress>> {
-        self.ptr
-            .listening_addresses()
-            .map(|vec_socket_addr| {
-                vec_socket_addr
-                    .into_iter()
-                    .map(|socket_addr| socket_addr.into())
-                    .collect()
-            })
+        self.ptr.listening_addresses().map(|vec_socket_addr| {
+            vec_socket_addr
+                .into_iter()
+                .map(|socket_addr| socket_addr.into())
+                .collect()
+        })
     }
 
     /// Retrieve a new on-chain/funding address.
-    pub fn new_onchain_address(&self) -> anyhow::Result<Address, NodeException> {
-        self.ptr.new_onchain_address().map_err(|e| e.into()).map(|e| e.into())
+    pub fn new_onchain_address(&self) -> anyhow::Result<Address, NodeBaseError> {
+        self.ptr
+            .new_onchain_address()
+            .map_err(|e| e.into())
+            .map(|e| e.into())
     }
     /// Retrieve the currently spendable on-chain balance in satoshis.
-    pub fn spendable_onchain_balance_sats(&self) -> anyhow::Result<u64, NodeException> {
-        self.ptr.spendable_onchain_balance_sats().map_err(|e| e.into())
-    }
 
-    /// Retrieve the current total on-chain balance in satoshis.
-    pub fn total_onchain_balance_sats(&self) -> anyhow::Result<u64, NodeException> {
-         self.ptr.total_onchain_balance_sats().map_err(|e| e.into())
+    /// Retrieves an overview of all known balances.
+    pub fn list_balances(&self) -> anyhow::Result<BalanceDetails, NodeBaseError> {
+        Ok(self.ptr.list_balances().into())
     }
-
     /// Send an on-chain payment to the given address.
     pub fn send_to_onchain_address(
         &self,
         address: Address,
         amount_sats: u64,
-    ) -> anyhow::Result<Txid, NodeException> {
-         self
-            .ptr
-            .send_to_onchain_address(&address.into(), amount_sats).map_err(|e| e.into()).map(|e| Txid{ hash: e.to_string() })
-
+    ) -> anyhow::Result<Txid, NodeBaseError> {
+        self.ptr
+            .send_to_onchain_address(&address.into(), amount_sats)
+            .map_err(|e| e.into())
+            .map(|e| Txid {
+                hash: e.to_string(),
+            })
     }
 
     /// Send an on-chain payment to the given address, draining all the available funds.
     pub fn send_all_to_onchain_address(
         &self,
         address: Address,
-    ) -> anyhow::Result<Txid, NodeException> {
-        self
-            .ptr
-            .send_all_to_onchain_address(&address.into()).map_err(|e| e.into()).map(|e| e.into())
-
+    ) -> anyhow::Result<Txid, NodeBaseError> {
+        self.ptr
+            .send_all_to_onchain_address(&address.into())
+            .map_err(|e| e.into())
+            .map(|e| e.into())
     }
 
     ///Retrieve a list of known channels.
     ///
     pub fn list_channels(&self) -> Vec<ChannelDetails> {
-        self.ptr
-            .list_channels()
-            .iter()
-            .map(|x| x.into())
-            .collect()
+        self.ptr.list_channels().iter().map(|x| x.into()).collect()
     }
     /// Connect to a node on the peer-to-peer network.
     ///
@@ -197,20 +193,18 @@ impl NodeBase {
         node_id: PublicKey,
         address: SocketAddress,
         persist: bool,
-    ) -> anyhow::Result<(), NodeException> {
-        self
-            .ptr
-            .connect(node_id.into(), address.into(), persist).map_err(|e| e.into())
-
+    ) -> anyhow::Result<(), NodeBaseError> {
+        self.ptr
+            .connect(node_id.into(), address.into(), persist)
+            .map_err(|e| e.into())
     }
 
     /// Disconnects the peer with the given node id.
     ///
     /// Will also remove the peer from the peer store, i.e., after this has been called we won't
     /// try to reconnect on restart.
-    pub fn disconnect(&self, counterparty_node_id: PublicKey) -> anyhow::Result<(), NodeException> {
-         self
-            .ptr
+    pub fn disconnect(&self, counterparty_node_id: PublicKey) -> anyhow::Result<(), NodeBaseError> {
+        self.ptr
             .disconnect(counterparty_node_id.into())
             .map_err(|e| e.into())
     }
@@ -232,53 +226,60 @@ impl NodeBase {
         push_to_counterparty_msat: Option<u64>,
         announce_channel: bool,
         channel_config: Option<ChannelConfig>,
-    ) -> anyhow::Result<(), NodeException> {
-       self.ptr.connect_open_channel(
-            node_id.into(),
-            address.into(),
-            channel_amount_sats,
-            push_to_counterparty_msat,
-            channel_config.map(|x| Arc::new(x.into())),
-            announce_channel,
-        ) .map_err(|e| e.into())
+    ) -> Result<UserChannelId, NodeBaseError> {
+        self.ptr
+            .connect_open_channel(
+                node_id.into(),
+                address.into(),
+                channel_amount_sats,
+                push_to_counterparty_msat,
+                channel_config.map(|x| Arc::new(x.into())),
+                announce_channel,
+            )
+            .map_err(|e| e.into())
+            .map(|e| e.into())
     }
 
     ///Sync the LDK and BDK wallets with the current chain state.
     // Note that the wallets will be also synced regularly in the background
-    pub fn sync_wallets(&self) -> anyhow::Result<(), NodeException> {
-         self.ptr.sync_wallets() .map_err(|e| e.into())
+    pub fn sync_wallets(&self) -> anyhow::Result<(), NodeBaseError> {
+        self.ptr.sync_wallets().map_err(|e| e.into())
     }
     /// Close a previously opened channel.
     pub fn close_channel(
         &self,
-        channel_id: ChannelId,
+        user_channel_id: UserChannelId,
         counterparty_node_id: PublicKey,
-    ) -> anyhow::Result<(), NodeException> {
-       self
-            .ptr
-            .close_channel(&channel_id.into(), counterparty_node_id.into())
+    ) -> anyhow::Result<(), NodeBaseError> {
+        self.ptr
+            .close_channel(&user_channel_id.into(), counterparty_node_id.into())
             .map_err(|e| e.into())
     }
     ///Update the config for a previously opened channel.
     ///
     pub fn update_channel_config(
         &self,
-        channel_id: ChannelId,
+        user_channel_id: UserChannelId,
         counterparty_node_id: PublicKey,
         channel_config: ChannelConfig,
-    ) -> anyhow::Result<(), NodeException> {
-        self.ptr.update_channel_config(
-            &channel_id.into(),
-            counterparty_node_id.into(),
-            Arc::new(channel_config.into()),
-        ) .map_err(|e| e.into())
+    ) -> anyhow::Result<(), NodeBaseError> {
+        self.ptr
+            .update_channel_config(
+                &user_channel_id.into(),
+                counterparty_node_id.into(),
+                Arc::new(channel_config.into()),
+            )
+            .map_err(|e| e.into())
     }
     /// Send a payment given an invoice.
     pub fn send_payment(
         &self,
         invoice: Bolt11Invoice,
-    ) -> anyhow::Result<PaymentHash, NodeException> {
-        self.ptr.send_payment(&invoice.into()).map_err(|e| e.into()).map(|e| e.into())
+    ) -> anyhow::Result<PaymentHash, NodeBaseError> {
+        self.ptr
+            .send_payment(&invoice.into())
+            .map_err(|e| e.into())
+            .map(|e| e.into())
     }
 
     /// Send a payment given an invoice and an amount in millisatoshi.
@@ -291,8 +292,11 @@ impl NodeBase {
         &self,
         invoice: Bolt11Invoice,
         amount_msat: u64,
-    ) -> anyhow::Result<PaymentHash, NodeException> {
-         self.ptr.send_payment_using_amount(&invoice.into(), amount_msat) .map_err(|e| e.into()).map(|e| e.into())
+    ) -> anyhow::Result<PaymentHash, NodeBaseError> {
+        self.ptr
+            .send_payment_using_amount(&invoice.into(), amount_msat)
+            .map_err(|e| e.into())
+            .map(|e| e.into())
     }
 
     /// Send a spontaneous, aka. "keysend", payment
@@ -300,10 +304,11 @@ impl NodeBase {
         &self,
         amount_msat: u64,
         node_id: PublicKey,
-    ) -> anyhow::Result<PaymentHash, NodeException> {
-         self.ptr
+    ) -> anyhow::Result<PaymentHash, NodeBaseError> {
+        self.ptr
             .send_spontaneous_payment(amount_msat, node_id.into())
-            .map_err(|e| e.into()).map(|e| e.into())
+            .map_err(|e| e.into())
+            .map(|e| e.into())
     }
 
     ///Sends payment probes over all paths of a route that would be used to pay the given invoice.
@@ -313,8 +318,10 @@ impl NodeBase {
     /// Otherwise, there is a chance the probe could take up some liquidity needed to complete the actual payment.
     /// Users should therefore be cautious and might avoid sending probes if liquidity is scarce and/or they don't expect the probe to return before they send the payment.
     /// To mitigate this issue, channels with available liquidity less than the required amount times Config::probing_liquidity_limit_multiplier won't be used to send pre-flight probes.
-    pub fn send_payment_probes(&self, invoice: Bolt11Invoice) -> anyhow::Result<(), NodeException> {
-        self.ptr.send_payment_probes(&invoice.into()).map_err(|e| e.into())
+    pub fn send_payment_probes(&self, invoice: Bolt11Invoice) -> anyhow::Result<(), NodeBaseError> {
+        self.ptr
+            .send_payment_probes(&invoice.into())
+            .map_err(|e| e.into())
     }
 
     ///Sends payment probes over all paths of a route that would be used to pay the given amount to the given node_id.
@@ -322,9 +329,8 @@ impl NodeBase {
         &self,
         amount_msat: u64,
         node_id: PublicKey,
-    ) -> anyhow::Result<(), NodeException> {
-         self
-            .ptr
+    ) -> anyhow::Result<(), NodeBaseError> {
+        self.ptr
             .send_spontaneous_payment_probes(amount_msat, node_id.into())
             .map_err(|e| e.into())
     }
@@ -336,10 +342,11 @@ impl NodeBase {
     /// invoice that leaves the amount paid to be determined by the user.
     ///
     pub fn send_payment_probes_using_amount(
-        &self, invoice: Bolt11Invoice, amount_msat: u64,
-    ) -> Result<(), NodeException> {
-        self
-            .ptr
+        &self,
+        invoice: Bolt11Invoice,
+        amount_msat: u64,
+    ) -> Result<(), NodeBaseError> {
+        self.ptr
             .send_payment_probes_using_amount(&(invoice.into()), amount_msat)
             .map_err(|e| e.into())
     }
@@ -350,10 +357,11 @@ impl NodeBase {
         amount_msat: u64,
         description: String,
         expiry_secs: u32,
-    ) -> anyhow::Result<Bolt11Invoice, NodeException> {
-         self.ptr
+    ) -> anyhow::Result<Bolt11Invoice, NodeBaseError> {
+        self.ptr
             .receive_payment(amount_msat, description.as_str(), expiry_secs)
-            .map_err(|e| e.into()).map(|e| e.into())
+            .map_err(|e| e.into())
+            .map(|e| e.into())
     }
     /// Returns a payable invoice that can be used to request and receive a payment for which the
     /// amount is to be determined by the user, also known as a "zero-amount" invoice.
@@ -361,12 +369,13 @@ impl NodeBase {
         &self,
         description: String,
         expiry_secs: u32,
-    ) -> anyhow::Result<Bolt11Invoice, NodeException> {
-         self.ptr
-            .receive_variable_amount_payment(description.as_str(), expiry_secs).map_err(|e| e.into()).map(|e| Bolt11Invoice {
-             signed_raw_invoice: e.to_string(),
-         })
-
+    ) -> anyhow::Result<Bolt11Invoice, NodeBaseError> {
+        self.ptr
+            .receive_variable_amount_payment(description.as_str(), expiry_secs)
+            .map_err(|e| e.into())
+            .map(|e| Bolt11Invoice {
+                signed_raw_invoice: e.to_string(),
+            })
     }
 
     /// Retrieve the details of a specific payment with the given hash.
@@ -381,10 +390,10 @@ impl NodeBase {
 
     /// Remove the payment with the given hash from the store.
     ///
-    pub fn remove_payment(&self, payment_hash: PaymentHash) -> anyhow::Result<(), NodeException> {
-         self.ptr
-            .remove_payment(&(payment_hash.into())).map_err(|e| e.into())
-
+    pub fn remove_payment(&self, payment_hash: PaymentHash) -> anyhow::Result<(), NodeBaseError> {
+        self.ptr
+            .remove_payment(&(payment_hash.into()))
+            .map_err(|e| e.into())
     }
 
     /// Retrieves all payments that match the given predicate.
@@ -421,8 +430,8 @@ impl NodeBase {
     /// can be sure that the signature was generated by the caller.
     /// Signatures are EC recoverable, meaning that given the message and the
     /// signature the PublicKey of the signer can be extracted.
-    pub fn sign_message(&self, msg: Vec<u8>) -> anyhow::Result<String, NodeException> {
-         self.ptr.sign_message(msg.as_slice()) .map_err(|e| e.into())
+    pub fn sign_message(&self, msg: Vec<u8>) -> anyhow::Result<String, NodeBaseError> {
+        self.ptr.sign_message(msg.as_slice()).map_err(|e| e.into())
     }
 
     /// Verifies that the given ECDSA signature was created for the given message with the
@@ -432,8 +441,9 @@ impl NodeBase {
         msg: Vec<u8>,
         sig: String,
         pkey: PublicKey,
-    ) -> anyhow::Result<bool, NodeException> {
-        Ok(self.ptr
+    ) -> anyhow::Result<bool, NodeBaseError> {
+        Ok(self
+            .ptr
             .verify_signature(msg.as_slice(), sig.as_str(), &pkey.into()))
     }
 }

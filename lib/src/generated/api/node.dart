@@ -71,12 +71,12 @@ class NodeBase {
 
   /// Close a previously opened channel.
   Future<void> closeChannel(
-          {required ChannelId channelId,
+          {required UserChannelId userChannelId,
           required PublicKey counterpartyNodeId,
           dynamic hint}) =>
       LdkCore.instance.api.nodeBaseCloseChannel(
         that: this,
-        channelId: channelId,
+        userChannelId: userChannelId,
         counterpartyNodeId: counterpartyNodeId,
       );
 
@@ -104,7 +104,7 @@ class NodeBase {
   /// entirely shifted to one side, therefore allowing to receive payments from the getgo.
   ///
   /// Returns a temporary channel id.
-  Future<void> connectOpenChannel(
+  Future<UserChannelId> connectOpenChannel(
           {required SocketAddress address,
           required PublicKey nodeId,
           required int channelAmountSats,
@@ -138,6 +138,13 @@ class NodeBase {
   /// **Note:** this will always return the same event until handling is confirmed via `node.eventHandled()`.
   Future<void> eventHandled({dynamic hint}) =>
       LdkCore.instance.api.nodeBaseEventHandled(
+        that: this,
+      );
+
+  /// Retrieve the currently spendable on-chain balance in satoshis.
+  /// Retrieves an overview of all known balances.
+  Future<BalanceDetails> listBalances({dynamic hint}) =>
+      LdkCore.instance.api.nodeBaseListBalances(
         that: this,
       );
 
@@ -341,12 +348,6 @@ class NodeBase {
         msg: msg,
       );
 
-  /// Retrieve the currently spendable on-chain balance in satoshis.
-  Future<int> spendableOnchainBalanceSats({dynamic hint}) =>
-      LdkCore.instance.api.nodeBaseSpendableOnchainBalanceSats(
-        that: this,
-      );
-
   /// Starts the necessary background tasks, such as handling events coming from user input,
   /// LDK/BDK, and the peer-to-peer network.
   ///
@@ -369,22 +370,16 @@ class NodeBase {
         that: this,
       );
 
-  /// Retrieve the current total on-chain balance in satoshis.
-  Future<int> totalOnchainBalanceSats({dynamic hint}) =>
-      LdkCore.instance.api.nodeBaseTotalOnchainBalanceSats(
-        that: this,
-      );
-
   ///Update the config for a previously opened channel.
   ///
   Future<void> updateChannelConfig(
-          {required ChannelId channelId,
+          {required UserChannelId userChannelId,
           required PublicKey counterpartyNodeId,
           required ChannelConfig channelConfig,
           dynamic hint}) =>
       LdkCore.instance.api.nodeBaseUpdateChannelConfig(
         that: this,
-        channelId: channelId,
+        userChannelId: userChannelId,
         counterpartyNodeId: counterpartyNodeId,
         channelConfig: channelConfig,
       );
