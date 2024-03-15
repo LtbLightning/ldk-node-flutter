@@ -67,7 +67,7 @@ pub enum NodeBaseError {
 }
 #[allow(dead_code)]
 #[derive(Debug)]
-pub enum BuilderException {
+pub enum BuilderError {
     SocketAddressParseError,
     /// The given seed bytes are invalid, e.g., have invalid length.
     InvalidSeedBytes,
@@ -134,20 +134,20 @@ impl From<NodeError> for NodeBaseError {
         }
     }
 }
-impl From<BuildError> for BuilderException {
+impl From<BuildError> for BuilderError {
     fn from(value: BuildError) -> Self {
         match value {
-            BuildError::InvalidSeedBytes => BuilderException::InvalidSeedBytes,
-            BuildError::InvalidSeedFile => BuilderException::InvalidSeedFile,
-            BuildError::InvalidSystemTime => BuilderException::InvalidSystemTime,
-            BuildError::ReadFailed => BuilderException::ReadFailed,
-            BuildError::WriteFailed => BuilderException::WriteFailed,
-            BuildError::StoragePathAccessFailed => BuilderException::StoragePathAccessFailed,
-            BuildError::WalletSetupFailed => BuilderException::WalletSetupFailed,
-            BuildError::LoggerSetupFailed => BuilderException::LoggerSetupFailed,
-            BuildError::InvalidChannelMonitor => BuilderException::InvalidChannelMonitor,
-            BuildError::KVStoreSetupFailed => BuilderException::KVStoreSetupFailed,
-            BuildError::InvalidListeningAddresses => BuilderException::InvalidListeningAddresses,
+            BuildError::InvalidSeedBytes => BuilderError::InvalidSeedBytes,
+            BuildError::InvalidSeedFile => BuilderError::InvalidSeedFile,
+            BuildError::InvalidSystemTime => BuilderError::InvalidSystemTime,
+            BuildError::ReadFailed => BuilderError::ReadFailed,
+            BuildError::WriteFailed => BuilderError::WriteFailed,
+            BuildError::StoragePathAccessFailed => BuilderError::StoragePathAccessFailed,
+            BuildError::WalletSetupFailed => BuilderError::WalletSetupFailed,
+            BuildError::LoggerSetupFailed => BuilderError::LoggerSetupFailed,
+            BuildError::InvalidChannelMonitor => BuilderError::InvalidChannelMonitor,
+            BuildError::KVStoreSetupFailed => BuilderError::KVStoreSetupFailed,
+            BuildError::InvalidListeningAddresses => BuilderError::InvalidListeningAddresses,
         }
     }
 }

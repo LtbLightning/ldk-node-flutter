@@ -1422,6 +1422,70 @@ impl From<ldk_node::PendingSweepBalance> for PendingSweepBalance {
         }
     }
 }
+/// The best known block as identified by its hash and height.
+#[derive(Debug, Clone, PartialEq, Eq)]
+pub struct BestBlock {
+    /// The block's hash
+    pub block_hash: String,
+    /// The height at which the block was confirmed.
+    pub height: u32,
+}
+
+impl From<ldk_node::BestBlock> for BestBlock {
+    fn from(value: ldk_node::BestBlock) -> Self {
+        BestBlock{ block_hash: value.block_hash.to_string(), height: value.height }
+    }
+}
+/// Represents the status of the [`Node`].
+#[derive(Clone, Debug, PartialEq, Eq)]
+pub struct NodeStatus {
+    /// Indicates whether the [`Node`] is running.
+    pub is_running: bool,
+    /// Indicates whether the [`Node`] is listening for incoming connections on the addresses
+    /// configured via [`Config::listening_addresses`].
+    pub is_listening: bool,
+    /// The best block to which our Lightning wallet is currently synced.
+    pub current_best_block: BestBlock,
+    /// The timestamp, in seconds since start of the UNIX epoch, when we last successfully synced
+    /// our Lightning wallet to the chain tip.
+    ///
+    /// Will be `None` if the wallet hasn't been synced since the [`Node`] was initialized.
+    pub latest_wallet_sync_timestamp: Option<u64>,
+    /// The timestamp, in seconds since start of the UNIX epoch, when we last successfully synced
+    /// our on-chain wallet to the chain tip.
+    ///
+    /// Will be `None` if the wallet hasn't been synced since the [`Node`] was initialized.
+    pub latest_onchain_wallet_sync_timestamp: Option<u64>,
+    /// The timestamp, in seconds since start of the UNIX epoch, when we last successfully update
+    /// our fee rate cache.
+    ///
+    /// Will be `None` if the cache hasn't been updated since the [`Node`] was initialized.
+    pub latest_fee_rate_cache_update_timestamp: Option<u64>,
+    /// The timestamp, in seconds since start of the UNIX epoch, when the last rapid gossip sync
+    /// (RGS) snapshot we successfully applied was generated.
+    ///
+    /// Will be `None` if RGS isn't configured or the snapshot hasn't been updated since the [`Node`] was initialized.
+    pub latest_rgs_snapshot_timestamp: Option<u64>,
+    /// The timestamp, in seconds since start of the UNIX epoch, when we last broadcasted a node
+    /// announcement.
+    ///
+    /// Will be `None` if we have no public channels or we haven't broadcasted since the [`Node`] was initialized.
+    pub latest_node_announcement_broadcast_timestamp: Option<u64>,
+}
+impl From<ldk_node::NodeStatus> for NodeStatus{
+    fn from(value: ldk_node::NodeStatus) -> Self {
+        Self{
+            is_running: value.is_running,
+            is_listening: value.is_listening,
+            current_best_block: value.current_best_block.into(),
+            latest_wallet_sync_timestamp: value.latest_wallet_sync_timestamp,
+            latest_onchain_wallet_sync_timestamp: value.latest_onchain_wallet_sync_timestamp,
+            latest_fee_rate_cache_update_timestamp: value.latest_fee_rate_cache_update_timestamp,
+            latest_rgs_snapshot_timestamp: value.latest_rgs_snapshot_timestamp,
+            latest_node_announcement_broadcast_timestamp: value.latest_node_announcement_broadcast_timestamp,
+        }
+    }
+}
 // Config defaults
 const DEFAULT_STORAGE_DIR_PATH: &str = "/tmp/ldk_node/";
 const DEFAULT_NETWORK: Network = Network::Testnet;

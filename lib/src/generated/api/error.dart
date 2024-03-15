@@ -6,7 +6,7 @@
 import '../frb_generated.dart';
 import 'package:flutter_rust_bridge/flutter_rust_bridge_for_generated.dart';
 
-enum BuilderException {
+enum BuilderError {
   socketAddressParseError,
 
   /// The given seed bytes are invalid, e.g., have invalid length.

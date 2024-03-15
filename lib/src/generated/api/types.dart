@@ -9,7 +9,9 @@ import 'package:flutter_rust_bridge/flutter_rust_bridge_for_generated.dart';
 import 'package:freezed_annotation/freezed_annotation.dart' hide protected;
 part 'types.freezed.dart';
 
+// The type `BestBlock` is not used by any `pub` functions, thus it is ignored.
 // The type `LiquiditySourceConfig` is not used by any `pub` functions, thus it is ignored.
+// The type `NodeStatus` is not used by any `pub` functions, thus it is ignored.
 
 /// A Bitcoin address.
 ///
