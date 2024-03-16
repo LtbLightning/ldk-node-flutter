@@ -9,9 +9,7 @@ import 'package:flutter_rust_bridge/flutter_rust_bridge_for_generated.dart';
 import 'package:freezed_annotation/freezed_annotation.dart' hide protected;
 part 'types.freezed.dart';
 
-// The type `BestBlock` is not used by any `pub` functions, thus it is ignored.
 // The type `LiquiditySourceConfig` is not used by any `pub` functions, thus it is ignored.
-// The type `NodeStatus` is not used by any `pub` functions, thus it is ignored.
 
 /// A Bitcoin address.
 ///
@@ -104,6 +102,31 @@ class BalanceDetails {
           lightningBalances == other.lightningBalances &&
           pendingBalancesFromChannelClosures ==
               other.pendingBalancesFromChannelClosures;
+}
+
+/// The best known block as identified by its hash and height.
+class BestBlock {
+  /// The block's hash
+  final String blockHash;
+
+  /// The height at which the block was confirmed.
+  final int height;
+
+  const BestBlock({
+    required this.blockHash,
+    required this.height,
+  });
+
+  @override
+  int get hashCode => blockHash.hashCode ^ height.hashCode;
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is BestBlock &&
+          runtimeType == other.runtimeType &&
+          blockHash == other.blockHash &&
+          height == other.height;
 }
 
 ///Represents a syntactically and semantically correct lightning BOLT11 invoice.
@@ -927,6 +950,88 @@ enum Network {
   ///Bitcoin’s regtest
   ///
   regtest,
+}
+
+/// Represents the status of the [`Node`].
+class NodeStatus {
+  /// Indicates whether the [`Node`] is running.
+  final bool isRunning;
+
+  /// Indicates whether the [`Node`] is listening for incoming connections on the addresses
+  /// configured via [`Config::listening_addresses`].
+  final bool isListening;
+
+  /// The best block to which our Lightning wallet is currently synced.
+  final BestBlock currentBestBlock;
+
+  /// The timestamp, in seconds since start of the UNIX epoch, when we last successfully synced
+  /// our Lightning wallet to the chain tip.
+  ///
+  /// Will be `None` if the wallet hasn't been synced since the [`Node`] was initialized.
+  final int? latestWalletSyncTimestamp;
+
+  /// The timestamp, in seconds since start of the UNIX epoch, when we last successfully synced
+  /// our on-chain wallet to the chain tip.
+  ///
+  /// Will be `None` if the wallet hasn't been synced since the [`Node`] was initialized.
+  final int? latestOnchainWalletSyncTimestamp;
+
+  /// The timestamp, in seconds since start of the UNIX epoch, when we last successfully update
+  /// our fee rate cache.
+  ///
+  /// Will be `None` if the cache hasn't been updated since the [`Node`] was initialized.
+  final int? latestFeeRateCacheUpdateTimestamp;
+
+  /// The timestamp, in seconds since start of the UNIX epoch, when the last rapid gossip sync
+  /// (RGS) snapshot we successfully applied was generated.
+  ///
+  /// Will be `None` if RGS isn't configured or the snapshot hasn't been updated since the [`Node`] was initialized.
+  final int? latestRgsSnapshotTimestamp;
+
+  /// The timestamp, in seconds since start of the UNIX epoch, when we last broadcasted a node
+  /// announcement.
+  ///
+  /// Will be `None` if we have no public channels or we haven't broadcasted since the [`Node`] was initialized.
+  final int? latestNodeAnnouncementBroadcastTimestamp;
+
+  const NodeStatus({
+    required this.isRunning,
+    required this.isListening,
+    required this.currentBestBlock,
+    this.latestWalletSyncTimestamp,
+    this.latestOnchainWalletSyncTimestamp,
+    this.latestFeeRateCacheUpdateTimestamp,
+    this.latestRgsSnapshotTimestamp,
+    this.latestNodeAnnouncementBroadcastTimestamp,
+  });
+
+  @override
+  int get hashCode =>
+      isRunning.hashCode ^
+      isListening.hashCode ^
+      currentBestBlock.hashCode ^
+      latestWalletSyncTimestamp.hashCode ^
+      latestOnchainWalletSyncTimestamp.hashCode ^
+      latestFeeRateCacheUpdateTimestamp.hashCode ^
+      latestRgsSnapshotTimestamp.hashCode ^
+      latestNodeAnnouncementBroadcastTimestamp.hashCode;
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is NodeStatus &&
+          runtimeType == other.runtimeType &&
+          isRunning == other.isRunning &&
+          isListening == other.isListening &&
+          currentBestBlock == other.currentBestBlock &&
+          latestWalletSyncTimestamp == other.latestWalletSyncTimestamp &&
+          latestOnchainWalletSyncTimestamp ==
+              other.latestOnchainWalletSyncTimestamp &&
+          latestFeeRateCacheUpdateTimestamp ==
+              other.latestFeeRateCacheUpdateTimestamp &&
+          latestRgsSnapshotTimestamp == other.latestRgsSnapshotTimestamp &&
+          latestNodeAnnouncementBroadcastTimestamp ==
+              other.latestNodeAnnouncementBroadcastTimestamp;
 }
 
 ///A reference to a transaction output.

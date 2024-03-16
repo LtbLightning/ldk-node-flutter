@@ -915,6 +915,17 @@ impl From<Network> for ldk_node::bitcoin::Network {
         }
     }
 }
+impl From<ldk_node::bitcoin::Network> for Network {
+    fn from(value: ldk_node::bitcoin::Network) -> Self {
+        match value {
+            ldk_node::bitcoin::Network::Bitcoin => Network::Bitcoin,
+            ldk_node::bitcoin::Network::Testnet => Network::Testnet,
+            ldk_node::bitcoin::Network::Signet => Network::Signet,
+            ldk_node::bitcoin::Network::Regtest =>Network::Regtest,
+            _ => Network::Bitcoin,
+        }
+    }
+}
 
 /// Details of a known Lightning peer as returned by `node.listPeers`.
 ///
@@ -978,6 +989,18 @@ impl From<LogLevel> for ldk_node::LogLevel {
     }
 }
 
+impl From<ldk_node::LogLevel> for LogLevel {
+    fn from(value: ldk_node::LogLevel) -> Self {
+        match value {
+            ldk_node::LogLevel::Gossip => LogLevel::Gossip,
+            ldk_node::LogLevel::Trace => LogLevel::Trace,
+            ldk_node::LogLevel::Debug => LogLevel::Debug,
+            ldk_node::LogLevel::Info => LogLevel::Info,
+            ldk_node::LogLevel::Warn => LogLevel::Warn,
+            ldk_node::LogLevel::Error => LogLevel::Error,
+        }
+    }
+}
 impl From<Config> for ldk_node::Config {
     fn from(value: Config) -> Self {
         ldk_node::Config {
@@ -1005,9 +1028,34 @@ impl From<Config> for ldk_node::Config {
     }
 }
 
+impl From<ldk_node::Config> for Config {
+    fn from(value: ldk_node::Config) -> Self {
+        Config {
+            storage_dir_path: value.storage_dir_path,
+            log_dir_path: value.log_dir_path,
+            network: value.network.into(),
+            listening_addresses: value.listening_addresses.map(|vec_socket_addr| {
+                vec_socket_addr
+                    .into_iter()
+                    .map(|socket_addr| socket_addr.into())
+                    .collect()
+            }),
+            default_cltv_expiry_delta: value.default_cltv_expiry_delta,
+            onchain_wallet_sync_interval_secs: value.onchain_wallet_sync_interval_secs,
+            wallet_sync_interval_secs: value.wallet_sync_interval_secs,
+            fee_rate_cache_update_interval_secs: value.fee_rate_cache_update_interval_secs,
+            trusted_peers_0conf: value
+                .trusted_peers_0conf
+                .into_iter()
+                .map(|x| x.into())
+                .collect(),
+            log_level: value.log_level.into(),
+            probing_liquidity_limit_multiplier: value.probing_liquidity_limit_multiplier,
+        }
+    }
+}
 /// Represents the configuration of an [Node] instance.
 ///
-
 #[frb(serialize)]
 #[derive(Debug, Clone)]
 pub struct Config {
