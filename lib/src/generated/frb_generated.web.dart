@@ -33,6 +33,12 @@ abstract class LdkCoreApiImplPlatform extends BaseApiImpl<LdkCoreWire> {
   Address dco_decode_address(dynamic raw);
 
   @protected
+  BalanceDetails dco_decode_balance_details(dynamic raw);
+
+  @protected
+  BestBlock dco_decode_best_block(dynamic raw);
+
+  @protected
   Bolt11Invoice dco_decode_bolt_11_invoice(dynamic raw);
 
   @protected
@@ -55,6 +61,9 @@ abstract class LdkCoreApiImplPlatform extends BaseApiImpl<LdkCoreWire> {
   ChannelId dco_decode_box_autoadd_channel_id(dynamic raw);
 
   @protected
+  ClosureReason dco_decode_box_autoadd_closure_reason(dynamic raw);
+
+  @protected
   Config dco_decode_box_autoadd_config(dynamic raw);
 
   @protected
@@ -67,6 +76,10 @@ abstract class LdkCoreApiImplPlatform extends BaseApiImpl<LdkCoreWire> {
   GossipSourceConfig dco_decode_box_autoadd_gossip_source_config(dynamic raw);
 
   @protected
+  MaxDustHTLCExposure dco_decode_box_autoadd_max_dust_htlc_exposure(
+      dynamic raw);
+
+  @protected
   MnemonicBase dco_decode_box_autoadd_mnemonic_base(dynamic raw);
 
   @protected
@@ -77,6 +90,10 @@ abstract class LdkCoreApiImplPlatform extends BaseApiImpl<LdkCoreWire> {
 
   @protected
   PaymentDetails dco_decode_box_autoadd_payment_details(dynamic raw);
+
+  @protected
+  PaymentFailureReason dco_decode_box_autoadd_payment_failure_reason(
+      dynamic raw);
 
   @protected
   PaymentHash dco_decode_box_autoadd_payment_hash(dynamic raw);
@@ -94,6 +111,12 @@ abstract class LdkCoreApiImplPlatform extends BaseApiImpl<LdkCoreWire> {
   SocketAddress dco_decode_box_autoadd_socket_address(dynamic raw);
 
   @protected
+  Txid dco_decode_box_autoadd_txid(dynamic raw);
+
+  @protected
+  int dco_decode_box_autoadd_u_16(dynamic raw);
+
+  @protected
   int dco_decode_box_autoadd_u_32(dynamic raw);
 
   @protected
@@ -103,7 +126,7 @@ abstract class LdkCoreApiImplPlatform extends BaseApiImpl<LdkCoreWire> {
   UserChannelId dco_decode_box_autoadd_user_channel_id(dynamic raw);
 
   @protected
-  BuilderException dco_decode_builder_exception(dynamic raw);
+  BuilderError dco_decode_builder_error(dynamic raw);
 
   @protected
   ChainDataSourceConfig dco_decode_chain_data_source_config(dynamic raw);
@@ -116,6 +139,9 @@ abstract class LdkCoreApiImplPlatform extends BaseApiImpl<LdkCoreWire> {
 
   @protected
   ChannelId dco_decode_channel_id(dynamic raw);
+
+  @protected
+  ClosureReason dco_decode_closure_reason(dynamic raw);
 
   @protected
   Config dco_decode_config(dynamic raw);
@@ -133,13 +159,22 @@ abstract class LdkCoreApiImplPlatform extends BaseApiImpl<LdkCoreWire> {
   int dco_decode_i_32(dynamic raw);
 
   @protected
+  LightningBalance dco_decode_lightning_balance(dynamic raw);
+
+  @protected
   List<ChannelDetails> dco_decode_list_channel_details(dynamic raw);
+
+  @protected
+  List<LightningBalance> dco_decode_list_lightning_balance(dynamic raw);
 
   @protected
   List<PaymentDetails> dco_decode_list_payment_details(dynamic raw);
 
   @protected
   List<PeerDetails> dco_decode_list_peer_details(dynamic raw);
+
+  @protected
+  List<PendingSweepBalance> dco_decode_list_pending_sweep_balance(dynamic raw);
 
   @protected
   List<int> dco_decode_list_prim_u_8_loose(dynamic raw);
@@ -169,7 +204,10 @@ abstract class LdkCoreApiImplPlatform extends BaseApiImpl<LdkCoreWire> {
   NodeBase dco_decode_node_base(dynamic raw);
 
   @protected
-  NodeException dco_decode_node_exception(dynamic raw);
+  NodeBaseError dco_decode_node_base_error(dynamic raw);
+
+  @protected
+  NodeStatus dco_decode_node_status(dynamic raw);
 
   @protected
   String? dco_decode_opt_String(dynamic raw);
@@ -180,6 +218,12 @@ abstract class LdkCoreApiImplPlatform extends BaseApiImpl<LdkCoreWire> {
 
   @protected
   ChannelConfig? dco_decode_opt_box_autoadd_channel_config(dynamic raw);
+
+  @protected
+  ChannelId? dco_decode_opt_box_autoadd_channel_id(dynamic raw);
+
+  @protected
+  ClosureReason? dco_decode_opt_box_autoadd_closure_reason(dynamic raw);
 
   @protected
   EntropySourceConfig? dco_decode_opt_box_autoadd_entropy_source_config(
@@ -193,7 +237,18 @@ abstract class LdkCoreApiImplPlatform extends BaseApiImpl<LdkCoreWire> {
       dynamic raw);
 
   @protected
+  MaxDustHTLCExposure? dco_decode_opt_box_autoadd_max_dust_htlc_exposure(
+      dynamic raw);
+
+  @protected
+  OutPoint? dco_decode_opt_box_autoadd_out_point(dynamic raw);
+
+  @protected
   PaymentDetails? dco_decode_opt_box_autoadd_payment_details(dynamic raw);
+
+  @protected
+  PaymentFailureReason? dco_decode_opt_box_autoadd_payment_failure_reason(
+      dynamic raw);
 
   @protected
   PaymentPreimage? dco_decode_opt_box_autoadd_payment_preimage(dynamic raw);
@@ -203,6 +258,9 @@ abstract class LdkCoreApiImplPlatform extends BaseApiImpl<LdkCoreWire> {
 
   @protected
   PublicKey? dco_decode_opt_box_autoadd_public_key(dynamic raw);
+
+  @protected
+  int? dco_decode_opt_box_autoadd_u_16(dynamic raw);
 
   @protected
   int? dco_decode_opt_box_autoadd_u_32(dynamic raw);
@@ -223,6 +281,9 @@ abstract class LdkCoreApiImplPlatform extends BaseApiImpl<LdkCoreWire> {
   PaymentDirection dco_decode_payment_direction(dynamic raw);
 
   @protected
+  PaymentFailureReason dco_decode_payment_failure_reason(dynamic raw);
+
+  @protected
   PaymentHash dco_decode_payment_hash(dynamic raw);
 
   @protected
@@ -236,6 +297,9 @@ abstract class LdkCoreApiImplPlatform extends BaseApiImpl<LdkCoreWire> {
 
   @protected
   PeerDetails dco_decode_peer_details(dynamic raw);
+
+  @protected
+  PendingSweepBalance dco_decode_pending_sweep_balance(dynamic raw);
 
   @protected
   PublicKey dco_decode_public_key(dynamic raw);
@@ -293,6 +357,12 @@ abstract class LdkCoreApiImplPlatform extends BaseApiImpl<LdkCoreWire> {
   Address sse_decode_address(SseDeserializer deserializer);
 
   @protected
+  BalanceDetails sse_decode_balance_details(SseDeserializer deserializer);
+
+  @protected
+  BestBlock sse_decode_best_block(SseDeserializer deserializer);
+
+  @protected
   Bolt11Invoice sse_decode_bolt_11_invoice(SseDeserializer deserializer);
 
   @protected
@@ -317,6 +387,10 @@ abstract class LdkCoreApiImplPlatform extends BaseApiImpl<LdkCoreWire> {
   ChannelId sse_decode_box_autoadd_channel_id(SseDeserializer deserializer);
 
   @protected
+  ClosureReason sse_decode_box_autoadd_closure_reason(
+      SseDeserializer deserializer);
+
+  @protected
   Config sse_decode_box_autoadd_config(SseDeserializer deserializer);
 
   @protected
@@ -331,6 +405,10 @@ abstract class LdkCoreApiImplPlatform extends BaseApiImpl<LdkCoreWire> {
       SseDeserializer deserializer);
 
   @protected
+  MaxDustHTLCExposure sse_decode_box_autoadd_max_dust_htlc_exposure(
+      SseDeserializer deserializer);
+
+  @protected
   MnemonicBase sse_decode_box_autoadd_mnemonic_base(
       SseDeserializer deserializer);
 
@@ -342,6 +420,10 @@ abstract class LdkCoreApiImplPlatform extends BaseApiImpl<LdkCoreWire> {
 
   @protected
   PaymentDetails sse_decode_box_autoadd_payment_details(
+      SseDeserializer deserializer);
+
+  @protected
+  PaymentFailureReason sse_decode_box_autoadd_payment_failure_reason(
       SseDeserializer deserializer);
 
   @protected
@@ -363,6 +445,12 @@ abstract class LdkCoreApiImplPlatform extends BaseApiImpl<LdkCoreWire> {
       SseDeserializer deserializer);
 
   @protected
+  Txid sse_decode_box_autoadd_txid(SseDeserializer deserializer);
+
+  @protected
+  int sse_decode_box_autoadd_u_16(SseDeserializer deserializer);
+
+  @protected
   int sse_decode_box_autoadd_u_32(SseDeserializer deserializer);
 
   @protected
@@ -373,7 +461,7 @@ abstract class LdkCoreApiImplPlatform extends BaseApiImpl<LdkCoreWire> {
       SseDeserializer deserializer);
 
   @protected
-  BuilderException sse_decode_builder_exception(SseDeserializer deserializer);
+  BuilderError sse_decode_builder_error(SseDeserializer deserializer);
 
   @protected
   ChainDataSourceConfig sse_decode_chain_data_source_config(
@@ -387,6 +475,9 @@ abstract class LdkCoreApiImplPlatform extends BaseApiImpl<LdkCoreWire> {
 
   @protected
   ChannelId sse_decode_channel_id(SseDeserializer deserializer);
+
+  @protected
+  ClosureReason sse_decode_closure_reason(SseDeserializer deserializer);
 
   @protected
   Config sse_decode_config(SseDeserializer deserializer);
@@ -406,7 +497,14 @@ abstract class LdkCoreApiImplPlatform extends BaseApiImpl<LdkCoreWire> {
   int sse_decode_i_32(SseDeserializer deserializer);
 
   @protected
+  LightningBalance sse_decode_lightning_balance(SseDeserializer deserializer);
+
+  @protected
   List<ChannelDetails> sse_decode_list_channel_details(
+      SseDeserializer deserializer);
+
+  @protected
+  List<LightningBalance> sse_decode_list_lightning_balance(
       SseDeserializer deserializer);
 
   @protected
@@ -415,6 +513,10 @@ abstract class LdkCoreApiImplPlatform extends BaseApiImpl<LdkCoreWire> {
 
   @protected
   List<PeerDetails> sse_decode_list_peer_details(SseDeserializer deserializer);
+
+  @protected
+  List<PendingSweepBalance> sse_decode_list_pending_sweep_balance(
+      SseDeserializer deserializer);
 
   @protected
   List<int> sse_decode_list_prim_u_8_loose(SseDeserializer deserializer);
@@ -446,7 +548,10 @@ abstract class LdkCoreApiImplPlatform extends BaseApiImpl<LdkCoreWire> {
   NodeBase sse_decode_node_base(SseDeserializer deserializer);
 
   @protected
-  NodeException sse_decode_node_exception(SseDeserializer deserializer);
+  NodeBaseError sse_decode_node_base_error(SseDeserializer deserializer);
+
+  @protected
+  NodeStatus sse_decode_node_status(SseDeserializer deserializer);
 
   @protected
   String? sse_decode_opt_String(SseDeserializer deserializer);
@@ -457,6 +562,14 @@ abstract class LdkCoreApiImplPlatform extends BaseApiImpl<LdkCoreWire> {
 
   @protected
   ChannelConfig? sse_decode_opt_box_autoadd_channel_config(
+      SseDeserializer deserializer);
+
+  @protected
+  ChannelId? sse_decode_opt_box_autoadd_channel_id(
+      SseDeserializer deserializer);
+
+  @protected
+  ClosureReason? sse_decode_opt_box_autoadd_closure_reason(
       SseDeserializer deserializer);
 
   @protected
@@ -471,7 +584,18 @@ abstract class LdkCoreApiImplPlatform extends BaseApiImpl<LdkCoreWire> {
       SseDeserializer deserializer);
 
   @protected
+  MaxDustHTLCExposure? sse_decode_opt_box_autoadd_max_dust_htlc_exposure(
+      SseDeserializer deserializer);
+
+  @protected
+  OutPoint? sse_decode_opt_box_autoadd_out_point(SseDeserializer deserializer);
+
+  @protected
   PaymentDetails? sse_decode_opt_box_autoadd_payment_details(
+      SseDeserializer deserializer);
+
+  @protected
+  PaymentFailureReason? sse_decode_opt_box_autoadd_payment_failure_reason(
       SseDeserializer deserializer);
 
   @protected
@@ -485,6 +609,9 @@ abstract class LdkCoreApiImplPlatform extends BaseApiImpl<LdkCoreWire> {
   @protected
   PublicKey? sse_decode_opt_box_autoadd_public_key(
       SseDeserializer deserializer);
+
+  @protected
+  int? sse_decode_opt_box_autoadd_u_16(SseDeserializer deserializer);
 
   @protected
   int? sse_decode_opt_box_autoadd_u_32(SseDeserializer deserializer);
@@ -506,6 +633,10 @@ abstract class LdkCoreApiImplPlatform extends BaseApiImpl<LdkCoreWire> {
   PaymentDirection sse_decode_payment_direction(SseDeserializer deserializer);
 
   @protected
+  PaymentFailureReason sse_decode_payment_failure_reason(
+      SseDeserializer deserializer);
+
+  @protected
   PaymentHash sse_decode_payment_hash(SseDeserializer deserializer);
 
   @protected
@@ -519,6 +650,10 @@ abstract class LdkCoreApiImplPlatform extends BaseApiImpl<LdkCoreWire> {
 
   @protected
   PeerDetails sse_decode_peer_details(SseDeserializer deserializer);
+
+  @protected
+  PendingSweepBalance sse_decode_pending_sweep_balance(
+      SseDeserializer deserializer);
 
   @protected
   PublicKey sse_decode_public_key(SseDeserializer deserializer);
@@ -578,6 +713,25 @@ abstract class LdkCoreApiImplPlatform extends BaseApiImpl<LdkCoreWire> {
   }
 
   @protected
+  List<dynamic> cst_encode_balance_details(BalanceDetails raw) {
+    // Codec=Cst (C-struct based), see doc to use other codecs
+    return [
+      cst_encode_u_64(raw.totalOnchainBalanceSats),
+      cst_encode_u_64(raw.spendableOnchainBalanceSats),
+      cst_encode_u_64(raw.totalLightningBalanceSats),
+      cst_encode_list_lightning_balance(raw.lightningBalances),
+      cst_encode_list_pending_sweep_balance(
+          raw.pendingBalancesFromChannelClosures)
+    ];
+  }
+
+  @protected
+  List<dynamic> cst_encode_best_block(BestBlock raw) {
+    // Codec=Cst (C-struct based), see doc to use other codecs
+    return [cst_encode_String(raw.blockHash), cst_encode_u_32(raw.height)];
+  }
+
+  @protected
   List<dynamic> cst_encode_bolt_11_invoice(Bolt11Invoice raw) {
     // Codec=Cst (C-struct based), see doc to use other codecs
     return [cst_encode_String(raw.signedRawInvoice)];
@@ -615,6 +769,12 @@ abstract class LdkCoreApiImplPlatform extends BaseApiImpl<LdkCoreWire> {
   }
 
   @protected
+  List<dynamic> cst_encode_box_autoadd_closure_reason(ClosureReason raw) {
+    // Codec=Cst (C-struct based), see doc to use other codecs
+    return cst_encode_closure_reason(raw);
+  }
+
+  @protected
   List<dynamic> cst_encode_box_autoadd_config(Config raw) {
     // Codec=Cst (C-struct based), see doc to use other codecs
     return cst_encode_config(raw);
@@ -641,6 +801,13 @@ abstract class LdkCoreApiImplPlatform extends BaseApiImpl<LdkCoreWire> {
   }
 
   @protected
+  List<dynamic> cst_encode_box_autoadd_max_dust_htlc_exposure(
+      MaxDustHTLCExposure raw) {
+    // Codec=Cst (C-struct based), see doc to use other codecs
+    return cst_encode_max_dust_htlc_exposure(raw);
+  }
+
+  @protected
   List<dynamic> cst_encode_box_autoadd_mnemonic_base(MnemonicBase raw) {
     // Codec=Cst (C-struct based), see doc to use other codecs
     return cst_encode_mnemonic_base(raw);
@@ -662,6 +829,12 @@ abstract class LdkCoreApiImplPlatform extends BaseApiImpl<LdkCoreWire> {
   List<dynamic> cst_encode_box_autoadd_payment_details(PaymentDetails raw) {
     // Codec=Cst (C-struct based), see doc to use other codecs
     return cst_encode_payment_details(raw);
+  }
+
+  @protected
+  int cst_encode_box_autoadd_payment_failure_reason(PaymentFailureReason raw) {
+    // Codec=Cst (C-struct based), see doc to use other codecs
+    return cst_encode_payment_failure_reason(raw);
   }
 
   @protected
@@ -692,6 +865,18 @@ abstract class LdkCoreApiImplPlatform extends BaseApiImpl<LdkCoreWire> {
   List<dynamic> cst_encode_box_autoadd_socket_address(SocketAddress raw) {
     // Codec=Cst (C-struct based), see doc to use other codecs
     return cst_encode_socket_address(raw);
+  }
+
+  @protected
+  List<dynamic> cst_encode_box_autoadd_txid(Txid raw) {
+    // Codec=Cst (C-struct based), see doc to use other codecs
+    return cst_encode_txid(raw);
+  }
+
+  @protected
+  int cst_encode_box_autoadd_u_16(int raw) {
+    // Codec=Cst (C-struct based), see doc to use other codecs
+    return cst_encode_u_16(raw);
   }
 
   @protected
@@ -729,7 +914,8 @@ abstract class LdkCoreApiImplPlatform extends BaseApiImpl<LdkCoreWire> {
       cst_encode_u_32(raw.forwardingFeeProportionalMillionths),
       cst_encode_u_32(raw.forwardingFeeBaseMsat),
       cst_encode_u_16(raw.cltvExpiryDelta),
-      cst_encode_max_dust_htlc_exposure(raw.maxDustHtlcExposure),
+      cst_encode_opt_box_autoadd_max_dust_htlc_exposure(
+          raw.maxDustHtlcExposure),
       cst_encode_u_64(raw.forceCloseAvoidanceMaxFeeSatoshis),
       cst_encode_bool(raw.acceptUnderpayingHtlcs)
     ];
@@ -741,12 +927,11 @@ abstract class LdkCoreApiImplPlatform extends BaseApiImpl<LdkCoreWire> {
     return [
       cst_encode_channel_id(raw.channelId),
       cst_encode_public_key(raw.counterpartyNodeId),
-      cst_encode_opt_String(raw.fundingTxo),
+      cst_encode_opt_box_autoadd_out_point(raw.fundingTxo),
       cst_encode_u_64(raw.channelValueSats),
       cst_encode_opt_box_autoadd_u_64(raw.unspendablePunishmentReserve),
       cst_encode_user_channel_id(raw.userChannelId),
       cst_encode_u_32(raw.feerateSatPer1000Weight),
-      cst_encode_u_64(raw.balanceMsat),
       cst_encode_u_64(raw.outboundCapacityMsat),
       cst_encode_u_64(raw.inboundCapacityMsat),
       cst_encode_opt_box_autoadd_u_32(raw.confirmationsRequired),
@@ -754,7 +939,23 @@ abstract class LdkCoreApiImplPlatform extends BaseApiImpl<LdkCoreWire> {
       cst_encode_bool(raw.isOutbound),
       cst_encode_bool(raw.isChannelReady),
       cst_encode_bool(raw.isUsable),
-      cst_encode_bool(raw.isPublic)
+      cst_encode_bool(raw.isPublic),
+      cst_encode_opt_box_autoadd_u_16(raw.cltvExpiryDelta),
+      cst_encode_u_64(raw.counterpartyUnspendablePunishmentReserve),
+      cst_encode_opt_box_autoadd_u_64(raw.counterpartyOutboundHtlcMinimumMsat),
+      cst_encode_opt_box_autoadd_u_64(raw.counterpartyOutboundHtlcMaximumMsat),
+      cst_encode_opt_box_autoadd_u_32(
+          raw.counterpartyForwardingInfoFeeBaseMsat),
+      cst_encode_opt_box_autoadd_u_32(
+          raw.counterpartyForwardingInfoFeeProportionalMillionths),
+      cst_encode_opt_box_autoadd_u_16(
+          raw.counterpartyForwardingInfoCltvExpiryDelta),
+      cst_encode_u_64(raw.nextOutboundHtlcLimitMsat),
+      cst_encode_u_64(raw.nextOutboundHtlcMinimumMsat),
+      cst_encode_opt_box_autoadd_u_16(raw.forceCloseSpendDelay),
+      cst_encode_u_64(raw.inboundHtlcMinimumMsat),
+      cst_encode_opt_box_autoadd_u_64(raw.inboundHtlcMaximumMsat),
+      cst_encode_channel_config(raw.config)
     ];
   }
 
@@ -762,6 +963,43 @@ abstract class LdkCoreApiImplPlatform extends BaseApiImpl<LdkCoreWire> {
   List<dynamic> cst_encode_channel_id(ChannelId raw) {
     // Codec=Cst (C-struct based), see doc to use other codecs
     return [cst_encode_u_8_array_32(raw.data)];
+  }
+
+  @protected
+  List<dynamic> cst_encode_closure_reason(ClosureReason raw) {
+    // Codec=Cst (C-struct based), see doc to use other codecs
+    if (raw is ClosureReason_CounterpartyForceClosed) {
+      return [0, cst_encode_String(raw.peerMsg)];
+    }
+    if (raw is ClosureReason_HolderForceClosed) {
+      return [1];
+    }
+    if (raw is ClosureReason_CooperativeClosure) {
+      return [2];
+    }
+    if (raw is ClosureReason_CommitmentTxConfirmed) {
+      return [3];
+    }
+    if (raw is ClosureReason_FundingTimedOut) {
+      return [4];
+    }
+    if (raw is ClosureReason_ProcessingError) {
+      return [5, cst_encode_String(raw.err)];
+    }
+    if (raw is ClosureReason_DisconnectedPeer) {
+      return [6];
+    }
+    if (raw is ClosureReason_OutdatedChannelManager) {
+      return [7];
+    }
+    if (raw is ClosureReason_CounterpartyCoopClosedUnfundedChannel) {
+      return [8];
+    }
+    if (raw is ClosureReason_FundingBatchClosure) {
+      return [9];
+    }
+
+    throw Exception('unreachable');
   }
 
   @protected
@@ -806,10 +1044,18 @@ abstract class LdkCoreApiImplPlatform extends BaseApiImpl<LdkCoreWire> {
   List<dynamic> cst_encode_event(Event raw) {
     // Codec=Cst (C-struct based), see doc to use other codecs
     if (raw is Event_PaymentSuccessful) {
-      return [0, cst_encode_box_autoadd_payment_hash(raw.paymentHash)];
+      return [
+        0,
+        cst_encode_box_autoadd_payment_hash(raw.paymentHash),
+        cst_encode_opt_box_autoadd_u_64(raw.feePaidMsat)
+      ];
     }
     if (raw is Event_PaymentFailed) {
-      return [1, cst_encode_box_autoadd_payment_hash(raw.paymentHash)];
+      return [
+        1,
+        cst_encode_box_autoadd_payment_hash(raw.paymentHash),
+        cst_encode_opt_box_autoadd_payment_failure_reason(raw.reason)
+      ];
     }
     if (raw is Event_PaymentReceived) {
       return [
@@ -818,15 +1064,17 @@ abstract class LdkCoreApiImplPlatform extends BaseApiImpl<LdkCoreWire> {
         cst_encode_u_64(raw.amountMsat)
       ];
     }
-    if (raw is Event_ChannelReady) {
+    if (raw is Event_ChannelPending) {
       return [
         3,
         cst_encode_box_autoadd_channel_id(raw.channelId),
         cst_encode_box_autoadd_user_channel_id(raw.userChannelId),
-        cst_encode_opt_box_autoadd_public_key(raw.counterpartyNodeId)
+        cst_encode_box_autoadd_channel_id(raw.formerTemporaryChannelId),
+        cst_encode_box_autoadd_public_key(raw.counterpartyNodeId),
+        cst_encode_box_autoadd_out_point(raw.fundingTxo)
       ];
     }
-    if (raw is Event_ChannelClosed) {
+    if (raw is Event_ChannelReady) {
       return [
         4,
         cst_encode_box_autoadd_channel_id(raw.channelId),
@@ -834,14 +1082,13 @@ abstract class LdkCoreApiImplPlatform extends BaseApiImpl<LdkCoreWire> {
         cst_encode_opt_box_autoadd_public_key(raw.counterpartyNodeId)
       ];
     }
-    if (raw is Event_ChannelPending) {
+    if (raw is Event_ChannelClosed) {
       return [
         5,
         cst_encode_box_autoadd_channel_id(raw.channelId),
         cst_encode_box_autoadd_user_channel_id(raw.userChannelId),
-        cst_encode_box_autoadd_channel_id(raw.formerTemporaryChannelId),
-        cst_encode_box_autoadd_public_key(raw.counterpartyNodeId),
-        cst_encode_box_autoadd_out_point(raw.fundingTxo)
+        cst_encode_opt_box_autoadd_public_key(raw.counterpartyNodeId),
+        cst_encode_opt_box_autoadd_closure_reason(raw.reason)
       ];
     }
 
@@ -862,9 +1109,78 @@ abstract class LdkCoreApiImplPlatform extends BaseApiImpl<LdkCoreWire> {
   }
 
   @protected
+  List<dynamic> cst_encode_lightning_balance(LightningBalance raw) {
+    // Codec=Cst (C-struct based), see doc to use other codecs
+    if (raw is LightningBalance_ClaimableOnChannelClose) {
+      return [
+        0,
+        cst_encode_box_autoadd_channel_id(raw.channelId),
+        cst_encode_box_autoadd_public_key(raw.counterpartyNodeId),
+        cst_encode_u_64(raw.amountSatoshis)
+      ];
+    }
+    if (raw is LightningBalance_ClaimableAwaitingConfirmations) {
+      return [
+        1,
+        cst_encode_box_autoadd_channel_id(raw.channelId),
+        cst_encode_box_autoadd_public_key(raw.counterpartyNodeId),
+        cst_encode_u_64(raw.amountSatoshis),
+        cst_encode_u_32(raw.confirmationHeight)
+      ];
+    }
+    if (raw is LightningBalance_ContentiousClaimable) {
+      return [
+        2,
+        cst_encode_box_autoadd_channel_id(raw.channelId),
+        cst_encode_box_autoadd_public_key(raw.counterpartyNodeId),
+        cst_encode_u_64(raw.amountSatoshis),
+        cst_encode_u_32(raw.timeoutHeight),
+        cst_encode_box_autoadd_payment_hash(raw.paymentHash),
+        cst_encode_box_autoadd_payment_preimage(raw.paymentPreimage)
+      ];
+    }
+    if (raw is LightningBalance_MaybeTimeoutClaimableHTLC) {
+      return [
+        3,
+        cst_encode_box_autoadd_channel_id(raw.channelId),
+        cst_encode_box_autoadd_public_key(raw.counterpartyNodeId),
+        cst_encode_u_64(raw.amountSatoshis),
+        cst_encode_u_32(raw.claimableHeight),
+        cst_encode_box_autoadd_payment_hash(raw.paymentHash)
+      ];
+    }
+    if (raw is LightningBalance_MaybePreimageClaimableHTLC) {
+      return [
+        4,
+        cst_encode_box_autoadd_channel_id(raw.channelId),
+        cst_encode_box_autoadd_public_key(raw.counterpartyNodeId),
+        cst_encode_u_64(raw.amountSatoshis),
+        cst_encode_u_32(raw.expiryHeight),
+        cst_encode_box_autoadd_payment_hash(raw.paymentHash)
+      ];
+    }
+    if (raw is LightningBalance_CounterpartyRevokedOutputClaimable) {
+      return [
+        5,
+        cst_encode_box_autoadd_channel_id(raw.channelId),
+        cst_encode_box_autoadd_public_key(raw.counterpartyNodeId),
+        cst_encode_u_64(raw.amountSatoshis)
+      ];
+    }
+
+    throw Exception('unreachable');
+  }
+
+  @protected
   List<dynamic> cst_encode_list_channel_details(List<ChannelDetails> raw) {
     // Codec=Cst (C-struct based), see doc to use other codecs
     return raw.map(cst_encode_channel_details).toList();
+  }
+
+  @protected
+  List<dynamic> cst_encode_list_lightning_balance(List<LightningBalance> raw) {
+    // Codec=Cst (C-struct based), see doc to use other codecs
+    return raw.map(cst_encode_lightning_balance).toList();
   }
 
   @protected
@@ -877,6 +1193,13 @@ abstract class LdkCoreApiImplPlatform extends BaseApiImpl<LdkCoreWire> {
   List<dynamic> cst_encode_list_peer_details(List<PeerDetails> raw) {
     // Codec=Cst (C-struct based), see doc to use other codecs
     return raw.map(cst_encode_peer_details).toList();
+  }
+
+  @protected
+  List<dynamic> cst_encode_list_pending_sweep_balance(
+      List<PendingSweepBalance> raw) {
+    // Codec=Cst (C-struct based), see doc to use other codecs
+    return raw.map(cst_encode_pending_sweep_balance).toList();
   }
 
   @protected
@@ -929,6 +1252,22 @@ abstract class LdkCoreApiImplPlatform extends BaseApiImpl<LdkCoreWire> {
   }
 
   @protected
+  List<dynamic> cst_encode_node_status(NodeStatus raw) {
+    // Codec=Cst (C-struct based), see doc to use other codecs
+    return [
+      cst_encode_bool(raw.isRunning),
+      cst_encode_bool(raw.isListening),
+      cst_encode_best_block(raw.currentBestBlock),
+      cst_encode_opt_box_autoadd_u_64(raw.latestWalletSyncTimestamp),
+      cst_encode_opt_box_autoadd_u_64(raw.latestOnchainWalletSyncTimestamp),
+      cst_encode_opt_box_autoadd_u_64(raw.latestFeeRateCacheUpdateTimestamp),
+      cst_encode_opt_box_autoadd_u_64(raw.latestRgsSnapshotTimestamp),
+      cst_encode_opt_box_autoadd_u_64(
+          raw.latestNodeAnnouncementBroadcastTimestamp)
+    ];
+  }
+
+  @protected
   String? cst_encode_opt_String(String? raw) {
     // Codec=Cst (C-struct based), see doc to use other codecs
     return raw == null ? null : cst_encode_String(raw);
@@ -947,6 +1286,18 @@ abstract class LdkCoreApiImplPlatform extends BaseApiImpl<LdkCoreWire> {
   List<dynamic>? cst_encode_opt_box_autoadd_channel_config(ChannelConfig? raw) {
     // Codec=Cst (C-struct based), see doc to use other codecs
     return raw == null ? null : cst_encode_box_autoadd_channel_config(raw);
+  }
+
+  @protected
+  List<dynamic>? cst_encode_opt_box_autoadd_channel_id(ChannelId? raw) {
+    // Codec=Cst (C-struct based), see doc to use other codecs
+    return raw == null ? null : cst_encode_box_autoadd_channel_id(raw);
+  }
+
+  @protected
+  List<dynamic>? cst_encode_opt_box_autoadd_closure_reason(ClosureReason? raw) {
+    // Codec=Cst (C-struct based), see doc to use other codecs
+    return raw == null ? null : cst_encode_box_autoadd_closure_reason(raw);
   }
 
   @protected
@@ -974,10 +1325,34 @@ abstract class LdkCoreApiImplPlatform extends BaseApiImpl<LdkCoreWire> {
   }
 
   @protected
+  List<dynamic>? cst_encode_opt_box_autoadd_max_dust_htlc_exposure(
+      MaxDustHTLCExposure? raw) {
+    // Codec=Cst (C-struct based), see doc to use other codecs
+    return raw == null
+        ? null
+        : cst_encode_box_autoadd_max_dust_htlc_exposure(raw);
+  }
+
+  @protected
+  List<dynamic>? cst_encode_opt_box_autoadd_out_point(OutPoint? raw) {
+    // Codec=Cst (C-struct based), see doc to use other codecs
+    return raw == null ? null : cst_encode_box_autoadd_out_point(raw);
+  }
+
+  @protected
   List<dynamic>? cst_encode_opt_box_autoadd_payment_details(
       PaymentDetails? raw) {
     // Codec=Cst (C-struct based), see doc to use other codecs
     return raw == null ? null : cst_encode_box_autoadd_payment_details(raw);
+  }
+
+  @protected
+  int? cst_encode_opt_box_autoadd_payment_failure_reason(
+      PaymentFailureReason? raw) {
+    // Codec=Cst (C-struct based), see doc to use other codecs
+    return raw == null
+        ? null
+        : cst_encode_box_autoadd_payment_failure_reason(raw);
   }
 
   @protected
@@ -997,6 +1372,12 @@ abstract class LdkCoreApiImplPlatform extends BaseApiImpl<LdkCoreWire> {
   List<dynamic>? cst_encode_opt_box_autoadd_public_key(PublicKey? raw) {
     // Codec=Cst (C-struct based), see doc to use other codecs
     return raw == null ? null : cst_encode_box_autoadd_public_key(raw);
+  }
+
+  @protected
+  int? cst_encode_opt_box_autoadd_u_16(int? raw) {
+    // Codec=Cst (C-struct based), see doc to use other codecs
+    return raw == null ? null : cst_encode_box_autoadd_u_16(raw);
   }
 
   @protected
@@ -1062,6 +1443,39 @@ abstract class LdkCoreApiImplPlatform extends BaseApiImpl<LdkCoreWire> {
       cst_encode_socket_address(raw.address),
       cst_encode_bool(raw.isConnected)
     ];
+  }
+
+  @protected
+  List<dynamic> cst_encode_pending_sweep_balance(PendingSweepBalance raw) {
+    // Codec=Cst (C-struct based), see doc to use other codecs
+    if (raw is PendingSweepBalance_PendingBroadcast) {
+      return [
+        0,
+        cst_encode_opt_box_autoadd_channel_id(raw.channelId),
+        cst_encode_u_64(raw.amountSatoshis)
+      ];
+    }
+    if (raw is PendingSweepBalance_BroadcastAwaitingConfirmation) {
+      return [
+        1,
+        cst_encode_opt_box_autoadd_channel_id(raw.channelId),
+        cst_encode_u_32(raw.latestBroadcastHeight),
+        cst_encode_box_autoadd_txid(raw.latestSpendingTxid),
+        cst_encode_u_64(raw.amountSatoshis)
+      ];
+    }
+    if (raw is PendingSweepBalance_AwaitingThresholdConfirmations) {
+      return [
+        2,
+        cst_encode_opt_box_autoadd_channel_id(raw.channelId),
+        cst_encode_box_autoadd_txid(raw.latestSpendingTxid),
+        cst_encode_String(raw.confirmationHash),
+        cst_encode_u_32(raw.confirmationHeight),
+        cst_encode_u_64(raw.amountSatoshis)
+      ];
+    }
+
+    throw Exception('unreachable');
   }
 
   @protected
@@ -1143,7 +1557,7 @@ abstract class LdkCoreApiImplPlatform extends BaseApiImpl<LdkCoreWire> {
   @protected
   List<dynamic> cst_encode_user_channel_id(UserChannelId raw) {
     // Codec=Cst (C-struct based), see doc to use other codecs
-    return [cst_encode_u_64(raw.data)];
+    return [cst_encode_list_prim_u_8_strict(raw.data)];
   }
 
   @protected
@@ -1153,7 +1567,7 @@ abstract class LdkCoreApiImplPlatform extends BaseApiImpl<LdkCoreWire> {
   bool cst_encode_bool(bool raw);
 
   @protected
-  int cst_encode_builder_exception(BuilderException raw);
+  int cst_encode_builder_error(BuilderError raw);
 
   @protected
   int cst_encode_i_32(int raw);
@@ -1165,10 +1579,13 @@ abstract class LdkCoreApiImplPlatform extends BaseApiImpl<LdkCoreWire> {
   int cst_encode_network(Network raw);
 
   @protected
-  int cst_encode_node_exception(NodeException raw);
+  int cst_encode_node_base_error(NodeBaseError raw);
 
   @protected
   int cst_encode_payment_direction(PaymentDirection raw);
+
+  @protected
+  int cst_encode_payment_failure_reason(PaymentFailureReason raw);
 
   @protected
   int cst_encode_payment_status(PaymentStatus raw);
@@ -1199,6 +1616,13 @@ abstract class LdkCoreApiImplPlatform extends BaseApiImpl<LdkCoreWire> {
   void sse_encode_address(Address self, SseSerializer serializer);
 
   @protected
+  void sse_encode_balance_details(
+      BalanceDetails self, SseSerializer serializer);
+
+  @protected
+  void sse_encode_best_block(BestBlock self, SseSerializer serializer);
+
+  @protected
   void sse_encode_bolt_11_invoice(Bolt11Invoice self, SseSerializer serializer);
 
   @protected
@@ -1224,6 +1648,10 @@ abstract class LdkCoreApiImplPlatform extends BaseApiImpl<LdkCoreWire> {
       ChannelId self, SseSerializer serializer);
 
   @protected
+  void sse_encode_box_autoadd_closure_reason(
+      ClosureReason self, SseSerializer serializer);
+
+  @protected
   void sse_encode_box_autoadd_config(Config self, SseSerializer serializer);
 
   @protected
@@ -1236,6 +1664,10 @@ abstract class LdkCoreApiImplPlatform extends BaseApiImpl<LdkCoreWire> {
   @protected
   void sse_encode_box_autoadd_gossip_source_config(
       GossipSourceConfig self, SseSerializer serializer);
+
+  @protected
+  void sse_encode_box_autoadd_max_dust_htlc_exposure(
+      MaxDustHTLCExposure self, SseSerializer serializer);
 
   @protected
   void sse_encode_box_autoadd_mnemonic_base(
@@ -1252,6 +1684,10 @@ abstract class LdkCoreApiImplPlatform extends BaseApiImpl<LdkCoreWire> {
   @protected
   void sse_encode_box_autoadd_payment_details(
       PaymentDetails self, SseSerializer serializer);
+
+  @protected
+  void sse_encode_box_autoadd_payment_failure_reason(
+      PaymentFailureReason self, SseSerializer serializer);
 
   @protected
   void sse_encode_box_autoadd_payment_hash(
@@ -1274,6 +1710,12 @@ abstract class LdkCoreApiImplPlatform extends BaseApiImpl<LdkCoreWire> {
       SocketAddress self, SseSerializer serializer);
 
   @protected
+  void sse_encode_box_autoadd_txid(Txid self, SseSerializer serializer);
+
+  @protected
+  void sse_encode_box_autoadd_u_16(int self, SseSerializer serializer);
+
+  @protected
   void sse_encode_box_autoadd_u_32(int self, SseSerializer serializer);
 
   @protected
@@ -1284,8 +1726,7 @@ abstract class LdkCoreApiImplPlatform extends BaseApiImpl<LdkCoreWire> {
       UserChannelId self, SseSerializer serializer);
 
   @protected
-  void sse_encode_builder_exception(
-      BuilderException self, SseSerializer serializer);
+  void sse_encode_builder_error(BuilderError self, SseSerializer serializer);
 
   @protected
   void sse_encode_chain_data_source_config(
@@ -1300,6 +1741,9 @@ abstract class LdkCoreApiImplPlatform extends BaseApiImpl<LdkCoreWire> {
 
   @protected
   void sse_encode_channel_id(ChannelId self, SseSerializer serializer);
+
+  @protected
+  void sse_encode_closure_reason(ClosureReason self, SseSerializer serializer);
 
   @protected
   void sse_encode_config(Config self, SseSerializer serializer);
@@ -1319,8 +1763,16 @@ abstract class LdkCoreApiImplPlatform extends BaseApiImpl<LdkCoreWire> {
   void sse_encode_i_32(int self, SseSerializer serializer);
 
   @protected
+  void sse_encode_lightning_balance(
+      LightningBalance self, SseSerializer serializer);
+
+  @protected
   void sse_encode_list_channel_details(
       List<ChannelDetails> self, SseSerializer serializer);
+
+  @protected
+  void sse_encode_list_lightning_balance(
+      List<LightningBalance> self, SseSerializer serializer);
 
   @protected
   void sse_encode_list_payment_details(
@@ -1329,6 +1781,10 @@ abstract class LdkCoreApiImplPlatform extends BaseApiImpl<LdkCoreWire> {
   @protected
   void sse_encode_list_peer_details(
       List<PeerDetails> self, SseSerializer serializer);
+
+  @protected
+  void sse_encode_list_pending_sweep_balance(
+      List<PendingSweepBalance> self, SseSerializer serializer);
 
   @protected
   void sse_encode_list_prim_u_8_loose(List<int> self, SseSerializer serializer);
@@ -1362,7 +1818,10 @@ abstract class LdkCoreApiImplPlatform extends BaseApiImpl<LdkCoreWire> {
   void sse_encode_node_base(NodeBase self, SseSerializer serializer);
 
   @protected
-  void sse_encode_node_exception(NodeException self, SseSerializer serializer);
+  void sse_encode_node_base_error(NodeBaseError self, SseSerializer serializer);
+
+  @protected
+  void sse_encode_node_status(NodeStatus self, SseSerializer serializer);
 
   @protected
   void sse_encode_opt_String(String? self, SseSerializer serializer);
@@ -1376,6 +1835,14 @@ abstract class LdkCoreApiImplPlatform extends BaseApiImpl<LdkCoreWire> {
       ChannelConfig? self, SseSerializer serializer);
 
   @protected
+  void sse_encode_opt_box_autoadd_channel_id(
+      ChannelId? self, SseSerializer serializer);
+
+  @protected
+  void sse_encode_opt_box_autoadd_closure_reason(
+      ClosureReason? self, SseSerializer serializer);
+
+  @protected
   void sse_encode_opt_box_autoadd_entropy_source_config(
       EntropySourceConfig? self, SseSerializer serializer);
 
@@ -1387,8 +1854,20 @@ abstract class LdkCoreApiImplPlatform extends BaseApiImpl<LdkCoreWire> {
       GossipSourceConfig? self, SseSerializer serializer);
 
   @protected
+  void sse_encode_opt_box_autoadd_max_dust_htlc_exposure(
+      MaxDustHTLCExposure? self, SseSerializer serializer);
+
+  @protected
+  void sse_encode_opt_box_autoadd_out_point(
+      OutPoint? self, SseSerializer serializer);
+
+  @protected
   void sse_encode_opt_box_autoadd_payment_details(
       PaymentDetails? self, SseSerializer serializer);
+
+  @protected
+  void sse_encode_opt_box_autoadd_payment_failure_reason(
+      PaymentFailureReason? self, SseSerializer serializer);
 
   @protected
   void sse_encode_opt_box_autoadd_payment_preimage(
@@ -1401,6 +1880,9 @@ abstract class LdkCoreApiImplPlatform extends BaseApiImpl<LdkCoreWire> {
   @protected
   void sse_encode_opt_box_autoadd_public_key(
       PublicKey? self, SseSerializer serializer);
+
+  @protected
+  void sse_encode_opt_box_autoadd_u_16(int? self, SseSerializer serializer);
 
   @protected
   void sse_encode_opt_box_autoadd_u_32(int? self, SseSerializer serializer);
@@ -1424,6 +1906,10 @@ abstract class LdkCoreApiImplPlatform extends BaseApiImpl<LdkCoreWire> {
       PaymentDirection self, SseSerializer serializer);
 
   @protected
+  void sse_encode_payment_failure_reason(
+      PaymentFailureReason self, SseSerializer serializer);
+
+  @protected
   void sse_encode_payment_hash(PaymentHash self, SseSerializer serializer);
 
   @protected
@@ -1438,6 +1924,10 @@ abstract class LdkCoreApiImplPlatform extends BaseApiImpl<LdkCoreWire> {
 
   @protected
   void sse_encode_peer_details(PeerDetails self, SseSerializer serializer);
+
+  @protected
+  void sse_encode_pending_sweep_balance(
+      PendingSweepBalance self, SseSerializer serializer);
 
   @protected
   void sse_encode_public_key(PublicKey self, SseSerializer serializer);
@@ -1494,9 +1984,12 @@ class LdkCoreWire implements BaseWire {
       wasmModule.wire_MnemonicBase_generate(port_);
 
   void wire_NodeBase_close_channel(NativePortType port_, List<dynamic> that,
-          List<dynamic> channel_id, List<dynamic> counterparty_node_id) =>
+          List<dynamic> user_channel_id, List<dynamic> counterparty_node_id) =>
       wasmModule.wire_NodeBase_close_channel(
-          port_, that, channel_id, counterparty_node_id);
+          port_, that, user_channel_id, counterparty_node_id);
+
+  void wire_NodeBase_config(NativePortType port_, List<dynamic> that) =>
+      wasmModule.wire_NodeBase_config(port_, that);
 
   void wire_NodeBase_connect(NativePortType port_, List<dynamic> that,
           List<dynamic> node_id, List<dynamic> address, bool persist) =>
@@ -1528,6 +2021,9 @@ class LdkCoreWire implements BaseWire {
   void wire_NodeBase_event_handled(NativePortType port_, List<dynamic> that) =>
       wasmModule.wire_NodeBase_event_handled(port_, that);
 
+  void wire_NodeBase_list_balances(NativePortType port_, List<dynamic> that) =>
+      wasmModule.wire_NodeBase_list_balances(port_, that);
+
   void wire_NodeBase_list_channels(NativePortType port_, List<dynamic> that) =>
       wasmModule.wire_NodeBase_list_channels(port_, that);
 
@@ -1553,6 +2049,10 @@ class LdkCoreWire implements BaseWire {
   void wire_NodeBase_next_event(NativePortType port_, List<dynamic> that) =>
       wasmModule.wire_NodeBase_next_event(port_, that);
 
+  void wire_NodeBase_next_event_async(
+          NativePortType port_, List<dynamic> that) =>
+      wasmModule.wire_NodeBase_next_event_async(port_, that);
+
   void wire_NodeBase_node_id(NativePortType port_, List<dynamic> that) =>
       wasmModule.wire_NodeBase_node_id(port_, that);
 
@@ -1565,10 +2065,33 @@ class LdkCoreWire implements BaseWire {
       wasmModule.wire_NodeBase_receive_payment(
           port_, that, amount_msat, description, expiry_secs);
 
+  void wire_NodeBase_receive_payment_via_jit_channel(
+          NativePortType port_,
+          List<dynamic> that,
+          Object amount_msat,
+          String description,
+          int expiry_secs,
+          Object? max_total_lsp_fee_limit_msat) =>
+      wasmModule.wire_NodeBase_receive_payment_via_jit_channel(port_, that,
+          amount_msat, description, expiry_secs, max_total_lsp_fee_limit_msat);
+
   void wire_NodeBase_receive_variable_amount_payment(NativePortType port_,
           List<dynamic> that, String description, int expiry_secs) =>
       wasmModule.wire_NodeBase_receive_variable_amount_payment(
           port_, that, description, expiry_secs);
+
+  void wire_NodeBase_receive_variable_amount_payment_via_jit_channel(
+          NativePortType port_,
+          List<dynamic> that,
+          String description,
+          int expiry_secs,
+          Object? max_proportional_lsp_fee_limit_ppm_msat) =>
+      wasmModule.wire_NodeBase_receive_variable_amount_payment_via_jit_channel(
+          port_,
+          that,
+          description,
+          expiry_secs,
+          max_proportional_lsp_fee_limit_ppm_msat);
 
   void wire_NodeBase_remove_payment(NativePortType port_, List<dynamic> that,
           List<dynamic> payment_hash) =>
@@ -1616,12 +2139,11 @@ class LdkCoreWire implements BaseWire {
           NativePortType port_, List<dynamic> that, List<int> msg) =>
       wasmModule.wire_NodeBase_sign_message(port_, that, msg);
 
-  void wire_NodeBase_spendable_onchain_balance_sats(
-          NativePortType port_, List<dynamic> that) =>
-      wasmModule.wire_NodeBase_spendable_onchain_balance_sats(port_, that);
-
   void wire_NodeBase_start(NativePortType port_, List<dynamic> that) =>
       wasmModule.wire_NodeBase_start(port_, that);
+
+  void wire_NodeBase_status(NativePortType port_, List<dynamic> that) =>
+      wasmModule.wire_NodeBase_status(port_, that);
 
   void wire_NodeBase_stop(NativePortType port_, List<dynamic> that) =>
       wasmModule.wire_NodeBase_stop(port_, that);
@@ -1629,18 +2151,14 @@ class LdkCoreWire implements BaseWire {
   void wire_NodeBase_sync_wallets(NativePortType port_, List<dynamic> that) =>
       wasmModule.wire_NodeBase_sync_wallets(port_, that);
 
-  void wire_NodeBase_total_onchain_balance_sats(
-          NativePortType port_, List<dynamic> that) =>
-      wasmModule.wire_NodeBase_total_onchain_balance_sats(port_, that);
-
   void wire_NodeBase_update_channel_config(
           NativePortType port_,
           List<dynamic> that,
-          List<dynamic> channel_id,
+          List<dynamic> user_channel_id,
           List<dynamic> counterparty_node_id,
           List<dynamic> channel_config) =>
       wasmModule.wire_NodeBase_update_channel_config(
-          port_, that, channel_id, counterparty_node_id, channel_config);
+          port_, that, user_channel_id, counterparty_node_id, channel_config);
 
   void wire_NodeBase_verify_signature(NativePortType port_, List<dynamic> that,
           List<int> msg, String sig, List<dynamic> pkey) =>
@@ -1658,12 +2176,6 @@ class LdkCoreWire implements BaseWire {
           List<dynamic>? gossip_source_config) =>
       wasmModule.wire_finalize_builder(port_, config, chain_data_source_config,
           entropy_source_config, gossip_source_config);
-
-  void wire_SocketAddress_from_str(NativePortType port_, String address) =>
-      wasmModule.wire_SocketAddress_from_str(port_, address);
-
-  void wire_SocketAddress_to_string(NativePortType port_, List<dynamic> that) =>
-      wasmModule.wire_SocketAddress_to_string(port_, that);
 
   void rust_arc_increment_strong_count_RustOpaque_NodeSqliteStore(
           dynamic ptr) =>
@@ -1693,8 +2205,10 @@ class LdkCoreWasmModule implements WasmModule {
   external void wire_NodeBase_close_channel(
       NativePortType port_,
       List<dynamic> that,
-      List<dynamic> channel_id,
+      List<dynamic> user_channel_id,
       List<dynamic> counterparty_node_id);
+
+  external void wire_NodeBase_config(NativePortType port_, List<dynamic> that);
 
   external void wire_NodeBase_connect(NativePortType port_, List<dynamic> that,
       List<dynamic> node_id, List<dynamic> address, bool persist);
@@ -1713,6 +2227,9 @@ class LdkCoreWasmModule implements WasmModule {
       List<dynamic> that, List<dynamic> counterparty_node_id);
 
   external void wire_NodeBase_event_handled(
+      NativePortType port_, List<dynamic> that);
+
+  external void wire_NodeBase_list_balances(
       NativePortType port_, List<dynamic> that);
 
   external void wire_NodeBase_list_channels(
@@ -1736,6 +2253,9 @@ class LdkCoreWasmModule implements WasmModule {
   external void wire_NodeBase_next_event(
       NativePortType port_, List<dynamic> that);
 
+  external void wire_NodeBase_next_event_async(
+      NativePortType port_, List<dynamic> that);
+
   external void wire_NodeBase_node_id(NativePortType port_, List<dynamic> that);
 
   external void wire_NodeBase_payment(
@@ -1748,11 +2268,26 @@ class LdkCoreWasmModule implements WasmModule {
       String description,
       int expiry_secs);
 
+  external void wire_NodeBase_receive_payment_via_jit_channel(
+      NativePortType port_,
+      List<dynamic> that,
+      Object amount_msat,
+      String description,
+      int expiry_secs,
+      Object? max_total_lsp_fee_limit_msat);
+
   external void wire_NodeBase_receive_variable_amount_payment(
       NativePortType port_,
       List<dynamic> that,
       String description,
       int expiry_secs);
+
+  external void wire_NodeBase_receive_variable_amount_payment_via_jit_channel(
+      NativePortType port_,
+      List<dynamic> that,
+      String description,
+      int expiry_secs,
+      Object? max_proportional_lsp_fee_limit_ppm_msat);
 
   external void wire_NodeBase_remove_payment(
       NativePortType port_, List<dynamic> that, List<dynamic> payment_hash);
@@ -1790,23 +2325,19 @@ class LdkCoreWasmModule implements WasmModule {
   external void wire_NodeBase_sign_message(
       NativePortType port_, List<dynamic> that, List<int> msg);
 
-  external void wire_NodeBase_spendable_onchain_balance_sats(
-      NativePortType port_, List<dynamic> that);
-
   external void wire_NodeBase_start(NativePortType port_, List<dynamic> that);
+
+  external void wire_NodeBase_status(NativePortType port_, List<dynamic> that);
 
   external void wire_NodeBase_stop(NativePortType port_, List<dynamic> that);
 
   external void wire_NodeBase_sync_wallets(
       NativePortType port_, List<dynamic> that);
 
-  external void wire_NodeBase_total_onchain_balance_sats(
-      NativePortType port_, List<dynamic> that);
-
   external void wire_NodeBase_update_channel_config(
       NativePortType port_,
       List<dynamic> that,
-      List<dynamic> channel_id,
+      List<dynamic> user_channel_id,
       List<dynamic> counterparty_node_id,
       List<dynamic> channel_config);
 
@@ -1822,12 +2353,6 @@ class LdkCoreWasmModule implements WasmModule {
       List<dynamic>? chain_data_source_config,
       List<dynamic>? entropy_source_config,
       List<dynamic>? gossip_source_config);
-
-  external void wire_SocketAddress_from_str(
-      NativePortType port_, String address);
-
-  external void wire_SocketAddress_to_string(
-      NativePortType port_, List<dynamic> that);
 
   external void rust_arc_increment_strong_count_RustOpaque_NodeSqliteStore(
       dynamic ptr);

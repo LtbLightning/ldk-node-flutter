@@ -42,6 +42,49 @@ impl CstDecode<crate::api::types::Address>
         }
     }
 }
+impl CstDecode<crate::api::types::BalanceDetails>
+    for flutter_rust_bridge::for_generated::wasm_bindgen::JsValue
+{
+    // Codec=Cst (C-struct based), see doc to use other codecs
+    fn cst_decode(self) -> crate::api::types::BalanceDetails {
+        let self_ = self
+            .dyn_into::<flutter_rust_bridge::for_generated::js_sys::Array>()
+            .unwrap();
+        assert_eq!(
+            self_.length(),
+            5,
+            "Expected 5 elements, got {}",
+            self_.length()
+        );
+        crate::api::types::BalanceDetails {
+            total_onchain_balance_sats: self_.get(0).cst_decode(),
+            spendable_onchain_balance_sats: self_.get(1).cst_decode(),
+            total_lightning_balance_sats: self_.get(2).cst_decode(),
+            lightning_balances: self_.get(3).cst_decode(),
+            pending_balances_from_channel_closures: self_.get(4).cst_decode(),
+        }
+    }
+}
+impl CstDecode<crate::api::types::BestBlock>
+    for flutter_rust_bridge::for_generated::wasm_bindgen::JsValue
+{
+    // Codec=Cst (C-struct based), see doc to use other codecs
+    fn cst_decode(self) -> crate::api::types::BestBlock {
+        let self_ = self
+            .dyn_into::<flutter_rust_bridge::for_generated::js_sys::Array>()
+            .unwrap();
+        assert_eq!(
+            self_.length(),
+            2,
+            "Expected 2 elements, got {}",
+            self_.length()
+        );
+        crate::api::types::BestBlock {
+            block_hash: self_.get(0).cst_decode(),
+            height: self_.get(1).cst_decode(),
+        }
+    }
+}
 impl CstDecode<crate::api::types::Bolt11Invoice>
     for flutter_rust_bridge::for_generated::wasm_bindgen::JsValue
 {
@@ -107,8 +150,8 @@ impl CstDecode<crate::api::types::ChannelDetails>
             .unwrap();
         assert_eq!(
             self_.length(),
-            16,
-            "Expected 16 elements, got {}",
+            28,
+            "Expected 28 elements, got {}",
             self_.length()
         );
         crate::api::types::ChannelDetails {
@@ -119,15 +162,27 @@ impl CstDecode<crate::api::types::ChannelDetails>
             unspendable_punishment_reserve: self_.get(4).cst_decode(),
             user_channel_id: self_.get(5).cst_decode(),
             feerate_sat_per_1000_weight: self_.get(6).cst_decode(),
-            balance_msat: self_.get(7).cst_decode(),
-            outbound_capacity_msat: self_.get(8).cst_decode(),
-            inbound_capacity_msat: self_.get(9).cst_decode(),
-            confirmations_required: self_.get(10).cst_decode(),
-            confirmations: self_.get(11).cst_decode(),
-            is_outbound: self_.get(12).cst_decode(),
-            is_channel_ready: self_.get(13).cst_decode(),
-            is_usable: self_.get(14).cst_decode(),
-            is_public: self_.get(15).cst_decode(),
+            outbound_capacity_msat: self_.get(7).cst_decode(),
+            inbound_capacity_msat: self_.get(8).cst_decode(),
+            confirmations_required: self_.get(9).cst_decode(),
+            confirmations: self_.get(10).cst_decode(),
+            is_outbound: self_.get(11).cst_decode(),
+            is_channel_ready: self_.get(12).cst_decode(),
+            is_usable: self_.get(13).cst_decode(),
+            is_public: self_.get(14).cst_decode(),
+            cltv_expiry_delta: self_.get(15).cst_decode(),
+            counterparty_unspendable_punishment_reserve: self_.get(16).cst_decode(),
+            counterparty_outbound_htlc_minimum_msat: self_.get(17).cst_decode(),
+            counterparty_outbound_htlc_maximum_msat: self_.get(18).cst_decode(),
+            counterparty_forwarding_info_fee_base_msat: self_.get(19).cst_decode(),
+            counterparty_forwarding_info_fee_proportional_millionths: self_.get(20).cst_decode(),
+            counterparty_forwarding_info_cltv_expiry_delta: self_.get(21).cst_decode(),
+            next_outbound_htlc_limit_msat: self_.get(22).cst_decode(),
+            next_outbound_htlc_minimum_msat: self_.get(23).cst_decode(),
+            force_close_spend_delay: self_.get(24).cst_decode(),
+            inbound_htlc_minimum_msat: self_.get(25).cst_decode(),
+            inbound_htlc_maximum_msat: self_.get(26).cst_decode(),
+            config: self_.get(27).cst_decode(),
         }
     }
 }
@@ -147,6 +202,31 @@ impl CstDecode<crate::api::types::ChannelId>
         );
         crate::api::types::ChannelId {
             data: self_.get(0).cst_decode(),
+        }
+    }
+}
+impl CstDecode<crate::api::types::ClosureReason>
+    for flutter_rust_bridge::for_generated::wasm_bindgen::JsValue
+{
+    // Codec=Cst (C-struct based), see doc to use other codecs
+    fn cst_decode(self) -> crate::api::types::ClosureReason {
+        let self_ = self.unchecked_into::<flutter_rust_bridge::for_generated::js_sys::Array>();
+        match self_.get(0).unchecked_into_f64() as _ {
+            0 => crate::api::types::ClosureReason::CounterpartyForceClosed {
+                peer_msg: self_.get(1).cst_decode(),
+            },
+            1 => crate::api::types::ClosureReason::HolderForceClosed,
+            2 => crate::api::types::ClosureReason::CooperativeClosure,
+            3 => crate::api::types::ClosureReason::CommitmentTxConfirmed,
+            4 => crate::api::types::ClosureReason::FundingTimedOut,
+            5 => crate::api::types::ClosureReason::ProcessingError {
+                err: self_.get(1).cst_decode(),
+            },
+            6 => crate::api::types::ClosureReason::DisconnectedPeer,
+            7 => crate::api::types::ClosureReason::OutdatedChannelManager,
+            8 => crate::api::types::ClosureReason::CounterpartyCoopClosedUnfundedChannel,
+            9 => crate::api::types::ClosureReason::FundingBatchClosure,
+            _ => unreachable!(),
         }
     }
 }
@@ -205,30 +285,33 @@ impl CstDecode<crate::api::types::Event>
         match self_.get(0).unchecked_into_f64() as _ {
             0 => crate::api::types::Event::PaymentSuccessful {
                 payment_hash: self_.get(1).cst_decode(),
+                fee_paid_msat: self_.get(2).cst_decode(),
             },
             1 => crate::api::types::Event::PaymentFailed {
                 payment_hash: self_.get(1).cst_decode(),
+                reason: self_.get(2).cst_decode(),
             },
             2 => crate::api::types::Event::PaymentReceived {
                 payment_hash: self_.get(1).cst_decode(),
                 amount_msat: self_.get(2).cst_decode(),
             },
-            3 => crate::api::types::Event::ChannelReady {
-                channel_id: self_.get(1).cst_decode(),
-                user_channel_id: self_.get(2).cst_decode(),
-                counterparty_node_id: self_.get(3).cst_decode(),
-            },
-            4 => crate::api::types::Event::ChannelClosed {
-                channel_id: self_.get(1).cst_decode(),
-                user_channel_id: self_.get(2).cst_decode(),
-                counterparty_node_id: self_.get(3).cst_decode(),
-            },
-            5 => crate::api::types::Event::ChannelPending {
+            3 => crate::api::types::Event::ChannelPending {
                 channel_id: self_.get(1).cst_decode(),
                 user_channel_id: self_.get(2).cst_decode(),
                 former_temporary_channel_id: self_.get(3).cst_decode(),
                 counterparty_node_id: self_.get(4).cst_decode(),
                 funding_txo: self_.get(5).cst_decode(),
+            },
+            4 => crate::api::types::Event::ChannelReady {
+                channel_id: self_.get(1).cst_decode(),
+                user_channel_id: self_.get(2).cst_decode(),
+                counterparty_node_id: self_.get(3).cst_decode(),
+            },
+            5 => crate::api::types::Event::ChannelClosed {
+                channel_id: self_.get(1).cst_decode(),
+                user_channel_id: self_.get(2).cst_decode(),
+                counterparty_node_id: self_.get(3).cst_decode(),
+                reason: self_.get(4).cst_decode(),
             },
             _ => unreachable!(),
         }
@@ -247,11 +330,72 @@ impl CstDecode<crate::api::types::GossipSourceConfig>
         }
     }
 }
+impl CstDecode<crate::api::types::LightningBalance>
+    for flutter_rust_bridge::for_generated::wasm_bindgen::JsValue
+{
+    // Codec=Cst (C-struct based), see doc to use other codecs
+    fn cst_decode(self) -> crate::api::types::LightningBalance {
+        let self_ = self.unchecked_into::<flutter_rust_bridge::for_generated::js_sys::Array>();
+        match self_.get(0).unchecked_into_f64() as _ {
+            0 => crate::api::types::LightningBalance::ClaimableOnChannelClose {
+                channel_id: self_.get(1).cst_decode(),
+                counterparty_node_id: self_.get(2).cst_decode(),
+                amount_satoshis: self_.get(3).cst_decode(),
+            },
+            1 => crate::api::types::LightningBalance::ClaimableAwaitingConfirmations {
+                channel_id: self_.get(1).cst_decode(),
+                counterparty_node_id: self_.get(2).cst_decode(),
+                amount_satoshis: self_.get(3).cst_decode(),
+                confirmation_height: self_.get(4).cst_decode(),
+            },
+            2 => crate::api::types::LightningBalance::ContentiousClaimable {
+                channel_id: self_.get(1).cst_decode(),
+                counterparty_node_id: self_.get(2).cst_decode(),
+                amount_satoshis: self_.get(3).cst_decode(),
+                timeout_height: self_.get(4).cst_decode(),
+                payment_hash: self_.get(5).cst_decode(),
+                payment_preimage: self_.get(6).cst_decode(),
+            },
+            3 => crate::api::types::LightningBalance::MaybeTimeoutClaimableHTLC {
+                channel_id: self_.get(1).cst_decode(),
+                counterparty_node_id: self_.get(2).cst_decode(),
+                amount_satoshis: self_.get(3).cst_decode(),
+                claimable_height: self_.get(4).cst_decode(),
+                payment_hash: self_.get(5).cst_decode(),
+            },
+            4 => crate::api::types::LightningBalance::MaybePreimageClaimableHTLC {
+                channel_id: self_.get(1).cst_decode(),
+                counterparty_node_id: self_.get(2).cst_decode(),
+                amount_satoshis: self_.get(3).cst_decode(),
+                expiry_height: self_.get(4).cst_decode(),
+                payment_hash: self_.get(5).cst_decode(),
+            },
+            5 => crate::api::types::LightningBalance::CounterpartyRevokedOutputClaimable {
+                channel_id: self_.get(1).cst_decode(),
+                counterparty_node_id: self_.get(2).cst_decode(),
+                amount_satoshis: self_.get(3).cst_decode(),
+            },
+            _ => unreachable!(),
+        }
+    }
+}
 impl CstDecode<Vec<crate::api::types::ChannelDetails>>
     for flutter_rust_bridge::for_generated::wasm_bindgen::JsValue
 {
     // Codec=Cst (C-struct based), see doc to use other codecs
     fn cst_decode(self) -> Vec<crate::api::types::ChannelDetails> {
+        self.dyn_into::<flutter_rust_bridge::for_generated::js_sys::Array>()
+            .unwrap()
+            .iter()
+            .map(CstDecode::cst_decode)
+            .collect()
+    }
+}
+impl CstDecode<Vec<crate::api::types::LightningBalance>>
+    for flutter_rust_bridge::for_generated::wasm_bindgen::JsValue
+{
+    // Codec=Cst (C-struct based), see doc to use other codecs
+    fn cst_decode(self) -> Vec<crate::api::types::LightningBalance> {
         self.dyn_into::<flutter_rust_bridge::for_generated::js_sys::Array>()
             .unwrap()
             .iter()
@@ -276,6 +420,18 @@ impl CstDecode<Vec<crate::api::types::PeerDetails>>
 {
     // Codec=Cst (C-struct based), see doc to use other codecs
     fn cst_decode(self) -> Vec<crate::api::types::PeerDetails> {
+        self.dyn_into::<flutter_rust_bridge::for_generated::js_sys::Array>()
+            .unwrap()
+            .iter()
+            .map(CstDecode::cst_decode)
+            .collect()
+    }
+}
+impl CstDecode<Vec<crate::api::types::PendingSweepBalance>>
+    for flutter_rust_bridge::for_generated::wasm_bindgen::JsValue
+{
+    // Codec=Cst (C-struct based), see doc to use other codecs
+    fn cst_decode(self) -> Vec<crate::api::types::PendingSweepBalance> {
         self.dyn_into::<flutter_rust_bridge::for_generated::js_sys::Array>()
             .unwrap()
             .iter()
@@ -363,6 +519,32 @@ impl CstDecode<crate::api::node::NodeBase>
         );
         crate::api::node::NodeBase {
             ptr: self_.get(0).cst_decode(),
+        }
+    }
+}
+impl CstDecode<crate::api::types::NodeStatus>
+    for flutter_rust_bridge::for_generated::wasm_bindgen::JsValue
+{
+    // Codec=Cst (C-struct based), see doc to use other codecs
+    fn cst_decode(self) -> crate::api::types::NodeStatus {
+        let self_ = self
+            .dyn_into::<flutter_rust_bridge::for_generated::js_sys::Array>()
+            .unwrap();
+        assert_eq!(
+            self_.length(),
+            8,
+            "Expected 8 elements, got {}",
+            self_.length()
+        );
+        crate::api::types::NodeStatus {
+            is_running: self_.get(0).cst_decode(),
+            is_listening: self_.get(1).cst_decode(),
+            current_best_block: self_.get(2).cst_decode(),
+            latest_wallet_sync_timestamp: self_.get(3).cst_decode(),
+            latest_onchain_wallet_sync_timestamp: self_.get(4).cst_decode(),
+            latest_fee_rate_cache_update_timestamp: self_.get(5).cst_decode(),
+            latest_rgs_snapshot_timestamp: self_.get(6).cst_decode(),
+            latest_node_announcement_broadcast_timestamp: self_.get(7).cst_decode(),
         }
     }
 }
@@ -491,6 +673,34 @@ impl CstDecode<crate::api::types::PeerDetails>
             node_id: self_.get(0).cst_decode(),
             address: self_.get(1).cst_decode(),
             is_connected: self_.get(2).cst_decode(),
+        }
+    }
+}
+impl CstDecode<crate::api::types::PendingSweepBalance>
+    for flutter_rust_bridge::for_generated::wasm_bindgen::JsValue
+{
+    // Codec=Cst (C-struct based), see doc to use other codecs
+    fn cst_decode(self) -> crate::api::types::PendingSweepBalance {
+        let self_ = self.unchecked_into::<flutter_rust_bridge::for_generated::js_sys::Array>();
+        match self_.get(0).unchecked_into_f64() as _ {
+            0 => crate::api::types::PendingSweepBalance::PendingBroadcast {
+                channel_id: self_.get(1).cst_decode(),
+                amount_satoshis: self_.get(2).cst_decode(),
+            },
+            1 => crate::api::types::PendingSweepBalance::BroadcastAwaitingConfirmation {
+                channel_id: self_.get(1).cst_decode(),
+                latest_broadcast_height: self_.get(2).cst_decode(),
+                latest_spending_txid: self_.get(3).cst_decode(),
+                amount_satoshis: self_.get(4).cst_decode(),
+            },
+            2 => crate::api::types::PendingSweepBalance::AwaitingThresholdConfirmations {
+                channel_id: self_.get(1).cst_decode(),
+                latest_spending_txid: self_.get(2).cst_decode(),
+                confirmation_hash: self_.get(3).cst_decode(),
+                confirmation_height: self_.get(4).cst_decode(),
+                amount_satoshis: self_.get(5).cst_decode(),
+            },
+            _ => unreachable!(),
         }
     }
 }
@@ -640,11 +850,11 @@ impl CstDecode<bool> for flutter_rust_bridge::for_generated::wasm_bindgen::JsVal
         self.is_truthy()
     }
 }
-impl CstDecode<crate::api::error::BuilderException>
+impl CstDecode<crate::api::error::BuilderError>
     for flutter_rust_bridge::for_generated::wasm_bindgen::JsValue
 {
     // Codec=Cst (C-struct based), see doc to use other codecs
-    fn cst_decode(self) -> crate::api::error::BuilderException {
+    fn cst_decode(self) -> crate::api::error::BuilderError {
         (self.unchecked_into_f64() as i32).cst_decode()
     }
 }
@@ -678,11 +888,11 @@ impl CstDecode<crate::api::types::Network>
         (self.unchecked_into_f64() as i32).cst_decode()
     }
 }
-impl CstDecode<crate::api::error::NodeException>
+impl CstDecode<crate::api::error::NodeBaseError>
     for flutter_rust_bridge::for_generated::wasm_bindgen::JsValue
 {
     // Codec=Cst (C-struct based), see doc to use other codecs
-    fn cst_decode(self) -> crate::api::error::NodeException {
+    fn cst_decode(self) -> crate::api::error::NodeBaseError {
         (self.unchecked_into_f64() as i32).cst_decode()
     }
 }
@@ -691,6 +901,14 @@ impl CstDecode<crate::api::types::PaymentDirection>
 {
     // Codec=Cst (C-struct based), see doc to use other codecs
     fn cst_decode(self) -> crate::api::types::PaymentDirection {
+        (self.unchecked_into_f64() as i32).cst_decode()
+    }
+}
+impl CstDecode<crate::api::types::PaymentFailureReason>
+    for flutter_rust_bridge::for_generated::wasm_bindgen::JsValue
+{
+    // Codec=Cst (C-struct based), see doc to use other codecs
+    fn cst_decode(self) -> crate::api::types::PaymentFailureReason {
         (self.unchecked_into_f64() as i32).cst_decode()
     }
 }
@@ -781,10 +999,18 @@ pub fn wire_MnemonicBase_generate(port_: flutter_rust_bridge::for_generated::Mes
 pub fn wire_NodeBase_close_channel(
     port_: flutter_rust_bridge::for_generated::MessagePort,
     that: flutter_rust_bridge::for_generated::wasm_bindgen::JsValue,
-    channel_id: flutter_rust_bridge::for_generated::wasm_bindgen::JsValue,
+    user_channel_id: flutter_rust_bridge::for_generated::wasm_bindgen::JsValue,
     counterparty_node_id: flutter_rust_bridge::for_generated::wasm_bindgen::JsValue,
 ) {
-    wire_NodeBase_close_channel_impl(port_, that, channel_id, counterparty_node_id)
+    wire_NodeBase_close_channel_impl(port_, that, user_channel_id, counterparty_node_id)
+}
+
+#[wasm_bindgen]
+pub fn wire_NodeBase_config(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
+    that: flutter_rust_bridge::for_generated::wasm_bindgen::JsValue,
+) {
+    wire_NodeBase_config_impl(port_, that)
 }
 
 #[wasm_bindgen]
@@ -836,6 +1062,14 @@ pub fn wire_NodeBase_event_handled(
     that: flutter_rust_bridge::for_generated::wasm_bindgen::JsValue,
 ) {
     wire_NodeBase_event_handled_impl(port_, that)
+}
+
+#[wasm_bindgen]
+pub fn wire_NodeBase_list_balances(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
+    that: flutter_rust_bridge::for_generated::wasm_bindgen::JsValue,
+) {
+    wire_NodeBase_list_balances_impl(port_, that)
 }
 
 #[wasm_bindgen]
@@ -896,6 +1130,14 @@ pub fn wire_NodeBase_next_event(
 }
 
 #[wasm_bindgen]
+pub fn wire_NodeBase_next_event_async(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
+    that: flutter_rust_bridge::for_generated::wasm_bindgen::JsValue,
+) {
+    wire_NodeBase_next_event_async_impl(port_, that)
+}
+
+#[wasm_bindgen]
 pub fn wire_NodeBase_node_id(
     port_: flutter_rust_bridge::for_generated::MessagePort,
     that: flutter_rust_bridge::for_generated::wasm_bindgen::JsValue,
@@ -924,6 +1166,25 @@ pub fn wire_NodeBase_receive_payment(
 }
 
 #[wasm_bindgen]
+pub fn wire_NodeBase_receive_payment_via_jit_channel(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
+    that: flutter_rust_bridge::for_generated::wasm_bindgen::JsValue,
+    amount_msat: u64,
+    description: String,
+    expiry_secs: u32,
+    max_total_lsp_fee_limit_msat: flutter_rust_bridge::for_generated::wasm_bindgen::JsValue,
+) {
+    wire_NodeBase_receive_payment_via_jit_channel_impl(
+        port_,
+        that,
+        amount_msat,
+        description,
+        expiry_secs,
+        max_total_lsp_fee_limit_msat,
+    )
+}
+
+#[wasm_bindgen]
 pub fn wire_NodeBase_receive_variable_amount_payment(
     port_: flutter_rust_bridge::for_generated::MessagePort,
     that: flutter_rust_bridge::for_generated::wasm_bindgen::JsValue,
@@ -931,6 +1192,23 @@ pub fn wire_NodeBase_receive_variable_amount_payment(
     expiry_secs: u32,
 ) {
     wire_NodeBase_receive_variable_amount_payment_impl(port_, that, description, expiry_secs)
+}
+
+#[wasm_bindgen]
+pub fn wire_NodeBase_receive_variable_amount_payment_via_jit_channel(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
+    that: flutter_rust_bridge::for_generated::wasm_bindgen::JsValue,
+    description: String,
+    expiry_secs: u32,
+    max_proportional_lsp_fee_limit_ppm_msat: flutter_rust_bridge::for_generated::wasm_bindgen::JsValue,
+) {
+    wire_NodeBase_receive_variable_amount_payment_via_jit_channel_impl(
+        port_,
+        that,
+        description,
+        expiry_secs,
+        max_proportional_lsp_fee_limit_ppm_msat,
+    )
 }
 
 #[wasm_bindgen]
@@ -1029,19 +1307,19 @@ pub fn wire_NodeBase_sign_message(
 }
 
 #[wasm_bindgen]
-pub fn wire_NodeBase_spendable_onchain_balance_sats(
-    port_: flutter_rust_bridge::for_generated::MessagePort,
-    that: flutter_rust_bridge::for_generated::wasm_bindgen::JsValue,
-) {
-    wire_NodeBase_spendable_onchain_balance_sats_impl(port_, that)
-}
-
-#[wasm_bindgen]
 pub fn wire_NodeBase_start(
     port_: flutter_rust_bridge::for_generated::MessagePort,
     that: flutter_rust_bridge::for_generated::wasm_bindgen::JsValue,
 ) {
     wire_NodeBase_start_impl(port_, that)
+}
+
+#[wasm_bindgen]
+pub fn wire_NodeBase_status(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
+    that: flutter_rust_bridge::for_generated::wasm_bindgen::JsValue,
+) {
+    wire_NodeBase_status_impl(port_, that)
 }
 
 #[wasm_bindgen]
@@ -1061,25 +1339,17 @@ pub fn wire_NodeBase_sync_wallets(
 }
 
 #[wasm_bindgen]
-pub fn wire_NodeBase_total_onchain_balance_sats(
-    port_: flutter_rust_bridge::for_generated::MessagePort,
-    that: flutter_rust_bridge::for_generated::wasm_bindgen::JsValue,
-) {
-    wire_NodeBase_total_onchain_balance_sats_impl(port_, that)
-}
-
-#[wasm_bindgen]
 pub fn wire_NodeBase_update_channel_config(
     port_: flutter_rust_bridge::for_generated::MessagePort,
     that: flutter_rust_bridge::for_generated::wasm_bindgen::JsValue,
-    channel_id: flutter_rust_bridge::for_generated::wasm_bindgen::JsValue,
+    user_channel_id: flutter_rust_bridge::for_generated::wasm_bindgen::JsValue,
     counterparty_node_id: flutter_rust_bridge::for_generated::wasm_bindgen::JsValue,
     channel_config: flutter_rust_bridge::for_generated::wasm_bindgen::JsValue,
 ) {
     wire_NodeBase_update_channel_config_impl(
         port_,
         that,
-        channel_id,
+        user_channel_id,
         counterparty_node_id,
         channel_config,
     )
@@ -1119,22 +1389,6 @@ pub fn wire_finalize_builder(
         entropy_source_config,
         gossip_source_config,
     )
-}
-
-#[wasm_bindgen]
-pub fn wire_SocketAddress_from_str(
-    port_: flutter_rust_bridge::for_generated::MessagePort,
-    address: String,
-) {
-    wire_SocketAddress_from_str_impl(port_, address)
-}
-
-#[wasm_bindgen]
-pub fn wire_SocketAddress_to_string(
-    port_: flutter_rust_bridge::for_generated::MessagePort,
-    that: flutter_rust_bridge::for_generated::wasm_bindgen::JsValue,
-) {
-    wire_SocketAddress_to_string_impl(port_, that)
 }
 
 #[wasm_bindgen]

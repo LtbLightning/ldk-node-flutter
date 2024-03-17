@@ -68,9 +68,11 @@ abstract class LdkCoreApi extends BaseApi {
 
   Future<void> nodeBaseCloseChannel(
       {required NodeBase that,
-      required ChannelId channelId,
+      required UserChannelId userChannelId,
       required PublicKey counterpartyNodeId,
       dynamic hint});
+
+  Future<Config> nodeBaseConfig({required NodeBase that, dynamic hint});
 
   Future<void> nodeBaseConnect(
       {required NodeBase that,
@@ -79,7 +81,7 @@ abstract class LdkCoreApi extends BaseApi {
       required bool persist,
       dynamic hint});
 
-  Future<void> nodeBaseConnectOpenChannel(
+  Future<UserChannelId> nodeBaseConnectOpenChannel(
       {required NodeBase that,
       required SocketAddress address,
       required PublicKey nodeId,
@@ -95,6 +97,9 @@ abstract class LdkCoreApi extends BaseApi {
       dynamic hint});
 
   Future<void> nodeBaseEventHandled({required NodeBase that, dynamic hint});
+
+  Future<BalanceDetails> nodeBaseListBalances(
+      {required NodeBase that, dynamic hint});
 
   Future<List<ChannelDetails>> nodeBaseListChannels(
       {required NodeBase that, dynamic hint});
@@ -118,6 +123,8 @@ abstract class LdkCoreApi extends BaseApi {
 
   Future<Event?> nodeBaseNextEvent({required NodeBase that, dynamic hint});
 
+  Future<Event> nodeBaseNextEventAsync({required NodeBase that, dynamic hint});
+
   Future<PublicKey> nodeBaseNodeId({required NodeBase that, dynamic hint});
 
   Future<PaymentDetails?> nodeBasePayment(
@@ -130,10 +137,25 @@ abstract class LdkCoreApi extends BaseApi {
       required int expirySecs,
       dynamic hint});
 
+  Future<Bolt11Invoice> nodeBaseReceivePaymentViaJitChannel(
+      {required NodeBase that,
+      required int amountMsat,
+      required String description,
+      required int expirySecs,
+      int? maxTotalLspFeeLimitMsat,
+      dynamic hint});
+
   Future<Bolt11Invoice> nodeBaseReceiveVariableAmountPayment(
       {required NodeBase that,
       required String description,
       required int expirySecs,
+      dynamic hint});
+
+  Future<Bolt11Invoice> nodeBaseReceiveVariableAmountPaymentViaJitChannel(
+      {required NodeBase that,
+      required String description,
+      required int expirySecs,
+      int? maxProportionalLspFeeLimitPpmMsat,
       dynamic hint});
 
   Future<void> nodeBaseRemovePayment(
@@ -181,21 +203,17 @@ abstract class LdkCoreApi extends BaseApi {
   Future<String> nodeBaseSignMessage(
       {required NodeBase that, required List<int> msg, dynamic hint});
 
-  Future<int> nodeBaseSpendableOnchainBalanceSats(
-      {required NodeBase that, dynamic hint});
-
   Future<void> nodeBaseStart({required NodeBase that, dynamic hint});
+
+  Future<NodeStatus> nodeBaseStatus({required NodeBase that, dynamic hint});
 
   Future<void> nodeBaseStop({required NodeBase that, dynamic hint});
 
   Future<void> nodeBaseSyncWallets({required NodeBase that, dynamic hint});
 
-  Future<int> nodeBaseTotalOnchainBalanceSats(
-      {required NodeBase that, dynamic hint});
-
   Future<void> nodeBaseUpdateChannelConfig(
       {required NodeBase that,
-      required ChannelId channelId,
+      required UserChannelId userChannelId,
       required PublicKey counterpartyNodeId,
       required ChannelConfig channelConfig,
       dynamic hint});
@@ -215,12 +233,6 @@ abstract class LdkCoreApi extends BaseApi {
       EntropySourceConfig? entropySourceConfig,
       GossipSourceConfig? gossipSourceConfig,
       dynamic hint});
-
-  Future<SocketAddress> socketAddressFromStr(
-      {required String address, dynamic hint});
-
-  Future<String> socketAddressToString(
-      {required SocketAddress that, dynamic hint});
 
   RustArcIncrementStrongCountFnType
       get rust_arc_increment_strong_count_NodeSqliteStore;
@@ -265,22 +277,22 @@ class LdkCoreApiImpl extends LdkCoreApiImplPlatform implements LdkCoreApi {
   @override
   Future<void> nodeBaseCloseChannel(
       {required NodeBase that,
-      required ChannelId channelId,
+      required UserChannelId userChannelId,
       required PublicKey counterpartyNodeId,
       dynamic hint}) {
     return handler.executeNormal(NormalTask(
       callFfi: (port_) {
         var arg0 = cst_encode_box_autoadd_node_base(that);
-        var arg1 = cst_encode_box_autoadd_channel_id(channelId);
+        var arg1 = cst_encode_box_autoadd_user_channel_id(userChannelId);
         var arg2 = cst_encode_box_autoadd_public_key(counterpartyNodeId);
         return wire.wire_NodeBase_close_channel(port_, arg0, arg1, arg2);
       },
       codec: DcoCodec(
         decodeSuccessData: dco_decode_unit,
-        decodeErrorData: dco_decode_node_exception,
+        decodeErrorData: dco_decode_node_base_error,
       ),
       constMeta: kNodeBaseCloseChannelConstMeta,
-      argValues: [that, channelId, counterpartyNodeId],
+      argValues: [that, userChannelId, counterpartyNodeId],
       apiImpl: this,
       hint: hint,
     ));
@@ -288,7 +300,30 @@ class LdkCoreApiImpl extends LdkCoreApiImplPlatform implements LdkCoreApi {
 
   TaskConstMeta get kNodeBaseCloseChannelConstMeta => const TaskConstMeta(
         debugName: "NodeBase_close_channel",
-        argNames: ["that", "channelId", "counterpartyNodeId"],
+        argNames: ["that", "userChannelId", "counterpartyNodeId"],
+      );
+
+  @override
+  Future<Config> nodeBaseConfig({required NodeBase that, dynamic hint}) {
+    return handler.executeNormal(NormalTask(
+      callFfi: (port_) {
+        var arg0 = cst_encode_box_autoadd_node_base(that);
+        return wire.wire_NodeBase_config(port_, arg0);
+      },
+      codec: DcoCodec(
+        decodeSuccessData: dco_decode_config,
+        decodeErrorData: null,
+      ),
+      constMeta: kNodeBaseConfigConstMeta,
+      argValues: [that],
+      apiImpl: this,
+      hint: hint,
+    ));
+  }
+
+  TaskConstMeta get kNodeBaseConfigConstMeta => const TaskConstMeta(
+        debugName: "NodeBase_config",
+        argNames: ["that"],
       );
 
   @override
@@ -308,7 +343,7 @@ class LdkCoreApiImpl extends LdkCoreApiImplPlatform implements LdkCoreApi {
       },
       codec: DcoCodec(
         decodeSuccessData: dco_decode_unit,
-        decodeErrorData: dco_decode_node_exception,
+        decodeErrorData: dco_decode_node_base_error,
       ),
       constMeta: kNodeBaseConnectConstMeta,
       argValues: [that, nodeId, address, persist],
@@ -323,7 +358,7 @@ class LdkCoreApiImpl extends LdkCoreApiImplPlatform implements LdkCoreApi {
       );
 
   @override
-  Future<void> nodeBaseConnectOpenChannel(
+  Future<UserChannelId> nodeBaseConnectOpenChannel(
       {required NodeBase that,
       required SocketAddress address,
       required PublicKey nodeId,
@@ -345,8 +380,8 @@ class LdkCoreApiImpl extends LdkCoreApiImplPlatform implements LdkCoreApi {
             port_, arg0, arg1, arg2, arg3, arg4, arg5, arg6);
       },
       codec: DcoCodec(
-        decodeSuccessData: dco_decode_unit,
-        decodeErrorData: dco_decode_node_exception,
+        decodeSuccessData: dco_decode_user_channel_id,
+        decodeErrorData: dco_decode_node_base_error,
       ),
       constMeta: kNodeBaseConnectOpenChannelConstMeta,
       argValues: [
@@ -389,7 +424,7 @@ class LdkCoreApiImpl extends LdkCoreApiImplPlatform implements LdkCoreApi {
       },
       codec: DcoCodec(
         decodeSuccessData: dco_decode_unit,
-        decodeErrorData: dco_decode_node_exception,
+        decodeErrorData: dco_decode_node_base_error,
       ),
       constMeta: kNodeBaseDisconnectConstMeta,
       argValues: [that, counterpartyNodeId],
@@ -423,6 +458,30 @@ class LdkCoreApiImpl extends LdkCoreApiImplPlatform implements LdkCoreApi {
 
   TaskConstMeta get kNodeBaseEventHandledConstMeta => const TaskConstMeta(
         debugName: "NodeBase_event_handled",
+        argNames: ["that"],
+      );
+
+  @override
+  Future<BalanceDetails> nodeBaseListBalances(
+      {required NodeBase that, dynamic hint}) {
+    return handler.executeNormal(NormalTask(
+      callFfi: (port_) {
+        var arg0 = cst_encode_box_autoadd_node_base(that);
+        return wire.wire_NodeBase_list_balances(port_, arg0);
+      },
+      codec: DcoCodec(
+        decodeSuccessData: dco_decode_balance_details,
+        decodeErrorData: dco_decode_node_base_error,
+      ),
+      constMeta: kNodeBaseListBalancesConstMeta,
+      argValues: [that],
+      apiImpl: this,
+      hint: hint,
+    ));
+  }
+
+  TaskConstMeta get kNodeBaseListBalancesConstMeta => const TaskConstMeta(
+        debugName: "NodeBase_list_balances",
         argNames: ["that"],
       );
 
@@ -560,7 +619,7 @@ class LdkCoreApiImpl extends LdkCoreApiImplPlatform implements LdkCoreApi {
       },
       codec: DcoCodec(
         decodeSuccessData: dco_decode_address,
-        decodeErrorData: dco_decode_node_exception,
+        decodeErrorData: dco_decode_node_base_error,
       ),
       constMeta: kNodeBaseNewOnchainAddressConstMeta,
       argValues: [that],
@@ -594,6 +653,29 @@ class LdkCoreApiImpl extends LdkCoreApiImplPlatform implements LdkCoreApi {
 
   TaskConstMeta get kNodeBaseNextEventConstMeta => const TaskConstMeta(
         debugName: "NodeBase_next_event",
+        argNames: ["that"],
+      );
+
+  @override
+  Future<Event> nodeBaseNextEventAsync({required NodeBase that, dynamic hint}) {
+    return handler.executeNormal(NormalTask(
+      callFfi: (port_) {
+        var arg0 = cst_encode_box_autoadd_node_base(that);
+        return wire.wire_NodeBase_next_event_async(port_, arg0);
+      },
+      codec: DcoCodec(
+        decodeSuccessData: dco_decode_event,
+        decodeErrorData: null,
+      ),
+      constMeta: kNodeBaseNextEventAsyncConstMeta,
+      argValues: [that],
+      apiImpl: this,
+      hint: hint,
+    ));
+  }
+
+  TaskConstMeta get kNodeBaseNextEventAsyncConstMeta => const TaskConstMeta(
+        debugName: "NodeBase_next_event_async",
         argNames: ["that"],
       );
 
@@ -665,7 +747,7 @@ class LdkCoreApiImpl extends LdkCoreApiImplPlatform implements LdkCoreApi {
       },
       codec: DcoCodec(
         decodeSuccessData: dco_decode_bolt_11_invoice,
-        decodeErrorData: dco_decode_node_exception,
+        decodeErrorData: dco_decode_node_base_error,
       ),
       constMeta: kNodeBaseReceivePaymentConstMeta,
       argValues: [that, amountMsat, description, expirySecs],
@@ -677,6 +759,53 @@ class LdkCoreApiImpl extends LdkCoreApiImplPlatform implements LdkCoreApi {
   TaskConstMeta get kNodeBaseReceivePaymentConstMeta => const TaskConstMeta(
         debugName: "NodeBase_receive_payment",
         argNames: ["that", "amountMsat", "description", "expirySecs"],
+      );
+
+  @override
+  Future<Bolt11Invoice> nodeBaseReceivePaymentViaJitChannel(
+      {required NodeBase that,
+      required int amountMsat,
+      required String description,
+      required int expirySecs,
+      int? maxTotalLspFeeLimitMsat,
+      dynamic hint}) {
+    return handler.executeNormal(NormalTask(
+      callFfi: (port_) {
+        var arg0 = cst_encode_box_autoadd_node_base(that);
+        var arg1 = cst_encode_u_64(amountMsat);
+        var arg2 = cst_encode_String(description);
+        var arg3 = cst_encode_u_32(expirySecs);
+        var arg4 = cst_encode_opt_box_autoadd_u_64(maxTotalLspFeeLimitMsat);
+        return wire.wire_NodeBase_receive_payment_via_jit_channel(
+            port_, arg0, arg1, arg2, arg3, arg4);
+      },
+      codec: DcoCodec(
+        decodeSuccessData: dco_decode_bolt_11_invoice,
+        decodeErrorData: dco_decode_node_base_error,
+      ),
+      constMeta: kNodeBaseReceivePaymentViaJitChannelConstMeta,
+      argValues: [
+        that,
+        amountMsat,
+        description,
+        expirySecs,
+        maxTotalLspFeeLimitMsat
+      ],
+      apiImpl: this,
+      hint: hint,
+    ));
+  }
+
+  TaskConstMeta get kNodeBaseReceivePaymentViaJitChannelConstMeta =>
+      const TaskConstMeta(
+        debugName: "NodeBase_receive_payment_via_jit_channel",
+        argNames: [
+          "that",
+          "amountMsat",
+          "description",
+          "expirySecs",
+          "maxTotalLspFeeLimitMsat"
+        ],
       );
 
   @override
@@ -695,7 +824,7 @@ class LdkCoreApiImpl extends LdkCoreApiImplPlatform implements LdkCoreApi {
       },
       codec: DcoCodec(
         decodeSuccessData: dco_decode_bolt_11_invoice,
-        decodeErrorData: dco_decode_node_exception,
+        decodeErrorData: dco_decode_node_base_error,
       ),
       constMeta: kNodeBaseReceiveVariableAmountPaymentConstMeta,
       argValues: [that, description, expirySecs],
@@ -711,6 +840,53 @@ class LdkCoreApiImpl extends LdkCoreApiImplPlatform implements LdkCoreApi {
       );
 
   @override
+  Future<Bolt11Invoice> nodeBaseReceiveVariableAmountPaymentViaJitChannel(
+      {required NodeBase that,
+      required String description,
+      required int expirySecs,
+      int? maxProportionalLspFeeLimitPpmMsat,
+      dynamic hint}) {
+    return handler.executeNormal(NormalTask(
+      callFfi: (port_) {
+        var arg0 = cst_encode_box_autoadd_node_base(that);
+        var arg1 = cst_encode_String(description);
+        var arg2 = cst_encode_u_32(expirySecs);
+        var arg3 =
+            cst_encode_opt_box_autoadd_u_64(maxProportionalLspFeeLimitPpmMsat);
+        return wire
+            .wire_NodeBase_receive_variable_amount_payment_via_jit_channel(
+                port_, arg0, arg1, arg2, arg3);
+      },
+      codec: DcoCodec(
+        decodeSuccessData: dco_decode_bolt_11_invoice,
+        decodeErrorData: dco_decode_node_base_error,
+      ),
+      constMeta: kNodeBaseReceiveVariableAmountPaymentViaJitChannelConstMeta,
+      argValues: [
+        that,
+        description,
+        expirySecs,
+        maxProportionalLspFeeLimitPpmMsat
+      ],
+      apiImpl: this,
+      hint: hint,
+    ));
+  }
+
+  TaskConstMeta
+      get kNodeBaseReceiveVariableAmountPaymentViaJitChannelConstMeta =>
+          const TaskConstMeta(
+            debugName:
+                "NodeBase_receive_variable_amount_payment_via_jit_channel",
+            argNames: [
+              "that",
+              "description",
+              "expirySecs",
+              "maxProportionalLspFeeLimitPpmMsat"
+            ],
+          );
+
+  @override
   Future<void> nodeBaseRemovePayment(
       {required NodeBase that,
       required PaymentHash paymentHash,
@@ -723,7 +899,7 @@ class LdkCoreApiImpl extends LdkCoreApiImplPlatform implements LdkCoreApi {
       },
       codec: DcoCodec(
         decodeSuccessData: dco_decode_unit,
-        decodeErrorData: dco_decode_node_exception,
+        decodeErrorData: dco_decode_node_base_error,
       ),
       constMeta: kNodeBaseRemovePaymentConstMeta,
       argValues: [that, paymentHash],
@@ -749,7 +925,7 @@ class LdkCoreApiImpl extends LdkCoreApiImplPlatform implements LdkCoreApi {
       },
       codec: DcoCodec(
         decodeSuccessData: dco_decode_txid,
-        decodeErrorData: dco_decode_node_exception,
+        decodeErrorData: dco_decode_node_base_error,
       ),
       constMeta: kNodeBaseSendAllToOnchainAddressConstMeta,
       argValues: [that, address],
@@ -775,7 +951,7 @@ class LdkCoreApiImpl extends LdkCoreApiImplPlatform implements LdkCoreApi {
       },
       codec: DcoCodec(
         decodeSuccessData: dco_decode_payment_hash,
-        decodeErrorData: dco_decode_node_exception,
+        decodeErrorData: dco_decode_node_base_error,
       ),
       constMeta: kNodeBaseSendPaymentConstMeta,
       argValues: [that, invoice],
@@ -800,7 +976,7 @@ class LdkCoreApiImpl extends LdkCoreApiImplPlatform implements LdkCoreApi {
       },
       codec: DcoCodec(
         decodeSuccessData: dco_decode_unit,
-        decodeErrorData: dco_decode_node_exception,
+        decodeErrorData: dco_decode_node_base_error,
       ),
       constMeta: kNodeBaseSendPaymentProbesConstMeta,
       argValues: [that, invoice],
@@ -830,7 +1006,7 @@ class LdkCoreApiImpl extends LdkCoreApiImplPlatform implements LdkCoreApi {
       },
       codec: DcoCodec(
         decodeSuccessData: dco_decode_unit,
-        decodeErrorData: dco_decode_node_exception,
+        decodeErrorData: dco_decode_node_base_error,
       ),
       constMeta: kNodeBaseSendPaymentProbesUsingAmountConstMeta,
       argValues: [that, invoice, amountMsat],
@@ -861,7 +1037,7 @@ class LdkCoreApiImpl extends LdkCoreApiImplPlatform implements LdkCoreApi {
       },
       codec: DcoCodec(
         decodeSuccessData: dco_decode_payment_hash,
-        decodeErrorData: dco_decode_node_exception,
+        decodeErrorData: dco_decode_node_base_error,
       ),
       constMeta: kNodeBaseSendPaymentUsingAmountConstMeta,
       argValues: [that, invoice, amountMsat],
@@ -892,7 +1068,7 @@ class LdkCoreApiImpl extends LdkCoreApiImplPlatform implements LdkCoreApi {
       },
       codec: DcoCodec(
         decodeSuccessData: dco_decode_payment_hash,
-        decodeErrorData: dco_decode_node_exception,
+        decodeErrorData: dco_decode_node_base_error,
       ),
       constMeta: kNodeBaseSendSpontaneousPaymentConstMeta,
       argValues: [that, amountMsat, nodeId],
@@ -923,7 +1099,7 @@ class LdkCoreApiImpl extends LdkCoreApiImplPlatform implements LdkCoreApi {
       },
       codec: DcoCodec(
         decodeSuccessData: dco_decode_unit,
-        decodeErrorData: dco_decode_node_exception,
+        decodeErrorData: dco_decode_node_base_error,
       ),
       constMeta: kNodeBaseSendSpontaneousPaymentProbesConstMeta,
       argValues: [that, amountMsat, nodeId],
@@ -954,7 +1130,7 @@ class LdkCoreApiImpl extends LdkCoreApiImplPlatform implements LdkCoreApi {
       },
       codec: DcoCodec(
         decodeSuccessData: dco_decode_txid,
-        decodeErrorData: dco_decode_node_exception,
+        decodeErrorData: dco_decode_node_base_error,
       ),
       constMeta: kNodeBaseSendToOnchainAddressConstMeta,
       argValues: [that, address, amountSats],
@@ -980,7 +1156,7 @@ class LdkCoreApiImpl extends LdkCoreApiImplPlatform implements LdkCoreApi {
       },
       codec: DcoCodec(
         decodeSuccessData: dco_decode_String,
-        decodeErrorData: dco_decode_node_exception,
+        decodeErrorData: dco_decode_node_base_error,
       ),
       constMeta: kNodeBaseSignMessageConstMeta,
       argValues: [that, msg],
@@ -995,31 +1171,6 @@ class LdkCoreApiImpl extends LdkCoreApiImplPlatform implements LdkCoreApi {
       );
 
   @override
-  Future<int> nodeBaseSpendableOnchainBalanceSats(
-      {required NodeBase that, dynamic hint}) {
-    return handler.executeNormal(NormalTask(
-      callFfi: (port_) {
-        var arg0 = cst_encode_box_autoadd_node_base(that);
-        return wire.wire_NodeBase_spendable_onchain_balance_sats(port_, arg0);
-      },
-      codec: DcoCodec(
-        decodeSuccessData: dco_decode_u_64,
-        decodeErrorData: dco_decode_node_exception,
-      ),
-      constMeta: kNodeBaseSpendableOnchainBalanceSatsConstMeta,
-      argValues: [that],
-      apiImpl: this,
-      hint: hint,
-    ));
-  }
-
-  TaskConstMeta get kNodeBaseSpendableOnchainBalanceSatsConstMeta =>
-      const TaskConstMeta(
-        debugName: "NodeBase_spendable_onchain_balance_sats",
-        argNames: ["that"],
-      );
-
-  @override
   Future<void> nodeBaseStart({required NodeBase that, dynamic hint}) {
     return handler.executeNormal(NormalTask(
       callFfi: (port_) {
@@ -1028,7 +1179,7 @@ class LdkCoreApiImpl extends LdkCoreApiImplPlatform implements LdkCoreApi {
       },
       codec: DcoCodec(
         decodeSuccessData: dco_decode_unit,
-        decodeErrorData: dco_decode_node_exception,
+        decodeErrorData: dco_decode_node_base_error,
       ),
       constMeta: kNodeBaseStartConstMeta,
       argValues: [that],
@@ -1043,6 +1194,29 @@ class LdkCoreApiImpl extends LdkCoreApiImplPlatform implements LdkCoreApi {
       );
 
   @override
+  Future<NodeStatus> nodeBaseStatus({required NodeBase that, dynamic hint}) {
+    return handler.executeNormal(NormalTask(
+      callFfi: (port_) {
+        var arg0 = cst_encode_box_autoadd_node_base(that);
+        return wire.wire_NodeBase_status(port_, arg0);
+      },
+      codec: DcoCodec(
+        decodeSuccessData: dco_decode_node_status,
+        decodeErrorData: null,
+      ),
+      constMeta: kNodeBaseStatusConstMeta,
+      argValues: [that],
+      apiImpl: this,
+      hint: hint,
+    ));
+  }
+
+  TaskConstMeta get kNodeBaseStatusConstMeta => const TaskConstMeta(
+        debugName: "NodeBase_status",
+        argNames: ["that"],
+      );
+
+  @override
   Future<void> nodeBaseStop({required NodeBase that, dynamic hint}) {
     return handler.executeNormal(NormalTask(
       callFfi: (port_) {
@@ -1051,7 +1225,7 @@ class LdkCoreApiImpl extends LdkCoreApiImplPlatform implements LdkCoreApi {
       },
       codec: DcoCodec(
         decodeSuccessData: dco_decode_unit,
-        decodeErrorData: dco_decode_node_exception,
+        decodeErrorData: dco_decode_node_base_error,
       ),
       constMeta: kNodeBaseStopConstMeta,
       argValues: [that],
@@ -1074,7 +1248,7 @@ class LdkCoreApiImpl extends LdkCoreApiImplPlatform implements LdkCoreApi {
       },
       codec: DcoCodec(
         decodeSuccessData: dco_decode_unit,
-        decodeErrorData: dco_decode_node_exception,
+        decodeErrorData: dco_decode_node_base_error,
       ),
       constMeta: kNodeBaseSyncWalletsConstMeta,
       argValues: [that],
@@ -1089,41 +1263,16 @@ class LdkCoreApiImpl extends LdkCoreApiImplPlatform implements LdkCoreApi {
       );
 
   @override
-  Future<int> nodeBaseTotalOnchainBalanceSats(
-      {required NodeBase that, dynamic hint}) {
-    return handler.executeNormal(NormalTask(
-      callFfi: (port_) {
-        var arg0 = cst_encode_box_autoadd_node_base(that);
-        return wire.wire_NodeBase_total_onchain_balance_sats(port_, arg0);
-      },
-      codec: DcoCodec(
-        decodeSuccessData: dco_decode_u_64,
-        decodeErrorData: dco_decode_node_exception,
-      ),
-      constMeta: kNodeBaseTotalOnchainBalanceSatsConstMeta,
-      argValues: [that],
-      apiImpl: this,
-      hint: hint,
-    ));
-  }
-
-  TaskConstMeta get kNodeBaseTotalOnchainBalanceSatsConstMeta =>
-      const TaskConstMeta(
-        debugName: "NodeBase_total_onchain_balance_sats",
-        argNames: ["that"],
-      );
-
-  @override
   Future<void> nodeBaseUpdateChannelConfig(
       {required NodeBase that,
-      required ChannelId channelId,
+      required UserChannelId userChannelId,
       required PublicKey counterpartyNodeId,
       required ChannelConfig channelConfig,
       dynamic hint}) {
     return handler.executeNormal(NormalTask(
       callFfi: (port_) {
         var arg0 = cst_encode_box_autoadd_node_base(that);
-        var arg1 = cst_encode_box_autoadd_channel_id(channelId);
+        var arg1 = cst_encode_box_autoadd_user_channel_id(userChannelId);
         var arg2 = cst_encode_box_autoadd_public_key(counterpartyNodeId);
         var arg3 = cst_encode_box_autoadd_channel_config(channelConfig);
         return wire.wire_NodeBase_update_channel_config(
@@ -1131,10 +1280,10 @@ class LdkCoreApiImpl extends LdkCoreApiImplPlatform implements LdkCoreApi {
       },
       codec: DcoCodec(
         decodeSuccessData: dco_decode_unit,
-        decodeErrorData: dco_decode_node_exception,
+        decodeErrorData: dco_decode_node_base_error,
       ),
       constMeta: kNodeBaseUpdateChannelConfigConstMeta,
-      argValues: [that, channelId, counterpartyNodeId, channelConfig],
+      argValues: [that, userChannelId, counterpartyNodeId, channelConfig],
       apiImpl: this,
       hint: hint,
     ));
@@ -1143,7 +1292,12 @@ class LdkCoreApiImpl extends LdkCoreApiImplPlatform implements LdkCoreApi {
   TaskConstMeta get kNodeBaseUpdateChannelConfigConstMeta =>
       const TaskConstMeta(
         debugName: "NodeBase_update_channel_config",
-        argNames: ["that", "channelId", "counterpartyNodeId", "channelConfig"],
+        argNames: [
+          "that",
+          "userChannelId",
+          "counterpartyNodeId",
+          "channelConfig"
+        ],
       );
 
   @override
@@ -1164,7 +1318,7 @@ class LdkCoreApiImpl extends LdkCoreApiImplPlatform implements LdkCoreApi {
       },
       codec: DcoCodec(
         decodeSuccessData: dco_decode_bool,
-        decodeErrorData: dco_decode_node_exception,
+        decodeErrorData: dco_decode_node_base_error,
       ),
       constMeta: kNodeBaseVerifySignatureConstMeta,
       argValues: [that, msg, sig, pkey],
@@ -1221,7 +1375,7 @@ class LdkCoreApiImpl extends LdkCoreApiImplPlatform implements LdkCoreApi {
       },
       codec: DcoCodec(
         decodeSuccessData: dco_decode_node_base,
-        decodeErrorData: dco_decode_builder_exception,
+        decodeErrorData: dco_decode_builder_error,
       ),
       constMeta: kFinalizeBuilderConstMeta,
       argValues: [
@@ -1243,54 +1397,6 @@ class LdkCoreApiImpl extends LdkCoreApiImplPlatform implements LdkCoreApi {
           "entropySourceConfig",
           "gossipSourceConfig"
         ],
-      );
-
-  @override
-  Future<SocketAddress> socketAddressFromStr(
-      {required String address, dynamic hint}) {
-    return handler.executeNormal(NormalTask(
-      callFfi: (port_) {
-        var arg0 = cst_encode_String(address);
-        return wire.wire_SocketAddress_from_str(port_, arg0);
-      },
-      codec: DcoCodec(
-        decodeSuccessData: dco_decode_socket_address,
-        decodeErrorData: dco_decode_builder_exception,
-      ),
-      constMeta: kSocketAddressFromStrConstMeta,
-      argValues: [address],
-      apiImpl: this,
-      hint: hint,
-    ));
-  }
-
-  TaskConstMeta get kSocketAddressFromStrConstMeta => const TaskConstMeta(
-        debugName: "SocketAddress_from_str",
-        argNames: ["address"],
-      );
-
-  @override
-  Future<String> socketAddressToString(
-      {required SocketAddress that, dynamic hint}) {
-    return handler.executeNormal(NormalTask(
-      callFfi: (port_) {
-        var arg0 = cst_encode_box_autoadd_socket_address(that);
-        return wire.wire_SocketAddress_to_string(port_, arg0);
-      },
-      codec: DcoCodec(
-        decodeSuccessData: dco_decode_String,
-        decodeErrorData: null,
-      ),
-      constMeta: kSocketAddressToStringConstMeta,
-      argValues: [that],
-      apiImpl: this,
-      hint: hint,
-    ));
-  }
-
-  TaskConstMeta get kSocketAddressToStringConstMeta => const TaskConstMeta(
-        debugName: "SocketAddress_to_string",
-        argNames: ["that"],
       );
 
   RustArcIncrementStrongCountFnType
@@ -1321,6 +1427,34 @@ class LdkCoreApiImpl extends LdkCoreApiImplPlatform implements LdkCoreApi {
       throw Exception('unexpected arr length: expect 1 but see ${arr.length}');
     return Address(
       s: dco_decode_String(arr[0]),
+    );
+  }
+
+  @protected
+  BalanceDetails dco_decode_balance_details(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    final arr = raw as List<dynamic>;
+    if (arr.length != 5)
+      throw Exception('unexpected arr length: expect 5 but see ${arr.length}');
+    return BalanceDetails(
+      totalOnchainBalanceSats: dco_decode_u_64(arr[0]),
+      spendableOnchainBalanceSats: dco_decode_u_64(arr[1]),
+      totalLightningBalanceSats: dco_decode_u_64(arr[2]),
+      lightningBalances: dco_decode_list_lightning_balance(arr[3]),
+      pendingBalancesFromChannelClosures:
+          dco_decode_list_pending_sweep_balance(arr[4]),
+    );
+  }
+
+  @protected
+  BestBlock dco_decode_best_block(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    final arr = raw as List<dynamic>;
+    if (arr.length != 2)
+      throw Exception('unexpected arr length: expect 2 but see ${arr.length}');
+    return BestBlock(
+      blockHash: dco_decode_String(arr[0]),
+      height: dco_decode_u_32(arr[1]),
     );
   }
 
@@ -1373,6 +1507,12 @@ class LdkCoreApiImpl extends LdkCoreApiImplPlatform implements LdkCoreApi {
   }
 
   @protected
+  ClosureReason dco_decode_box_autoadd_closure_reason(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return dco_decode_closure_reason(raw);
+  }
+
+  @protected
   Config dco_decode_box_autoadd_config(dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     return dco_decode_config(raw);
@@ -1398,6 +1538,13 @@ class LdkCoreApiImpl extends LdkCoreApiImplPlatform implements LdkCoreApi {
   }
 
   @protected
+  MaxDustHTLCExposure dco_decode_box_autoadd_max_dust_htlc_exposure(
+      dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return dco_decode_max_dust_htlc_exposure(raw);
+  }
+
+  @protected
   MnemonicBase dco_decode_box_autoadd_mnemonic_base(dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     return dco_decode_mnemonic_base(raw);
@@ -1419,6 +1566,13 @@ class LdkCoreApiImpl extends LdkCoreApiImplPlatform implements LdkCoreApi {
   PaymentDetails dco_decode_box_autoadd_payment_details(dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     return dco_decode_payment_details(raw);
+  }
+
+  @protected
+  PaymentFailureReason dco_decode_box_autoadd_payment_failure_reason(
+      dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return dco_decode_payment_failure_reason(raw);
   }
 
   @protected
@@ -1452,6 +1606,18 @@ class LdkCoreApiImpl extends LdkCoreApiImplPlatform implements LdkCoreApi {
   }
 
   @protected
+  Txid dco_decode_box_autoadd_txid(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return dco_decode_txid(raw);
+  }
+
+  @protected
+  int dco_decode_box_autoadd_u_16(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return raw as int;
+  }
+
+  @protected
   int dco_decode_box_autoadd_u_32(dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     return raw as int;
@@ -1470,9 +1636,9 @@ class LdkCoreApiImpl extends LdkCoreApiImplPlatform implements LdkCoreApi {
   }
 
   @protected
-  BuilderException dco_decode_builder_exception(dynamic raw) {
+  BuilderError dco_decode_builder_error(dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
-    return BuilderException.values[raw as int];
+    return BuilderError.values[raw as int];
   }
 
   @protected
@@ -1498,7 +1664,8 @@ class LdkCoreApiImpl extends LdkCoreApiImplPlatform implements LdkCoreApi {
       forwardingFeeProportionalMillionths: dco_decode_u_32(arr[0]),
       forwardingFeeBaseMsat: dco_decode_u_32(arr[1]),
       cltvExpiryDelta: dco_decode_u_16(arr[2]),
-      maxDustHtlcExposure: dco_decode_max_dust_htlc_exposure(arr[3]),
+      maxDustHtlcExposure:
+          dco_decode_opt_box_autoadd_max_dust_htlc_exposure(arr[3]),
       forceCloseAvoidanceMaxFeeSatoshis: dco_decode_u_64(arr[4]),
       acceptUnderpayingHtlcs: dco_decode_bool(arr[5]),
     );
@@ -1508,25 +1675,42 @@ class LdkCoreApiImpl extends LdkCoreApiImplPlatform implements LdkCoreApi {
   ChannelDetails dco_decode_channel_details(dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     final arr = raw as List<dynamic>;
-    if (arr.length != 16)
-      throw Exception('unexpected arr length: expect 16 but see ${arr.length}');
+    if (arr.length != 28)
+      throw Exception('unexpected arr length: expect 28 but see ${arr.length}');
     return ChannelDetails(
       channelId: dco_decode_channel_id(arr[0]),
       counterpartyNodeId: dco_decode_public_key(arr[1]),
-      fundingTxo: dco_decode_opt_String(arr[2]),
+      fundingTxo: dco_decode_opt_box_autoadd_out_point(arr[2]),
       channelValueSats: dco_decode_u_64(arr[3]),
       unspendablePunishmentReserve: dco_decode_opt_box_autoadd_u_64(arr[4]),
       userChannelId: dco_decode_user_channel_id(arr[5]),
       feerateSatPer1000Weight: dco_decode_u_32(arr[6]),
-      balanceMsat: dco_decode_u_64(arr[7]),
-      outboundCapacityMsat: dco_decode_u_64(arr[8]),
-      inboundCapacityMsat: dco_decode_u_64(arr[9]),
-      confirmationsRequired: dco_decode_opt_box_autoadd_u_32(arr[10]),
-      confirmations: dco_decode_opt_box_autoadd_u_32(arr[11]),
-      isOutbound: dco_decode_bool(arr[12]),
-      isChannelReady: dco_decode_bool(arr[13]),
-      isUsable: dco_decode_bool(arr[14]),
-      isPublic: dco_decode_bool(arr[15]),
+      outboundCapacityMsat: dco_decode_u_64(arr[7]),
+      inboundCapacityMsat: dco_decode_u_64(arr[8]),
+      confirmationsRequired: dco_decode_opt_box_autoadd_u_32(arr[9]),
+      confirmations: dco_decode_opt_box_autoadd_u_32(arr[10]),
+      isOutbound: dco_decode_bool(arr[11]),
+      isChannelReady: dco_decode_bool(arr[12]),
+      isUsable: dco_decode_bool(arr[13]),
+      isPublic: dco_decode_bool(arr[14]),
+      cltvExpiryDelta: dco_decode_opt_box_autoadd_u_16(arr[15]),
+      counterpartyUnspendablePunishmentReserve: dco_decode_u_64(arr[16]),
+      counterpartyOutboundHtlcMinimumMsat:
+          dco_decode_opt_box_autoadd_u_64(arr[17]),
+      counterpartyOutboundHtlcMaximumMsat:
+          dco_decode_opt_box_autoadd_u_64(arr[18]),
+      counterpartyForwardingInfoFeeBaseMsat:
+          dco_decode_opt_box_autoadd_u_32(arr[19]),
+      counterpartyForwardingInfoFeeProportionalMillionths:
+          dco_decode_opt_box_autoadd_u_32(arr[20]),
+      counterpartyForwardingInfoCltvExpiryDelta:
+          dco_decode_opt_box_autoadd_u_16(arr[21]),
+      nextOutboundHtlcLimitMsat: dco_decode_u_64(arr[22]),
+      nextOutboundHtlcMinimumMsat: dco_decode_u_64(arr[23]),
+      forceCloseSpendDelay: dco_decode_opt_box_autoadd_u_16(arr[24]),
+      inboundHtlcMinimumMsat: dco_decode_u_64(arr[25]),
+      inboundHtlcMaximumMsat: dco_decode_opt_box_autoadd_u_64(arr[26]),
+      config: dco_decode_channel_config(arr[27]),
     );
   }
 
@@ -1539,6 +1723,39 @@ class LdkCoreApiImpl extends LdkCoreApiImplPlatform implements LdkCoreApi {
     return ChannelId(
       data: dco_decode_u_8_array_32(arr[0]),
     );
+  }
+
+  @protected
+  ClosureReason dco_decode_closure_reason(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    switch (raw[0]) {
+      case 0:
+        return ClosureReason_CounterpartyForceClosed(
+          peerMsg: dco_decode_String(raw[1]),
+        );
+      case 1:
+        return ClosureReason_HolderForceClosed();
+      case 2:
+        return ClosureReason_CooperativeClosure();
+      case 3:
+        return ClosureReason_CommitmentTxConfirmed();
+      case 4:
+        return ClosureReason_FundingTimedOut();
+      case 5:
+        return ClosureReason_ProcessingError(
+          err: dco_decode_String(raw[1]),
+        );
+      case 6:
+        return ClosureReason_DisconnectedPeer();
+      case 7:
+        return ClosureReason_OutdatedChannelManager();
+      case 8:
+        return ClosureReason_CounterpartyCoopClosedUnfundedChannel();
+      case 9:
+        return ClosureReason_FundingBatchClosure();
+      default:
+        throw Exception("unreachable");
+    }
   }
 
   @protected
@@ -1591,10 +1808,12 @@ class LdkCoreApiImpl extends LdkCoreApiImplPlatform implements LdkCoreApi {
       case 0:
         return Event_PaymentSuccessful(
           paymentHash: dco_decode_box_autoadd_payment_hash(raw[1]),
+          feePaidMsat: dco_decode_opt_box_autoadd_u_64(raw[2]),
         );
       case 1:
         return Event_PaymentFailed(
           paymentHash: dco_decode_box_autoadd_payment_hash(raw[1]),
+          reason: dco_decode_opt_box_autoadd_payment_failure_reason(raw[2]),
         );
       case 2:
         return Event_PaymentReceived(
@@ -1602,24 +1821,25 @@ class LdkCoreApiImpl extends LdkCoreApiImplPlatform implements LdkCoreApi {
           amountMsat: dco_decode_u_64(raw[2]),
         );
       case 3:
-        return Event_ChannelReady(
-          channelId: dco_decode_box_autoadd_channel_id(raw[1]),
-          userChannelId: dco_decode_box_autoadd_user_channel_id(raw[2]),
-          counterpartyNodeId: dco_decode_opt_box_autoadd_public_key(raw[3]),
-        );
-      case 4:
-        return Event_ChannelClosed(
-          channelId: dco_decode_box_autoadd_channel_id(raw[1]),
-          userChannelId: dco_decode_box_autoadd_user_channel_id(raw[2]),
-          counterpartyNodeId: dco_decode_opt_box_autoadd_public_key(raw[3]),
-        );
-      case 5:
         return Event_ChannelPending(
           channelId: dco_decode_box_autoadd_channel_id(raw[1]),
           userChannelId: dco_decode_box_autoadd_user_channel_id(raw[2]),
           formerTemporaryChannelId: dco_decode_box_autoadd_channel_id(raw[3]),
           counterpartyNodeId: dco_decode_box_autoadd_public_key(raw[4]),
           fundingTxo: dco_decode_box_autoadd_out_point(raw[5]),
+        );
+      case 4:
+        return Event_ChannelReady(
+          channelId: dco_decode_box_autoadd_channel_id(raw[1]),
+          userChannelId: dco_decode_box_autoadd_user_channel_id(raw[2]),
+          counterpartyNodeId: dco_decode_opt_box_autoadd_public_key(raw[3]),
+        );
+      case 5:
+        return Event_ChannelClosed(
+          channelId: dco_decode_box_autoadd_channel_id(raw[1]),
+          userChannelId: dco_decode_box_autoadd_user_channel_id(raw[2]),
+          counterpartyNodeId: dco_decode_opt_box_autoadd_public_key(raw[3]),
+          reason: dco_decode_opt_box_autoadd_closure_reason(raw[4]),
         );
       default:
         throw Exception("unreachable");
@@ -1648,9 +1868,68 @@ class LdkCoreApiImpl extends LdkCoreApiImplPlatform implements LdkCoreApi {
   }
 
   @protected
+  LightningBalance dco_decode_lightning_balance(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    switch (raw[0]) {
+      case 0:
+        return LightningBalance_ClaimableOnChannelClose(
+          channelId: dco_decode_box_autoadd_channel_id(raw[1]),
+          counterpartyNodeId: dco_decode_box_autoadd_public_key(raw[2]),
+          amountSatoshis: dco_decode_u_64(raw[3]),
+        );
+      case 1:
+        return LightningBalance_ClaimableAwaitingConfirmations(
+          channelId: dco_decode_box_autoadd_channel_id(raw[1]),
+          counterpartyNodeId: dco_decode_box_autoadd_public_key(raw[2]),
+          amountSatoshis: dco_decode_u_64(raw[3]),
+          confirmationHeight: dco_decode_u_32(raw[4]),
+        );
+      case 2:
+        return LightningBalance_ContentiousClaimable(
+          channelId: dco_decode_box_autoadd_channel_id(raw[1]),
+          counterpartyNodeId: dco_decode_box_autoadd_public_key(raw[2]),
+          amountSatoshis: dco_decode_u_64(raw[3]),
+          timeoutHeight: dco_decode_u_32(raw[4]),
+          paymentHash: dco_decode_box_autoadd_payment_hash(raw[5]),
+          paymentPreimage: dco_decode_box_autoadd_payment_preimage(raw[6]),
+        );
+      case 3:
+        return LightningBalance_MaybeTimeoutClaimableHTLC(
+          channelId: dco_decode_box_autoadd_channel_id(raw[1]),
+          counterpartyNodeId: dco_decode_box_autoadd_public_key(raw[2]),
+          amountSatoshis: dco_decode_u_64(raw[3]),
+          claimableHeight: dco_decode_u_32(raw[4]),
+          paymentHash: dco_decode_box_autoadd_payment_hash(raw[5]),
+        );
+      case 4:
+        return LightningBalance_MaybePreimageClaimableHTLC(
+          channelId: dco_decode_box_autoadd_channel_id(raw[1]),
+          counterpartyNodeId: dco_decode_box_autoadd_public_key(raw[2]),
+          amountSatoshis: dco_decode_u_64(raw[3]),
+          expiryHeight: dco_decode_u_32(raw[4]),
+          paymentHash: dco_decode_box_autoadd_payment_hash(raw[5]),
+        );
+      case 5:
+        return LightningBalance_CounterpartyRevokedOutputClaimable(
+          channelId: dco_decode_box_autoadd_channel_id(raw[1]),
+          counterpartyNodeId: dco_decode_box_autoadd_public_key(raw[2]),
+          amountSatoshis: dco_decode_u_64(raw[3]),
+        );
+      default:
+        throw Exception("unreachable");
+    }
+  }
+
+  @protected
   List<ChannelDetails> dco_decode_list_channel_details(dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     return (raw as List<dynamic>).map(dco_decode_channel_details).toList();
+  }
+
+  @protected
+  List<LightningBalance> dco_decode_list_lightning_balance(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return (raw as List<dynamic>).map(dco_decode_lightning_balance).toList();
   }
 
   @protected
@@ -1663,6 +1942,14 @@ class LdkCoreApiImpl extends LdkCoreApiImplPlatform implements LdkCoreApi {
   List<PeerDetails> dco_decode_list_peer_details(dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     return (raw as List<dynamic>).map(dco_decode_peer_details).toList();
+  }
+
+  @protected
+  List<PendingSweepBalance> dco_decode_list_pending_sweep_balance(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return (raw as List<dynamic>)
+        .map(dco_decode_pending_sweep_balance)
+        .toList();
   }
 
   @protected
@@ -1741,9 +2028,29 @@ class LdkCoreApiImpl extends LdkCoreApiImplPlatform implements LdkCoreApi {
   }
 
   @protected
-  NodeException dco_decode_node_exception(dynamic raw) {
+  NodeBaseError dco_decode_node_base_error(dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
-    return NodeException.values[raw as int];
+    return NodeBaseError.values[raw as int];
+  }
+
+  @protected
+  NodeStatus dco_decode_node_status(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    final arr = raw as List<dynamic>;
+    if (arr.length != 8)
+      throw Exception('unexpected arr length: expect 8 but see ${arr.length}');
+    return NodeStatus(
+      isRunning: dco_decode_bool(arr[0]),
+      isListening: dco_decode_bool(arr[1]),
+      currentBestBlock: dco_decode_best_block(arr[2]),
+      latestWalletSyncTimestamp: dco_decode_opt_box_autoadd_u_64(arr[3]),
+      latestOnchainWalletSyncTimestamp: dco_decode_opt_box_autoadd_u_64(arr[4]),
+      latestFeeRateCacheUpdateTimestamp:
+          dco_decode_opt_box_autoadd_u_64(arr[5]),
+      latestRgsSnapshotTimestamp: dco_decode_opt_box_autoadd_u_64(arr[6]),
+      latestNodeAnnouncementBroadcastTimestamp:
+          dco_decode_opt_box_autoadd_u_64(arr[7]),
+    );
   }
 
   @protected
@@ -1765,6 +2072,18 @@ class LdkCoreApiImpl extends LdkCoreApiImplPlatform implements LdkCoreApi {
   ChannelConfig? dco_decode_opt_box_autoadd_channel_config(dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     return raw == null ? null : dco_decode_box_autoadd_channel_config(raw);
+  }
+
+  @protected
+  ChannelId? dco_decode_opt_box_autoadd_channel_id(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return raw == null ? null : dco_decode_box_autoadd_channel_id(raw);
+  }
+
+  @protected
+  ClosureReason? dco_decode_opt_box_autoadd_closure_reason(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return raw == null ? null : dco_decode_box_autoadd_closure_reason(raw);
   }
 
   @protected
@@ -1792,9 +2111,33 @@ class LdkCoreApiImpl extends LdkCoreApiImplPlatform implements LdkCoreApi {
   }
 
   @protected
+  MaxDustHTLCExposure? dco_decode_opt_box_autoadd_max_dust_htlc_exposure(
+      dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return raw == null
+        ? null
+        : dco_decode_box_autoadd_max_dust_htlc_exposure(raw);
+  }
+
+  @protected
+  OutPoint? dco_decode_opt_box_autoadd_out_point(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return raw == null ? null : dco_decode_box_autoadd_out_point(raw);
+  }
+
+  @protected
   PaymentDetails? dco_decode_opt_box_autoadd_payment_details(dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     return raw == null ? null : dco_decode_box_autoadd_payment_details(raw);
+  }
+
+  @protected
+  PaymentFailureReason? dco_decode_opt_box_autoadd_payment_failure_reason(
+      dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return raw == null
+        ? null
+        : dco_decode_box_autoadd_payment_failure_reason(raw);
   }
 
   @protected
@@ -1813,6 +2156,12 @@ class LdkCoreApiImpl extends LdkCoreApiImplPlatform implements LdkCoreApi {
   PublicKey? dco_decode_opt_box_autoadd_public_key(dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     return raw == null ? null : dco_decode_box_autoadd_public_key(raw);
+  }
+
+  @protected
+  int? dco_decode_opt_box_autoadd_u_16(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return raw == null ? null : dco_decode_box_autoadd_u_16(raw);
   }
 
   @protected
@@ -1868,6 +2217,12 @@ class LdkCoreApiImpl extends LdkCoreApiImplPlatform implements LdkCoreApi {
   }
 
   @protected
+  PaymentFailureReason dco_decode_payment_failure_reason(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return PaymentFailureReason.values[raw as int];
+  }
+
+  @protected
   PaymentHash dco_decode_payment_hash(dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     final arr = raw as List<dynamic>;
@@ -1917,6 +2272,35 @@ class LdkCoreApiImpl extends LdkCoreApiImplPlatform implements LdkCoreApi {
       address: dco_decode_socket_address(arr[1]),
       isConnected: dco_decode_bool(arr[2]),
     );
+  }
+
+  @protected
+  PendingSweepBalance dco_decode_pending_sweep_balance(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    switch (raw[0]) {
+      case 0:
+        return PendingSweepBalance_PendingBroadcast(
+          channelId: dco_decode_opt_box_autoadd_channel_id(raw[1]),
+          amountSatoshis: dco_decode_u_64(raw[2]),
+        );
+      case 1:
+        return PendingSweepBalance_BroadcastAwaitingConfirmation(
+          channelId: dco_decode_opt_box_autoadd_channel_id(raw[1]),
+          latestBroadcastHeight: dco_decode_u_32(raw[2]),
+          latestSpendingTxid: dco_decode_box_autoadd_txid(raw[3]),
+          amountSatoshis: dco_decode_u_64(raw[4]),
+        );
+      case 2:
+        return PendingSweepBalance_AwaitingThresholdConfirmations(
+          channelId: dco_decode_opt_box_autoadd_channel_id(raw[1]),
+          latestSpendingTxid: dco_decode_box_autoadd_txid(raw[2]),
+          confirmationHash: dco_decode_String(raw[3]),
+          confirmationHeight: dco_decode_u_32(raw[4]),
+          amountSatoshis: dco_decode_u_64(raw[5]),
+        );
+      default:
+        throw Exception("unreachable");
+    }
   }
 
   @protected
@@ -2043,7 +2427,7 @@ class LdkCoreApiImpl extends LdkCoreApiImplPlatform implements LdkCoreApi {
     if (arr.length != 1)
       throw Exception('unexpected arr length: expect 1 but see ${arr.length}');
     return UserChannelId(
-      data: dco_decode_u_64(arr[0]),
+      data: dco_decode_list_prim_u_8_strict(arr[0]),
     );
   }
 
@@ -2073,6 +2457,32 @@ class LdkCoreApiImpl extends LdkCoreApiImplPlatform implements LdkCoreApi {
     // Codec=Sse (Serialization based), see doc to use other codecs
     var var_s = sse_decode_String(deserializer);
     return Address(s: var_s);
+  }
+
+  @protected
+  BalanceDetails sse_decode_balance_details(SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    var var_totalOnchainBalanceSats = sse_decode_u_64(deserializer);
+    var var_spendableOnchainBalanceSats = sse_decode_u_64(deserializer);
+    var var_totalLightningBalanceSats = sse_decode_u_64(deserializer);
+    var var_lightningBalances = sse_decode_list_lightning_balance(deserializer);
+    var var_pendingBalancesFromChannelClosures =
+        sse_decode_list_pending_sweep_balance(deserializer);
+    return BalanceDetails(
+        totalOnchainBalanceSats: var_totalOnchainBalanceSats,
+        spendableOnchainBalanceSats: var_spendableOnchainBalanceSats,
+        totalLightningBalanceSats: var_totalLightningBalanceSats,
+        lightningBalances: var_lightningBalances,
+        pendingBalancesFromChannelClosures:
+            var_pendingBalancesFromChannelClosures);
+  }
+
+  @protected
+  BestBlock sse_decode_best_block(SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    var var_blockHash = sse_decode_String(deserializer);
+    var var_height = sse_decode_u_32(deserializer);
+    return BestBlock(blockHash: var_blockHash, height: var_height);
   }
 
   @protected
@@ -2122,6 +2532,13 @@ class LdkCoreApiImpl extends LdkCoreApiImplPlatform implements LdkCoreApi {
   }
 
   @protected
+  ClosureReason sse_decode_box_autoadd_closure_reason(
+      SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    return (sse_decode_closure_reason(deserializer));
+  }
+
+  @protected
   Config sse_decode_box_autoadd_config(SseDeserializer deserializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     return (sse_decode_config(deserializer));
@@ -2148,6 +2565,13 @@ class LdkCoreApiImpl extends LdkCoreApiImplPlatform implements LdkCoreApi {
   }
 
   @protected
+  MaxDustHTLCExposure sse_decode_box_autoadd_max_dust_htlc_exposure(
+      SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    return (sse_decode_max_dust_htlc_exposure(deserializer));
+  }
+
+  @protected
   MnemonicBase sse_decode_box_autoadd_mnemonic_base(
       SseDeserializer deserializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
@@ -2171,6 +2595,13 @@ class LdkCoreApiImpl extends LdkCoreApiImplPlatform implements LdkCoreApi {
       SseDeserializer deserializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     return (sse_decode_payment_details(deserializer));
+  }
+
+  @protected
+  PaymentFailureReason sse_decode_box_autoadd_payment_failure_reason(
+      SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    return (sse_decode_payment_failure_reason(deserializer));
   }
 
   @protected
@@ -2208,6 +2639,18 @@ class LdkCoreApiImpl extends LdkCoreApiImplPlatform implements LdkCoreApi {
   }
 
   @protected
+  Txid sse_decode_box_autoadd_txid(SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    return (sse_decode_txid(deserializer));
+  }
+
+  @protected
+  int sse_decode_box_autoadd_u_16(SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    return (sse_decode_u_16(deserializer));
+  }
+
+  @protected
   int sse_decode_box_autoadd_u_32(SseDeserializer deserializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     return (sse_decode_u_32(deserializer));
@@ -2227,10 +2670,10 @@ class LdkCoreApiImpl extends LdkCoreApiImplPlatform implements LdkCoreApi {
   }
 
   @protected
-  BuilderException sse_decode_builder_exception(SseDeserializer deserializer) {
+  BuilderError sse_decode_builder_error(SseDeserializer deserializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     var inner = sse_decode_i_32(deserializer);
-    return BuilderException.values[inner];
+    return BuilderError.values[inner];
   }
 
   @protected
@@ -2255,7 +2698,7 @@ class LdkCoreApiImpl extends LdkCoreApiImplPlatform implements LdkCoreApi {
     var var_forwardingFeeBaseMsat = sse_decode_u_32(deserializer);
     var var_cltvExpiryDelta = sse_decode_u_16(deserializer);
     var var_maxDustHtlcExposure =
-        sse_decode_max_dust_htlc_exposure(deserializer);
+        sse_decode_opt_box_autoadd_max_dust_htlc_exposure(deserializer);
     var var_forceCloseAvoidanceMaxFeeSatoshis = sse_decode_u_64(deserializer);
     var var_acceptUnderpayingHtlcs = sse_decode_bool(deserializer);
     return ChannelConfig(
@@ -2274,13 +2717,12 @@ class LdkCoreApiImpl extends LdkCoreApiImplPlatform implements LdkCoreApi {
     // Codec=Sse (Serialization based), see doc to use other codecs
     var var_channelId = sse_decode_channel_id(deserializer);
     var var_counterpartyNodeId = sse_decode_public_key(deserializer);
-    var var_fundingTxo = sse_decode_opt_String(deserializer);
+    var var_fundingTxo = sse_decode_opt_box_autoadd_out_point(deserializer);
     var var_channelValueSats = sse_decode_u_64(deserializer);
     var var_unspendablePunishmentReserve =
         sse_decode_opt_box_autoadd_u_64(deserializer);
     var var_userChannelId = sse_decode_user_channel_id(deserializer);
     var var_feerateSatPer1000Weight = sse_decode_u_32(deserializer);
-    var var_balanceMsat = sse_decode_u_64(deserializer);
     var var_outboundCapacityMsat = sse_decode_u_64(deserializer);
     var var_inboundCapacityMsat = sse_decode_u_64(deserializer);
     var var_confirmationsRequired =
@@ -2290,6 +2732,27 @@ class LdkCoreApiImpl extends LdkCoreApiImplPlatform implements LdkCoreApi {
     var var_isChannelReady = sse_decode_bool(deserializer);
     var var_isUsable = sse_decode_bool(deserializer);
     var var_isPublic = sse_decode_bool(deserializer);
+    var var_cltvExpiryDelta = sse_decode_opt_box_autoadd_u_16(deserializer);
+    var var_counterpartyUnspendablePunishmentReserve =
+        sse_decode_u_64(deserializer);
+    var var_counterpartyOutboundHtlcMinimumMsat =
+        sse_decode_opt_box_autoadd_u_64(deserializer);
+    var var_counterpartyOutboundHtlcMaximumMsat =
+        sse_decode_opt_box_autoadd_u_64(deserializer);
+    var var_counterpartyForwardingInfoFeeBaseMsat =
+        sse_decode_opt_box_autoadd_u_32(deserializer);
+    var var_counterpartyForwardingInfoFeeProportionalMillionths =
+        sse_decode_opt_box_autoadd_u_32(deserializer);
+    var var_counterpartyForwardingInfoCltvExpiryDelta =
+        sse_decode_opt_box_autoadd_u_16(deserializer);
+    var var_nextOutboundHtlcLimitMsat = sse_decode_u_64(deserializer);
+    var var_nextOutboundHtlcMinimumMsat = sse_decode_u_64(deserializer);
+    var var_forceCloseSpendDelay =
+        sse_decode_opt_box_autoadd_u_16(deserializer);
+    var var_inboundHtlcMinimumMsat = sse_decode_u_64(deserializer);
+    var var_inboundHtlcMaximumMsat =
+        sse_decode_opt_box_autoadd_u_64(deserializer);
+    var var_config = sse_decode_channel_config(deserializer);
     return ChannelDetails(
         channelId: var_channelId,
         counterpartyNodeId: var_counterpartyNodeId,
@@ -2298,7 +2761,6 @@ class LdkCoreApiImpl extends LdkCoreApiImplPlatform implements LdkCoreApi {
         unspendablePunishmentReserve: var_unspendablePunishmentReserve,
         userChannelId: var_userChannelId,
         feerateSatPer1000Weight: var_feerateSatPer1000Weight,
-        balanceMsat: var_balanceMsat,
         outboundCapacityMsat: var_outboundCapacityMsat,
         inboundCapacityMsat: var_inboundCapacityMsat,
         confirmationsRequired: var_confirmationsRequired,
@@ -2306,7 +2768,26 @@ class LdkCoreApiImpl extends LdkCoreApiImplPlatform implements LdkCoreApi {
         isOutbound: var_isOutbound,
         isChannelReady: var_isChannelReady,
         isUsable: var_isUsable,
-        isPublic: var_isPublic);
+        isPublic: var_isPublic,
+        cltvExpiryDelta: var_cltvExpiryDelta,
+        counterpartyUnspendablePunishmentReserve:
+            var_counterpartyUnspendablePunishmentReserve,
+        counterpartyOutboundHtlcMinimumMsat:
+            var_counterpartyOutboundHtlcMinimumMsat,
+        counterpartyOutboundHtlcMaximumMsat:
+            var_counterpartyOutboundHtlcMaximumMsat,
+        counterpartyForwardingInfoFeeBaseMsat:
+            var_counterpartyForwardingInfoFeeBaseMsat,
+        counterpartyForwardingInfoFeeProportionalMillionths:
+            var_counterpartyForwardingInfoFeeProportionalMillionths,
+        counterpartyForwardingInfoCltvExpiryDelta:
+            var_counterpartyForwardingInfoCltvExpiryDelta,
+        nextOutboundHtlcLimitMsat: var_nextOutboundHtlcLimitMsat,
+        nextOutboundHtlcMinimumMsat: var_nextOutboundHtlcMinimumMsat,
+        forceCloseSpendDelay: var_forceCloseSpendDelay,
+        inboundHtlcMinimumMsat: var_inboundHtlcMinimumMsat,
+        inboundHtlcMaximumMsat: var_inboundHtlcMaximumMsat,
+        config: var_config);
   }
 
   @protected
@@ -2314,6 +2795,39 @@ class LdkCoreApiImpl extends LdkCoreApiImplPlatform implements LdkCoreApi {
     // Codec=Sse (Serialization based), see doc to use other codecs
     var var_data = sse_decode_u_8_array_32(deserializer);
     return ChannelId(data: var_data);
+  }
+
+  @protected
+  ClosureReason sse_decode_closure_reason(SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+
+    var tag_ = sse_decode_i_32(deserializer);
+    switch (tag_) {
+      case 0:
+        var var_peerMsg = sse_decode_String(deserializer);
+        return ClosureReason_CounterpartyForceClosed(peerMsg: var_peerMsg);
+      case 1:
+        return ClosureReason_HolderForceClosed();
+      case 2:
+        return ClosureReason_CooperativeClosure();
+      case 3:
+        return ClosureReason_CommitmentTxConfirmed();
+      case 4:
+        return ClosureReason_FundingTimedOut();
+      case 5:
+        var var_err = sse_decode_String(deserializer);
+        return ClosureReason_ProcessingError(err: var_err);
+      case 6:
+        return ClosureReason_DisconnectedPeer();
+      case 7:
+        return ClosureReason_OutdatedChannelManager();
+      case 8:
+        return ClosureReason_CounterpartyCoopClosedUnfundedChannel();
+      case 9:
+        return ClosureReason_FundingBatchClosure();
+      default:
+        throw UnimplementedError('');
+    }
   }
 
   @protected
@@ -2376,36 +2890,21 @@ class LdkCoreApiImpl extends LdkCoreApiImplPlatform implements LdkCoreApi {
     switch (tag_) {
       case 0:
         var var_paymentHash = sse_decode_box_autoadd_payment_hash(deserializer);
-        return Event_PaymentSuccessful(paymentHash: var_paymentHash);
+        var var_feePaidMsat = sse_decode_opt_box_autoadd_u_64(deserializer);
+        return Event_PaymentSuccessful(
+            paymentHash: var_paymentHash, feePaidMsat: var_feePaidMsat);
       case 1:
         var var_paymentHash = sse_decode_box_autoadd_payment_hash(deserializer);
-        return Event_PaymentFailed(paymentHash: var_paymentHash);
+        var var_reason =
+            sse_decode_opt_box_autoadd_payment_failure_reason(deserializer);
+        return Event_PaymentFailed(
+            paymentHash: var_paymentHash, reason: var_reason);
       case 2:
         var var_paymentHash = sse_decode_box_autoadd_payment_hash(deserializer);
         var var_amountMsat = sse_decode_u_64(deserializer);
         return Event_PaymentReceived(
             paymentHash: var_paymentHash, amountMsat: var_amountMsat);
       case 3:
-        var var_channelId = sse_decode_box_autoadd_channel_id(deserializer);
-        var var_userChannelId =
-            sse_decode_box_autoadd_user_channel_id(deserializer);
-        var var_counterpartyNodeId =
-            sse_decode_opt_box_autoadd_public_key(deserializer);
-        return Event_ChannelReady(
-            channelId: var_channelId,
-            userChannelId: var_userChannelId,
-            counterpartyNodeId: var_counterpartyNodeId);
-      case 4:
-        var var_channelId = sse_decode_box_autoadd_channel_id(deserializer);
-        var var_userChannelId =
-            sse_decode_box_autoadd_user_channel_id(deserializer);
-        var var_counterpartyNodeId =
-            sse_decode_opt_box_autoadd_public_key(deserializer);
-        return Event_ChannelClosed(
-            channelId: var_channelId,
-            userChannelId: var_userChannelId,
-            counterpartyNodeId: var_counterpartyNodeId);
-      case 5:
         var var_channelId = sse_decode_box_autoadd_channel_id(deserializer);
         var var_userChannelId =
             sse_decode_box_autoadd_user_channel_id(deserializer);
@@ -2420,6 +2919,29 @@ class LdkCoreApiImpl extends LdkCoreApiImplPlatform implements LdkCoreApi {
             formerTemporaryChannelId: var_formerTemporaryChannelId,
             counterpartyNodeId: var_counterpartyNodeId,
             fundingTxo: var_fundingTxo);
+      case 4:
+        var var_channelId = sse_decode_box_autoadd_channel_id(deserializer);
+        var var_userChannelId =
+            sse_decode_box_autoadd_user_channel_id(deserializer);
+        var var_counterpartyNodeId =
+            sse_decode_opt_box_autoadd_public_key(deserializer);
+        return Event_ChannelReady(
+            channelId: var_channelId,
+            userChannelId: var_userChannelId,
+            counterpartyNodeId: var_counterpartyNodeId);
+      case 5:
+        var var_channelId = sse_decode_box_autoadd_channel_id(deserializer);
+        var var_userChannelId =
+            sse_decode_box_autoadd_user_channel_id(deserializer);
+        var var_counterpartyNodeId =
+            sse_decode_opt_box_autoadd_public_key(deserializer);
+        var var_reason =
+            sse_decode_opt_box_autoadd_closure_reason(deserializer);
+        return Event_ChannelClosed(
+            channelId: var_channelId,
+            userChannelId: var_userChannelId,
+            counterpartyNodeId: var_counterpartyNodeId,
+            reason: var_reason);
       default:
         throw UnimplementedError('');
     }
@@ -2449,6 +2971,88 @@ class LdkCoreApiImpl extends LdkCoreApiImplPlatform implements LdkCoreApi {
   }
 
   @protected
+  LightningBalance sse_decode_lightning_balance(SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+
+    var tag_ = sse_decode_i_32(deserializer);
+    switch (tag_) {
+      case 0:
+        var var_channelId = sse_decode_box_autoadd_channel_id(deserializer);
+        var var_counterpartyNodeId =
+            sse_decode_box_autoadd_public_key(deserializer);
+        var var_amountSatoshis = sse_decode_u_64(deserializer);
+        return LightningBalance_ClaimableOnChannelClose(
+            channelId: var_channelId,
+            counterpartyNodeId: var_counterpartyNodeId,
+            amountSatoshis: var_amountSatoshis);
+      case 1:
+        var var_channelId = sse_decode_box_autoadd_channel_id(deserializer);
+        var var_counterpartyNodeId =
+            sse_decode_box_autoadd_public_key(deserializer);
+        var var_amountSatoshis = sse_decode_u_64(deserializer);
+        var var_confirmationHeight = sse_decode_u_32(deserializer);
+        return LightningBalance_ClaimableAwaitingConfirmations(
+            channelId: var_channelId,
+            counterpartyNodeId: var_counterpartyNodeId,
+            amountSatoshis: var_amountSatoshis,
+            confirmationHeight: var_confirmationHeight);
+      case 2:
+        var var_channelId = sse_decode_box_autoadd_channel_id(deserializer);
+        var var_counterpartyNodeId =
+            sse_decode_box_autoadd_public_key(deserializer);
+        var var_amountSatoshis = sse_decode_u_64(deserializer);
+        var var_timeoutHeight = sse_decode_u_32(deserializer);
+        var var_paymentHash = sse_decode_box_autoadd_payment_hash(deserializer);
+        var var_paymentPreimage =
+            sse_decode_box_autoadd_payment_preimage(deserializer);
+        return LightningBalance_ContentiousClaimable(
+            channelId: var_channelId,
+            counterpartyNodeId: var_counterpartyNodeId,
+            amountSatoshis: var_amountSatoshis,
+            timeoutHeight: var_timeoutHeight,
+            paymentHash: var_paymentHash,
+            paymentPreimage: var_paymentPreimage);
+      case 3:
+        var var_channelId = sse_decode_box_autoadd_channel_id(deserializer);
+        var var_counterpartyNodeId =
+            sse_decode_box_autoadd_public_key(deserializer);
+        var var_amountSatoshis = sse_decode_u_64(deserializer);
+        var var_claimableHeight = sse_decode_u_32(deserializer);
+        var var_paymentHash = sse_decode_box_autoadd_payment_hash(deserializer);
+        return LightningBalance_MaybeTimeoutClaimableHTLC(
+            channelId: var_channelId,
+            counterpartyNodeId: var_counterpartyNodeId,
+            amountSatoshis: var_amountSatoshis,
+            claimableHeight: var_claimableHeight,
+            paymentHash: var_paymentHash);
+      case 4:
+        var var_channelId = sse_decode_box_autoadd_channel_id(deserializer);
+        var var_counterpartyNodeId =
+            sse_decode_box_autoadd_public_key(deserializer);
+        var var_amountSatoshis = sse_decode_u_64(deserializer);
+        var var_expiryHeight = sse_decode_u_32(deserializer);
+        var var_paymentHash = sse_decode_box_autoadd_payment_hash(deserializer);
+        return LightningBalance_MaybePreimageClaimableHTLC(
+            channelId: var_channelId,
+            counterpartyNodeId: var_counterpartyNodeId,
+            amountSatoshis: var_amountSatoshis,
+            expiryHeight: var_expiryHeight,
+            paymentHash: var_paymentHash);
+      case 5:
+        var var_channelId = sse_decode_box_autoadd_channel_id(deserializer);
+        var var_counterpartyNodeId =
+            sse_decode_box_autoadd_public_key(deserializer);
+        var var_amountSatoshis = sse_decode_u_64(deserializer);
+        return LightningBalance_CounterpartyRevokedOutputClaimable(
+            channelId: var_channelId,
+            counterpartyNodeId: var_counterpartyNodeId,
+            amountSatoshis: var_amountSatoshis);
+      default:
+        throw UnimplementedError('');
+    }
+  }
+
+  @protected
   List<ChannelDetails> sse_decode_list_channel_details(
       SseDeserializer deserializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
@@ -2457,6 +3061,19 @@ class LdkCoreApiImpl extends LdkCoreApiImplPlatform implements LdkCoreApi {
     var ans_ = <ChannelDetails>[];
     for (var idx_ = 0; idx_ < len_; ++idx_) {
       ans_.add(sse_decode_channel_details(deserializer));
+    }
+    return ans_;
+  }
+
+  @protected
+  List<LightningBalance> sse_decode_list_lightning_balance(
+      SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+
+    var len_ = sse_decode_i_32(deserializer);
+    var ans_ = <LightningBalance>[];
+    for (var idx_ = 0; idx_ < len_; ++idx_) {
+      ans_.add(sse_decode_lightning_balance(deserializer));
     }
     return ans_;
   }
@@ -2482,6 +3099,19 @@ class LdkCoreApiImpl extends LdkCoreApiImplPlatform implements LdkCoreApi {
     var ans_ = <PeerDetails>[];
     for (var idx_ = 0; idx_ < len_; ++idx_) {
       ans_.add(sse_decode_peer_details(deserializer));
+    }
+    return ans_;
+  }
+
+  @protected
+  List<PendingSweepBalance> sse_decode_list_pending_sweep_balance(
+      SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+
+    var len_ = sse_decode_i_32(deserializer);
+    var ans_ = <PendingSweepBalance>[];
+    for (var idx_ = 0; idx_ < len_; ++idx_) {
+      ans_.add(sse_decode_pending_sweep_balance(deserializer));
     }
     return ans_;
   }
@@ -2572,10 +3202,39 @@ class LdkCoreApiImpl extends LdkCoreApiImplPlatform implements LdkCoreApi {
   }
 
   @protected
-  NodeException sse_decode_node_exception(SseDeserializer deserializer) {
+  NodeBaseError sse_decode_node_base_error(SseDeserializer deserializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     var inner = sse_decode_i_32(deserializer);
-    return NodeException.values[inner];
+    return NodeBaseError.values[inner];
+  }
+
+  @protected
+  NodeStatus sse_decode_node_status(SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    var var_isRunning = sse_decode_bool(deserializer);
+    var var_isListening = sse_decode_bool(deserializer);
+    var var_currentBestBlock = sse_decode_best_block(deserializer);
+    var var_latestWalletSyncTimestamp =
+        sse_decode_opt_box_autoadd_u_64(deserializer);
+    var var_latestOnchainWalletSyncTimestamp =
+        sse_decode_opt_box_autoadd_u_64(deserializer);
+    var var_latestFeeRateCacheUpdateTimestamp =
+        sse_decode_opt_box_autoadd_u_64(deserializer);
+    var var_latestRgsSnapshotTimestamp =
+        sse_decode_opt_box_autoadd_u_64(deserializer);
+    var var_latestNodeAnnouncementBroadcastTimestamp =
+        sse_decode_opt_box_autoadd_u_64(deserializer);
+    return NodeStatus(
+        isRunning: var_isRunning,
+        isListening: var_isListening,
+        currentBestBlock: var_currentBestBlock,
+        latestWalletSyncTimestamp: var_latestWalletSyncTimestamp,
+        latestOnchainWalletSyncTimestamp: var_latestOnchainWalletSyncTimestamp,
+        latestFeeRateCacheUpdateTimestamp:
+            var_latestFeeRateCacheUpdateTimestamp,
+        latestRgsSnapshotTimestamp: var_latestRgsSnapshotTimestamp,
+        latestNodeAnnouncementBroadcastTimestamp:
+            var_latestNodeAnnouncementBroadcastTimestamp);
   }
 
   @protected
@@ -2608,6 +3267,30 @@ class LdkCoreApiImpl extends LdkCoreApiImplPlatform implements LdkCoreApi {
 
     if (sse_decode_bool(deserializer)) {
       return (sse_decode_box_autoadd_channel_config(deserializer));
+    } else {
+      return null;
+    }
+  }
+
+  @protected
+  ChannelId? sse_decode_opt_box_autoadd_channel_id(
+      SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+
+    if (sse_decode_bool(deserializer)) {
+      return (sse_decode_box_autoadd_channel_id(deserializer));
+    } else {
+      return null;
+    }
+  }
+
+  @protected
+  ClosureReason? sse_decode_opt_box_autoadd_closure_reason(
+      SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+
+    if (sse_decode_bool(deserializer)) {
+      return (sse_decode_box_autoadd_closure_reason(deserializer));
     } else {
       return null;
     }
@@ -2649,12 +3332,47 @@ class LdkCoreApiImpl extends LdkCoreApiImplPlatform implements LdkCoreApi {
   }
 
   @protected
+  MaxDustHTLCExposure? sse_decode_opt_box_autoadd_max_dust_htlc_exposure(
+      SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+
+    if (sse_decode_bool(deserializer)) {
+      return (sse_decode_box_autoadd_max_dust_htlc_exposure(deserializer));
+    } else {
+      return null;
+    }
+  }
+
+  @protected
+  OutPoint? sse_decode_opt_box_autoadd_out_point(SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+
+    if (sse_decode_bool(deserializer)) {
+      return (sse_decode_box_autoadd_out_point(deserializer));
+    } else {
+      return null;
+    }
+  }
+
+  @protected
   PaymentDetails? sse_decode_opt_box_autoadd_payment_details(
       SseDeserializer deserializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
 
     if (sse_decode_bool(deserializer)) {
       return (sse_decode_box_autoadd_payment_details(deserializer));
+    } else {
+      return null;
+    }
+  }
+
+  @protected
+  PaymentFailureReason? sse_decode_opt_box_autoadd_payment_failure_reason(
+      SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+
+    if (sse_decode_bool(deserializer)) {
+      return (sse_decode_box_autoadd_payment_failure_reason(deserializer));
     } else {
       return null;
     }
@@ -2691,6 +3409,17 @@ class LdkCoreApiImpl extends LdkCoreApiImplPlatform implements LdkCoreApi {
 
     if (sse_decode_bool(deserializer)) {
       return (sse_decode_box_autoadd_public_key(deserializer));
+    } else {
+      return null;
+    }
+  }
+
+  @protected
+  int? sse_decode_opt_box_autoadd_u_16(SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+
+    if (sse_decode_bool(deserializer)) {
+      return (sse_decode_box_autoadd_u_16(deserializer));
     } else {
       return null;
     }
@@ -2765,6 +3494,14 @@ class LdkCoreApiImpl extends LdkCoreApiImplPlatform implements LdkCoreApi {
   }
 
   @protected
+  PaymentFailureReason sse_decode_payment_failure_reason(
+      SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    var inner = sse_decode_i_32(deserializer);
+    return PaymentFailureReason.values[inner];
+  }
+
+  @protected
   PaymentHash sse_decode_payment_hash(SseDeserializer deserializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     var var_data = sse_decode_u_8_array_32(deserializer);
@@ -2800,6 +3537,45 @@ class LdkCoreApiImpl extends LdkCoreApiImplPlatform implements LdkCoreApi {
     var var_isConnected = sse_decode_bool(deserializer);
     return PeerDetails(
         nodeId: var_nodeId, address: var_address, isConnected: var_isConnected);
+  }
+
+  @protected
+  PendingSweepBalance sse_decode_pending_sweep_balance(
+      SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+
+    var tag_ = sse_decode_i_32(deserializer);
+    switch (tag_) {
+      case 0:
+        var var_channelId = sse_decode_opt_box_autoadd_channel_id(deserializer);
+        var var_amountSatoshis = sse_decode_u_64(deserializer);
+        return PendingSweepBalance_PendingBroadcast(
+            channelId: var_channelId, amountSatoshis: var_amountSatoshis);
+      case 1:
+        var var_channelId = sse_decode_opt_box_autoadd_channel_id(deserializer);
+        var var_latestBroadcastHeight = sse_decode_u_32(deserializer);
+        var var_latestSpendingTxid = sse_decode_box_autoadd_txid(deserializer);
+        var var_amountSatoshis = sse_decode_u_64(deserializer);
+        return PendingSweepBalance_BroadcastAwaitingConfirmation(
+            channelId: var_channelId,
+            latestBroadcastHeight: var_latestBroadcastHeight,
+            latestSpendingTxid: var_latestSpendingTxid,
+            amountSatoshis: var_amountSatoshis);
+      case 2:
+        var var_channelId = sse_decode_opt_box_autoadd_channel_id(deserializer);
+        var var_latestSpendingTxid = sse_decode_box_autoadd_txid(deserializer);
+        var var_confirmationHash = sse_decode_String(deserializer);
+        var var_confirmationHeight = sse_decode_u_32(deserializer);
+        var var_amountSatoshis = sse_decode_u_64(deserializer);
+        return PendingSweepBalance_AwaitingThresholdConfirmations(
+            channelId: var_channelId,
+            latestSpendingTxid: var_latestSpendingTxid,
+            confirmationHash: var_confirmationHash,
+            confirmationHeight: var_confirmationHeight,
+            amountSatoshis: var_amountSatoshis);
+      default:
+        throw UnimplementedError('');
+    }
   }
 
   @protected
@@ -2919,7 +3695,7 @@ class LdkCoreApiImpl extends LdkCoreApiImplPlatform implements LdkCoreApi {
   @protected
   UserChannelId sse_decode_user_channel_id(SseDeserializer deserializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
-    var var_data = sse_decode_u_64(deserializer);
+    var var_data = sse_decode_list_prim_u_8_strict(deserializer);
     return UserChannelId(data: var_data);
   }
 
@@ -2943,7 +3719,7 @@ class LdkCoreApiImpl extends LdkCoreApiImplPlatform implements LdkCoreApi {
   }
 
   @protected
-  int cst_encode_builder_exception(BuilderException raw) {
+  int cst_encode_builder_error(BuilderError raw) {
     // Codec=Cst (C-struct based), see doc to use other codecs
     return cst_encode_i_32(raw.index);
   }
@@ -2967,13 +3743,19 @@ class LdkCoreApiImpl extends LdkCoreApiImplPlatform implements LdkCoreApi {
   }
 
   @protected
-  int cst_encode_node_exception(NodeException raw) {
+  int cst_encode_node_base_error(NodeBaseError raw) {
     // Codec=Cst (C-struct based), see doc to use other codecs
     return cst_encode_i_32(raw.index);
   }
 
   @protected
   int cst_encode_payment_direction(PaymentDirection raw) {
+    // Codec=Cst (C-struct based), see doc to use other codecs
+    return cst_encode_i_32(raw.index);
+  }
+
+  @protected
+  int cst_encode_payment_failure_reason(PaymentFailureReason raw) {
     // Codec=Cst (C-struct based), see doc to use other codecs
     return cst_encode_i_32(raw.index);
   }
@@ -3034,6 +3816,25 @@ class LdkCoreApiImpl extends LdkCoreApiImplPlatform implements LdkCoreApi {
   }
 
   @protected
+  void sse_encode_balance_details(
+      BalanceDetails self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_u_64(self.totalOnchainBalanceSats, serializer);
+    sse_encode_u_64(self.spendableOnchainBalanceSats, serializer);
+    sse_encode_u_64(self.totalLightningBalanceSats, serializer);
+    sse_encode_list_lightning_balance(self.lightningBalances, serializer);
+    sse_encode_list_pending_sweep_balance(
+        self.pendingBalancesFromChannelClosures, serializer);
+  }
+
+  @protected
+  void sse_encode_best_block(BestBlock self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_String(self.blockHash, serializer);
+    sse_encode_u_32(self.height, serializer);
+  }
+
+  @protected
   void sse_encode_bolt_11_invoice(
       Bolt11Invoice self, SseSerializer serializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
@@ -3081,6 +3882,13 @@ class LdkCoreApiImpl extends LdkCoreApiImplPlatform implements LdkCoreApi {
   }
 
   @protected
+  void sse_encode_box_autoadd_closure_reason(
+      ClosureReason self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_closure_reason(self, serializer);
+  }
+
+  @protected
   void sse_encode_box_autoadd_config(Config self, SseSerializer serializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     sse_encode_config(self, serializer);
@@ -3104,6 +3912,13 @@ class LdkCoreApiImpl extends LdkCoreApiImplPlatform implements LdkCoreApi {
       GossipSourceConfig self, SseSerializer serializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     sse_encode_gossip_source_config(self, serializer);
+  }
+
+  @protected
+  void sse_encode_box_autoadd_max_dust_htlc_exposure(
+      MaxDustHTLCExposure self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_max_dust_htlc_exposure(self, serializer);
   }
 
   @protected
@@ -3132,6 +3947,13 @@ class LdkCoreApiImpl extends LdkCoreApiImplPlatform implements LdkCoreApi {
       PaymentDetails self, SseSerializer serializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     sse_encode_payment_details(self, serializer);
+  }
+
+  @protected
+  void sse_encode_box_autoadd_payment_failure_reason(
+      PaymentFailureReason self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_payment_failure_reason(self, serializer);
   }
 
   @protected
@@ -3170,6 +3992,18 @@ class LdkCoreApiImpl extends LdkCoreApiImplPlatform implements LdkCoreApi {
   }
 
   @protected
+  void sse_encode_box_autoadd_txid(Txid self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_txid(self, serializer);
+  }
+
+  @protected
+  void sse_encode_box_autoadd_u_16(int self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_u_16(self, serializer);
+  }
+
+  @protected
   void sse_encode_box_autoadd_u_32(int self, SseSerializer serializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     sse_encode_u_32(self, serializer);
@@ -3189,8 +4023,7 @@ class LdkCoreApiImpl extends LdkCoreApiImplPlatform implements LdkCoreApi {
   }
 
   @protected
-  void sse_encode_builder_exception(
-      BuilderException self, SseSerializer serializer) {
+  void sse_encode_builder_error(BuilderError self, SseSerializer serializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     sse_encode_i_32(self.index, serializer);
   }
@@ -3212,7 +4045,8 @@ class LdkCoreApiImpl extends LdkCoreApiImplPlatform implements LdkCoreApi {
     sse_encode_u_32(self.forwardingFeeProportionalMillionths, serializer);
     sse_encode_u_32(self.forwardingFeeBaseMsat, serializer);
     sse_encode_u_16(self.cltvExpiryDelta, serializer);
-    sse_encode_max_dust_htlc_exposure(self.maxDustHtlcExposure, serializer);
+    sse_encode_opt_box_autoadd_max_dust_htlc_exposure(
+        self.maxDustHtlcExposure, serializer);
     sse_encode_u_64(self.forceCloseAvoidanceMaxFeeSatoshis, serializer);
     sse_encode_bool(self.acceptUnderpayingHtlcs, serializer);
   }
@@ -3223,13 +4057,12 @@ class LdkCoreApiImpl extends LdkCoreApiImplPlatform implements LdkCoreApi {
     // Codec=Sse (Serialization based), see doc to use other codecs
     sse_encode_channel_id(self.channelId, serializer);
     sse_encode_public_key(self.counterpartyNodeId, serializer);
-    sse_encode_opt_String(self.fundingTxo, serializer);
+    sse_encode_opt_box_autoadd_out_point(self.fundingTxo, serializer);
     sse_encode_u_64(self.channelValueSats, serializer);
     sse_encode_opt_box_autoadd_u_64(
         self.unspendablePunishmentReserve, serializer);
     sse_encode_user_channel_id(self.userChannelId, serializer);
     sse_encode_u_32(self.feerateSatPer1000Weight, serializer);
-    sse_encode_u_64(self.balanceMsat, serializer);
     sse_encode_u_64(self.outboundCapacityMsat, serializer);
     sse_encode_u_64(self.inboundCapacityMsat, serializer);
     sse_encode_opt_box_autoadd_u_32(self.confirmationsRequired, serializer);
@@ -3238,12 +4071,59 @@ class LdkCoreApiImpl extends LdkCoreApiImplPlatform implements LdkCoreApi {
     sse_encode_bool(self.isChannelReady, serializer);
     sse_encode_bool(self.isUsable, serializer);
     sse_encode_bool(self.isPublic, serializer);
+    sse_encode_opt_box_autoadd_u_16(self.cltvExpiryDelta, serializer);
+    sse_encode_u_64(self.counterpartyUnspendablePunishmentReserve, serializer);
+    sse_encode_opt_box_autoadd_u_64(
+        self.counterpartyOutboundHtlcMinimumMsat, serializer);
+    sse_encode_opt_box_autoadd_u_64(
+        self.counterpartyOutboundHtlcMaximumMsat, serializer);
+    sse_encode_opt_box_autoadd_u_32(
+        self.counterpartyForwardingInfoFeeBaseMsat, serializer);
+    sse_encode_opt_box_autoadd_u_32(
+        self.counterpartyForwardingInfoFeeProportionalMillionths, serializer);
+    sse_encode_opt_box_autoadd_u_16(
+        self.counterpartyForwardingInfoCltvExpiryDelta, serializer);
+    sse_encode_u_64(self.nextOutboundHtlcLimitMsat, serializer);
+    sse_encode_u_64(self.nextOutboundHtlcMinimumMsat, serializer);
+    sse_encode_opt_box_autoadd_u_16(self.forceCloseSpendDelay, serializer);
+    sse_encode_u_64(self.inboundHtlcMinimumMsat, serializer);
+    sse_encode_opt_box_autoadd_u_64(self.inboundHtlcMaximumMsat, serializer);
+    sse_encode_channel_config(self.config, serializer);
   }
 
   @protected
   void sse_encode_channel_id(ChannelId self, SseSerializer serializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     sse_encode_u_8_array_32(self.data, serializer);
+  }
+
+  @protected
+  void sse_encode_closure_reason(ClosureReason self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    switch (self) {
+      case ClosureReason_CounterpartyForceClosed(peerMsg: final peerMsg):
+        sse_encode_i_32(0, serializer);
+        sse_encode_String(peerMsg, serializer);
+      case ClosureReason_HolderForceClosed():
+        sse_encode_i_32(1, serializer);
+      case ClosureReason_CooperativeClosure():
+        sse_encode_i_32(2, serializer);
+      case ClosureReason_CommitmentTxConfirmed():
+        sse_encode_i_32(3, serializer);
+      case ClosureReason_FundingTimedOut():
+        sse_encode_i_32(4, serializer);
+      case ClosureReason_ProcessingError(err: final err):
+        sse_encode_i_32(5, serializer);
+        sse_encode_String(err, serializer);
+      case ClosureReason_DisconnectedPeer():
+        sse_encode_i_32(6, serializer);
+      case ClosureReason_OutdatedChannelManager():
+        sse_encode_i_32(7, serializer);
+      case ClosureReason_CounterpartyCoopClosedUnfundedChannel():
+        sse_encode_i_32(8, serializer);
+      case ClosureReason_FundingBatchClosure():
+        sse_encode_i_32(9, serializer);
+    }
   }
 
   @protected
@@ -3287,12 +4167,20 @@ class LdkCoreApiImpl extends LdkCoreApiImplPlatform implements LdkCoreApi {
   void sse_encode_event(Event self, SseSerializer serializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     switch (self) {
-      case Event_PaymentSuccessful(paymentHash: final paymentHash):
+      case Event_PaymentSuccessful(
+          paymentHash: final paymentHash,
+          feePaidMsat: final feePaidMsat
+        ):
         sse_encode_i_32(0, serializer);
         sse_encode_box_autoadd_payment_hash(paymentHash, serializer);
-      case Event_PaymentFailed(paymentHash: final paymentHash):
+        sse_encode_opt_box_autoadd_u_64(feePaidMsat, serializer);
+      case Event_PaymentFailed(
+          paymentHash: final paymentHash,
+          reason: final reason
+        ):
         sse_encode_i_32(1, serializer);
         sse_encode_box_autoadd_payment_hash(paymentHash, serializer);
+        sse_encode_opt_box_autoadd_payment_failure_reason(reason, serializer);
       case Event_PaymentReceived(
           paymentHash: final paymentHash,
           amountMsat: final amountMsat
@@ -3300,16 +4188,20 @@ class LdkCoreApiImpl extends LdkCoreApiImplPlatform implements LdkCoreApi {
         sse_encode_i_32(2, serializer);
         sse_encode_box_autoadd_payment_hash(paymentHash, serializer);
         sse_encode_u_64(amountMsat, serializer);
-      case Event_ChannelReady(
+      case Event_ChannelPending(
           channelId: final channelId,
           userChannelId: final userChannelId,
-          counterpartyNodeId: final counterpartyNodeId
+          formerTemporaryChannelId: final formerTemporaryChannelId,
+          counterpartyNodeId: final counterpartyNodeId,
+          fundingTxo: final fundingTxo
         ):
         sse_encode_i_32(3, serializer);
         sse_encode_box_autoadd_channel_id(channelId, serializer);
         sse_encode_box_autoadd_user_channel_id(userChannelId, serializer);
-        sse_encode_opt_box_autoadd_public_key(counterpartyNodeId, serializer);
-      case Event_ChannelClosed(
+        sse_encode_box_autoadd_channel_id(formerTemporaryChannelId, serializer);
+        sse_encode_box_autoadd_public_key(counterpartyNodeId, serializer);
+        sse_encode_box_autoadd_out_point(fundingTxo, serializer);
+      case Event_ChannelReady(
           channelId: final channelId,
           userChannelId: final userChannelId,
           counterpartyNodeId: final counterpartyNodeId
@@ -3318,19 +4210,17 @@ class LdkCoreApiImpl extends LdkCoreApiImplPlatform implements LdkCoreApi {
         sse_encode_box_autoadd_channel_id(channelId, serializer);
         sse_encode_box_autoadd_user_channel_id(userChannelId, serializer);
         sse_encode_opt_box_autoadd_public_key(counterpartyNodeId, serializer);
-      case Event_ChannelPending(
+      case Event_ChannelClosed(
           channelId: final channelId,
           userChannelId: final userChannelId,
-          formerTemporaryChannelId: final formerTemporaryChannelId,
           counterpartyNodeId: final counterpartyNodeId,
-          fundingTxo: final fundingTxo
+          reason: final reason
         ):
         sse_encode_i_32(5, serializer);
         sse_encode_box_autoadd_channel_id(channelId, serializer);
         sse_encode_box_autoadd_user_channel_id(userChannelId, serializer);
-        sse_encode_box_autoadd_channel_id(formerTemporaryChannelId, serializer);
-        sse_encode_box_autoadd_public_key(counterpartyNodeId, serializer);
-        sse_encode_box_autoadd_out_point(fundingTxo, serializer);
+        sse_encode_opt_box_autoadd_public_key(counterpartyNodeId, serializer);
+        sse_encode_opt_box_autoadd_closure_reason(reason, serializer);
     }
   }
 
@@ -3354,12 +4244,100 @@ class LdkCoreApiImpl extends LdkCoreApiImplPlatform implements LdkCoreApi {
   }
 
   @protected
+  void sse_encode_lightning_balance(
+      LightningBalance self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    switch (self) {
+      case LightningBalance_ClaimableOnChannelClose(
+          channelId: final channelId,
+          counterpartyNodeId: final counterpartyNodeId,
+          amountSatoshis: final amountSatoshis
+        ):
+        sse_encode_i_32(0, serializer);
+        sse_encode_box_autoadd_channel_id(channelId, serializer);
+        sse_encode_box_autoadd_public_key(counterpartyNodeId, serializer);
+        sse_encode_u_64(amountSatoshis, serializer);
+      case LightningBalance_ClaimableAwaitingConfirmations(
+          channelId: final channelId,
+          counterpartyNodeId: final counterpartyNodeId,
+          amountSatoshis: final amountSatoshis,
+          confirmationHeight: final confirmationHeight
+        ):
+        sse_encode_i_32(1, serializer);
+        sse_encode_box_autoadd_channel_id(channelId, serializer);
+        sse_encode_box_autoadd_public_key(counterpartyNodeId, serializer);
+        sse_encode_u_64(amountSatoshis, serializer);
+        sse_encode_u_32(confirmationHeight, serializer);
+      case LightningBalance_ContentiousClaimable(
+          channelId: final channelId,
+          counterpartyNodeId: final counterpartyNodeId,
+          amountSatoshis: final amountSatoshis,
+          timeoutHeight: final timeoutHeight,
+          paymentHash: final paymentHash,
+          paymentPreimage: final paymentPreimage
+        ):
+        sse_encode_i_32(2, serializer);
+        sse_encode_box_autoadd_channel_id(channelId, serializer);
+        sse_encode_box_autoadd_public_key(counterpartyNodeId, serializer);
+        sse_encode_u_64(amountSatoshis, serializer);
+        sse_encode_u_32(timeoutHeight, serializer);
+        sse_encode_box_autoadd_payment_hash(paymentHash, serializer);
+        sse_encode_box_autoadd_payment_preimage(paymentPreimage, serializer);
+      case LightningBalance_MaybeTimeoutClaimableHTLC(
+          channelId: final channelId,
+          counterpartyNodeId: final counterpartyNodeId,
+          amountSatoshis: final amountSatoshis,
+          claimableHeight: final claimableHeight,
+          paymentHash: final paymentHash
+        ):
+        sse_encode_i_32(3, serializer);
+        sse_encode_box_autoadd_channel_id(channelId, serializer);
+        sse_encode_box_autoadd_public_key(counterpartyNodeId, serializer);
+        sse_encode_u_64(amountSatoshis, serializer);
+        sse_encode_u_32(claimableHeight, serializer);
+        sse_encode_box_autoadd_payment_hash(paymentHash, serializer);
+      case LightningBalance_MaybePreimageClaimableHTLC(
+          channelId: final channelId,
+          counterpartyNodeId: final counterpartyNodeId,
+          amountSatoshis: final amountSatoshis,
+          expiryHeight: final expiryHeight,
+          paymentHash: final paymentHash
+        ):
+        sse_encode_i_32(4, serializer);
+        sse_encode_box_autoadd_channel_id(channelId, serializer);
+        sse_encode_box_autoadd_public_key(counterpartyNodeId, serializer);
+        sse_encode_u_64(amountSatoshis, serializer);
+        sse_encode_u_32(expiryHeight, serializer);
+        sse_encode_box_autoadd_payment_hash(paymentHash, serializer);
+      case LightningBalance_CounterpartyRevokedOutputClaimable(
+          channelId: final channelId,
+          counterpartyNodeId: final counterpartyNodeId,
+          amountSatoshis: final amountSatoshis
+        ):
+        sse_encode_i_32(5, serializer);
+        sse_encode_box_autoadd_channel_id(channelId, serializer);
+        sse_encode_box_autoadd_public_key(counterpartyNodeId, serializer);
+        sse_encode_u_64(amountSatoshis, serializer);
+    }
+  }
+
+  @protected
   void sse_encode_list_channel_details(
       List<ChannelDetails> self, SseSerializer serializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     sse_encode_i_32(self.length, serializer);
     for (final item in self) {
       sse_encode_channel_details(item, serializer);
+    }
+  }
+
+  @protected
+  void sse_encode_list_lightning_balance(
+      List<LightningBalance> self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_i_32(self.length, serializer);
+    for (final item in self) {
+      sse_encode_lightning_balance(item, serializer);
     }
   }
 
@@ -3380,6 +4358,16 @@ class LdkCoreApiImpl extends LdkCoreApiImplPlatform implements LdkCoreApi {
     sse_encode_i_32(self.length, serializer);
     for (final item in self) {
       sse_encode_peer_details(item, serializer);
+    }
+  }
+
+  @protected
+  void sse_encode_list_pending_sweep_balance(
+      List<PendingSweepBalance> self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_i_32(self.length, serializer);
+    for (final item in self) {
+      sse_encode_pending_sweep_balance(item, serializer);
     }
   }
 
@@ -3459,9 +4447,27 @@ class LdkCoreApiImpl extends LdkCoreApiImplPlatform implements LdkCoreApi {
   }
 
   @protected
-  void sse_encode_node_exception(NodeException self, SseSerializer serializer) {
+  void sse_encode_node_base_error(
+      NodeBaseError self, SseSerializer serializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     sse_encode_i_32(self.index, serializer);
+  }
+
+  @protected
+  void sse_encode_node_status(NodeStatus self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_bool(self.isRunning, serializer);
+    sse_encode_bool(self.isListening, serializer);
+    sse_encode_best_block(self.currentBestBlock, serializer);
+    sse_encode_opt_box_autoadd_u_64(self.latestWalletSyncTimestamp, serializer);
+    sse_encode_opt_box_autoadd_u_64(
+        self.latestOnchainWalletSyncTimestamp, serializer);
+    sse_encode_opt_box_autoadd_u_64(
+        self.latestFeeRateCacheUpdateTimestamp, serializer);
+    sse_encode_opt_box_autoadd_u_64(
+        self.latestRgsSnapshotTimestamp, serializer);
+    sse_encode_opt_box_autoadd_u_64(
+        self.latestNodeAnnouncementBroadcastTimestamp, serializer);
   }
 
   @protected
@@ -3493,6 +4499,28 @@ class LdkCoreApiImpl extends LdkCoreApiImplPlatform implements LdkCoreApi {
     sse_encode_bool(self != null, serializer);
     if (self != null) {
       sse_encode_box_autoadd_channel_config(self, serializer);
+    }
+  }
+
+  @protected
+  void sse_encode_opt_box_autoadd_channel_id(
+      ChannelId? self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+
+    sse_encode_bool(self != null, serializer);
+    if (self != null) {
+      sse_encode_box_autoadd_channel_id(self, serializer);
+    }
+  }
+
+  @protected
+  void sse_encode_opt_box_autoadd_closure_reason(
+      ClosureReason? self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+
+    sse_encode_bool(self != null, serializer);
+    if (self != null) {
+      sse_encode_box_autoadd_closure_reason(self, serializer);
     }
   }
 
@@ -3529,6 +4557,28 @@ class LdkCoreApiImpl extends LdkCoreApiImplPlatform implements LdkCoreApi {
   }
 
   @protected
+  void sse_encode_opt_box_autoadd_max_dust_htlc_exposure(
+      MaxDustHTLCExposure? self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+
+    sse_encode_bool(self != null, serializer);
+    if (self != null) {
+      sse_encode_box_autoadd_max_dust_htlc_exposure(self, serializer);
+    }
+  }
+
+  @protected
+  void sse_encode_opt_box_autoadd_out_point(
+      OutPoint? self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+
+    sse_encode_bool(self != null, serializer);
+    if (self != null) {
+      sse_encode_box_autoadd_out_point(self, serializer);
+    }
+  }
+
+  @protected
   void sse_encode_opt_box_autoadd_payment_details(
       PaymentDetails? self, SseSerializer serializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
@@ -3536,6 +4586,17 @@ class LdkCoreApiImpl extends LdkCoreApiImplPlatform implements LdkCoreApi {
     sse_encode_bool(self != null, serializer);
     if (self != null) {
       sse_encode_box_autoadd_payment_details(self, serializer);
+    }
+  }
+
+  @protected
+  void sse_encode_opt_box_autoadd_payment_failure_reason(
+      PaymentFailureReason? self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+
+    sse_encode_bool(self != null, serializer);
+    if (self != null) {
+      sse_encode_box_autoadd_payment_failure_reason(self, serializer);
     }
   }
 
@@ -3569,6 +4630,16 @@ class LdkCoreApiImpl extends LdkCoreApiImplPlatform implements LdkCoreApi {
     sse_encode_bool(self != null, serializer);
     if (self != null) {
       sse_encode_box_autoadd_public_key(self, serializer);
+    }
+  }
+
+  @protected
+  void sse_encode_opt_box_autoadd_u_16(int? self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+
+    sse_encode_bool(self != null, serializer);
+    if (self != null) {
+      sse_encode_box_autoadd_u_16(self, serializer);
     }
   }
 
@@ -3630,6 +4701,13 @@ class LdkCoreApiImpl extends LdkCoreApiImplPlatform implements LdkCoreApi {
   }
 
   @protected
+  void sse_encode_payment_failure_reason(
+      PaymentFailureReason self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_i_32(self.index, serializer);
+  }
+
+  @protected
   void sse_encode_payment_hash(PaymentHash self, SseSerializer serializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     sse_encode_u_8_array_32(self.data, serializer);
@@ -3660,6 +4738,45 @@ class LdkCoreApiImpl extends LdkCoreApiImplPlatform implements LdkCoreApi {
     sse_encode_public_key(self.nodeId, serializer);
     sse_encode_socket_address(self.address, serializer);
     sse_encode_bool(self.isConnected, serializer);
+  }
+
+  @protected
+  void sse_encode_pending_sweep_balance(
+      PendingSweepBalance self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    switch (self) {
+      case PendingSweepBalance_PendingBroadcast(
+          channelId: final channelId,
+          amountSatoshis: final amountSatoshis
+        ):
+        sse_encode_i_32(0, serializer);
+        sse_encode_opt_box_autoadd_channel_id(channelId, serializer);
+        sse_encode_u_64(amountSatoshis, serializer);
+      case PendingSweepBalance_BroadcastAwaitingConfirmation(
+          channelId: final channelId,
+          latestBroadcastHeight: final latestBroadcastHeight,
+          latestSpendingTxid: final latestSpendingTxid,
+          amountSatoshis: final amountSatoshis
+        ):
+        sse_encode_i_32(1, serializer);
+        sse_encode_opt_box_autoadd_channel_id(channelId, serializer);
+        sse_encode_u_32(latestBroadcastHeight, serializer);
+        sse_encode_box_autoadd_txid(latestSpendingTxid, serializer);
+        sse_encode_u_64(amountSatoshis, serializer);
+      case PendingSweepBalance_AwaitingThresholdConfirmations(
+          channelId: final channelId,
+          latestSpendingTxid: final latestSpendingTxid,
+          confirmationHash: final confirmationHash,
+          confirmationHeight: final confirmationHeight,
+          amountSatoshis: final amountSatoshis
+        ):
+        sse_encode_i_32(2, serializer);
+        sse_encode_opt_box_autoadd_channel_id(channelId, serializer);
+        sse_encode_box_autoadd_txid(latestSpendingTxid, serializer);
+        sse_encode_String(confirmationHash, serializer);
+        sse_encode_u_32(confirmationHeight, serializer);
+        sse_encode_u_64(amountSatoshis, serializer);
+    }
   }
 
   @protected
@@ -3770,7 +4887,7 @@ class LdkCoreApiImpl extends LdkCoreApiImplPlatform implements LdkCoreApi {
   void sse_encode_user_channel_id(
       UserChannelId self, SseSerializer serializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
-    sse_encode_u_64(self.data, serializer);
+    sse_encode_list_prim_u_8_strict(self.data, serializer);
   }
 
   @protected
