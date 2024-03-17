@@ -1,4 +1,4 @@
-use crate::api::error::{BuilderException, NodeBaseError};
+use crate::api::error::{BuilderError, NodeBaseError};
 use crate::api::types::*;
 use crate::frb_generated::RustOpaque;
 pub use ldk_node::io::sqlite_store::SqliteStore;
@@ -36,7 +36,7 @@ pub fn finalize_builder(
     chain_data_source_config: Option<ChainDataSourceConfig>,
     entropy_source_config: Option<EntropySourceConfig>,
     gossip_source_config: Option<GossipSourceConfig>,
-) -> anyhow::Result<NodeBase, BuilderException> {
+) -> anyhow::Result<NodeBase, BuilderError> {
     let builder = create_builder(
         config,
         chain_data_source_config,
@@ -102,6 +102,12 @@ impl NodeBase {
         self.ptr.stop().map_err(|e| e.into())
     }
 
+    pub fn status(&self) ->NodeStatus {
+        self.ptr.status().into()
+    }
+    pub fn config(&self) -> Config {
+        self.ptr.config().into()
+    }
     /// Blocks until the next event is available.
     ///
     /// **Note:** this will always return the same event until handling is confirmed via `node.eventHandled()`.
@@ -118,6 +124,12 @@ impl NodeBase {
             Some(e) => Some(e.into()),
         }
     }
+
+    pub async fn next_event_async(&self) -> Event {
+         self.ptr.next_event_async().await.into()
+    }
+
+
     /// Returns the next event in the event queue.
     ///
     /// Will block the current thread until the next event is available.

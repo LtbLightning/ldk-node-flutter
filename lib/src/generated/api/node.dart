@@ -80,6 +80,10 @@ class NodeBase {
         counterpartyNodeId: counterpartyNodeId,
       );
 
+  Future<Config> config({dynamic hint}) => LdkCore.instance.api.nodeBaseConfig(
+        that: this,
+      );
+
   /// Connect to a node on the peer-to-peer network.
   ///
   /// If `permanently` is set to `true`, we'll remember the peer and reconnect to it on restart.
@@ -193,6 +197,11 @@ class NodeBase {
   /// **Note:** This **MUST** be called after each event has been handled.
   Future<Event?> nextEvent({dynamic hint}) =>
       LdkCore.instance.api.nodeBaseNextEvent(
+        that: this,
+      );
+
+  Future<Event> nextEventAsync({dynamic hint}) =>
+      LdkCore.instance.api.nodeBaseNextEventAsync(
         that: this,
       );
 
@@ -380,6 +389,11 @@ class NodeBase {
   /// After this returns, the [Node] instance can be controlled via the provided API methods in
   /// a thread-safe manner.
   Future<void> start({dynamic hint}) => LdkCore.instance.api.nodeBaseStart(
+        that: this,
+      );
+
+  Future<NodeStatus> status({dynamic hint}) =>
+      LdkCore.instance.api.nodeBaseStatus(
         that: this,
       );
 
