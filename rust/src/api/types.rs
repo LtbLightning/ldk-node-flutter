@@ -921,7 +921,7 @@ impl From<ldk_node::bitcoin::Network> for Network {
             ldk_node::bitcoin::Network::Bitcoin => Network::Bitcoin,
             ldk_node::bitcoin::Network::Testnet => Network::Testnet,
             ldk_node::bitcoin::Network::Signet => Network::Signet,
-            ldk_node::bitcoin::Network::Regtest =>Network::Regtest,
+            ldk_node::bitcoin::Network::Regtest => Network::Regtest,
             _ => Network::Bitcoin,
         }
     }
@@ -1481,7 +1481,10 @@ pub struct BestBlock {
 
 impl From<ldk_node::BestBlock> for BestBlock {
     fn from(value: ldk_node::BestBlock) -> Self {
-        BestBlock{ block_hash: value.block_hash.to_string(), height: value.height }
+        BestBlock {
+            block_hash: value.block_hash.to_string(),
+            height: value.height,
+        }
     }
 }
 /// Represents the status of the [`Node`].
@@ -1520,9 +1523,9 @@ pub struct NodeStatus {
     /// Will be `None` if we have no public channels or we haven't broadcasted since the [`Node`] was initialized.
     pub latest_node_announcement_broadcast_timestamp: Option<u64>,
 }
-impl From<ldk_node::NodeStatus> for NodeStatus{
+impl From<ldk_node::NodeStatus> for NodeStatus {
     fn from(value: ldk_node::NodeStatus) -> Self {
-        Self{
+        Self {
             is_running: value.is_running,
             is_listening: value.is_listening,
             current_best_block: value.current_best_block.into(),
@@ -1530,7 +1533,8 @@ impl From<ldk_node::NodeStatus> for NodeStatus{
             latest_onchain_wallet_sync_timestamp: value.latest_onchain_wallet_sync_timestamp,
             latest_fee_rate_cache_update_timestamp: value.latest_fee_rate_cache_update_timestamp,
             latest_rgs_snapshot_timestamp: value.latest_rgs_snapshot_timestamp,
-            latest_node_announcement_broadcast_timestamp: value.latest_node_announcement_broadcast_timestamp,
+            latest_node_announcement_broadcast_timestamp: value
+                .latest_node_announcement_broadcast_timestamp,
         }
     }
 }
