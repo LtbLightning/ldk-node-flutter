@@ -69,7 +69,6 @@ class NodeBase {
     required this.ptr,
   });
 
-  /// Close a previously opened channel.
   Future<void> closeChannel(
           {required UserChannelId userChannelId,
           required PublicKey counterpartyNodeId,
@@ -84,9 +83,6 @@ class NodeBase {
         that: this,
       );
 
-  /// Connect to a node on the peer-to-peer network.
-  ///
-  /// If `permanently` is set to `true`, we'll remember the peer and reconnect to it on restart.
   Future<void> connect(
           {required PublicKey nodeId,
           required SocketAddress address,
@@ -99,15 +95,6 @@ class NodeBase {
         persist: persist,
       );
 
-  /// Connect to a node and open a new channel. Disconnects and re-connects are handled automatically
-  ///
-  /// Disconnects and reconnects are handled automatically.
-  ///
-  /// If `pushToCounterpartyMsat` is set, the given value will be pushed (read: sent) to the
-  /// channel counterparty on channel open. This can be useful to start out with the balance not
-  /// entirely shifted to one side, therefore allowing to receive payments from the getgo.
-  ///
-  /// Returns a temporary channel id.
   Future<UserChannelId> connectOpenChannel(
           {required SocketAddress address,
           required PublicKey nodeId,
@@ -126,10 +113,6 @@ class NodeBase {
         channelConfig: channelConfig,
       );
 
-  /// Disconnects the peer with the given node id.
-  ///
-  /// Will also remove the peer from the peer store, i.e., after this has been called we won't
-  /// try to reconnect on restart.
   Future<void> disconnect(
           {required PublicKey counterpartyNodeId, dynamic hint}) =>
       LdkCore.instance.api.nodeBaseDisconnect(
@@ -137,36 +120,26 @@ class NodeBase {
         counterpartyNodeId: counterpartyNodeId,
       );
 
-  /// Blocks until the next event is available.
-  ///
-  /// **Note:** this will always return the same event until handling is confirmed via `node.eventHandled()`.
   Future<void> eventHandled({dynamic hint}) =>
       LdkCore.instance.api.nodeBaseEventHandled(
         that: this,
       );
 
-  /// Retrieve the currently spendable on-chain balance in satoshis.
-  /// Retrieves an overview of all known balances.
   Future<BalanceDetails> listBalances({dynamic hint}) =>
       LdkCore.instance.api.nodeBaseListBalances(
         that: this,
       );
 
-  ///Retrieve a list of known channels.
-  ///
   Future<List<ChannelDetails>> listChannels({dynamic hint}) =>
       LdkCore.instance.api.nodeBaseListChannels(
         that: this,
       );
 
-  /// Retrieves all payments.
   Future<List<PaymentDetails>> listPayments({dynamic hint}) =>
       LdkCore.instance.api.nodeBaseListPayments(
         that: this,
       );
 
-  /// Retrieves all payments that match the given predicate.
-  ///
   Future<List<PaymentDetails>> listPaymentsWithFilter(
           {required PaymentDirection paymentDirection, dynamic hint}) =>
       LdkCore.instance.api.nodeBaseListPaymentsWithFilter(
@@ -174,27 +147,21 @@ class NodeBase {
         paymentDirection: paymentDirection,
       );
 
-  /// Retrieves a list of known peers.
   Future<List<PeerDetails>> listPeers({dynamic hint}) =>
       LdkCore.instance.api.nodeBaseListPeers(
         that: this,
       );
 
-  /// Returns our own listening address.
   Future<List<SocketAddress>?> listeningAddresses({dynamic hint}) =>
       LdkCore.instance.api.nodeBaseListeningAddresses(
         that: this,
       );
 
-  /// Retrieve a new on-chain/funding address.
   Future<Address> newOnchainAddress({dynamic hint}) =>
       LdkCore.instance.api.nodeBaseNewOnchainAddress(
         that: this,
       );
 
-  /// Confirm the last retrieved event handled.
-  ///
-  /// **Note:** This **MUST** be called after each event has been handled.
   Future<Event?> nextEvent({dynamic hint}) =>
       LdkCore.instance.api.nodeBaseNextEvent(
         that: this,
@@ -205,15 +172,11 @@ class NodeBase {
         that: this,
       );
 
-  /// Returns our own node id
   Future<PublicKey> nodeId({dynamic hint}) =>
       LdkCore.instance.api.nodeBaseNodeId(
         that: this,
       );
 
-  /// Retrieve the details of a specific payment with the given hash.
-  ///
-  /// Returns `PaymentDetails` if the payment was known and `null` otherwise.
   Future<PaymentDetails?> payment(
           {required PaymentHash paymentHash, dynamic hint}) =>
       LdkCore.instance.api.nodeBasePayment(
@@ -221,8 +184,6 @@ class NodeBase {
         paymentHash: paymentHash,
       );
 
-  /// Returns a payable invoice that can be used to request and receive a payment of the amount
-  /// given.
   Future<Bolt11Invoice> receivePayment(
           {required int amountMsat,
           required String description,
@@ -249,8 +210,6 @@ class NodeBase {
         maxTotalLspFeeLimitMsat: maxTotalLspFeeLimitMsat,
       );
 
-  /// Returns a payable invoice that can be used to request and receive a payment for which the
-  /// amount is to be determined by the user, also known as a "zero-amount" invoice.
   Future<Bolt11Invoice> receiveVariableAmountPayment(
           {required String description,
           required int expirySecs,
@@ -273,8 +232,6 @@ class NodeBase {
         maxProportionalLspFeeLimitPpmMsat: maxProportionalLspFeeLimitPpmMsat,
       );
 
-  /// Remove the payment with the given hash from the store.
-  ///
   Future<void> removePayment(
           {required PaymentHash paymentHash, dynamic hint}) =>
       LdkCore.instance.api.nodeBaseRemovePayment(
@@ -282,7 +239,6 @@ class NodeBase {
         paymentHash: paymentHash,
       );
 
-  /// Send an on-chain payment to the given address, draining all the available funds.
   Future<Txid> sendAllToOnchainAddress(
           {required Address address, dynamic hint}) =>
       LdkCore.instance.api.nodeBaseSendAllToOnchainAddress(
@@ -290,7 +246,6 @@ class NodeBase {
         address: address,
       );
 
-  /// Send a payment given an invoice.
   Future<PaymentHash> sendPayment(
           {required Bolt11Invoice invoice, dynamic hint}) =>
       LdkCore.instance.api.nodeBaseSendPayment(
@@ -298,13 +253,6 @@ class NodeBase {
         invoice: invoice,
       );
 
-  ///Sends payment probes over all paths of a route that would be used to pay the given invoice.
-  /// This may be used to send "pre-flight" probes, i.e., to train our scorer before conducting the actual payment.
-  /// Note this is only useful if there likely is sufficient time for the probe to settle before sending out the actual payment,
-  /// e.g., when waiting for user confirmation in a wallet UI.
-  /// Otherwise, there is a chance the probe could take up some liquidity needed to complete the actual payment.
-  /// Users should therefore be cautious and might avoid sending probes if liquidity is scarce and/or they don't expect the probe to return before they send the payment.
-  /// To mitigate this issue, channels with available liquidity less than the required amount times Config::probing_liquidity_limit_multiplier won't be used to send pre-flight probes.
   Future<void> sendPaymentProbes(
           {required Bolt11Invoice invoice, dynamic hint}) =>
       LdkCore.instance.api.nodeBaseSendPaymentProbes(
@@ -312,12 +260,6 @@ class NodeBase {
         invoice: invoice,
       );
 
-  /// Sends payment probes over all paths of a route that would be used to pay the given
-  /// zero-value invoice using the given amount.
-  ///
-  /// This can be used to send pre-flight probes for a so-called "zero-amount" invoice, i.e., an
-  /// invoice that leaves the amount paid to be determined by the user.
-  ///
   Future<void> sendPaymentProbesUsingAmount(
           {required Bolt11Invoice invoice,
           required int amountMsat,
@@ -328,12 +270,6 @@ class NodeBase {
         amountMsat: amountMsat,
       );
 
-  /// Send a payment given an invoice and an amount in millisatoshi.
-  ///
-  /// This will fail if the amount given is less than the value required by the given invoice.
-  ///
-  /// This can be used to pay a so-called "zero-amount" invoice, i.e., an invoice that leaves the
-  /// amount paid to be determined by the user.
   Future<PaymentHash> sendPaymentUsingAmount(
           {required Bolt11Invoice invoice,
           required int amountMsat,
@@ -344,7 +280,6 @@ class NodeBase {
         amountMsat: amountMsat,
       );
 
-  /// Send a spontaneous, aka. "keysend", payment
   Future<PaymentHash> sendSpontaneousPayment(
           {required int amountMsat, required PublicKey nodeId, dynamic hint}) =>
       LdkCore.instance.api.nodeBaseSendSpontaneousPayment(
@@ -353,7 +288,6 @@ class NodeBase {
         nodeId: nodeId,
       );
 
-  ///Sends payment probes over all paths of a route that would be used to pay the given amount to the given node_id.
   Future<void> sendSpontaneousPaymentProbes(
           {required int amountMsat, required PublicKey nodeId, dynamic hint}) =>
       LdkCore.instance.api.nodeBaseSendSpontaneousPaymentProbes(
@@ -362,7 +296,6 @@ class NodeBase {
         nodeId: nodeId,
       );
 
-  /// Send an on-chain payment to the given address.
   Future<Txid> sendToOnchainAddress(
           {required Address address, required int amountSats, dynamic hint}) =>
       LdkCore.instance.api.nodeBaseSendToOnchainAddress(
@@ -371,23 +304,12 @@ class NodeBase {
         amountSats: amountSats,
       );
 
-  /// Creates a digital ECDSA signature of a message with the node's secret key.
-  ///
-  /// A receiver knowing the corresponding `PublicKey` (e.g. the node’s id) and the message
-  /// can be sure that the signature was generated by the caller.
-  /// Signatures are EC recoverable, meaning that given the message and the
-  /// signature the PublicKey of the signer can be extracted.
   Future<String> signMessage({required List<int> msg, dynamic hint}) =>
       LdkCore.instance.api.nodeBaseSignMessage(
         that: this,
         msg: msg,
       );
 
-  /// Starts the necessary background tasks, such as handling events coming from user input,
-  /// LDK/BDK, and the peer-to-peer network.
-  ///
-  /// After this returns, the [Node] instance can be controlled via the provided API methods in
-  /// a thread-safe manner.
   Future<void> start({dynamic hint}) => LdkCore.instance.api.nodeBaseStart(
         that: this,
       );
@@ -397,21 +319,15 @@ class NodeBase {
         that: this,
       );
 
-  /// Disconnects all peers, stops all running background tasks, and shuts down [Node].
-  ///
-  /// After this returns most API methods will throw NotRunning Exception.
   Future<void> stop({dynamic hint}) => LdkCore.instance.api.nodeBaseStop(
         that: this,
       );
 
-  ///Sync the LDK and BDK wallets with the current chain state.
   Future<void> syncWallets({dynamic hint}) =>
       LdkCore.instance.api.nodeBaseSyncWallets(
         that: this,
       );
 
-  ///Update the config for a previously opened channel.
-  ///
   Future<void> updateChannelConfig(
           {required UserChannelId userChannelId,
           required PublicKey counterpartyNodeId,
@@ -424,8 +340,6 @@ class NodeBase {
         channelConfig: channelConfig,
       );
 
-  /// Verifies that the given ECDSA signature was created for the given message with the
-  /// secret key corresponding to the given public key.
   Future<bool> verifySignature(
           {required List<int> msg,
           required String sig,
@@ -438,12 +352,6 @@ class NodeBase {
         pkey: pkey,
       );
 
-  /// Returns the next event in the event queue.
-  ///
-  /// Will block the current thread until the next event is available.
-  ///
-  /// **Note:** this will always return the same event until handling is confirmed via `node.eventHandled()`.
-  ///
   Future<Event> waitNextEvent({dynamic hint}) =>
       LdkCore.instance.api.nodeBaseWaitNextEvent(
         that: this,
