@@ -14,12 +14,14 @@ Future<NodeBase> finalizeBuilder(
         ChainDataSourceConfig? chainDataSourceConfig,
         EntropySourceConfig? entropySourceConfig,
         GossipSourceConfig? gossipSourceConfig,
+        LiquiditySourceConfig? liquiditySourceConfig,
         dynamic hint}) =>
     LdkCore.instance.api.finalizeBuilder(
         config: config,
         chainDataSourceConfig: chainDataSourceConfig,
         entropySourceConfig: entropySourceConfig,
         gossipSourceConfig: gossipSourceConfig,
+        liquiditySourceConfig: liquiditySourceConfig,
         hint: hint);
 
 // Rust type: RustOpaqueNom<Node < SqliteStore >>

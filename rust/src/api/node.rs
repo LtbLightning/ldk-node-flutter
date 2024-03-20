@@ -36,12 +36,14 @@ pub fn finalize_builder(
     chain_data_source_config: Option<ChainDataSourceConfig>,
     entropy_source_config: Option<EntropySourceConfig>,
     gossip_source_config: Option<GossipSourceConfig>,
+    liquidity_source_config: Option<LiquiditySourceConfig>,
 ) -> anyhow::Result<NodeBase, BuilderError> {
     let builder = create_builder(
         config,
         chain_data_source_config,
         entropy_source_config,
         gossip_source_config,
+        liquidity_source_config
     );
     match builder?.build() {
         Ok(e) => Ok(NodeBase {
@@ -56,6 +58,7 @@ fn create_builder(
     chain_data_source_config: Option<ChainDataSourceConfig>,
     entropy_source_config: Option<EntropySourceConfig>,
     gossip_source_config: Option<GossipSourceConfig>,
+    liquidity_source_config: Option<LiquiditySourceConfig>,
 ) -> Result<ldk_node::Builder, BuildError> {
     let mut builder = ldk_node::Builder::from_config(config.into());
     if let Some(source) = entropy_source_config {
@@ -78,6 +81,13 @@ fn create_builder(
             GossipSourceConfig::P2PNetwork => builder.set_gossip_source_p2p(),
             GossipSourceConfig::RapidGossipSync(e) => builder.set_gossip_source_rgs(e),
         };
+    }
+    if let Some(liquidity) = liquidity_source_config {
+        builder.set_liquidity_source_lsps2(
+            liquidity.lsps2_service.0.into(),
+            liquidity.lsps2_service.1.into(),
+            liquidity.lsps2_service.2,
+        );
     }
     Ok(builder)
 }

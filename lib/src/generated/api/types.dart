@@ -9,8 +9,6 @@ import 'package:flutter_rust_bridge/flutter_rust_bridge_for_generated.dart';
 import 'package:freezed_annotation/freezed_annotation.dart' hide protected;
 part 'types.freezed.dart';
 
-// The type `LiquiditySourceConfig` is not used by any `pub` functions, thus it is ignored.
-
 /// A Bitcoin address.
 ///
 class Address {
@@ -889,6 +887,24 @@ sealed class LightningBalance with _$LightningBalance {
     /// The amount, in satoshis, of the output which we can claim.
     required int amountSatoshis,
   }) = LightningBalance_CounterpartyRevokedOutputClaimable;
+}
+
+class LiquiditySourceConfig {
+  final (SocketAddress, PublicKey, String?) lsps2Service;
+
+  const LiquiditySourceConfig({
+    required this.lsps2Service,
+  });
+
+  @override
+  int get hashCode => lsps2Service.hashCode;
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is LiquiditySourceConfig &&
+          runtimeType == other.runtimeType &&
+          lsps2Service == other.lsps2Service;
 }
 
 /// An enum representing the available verbosity levels of the logger.
