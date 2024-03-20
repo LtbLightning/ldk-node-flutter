@@ -33,8 +33,8 @@ class Node extends NodeBase {
   Future<void> start({hint}) async {
     try {
       return super.start();
-    } on error.NodeException catch (e) {
-      throw mapNodeException(e);
+    } on error.NodeBaseError catch (e) {
+      throw mapNodeBaseError(e);
     }
   }
 
@@ -46,8 +46,8 @@ class Node extends NodeBase {
   Future<void> stop({hint}) async {
     try {
       await super.stop();
-    } on error.NodeException catch (e) {
-      throw mapNodeException(e);
+    } on error.NodeBaseError catch (e) {
+      throw mapNodeBaseError(e);
     }
   }
 
@@ -58,8 +58,8 @@ class Node extends NodeBase {
   Future<void> eventHandled({hint}) async {
     try {
       await super.eventHandled();
-    } on error.NodeException catch (e) {
-      throw mapNodeException(e);
+    } on error.NodeBaseError catch (e) {
+      throw mapNodeBaseError(e);
     }
   }
 
@@ -70,8 +70,8 @@ class Node extends NodeBase {
   Future<types.Event?> nextEvent({hint}) async {
     try {
       return await super.nextEvent();
-    } on error.NodeException catch (e) {
-      throw mapNodeException(e);
+    } on error.NodeBaseError catch (e) {
+      throw mapNodeBaseError(e);
     }
   }
 
@@ -84,8 +84,8 @@ class Node extends NodeBase {
   Future<types.Event?> waitNextHandled({hint}) async {
     try {
       return await super.waitNextEvent();
-    } on error.NodeException catch (e) {
-      throw mapNodeException(e);
+    } on error.NodeBaseError catch (e) {
+      throw mapNodeBaseError(e);
     }
   }
 
@@ -94,8 +94,8 @@ class Node extends NodeBase {
   Future<types.PublicKey> nodeId({hint}) async {
     try {
       return await super.nodeId();
-    } on error.NodeException catch (e) {
-      throw mapNodeException(e);
+    } on error.NodeBaseError catch (e) {
+      throw mapNodeBaseError(e);
     }
   }
 
@@ -104,9 +104,40 @@ class Node extends NodeBase {
   Future<List<types.SocketAddress>?> listeningAddresses({hint}) async {
     try {
       return await super.listeningAddresses();
-    } on error.NodeException catch (e) {
-      throw mapNodeException(e);
+    } on error.NodeBaseError catch (e) {
+      throw mapNodeBaseError(e);
     }
+  }
+
+  /// Retrieve the currently spendable on-chain balance in satoshis.
+  @override
+  Future<types.BalanceDetails> listBalances({hint}) {
+    try {
+      return super.listBalances();
+    } on error.NodeBaseError catch (e) {
+      throw mapNodeBaseError(e);
+    }
+  }
+
+  ///Returns the status of the Node.
+  @override
+  Future<types.NodeStatus> status({hint}) {
+    return super.status();
+  }
+
+  ///Returns the config with which the Node was initialized.
+  @override
+  Future<types.Config> config({hint}) {
+    return super.config();
+  }
+
+  ///Returns the next event in the event queue.
+  /// Will asynchronously poll the event queue until the next event is ready.
+  /// **Note:** this will always return the same event until handling is confirmed via `node.eventHandled()`.
+
+  @override
+  Future<types.Event> nextEventAsync({hint}) {
+    return super.nextEventAsync();
   }
 
   /// Retrieve a new on-chain/funding address.
@@ -114,28 +145,8 @@ class Node extends NodeBase {
   Future<types.Address> newOnchainAddress({hint}) async {
     try {
       return await super.newOnchainAddress();
-    } on error.NodeException catch (e) {
-      throw mapNodeException(e);
-    }
-  }
-
-  /// Retrieve the currently spendable on-chain balance in satoshis.
-  @override
-  Future<int> spendableOnchainBalanceSats({hint}) async {
-    try {
-      return await super.spendableOnchainBalanceSats();
-    } on error.NodeException catch (e) {
-      throw mapNodeException(e);
-    }
-  }
-
-  /// Retrieve the current total on-chain balance in satoshis.
-  @override
-  Future<int> totalOnchainBalanceSats({hint}) async {
-    try {
-      return await super.totalOnchainBalanceSats();
-    } on error.NodeException catch (e) {
-      throw mapNodeException(e);
+    } on error.NodeBaseError catch (e) {
+      throw mapNodeBaseError(e);
     }
   }
 
@@ -146,8 +157,8 @@ class Node extends NodeBase {
     try {
       return await super
           .sendToOnchainAddress(address: address, amountSats: amountSats);
-    } on error.NodeException catch (e) {
-      throw mapNodeException(e);
+    } on error.NodeBaseError catch (e) {
+      throw mapNodeBaseError(e);
     }
   }
 
@@ -157,8 +168,8 @@ class Node extends NodeBase {
       {required types.Address address, hint}) async {
     try {
       return await super.sendAllToOnchainAddress(address: address);
-    } on error.NodeException catch (e) {
-      throw mapNodeException(e);
+    } on error.NodeBaseError catch (e) {
+      throw mapNodeBaseError(e);
     }
   }
 
@@ -167,8 +178,8 @@ class Node extends NodeBase {
   Future<List<types.ChannelDetails>> listChannels({hint}) async {
     try {
       return await super.listChannels();
-    } on error.NodeException catch (e) {
-      throw mapNodeException(e);
+    } on error.NodeBaseError catch (e) {
+      throw mapNodeBaseError(e);
     }
   }
 
@@ -184,8 +195,8 @@ class Node extends NodeBase {
     try {
       return await super
           .connect(address: address, nodeId: nodeId, persist: persist);
-    } on error.NodeException catch (e) {
-      throw mapNodeException(e);
+    } on error.NodeBaseError catch (e) {
+      throw mapNodeBaseError(e);
     }
   }
 
@@ -200,8 +211,8 @@ class Node extends NodeBase {
       await super.disconnect(
         counterpartyNodeId: counterpartyNodeId,
       );
-    } on error.NodeException catch (e) {
-      throw mapNodeException(e);
+    } on error.NodeBaseError catch (e) {
+      throw mapNodeBaseError(e);
     }
   }
 
@@ -215,7 +226,7 @@ class Node extends NodeBase {
   ///
   /// Returns a temporary channel id.
   @override
-  Future<void> connectOpenChannel(
+  Future<types.UserChannelId> connectOpenChannel(
       {required types.SocketAddress address,
       required types.PublicKey nodeId,
       required int channelAmountSats,
@@ -224,15 +235,15 @@ class Node extends NodeBase {
       int? pushToCounterpartyMsat,
       hint}) async {
     try {
-      await super.connectOpenChannel(
+      return await super.connectOpenChannel(
           address: address,
           nodeId: nodeId,
           pushToCounterpartyMsat: pushToCounterpartyMsat,
           channelAmountSats: channelAmountSats,
           channelConfig: channelConfig,
           announceChannel: announceChannel);
-    } on error.NodeException catch (e) {
-      throw mapNodeException(e);
+    } on error.NodeBaseError catch (e) {
+      throw mapNodeBaseError(e);
     }
   }
 
@@ -242,8 +253,8 @@ class Node extends NodeBase {
   Future<void> syncWallets({hint}) async {
     try {
       await super.syncWallets();
-    } on error.NodeException catch (e) {
-      throw mapNodeException(e);
+    } on error.NodeBaseError catch (e) {
+      throw mapNodeBaseError(e);
     }
   }
 
@@ -251,15 +262,15 @@ class Node extends NodeBase {
   @override
   Future<void> closeChannel(
       {required types.PublicKey counterpartyNodeId,
-      required types.ChannelId channelId,
+      required types.UserChannelId userChannelId,
       hint}) async {
     try {
       await super.closeChannel(
-        channelId: channelId,
+        userChannelId: userChannelId,
         counterpartyNodeId: counterpartyNodeId,
       );
-    } on error.NodeException catch (e) {
-      throw mapNodeException(e);
+    } on error.NodeBaseError catch (e) {
+      throw mapNodeBaseError(e);
     }
   }
 
@@ -268,17 +279,17 @@ class Node extends NodeBase {
   @override
   Future<void> updateChannelConfig(
       {required types.PublicKey counterpartyNodeId,
-      required types.ChannelId channelId,
+      required types.UserChannelId userChannelId,
       required types.ChannelConfig channelConfig,
       hint}) async {
     try {
       await super.updateChannelConfig(
-        channelId: channelId,
+        userChannelId: userChannelId,
         counterpartyNodeId: counterpartyNodeId,
         channelConfig: channelConfig,
       );
-    } on error.NodeException catch (e) {
-      throw mapNodeException(e);
+    } on error.NodeBaseError catch (e) {
+      throw mapNodeBaseError(e);
     }
   }
 
@@ -288,8 +299,8 @@ class Node extends NodeBase {
       {required types.Bolt11Invoice invoice, hint}) async {
     try {
       return await super.sendPayment(invoice: invoice);
-    } on error.NodeException catch (e) {
-      throw mapNodeException(e);
+    } on error.NodeBaseError catch (e) {
+      throw mapNodeBaseError(e);
     }
   }
 
@@ -307,8 +318,8 @@ class Node extends NodeBase {
     try {
       return await super
           .sendPaymentUsingAmount(invoice: invoice, amountMsat: amountMsat);
-    } on error.NodeException catch (e) {
-      throw mapNodeException(e);
+    } on error.NodeBaseError catch (e) {
+      throw mapNodeBaseError(e);
     }
   }
 
@@ -319,8 +330,8 @@ class Node extends NodeBase {
     try {
       return await super
           .sendSpontaneousPayment(amountMsat: amountMsat, nodeId: nodeId);
-    } on error.NodeException catch (e) {
-      throw mapNodeException(e);
+    } on error.NodeBaseError catch (e) {
+      throw mapNodeBaseError(e);
     }
   }
 
@@ -331,8 +342,8 @@ class Node extends NodeBase {
     try {
       return await super
           .sendSpontaneousPaymentProbes(amountMsat: amountMsat, nodeId: nodeId);
-    } on error.NodeException catch (e) {
-      throw mapNodeException(e);
+    } on error.NodeBaseError catch (e) {
+      throw mapNodeBaseError(e);
     }
   }
 
@@ -355,8 +366,8 @@ class Node extends NodeBase {
       {required types.Bolt11Invoice invoice, hint}) async {
     try {
       return await super.sendPaymentProbes(invoice: invoice);
-    } on error.NodeException catch (e) {
-      throw mapNodeException(e);
+    } on error.NodeBaseError catch (e) {
+      throw mapNodeBaseError(e);
     }
   }
 
@@ -368,8 +379,8 @@ class Node extends NodeBase {
     try {
       return await super.sendPaymentProbesUsingAmount(
           invoice: invoice, amountMsat: amountMsat);
-    } on error.NodeException catch (e) {
-      throw mapNodeException(e);
+    } on error.NodeBaseError catch (e) {
+      throw mapNodeBaseError(e);
     }
   }
 
@@ -386,8 +397,8 @@ class Node extends NodeBase {
           amountMsat: amountMsat,
           description: description,
           expirySecs: expirySecs);
-    } on error.NodeException catch (e) {
-      throw mapNodeException(e);
+    } on error.NodeBaseError catch (e) {
+      throw mapNodeBaseError(e);
     }
   }
 
@@ -399,8 +410,8 @@ class Node extends NodeBase {
     try {
       return await super.receiveVariableAmountPayment(
           description: description, expirySecs: expirySecs);
-    } on error.NodeException catch (e) {
-      throw mapNodeException(e);
+    } on error.NodeBaseError catch (e) {
+      throw mapNodeBaseError(e);
     }
   }
 
@@ -412,8 +423,8 @@ class Node extends NodeBase {
       {required types.PaymentHash paymentHash, hint}) async {
     try {
       return await super.payment(paymentHash: paymentHash);
-    } on error.NodeException catch (e) {
-      throw mapNodeException(e);
+    } on error.NodeBaseError catch (e) {
+      throw mapNodeBaseError(e);
     }
   }
 
@@ -423,8 +434,8 @@ class Node extends NodeBase {
       {required types.PaymentHash paymentHash, hint}) async {
     try {
       return await super.removePayment(paymentHash: paymentHash);
-    } on error.NodeException catch (e) {
-      throw mapNodeException(e);
+    } on error.NodeBaseError catch (e) {
+      throw mapNodeBaseError(e);
     }
   }
 
@@ -435,8 +446,8 @@ class Node extends NodeBase {
     try {
       return await super
           .listPaymentsWithFilter(paymentDirection: paymentDirection);
-    } on error.NodeException catch (e) {
-      throw mapNodeException(e);
+    } on error.NodeBaseError catch (e) {
+      throw mapNodeBaseError(e);
     }
   }
 
@@ -445,8 +456,8 @@ class Node extends NodeBase {
   Future<List<types.PaymentDetails>> listPayments({hint}) async {
     try {
       return super.listPayments();
-    } on error.NodeException catch (e) {
-      throw mapNodeException(e);
+    } on error.NodeBaseError catch (e) {
+      throw mapNodeBaseError(e);
     }
   }
 
@@ -455,8 +466,8 @@ class Node extends NodeBase {
   Future<List<types.PeerDetails>> listPeers({hint}) async {
     try {
       return await super.listPeers();
-    } on error.NodeException catch (e) {
-      throw mapNodeException(e);
+    } on error.NodeBaseError catch (e) {
+      throw mapNodeBaseError(e);
     }
   }
 
@@ -470,8 +481,8 @@ class Node extends NodeBase {
   Future<String> signMessage({required List<int> msg, hint}) async {
     try {
       return await super.signMessage(msg: msg);
-    } on error.NodeException catch (e) {
-      throw mapNodeException(e);
+    } on error.NodeBaseError catch (e) {
+      throw mapNodeBaseError(e);
     }
   }
 
@@ -485,8 +496,8 @@ class Node extends NodeBase {
       hint}) async {
     try {
       return await super.verifySignature(msg: msg, sig: sig, pkey: pkey);
-    } on error.NodeException catch (e) {
-      throw mapNodeException(e);
+    } on error.NodeBaseError catch (e) {
+      throw mapNodeBaseError(e);
     }
   }
 }
@@ -625,8 +636,8 @@ class Builder {
         gossipSourceConfig: _gossipSourceConfig,
       );
       return Node._(ptr: res.ptr);
-    } on error.BuilderException catch (e) {
-      throw mapBuilderException(e);
+    } on error.BuilderError catch (e) {
+      throw mapBuilderError(e);
     }
   }
 }
