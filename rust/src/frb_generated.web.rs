@@ -379,6 +379,25 @@ impl CstDecode<crate::api::types::LightningBalance>
         }
     }
 }
+impl CstDecode<crate::api::types::LiquiditySourceConfig>
+    for flutter_rust_bridge::for_generated::wasm_bindgen::JsValue
+{
+    // Codec=Cst (C-struct based), see doc to use other codecs
+    fn cst_decode(self) -> crate::api::types::LiquiditySourceConfig {
+        let self_ = self
+            .dyn_into::<flutter_rust_bridge::for_generated::js_sys::Array>()
+            .unwrap();
+        assert_eq!(
+            self_.length(),
+            1,
+            "Expected 1 elements, got {}",
+            self_.length()
+        );
+        crate::api::types::LiquiditySourceConfig {
+            lsps2_service: self_.get(0).cst_decode(),
+        }
+    }
+}
 impl CstDecode<Vec<crate::api::types::ChannelDetails>>
     for flutter_rust_bridge::for_generated::wasm_bindgen::JsValue
 {
@@ -721,6 +740,37 @@ impl CstDecode<crate::api::types::PublicKey>
         crate::api::types::PublicKey {
             hex_code: self_.get(0).cst_decode(),
         }
+    }
+}
+impl
+    CstDecode<(
+        crate::api::types::SocketAddress,
+        crate::api::types::PublicKey,
+        Option<String>,
+    )> for flutter_rust_bridge::for_generated::wasm_bindgen::JsValue
+{
+    // Codec=Cst (C-struct based), see doc to use other codecs
+    fn cst_decode(
+        self,
+    ) -> (
+        crate::api::types::SocketAddress,
+        crate::api::types::PublicKey,
+        Option<String>,
+    ) {
+        let self_ = self
+            .dyn_into::<flutter_rust_bridge::for_generated::js_sys::Array>()
+            .unwrap();
+        assert_eq!(
+            self_.length(),
+            3,
+            "Expected 3 elements, got {}",
+            self_.length()
+        );
+        (
+            self_.get(0).cst_decode(),
+            self_.get(1).cst_decode(),
+            self_.get(2).cst_decode(),
+        )
     }
 }
 impl CstDecode<crate::api::types::SocketAddress>
@@ -1381,6 +1431,7 @@ pub fn wire_finalize_builder(
     chain_data_source_config: flutter_rust_bridge::for_generated::wasm_bindgen::JsValue,
     entropy_source_config: flutter_rust_bridge::for_generated::wasm_bindgen::JsValue,
     gossip_source_config: flutter_rust_bridge::for_generated::wasm_bindgen::JsValue,
+    liquidity_source_config: flutter_rust_bridge::for_generated::wasm_bindgen::JsValue,
 ) {
     wire_finalize_builder_impl(
         port_,
@@ -1388,6 +1439,7 @@ pub fn wire_finalize_builder(
         chain_data_source_config,
         entropy_source_config,
         gossip_source_config,
+        liquidity_source_config,
     )
 }
 

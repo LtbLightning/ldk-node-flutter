@@ -232,6 +232,7 @@ abstract class LdkCoreApi extends BaseApi {
       ChainDataSourceConfig? chainDataSourceConfig,
       EntropySourceConfig? entropySourceConfig,
       GossipSourceConfig? gossipSourceConfig,
+      LiquiditySourceConfig? liquiditySourceConfig,
       dynamic hint});
 
   RustArcIncrementStrongCountFnType
@@ -1361,6 +1362,7 @@ class LdkCoreApiImpl extends LdkCoreApiImplPlatform implements LdkCoreApi {
       ChainDataSourceConfig? chainDataSourceConfig,
       EntropySourceConfig? entropySourceConfig,
       GossipSourceConfig? gossipSourceConfig,
+      LiquiditySourceConfig? liquiditySourceConfig,
       dynamic hint}) {
     return handler.executeNormal(NormalTask(
       callFfi: (port_) {
@@ -1371,7 +1373,9 @@ class LdkCoreApiImpl extends LdkCoreApiImplPlatform implements LdkCoreApi {
             entropySourceConfig);
         var arg3 =
             cst_encode_opt_box_autoadd_gossip_source_config(gossipSourceConfig);
-        return wire.wire_finalize_builder(port_, arg0, arg1, arg2, arg3);
+        var arg4 = cst_encode_opt_box_autoadd_liquidity_source_config(
+            liquiditySourceConfig);
+        return wire.wire_finalize_builder(port_, arg0, arg1, arg2, arg3, arg4);
       },
       codec: DcoCodec(
         decodeSuccessData: dco_decode_node_base,
@@ -1382,7 +1386,8 @@ class LdkCoreApiImpl extends LdkCoreApiImplPlatform implements LdkCoreApi {
         config,
         chainDataSourceConfig,
         entropySourceConfig,
-        gossipSourceConfig
+        gossipSourceConfig,
+        liquiditySourceConfig
       ],
       apiImpl: this,
       hint: hint,
@@ -1395,7 +1400,8 @@ class LdkCoreApiImpl extends LdkCoreApiImplPlatform implements LdkCoreApi {
           "config",
           "chainDataSourceConfig",
           "entropySourceConfig",
-          "gossipSourceConfig"
+          "gossipSourceConfig",
+          "liquiditySourceConfig"
         ],
       );
 
@@ -1535,6 +1541,13 @@ class LdkCoreApiImpl extends LdkCoreApiImplPlatform implements LdkCoreApi {
   GossipSourceConfig dco_decode_box_autoadd_gossip_source_config(dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     return dco_decode_gossip_source_config(raw);
+  }
+
+  @protected
+  LiquiditySourceConfig dco_decode_box_autoadd_liquidity_source_config(
+      dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return dco_decode_liquidity_source_config(raw);
   }
 
   @protected
@@ -1921,6 +1934,18 @@ class LdkCoreApiImpl extends LdkCoreApiImplPlatform implements LdkCoreApi {
   }
 
   @protected
+  LiquiditySourceConfig dco_decode_liquidity_source_config(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    final arr = raw as List<dynamic>;
+    if (arr.length != 1)
+      throw Exception('unexpected arr length: expect 1 but see ${arr.length}');
+    return LiquiditySourceConfig(
+      lsps2Service:
+          dco_decode_record_socket_address_public_key_opt_string(arr[0]),
+    );
+  }
+
+  @protected
   List<ChannelDetails> dco_decode_list_channel_details(dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     return (raw as List<dynamic>).map(dco_decode_channel_details).toList();
@@ -2108,6 +2133,15 @@ class LdkCoreApiImpl extends LdkCoreApiImplPlatform implements LdkCoreApi {
     return raw == null
         ? null
         : dco_decode_box_autoadd_gossip_source_config(raw);
+  }
+
+  @protected
+  LiquiditySourceConfig? dco_decode_opt_box_autoadd_liquidity_source_config(
+      dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return raw == null
+        ? null
+        : dco_decode_box_autoadd_liquidity_source_config(raw);
   }
 
   @protected
@@ -2311,6 +2345,21 @@ class LdkCoreApiImpl extends LdkCoreApiImplPlatform implements LdkCoreApi {
       throw Exception('unexpected arr length: expect 1 but see ${arr.length}');
     return PublicKey(
       hexCode: dco_decode_String(arr[0]),
+    );
+  }
+
+  @protected
+  (SocketAddress, PublicKey, String?)
+      dco_decode_record_socket_address_public_key_opt_string(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    final arr = raw as List<dynamic>;
+    if (arr.length != 3) {
+      throw Exception('Expected 3 elements, got ${arr.length}');
+    }
+    return (
+      dco_decode_socket_address(arr[0]),
+      dco_decode_public_key(arr[1]),
+      dco_decode_opt_String(arr[2]),
     );
   }
 
@@ -2562,6 +2611,13 @@ class LdkCoreApiImpl extends LdkCoreApiImplPlatform implements LdkCoreApi {
       SseDeserializer deserializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     return (sse_decode_gossip_source_config(deserializer));
+  }
+
+  @protected
+  LiquiditySourceConfig sse_decode_box_autoadd_liquidity_source_config(
+      SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    return (sse_decode_liquidity_source_config(deserializer));
   }
 
   @protected
@@ -3053,6 +3109,15 @@ class LdkCoreApiImpl extends LdkCoreApiImplPlatform implements LdkCoreApi {
   }
 
   @protected
+  LiquiditySourceConfig sse_decode_liquidity_source_config(
+      SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    var var_lsps2Service =
+        sse_decode_record_socket_address_public_key_opt_string(deserializer);
+    return LiquiditySourceConfig(lsps2Service: var_lsps2Service);
+  }
+
+  @protected
   List<ChannelDetails> sse_decode_list_channel_details(
       SseDeserializer deserializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
@@ -3332,6 +3397,18 @@ class LdkCoreApiImpl extends LdkCoreApiImplPlatform implements LdkCoreApi {
   }
 
   @protected
+  LiquiditySourceConfig? sse_decode_opt_box_autoadd_liquidity_source_config(
+      SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+
+    if (sse_decode_bool(deserializer)) {
+      return (sse_decode_box_autoadd_liquidity_source_config(deserializer));
+    } else {
+      return null;
+    }
+  }
+
+  @protected
   MaxDustHTLCExposure? sse_decode_opt_box_autoadd_max_dust_htlc_exposure(
       SseDeserializer deserializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
@@ -3583,6 +3660,17 @@ class LdkCoreApiImpl extends LdkCoreApiImplPlatform implements LdkCoreApi {
     // Codec=Sse (Serialization based), see doc to use other codecs
     var var_hexCode = sse_decode_String(deserializer);
     return PublicKey(hexCode: var_hexCode);
+  }
+
+  @protected
+  (SocketAddress, PublicKey, String?)
+      sse_decode_record_socket_address_public_key_opt_string(
+          SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    var var_field0 = sse_decode_socket_address(deserializer);
+    var var_field1 = sse_decode_public_key(deserializer);
+    var var_field2 = sse_decode_opt_String(deserializer);
+    return (var_field0, var_field1, var_field2);
   }
 
   @protected
@@ -3912,6 +4000,13 @@ class LdkCoreApiImpl extends LdkCoreApiImplPlatform implements LdkCoreApi {
       GossipSourceConfig self, SseSerializer serializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     sse_encode_gossip_source_config(self, serializer);
+  }
+
+  @protected
+  void sse_encode_box_autoadd_liquidity_source_config(
+      LiquiditySourceConfig self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_liquidity_source_config(self, serializer);
   }
 
   @protected
@@ -4322,6 +4417,14 @@ class LdkCoreApiImpl extends LdkCoreApiImplPlatform implements LdkCoreApi {
   }
 
   @protected
+  void sse_encode_liquidity_source_config(
+      LiquiditySourceConfig self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_record_socket_address_public_key_opt_string(
+        self.lsps2Service, serializer);
+  }
+
+  @protected
   void sse_encode_list_channel_details(
       List<ChannelDetails> self, SseSerializer serializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
@@ -4557,6 +4660,17 @@ class LdkCoreApiImpl extends LdkCoreApiImplPlatform implements LdkCoreApi {
   }
 
   @protected
+  void sse_encode_opt_box_autoadd_liquidity_source_config(
+      LiquiditySourceConfig? self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+
+    sse_encode_bool(self != null, serializer);
+    if (self != null) {
+      sse_encode_box_autoadd_liquidity_source_config(self, serializer);
+    }
+  }
+
+  @protected
   void sse_encode_opt_box_autoadd_max_dust_htlc_exposure(
       MaxDustHTLCExposure? self, SseSerializer serializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
@@ -4783,6 +4897,15 @@ class LdkCoreApiImpl extends LdkCoreApiImplPlatform implements LdkCoreApi {
   void sse_encode_public_key(PublicKey self, SseSerializer serializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     sse_encode_String(self.hexCode, serializer);
+  }
+
+  @protected
+  void sse_encode_record_socket_address_public_key_opt_string(
+      (SocketAddress, PublicKey, String?) self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_socket_address(self.$1, serializer);
+    sse_encode_public_key(self.$2, serializer);
+    sse_encode_opt_String(self.$3, serializer);
   }
 
   @protected

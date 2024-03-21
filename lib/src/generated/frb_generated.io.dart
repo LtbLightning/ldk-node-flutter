@@ -77,6 +77,10 @@ abstract class LdkCoreApiImplPlatform extends BaseApiImpl<LdkCoreWire> {
   GossipSourceConfig dco_decode_box_autoadd_gossip_source_config(dynamic raw);
 
   @protected
+  LiquiditySourceConfig dco_decode_box_autoadd_liquidity_source_config(
+      dynamic raw);
+
+  @protected
   MaxDustHTLCExposure dco_decode_box_autoadd_max_dust_htlc_exposure(
       dynamic raw);
 
@@ -163,6 +167,9 @@ abstract class LdkCoreApiImplPlatform extends BaseApiImpl<LdkCoreWire> {
   LightningBalance dco_decode_lightning_balance(dynamic raw);
 
   @protected
+  LiquiditySourceConfig dco_decode_liquidity_source_config(dynamic raw);
+
+  @protected
   List<ChannelDetails> dco_decode_list_channel_details(dynamic raw);
 
   @protected
@@ -238,6 +245,10 @@ abstract class LdkCoreApiImplPlatform extends BaseApiImpl<LdkCoreWire> {
       dynamic raw);
 
   @protected
+  LiquiditySourceConfig? dco_decode_opt_box_autoadd_liquidity_source_config(
+      dynamic raw);
+
+  @protected
   MaxDustHTLCExposure? dco_decode_opt_box_autoadd_max_dust_htlc_exposure(
       dynamic raw);
 
@@ -304,6 +315,10 @@ abstract class LdkCoreApiImplPlatform extends BaseApiImpl<LdkCoreWire> {
 
   @protected
   PublicKey dco_decode_public_key(dynamic raw);
+
+  @protected
+  (SocketAddress, PublicKey, String?)
+      dco_decode_record_socket_address_public_key_opt_string(dynamic raw);
 
   @protected
   SocketAddress dco_decode_socket_address(dynamic raw);
@@ -406,6 +421,10 @@ abstract class LdkCoreApiImplPlatform extends BaseApiImpl<LdkCoreWire> {
       SseDeserializer deserializer);
 
   @protected
+  LiquiditySourceConfig sse_decode_box_autoadd_liquidity_source_config(
+      SseDeserializer deserializer);
+
+  @protected
   MaxDustHTLCExposure sse_decode_box_autoadd_max_dust_htlc_exposure(
       SseDeserializer deserializer);
 
@@ -501,6 +520,10 @@ abstract class LdkCoreApiImplPlatform extends BaseApiImpl<LdkCoreWire> {
   LightningBalance sse_decode_lightning_balance(SseDeserializer deserializer);
 
   @protected
+  LiquiditySourceConfig sse_decode_liquidity_source_config(
+      SseDeserializer deserializer);
+
+  @protected
   List<ChannelDetails> sse_decode_list_channel_details(
       SseDeserializer deserializer);
 
@@ -585,6 +608,10 @@ abstract class LdkCoreApiImplPlatform extends BaseApiImpl<LdkCoreWire> {
       SseDeserializer deserializer);
 
   @protected
+  LiquiditySourceConfig? sse_decode_opt_box_autoadd_liquidity_source_config(
+      SseDeserializer deserializer);
+
+  @protected
   MaxDustHTLCExposure? sse_decode_opt_box_autoadd_max_dust_htlc_exposure(
       SseDeserializer deserializer);
 
@@ -658,6 +685,11 @@ abstract class LdkCoreApiImplPlatform extends BaseApiImpl<LdkCoreWire> {
 
   @protected
   PublicKey sse_decode_public_key(SseDeserializer deserializer);
+
+  @protected
+  (SocketAddress, PublicKey, String?)
+      sse_decode_record_socket_address_public_key_opt_string(
+          SseDeserializer deserializer);
 
   @protected
   SocketAddress sse_decode_socket_address(SseDeserializer deserializer);
@@ -792,6 +824,16 @@ abstract class LdkCoreApiImplPlatform extends BaseApiImpl<LdkCoreWire> {
     // Codec=Cst (C-struct based), see doc to use other codecs
     final ptr = wire.cst_new_box_autoadd_gossip_source_config();
     cst_api_fill_to_wire_gossip_source_config(raw, ptr.ref);
+    return ptr;
+  }
+
+  @protected
+  ffi.Pointer<wire_cst_liquidity_source_config>
+      cst_encode_box_autoadd_liquidity_source_config(
+          LiquiditySourceConfig raw) {
+    // Codec=Cst (C-struct based), see doc to use other codecs
+    final ptr = wire.cst_new_box_autoadd_liquidity_source_config();
+    cst_api_fill_to_wire_liquidity_source_config(raw, ptr.ref);
     return ptr;
   }
 
@@ -1091,6 +1133,16 @@ abstract class LdkCoreApiImplPlatform extends BaseApiImpl<LdkCoreWire> {
   }
 
   @protected
+  ffi.Pointer<wire_cst_liquidity_source_config>
+      cst_encode_opt_box_autoadd_liquidity_source_config(
+          LiquiditySourceConfig? raw) {
+    // Codec=Cst (C-struct based), see doc to use other codecs
+    return raw == null
+        ? ffi.nullptr
+        : cst_encode_box_autoadd_liquidity_source_config(raw);
+  }
+
+  @protected
   ffi.Pointer<wire_cst_max_dust_htlc_exposure>
       cst_encode_opt_box_autoadd_max_dust_htlc_exposure(
           MaxDustHTLCExposure? raw) {
@@ -1321,6 +1373,13 @@ abstract class LdkCoreApiImplPlatform extends BaseApiImpl<LdkCoreWire> {
       GossipSourceConfig apiObj,
       ffi.Pointer<wire_cst_gossip_source_config> wireObj) {
     cst_api_fill_to_wire_gossip_source_config(apiObj, wireObj.ref);
+  }
+
+  @protected
+  void cst_api_fill_to_wire_box_autoadd_liquidity_source_config(
+      LiquiditySourceConfig apiObj,
+      ffi.Pointer<wire_cst_liquidity_source_config> wireObj) {
+    cst_api_fill_to_wire_liquidity_source_config(apiObj, wireObj.ref);
   }
 
   @protected
@@ -1784,6 +1843,13 @@ abstract class LdkCoreApiImplPlatform extends BaseApiImpl<LdkCoreWire> {
   }
 
   @protected
+  void cst_api_fill_to_wire_liquidity_source_config(
+      LiquiditySourceConfig apiObj, wire_cst_liquidity_source_config wireObj) {
+    cst_api_fill_to_wire_record_socket_address_public_key_opt_string(
+        apiObj.lsps2Service, wireObj.lsps2_service);
+  }
+
+  @protected
   void cst_api_fill_to_wire_max_dust_htlc_exposure(
       MaxDustHTLCExposure apiObj, wire_cst_max_dust_htlc_exposure wireObj) {
     if (apiObj is MaxDustHTLCExposure_FixedLimitMsat) {
@@ -1935,6 +2001,15 @@ abstract class LdkCoreApiImplPlatform extends BaseApiImpl<LdkCoreWire> {
   void cst_api_fill_to_wire_public_key(
       PublicKey apiObj, wire_cst_public_key wireObj) {
     wireObj.hex_code = cst_encode_String(apiObj.hexCode);
+  }
+
+  @protected
+  void cst_api_fill_to_wire_record_socket_address_public_key_opt_string(
+      (SocketAddress, PublicKey, String?) apiObj,
+      wire_cst_record_socket_address_public_key_opt_string wireObj) {
+    cst_api_fill_to_wire_socket_address(apiObj.$1, wireObj.field0);
+    cst_api_fill_to_wire_public_key(apiObj.$2, wireObj.field1);
+    wireObj.field2 = cst_encode_opt_String(apiObj.$3);
   }
 
   @protected
@@ -2101,6 +2176,10 @@ abstract class LdkCoreApiImplPlatform extends BaseApiImpl<LdkCoreWire> {
       GossipSourceConfig self, SseSerializer serializer);
 
   @protected
+  void sse_encode_box_autoadd_liquidity_source_config(
+      LiquiditySourceConfig self, SseSerializer serializer);
+
+  @protected
   void sse_encode_box_autoadd_max_dust_htlc_exposure(
       MaxDustHTLCExposure self, SseSerializer serializer);
 
@@ -2202,6 +2281,10 @@ abstract class LdkCoreApiImplPlatform extends BaseApiImpl<LdkCoreWire> {
       LightningBalance self, SseSerializer serializer);
 
   @protected
+  void sse_encode_liquidity_source_config(
+      LiquiditySourceConfig self, SseSerializer serializer);
+
+  @protected
   void sse_encode_list_channel_details(
       List<ChannelDetails> self, SseSerializer serializer);
 
@@ -2289,6 +2372,10 @@ abstract class LdkCoreApiImplPlatform extends BaseApiImpl<LdkCoreWire> {
       GossipSourceConfig? self, SseSerializer serializer);
 
   @protected
+  void sse_encode_opt_box_autoadd_liquidity_source_config(
+      LiquiditySourceConfig? self, SseSerializer serializer);
+
+  @protected
   void sse_encode_opt_box_autoadd_max_dust_htlc_exposure(
       MaxDustHTLCExposure? self, SseSerializer serializer);
 
@@ -2366,6 +2453,10 @@ abstract class LdkCoreApiImplPlatform extends BaseApiImpl<LdkCoreWire> {
 
   @protected
   void sse_encode_public_key(PublicKey self, SseSerializer serializer);
+
+  @protected
+  void sse_encode_record_socket_address_public_key_opt_string(
+      (SocketAddress, PublicKey, String?) self, SseSerializer serializer);
 
   @protected
   void sse_encode_socket_address(SocketAddress self, SseSerializer serializer);
@@ -3343,6 +3434,7 @@ class LdkCoreWire implements BaseWire {
     ffi.Pointer<wire_cst_chain_data_source_config> chain_data_source_config,
     ffi.Pointer<wire_cst_entropy_source_config> entropy_source_config,
     ffi.Pointer<wire_cst_gossip_source_config> gossip_source_config,
+    ffi.Pointer<wire_cst_liquidity_source_config> liquidity_source_config,
   ) {
     return _wire_finalize_builder(
       port_,
@@ -3350,6 +3442,7 @@ class LdkCoreWire implements BaseWire {
       chain_data_source_config,
       entropy_source_config,
       gossip_source_config,
+      liquidity_source_config,
     );
   }
 
@@ -3360,7 +3453,8 @@ class LdkCoreWire implements BaseWire {
                   ffi.Pointer<wire_cst_config>,
                   ffi.Pointer<wire_cst_chain_data_source_config>,
                   ffi.Pointer<wire_cst_entropy_source_config>,
-                  ffi.Pointer<wire_cst_gossip_source_config>)>>(
+                  ffi.Pointer<wire_cst_gossip_source_config>,
+                  ffi.Pointer<wire_cst_liquidity_source_config>)>>(
       'frbgen_ldk_node_wire_finalize_builder');
   late final _wire_finalize_builder = _wire_finalize_builderPtr.asFunction<
       void Function(
@@ -3368,7 +3462,8 @@ class LdkCoreWire implements BaseWire {
           ffi.Pointer<wire_cst_config>,
           ffi.Pointer<wire_cst_chain_data_source_config>,
           ffi.Pointer<wire_cst_entropy_source_config>,
-          ffi.Pointer<wire_cst_gossip_source_config>)>();
+          ffi.Pointer<wire_cst_gossip_source_config>,
+          ffi.Pointer<wire_cst_liquidity_source_config>)>();
 
   void rust_arc_increment_strong_count_RustOpaque_NodeSqliteStore(
     ffi.Pointer<ffi.Void> ptr,
@@ -3512,6 +3607,19 @@ class LdkCoreWire implements BaseWire {
   late final _cst_new_box_autoadd_gossip_source_config =
       _cst_new_box_autoadd_gossip_source_configPtr
           .asFunction<ffi.Pointer<wire_cst_gossip_source_config> Function()>();
+
+  ffi.Pointer<wire_cst_liquidity_source_config>
+      cst_new_box_autoadd_liquidity_source_config() {
+    return _cst_new_box_autoadd_liquidity_source_config();
+  }
+
+  late final _cst_new_box_autoadd_liquidity_source_configPtr = _lookup<
+          ffi.NativeFunction<
+              ffi.Pointer<wire_cst_liquidity_source_config> Function()>>(
+      'frbgen_ldk_node_cst_new_box_autoadd_liquidity_source_config');
+  late final _cst_new_box_autoadd_liquidity_source_config =
+      _cst_new_box_autoadd_liquidity_source_configPtr.asFunction<
+          ffi.Pointer<wire_cst_liquidity_source_config> Function()>();
 
   ffi.Pointer<wire_cst_max_dust_htlc_exposure>
       cst_new_box_autoadd_max_dust_htlc_exposure() {
@@ -4102,6 +4210,19 @@ final class wire_cst_gossip_source_config extends ffi.Struct {
   external int tag;
 
   external GossipSourceConfigKind kind;
+}
+
+final class wire_cst_record_socket_address_public_key_opt_string
+    extends ffi.Struct {
+  external wire_cst_socket_address field0;
+
+  external wire_cst_public_key field1;
+
+  external ffi.Pointer<wire_cst_list_prim_u_8_strict> field2;
+}
+
+final class wire_cst_liquidity_source_config extends ffi.Struct {
+  external wire_cst_record_socket_address_public_key_opt_string lsps2_service;
 }
 
 final class wire_cst_channel_id extends ffi.Struct {

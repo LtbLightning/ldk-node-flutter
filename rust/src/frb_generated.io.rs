@@ -139,6 +139,13 @@ impl CstDecode<crate::api::types::GossipSourceConfig> for *mut wire_cst_gossip_s
         CstDecode::<crate::api::types::GossipSourceConfig>::cst_decode(*wrap).into()
     }
 }
+impl CstDecode<crate::api::types::LiquiditySourceConfig> for *mut wire_cst_liquidity_source_config {
+    // Codec=Cst (C-struct based), see doc to use other codecs
+    fn cst_decode(self) -> crate::api::types::LiquiditySourceConfig {
+        let wrap = unsafe { flutter_rust_bridge::for_generated::box_from_leak_ptr(self) };
+        CstDecode::<crate::api::types::LiquiditySourceConfig>::cst_decode(*wrap).into()
+    }
+}
 impl CstDecode<crate::api::types::MaxDustHTLCExposure> for *mut wire_cst_max_dust_htlc_exposure {
     // Codec=Cst (C-struct based), see doc to use other codecs
     fn cst_decode(self) -> crate::api::types::MaxDustHTLCExposure {
@@ -538,6 +545,14 @@ impl CstDecode<crate::api::types::LightningBalance> for wire_cst_lightning_balan
         }
     }
 }
+impl CstDecode<crate::api::types::LiquiditySourceConfig> for wire_cst_liquidity_source_config {
+    // Codec=Cst (C-struct based), see doc to use other codecs
+    fn cst_decode(self) -> crate::api::types::LiquiditySourceConfig {
+        crate::api::types::LiquiditySourceConfig {
+            lsps2_service: self.lsps2_service.cst_decode(),
+        }
+    }
+}
 impl CstDecode<Vec<crate::api::types::ChannelDetails>> for *mut wire_cst_list_channel_details {
     // Codec=Cst (C-struct based), see doc to use other codecs
     fn cst_decode(self) -> Vec<crate::api::types::ChannelDetails> {
@@ -777,6 +792,28 @@ impl CstDecode<crate::api::types::PublicKey> for wire_cst_public_key {
         crate::api::types::PublicKey {
             hex_code: self.hex_code.cst_decode(),
         }
+    }
+}
+impl
+    CstDecode<(
+        crate::api::types::SocketAddress,
+        crate::api::types::PublicKey,
+        Option<String>,
+    )> for wire_cst_record_socket_address_public_key_opt_string
+{
+    // Codec=Cst (C-struct based), see doc to use other codecs
+    fn cst_decode(
+        self,
+    ) -> (
+        crate::api::types::SocketAddress,
+        crate::api::types::PublicKey,
+        Option<String>,
+    ) {
+        (
+            self.field0.cst_decode(),
+            self.field1.cst_decode(),
+            self.field2.cst_decode(),
+        )
     }
 }
 impl CstDecode<crate::api::types::SocketAddress> for wire_cst_socket_address {
@@ -1093,6 +1130,18 @@ impl Default for wire_cst_lightning_balance {
         Self::new_with_null_ptr()
     }
 }
+impl NewWithNullPtr for wire_cst_liquidity_source_config {
+    fn new_with_null_ptr() -> Self {
+        Self {
+            lsps2_service: Default::default(),
+        }
+    }
+}
+impl Default for wire_cst_liquidity_source_config {
+    fn default() -> Self {
+        Self::new_with_null_ptr()
+    }
+}
 impl NewWithNullPtr for wire_cst_max_dust_htlc_exposure {
     fn new_with_null_ptr() -> Self {
         Self {
@@ -1250,6 +1299,20 @@ impl NewWithNullPtr for wire_cst_public_key {
     }
 }
 impl Default for wire_cst_public_key {
+    fn default() -> Self {
+        Self::new_with_null_ptr()
+    }
+}
+impl NewWithNullPtr for wire_cst_record_socket_address_public_key_opt_string {
+    fn new_with_null_ptr() -> Self {
+        Self {
+            field0: Default::default(),
+            field1: Default::default(),
+            field2: core::ptr::null_mut(),
+        }
+    }
+}
+impl Default for wire_cst_record_socket_address_public_key_opt_string {
     fn default() -> Self {
         Self::new_with_null_ptr()
     }
@@ -1668,6 +1731,7 @@ pub extern "C" fn frbgen_ldk_node_wire_finalize_builder(
     chain_data_source_config: *mut wire_cst_chain_data_source_config,
     entropy_source_config: *mut wire_cst_entropy_source_config,
     gossip_source_config: *mut wire_cst_gossip_source_config,
+    liquidity_source_config: *mut wire_cst_liquidity_source_config,
 ) {
     wire_finalize_builder_impl(
         port_,
@@ -1675,6 +1739,7 @@ pub extern "C" fn frbgen_ldk_node_wire_finalize_builder(
         chain_data_source_config,
         entropy_source_config,
         gossip_source_config,
+        liquidity_source_config,
     )
 }
 
@@ -1761,6 +1826,14 @@ pub extern "C" fn frbgen_ldk_node_cst_new_box_autoadd_gossip_source_config(
 ) -> *mut wire_cst_gossip_source_config {
     flutter_rust_bridge::for_generated::new_leak_box_ptr(
         wire_cst_gossip_source_config::new_with_null_ptr(),
+    )
+}
+
+#[no_mangle]
+pub extern "C" fn frbgen_ldk_node_cst_new_box_autoadd_liquidity_source_config(
+) -> *mut wire_cst_liquidity_source_config {
+    flutter_rust_bridge::for_generated::new_leak_box_ptr(
+        wire_cst_liquidity_source_config::new_with_null_ptr(),
     )
 }
 
@@ -2288,6 +2361,11 @@ pub struct wire_cst_LightningBalance_CounterpartyRevokedOutputClaimable {
 }
 #[repr(C)]
 #[derive(Clone, Copy)]
+pub struct wire_cst_liquidity_source_config {
+    lsps2_service: wire_cst_record_socket_address_public_key_opt_string,
+}
+#[repr(C)]
+#[derive(Clone, Copy)]
 pub struct wire_cst_list_channel_details {
     ptr: *mut wire_cst_channel_details,
     len: i32,
@@ -2464,6 +2542,13 @@ pub struct wire_cst_PendingSweepBalance_AwaitingThresholdConfirmations {
 #[derive(Clone, Copy)]
 pub struct wire_cst_public_key {
     hex_code: *mut wire_cst_list_prim_u_8_strict,
+}
+#[repr(C)]
+#[derive(Clone, Copy)]
+pub struct wire_cst_record_socket_address_public_key_opt_string {
+    field0: wire_cst_socket_address,
+    field1: wire_cst_public_key,
+    field2: *mut wire_cst_list_prim_u_8_strict,
 }
 #[repr(C)]
 #[derive(Clone, Copy)]

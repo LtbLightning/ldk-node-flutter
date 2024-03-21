@@ -192,6 +192,16 @@ typedef struct wire_cst_gossip_source_config {
   union GossipSourceConfigKind kind;
 } wire_cst_gossip_source_config;
 
+typedef struct wire_cst_record_socket_address_public_key_opt_string {
+  struct wire_cst_socket_address field0;
+  struct wire_cst_public_key field1;
+  struct wire_cst_list_prim_u_8_strict *field2;
+} wire_cst_record_socket_address_public_key_opt_string;
+
+typedef struct wire_cst_liquidity_source_config {
+  struct wire_cst_record_socket_address_public_key_opt_string lsps2_service;
+} wire_cst_liquidity_source_config;
+
 typedef struct wire_cst_channel_id {
   struct wire_cst_list_prim_u_8_strict *data;
 } wire_cst_channel_id;
@@ -618,7 +628,8 @@ void frbgen_ldk_node_wire_finalize_builder(int64_t port_,
                                            struct wire_cst_config *config,
                                            struct wire_cst_chain_data_source_config *chain_data_source_config,
                                            struct wire_cst_entropy_source_config *entropy_source_config,
-                                           struct wire_cst_gossip_source_config *gossip_source_config);
+                                           struct wire_cst_gossip_source_config *gossip_source_config,
+                                           struct wire_cst_liquidity_source_config *liquidity_source_config);
 
 void frbgen_ldk_node_rust_arc_increment_strong_count_RustOpaque_NodeSqliteStore(const void *ptr);
 
@@ -643,6 +654,8 @@ struct wire_cst_entropy_source_config *frbgen_ldk_node_cst_new_box_autoadd_entro
 struct wire_cst_event *frbgen_ldk_node_cst_new_box_autoadd_event(void);
 
 struct wire_cst_gossip_source_config *frbgen_ldk_node_cst_new_box_autoadd_gossip_source_config(void);
+
+struct wire_cst_liquidity_source_config *frbgen_ldk_node_cst_new_box_autoadd_liquidity_source_config(void);
 
 struct wire_cst_max_dust_htlc_exposure *frbgen_ldk_node_cst_new_box_autoadd_max_dust_htlc_exposure(void);
 
@@ -705,6 +718,7 @@ static int64_t dummy_method_to_enforce_bundling(void) {
     dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_cst_new_box_autoadd_entropy_source_config);
     dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_cst_new_box_autoadd_event);
     dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_cst_new_box_autoadd_gossip_source_config);
+    dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_cst_new_box_autoadd_liquidity_source_config);
     dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_cst_new_box_autoadd_max_dust_htlc_exposure);
     dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_cst_new_box_autoadd_mnemonic_base);
     dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_cst_new_box_autoadd_node_base);

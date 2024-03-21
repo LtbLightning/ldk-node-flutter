@@ -76,6 +76,10 @@ abstract class LdkCoreApiImplPlatform extends BaseApiImpl<LdkCoreWire> {
   GossipSourceConfig dco_decode_box_autoadd_gossip_source_config(dynamic raw);
 
   @protected
+  LiquiditySourceConfig dco_decode_box_autoadd_liquidity_source_config(
+      dynamic raw);
+
+  @protected
   MaxDustHTLCExposure dco_decode_box_autoadd_max_dust_htlc_exposure(
       dynamic raw);
 
@@ -162,6 +166,9 @@ abstract class LdkCoreApiImplPlatform extends BaseApiImpl<LdkCoreWire> {
   LightningBalance dco_decode_lightning_balance(dynamic raw);
 
   @protected
+  LiquiditySourceConfig dco_decode_liquidity_source_config(dynamic raw);
+
+  @protected
   List<ChannelDetails> dco_decode_list_channel_details(dynamic raw);
 
   @protected
@@ -237,6 +244,10 @@ abstract class LdkCoreApiImplPlatform extends BaseApiImpl<LdkCoreWire> {
       dynamic raw);
 
   @protected
+  LiquiditySourceConfig? dco_decode_opt_box_autoadd_liquidity_source_config(
+      dynamic raw);
+
+  @protected
   MaxDustHTLCExposure? dco_decode_opt_box_autoadd_max_dust_htlc_exposure(
       dynamic raw);
 
@@ -303,6 +314,10 @@ abstract class LdkCoreApiImplPlatform extends BaseApiImpl<LdkCoreWire> {
 
   @protected
   PublicKey dco_decode_public_key(dynamic raw);
+
+  @protected
+  (SocketAddress, PublicKey, String?)
+      dco_decode_record_socket_address_public_key_opt_string(dynamic raw);
 
   @protected
   SocketAddress dco_decode_socket_address(dynamic raw);
@@ -405,6 +420,10 @@ abstract class LdkCoreApiImplPlatform extends BaseApiImpl<LdkCoreWire> {
       SseDeserializer deserializer);
 
   @protected
+  LiquiditySourceConfig sse_decode_box_autoadd_liquidity_source_config(
+      SseDeserializer deserializer);
+
+  @protected
   MaxDustHTLCExposure sse_decode_box_autoadd_max_dust_htlc_exposure(
       SseDeserializer deserializer);
 
@@ -500,6 +519,10 @@ abstract class LdkCoreApiImplPlatform extends BaseApiImpl<LdkCoreWire> {
   LightningBalance sse_decode_lightning_balance(SseDeserializer deserializer);
 
   @protected
+  LiquiditySourceConfig sse_decode_liquidity_source_config(
+      SseDeserializer deserializer);
+
+  @protected
   List<ChannelDetails> sse_decode_list_channel_details(
       SseDeserializer deserializer);
 
@@ -584,6 +607,10 @@ abstract class LdkCoreApiImplPlatform extends BaseApiImpl<LdkCoreWire> {
       SseDeserializer deserializer);
 
   @protected
+  LiquiditySourceConfig? sse_decode_opt_box_autoadd_liquidity_source_config(
+      SseDeserializer deserializer);
+
+  @protected
   MaxDustHTLCExposure? sse_decode_opt_box_autoadd_max_dust_htlc_exposure(
       SseDeserializer deserializer);
 
@@ -657,6 +684,11 @@ abstract class LdkCoreApiImplPlatform extends BaseApiImpl<LdkCoreWire> {
 
   @protected
   PublicKey sse_decode_public_key(SseDeserializer deserializer);
+
+  @protected
+  (SocketAddress, PublicKey, String?)
+      sse_decode_record_socket_address_public_key_opt_string(
+          SseDeserializer deserializer);
 
   @protected
   SocketAddress sse_decode_socket_address(SseDeserializer deserializer);
@@ -798,6 +830,13 @@ abstract class LdkCoreApiImplPlatform extends BaseApiImpl<LdkCoreWire> {
       GossipSourceConfig raw) {
     // Codec=Cst (C-struct based), see doc to use other codecs
     return cst_encode_gossip_source_config(raw);
+  }
+
+  @protected
+  List<dynamic> cst_encode_box_autoadd_liquidity_source_config(
+      LiquiditySourceConfig raw) {
+    // Codec=Cst (C-struct based), see doc to use other codecs
+    return cst_encode_liquidity_source_config(raw);
   }
 
   @protected
@@ -1172,6 +1211,14 @@ abstract class LdkCoreApiImplPlatform extends BaseApiImpl<LdkCoreWire> {
   }
 
   @protected
+  List<dynamic> cst_encode_liquidity_source_config(LiquiditySourceConfig raw) {
+    // Codec=Cst (C-struct based), see doc to use other codecs
+    return [
+      cst_encode_record_socket_address_public_key_opt_string(raw.lsps2Service)
+    ];
+  }
+
+  @protected
   List<dynamic> cst_encode_list_channel_details(List<ChannelDetails> raw) {
     // Codec=Cst (C-struct based), see doc to use other codecs
     return raw.map(cst_encode_channel_details).toList();
@@ -1322,6 +1369,15 @@ abstract class LdkCoreApiImplPlatform extends BaseApiImpl<LdkCoreWire> {
     return raw == null
         ? null
         : cst_encode_box_autoadd_gossip_source_config(raw);
+  }
+
+  @protected
+  List<dynamic>? cst_encode_opt_box_autoadd_liquidity_source_config(
+      LiquiditySourceConfig? raw) {
+    // Codec=Cst (C-struct based), see doc to use other codecs
+    return raw == null
+        ? null
+        : cst_encode_box_autoadd_liquidity_source_config(raw);
   }
 
   @protected
@@ -1482,6 +1538,17 @@ abstract class LdkCoreApiImplPlatform extends BaseApiImpl<LdkCoreWire> {
   List<dynamic> cst_encode_public_key(PublicKey raw) {
     // Codec=Cst (C-struct based), see doc to use other codecs
     return [cst_encode_String(raw.hexCode)];
+  }
+
+  @protected
+  List<dynamic> cst_encode_record_socket_address_public_key_opt_string(
+      (SocketAddress, PublicKey, String?) raw) {
+    // Codec=Cst (C-struct based), see doc to use other codecs
+    return [
+      cst_encode_socket_address(raw.$1),
+      cst_encode_public_key(raw.$2),
+      cst_encode_opt_String(raw.$3)
+    ];
   }
 
   @protected
@@ -1666,6 +1733,10 @@ abstract class LdkCoreApiImplPlatform extends BaseApiImpl<LdkCoreWire> {
       GossipSourceConfig self, SseSerializer serializer);
 
   @protected
+  void sse_encode_box_autoadd_liquidity_source_config(
+      LiquiditySourceConfig self, SseSerializer serializer);
+
+  @protected
   void sse_encode_box_autoadd_max_dust_htlc_exposure(
       MaxDustHTLCExposure self, SseSerializer serializer);
 
@@ -1767,6 +1838,10 @@ abstract class LdkCoreApiImplPlatform extends BaseApiImpl<LdkCoreWire> {
       LightningBalance self, SseSerializer serializer);
 
   @protected
+  void sse_encode_liquidity_source_config(
+      LiquiditySourceConfig self, SseSerializer serializer);
+
+  @protected
   void sse_encode_list_channel_details(
       List<ChannelDetails> self, SseSerializer serializer);
 
@@ -1854,6 +1929,10 @@ abstract class LdkCoreApiImplPlatform extends BaseApiImpl<LdkCoreWire> {
       GossipSourceConfig? self, SseSerializer serializer);
 
   @protected
+  void sse_encode_opt_box_autoadd_liquidity_source_config(
+      LiquiditySourceConfig? self, SseSerializer serializer);
+
+  @protected
   void sse_encode_opt_box_autoadd_max_dust_htlc_exposure(
       MaxDustHTLCExposure? self, SseSerializer serializer);
 
@@ -1931,6 +2010,10 @@ abstract class LdkCoreApiImplPlatform extends BaseApiImpl<LdkCoreWire> {
 
   @protected
   void sse_encode_public_key(PublicKey self, SseSerializer serializer);
+
+  @protected
+  void sse_encode_record_socket_address_public_key_opt_string(
+      (SocketAddress, PublicKey, String?) self, SseSerializer serializer);
 
   @protected
   void sse_encode_socket_address(SocketAddress self, SseSerializer serializer);
@@ -2173,9 +2256,10 @@ class LdkCoreWire implements BaseWire {
           List<dynamic> config,
           List<dynamic>? chain_data_source_config,
           List<dynamic>? entropy_source_config,
-          List<dynamic>? gossip_source_config) =>
+          List<dynamic>? gossip_source_config,
+          List<dynamic>? liquidity_source_config) =>
       wasmModule.wire_finalize_builder(port_, config, chain_data_source_config,
-          entropy_source_config, gossip_source_config);
+          entropy_source_config, gossip_source_config, liquidity_source_config);
 
   void rust_arc_increment_strong_count_RustOpaque_NodeSqliteStore(
           dynamic ptr) =>
@@ -2352,7 +2436,8 @@ class LdkCoreWasmModule implements WasmModule {
       List<dynamic> config,
       List<dynamic>? chain_data_source_config,
       List<dynamic>? entropy_source_config,
-      List<dynamic>? gossip_source_config);
+      List<dynamic>? gossip_source_config,
+      List<dynamic>? liquidity_source_config);
 
   external void rust_arc_increment_strong_count_RustOpaque_NodeSqliteStore(
       dynamic ptr);

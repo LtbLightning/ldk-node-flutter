@@ -987,6 +987,7 @@ fn wire_finalize_builder_impl(
     chain_data_source_config: impl CstDecode<Option<crate::api::types::ChainDataSourceConfig>>,
     entropy_source_config: impl CstDecode<Option<crate::api::types::EntropySourceConfig>>,
     gossip_source_config: impl CstDecode<Option<crate::api::types::GossipSourceConfig>>,
+    liquidity_source_config: impl CstDecode<Option<crate::api::types::LiquiditySourceConfig>>,
 ) {
     FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
         flutter_rust_bridge::for_generated::TaskInfo {
@@ -999,6 +1000,7 @@ fn wire_finalize_builder_impl(
             let api_chain_data_source_config = chain_data_source_config.cst_decode();
             let api_entropy_source_config = entropy_source_config.cst_decode();
             let api_gossip_source_config = gossip_source_config.cst_decode();
+            let api_liquidity_source_config = liquidity_source_config.cst_decode();
             move |context| {
                 transform_result_dco((move || {
                     crate::api::node::finalize_builder(
@@ -1006,6 +1008,7 @@ fn wire_finalize_builder_impl(
                         api_chain_data_source_config,
                         api_entropy_source_config,
                         api_gossip_source_config,
+                        api_liquidity_source_config,
                     )
                 })())
             }
@@ -1702,6 +1705,20 @@ impl SseDecode for crate::api::types::LightningBalance {
     }
 }
 
+impl SseDecode for crate::api::types::LiquiditySourceConfig {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        let mut var_lsps2Service = <(
+            crate::api::types::SocketAddress,
+            crate::api::types::PublicKey,
+            Option<String>,
+        )>::sse_decode(deserializer);
+        return crate::api::types::LiquiditySourceConfig {
+            lsps2_service: var_lsps2Service,
+        };
+    }
+}
+
 impl SseDecode for Vec<crate::api::types::ChannelDetails> {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
@@ -2037,6 +2054,19 @@ impl SseDecode for Option<crate::api::types::GossipSourceConfig> {
     }
 }
 
+impl SseDecode for Option<crate::api::types::LiquiditySourceConfig> {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        if (<bool>::sse_decode(deserializer)) {
+            return Some(<crate::api::types::LiquiditySourceConfig>::sse_decode(
+                deserializer,
+            ));
+        } else {
+            return None;
+        }
+    }
+}
+
 impl SseDecode for Option<crate::api::types::MaxDustHTLCExposure> {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
@@ -2338,6 +2368,22 @@ impl SseDecode for crate::api::types::PublicKey {
         return crate::api::types::PublicKey {
             hex_code: var_hexCode,
         };
+    }
+}
+
+impl SseDecode
+    for (
+        crate::api::types::SocketAddress,
+        crate::api::types::PublicKey,
+        Option<String>,
+    )
+{
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        let mut var_field0 = <crate::api::types::SocketAddress>::sse_decode(deserializer);
+        let mut var_field1 = <crate::api::types::PublicKey>::sse_decode(deserializer);
+        let mut var_field2 = <Option<String>>::sse_decode(deserializer);
+        return (var_field0, var_field1, var_field2);
     }
 }
 
@@ -3050,6 +3096,23 @@ impl flutter_rust_bridge::IntoIntoDart<crate::api::types::LightningBalance>
     for crate::api::types::LightningBalance
 {
     fn into_into_dart(self) -> crate::api::types::LightningBalance {
+        self
+    }
+}
+// Codec=Dco (DartCObject based), see doc to use other codecs
+impl flutter_rust_bridge::IntoDart for crate::api::types::LiquiditySourceConfig {
+    fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
+        [self.lsps2_service.into_into_dart().into_dart()].into_dart()
+    }
+}
+impl flutter_rust_bridge::for_generated::IntoDartExceptPrimitive
+    for crate::api::types::LiquiditySourceConfig
+{
+}
+impl flutter_rust_bridge::IntoIntoDart<crate::api::types::LiquiditySourceConfig>
+    for crate::api::types::LiquiditySourceConfig
+{
+    fn into_into_dart(self) -> crate::api::types::LiquiditySourceConfig {
         self
     }
 }
@@ -3984,6 +4047,17 @@ impl SseEncode for crate::api::types::LightningBalance {
     }
 }
 
+impl SseEncode for crate::api::types::LiquiditySourceConfig {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        <(
+            crate::api::types::SocketAddress,
+            crate::api::types::PublicKey,
+            Option<String>,
+        )>::sse_encode(self.lsps2_service, serializer);
+    }
+}
+
 impl SseEncode for Vec<crate::api::types::ChannelDetails> {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
@@ -4276,6 +4350,16 @@ impl SseEncode for Option<crate::api::types::GossipSourceConfig> {
     }
 }
 
+impl SseEncode for Option<crate::api::types::LiquiditySourceConfig> {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        <bool>::sse_encode(self.is_some(), serializer);
+        if let Some(value) = self {
+            <crate::api::types::LiquiditySourceConfig>::sse_encode(value, serializer);
+        }
+    }
+}
+
 impl SseEncode for Option<crate::api::types::MaxDustHTLCExposure> {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
@@ -4535,6 +4619,21 @@ impl SseEncode for crate::api::types::PublicKey {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
         <String>::sse_encode(self.hex_code, serializer);
+    }
+}
+
+impl SseEncode
+    for (
+        crate::api::types::SocketAddress,
+        crate::api::types::PublicKey,
+        Option<String>,
+    )
+{
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        <crate::api::types::SocketAddress>::sse_encode(self.0, serializer);
+        <crate::api::types::PublicKey>::sse_encode(self.1, serializer);
+        <Option<String>>::sse_encode(self.2, serializer);
     }
 }
 
