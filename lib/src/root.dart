@@ -415,6 +415,46 @@ class Node extends NodeBase {
     }
   }
 
+  ///Returns a payable invoice that can be used to request a variable amount payment (also known as "zero-amount" invoice) and receive it via a newly created just-in-time (JIT) channel.
+  /// When the returned invoice is paid, the configured LSPS2 -compliant LSP will open a channel to us, supplying just-in-time inbound liquidity.
+  /// If set, maxProportionalLspFeeLimitPpmMsat will limit how much proportional fee, in parts-per-million millisatoshis, we allow the LSP to take for opening the channel to us. We'll use its cheapest offer otherwise.
+  @override
+  Future<types.Bolt11Invoice> receiveVariableAmountPaymentViaJitChannel(
+      {required String description,
+      required int expirySecs,
+      int? maxProportionalLspFeeLimitPpmMsat,
+      hint}) {
+    try {
+      return super.receiveVariableAmountPaymentViaJitChannel(
+          description: description,
+          expirySecs: expirySecs,
+          maxProportionalLspFeeLimitPpmMsat: maxProportionalLspFeeLimitPpmMsat);
+    } on error.NodeBaseError catch (e) {
+      throw mapNodeBaseError(e);
+    }
+  }
+
+  ///Returns a payable invoice that can be used to request a payment of the amount given and receive it via a newly created just-in-time (JIT) channel.
+  /// When the returned invoice is paid, the configured LSPS2 -compliant LSP will open a channel to us, supplying just-in-time inbound liquidity.
+  /// If set, maxTotalLspFeeLimitPpmMsat will limit how much fee we allow the LSP to take for opening the channel to us. We'll use its cheapest offer otherwise.
+  @override
+  Future<types.Bolt11Invoice> receivePaymentViaJitChannel(
+      {required int amountMsat,
+      required String description,
+      required int expirySecs,
+      int? maxTotalLspFeeLimitMsat,
+      hint}) {
+    try {
+      return super.receivePaymentViaJitChannel(
+          amountMsat: amountMsat,
+          description: description,
+          expirySecs: expirySecs,
+          maxTotalLspFeeLimitMsat: maxTotalLspFeeLimitMsat);
+    } on error.NodeBaseError catch (e) {
+      throw mapNodeBaseError(e);
+    }
+  }
+
   /// Retrieve the details of a specific payment with the given hash.
   ///
   /// Returns `PaymentDetails` if the payment was known and `null` otherwise.
@@ -515,6 +555,7 @@ class Builder {
   types.EntropySourceConfig? _entropySource;
   types.ChainDataSourceConfig? _chainDataSourceConfig;
   types.GossipSourceConfig? _gossipSourceConfig;
+  types.LiquiditySourceConfig? _liquiditySourceConfig;
 
   /// Creates a new builder instance from an [Config].
   ///
@@ -614,6 +655,22 @@ class Builder {
   ///
   Builder setListeningAddresses(List<types.SocketAddress> listeningAddresses) {
     _config!.listeningAddresses = listeningAddresses;
+    return this;
+  }
+
+  /// Configures the [Node] instance to source its inbound liquidity from the given
+  /// [LSPS2](https://github.com/BitcoinAndLightningLayerSpecs/lsp/blob/main/LSPS2/README.md)
+  /// service.
+  ///
+  /// Will mark the LSP as trusted for 0-confirmation channels, see [`config,trustedPeers0conf`].
+  ///
+  /// The given `token` will be used by the LSP to authenticate the user.
+  Builder setLiquiditySourceLsps2(
+      {required types.SocketAddress address,
+      required types.PublicKey publicKey,
+      String? token}) {
+    _liquiditySourceConfig =
+        types.LiquiditySourceConfig(lsps2Service: (address, publicKey, token));
     return this;
   }
 
