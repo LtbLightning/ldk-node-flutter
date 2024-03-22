@@ -141,6 +141,7 @@ class _MyAppState extends State<MyApp> {
         print("======Channels========");
         for (var e in res) {
           print("nodeId: ${aliceNodeId!.hexCode}");
+          print("userChannelId: ${e.userChannelId.data}");
           print("channelId: ${e.channelId.data}");
           print("isChannelReady: ${e.isChannelReady}");
           print("isUsable: ${e.isUsable}");
