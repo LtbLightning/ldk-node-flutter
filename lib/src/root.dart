@@ -687,11 +687,11 @@ class Builder {
         _config!.storageDirPath = nodePath;
       }
       final res = await finalizeBuilder(
-        config: _config!,
-        entropySourceConfig: _entropySource,
-        chainDataSourceConfig: _chainDataSourceConfig,
-        gossipSourceConfig: _gossipSourceConfig,
-      );
+          config: _config!,
+          entropySourceConfig: _entropySource,
+          chainDataSourceConfig: _chainDataSourceConfig,
+          gossipSourceConfig: _gossipSourceConfig,
+          liquiditySourceConfig: _liquiditySourceConfig);
       return Node._(ptr: res.ptr);
     } on error.BuilderError catch (e) {
       throw mapBuilderError(e);
