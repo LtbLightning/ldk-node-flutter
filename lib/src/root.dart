@@ -662,7 +662,7 @@ class Builder {
   /// [LSPS2](https://github.com/BitcoinAndLightningLayerSpecs/lsp/blob/main/LSPS2/README.md)
   /// service.
   ///
-  /// Will mark the LSP as trusted for 0-confirmation channels, see [`config,trustedPeers0conf`].
+  /// Will mark the LSP as trusted for 0-confirmation channels, see `config.trustedPeers0conf`.
   ///
   /// The given `token` will be used by the LSP to authenticate the user.
   Builder setLiquiditySourceLsps2(

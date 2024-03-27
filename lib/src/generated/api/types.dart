@@ -40,25 +40,12 @@ class BalanceDetails {
   /// The total balance that we would be able to claim across all our Lightning channels.
   ///
   /// Note this excludes balances that we are unsure if we are able to claim (e.g., as we are
-  /// waiting for a preimage or for a timeout to expire). These balances will however be included
-  /// as [`MaybePreimageClaimableHTLC`] and
-  /// [`MaybeTimeoutClaimableHTLC`] in [`lightning_balances`].
-  ///
-  /// [`MaybePreimageClaimableHTLC`]: LightningBalance::MaybePreimageClaimableHTLC
-  /// [`MaybeTimeoutClaimableHTLC`]: LightningBalance::MaybeTimeoutClaimableHTLC
-  /// [`lightning_balances`]: Self::lightning_balances
   final int totalLightningBalanceSats;
 
   /// A detailed list of all known Lightning balances that would be claimable on channel closure.
   ///
   /// Note that less than the listed amounts are spendable over lightning as further reserve
-  /// restrictions apply. Please refer to [`ChannelDetails::outbound_capacity_msat`] and
-  /// [`ChannelDetails::next_outbound_htlc_limit_msat`] as returned by [`Node::list_channels`]
-  /// for a better approximation of the spendable amounts.
-  ///
-  /// [`ChannelDetails::outbound_capacity_msat`]: crate::ChannelDetails::outbound_capacity_msat
-  /// [`ChannelDetails::next_outbound_htlc_limit_msat`]: crate::ChannelDetails::next_outbound_htlc_limit_msat
-  /// [`Node::list_channels`]: crate::Node::list_channels
+  /// restrictions apply.
   final List<LightningBalance> lightningBalances;
 
   /// A detailed list of balances currently being swept from the Lightning to the on-chain
@@ -68,9 +55,7 @@ class BalanceDetails {
   /// delay, but are now being claimed and useable once sufficiently confirmed on-chain.
   ///
   /// Note that, depending on the sync status of the wallets, swept balances listed here might or
-  /// might not already be accounted for in [`total_onchain_balance_sats`].
-  ///
-  /// [`total_onchain_balance_sats`]: Self::total_onchain_balance_sats
+  /// might not already be accounted for in `totalOnchainBalanceSats`.
   final List<PendingSweepBalance> pendingBalancesFromChannelClosures;
 
   const BalanceDetails({
@@ -248,11 +233,10 @@ class ChannelDetails {
   /// value ensures that if we broadcast a revoked state, our counterparty can punish us by
   /// claiming at least this value on chain.
   ///
-  /// This value is not included in [`outbound_capacity_msat`] as it can never be spent.
+  /// This value is not included in `outboundCapacityMsat` as it can never be spent.
   ///
   /// This value will be `None` for outbound channels until the counterparty accepts the channel.
   ///
-  /// [`outbound_capacity_msat`]: Self::outbound_capacity_msat
   final int? unspendablePunishmentReserve;
 
   /// The local `user_channel_id` of this channel.
@@ -337,16 +321,13 @@ class ChannelDetails {
   final int? counterpartyForwardingInfoCltvExpiryDelta;
 
   /// The available outbound capacity for sending a single HTLC to the remote peer. This is
-  /// similar to [`ChannelDetails::outbound_capacity_msat`] but it may be further restricted by
+  /// similar to `channelDetails.outboundCapacityMsat` but it may be further restricted by
   /// the current state and per-HTLC limit(s). This is intended for use when routing, allowing us
   /// to use a limit as close as possible to the HTLC limit we can currently send.
-  ///
-  /// See also [`ChannelDetails::next_outbound_htlc_minimum_msat`] and
-  /// [`ChannelDetails::outbound_capacity_msat`].
   final int nextOutboundHtlcLimitMsat;
 
   /// The minimum value for sending a single HTLC to the remote peer. This is the equivalent of
-  /// [`ChannelDetails::next_outbound_htlc_limit_msat`] but represents a lower-bound, rather than
+  /// `channelDetails.nextOutboundHtlcLimitMsat`  but represents a lower-bound, rather than
   /// an upper-bound. This is intended for use when routing, allowing us to ensure we pick a
   /// route which is valid.
   final int nextOutboundHtlcMinimumMsat;
@@ -805,7 +786,7 @@ sealed class LightningBalance with _$LightningBalance {
   ///
   /// Once the spending transaction confirms, before it has reached enough confirmations to be
   /// considered safe from chain reorganizations, the balance will instead be provided via
-  /// [`LightningBalance::ClaimableAwaitingConfirmations`].
+  /// `lightningBalance.claimableAwaitingConfirmations`.
   const factory LightningBalance.contentiousClaimable({
     /// The identifier of the channel this balance belongs to.
     required ChannelId channelId,
@@ -968,13 +949,13 @@ enum Network {
   regtest,
 }
 
-/// Represents the status of the [`Node`].
+/// Represents the status of the [Node].
 class NodeStatus {
-  /// Indicates whether the [`Node`] is running.
+  /// Indicates whether the [Node] is running.
   final bool isRunning;
 
-  /// Indicates whether the [`Node`] is listening for incoming connections on the addresses
-  /// configured via [`Config::listening_addresses`].
+  /// Indicates whether the [Node] is listening for incoming connections on the addresses
+  /// configured via `config.listeningAddresses`.
   final bool isListening;
 
   /// The best block to which our Lightning wallet is currently synced.
@@ -983,31 +964,31 @@ class NodeStatus {
   /// The timestamp, in seconds since start of the UNIX epoch, when we last successfully synced
   /// our Lightning wallet to the chain tip.
   ///
-  /// Will be `None` if the wallet hasn't been synced since the [`Node`] was initialized.
+  /// Will be `None` if the wallet hasn't been synced since the [Node] was initialized.
   final int? latestWalletSyncTimestamp;
 
   /// The timestamp, in seconds since start of the UNIX epoch, when we last successfully synced
   /// our on-chain wallet to the chain tip.
   ///
-  /// Will be `None` if the wallet hasn't been synced since the [`Node`] was initialized.
+  /// Will be `None` if the wallet hasn't been synced since the [Node] was initialized.
   final int? latestOnchainWalletSyncTimestamp;
 
   /// The timestamp, in seconds since start of the UNIX epoch, when we last successfully update
   /// our fee rate cache.
   ///
-  /// Will be `None` if the cache hasn't been updated since the [`Node`] was initialized.
+  /// Will be `None` if the cache hasn't been updated since the [Node] was initialized.
   final int? latestFeeRateCacheUpdateTimestamp;
 
   /// The timestamp, in seconds since start of the UNIX epoch, when the last rapid gossip sync
   /// (RGS) snapshot we successfully applied was generated.
   ///
-  /// Will be `None` if RGS isn't configured or the snapshot hasn't been updated since the [`Node`] was initialized.
+  /// Will be `None` if RGS isn't configured or the snapshot hasn't been updated since the [Node] was initialized.
   final int? latestRgsSnapshotTimestamp;
 
   /// The timestamp, in seconds since start of the UNIX epoch, when we last broadcasted a node
   /// announcement.
   ///
-  /// Will be `None` if we have no public channels or we haven't broadcasted since the [`Node`] was initialized.
+  /// Will be `None` if we have no public channels or we haven't broadcasted since the [Node] was initialized.
   final int? latestNodeAnnouncementBroadcastTimestamp;
 
   const NodeStatus({
