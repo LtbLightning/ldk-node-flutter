@@ -130,7 +130,7 @@ impl From<NodeError> for NodeBaseError {
             }
             NodeError::LiquidityRequestFailed => NodeBaseError::LiquidityRequestFailed,
             NodeError::LiquiditySourceUnavailable => NodeBaseError::LiquiditySourceUnavailable,
-            NodeError::LiquidityFeeTooHigh => NodeBaseError::LiquidityFeeTooHigh
+            NodeError::LiquidityFeeTooHigh => NodeBaseError::LiquidityFeeTooHigh,
         }
     }
 }

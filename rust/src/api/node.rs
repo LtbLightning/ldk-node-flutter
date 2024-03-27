@@ -43,7 +43,7 @@ pub fn finalize_builder(
         chain_data_source_config,
         entropy_source_config,
         gossip_source_config,
-        liquidity_source_config
+        liquidity_source_config,
     );
     match builder?.build() {
         Ok(e) => Ok(NodeBase {
