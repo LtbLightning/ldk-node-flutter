@@ -1,10 +1,21 @@
-## [0.2.1]
-Android support bug resolved
+## [0.2.2-dev]
+Updated Rust and Flutter dependencies.
+#### APIs added
+- Expose `nextEventAsync()`, `config()`, `status()`, `receiveVariableAmountPaymentViaJitChannel` & `receivePaymentViaJitChannel` in `Node`
+#### API changed
+- Replaced `totalOnchainBalanceSats()` & `spendableOnchainBalanceSats()` with `listBalances()`.
+- `connectOpenChannel` returns a `UserChannelId` object.
+- `updateChannelConfig` & `closeChannel` accepts a `UserChannelId` object instead of `ChannelId`
 
+## [0.2.1]
+Updated Rust and Flutter dependencies.
 #### API changed
 - Renamed `waitUntilNextHandled()` to `waitNextHandled`.
 - Renamed `listeningAddress()` to `listeningAddresses`
 - Upgraded `BuilderException` to handle Invalid SocketAddress.
+#### Fixed
+- Functions hang indefinitely on iOs devices
+- Android support bug resolved
 
 ## [0.2.0]
 Updated `Rust` and `Flutter` dependencies.

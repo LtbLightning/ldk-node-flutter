@@ -1,15 +1,19 @@
-import 'package:flutter_rust_bridge/flutter_rust_bridge.dart';
-import 'package:ldk_node/src/generated/bridge_definitions.dart' as bridge;
-import 'package:ldk_node/src/utils/exceptions.dart';
-import 'package:ldk_node/src/utils/loader.dart';
+import 'package:ldk_node/src/generated/api/error.dart' as error;
+import 'package:ldk_node/src/generated/api/types.dart' as types;
+import 'package:ldk_node/src/utils/utils.dart';
 import 'package:path_provider/path_provider.dart';
 
-class Mnemonic extends bridge.Mnemonic {
-  Mnemonic(String seedPhrase)
-      : super(bridge: loaderApi, seedPhrase: seedPhrase);
+import 'generated/api/node.dart';
+
+///The from string implementation will try to determine the language of the mnemonic from all the supported languages. (Languages have to be explicitly enabled using the Cargo features.)
+/// Supported number of words are 12, 15, 18, 21, and 24.
+///
+class Mnemonic extends MnemonicBase {
+  Mnemonic({required super.seedPhrase});
   static Future<Mnemonic> generate() async {
-    final res = await bridge.Mnemonic.generate(bridge: loaderApi);
-    return Mnemonic(res.seedPhrase);
+    await Frb.verifyInit();
+    final res = await MnemonicBase.generate();
+    return Mnemonic(seedPhrase: res.seedPhrase);
   }
 }
 
@@ -17,20 +21,20 @@ class Mnemonic extends bridge.Mnemonic {
 ///
 ///Needs to be initialized and instantiated through builder.build().
 ///
-class Node {
-  final bridge.NodePointer _pointer;
-  Node._(this._pointer);
+class Node extends NodeBase {
+  Node._({required super.ptr});
 
   /// Starts the necessary background tasks, such as handling events coming from user input,
   /// LDK/BDK, and the peer-to-peer network.
   ///
   /// After this returns, the [Node] instance can be controlled via the provided API methods in
   /// a thread-safe manner.
-  Future<void> start() async {
+  @override
+  Future<void> start({hint}) async {
     try {
-      await loaderApi.startMethodNodePointer(that: _pointer);
-    } on bridge.NodeException catch (e) {
-      throw handleNodeException(e);
+      return super.start();
+    } on error.NodeBaseError catch (e) {
+      throw mapNodeBaseError(e);
     }
   }
 
@@ -38,33 +42,36 @@ class Node {
   ///
   /// After this returns most API methods will throw NotRunning Exception.
   ///
-  Future<void> stop() async {
+  @override
+  Future<void> stop({hint}) async {
     try {
-      await loaderApi.stopMethodNodePointer(that: _pointer);
-    } on bridge.NodeException catch (e) {
-      throw handleNodeException(e);
+      await super.stop();
+    } on error.NodeBaseError catch (e) {
+      throw mapNodeBaseError(e);
     }
   }
 
   /// Blocks until the next event is available.
   ///
   /// **Note:** this will always return the same event until handling is confirmed via `node.eventHandled()`.
-  Future<void> eventHandled() async {
+  @override
+  Future<void> eventHandled({hint}) async {
     try {
-      await loaderApi.eventHandledMethodNodePointer(that: _pointer);
-    } on bridge.NodeException catch (e) {
-      throw handleNodeException(e);
+      await super.eventHandled();
+    } on error.NodeBaseError catch (e) {
+      throw mapNodeBaseError(e);
     }
   }
 
   // Confirm the last retrieved event handled.
   ///
   /// **Note:** This **MUST** be called after each event has been handled.
-  Future<bridge.Event?> nextEvent() async {
+  @override
+  Future<types.Event?> nextEvent({hint}) async {
     try {
-      return await loaderApi.nextEventMethodNodePointer(that: _pointer);
-    } on bridge.NodeException catch (e) {
-      throw handleNodeException(e);
+      return await super.nextEvent();
+    } on error.NodeBaseError catch (e) {
+      throw mapNodeBaseError(e);
     }
   }
 
@@ -74,108 +81,122 @@ class Node {
   ///
   /// **Note:** this will always return the same event until handling is confirmed via `node.eventHandled()`.
   ///
-  Future<bridge.Event?> waitNextHandled() async {
+  Future<types.Event?> waitNextHandled({hint}) async {
     try {
-      return await loaderApi.waitNextEventMethodNodePointer(that: _pointer);
-    } on bridge.NodeException catch (e) {
-      throw handleNodeException(e);
+      return await super.waitNextEvent();
+    } on error.NodeBaseError catch (e) {
+      throw mapNodeBaseError(e);
     }
   }
 
   /// Returns our own node id
-  Future<bridge.PublicKey> nodeId() async {
+  @override
+  Future<types.PublicKey> nodeId({hint}) async {
     try {
-      return await loaderApi.nodeIdMethodNodePointer(that: _pointer);
-    } on bridge.NodeException catch (e) {
-      throw handleNodeException(e);
+      return await super.nodeId();
+    } on error.NodeBaseError catch (e) {
+      throw mapNodeBaseError(e);
     }
   }
 
   /// Returns our listening address
-  Future<List<bridge.SocketAddress>?> listeningAddresses() async {
+  @override
+  Future<List<types.SocketAddress>?> listeningAddresses({hint}) async {
     try {
-      return await loaderApi.listeningAddressesMethodNodePointer(
-          that: _pointer);
-    } on bridge.NodeException catch (e) {
-      throw handleNodeException(e);
-    }
-  }
-
-  /// Retrieve a new on-chain/funding address.
-  Future<bridge.Address> newOnchainAddress() async {
-    try {
-      return await loaderApi.newOnchainAddressMethodNodePointer(that: _pointer);
-    } on bridge.NodeException catch (e) {
-      throw handleNodeException(e);
+      return await super.listeningAddresses();
+    } on error.NodeBaseError catch (e) {
+      throw mapNodeBaseError(e);
     }
   }
 
   /// Retrieve the currently spendable on-chain balance in satoshis.
-  Future<int> spendableOnchainBalanceSats() async {
+  @override
+  Future<types.BalanceDetails> listBalances({hint}) {
     try {
-      return await loaderApi.spendableOnchainBalanceSatsMethodNodePointer(
-          that: _pointer);
-    } on bridge.NodeException catch (e) {
-      throw handleNodeException(e);
+      return super.listBalances();
+    } on error.NodeBaseError catch (e) {
+      throw mapNodeBaseError(e);
     }
   }
 
-  /// Retrieve the current total on-chain balance in satoshis.
-  Future<int> totalOnchainBalanceSats() async {
+  ///Returns the status of the Node.
+  @override
+  Future<types.NodeStatus> status({hint}) {
+    return super.status();
+  }
+
+  ///Returns the config with which the Node was initialized.
+  @override
+  Future<types.Config> config({hint}) {
+    return super.config();
+  }
+
+  ///Returns the next event in the event queue.
+  /// Will asynchronously poll the event queue until the next event is ready.
+  /// **Note:** this will always return the same event until handling is confirmed via `node.eventHandled()`.
+
+  @override
+  Future<types.Event> nextEventAsync({hint}) {
+    return super.nextEventAsync();
+  }
+
+  /// Retrieve a new on-chain/funding address.
+  @override
+  Future<types.Address> newOnchainAddress({hint}) async {
     try {
-      return await loaderApi.totalOnchainBalanceSatsMethodNodePointer(
-          that: _pointer);
-    } on bridge.NodeException catch (e) {
-      throw handleNodeException(e);
+      return await super.newOnchainAddress();
+    } on error.NodeBaseError catch (e) {
+      throw mapNodeBaseError(e);
     }
   }
 
   /// Send an on-chain payment to the given address.
-  Future<bridge.Txid> sendToOnchainAddress(
-      {required bridge.Address address, required int amountSats}) async {
+  @override
+  Future<types.Txid> sendToOnchainAddress(
+      {required types.Address address, required int amountSats, hint}) async {
     try {
-      return await loaderApi.sendToOnchainAddressMethodNodePointer(
-          that: _pointer, address: address, amountSats: amountSats);
-    } on bridge.NodeException catch (e) {
-      throw handleNodeException(e);
+      return await super
+          .sendToOnchainAddress(address: address, amountSats: amountSats);
+    } on error.NodeBaseError catch (e) {
+      throw mapNodeBaseError(e);
     }
   }
 
   /// Send an on-chain payment to the given address, draining all the available funds.
-  Future<bridge.Txid> sendAllToOnchainAddress(
-      {required bridge.Address address}) async {
+  @override
+  Future<types.Txid> sendAllToOnchainAddress(
+      {required types.Address address, hint}) async {
     try {
-      return await loaderApi.sendAllToOnchainAddressMethodNodePointer(
-          that: _pointer, address: address);
-    } on bridge.NodeException catch (e) {
-      throw handleNodeException(e);
+      return await super.sendAllToOnchainAddress(address: address);
+    } on error.NodeBaseError catch (e) {
+      throw mapNodeBaseError(e);
     }
   }
 
   ///Retrieve a list of known channels.
-  Future<List<bridge.ChannelDetails>> listChannels() async {
+  @override
+  Future<List<types.ChannelDetails>> listChannels({hint}) async {
     try {
-      return await loaderApi.listChannelsMethodNodePointer(that: _pointer);
-    } on bridge.NodeException catch (e) {
-      throw handleNodeException(e);
+      return await super.listChannels();
+    } on error.NodeBaseError catch (e) {
+      throw mapNodeBaseError(e);
     }
   }
 
   /// Connect to a node on the peer-to-peer network.
   ///
   /// If `permanently` is set to `true`, we'll remember the peer and reconnect to it on restart.
+  @override
   Future<void> connect(
-      {required bridge.SocketAddress netaddress,
-      required bridge.PublicKey nodeId,
-      required bool persist}) async {
+      {required types.SocketAddress address,
+      required types.PublicKey nodeId,
+      required bool persist,
+      hint}) async {
     try {
-      await loaderApi.connectMethodNodePointer(
-          that: _pointer,
-          address: netaddress,
-          nodeId: nodeId,
-          persist: persist);
-    } on bridge.NodeException catch (e) {
-      throw handleNodeException(e);
+      return await super
+          .connect(address: address, nodeId: nodeId, persist: persist);
+    } on error.NodeBaseError catch (e) {
+      throw mapNodeBaseError(e);
     }
   }
 
@@ -183,16 +204,15 @@ class Node {
   ///
   /// Will also remove the peer from the peer store, i.e., after this has been called we won't
   /// try to reconnect on restart.
-  Future<void> disconnect({
-    required bridge.PublicKey counterpartyNodeId,
-  }) async {
+  @override
+  Future<void> disconnect(
+      {required types.PublicKey counterpartyNodeId, hint}) async {
     try {
-      await loaderApi.disconnectMethodNodePointer(
-        that: _pointer,
+      await super.disconnect(
         counterpartyNodeId: counterpartyNodeId,
       );
-    } on bridge.NodeException catch (e) {
-      throw handleNodeException(e);
+    } on error.NodeBaseError catch (e) {
+      throw mapNodeBaseError(e);
     }
   }
 
@@ -205,81 +225,82 @@ class Node {
   /// entirely shifted to one side, therefore allowing to receive payments from the getgo.
   ///
   /// Returns a temporary channel id.
-  Future<void> connectOpenChannel(
-      {required bridge.SocketAddress netaddress,
-      required bridge.PublicKey nodeId,
+  @override
+  Future<types.UserChannelId> connectOpenChannel(
+      {required types.SocketAddress address,
+      required types.PublicKey nodeId,
       required int channelAmountSats,
       required bool announceChannel,
-      bridge.ChannelConfig? channelConfig,
-      int? pushToCounterpartyMsat}) async {
+      types.ChannelConfig? channelConfig,
+      int? pushToCounterpartyMsat,
+      hint}) async {
     try {
-      await loaderApi.connectOpenChannelMethodNodePointer(
-          that: _pointer,
-          address: netaddress,
+      return await super.connectOpenChannel(
+          address: address,
           nodeId: nodeId,
           pushToCounterpartyMsat: pushToCounterpartyMsat,
           channelAmountSats: channelAmountSats,
           channelConfig: channelConfig,
           announceChannel: announceChannel);
-    } on bridge.NodeException catch (e) {
-      throw handleNodeException(e);
+    } on error.NodeBaseError catch (e) {
+      throw mapNodeBaseError(e);
     }
   }
 
   ///Sync the LDK and BDK wallets with the current chain state.
   /// Note that the wallets will be also synced regularly in the background
-  Future<void> syncWallets() async {
+  @override
+  Future<void> syncWallets({hint}) async {
     try {
-      await loaderApi.syncWalletsMethodNodePointer(that: _pointer);
-    } on bridge.NodeException catch (e) {
-      throw handleNodeException(e);
+      await super.syncWallets();
+    } on error.NodeBaseError catch (e) {
+      throw mapNodeBaseError(e);
     }
   }
 
   /// Close a previously opened channel.
-  Future<void> closeChannel({
-    required bridge.PublicKey counterpartyNodeId,
-    required bridge.ChannelId channelId,
-  }) async {
+  @override
+  Future<void> closeChannel(
+      {required types.PublicKey counterpartyNodeId,
+      required types.UserChannelId userChannelId,
+      hint}) async {
     try {
-      await loaderApi.closeChannelMethodNodePointer(
-        that: _pointer,
-        channelId: channelId,
+      await super.closeChannel(
+        userChannelId: userChannelId,
         counterpartyNodeId: counterpartyNodeId,
       );
-    } on bridge.NodeException catch (e) {
-      throw handleNodeException(e);
+    } on error.NodeBaseError catch (e) {
+      throw mapNodeBaseError(e);
     }
   }
 
   ///Update the config for a previously opened channel.
   ///
-  Future<void> updateChannelConfig({
-    required bridge.PublicKey counterpartyNodeId,
-    required bridge.ChannelId channelId,
-    required bridge.ChannelConfig channelConfig,
-  }) async {
+  @override
+  Future<void> updateChannelConfig(
+      {required types.PublicKey counterpartyNodeId,
+      required types.UserChannelId userChannelId,
+      required types.ChannelConfig channelConfig,
+      hint}) async {
     try {
-      await loaderApi.updateChannelConfigMethodNodePointer(
-        that: _pointer,
-        channelId: channelId,
+      await super.updateChannelConfig(
+        userChannelId: userChannelId,
         counterpartyNodeId: counterpartyNodeId,
         channelConfig: channelConfig,
       );
-    } on bridge.NodeException catch (e) {
-      throw handleNodeException(e);
+    } on error.NodeBaseError catch (e) {
+      throw mapNodeBaseError(e);
     }
   }
 
   /// Send a payement given an invoice.
-  Future<bridge.PaymentHash> sendPayment({
-    required bridge.Bolt11Invoice invoice,
-  }) async {
+  @override
+  Future<types.PaymentHash> sendPayment(
+      {required types.Bolt11Invoice invoice, hint}) async {
     try {
-      return await loaderApi.sendPaymentMethodNodePointer(
-          that: _pointer, invoice: invoice);
-    } on bridge.NodeException catch (e) {
-      throw handleNodeException(e);
+      return await super.sendPayment(invoice: invoice);
+    } on error.NodeBaseError catch (e) {
+      throw mapNodeBaseError(e);
     }
   }
 
@@ -289,50 +310,40 @@ class Node {
   ///
   /// This can be used to pay a so-called "zero-amount" invoice, i.e., an invoice that leaves the
   /// amount paid to be determined by the user.
-  Future<bridge.PaymentHash> sendPaymentUsingAmount(
-      {required bridge.Bolt11Invoice invoice, required int amountMsat}) async {
+  @override
+  Future<types.PaymentHash> sendPaymentUsingAmount(
+      {required types.Bolt11Invoice invoice,
+      required int amountMsat,
+      hint}) async {
     try {
-      return await loaderApi.sendPaymentUsingAmountMethodNodePointer(
-          that: _pointer, invoice: invoice, amountMsat: amountMsat);
-    } on bridge.NodeException catch (e) {
-      throw handleNodeException(e);
+      return await super
+          .sendPaymentUsingAmount(invoice: invoice, amountMsat: amountMsat);
+    } on error.NodeBaseError catch (e) {
+      throw mapNodeBaseError(e);
     }
   }
 
   /// Send a spontaneous, aka. "keysend", payment
-  Future<bridge.PaymentHash> sendSpontaneousPayment(
-      {required bridge.PublicKey nodeId, required int amountMsat}) async {
+  @override
+  Future<types.PaymentHash> sendSpontaneousPayment(
+      {required types.PublicKey nodeId, required int amountMsat, hint}) async {
     try {
-      return await loaderApi.sendSpontaneousPaymentMethodNodePointer(
-          that: _pointer, amountMsat: amountMsat, nodeId: nodeId);
-    } on bridge.NodeException catch (e) {
-      throw handleNodeException(e);
+      return await super
+          .sendSpontaneousPayment(amountMsat: amountMsat, nodeId: nodeId);
+    } on error.NodeBaseError catch (e) {
+      throw mapNodeBaseError(e);
     }
   }
 
-  /// Sends payment probes over all paths of a route that would be used to pay the given
-  /// amount to the given "nodeId".
-  ///
-  /// This may be used to send "pre-flight" probes, i.e., to train our scorer before conducting
-  /// the actual payment. Note this is only useful if there likely is sufficient time for the
-  /// probe to settle before sending out the actual payment, e.g., when waiting for user
-  /// confirmation in a wallet UI.
-  ///
-  /// Otherwise, there is a chance the probe could take up some liquidity needed to complete the
-  /// actual payment. Users should therefore be cautious and might avoid sending probes if
-  /// liquidity is scarce and/or they don't expect the probe to return before they send the
-  /// payment. To mitigate this issue, channels with available liquidity less than the required
-  /// amount times "config.probingLiquidityLimitMultiplier" won't be used to send
-  /// pre-flight probes.
-  ///
-  ///
-  Future<void> sendSpontaneousPaymentProbe(
-      {required bridge.PublicKey nodeId, required int amountMsat}) async {
+  ///Sends payment probes over all paths of a route that would be used to pay the given amount to the given node_id.
+  @override
+  Future<void> sendSpontaneousPaymentProbes(
+      {required types.PublicKey nodeId, required int amountMsat, hint}) async {
     try {
-      return await loaderApi.sendSpontaneousPaymentProbesMethodNodePointer(
-          that: _pointer, amountMsat: amountMsat, nodeId: nodeId);
-    } on bridge.NodeException catch (e) {
-      throw handleNodeException(e);
+      return await super
+          .sendSpontaneousPaymentProbes(amountMsat: amountMsat, nodeId: nodeId);
+    } on error.NodeBaseError catch (e) {
+      throw mapNodeBaseError(e);
     }
   }
 
@@ -350,128 +361,183 @@ class Node {
   /// amount times "config.probingLiquidityLimitMultiplier"  won't be used to send
   /// pre-flight probes.
   ///
-  Future<void> sendPaymentProbe({required bridge.Bolt11Invoice invoice}) async {
+  @override
+  Future<void> sendPaymentProbes(
+      {required types.Bolt11Invoice invoice, hint}) async {
     try {
-      return await loaderApi.sendPaymentProbesMethodNodePointer(
-          that: _pointer, invoice: invoice);
-    } on bridge.NodeException catch (e) {
-      throw handleNodeException(e);
+      return await super.sendPaymentProbes(invoice: invoice);
+    } on error.NodeBaseError catch (e) {
+      throw mapNodeBaseError(e);
+    }
+  }
+
+  @override
+  Future<void> sendPaymentProbesUsingAmount(
+      {required types.Bolt11Invoice invoice,
+      required int amountMsat,
+      hint}) async {
+    try {
+      return await super.sendPaymentProbesUsingAmount(
+          invoice: invoice, amountMsat: amountMsat);
+    } on error.NodeBaseError catch (e) {
+      throw mapNodeBaseError(e);
     }
   }
 
   /// Returns a payable invoice that can be used to request and receive a payment of the amount
   /// given.
-  Future<bridge.Bolt11Invoice> receivePayment(
+  @override
+  Future<types.Bolt11Invoice> receivePayment(
       {required int amountMsat,
       required int expirySecs,
-      required String description}) async {
+      required String description,
+      hint}) async {
     try {
-      return await loaderApi.receivePaymentMethodNodePointer(
-          that: _pointer,
+      return await super.receivePayment(
           amountMsat: amountMsat,
           description: description,
           expirySecs: expirySecs);
-    } on bridge.NodeException catch (e) {
-      throw handleNodeException(e);
+    } on error.NodeBaseError catch (e) {
+      throw mapNodeBaseError(e);
     }
   }
 
   /// Returns a payable invoice that can be used to request and receive a payment for which the
   /// amount is to be determined by the user, also known as a "zero-amount" invoice.
-  Future<bridge.Bolt11Invoice> receiveVariableAmountPayment(
-      {required bridge.PublicKey nodeId,
-      required int expirySecs,
-      required String description}) async {
+  @override
+  Future<types.Bolt11Invoice> receiveVariableAmountPayment(
+      {required int expirySecs, required String description, hint}) async {
     try {
-      return await loaderApi.receiveVariableAmountPaymentMethodNodePointer(
-          that: _pointer, description: description, expirySecs: expirySecs);
-    } on bridge.NodeException catch (e) {
-      throw handleNodeException(e);
+      return await super.receiveVariableAmountPayment(
+          description: description, expirySecs: expirySecs);
+    } on error.NodeBaseError catch (e) {
+      throw mapNodeBaseError(e);
+    }
+  }
+
+  ///Returns a payable invoice that can be used to request a variable amount payment (also known as "zero-amount" invoice) and receive it via a newly created just-in-time (JIT) channel.
+  /// When the returned invoice is paid, the configured LSPS2 -compliant LSP will open a channel to us, supplying just-in-time inbound liquidity.
+  /// If set, maxProportionalLspFeeLimitPpmMsat will limit how much proportional fee, in parts-per-million millisatoshis, we allow the LSP to take for opening the channel to us. We'll use its cheapest offer otherwise.
+  @override
+  Future<types.Bolt11Invoice> receiveVariableAmountPaymentViaJitChannel(
+      {required String description,
+      required int expirySecs,
+      int? maxProportionalLspFeeLimitPpmMsat,
+      hint}) {
+    try {
+      return super.receiveVariableAmountPaymentViaJitChannel(
+          description: description,
+          expirySecs: expirySecs,
+          maxProportionalLspFeeLimitPpmMsat: maxProportionalLspFeeLimitPpmMsat);
+    } on error.NodeBaseError catch (e) {
+      throw mapNodeBaseError(e);
+    }
+  }
+
+  ///Returns a payable invoice that can be used to request a payment of the amount given and receive it via a newly created just-in-time (JIT) channel.
+  /// When the returned invoice is paid, the configured LSPS2 -compliant LSP will open a channel to us, supplying just-in-time inbound liquidity.
+  /// If set, maxTotalLspFeeLimitPpmMsat will limit how much fee we allow the LSP to take for opening the channel to us. We'll use its cheapest offer otherwise.
+  @override
+  Future<types.Bolt11Invoice> receivePaymentViaJitChannel(
+      {required int amountMsat,
+      required String description,
+      required int expirySecs,
+      int? maxTotalLspFeeLimitMsat,
+      hint}) {
+    try {
+      return super.receivePaymentViaJitChannel(
+          amountMsat: amountMsat,
+          description: description,
+          expirySecs: expirySecs,
+          maxTotalLspFeeLimitMsat: maxTotalLspFeeLimitMsat);
+    } on error.NodeBaseError catch (e) {
+      throw mapNodeBaseError(e);
     }
   }
 
   /// Retrieve the details of a specific payment with the given hash.
   ///
   /// Returns `PaymentDetails` if the payment was known and `null` otherwise.
-  Future<bridge.PaymentDetails?> payment({
-    required bridge.PaymentHash paymentHash,
-  }) async {
+  @override
+  Future<types.PaymentDetails?> payment(
+      {required types.PaymentHash paymentHash, hint}) async {
     try {
-      return await loaderApi.paymentMethodNodePointer(
-          that: _pointer, paymentHash: paymentHash);
-    } on bridge.NodeException catch (e) {
-      throw handleNodeException(e);
+      return await super.payment(paymentHash: paymentHash);
+    } on error.NodeBaseError catch (e) {
+      throw mapNodeBaseError(e);
     }
   }
 
   ///Remove the payment with the given hash from the store.
-  Future<void> removePayment({
-    required bridge.PaymentHash paymentHash,
-  }) async {
+  @override
+  Future<void> removePayment(
+      {required types.PaymentHash paymentHash, hint}) async {
     try {
-      return await loaderApi.removePaymentMethodNodePointer(
-          that: _pointer, paymentHash: paymentHash);
-    } on bridge.NodeException catch (e) {
-      throw handleNodeException(e);
+      return await super.removePayment(paymentHash: paymentHash);
+    } on error.NodeBaseError catch (e) {
+      throw mapNodeBaseError(e);
     }
   }
 
   ///Retrieves all payments that match the given predicate.
-  Future<List<bridge.PaymentDetails>> listPaymentsWithFilter({
-    required bridge.PaymentDirection paymentDirection,
-  }) async {
+  @override
+  Future<List<types.PaymentDetails>> listPaymentsWithFilter(
+      {required types.PaymentDirection paymentDirection, hint}) async {
     try {
-      return await loaderApi.listPaymentsWithFilterMethodNodePointer(
-          that: _pointer, paymentDirection: paymentDirection);
-    } on bridge.NodeException catch (e) {
-      throw handleNodeException(e);
+      return await super
+          .listPaymentsWithFilter(paymentDirection: paymentDirection);
+    } on error.NodeBaseError catch (e) {
+      throw mapNodeBaseError(e);
     }
   }
 
   ///Retrieves all payments.
-  Future<List<bridge.PaymentDetails>> listPayments() async {
+  @override
+  Future<List<types.PaymentDetails>> listPayments({hint}) async {
     try {
-      return await loaderApi.listPaymentsMethodNodePointer(that: _pointer);
-    } on bridge.NodeException catch (e) {
-      throw handleNodeException(e);
+      return super.listPayments();
+    } on error.NodeBaseError catch (e) {
+      throw mapNodeBaseError(e);
     }
   }
 
   ///Retrieves a list of known peers.
-  Future<List<bridge.PeerDetails>> listPeers() async {
+  @override
+  Future<List<types.PeerDetails>> listPeers({hint}) async {
     try {
-      return await loaderApi.listPeersMethodNodePointer(that: _pointer);
-    } on bridge.NodeException catch (e) {
-      throw handleNodeException(e);
+      return await super.listPeers();
+    } on error.NodeBaseError catch (e) {
+      throw mapNodeBaseError(e);
     }
   }
 
   /// Creates a digital ECDSA signature of a message with the node's secret key.
   ///
-  /// A receiver knowing the corresponding [bridge.PublicKey] (e.g. the node’s id) and the message
+  /// A receiver knowing the corresponding [types.PublicKey] (e.g. the node’s id) and the message
   /// can be sure that the signature was generated by the caller.
   /// Signatures are EC recoverable, meaning that given the message and the
   /// signature the PublicKey of the signer can be extracted.
-  Future<String> signMessage({required Uint8List message}) async {
+  @override
+  Future<String> signMessage({required List<int> msg, hint}) async {
     try {
-      return await loaderApi.signMessageMethodNodePointer(
-          that: _pointer, msg: message);
-    } on bridge.NodeException catch (e) {
-      throw handleNodeException(e);
+      return await super.signMessage(msg: msg);
+    } on error.NodeBaseError catch (e) {
+      throw mapNodeBaseError(e);
     }
   }
 
   /// Verifies that the given ECDSA signature was created for the given message with the
   /// secret key corresponding to the given public key.
+  @override
   Future<bool> verifySignature(
-      {required Uint8List message,
-      required String signature,
-      required bridge.PublicKey publicKey}) async {
+      {required List<int> msg,
+      required String sig,
+      required types.PublicKey pkey,
+      hint}) async {
     try {
-      return await loaderApi.verifySignatureMethodNodePointer(
-          that: _pointer, msg: message, sig: signature, pkey: publicKey);
-    } on bridge.NodeException catch (e) {
-      throw handleNodeException(e);
+      return await super.verifySignature(msg: msg, sig: sig, pkey: pkey);
+    } on error.NodeBaseError catch (e) {
+      throw mapNodeBaseError(e);
     }
   }
 }
@@ -485,14 +551,15 @@ class Node {
 /// - Gossip data is sourced via the peer-to-peer network
 ///
 class Builder {
-  bridge.Config? _config;
-  bridge.EntropySourceConfig? _entropySource;
-  bridge.ChainDataSourceConfig? _chainDataSourceConfig;
-  bridge.GossipSourceConfig? _gossipSourceConfig;
+  types.Config? _config;
+  types.EntropySourceConfig? _entropySource;
+  types.ChainDataSourceConfig? _chainDataSourceConfig;
+  types.GossipSourceConfig? _gossipSourceConfig;
+  types.LiquiditySourceConfig? _liquiditySourceConfig;
 
   /// Creates a new builder instance from an [Config].
   ///
-  factory Builder.fromConfig({required bridge.Config config}) {
+  factory Builder.fromConfig({required types.Config config}) {
     return Builder._(config);
   }
   Builder._(this._config);
@@ -500,16 +567,16 @@ class Builder {
   /// Creates a new builder instance with the default configuration.
   ///
   factory Builder() {
-    return Builder._(bridge.Config(
+    return Builder._(types.Config(
         storageDirPath: '',
-        network: bridge.Network.Bitcoin,
+        network: types.Network.bitcoin,
         listeningAddresses: [
-          bridge.SocketAddress.hostname(addr: "0.0.0.0", port: 9735)
+          types.SocketAddress.hostname(addr: "0.0.0.0", port: 9735)
         ],
         onchainWalletSyncIntervalSecs: 60,
         walletSyncIntervalSecs: 20,
         feeRateCacheUpdateIntervalSecs: 600,
-        logLevel: bridge.LogLevel.Debug,
+        logLevel: types.LogLevel.debug,
         defaultCltvExpiryDelta: 144,
         trustedPeers0Conf: [],
         probingLiquidityLimitMultiplier: 3));
@@ -521,7 +588,7 @@ class Builder {
   /// stored at the given location.
   ///
   Builder setEntropySeedPath(String seedPath) {
-    _entropySource = bridge.EntropySourceConfig.seedFile(seedPath);
+    _entropySource = types.EntropySourceConfig.seedFile(seedPath);
     return this;
   }
 
@@ -529,8 +596,8 @@ class Builder {
   ///
   /// **Note:** Panics if the length of the given `seedBytes` differs from 64.
   ///
-  Builder setEntropySeedBytes(bridge.U8Array64 seedBytes) {
-    _entropySource = bridge.EntropySourceConfig.seedBytes(seedBytes);
+  Builder setEntropySeedBytes(U8Array64 seedBytes) {
+    _entropySource = types.EntropySourceConfig.seedBytes(seedBytes);
     return this;
   }
 
@@ -538,7 +605,7 @@ class Builder {
   ///
   Builder setEntropyBip39Mnemonic(
       {required Mnemonic mnemonic, String? passphrase}) {
-    _entropySource = bridge.EntropySourceConfig.bip39Mnemonic(
+    _entropySource = types.EntropySourceConfig.bip39Mnemonic(
         mnemonic: mnemonic, passphrase: passphrase);
     return this;
   }
@@ -547,7 +614,7 @@ class Builder {
   ///
   Builder setEsploraServer(String esploraServerUrl) {
     _chainDataSourceConfig =
-        bridge.ChainDataSourceConfig.esplora(esploraServerUrl);
+        types.ChainDataSourceConfig.esplora(esploraServerUrl);
     return this;
   }
 
@@ -555,7 +622,7 @@ class Builder {
   /// network.
   ///
   Builder setGossipSourceP2p() {
-    _gossipSourceConfig = bridge.GossipSourceConfig.p2PNetwork();
+    _gossipSourceConfig = types.GossipSourceConfig.p2PNetwork();
     return this;
   }
 
@@ -564,7 +631,7 @@ class Builder {
   ///
   Builder setGossipSourceRgs(String rgsServerUrl) {
     _gossipSourceConfig =
-        bridge.GossipSourceConfig.rapidGossipSync(rgsServerUrl);
+        types.GossipSourceConfig.rapidGossipSync(rgsServerUrl);
     return this;
   }
 
@@ -578,7 +645,7 @@ class Builder {
 
   /// Sets the Bitcoin network used.
   ///
-  Builder setNetwork(bridge.Network network) {
+  Builder setNetwork(types.Network network) {
     _config!.network = network;
     return this;
   }
@@ -586,8 +653,24 @@ class Builder {
   /// Sets the IP address and TCP port on which [Node] will listen for incoming network connections.
   ///
   ///
-  Builder setListeningAddresses(List<bridge.SocketAddress> listeningAddresses) {
+  Builder setListeningAddresses(List<types.SocketAddress> listeningAddresses) {
     _config!.listeningAddresses = listeningAddresses;
+    return this;
+  }
+
+  /// Configures the [Node] instance to source its inbound liquidity from the given
+  /// [LSPS2](https://github.com/BitcoinAndLightningLayerSpecs/lsp/blob/main/LSPS2/README.md)
+  /// service.
+  ///
+  /// Will mark the LSP as trusted for 0-confirmation channels, see `config.trustedPeers0conf`.
+  ///
+  /// The given `token` will be used by the LSP to authenticate the user.
+  Builder setLiquiditySourceLsps2(
+      {required types.SocketAddress address,
+      required types.PublicKey publicKey,
+      String? token}) {
+    _liquiditySourceConfig =
+        types.LiquiditySourceConfig(lsps2Service: (address, publicKey, token));
     return this;
   }
 
@@ -597,20 +680,21 @@ class Builder {
   ///
   Future<Node> build() async {
     try {
+      await Frb.verifyInit();
       if (_config!.storageDirPath == '') {
         final directory = await getApplicationDocumentsDirectory();
         final nodePath = "${directory.path}/ldk_cache/";
         _config!.storageDirPath = nodePath;
       }
-      final res = await loaderApi.finalizeBuilder(
-        config: _config!,
-        entropySourceConfig: _entropySource,
-        chainDataSourceConfig: _chainDataSourceConfig,
-        gossipSourceConfig: _gossipSourceConfig,
-      );
-      return Node._(res);
-    } on bridge.BuilderException catch (e) {
-      throw handleBuilderException(e);
+      final res = await finalizeBuilder(
+          config: _config!,
+          entropySourceConfig: _entropySource,
+          chainDataSourceConfig: _chainDataSourceConfig,
+          gossipSourceConfig: _gossipSourceConfig,
+          liquiditySourceConfig: _liquiditySourceConfig);
+      return Node._(ptr: res.ptr);
+    } on error.BuilderError catch (e) {
+      throw mapBuilderError(e);
     }
   }
 }

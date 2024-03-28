@@ -26,7 +26,7 @@ class _MyAppState extends State<MyApp> {
   String displayText = "";
   ldk.SocketAddress? bobAddr;
   ldk.Bolt11Invoice? invoice;
-  ldk.ChannelId? channelId;
+  ldk.UserChannelId? userChannelId;
 
   // Replace this with your local esplora url
   String esploraUrl =
@@ -51,19 +51,19 @@ class _MyAppState extends State<MyApp> {
         probingLiquidityLimitMultiplier: 3,
         trustedPeers0Conf: [],
         storageDirPath: nodePath,
-        network: ldk.Network.Regtest,
+        network: ldk.Network.regtest,
         listeningAddresses: [address],
         onchainWalletSyncIntervalSecs: 60,
         walletSyncIntervalSecs: 20,
         feeRateCacheUpdateIntervalSecs: 600,
-        logLevel: ldk.LogLevel.Debug,
+        logLevel: ldk.LogLevel.debug,
         defaultCltvExpiryDelta: 144);
     return config;
   }
 
   closeChannel() async {
     await aliceNode.closeChannel(
-        channelId: channelId!, counterpartyNodeId: bobNodeId!);
+        userChannelId: userChannelId!, counterpartyNodeId: bobNodeId!);
   }
 
   Future initAliceNode() async {
@@ -73,7 +73,8 @@ class _MyAppState extends State<MyApp> {
     aliceNode = await aliceBuilder
         .setEntropyBip39Mnemonic(
             mnemonic: ldk.Mnemonic(
-                "cart super leaf clinic pistol plug replace close super tooth wealth usage"))
+                seedPhrase:
+                    "cart super leaf clinic pistol plug replace close super tooth wealth usage"))
         .setEsploraServer(esploraUrl)
         .build();
     await startNode(aliceNode);
@@ -99,7 +100,8 @@ class _MyAppState extends State<MyApp> {
     bobNode = await bobBuilder
         .setEntropyBip39Mnemonic(
             mnemonic: ldk.Mnemonic(
-                'puppy interest whip tonight dad never sudden response push zone pig patch'))
+                seedPhrase:
+                    'puppy interest whip tonight dad never sudden response push zone pig patch'))
         .setEsploraServer(esploraUrl)
         .build();
     await startNode(bobNode);
@@ -111,18 +113,16 @@ class _MyAppState extends State<MyApp> {
   }
 
   totalOnchainBalanceSats() async {
-    final alice = await aliceNode.totalOnchainBalanceSats();
-    final bob = await bobNode.totalOnchainBalanceSats();
+    final alice = await aliceNode.listBalances();
+    final bob = await bobNode.listBalances();
     if (kDebugMode) {
-      print("alice's balance: $alice");
-      print(
-          "alice's spendable balance: ${await aliceNode.spendableOnchainBalanceSats()}");
-      print("bob's balance: $bob");
-      print(
-          "bob's spendable balance: ${await bobNode.spendableOnchainBalanceSats()}");
+      print("alice's balance: ${alice.totalOnchainBalanceSats}");
+      print("alice's spendable balance: ${alice.spendableOnchainBalanceSats}");
+      print("bob's balance: ${bob.totalOnchainBalanceSats}");
+      print("bob's spendable balance: ${bob.spendableOnchainBalanceSats}");
     }
     setState(() {
-      aliceBalance = alice;
+      aliceBalance = alice.spendableOnchainBalanceSats;
     });
   }
 
@@ -141,6 +141,7 @@ class _MyAppState extends State<MyApp> {
         print("======Channels========");
         for (var e in res) {
           print("nodeId: ${aliceNodeId!.hexCode}");
+          print("userChannelId: ${e.userChannelId.data}");
           print("channelId: ${e.channelId.data}");
           print("isChannelReady: ${e.isChannelReady}");
           print("isUsable: ${e.isUsable}");
@@ -152,7 +153,7 @@ class _MyAppState extends State<MyApp> {
 
   listPaymentsWithFilter(bool printPayments) async {
     final res = await aliceNode.listPaymentsWithFilter(
-        paymentDirection: ldk.PaymentDirection.Outbound);
+        paymentDirection: ldk.PaymentDirection.outbound);
     if (res.isNotEmpty) {
       if (printPayments) {
         if (kDebugMode) {
@@ -210,10 +211,10 @@ class _MyAppState extends State<MyApp> {
   connectOpenChannel() async {
     final funding_amount_sat = 80000;
     final push_msat = (funding_amount_sat / 2) * 1000;
-    await aliceNode.connectOpenChannel(
+    userChannelId = await aliceNode.connectOpenChannel(
         channelAmountSats: funding_amount_sat,
         announceChannel: true,
-        netaddress: bobAddr!,
+        address: bobAddr!,
         pushToCounterpartyMsat: push_msat.toInt(),
         nodeId: bobNodeId!);
   }
@@ -229,24 +230,6 @@ class _MyAppState extends State<MyApp> {
     setState(() {
       displayText = "send payment success ${res?.hash.data}";
     });
-  }
-
-  setChannelId() async {
-    final channelInfos = await aliceNode.listChannels();
-    if (channelInfos.isNotEmpty) {
-      channelId = channelInfos.first.channelId;
-      if (kDebugMode) {
-        print(channelId?.data);
-      }
-
-      setState(() {
-        displayText = channelId!.data.toString();
-      });
-    } else {
-      if (kDebugMode) {
-        print("No open channels available");
-      }
-    }
   }
 
   stop() async {
@@ -460,20 +443,6 @@ class _MyAppState extends State<MyApp> {
                               fontSize: 12,
                               height: 1.5,
                               fontWeight: FontWeight.w800))),
-                  TextButton(
-                      onPressed: () async {
-                        await setChannelId();
-                      },
-                      child: Text(
-                        'Set channelId',
-                        overflow: TextOverflow.clip,
-                        textAlign: TextAlign.center,
-                        style: GoogleFonts.nunito(
-                            color: Colors.indigoAccent,
-                            fontSize: 12,
-                            height: 1.5,
-                            fontWeight: FontWeight.w800),
-                      )),
                   TextButton(
                       onPressed: () async {
                         await receiveAndSendPayments();

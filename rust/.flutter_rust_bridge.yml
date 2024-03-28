@@ -1,7 +1,0 @@
-rust_input: [src/ldk.rs]
-dart_output: [../lib/src/generated/bindings.dart]
-wasm: false
-dart_decl_output: ../lib/src/generated/bridge_definitions.dart
-dart_enums_style: false
-dart_format_line_length: 80
-c_output: [../ios/Classes/bindings.h]
