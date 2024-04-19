@@ -1,8 +1,106 @@
-use crate::ldk::{Mnemonic, SocketAddress};
-use flutter_rust_bridge::*;
 use std::str::FromStr;
 use std::string::ToString;
+use crate::api::node::{MnemonicBase};
+use flutter_rust_bridge::frb;
+use crate::api::errors::BuilderException;
 
+
+///An address which can be used to connect to a remote peer.
+#[derive(Debug, Clone, PartialEq, Eq)]
+pub enum SocketAddress {
+    TcpIpV4 {
+        addr: [u8; 4],
+        port: u16,
+    },
+    TcpIpV6 {
+        addr: [u8; 16],
+        port: u16,
+    },
+    OnionV2([u8; 12]),
+    OnionV3 {
+        ed25519_pubkey: [u8; 32],
+        checksum: u16,
+        version: u8,
+        port: u16,
+    },
+    Hostname {
+        addr: String,
+        port: u16,
+    },
+}
+impl SocketAddress {
+    pub fn from_str(address: String) -> anyhow::Result<SocketAddress, BuilderException> {
+        match ldk_node::lightning::ln::msgs::SocketAddress::from_str(address.as_str()) {
+            Ok(e) => Ok(e.into()),
+            Err(_) => Err(BuilderException::SocketAddressParseError),
+        }
+    }
+    pub fn to_string(&self) -> String {
+        format!("{:?}", { self })
+    }
+}
+impl From<ldk_node::lightning::ln::msgs::SocketAddress> for SocketAddress {
+    fn from(value: ldk_node::lightning::ln::msgs::SocketAddress) -> Self {
+        match value {
+            ldk_node::lightning::ln::msgs::SocketAddress::TcpIpV4 { addr, port } => {
+                SocketAddress::TcpIpV4 { addr, port }
+            }
+            ldk_node::lightning::ln::msgs::SocketAddress::TcpIpV6 { addr, port } => {
+                SocketAddress::TcpIpV6 { addr, port }
+            }
+            ldk_node::lightning::ln::msgs::SocketAddress::OnionV2(e) => SocketAddress::OnionV2(e),
+            ldk_node::lightning::ln::msgs::SocketAddress::OnionV3 {
+                ed25519_pubkey,
+                checksum,
+                version,
+                port,
+            } => SocketAddress::OnionV3 {
+                ed25519_pubkey,
+                checksum,
+                version,
+                port,
+            },
+            ldk_node::lightning::ln::msgs::SocketAddress::Hostname { hostname, port } => {
+                SocketAddress::Hostname {
+                    addr: hostname.to_string(),
+                    port,
+                }
+            }
+        }
+    }
+}
+
+impl From<SocketAddress> for ldk_node::lightning::ln::msgs::SocketAddress {
+    fn from(value: SocketAddress) -> Self {
+        match value {
+            SocketAddress::TcpIpV4 { addr, port } => {
+                ldk_node::lightning::ln::msgs::SocketAddress::TcpIpV4 { addr, port }
+            }
+            SocketAddress::TcpIpV6 { addr, port } => {
+                ldk_node::lightning::ln::msgs::SocketAddress::TcpIpV6 { addr, port }
+            }
+            SocketAddress::OnionV2(e) => ldk_node::lightning::ln::msgs::SocketAddress::OnionV2(e),
+            SocketAddress::OnionV3 {
+                ed25519_pubkey,
+                checksum,
+                version,
+                port,
+            } => ldk_node::lightning::ln::msgs::SocketAddress::OnionV3 {
+                ed25519_pubkey,
+                checksum,
+                version,
+                port,
+            },
+            SocketAddress::Hostname { addr, port } => {
+                ldk_node::lightning::ln::msgs::SocketAddress::Hostname {
+                    hostname: ldk_node::lightning::util::ser::Hostname::try_from(addr)
+                        .expect("Invalid hostname"),
+                    port,
+                }
+            }
+        }
+    }
+}
 ///Options which apply on a per-channel basis and may change at runtime or based on negotiation with our counterparty.
 pub struct ChannelConfig {
     ///Amount (in millionths of a satoshi) charged per satoshi for payments forwarded outbound over the channel. This may be allowed to change at runtime in a later update, however doing so must result in update messages sent to notify all nodes of our updated relay fee.
@@ -691,7 +789,7 @@ impl From<Config> for ldk_node::Config {
 /// Represents the configuration of an [Node] instance.
 ///
 
-#[frb(serialize)]
+#[frb]
 #[derive(Debug, Clone)]
 pub struct Config {
     #[frb(non_final)]
@@ -768,7 +866,7 @@ pub enum EntropySourceConfig {
     SeedFile(String),
     SeedBytes([u8; 64]),
     Bip39Mnemonic {
-        mnemonic: Mnemonic,
+        mnemonic: MnemonicBase,
         passphrase: Option<String>,
     },
 }
