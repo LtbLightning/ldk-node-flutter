@@ -1,132 +1,33 @@
-use crate::errors::{BuilderException, NodeException};
-use crate::types::*;
-use flutter_rust_bridge::*;
+use crate::api::errors::{BuilderException, NodeException};
 pub use ldk_node::io::sqlite_store::SqliteStore;
 use ldk_node::lightning::util::ser::Writeable;
-use ldk_node::BuildError;
+use ldk_node::{BuildError};
 pub use ldk_node::Node;
 use std::str::FromStr;
 pub use std::sync::{Arc, Mutex};
+use crate::api::types::*;
+use crate::frb_generated::RustOpaque;
 
-///The addresses on which the node will listen for incoming connections.
-#[derive(Debug, Clone, PartialEq, Eq)]
-pub enum SocketAddress {
-    TcpIpV4 {
-        addr: [u8; 4],
-        port: u16,
-    },
-    TcpIpV6 {
-        addr: [u8; 16],
-        port: u16,
-    },
-    OnionV2([u8; 12]),
-    OnionV3 {
-        ed25519_pubkey: [u8; 32],
-        checksum: u16,
-        version: u8,
-        port: u16,
-    },
-    Hostname {
-        addr: String,
-        port: u16,
-    },
-}
-impl SocketAddress {
-    pub fn from_str(address: String) -> anyhow::Result<SocketAddress, BuilderException> {
-        match ldk_node::lightning::ln::msgs::SocketAddress::from_str(address.as_str()) {
-            Ok(e) => Ok(e.into()),
-            Err(_) => Err(BuilderException::SocketAddressParseError),
-        }
-    }
-    pub fn to_string(&self) -> String {
-        format!("{:?}", { self })
-    }
-}
-impl From<ldk_node::lightning::ln::msgs::SocketAddress> for SocketAddress {
-    fn from(value: ldk_node::lightning::ln::msgs::SocketAddress) -> Self {
-        match value {
-            ldk_node::lightning::ln::msgs::SocketAddress::TcpIpV4 { addr, port } => {
-                SocketAddress::TcpIpV4 { addr, port }
-            }
-            ldk_node::lightning::ln::msgs::SocketAddress::TcpIpV6 { addr, port } => {
-                SocketAddress::TcpIpV6 { addr, port }
-            }
-            ldk_node::lightning::ln::msgs::SocketAddress::OnionV2(e) => SocketAddress::OnionV2(e),
-            ldk_node::lightning::ln::msgs::SocketAddress::OnionV3 {
-                ed25519_pubkey,
-                checksum,
-                version,
-                port,
-            } => SocketAddress::OnionV3 {
-                ed25519_pubkey,
-                checksum,
-                version,
-                port,
-            },
-            ldk_node::lightning::ln::msgs::SocketAddress::Hostname { hostname, port } => {
-                SocketAddress::Hostname {
-                    addr: hostname.to_string(),
-                    port,
-                }
-            }
-        }
-    }
-}
 
-impl From<SocketAddress> for ldk_node::lightning::ln::msgs::SocketAddress {
-    fn from(value: SocketAddress) -> Self {
-        match value {
-            SocketAddress::TcpIpV4 { addr, port } => {
-                ldk_node::lightning::ln::msgs::SocketAddress::TcpIpV4 { addr, port }
-            }
-            SocketAddress::TcpIpV6 { addr, port } => {
-                ldk_node::lightning::ln::msgs::SocketAddress::TcpIpV6 { addr, port }
-            }
-            SocketAddress::OnionV2(e) => ldk_node::lightning::ln::msgs::SocketAddress::OnionV2(e),
-            SocketAddress::OnionV3 {
-                ed25519_pubkey,
-                checksum,
-                version,
-                port,
-            } => ldk_node::lightning::ln::msgs::SocketAddress::OnionV3 {
-                ed25519_pubkey,
-                checksum,
-                version,
-                port,
-            },
-            SocketAddress::Hostname { addr, port } => {
-                ldk_node::lightning::ln::msgs::SocketAddress::Hostname {
-                    hostname: ldk_node::lightning::util::ser::Hostname::try_from(addr)
-                        .expect("Invalid hostname"),
-                    port,
-                }
-            }
-        }
-    }
-}
 
-///The from string implementation will try to determine the language of the mnemonic from all the supported languages. (Languages have to be explicitly enabled using the Cargo features.)
-/// Supported number of words are 12, 15, 18, 21, and 24.
-///
-#[derive(Debug, Clone)]
-pub struct Mnemonic {
+#[derive(Debug, Clone)]pub struct MnemonicBase {
     pub seed_phrase: String,
 }
 
-impl From<Mnemonic> for ldk_node::bip39::Mnemonic {
-    fn from(value: Mnemonic) -> Self {
+impl From<MnemonicBase> for ldk_node::bip39::Mnemonic {
+    fn from(value: MnemonicBase) -> Self {
         ldk_node::bip39::Mnemonic::from_str(&value.seed_phrase).expect("Invalid seed phrase")
     }
 }
-impl From<ldk_node::bip39::Mnemonic> for Mnemonic {
+impl From<ldk_node::bip39::Mnemonic> for MnemonicBase {
     fn from(value: ldk_node::bip39::Mnemonic) -> Self {
-        Mnemonic {
+        MnemonicBase {
             seed_phrase: value.to_string(),
         }
     }
 }
-impl Mnemonic {
-    pub fn generate() -> Mnemonic {
+impl MnemonicBase {
+    pub fn generate() -> MnemonicBase {
         ldk_node::generate_entropy_mnemonic().into()
     }
 }
@@ -136,7 +37,7 @@ pub fn finalize_builder(
     chain_data_source_config: Option<ChainDataSourceConfig>,
     entropy_source_config: Option<EntropySourceConfig>,
     gossip_source_config: Option<GossipSourceConfig>,
-) -> anyhow::Result<NodePointer, BuilderException> {
+) -> anyhow::Result<NodeBase, BuilderException> {
     let builder = create_builder(
         config,
         chain_data_source_config,
@@ -144,7 +45,7 @@ pub fn finalize_builder(
         gossip_source_config,
     );
     match builder?.build() {
-        Ok(e) => Ok(NodePointer(RustOpaque::new(Mutex::from(e)))),
+        Ok(e) => Ok(NodeBase{ptr:RustOpaque::new(e)}),
         Err(e) => Err(e.into()),
     }
 }
@@ -171,7 +72,6 @@ fn create_builder(
             ChainDataSourceConfig::Esplora(e) => builder.set_esplora_server(e),
         };
     }
-
     if let Some(source) = gossip_source_config {
         match source {
             GossipSourceConfig::P2PNetwork => builder.set_gossip_source_p2p(),
@@ -181,42 +81,38 @@ fn create_builder(
     Ok(builder)
 }
 
-pub struct NodePointer(pub RustOpaque<Mutex<Node<SqliteStore>>>);
-
-impl NodePointer {
+pub struct NodeBase{
+    pub ptr:  RustOpaque<Node<SqliteStore>>
+}
+impl NodeBase {
     /// Starts the necessary background tasks, such as handling events coming from user input,
     /// LDK/BDK, and the peer-to-peer network.
     ///
     /// After this returns, the [Node] instance can be controlled via the provided API methods in
     /// a thread-safe manner.
     pub fn start(&self) -> anyhow::Result<(), NodeException> {
-        match self.0.lock().unwrap().start() {
-            Ok(_) => Ok(()),
-            Err(e) => Err(e.into()),
-        }
+        self.ptr.start().map_err(|e| e.into())
     }
 
     /// Disconnects all peers, stops all running background tasks, and shuts down [Node].
     ///
     /// After this returns most API methods will throw NotRunning Exception.
     pub fn stop(&self) -> anyhow::Result<(), NodeException> {
-        self.0.lock().unwrap().stop().map_err(|e| e.into())
+        self.ptr.stop().map_err(|e| e.into())
     }
 
     /// Blocks until the next event is available.
     ///
     /// **Note:** this will always return the same event until handling is confirmed via `node.eventHandled()`.
     pub fn event_handled(&self) {
-        let node_lock = self.0.lock().unwrap();
-        node_lock.event_handled()
+        self.ptr.event_handled()
     }
 
     /// Confirm the last retrieved event handled.
     ///
     /// **Note:** This **MUST** be called after each event has been handled.
     pub fn next_event(&self) -> Option<Event> {
-        let node_lock = self.0.lock().unwrap();
-        match node_lock.next_event() {
+        match self.ptr.next_event() {
             None => None,
             Some(e) => Some(e.into()),
         }
@@ -228,19 +124,16 @@ impl NodePointer {
     /// **Note:** this will always return the same event until handling is confirmed via `node.eventHandled()`.
     ///
     pub fn wait_next_event(&self) -> Event {
-        let node_lock = self.0.lock().unwrap();
-        node_lock.wait_next_event().into()
+        self.ptr.wait_next_event().into()
     }
     /// Returns our own node id
     pub fn node_id(&self) -> PublicKey {
-        self.0.lock().unwrap().node_id().into()
+        self.ptr.node_id().into()
     }
 
     /// Returns our own listening address.
     pub fn listening_addresses(&self) -> Option<Vec<SocketAddress>> {
-        self.0
-            .lock()
-            .unwrap()
+        self.ptr
             .listening_addresses()
             .map(|vec_socket_addr| {
                 vec_socket_addr
@@ -252,25 +145,16 @@ impl NodePointer {
 
     /// Retrieve a new on-chain/funding address.
     pub fn new_onchain_address(&self) -> anyhow::Result<Address, NodeException> {
-        match self.0.lock().unwrap().new_onchain_address() {
-            Ok(e) => Ok(e.into()),
-            Err(e) => Err(e.into()),
-        }
+        self.ptr.new_onchain_address().map_err(|e| e.into()).map(|e| e.into())
     }
     /// Retrieve the currently spendable on-chain balance in satoshis.
     pub fn spendable_onchain_balance_sats(&self) -> anyhow::Result<u64, NodeException> {
-        match self.0.lock().unwrap().spendable_onchain_balance_sats() {
-            Ok(e) => Ok(e),
-            Err(e) => Err(e.into()),
-        }
+        self.ptr.spendable_onchain_balance_sats().map_err(|e| e.into())
     }
 
     /// Retrieve the current total on-chain balance in satoshis.
     pub fn total_onchain_balance_sats(&self) -> anyhow::Result<u64, NodeException> {
-        match self.0.lock().unwrap().total_onchain_balance_sats() {
-            Ok(e) => Ok(e),
-            Err(e) => Err(e.into()),
-        }
+         self.ptr.total_onchain_balance_sats().map_err(|e| e.into())
     }
 
     /// Send an on-chain payment to the given address.
@@ -279,17 +163,10 @@ impl NodePointer {
         address: Address,
         amount_sats: u64,
     ) -> anyhow::Result<Txid, NodeException> {
-        match self
-            .0
-            .lock()
-            .unwrap()
-            .send_to_onchain_address(&address.into(), amount_sats)
-        {
-            Ok(e) => Ok(Txid {
-                hash: e.to_string(),
-            }),
-            Err(e) => Err(e.into()),
-        }
+         self
+            .ptr
+            .send_to_onchain_address(&address.into(), amount_sats).map_err(|e| e.into()).map(|e| Txid{ hash: e.to_string() })
+
     }
 
     /// Send an on-chain payment to the given address, draining all the available funds.
@@ -297,23 +174,16 @@ impl NodePointer {
         &self,
         address: Address,
     ) -> anyhow::Result<Txid, NodeException> {
-        match self
-            .0
-            .lock()
-            .unwrap()
-            .send_all_to_onchain_address(&address.into())
-        {
-            Ok(e) => Ok(e.into()),
-            Err(e) => Err(e.into()),
-        }
+        self
+            .ptr
+            .send_all_to_onchain_address(&address.into()).map_err(|e| e.into()).map(|e| e.into())
+
     }
 
     ///Retrieve a list of known channels.
     ///
     pub fn list_channels(&self) -> Vec<ChannelDetails> {
-        self.0
-            .lock()
-            .unwrap()
+        self.ptr
             .list_channels()
             .iter()
             .map(|x| x.into())
@@ -328,15 +198,10 @@ impl NodePointer {
         address: SocketAddress,
         persist: bool,
     ) -> anyhow::Result<(), NodeException> {
-        match self
-            .0
-            .lock()
-            .unwrap()
-            .connect(node_id.into(), address.into(), persist)
-        {
-            Ok(_) => Ok(()),
-            Err(e) => Err(e.into()),
-        }
+        self
+            .ptr
+            .connect(node_id.into(), address.into(), persist).map_err(|e| e.into())
+
     }
 
     /// Disconnects the peer with the given node id.
@@ -344,15 +209,10 @@ impl NodePointer {
     /// Will also remove the peer from the peer store, i.e., after this has been called we won't
     /// try to reconnect on restart.
     pub fn disconnect(&self, counterparty_node_id: PublicKey) -> anyhow::Result<(), NodeException> {
-        match self
-            .0
-            .lock()
-            .unwrap()
+         self
+            .ptr
             .disconnect(counterparty_node_id.into())
-        {
-            Ok(_) => Ok(()),
-            Err(e) => Err(e.into()),
-        }
+            .map_err(|e| e.into())
     }
 
     /// Connect to a node and open a new channel. Disconnects and re-connects are handled automatically
@@ -373,26 +233,20 @@ impl NodePointer {
         announce_channel: bool,
         channel_config: Option<ChannelConfig>,
     ) -> anyhow::Result<(), NodeException> {
-        match self.0.lock().unwrap().connect_open_channel(
+       self.ptr.connect_open_channel(
             node_id.into(),
             address.into(),
             channel_amount_sats,
             push_to_counterparty_msat,
             channel_config.map(|x| Arc::new(x.into())),
             announce_channel,
-        ) {
-            Ok(_) => Ok(()),
-            Err(e) => Err(e.into()),
-        }
+        ) .map_err(|e| e.into())
     }
 
     ///Sync the LDK and BDK wallets with the current chain state.
     // Note that the wallets will be also synced regularly in the background
     pub fn sync_wallets(&self) -> anyhow::Result<(), NodeException> {
-        match self.0.lock().unwrap().sync_wallets() {
-            Ok(_) => Ok(()),
-            Err(e) => Err(e.into()),
-        }
+         self.ptr.sync_wallets() .map_err(|e| e.into())
     }
     /// Close a previously opened channel.
     pub fn close_channel(
@@ -400,15 +254,10 @@ impl NodePointer {
         channel_id: ChannelId,
         counterparty_node_id: PublicKey,
     ) -> anyhow::Result<(), NodeException> {
-        match self
-            .0
-            .lock()
-            .unwrap()
+       self
+            .ptr
             .close_channel(&channel_id.into(), counterparty_node_id.into())
-        {
-            Ok(_) => Ok(()),
-            Err(e) => Err(e.into()),
-        }
+            .map_err(|e| e.into())
     }
     ///Update the config for a previously opened channel.
     ///
@@ -418,24 +267,18 @@ impl NodePointer {
         counterparty_node_id: PublicKey,
         channel_config: ChannelConfig,
     ) -> anyhow::Result<(), NodeException> {
-        match self.0.lock().unwrap().update_channel_config(
+        self.ptr.update_channel_config(
             &channel_id.into(),
             counterparty_node_id.into(),
             Arc::new(channel_config.into()),
-        ) {
-            Ok(_) => Ok(()),
-            Err(e) => Err(e.into()),
-        }
+        ) .map_err(|e| e.into())
     }
     /// Send a payment given an invoice.
     pub fn send_payment(
         &self,
         invoice: Bolt11Invoice,
     ) -> anyhow::Result<PaymentHash, NodeException> {
-        match self.0.lock().unwrap().send_payment(&invoice.into()) {
-            Ok(e) => Ok(PaymentHash { data: e.0 }),
-            Err(e) => Err(e.into()),
-        }
+        self.ptr.send_payment(&invoice.into()).map_err(|e| e.into()).map(|e| e.into())
     }
 
     /// Send a payment given an invoice and an amount in millisatoshi.
@@ -449,11 +292,7 @@ impl NodePointer {
         invoice: Bolt11Invoice,
         amount_msat: u64,
     ) -> anyhow::Result<PaymentHash, NodeException> {
-        let node_lock = self.0.lock().unwrap();
-        match node_lock.send_payment_using_amount(&invoice.into(), amount_msat) {
-            Ok(e) => Ok(e.into()),
-            Err(e) => Err(e.into()),
-        }
+         self.ptr.send_payment_using_amount(&invoice.into(), amount_msat) .map_err(|e| e.into()).map(|e| e.into())
     }
 
     /// Send a spontaneous, aka. "keysend", payment
@@ -462,15 +301,9 @@ impl NodePointer {
         amount_msat: u64,
         node_id: PublicKey,
     ) -> anyhow::Result<PaymentHash, NodeException> {
-        match self
-            .0
-            .lock()
-            .unwrap()
+         self.ptr
             .send_spontaneous_payment(amount_msat, node_id.into())
-        {
-            Ok(e) => Ok(e.into()),
-            Err(e) => Err(e.into()),
-        }
+            .map_err(|e| e.into()).map(|e| e.into())
     }
 
     ///Sends payment probes over all paths of a route that would be used to pay the given invoice.
@@ -481,10 +314,7 @@ impl NodePointer {
     /// Users should therefore be cautious and might avoid sending probes if liquidity is scarce and/or they don't expect the probe to return before they send the payment.
     /// To mitigate this issue, channels with available liquidity less than the required amount times Config::probing_liquidity_limit_multiplier won't be used to send pre-flight probes.
     pub fn send_payment_probes(&self, invoice: Bolt11Invoice) -> anyhow::Result<(), NodeException> {
-        match self.0.lock().unwrap().send_payment_probes(&invoice.into()) {
-            Ok(_) => Ok(()),
-            Err(e) => Err(e.into()),
-        }
+        self.ptr.send_payment_probes(&invoice.into()).map_err(|e| e.into())
     }
 
     ///Sends payment probes over all paths of a route that would be used to pay the given amount to the given node_id.
@@ -493,15 +323,25 @@ impl NodePointer {
         amount_msat: u64,
         node_id: PublicKey,
     ) -> anyhow::Result<(), NodeException> {
-        match self
-            .0
-            .lock()
-            .unwrap()
+         self
+            .ptr
             .send_spontaneous_payment_probes(amount_msat, node_id.into())
-        {
-            Ok(_) => Ok(()),
-            Err(e) => Err(e.into()),
-        }
+            .map_err(|e| e.into())
+    }
+
+    /// Sends payment probes over all paths of a route that would be used to pay the given
+    /// zero-value invoice using the given amount.
+    ///
+    /// This can be used to send pre-flight probes for a so-called "zero-amount" invoice, i.e., an
+    /// invoice that leaves the amount paid to be determined by the user.
+    ///
+    pub fn send_payment_probes_using_amount(
+        &self, invoice: Bolt11Invoice, amount_msat: u64,
+    ) -> Result<(), NodeException> {
+        self
+            .ptr
+            .send_payment_probes_using_amount(&(invoice.into()), amount_msat)
+            .map_err(|e| e.into())
     }
     /// Returns a payable invoice that can be used to request and receive a payment of the amount
     /// given.
@@ -511,15 +351,9 @@ impl NodePointer {
         description: String,
         expiry_secs: u32,
     ) -> anyhow::Result<Bolt11Invoice, NodeException> {
-        match self
-            .0
-            .lock()
-            .unwrap()
+         self.ptr
             .receive_payment(amount_msat, description.as_str(), expiry_secs)
-        {
-            Ok(e) => Ok(e.into()),
-            Err(e) => Err(e.into()),
-        }
+            .map_err(|e| e.into()).map(|e| e.into())
     }
     /// Returns a payable invoice that can be used to request and receive a payment for which the
     /// amount is to be determined by the user, also known as a "zero-amount" invoice.
@@ -528,24 +362,18 @@ impl NodePointer {
         description: String,
         expiry_secs: u32,
     ) -> anyhow::Result<Bolt11Invoice, NodeException> {
-        match self
-            .0
-            .lock()
-            .unwrap()
-            .receive_variable_amount_payment(description.as_str(), expiry_secs)
-        {
-            Ok(e) => Ok(Bolt11Invoice {
-                signed_raw_invoice: e.to_string(),
-            }),
-            Err(e) => Err(e.into()),
-        }
+         self.ptr
+            .receive_variable_amount_payment(description.as_str(), expiry_secs).map_err(|e| e.into()).map(|e| Bolt11Invoice {
+             signed_raw_invoice: e.to_string(),
+         })
+
     }
 
     /// Retrieve the details of a specific payment with the given hash.
     ///
     /// Returns `PaymentDetails` if the payment was known and `null` otherwise.
     pub fn payment(&self, payment_hash: PaymentHash) -> Option<PaymentDetails> {
-        match self.0.lock().unwrap().payment(&(payment_hash.into())) {
+        match self.ptr.payment(&(payment_hash.into())) {
             None => None,
             Some(e) => Some(e.into()),
         }
@@ -554,15 +382,9 @@ impl NodePointer {
     /// Remove the payment with the given hash from the store.
     ///
     pub fn remove_payment(&self, payment_hash: PaymentHash) -> anyhow::Result<(), NodeException> {
-        match self
-            .0
-            .lock()
-            .unwrap()
-            .remove_payment(&(payment_hash.into()))
-        {
-            Ok(_) => Ok(()),
-            Err(e) => Err(e.into()),
-        }
+         self.ptr
+            .remove_payment(&(payment_hash.into())).map_err(|e| e.into())
+
     }
 
     /// Retrieves all payments that match the given predicate.
@@ -571,9 +393,7 @@ impl NodePointer {
         &self,
         payment_direction: PaymentDirection,
     ) -> Vec<PaymentDetails> {
-        self.0
-            .lock()
-            .unwrap()
+        self.ptr
             .list_payments_with_filter(|p| p.direction == payment_direction.into())
             .iter()
             .map(|x| x.to_owned().into())
@@ -581,9 +401,7 @@ impl NodePointer {
     }
     /// Retrieves all payments.
     pub fn list_payments(&self) -> Vec<PaymentDetails> {
-        self.0
-            .lock()
-            .unwrap()
+        self.ptr
             .list_payments()
             .iter()
             .map(|x| x.to_owned().into())
@@ -591,9 +409,7 @@ impl NodePointer {
     }
     /// Retrieves a list of known peers.
     pub fn list_peers(&self) -> Vec<PeerDetails> {
-        self.0
-            .lock()
-            .unwrap()
+        self.ptr
             .list_peers()
             .iter()
             .map(|x| x.to_owned().into())
@@ -606,10 +422,7 @@ impl NodePointer {
     /// Signatures are EC recoverable, meaning that given the message and the
     /// signature the PublicKey of the signer can be extracted.
     pub fn sign_message(&self, msg: Vec<u8>) -> anyhow::Result<String, NodeException> {
-        match self.0.lock().unwrap().sign_message(msg.as_slice()) {
-            Ok(e) => Ok(e),
-            Err(e) => Err(e.into()),
-        }
+         self.ptr.sign_message(msg.as_slice()) .map_err(|e| e.into())
     }
 
     /// Verifies that the given ECDSA signature was created for the given message with the
@@ -620,10 +433,7 @@ impl NodePointer {
         sig: String,
         pkey: PublicKey,
     ) -> anyhow::Result<bool, NodeException> {
-        Ok(self
-            .0
-            .lock()
-            .unwrap()
+        Ok(self.ptr
             .verify_signature(msg.as_slice(), sig.as_str(), &pkey.into()))
     }
 }
