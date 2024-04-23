@@ -3,7 +3,7 @@
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
-part of 'bridge_definitions.dart';
+part of 'types.dart';
 
 // **************************************************************************
 // FreezedGenerator
@@ -234,7 +234,7 @@ mixin _$EntropySourceConfig {
   TResult when<TResult extends Object?>({
     required TResult Function(String field0) seedFile,
     required TResult Function(U8Array64 field0) seedBytes,
-    required TResult Function(Mnemonic mnemonic, String? passphrase)
+    required TResult Function(MnemonicBase mnemonic, String? passphrase)
         bip39Mnemonic,
   }) =>
       throw _privateConstructorUsedError;
@@ -242,14 +242,14 @@ mixin _$EntropySourceConfig {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(String field0)? seedFile,
     TResult? Function(U8Array64 field0)? seedBytes,
-    TResult? Function(Mnemonic mnemonic, String? passphrase)? bip39Mnemonic,
+    TResult? Function(MnemonicBase mnemonic, String? passphrase)? bip39Mnemonic,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(String field0)? seedFile,
     TResult Function(U8Array64 field0)? seedBytes,
-    TResult Function(Mnemonic mnemonic, String? passphrase)? bip39Mnemonic,
+    TResult Function(MnemonicBase mnemonic, String? passphrase)? bip39Mnemonic,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -368,7 +368,7 @@ class _$EntropySourceConfig_SeedFileImpl
   TResult when<TResult extends Object?>({
     required TResult Function(String field0) seedFile,
     required TResult Function(U8Array64 field0) seedBytes,
-    required TResult Function(Mnemonic mnemonic, String? passphrase)
+    required TResult Function(MnemonicBase mnemonic, String? passphrase)
         bip39Mnemonic,
   }) {
     return seedFile(field0);
@@ -379,7 +379,7 @@ class _$EntropySourceConfig_SeedFileImpl
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(String field0)? seedFile,
     TResult? Function(U8Array64 field0)? seedBytes,
-    TResult? Function(Mnemonic mnemonic, String? passphrase)? bip39Mnemonic,
+    TResult? Function(MnemonicBase mnemonic, String? passphrase)? bip39Mnemonic,
   }) {
     return seedFile?.call(field0);
   }
@@ -389,7 +389,7 @@ class _$EntropySourceConfig_SeedFileImpl
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(String field0)? seedFile,
     TResult Function(U8Array64 field0)? seedBytes,
-    TResult Function(Mnemonic mnemonic, String? passphrase)? bip39Mnemonic,
+    TResult Function(MnemonicBase mnemonic, String? passphrase)? bip39Mnemonic,
     required TResult orElse(),
   }) {
     if (seedFile != null) {
@@ -518,7 +518,7 @@ class _$EntropySourceConfig_SeedBytesImpl
   TResult when<TResult extends Object?>({
     required TResult Function(String field0) seedFile,
     required TResult Function(U8Array64 field0) seedBytes,
-    required TResult Function(Mnemonic mnemonic, String? passphrase)
+    required TResult Function(MnemonicBase mnemonic, String? passphrase)
         bip39Mnemonic,
   }) {
     return seedBytes(field0);
@@ -529,7 +529,7 @@ class _$EntropySourceConfig_SeedBytesImpl
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(String field0)? seedFile,
     TResult? Function(U8Array64 field0)? seedBytes,
-    TResult? Function(Mnemonic mnemonic, String? passphrase)? bip39Mnemonic,
+    TResult? Function(MnemonicBase mnemonic, String? passphrase)? bip39Mnemonic,
   }) {
     return seedBytes?.call(field0);
   }
@@ -539,7 +539,7 @@ class _$EntropySourceConfig_SeedBytesImpl
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(String field0)? seedFile,
     TResult Function(U8Array64 field0)? seedBytes,
-    TResult Function(Mnemonic mnemonic, String? passphrase)? bip39Mnemonic,
+    TResult Function(MnemonicBase mnemonic, String? passphrase)? bip39Mnemonic,
     required TResult orElse(),
   }) {
     if (seedBytes != null) {
@@ -602,7 +602,7 @@ abstract class _$$EntropySourceConfig_Bip39MnemonicImplCopyWith<$Res> {
           $Res Function(_$EntropySourceConfig_Bip39MnemonicImpl) then) =
       __$$EntropySourceConfig_Bip39MnemonicImplCopyWithImpl<$Res>;
   @useResult
-  $Res call({Mnemonic mnemonic, String? passphrase});
+  $Res call({MnemonicBase mnemonic, String? passphrase});
 }
 
 /// @nodoc
@@ -625,7 +625,7 @@ class __$$EntropySourceConfig_Bip39MnemonicImplCopyWithImpl<$Res>
       mnemonic: null == mnemonic
           ? _value.mnemonic
           : mnemonic // ignore: cast_nullable_to_non_nullable
-              as Mnemonic,
+              as MnemonicBase,
       passphrase: freezed == passphrase
           ? _value.passphrase
           : passphrase // ignore: cast_nullable_to_non_nullable
@@ -642,7 +642,7 @@ class _$EntropySourceConfig_Bip39MnemonicImpl
       {required this.mnemonic, this.passphrase});
 
   @override
-  final Mnemonic mnemonic;
+  final MnemonicBase mnemonic;
   @override
   final String? passphrase;
 
@@ -678,7 +678,7 @@ class _$EntropySourceConfig_Bip39MnemonicImpl
   TResult when<TResult extends Object?>({
     required TResult Function(String field0) seedFile,
     required TResult Function(U8Array64 field0) seedBytes,
-    required TResult Function(Mnemonic mnemonic, String? passphrase)
+    required TResult Function(MnemonicBase mnemonic, String? passphrase)
         bip39Mnemonic,
   }) {
     return bip39Mnemonic(mnemonic, passphrase);
@@ -689,7 +689,7 @@ class _$EntropySourceConfig_Bip39MnemonicImpl
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(String field0)? seedFile,
     TResult? Function(U8Array64 field0)? seedBytes,
-    TResult? Function(Mnemonic mnemonic, String? passphrase)? bip39Mnemonic,
+    TResult? Function(MnemonicBase mnemonic, String? passphrase)? bip39Mnemonic,
   }) {
     return bip39Mnemonic?.call(mnemonic, passphrase);
   }
@@ -699,7 +699,7 @@ class _$EntropySourceConfig_Bip39MnemonicImpl
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(String field0)? seedFile,
     TResult Function(U8Array64 field0)? seedBytes,
-    TResult Function(Mnemonic mnemonic, String? passphrase)? bip39Mnemonic,
+    TResult Function(MnemonicBase mnemonic, String? passphrase)? bip39Mnemonic,
     required TResult orElse(),
   }) {
     if (bip39Mnemonic != null) {
@@ -747,10 +747,10 @@ class _$EntropySourceConfig_Bip39MnemonicImpl
 abstract class EntropySourceConfig_Bip39Mnemonic
     implements EntropySourceConfig {
   const factory EntropySourceConfig_Bip39Mnemonic(
-      {required final Mnemonic mnemonic,
+      {required final MnemonicBase mnemonic,
       final String? passphrase}) = _$EntropySourceConfig_Bip39MnemonicImpl;
 
-  Mnemonic get mnemonic;
+  MnemonicBase get mnemonic;
   String? get passphrase;
   @JsonKey(ignore: true)
   _$$EntropySourceConfig_Bip39MnemonicImplCopyWith<
