@@ -1,4 +1,4 @@
-import '../generated/bridge_definitions.dart' as bridge;
+import '../generated/api/errors.dart' as bridge;
 
 abstract class LdkException implements Exception {
   String? message;
@@ -17,108 +17,108 @@ class BuilderException extends LdkException {
   BuilderException({super.message});
 }
 
-BuilderException handleBuilderException(bridge.BuilderException e) {
+BuilderException mapBuilderException(bridge.BuilderException e) {
   switch (e) {
-    case bridge.BuilderException.InvalidSeedBytes:
+    case bridge.BuilderException.invalidSeedBytes:
       return BuilderException(message: "Given seed bytes are invalid.");
-    case bridge.BuilderException.InvalidSeedFile:
+    case bridge.BuilderException.invalidSeedFile:
       return BuilderException(
           message: "Given seed file is invalid or could not be read.");
-    case bridge.BuilderException.InvalidSystemTime:
+    case bridge.BuilderException.invalidSystemTime:
       return BuilderException(
           message:
               "System time is invalid. Clocks might have gone back in time.");
-    case bridge.BuilderException.ReadFailed:
+    case bridge.BuilderException.readFailed:
       return BuilderException(message: "Failed to read from store.");
-    case bridge.BuilderException.WriteFailed:
+    case bridge.BuilderException.writeFailed:
       return BuilderException(message: "Failed to write to store.");
-    case bridge.BuilderException.StoragePathAccessFailed:
+    case bridge.BuilderException.storagePathAccessFailed:
       return BuilderException(
           message: "Failed to access the given storage path.");
-    case bridge.BuilderException.WalletSetupFailed:
+    case bridge.BuilderException.walletSetupFailed:
       return BuilderException(message: "Failed to setup onchain wallet.");
-    case bridge.BuilderException.LoggerSetupFailed:
+    case bridge.BuilderException.loggerSetupFailed:
       return BuilderException(message: "Failed to setup the logger.");
 
-    case bridge.BuilderException.InvalidChannelMonitor:
+    case bridge.BuilderException.invalidChannelMonitor:
       return BuilderException(
           message: "Failed to watch a deserialized ChannelMonitor.");
-    case bridge.BuilderException.InvalidListeningAddresses:
+    case bridge.BuilderException.invalidListeningAddresses:
       return BuilderException(
           message: "Given listening addresses are invalid.");
-    case bridge.BuilderException.KVStoreSetupFailed:
+    case bridge.BuilderException.kvStoreSetupFailed:
       return BuilderException(message: "Failed to setup KVStore.");
-    case bridge.BuilderException.SocketAddressParseError:
+    case bridge.BuilderException.socketAddressParseError:
       return BuilderException(message: "Invalid SocketAddress.");
   }
 }
 
-NodeException handleNodeException(bridge.NodeException e) {
+NodeException mapNodeException(bridge.NodeException e) {
   switch (e) {
-    case bridge.NodeException.AlreadyRunning:
+    case bridge.NodeException.alreadyRunning:
       return NodeException(message: "Node is already running.");
-    case bridge.NodeException.NotRunning:
+    case bridge.NodeException.notRunning:
       return NodeException(message: "Node is not running.");
-    case bridge.NodeException.OnchainTxCreationFailed:
+    case bridge.NodeException.onchainTxCreationFailed:
       return NodeException(
           message: "On-chain transaction could not be created.");
-    case bridge.NodeException.ConnectionFailed:
+    case bridge.NodeException.connectionFailed:
       return NodeException(message: "Network connection closed.");
-    case bridge.NodeException.PaymentSendingFailed:
+    case bridge.NodeException.paymentSendingFailed:
       return NodeException(message: "Failed to send the given payment.");
-    case bridge.NodeException.ProbeSendingFailed:
+    case bridge.NodeException.probeSendingFailed:
       return NodeException(message: "Failed to send the given payment probe.");
-    case bridge.NodeException.ChannelCreationFailed:
+    case bridge.NodeException.channelCreationFailed:
       return NodeException(message: "Failed to create channel.");
-    case bridge.NodeException.ChannelClosingFailed:
+    case bridge.NodeException.channelClosingFailed:
       return NodeException(message: "Failed to close channel.");
-    case bridge.NodeException.ChannelConfigUpdateFailed:
+    case bridge.NodeException.channelConfigUpdateFailed:
       return NodeException(message: "Failed to update channel config.");
-    case bridge.NodeException.PersistenceFailed:
+    case bridge.NodeException.persistenceFailed:
       return NodeException(message: "Failed to persist data.");
-    case bridge.NodeException.WalletOperationFailed:
+    case bridge.NodeException.walletOperationFailed:
       return NodeException(message: "Failed to conduct wallet operation.");
-    case bridge.NodeException.OnchainTxSigningFailed:
+    case bridge.NodeException.onchainTxSigningFailed:
       return NodeException(message: "Failed to sign given transaction.");
-    case bridge.NodeException.MessageSigningFailed:
+    case bridge.NodeException.messageSigningFailed:
       return NodeException(message: "Failed to sign given message.");
-    case bridge.NodeException.TxSyncFailed:
+    case bridge.NodeException.txSyncFailed:
       return NodeException(message: "Failed to sync transactions.");
-    case bridge.NodeException.GossipUpdateFailed:
+    case bridge.NodeException.gossipUpdateFailed:
       return NodeException(message: "Failed to update gossip data.");
-    case bridge.NodeException.InvalidAddress:
+    case bridge.NodeException.invalidAddress:
       return NodeException(message: "The given address is invalid.");
-    case bridge.NodeException.InvalidSocketAddress:
+    case bridge.NodeException.invalidSocketAddress:
       return NodeException(message: "The given network address is invalid.");
-    case bridge.NodeException.InvalidPublicKey:
+    case bridge.NodeException.invalidPublicKey:
       return NodeException(message: "The given public key is invalid.");
-    case bridge.NodeException.InvalidSecretKey:
+    case bridge.NodeException.invalidSecretKey:
       return NodeException(message: "The given secret key is invalid.");
-    case bridge.NodeException.InvalidPaymentHash:
+    case bridge.NodeException.invalidPaymentHash:
       return NodeException(message: "The given payment hash is invalid.");
-    case bridge.NodeException.InvalidPaymentPreimage:
+    case bridge.NodeException.invalidPaymentPreimage:
       return NodeException(message: "The given payment preimage is invalid.");
-    case bridge.NodeException.InvalidPaymentSecret:
+    case bridge.NodeException.invalidPaymentSecret:
       return NodeException(message: "The given payment secret is invalid.");
-    case bridge.NodeException.InvalidAmount:
+    case bridge.NodeException.invalidAmount:
       return NodeException(message: "The given amount is invalid.");
-    case bridge.NodeException.InvalidInvoice:
+    case bridge.NodeException.invalidInvoice:
       return NodeException(message: "The given invoice is invalid.");
-    case bridge.NodeException.InvalidChannelId:
+    case bridge.NodeException.invalidChannelId:
       return NodeException(message: "The given channel ID is invalid.");
-    case bridge.NodeException.InvoiceCreationFailed:
+    case bridge.NodeException.invoiceCreationFailed:
       return NodeException(message: "Failed to create invoice.");
-    case bridge.NodeException.InvalidNetwork:
+    case bridge.NodeException.invalidNetwork:
       return NodeException(message: "The given network is invalid.");
-    case bridge.NodeException.DuplicatePayment:
+    case bridge.NodeException.duplicatePayment:
       return NodeException(
           message: "A payment with the given hash has already been initiated.");
 
-    case bridge.NodeException.InsufficientFunds:
+    case bridge.NodeException.insufficientFunds:
       return NodeException(
           message:
               "There are insufficient funds to complete the given operation.");
-    case bridge.NodeException.FeerateEstimationUpdateFailed:
+    case bridge.NodeException.feerateEstimationUpdateFailed:
       return NodeException(message: "Failed to update fee rate estimation. ");
   }
 }
