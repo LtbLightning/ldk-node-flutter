@@ -51,12 +51,12 @@ class _MyAppState extends State<MyApp> {
         probingLiquidityLimitMultiplier: 3,
         trustedPeers0Conf: [],
         storageDirPath: nodePath,
-        network: ldk.Network.Regtest,
+        network: ldk.Network.regtest,
         listeningAddresses: [address],
         onchainWalletSyncIntervalSecs: 60,
         walletSyncIntervalSecs: 20,
         feeRateCacheUpdateIntervalSecs: 600,
-        logLevel: ldk.LogLevel.Debug,
+        logLevel: ldk.LogLevel.debug,
         defaultCltvExpiryDelta: 144);
     return config;
   }
@@ -73,7 +73,8 @@ class _MyAppState extends State<MyApp> {
     aliceNode = await aliceBuilder
         .setEntropyBip39Mnemonic(
             mnemonic: ldk.Mnemonic(
-                "cart super leaf clinic pistol plug replace close super tooth wealth usage"))
+                seedPhrase:
+                    "cart super leaf clinic pistol plug replace close super tooth wealth usage"))
         .setEsploraServer(esploraUrl)
         .build();
     await startNode(aliceNode);
@@ -99,7 +100,8 @@ class _MyAppState extends State<MyApp> {
     bobNode = await bobBuilder
         .setEntropyBip39Mnemonic(
             mnemonic: ldk.Mnemonic(
-                'puppy interest whip tonight dad never sudden response push zone pig patch'))
+                seedPhrase:
+                    'puppy interest whip tonight dad never sudden response push zone pig patch'))
         .setEsploraServer(esploraUrl)
         .build();
     await startNode(bobNode);
@@ -152,7 +154,7 @@ class _MyAppState extends State<MyApp> {
 
   listPaymentsWithFilter(bool printPayments) async {
     final res = await aliceNode.listPaymentsWithFilter(
-        paymentDirection: ldk.PaymentDirection.Outbound);
+        paymentDirection: ldk.PaymentDirection.outbound);
     if (res.isNotEmpty) {
       if (printPayments) {
         if (kDebugMode) {
@@ -213,7 +215,7 @@ class _MyAppState extends State<MyApp> {
     await aliceNode.connectOpenChannel(
         channelAmountSats: funding_amount_sat,
         announceChannel: true,
-        netaddress: bobAddr!,
+        address: bobAddr!,
         pushToCounterpartyMsat: push_msat.toInt(),
         nodeId: bobNodeId!);
   }
