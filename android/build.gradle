@@ -44,3 +44,9 @@ android {
         minSdkVersion 16
     }
 }
+apply from: "../cargokit/gradle/plugin.gradle"
+
+cargokit {
+    manifestDir = "../rust"
+    libname = "ldk_node"
+}
