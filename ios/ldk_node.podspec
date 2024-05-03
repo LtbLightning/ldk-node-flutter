@@ -8,7 +8,7 @@ Pod::Spec.new do |s|
   s.source           = { :path => '.' }
   s.source_files = 'Classes/**/*'
   s.dependency 'Flutter'
-        s.platform = :ios, '12.0'
+  s.platform = :ios, '12.0'
         s.script_phase = {
           :name => 'Build Rust library',
           # First argument is relative path to the `rust` folder, second is name of rust library
