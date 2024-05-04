@@ -1,4 +1,4 @@
-import '../generated/api/errors.dart' as bridge;
+import '../generated/api/error.dart' as bridge;
 
 abstract class LdkException implements Exception {
   String? message;
