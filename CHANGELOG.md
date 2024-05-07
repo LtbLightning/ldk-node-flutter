@@ -1,6 +1,6 @@
-## [0.2.1]
+## [0.2.1-dev]
 Android support bug resolved
-
+iOs bug resolved
 #### API changed
 - Renamed `waitUntilNextHandled()` to `waitNextHandled`.
 - Renamed `listeningAddress()` to `listeningAddresses`
