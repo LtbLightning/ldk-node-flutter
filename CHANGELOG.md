@@ -1,29 +1,27 @@
+## [0.2.3-dev]
+
 ## [0.2.2-dev]
 Updated Rust and Flutter dependencies.
 #### APIs added
-- Expose `nextEventAsync()`, `config()`, `status()`, `receiveVariableAmountPaymentViaJitChannel` & `receivePaymentViaJitChannel` in `Node`
-#### API changed
-- Replaced `totalOnchainBalanceSats()` & `spendableOnchainBalanceSats()` with `listBalances()`.
-- `connectOpenChannel` returns a `UserChannelId` object.
-- `updateChannelConfig` & `closeChannel` accepts a `UserChannelId` object instead of `ChannelId`
-
-## [0.2.1]
-Updated Rust and Flutter dependencies.
+- Expose `isRunning()` in `Node` class.
 #### API changed
 - Renamed `waitUntilNextHandled()` to `waitNextHandled`.
-- Renamed `listeningAddress()` to `listeningAddresses`
-- Upgraded `BuilderException` to handle Invalid SocketAddress.
+- Renamed `listeningAddress()` to `listeningAddresses`.
+- Upgraded `BuilderException` to handle invalid `socketAddress` & `trustedPeers.
+- Upgraded `NodeException` to handle invalid `txid`.
 #### Fixed
 - Functions hang indefinitely on iOs devices
 - Android support bug resolved
+- Thread `frb_workerpool` panic on `SocketAddress`, `PublicKey`, `Address` `Bolt11Invoice`, `Config` and `Txid`.
 
 ## [0.2.0]
 Updated `Rust` and `Flutter` dependencies.
-Invalid `BuilderException` bug resolved
 
+## [0.1.3]
+Updated `Rust` and `Flutter` dependencies.
+Invalid `BuilderException` bug resolved
 #### APIs added
 - Expose  `generate()` in `Mnemonic` class.
-
 #### API changed
 - Remove `generateEntropyMnemonic()`.
 
