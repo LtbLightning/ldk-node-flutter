@@ -1,8 +1,9 @@
-use crate::api::node::MnemonicBase;
+use crate::api::node::LdkMnemonic;
 use flutter_rust_bridge::*;
 use ldk_node::lightning::util::ser::{Readable, Writeable};
 use std::str::FromStr;
 use std::string::ToString;
+use crate::api::error::{BuilderException, NodeException};
 
 ///The addresses on which the node will listen for incoming connections.
 #[derive(Debug, Clone, PartialEq, Eq)]
@@ -57,33 +58,37 @@ impl From<ldk_node::lightning::ln::msgs::SocketAddress> for SocketAddress {
         }
     }
 }
-impl From<SocketAddress> for ldk_node::lightning::ln::msgs::SocketAddress {
-    fn from(value: SocketAddress) -> Self {
+impl TryFrom<SocketAddress> for ldk_node::lightning::ln::msgs::SocketAddress {
+    type Error = BuilderException;
+
+    fn try_from(value: SocketAddress) -> Result<Self, Self::Error> {
         match value {
             SocketAddress::TcpIpV4 { addr, port } => {
-                ldk_node::lightning::ln::msgs::SocketAddress::TcpIpV4 { addr, port }
+                Ok(ldk_node::lightning::ln::msgs::SocketAddress::TcpIpV4 { addr, port })
             }
             SocketAddress::TcpIpV6 { addr, port } => {
-                ldk_node::lightning::ln::msgs::SocketAddress::TcpIpV6 { addr, port }
+                Ok(ldk_node::lightning::ln::msgs::SocketAddress::TcpIpV6 { addr, port })
             }
-            SocketAddress::OnionV2(e) => ldk_node::lightning::ln::msgs::SocketAddress::OnionV2(e),
+            SocketAddress::OnionV2(e) => {
+                Ok(ldk_node::lightning::ln::msgs::SocketAddress::OnionV2(e))
+            }
             SocketAddress::OnionV3 {
                 ed25519_pubkey,
                 checksum,
                 version,
                 port,
-            } => ldk_node::lightning::ln::msgs::SocketAddress::OnionV3 {
+            } => Ok(ldk_node::lightning::ln::msgs::SocketAddress::OnionV3 {
                 ed25519_pubkey,
                 checksum,
                 version,
                 port,
-            },
+            }),
             SocketAddress::Hostname { addr, port } => {
-                ldk_node::lightning::ln::msgs::SocketAddress::Hostname {
+                Ok(ldk_node::lightning::ln::msgs::SocketAddress::Hostname {
                     hostname: ldk_node::lightning::util::ser::Hostname::try_from(addr)
-                        .expect("Invalid hostname"),
+                        .map_err(|_| BuilderException::SocketAddressParseError)?,
                     port,
-                }
+                })
             }
         }
     }
@@ -218,10 +223,12 @@ impl From<ldk_node::UserChannelId> for UserChannelId {
         }
     }
 }
-impl From<UserChannelId> for ldk_node::UserChannelId {
-    fn from(value: UserChannelId) -> Self {
+impl TryFrom<UserChannelId> for ldk_node::UserChannelId {
+    type Error = NodeException;
+
+    fn try_from(value: UserChannelId) -> Result<Self, Self::Error> {
         let mut encoded = value.data.as_slice();
-        ldk_node::UserChannelId::read(&mut encoded).expect("decode error")
+        ldk_node::UserChannelId::read(&mut encoded).map_err(|e| e.into())
     }
 }
 impl From<ldk_node::lightning::events::ClosureReason> for ClosureReason {
@@ -235,9 +242,7 @@ impl From<ldk_node::lightning::events::ClosureReason> for ClosureReason {
             ldk_node::lightning::events::ClosureReason::HolderForceClosed => {
                 ClosureReason::HolderForceClosed
             }
-            ldk_node::lightning::events::ClosureReason::CooperativeClosure => {
-                ClosureReason::CooperativeClosure
-            }
+
             ldk_node::lightning::events::ClosureReason::CommitmentTxConfirmed => {
                 ClosureReason::CommitmentTxConfirmed
             }
@@ -259,6 +264,10 @@ impl From<ldk_node::lightning::events::ClosureReason> for ClosureReason {
             ldk_node::lightning::events::ClosureReason::FundingBatchClosure => {
                 ClosureReason::FundingBatchClosure
             }
+            ldk_node::lightning::events::ClosureReason::LegacyCooperativeClosure => ClosureReason::LegacyCooperativeClosure,
+            ldk_node::lightning::events::ClosureReason::CounterpartyInitiatedCooperativeClosure => ClosureReason::CounterpartyInitiatedCooperativeClosure,
+            ldk_node::lightning::events:: ClosureReason::LocallyInitiatedCooperativeClosure => ClosureReason::LocallyInitiatedCooperativeClosure,
+            ldk_node::lightning::events::ClosureReason::HTLCsTimedOut => ClosureReason::HTLCsTimedOut
         }
     }
 }
@@ -308,8 +317,8 @@ impl From<ldk_node::lightning::events::PaymentFailureReason> for PaymentFailureR
         }
     }
 }
+#[derive(Clone, Debug, PartialEq, Eq)]
 /// The reason the channel was closed. See individual variants for more details.
-#[derive(Debug, Clone, PartialEq, Eq)]
 pub enum ClosureReason {
     /// Closure generated from receiving a peer error message.
     ///
@@ -325,12 +334,26 @@ pub enum ClosureReason {
         /// [`UntrustedString`]: crate::util::string::UntrustedString
         peer_msg: String,
     },
-    /// Closure generated from `ChannelManager.force_close_channel`, called by the user.
+    /// Closure generated from [`ChannelManager::force_close_channel`], called by the user.
     ///
+    /// [`ChannelManager::force_close_channel`]: crate::ln::channelmanager::ChannelManager::force_close_channel.
     HolderForceClosed,
     /// The channel was closed after negotiating a cooperative close and we've now broadcasted
     /// the cooperative close transaction. Note the shutdown may have been initiated by us.
-    CooperativeClosure,
+    ///
+    /// This was only set in versions of LDK prior to 0.0.122.
+    // Can be removed once we disallow downgrading to 0.0.121
+    LegacyCooperativeClosure,
+    /// The channel was closed after negotiating a cooperative close and we've now broadcasted
+    /// the cooperative close transaction. This indicates that the shutdown was initiated by our
+    /// counterparty.
+    ///
+    /// In rare cases where we initiated closure immediately prior to shutting down without
+    /// persisting, this value may be provided for channels we initiated closure for.
+    CounterpartyInitiatedCooperativeClosure,
+    /// The channel was closed after negotiating a cooperative close and we've now broadcasted
+    /// the cooperative close transaction. This indicates that the shutdown was initiated by us.
+    LocallyInitiatedCooperativeClosure,
     /// A commitment transaction was confirmed on chain, closing the channel. Most likely this
     /// commitment transaction came from our counterparty, but it may also have come from
     /// a copy of our own `ChannelMonitor`.
@@ -346,15 +369,18 @@ pub enum ClosureReason {
     /// forget the channel entirely - we can attempt again if the peer reconnects.
     ///
     /// This includes cases where we restarted prior to funding completion, including prior to the
-    /// initial `ChannelMonitor` persistence completing.
+    /// initial [`ChannelMonitor`] persistence completing.
     ///
     /// In LDK versions prior to 0.0.107 this could also occur if we were unable to connect to the
     /// peer because of mutual incompatibility between us and our channel counterparty.
     ///
+    /// [`ChannelMonitor`]: crate::chain::channelmonitor::ChannelMonitor
     DisconnectedPeer,
-    /// Closure generated from `channelManager.read` if the `ChannelMonitor` is newer than
-    /// the `ChannelManager` deserialized.
+    /// Closure generated from `ChannelManager::read` if the [`ChannelMonitor`] is newer than
+    /// the [`ChannelManager`] deserialized.
     ///
+    /// [`ChannelMonitor`]: crate::chain::channelmonitor::ChannelMonitor
+    /// [`ChannelManager`]: crate::ln::channelmanager::ChannelManager
     OutdatedChannelManager,
     /// The counterparty requested a cooperative close of a channel that had not been funded yet.
     /// The channel has been immediately closed.
@@ -362,16 +388,35 @@ pub enum ClosureReason {
     /// Another channel in the same funding batch closed before the funding transaction
     /// was ready to be broadcast.
     FundingBatchClosure,
+    /// One of our HTLCs timed out in a channel, causing us to force close the channel.
+    HTLCsTimedOut,
 }
+///A user-provided identifier in channelManager.sendPayment used to uniquely identify a payment and ensure idempotency in LDK.
+#[derive(Eq, PartialEq, Debug, Clone)]
 
-/// An event emitted by [Node], which should be handled by the user.
+pub struct PaymentId(pub [u8; 32]);
+
+impl From<ldk_node::lightning::ln::channelmanager::PaymentId> for PaymentId {
+    fn from(value: ldk_node::lightning::ln::channelmanager::PaymentId) -> Self {
+        PaymentId(value.0)
+    }
+}
+impl From<PaymentId> for ldk_node::lightning::ln::channelmanager::PaymentId {
+    fn from(value:PaymentId) -> Self {
+        ldk_node::lightning::ln::channelmanager::PaymentId(value.0)
+    }
+}
+/// An event emitted by [`Node`], which should be handled by the user.
 ///
-/// An event emitted by [Node], which should be handled by the user.
-///
+
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub enum Event {
     /// A sent payment was successful.
     PaymentSuccessful {
+        /// A local identifier used to track the payment.
+        ///
+        /// Will only be `None` for events serialized with LDK Node v0.2.1 or prior.
+        payment_id: Option<PaymentId>,
         /// The hash of the payment.
         payment_hash: PaymentHash,
         /// The total fee which was spent at intermediate hops in this payment.
@@ -379,6 +424,10 @@ pub enum Event {
     },
     /// A sent payment has failed.
     PaymentFailed {
+        /// A local identifier used to track the payment.
+        ///
+        /// Will only be `None` for events serialized with LDK Node v0.2.1 or prior.
+        payment_id: Option<PaymentId>,
         /// The hash of the payment.
         payment_hash: PaymentHash,
         /// The reason why the payment failed.
@@ -388,6 +437,10 @@ pub enum Event {
     },
     /// A payment has been received.
     PaymentReceived {
+        /// A local identifier used to track the payment.
+        ///
+        /// Will only be `None` for events serialized with LDK Node v0.2.1 or prior.
+        payment_id: Option<PaymentId>,
         /// The hash of the payment.
         payment_hash: PaymentHash,
         /// The value, in thousandths of a satoshi, that has been received.
@@ -395,35 +448,35 @@ pub enum Event {
     },
     /// A channel has been created and is pending confirmation on-chain.
     ChannelPending {
-        /// The `channel_id` of the channel.
+        /// The `channelId` of the channel.
         channel_id: ChannelId,
-        /// The `user_channel_id` of the channel.
+        /// The `userChannelId` of the channel.
         user_channel_id: UserChannelId,
-        /// The `temporary_channel_id` this channel used to be known by during channel establishment.
+        /// The `temporaryChannelId` this channel used to be known by during channel establishment.
         former_temporary_channel_id: ChannelId,
-        /// The `node_id` of the channel counterparty.
+        /// The `nodeId` of the channel counterparty.
         counterparty_node_id: PublicKey,
         /// The outpoint of the channel's funding transaction.
         funding_txo: OutPoint,
     },
     /// A channel is ready to be used.
     ChannelReady {
-        /// The `channel_id` of the channel.
+        /// The `channelId` of the channel.
         channel_id: ChannelId,
-        /// The `user_channel_id` of the channel.
+        /// The `userChannelId` of the channel.
         user_channel_id: UserChannelId,
-        /// The `node_id` of the channel counterparty.
+        /// The `nodeId` of the channel counterparty.
         ///
         /// This will be `None` for events serialized by LDK Node v0.1.0 and prior.
         counterparty_node_id: Option<PublicKey>,
     },
     /// A channel has been closed.
     ChannelClosed {
-        /// The `channel_id` of the channel.
+        /// The `channelId` of the channel.
         channel_id: ChannelId,
-        /// The `user_channel_id` of the channel.
+        /// The `userChannelId` of the channel.
         user_channel_id: UserChannelId,
-        /// The `node_id` of the channel counterparty.
+        /// The `nodeId` of the channel counterparty.
         ///
         /// This will be `None` for events serialized by LDK Node v0.1.0 and prior.
         counterparty_node_id: Option<PublicKey>,
@@ -436,27 +489,30 @@ impl From<ldk_node::Event> for Event {
     fn from(value: ldk_node::Event) -> Self {
         match value {
             ldk_node::Event::PaymentSuccessful {
-                payment_hash,
+                payment_id, payment_hash,
                 fee_paid_msat,
             } => Event::PaymentSuccessful {
+                payment_id: payment_id.map(|e| e.into()),
                 payment_hash: PaymentHash {
                     data: payment_hash.0,
                 },
                 fee_paid_msat,
             },
             ldk_node::Event::PaymentFailed {
-                payment_hash,
+                payment_id, payment_hash,
                 reason,
             } => Event::PaymentFailed {
+                payment_id: payment_id.map(|e| e.into()),
                 payment_hash: PaymentHash {
                     data: payment_hash.0,
                 },
                 reason: reason.map(|e| e.into()),
             },
             ldk_node::Event::PaymentReceived {
-                payment_hash,
+                payment_id, payment_hash,
                 amount_msat,
             } => Event::PaymentReceived {
+                payment_id: payment_id.map(|e| e.into()),
                 payment_hash: PaymentHash {
                     data: payment_hash.0,
                 },
@@ -493,7 +549,7 @@ impl From<ldk_node::Event> for Event {
                 user_channel_id: user_channel_id.into(),
                 former_temporary_channel_id: former_temporary_channel_id.into(),
                 counterparty_node_id: PublicKey {
-                    hex_code: counterparty_node_id.to_string(),
+                    hex: counterparty_node_id.to_string(),
                 },
                 funding_txo: funding_txo.into(),
             },
@@ -508,9 +564,12 @@ pub struct Txid {
     pub hash: String,
 }
 
-impl From<Txid> for ldk_node::bitcoin::Txid {
-    fn from(value: Txid) -> Self {
-        ldk_node::bitcoin::Txid::from_str(value.hash.as_str()).expect("Invalid txid")
+impl TryFrom<Txid> for ldk_node::bitcoin::Txid {
+    type Error = NodeException;
+
+    fn try_from(value: Txid) -> Result<Self, Self::Error> {
+        ldk_node::bitcoin::Txid::from_str(value.hash.as_str())
+            .map_err(|_| NodeException::InvalidTxid)
     }
 }
 
@@ -552,12 +611,12 @@ pub enum PaymentStatus {
     Failed,
 }
 
-impl From<ldk_node::PaymentStatus> for PaymentStatus {
-    fn from(value: ldk_node::PaymentStatus) -> Self {
+impl From<ldk_node::payment::PaymentStatus> for PaymentStatus {
+    fn from(value: ldk_node::payment::PaymentStatus) -> Self {
         match value {
-            ldk_node::PaymentStatus::Pending => PaymentStatus::Pending,
-            ldk_node::PaymentStatus::Succeeded => PaymentStatus::Succeeded,
-            ldk_node::PaymentStatus::Failed => PaymentStatus::Failed,
+            ldk_node::payment::PaymentStatus::Pending => PaymentStatus::Pending,
+            ldk_node::payment::PaymentStatus::Succeeded => PaymentStatus::Succeeded,
+            ldk_node::payment::PaymentStatus::Failed => PaymentStatus::Failed,
         }
     }
 }
@@ -572,20 +631,20 @@ pub enum PaymentDirection {
     Outbound,
 }
 
-impl From<ldk_node::PaymentDirection> for PaymentDirection {
-    fn from(value: ldk_node::PaymentDirection) -> Self {
+impl From<ldk_node::payment::PaymentDirection> for PaymentDirection {
+    fn from(value: ldk_node::payment::PaymentDirection) -> Self {
         match value {
-            ldk_node::PaymentDirection::Inbound => PaymentDirection::Inbound,
-            ldk_node::PaymentDirection::Outbound => PaymentDirection::Outbound,
+            ldk_node::payment::PaymentDirection::Inbound => PaymentDirection::Inbound,
+            ldk_node::payment::PaymentDirection::Outbound => PaymentDirection::Outbound,
         }
     }
 }
 
-impl From<PaymentDirection> for ldk_node::PaymentDirection {
+impl From<PaymentDirection> for ldk_node::payment::PaymentDirection {
     fn from(value: PaymentDirection) -> Self {
         match value {
-            PaymentDirection::Inbound => ldk_node::PaymentDirection::Inbound,
-            PaymentDirection::Outbound => ldk_node::PaymentDirection::Outbound,
+            PaymentDirection::Inbound => ldk_node::payment::PaymentDirection::Inbound,
+            PaymentDirection::Outbound => ldk_node::payment::PaymentDirection::Outbound,
         }
     }
 }
@@ -628,19 +687,18 @@ pub struct PaymentSecret {
     pub data: [u8; 32],
 }
 
-// Structs wrapping the particular information which should easily be
-// understandable, parseable, and transformable, i.e., we'll try to avoid
-// exposing too many technical detail here.
+impl From<ldk_node::lightning_invoice::PaymentSecret> for PaymentSecret {
+    fn from(value: ldk_node::lightning_invoice::PaymentSecret) -> Self {
+        PaymentSecret{ data: value.0 }
+    }
+}
 /// Represents a payment.
-///
 #[derive(Clone, Debug, PartialEq, Eq)]
 pub struct PaymentDetails {
-    /// The payment hash, i.e., the hash of the `preimage`.
-    pub hash: PaymentHash,
-    /// The pre-image used by the payment.
-    pub preimage: Option<PaymentPreimage>,
-    /// The secret used by the payment.
-    pub secret: Option<PaymentSecret>,
+    /// The identifier of this payment.
+    pub id: PaymentId,
+    /// The kind of the payment.
+    pub kind: PaymentKind,
     /// The amount transferred.
     pub amount_msat: Option<u64>,
     /// The direction of the payment.
@@ -649,19 +707,99 @@ pub struct PaymentDetails {
     pub status: PaymentStatus,
 }
 
-impl From<ldk_node::PaymentDetails> for PaymentDetails {
-    fn from(value: ldk_node::PaymentDetails) -> Self {
+impl From<ldk_node::payment::PaymentDetails> for PaymentDetails {
+    fn from(value: ldk_node::payment::PaymentDetails) -> Self {
         PaymentDetails {
-            hash: PaymentHash { data: value.hash.0 },
-            preimage: value.preimage.map(|x| PaymentPreimage { data: x.0 }),
-            secret: value.secret.map(|x| PaymentSecret { data: x.0 }),
+            id: value.id.into(),
             status: value.status.into(),
             amount_msat: value.amount_msat,
             direction: value.direction.into(),
+            kind: value.kind.into(),
         }
     }
 }
-
+/// Limits applying to how much fee we allow an LSP to deduct from the payment amount.
+#[derive(Copy, Clone, Debug, PartialEq, Eq)]
+pub struct LSPFeeLimits {
+    /// The maximal total amount we allow any configured LSP withhold from us when forwarding the
+    /// payment.
+    pub max_total_opening_fee_msat: Option<u64>,
+    /// The maximal proportional fee, in parts-per-million millisatoshi, we allow any configured
+    /// LSP withhold from us when forwarding the payment.
+    pub max_proportional_opening_fee_ppm_msat: Option<u64>,
+}
+impl From<ldk_node::payment::LSPFeeLimits> for LSPFeeLimits{
+    fn from(value: ldk_node::payment::LSPFeeLimits) -> Self {
+        LSPFeeLimits{ max_total_opening_fee_msat: value.max_total_opening_fee_msat,
+            max_proportional_opening_fee_ppm_msat: value. max_proportional_opening_fee_ppm_msat }
+    }
+}
+/// Represents the kind of a payment.
+#[derive(Clone, Debug, PartialEq, Eq)]
+pub enum PaymentKind {
+    /// An on-chain payment.
+    Onchain,
+    /// A [BOLT 11] payment.
+    ///
+    /// [BOLT 11]: https://github.com/lightning/bolts/blob/master/11-payment-encoding.md
+    // TODO: Bolt11 { invoice: Option<Bolt11Invoice> },
+    Bolt11 {
+        /// The payment hash, i.e., the hash of the `preimage`.
+        hash: PaymentHash,
+        /// The pre-image used by the payment.
+        preimage: Option<PaymentPreimage>,
+        /// The secret used by the payment.
+        secret: Option<PaymentSecret>,
+    },
+    /// A [BOLT 11] payment intended to open an [LSPS 2] just-in-time channel.
+    ///
+    /// [BOLT 11]: https://github.com/lightning/bolts/blob/master/11-payment-encoding.md
+    /// [LSPS 2]: https://github.com/BitcoinAndLightningLayerSpecs/lsp/blob/main/LSPS2/README.md
+    Bolt11Jit {
+        /// The payment hash, i.e., the hash of the `preimage`.
+        hash: PaymentHash,
+        /// The pre-image used by the payment.
+        preimage: Option<PaymentPreimage>,
+        /// The secret used by the payment.
+        secret: Option<PaymentSecret>,
+        /// Limits applying to how much fee we allow an LSP to deduct from the payment amount.
+        ///
+        /// Allowing them to deduct this fee from the first inbound payment will pay for the LSP's
+        /// channel opening fees.
+        ///
+        lsp_fee_limits: LSPFeeLimits,
+    },
+    /// A spontaneous ("keysend") payment.
+    Spontaneous {
+        /// The payment hash, i.e., the hash of the `preimage`.
+        hash: PaymentHash,
+        /// The pre-image used by the payment.
+        preimage: Option<PaymentPreimage>,
+    },
+}
+impl From<ldk_node::payment::PaymentKind> for PaymentKind{
+    fn from(value: ldk_node::payment::PaymentKind) -> Self {
+        match value {
+            ldk_node::payment::PaymentKind::Onchain => PaymentKind::Onchain,
+            ldk_node::payment::PaymentKind::Bolt11
+            { hash, preimage, secret } => PaymentKind::Bolt11{
+                hash: hash.into(),
+                preimage: preimage.map(|e| e.into()),
+                secret: secret.map(|e| e.into()),
+            },
+            ldk_node::payment::PaymentKind::Bolt11Jit { hash, preimage, secret, lsp_fee_limits } =>
+                PaymentKind::Bolt11Jit {
+                    hash: hash.into(),
+                    preimage: preimage.map(|e| e.into()),
+                    secret: secret.map(|e| e.into()),
+                    lsp_fee_limits: lsp_fee_limits.into(),
+                },
+            ldk_node::payment::PaymentKind::Spontaneous { hash, preimage } =>
+                PaymentKind::Spontaneous{ hash: hash.into(),
+                    preimage: preimage.map(|e| e.into()) }
+        }
+    }
+}
 #[derive(Debug, Clone, PartialEq, Eq)]
 ///Represents a syntactically and semantically correct lightning BOLT11 invoice.
 ///
@@ -669,10 +807,12 @@ pub struct Bolt11Invoice {
     pub signed_raw_invoice: String,
 }
 
-impl From<Bolt11Invoice> for ldk_node::lightning_invoice::Bolt11Invoice {
-    fn from(value: Bolt11Invoice) -> Self {
+impl TryFrom<Bolt11Invoice> for ldk_node::lightning_invoice::Bolt11Invoice {
+    type Error = NodeException;
+
+    fn try_from(value: Bolt11Invoice) -> Result<Self, Self::Error> {
         ldk_node::lightning_invoice::Bolt11Invoice::from_str(value.signed_raw_invoice.as_str())
-            .expect("Invalid Invoice")
+            .map_err(|_| NodeException::InvalidInvoice)
     }
 }
 impl From<ldk_node::lightning_invoice::Bolt11Invoice> for Bolt11Invoice {
@@ -686,19 +826,21 @@ impl From<ldk_node::lightning_invoice::Bolt11Invoice> for Bolt11Invoice {
 ///
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub struct PublicKey {
-    pub hex_code: String,
+    pub hex: String,
 }
 
-impl From<PublicKey> for ldk_node::bitcoin::secp256k1::PublicKey {
-    fn from(value: PublicKey) -> Self {
-        ldk_node::bitcoin::secp256k1::PublicKey::from_str(value.hex_code.as_str())
-            .expect("Invalid Public Key")
+impl TryFrom<PublicKey> for ldk_node::bitcoin::secp256k1::PublicKey {
+    type Error = NodeException;
+
+    fn try_from(value: PublicKey) -> Result<Self, Self::Error> {
+        ldk_node::bitcoin::secp256k1::PublicKey::from_str(value.hex.as_str())
+            .map_err(|_| NodeException::InvalidPublicKey)
     }
 }
 impl From<ldk_node::bitcoin::secp256k1::PublicKey> for PublicKey {
     fn from(value: ldk_node::bitcoin::secp256k1::PublicKey) -> Self {
         PublicKey {
-            hex_code: value.to_string(),
+            hex: value.to_string(),
         }
     }
 }
@@ -708,11 +850,13 @@ pub struct Address {
     pub s: String,
 }
 
-impl From<Address> for ldk_node::bitcoin::Address {
-    fn from(value: Address) -> Self {
+impl TryFrom<Address> for ldk_node::bitcoin::Address {
+    type Error = NodeException;
+
+    fn try_from(value: Address) -> Result<Self, Self::Error> {
         ldk_node::bitcoin::Address::from_str(value.s.as_str())
-            .expect("Invalid Address")
-            .assume_checked()
+            .map(|e| e.assume_checked())
+            .map_err(|_| NodeException::InvalidAddress)
     }
 }
 impl From<ldk_node::bitcoin::Address> for Address {
@@ -996,33 +1140,49 @@ impl From<ldk_node::LogLevel> for LogLevel {
         }
     }
 }
-impl From<Config> for ldk_node::Config {
-    fn from(value: Config) -> Self {
-        ldk_node::Config {
+impl TryFrom<Config> for ldk_node::Config {
+    type Error = BuilderException;
+
+    fn try_from(value: Config) -> Result<Self, Self::Error> {
+        let addresses = if let Some(addresses) = value.listening_addresses {
+            let addr_vec: Result<
+                Vec<ldk_node::lightning::ln::msgs::SocketAddress>,
+                BuilderException,
+            > = addresses
+                .into_iter()
+                .map(|socket_addr| socket_addr.try_into())
+                .collect();
+            Some(addr_vec?)
+        } else {
+            None
+        };
+        let trusted_peers_0conf: Result<
+            Vec<ldk_node::bitcoin::secp256k1::PublicKey>,
+            BuilderException,
+        > = value
+            .trusted_peers_0conf
+            .into_iter()
+            .map(|x| {
+                x.try_into()
+                    .map_err(|_| BuilderException::InvalidPublicKey)
+            })
+            .collect();
+
+        Ok(ldk_node::Config {
             storage_dir_path: value.storage_dir_path,
             log_dir_path: value.log_dir_path,
             network: value.network.into(),
-            listening_addresses: value.listening_addresses.map(|vec_socket_addr| {
-                vec_socket_addr
-                    .into_iter()
-                    .map(|socket_addr| socket_addr.into())
-                    .collect()
-            }),
+            listening_addresses: addresses,
             default_cltv_expiry_delta: value.default_cltv_expiry_delta,
             onchain_wallet_sync_interval_secs: value.onchain_wallet_sync_interval_secs,
             wallet_sync_interval_secs: value.wallet_sync_interval_secs,
             fee_rate_cache_update_interval_secs: value.fee_rate_cache_update_interval_secs,
-            trusted_peers_0conf: value
-                .trusted_peers_0conf
-                .into_iter()
-                .map(|x| x.into())
-                .collect(),
+            trusted_peers_0conf: trusted_peers_0conf?,
             log_level: value.log_level.into(),
             probing_liquidity_limit_multiplier: value.probing_liquidity_limit_multiplier,
-        }
+        })
     }
 }
-
 impl From<ldk_node::Config> for Config {
     fn from(value: ldk_node::Config) -> Self {
         Config {
@@ -1128,7 +1288,7 @@ pub enum EntropySourceConfig {
     SeedFile(String),
     SeedBytes([u8; 64]),
     Bip39Mnemonic {
-        mnemonic: MnemonicBase,
+        mnemonic: LdkMnemonic,
         passphrase: Option<String>,
     },
 }
@@ -1459,8 +1619,8 @@ pub struct BestBlock {
     pub height: u32,
 }
 
-impl From<ldk_node::BestBlock> for BestBlock {
-    fn from(value: ldk_node::BestBlock) -> Self {
+impl From<ldk_node::lightning::chain::BestBlock> for BestBlock {
+    fn from(value: ldk_node::lightning::chain::BestBlock) -> Self {
         BestBlock {
             block_hash: value.block_hash.to_string(),
             height: value.height,
