@@ -1,10 +1,12 @@
 ## [0.2.1-dev]
-Android support bug resolved
-iOs bug resolved
+Updated Rust and Flutter dependencies.
 #### API changed
 - Renamed `waitUntilNextHandled()` to `waitNextHandled`.
 - Renamed `listeningAddress()` to `listeningAddresses`
 - Upgraded `BuilderException` to handle Invalid SocketAddress.
+#### Fixed
+- Functions hang indefinitely on iOs devices
+- Android support bug resolved
 
 ## [0.2.0]
 Updated `Rust` and `Flutter` dependencies.
