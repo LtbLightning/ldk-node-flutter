@@ -1,6 +1,6 @@
 cargo:
   release:
-    toolchain: nightly
+    toolchain: stable
     extra_flags:
       - -Z
       - build-std=panic_abort,std
