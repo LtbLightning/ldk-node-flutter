@@ -2,7 +2,6 @@ cargo:
   release:
     toolchain: stable
     extra_flags:
-      - -Z
       - build-std=panic_abort,std
 
 precompiled_binaries:
