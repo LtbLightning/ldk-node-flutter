@@ -1,9 +1,14 @@
 cargo:
   release:
-    toolchain: nightly-2023-12-28
-    extra_flags:
-      - -Z
-      - build-std=panic_abort,std
+  toolchain: stable
+  extra_flags:
+    - -C
+    - opt-level=s
+    - -C
+    - panic=abort
+    - -C
+    - codegen-units=1
+
 
 precompiled_binaries:
   url_prefix: https://github.com/LtbLightning/ldk-node-flutter/releases/download/precompiled_
