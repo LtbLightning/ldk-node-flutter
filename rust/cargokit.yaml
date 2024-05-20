@@ -1,14 +1,13 @@
 cargo:
   release:
-  toolchain: stable
-  extra_flags:
-    - -C
-    - opt-level=s
-    - -C
-    - panic=abort
-    - -C
-    - codegen-units=1
-
+    toolchain: stable
+    extra_flags:
+      - -C
+      - opt-level=s
+      - -C
+      - panic=abort
+      - -C
+      - codegen-units=1
 
 precompiled_binaries:
   url_prefix: https://github.com/LtbLightning/ldk-node-flutter/releases/download/precompiled_
