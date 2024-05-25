@@ -128,8 +128,8 @@ class __$$ChainDataSourceConfig_EsploraImplCopyWithImpl<$Res>
 /// @nodoc
 
 class _$ChainDataSourceConfig_EsploraImpl
-    implements ChainDataSourceConfig_Esplora {
-  const _$ChainDataSourceConfig_EsploraImpl(this.field0);
+    extends ChainDataSourceConfig_Esplora {
+  const _$ChainDataSourceConfig_EsploraImpl(this.field0) : super._();
 
   @override
   final String field0;
@@ -215,9 +215,10 @@ class _$ChainDataSourceConfig_EsploraImpl
   }
 }
 
-abstract class ChainDataSourceConfig_Esplora implements ChainDataSourceConfig {
+abstract class ChainDataSourceConfig_Esplora extends ChainDataSourceConfig {
   const factory ChainDataSourceConfig_Esplora(final String field0) =
       _$ChainDataSourceConfig_EsploraImpl;
+  const ChainDataSourceConfig_Esplora._() : super._();
 
   @override
   String get field0;
@@ -234,7 +235,7 @@ mixin _$EntropySourceConfig {
   TResult when<TResult extends Object?>({
     required TResult Function(String field0) seedFile,
     required TResult Function(U8Array64 field0) seedBytes,
-    required TResult Function(MnemonicBase mnemonic, String? passphrase)
+    required TResult Function(LdkMnemonic mnemonic, String? passphrase)
         bip39Mnemonic,
   }) =>
       throw _privateConstructorUsedError;
@@ -242,14 +243,14 @@ mixin _$EntropySourceConfig {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(String field0)? seedFile,
     TResult? Function(U8Array64 field0)? seedBytes,
-    TResult? Function(MnemonicBase mnemonic, String? passphrase)? bip39Mnemonic,
+    TResult? Function(LdkMnemonic mnemonic, String? passphrase)? bip39Mnemonic,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(String field0)? seedFile,
     TResult Function(U8Array64 field0)? seedBytes,
-    TResult Function(MnemonicBase mnemonic, String? passphrase)? bip39Mnemonic,
+    TResult Function(LdkMnemonic mnemonic, String? passphrase)? bip39Mnemonic,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -332,9 +333,8 @@ class __$$EntropySourceConfig_SeedFileImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$EntropySourceConfig_SeedFileImpl
-    implements EntropySourceConfig_SeedFile {
-  const _$EntropySourceConfig_SeedFileImpl(this.field0);
+class _$EntropySourceConfig_SeedFileImpl extends EntropySourceConfig_SeedFile {
+  const _$EntropySourceConfig_SeedFileImpl(this.field0) : super._();
 
   @override
   final String field0;
@@ -368,7 +368,7 @@ class _$EntropySourceConfig_SeedFileImpl
   TResult when<TResult extends Object?>({
     required TResult Function(String field0) seedFile,
     required TResult Function(U8Array64 field0) seedBytes,
-    required TResult Function(MnemonicBase mnemonic, String? passphrase)
+    required TResult Function(LdkMnemonic mnemonic, String? passphrase)
         bip39Mnemonic,
   }) {
     return seedFile(field0);
@@ -379,7 +379,7 @@ class _$EntropySourceConfig_SeedFileImpl
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(String field0)? seedFile,
     TResult? Function(U8Array64 field0)? seedBytes,
-    TResult? Function(MnemonicBase mnemonic, String? passphrase)? bip39Mnemonic,
+    TResult? Function(LdkMnemonic mnemonic, String? passphrase)? bip39Mnemonic,
   }) {
     return seedFile?.call(field0);
   }
@@ -389,7 +389,7 @@ class _$EntropySourceConfig_SeedFileImpl
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(String field0)? seedFile,
     TResult Function(U8Array64 field0)? seedBytes,
-    TResult Function(MnemonicBase mnemonic, String? passphrase)? bip39Mnemonic,
+    TResult Function(LdkMnemonic mnemonic, String? passphrase)? bip39Mnemonic,
     required TResult orElse(),
   }) {
     if (seedFile != null) {
@@ -434,9 +434,10 @@ class _$EntropySourceConfig_SeedFileImpl
   }
 }
 
-abstract class EntropySourceConfig_SeedFile implements EntropySourceConfig {
+abstract class EntropySourceConfig_SeedFile extends EntropySourceConfig {
   const factory EntropySourceConfig_SeedFile(final String field0) =
       _$EntropySourceConfig_SeedFileImpl;
+  const EntropySourceConfig_SeedFile._() : super._();
 
   String get field0;
   @JsonKey(ignore: true)
@@ -482,8 +483,8 @@ class __$$EntropySourceConfig_SeedBytesImplCopyWithImpl<$Res>
 /// @nodoc
 
 class _$EntropySourceConfig_SeedBytesImpl
-    implements EntropySourceConfig_SeedBytes {
-  const _$EntropySourceConfig_SeedBytesImpl(this.field0);
+    extends EntropySourceConfig_SeedBytes {
+  const _$EntropySourceConfig_SeedBytesImpl(this.field0) : super._();
 
   @override
   final U8Array64 field0;
@@ -518,7 +519,7 @@ class _$EntropySourceConfig_SeedBytesImpl
   TResult when<TResult extends Object?>({
     required TResult Function(String field0) seedFile,
     required TResult Function(U8Array64 field0) seedBytes,
-    required TResult Function(MnemonicBase mnemonic, String? passphrase)
+    required TResult Function(LdkMnemonic mnemonic, String? passphrase)
         bip39Mnemonic,
   }) {
     return seedBytes(field0);
@@ -529,7 +530,7 @@ class _$EntropySourceConfig_SeedBytesImpl
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(String field0)? seedFile,
     TResult? Function(U8Array64 field0)? seedBytes,
-    TResult? Function(MnemonicBase mnemonic, String? passphrase)? bip39Mnemonic,
+    TResult? Function(LdkMnemonic mnemonic, String? passphrase)? bip39Mnemonic,
   }) {
     return seedBytes?.call(field0);
   }
@@ -539,7 +540,7 @@ class _$EntropySourceConfig_SeedBytesImpl
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(String field0)? seedFile,
     TResult Function(U8Array64 field0)? seedBytes,
-    TResult Function(MnemonicBase mnemonic, String? passphrase)? bip39Mnemonic,
+    TResult Function(LdkMnemonic mnemonic, String? passphrase)? bip39Mnemonic,
     required TResult orElse(),
   }) {
     if (seedBytes != null) {
@@ -584,9 +585,10 @@ class _$EntropySourceConfig_SeedBytesImpl
   }
 }
 
-abstract class EntropySourceConfig_SeedBytes implements EntropySourceConfig {
+abstract class EntropySourceConfig_SeedBytes extends EntropySourceConfig {
   const factory EntropySourceConfig_SeedBytes(final U8Array64 field0) =
       _$EntropySourceConfig_SeedBytesImpl;
+  const EntropySourceConfig_SeedBytes._() : super._();
 
   U8Array64 get field0;
   @JsonKey(ignore: true)
@@ -602,7 +604,7 @@ abstract class _$$EntropySourceConfig_Bip39MnemonicImplCopyWith<$Res> {
           $Res Function(_$EntropySourceConfig_Bip39MnemonicImpl) then) =
       __$$EntropySourceConfig_Bip39MnemonicImplCopyWithImpl<$Res>;
   @useResult
-  $Res call({MnemonicBase mnemonic, String? passphrase});
+  $Res call({LdkMnemonic mnemonic, String? passphrase});
 }
 
 /// @nodoc
@@ -625,7 +627,7 @@ class __$$EntropySourceConfig_Bip39MnemonicImplCopyWithImpl<$Res>
       mnemonic: null == mnemonic
           ? _value.mnemonic
           : mnemonic // ignore: cast_nullable_to_non_nullable
-              as MnemonicBase,
+              as LdkMnemonic,
       passphrase: freezed == passphrase
           ? _value.passphrase
           : passphrase // ignore: cast_nullable_to_non_nullable
@@ -637,12 +639,13 @@ class __$$EntropySourceConfig_Bip39MnemonicImplCopyWithImpl<$Res>
 /// @nodoc
 
 class _$EntropySourceConfig_Bip39MnemonicImpl
-    implements EntropySourceConfig_Bip39Mnemonic {
+    extends EntropySourceConfig_Bip39Mnemonic {
   const _$EntropySourceConfig_Bip39MnemonicImpl(
-      {required this.mnemonic, this.passphrase});
+      {required this.mnemonic, this.passphrase})
+      : super._();
 
   @override
-  final MnemonicBase mnemonic;
+  final LdkMnemonic mnemonic;
   @override
   final String? passphrase;
 
@@ -678,7 +681,7 @@ class _$EntropySourceConfig_Bip39MnemonicImpl
   TResult when<TResult extends Object?>({
     required TResult Function(String field0) seedFile,
     required TResult Function(U8Array64 field0) seedBytes,
-    required TResult Function(MnemonicBase mnemonic, String? passphrase)
+    required TResult Function(LdkMnemonic mnemonic, String? passphrase)
         bip39Mnemonic,
   }) {
     return bip39Mnemonic(mnemonic, passphrase);
@@ -689,7 +692,7 @@ class _$EntropySourceConfig_Bip39MnemonicImpl
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(String field0)? seedFile,
     TResult? Function(U8Array64 field0)? seedBytes,
-    TResult? Function(MnemonicBase mnemonic, String? passphrase)? bip39Mnemonic,
+    TResult? Function(LdkMnemonic mnemonic, String? passphrase)? bip39Mnemonic,
   }) {
     return bip39Mnemonic?.call(mnemonic, passphrase);
   }
@@ -699,7 +702,7 @@ class _$EntropySourceConfig_Bip39MnemonicImpl
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(String field0)? seedFile,
     TResult Function(U8Array64 field0)? seedBytes,
-    TResult Function(MnemonicBase mnemonic, String? passphrase)? bip39Mnemonic,
+    TResult Function(LdkMnemonic mnemonic, String? passphrase)? bip39Mnemonic,
     required TResult orElse(),
   }) {
     if (bip39Mnemonic != null) {
@@ -744,13 +747,13 @@ class _$EntropySourceConfig_Bip39MnemonicImpl
   }
 }
 
-abstract class EntropySourceConfig_Bip39Mnemonic
-    implements EntropySourceConfig {
+abstract class EntropySourceConfig_Bip39Mnemonic extends EntropySourceConfig {
   const factory EntropySourceConfig_Bip39Mnemonic(
-      {required final MnemonicBase mnemonic,
+      {required final LdkMnemonic mnemonic,
       final String? passphrase}) = _$EntropySourceConfig_Bip39MnemonicImpl;
+  const EntropySourceConfig_Bip39Mnemonic._() : super._();
 
-  MnemonicBase get mnemonic;
+  LdkMnemonic get mnemonic;
   String? get passphrase;
   @JsonKey(ignore: true)
   _$$EntropySourceConfig_Bip39MnemonicImplCopyWith<
@@ -907,8 +910,8 @@ class __$$Event_PaymentSuccessfulImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$Event_PaymentSuccessfulImpl implements Event_PaymentSuccessful {
-  const _$Event_PaymentSuccessfulImpl({required this.paymentHash});
+class _$Event_PaymentSuccessfulImpl extends Event_PaymentSuccessful {
+  const _$Event_PaymentSuccessfulImpl({required this.paymentHash}) : super._();
 
   /// The hash of the payment.
   @override
@@ -1056,9 +1059,10 @@ class _$Event_PaymentSuccessfulImpl implements Event_PaymentSuccessful {
   }
 }
 
-abstract class Event_PaymentSuccessful implements Event {
+abstract class Event_PaymentSuccessful extends Event {
   const factory Event_PaymentSuccessful(
       {required final PaymentHash paymentHash}) = _$Event_PaymentSuccessfulImpl;
+  const Event_PaymentSuccessful._() : super._();
 
   /// The hash of the payment.
   PaymentHash get paymentHash;
@@ -1100,8 +1104,8 @@ class __$$Event_PaymentFailedImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$Event_PaymentFailedImpl implements Event_PaymentFailed {
-  const _$Event_PaymentFailedImpl({required this.paymentHash});
+class _$Event_PaymentFailedImpl extends Event_PaymentFailed {
+  const _$Event_PaymentFailedImpl({required this.paymentHash}) : super._();
 
   /// The hash of the payment.
   @override
@@ -1249,9 +1253,10 @@ class _$Event_PaymentFailedImpl implements Event_PaymentFailed {
   }
 }
 
-abstract class Event_PaymentFailed implements Event {
+abstract class Event_PaymentFailed extends Event {
   const factory Event_PaymentFailed({required final PaymentHash paymentHash}) =
       _$Event_PaymentFailedImpl;
+  const Event_PaymentFailed._() : super._();
 
   /// The hash of the payment.
   PaymentHash get paymentHash;
@@ -1299,9 +1304,10 @@ class __$$Event_PaymentReceivedImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$Event_PaymentReceivedImpl implements Event_PaymentReceived {
+class _$Event_PaymentReceivedImpl extends Event_PaymentReceived {
   const _$Event_PaymentReceivedImpl(
-      {required this.paymentHash, required this.amountMsat});
+      {required this.paymentHash, required this.amountMsat})
+      : super._();
 
   /// The hash of the payment.
   @override
@@ -1455,10 +1461,11 @@ class _$Event_PaymentReceivedImpl implements Event_PaymentReceived {
   }
 }
 
-abstract class Event_PaymentReceived implements Event {
+abstract class Event_PaymentReceived extends Event {
   const factory Event_PaymentReceived(
       {required final PaymentHash paymentHash,
       required final int amountMsat}) = _$Event_PaymentReceivedImpl;
+  const Event_PaymentReceived._() : super._();
 
   /// The hash of the payment.
   PaymentHash get paymentHash;
@@ -1516,11 +1523,12 @@ class __$$Event_ChannelReadyImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$Event_ChannelReadyImpl implements Event_ChannelReady {
+class _$Event_ChannelReadyImpl extends Event_ChannelReady {
   const _$Event_ChannelReadyImpl(
       {required this.channelId,
       required this.userChannelId,
-      this.counterpartyNodeId});
+      this.counterpartyNodeId})
+      : super._();
 
   /// The channel_id of the channel.
   @override
@@ -1679,11 +1687,12 @@ class _$Event_ChannelReadyImpl implements Event_ChannelReady {
   }
 }
 
-abstract class Event_ChannelReady implements Event {
+abstract class Event_ChannelReady extends Event {
   const factory Event_ChannelReady(
       {required final ChannelId channelId,
       required final UserChannelId userChannelId,
       final PublicKey? counterpartyNodeId}) = _$Event_ChannelReadyImpl;
+  const Event_ChannelReady._() : super._();
 
   /// The channel_id of the channel.
   ChannelId get channelId;
@@ -1742,11 +1751,12 @@ class __$$Event_ChannelClosedImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$Event_ChannelClosedImpl implements Event_ChannelClosed {
+class _$Event_ChannelClosedImpl extends Event_ChannelClosed {
   const _$Event_ChannelClosedImpl(
       {required this.channelId,
       required this.userChannelId,
-      this.counterpartyNodeId});
+      this.counterpartyNodeId})
+      : super._();
 
   /// The channel_id of the channel.
   @override
@@ -1905,11 +1915,12 @@ class _$Event_ChannelClosedImpl implements Event_ChannelClosed {
   }
 }
 
-abstract class Event_ChannelClosed implements Event {
+abstract class Event_ChannelClosed extends Event {
   const factory Event_ChannelClosed(
       {required final ChannelId channelId,
       required final UserChannelId userChannelId,
       final PublicKey? counterpartyNodeId}) = _$Event_ChannelClosedImpl;
+  const Event_ChannelClosed._() : super._();
 
   /// The channel_id of the channel.
   ChannelId get channelId;
@@ -1980,13 +1991,14 @@ class __$$Event_ChannelPendingImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$Event_ChannelPendingImpl implements Event_ChannelPending {
+class _$Event_ChannelPendingImpl extends Event_ChannelPending {
   const _$Event_ChannelPendingImpl(
       {required this.channelId,
       required this.userChannelId,
       required this.formerTemporaryChannelId,
       required this.counterpartyNodeId,
-      required this.fundingTxo});
+      required this.fundingTxo})
+      : super._();
 
   /// The channel_id of the channel.
   @override
@@ -2164,13 +2176,14 @@ class _$Event_ChannelPendingImpl implements Event_ChannelPending {
   }
 }
 
-abstract class Event_ChannelPending implements Event {
+abstract class Event_ChannelPending extends Event {
   const factory Event_ChannelPending(
       {required final ChannelId channelId,
       required final UserChannelId userChannelId,
       required final ChannelId formerTemporaryChannelId,
       required final PublicKey counterpartyNodeId,
       required final OutPoint fundingTxo}) = _$Event_ChannelPendingImpl;
+  const Event_ChannelPending._() : super._();
 
   /// The channel_id of the channel.
   ChannelId get channelId;
@@ -2275,8 +2288,8 @@ class __$$GossipSourceConfig_P2PNetworkImplCopyWithImpl<$Res>
 /// @nodoc
 
 class _$GossipSourceConfig_P2PNetworkImpl
-    implements GossipSourceConfig_P2PNetwork {
-  const _$GossipSourceConfig_P2PNetworkImpl();
+    extends GossipSourceConfig_P2PNetwork {
+  const _$GossipSourceConfig_P2PNetworkImpl() : super._();
 
   @override
   String toString() {
@@ -2358,9 +2371,10 @@ class _$GossipSourceConfig_P2PNetworkImpl
   }
 }
 
-abstract class GossipSourceConfig_P2PNetwork implements GossipSourceConfig {
+abstract class GossipSourceConfig_P2PNetwork extends GossipSourceConfig {
   const factory GossipSourceConfig_P2PNetwork() =
       _$GossipSourceConfig_P2PNetworkImpl;
+  const GossipSourceConfig_P2PNetwork._() : super._();
 }
 
 /// @nodoc
@@ -2400,8 +2414,8 @@ class __$$GossipSourceConfig_RapidGossipSyncImplCopyWithImpl<$Res>
 /// @nodoc
 
 class _$GossipSourceConfig_RapidGossipSyncImpl
-    implements GossipSourceConfig_RapidGossipSync {
-  const _$GossipSourceConfig_RapidGossipSyncImpl(this.field0);
+    extends GossipSourceConfig_RapidGossipSync {
+  const _$GossipSourceConfig_RapidGossipSyncImpl(this.field0) : super._();
 
   @override
   final String field0;
@@ -2495,10 +2509,10 @@ class _$GossipSourceConfig_RapidGossipSyncImpl
   }
 }
 
-abstract class GossipSourceConfig_RapidGossipSync
-    implements GossipSourceConfig {
+abstract class GossipSourceConfig_RapidGossipSync extends GossipSourceConfig {
   const factory GossipSourceConfig_RapidGossipSync(final String field0) =
       _$GossipSourceConfig_RapidGossipSyncImpl;
+  const GossipSourceConfig_RapidGossipSync._() : super._();
 
   String get field0;
   @JsonKey(ignore: true)
@@ -2630,8 +2644,8 @@ class __$$MaxDustHTLCExposure_FixedLimitMsatImplCopyWithImpl<$Res>
 /// @nodoc
 
 class _$MaxDustHTLCExposure_FixedLimitMsatImpl
-    implements MaxDustHTLCExposure_FixedLimitMsat {
-  const _$MaxDustHTLCExposure_FixedLimitMsatImpl(this.field0);
+    extends MaxDustHTLCExposure_FixedLimitMsat {
+  const _$MaxDustHTLCExposure_FixedLimitMsatImpl(this.field0) : super._();
 
   @override
   final int field0;
@@ -2727,10 +2741,10 @@ class _$MaxDustHTLCExposure_FixedLimitMsatImpl
   }
 }
 
-abstract class MaxDustHTLCExposure_FixedLimitMsat
-    implements MaxDustHTLCExposure {
+abstract class MaxDustHTLCExposure_FixedLimitMsat extends MaxDustHTLCExposure {
   const factory MaxDustHTLCExposure_FixedLimitMsat(final int field0) =
       _$MaxDustHTLCExposure_FixedLimitMsatImpl;
+  const MaxDustHTLCExposure_FixedLimitMsat._() : super._();
 
   @override
   int get field0;
@@ -2780,8 +2794,8 @@ class __$$MaxDustHTLCExposure_FeeRateMultiplierImplCopyWithImpl<$Res>
 /// @nodoc
 
 class _$MaxDustHTLCExposure_FeeRateMultiplierImpl
-    implements MaxDustHTLCExposure_FeeRateMultiplier {
-  const _$MaxDustHTLCExposure_FeeRateMultiplierImpl(this.field0);
+    extends MaxDustHTLCExposure_FeeRateMultiplier {
+  const _$MaxDustHTLCExposure_FeeRateMultiplierImpl(this.field0) : super._();
 
   @override
   final int field0;
@@ -2878,9 +2892,10 @@ class _$MaxDustHTLCExposure_FeeRateMultiplierImpl
 }
 
 abstract class MaxDustHTLCExposure_FeeRateMultiplier
-    implements MaxDustHTLCExposure {
+    extends MaxDustHTLCExposure {
   const factory MaxDustHTLCExposure_FeeRateMultiplier(final int field0) =
       _$MaxDustHTLCExposure_FeeRateMultiplierImpl;
+  const MaxDustHTLCExposure_FeeRateMultiplier._() : super._();
 
   @override
   int get field0;
@@ -3014,8 +3029,9 @@ class __$$SocketAddress_TcpIpV4ImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$SocketAddress_TcpIpV4Impl implements SocketAddress_TcpIpV4 {
-  const _$SocketAddress_TcpIpV4Impl({required this.addr, required this.port});
+class _$SocketAddress_TcpIpV4Impl extends SocketAddress_TcpIpV4 {
+  const _$SocketAddress_TcpIpV4Impl({required this.addr, required this.port})
+      : super._();
 
   @override
   final U8Array4 addr;
@@ -3134,10 +3150,11 @@ class _$SocketAddress_TcpIpV4Impl implements SocketAddress_TcpIpV4 {
   }
 }
 
-abstract class SocketAddress_TcpIpV4 implements SocketAddress {
+abstract class SocketAddress_TcpIpV4 extends SocketAddress {
   const factory SocketAddress_TcpIpV4(
       {required final U8Array4 addr,
       required final int port}) = _$SocketAddress_TcpIpV4Impl;
+  const SocketAddress_TcpIpV4._() : super._();
 
   U8Array4 get addr;
   int get port;
@@ -3185,8 +3202,9 @@ class __$$SocketAddress_TcpIpV6ImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$SocketAddress_TcpIpV6Impl implements SocketAddress_TcpIpV6 {
-  const _$SocketAddress_TcpIpV6Impl({required this.addr, required this.port});
+class _$SocketAddress_TcpIpV6Impl extends SocketAddress_TcpIpV6 {
+  const _$SocketAddress_TcpIpV6Impl({required this.addr, required this.port})
+      : super._();
 
   @override
   final U8Array16 addr;
@@ -3305,10 +3323,11 @@ class _$SocketAddress_TcpIpV6Impl implements SocketAddress_TcpIpV6 {
   }
 }
 
-abstract class SocketAddress_TcpIpV6 implements SocketAddress {
+abstract class SocketAddress_TcpIpV6 extends SocketAddress {
   const factory SocketAddress_TcpIpV6(
       {required final U8Array16 addr,
       required final int port}) = _$SocketAddress_TcpIpV6Impl;
+  const SocketAddress_TcpIpV6._() : super._();
 
   U8Array16 get addr;
   int get port;
@@ -3351,8 +3370,8 @@ class __$$SocketAddress_OnionV2ImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$SocketAddress_OnionV2Impl implements SocketAddress_OnionV2 {
-  const _$SocketAddress_OnionV2Impl(this.field0);
+class _$SocketAddress_OnionV2Impl extends SocketAddress_OnionV2 {
+  const _$SocketAddress_OnionV2Impl(this.field0) : super._();
 
   @override
   final U8Array12 field0;
@@ -3468,9 +3487,10 @@ class _$SocketAddress_OnionV2Impl implements SocketAddress_OnionV2 {
   }
 }
 
-abstract class SocketAddress_OnionV2 implements SocketAddress {
+abstract class SocketAddress_OnionV2 extends SocketAddress {
   const factory SocketAddress_OnionV2(final U8Array12 field0) =
       _$SocketAddress_OnionV2Impl;
+  const SocketAddress_OnionV2._() : super._();
 
   U8Array12 get field0;
   @JsonKey(ignore: true)
@@ -3527,12 +3547,13 @@ class __$$SocketAddress_OnionV3ImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$SocketAddress_OnionV3Impl implements SocketAddress_OnionV3 {
+class _$SocketAddress_OnionV3Impl extends SocketAddress_OnionV3 {
   const _$SocketAddress_OnionV3Impl(
       {required this.ed25519Pubkey,
       required this.checksum,
       required this.version,
-      required this.port});
+      required this.port})
+      : super._();
 
   @override
   final U8Array32 ed25519Pubkey;
@@ -3663,12 +3684,13 @@ class _$SocketAddress_OnionV3Impl implements SocketAddress_OnionV3 {
   }
 }
 
-abstract class SocketAddress_OnionV3 implements SocketAddress {
+abstract class SocketAddress_OnionV3 extends SocketAddress {
   const factory SocketAddress_OnionV3(
       {required final U8Array32 ed25519Pubkey,
       required final int checksum,
       required final int version,
       required final int port}) = _$SocketAddress_OnionV3Impl;
+  const SocketAddress_OnionV3._() : super._();
 
   U8Array32 get ed25519Pubkey;
   int get checksum;
@@ -3719,8 +3741,9 @@ class __$$SocketAddress_HostnameImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$SocketAddress_HostnameImpl implements SocketAddress_Hostname {
-  const _$SocketAddress_HostnameImpl({required this.addr, required this.port});
+class _$SocketAddress_HostnameImpl extends SocketAddress_Hostname {
+  const _$SocketAddress_HostnameImpl({required this.addr, required this.port})
+      : super._();
 
   @override
   final String addr;
@@ -3838,10 +3861,11 @@ class _$SocketAddress_HostnameImpl implements SocketAddress_Hostname {
   }
 }
 
-abstract class SocketAddress_Hostname implements SocketAddress {
+abstract class SocketAddress_Hostname extends SocketAddress {
   const factory SocketAddress_Hostname(
       {required final String addr,
       required final int port}) = _$SocketAddress_HostnameImpl;
+  const SocketAddress_Hostname._() : super._();
 
   String get addr;
   int get port;
