@@ -39,17 +39,18 @@ BuilderException mapBuilderException(bridge.BuilderException e) {
       return BuilderException(message: "Failed to setup onchain wallet.");
     case bridge.BuilderException.loggerSetupFailed:
       return BuilderException(message: "Failed to setup the logger.");
-
     case bridge.BuilderException.invalidChannelMonitor:
       return BuilderException(
           message: "Failed to watch a deserialized ChannelMonitor.");
-    case bridge.BuilderException.invalidListeningAddresses:
+    case bridge.BuilderException.invalidListeningAddress:
       return BuilderException(
           message: "Given listening addresses are invalid.");
     case bridge.BuilderException.kvStoreSetupFailed:
       return BuilderException(message: "Failed to setup KVStore.");
     case bridge.BuilderException.socketAddressParseError:
-      return BuilderException(message: "Invalid SocketAddress.");
+      return BuilderException(message: "Failed to parse socket address");
+    case bridge.BuilderException.invalidTrustedPeer:
+      return BuilderException(message: "Invalid trusted peer");
   }
 }
 
@@ -120,5 +121,7 @@ NodeException mapNodeException(bridge.NodeException e) {
               "There are insufficient funds to complete the given operation.");
     case bridge.NodeException.feerateEstimationUpdateFailed:
       return NodeException(message: "Failed to update fee rate estimation. ");
+    case bridge.NodeException.invalidTxid:
+      return NodeException(message: "Invalid transaction id");
   }
 }

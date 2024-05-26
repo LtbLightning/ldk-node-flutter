@@ -2,6 +2,7 @@ use ldk_node::{BuildError, NodeError};
 
 #[derive(Debug, PartialEq)]
 pub enum NodeException {
+    InvalidTxid,
     /// Returned when trying to start [Node] while it is already running.
     AlreadyRunning,
     /// Returned when trying to stop [Node] while it is not running.
@@ -76,7 +77,7 @@ pub enum BuilderException {
     /// The a read channel monitor is invalid.
     InvalidChannelMonitor,
     /// The given listening addresses are invalid, e.g. too many were passed.
-    InvalidListeningAddresses,
+    InvalidListeningAddress,
     /// We failed to read data from the [`KVStore`].
     ReadFailed,
     /// We failed to write data to the [`KVStore`].
@@ -89,6 +90,7 @@ pub enum BuilderException {
     WalletSetupFailed,
     /// We failed to setup the logger.
     LoggerSetupFailed,
+    InvalidTrustedPeer,
 }
 
 impl From<NodeError> for NodeException {
@@ -142,7 +144,19 @@ impl From<BuildError> for BuilderException {
             BuildError::LoggerSetupFailed => BuilderException::LoggerSetupFailed,
             BuildError::InvalidChannelMonitor => BuilderException::InvalidChannelMonitor,
             BuildError::KVStoreSetupFailed => BuilderException::KVStoreSetupFailed,
-            BuildError::InvalidListeningAddresses => BuilderException::InvalidListeningAddresses,
+            BuildError::InvalidListeningAddresses => BuilderException::InvalidListeningAddress,
+        }
+    }
+}
+
+impl From<ldk_node::bip39::Error> for BuilderException {
+    fn from(value: ldk_node::bip39::Error) -> Self {
+        match value {
+            ldk_node::bip39::Error::BadWordCount(_) => BuilderException::InvalidSeedBytes,
+            ldk_node::bip39::Error::UnknownWord(_) => BuilderException::InvalidSeedBytes,
+            ldk_node::bip39::Error::BadEntropyBitCount(_) => BuilderException::InvalidSeedBytes,
+            ldk_node::bip39::Error::InvalidChecksum => BuilderException::InvalidSeedBytes,
+            ldk_node::bip39::Error::AmbiguousLanguages(_) => BuilderException::InvalidSeedBytes,
         }
     }
 }
