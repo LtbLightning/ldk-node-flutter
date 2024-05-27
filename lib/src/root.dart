@@ -369,6 +369,46 @@ class Node extends LdkNode {
       throw mapNodeException(e);
     }
   }
+
+  Future<OnChainPayment> onChainPayment() async {
+    try {
+      final res = await LdkNode.onChainPayment(ptr: this);
+      return OnChainPayment._(ptr: res.ptr);
+    } on error.NodeException catch (e) {
+      throw mapNodeException(e);
+    }
+  }
+}
+
+class OnChainPayment extends LdkOnChainPayment {
+  OnChainPayment._({required super.ptr});
+  @override
+  Future<types.Address> newAddress({hint}) {
+    try {
+      return super.newAddress();
+    } on error.NodeException catch (e) {
+      throw mapNodeException(e);
+    }
+  }
+
+  @override
+  Future<types.Txid> sendAllToAddress({required types.Address address, hint}) {
+    try {
+      return super.sendAllToAddress(address: address);
+    } on error.NodeException catch (e) {
+      throw mapNodeException(e);
+    }
+  }
+
+  @override
+  Future<types.Txid> sendToAddress(
+      {required types.Address address, required int amountSats, hint}) {
+    try {
+      return super.sendToAddress(address: address, amountSats: amountSats);
+    } on error.NodeException catch (e) {
+      throw mapNodeException(e);
+    }
+  }
 }
 
 class Bolt11Payment extends LdkBolt11Payment {
