@@ -8,11 +8,11 @@ import 'generated/api/node.dart';
 ///The from string implementation will try to determine the language of the mnemonic from all the supported languages. (Languages have to be explicitly enabled using the Cargo features.)
 /// Supported number of words are 12, 15, 18, 21, and 24.
 ///
-class Mnemonic extends MnemonicBase {
+class Mnemonic extends LdkMnemonic {
   Mnemonic({required super.seedPhrase});
   static Future<Mnemonic> generate() async {
     await Frb.verifyInit();
-    final res = await MnemonicBase.generate();
+    final res = await LdkMnemonic.generate();
     return Mnemonic(seedPhrase: res.seedPhrase);
   }
 }
@@ -21,7 +21,7 @@ class Mnemonic extends MnemonicBase {
 ///
 ///Needs to be initialized and instantiated through builder.build().
 ///
-class Node extends NodeBase {
+class Node extends LdkNode {
   Node._({required super.ptr});
 
   /// Starts the necessary background tasks, such as handling events coming from user input,
@@ -216,7 +216,7 @@ class Node extends NodeBase {
   /// Returns a temporary channel id.
   @override
   Future<void> connectOpenChannel(
-      {required types.SocketAddress address,
+      {required types.SocketAddress socketAddress,
       required types.PublicKey nodeId,
       required int channelAmountSats,
       required bool announceChannel,
@@ -225,7 +225,7 @@ class Node extends NodeBase {
       hint}) async {
     try {
       await super.connectOpenChannel(
-          address: address,
+          socketAddress: socketAddress,
           nodeId: nodeId,
           pushToCounterpartyMsat: pushToCounterpartyMsat,
           channelAmountSats: channelAmountSats,
@@ -618,7 +618,7 @@ class Builder {
         final nodePath = "${directory.path}/ldk_cache/";
         _config!.storageDirPath = nodePath;
       }
-      final res = await finalizeBuilder(
+      final res = await buildWithSqliteStore(
         config: _config!,
         entropySourceConfig: _entropySource,
         chainDataSourceConfig: _chainDataSourceConfig,
