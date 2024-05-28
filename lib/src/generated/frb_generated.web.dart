@@ -125,6 +125,10 @@ abstract class LdkCoreApiImplPlatform extends BaseApiImpl<LdkCoreWire> {
   LdkOnChainPayment dco_decode_box_autoadd_ldk_on_chain_payment(dynamic raw);
 
   @protected
+  LdkSpontaneousPayment dco_decode_box_autoadd_ldk_spontaneous_payment(
+      dynamic raw);
+
+  @protected
   LiquiditySourceConfig dco_decode_box_autoadd_liquidity_source_config(
       dynamic raw);
 
@@ -525,6 +529,10 @@ abstract class LdkCoreApiImplPlatform extends BaseApiImpl<LdkCoreWire> {
 
   @protected
   LdkOnChainPayment sse_decode_box_autoadd_ldk_on_chain_payment(
+      SseDeserializer deserializer);
+
+  @protected
+  LdkSpontaneousPayment sse_decode_box_autoadd_ldk_spontaneous_payment(
       SseDeserializer deserializer);
 
   @protected
@@ -988,6 +996,13 @@ abstract class LdkCoreApiImplPlatform extends BaseApiImpl<LdkCoreWire> {
       LdkOnChainPayment raw) {
     // Codec=Cst (C-struct based), see doc to use other codecs
     return cst_encode_ldk_on_chain_payment(raw);
+  }
+
+  @protected
+  List<dynamic> cst_encode_box_autoadd_ldk_spontaneous_payment(
+      LdkSpontaneousPayment raw) {
+    // Codec=Cst (C-struct based), see doc to use other codecs
+    return cst_encode_ldk_spontaneous_payment(raw);
   }
 
   @protected
@@ -2031,6 +2046,10 @@ abstract class LdkCoreApiImplPlatform extends BaseApiImpl<LdkCoreWire> {
       LdkOnChainPayment self, SseSerializer serializer);
 
   @protected
+  void sse_encode_box_autoadd_ldk_spontaneous_payment(
+      LdkSpontaneousPayment self, SseSerializer serializer);
+
+  @protected
   void sse_encode_box_autoadd_liquidity_source_config(
       LiquiditySourceConfig self, SseSerializer serializer);
 
@@ -2604,6 +2623,16 @@ class LdkCoreWire implements BaseWire {
       wasmModule.wire_ldk_on_chain_payment_send_to_address(
           port_, that, address, amount_sats);
 
+  void wire_ldk_spontaneous_payment_send(NativePortType port_,
+          List<dynamic> that, Object amount_msat, List<dynamic> node_id) =>
+      wasmModule.wire_ldk_spontaneous_payment_send(
+          port_, that, amount_msat, node_id);
+
+  void wire_ldk_spontaneous_payment_send_probes(NativePortType port_,
+          List<dynamic> that, Object amount_msat, List<dynamic> node_id) =>
+      wasmModule.wire_ldk_spontaneous_payment_send_probes(
+          port_, that, amount_msat, node_id);
+
   void rust_arc_increment_strong_count_RustOpaque_Node(dynamic ptr) =>
       wasmModule.rust_arc_increment_strong_count_RustOpaque_Node(ptr);
 
@@ -2831,6 +2860,12 @@ class LdkCoreWasmModule implements WasmModule {
 
   external void wire_ldk_on_chain_payment_send_to_address(NativePortType port_,
       List<dynamic> that, List<dynamic> address, Object amount_sats);
+
+  external void wire_ldk_spontaneous_payment_send(NativePortType port_,
+      List<dynamic> that, Object amount_msat, List<dynamic> node_id);
+
+  external void wire_ldk_spontaneous_payment_send_probes(NativePortType port_,
+      List<dynamic> that, Object amount_msat, List<dynamic> node_id);
 
   external void rust_arc_increment_strong_count_RustOpaque_Node(dynamic ptr);
 

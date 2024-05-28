@@ -967,10 +967,6 @@ enum LogLevel {
 }
 
 /// Limits applying to how much fee we allow an LSP to deduct from the payment amount.
-///
-/// See [`LdkChannelConfig::accept_underpaying_htlcs`] for more information.
-///
-/// [`LdkChannelConfig::accept_underpaying_htlcs`]: lightning::util::config::ChannelConfig::accept_underpaying_htlcs
 class LSPFeeLimits {
   /// The maximal total amount we allow any configured LSP withhold from us when forwarding the
   /// payment.

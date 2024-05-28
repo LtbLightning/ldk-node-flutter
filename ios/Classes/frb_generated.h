@@ -210,6 +210,10 @@ typedef struct wire_cst_address {
   struct wire_cst_list_prim_u_8_strict *s;
 } wire_cst_address;
 
+typedef struct wire_cst_ldk_spontaneous_payment {
+  uintptr_t ptr;
+} wire_cst_ldk_spontaneous_payment;
+
 typedef struct wire_cst_channel_id {
   struct wire_cst_list_prim_u_8_strict *data;
 } wire_cst_channel_id;
@@ -512,10 +516,6 @@ typedef struct wire_cst_best_block {
   uint32_t height;
 } wire_cst_best_block;
 
-typedef struct wire_cst_ldk_spontaneous_payment {
-  uintptr_t ptr;
-} wire_cst_ldk_spontaneous_payment;
-
 typedef struct wire_cst_node_status {
   bool is_running;
   bool is_listening;
@@ -684,6 +684,16 @@ void frbgen_ldk_node_wire_ldk_on_chain_payment_send_to_address(int64_t port_,
                                                                struct wire_cst_address *address,
                                                                uint64_t amount_sats);
 
+void frbgen_ldk_node_wire_ldk_spontaneous_payment_send(int64_t port_,
+                                                       struct wire_cst_ldk_spontaneous_payment *that,
+                                                       uint64_t amount_msat,
+                                                       struct wire_cst_public_key *node_id);
+
+void frbgen_ldk_node_wire_ldk_spontaneous_payment_send_probes(int64_t port_,
+                                                              struct wire_cst_ldk_spontaneous_payment *that,
+                                                              uint64_t amount_msat,
+                                                              struct wire_cst_public_key *node_id);
+
 void frbgen_ldk_node_rust_arc_increment_strong_count_RustOpaque_Node(const void *ptr);
 
 void frbgen_ldk_node_rust_arc_decrement_strong_count_RustOpaque_Node(const void *ptr);
@@ -731,6 +741,8 @@ struct wire_cst_ldk_mnemonic *frbgen_ldk_node_cst_new_box_autoadd_ldk_mnemonic(v
 struct wire_cst_ldk_node *frbgen_ldk_node_cst_new_box_autoadd_ldk_node(void);
 
 struct wire_cst_ldk_on_chain_payment *frbgen_ldk_node_cst_new_box_autoadd_ldk_on_chain_payment(void);
+
+struct wire_cst_ldk_spontaneous_payment *frbgen_ldk_node_cst_new_box_autoadd_ldk_spontaneous_payment(void);
 
 struct wire_cst_liquidity_source_config *frbgen_ldk_node_cst_new_box_autoadd_liquidity_source_config(void);
 
@@ -799,6 +811,7 @@ static int64_t dummy_method_to_enforce_bundling(void) {
     dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_cst_new_box_autoadd_ldk_mnemonic);
     dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_cst_new_box_autoadd_ldk_node);
     dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_cst_new_box_autoadd_ldk_on_chain_payment);
+    dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_cst_new_box_autoadd_ldk_spontaneous_payment);
     dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_cst_new_box_autoadd_liquidity_source_config);
     dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_cst_new_box_autoadd_lsp_fee_limits);
     dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_cst_new_box_autoadd_max_dust_htlc_exposure);
@@ -878,6 +891,8 @@ static int64_t dummy_method_to_enforce_bundling(void) {
     dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire_ldk_on_chain_payment_new_address);
     dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire_ldk_on_chain_payment_send_all_to_address);
     dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire_ldk_on_chain_payment_send_to_address);
+    dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire_ldk_spontaneous_payment_send);
+    dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire_ldk_spontaneous_payment_send_probes);
     dummy_var ^= ((int64_t) (void*) store_dart_post_cobject);
     return dummy_var;
 }

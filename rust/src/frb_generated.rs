@@ -1058,6 +1058,62 @@ fn wire_ldk_on_chain_payment_send_to_address_impl(
         },
     )
 }
+fn wire_ldk_spontaneous_payment_send_impl(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
+    that: impl CstDecode<crate::api::node::LdkSpontaneousPayment>,
+    amount_msat: impl CstDecode<u64>,
+    node_id: impl CstDecode<crate::api::types::PublicKey>,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "ldk_spontaneous_payment_send",
+            port: Some(port_),
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
+        },
+        move || {
+            let api_that = that.cst_decode();
+            let api_amount_msat = amount_msat.cst_decode();
+            let api_node_id = node_id.cst_decode();
+            move |context| {
+                transform_result_dco((move || {
+                    crate::api::node::LdkSpontaneousPayment::send(
+                        &api_that,
+                        api_amount_msat,
+                        api_node_id,
+                    )
+                })())
+            }
+        },
+    )
+}
+fn wire_ldk_spontaneous_payment_send_probes_impl(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
+    that: impl CstDecode<crate::api::node::LdkSpontaneousPayment>,
+    amount_msat: impl CstDecode<u64>,
+    node_id: impl CstDecode<crate::api::types::PublicKey>,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "ldk_spontaneous_payment_send_probes",
+            port: Some(port_),
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
+        },
+        move || {
+            let api_that = that.cst_decode();
+            let api_amount_msat = amount_msat.cst_decode();
+            let api_node_id = node_id.cst_decode();
+            move |context| {
+                transform_result_dco((move || {
+                    crate::api::node::LdkSpontaneousPayment::send_probes(
+                        &api_that,
+                        api_amount_msat,
+                        api_node_id,
+                    )
+                })())
+            }
+        },
+    )
+}
 
 // Section: dart2rust
 

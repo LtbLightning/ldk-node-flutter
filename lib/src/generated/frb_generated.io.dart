@@ -126,6 +126,10 @@ abstract class LdkCoreApiImplPlatform extends BaseApiImpl<LdkCoreWire> {
   LdkOnChainPayment dco_decode_box_autoadd_ldk_on_chain_payment(dynamic raw);
 
   @protected
+  LdkSpontaneousPayment dco_decode_box_autoadd_ldk_spontaneous_payment(
+      dynamic raw);
+
+  @protected
   LiquiditySourceConfig dco_decode_box_autoadd_liquidity_source_config(
       dynamic raw);
 
@@ -526,6 +530,10 @@ abstract class LdkCoreApiImplPlatform extends BaseApiImpl<LdkCoreWire> {
 
   @protected
   LdkOnChainPayment sse_decode_box_autoadd_ldk_on_chain_payment(
+      SseDeserializer deserializer);
+
+  @protected
+  LdkSpontaneousPayment sse_decode_box_autoadd_ldk_spontaneous_payment(
       SseDeserializer deserializer);
 
   @protected
@@ -991,6 +999,16 @@ abstract class LdkCoreApiImplPlatform extends BaseApiImpl<LdkCoreWire> {
     // Codec=Cst (C-struct based), see doc to use other codecs
     final ptr = wire.cst_new_box_autoadd_ldk_on_chain_payment();
     cst_api_fill_to_wire_ldk_on_chain_payment(raw, ptr.ref);
+    return ptr;
+  }
+
+  @protected
+  ffi.Pointer<wire_cst_ldk_spontaneous_payment>
+      cst_encode_box_autoadd_ldk_spontaneous_payment(
+          LdkSpontaneousPayment raw) {
+    // Codec=Cst (C-struct based), see doc to use other codecs
+    final ptr = wire.cst_new_box_autoadd_ldk_spontaneous_payment();
+    cst_api_fill_to_wire_ldk_spontaneous_payment(raw, ptr.ref);
     return ptr;
   }
 
@@ -1573,6 +1591,13 @@ abstract class LdkCoreApiImplPlatform extends BaseApiImpl<LdkCoreWire> {
       LdkOnChainPayment apiObj,
       ffi.Pointer<wire_cst_ldk_on_chain_payment> wireObj) {
     cst_api_fill_to_wire_ldk_on_chain_payment(apiObj, wireObj.ref);
+  }
+
+  @protected
+  void cst_api_fill_to_wire_box_autoadd_ldk_spontaneous_payment(
+      LdkSpontaneousPayment apiObj,
+      ffi.Pointer<wire_cst_ldk_spontaneous_payment> wireObj) {
+    cst_api_fill_to_wire_ldk_spontaneous_payment(apiObj, wireObj.ref);
   }
 
   @protected
@@ -2529,6 +2554,10 @@ abstract class LdkCoreApiImplPlatform extends BaseApiImpl<LdkCoreWire> {
   @protected
   void sse_encode_box_autoadd_ldk_on_chain_payment(
       LdkOnChainPayment self, SseSerializer serializer);
+
+  @protected
+  void sse_encode_box_autoadd_ldk_spontaneous_payment(
+      LdkSpontaneousPayment self, SseSerializer serializer);
 
   @protected
   void sse_encode_box_autoadd_liquidity_source_config(
@@ -3904,6 +3933,60 @@ class LdkCoreWire implements BaseWire {
           void Function(int, ffi.Pointer<wire_cst_ldk_on_chain_payment>,
               ffi.Pointer<wire_cst_address>, int)>();
 
+  void wire_ldk_spontaneous_payment_send(
+    int port_,
+    ffi.Pointer<wire_cst_ldk_spontaneous_payment> that,
+    int amount_msat,
+    ffi.Pointer<wire_cst_public_key> node_id,
+  ) {
+    return _wire_ldk_spontaneous_payment_send(
+      port_,
+      that,
+      amount_msat,
+      node_id,
+    );
+  }
+
+  late final _wire_ldk_spontaneous_payment_sendPtr = _lookup<
+          ffi.NativeFunction<
+              ffi.Void Function(
+                  ffi.Int64,
+                  ffi.Pointer<wire_cst_ldk_spontaneous_payment>,
+                  ffi.Uint64,
+                  ffi.Pointer<wire_cst_public_key>)>>(
+      'frbgen_ldk_node_wire_ldk_spontaneous_payment_send');
+  late final _wire_ldk_spontaneous_payment_send =
+      _wire_ldk_spontaneous_payment_sendPtr.asFunction<
+          void Function(int, ffi.Pointer<wire_cst_ldk_spontaneous_payment>, int,
+              ffi.Pointer<wire_cst_public_key>)>();
+
+  void wire_ldk_spontaneous_payment_send_probes(
+    int port_,
+    ffi.Pointer<wire_cst_ldk_spontaneous_payment> that,
+    int amount_msat,
+    ffi.Pointer<wire_cst_public_key> node_id,
+  ) {
+    return _wire_ldk_spontaneous_payment_send_probes(
+      port_,
+      that,
+      amount_msat,
+      node_id,
+    );
+  }
+
+  late final _wire_ldk_spontaneous_payment_send_probesPtr = _lookup<
+          ffi.NativeFunction<
+              ffi.Void Function(
+                  ffi.Int64,
+                  ffi.Pointer<wire_cst_ldk_spontaneous_payment>,
+                  ffi.Uint64,
+                  ffi.Pointer<wire_cst_public_key>)>>(
+      'frbgen_ldk_node_wire_ldk_spontaneous_payment_send_probes');
+  late final _wire_ldk_spontaneous_payment_send_probes =
+      _wire_ldk_spontaneous_payment_send_probesPtr.asFunction<
+          void Function(int, ffi.Pointer<wire_cst_ldk_spontaneous_payment>, int,
+              ffi.Pointer<wire_cst_public_key>)>();
+
   void rust_arc_increment_strong_count_RustOpaque_Node(
     ffi.Pointer<ffi.Void> ptr,
   ) {
@@ -4217,6 +4300,19 @@ class LdkCoreWire implements BaseWire {
   late final _cst_new_box_autoadd_ldk_on_chain_payment =
       _cst_new_box_autoadd_ldk_on_chain_paymentPtr
           .asFunction<ffi.Pointer<wire_cst_ldk_on_chain_payment> Function()>();
+
+  ffi.Pointer<wire_cst_ldk_spontaneous_payment>
+      cst_new_box_autoadd_ldk_spontaneous_payment() {
+    return _cst_new_box_autoadd_ldk_spontaneous_payment();
+  }
+
+  late final _cst_new_box_autoadd_ldk_spontaneous_paymentPtr = _lookup<
+          ffi.NativeFunction<
+              ffi.Pointer<wire_cst_ldk_spontaneous_payment> Function()>>(
+      'frbgen_ldk_node_cst_new_box_autoadd_ldk_spontaneous_payment');
+  late final _cst_new_box_autoadd_ldk_spontaneous_payment =
+      _cst_new_box_autoadd_ldk_spontaneous_paymentPtr.asFunction<
+          ffi.Pointer<wire_cst_ldk_spontaneous_payment> Function()>();
 
   ffi.Pointer<wire_cst_liquidity_source_config>
       cst_new_box_autoadd_liquidity_source_config() {
@@ -4846,6 +4942,11 @@ final class wire_cst_address extends ffi.Struct {
   external ffi.Pointer<wire_cst_list_prim_u_8_strict> s;
 }
 
+final class wire_cst_ldk_spontaneous_payment extends ffi.Struct {
+  @ffi.UintPtr()
+  external int ptr;
+}
+
 final class wire_cst_channel_id extends ffi.Struct {
   external ffi.Pointer<wire_cst_list_prim_u_8_strict> data;
 }
@@ -5324,11 +5425,6 @@ final class wire_cst_best_block extends ffi.Struct {
 
   @ffi.Uint32()
   external int height;
-}
-
-final class wire_cst_ldk_spontaneous_payment extends ffi.Struct {
-  @ffi.UintPtr()
-  external int ptr;
 }
 
 final class wire_cst_node_status extends ffi.Struct {

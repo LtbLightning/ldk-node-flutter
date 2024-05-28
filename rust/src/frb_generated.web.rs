@@ -1647,6 +1647,26 @@ pub fn wire_ldk_on_chain_payment_send_to_address(
 }
 
 #[wasm_bindgen]
+pub fn wire_ldk_spontaneous_payment_send(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
+    that: flutter_rust_bridge::for_generated::wasm_bindgen::JsValue,
+    amount_msat: u64,
+    node_id: flutter_rust_bridge::for_generated::wasm_bindgen::JsValue,
+) {
+    wire_ldk_spontaneous_payment_send_impl(port_, that, amount_msat, node_id)
+}
+
+#[wasm_bindgen]
+pub fn wire_ldk_spontaneous_payment_send_probes(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
+    that: flutter_rust_bridge::for_generated::wasm_bindgen::JsValue,
+    amount_msat: u64,
+    node_id: flutter_rust_bridge::for_generated::wasm_bindgen::JsValue,
+) {
+    wire_ldk_spontaneous_payment_send_probes_impl(port_, that, amount_msat, node_id)
+}
+
+#[wasm_bindgen]
 pub fn rust_arc_increment_strong_count_RustOpaque_Node(ptr: *const std::ffi::c_void) {
     unsafe {
         StdArc::<Node>::increment_strong_count(ptr as _);

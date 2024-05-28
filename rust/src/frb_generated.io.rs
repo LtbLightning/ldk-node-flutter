@@ -204,6 +204,13 @@ impl CstDecode<crate::api::node::LdkOnChainPayment> for *mut wire_cst_ldk_on_cha
         CstDecode::<crate::api::node::LdkOnChainPayment>::cst_decode(*wrap).into()
     }
 }
+impl CstDecode<crate::api::node::LdkSpontaneousPayment> for *mut wire_cst_ldk_spontaneous_payment {
+    // Codec=Cst (C-struct based), see doc to use other codecs
+    fn cst_decode(self) -> crate::api::node::LdkSpontaneousPayment {
+        let wrap = unsafe { flutter_rust_bridge::for_generated::box_from_leak_ptr(self) };
+        CstDecode::<crate::api::node::LdkSpontaneousPayment>::cst_decode(*wrap).into()
+    }
+}
 impl CstDecode<crate::api::types::LiquiditySourceConfig> for *mut wire_cst_liquidity_source_config {
     // Codec=Cst (C-struct based), see doc to use other codecs
     fn cst_decode(self) -> crate::api::types::LiquiditySourceConfig {
@@ -1975,6 +1982,26 @@ pub extern "C" fn frbgen_ldk_node_wire_ldk_on_chain_payment_send_to_address(
 }
 
 #[no_mangle]
+pub extern "C" fn frbgen_ldk_node_wire_ldk_spontaneous_payment_send(
+    port_: i64,
+    that: *mut wire_cst_ldk_spontaneous_payment,
+    amount_msat: u64,
+    node_id: *mut wire_cst_public_key,
+) {
+    wire_ldk_spontaneous_payment_send_impl(port_, that, amount_msat, node_id)
+}
+
+#[no_mangle]
+pub extern "C" fn frbgen_ldk_node_wire_ldk_spontaneous_payment_send_probes(
+    port_: i64,
+    that: *mut wire_cst_ldk_spontaneous_payment,
+    amount_msat: u64,
+    node_id: *mut wire_cst_public_key,
+) {
+    wire_ldk_spontaneous_payment_send_probes_impl(port_, that, amount_msat, node_id)
+}
+
+#[no_mangle]
 pub extern "C" fn frbgen_ldk_node_rust_arc_increment_strong_count_RustOpaque_Node(
     ptr: *const std::ffi::c_void,
 ) {
@@ -2155,6 +2182,14 @@ pub extern "C" fn frbgen_ldk_node_cst_new_box_autoadd_ldk_on_chain_payment(
 ) -> *mut wire_cst_ldk_on_chain_payment {
     flutter_rust_bridge::for_generated::new_leak_box_ptr(
         wire_cst_ldk_on_chain_payment::new_with_null_ptr(),
+    )
+}
+
+#[no_mangle]
+pub extern "C" fn frbgen_ldk_node_cst_new_box_autoadd_ldk_spontaneous_payment(
+) -> *mut wire_cst_ldk_spontaneous_payment {
+    flutter_rust_bridge::for_generated::new_leak_box_ptr(
+        wire_cst_ldk_spontaneous_payment::new_with_null_ptr(),
     )
 }
 

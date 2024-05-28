@@ -243,6 +243,18 @@ abstract class LdkCoreApi extends BaseApi {
       required int amountSats,
       dynamic hint});
 
+  Future<PaymentId> ldkSpontaneousPaymentSend(
+      {required LdkSpontaneousPayment that,
+      required int amountMsat,
+      required PublicKey nodeId,
+      dynamic hint});
+
+  Future<void> ldkSpontaneousPaymentSendProbes(
+      {required LdkSpontaneousPayment that,
+      required int amountMsat,
+      required PublicKey nodeId,
+      dynamic hint});
+
   RustArcIncrementStrongCountFnType get rust_arc_increment_strong_count_Node;
 
   RustArcDecrementStrongCountFnType get rust_arc_decrement_strong_count_Node;
@@ -1511,6 +1523,66 @@ class LdkCoreApiImpl extends LdkCoreApiImplPlatform implements LdkCoreApi {
         argNames: ["that", "address", "amountSats"],
       );
 
+  @override
+  Future<PaymentId> ldkSpontaneousPaymentSend(
+      {required LdkSpontaneousPayment that,
+      required int amountMsat,
+      required PublicKey nodeId,
+      dynamic hint}) {
+    return handler.executeNormal(NormalTask(
+      callFfi: (port_) {
+        var arg0 = cst_encode_box_autoadd_ldk_spontaneous_payment(that);
+        var arg1 = cst_encode_u_64(amountMsat);
+        var arg2 = cst_encode_box_autoadd_public_key(nodeId);
+        return wire.wire_ldk_spontaneous_payment_send(port_, arg0, arg1, arg2);
+      },
+      codec: DcoCodec(
+        decodeSuccessData: dco_decode_payment_id,
+        decodeErrorData: dco_decode_node_exception,
+      ),
+      constMeta: kLdkSpontaneousPaymentSendConstMeta,
+      argValues: [that, amountMsat, nodeId],
+      apiImpl: this,
+      hint: hint,
+    ));
+  }
+
+  TaskConstMeta get kLdkSpontaneousPaymentSendConstMeta => const TaskConstMeta(
+        debugName: "ldk_spontaneous_payment_send",
+        argNames: ["that", "amountMsat", "nodeId"],
+      );
+
+  @override
+  Future<void> ldkSpontaneousPaymentSendProbes(
+      {required LdkSpontaneousPayment that,
+      required int amountMsat,
+      required PublicKey nodeId,
+      dynamic hint}) {
+    return handler.executeNormal(NormalTask(
+      callFfi: (port_) {
+        var arg0 = cst_encode_box_autoadd_ldk_spontaneous_payment(that);
+        var arg1 = cst_encode_u_64(amountMsat);
+        var arg2 = cst_encode_box_autoadd_public_key(nodeId);
+        return wire.wire_ldk_spontaneous_payment_send_probes(
+            port_, arg0, arg1, arg2);
+      },
+      codec: DcoCodec(
+        decodeSuccessData: dco_decode_unit,
+        decodeErrorData: dco_decode_node_exception,
+      ),
+      constMeta: kLdkSpontaneousPaymentSendProbesConstMeta,
+      argValues: [that, amountMsat, nodeId],
+      apiImpl: this,
+      hint: hint,
+    ));
+  }
+
+  TaskConstMeta get kLdkSpontaneousPaymentSendProbesConstMeta =>
+      const TaskConstMeta(
+        debugName: "ldk_spontaneous_payment_send_probes",
+        argNames: ["that", "amountMsat", "nodeId"],
+      );
+
   RustArcIncrementStrongCountFnType get rust_arc_increment_strong_count_Node =>
       wire.rust_arc_increment_strong_count_RustOpaque_Node;
 
@@ -1738,6 +1810,13 @@ class LdkCoreApiImpl extends LdkCoreApiImplPlatform implements LdkCoreApi {
   LdkOnChainPayment dco_decode_box_autoadd_ldk_on_chain_payment(dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     return dco_decode_ldk_on_chain_payment(raw);
+  }
+
+  @protected
+  LdkSpontaneousPayment dco_decode_box_autoadd_ldk_spontaneous_payment(
+      dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return dco_decode_ldk_spontaneous_payment(raw);
   }
 
   @protected
@@ -2978,6 +3057,13 @@ class LdkCoreApiImpl extends LdkCoreApiImplPlatform implements LdkCoreApi {
       SseDeserializer deserializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     return (sse_decode_ldk_on_chain_payment(deserializer));
+  }
+
+  @protected
+  LdkSpontaneousPayment sse_decode_box_autoadd_ldk_spontaneous_payment(
+      SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    return (sse_decode_ldk_spontaneous_payment(deserializer));
   }
 
   @protected
@@ -4579,6 +4665,13 @@ class LdkCoreApiImpl extends LdkCoreApiImplPlatform implements LdkCoreApi {
       LdkOnChainPayment self, SseSerializer serializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     sse_encode_ldk_on_chain_payment(self, serializer);
+  }
+
+  @protected
+  void sse_encode_box_autoadd_ldk_spontaneous_payment(
+      LdkSpontaneousPayment self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_ldk_spontaneous_payment(self, serializer);
   }
 
   @protected
