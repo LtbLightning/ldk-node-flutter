@@ -81,7 +81,7 @@ class _MyAppState extends State<MyApp> {
     final res = await aliceNode.nodeId();
     setState(() {
       aliceNodeId = res;
-      displayText = "${aliceNodeId?.hexCode} started successfully";
+      displayText = "${aliceNodeId?.hex} started successfully";
     });
   }
 
@@ -142,7 +142,7 @@ class _MyAppState extends State<MyApp> {
       if (res.isNotEmpty) {
         print("======Channels========");
         for (var e in res) {
-          print("nodeId: ${aliceNodeId!.hexCode}");
+          print("nodeId: ${aliceNodeId!.hex}");
           print("channelId: ${e.channelId.data}");
           print("isChannelReady: ${e.isChannelReady}");
           print("isUsable: ${e.isUsable}");
@@ -215,7 +215,7 @@ class _MyAppState extends State<MyApp> {
     await aliceNode.connectOpenChannel(
         channelAmountSats: funding_amount_sat,
         announceChannel: true,
-        address: bobAddr!,
+        socketAddress: bobAddr!,
         pushToCounterpartyMsat: push_msat.toInt(),
         nodeId: bobNodeId!);
   }
@@ -545,7 +545,7 @@ class _MyAppState extends State<MyApp> {
                   Text(
                     aliceNodeId == null
                         ? "Node not initialized"
-                        : "@Id_:${aliceNodeId!.hexCode}",
+                        : "@Id_:${aliceNodeId!.hex}",
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                     textAlign: TextAlign.center,
