@@ -425,6 +425,16 @@ class LdkSpontaneousPayment {
     required this.ptr,
   });
 
+  Future<PaymentId> send(
+          {required int amountMsat, required PublicKey nodeId, dynamic hint}) =>
+      LdkCore.instance.api.ldkSpontaneousPaymentSend(
+          that: this, amountMsat: amountMsat, nodeId: nodeId, hint: hint);
+
+  Future<void> sendProbes(
+          {required int amountMsat, required PublicKey nodeId, dynamic hint}) =>
+      LdkCore.instance.api.ldkSpontaneousPaymentSendProbes(
+          that: this, amountMsat: amountMsat, nodeId: nodeId, hint: hint);
+
   @override
   int get hashCode => ptr.hashCode;
 

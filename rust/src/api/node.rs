@@ -328,7 +328,12 @@ impl From<ldk_node::payment::SpontaneousPayment> for LdkSpontaneousPayment {
     }
 }
 impl LdkSpontaneousPayment {
-
+    pub fn send(&self, amount_msat: u64, node_id: PublicKey) -> Result<PaymentId, NodeException> {
+        self.ptr.send(amount_msat, node_id.try_into()?).map_err(|e| e.into()).map(|e| e.into())
+    }
+    pub fn send_probes(&self, amount_msat: u64, node_id: PublicKey) -> Result<(),  NodeException> {
+        self.ptr.send_probes(amount_msat, node_id.try_into()?).map_err(|e| e.into()).map(|e| e.into())
+    }
 }
 pub struct LdkBolt11Payment {
     pub ptr:RustOpaque<ldk_node::payment::Bolt11Payment>
