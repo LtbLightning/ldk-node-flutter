@@ -378,6 +378,40 @@ class Node extends LdkNode {
       throw mapNodeException(e);
     }
   }
+
+  Future<SpontaneousPayment> spontaneousPayment() async {
+    try {
+      final res = await LdkNode.spontaneousPayment(ptr: this);
+      return SpontaneousPayment._(ptr: res.ptr);
+    } on error.NodeException catch (e) {
+      throw mapNodeException(e);
+    }
+  }
+}
+
+class SpontaneousPayment extends LdkSpontaneousPayment {
+  SpontaneousPayment._({required super.ptr});
+  @override
+  Future<void> sendProbes(
+      {required int amountMsat, required types.PublicKey nodeId, hint}) {
+    try {
+      return super.sendProbes(amountMsat: amountMsat, nodeId: nodeId);
+    } on error.NodeException catch (e) {
+      throw mapNodeException(e);
+    }
+  }
+
+  @override
+  Future<types.PaymentId> send(
+      {required int amountMsat,
+      required types.PublicKey nodeId,
+      dynamic hint}) {
+    try {
+      return super.send(amountMsat: amountMsat, nodeId: nodeId);
+    } on error.NodeException catch (e) {
+      throw mapNodeException(e);
+    }
+  }
 }
 
 class OnChainPayment extends LdkOnChainPayment {
