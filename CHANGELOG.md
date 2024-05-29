@@ -1,12 +1,16 @@
-## [0.2.1-dev]
+## [0.2.2-dev]
 Updated Rust and Flutter dependencies.
+#### APIs added
+- Expose `isRunning()` in `Node` class.
 #### API changed
 - Renamed `waitUntilNextHandled()` to `waitNextHandled`.
-- Renamed `listeningAddress()` to `listeningAddresses`
-- Upgraded `BuilderException` to handle Invalid SocketAddress.
+- Renamed `listeningAddress()` to `listeningAddresses`.
+- Upgraded `BuilderException` to handle invalid `socketAddress` & `trustedPeers.
+- Upgraded `NodeException` to handle invalid `txid`.
 #### Fixed
 - Functions hang indefinitely on iOs devices
 - Android support bug resolved
+- Thread `frb_workerpool` panic on `SocketAddress`, `PublicKey`, `Address` `Bolt11Invoice`, `Config` and `Txid`.
 
 ## [0.2.0]
 Updated `Rust` and `Flutter` dependencies.
