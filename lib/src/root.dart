@@ -1,5 +1,6 @@
 import 'package:ldk_node/src/generated/api/error.dart' as error;
 import 'package:ldk_node/src/generated/api/types.dart' as types;
+import 'package:ldk_node/src/utils/default_services.dart';
 import 'package:ldk_node/src/utils/utils.dart';
 import 'package:path_provider/path_provider.dart';
 
@@ -580,6 +581,24 @@ class Builder {
         defaultCltvExpiryDelta: 144,
         trustedPeers0Conf: [],
         probingLiquidityLimitMultiplier: 3));
+  }
+
+  /// Creates a new builder instance with default services configured for testnet.
+  ///
+  factory Builder.testnet() {
+    return Builder()
+        .setNetwork(types.Network.testnet)
+        .setEsploraServer(DefaultServicesTestnet.esploraServerUrl)
+        .setGossipSourceRgs(DefaultServicesTestnet.rgsServerUrl);
+  }
+
+  /// Creates a new builder instance with default services configured for mutinynet.
+  ///
+  factory Builder.mutinynet() {
+    return Builder()
+        .setNetwork(types.Network.signet)
+        .setEsploraServer(DefaultServicesMutinynet.esploraServerUrl)
+        .setGossipSourceRgs(DefaultServicesMutinynet.rgsServerUrl);
   }
 
   /// Configures the [Node] instance to source its wallet entropy from a seed file on disk.
