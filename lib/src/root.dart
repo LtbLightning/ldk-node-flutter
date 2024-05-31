@@ -585,8 +585,11 @@ class Builder {
 
   /// Creates a new builder instance with default services configured for testnet.
   ///
-  factory Builder.testnet() {
-    return Builder()
+  factory Builder.testnet({types.Config? config}) {
+    final Builder builder =
+        config != null ? Builder.fromConfig(config: config) : Builder();
+
+    return builder
         .setNetwork(types.Network.testnet)
         .setEsploraServer(DefaultServicesTestnet.esploraServerUrl)
         .setGossipSourceRgs(DefaultServicesTestnet.rgsServerUrl);
@@ -594,8 +597,11 @@ class Builder {
 
   /// Creates a new builder instance with default services configured for mutinynet.
   ///
-  factory Builder.mutinynet() {
-    return Builder()
+  factory Builder.mutinynet({types.Config? config}) {
+    final Builder builder =
+        config != null ? Builder.fromConfig(config: config) : Builder();
+
+    return builder
         .setNetwork(types.Network.signet)
         .setEsploraServer(DefaultServicesMutinynet.esploraServerUrl)
         .setGossipSourceRgs(DefaultServicesMutinynet.rgsServerUrl);
