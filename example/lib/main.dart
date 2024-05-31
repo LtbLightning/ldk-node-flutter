@@ -81,7 +81,7 @@ class _MyAppState extends State<MyApp> {
     final res = await aliceNode.nodeId();
     setState(() {
       aliceNodeId = res;
-      displayText = "${aliceNodeId?.hexCode} started successfully";
+      displayText = "${aliceNodeId?.hex} started successfully";
     });
   }
 
@@ -108,7 +108,7 @@ class _MyAppState extends State<MyApp> {
     final res = await bobNode.nodeId();
     setState(() {
       bobNodeId = res;
-      displayText = "$bobNodeId started successfully";
+      displayText = "${bobNodeId!.hex} started successfully";
     });
   }
 
@@ -140,7 +140,7 @@ class _MyAppState extends State<MyApp> {
       if (res.isNotEmpty) {
         print("======Channels========");
         for (var e in res) {
-          print("nodeId: ${aliceNodeId!.hexCode}");
+          print("nodeId: ${aliceNodeId!.hex}");
           print("userChannelId: ${e.userChannelId.data}");
           print("channelId: ${e.channelId.data}");
           print("isChannelReady: ${e.isChannelReady}");
@@ -160,9 +160,8 @@ class _MyAppState extends State<MyApp> {
           print("======Payments========");
           for (var e in res) {
             print("amountMsat: ${e.amountMsat}");
-            print("hash: ${e.hash.data}");
-            print("preimage: ${e.preimage?.data}");
-            print("secret: ${e.secret!.data}");
+            print("paymentId: ${e.id.field0}");
+            print("status: ${e.status.name}");
           }
         }
       }
@@ -175,7 +174,7 @@ class _MyAppState extends State<MyApp> {
   removeLastPayment() async {
     final lastPayment = await listPaymentsWithFilter(false);
     if (lastPayment != null) {
-      final _ = await aliceNode.removePayment(paymentHash: lastPayment.hash);
+      final _ = await aliceNode.removePayment(paymentId: lastPayment.id);
       setState(() {
         displayText = "${lastPayment.hash.internal} removed";
       });
@@ -183,8 +182,8 @@ class _MyAppState extends State<MyApp> {
   }
 
   Future<List<String>> newOnchainAddress() async {
-    final alice = await aliceNode.newOnchainAddress();
-    final bob = await bobNode.newOnchainAddress();
+    final alice = await (await aliceNode.onChainPayment()).newAddress();
+    final bob = await (await bobNode.onChainPayment()).newAddress();
     if (kDebugMode) {
       print("alice's address: ${alice.s}");
       print("bob's address: ${bob.s}");
@@ -214,21 +213,24 @@ class _MyAppState extends State<MyApp> {
     userChannelId = await aliceNode.connectOpenChannel(
         channelAmountSats: funding_amount_sat,
         announceChannel: true,
-        address: bobAddr!,
+        socketAddress: bobAddr!,
         pushToCounterpartyMsat: push_msat.toInt(),
         nodeId: bobNodeId!);
   }
 
   receiveAndSendPayments() async {
-    invoice = await bobNode.receivePayment(
+    final bobBolt11Handler = await bobNode.bolt11Payment();
+    final aliceBolt11Handler = await aliceNode.bolt11Payment();
+    invoice = await bobBolt11Handler.receive(
         amountMsat: 2500000, description: 'asdf', expirySecs: 9217);
     setState(() {
       displayText = invoice.toString();
     });
-    final paymentHash = await aliceNode.sendPayment(invoice: invoice!);
-    final res = await aliceNode.payment(paymentHash: paymentHash);
+    final paymentId = await aliceBolt11Handler.send(invoice: invoice!);
+    final res = await aliceNode.payment(paymentId: paymentId);
     setState(() {
-      displayText = "send payment success ${res?.hash.data}";
+      displayText =
+          "Payment status: ${res?.status.name}\n PaymentId: ${res?.id.field0}";
     });
   }
 
@@ -512,7 +514,7 @@ class _MyAppState extends State<MyApp> {
                   Text(
                     aliceNodeId == null
                         ? "Node not initialized"
-                        : "@Id_:${aliceNodeId!.hexCode}",
+                        : "@Id_:${aliceNodeId!.hex}",
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                     textAlign: TextAlign.center,
