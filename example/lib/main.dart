@@ -47,17 +47,16 @@ class _MyAppState extends State<MyApp> {
       String path, ldk.SocketAddress address) async {
     final directory = await getApplicationDocumentsDirectory();
     final nodePath = "${directory.path}/ldk_cache/$path";
-    print(nodePath);
     final config = ldk.Config(
         probingLiquidityLimitMultiplier: 3,
         trustedPeers0Conf: [],
         storageDirPath: nodePath,
-        network: ldk.Network.Regtest,
+        network: ldk.Network.regtest,
         listeningAddresses: [address],
         onchainWalletSyncIntervalSecs: 60,
         walletSyncIntervalSecs: 20,
         feeRateCacheUpdateIntervalSecs: 600,
-        logLevel: ldk.LogLevel.Debug,
+        logLevel: ldk.LogLevel.debug,
         defaultCltvExpiryDelta: 144);
     return config;
   }
@@ -72,14 +71,17 @@ class _MyAppState extends State<MyApp> {
         ldk.SocketAddress.hostname(addr: "0.0.0.0", port: 3003));
     ldk.Builder aliceBuilder = ldk.Builder.fromConfig(config: aliceConfig);
     aliceNode = await aliceBuilder
-        .setEntropyBip39Mnemonic(mnemonic: await ldk.Mnemonic.generate())
+        .setEntropyBip39Mnemonic(
+            mnemonic: ldk.Mnemonic(
+                seedPhrase:
+                    "cart super leaf clinic pistol plug replace close super tooth wealth usage"))
         .setEsploraServer(esploraUrl)
         .build();
     await startNode(aliceNode);
     final res = await aliceNode.nodeId();
     setState(() {
       aliceNodeId = res;
-      displayText = "${aliceNodeId?.hexCode} started successfully";
+      displayText = "${aliceNodeId?.hex} started successfully";
     });
   }
 
@@ -98,7 +100,8 @@ class _MyAppState extends State<MyApp> {
     bobNode = await bobBuilder
         .setEntropyBip39Mnemonic(
             mnemonic: ldk.Mnemonic(
-                'puppy interest whip tonight dad never sudden response push zone pig patch'))
+                seedPhrase:
+                    'puppy interest whip tonight dad never sudden response push zone pig patch'))
         .setEsploraServer(esploraUrl)
         .build();
     await startNode(bobNode);
@@ -139,7 +142,7 @@ class _MyAppState extends State<MyApp> {
       if (res.isNotEmpty) {
         print("======Channels========");
         for (var e in res) {
-          print("nodeId: ${aliceNodeId!.hexCode}");
+          print("nodeId: ${aliceNodeId!.hex}");
           print("channelId: ${e.channelId.data}");
           print("isChannelReady: ${e.isChannelReady}");
           print("isUsable: ${e.isUsable}");
@@ -151,7 +154,7 @@ class _MyAppState extends State<MyApp> {
 
   listPaymentsWithFilter(bool printPayments) async {
     final res = await aliceNode.listPaymentsWithFilter(
-        paymentDirection: ldk.PaymentDirection.Outbound);
+        paymentDirection: ldk.PaymentDirection.outbound);
     if (res.isNotEmpty) {
       if (printPayments) {
         if (kDebugMode) {
@@ -212,7 +215,7 @@ class _MyAppState extends State<MyApp> {
     await aliceNode.connectOpenChannel(
         channelAmountSats: funding_amount_sat,
         announceChannel: true,
-        netaddress: bobAddr!,
+        socketAddress: bobAddr!,
         pushToCounterpartyMsat: push_msat.toInt(),
         nodeId: bobNodeId!);
   }
@@ -542,7 +545,7 @@ class _MyAppState extends State<MyApp> {
                   Text(
                     aliceNodeId == null
                         ? "Node not initialized"
-                        : "@Id_:${aliceNodeId!.hexCode}",
+                        : "@Id_:${aliceNodeId!.hex}",
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                     textAlign: TextAlign.center,
