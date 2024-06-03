@@ -11,9 +11,13 @@ import 'generated/api/node.dart';
 class Mnemonic extends LdkMnemonic {
   Mnemonic({required super.seedPhrase});
   static Future<Mnemonic> generate() async {
-    await Frb.verifyInit();
-    final res = await LdkMnemonic.generate();
-    return Mnemonic(seedPhrase: res.seedPhrase);
+    try {
+      await Frb.verifyInit();
+      final res = await LdkMnemonic.generate();
+      return Mnemonic(seedPhrase: res.seedPhrase);
+    } on error.NodeException catch (e) {
+      throw mapNodeException(e);
+    }
   }
 }
 
@@ -627,6 +631,8 @@ class Builder {
       return Node._(ptr: res.ptr);
     } on error.BuilderException catch (e) {
       throw mapBuilderException(e);
+    } on error.NodeException catch (e) {
+      throw mapNodeException(e);
     }
   }
 }
