@@ -25,4 +25,4 @@ export './src/generated/api/types.dart'
         EntropySourceConfig_SeedFile;
 export 'src/root.dart';
 export 'src/utils/utils.dart'
-    hide ExceptionBase, mapBuilderError, mapNodeBaseError, Frb;
+    hide LdkException, mapBuilderException, mapNodeException, Frb;

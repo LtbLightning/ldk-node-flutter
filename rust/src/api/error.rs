@@ -1,7 +1,8 @@
 use ldk_node::{BuildError, NodeError};
 
 #[derive(Debug, PartialEq)]
-pub enum NodeBaseError {
+pub enum NodeException {
+    InvalidTxid,
     /// Returned when trying to start [Node] while it is already running.
     AlreadyRunning,
     /// Returned when trying to stop [Node] while it is not running.
@@ -60,14 +61,12 @@ pub enum NodeBaseError {
     DuplicatePayment,
     /// There are insufficient funds to complete the given operation.
     InsufficientFunds,
+
     FeerateEstimationUpdateFailed,
-    LiquidityRequestFailed,
-    LiquiditySourceUnavailable,
-    LiquidityFeeTooHigh,
 }
 #[allow(dead_code)]
 #[derive(Debug)]
-pub enum BuilderError {
+pub enum BuilderException {
     SocketAddressParseError,
     /// The given seed bytes are invalid, e.g., have invalid length.
     InvalidSeedBytes,
@@ -78,7 +77,7 @@ pub enum BuilderError {
     /// The a read channel monitor is invalid.
     InvalidChannelMonitor,
     /// The given listening addresses are invalid, e.g. too many were passed.
-    InvalidListeningAddresses,
+    InvalidListeningAddress,
     /// We failed to read data from the [`KVStore`].
     ReadFailed,
     /// We failed to write data to the [`KVStore`].
@@ -91,63 +90,73 @@ pub enum BuilderError {
     WalletSetupFailed,
     /// We failed to setup the logger.
     LoggerSetupFailed,
+    InvalidTrustedPeer,
 }
 
-impl From<NodeError> for NodeBaseError {
+impl From<NodeError> for NodeException {
     fn from(value: NodeError) -> Self {
         match value {
-            NodeError::AlreadyRunning => NodeBaseError::AlreadyRunning,
-            NodeError::NotRunning => NodeBaseError::NotRunning,
-            NodeError::OnchainTxCreationFailed => NodeBaseError::OnchainTxCreationFailed,
-            NodeError::ConnectionFailed => NodeBaseError::ConnectionFailed,
-            NodeError::InvoiceCreationFailed => NodeBaseError::InvoiceCreationFailed,
-            NodeError::PaymentSendingFailed => NodeBaseError::PaymentSendingFailed,
-            NodeError::ProbeSendingFailed => NodeBaseError::ProbeSendingFailed,
-            NodeError::ChannelCreationFailed => NodeBaseError::ChannelCreationFailed,
-            NodeError::ChannelClosingFailed => NodeBaseError::ChannelClosingFailed,
-            NodeError::ChannelConfigUpdateFailed => NodeBaseError::ChannelConfigUpdateFailed,
-            NodeError::PersistenceFailed => NodeBaseError::PersistenceFailed,
-            NodeError::WalletOperationFailed => NodeBaseError::WalletOperationFailed,
-            NodeError::OnchainTxSigningFailed => NodeBaseError::OnchainTxSigningFailed,
-            NodeError::MessageSigningFailed => NodeBaseError::MessageSigningFailed,
-            NodeError::TxSyncFailed => NodeBaseError::TxSyncFailed,
-            NodeError::GossipUpdateFailed => NodeBaseError::GossipUpdateFailed,
-            NodeError::InvalidAddress => NodeBaseError::InvalidAddress,
-            NodeError::InvalidSocketAddress => NodeBaseError::InvalidSocketAddress,
-            NodeError::InvalidPublicKey => NodeBaseError::InvalidPublicKey,
-            NodeError::InvalidSecretKey => NodeBaseError::InvalidSecretKey,
-            NodeError::InvalidPaymentHash => NodeBaseError::InvalidPaymentHash,
-            NodeError::InvalidPaymentPreimage => NodeBaseError::InvalidPaymentPreimage,
-            NodeError::InvalidPaymentSecret => NodeBaseError::InvalidPaymentSecret,
-            NodeError::InvalidAmount => NodeBaseError::InvalidAmount,
-            NodeError::InvalidInvoice => NodeBaseError::InvalidInvoice,
-            NodeError::InvalidChannelId => NodeBaseError::InvalidChannelId,
-            NodeError::InvalidNetwork => NodeBaseError::InvalidNetwork,
-            NodeError::DuplicatePayment => NodeBaseError::DuplicatePayment,
-            NodeError::InsufficientFunds => NodeBaseError::InsufficientFunds,
+            NodeError::AlreadyRunning => NodeException::AlreadyRunning,
+            NodeError::NotRunning => NodeException::NotRunning,
+            NodeError::OnchainTxCreationFailed => NodeException::OnchainTxCreationFailed,
+            NodeError::ConnectionFailed => NodeException::ConnectionFailed,
+            NodeError::InvoiceCreationFailed => NodeException::InvoiceCreationFailed,
+            NodeError::PaymentSendingFailed => NodeException::PaymentSendingFailed,
+            NodeError::ProbeSendingFailed => NodeException::ProbeSendingFailed,
+            NodeError::ChannelCreationFailed => NodeException::ChannelCreationFailed,
+            NodeError::ChannelClosingFailed => NodeException::ChannelClosingFailed,
+            NodeError::ChannelConfigUpdateFailed => NodeException::ChannelConfigUpdateFailed,
+            NodeError::PersistenceFailed => NodeException::PersistenceFailed,
+            NodeError::WalletOperationFailed => NodeException::WalletOperationFailed,
+            NodeError::OnchainTxSigningFailed => NodeException::OnchainTxSigningFailed,
+            NodeError::MessageSigningFailed => NodeException::MessageSigningFailed,
+            NodeError::TxSyncFailed => NodeException::TxSyncFailed,
+            NodeError::GossipUpdateFailed => NodeException::GossipUpdateFailed,
+            NodeError::InvalidAddress => NodeException::InvalidAddress,
+            NodeError::InvalidSocketAddress => NodeException::InvalidSocketAddress,
+            NodeError::InvalidPublicKey => NodeException::InvalidPublicKey,
+            NodeError::InvalidSecretKey => NodeException::InvalidSecretKey,
+            NodeError::InvalidPaymentHash => NodeException::InvalidPaymentHash,
+            NodeError::InvalidPaymentPreimage => NodeException::InvalidPaymentPreimage,
+            NodeError::InvalidPaymentSecret => NodeException::InvalidPaymentSecret,
+            NodeError::InvalidAmount => NodeException::InvalidAmount,
+            NodeError::InvalidInvoice => NodeException::InvalidInvoice,
+            NodeError::InvalidChannelId => NodeException::InvalidChannelId,
+            NodeError::InvalidNetwork => NodeException::InvalidNetwork,
+            NodeError::DuplicatePayment => NodeException::DuplicatePayment,
+            NodeError::InsufficientFunds => NodeException::InsufficientFunds,
             NodeError::FeerateEstimationUpdateFailed => {
-                NodeBaseError::FeerateEstimationUpdateFailed
+                NodeException::FeerateEstimationUpdateFailed
             }
-            NodeError::LiquidityRequestFailed => NodeBaseError::LiquidityRequestFailed,
-            NodeError::LiquiditySourceUnavailable => NodeBaseError::LiquiditySourceUnavailable,
-            NodeError::LiquidityFeeTooHigh => NodeBaseError::LiquidityFeeTooHigh,
         }
     }
 }
-impl From<BuildError> for BuilderError {
+impl From<BuildError> for BuilderException {
     fn from(value: BuildError) -> Self {
         match value {
-            BuildError::InvalidSeedBytes => BuilderError::InvalidSeedBytes,
-            BuildError::InvalidSeedFile => BuilderError::InvalidSeedFile,
-            BuildError::InvalidSystemTime => BuilderError::InvalidSystemTime,
-            BuildError::ReadFailed => BuilderError::ReadFailed,
-            BuildError::WriteFailed => BuilderError::WriteFailed,
-            BuildError::StoragePathAccessFailed => BuilderError::StoragePathAccessFailed,
-            BuildError::WalletSetupFailed => BuilderError::WalletSetupFailed,
-            BuildError::LoggerSetupFailed => BuilderError::LoggerSetupFailed,
-            BuildError::InvalidChannelMonitor => BuilderError::InvalidChannelMonitor,
-            BuildError::KVStoreSetupFailed => BuilderError::KVStoreSetupFailed,
-            BuildError::InvalidListeningAddresses => BuilderError::InvalidListeningAddresses,
+            BuildError::InvalidSeedBytes => BuilderException::InvalidSeedBytes,
+            BuildError::InvalidSeedFile => BuilderException::InvalidSeedFile,
+            BuildError::InvalidSystemTime => BuilderException::InvalidSystemTime,
+            BuildError::ReadFailed => BuilderException::ReadFailed,
+            BuildError::WriteFailed => BuilderException::WriteFailed,
+            BuildError::StoragePathAccessFailed => BuilderException::StoragePathAccessFailed,
+            BuildError::WalletSetupFailed => BuilderException::WalletSetupFailed,
+            BuildError::LoggerSetupFailed => BuilderException::LoggerSetupFailed,
+            BuildError::InvalidChannelMonitor => BuilderException::InvalidChannelMonitor,
+            BuildError::KVStoreSetupFailed => BuilderException::KVStoreSetupFailed,
+            BuildError::InvalidListeningAddresses => BuilderException::InvalidListeningAddress,
+        }
+    }
+}
+
+impl From<ldk_node::bip39::Error> for BuilderException {
+    fn from(value: ldk_node::bip39::Error) -> Self {
+        match value {
+            ldk_node::bip39::Error::BadWordCount(_) => BuilderException::InvalidSeedBytes,
+            ldk_node::bip39::Error::UnknownWord(_) => BuilderException::InvalidSeedBytes,
+            ldk_node::bip39::Error::BadEntropyBitCount(_) => BuilderException::InvalidSeedBytes,
+            ldk_node::bip39::Error::InvalidChecksum => BuilderException::InvalidSeedBytes,
+            ldk_node::bip39::Error::AmbiguousLanguages(_) => BuilderException::InvalidSeedBytes,
         }
     }
 }

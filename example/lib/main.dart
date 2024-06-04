@@ -26,7 +26,7 @@ class _MyAppState extends State<MyApp> {
   String displayText = "";
   ldk.SocketAddress? bobAddr;
   ldk.Bolt11Invoice? invoice;
-  ldk.UserChannelId? userChannelId;
+  ldk.ChannelId? channelId;
 
   // Replace this with your local esplora url
   String esploraUrl =
@@ -63,7 +63,7 @@ class _MyAppState extends State<MyApp> {
 
   closeChannel() async {
     await aliceNode.closeChannel(
-        userChannelId: userChannelId!, counterpartyNodeId: bobNodeId!);
+        channelId: channelId!, counterpartyNodeId: bobNodeId!);
   }
 
   Future initAliceNode() async {
@@ -81,7 +81,7 @@ class _MyAppState extends State<MyApp> {
     final res = await aliceNode.nodeId();
     setState(() {
       aliceNodeId = res;
-      displayText = "${aliceNodeId?.hexCode} started successfully";
+      displayText = "${aliceNodeId?.hex} started successfully";
     });
   }
 
@@ -113,16 +113,18 @@ class _MyAppState extends State<MyApp> {
   }
 
   totalOnchainBalanceSats() async {
-    final alice = await aliceNode.listBalances();
-    final bob = await bobNode.listBalances();
+    final alice = await aliceNode.totalOnchainBalanceSats();
+    final bob = await bobNode.totalOnchainBalanceSats();
     if (kDebugMode) {
-      print("alice's balance: ${alice.totalOnchainBalanceSats}");
-      print("alice's spendable balance: ${alice.spendableOnchainBalanceSats}");
-      print("bob's balance: ${bob.totalOnchainBalanceSats}");
-      print("bob's spendable balance: ${bob.spendableOnchainBalanceSats}");
+      print("alice's balance: $alice");
+      print(
+          "alice's spendable balance: ${await aliceNode.spendableOnchainBalanceSats()}");
+      print("bob's balance: $bob");
+      print(
+          "bob's spendable balance: ${await bobNode.spendableOnchainBalanceSats()}");
     }
     setState(() {
-      aliceBalance = alice.spendableOnchainBalanceSats;
+      aliceBalance = alice;
     });
   }
 
@@ -140,8 +142,7 @@ class _MyAppState extends State<MyApp> {
       if (res.isNotEmpty) {
         print("======Channels========");
         for (var e in res) {
-          print("nodeId: ${aliceNodeId!.hexCode}");
-          print("userChannelId: ${e.userChannelId.data}");
+          print("nodeId: ${aliceNodeId!.hex}");
           print("channelId: ${e.channelId.data}");
           print("isChannelReady: ${e.isChannelReady}");
           print("isUsable: ${e.isUsable}");
@@ -211,10 +212,10 @@ class _MyAppState extends State<MyApp> {
   connectOpenChannel() async {
     final funding_amount_sat = 80000;
     final push_msat = (funding_amount_sat / 2) * 1000;
-    userChannelId = await aliceNode.connectOpenChannel(
+    await aliceNode.connectOpenChannel(
         channelAmountSats: funding_amount_sat,
         announceChannel: true,
-        address: bobAddr!,
+        socketAddress: bobAddr!,
         pushToCounterpartyMsat: push_msat.toInt(),
         nodeId: bobNodeId!);
   }
@@ -230,6 +231,24 @@ class _MyAppState extends State<MyApp> {
     setState(() {
       displayText = "send payment success ${res?.hash.data}";
     });
+  }
+
+  setChannelId() async {
+    final channelInfos = await aliceNode.listChannels();
+    if (channelInfos.isNotEmpty) {
+      channelId = channelInfos.first.channelId;
+      if (kDebugMode) {
+        print(channelId?.data);
+      }
+
+      setState(() {
+        displayText = channelId!.data.toString();
+      });
+    } else {
+      if (kDebugMode) {
+        print("No open channels available");
+      }
+    }
   }
 
   stop() async {
@@ -445,6 +464,20 @@ class _MyAppState extends State<MyApp> {
                               fontWeight: FontWeight.w800))),
                   TextButton(
                       onPressed: () async {
+                        await setChannelId();
+                      },
+                      child: Text(
+                        'Set channelId',
+                        overflow: TextOverflow.clip,
+                        textAlign: TextAlign.center,
+                        style: GoogleFonts.nunito(
+                            color: Colors.indigoAccent,
+                            fontSize: 12,
+                            height: 1.5,
+                            fontWeight: FontWeight.w800),
+                      )),
+                  TextButton(
+                      onPressed: () async {
                         await receiveAndSendPayments();
                       },
                       child: Text(
@@ -512,7 +545,7 @@ class _MyAppState extends State<MyApp> {
                   Text(
                     aliceNodeId == null
                         ? "Node not initialized"
-                        : "@Id_:${aliceNodeId!.hexCode}",
+                        : "@Id_:${aliceNodeId!.hex}",
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                     textAlign: TextAlign.center,
