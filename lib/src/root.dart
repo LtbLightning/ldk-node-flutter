@@ -55,9 +55,9 @@ class Node extends LdkNode {
     }
   }
 
-  /// Blocks until the next event is available.
+  // Confirm the last retrieved event handled.
   ///
-  /// **Note:** this will always return the same event until handling is confirmed via `node.eventHandled()`.
+  /// **Note:** This **MUST** be called after each event has been handled.
   @override
   Future<void> eventHandled({hint}) async {
     try {
@@ -67,9 +67,9 @@ class Node extends LdkNode {
     }
   }
 
-  // Confirm the last retrieved event handled.
+  /// Blocks until the next event is available.
   ///
-  /// **Note:** This **MUST** be called after each event has been handled.
+  /// **Note:** this will always return the same event until handling is confirmed via `node.eventHandled()`.
   @override
   Future<types.Event?> nextEvent({hint}) async {
     try {
