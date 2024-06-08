@@ -24,5 +24,7 @@ export './src/generated/api/types.dart'
         GossipSourceConfig,
         EntropySourceConfig_SeedFile;
 export 'src/root.dart';
+export 'src/generated/api/node.dart'
+    show U8Array4, U8Array12, U8Array64, U8Array32;
 export 'src/utils/utils.dart'
     hide LdkException, mapBuilderException, mapNodeException, Frb;
