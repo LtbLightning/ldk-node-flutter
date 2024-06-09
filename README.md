@@ -45,7 +45,7 @@ dependencies:
 or add from pub.dev using `pub add` command
 
 ```
-  flutter pub add ldk_node
+ flutter pub add ldk_node@0.2.2-dev
 ```
 
 ### Examples
