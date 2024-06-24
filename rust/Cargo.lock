@@ -910,7 +910,7 @@ dependencies = [
 
 [[package]]
 name = "ldk_node"
-version = "0.2.3-dev"
+version = "0.3.0"
 dependencies = [
  "anyhow",
  "flutter_rust_bridge",

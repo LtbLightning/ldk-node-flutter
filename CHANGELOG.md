@@ -1,4 +1,4 @@
-## [0.2.3-dev]
+## [0.3.0]
 
 ## [0.2.2-dev]
 Updated Rust and Flutter dependencies.
