@@ -41,7 +41,7 @@ enum BuilderException {
 
   /// We failed to setup the logger.
   loggerSetupFailed,
-  invalidTrustedPeer,
+  invalidPublicKey,
 }
 
 enum NodeException {
@@ -133,5 +133,22 @@ enum NodeException {
 
   /// There are insufficient funds to complete the given operation.
   insufficientFunds,
+
+  ///A fee rate estimation update failed.
   feerateEstimationUpdateFailed,
+
+  ///A liquidity request operation failed.
+  liquidityRequestFailed,
+
+  ///The given operation failed due to the required liquidity source being unavailable.
+  liquiditySourceUnavailable,
+
+  ///The given operation failed due to the LSP's required opening fee being too high.
+  liquidityFeeTooHigh,
+
+  ///The given payment id is invalid.
+  invalidPaymentId,
+
+  ///An error in decoding a message or struct.
+  decodeError,
 }

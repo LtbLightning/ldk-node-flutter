@@ -1,4 +1,5 @@
-use ldk_node::{BuildError, NodeError};
+use ldk_node::{ BuildError, NodeError };
+
 
 #[derive(Debug, PartialEq)]
 pub enum NodeException {
@@ -61,8 +62,18 @@ pub enum NodeException {
     DuplicatePayment,
     /// There are insufficient funds to complete the given operation.
     InsufficientFunds,
-
+    ///A fee rate estimation update failed.
     FeerateEstimationUpdateFailed,
+    ///A liquidity request operation failed.
+    LiquidityRequestFailed,
+    ///The given operation failed due to the required liquidity source being unavailable.
+    LiquiditySourceUnavailable,
+    ///The given operation failed due to the LSP's required opening fee being too high.
+    LiquidityFeeTooHigh,
+    ///The given payment id is invalid.
+    InvalidPaymentId,
+    ///An error in decoding a message or struct.
+    DecodeError,
 }
 #[allow(dead_code)]
 #[derive(Debug)]
@@ -90,7 +101,8 @@ pub enum BuilderException {
     WalletSetupFailed,
     /// We failed to setup the logger.
     LoggerSetupFailed,
-    InvalidTrustedPeer,
+
+    InvalidPublicKey,
 }
 
 impl From<NodeError> for NodeException {
@@ -125,9 +137,11 @@ impl From<NodeError> for NodeException {
             NodeError::InvalidNetwork => NodeException::InvalidNetwork,
             NodeError::DuplicatePayment => NodeException::DuplicatePayment,
             NodeError::InsufficientFunds => NodeException::InsufficientFunds,
-            NodeError::FeerateEstimationUpdateFailed => {
-                NodeException::FeerateEstimationUpdateFailed
-            }
+            NodeError::FeerateEstimationUpdateFailed => NodeException::FeerateEstimationUpdateFailed,
+            NodeError::LiquidityRequestFailed => NodeException::LiquidityRequestFailed,
+            NodeError::LiquiditySourceUnavailable => NodeException::LiquiditySourceUnavailable,
+            NodeError::LiquidityFeeTooHigh => NodeException::LiquidityFeeTooHigh,
+            NodeError::InvalidPaymentId => NodeException::InvalidPaymentId
         }
     }
 }
@@ -158,5 +172,11 @@ impl From<ldk_node::bip39::Error> for BuilderException {
             ldk_node::bip39::Error::InvalidChecksum => BuilderException::InvalidSeedBytes,
             ldk_node::bip39::Error::AmbiguousLanguages(_) => BuilderException::InvalidSeedBytes,
         }
+    }
+}
+
+impl From<ldk_node::lightning::ln::msgs::DecodeError> for NodeException {
+    fn from(_: ldk_node::lightning::ln::msgs::DecodeError) -> Self {
+        NodeException::DecodeError
     }
 }

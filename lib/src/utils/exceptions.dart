@@ -1,19 +1,19 @@
 import '../generated/api/error.dart' as bridge;
 
-abstract class LdkException implements Exception {
+abstract class ExceptionBase implements Exception {
   String? message;
-  LdkException({this.message});
+  ExceptionBase({this.message});
   @override
   String toString() =>
       (message != null) ? '$runtimeType( $message )' : runtimeType.toString();
 }
 
 /// Returned when trying to start [Node] while it is already running.
-class NodeException extends LdkException {
+class NodeException extends ExceptionBase {
   NodeException({super.message});
 }
 
-class BuilderException extends LdkException {
+class BuilderException extends ExceptionBase {
   BuilderException({super.message});
 }
 
@@ -39,6 +39,7 @@ BuilderException mapBuilderException(bridge.BuilderException e) {
       return BuilderException(message: "Failed to setup onchain wallet.");
     case bridge.BuilderException.loggerSetupFailed:
       return BuilderException(message: "Failed to setup the logger.");
+
     case bridge.BuilderException.invalidChannelMonitor:
       return BuilderException(
           message: "Failed to watch a deserialized ChannelMonitor.");
@@ -48,9 +49,10 @@ BuilderException mapBuilderException(bridge.BuilderException e) {
     case bridge.BuilderException.kvStoreSetupFailed:
       return BuilderException(message: "Failed to setup KVStore.");
     case bridge.BuilderException.socketAddressParseError:
-      return BuilderException(message: "Failed to parse socket address");
-    case bridge.BuilderException.invalidTrustedPeer:
-      return BuilderException(message: "Invalid trusted peer");
+      return BuilderException(message: "Invalid SocketAddress.");
+
+    case bridge.BuilderException.invalidPublicKey:
+      return BuilderException(message: "Invalid PublicKey.");
   }
 }
 
@@ -121,7 +123,21 @@ NodeException mapNodeException(bridge.NodeException e) {
               "There are insufficient funds to complete the given operation.");
     case bridge.NodeException.feerateEstimationUpdateFailed:
       return NodeException(message: "Failed to update fee rate estimation. ");
+    case bridge.NodeException.liquidityRequestFailed:
+      return NodeException(message: "Liquidity request operation failed. ");
+    case bridge.NodeException.liquiditySourceUnavailable:
+      return NodeException(
+          message:
+              "Liquidity operation failed due to the required liquidity source being unavailable. ");
+    case bridge.NodeException.liquidityFeeTooHigh:
+      return NodeException(
+          message:
+              "Liquidity operation failed due to the LSP's required opening fee being too high. ");
     case bridge.NodeException.invalidTxid:
-      return NodeException(message: "Invalid transaction id");
+      return NodeException(message: "The given transaction id is Invalid. ");
+    case bridge.NodeException.invalidPaymentId:
+      return NodeException(message: "The given paymentId is invalid. ");
+    case bridge.NodeException.decodeError:
+      return NodeException(message: "Failed to decode the data. ");
   }
 }

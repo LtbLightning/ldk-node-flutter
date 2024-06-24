@@ -15,9 +15,46 @@ flutter_rust_bridge::frb_generated_boilerplate_io!();
 
 // Section: dart2rust
 
-impl CstDecode<RustOpaqueNom<Node<SqliteStore>>> for usize {
+impl CstDecode<NodeBuilder> for usize {
     // Codec=Cst (C-struct based), see doc to use other codecs
-    fn cst_decode(self) -> RustOpaqueNom<Node<SqliteStore>> {
+    fn cst_decode(self) -> NodeBuilder {
+        CstDecode::<
+            RustOpaqueNom<flutter_rust_bridge::for_generated::rust_async::RwLock<NodeBuilder>>,
+        >::cst_decode(self)
+        .rust_auto_opaque_decode_owned()
+    }
+}
+impl CstDecode<RustOpaqueNom<Node>> for usize {
+    // Codec=Cst (C-struct based), see doc to use other codecs
+    fn cst_decode(self) -> RustOpaqueNom<Node> {
+        unsafe { decode_rust_opaque_nom(self as _) }
+    }
+}
+impl CstDecode<RustOpaqueNom<flutter_rust_bridge::for_generated::rust_async::RwLock<NodeBuilder>>>
+    for usize
+{
+    // Codec=Cst (C-struct based), see doc to use other codecs
+    fn cst_decode(
+        self,
+    ) -> RustOpaqueNom<flutter_rust_bridge::for_generated::rust_async::RwLock<NodeBuilder>> {
+        unsafe { decode_rust_opaque_nom(self as _) }
+    }
+}
+impl CstDecode<RustOpaqueNom<ldk_node::payment::Bolt11Payment>> for usize {
+    // Codec=Cst (C-struct based), see doc to use other codecs
+    fn cst_decode(self) -> RustOpaqueNom<ldk_node::payment::Bolt11Payment> {
+        unsafe { decode_rust_opaque_nom(self as _) }
+    }
+}
+impl CstDecode<RustOpaqueNom<ldk_node::payment::OnchainPayment>> for usize {
+    // Codec=Cst (C-struct based), see doc to use other codecs
+    fn cst_decode(self) -> RustOpaqueNom<ldk_node::payment::OnchainPayment> {
+        unsafe { decode_rust_opaque_nom(self as _) }
+    }
+}
+impl CstDecode<RustOpaqueNom<ldk_node::payment::SpontaneousPayment>> for usize {
+    // Codec=Cst (C-struct based), see doc to use other codecs
+    fn cst_decode(self) -> RustOpaqueNom<ldk_node::payment::SpontaneousPayment> {
         unsafe { decode_rust_opaque_nom(self as _) }
     }
 }
@@ -33,6 +70,29 @@ impl CstDecode<crate::api::types::Address> for wire_cst_address {
     fn cst_decode(self) -> crate::api::types::Address {
         crate::api::types::Address {
             s: self.s.cst_decode(),
+        }
+    }
+}
+impl CstDecode<crate::api::types::BalanceDetails> for wire_cst_balance_details {
+    // Codec=Cst (C-struct based), see doc to use other codecs
+    fn cst_decode(self) -> crate::api::types::BalanceDetails {
+        crate::api::types::BalanceDetails {
+            total_onchain_balance_sats: self.total_onchain_balance_sats.cst_decode(),
+            spendable_onchain_balance_sats: self.spendable_onchain_balance_sats.cst_decode(),
+            total_lightning_balance_sats: self.total_lightning_balance_sats.cst_decode(),
+            lightning_balances: self.lightning_balances.cst_decode(),
+            pending_balances_from_channel_closures: self
+                .pending_balances_from_channel_closures
+                .cst_decode(),
+        }
+    }
+}
+impl CstDecode<crate::api::types::BestBlock> for wire_cst_best_block {
+    // Codec=Cst (C-struct based), see doc to use other codecs
+    fn cst_decode(self) -> crate::api::types::BestBlock {
+        crate::api::types::BestBlock {
+            block_hash: self.block_hash.cst_decode(),
+            height: self.height.cst_decode(),
         }
     }
 }
@@ -81,6 +141,13 @@ impl CstDecode<crate::api::types::ChannelId> for *mut wire_cst_channel_id {
         CstDecode::<crate::api::types::ChannelId>::cst_decode(*wrap).into()
     }
 }
+impl CstDecode<crate::api::types::ClosureReason> for *mut wire_cst_closure_reason {
+    // Codec=Cst (C-struct based), see doc to use other codecs
+    fn cst_decode(self) -> crate::api::types::ClosureReason {
+        let wrap = unsafe { flutter_rust_bridge::for_generated::box_from_leak_ptr(self) };
+        CstDecode::<crate::api::types::ClosureReason>::cst_decode(*wrap).into()
+    }
+}
 impl CstDecode<crate::api::types::Config> for *mut wire_cst_config {
     // Codec=Cst (C-struct based), see doc to use other codecs
     fn cst_decode(self) -> crate::api::types::Config {
@@ -109,6 +176,13 @@ impl CstDecode<crate::api::types::GossipSourceConfig> for *mut wire_cst_gossip_s
         CstDecode::<crate::api::types::GossipSourceConfig>::cst_decode(*wrap).into()
     }
 }
+impl CstDecode<crate::api::node::LdkBolt11Payment> for *mut wire_cst_ldk_bolt_11_payment {
+    // Codec=Cst (C-struct based), see doc to use other codecs
+    fn cst_decode(self) -> crate::api::node::LdkBolt11Payment {
+        let wrap = unsafe { flutter_rust_bridge::for_generated::box_from_leak_ptr(self) };
+        CstDecode::<crate::api::node::LdkBolt11Payment>::cst_decode(*wrap).into()
+    }
+}
 impl CstDecode<crate::api::node::LdkMnemonic> for *mut wire_cst_ldk_mnemonic {
     // Codec=Cst (C-struct based), see doc to use other codecs
     fn cst_decode(self) -> crate::api::node::LdkMnemonic {
@@ -121,6 +195,41 @@ impl CstDecode<crate::api::node::LdkNode> for *mut wire_cst_ldk_node {
     fn cst_decode(self) -> crate::api::node::LdkNode {
         let wrap = unsafe { flutter_rust_bridge::for_generated::box_from_leak_ptr(self) };
         CstDecode::<crate::api::node::LdkNode>::cst_decode(*wrap).into()
+    }
+}
+impl CstDecode<crate::api::node::LdkOnChainPayment> for *mut wire_cst_ldk_on_chain_payment {
+    // Codec=Cst (C-struct based), see doc to use other codecs
+    fn cst_decode(self) -> crate::api::node::LdkOnChainPayment {
+        let wrap = unsafe { flutter_rust_bridge::for_generated::box_from_leak_ptr(self) };
+        CstDecode::<crate::api::node::LdkOnChainPayment>::cst_decode(*wrap).into()
+    }
+}
+impl CstDecode<crate::api::node::LdkSpontaneousPayment> for *mut wire_cst_ldk_spontaneous_payment {
+    // Codec=Cst (C-struct based), see doc to use other codecs
+    fn cst_decode(self) -> crate::api::node::LdkSpontaneousPayment {
+        let wrap = unsafe { flutter_rust_bridge::for_generated::box_from_leak_ptr(self) };
+        CstDecode::<crate::api::node::LdkSpontaneousPayment>::cst_decode(*wrap).into()
+    }
+}
+impl CstDecode<crate::api::types::LiquiditySourceConfig> for *mut wire_cst_liquidity_source_config {
+    // Codec=Cst (C-struct based), see doc to use other codecs
+    fn cst_decode(self) -> crate::api::types::LiquiditySourceConfig {
+        let wrap = unsafe { flutter_rust_bridge::for_generated::box_from_leak_ptr(self) };
+        CstDecode::<crate::api::types::LiquiditySourceConfig>::cst_decode(*wrap).into()
+    }
+}
+impl CstDecode<crate::api::types::LSPFeeLimits> for *mut wire_cst_lsp_fee_limits {
+    // Codec=Cst (C-struct based), see doc to use other codecs
+    fn cst_decode(self) -> crate::api::types::LSPFeeLimits {
+        let wrap = unsafe { flutter_rust_bridge::for_generated::box_from_leak_ptr(self) };
+        CstDecode::<crate::api::types::LSPFeeLimits>::cst_decode(*wrap).into()
+    }
+}
+impl CstDecode<crate::api::types::MaxDustHTLCExposure> for *mut wire_cst_max_dust_htlc_exposure {
+    // Codec=Cst (C-struct based), see doc to use other codecs
+    fn cst_decode(self) -> crate::api::types::MaxDustHTLCExposure {
+        let wrap = unsafe { flutter_rust_bridge::for_generated::box_from_leak_ptr(self) };
+        CstDecode::<crate::api::types::MaxDustHTLCExposure>::cst_decode(*wrap).into()
     }
 }
 impl CstDecode<crate::api::types::OutPoint> for *mut wire_cst_out_point {
@@ -137,11 +246,25 @@ impl CstDecode<crate::api::types::PaymentDetails> for *mut wire_cst_payment_deta
         CstDecode::<crate::api::types::PaymentDetails>::cst_decode(*wrap).into()
     }
 }
+impl CstDecode<crate::api::types::PaymentFailureReason> for *mut i32 {
+    // Codec=Cst (C-struct based), see doc to use other codecs
+    fn cst_decode(self) -> crate::api::types::PaymentFailureReason {
+        let wrap = unsafe { flutter_rust_bridge::for_generated::box_from_leak_ptr(self) };
+        CstDecode::<crate::api::types::PaymentFailureReason>::cst_decode(*wrap).into()
+    }
+}
 impl CstDecode<crate::api::types::PaymentHash> for *mut wire_cst_payment_hash {
     // Codec=Cst (C-struct based), see doc to use other codecs
     fn cst_decode(self) -> crate::api::types::PaymentHash {
         let wrap = unsafe { flutter_rust_bridge::for_generated::box_from_leak_ptr(self) };
         CstDecode::<crate::api::types::PaymentHash>::cst_decode(*wrap).into()
+    }
+}
+impl CstDecode<crate::api::types::PaymentId> for *mut wire_cst_payment_id {
+    // Codec=Cst (C-struct based), see doc to use other codecs
+    fn cst_decode(self) -> crate::api::types::PaymentId {
+        let wrap = unsafe { flutter_rust_bridge::for_generated::box_from_leak_ptr(self) };
+        CstDecode::<crate::api::types::PaymentId>::cst_decode(*wrap).into()
     }
 }
 impl CstDecode<crate::api::types::PaymentPreimage> for *mut wire_cst_payment_preimage {
@@ -170,6 +293,19 @@ impl CstDecode<crate::api::types::SocketAddress> for *mut wire_cst_socket_addres
     fn cst_decode(self) -> crate::api::types::SocketAddress {
         let wrap = unsafe { flutter_rust_bridge::for_generated::box_from_leak_ptr(self) };
         CstDecode::<crate::api::types::SocketAddress>::cst_decode(*wrap).into()
+    }
+}
+impl CstDecode<crate::api::types::Txid> for *mut wire_cst_txid {
+    // Codec=Cst (C-struct based), see doc to use other codecs
+    fn cst_decode(self) -> crate::api::types::Txid {
+        let wrap = unsafe { flutter_rust_bridge::for_generated::box_from_leak_ptr(self) };
+        CstDecode::<crate::api::types::Txid>::cst_decode(*wrap).into()
+    }
+}
+impl CstDecode<u16> for *mut u16 {
+    // Codec=Cst (C-struct based), see doc to use other codecs
+    fn cst_decode(self) -> u16 {
+        unsafe { *flutter_rust_bridge::for_generated::box_from_leak_ptr(self) }
     }
 }
 impl CstDecode<u32> for *mut u32 {
@@ -231,7 +367,6 @@ impl CstDecode<crate::api::types::ChannelDetails> for wire_cst_channel_details {
             unspendable_punishment_reserve: self.unspendable_punishment_reserve.cst_decode(),
             user_channel_id: self.user_channel_id.cst_decode(),
             feerate_sat_per_1000_weight: self.feerate_sat_per_1000_weight.cst_decode(),
-            balance_msat: self.balance_msat.cst_decode(),
             outbound_capacity_msat: self.outbound_capacity_msat.cst_decode(),
             inbound_capacity_msat: self.inbound_capacity_msat.cst_decode(),
             confirmations_required: self.confirmations_required.cst_decode(),
@@ -240,6 +375,31 @@ impl CstDecode<crate::api::types::ChannelDetails> for wire_cst_channel_details {
             is_channel_ready: self.is_channel_ready.cst_decode(),
             is_usable: self.is_usable.cst_decode(),
             is_public: self.is_public.cst_decode(),
+            cltv_expiry_delta: self.cltv_expiry_delta.cst_decode(),
+            counterparty_unspendable_punishment_reserve: self
+                .counterparty_unspendable_punishment_reserve
+                .cst_decode(),
+            counterparty_outbound_htlc_minimum_msat: self
+                .counterparty_outbound_htlc_minimum_msat
+                .cst_decode(),
+            counterparty_outbound_htlc_maximum_msat: self
+                .counterparty_outbound_htlc_maximum_msat
+                .cst_decode(),
+            counterparty_forwarding_info_fee_base_msat: self
+                .counterparty_forwarding_info_fee_base_msat
+                .cst_decode(),
+            counterparty_forwarding_info_fee_proportional_millionths: self
+                .counterparty_forwarding_info_fee_proportional_millionths
+                .cst_decode(),
+            counterparty_forwarding_info_cltv_expiry_delta: self
+                .counterparty_forwarding_info_cltv_expiry_delta
+                .cst_decode(),
+            next_outbound_htlc_limit_msat: self.next_outbound_htlc_limit_msat.cst_decode(),
+            next_outbound_htlc_minimum_msat: self.next_outbound_htlc_minimum_msat.cst_decode(),
+            force_close_spend_delay: self.force_close_spend_delay.cst_decode(),
+            inbound_htlc_minimum_msat: self.inbound_htlc_minimum_msat.cst_decode(),
+            inbound_htlc_maximum_msat: self.inbound_htlc_maximum_msat.cst_decode(),
+            config: self.config.cst_decode(),
         }
     }
 }
@@ -248,6 +408,37 @@ impl CstDecode<crate::api::types::ChannelId> for wire_cst_channel_id {
     fn cst_decode(self) -> crate::api::types::ChannelId {
         crate::api::types::ChannelId {
             data: self.data.cst_decode(),
+        }
+    }
+}
+impl CstDecode<crate::api::types::ClosureReason> for wire_cst_closure_reason {
+    // Codec=Cst (C-struct based), see doc to use other codecs
+    fn cst_decode(self) -> crate::api::types::ClosureReason {
+        match self.tag {
+            0 => {
+                let ans = unsafe { self.kind.CounterpartyForceClosed };
+                crate::api::types::ClosureReason::CounterpartyForceClosed {
+                    peer_msg: ans.peer_msg.cst_decode(),
+                }
+            }
+            1 => crate::api::types::ClosureReason::HolderForceClosed,
+            2 => crate::api::types::ClosureReason::LegacyCooperativeClosure,
+            3 => crate::api::types::ClosureReason::CounterpartyInitiatedCooperativeClosure,
+            4 => crate::api::types::ClosureReason::LocallyInitiatedCooperativeClosure,
+            5 => crate::api::types::ClosureReason::CommitmentTxConfirmed,
+            6 => crate::api::types::ClosureReason::FundingTimedOut,
+            7 => {
+                let ans = unsafe { self.kind.ProcessingError };
+                crate::api::types::ClosureReason::ProcessingError {
+                    err: ans.err.cst_decode(),
+                }
+            }
+            8 => crate::api::types::ClosureReason::DisconnectedPeer,
+            9 => crate::api::types::ClosureReason::OutdatedChannelManager,
+            10 => crate::api::types::ClosureReason::CounterpartyCoopClosedUnfundedChannel,
+            11 => crate::api::types::ClosureReason::FundingBatchClosure,
+            12 => crate::api::types::ClosureReason::HTLCsTimedOut,
+            _ => unreachable!(),
         }
     }
 }
@@ -303,39 +494,28 @@ impl CstDecode<crate::api::types::Event> for wire_cst_event {
             0 => {
                 let ans = unsafe { self.kind.PaymentSuccessful };
                 crate::api::types::Event::PaymentSuccessful {
+                    payment_id: ans.payment_id.cst_decode(),
                     payment_hash: ans.payment_hash.cst_decode(),
+                    fee_paid_msat: ans.fee_paid_msat.cst_decode(),
                 }
             }
             1 => {
                 let ans = unsafe { self.kind.PaymentFailed };
                 crate::api::types::Event::PaymentFailed {
+                    payment_id: ans.payment_id.cst_decode(),
                     payment_hash: ans.payment_hash.cst_decode(),
+                    reason: ans.reason.cst_decode(),
                 }
             }
             2 => {
                 let ans = unsafe { self.kind.PaymentReceived };
                 crate::api::types::Event::PaymentReceived {
+                    payment_id: ans.payment_id.cst_decode(),
                     payment_hash: ans.payment_hash.cst_decode(),
                     amount_msat: ans.amount_msat.cst_decode(),
                 }
             }
             3 => {
-                let ans = unsafe { self.kind.ChannelReady };
-                crate::api::types::Event::ChannelReady {
-                    channel_id: ans.channel_id.cst_decode(),
-                    user_channel_id: ans.user_channel_id.cst_decode(),
-                    counterparty_node_id: ans.counterparty_node_id.cst_decode(),
-                }
-            }
-            4 => {
-                let ans = unsafe { self.kind.ChannelClosed };
-                crate::api::types::Event::ChannelClosed {
-                    channel_id: ans.channel_id.cst_decode(),
-                    user_channel_id: ans.user_channel_id.cst_decode(),
-                    counterparty_node_id: ans.counterparty_node_id.cst_decode(),
-                }
-            }
-            5 => {
                 let ans = unsafe { self.kind.ChannelPending };
                 crate::api::types::Event::ChannelPending {
                     channel_id: ans.channel_id.cst_decode(),
@@ -343,6 +523,23 @@ impl CstDecode<crate::api::types::Event> for wire_cst_event {
                     former_temporary_channel_id: ans.former_temporary_channel_id.cst_decode(),
                     counterparty_node_id: ans.counterparty_node_id.cst_decode(),
                     funding_txo: ans.funding_txo.cst_decode(),
+                }
+            }
+            4 => {
+                let ans = unsafe { self.kind.ChannelReady };
+                crate::api::types::Event::ChannelReady {
+                    channel_id: ans.channel_id.cst_decode(),
+                    user_channel_id: ans.user_channel_id.cst_decode(),
+                    counterparty_node_id: ans.counterparty_node_id.cst_decode(),
+                }
+            }
+            5 => {
+                let ans = unsafe { self.kind.ChannelClosed };
+                crate::api::types::Event::ChannelClosed {
+                    channel_id: ans.channel_id.cst_decode(),
+                    user_channel_id: ans.user_channel_id.cst_decode(),
+                    counterparty_node_id: ans.counterparty_node_id.cst_decode(),
+                    reason: ans.reason.cst_decode(),
                 }
             }
             _ => unreachable!(),
@@ -362,6 +559,14 @@ impl CstDecode<crate::api::types::GossipSourceConfig> for wire_cst_gossip_source
         }
     }
 }
+impl CstDecode<crate::api::node::LdkBolt11Payment> for wire_cst_ldk_bolt_11_payment {
+    // Codec=Cst (C-struct based), see doc to use other codecs
+    fn cst_decode(self) -> crate::api::node::LdkBolt11Payment {
+        crate::api::node::LdkBolt11Payment {
+            ptr: self.ptr.cst_decode(),
+        }
+    }
+}
 impl CstDecode<crate::api::node::LdkMnemonic> for wire_cst_ldk_mnemonic {
     // Codec=Cst (C-struct based), see doc to use other codecs
     fn cst_decode(self) -> crate::api::node::LdkMnemonic {
@@ -378,9 +583,107 @@ impl CstDecode<crate::api::node::LdkNode> for wire_cst_ldk_node {
         }
     }
 }
+impl CstDecode<crate::api::node::LdkOnChainPayment> for wire_cst_ldk_on_chain_payment {
+    // Codec=Cst (C-struct based), see doc to use other codecs
+    fn cst_decode(self) -> crate::api::node::LdkOnChainPayment {
+        crate::api::node::LdkOnChainPayment {
+            ptr: self.ptr.cst_decode(),
+        }
+    }
+}
+impl CstDecode<crate::api::node::LdkSpontaneousPayment> for wire_cst_ldk_spontaneous_payment {
+    // Codec=Cst (C-struct based), see doc to use other codecs
+    fn cst_decode(self) -> crate::api::node::LdkSpontaneousPayment {
+        crate::api::node::LdkSpontaneousPayment {
+            ptr: self.ptr.cst_decode(),
+        }
+    }
+}
+impl CstDecode<crate::api::types::LightningBalance> for wire_cst_lightning_balance {
+    // Codec=Cst (C-struct based), see doc to use other codecs
+    fn cst_decode(self) -> crate::api::types::LightningBalance {
+        match self.tag {
+            0 => {
+                let ans = unsafe { self.kind.ClaimableOnChannelClose };
+                crate::api::types::LightningBalance::ClaimableOnChannelClose {
+                    channel_id: ans.channel_id.cst_decode(),
+                    counterparty_node_id: ans.counterparty_node_id.cst_decode(),
+                    amount_satoshis: ans.amount_satoshis.cst_decode(),
+                }
+            }
+            1 => {
+                let ans = unsafe { self.kind.ClaimableAwaitingConfirmations };
+                crate::api::types::LightningBalance::ClaimableAwaitingConfirmations {
+                    channel_id: ans.channel_id.cst_decode(),
+                    counterparty_node_id: ans.counterparty_node_id.cst_decode(),
+                    amount_satoshis: ans.amount_satoshis.cst_decode(),
+                    confirmation_height: ans.confirmation_height.cst_decode(),
+                }
+            }
+            2 => {
+                let ans = unsafe { self.kind.ContentiousClaimable };
+                crate::api::types::LightningBalance::ContentiousClaimable {
+                    channel_id: ans.channel_id.cst_decode(),
+                    counterparty_node_id: ans.counterparty_node_id.cst_decode(),
+                    amount_satoshis: ans.amount_satoshis.cst_decode(),
+                    timeout_height: ans.timeout_height.cst_decode(),
+                    payment_hash: ans.payment_hash.cst_decode(),
+                    payment_preimage: ans.payment_preimage.cst_decode(),
+                }
+            }
+            3 => {
+                let ans = unsafe { self.kind.MaybeTimeoutClaimableHTLC };
+                crate::api::types::LightningBalance::MaybeTimeoutClaimableHTLC {
+                    channel_id: ans.channel_id.cst_decode(),
+                    counterparty_node_id: ans.counterparty_node_id.cst_decode(),
+                    amount_satoshis: ans.amount_satoshis.cst_decode(),
+                    claimable_height: ans.claimable_height.cst_decode(),
+                    payment_hash: ans.payment_hash.cst_decode(),
+                }
+            }
+            4 => {
+                let ans = unsafe { self.kind.MaybePreimageClaimableHTLC };
+                crate::api::types::LightningBalance::MaybePreimageClaimableHTLC {
+                    channel_id: ans.channel_id.cst_decode(),
+                    counterparty_node_id: ans.counterparty_node_id.cst_decode(),
+                    amount_satoshis: ans.amount_satoshis.cst_decode(),
+                    expiry_height: ans.expiry_height.cst_decode(),
+                    payment_hash: ans.payment_hash.cst_decode(),
+                }
+            }
+            5 => {
+                let ans = unsafe { self.kind.CounterpartyRevokedOutputClaimable };
+                crate::api::types::LightningBalance::CounterpartyRevokedOutputClaimable {
+                    channel_id: ans.channel_id.cst_decode(),
+                    counterparty_node_id: ans.counterparty_node_id.cst_decode(),
+                    amount_satoshis: ans.amount_satoshis.cst_decode(),
+                }
+            }
+            _ => unreachable!(),
+        }
+    }
+}
+impl CstDecode<crate::api::types::LiquiditySourceConfig> for wire_cst_liquidity_source_config {
+    // Codec=Cst (C-struct based), see doc to use other codecs
+    fn cst_decode(self) -> crate::api::types::LiquiditySourceConfig {
+        crate::api::types::LiquiditySourceConfig {
+            lsps2_service: self.lsps2_service.cst_decode(),
+        }
+    }
+}
 impl CstDecode<Vec<crate::api::types::ChannelDetails>> for *mut wire_cst_list_channel_details {
     // Codec=Cst (C-struct based), see doc to use other codecs
     fn cst_decode(self) -> Vec<crate::api::types::ChannelDetails> {
+        let vec = unsafe {
+            let wrap = flutter_rust_bridge::for_generated::box_from_leak_ptr(self);
+            flutter_rust_bridge::for_generated::vec_from_leak_ptr(wrap.ptr, wrap.len)
+        };
+        vec.into_iter().map(CstDecode::cst_decode).collect()
+    }
+}
+impl CstDecode<Vec<crate::api::types::LightningBalance>> for *mut wire_cst_list_lightning_balance {
+    // Codec=Cst (C-struct based), see doc to use other codecs
+    fn cst_decode(self) -> Vec<crate::api::types::LightningBalance> {
         let vec = unsafe {
             let wrap = flutter_rust_bridge::for_generated::box_from_leak_ptr(self);
             flutter_rust_bridge::for_generated::vec_from_leak_ptr(wrap.ptr, wrap.len)
@@ -401,6 +704,18 @@ impl CstDecode<Vec<crate::api::types::PaymentDetails>> for *mut wire_cst_list_pa
 impl CstDecode<Vec<crate::api::types::PeerDetails>> for *mut wire_cst_list_peer_details {
     // Codec=Cst (C-struct based), see doc to use other codecs
     fn cst_decode(self) -> Vec<crate::api::types::PeerDetails> {
+        let vec = unsafe {
+            let wrap = flutter_rust_bridge::for_generated::box_from_leak_ptr(self);
+            flutter_rust_bridge::for_generated::vec_from_leak_ptr(wrap.ptr, wrap.len)
+        };
+        vec.into_iter().map(CstDecode::cst_decode).collect()
+    }
+}
+impl CstDecode<Vec<crate::api::types::PendingSweepBalance>>
+    for *mut wire_cst_list_pending_sweep_balance
+{
+    // Codec=Cst (C-struct based), see doc to use other codecs
+    fn cst_decode(self) -> Vec<crate::api::types::PendingSweepBalance> {
         let vec = unsafe {
             let wrap = flutter_rust_bridge::for_generated::box_from_leak_ptr(self);
             flutter_rust_bridge::for_generated::vec_from_leak_ptr(wrap.ptr, wrap.len)
@@ -446,6 +761,17 @@ impl CstDecode<Vec<crate::api::types::SocketAddress>> for *mut wire_cst_list_soc
         vec.into_iter().map(CstDecode::cst_decode).collect()
     }
 }
+impl CstDecode<crate::api::types::LSPFeeLimits> for wire_cst_lsp_fee_limits {
+    // Codec=Cst (C-struct based), see doc to use other codecs
+    fn cst_decode(self) -> crate::api::types::LSPFeeLimits {
+        crate::api::types::LSPFeeLimits {
+            max_total_opening_fee_msat: self.max_total_opening_fee_msat.cst_decode(),
+            max_proportional_opening_fee_ppm_msat: self
+                .max_proportional_opening_fee_ppm_msat
+                .cst_decode(),
+        }
+    }
+}
 impl CstDecode<crate::api::types::MaxDustHTLCExposure> for wire_cst_max_dust_htlc_exposure {
     // Codec=Cst (C-struct based), see doc to use other codecs
     fn cst_decode(self) -> crate::api::types::MaxDustHTLCExposure {
@@ -462,6 +788,27 @@ impl CstDecode<crate::api::types::MaxDustHTLCExposure> for wire_cst_max_dust_htl
         }
     }
 }
+impl CstDecode<crate::api::types::NodeStatus> for wire_cst_node_status {
+    // Codec=Cst (C-struct based), see doc to use other codecs
+    fn cst_decode(self) -> crate::api::types::NodeStatus {
+        crate::api::types::NodeStatus {
+            is_running: self.is_running.cst_decode(),
+            is_listening: self.is_listening.cst_decode(),
+            current_best_block: self.current_best_block.cst_decode(),
+            latest_wallet_sync_timestamp: self.latest_wallet_sync_timestamp.cst_decode(),
+            latest_onchain_wallet_sync_timestamp: self
+                .latest_onchain_wallet_sync_timestamp
+                .cst_decode(),
+            latest_fee_rate_cache_update_timestamp: self
+                .latest_fee_rate_cache_update_timestamp
+                .cst_decode(),
+            latest_rgs_snapshot_timestamp: self.latest_rgs_snapshot_timestamp.cst_decode(),
+            latest_node_announcement_broadcast_timestamp: self
+                .latest_node_announcement_broadcast_timestamp
+                .cst_decode(),
+        }
+    }
+}
 impl CstDecode<crate::api::types::OutPoint> for wire_cst_out_point {
     // Codec=Cst (C-struct based), see doc to use other codecs
     fn cst_decode(self) -> crate::api::types::OutPoint {
@@ -475,9 +822,8 @@ impl CstDecode<crate::api::types::PaymentDetails> for wire_cst_payment_details {
     // Codec=Cst (C-struct based), see doc to use other codecs
     fn cst_decode(self) -> crate::api::types::PaymentDetails {
         crate::api::types::PaymentDetails {
-            hash: self.hash.cst_decode(),
-            preimage: self.preimage.cst_decode(),
-            secret: self.secret.cst_decode(),
+            id: self.id.cst_decode(),
+            kind: self.kind.cst_decode(),
             amount_msat: self.amount_msat.cst_decode(),
             direction: self.direction.cst_decode(),
             status: self.status.cst_decode(),
@@ -489,6 +835,45 @@ impl CstDecode<crate::api::types::PaymentHash> for wire_cst_payment_hash {
     fn cst_decode(self) -> crate::api::types::PaymentHash {
         crate::api::types::PaymentHash {
             data: self.data.cst_decode(),
+        }
+    }
+}
+impl CstDecode<crate::api::types::PaymentId> for wire_cst_payment_id {
+    // Codec=Cst (C-struct based), see doc to use other codecs
+    fn cst_decode(self) -> crate::api::types::PaymentId {
+        crate::api::types::PaymentId(self.field0.cst_decode())
+    }
+}
+impl CstDecode<crate::api::types::PaymentKind> for wire_cst_payment_kind {
+    // Codec=Cst (C-struct based), see doc to use other codecs
+    fn cst_decode(self) -> crate::api::types::PaymentKind {
+        match self.tag {
+            0 => crate::api::types::PaymentKind::Onchain,
+            1 => {
+                let ans = unsafe { self.kind.Bolt11 };
+                crate::api::types::PaymentKind::Bolt11 {
+                    hash: ans.hash.cst_decode(),
+                    preimage: ans.preimage.cst_decode(),
+                    secret: ans.secret.cst_decode(),
+                }
+            }
+            2 => {
+                let ans = unsafe { self.kind.Bolt11Jit };
+                crate::api::types::PaymentKind::Bolt11Jit {
+                    hash: ans.hash.cst_decode(),
+                    preimage: ans.preimage.cst_decode(),
+                    secret: ans.secret.cst_decode(),
+                    lsp_fee_limits: ans.lsp_fee_limits.cst_decode(),
+                }
+            }
+            3 => {
+                let ans = unsafe { self.kind.Spontaneous };
+                crate::api::types::PaymentKind::Spontaneous {
+                    hash: ans.hash.cst_decode(),
+                    preimage: ans.preimage.cst_decode(),
+                }
+            }
+            _ => unreachable!(),
         }
     }
 }
@@ -518,12 +903,68 @@ impl CstDecode<crate::api::types::PeerDetails> for wire_cst_peer_details {
         }
     }
 }
+impl CstDecode<crate::api::types::PendingSweepBalance> for wire_cst_pending_sweep_balance {
+    // Codec=Cst (C-struct based), see doc to use other codecs
+    fn cst_decode(self) -> crate::api::types::PendingSweepBalance {
+        match self.tag {
+            0 => {
+                let ans = unsafe { self.kind.PendingBroadcast };
+                crate::api::types::PendingSweepBalance::PendingBroadcast {
+                    channel_id: ans.channel_id.cst_decode(),
+                    amount_satoshis: ans.amount_satoshis.cst_decode(),
+                }
+            }
+            1 => {
+                let ans = unsafe { self.kind.BroadcastAwaitingConfirmation };
+                crate::api::types::PendingSweepBalance::BroadcastAwaitingConfirmation {
+                    channel_id: ans.channel_id.cst_decode(),
+                    latest_broadcast_height: ans.latest_broadcast_height.cst_decode(),
+                    latest_spending_txid: ans.latest_spending_txid.cst_decode(),
+                    amount_satoshis: ans.amount_satoshis.cst_decode(),
+                }
+            }
+            2 => {
+                let ans = unsafe { self.kind.AwaitingThresholdConfirmations };
+                crate::api::types::PendingSweepBalance::AwaitingThresholdConfirmations {
+                    channel_id: ans.channel_id.cst_decode(),
+                    latest_spending_txid: ans.latest_spending_txid.cst_decode(),
+                    confirmation_hash: ans.confirmation_hash.cst_decode(),
+                    confirmation_height: ans.confirmation_height.cst_decode(),
+                    amount_satoshis: ans.amount_satoshis.cst_decode(),
+                }
+            }
+            _ => unreachable!(),
+        }
+    }
+}
 impl CstDecode<crate::api::types::PublicKey> for wire_cst_public_key {
     // Codec=Cst (C-struct based), see doc to use other codecs
     fn cst_decode(self) -> crate::api::types::PublicKey {
         crate::api::types::PublicKey {
             hex: self.hex.cst_decode(),
         }
+    }
+}
+impl
+    CstDecode<(
+        crate::api::types::SocketAddress,
+        crate::api::types::PublicKey,
+        Option<String>,
+    )> for wire_cst_record_socket_address_public_key_opt_string
+{
+    // Codec=Cst (C-struct based), see doc to use other codecs
+    fn cst_decode(
+        self,
+    ) -> (
+        crate::api::types::SocketAddress,
+        crate::api::types::PublicKey,
+        Option<String>,
+    ) {
+        (
+            self.field0.cst_decode(),
+            self.field1.cst_decode(),
+            self.field2.cst_decode(),
+        )
     }
 }
 impl CstDecode<crate::api::types::SocketAddress> for wire_cst_socket_address {
@@ -631,6 +1072,35 @@ impl Default for wire_cst_address {
         Self::new_with_null_ptr()
     }
 }
+impl NewWithNullPtr for wire_cst_balance_details {
+    fn new_with_null_ptr() -> Self {
+        Self {
+            total_onchain_balance_sats: Default::default(),
+            spendable_onchain_balance_sats: Default::default(),
+            total_lightning_balance_sats: Default::default(),
+            lightning_balances: core::ptr::null_mut(),
+            pending_balances_from_channel_closures: core::ptr::null_mut(),
+        }
+    }
+}
+impl Default for wire_cst_balance_details {
+    fn default() -> Self {
+        Self::new_with_null_ptr()
+    }
+}
+impl NewWithNullPtr for wire_cst_best_block {
+    fn new_with_null_ptr() -> Self {
+        Self {
+            block_hash: core::ptr::null_mut(),
+            height: Default::default(),
+        }
+    }
+}
+impl Default for wire_cst_best_block {
+    fn default() -> Self {
+        Self::new_with_null_ptr()
+    }
+}
 impl NewWithNullPtr for wire_cst_bolt_11_invoice {
     fn new_with_null_ptr() -> Self {
         Self {
@@ -662,7 +1132,7 @@ impl NewWithNullPtr for wire_cst_channel_config {
             forwarding_fee_proportional_millionths: Default::default(),
             forwarding_fee_base_msat: Default::default(),
             cltv_expiry_delta: Default::default(),
-            max_dust_htlc_exposure: Default::default(),
+            max_dust_htlc_exposure: core::ptr::null_mut(),
             force_close_avoidance_max_fee_satoshis: Default::default(),
             accept_underpaying_htlcs: Default::default(),
         }
@@ -683,7 +1153,6 @@ impl NewWithNullPtr for wire_cst_channel_details {
             unspendable_punishment_reserve: core::ptr::null_mut(),
             user_channel_id: Default::default(),
             feerate_sat_per_1000_weight: Default::default(),
-            balance_msat: Default::default(),
             outbound_capacity_msat: Default::default(),
             inbound_capacity_msat: Default::default(),
             confirmations_required: core::ptr::null_mut(),
@@ -692,6 +1161,19 @@ impl NewWithNullPtr for wire_cst_channel_details {
             is_channel_ready: Default::default(),
             is_usable: Default::default(),
             is_public: Default::default(),
+            cltv_expiry_delta: core::ptr::null_mut(),
+            counterparty_unspendable_punishment_reserve: Default::default(),
+            counterparty_outbound_htlc_minimum_msat: core::ptr::null_mut(),
+            counterparty_outbound_htlc_maximum_msat: core::ptr::null_mut(),
+            counterparty_forwarding_info_fee_base_msat: core::ptr::null_mut(),
+            counterparty_forwarding_info_fee_proportional_millionths: core::ptr::null_mut(),
+            counterparty_forwarding_info_cltv_expiry_delta: core::ptr::null_mut(),
+            next_outbound_htlc_limit_msat: Default::default(),
+            next_outbound_htlc_minimum_msat: Default::default(),
+            force_close_spend_delay: core::ptr::null_mut(),
+            inbound_htlc_minimum_msat: Default::default(),
+            inbound_htlc_maximum_msat: core::ptr::null_mut(),
+            config: Default::default(),
         }
     }
 }
@@ -708,6 +1190,19 @@ impl NewWithNullPtr for wire_cst_channel_id {
     }
 }
 impl Default for wire_cst_channel_id {
+    fn default() -> Self {
+        Self::new_with_null_ptr()
+    }
+}
+impl NewWithNullPtr for wire_cst_closure_reason {
+    fn new_with_null_ptr() -> Self {
+        Self {
+            tag: -1,
+            kind: ClosureReasonKind { nil__: () },
+        }
+    }
+}
+impl Default for wire_cst_closure_reason {
     fn default() -> Self {
         Self::new_with_null_ptr()
     }
@@ -773,6 +1268,18 @@ impl Default for wire_cst_gossip_source_config {
         Self::new_with_null_ptr()
     }
 }
+impl NewWithNullPtr for wire_cst_ldk_bolt_11_payment {
+    fn new_with_null_ptr() -> Self {
+        Self {
+            ptr: Default::default(),
+        }
+    }
+}
+impl Default for wire_cst_ldk_bolt_11_payment {
+    fn default() -> Self {
+        Self::new_with_null_ptr()
+    }
+}
 impl NewWithNullPtr for wire_cst_ldk_mnemonic {
     fn new_with_null_ptr() -> Self {
         Self {
@@ -797,6 +1304,68 @@ impl Default for wire_cst_ldk_node {
         Self::new_with_null_ptr()
     }
 }
+impl NewWithNullPtr for wire_cst_ldk_on_chain_payment {
+    fn new_with_null_ptr() -> Self {
+        Self {
+            ptr: Default::default(),
+        }
+    }
+}
+impl Default for wire_cst_ldk_on_chain_payment {
+    fn default() -> Self {
+        Self::new_with_null_ptr()
+    }
+}
+impl NewWithNullPtr for wire_cst_ldk_spontaneous_payment {
+    fn new_with_null_ptr() -> Self {
+        Self {
+            ptr: Default::default(),
+        }
+    }
+}
+impl Default for wire_cst_ldk_spontaneous_payment {
+    fn default() -> Self {
+        Self::new_with_null_ptr()
+    }
+}
+impl NewWithNullPtr for wire_cst_lightning_balance {
+    fn new_with_null_ptr() -> Self {
+        Self {
+            tag: -1,
+            kind: LightningBalanceKind { nil__: () },
+        }
+    }
+}
+impl Default for wire_cst_lightning_balance {
+    fn default() -> Self {
+        Self::new_with_null_ptr()
+    }
+}
+impl NewWithNullPtr for wire_cst_liquidity_source_config {
+    fn new_with_null_ptr() -> Self {
+        Self {
+            lsps2_service: Default::default(),
+        }
+    }
+}
+impl Default for wire_cst_liquidity_source_config {
+    fn default() -> Self {
+        Self::new_with_null_ptr()
+    }
+}
+impl NewWithNullPtr for wire_cst_lsp_fee_limits {
+    fn new_with_null_ptr() -> Self {
+        Self {
+            max_total_opening_fee_msat: core::ptr::null_mut(),
+            max_proportional_opening_fee_ppm_msat: core::ptr::null_mut(),
+        }
+    }
+}
+impl Default for wire_cst_lsp_fee_limits {
+    fn default() -> Self {
+        Self::new_with_null_ptr()
+    }
+}
 impl NewWithNullPtr for wire_cst_max_dust_htlc_exposure {
     fn new_with_null_ptr() -> Self {
         Self {
@@ -806,6 +1375,25 @@ impl NewWithNullPtr for wire_cst_max_dust_htlc_exposure {
     }
 }
 impl Default for wire_cst_max_dust_htlc_exposure {
+    fn default() -> Self {
+        Self::new_with_null_ptr()
+    }
+}
+impl NewWithNullPtr for wire_cst_node_status {
+    fn new_with_null_ptr() -> Self {
+        Self {
+            is_running: Default::default(),
+            is_listening: Default::default(),
+            current_best_block: Default::default(),
+            latest_wallet_sync_timestamp: core::ptr::null_mut(),
+            latest_onchain_wallet_sync_timestamp: core::ptr::null_mut(),
+            latest_fee_rate_cache_update_timestamp: core::ptr::null_mut(),
+            latest_rgs_snapshot_timestamp: core::ptr::null_mut(),
+            latest_node_announcement_broadcast_timestamp: core::ptr::null_mut(),
+        }
+    }
+}
+impl Default for wire_cst_node_status {
     fn default() -> Self {
         Self::new_with_null_ptr()
     }
@@ -826,9 +1414,8 @@ impl Default for wire_cst_out_point {
 impl NewWithNullPtr for wire_cst_payment_details {
     fn new_with_null_ptr() -> Self {
         Self {
-            hash: Default::default(),
-            preimage: core::ptr::null_mut(),
-            secret: core::ptr::null_mut(),
+            id: Default::default(),
+            kind: Default::default(),
             amount_msat: core::ptr::null_mut(),
             direction: Default::default(),
             status: Default::default(),
@@ -848,6 +1435,31 @@ impl NewWithNullPtr for wire_cst_payment_hash {
     }
 }
 impl Default for wire_cst_payment_hash {
+    fn default() -> Self {
+        Self::new_with_null_ptr()
+    }
+}
+impl NewWithNullPtr for wire_cst_payment_id {
+    fn new_with_null_ptr() -> Self {
+        Self {
+            field0: core::ptr::null_mut(),
+        }
+    }
+}
+impl Default for wire_cst_payment_id {
+    fn default() -> Self {
+        Self::new_with_null_ptr()
+    }
+}
+impl NewWithNullPtr for wire_cst_payment_kind {
+    fn new_with_null_ptr() -> Self {
+        Self {
+            tag: -1,
+            kind: PaymentKindKind { nil__: () },
+        }
+    }
+}
+impl Default for wire_cst_payment_kind {
     fn default() -> Self {
         Self::new_with_null_ptr()
     }
@@ -890,6 +1502,19 @@ impl Default for wire_cst_peer_details {
         Self::new_with_null_ptr()
     }
 }
+impl NewWithNullPtr for wire_cst_pending_sweep_balance {
+    fn new_with_null_ptr() -> Self {
+        Self {
+            tag: -1,
+            kind: PendingSweepBalanceKind { nil__: () },
+        }
+    }
+}
+impl Default for wire_cst_pending_sweep_balance {
+    fn default() -> Self {
+        Self::new_with_null_ptr()
+    }
+}
 impl NewWithNullPtr for wire_cst_public_key {
     fn new_with_null_ptr() -> Self {
         Self {
@@ -898,6 +1523,20 @@ impl NewWithNullPtr for wire_cst_public_key {
     }
 }
 impl Default for wire_cst_public_key {
+    fn default() -> Self {
+        Self::new_with_null_ptr()
+    }
+}
+impl NewWithNullPtr for wire_cst_record_socket_address_public_key_opt_string {
+    fn new_with_null_ptr() -> Self {
+        Self {
+            field0: Default::default(),
+            field1: Default::default(),
+            field2: core::ptr::null_mut(),
+        }
+    }
+}
+impl Default for wire_cst_record_socket_address_public_key_opt_string {
     fn default() -> Self {
         Self::new_with_null_ptr()
     }
@@ -930,7 +1569,7 @@ impl Default for wire_cst_txid {
 impl NewWithNullPtr for wire_cst_user_channel_id {
     fn new_with_null_ptr() -> Self {
         Self {
-            data: Default::default(),
+            data: core::ptr::null_mut(),
         }
     }
 }
@@ -941,20 +1580,127 @@ impl Default for wire_cst_user_channel_id {
 }
 
 #[no_mangle]
-pub extern "C" fn frbgen_ldk_node_wire_build_with_sqlite_store(
+pub extern "C" fn frbgen_ldk_node_wire_NodeBuilder_build(port_: i64, that: usize) {
+    wire_NodeBuilder_build_impl(port_, that)
+}
+
+#[no_mangle]
+pub extern "C" fn frbgen_ldk_node_wire_NodeBuilder_build_with_fs_store(port_: i64, that: usize) {
+    wire_NodeBuilder_build_with_fs_store_impl(port_, that)
+}
+
+#[no_mangle]
+pub extern "C" fn frbgen_ldk_node_wire_NodeBuilder_create_builder(
     port_: i64,
     config: *mut wire_cst_config,
     chain_data_source_config: *mut wire_cst_chain_data_source_config,
     entropy_source_config: *mut wire_cst_entropy_source_config,
     gossip_source_config: *mut wire_cst_gossip_source_config,
+    liquidity_source_config: *mut wire_cst_liquidity_source_config,
 ) {
-    wire_build_with_sqlite_store_impl(
+    wire_NodeBuilder_create_builder_impl(
         port_,
         config,
         chain_data_source_config,
         entropy_source_config,
         gossip_source_config,
+        liquidity_source_config,
     )
+}
+
+#[no_mangle]
+pub extern "C" fn frbgen_ldk_node_wire_ldk_bolt_11_payment_receive(
+    port_: i64,
+    that: *mut wire_cst_ldk_bolt_11_payment,
+    amount_msat: u64,
+    description: *mut wire_cst_list_prim_u_8_strict,
+    expiry_secs: u32,
+) {
+    wire_ldk_bolt_11_payment_receive_impl(port_, that, amount_msat, description, expiry_secs)
+}
+
+#[no_mangle]
+pub extern "C" fn frbgen_ldk_node_wire_ldk_bolt_11_payment_receive_variable_amount(
+    port_: i64,
+    that: *mut wire_cst_ldk_bolt_11_payment,
+    description: *mut wire_cst_list_prim_u_8_strict,
+    expiry_secs: u32,
+) {
+    wire_ldk_bolt_11_payment_receive_variable_amount_impl(port_, that, description, expiry_secs)
+}
+
+#[no_mangle]
+pub extern "C" fn frbgen_ldk_node_wire_ldk_bolt_11_payment_receive_variable_amount_via_jit_channel(
+    port_: i64,
+    that: *mut wire_cst_ldk_bolt_11_payment,
+    description: *mut wire_cst_list_prim_u_8_strict,
+    expiry_secs: u32,
+    max_proportional_lsp_fee_limit_ppm_msat: *mut u64,
+) {
+    wire_ldk_bolt_11_payment_receive_variable_amount_via_jit_channel_impl(
+        port_,
+        that,
+        description,
+        expiry_secs,
+        max_proportional_lsp_fee_limit_ppm_msat,
+    )
+}
+
+#[no_mangle]
+pub extern "C" fn frbgen_ldk_node_wire_ldk_bolt_11_payment_receive_via_jit_channel(
+    port_: i64,
+    that: *mut wire_cst_ldk_bolt_11_payment,
+    amount_msat: u64,
+    description: *mut wire_cst_list_prim_u_8_strict,
+    expiry_secs: u32,
+    max_total_lsp_fee_limit_msat: *mut u64,
+) {
+    wire_ldk_bolt_11_payment_receive_via_jit_channel_impl(
+        port_,
+        that,
+        amount_msat,
+        description,
+        expiry_secs,
+        max_total_lsp_fee_limit_msat,
+    )
+}
+
+#[no_mangle]
+pub extern "C" fn frbgen_ldk_node_wire_ldk_bolt_11_payment_send(
+    port_: i64,
+    that: *mut wire_cst_ldk_bolt_11_payment,
+    invoice: *mut wire_cst_bolt_11_invoice,
+) {
+    wire_ldk_bolt_11_payment_send_impl(port_, that, invoice)
+}
+
+#[no_mangle]
+pub extern "C" fn frbgen_ldk_node_wire_ldk_bolt_11_payment_send_probes(
+    port_: i64,
+    that: *mut wire_cst_ldk_bolt_11_payment,
+    invoice: *mut wire_cst_bolt_11_invoice,
+) {
+    wire_ldk_bolt_11_payment_send_probes_impl(port_, that, invoice)
+}
+
+#[no_mangle]
+pub extern "C" fn frbgen_ldk_node_wire_ldk_bolt_11_payment_send_probes_using_amount(
+    port_: i64,
+    that: *mut wire_cst_ldk_bolt_11_payment,
+    invoice: *mut wire_cst_bolt_11_invoice,
+    amount_msat: u64,
+) {
+    wire_ldk_bolt_11_payment_send_probes_using_amount_impl(port_, that, invoice, amount_msat)
+}
+
+#[no_mangle]
+pub extern "C" fn frbgen_ldk_node_wire_ldk_bolt_11_payment_send_using_amount(
+    port_: i64,
+    that: *mut wire_cst_ldk_bolt_11_payment,
+    invoice: *mut wire_cst_bolt_11_invoice,
+    amount_msat: u64,
+) {
+    wire_ldk_bolt_11_payment_send_using_amount_impl(port_, that, invoice, amount_msat)
 }
 
 #[no_mangle]
@@ -963,13 +1709,26 @@ pub extern "C" fn frbgen_ldk_node_wire_ldk_mnemonic_generate(port_: i64) {
 }
 
 #[no_mangle]
+pub extern "C" fn frbgen_ldk_node_wire_ldk_node_bolt11_payment(
+    port_: i64,
+    ptr: *mut wire_cst_ldk_node,
+) {
+    wire_ldk_node_bolt11_payment_impl(port_, ptr)
+}
+
+#[no_mangle]
 pub extern "C" fn frbgen_ldk_node_wire_ldk_node_close_channel(
     port_: i64,
     that: *mut wire_cst_ldk_node,
-    channel_id: *mut wire_cst_channel_id,
+    user_channel_id: *mut wire_cst_user_channel_id,
     counterparty_node_id: *mut wire_cst_public_key,
 ) {
-    wire_ldk_node_close_channel_impl(port_, that, channel_id, counterparty_node_id)
+    wire_ldk_node_close_channel_impl(port_, that, user_channel_id, counterparty_node_id)
+}
+
+#[no_mangle]
+pub extern "C" fn frbgen_ldk_node_wire_ldk_node_config(port_: i64, that: *mut wire_cst_ldk_node) {
+    wire_ldk_node_config_impl(port_, that)
 }
 
 #[no_mangle]
@@ -1024,11 +1783,11 @@ pub extern "C" fn frbgen_ldk_node_wire_ldk_node_event_handled(
 }
 
 #[no_mangle]
-pub extern "C" fn frbgen_ldk_node_wire_ldk_node_is_running(
+pub extern "C" fn frbgen_ldk_node_wire_ldk_node_list_balances(
     port_: i64,
     that: *mut wire_cst_ldk_node,
 ) {
-    wire_ldk_node_is_running_impl(port_, that)
+    wire_ldk_node_list_balances_impl(port_, that)
 }
 
 #[no_mangle]
@@ -1073,14 +1832,6 @@ pub extern "C" fn frbgen_ldk_node_wire_ldk_node_listening_addresses(
 }
 
 #[no_mangle]
-pub extern "C" fn frbgen_ldk_node_wire_ldk_node_new_onchain_address(
-    port_: i64,
-    that: *mut wire_cst_ldk_node,
-) {
-    wire_ldk_node_new_onchain_address_impl(port_, that)
-}
-
-#[no_mangle]
 pub extern "C" fn frbgen_ldk_node_wire_ldk_node_next_event(
     port_: i64,
     that: *mut wire_cst_ldk_node,
@@ -1089,124 +1840,42 @@ pub extern "C" fn frbgen_ldk_node_wire_ldk_node_next_event(
 }
 
 #[no_mangle]
+pub extern "C" fn frbgen_ldk_node_wire_ldk_node_next_event_async(
+    port_: i64,
+    that: *mut wire_cst_ldk_node,
+) {
+    wire_ldk_node_next_event_async_impl(port_, that)
+}
+
+#[no_mangle]
 pub extern "C" fn frbgen_ldk_node_wire_ldk_node_node_id(port_: i64, that: *mut wire_cst_ldk_node) {
     wire_ldk_node_node_id_impl(port_, that)
+}
+
+#[no_mangle]
+pub extern "C" fn frbgen_ldk_node_wire_ldk_node_on_chain_payment(
+    port_: i64,
+    ptr: *mut wire_cst_ldk_node,
+) {
+    wire_ldk_node_on_chain_payment_impl(port_, ptr)
 }
 
 #[no_mangle]
 pub extern "C" fn frbgen_ldk_node_wire_ldk_node_payment(
     port_: i64,
     that: *mut wire_cst_ldk_node,
-    payment_hash: *mut wire_cst_payment_hash,
+    payment_id: *mut wire_cst_payment_id,
 ) {
-    wire_ldk_node_payment_impl(port_, that, payment_hash)
-}
-
-#[no_mangle]
-pub extern "C" fn frbgen_ldk_node_wire_ldk_node_receive_payment(
-    port_: i64,
-    that: *mut wire_cst_ldk_node,
-    amount_msat: u64,
-    description: *mut wire_cst_list_prim_u_8_strict,
-    expiry_secs: u32,
-) {
-    wire_ldk_node_receive_payment_impl(port_, that, amount_msat, description, expiry_secs)
-}
-
-#[no_mangle]
-pub extern "C" fn frbgen_ldk_node_wire_ldk_node_receive_variable_amount_payment(
-    port_: i64,
-    that: *mut wire_cst_ldk_node,
-    description: *mut wire_cst_list_prim_u_8_strict,
-    expiry_secs: u32,
-) {
-    wire_ldk_node_receive_variable_amount_payment_impl(port_, that, description, expiry_secs)
+    wire_ldk_node_payment_impl(port_, that, payment_id)
 }
 
 #[no_mangle]
 pub extern "C" fn frbgen_ldk_node_wire_ldk_node_remove_payment(
     port_: i64,
     that: *mut wire_cst_ldk_node,
-    payment_hash: *mut wire_cst_payment_hash,
+    payment_id: *mut wire_cst_payment_id,
 ) {
-    wire_ldk_node_remove_payment_impl(port_, that, payment_hash)
-}
-
-#[no_mangle]
-pub extern "C" fn frbgen_ldk_node_wire_ldk_node_send_all_to_onchain_address(
-    port_: i64,
-    that: *mut wire_cst_ldk_node,
-    address: *mut wire_cst_address,
-) {
-    wire_ldk_node_send_all_to_onchain_address_impl(port_, that, address)
-}
-
-#[no_mangle]
-pub extern "C" fn frbgen_ldk_node_wire_ldk_node_send_payment(
-    port_: i64,
-    that: *mut wire_cst_ldk_node,
-    invoice: *mut wire_cst_bolt_11_invoice,
-) {
-    wire_ldk_node_send_payment_impl(port_, that, invoice)
-}
-
-#[no_mangle]
-pub extern "C" fn frbgen_ldk_node_wire_ldk_node_send_payment_probes(
-    port_: i64,
-    that: *mut wire_cst_ldk_node,
-    invoice: *mut wire_cst_bolt_11_invoice,
-) {
-    wire_ldk_node_send_payment_probes_impl(port_, that, invoice)
-}
-
-#[no_mangle]
-pub extern "C" fn frbgen_ldk_node_wire_ldk_node_send_payment_probes_using_amount(
-    port_: i64,
-    that: *mut wire_cst_ldk_node,
-    invoice: *mut wire_cst_bolt_11_invoice,
-    amount_msat: u64,
-) {
-    wire_ldk_node_send_payment_probes_using_amount_impl(port_, that, invoice, amount_msat)
-}
-
-#[no_mangle]
-pub extern "C" fn frbgen_ldk_node_wire_ldk_node_send_payment_using_amount(
-    port_: i64,
-    that: *mut wire_cst_ldk_node,
-    invoice: *mut wire_cst_bolt_11_invoice,
-    amount_msat: u64,
-) {
-    wire_ldk_node_send_payment_using_amount_impl(port_, that, invoice, amount_msat)
-}
-
-#[no_mangle]
-pub extern "C" fn frbgen_ldk_node_wire_ldk_node_send_spontaneous_payment(
-    port_: i64,
-    that: *mut wire_cst_ldk_node,
-    amount_msat: u64,
-    node_id: *mut wire_cst_public_key,
-) {
-    wire_ldk_node_send_spontaneous_payment_impl(port_, that, amount_msat, node_id)
-}
-
-#[no_mangle]
-pub extern "C" fn frbgen_ldk_node_wire_ldk_node_send_spontaneous_payment_probes(
-    port_: i64,
-    that: *mut wire_cst_ldk_node,
-    amount_msat: u64,
-    node_id: *mut wire_cst_public_key,
-) {
-    wire_ldk_node_send_spontaneous_payment_probes_impl(port_, that, amount_msat, node_id)
-}
-
-#[no_mangle]
-pub extern "C" fn frbgen_ldk_node_wire_ldk_node_send_to_onchain_address(
-    port_: i64,
-    that: *mut wire_cst_ldk_node,
-    address: *mut wire_cst_address,
-    amount_sats: u64,
-) {
-    wire_ldk_node_send_to_onchain_address_impl(port_, that, address, amount_sats)
+    wire_ldk_node_remove_payment_impl(port_, that, payment_id)
 }
 
 #[no_mangle]
@@ -1219,16 +1888,21 @@ pub extern "C" fn frbgen_ldk_node_wire_ldk_node_sign_message(
 }
 
 #[no_mangle]
-pub extern "C" fn frbgen_ldk_node_wire_ldk_node_spendable_onchain_balance_sats(
+pub extern "C" fn frbgen_ldk_node_wire_ldk_node_spontaneous_payment(
     port_: i64,
-    that: *mut wire_cst_ldk_node,
+    ptr: *mut wire_cst_ldk_node,
 ) {
-    wire_ldk_node_spendable_onchain_balance_sats_impl(port_, that)
+    wire_ldk_node_spontaneous_payment_impl(port_, ptr)
 }
 
 #[no_mangle]
 pub extern "C" fn frbgen_ldk_node_wire_ldk_node_start(port_: i64, that: *mut wire_cst_ldk_node) {
     wire_ldk_node_start_impl(port_, that)
+}
+
+#[no_mangle]
+pub extern "C" fn frbgen_ldk_node_wire_ldk_node_status(port_: i64, that: *mut wire_cst_ldk_node) {
+    wire_ldk_node_status_impl(port_, that)
 }
 
 #[no_mangle]
@@ -1245,25 +1919,17 @@ pub extern "C" fn frbgen_ldk_node_wire_ldk_node_sync_wallets(
 }
 
 #[no_mangle]
-pub extern "C" fn frbgen_ldk_node_wire_ldk_node_total_onchain_balance_sats(
-    port_: i64,
-    that: *mut wire_cst_ldk_node,
-) {
-    wire_ldk_node_total_onchain_balance_sats_impl(port_, that)
-}
-
-#[no_mangle]
 pub extern "C" fn frbgen_ldk_node_wire_ldk_node_update_channel_config(
     port_: i64,
     that: *mut wire_cst_ldk_node,
-    channel_id: *mut wire_cst_channel_id,
+    user_channel_id: *mut wire_cst_user_channel_id,
     counterparty_node_id: *mut wire_cst_public_key,
     channel_config: *mut wire_cst_channel_config,
 ) {
     wire_ldk_node_update_channel_config_impl(
         port_,
         that,
-        channel_id,
+        user_channel_id,
         counterparty_node_id,
         channel_config,
     )
@@ -1275,9 +1941,9 @@ pub extern "C" fn frbgen_ldk_node_wire_ldk_node_verify_signature(
     that: *mut wire_cst_ldk_node,
     msg: *mut wire_cst_list_prim_u_8_loose,
     sig: *mut wire_cst_list_prim_u_8_strict,
-    pkey: *mut wire_cst_public_key,
+    public_key: *mut wire_cst_public_key,
 ) {
-    wire_ldk_node_verify_signature_impl(port_, that, msg, sig, pkey)
+    wire_ldk_node_verify_signature_impl(port_, that, msg, sig, public_key)
 }
 
 #[no_mangle]
@@ -1289,36 +1955,139 @@ pub extern "C" fn frbgen_ldk_node_wire_ldk_node_wait_next_event(
 }
 
 #[no_mangle]
-pub extern "C" fn frbgen_ldk_node_wire_socket_address_as_string(
+pub extern "C" fn frbgen_ldk_node_wire_ldk_on_chain_payment_new_address(
     port_: i64,
-    that: *mut wire_cst_socket_address,
+    that: *mut wire_cst_ldk_on_chain_payment,
 ) {
-    wire_socket_address_as_string_impl(port_, that)
+    wire_ldk_on_chain_payment_new_address_impl(port_, that)
 }
 
 #[no_mangle]
-pub extern "C" fn frbgen_ldk_node_wire_socket_address_from_str(
+pub extern "C" fn frbgen_ldk_node_wire_ldk_on_chain_payment_send_all_to_address(
     port_: i64,
-    address: *mut wire_cst_list_prim_u_8_strict,
+    that: *mut wire_cst_ldk_on_chain_payment,
+    address: *mut wire_cst_address,
 ) {
-    wire_socket_address_from_str_impl(port_, address)
+    wire_ldk_on_chain_payment_send_all_to_address_impl(port_, that, address)
 }
 
 #[no_mangle]
-pub extern "C" fn frbgen_ldk_node_rust_arc_increment_strong_count_RustOpaque_NodeSqliteStore(
+pub extern "C" fn frbgen_ldk_node_wire_ldk_on_chain_payment_send_to_address(
+    port_: i64,
+    that: *mut wire_cst_ldk_on_chain_payment,
+    address: *mut wire_cst_address,
+    amount_sats: u64,
+) {
+    wire_ldk_on_chain_payment_send_to_address_impl(port_, that, address, amount_sats)
+}
+
+#[no_mangle]
+pub extern "C" fn frbgen_ldk_node_wire_ldk_spontaneous_payment_send(
+    port_: i64,
+    that: *mut wire_cst_ldk_spontaneous_payment,
+    amount_msat: u64,
+    node_id: *mut wire_cst_public_key,
+) {
+    wire_ldk_spontaneous_payment_send_impl(port_, that, amount_msat, node_id)
+}
+
+#[no_mangle]
+pub extern "C" fn frbgen_ldk_node_wire_ldk_spontaneous_payment_send_probes(
+    port_: i64,
+    that: *mut wire_cst_ldk_spontaneous_payment,
+    amount_msat: u64,
+    node_id: *mut wire_cst_public_key,
+) {
+    wire_ldk_spontaneous_payment_send_probes_impl(port_, that, amount_msat, node_id)
+}
+
+#[no_mangle]
+pub extern "C" fn frbgen_ldk_node_rust_arc_increment_strong_count_RustOpaque_Node(
     ptr: *const std::ffi::c_void,
 ) {
     unsafe {
-        StdArc::<Node<SqliteStore>>::increment_strong_count(ptr as _);
+        StdArc::<Node>::increment_strong_count(ptr as _);
     }
 }
 
 #[no_mangle]
-pub extern "C" fn frbgen_ldk_node_rust_arc_decrement_strong_count_RustOpaque_NodeSqliteStore(
+pub extern "C" fn frbgen_ldk_node_rust_arc_decrement_strong_count_RustOpaque_Node(
     ptr: *const std::ffi::c_void,
 ) {
     unsafe {
-        StdArc::<Node<SqliteStore>>::decrement_strong_count(ptr as _);
+        StdArc::<Node>::decrement_strong_count(ptr as _);
+    }
+}
+
+#[no_mangle]
+pub extern "C" fn frbgen_ldk_node_rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedrust_asyncRwLockNodeBuilder(
+    ptr: *const std::ffi::c_void,
+) {
+    unsafe {
+        StdArc::<flutter_rust_bridge::for_generated::rust_async::RwLock<NodeBuilder>>::increment_strong_count(ptr as _);
+    }
+}
+
+#[no_mangle]
+pub extern "C" fn frbgen_ldk_node_rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedrust_asyncRwLockNodeBuilder(
+    ptr: *const std::ffi::c_void,
+) {
+    unsafe {
+        StdArc::<flutter_rust_bridge::for_generated::rust_async::RwLock<NodeBuilder>>::decrement_strong_count(ptr as _);
+    }
+}
+
+#[no_mangle]
+pub extern "C" fn frbgen_ldk_node_rust_arc_increment_strong_count_RustOpaque_ldk_nodepaymentBolt11Payment(
+    ptr: *const std::ffi::c_void,
+) {
+    unsafe {
+        StdArc::<ldk_node::payment::Bolt11Payment>::increment_strong_count(ptr as _);
+    }
+}
+
+#[no_mangle]
+pub extern "C" fn frbgen_ldk_node_rust_arc_decrement_strong_count_RustOpaque_ldk_nodepaymentBolt11Payment(
+    ptr: *const std::ffi::c_void,
+) {
+    unsafe {
+        StdArc::<ldk_node::payment::Bolt11Payment>::decrement_strong_count(ptr as _);
+    }
+}
+
+#[no_mangle]
+pub extern "C" fn frbgen_ldk_node_rust_arc_increment_strong_count_RustOpaque_ldk_nodepaymentOnchainPayment(
+    ptr: *const std::ffi::c_void,
+) {
+    unsafe {
+        StdArc::<ldk_node::payment::OnchainPayment>::increment_strong_count(ptr as _);
+    }
+}
+
+#[no_mangle]
+pub extern "C" fn frbgen_ldk_node_rust_arc_decrement_strong_count_RustOpaque_ldk_nodepaymentOnchainPayment(
+    ptr: *const std::ffi::c_void,
+) {
+    unsafe {
+        StdArc::<ldk_node::payment::OnchainPayment>::decrement_strong_count(ptr as _);
+    }
+}
+
+#[no_mangle]
+pub extern "C" fn frbgen_ldk_node_rust_arc_increment_strong_count_RustOpaque_ldk_nodepaymentSpontaneousPayment(
+    ptr: *const std::ffi::c_void,
+) {
+    unsafe {
+        StdArc::<ldk_node::payment::SpontaneousPayment>::increment_strong_count(ptr as _);
+    }
+}
+
+#[no_mangle]
+pub extern "C" fn frbgen_ldk_node_rust_arc_decrement_strong_count_RustOpaque_ldk_nodepaymentSpontaneousPayment(
+    ptr: *const std::ffi::c_void,
+) {
+    unsafe {
+        StdArc::<ldk_node::payment::SpontaneousPayment>::decrement_strong_count(ptr as _);
     }
 }
 
@@ -1357,6 +2126,14 @@ pub extern "C" fn frbgen_ldk_node_cst_new_box_autoadd_channel_id() -> *mut wire_
 }
 
 #[no_mangle]
+pub extern "C" fn frbgen_ldk_node_cst_new_box_autoadd_closure_reason(
+) -> *mut wire_cst_closure_reason {
+    flutter_rust_bridge::for_generated::new_leak_box_ptr(
+        wire_cst_closure_reason::new_with_null_ptr(),
+    )
+}
+
+#[no_mangle]
 pub extern "C" fn frbgen_ldk_node_cst_new_box_autoadd_config() -> *mut wire_cst_config {
     flutter_rust_bridge::for_generated::new_leak_box_ptr(wire_cst_config::new_with_null_ptr())
 }
@@ -1383,6 +2160,14 @@ pub extern "C" fn frbgen_ldk_node_cst_new_box_autoadd_gossip_source_config(
 }
 
 #[no_mangle]
+pub extern "C" fn frbgen_ldk_node_cst_new_box_autoadd_ldk_bolt_11_payment(
+) -> *mut wire_cst_ldk_bolt_11_payment {
+    flutter_rust_bridge::for_generated::new_leak_box_ptr(
+        wire_cst_ldk_bolt_11_payment::new_with_null_ptr(),
+    )
+}
+
+#[no_mangle]
 pub extern "C" fn frbgen_ldk_node_cst_new_box_autoadd_ldk_mnemonic() -> *mut wire_cst_ldk_mnemonic {
     flutter_rust_bridge::for_generated::new_leak_box_ptr(wire_cst_ldk_mnemonic::new_with_null_ptr())
 }
@@ -1390,6 +2175,46 @@ pub extern "C" fn frbgen_ldk_node_cst_new_box_autoadd_ldk_mnemonic() -> *mut wir
 #[no_mangle]
 pub extern "C" fn frbgen_ldk_node_cst_new_box_autoadd_ldk_node() -> *mut wire_cst_ldk_node {
     flutter_rust_bridge::for_generated::new_leak_box_ptr(wire_cst_ldk_node::new_with_null_ptr())
+}
+
+#[no_mangle]
+pub extern "C" fn frbgen_ldk_node_cst_new_box_autoadd_ldk_on_chain_payment(
+) -> *mut wire_cst_ldk_on_chain_payment {
+    flutter_rust_bridge::for_generated::new_leak_box_ptr(
+        wire_cst_ldk_on_chain_payment::new_with_null_ptr(),
+    )
+}
+
+#[no_mangle]
+pub extern "C" fn frbgen_ldk_node_cst_new_box_autoadd_ldk_spontaneous_payment(
+) -> *mut wire_cst_ldk_spontaneous_payment {
+    flutter_rust_bridge::for_generated::new_leak_box_ptr(
+        wire_cst_ldk_spontaneous_payment::new_with_null_ptr(),
+    )
+}
+
+#[no_mangle]
+pub extern "C" fn frbgen_ldk_node_cst_new_box_autoadd_liquidity_source_config(
+) -> *mut wire_cst_liquidity_source_config {
+    flutter_rust_bridge::for_generated::new_leak_box_ptr(
+        wire_cst_liquidity_source_config::new_with_null_ptr(),
+    )
+}
+
+#[no_mangle]
+pub extern "C" fn frbgen_ldk_node_cst_new_box_autoadd_lsp_fee_limits(
+) -> *mut wire_cst_lsp_fee_limits {
+    flutter_rust_bridge::for_generated::new_leak_box_ptr(
+        wire_cst_lsp_fee_limits::new_with_null_ptr(),
+    )
+}
+
+#[no_mangle]
+pub extern "C" fn frbgen_ldk_node_cst_new_box_autoadd_max_dust_htlc_exposure(
+) -> *mut wire_cst_max_dust_htlc_exposure {
+    flutter_rust_bridge::for_generated::new_leak_box_ptr(
+        wire_cst_max_dust_htlc_exposure::new_with_null_ptr(),
+    )
 }
 
 #[no_mangle]
@@ -1406,8 +2231,20 @@ pub extern "C" fn frbgen_ldk_node_cst_new_box_autoadd_payment_details(
 }
 
 #[no_mangle]
+pub extern "C" fn frbgen_ldk_node_cst_new_box_autoadd_payment_failure_reason(
+    value: i32,
+) -> *mut i32 {
+    flutter_rust_bridge::for_generated::new_leak_box_ptr(value)
+}
+
+#[no_mangle]
 pub extern "C" fn frbgen_ldk_node_cst_new_box_autoadd_payment_hash() -> *mut wire_cst_payment_hash {
     flutter_rust_bridge::for_generated::new_leak_box_ptr(wire_cst_payment_hash::new_with_null_ptr())
+}
+
+#[no_mangle]
+pub extern "C" fn frbgen_ldk_node_cst_new_box_autoadd_payment_id() -> *mut wire_cst_payment_id {
+    flutter_rust_bridge::for_generated::new_leak_box_ptr(wire_cst_payment_id::new_with_null_ptr())
 }
 
 #[no_mangle]
@@ -1437,6 +2274,16 @@ pub extern "C" fn frbgen_ldk_node_cst_new_box_autoadd_socket_address(
     flutter_rust_bridge::for_generated::new_leak_box_ptr(
         wire_cst_socket_address::new_with_null_ptr(),
     )
+}
+
+#[no_mangle]
+pub extern "C" fn frbgen_ldk_node_cst_new_box_autoadd_txid() -> *mut wire_cst_txid {
+    flutter_rust_bridge::for_generated::new_leak_box_ptr(wire_cst_txid::new_with_null_ptr())
+}
+
+#[no_mangle]
+pub extern "C" fn frbgen_ldk_node_cst_new_box_autoadd_u_16(value: u16) -> *mut u16 {
+    flutter_rust_bridge::for_generated::new_leak_box_ptr(value)
 }
 
 #[no_mangle]
@@ -1472,6 +2319,20 @@ pub extern "C" fn frbgen_ldk_node_cst_new_list_channel_details(
 }
 
 #[no_mangle]
+pub extern "C" fn frbgen_ldk_node_cst_new_list_lightning_balance(
+    len: i32,
+) -> *mut wire_cst_list_lightning_balance {
+    let wrap = wire_cst_list_lightning_balance {
+        ptr: flutter_rust_bridge::for_generated::new_leak_vec_ptr(
+            <wire_cst_lightning_balance>::new_with_null_ptr(),
+            len,
+        ),
+        len,
+    };
+    flutter_rust_bridge::for_generated::new_leak_box_ptr(wrap)
+}
+
+#[no_mangle]
 pub extern "C" fn frbgen_ldk_node_cst_new_list_payment_details(
     len: i32,
 ) -> *mut wire_cst_list_payment_details {
@@ -1492,6 +2353,20 @@ pub extern "C" fn frbgen_ldk_node_cst_new_list_peer_details(
     let wrap = wire_cst_list_peer_details {
         ptr: flutter_rust_bridge::for_generated::new_leak_vec_ptr(
             <wire_cst_peer_details>::new_with_null_ptr(),
+            len,
+        ),
+        len,
+    };
+    flutter_rust_bridge::for_generated::new_leak_box_ptr(wrap)
+}
+
+#[no_mangle]
+pub extern "C" fn frbgen_ldk_node_cst_new_list_pending_sweep_balance(
+    len: i32,
+) -> *mut wire_cst_list_pending_sweep_balance {
+    let wrap = wire_cst_list_pending_sweep_balance {
+        ptr: flutter_rust_bridge::for_generated::new_leak_vec_ptr(
+            <wire_cst_pending_sweep_balance>::new_with_null_ptr(),
             len,
         ),
         len,
@@ -1556,6 +2431,21 @@ pub struct wire_cst_address {
 }
 #[repr(C)]
 #[derive(Clone, Copy)]
+pub struct wire_cst_balance_details {
+    total_onchain_balance_sats: u64,
+    spendable_onchain_balance_sats: u64,
+    total_lightning_balance_sats: u64,
+    lightning_balances: *mut wire_cst_list_lightning_balance,
+    pending_balances_from_channel_closures: *mut wire_cst_list_pending_sweep_balance,
+}
+#[repr(C)]
+#[derive(Clone, Copy)]
+pub struct wire_cst_best_block {
+    block_hash: *mut wire_cst_list_prim_u_8_strict,
+    height: u32,
+}
+#[repr(C)]
+#[derive(Clone, Copy)]
 pub struct wire_cst_bolt_11_invoice {
     signed_raw_invoice: *mut wire_cst_list_prim_u_8_strict,
 }
@@ -1582,7 +2472,7 @@ pub struct wire_cst_channel_config {
     forwarding_fee_proportional_millionths: u32,
     forwarding_fee_base_msat: u32,
     cltv_expiry_delta: u16,
-    max_dust_htlc_exposure: wire_cst_max_dust_htlc_exposure,
+    max_dust_htlc_exposure: *mut wire_cst_max_dust_htlc_exposure,
     force_close_avoidance_max_fee_satoshis: u64,
     accept_underpaying_htlcs: bool,
 }
@@ -1591,12 +2481,11 @@ pub struct wire_cst_channel_config {
 pub struct wire_cst_channel_details {
     channel_id: wire_cst_channel_id,
     counterparty_node_id: wire_cst_public_key,
-    funding_txo: *mut wire_cst_list_prim_u_8_strict,
+    funding_txo: *mut wire_cst_out_point,
     channel_value_sats: u64,
     unspendable_punishment_reserve: *mut u64,
     user_channel_id: wire_cst_user_channel_id,
     feerate_sat_per_1000_weight: u32,
-    balance_msat: u64,
     outbound_capacity_msat: u64,
     inbound_capacity_msat: u64,
     confirmations_required: *mut u32,
@@ -1605,11 +2494,47 @@ pub struct wire_cst_channel_details {
     is_channel_ready: bool,
     is_usable: bool,
     is_public: bool,
+    cltv_expiry_delta: *mut u16,
+    counterparty_unspendable_punishment_reserve: u64,
+    counterparty_outbound_htlc_minimum_msat: *mut u64,
+    counterparty_outbound_htlc_maximum_msat: *mut u64,
+    counterparty_forwarding_info_fee_base_msat: *mut u32,
+    counterparty_forwarding_info_fee_proportional_millionths: *mut u32,
+    counterparty_forwarding_info_cltv_expiry_delta: *mut u16,
+    next_outbound_htlc_limit_msat: u64,
+    next_outbound_htlc_minimum_msat: u64,
+    force_close_spend_delay: *mut u16,
+    inbound_htlc_minimum_msat: u64,
+    inbound_htlc_maximum_msat: *mut u64,
+    config: wire_cst_channel_config,
 }
 #[repr(C)]
 #[derive(Clone, Copy)]
 pub struct wire_cst_channel_id {
     data: *mut wire_cst_list_prim_u_8_strict,
+}
+#[repr(C)]
+#[derive(Clone, Copy)]
+pub struct wire_cst_closure_reason {
+    tag: i32,
+    kind: ClosureReasonKind,
+}
+#[repr(C)]
+#[derive(Clone, Copy)]
+pub union ClosureReasonKind {
+    CounterpartyForceClosed: wire_cst_ClosureReason_CounterpartyForceClosed,
+    ProcessingError: wire_cst_ClosureReason_ProcessingError,
+    nil__: (),
+}
+#[repr(C)]
+#[derive(Clone, Copy)]
+pub struct wire_cst_ClosureReason_CounterpartyForceClosed {
+    peer_msg: *mut wire_cst_list_prim_u_8_strict,
+}
+#[repr(C)]
+#[derive(Clone, Copy)]
+pub struct wire_cst_ClosureReason_ProcessingError {
+    err: *mut wire_cst_list_prim_u_8_strict,
 }
 #[repr(C)]
 #[derive(Clone, Copy)]
@@ -1668,26 +2593,40 @@ pub union EventKind {
     PaymentSuccessful: wire_cst_Event_PaymentSuccessful,
     PaymentFailed: wire_cst_Event_PaymentFailed,
     PaymentReceived: wire_cst_Event_PaymentReceived,
+    ChannelPending: wire_cst_Event_ChannelPending,
     ChannelReady: wire_cst_Event_ChannelReady,
     ChannelClosed: wire_cst_Event_ChannelClosed,
-    ChannelPending: wire_cst_Event_ChannelPending,
     nil__: (),
 }
 #[repr(C)]
 #[derive(Clone, Copy)]
 pub struct wire_cst_Event_PaymentSuccessful {
+    payment_id: *mut wire_cst_payment_id,
     payment_hash: *mut wire_cst_payment_hash,
+    fee_paid_msat: *mut u64,
 }
 #[repr(C)]
 #[derive(Clone, Copy)]
 pub struct wire_cst_Event_PaymentFailed {
+    payment_id: *mut wire_cst_payment_id,
     payment_hash: *mut wire_cst_payment_hash,
+    reason: *mut i32,
 }
 #[repr(C)]
 #[derive(Clone, Copy)]
 pub struct wire_cst_Event_PaymentReceived {
+    payment_id: *mut wire_cst_payment_id,
     payment_hash: *mut wire_cst_payment_hash,
     amount_msat: u64,
+}
+#[repr(C)]
+#[derive(Clone, Copy)]
+pub struct wire_cst_Event_ChannelPending {
+    channel_id: *mut wire_cst_channel_id,
+    user_channel_id: *mut wire_cst_user_channel_id,
+    former_temporary_channel_id: *mut wire_cst_channel_id,
+    counterparty_node_id: *mut wire_cst_public_key,
+    funding_txo: *mut wire_cst_out_point,
 }
 #[repr(C)]
 #[derive(Clone, Copy)]
@@ -1702,15 +2641,7 @@ pub struct wire_cst_Event_ChannelClosed {
     channel_id: *mut wire_cst_channel_id,
     user_channel_id: *mut wire_cst_user_channel_id,
     counterparty_node_id: *mut wire_cst_public_key,
-}
-#[repr(C)]
-#[derive(Clone, Copy)]
-pub struct wire_cst_Event_ChannelPending {
-    channel_id: *mut wire_cst_channel_id,
-    user_channel_id: *mut wire_cst_user_channel_id,
-    former_temporary_channel_id: *mut wire_cst_channel_id,
-    counterparty_node_id: *mut wire_cst_public_key,
-    funding_txo: *mut wire_cst_out_point,
+    reason: *mut wire_cst_closure_reason,
 }
 #[repr(C)]
 #[derive(Clone, Copy)]
@@ -1731,6 +2662,11 @@ pub struct wire_cst_GossipSourceConfig_RapidGossipSync {
 }
 #[repr(C)]
 #[derive(Clone, Copy)]
+pub struct wire_cst_ldk_bolt_11_payment {
+    ptr: usize,
+}
+#[repr(C)]
+#[derive(Clone, Copy)]
 pub struct wire_cst_ldk_mnemonic {
     seed_phrase: *mut wire_cst_list_prim_u_8_strict,
 }
@@ -1741,8 +2677,97 @@ pub struct wire_cst_ldk_node {
 }
 #[repr(C)]
 #[derive(Clone, Copy)]
+pub struct wire_cst_ldk_on_chain_payment {
+    ptr: usize,
+}
+#[repr(C)]
+#[derive(Clone, Copy)]
+pub struct wire_cst_ldk_spontaneous_payment {
+    ptr: usize,
+}
+#[repr(C)]
+#[derive(Clone, Copy)]
+pub struct wire_cst_lightning_balance {
+    tag: i32,
+    kind: LightningBalanceKind,
+}
+#[repr(C)]
+#[derive(Clone, Copy)]
+pub union LightningBalanceKind {
+    ClaimableOnChannelClose: wire_cst_LightningBalance_ClaimableOnChannelClose,
+    ClaimableAwaitingConfirmations: wire_cst_LightningBalance_ClaimableAwaitingConfirmations,
+    ContentiousClaimable: wire_cst_LightningBalance_ContentiousClaimable,
+    MaybeTimeoutClaimableHTLC: wire_cst_LightningBalance_MaybeTimeoutClaimableHTLC,
+    MaybePreimageClaimableHTLC: wire_cst_LightningBalance_MaybePreimageClaimableHTLC,
+    CounterpartyRevokedOutputClaimable:
+        wire_cst_LightningBalance_CounterpartyRevokedOutputClaimable,
+    nil__: (),
+}
+#[repr(C)]
+#[derive(Clone, Copy)]
+pub struct wire_cst_LightningBalance_ClaimableOnChannelClose {
+    channel_id: *mut wire_cst_channel_id,
+    counterparty_node_id: *mut wire_cst_public_key,
+    amount_satoshis: u64,
+}
+#[repr(C)]
+#[derive(Clone, Copy)]
+pub struct wire_cst_LightningBalance_ClaimableAwaitingConfirmations {
+    channel_id: *mut wire_cst_channel_id,
+    counterparty_node_id: *mut wire_cst_public_key,
+    amount_satoshis: u64,
+    confirmation_height: u32,
+}
+#[repr(C)]
+#[derive(Clone, Copy)]
+pub struct wire_cst_LightningBalance_ContentiousClaimable {
+    channel_id: *mut wire_cst_channel_id,
+    counterparty_node_id: *mut wire_cst_public_key,
+    amount_satoshis: u64,
+    timeout_height: u32,
+    payment_hash: *mut wire_cst_payment_hash,
+    payment_preimage: *mut wire_cst_payment_preimage,
+}
+#[repr(C)]
+#[derive(Clone, Copy)]
+pub struct wire_cst_LightningBalance_MaybeTimeoutClaimableHTLC {
+    channel_id: *mut wire_cst_channel_id,
+    counterparty_node_id: *mut wire_cst_public_key,
+    amount_satoshis: u64,
+    claimable_height: u32,
+    payment_hash: *mut wire_cst_payment_hash,
+}
+#[repr(C)]
+#[derive(Clone, Copy)]
+pub struct wire_cst_LightningBalance_MaybePreimageClaimableHTLC {
+    channel_id: *mut wire_cst_channel_id,
+    counterparty_node_id: *mut wire_cst_public_key,
+    amount_satoshis: u64,
+    expiry_height: u32,
+    payment_hash: *mut wire_cst_payment_hash,
+}
+#[repr(C)]
+#[derive(Clone, Copy)]
+pub struct wire_cst_LightningBalance_CounterpartyRevokedOutputClaimable {
+    channel_id: *mut wire_cst_channel_id,
+    counterparty_node_id: *mut wire_cst_public_key,
+    amount_satoshis: u64,
+}
+#[repr(C)]
+#[derive(Clone, Copy)]
+pub struct wire_cst_liquidity_source_config {
+    lsps2_service: wire_cst_record_socket_address_public_key_opt_string,
+}
+#[repr(C)]
+#[derive(Clone, Copy)]
 pub struct wire_cst_list_channel_details {
     ptr: *mut wire_cst_channel_details,
+    len: i32,
+}
+#[repr(C)]
+#[derive(Clone, Copy)]
+pub struct wire_cst_list_lightning_balance {
+    ptr: *mut wire_cst_lightning_balance,
     len: i32,
 }
 #[repr(C)]
@@ -1755,6 +2780,12 @@ pub struct wire_cst_list_payment_details {
 #[derive(Clone, Copy)]
 pub struct wire_cst_list_peer_details {
     ptr: *mut wire_cst_peer_details,
+    len: i32,
+}
+#[repr(C)]
+#[derive(Clone, Copy)]
+pub struct wire_cst_list_pending_sweep_balance {
+    ptr: *mut wire_cst_pending_sweep_balance,
     len: i32,
 }
 #[repr(C)]
@@ -1783,6 +2814,12 @@ pub struct wire_cst_list_socket_address {
 }
 #[repr(C)]
 #[derive(Clone, Copy)]
+pub struct wire_cst_lsp_fee_limits {
+    max_total_opening_fee_msat: *mut u64,
+    max_proportional_opening_fee_ppm_msat: *mut u64,
+}
+#[repr(C)]
+#[derive(Clone, Copy)]
 pub struct wire_cst_max_dust_htlc_exposure {
     tag: i32,
     kind: MaxDustHTLCExposureKind,
@@ -1806,6 +2843,18 @@ pub struct wire_cst_MaxDustHTLCExposure_FeeRateMultiplier {
 }
 #[repr(C)]
 #[derive(Clone, Copy)]
+pub struct wire_cst_node_status {
+    is_running: bool,
+    is_listening: bool,
+    current_best_block: wire_cst_best_block,
+    latest_wallet_sync_timestamp: *mut u64,
+    latest_onchain_wallet_sync_timestamp: *mut u64,
+    latest_fee_rate_cache_update_timestamp: *mut u64,
+    latest_rgs_snapshot_timestamp: *mut u64,
+    latest_node_announcement_broadcast_timestamp: *mut u64,
+}
+#[repr(C)]
+#[derive(Clone, Copy)]
 pub struct wire_cst_out_point {
     txid: wire_cst_txid,
     vout: u32,
@@ -1813,9 +2862,8 @@ pub struct wire_cst_out_point {
 #[repr(C)]
 #[derive(Clone, Copy)]
 pub struct wire_cst_payment_details {
-    hash: wire_cst_payment_hash,
-    preimage: *mut wire_cst_payment_preimage,
-    secret: *mut wire_cst_payment_secret,
+    id: wire_cst_payment_id,
+    kind: wire_cst_payment_kind,
     amount_msat: *mut u64,
     direction: i32,
     status: i32,
@@ -1824,6 +2872,46 @@ pub struct wire_cst_payment_details {
 #[derive(Clone, Copy)]
 pub struct wire_cst_payment_hash {
     data: *mut wire_cst_list_prim_u_8_strict,
+}
+#[repr(C)]
+#[derive(Clone, Copy)]
+pub struct wire_cst_payment_id {
+    field0: *mut wire_cst_list_prim_u_8_strict,
+}
+#[repr(C)]
+#[derive(Clone, Copy)]
+pub struct wire_cst_payment_kind {
+    tag: i32,
+    kind: PaymentKindKind,
+}
+#[repr(C)]
+#[derive(Clone, Copy)]
+pub union PaymentKindKind {
+    Bolt11: wire_cst_PaymentKind_Bolt11,
+    Bolt11Jit: wire_cst_PaymentKind_Bolt11Jit,
+    Spontaneous: wire_cst_PaymentKind_Spontaneous,
+    nil__: (),
+}
+#[repr(C)]
+#[derive(Clone, Copy)]
+pub struct wire_cst_PaymentKind_Bolt11 {
+    hash: *mut wire_cst_payment_hash,
+    preimage: *mut wire_cst_payment_preimage,
+    secret: *mut wire_cst_payment_secret,
+}
+#[repr(C)]
+#[derive(Clone, Copy)]
+pub struct wire_cst_PaymentKind_Bolt11Jit {
+    hash: *mut wire_cst_payment_hash,
+    preimage: *mut wire_cst_payment_preimage,
+    secret: *mut wire_cst_payment_secret,
+    lsp_fee_limits: *mut wire_cst_lsp_fee_limits,
+}
+#[repr(C)]
+#[derive(Clone, Copy)]
+pub struct wire_cst_PaymentKind_Spontaneous {
+    hash: *mut wire_cst_payment_hash,
+    preimage: *mut wire_cst_payment_preimage,
 }
 #[repr(C)]
 #[derive(Clone, Copy)]
@@ -1844,8 +2932,52 @@ pub struct wire_cst_peer_details {
 }
 #[repr(C)]
 #[derive(Clone, Copy)]
+pub struct wire_cst_pending_sweep_balance {
+    tag: i32,
+    kind: PendingSweepBalanceKind,
+}
+#[repr(C)]
+#[derive(Clone, Copy)]
+pub union PendingSweepBalanceKind {
+    PendingBroadcast: wire_cst_PendingSweepBalance_PendingBroadcast,
+    BroadcastAwaitingConfirmation: wire_cst_PendingSweepBalance_BroadcastAwaitingConfirmation,
+    AwaitingThresholdConfirmations: wire_cst_PendingSweepBalance_AwaitingThresholdConfirmations,
+    nil__: (),
+}
+#[repr(C)]
+#[derive(Clone, Copy)]
+pub struct wire_cst_PendingSweepBalance_PendingBroadcast {
+    channel_id: *mut wire_cst_channel_id,
+    amount_satoshis: u64,
+}
+#[repr(C)]
+#[derive(Clone, Copy)]
+pub struct wire_cst_PendingSweepBalance_BroadcastAwaitingConfirmation {
+    channel_id: *mut wire_cst_channel_id,
+    latest_broadcast_height: u32,
+    latest_spending_txid: *mut wire_cst_txid,
+    amount_satoshis: u64,
+}
+#[repr(C)]
+#[derive(Clone, Copy)]
+pub struct wire_cst_PendingSweepBalance_AwaitingThresholdConfirmations {
+    channel_id: *mut wire_cst_channel_id,
+    latest_spending_txid: *mut wire_cst_txid,
+    confirmation_hash: *mut wire_cst_list_prim_u_8_strict,
+    confirmation_height: u32,
+    amount_satoshis: u64,
+}
+#[repr(C)]
+#[derive(Clone, Copy)]
 pub struct wire_cst_public_key {
     hex: *mut wire_cst_list_prim_u_8_strict,
+}
+#[repr(C)]
+#[derive(Clone, Copy)]
+pub struct wire_cst_record_socket_address_public_key_opt_string {
+    field0: wire_cst_socket_address,
+    field1: wire_cst_public_key,
+    field2: *mut wire_cst_list_prim_u_8_strict,
 }
 #[repr(C)]
 #[derive(Clone, Copy)]
@@ -1902,5 +3034,5 @@ pub struct wire_cst_txid {
 #[repr(C)]
 #[derive(Clone, Copy)]
 pub struct wire_cst_user_channel_id {
-    data: u64,
+    data: *mut wire_cst_list_prim_u_8_strict,
 }

@@ -26,7 +26,7 @@ class _MyAppState extends State<MyApp> {
   String displayText = "";
   ldk.SocketAddress? bobAddr;
   ldk.Bolt11Invoice? invoice;
-  ldk.ChannelId? channelId;
+  ldk.UserChannelId? userChannelId;
 
   // Replace this with your local esplora url
   String esploraUrl =
@@ -63,7 +63,7 @@ class _MyAppState extends State<MyApp> {
 
   closeChannel() async {
     await aliceNode.closeChannel(
-        channelId: channelId!, counterpartyNodeId: bobNodeId!);
+        userChannelId: userChannelId!, counterpartyNodeId: bobNodeId!);
   }
 
   Future initAliceNode() async {
@@ -108,23 +108,21 @@ class _MyAppState extends State<MyApp> {
     final res = await bobNode.nodeId();
     setState(() {
       bobNodeId = res;
-      displayText = "$bobNodeId started successfully";
+      displayText = "${bobNodeId!.hex} started successfully";
     });
   }
 
   totalOnchainBalanceSats() async {
-    final alice = await aliceNode.totalOnchainBalanceSats();
-    final bob = await bobNode.totalOnchainBalanceSats();
+    final alice = await aliceNode.listBalances();
+    final bob = await bobNode.listBalances();
     if (kDebugMode) {
-      print("alice's balance: $alice");
-      print(
-          "alice's spendable balance: ${await aliceNode.spendableOnchainBalanceSats()}");
-      print("bob's balance: $bob");
-      print(
-          "bob's spendable balance: ${await bobNode.spendableOnchainBalanceSats()}");
+      print("alice's balance: ${alice.totalOnchainBalanceSats}");
+      print("alice's spendable balance: ${alice.spendableOnchainBalanceSats}");
+      print("bob's balance: ${bob.totalOnchainBalanceSats}");
+      print("bob's spendable balance: ${bob.spendableOnchainBalanceSats}");
     }
     setState(() {
-      aliceBalance = alice;
+      aliceBalance = alice.spendableOnchainBalanceSats;
     });
   }
 
@@ -143,6 +141,7 @@ class _MyAppState extends State<MyApp> {
         print("======Channels========");
         for (var e in res) {
           print("nodeId: ${aliceNodeId!.hex}");
+          print("userChannelId: ${e.userChannelId.data}");
           print("channelId: ${e.channelId.data}");
           print("isChannelReady: ${e.isChannelReady}");
           print("isUsable: ${e.isUsable}");
@@ -161,9 +160,8 @@ class _MyAppState extends State<MyApp> {
           print("======Payments========");
           for (var e in res) {
             print("amountMsat: ${e.amountMsat}");
-            print("hash: ${e.hash.data}");
-            print("preimage: ${e.preimage?.data}");
-            print("secret: ${e.secret!.data}");
+            print("paymentId: ${e.id.field0}");
+            print("status: ${e.status.name}");
           }
         }
       }
@@ -176,7 +174,7 @@ class _MyAppState extends State<MyApp> {
   removeLastPayment() async {
     final lastPayment = await listPaymentsWithFilter(false);
     if (lastPayment != null) {
-      final _ = await aliceNode.removePayment(paymentHash: lastPayment.hash);
+      final _ = await aliceNode.removePayment(paymentId: lastPayment.id);
       setState(() {
         displayText = "${lastPayment.hash.internal} removed";
       });
@@ -184,8 +182,8 @@ class _MyAppState extends State<MyApp> {
   }
 
   Future<List<String>> newOnchainAddress() async {
-    final alice = await aliceNode.newOnchainAddress();
-    final bob = await bobNode.newOnchainAddress();
+    final alice = await (await aliceNode.onChainPayment()).newAddress();
+    final bob = await (await bobNode.onChainPayment()).newAddress();
     if (kDebugMode) {
       print("alice's address: ${alice.s}");
       print("bob's address: ${bob.s}");
@@ -212,7 +210,7 @@ class _MyAppState extends State<MyApp> {
   connectOpenChannel() async {
     final funding_amount_sat = 80000;
     final push_msat = (funding_amount_sat / 2) * 1000;
-    await aliceNode.connectOpenChannel(
+    userChannelId = await aliceNode.connectOpenChannel(
         channelAmountSats: funding_amount_sat,
         announceChannel: true,
         socketAddress: bobAddr!,
@@ -221,34 +219,19 @@ class _MyAppState extends State<MyApp> {
   }
 
   receiveAndSendPayments() async {
-    invoice = await bobNode.receivePayment(
+    final bobBolt11Handler = await bobNode.bolt11Payment();
+    final aliceBolt11Handler = await aliceNode.bolt11Payment();
+    invoice = await bobBolt11Handler.receive(
         amountMsat: 2500000, description: 'asdf', expirySecs: 9217);
     setState(() {
       displayText = invoice.toString();
     });
-    final paymentHash = await aliceNode.sendPayment(invoice: invoice!);
-    final res = await aliceNode.payment(paymentHash: paymentHash);
+    final paymentId = await aliceBolt11Handler.send(invoice: invoice!);
+    final res = await aliceNode.payment(paymentId: paymentId);
     setState(() {
-      displayText = "send payment success ${res?.hash.data}";
+      displayText =
+          "Payment status: ${res?.status.name}\n PaymentId: ${res?.id.field0}";
     });
-  }
-
-  setChannelId() async {
-    final channelInfos = await aliceNode.listChannels();
-    if (channelInfos.isNotEmpty) {
-      channelId = channelInfos.first.channelId;
-      if (kDebugMode) {
-        print(channelId?.data);
-      }
-
-      setState(() {
-        displayText = channelId!.data.toString();
-      });
-    } else {
-      if (kDebugMode) {
-        print("No open channels available");
-      }
-    }
   }
 
   stop() async {
@@ -462,20 +445,6 @@ class _MyAppState extends State<MyApp> {
                               fontSize: 12,
                               height: 1.5,
                               fontWeight: FontWeight.w800))),
-                  TextButton(
-                      onPressed: () async {
-                        await setChannelId();
-                      },
-                      child: Text(
-                        'Set channelId',
-                        overflow: TextOverflow.clip,
-                        textAlign: TextAlign.center,
-                        style: GoogleFonts.nunito(
-                            color: Colors.indigoAccent,
-                            fontSize: 12,
-                            height: 1.5,
-                            fontWeight: FontWeight.w800),
-                      )),
                   TextButton(
                       onPressed: () async {
                         await receiveAndSendPayments();

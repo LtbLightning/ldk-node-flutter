@@ -1,6 +1,6 @@
 PODS:
   - Flutter (1.0.0)
-  - ldk_node (0.2.2-dev):
+  - ldk_node (0.2.3-dev):
     - Flutter
   - path_provider_foundation (0.0.1):
     - Flutter
@@ -21,7 +21,7 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   Flutter: e0871f40cf51350855a761d2e70bf5af5b9b5de7
-  ldk_node: 5b3cacf9e7a5d5ae0d5c24e133af5c37c3da338b
+  ldk_node: 9a905c37e1b20c9cbd3632f385d5cf2bbdc2942e
   path_provider_foundation: 3784922295ac71e43754bd15e0653ccfd36a147c
 
 PODFILE CHECKSUM: 4e8f8b2be68aeea4c0d5beb6ff1e79fface1d048

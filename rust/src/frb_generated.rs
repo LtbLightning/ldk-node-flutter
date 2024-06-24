@@ -39,16 +39,55 @@ flutter_rust_bridge::frb_generated_default_handler!();
 
 // Section: wire_funcs
 
-fn wire_build_with_sqlite_store_impl(
+fn wire_NodeBuilder_build_impl(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
+    that: impl CstDecode<NodeBuilder>,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "NodeBuilder_build",
+            port: Some(port_),
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
+        },
+        move || {
+            let api_that = that.cst_decode();
+            move |context| {
+                transform_result_dco((move || crate::api::node::NodeBuilder::build(api_that))())
+            }
+        },
+    )
+}
+fn wire_NodeBuilder_build_with_fs_store_impl(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
+    that: impl CstDecode<NodeBuilder>,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "NodeBuilder_build_with_fs_store",
+            port: Some(port_),
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
+        },
+        move || {
+            let api_that = that.cst_decode();
+            move |context| {
+                transform_result_dco((move || {
+                    crate::api::node::NodeBuilder::build_with_fs_store(api_that)
+                })())
+            }
+        },
+    )
+}
+fn wire_NodeBuilder_create_builder_impl(
     port_: flutter_rust_bridge::for_generated::MessagePort,
     config: impl CstDecode<crate::api::types::Config>,
     chain_data_source_config: impl CstDecode<Option<crate::api::types::ChainDataSourceConfig>>,
     entropy_source_config: impl CstDecode<Option<crate::api::types::EntropySourceConfig>>,
     gossip_source_config: impl CstDecode<Option<crate::api::types::GossipSourceConfig>>,
+    liquidity_source_config: impl CstDecode<Option<crate::api::types::LiquiditySourceConfig>>,
 ) {
     FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
         flutter_rust_bridge::for_generated::TaskInfo {
-            debug_name: "build_with_sqlite_store",
+            debug_name: "NodeBuilder_create_builder",
             port: Some(port_),
             mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
         },
@@ -57,13 +96,240 @@ fn wire_build_with_sqlite_store_impl(
             let api_chain_data_source_config = chain_data_source_config.cst_decode();
             let api_entropy_source_config = entropy_source_config.cst_decode();
             let api_gossip_source_config = gossip_source_config.cst_decode();
+            let api_liquidity_source_config = liquidity_source_config.cst_decode();
             move |context| {
                 transform_result_dco((move || {
-                    crate::api::node::build_with_sqlite_store(
+                    crate::api::node::NodeBuilder::create_builder(
                         api_config,
                         api_chain_data_source_config,
                         api_entropy_source_config,
                         api_gossip_source_config,
+                        api_liquidity_source_config,
+                    )
+                })())
+            }
+        },
+    )
+}
+fn wire_ldk_bolt_11_payment_receive_impl(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
+    that: impl CstDecode<crate::api::node::LdkBolt11Payment>,
+    amount_msat: impl CstDecode<u64>,
+    description: impl CstDecode<String>,
+    expiry_secs: impl CstDecode<u32>,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "ldk_bolt_11_payment_receive",
+            port: Some(port_),
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
+        },
+        move || {
+            let api_that = that.cst_decode();
+            let api_amount_msat = amount_msat.cst_decode();
+            let api_description = description.cst_decode();
+            let api_expiry_secs = expiry_secs.cst_decode();
+            move |context| {
+                transform_result_dco((move || {
+                    crate::api::node::LdkBolt11Payment::receive(
+                        &api_that,
+                        api_amount_msat,
+                        api_description,
+                        api_expiry_secs,
+                    )
+                })())
+            }
+        },
+    )
+}
+fn wire_ldk_bolt_11_payment_receive_variable_amount_impl(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
+    that: impl CstDecode<crate::api::node::LdkBolt11Payment>,
+    description: impl CstDecode<String>,
+    expiry_secs: impl CstDecode<u32>,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "ldk_bolt_11_payment_receive_variable_amount",
+            port: Some(port_),
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
+        },
+        move || {
+            let api_that = that.cst_decode();
+            let api_description = description.cst_decode();
+            let api_expiry_secs = expiry_secs.cst_decode();
+            move |context| {
+                transform_result_dco((move || {
+                    crate::api::node::LdkBolt11Payment::receive_variable_amount(
+                        &api_that,
+                        api_description,
+                        api_expiry_secs,
+                    )
+                })())
+            }
+        },
+    )
+}
+fn wire_ldk_bolt_11_payment_receive_variable_amount_via_jit_channel_impl(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
+    that: impl CstDecode<crate::api::node::LdkBolt11Payment>,
+    description: impl CstDecode<String>,
+    expiry_secs: impl CstDecode<u32>,
+    max_proportional_lsp_fee_limit_ppm_msat: impl CstDecode<Option<u64>>,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "ldk_bolt_11_payment_receive_variable_amount_via_jit_channel",
+            port: Some(port_),
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
+        },
+        move || {
+            let api_that = that.cst_decode();
+            let api_description = description.cst_decode();
+            let api_expiry_secs = expiry_secs.cst_decode();
+            let api_max_proportional_lsp_fee_limit_ppm_msat =
+                max_proportional_lsp_fee_limit_ppm_msat.cst_decode();
+            move |context| {
+                transform_result_dco((move || {
+                    crate::api::node::LdkBolt11Payment::receive_variable_amount_via_jit_channel(
+                        &api_that,
+                        api_description,
+                        api_expiry_secs,
+                        api_max_proportional_lsp_fee_limit_ppm_msat,
+                    )
+                })())
+            }
+        },
+    )
+}
+fn wire_ldk_bolt_11_payment_receive_via_jit_channel_impl(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
+    that: impl CstDecode<crate::api::node::LdkBolt11Payment>,
+    amount_msat: impl CstDecode<u64>,
+    description: impl CstDecode<String>,
+    expiry_secs: impl CstDecode<u32>,
+    max_total_lsp_fee_limit_msat: impl CstDecode<Option<u64>>,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "ldk_bolt_11_payment_receive_via_jit_channel",
+            port: Some(port_),
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
+        },
+        move || {
+            let api_that = that.cst_decode();
+            let api_amount_msat = amount_msat.cst_decode();
+            let api_description = description.cst_decode();
+            let api_expiry_secs = expiry_secs.cst_decode();
+            let api_max_total_lsp_fee_limit_msat = max_total_lsp_fee_limit_msat.cst_decode();
+            move |context| {
+                transform_result_dco((move || {
+                    crate::api::node::LdkBolt11Payment::receive_via_jit_channel(
+                        &api_that,
+                        api_amount_msat,
+                        api_description,
+                        api_expiry_secs,
+                        api_max_total_lsp_fee_limit_msat,
+                    )
+                })())
+            }
+        },
+    )
+}
+fn wire_ldk_bolt_11_payment_send_impl(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
+    that: impl CstDecode<crate::api::node::LdkBolt11Payment>,
+    invoice: impl CstDecode<crate::api::types::Bolt11Invoice>,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "ldk_bolt_11_payment_send",
+            port: Some(port_),
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
+        },
+        move || {
+            let api_that = that.cst_decode();
+            let api_invoice = invoice.cst_decode();
+            move |context| {
+                transform_result_dco((move || {
+                    crate::api::node::LdkBolt11Payment::send(&api_that, api_invoice)
+                })())
+            }
+        },
+    )
+}
+fn wire_ldk_bolt_11_payment_send_probes_impl(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
+    that: impl CstDecode<crate::api::node::LdkBolt11Payment>,
+    invoice: impl CstDecode<crate::api::types::Bolt11Invoice>,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "ldk_bolt_11_payment_send_probes",
+            port: Some(port_),
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
+        },
+        move || {
+            let api_that = that.cst_decode();
+            let api_invoice = invoice.cst_decode();
+            move |context| {
+                transform_result_dco((move || {
+                    crate::api::node::LdkBolt11Payment::send_probes(&api_that, api_invoice)
+                })())
+            }
+        },
+    )
+}
+fn wire_ldk_bolt_11_payment_send_probes_using_amount_impl(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
+    that: impl CstDecode<crate::api::node::LdkBolt11Payment>,
+    invoice: impl CstDecode<crate::api::types::Bolt11Invoice>,
+    amount_msat: impl CstDecode<u64>,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "ldk_bolt_11_payment_send_probes_using_amount",
+            port: Some(port_),
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
+        },
+        move || {
+            let api_that = that.cst_decode();
+            let api_invoice = invoice.cst_decode();
+            let api_amount_msat = amount_msat.cst_decode();
+            move |context| {
+                transform_result_dco((move || {
+                    crate::api::node::LdkBolt11Payment::send_probes_using_amount(
+                        &api_that,
+                        api_invoice,
+                        api_amount_msat,
+                    )
+                })())
+            }
+        },
+    )
+}
+fn wire_ldk_bolt_11_payment_send_using_amount_impl(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
+    that: impl CstDecode<crate::api::node::LdkBolt11Payment>,
+    invoice: impl CstDecode<crate::api::types::Bolt11Invoice>,
+    amount_msat: impl CstDecode<u64>,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "ldk_bolt_11_payment_send_using_amount",
+            port: Some(port_),
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
+        },
+        move || {
+            let api_that = that.cst_decode();
+            let api_invoice = invoice.cst_decode();
+            let api_amount_msat = amount_msat.cst_decode();
+            move |context| {
+                transform_result_dco((move || {
+                    crate::api::node::LdkBolt11Payment::send_using_amount(
+                        &api_that,
+                        api_invoice,
+                        api_amount_msat,
                     )
                 })())
             }
@@ -86,10 +352,30 @@ fn wire_ldk_mnemonic_generate_impl(port_: flutter_rust_bridge::for_generated::Me
         },
     )
 }
+fn wire_ldk_node_bolt11_payment_impl(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
+    ptr: impl CstDecode<crate::api::node::LdkNode>,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "ldk_node_bolt11_payment",
+            port: Some(port_),
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
+        },
+        move || {
+            let api_ptr = ptr.cst_decode();
+            move |context| {
+                transform_result_dco((move || {
+                    Result::<_, ()>::Ok(crate::api::node::LdkNode::bolt11_payment(api_ptr))
+                })())
+            }
+        },
+    )
+}
 fn wire_ldk_node_close_channel_impl(
     port_: flutter_rust_bridge::for_generated::MessagePort,
     that: impl CstDecode<crate::api::node::LdkNode>,
-    channel_id: impl CstDecode<crate::api::types::ChannelId>,
+    user_channel_id: impl CstDecode<crate::api::types::UserChannelId>,
     counterparty_node_id: impl CstDecode<crate::api::types::PublicKey>,
 ) {
     FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
@@ -100,15 +386,35 @@ fn wire_ldk_node_close_channel_impl(
         },
         move || {
             let api_that = that.cst_decode();
-            let api_channel_id = channel_id.cst_decode();
+            let api_user_channel_id = user_channel_id.cst_decode();
             let api_counterparty_node_id = counterparty_node_id.cst_decode();
             move |context| {
                 transform_result_dco((move || {
                     crate::api::node::LdkNode::close_channel(
                         &api_that,
-                        api_channel_id,
+                        api_user_channel_id,
                         api_counterparty_node_id,
                     )
+                })())
+            }
+        },
+    )
+}
+fn wire_ldk_node_config_impl(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
+    that: impl CstDecode<crate::api::node::LdkNode>,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "ldk_node_config",
+            port: Some(port_),
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
+        },
+        move || {
+            let api_that = that.cst_decode();
+            move |context| {
+                transform_result_dco((move || {
+                    Result::<_, ()>::Ok(crate::api::node::LdkNode::config(&api_that))
                 })())
             }
         },
@@ -227,13 +533,13 @@ fn wire_ldk_node_event_handled_impl(
         },
     )
 }
-fn wire_ldk_node_is_running_impl(
+fn wire_ldk_node_list_balances_impl(
     port_: flutter_rust_bridge::for_generated::MessagePort,
     that: impl CstDecode<crate::api::node::LdkNode>,
 ) {
     FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
         flutter_rust_bridge::for_generated::TaskInfo {
-            debug_name: "ldk_node_is_running",
+            debug_name: "ldk_node_list_balances",
             port: Some(port_),
             mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
         },
@@ -241,7 +547,7 @@ fn wire_ldk_node_is_running_impl(
             let api_that = that.cst_decode();
             move |context| {
                 transform_result_dco((move || {
-                    Result::<_, ()>::Ok(crate::api::node::LdkNode::is_running(&api_that))
+                    crate::api::node::LdkNode::list_balances(&api_that)
                 })())
             }
         },
@@ -352,26 +658,6 @@ fn wire_ldk_node_listening_addresses_impl(
         },
     )
 }
-fn wire_ldk_node_new_onchain_address_impl(
-    port_: flutter_rust_bridge::for_generated::MessagePort,
-    that: impl CstDecode<crate::api::node::LdkNode>,
-) {
-    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
-        flutter_rust_bridge::for_generated::TaskInfo {
-            debug_name: "ldk_node_new_onchain_address",
-            port: Some(port_),
-            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
-        },
-        move || {
-            let api_that = that.cst_decode();
-            move |context| {
-                transform_result_dco((move || {
-                    crate::api::node::LdkNode::new_onchain_address(&api_that)
-                })())
-            }
-        },
-    )
-}
 fn wire_ldk_node_next_event_impl(
     port_: flutter_rust_bridge::for_generated::MessagePort,
     that: impl CstDecode<crate::api::node::LdkNode>,
@@ -388,6 +674,31 @@ fn wire_ldk_node_next_event_impl(
                 transform_result_dco((move || {
                     Result::<_, ()>::Ok(crate::api::node::LdkNode::next_event(&api_that))
                 })())
+            }
+        },
+    )
+}
+fn wire_ldk_node_next_event_async_impl(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
+    that: impl CstDecode<crate::api::node::LdkNode>,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_async::<flutter_rust_bridge::for_generated::DcoCodec, _, _, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "ldk_node_next_event_async",
+            port: Some(port_),
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
+        },
+        move || {
+            let api_that = that.cst_decode();
+            move |context| async move {
+                transform_result_dco(
+                    (move || async move {
+                        Result::<_, ()>::Ok(
+                            crate::api::node::LdkNode::next_event_async(&api_that).await,
+                        )
+                    })()
+                    .await,
+                )
             }
         },
     )
@@ -412,10 +723,30 @@ fn wire_ldk_node_node_id_impl(
         },
     )
 }
+fn wire_ldk_node_on_chain_payment_impl(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
+    ptr: impl CstDecode<crate::api::node::LdkNode>,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "ldk_node_on_chain_payment",
+            port: Some(port_),
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
+        },
+        move || {
+            let api_ptr = ptr.cst_decode();
+            move |context| {
+                transform_result_dco((move || {
+                    Result::<_, ()>::Ok(crate::api::node::LdkNode::on_chain_payment(api_ptr))
+                })())
+            }
+        },
+    )
+}
 fn wire_ldk_node_payment_impl(
     port_: flutter_rust_bridge::for_generated::MessagePort,
     that: impl CstDecode<crate::api::node::LdkNode>,
-    payment_hash: impl CstDecode<crate::api::types::PaymentHash>,
+    payment_id: impl CstDecode<crate::api::types::PaymentId>,
 ) {
     FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
         flutter_rust_bridge::for_generated::TaskInfo {
@@ -425,72 +756,13 @@ fn wire_ldk_node_payment_impl(
         },
         move || {
             let api_that = that.cst_decode();
-            let api_payment_hash = payment_hash.cst_decode();
+            let api_payment_id = payment_id.cst_decode();
             move |context| {
                 transform_result_dco((move || {
                     Result::<_, ()>::Ok(crate::api::node::LdkNode::payment(
                         &api_that,
-                        api_payment_hash,
+                        api_payment_id,
                     ))
-                })())
-            }
-        },
-    )
-}
-fn wire_ldk_node_receive_payment_impl(
-    port_: flutter_rust_bridge::for_generated::MessagePort,
-    that: impl CstDecode<crate::api::node::LdkNode>,
-    amount_msat: impl CstDecode<u64>,
-    description: impl CstDecode<String>,
-    expiry_secs: impl CstDecode<u32>,
-) {
-    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
-        flutter_rust_bridge::for_generated::TaskInfo {
-            debug_name: "ldk_node_receive_payment",
-            port: Some(port_),
-            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
-        },
-        move || {
-            let api_that = that.cst_decode();
-            let api_amount_msat = amount_msat.cst_decode();
-            let api_description = description.cst_decode();
-            let api_expiry_secs = expiry_secs.cst_decode();
-            move |context| {
-                transform_result_dco((move || {
-                    crate::api::node::LdkNode::receive_payment(
-                        &api_that,
-                        api_amount_msat,
-                        api_description,
-                        api_expiry_secs,
-                    )
-                })())
-            }
-        },
-    )
-}
-fn wire_ldk_node_receive_variable_amount_payment_impl(
-    port_: flutter_rust_bridge::for_generated::MessagePort,
-    that: impl CstDecode<crate::api::node::LdkNode>,
-    description: impl CstDecode<String>,
-    expiry_secs: impl CstDecode<u32>,
-) {
-    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
-        flutter_rust_bridge::for_generated::TaskInfo {
-            debug_name: "ldk_node_receive_variable_amount_payment",
-            port: Some(port_),
-            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
-        },
-        move || {
-            let api_that = that.cst_decode();
-            let api_description = description.cst_decode();
-            let api_expiry_secs = expiry_secs.cst_decode();
-            move |context| {
-                transform_result_dco((move || {
-                    crate::api::node::LdkNode::receive_variable_amount_payment(
-                        &api_that,
-                        api_description,
-                        api_expiry_secs,
-                    )
                 })())
             }
         },
@@ -499,7 +771,7 @@ fn wire_ldk_node_receive_variable_amount_payment_impl(
 fn wire_ldk_node_remove_payment_impl(
     port_: flutter_rust_bridge::for_generated::MessagePort,
     that: impl CstDecode<crate::api::node::LdkNode>,
-    payment_hash: impl CstDecode<crate::api::types::PaymentHash>,
+    payment_id: impl CstDecode<crate::api::types::PaymentId>,
 ) {
     FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
         flutter_rust_bridge::for_generated::TaskInfo {
@@ -509,216 +781,10 @@ fn wire_ldk_node_remove_payment_impl(
         },
         move || {
             let api_that = that.cst_decode();
-            let api_payment_hash = payment_hash.cst_decode();
+            let api_payment_id = payment_id.cst_decode();
             move |context| {
                 transform_result_dco((move || {
-                    crate::api::node::LdkNode::remove_payment(&api_that, api_payment_hash)
-                })())
-            }
-        },
-    )
-}
-fn wire_ldk_node_send_all_to_onchain_address_impl(
-    port_: flutter_rust_bridge::for_generated::MessagePort,
-    that: impl CstDecode<crate::api::node::LdkNode>,
-    address: impl CstDecode<crate::api::types::Address>,
-) {
-    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
-        flutter_rust_bridge::for_generated::TaskInfo {
-            debug_name: "ldk_node_send_all_to_onchain_address",
-            port: Some(port_),
-            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
-        },
-        move || {
-            let api_that = that.cst_decode();
-            let api_address = address.cst_decode();
-            move |context| {
-                transform_result_dco((move || {
-                    crate::api::node::LdkNode::send_all_to_onchain_address(&api_that, api_address)
-                })())
-            }
-        },
-    )
-}
-fn wire_ldk_node_send_payment_impl(
-    port_: flutter_rust_bridge::for_generated::MessagePort,
-    that: impl CstDecode<crate::api::node::LdkNode>,
-    invoice: impl CstDecode<crate::api::types::Bolt11Invoice>,
-) {
-    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
-        flutter_rust_bridge::for_generated::TaskInfo {
-            debug_name: "ldk_node_send_payment",
-            port: Some(port_),
-            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
-        },
-        move || {
-            let api_that = that.cst_decode();
-            let api_invoice = invoice.cst_decode();
-            move |context| {
-                transform_result_dco((move || {
-                    crate::api::node::LdkNode::send_payment(&api_that, api_invoice)
-                })())
-            }
-        },
-    )
-}
-fn wire_ldk_node_send_payment_probes_impl(
-    port_: flutter_rust_bridge::for_generated::MessagePort,
-    that: impl CstDecode<crate::api::node::LdkNode>,
-    invoice: impl CstDecode<crate::api::types::Bolt11Invoice>,
-) {
-    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
-        flutter_rust_bridge::for_generated::TaskInfo {
-            debug_name: "ldk_node_send_payment_probes",
-            port: Some(port_),
-            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
-        },
-        move || {
-            let api_that = that.cst_decode();
-            let api_invoice = invoice.cst_decode();
-            move |context| {
-                transform_result_dco((move || {
-                    crate::api::node::LdkNode::send_payment_probes(&api_that, api_invoice)
-                })())
-            }
-        },
-    )
-}
-fn wire_ldk_node_send_payment_probes_using_amount_impl(
-    port_: flutter_rust_bridge::for_generated::MessagePort,
-    that: impl CstDecode<crate::api::node::LdkNode>,
-    invoice: impl CstDecode<crate::api::types::Bolt11Invoice>,
-    amount_msat: impl CstDecode<u64>,
-) {
-    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
-        flutter_rust_bridge::for_generated::TaskInfo {
-            debug_name: "ldk_node_send_payment_probes_using_amount",
-            port: Some(port_),
-            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
-        },
-        move || {
-            let api_that = that.cst_decode();
-            let api_invoice = invoice.cst_decode();
-            let api_amount_msat = amount_msat.cst_decode();
-            move |context| {
-                transform_result_dco((move || {
-                    crate::api::node::LdkNode::send_payment_probes_using_amount(
-                        &api_that,
-                        api_invoice,
-                        api_amount_msat,
-                    )
-                })())
-            }
-        },
-    )
-}
-fn wire_ldk_node_send_payment_using_amount_impl(
-    port_: flutter_rust_bridge::for_generated::MessagePort,
-    that: impl CstDecode<crate::api::node::LdkNode>,
-    invoice: impl CstDecode<crate::api::types::Bolt11Invoice>,
-    amount_msat: impl CstDecode<u64>,
-) {
-    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
-        flutter_rust_bridge::for_generated::TaskInfo {
-            debug_name: "ldk_node_send_payment_using_amount",
-            port: Some(port_),
-            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
-        },
-        move || {
-            let api_that = that.cst_decode();
-            let api_invoice = invoice.cst_decode();
-            let api_amount_msat = amount_msat.cst_decode();
-            move |context| {
-                transform_result_dco((move || {
-                    crate::api::node::LdkNode::send_payment_using_amount(
-                        &api_that,
-                        api_invoice,
-                        api_amount_msat,
-                    )
-                })())
-            }
-        },
-    )
-}
-fn wire_ldk_node_send_spontaneous_payment_impl(
-    port_: flutter_rust_bridge::for_generated::MessagePort,
-    that: impl CstDecode<crate::api::node::LdkNode>,
-    amount_msat: impl CstDecode<u64>,
-    node_id: impl CstDecode<crate::api::types::PublicKey>,
-) {
-    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
-        flutter_rust_bridge::for_generated::TaskInfo {
-            debug_name: "ldk_node_send_spontaneous_payment",
-            port: Some(port_),
-            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
-        },
-        move || {
-            let api_that = that.cst_decode();
-            let api_amount_msat = amount_msat.cst_decode();
-            let api_node_id = node_id.cst_decode();
-            move |context| {
-                transform_result_dco((move || {
-                    crate::api::node::LdkNode::send_spontaneous_payment(
-                        &api_that,
-                        api_amount_msat,
-                        api_node_id,
-                    )
-                })())
-            }
-        },
-    )
-}
-fn wire_ldk_node_send_spontaneous_payment_probes_impl(
-    port_: flutter_rust_bridge::for_generated::MessagePort,
-    that: impl CstDecode<crate::api::node::LdkNode>,
-    amount_msat: impl CstDecode<u64>,
-    node_id: impl CstDecode<crate::api::types::PublicKey>,
-) {
-    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
-        flutter_rust_bridge::for_generated::TaskInfo {
-            debug_name: "ldk_node_send_spontaneous_payment_probes",
-            port: Some(port_),
-            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
-        },
-        move || {
-            let api_that = that.cst_decode();
-            let api_amount_msat = amount_msat.cst_decode();
-            let api_node_id = node_id.cst_decode();
-            move |context| {
-                transform_result_dco((move || {
-                    crate::api::node::LdkNode::send_spontaneous_payment_probes(
-                        &api_that,
-                        api_amount_msat,
-                        api_node_id,
-                    )
-                })())
-            }
-        },
-    )
-}
-fn wire_ldk_node_send_to_onchain_address_impl(
-    port_: flutter_rust_bridge::for_generated::MessagePort,
-    that: impl CstDecode<crate::api::node::LdkNode>,
-    address: impl CstDecode<crate::api::types::Address>,
-    amount_sats: impl CstDecode<u64>,
-) {
-    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
-        flutter_rust_bridge::for_generated::TaskInfo {
-            debug_name: "ldk_node_send_to_onchain_address",
-            port: Some(port_),
-            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
-        },
-        move || {
-            let api_that = that.cst_decode();
-            let api_address = address.cst_decode();
-            let api_amount_sats = amount_sats.cst_decode();
-            move |context| {
-                transform_result_dco((move || {
-                    crate::api::node::LdkNode::send_to_onchain_address(
-                        &api_that,
-                        api_address,
-                        api_amount_sats,
-                    )
+                    crate::api::node::LdkNode::remove_payment(&api_that, api_payment_id)
                 })())
             }
         },
@@ -746,21 +812,21 @@ fn wire_ldk_node_sign_message_impl(
         },
     )
 }
-fn wire_ldk_node_spendable_onchain_balance_sats_impl(
+fn wire_ldk_node_spontaneous_payment_impl(
     port_: flutter_rust_bridge::for_generated::MessagePort,
-    that: impl CstDecode<crate::api::node::LdkNode>,
+    ptr: impl CstDecode<crate::api::node::LdkNode>,
 ) {
     FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
         flutter_rust_bridge::for_generated::TaskInfo {
-            debug_name: "ldk_node_spendable_onchain_balance_sats",
+            debug_name: "ldk_node_spontaneous_payment",
             port: Some(port_),
             mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
         },
         move || {
-            let api_that = that.cst_decode();
+            let api_ptr = ptr.cst_decode();
             move |context| {
                 transform_result_dco((move || {
-                    crate::api::node::LdkNode::spendable_onchain_balance_sats(&api_that)
+                    Result::<_, ()>::Ok(crate::api::node::LdkNode::spontaneous_payment(api_ptr))
                 })())
             }
         },
@@ -780,6 +846,26 @@ fn wire_ldk_node_start_impl(
             let api_that = that.cst_decode();
             move |context| {
                 transform_result_dco((move || crate::api::node::LdkNode::start(&api_that))())
+            }
+        },
+    )
+}
+fn wire_ldk_node_status_impl(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
+    that: impl CstDecode<crate::api::node::LdkNode>,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "ldk_node_status",
+            port: Some(port_),
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
+        },
+        move || {
+            let api_that = that.cst_decode();
+            move |context| {
+                transform_result_dco((move || {
+                    Result::<_, ()>::Ok(crate::api::node::LdkNode::status(&api_that))
+                })())
             }
         },
     )
@@ -820,30 +906,10 @@ fn wire_ldk_node_sync_wallets_impl(
         },
     )
 }
-fn wire_ldk_node_total_onchain_balance_sats_impl(
-    port_: flutter_rust_bridge::for_generated::MessagePort,
-    that: impl CstDecode<crate::api::node::LdkNode>,
-) {
-    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
-        flutter_rust_bridge::for_generated::TaskInfo {
-            debug_name: "ldk_node_total_onchain_balance_sats",
-            port: Some(port_),
-            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
-        },
-        move || {
-            let api_that = that.cst_decode();
-            move |context| {
-                transform_result_dco((move || {
-                    crate::api::node::LdkNode::total_onchain_balance_sats(&api_that)
-                })())
-            }
-        },
-    )
-}
 fn wire_ldk_node_update_channel_config_impl(
     port_: flutter_rust_bridge::for_generated::MessagePort,
     that: impl CstDecode<crate::api::node::LdkNode>,
-    channel_id: impl CstDecode<crate::api::types::ChannelId>,
+    user_channel_id: impl CstDecode<crate::api::types::UserChannelId>,
     counterparty_node_id: impl CstDecode<crate::api::types::PublicKey>,
     channel_config: impl CstDecode<crate::api::types::ChannelConfig>,
 ) {
@@ -855,14 +921,14 @@ fn wire_ldk_node_update_channel_config_impl(
         },
         move || {
             let api_that = that.cst_decode();
-            let api_channel_id = channel_id.cst_decode();
+            let api_user_channel_id = user_channel_id.cst_decode();
             let api_counterparty_node_id = counterparty_node_id.cst_decode();
             let api_channel_config = channel_config.cst_decode();
             move |context| {
                 transform_result_dco((move || {
                     crate::api::node::LdkNode::update_channel_config(
                         &api_that,
-                        api_channel_id,
+                        api_user_channel_id,
                         api_counterparty_node_id,
                         api_channel_config,
                     )
@@ -876,7 +942,7 @@ fn wire_ldk_node_verify_signature_impl(
     that: impl CstDecode<crate::api::node::LdkNode>,
     msg: impl CstDecode<Vec<u8>>,
     sig: impl CstDecode<String>,
-    pkey: impl CstDecode<crate::api::types::PublicKey>,
+    public_key: impl CstDecode<crate::api::types::PublicKey>,
 ) {
     FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
         flutter_rust_bridge::for_generated::TaskInfo {
@@ -888,11 +954,14 @@ fn wire_ldk_node_verify_signature_impl(
             let api_that = that.cst_decode();
             let api_msg = msg.cst_decode();
             let api_sig = sig.cst_decode();
-            let api_pkey = pkey.cst_decode();
+            let api_public_key = public_key.cst_decode();
             move |context| {
                 transform_result_dco((move || {
                     crate::api::node::LdkNode::verify_signature(
-                        &api_that, api_msg, api_sig, api_pkey,
+                        &api_that,
+                        api_msg,
+                        api_sig,
+                        api_public_key,
                     )
                 })())
             }
@@ -919,13 +988,13 @@ fn wire_ldk_node_wait_next_event_impl(
         },
     )
 }
-fn wire_socket_address_as_string_impl(
+fn wire_ldk_on_chain_payment_new_address_impl(
     port_: flutter_rust_bridge::for_generated::MessagePort,
-    that: impl CstDecode<crate::api::types::SocketAddress>,
+    that: impl CstDecode<crate::api::node::LdkOnChainPayment>,
 ) {
     FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
         flutter_rust_bridge::for_generated::TaskInfo {
-            debug_name: "socket_address_as_string",
+            debug_name: "ldk_on_chain_payment_new_address",
             port: Some(port_),
             mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
         },
@@ -933,27 +1002,113 @@ fn wire_socket_address_as_string_impl(
             let api_that = that.cst_decode();
             move |context| {
                 transform_result_dco((move || {
-                    Result::<_, ()>::Ok(crate::api::types::SocketAddress::as_string(&api_that))
+                    crate::api::node::LdkOnChainPayment::new_address(&api_that)
                 })())
             }
         },
     )
 }
-fn wire_socket_address_from_str_impl(
+fn wire_ldk_on_chain_payment_send_all_to_address_impl(
     port_: flutter_rust_bridge::for_generated::MessagePort,
-    address: impl CstDecode<String>,
+    that: impl CstDecode<crate::api::node::LdkOnChainPayment>,
+    address: impl CstDecode<crate::api::types::Address>,
 ) {
     FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
         flutter_rust_bridge::for_generated::TaskInfo {
-            debug_name: "socket_address_from_str",
+            debug_name: "ldk_on_chain_payment_send_all_to_address",
             port: Some(port_),
             mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
         },
         move || {
+            let api_that = that.cst_decode();
             let api_address = address.cst_decode();
             move |context| {
                 transform_result_dco((move || {
-                    crate::api::types::SocketAddress::from_str(api_address)
+                    crate::api::node::LdkOnChainPayment::send_all_to_address(&api_that, api_address)
+                })())
+            }
+        },
+    )
+}
+fn wire_ldk_on_chain_payment_send_to_address_impl(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
+    that: impl CstDecode<crate::api::node::LdkOnChainPayment>,
+    address: impl CstDecode<crate::api::types::Address>,
+    amount_sats: impl CstDecode<u64>,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "ldk_on_chain_payment_send_to_address",
+            port: Some(port_),
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
+        },
+        move || {
+            let api_that = that.cst_decode();
+            let api_address = address.cst_decode();
+            let api_amount_sats = amount_sats.cst_decode();
+            move |context| {
+                transform_result_dco((move || {
+                    crate::api::node::LdkOnChainPayment::send_to_address(
+                        &api_that,
+                        api_address,
+                        api_amount_sats,
+                    )
+                })())
+            }
+        },
+    )
+}
+fn wire_ldk_spontaneous_payment_send_impl(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
+    that: impl CstDecode<crate::api::node::LdkSpontaneousPayment>,
+    amount_msat: impl CstDecode<u64>,
+    node_id: impl CstDecode<crate::api::types::PublicKey>,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "ldk_spontaneous_payment_send",
+            port: Some(port_),
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
+        },
+        move || {
+            let api_that = that.cst_decode();
+            let api_amount_msat = amount_msat.cst_decode();
+            let api_node_id = node_id.cst_decode();
+            move |context| {
+                transform_result_dco((move || {
+                    crate::api::node::LdkSpontaneousPayment::send(
+                        &api_that,
+                        api_amount_msat,
+                        api_node_id,
+                    )
+                })())
+            }
+        },
+    )
+}
+fn wire_ldk_spontaneous_payment_send_probes_impl(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
+    that: impl CstDecode<crate::api::node::LdkSpontaneousPayment>,
+    amount_msat: impl CstDecode<u64>,
+    node_id: impl CstDecode<crate::api::types::PublicKey>,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "ldk_spontaneous_payment_send_probes",
+            port: Some(port_),
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
+        },
+        move || {
+            let api_that = that.cst_decode();
+            let api_amount_msat = amount_msat.cst_decode();
+            let api_node_id = node_id.cst_decode();
+            move |context| {
+                transform_result_dco((move || {
+                    crate::api::node::LdkSpontaneousPayment::send_probes(
+                        &api_that,
+                        api_amount_msat,
+                        api_node_id,
+                    )
                 })())
             }
         },
@@ -984,7 +1139,7 @@ impl CstDecode<crate::api::error::BuilderException> for i32 {
             9 => crate::api::error::BuilderException::KVStoreSetupFailed,
             10 => crate::api::error::BuilderException::WalletSetupFailed,
             11 => crate::api::error::BuilderException::LoggerSetupFailed,
-            12 => crate::api::error::BuilderException::InvalidTrustedPeer,
+            12 => crate::api::error::BuilderException::InvalidPublicKey,
             _ => unreachable!("Invalid variant for BuilderException: {}", self),
         }
     }
@@ -1056,6 +1211,11 @@ impl CstDecode<crate::api::error::NodeException> for i32 {
             28 => crate::api::error::NodeException::DuplicatePayment,
             29 => crate::api::error::NodeException::InsufficientFunds,
             30 => crate::api::error::NodeException::FeerateEstimationUpdateFailed,
+            31 => crate::api::error::NodeException::LiquidityRequestFailed,
+            32 => crate::api::error::NodeException::LiquiditySourceUnavailable,
+            33 => crate::api::error::NodeException::LiquidityFeeTooHigh,
+            34 => crate::api::error::NodeException::InvalidPaymentId,
+            35 => crate::api::error::NodeException::DecodeError,
             _ => unreachable!("Invalid variant for NodeException: {}", self),
         }
     }
@@ -1067,6 +1227,20 @@ impl CstDecode<crate::api::types::PaymentDirection> for i32 {
             0 => crate::api::types::PaymentDirection::Inbound,
             1 => crate::api::types::PaymentDirection::Outbound,
             _ => unreachable!("Invalid variant for PaymentDirection: {}", self),
+        }
+    }
+}
+impl CstDecode<crate::api::types::PaymentFailureReason> for i32 {
+    // Codec=Cst (C-struct based), see doc to use other codecs
+    fn cst_decode(self) -> crate::api::types::PaymentFailureReason {
+        match self {
+            0 => crate::api::types::PaymentFailureReason::RecipientRejected,
+            1 => crate::api::types::PaymentFailureReason::UserAbandoned,
+            2 => crate::api::types::PaymentFailureReason::RetriesExhausted,
+            3 => crate::api::types::PaymentFailureReason::PaymentExpired,
+            4 => crate::api::types::PaymentFailureReason::RouteNotFound,
+            5 => crate::api::types::PaymentFailureReason::UnexpectedError,
+            _ => unreachable!("Invalid variant for PaymentFailureReason: {}", self),
         }
     }
 }
@@ -1111,7 +1285,51 @@ impl CstDecode<usize> for usize {
         self
     }
 }
-impl SseDecode for RustOpaqueNom<Node<SqliteStore>> {
+impl SseDecode for NodeBuilder {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        let mut inner = <RustOpaqueNom<
+            flutter_rust_bridge::for_generated::rust_async::RwLock<NodeBuilder>,
+        >>::sse_decode(deserializer);
+        return inner.rust_auto_opaque_decode_owned();
+    }
+}
+
+impl SseDecode for RustOpaqueNom<Node> {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        let mut inner = <usize>::sse_decode(deserializer);
+        return unsafe { decode_rust_opaque_nom(inner) };
+    }
+}
+
+impl SseDecode
+    for RustOpaqueNom<flutter_rust_bridge::for_generated::rust_async::RwLock<NodeBuilder>>
+{
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        let mut inner = <usize>::sse_decode(deserializer);
+        return unsafe { decode_rust_opaque_nom(inner) };
+    }
+}
+
+impl SseDecode for RustOpaqueNom<ldk_node::payment::Bolt11Payment> {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        let mut inner = <usize>::sse_decode(deserializer);
+        return unsafe { decode_rust_opaque_nom(inner) };
+    }
+}
+
+impl SseDecode for RustOpaqueNom<ldk_node::payment::OnchainPayment> {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        let mut inner = <usize>::sse_decode(deserializer);
+        return unsafe { decode_rust_opaque_nom(inner) };
+    }
+}
+
+impl SseDecode for RustOpaqueNom<ldk_node::payment::SpontaneousPayment> {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
         let mut inner = <usize>::sse_decode(deserializer);
@@ -1132,6 +1350,38 @@ impl SseDecode for crate::api::types::Address {
     fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
         let mut var_s = <String>::sse_decode(deserializer);
         return crate::api::types::Address { s: var_s };
+    }
+}
+
+impl SseDecode for crate::api::types::BalanceDetails {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        let mut var_totalOnchainBalanceSats = <u64>::sse_decode(deserializer);
+        let mut var_spendableOnchainBalanceSats = <u64>::sse_decode(deserializer);
+        let mut var_totalLightningBalanceSats = <u64>::sse_decode(deserializer);
+        let mut var_lightningBalances =
+            <Vec<crate::api::types::LightningBalance>>::sse_decode(deserializer);
+        let mut var_pendingBalancesFromChannelClosures =
+            <Vec<crate::api::types::PendingSweepBalance>>::sse_decode(deserializer);
+        return crate::api::types::BalanceDetails {
+            total_onchain_balance_sats: var_totalOnchainBalanceSats,
+            spendable_onchain_balance_sats: var_spendableOnchainBalanceSats,
+            total_lightning_balance_sats: var_totalLightningBalanceSats,
+            lightning_balances: var_lightningBalances,
+            pending_balances_from_channel_closures: var_pendingBalancesFromChannelClosures,
+        };
+    }
+}
+
+impl SseDecode for crate::api::types::BestBlock {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        let mut var_blockHash = <String>::sse_decode(deserializer);
+        let mut var_height = <u32>::sse_decode(deserializer);
+        return crate::api::types::BestBlock {
+            block_hash: var_blockHash,
+            height: var_height,
+        };
     }
 }
 
@@ -1169,7 +1419,7 @@ impl SseDecode for crate::api::error::BuilderException {
             9 => crate::api::error::BuilderException::KVStoreSetupFailed,
             10 => crate::api::error::BuilderException::WalletSetupFailed,
             11 => crate::api::error::BuilderException::LoggerSetupFailed,
-            12 => crate::api::error::BuilderException::InvalidTrustedPeer,
+            12 => crate::api::error::BuilderException::InvalidPublicKey,
             _ => unreachable!("Invalid variant for BuilderException: {}", inner),
         };
     }
@@ -1198,7 +1448,7 @@ impl SseDecode for crate::api::types::ChannelConfig {
         let mut var_forwardingFeeBaseMsat = <u32>::sse_decode(deserializer);
         let mut var_cltvExpiryDelta = <u16>::sse_decode(deserializer);
         let mut var_maxDustHtlcExposure =
-            <crate::api::types::MaxDustHTLCExposure>::sse_decode(deserializer);
+            <Option<crate::api::types::MaxDustHTLCExposure>>::sse_decode(deserializer);
         let mut var_forceCloseAvoidanceMaxFeeSatoshis = <u64>::sse_decode(deserializer);
         let mut var_acceptUnderpayingHtlcs = <bool>::sse_decode(deserializer);
         return crate::api::types::ChannelConfig {
@@ -1217,12 +1467,11 @@ impl SseDecode for crate::api::types::ChannelDetails {
     fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
         let mut var_channelId = <crate::api::types::ChannelId>::sse_decode(deserializer);
         let mut var_counterpartyNodeId = <crate::api::types::PublicKey>::sse_decode(deserializer);
-        let mut var_fundingTxo = <Option<String>>::sse_decode(deserializer);
+        let mut var_fundingTxo = <Option<crate::api::types::OutPoint>>::sse_decode(deserializer);
         let mut var_channelValueSats = <u64>::sse_decode(deserializer);
         let mut var_unspendablePunishmentReserve = <Option<u64>>::sse_decode(deserializer);
         let mut var_userChannelId = <crate::api::types::UserChannelId>::sse_decode(deserializer);
         let mut var_feerateSatPer1000Weight = <u32>::sse_decode(deserializer);
-        let mut var_balanceMsat = <u64>::sse_decode(deserializer);
         let mut var_outboundCapacityMsat = <u64>::sse_decode(deserializer);
         let mut var_inboundCapacityMsat = <u64>::sse_decode(deserializer);
         let mut var_confirmationsRequired = <Option<u32>>::sse_decode(deserializer);
@@ -1231,6 +1480,21 @@ impl SseDecode for crate::api::types::ChannelDetails {
         let mut var_isChannelReady = <bool>::sse_decode(deserializer);
         let mut var_isUsable = <bool>::sse_decode(deserializer);
         let mut var_isPublic = <bool>::sse_decode(deserializer);
+        let mut var_cltvExpiryDelta = <Option<u16>>::sse_decode(deserializer);
+        let mut var_counterpartyUnspendablePunishmentReserve = <u64>::sse_decode(deserializer);
+        let mut var_counterpartyOutboundHtlcMinimumMsat = <Option<u64>>::sse_decode(deserializer);
+        let mut var_counterpartyOutboundHtlcMaximumMsat = <Option<u64>>::sse_decode(deserializer);
+        let mut var_counterpartyForwardingInfoFeeBaseMsat = <Option<u32>>::sse_decode(deserializer);
+        let mut var_counterpartyForwardingInfoFeeProportionalMillionths =
+            <Option<u32>>::sse_decode(deserializer);
+        let mut var_counterpartyForwardingInfoCltvExpiryDelta =
+            <Option<u16>>::sse_decode(deserializer);
+        let mut var_nextOutboundHtlcLimitMsat = <u64>::sse_decode(deserializer);
+        let mut var_nextOutboundHtlcMinimumMsat = <u64>::sse_decode(deserializer);
+        let mut var_forceCloseSpendDelay = <Option<u16>>::sse_decode(deserializer);
+        let mut var_inboundHtlcMinimumMsat = <u64>::sse_decode(deserializer);
+        let mut var_inboundHtlcMaximumMsat = <Option<u64>>::sse_decode(deserializer);
+        let mut var_config = <crate::api::types::ChannelConfig>::sse_decode(deserializer);
         return crate::api::types::ChannelDetails {
             channel_id: var_channelId,
             counterparty_node_id: var_counterpartyNodeId,
@@ -1239,7 +1503,6 @@ impl SseDecode for crate::api::types::ChannelDetails {
             unspendable_punishment_reserve: var_unspendablePunishmentReserve,
             user_channel_id: var_userChannelId,
             feerate_sat_per_1000_weight: var_feerateSatPer1000Weight,
-            balance_msat: var_balanceMsat,
             outbound_capacity_msat: var_outboundCapacityMsat,
             inbound_capacity_msat: var_inboundCapacityMsat,
             confirmations_required: var_confirmationsRequired,
@@ -1248,6 +1511,22 @@ impl SseDecode for crate::api::types::ChannelDetails {
             is_channel_ready: var_isChannelReady,
             is_usable: var_isUsable,
             is_public: var_isPublic,
+            cltv_expiry_delta: var_cltvExpiryDelta,
+            counterparty_unspendable_punishment_reserve:
+                var_counterpartyUnspendablePunishmentReserve,
+            counterparty_outbound_htlc_minimum_msat: var_counterpartyOutboundHtlcMinimumMsat,
+            counterparty_outbound_htlc_maximum_msat: var_counterpartyOutboundHtlcMaximumMsat,
+            counterparty_forwarding_info_fee_base_msat: var_counterpartyForwardingInfoFeeBaseMsat,
+            counterparty_forwarding_info_fee_proportional_millionths:
+                var_counterpartyForwardingInfoFeeProportionalMillionths,
+            counterparty_forwarding_info_cltv_expiry_delta:
+                var_counterpartyForwardingInfoCltvExpiryDelta,
+            next_outbound_htlc_limit_msat: var_nextOutboundHtlcLimitMsat,
+            next_outbound_htlc_minimum_msat: var_nextOutboundHtlcMinimumMsat,
+            force_close_spend_delay: var_forceCloseSpendDelay,
+            inbound_htlc_minimum_msat: var_inboundHtlcMinimumMsat,
+            inbound_htlc_maximum_msat: var_inboundHtlcMaximumMsat,
+            config: var_config,
         };
     }
 }
@@ -1257,6 +1536,61 @@ impl SseDecode for crate::api::types::ChannelId {
     fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
         let mut var_data = <[u8; 32]>::sse_decode(deserializer);
         return crate::api::types::ChannelId { data: var_data };
+    }
+}
+
+impl SseDecode for crate::api::types::ClosureReason {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        let mut tag_ = <i32>::sse_decode(deserializer);
+        match tag_ {
+            0 => {
+                let mut var_peerMsg = <String>::sse_decode(deserializer);
+                return crate::api::types::ClosureReason::CounterpartyForceClosed {
+                    peer_msg: var_peerMsg,
+                };
+            }
+            1 => {
+                return crate::api::types::ClosureReason::HolderForceClosed;
+            }
+            2 => {
+                return crate::api::types::ClosureReason::LegacyCooperativeClosure;
+            }
+            3 => {
+                return crate::api::types::ClosureReason::CounterpartyInitiatedCooperativeClosure;
+            }
+            4 => {
+                return crate::api::types::ClosureReason::LocallyInitiatedCooperativeClosure;
+            }
+            5 => {
+                return crate::api::types::ClosureReason::CommitmentTxConfirmed;
+            }
+            6 => {
+                return crate::api::types::ClosureReason::FundingTimedOut;
+            }
+            7 => {
+                let mut var_err = <String>::sse_decode(deserializer);
+                return crate::api::types::ClosureReason::ProcessingError { err: var_err };
+            }
+            8 => {
+                return crate::api::types::ClosureReason::DisconnectedPeer;
+            }
+            9 => {
+                return crate::api::types::ClosureReason::OutdatedChannelManager;
+            }
+            10 => {
+                return crate::api::types::ClosureReason::CounterpartyCoopClosedUnfundedChannel;
+            }
+            11 => {
+                return crate::api::types::ClosureReason::FundingBatchClosure;
+            }
+            12 => {
+                return crate::api::types::ClosureReason::HTLCsTimedOut;
+            }
+            _ => {
+                unimplemented!("");
+            }
+        }
     }
 }
 
@@ -1326,53 +1660,43 @@ impl SseDecode for crate::api::types::Event {
         let mut tag_ = <i32>::sse_decode(deserializer);
         match tag_ {
             0 => {
+                let mut var_paymentId =
+                    <Option<crate::api::types::PaymentId>>::sse_decode(deserializer);
                 let mut var_paymentHash =
                     <crate::api::types::PaymentHash>::sse_decode(deserializer);
+                let mut var_feePaidMsat = <Option<u64>>::sse_decode(deserializer);
                 return crate::api::types::Event::PaymentSuccessful {
+                    payment_id: var_paymentId,
                     payment_hash: var_paymentHash,
+                    fee_paid_msat: var_feePaidMsat,
                 };
             }
             1 => {
+                let mut var_paymentId =
+                    <Option<crate::api::types::PaymentId>>::sse_decode(deserializer);
                 let mut var_paymentHash =
                     <crate::api::types::PaymentHash>::sse_decode(deserializer);
+                let mut var_reason =
+                    <Option<crate::api::types::PaymentFailureReason>>::sse_decode(deserializer);
                 return crate::api::types::Event::PaymentFailed {
+                    payment_id: var_paymentId,
                     payment_hash: var_paymentHash,
+                    reason: var_reason,
                 };
             }
             2 => {
+                let mut var_paymentId =
+                    <Option<crate::api::types::PaymentId>>::sse_decode(deserializer);
                 let mut var_paymentHash =
                     <crate::api::types::PaymentHash>::sse_decode(deserializer);
                 let mut var_amountMsat = <u64>::sse_decode(deserializer);
                 return crate::api::types::Event::PaymentReceived {
+                    payment_id: var_paymentId,
                     payment_hash: var_paymentHash,
                     amount_msat: var_amountMsat,
                 };
             }
             3 => {
-                let mut var_channelId = <crate::api::types::ChannelId>::sse_decode(deserializer);
-                let mut var_userChannelId =
-                    <crate::api::types::UserChannelId>::sse_decode(deserializer);
-                let mut var_counterpartyNodeId =
-                    <Option<crate::api::types::PublicKey>>::sse_decode(deserializer);
-                return crate::api::types::Event::ChannelReady {
-                    channel_id: var_channelId,
-                    user_channel_id: var_userChannelId,
-                    counterparty_node_id: var_counterpartyNodeId,
-                };
-            }
-            4 => {
-                let mut var_channelId = <crate::api::types::ChannelId>::sse_decode(deserializer);
-                let mut var_userChannelId =
-                    <crate::api::types::UserChannelId>::sse_decode(deserializer);
-                let mut var_counterpartyNodeId =
-                    <Option<crate::api::types::PublicKey>>::sse_decode(deserializer);
-                return crate::api::types::Event::ChannelClosed {
-                    channel_id: var_channelId,
-                    user_channel_id: var_userChannelId,
-                    counterparty_node_id: var_counterpartyNodeId,
-                };
-            }
-            5 => {
                 let mut var_channelId = <crate::api::types::ChannelId>::sse_decode(deserializer);
                 let mut var_userChannelId =
                     <crate::api::types::UserChannelId>::sse_decode(deserializer);
@@ -1387,6 +1711,33 @@ impl SseDecode for crate::api::types::Event {
                     former_temporary_channel_id: var_formerTemporaryChannelId,
                     counterparty_node_id: var_counterpartyNodeId,
                     funding_txo: var_fundingTxo,
+                };
+            }
+            4 => {
+                let mut var_channelId = <crate::api::types::ChannelId>::sse_decode(deserializer);
+                let mut var_userChannelId =
+                    <crate::api::types::UserChannelId>::sse_decode(deserializer);
+                let mut var_counterpartyNodeId =
+                    <Option<crate::api::types::PublicKey>>::sse_decode(deserializer);
+                return crate::api::types::Event::ChannelReady {
+                    channel_id: var_channelId,
+                    user_channel_id: var_userChannelId,
+                    counterparty_node_id: var_counterpartyNodeId,
+                };
+            }
+            5 => {
+                let mut var_channelId = <crate::api::types::ChannelId>::sse_decode(deserializer);
+                let mut var_userChannelId =
+                    <crate::api::types::UserChannelId>::sse_decode(deserializer);
+                let mut var_counterpartyNodeId =
+                    <Option<crate::api::types::PublicKey>>::sse_decode(deserializer);
+                let mut var_reason =
+                    <Option<crate::api::types::ClosureReason>>::sse_decode(deserializer);
+                return crate::api::types::Event::ChannelClosed {
+                    channel_id: var_channelId,
+                    user_channel_id: var_userChannelId,
+                    counterparty_node_id: var_counterpartyNodeId,
+                    reason: var_reason,
                 };
             }
             _ => {
@@ -1422,6 +1773,15 @@ impl SseDecode for i32 {
     }
 }
 
+impl SseDecode for crate::api::node::LdkBolt11Payment {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        let mut var_ptr =
+            <RustOpaqueNom<ldk_node::payment::Bolt11Payment>>::sse_decode(deserializer);
+        return crate::api::node::LdkBolt11Payment { ptr: var_ptr };
+    }
+}
+
 impl SseDecode for crate::api::node::LdkMnemonic {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
@@ -1435,8 +1795,138 @@ impl SseDecode for crate::api::node::LdkMnemonic {
 impl SseDecode for crate::api::node::LdkNode {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
-        let mut var_ptr = <RustOpaqueNom<Node<SqliteStore>>>::sse_decode(deserializer);
+        let mut var_ptr = <RustOpaqueNom<Node>>::sse_decode(deserializer);
         return crate::api::node::LdkNode { ptr: var_ptr };
+    }
+}
+
+impl SseDecode for crate::api::node::LdkOnChainPayment {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        let mut var_ptr =
+            <RustOpaqueNom<ldk_node::payment::OnchainPayment>>::sse_decode(deserializer);
+        return crate::api::node::LdkOnChainPayment { ptr: var_ptr };
+    }
+}
+
+impl SseDecode for crate::api::node::LdkSpontaneousPayment {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        let mut var_ptr =
+            <RustOpaqueNom<ldk_node::payment::SpontaneousPayment>>::sse_decode(deserializer);
+        return crate::api::node::LdkSpontaneousPayment { ptr: var_ptr };
+    }
+}
+
+impl SseDecode for crate::api::types::LightningBalance {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        let mut tag_ = <i32>::sse_decode(deserializer);
+        match tag_ {
+            0 => {
+                let mut var_channelId = <crate::api::types::ChannelId>::sse_decode(deserializer);
+                let mut var_counterpartyNodeId =
+                    <crate::api::types::PublicKey>::sse_decode(deserializer);
+                let mut var_amountSatoshis = <u64>::sse_decode(deserializer);
+                return crate::api::types::LightningBalance::ClaimableOnChannelClose {
+                    channel_id: var_channelId,
+                    counterparty_node_id: var_counterpartyNodeId,
+                    amount_satoshis: var_amountSatoshis,
+                };
+            }
+            1 => {
+                let mut var_channelId = <crate::api::types::ChannelId>::sse_decode(deserializer);
+                let mut var_counterpartyNodeId =
+                    <crate::api::types::PublicKey>::sse_decode(deserializer);
+                let mut var_amountSatoshis = <u64>::sse_decode(deserializer);
+                let mut var_confirmationHeight = <u32>::sse_decode(deserializer);
+                return crate::api::types::LightningBalance::ClaimableAwaitingConfirmations {
+                    channel_id: var_channelId,
+                    counterparty_node_id: var_counterpartyNodeId,
+                    amount_satoshis: var_amountSatoshis,
+                    confirmation_height: var_confirmationHeight,
+                };
+            }
+            2 => {
+                let mut var_channelId = <crate::api::types::ChannelId>::sse_decode(deserializer);
+                let mut var_counterpartyNodeId =
+                    <crate::api::types::PublicKey>::sse_decode(deserializer);
+                let mut var_amountSatoshis = <u64>::sse_decode(deserializer);
+                let mut var_timeoutHeight = <u32>::sse_decode(deserializer);
+                let mut var_paymentHash =
+                    <crate::api::types::PaymentHash>::sse_decode(deserializer);
+                let mut var_paymentPreimage =
+                    <crate::api::types::PaymentPreimage>::sse_decode(deserializer);
+                return crate::api::types::LightningBalance::ContentiousClaimable {
+                    channel_id: var_channelId,
+                    counterparty_node_id: var_counterpartyNodeId,
+                    amount_satoshis: var_amountSatoshis,
+                    timeout_height: var_timeoutHeight,
+                    payment_hash: var_paymentHash,
+                    payment_preimage: var_paymentPreimage,
+                };
+            }
+            3 => {
+                let mut var_channelId = <crate::api::types::ChannelId>::sse_decode(deserializer);
+                let mut var_counterpartyNodeId =
+                    <crate::api::types::PublicKey>::sse_decode(deserializer);
+                let mut var_amountSatoshis = <u64>::sse_decode(deserializer);
+                let mut var_claimableHeight = <u32>::sse_decode(deserializer);
+                let mut var_paymentHash =
+                    <crate::api::types::PaymentHash>::sse_decode(deserializer);
+                return crate::api::types::LightningBalance::MaybeTimeoutClaimableHTLC {
+                    channel_id: var_channelId,
+                    counterparty_node_id: var_counterpartyNodeId,
+                    amount_satoshis: var_amountSatoshis,
+                    claimable_height: var_claimableHeight,
+                    payment_hash: var_paymentHash,
+                };
+            }
+            4 => {
+                let mut var_channelId = <crate::api::types::ChannelId>::sse_decode(deserializer);
+                let mut var_counterpartyNodeId =
+                    <crate::api::types::PublicKey>::sse_decode(deserializer);
+                let mut var_amountSatoshis = <u64>::sse_decode(deserializer);
+                let mut var_expiryHeight = <u32>::sse_decode(deserializer);
+                let mut var_paymentHash =
+                    <crate::api::types::PaymentHash>::sse_decode(deserializer);
+                return crate::api::types::LightningBalance::MaybePreimageClaimableHTLC {
+                    channel_id: var_channelId,
+                    counterparty_node_id: var_counterpartyNodeId,
+                    amount_satoshis: var_amountSatoshis,
+                    expiry_height: var_expiryHeight,
+                    payment_hash: var_paymentHash,
+                };
+            }
+            5 => {
+                let mut var_channelId = <crate::api::types::ChannelId>::sse_decode(deserializer);
+                let mut var_counterpartyNodeId =
+                    <crate::api::types::PublicKey>::sse_decode(deserializer);
+                let mut var_amountSatoshis = <u64>::sse_decode(deserializer);
+                return crate::api::types::LightningBalance::CounterpartyRevokedOutputClaimable {
+                    channel_id: var_channelId,
+                    counterparty_node_id: var_counterpartyNodeId,
+                    amount_satoshis: var_amountSatoshis,
+                };
+            }
+            _ => {
+                unimplemented!("");
+            }
+        }
+    }
+}
+
+impl SseDecode for crate::api::types::LiquiditySourceConfig {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        let mut var_lsps2Service = <(
+            crate::api::types::SocketAddress,
+            crate::api::types::PublicKey,
+            Option<String>,
+        )>::sse_decode(deserializer);
+        return crate::api::types::LiquiditySourceConfig {
+            lsps2_service: var_lsps2Service,
+        };
     }
 }
 
@@ -1447,6 +1937,20 @@ impl SseDecode for Vec<crate::api::types::ChannelDetails> {
         let mut ans_ = vec![];
         for idx_ in 0..len_ {
             ans_.push(<crate::api::types::ChannelDetails>::sse_decode(
+                deserializer,
+            ));
+        }
+        return ans_;
+    }
+}
+
+impl SseDecode for Vec<crate::api::types::LightningBalance> {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        let mut len_ = <i32>::sse_decode(deserializer);
+        let mut ans_ = vec![];
+        for idx_ in 0..len_ {
+            ans_.push(<crate::api::types::LightningBalance>::sse_decode(
                 deserializer,
             ));
         }
@@ -1475,6 +1979,20 @@ impl SseDecode for Vec<crate::api::types::PeerDetails> {
         let mut ans_ = vec![];
         for idx_ in 0..len_ {
             ans_.push(<crate::api::types::PeerDetails>::sse_decode(deserializer));
+        }
+        return ans_;
+    }
+}
+
+impl SseDecode for Vec<crate::api::types::PendingSweepBalance> {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        let mut len_ = <i32>::sse_decode(deserializer);
+        let mut ans_ = vec![];
+        for idx_ in 0..len_ {
+            ans_.push(<crate::api::types::PendingSweepBalance>::sse_decode(
+                deserializer,
+            ));
         }
         return ans_;
     }
@@ -1528,6 +2046,18 @@ impl SseDecode for crate::api::types::LogLevel {
             4 => crate::api::types::LogLevel::Warn,
             5 => crate::api::types::LogLevel::Error,
             _ => unreachable!("Invalid variant for LogLevel: {}", inner),
+        };
+    }
+}
+
+impl SseDecode for crate::api::types::LSPFeeLimits {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        let mut var_maxTotalOpeningFeeMsat = <Option<u64>>::sse_decode(deserializer);
+        let mut var_maxProportionalOpeningFeePpmMsat = <Option<u64>>::sse_decode(deserializer);
+        return crate::api::types::LSPFeeLimits {
+            max_total_opening_fee_msat: var_maxTotalOpeningFeeMsat,
+            max_proportional_opening_fee_ppm_msat: var_maxProportionalOpeningFeePpmMsat,
         };
     }
 }
@@ -1602,7 +2132,38 @@ impl SseDecode for crate::api::error::NodeException {
             28 => crate::api::error::NodeException::DuplicatePayment,
             29 => crate::api::error::NodeException::InsufficientFunds,
             30 => crate::api::error::NodeException::FeerateEstimationUpdateFailed,
+            31 => crate::api::error::NodeException::LiquidityRequestFailed,
+            32 => crate::api::error::NodeException::LiquiditySourceUnavailable,
+            33 => crate::api::error::NodeException::LiquidityFeeTooHigh,
+            34 => crate::api::error::NodeException::InvalidPaymentId,
+            35 => crate::api::error::NodeException::DecodeError,
             _ => unreachable!("Invalid variant for NodeException: {}", inner),
+        };
+    }
+}
+
+impl SseDecode for crate::api::types::NodeStatus {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        let mut var_isRunning = <bool>::sse_decode(deserializer);
+        let mut var_isListening = <bool>::sse_decode(deserializer);
+        let mut var_currentBestBlock = <crate::api::types::BestBlock>::sse_decode(deserializer);
+        let mut var_latestWalletSyncTimestamp = <Option<u64>>::sse_decode(deserializer);
+        let mut var_latestOnchainWalletSyncTimestamp = <Option<u64>>::sse_decode(deserializer);
+        let mut var_latestFeeRateCacheUpdateTimestamp = <Option<u64>>::sse_decode(deserializer);
+        let mut var_latestRgsSnapshotTimestamp = <Option<u64>>::sse_decode(deserializer);
+        let mut var_latestNodeAnnouncementBroadcastTimestamp =
+            <Option<u64>>::sse_decode(deserializer);
+        return crate::api::types::NodeStatus {
+            is_running: var_isRunning,
+            is_listening: var_isListening,
+            current_best_block: var_currentBestBlock,
+            latest_wallet_sync_timestamp: var_latestWalletSyncTimestamp,
+            latest_onchain_wallet_sync_timestamp: var_latestOnchainWalletSyncTimestamp,
+            latest_fee_rate_cache_update_timestamp: var_latestFeeRateCacheUpdateTimestamp,
+            latest_rgs_snapshot_timestamp: var_latestRgsSnapshotTimestamp,
+            latest_node_announcement_broadcast_timestamp:
+                var_latestNodeAnnouncementBroadcastTimestamp,
         };
     }
 }
@@ -1636,6 +2197,28 @@ impl SseDecode for Option<crate::api::types::ChannelConfig> {
     fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
         if (<bool>::sse_decode(deserializer)) {
             return Some(<crate::api::types::ChannelConfig>::sse_decode(deserializer));
+        } else {
+            return None;
+        }
+    }
+}
+
+impl SseDecode for Option<crate::api::types::ChannelId> {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        if (<bool>::sse_decode(deserializer)) {
+            return Some(<crate::api::types::ChannelId>::sse_decode(deserializer));
+        } else {
+            return None;
+        }
+    }
+}
+
+impl SseDecode for Option<crate::api::types::ClosureReason> {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        if (<bool>::sse_decode(deserializer)) {
+            return Some(<crate::api::types::ClosureReason>::sse_decode(deserializer));
         } else {
             return None;
         }
@@ -1679,6 +2262,43 @@ impl SseDecode for Option<crate::api::types::GossipSourceConfig> {
     }
 }
 
+impl SseDecode for Option<crate::api::types::LiquiditySourceConfig> {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        if (<bool>::sse_decode(deserializer)) {
+            return Some(<crate::api::types::LiquiditySourceConfig>::sse_decode(
+                deserializer,
+            ));
+        } else {
+            return None;
+        }
+    }
+}
+
+impl SseDecode for Option<crate::api::types::MaxDustHTLCExposure> {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        if (<bool>::sse_decode(deserializer)) {
+            return Some(<crate::api::types::MaxDustHTLCExposure>::sse_decode(
+                deserializer,
+            ));
+        } else {
+            return None;
+        }
+    }
+}
+
+impl SseDecode for Option<crate::api::types::OutPoint> {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        if (<bool>::sse_decode(deserializer)) {
+            return Some(<crate::api::types::OutPoint>::sse_decode(deserializer));
+        } else {
+            return None;
+        }
+    }
+}
+
 impl SseDecode for Option<crate::api::types::PaymentDetails> {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
@@ -1686,6 +2306,30 @@ impl SseDecode for Option<crate::api::types::PaymentDetails> {
             return Some(<crate::api::types::PaymentDetails>::sse_decode(
                 deserializer,
             ));
+        } else {
+            return None;
+        }
+    }
+}
+
+impl SseDecode for Option<crate::api::types::PaymentFailureReason> {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        if (<bool>::sse_decode(deserializer)) {
+            return Some(<crate::api::types::PaymentFailureReason>::sse_decode(
+                deserializer,
+            ));
+        } else {
+            return None;
+        }
+    }
+}
+
+impl SseDecode for Option<crate::api::types::PaymentId> {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        if (<bool>::sse_decode(deserializer)) {
+            return Some(<crate::api::types::PaymentId>::sse_decode(deserializer));
         } else {
             return None;
         }
@@ -1721,6 +2365,17 @@ impl SseDecode for Option<crate::api::types::PublicKey> {
     fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
         if (<bool>::sse_decode(deserializer)) {
             return Some(<crate::api::types::PublicKey>::sse_decode(deserializer));
+        } else {
+            return None;
+        }
+    }
+}
+
+impl SseDecode for Option<u16> {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        if (<bool>::sse_decode(deserializer)) {
+            return Some(<u16>::sse_decode(deserializer));
         } else {
             return None;
         }
@@ -1777,17 +2432,14 @@ impl SseDecode for crate::api::types::OutPoint {
 impl SseDecode for crate::api::types::PaymentDetails {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
-        let mut var_hash = <crate::api::types::PaymentHash>::sse_decode(deserializer);
-        let mut var_preimage =
-            <Option<crate::api::types::PaymentPreimage>>::sse_decode(deserializer);
-        let mut var_secret = <Option<crate::api::types::PaymentSecret>>::sse_decode(deserializer);
+        let mut var_id = <crate::api::types::PaymentId>::sse_decode(deserializer);
+        let mut var_kind = <crate::api::types::PaymentKind>::sse_decode(deserializer);
         let mut var_amountMsat = <Option<u64>>::sse_decode(deserializer);
         let mut var_direction = <crate::api::types::PaymentDirection>::sse_decode(deserializer);
         let mut var_status = <crate::api::types::PaymentStatus>::sse_decode(deserializer);
         return crate::api::types::PaymentDetails {
-            hash: var_hash,
-            preimage: var_preimage,
-            secret: var_secret,
+            id: var_id,
+            kind: var_kind,
             amount_msat: var_amountMsat,
             direction: var_direction,
             status: var_status,
@@ -1807,11 +2459,86 @@ impl SseDecode for crate::api::types::PaymentDirection {
     }
 }
 
+impl SseDecode for crate::api::types::PaymentFailureReason {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        let mut inner = <i32>::sse_decode(deserializer);
+        return match inner {
+            0 => crate::api::types::PaymentFailureReason::RecipientRejected,
+            1 => crate::api::types::PaymentFailureReason::UserAbandoned,
+            2 => crate::api::types::PaymentFailureReason::RetriesExhausted,
+            3 => crate::api::types::PaymentFailureReason::PaymentExpired,
+            4 => crate::api::types::PaymentFailureReason::RouteNotFound,
+            5 => crate::api::types::PaymentFailureReason::UnexpectedError,
+            _ => unreachable!("Invalid variant for PaymentFailureReason: {}", inner),
+        };
+    }
+}
+
 impl SseDecode for crate::api::types::PaymentHash {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
         let mut var_data = <[u8; 32]>::sse_decode(deserializer);
         return crate::api::types::PaymentHash { data: var_data };
+    }
+}
+
+impl SseDecode for crate::api::types::PaymentId {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        let mut var_field0 = <[u8; 32]>::sse_decode(deserializer);
+        return crate::api::types::PaymentId(var_field0);
+    }
+}
+
+impl SseDecode for crate::api::types::PaymentKind {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        let mut tag_ = <i32>::sse_decode(deserializer);
+        match tag_ {
+            0 => {
+                return crate::api::types::PaymentKind::Onchain;
+            }
+            1 => {
+                let mut var_hash = <crate::api::types::PaymentHash>::sse_decode(deserializer);
+                let mut var_preimage =
+                    <Option<crate::api::types::PaymentPreimage>>::sse_decode(deserializer);
+                let mut var_secret =
+                    <Option<crate::api::types::PaymentSecret>>::sse_decode(deserializer);
+                return crate::api::types::PaymentKind::Bolt11 {
+                    hash: var_hash,
+                    preimage: var_preimage,
+                    secret: var_secret,
+                };
+            }
+            2 => {
+                let mut var_hash = <crate::api::types::PaymentHash>::sse_decode(deserializer);
+                let mut var_preimage =
+                    <Option<crate::api::types::PaymentPreimage>>::sse_decode(deserializer);
+                let mut var_secret =
+                    <Option<crate::api::types::PaymentSecret>>::sse_decode(deserializer);
+                let mut var_lspFeeLimits =
+                    <crate::api::types::LSPFeeLimits>::sse_decode(deserializer);
+                return crate::api::types::PaymentKind::Bolt11Jit {
+                    hash: var_hash,
+                    preimage: var_preimage,
+                    secret: var_secret,
+                    lsp_fee_limits: var_lspFeeLimits,
+                };
+            }
+            3 => {
+                let mut var_hash = <crate::api::types::PaymentHash>::sse_decode(deserializer);
+                let mut var_preimage =
+                    <Option<crate::api::types::PaymentPreimage>>::sse_decode(deserializer);
+                return crate::api::types::PaymentKind::Spontaneous {
+                    hash: var_hash,
+                    preimage: var_preimage,
+                };
+            }
+            _ => {
+                unimplemented!("");
+            }
+        }
     }
 }
 
@@ -1858,11 +2585,78 @@ impl SseDecode for crate::api::types::PeerDetails {
     }
 }
 
+impl SseDecode for crate::api::types::PendingSweepBalance {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        let mut tag_ = <i32>::sse_decode(deserializer);
+        match tag_ {
+            0 => {
+                let mut var_channelId =
+                    <Option<crate::api::types::ChannelId>>::sse_decode(deserializer);
+                let mut var_amountSatoshis = <u64>::sse_decode(deserializer);
+                return crate::api::types::PendingSweepBalance::PendingBroadcast {
+                    channel_id: var_channelId,
+                    amount_satoshis: var_amountSatoshis,
+                };
+            }
+            1 => {
+                let mut var_channelId =
+                    <Option<crate::api::types::ChannelId>>::sse_decode(deserializer);
+                let mut var_latestBroadcastHeight = <u32>::sse_decode(deserializer);
+                let mut var_latestSpendingTxid =
+                    <crate::api::types::Txid>::sse_decode(deserializer);
+                let mut var_amountSatoshis = <u64>::sse_decode(deserializer);
+                return crate::api::types::PendingSweepBalance::BroadcastAwaitingConfirmation {
+                    channel_id: var_channelId,
+                    latest_broadcast_height: var_latestBroadcastHeight,
+                    latest_spending_txid: var_latestSpendingTxid,
+                    amount_satoshis: var_amountSatoshis,
+                };
+            }
+            2 => {
+                let mut var_channelId =
+                    <Option<crate::api::types::ChannelId>>::sse_decode(deserializer);
+                let mut var_latestSpendingTxid =
+                    <crate::api::types::Txid>::sse_decode(deserializer);
+                let mut var_confirmationHash = <String>::sse_decode(deserializer);
+                let mut var_confirmationHeight = <u32>::sse_decode(deserializer);
+                let mut var_amountSatoshis = <u64>::sse_decode(deserializer);
+                return crate::api::types::PendingSweepBalance::AwaitingThresholdConfirmations {
+                    channel_id: var_channelId,
+                    latest_spending_txid: var_latestSpendingTxid,
+                    confirmation_hash: var_confirmationHash,
+                    confirmation_height: var_confirmationHeight,
+                    amount_satoshis: var_amountSatoshis,
+                };
+            }
+            _ => {
+                unimplemented!("");
+            }
+        }
+    }
+}
+
 impl SseDecode for crate::api::types::PublicKey {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
         let mut var_hex = <String>::sse_decode(deserializer);
         return crate::api::types::PublicKey { hex: var_hex };
+    }
+}
+
+impl SseDecode
+    for (
+        crate::api::types::SocketAddress,
+        crate::api::types::PublicKey,
+        Option<String>,
+    )
+{
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        let mut var_field0 = <crate::api::types::SocketAddress>::sse_decode(deserializer);
+        let mut var_field1 = <crate::api::types::PublicKey>::sse_decode(deserializer);
+        let mut var_field2 = <Option<String>>::sse_decode(deserializer);
+        return (var_field0, var_field1, var_field2);
     }
 }
 
@@ -2002,7 +2796,7 @@ impl SseDecode for () {
 impl SseDecode for crate::api::types::UserChannelId {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
-        let mut var_data = <u64>::sse_decode(deserializer);
+        let mut var_data = <Vec<u8>>::sse_decode(deserializer);
         return crate::api::types::UserChannelId { data: var_data };
     }
 }
@@ -2042,6 +2836,21 @@ fn pde_ffi_dispatcher_sync_impl(
 // Section: rust2dart
 
 // Codec=Dco (DartCObject based), see doc to use other codecs
+impl flutter_rust_bridge::IntoDart for FrbWrapper<NodeBuilder> {
+    fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
+        flutter_rust_bridge::for_generated::rust_auto_opaque_encode::<_, StdArc<_>>(self.0)
+            .into_dart()
+    }
+}
+impl flutter_rust_bridge::for_generated::IntoDartExceptPrimitive for FrbWrapper<NodeBuilder> {}
+
+impl flutter_rust_bridge::IntoIntoDart<FrbWrapper<NodeBuilder>> for NodeBuilder {
+    fn into_into_dart(self) -> FrbWrapper<NodeBuilder> {
+        self.into()
+    }
+}
+
+// Codec=Dco (DartCObject based), see doc to use other codecs
 impl flutter_rust_bridge::IntoDart for crate::api::types::Address {
     fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
         [self.s.into_into_dart().into_dart()].into_dart()
@@ -2050,6 +2859,54 @@ impl flutter_rust_bridge::IntoDart for crate::api::types::Address {
 impl flutter_rust_bridge::for_generated::IntoDartExceptPrimitive for crate::api::types::Address {}
 impl flutter_rust_bridge::IntoIntoDart<crate::api::types::Address> for crate::api::types::Address {
     fn into_into_dart(self) -> crate::api::types::Address {
+        self
+    }
+}
+// Codec=Dco (DartCObject based), see doc to use other codecs
+impl flutter_rust_bridge::IntoDart for crate::api::types::BalanceDetails {
+    fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
+        [
+            self.total_onchain_balance_sats.into_into_dart().into_dart(),
+            self.spendable_onchain_balance_sats
+                .into_into_dart()
+                .into_dart(),
+            self.total_lightning_balance_sats
+                .into_into_dart()
+                .into_dart(),
+            self.lightning_balances.into_into_dart().into_dart(),
+            self.pending_balances_from_channel_closures
+                .into_into_dart()
+                .into_dart(),
+        ]
+        .into_dart()
+    }
+}
+impl flutter_rust_bridge::for_generated::IntoDartExceptPrimitive
+    for crate::api::types::BalanceDetails
+{
+}
+impl flutter_rust_bridge::IntoIntoDart<crate::api::types::BalanceDetails>
+    for crate::api::types::BalanceDetails
+{
+    fn into_into_dart(self) -> crate::api::types::BalanceDetails {
+        self
+    }
+}
+// Codec=Dco (DartCObject based), see doc to use other codecs
+impl flutter_rust_bridge::IntoDart for crate::api::types::BestBlock {
+    fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
+        [
+            self.block_hash.into_into_dart().into_dart(),
+            self.height.into_into_dart().into_dart(),
+        ]
+        .into_dart()
+    }
+}
+impl flutter_rust_bridge::for_generated::IntoDartExceptPrimitive for crate::api::types::BestBlock {}
+impl flutter_rust_bridge::IntoIntoDart<crate::api::types::BestBlock>
+    for crate::api::types::BestBlock
+{
+    fn into_into_dart(self) -> crate::api::types::BestBlock {
         self
     }
 }
@@ -2086,7 +2943,7 @@ impl flutter_rust_bridge::IntoDart for crate::api::error::BuilderException {
             Self::KVStoreSetupFailed => 9.into_dart(),
             Self::WalletSetupFailed => 10.into_dart(),
             Self::LoggerSetupFailed => 11.into_dart(),
-            Self::InvalidTrustedPeer => 12.into_dart(),
+            Self::InvalidPublicKey => 12.into_dart(),
         }
     }
 }
@@ -2166,7 +3023,6 @@ impl flutter_rust_bridge::IntoDart for crate::api::types::ChannelDetails {
             self.feerate_sat_per_1000_weight
                 .into_into_dart()
                 .into_dart(),
-            self.balance_msat.into_into_dart().into_dart(),
             self.outbound_capacity_msat.into_into_dart().into_dart(),
             self.inbound_capacity_msat.into_into_dart().into_dart(),
             self.confirmations_required.into_into_dart().into_dart(),
@@ -2175,6 +3031,35 @@ impl flutter_rust_bridge::IntoDart for crate::api::types::ChannelDetails {
             self.is_channel_ready.into_into_dart().into_dart(),
             self.is_usable.into_into_dart().into_dart(),
             self.is_public.into_into_dart().into_dart(),
+            self.cltv_expiry_delta.into_into_dart().into_dart(),
+            self.counterparty_unspendable_punishment_reserve
+                .into_into_dart()
+                .into_dart(),
+            self.counterparty_outbound_htlc_minimum_msat
+                .into_into_dart()
+                .into_dart(),
+            self.counterparty_outbound_htlc_maximum_msat
+                .into_into_dart()
+                .into_dart(),
+            self.counterparty_forwarding_info_fee_base_msat
+                .into_into_dart()
+                .into_dart(),
+            self.counterparty_forwarding_info_fee_proportional_millionths
+                .into_into_dart()
+                .into_dart(),
+            self.counterparty_forwarding_info_cltv_expiry_delta
+                .into_into_dart()
+                .into_dart(),
+            self.next_outbound_htlc_limit_msat
+                .into_into_dart()
+                .into_dart(),
+            self.next_outbound_htlc_minimum_msat
+                .into_into_dart()
+                .into_dart(),
+            self.force_close_spend_delay.into_into_dart().into_dart(),
+            self.inbound_htlc_minimum_msat.into_into_dart().into_dart(),
+            self.inbound_htlc_maximum_msat.into_into_dart().into_dart(),
+            self.config.into_into_dart().into_dart(),
         ]
         .into_dart()
     }
@@ -2201,6 +3086,49 @@ impl flutter_rust_bridge::IntoIntoDart<crate::api::types::ChannelId>
     for crate::api::types::ChannelId
 {
     fn into_into_dart(self) -> crate::api::types::ChannelId {
+        self
+    }
+}
+// Codec=Dco (DartCObject based), see doc to use other codecs
+impl flutter_rust_bridge::IntoDart for crate::api::types::ClosureReason {
+    fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
+        match self {
+            crate::api::types::ClosureReason::CounterpartyForceClosed { peer_msg } => {
+                [0.into_dart(), peer_msg.into_into_dart().into_dart()].into_dart()
+            }
+            crate::api::types::ClosureReason::HolderForceClosed => [1.into_dart()].into_dart(),
+            crate::api::types::ClosureReason::LegacyCooperativeClosure => {
+                [2.into_dart()].into_dart()
+            }
+            crate::api::types::ClosureReason::CounterpartyInitiatedCooperativeClosure => {
+                [3.into_dart()].into_dart()
+            }
+            crate::api::types::ClosureReason::LocallyInitiatedCooperativeClosure => {
+                [4.into_dart()].into_dart()
+            }
+            crate::api::types::ClosureReason::CommitmentTxConfirmed => [5.into_dart()].into_dart(),
+            crate::api::types::ClosureReason::FundingTimedOut => [6.into_dart()].into_dart(),
+            crate::api::types::ClosureReason::ProcessingError { err } => {
+                [7.into_dart(), err.into_into_dart().into_dart()].into_dart()
+            }
+            crate::api::types::ClosureReason::DisconnectedPeer => [8.into_dart()].into_dart(),
+            crate::api::types::ClosureReason::OutdatedChannelManager => [9.into_dart()].into_dart(),
+            crate::api::types::ClosureReason::CounterpartyCoopClosedUnfundedChannel => {
+                [10.into_dart()].into_dart()
+            }
+            crate::api::types::ClosureReason::FundingBatchClosure => [11.into_dart()].into_dart(),
+            crate::api::types::ClosureReason::HTLCsTimedOut => [12.into_dart()].into_dart(),
+        }
+    }
+}
+impl flutter_rust_bridge::for_generated::IntoDartExceptPrimitive
+    for crate::api::types::ClosureReason
+{
+}
+impl flutter_rust_bridge::IntoIntoDart<crate::api::types::ClosureReason>
+    for crate::api::types::ClosureReason
+{
+    fn into_into_dart(self) -> crate::api::types::ClosureReason {
         self
     }
 }
@@ -2272,33 +3200,55 @@ impl flutter_rust_bridge::IntoIntoDart<crate::api::types::EntropySourceConfig>
 impl flutter_rust_bridge::IntoDart for crate::api::types::Event {
     fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
         match self {
-            crate::api::types::Event::PaymentSuccessful { payment_hash } => {
-                [0.into_dart(), payment_hash.into_into_dart().into_dart()].into_dart()
-            }
-            crate::api::types::Event::PaymentFailed { payment_hash } => {
-                [1.into_dart(), payment_hash.into_into_dart().into_dart()].into_dart()
-            }
+            crate::api::types::Event::PaymentSuccessful {
+                payment_id,
+                payment_hash,
+                fee_paid_msat,
+            } => [
+                0.into_dart(),
+                payment_id.into_into_dart().into_dart(),
+                payment_hash.into_into_dart().into_dart(),
+                fee_paid_msat.into_into_dart().into_dart(),
+            ]
+            .into_dart(),
+            crate::api::types::Event::PaymentFailed {
+                payment_id,
+                payment_hash,
+                reason,
+            } => [
+                1.into_dart(),
+                payment_id.into_into_dart().into_dart(),
+                payment_hash.into_into_dart().into_dart(),
+                reason.into_into_dart().into_dart(),
+            ]
+            .into_dart(),
             crate::api::types::Event::PaymentReceived {
+                payment_id,
                 payment_hash,
                 amount_msat,
             } => [
                 2.into_dart(),
+                payment_id.into_into_dart().into_dart(),
                 payment_hash.into_into_dart().into_dart(),
                 amount_msat.into_into_dart().into_dart(),
             ]
             .into_dart(),
-            crate::api::types::Event::ChannelReady {
+            crate::api::types::Event::ChannelPending {
                 channel_id,
                 user_channel_id,
+                former_temporary_channel_id,
                 counterparty_node_id,
+                funding_txo,
             } => [
                 3.into_dart(),
                 channel_id.into_into_dart().into_dart(),
                 user_channel_id.into_into_dart().into_dart(),
+                former_temporary_channel_id.into_into_dart().into_dart(),
                 counterparty_node_id.into_into_dart().into_dart(),
+                funding_txo.into_into_dart().into_dart(),
             ]
             .into_dart(),
-            crate::api::types::Event::ChannelClosed {
+            crate::api::types::Event::ChannelReady {
                 channel_id,
                 user_channel_id,
                 counterparty_node_id,
@@ -2309,19 +3259,17 @@ impl flutter_rust_bridge::IntoDart for crate::api::types::Event {
                 counterparty_node_id.into_into_dart().into_dart(),
             ]
             .into_dart(),
-            crate::api::types::Event::ChannelPending {
+            crate::api::types::Event::ChannelClosed {
                 channel_id,
                 user_channel_id,
-                former_temporary_channel_id,
                 counterparty_node_id,
-                funding_txo,
+                reason,
             } => [
                 5.into_dart(),
                 channel_id.into_into_dart().into_dart(),
                 user_channel_id.into_into_dart().into_dart(),
-                former_temporary_channel_id.into_into_dart().into_dart(),
                 counterparty_node_id.into_into_dart().into_dart(),
-                funding_txo.into_into_dart().into_dart(),
+                reason.into_into_dart().into_dart(),
             ]
             .into_dart(),
         }
@@ -2356,6 +3304,23 @@ impl flutter_rust_bridge::IntoIntoDart<crate::api::types::GossipSourceConfig>
     }
 }
 // Codec=Dco (DartCObject based), see doc to use other codecs
+impl flutter_rust_bridge::IntoDart for crate::api::node::LdkBolt11Payment {
+    fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
+        [self.ptr.into_into_dart().into_dart()].into_dart()
+    }
+}
+impl flutter_rust_bridge::for_generated::IntoDartExceptPrimitive
+    for crate::api::node::LdkBolt11Payment
+{
+}
+impl flutter_rust_bridge::IntoIntoDart<crate::api::node::LdkBolt11Payment>
+    for crate::api::node::LdkBolt11Payment
+{
+    fn into_into_dart(self) -> crate::api::node::LdkBolt11Payment {
+        self
+    }
+}
+// Codec=Dco (DartCObject based), see doc to use other codecs
 impl flutter_rust_bridge::IntoDart for crate::api::node::LdkMnemonic {
     fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
         [self.seed_phrase.into_into_dart().into_dart()].into_dart()
@@ -2382,6 +3347,157 @@ impl flutter_rust_bridge::IntoIntoDart<crate::api::node::LdkNode> for crate::api
     }
 }
 // Codec=Dco (DartCObject based), see doc to use other codecs
+impl flutter_rust_bridge::IntoDart for crate::api::node::LdkOnChainPayment {
+    fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
+        [self.ptr.into_into_dart().into_dart()].into_dart()
+    }
+}
+impl flutter_rust_bridge::for_generated::IntoDartExceptPrimitive
+    for crate::api::node::LdkOnChainPayment
+{
+}
+impl flutter_rust_bridge::IntoIntoDart<crate::api::node::LdkOnChainPayment>
+    for crate::api::node::LdkOnChainPayment
+{
+    fn into_into_dart(self) -> crate::api::node::LdkOnChainPayment {
+        self
+    }
+}
+// Codec=Dco (DartCObject based), see doc to use other codecs
+impl flutter_rust_bridge::IntoDart for crate::api::node::LdkSpontaneousPayment {
+    fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
+        [self.ptr.into_into_dart().into_dart()].into_dart()
+    }
+}
+impl flutter_rust_bridge::for_generated::IntoDartExceptPrimitive
+    for crate::api::node::LdkSpontaneousPayment
+{
+}
+impl flutter_rust_bridge::IntoIntoDart<crate::api::node::LdkSpontaneousPayment>
+    for crate::api::node::LdkSpontaneousPayment
+{
+    fn into_into_dart(self) -> crate::api::node::LdkSpontaneousPayment {
+        self
+    }
+}
+// Codec=Dco (DartCObject based), see doc to use other codecs
+impl flutter_rust_bridge::IntoDart for crate::api::types::LightningBalance {
+    fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
+        match self {
+            crate::api::types::LightningBalance::ClaimableOnChannelClose {
+                channel_id,
+                counterparty_node_id,
+                amount_satoshis,
+            } => [
+                0.into_dart(),
+                channel_id.into_into_dart().into_dart(),
+                counterparty_node_id.into_into_dart().into_dart(),
+                amount_satoshis.into_into_dart().into_dart(),
+            ]
+            .into_dart(),
+            crate::api::types::LightningBalance::ClaimableAwaitingConfirmations {
+                channel_id,
+                counterparty_node_id,
+                amount_satoshis,
+                confirmation_height,
+            } => [
+                1.into_dart(),
+                channel_id.into_into_dart().into_dart(),
+                counterparty_node_id.into_into_dart().into_dart(),
+                amount_satoshis.into_into_dart().into_dart(),
+                confirmation_height.into_into_dart().into_dart(),
+            ]
+            .into_dart(),
+            crate::api::types::LightningBalance::ContentiousClaimable {
+                channel_id,
+                counterparty_node_id,
+                amount_satoshis,
+                timeout_height,
+                payment_hash,
+                payment_preimage,
+            } => [
+                2.into_dart(),
+                channel_id.into_into_dart().into_dart(),
+                counterparty_node_id.into_into_dart().into_dart(),
+                amount_satoshis.into_into_dart().into_dart(),
+                timeout_height.into_into_dart().into_dart(),
+                payment_hash.into_into_dart().into_dart(),
+                payment_preimage.into_into_dart().into_dart(),
+            ]
+            .into_dart(),
+            crate::api::types::LightningBalance::MaybeTimeoutClaimableHTLC {
+                channel_id,
+                counterparty_node_id,
+                amount_satoshis,
+                claimable_height,
+                payment_hash,
+            } => [
+                3.into_dart(),
+                channel_id.into_into_dart().into_dart(),
+                counterparty_node_id.into_into_dart().into_dart(),
+                amount_satoshis.into_into_dart().into_dart(),
+                claimable_height.into_into_dart().into_dart(),
+                payment_hash.into_into_dart().into_dart(),
+            ]
+            .into_dart(),
+            crate::api::types::LightningBalance::MaybePreimageClaimableHTLC {
+                channel_id,
+                counterparty_node_id,
+                amount_satoshis,
+                expiry_height,
+                payment_hash,
+            } => [
+                4.into_dart(),
+                channel_id.into_into_dart().into_dart(),
+                counterparty_node_id.into_into_dart().into_dart(),
+                amount_satoshis.into_into_dart().into_dart(),
+                expiry_height.into_into_dart().into_dart(),
+                payment_hash.into_into_dart().into_dart(),
+            ]
+            .into_dart(),
+            crate::api::types::LightningBalance::CounterpartyRevokedOutputClaimable {
+                channel_id,
+                counterparty_node_id,
+                amount_satoshis,
+            } => [
+                5.into_dart(),
+                channel_id.into_into_dart().into_dart(),
+                counterparty_node_id.into_into_dart().into_dart(),
+                amount_satoshis.into_into_dart().into_dart(),
+            ]
+            .into_dart(),
+        }
+    }
+}
+impl flutter_rust_bridge::for_generated::IntoDartExceptPrimitive
+    for crate::api::types::LightningBalance
+{
+}
+impl flutter_rust_bridge::IntoIntoDart<crate::api::types::LightningBalance>
+    for crate::api::types::LightningBalance
+{
+    fn into_into_dart(self) -> crate::api::types::LightningBalance {
+        self
+    }
+}
+// Codec=Dco (DartCObject based), see doc to use other codecs
+impl flutter_rust_bridge::IntoDart for crate::api::types::LiquiditySourceConfig {
+    fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
+        [self.lsps2_service.into_into_dart().into_dart()].into_dart()
+    }
+}
+impl flutter_rust_bridge::for_generated::IntoDartExceptPrimitive
+    for crate::api::types::LiquiditySourceConfig
+{
+}
+impl flutter_rust_bridge::IntoIntoDart<crate::api::types::LiquiditySourceConfig>
+    for crate::api::types::LiquiditySourceConfig
+{
+    fn into_into_dart(self) -> crate::api::types::LiquiditySourceConfig {
+        self
+    }
+}
+// Codec=Dco (DartCObject based), see doc to use other codecs
 impl flutter_rust_bridge::IntoDart for crate::api::types::LogLevel {
     fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
         match self {
@@ -2399,6 +3515,29 @@ impl flutter_rust_bridge::IntoIntoDart<crate::api::types::LogLevel>
     for crate::api::types::LogLevel
 {
     fn into_into_dart(self) -> crate::api::types::LogLevel {
+        self
+    }
+}
+// Codec=Dco (DartCObject based), see doc to use other codecs
+impl flutter_rust_bridge::IntoDart for crate::api::types::LSPFeeLimits {
+    fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
+        [
+            self.max_total_opening_fee_msat.into_into_dart().into_dart(),
+            self.max_proportional_opening_fee_ppm_msat
+                .into_into_dart()
+                .into_dart(),
+        ]
+        .into_dart()
+    }
+}
+impl flutter_rust_bridge::for_generated::IntoDartExceptPrimitive
+    for crate::api::types::LSPFeeLimits
+{
+}
+impl flutter_rust_bridge::IntoIntoDart<crate::api::types::LSPFeeLimits>
+    for crate::api::types::LSPFeeLimits
+{
+    fn into_into_dart(self) -> crate::api::types::LSPFeeLimits {
         self
     }
 }
@@ -2478,6 +3617,11 @@ impl flutter_rust_bridge::IntoDart for crate::api::error::NodeException {
             Self::DuplicatePayment => 28.into_dart(),
             Self::InsufficientFunds => 29.into_dart(),
             Self::FeerateEstimationUpdateFailed => 30.into_dart(),
+            Self::LiquidityRequestFailed => 31.into_dart(),
+            Self::LiquiditySourceUnavailable => 32.into_dart(),
+            Self::LiquidityFeeTooHigh => 33.into_dart(),
+            Self::InvalidPaymentId => 34.into_dart(),
+            Self::DecodeError => 35.into_dart(),
         }
     }
 }
@@ -2489,6 +3633,40 @@ impl flutter_rust_bridge::IntoIntoDart<crate::api::error::NodeException>
     for crate::api::error::NodeException
 {
     fn into_into_dart(self) -> crate::api::error::NodeException {
+        self
+    }
+}
+// Codec=Dco (DartCObject based), see doc to use other codecs
+impl flutter_rust_bridge::IntoDart for crate::api::types::NodeStatus {
+    fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
+        [
+            self.is_running.into_into_dart().into_dart(),
+            self.is_listening.into_into_dart().into_dart(),
+            self.current_best_block.into_into_dart().into_dart(),
+            self.latest_wallet_sync_timestamp
+                .into_into_dart()
+                .into_dart(),
+            self.latest_onchain_wallet_sync_timestamp
+                .into_into_dart()
+                .into_dart(),
+            self.latest_fee_rate_cache_update_timestamp
+                .into_into_dart()
+                .into_dart(),
+            self.latest_rgs_snapshot_timestamp
+                .into_into_dart()
+                .into_dart(),
+            self.latest_node_announcement_broadcast_timestamp
+                .into_into_dart()
+                .into_dart(),
+        ]
+        .into_dart()
+    }
+}
+impl flutter_rust_bridge::for_generated::IntoDartExceptPrimitive for crate::api::types::NodeStatus {}
+impl flutter_rust_bridge::IntoIntoDart<crate::api::types::NodeStatus>
+    for crate::api::types::NodeStatus
+{
+    fn into_into_dart(self) -> crate::api::types::NodeStatus {
         self
     }
 }
@@ -2514,9 +3692,8 @@ impl flutter_rust_bridge::IntoIntoDart<crate::api::types::OutPoint>
 impl flutter_rust_bridge::IntoDart for crate::api::types::PaymentDetails {
     fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
         [
-            self.hash.into_into_dart().into_dart(),
-            self.preimage.into_into_dart().into_dart(),
-            self.secret.into_into_dart().into_dart(),
+            self.id.into_into_dart().into_dart(),
+            self.kind.into_into_dart().into_dart(),
             self.amount_msat.into_into_dart().into_dart(),
             self.direction.into_into_dart().into_dart(),
             self.status.into_into_dart().into_dart(),
@@ -2556,6 +3733,30 @@ impl flutter_rust_bridge::IntoIntoDart<crate::api::types::PaymentDirection>
     }
 }
 // Codec=Dco (DartCObject based), see doc to use other codecs
+impl flutter_rust_bridge::IntoDart for crate::api::types::PaymentFailureReason {
+    fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
+        match self {
+            Self::RecipientRejected => 0.into_dart(),
+            Self::UserAbandoned => 1.into_dart(),
+            Self::RetriesExhausted => 2.into_dart(),
+            Self::PaymentExpired => 3.into_dart(),
+            Self::RouteNotFound => 4.into_dart(),
+            Self::UnexpectedError => 5.into_dart(),
+        }
+    }
+}
+impl flutter_rust_bridge::for_generated::IntoDartExceptPrimitive
+    for crate::api::types::PaymentFailureReason
+{
+}
+impl flutter_rust_bridge::IntoIntoDart<crate::api::types::PaymentFailureReason>
+    for crate::api::types::PaymentFailureReason
+{
+    fn into_into_dart(self) -> crate::api::types::PaymentFailureReason {
+        self
+    }
+}
+// Codec=Dco (DartCObject based), see doc to use other codecs
 impl flutter_rust_bridge::IntoDart for crate::api::types::PaymentHash {
     fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
         [self.data.into_into_dart().into_dart()].into_dart()
@@ -2569,6 +3770,69 @@ impl flutter_rust_bridge::IntoIntoDart<crate::api::types::PaymentHash>
     for crate::api::types::PaymentHash
 {
     fn into_into_dart(self) -> crate::api::types::PaymentHash {
+        self
+    }
+}
+// Codec=Dco (DartCObject based), see doc to use other codecs
+impl flutter_rust_bridge::IntoDart for crate::api::types::PaymentId {
+    fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
+        [self.0.into_into_dart().into_dart()].into_dart()
+    }
+}
+impl flutter_rust_bridge::for_generated::IntoDartExceptPrimitive for crate::api::types::PaymentId {}
+impl flutter_rust_bridge::IntoIntoDart<crate::api::types::PaymentId>
+    for crate::api::types::PaymentId
+{
+    fn into_into_dart(self) -> crate::api::types::PaymentId {
+        self
+    }
+}
+// Codec=Dco (DartCObject based), see doc to use other codecs
+impl flutter_rust_bridge::IntoDart for crate::api::types::PaymentKind {
+    fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
+        match self {
+            crate::api::types::PaymentKind::Onchain => [0.into_dart()].into_dart(),
+            crate::api::types::PaymentKind::Bolt11 {
+                hash,
+                preimage,
+                secret,
+            } => [
+                1.into_dart(),
+                hash.into_into_dart().into_dart(),
+                preimage.into_into_dart().into_dart(),
+                secret.into_into_dart().into_dart(),
+            ]
+            .into_dart(),
+            crate::api::types::PaymentKind::Bolt11Jit {
+                hash,
+                preimage,
+                secret,
+                lsp_fee_limits,
+            } => [
+                2.into_dart(),
+                hash.into_into_dart().into_dart(),
+                preimage.into_into_dart().into_dart(),
+                secret.into_into_dart().into_dart(),
+                lsp_fee_limits.into_into_dart().into_dart(),
+            ]
+            .into_dart(),
+            crate::api::types::PaymentKind::Spontaneous { hash, preimage } => [
+                3.into_dart(),
+                hash.into_into_dart().into_dart(),
+                preimage.into_into_dart().into_dart(),
+            ]
+            .into_dart(),
+        }
+    }
+}
+impl flutter_rust_bridge::for_generated::IntoDartExceptPrimitive
+    for crate::api::types::PaymentKind
+{
+}
+impl flutter_rust_bridge::IntoIntoDart<crate::api::types::PaymentKind>
+    for crate::api::types::PaymentKind
+{
+    fn into_into_dart(self) -> crate::api::types::PaymentKind {
         self
     }
 }
@@ -2646,6 +3910,61 @@ impl flutter_rust_bridge::IntoIntoDart<crate::api::types::PeerDetails>
     for crate::api::types::PeerDetails
 {
     fn into_into_dart(self) -> crate::api::types::PeerDetails {
+        self
+    }
+}
+// Codec=Dco (DartCObject based), see doc to use other codecs
+impl flutter_rust_bridge::IntoDart for crate::api::types::PendingSweepBalance {
+    fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
+        match self {
+            crate::api::types::PendingSweepBalance::PendingBroadcast {
+                channel_id,
+                amount_satoshis,
+            } => [
+                0.into_dart(),
+                channel_id.into_into_dart().into_dart(),
+                amount_satoshis.into_into_dart().into_dart(),
+            ]
+            .into_dart(),
+            crate::api::types::PendingSweepBalance::BroadcastAwaitingConfirmation {
+                channel_id,
+                latest_broadcast_height,
+                latest_spending_txid,
+                amount_satoshis,
+            } => [
+                1.into_dart(),
+                channel_id.into_into_dart().into_dart(),
+                latest_broadcast_height.into_into_dart().into_dart(),
+                latest_spending_txid.into_into_dart().into_dart(),
+                amount_satoshis.into_into_dart().into_dart(),
+            ]
+            .into_dart(),
+            crate::api::types::PendingSweepBalance::AwaitingThresholdConfirmations {
+                channel_id,
+                latest_spending_txid,
+                confirmation_hash,
+                confirmation_height,
+                amount_satoshis,
+            } => [
+                2.into_dart(),
+                channel_id.into_into_dart().into_dart(),
+                latest_spending_txid.into_into_dart().into_dart(),
+                confirmation_hash.into_into_dart().into_dart(),
+                confirmation_height.into_into_dart().into_dart(),
+                amount_satoshis.into_into_dart().into_dart(),
+            ]
+            .into_dart(),
+        }
+    }
+}
+impl flutter_rust_bridge::for_generated::IntoDartExceptPrimitive
+    for crate::api::types::PendingSweepBalance
+{
+}
+impl flutter_rust_bridge::IntoIntoDart<crate::api::types::PendingSweepBalance>
+    for crate::api::types::PendingSweepBalance
+{
+    fn into_into_dart(self) -> crate::api::types::PendingSweepBalance {
         self
     }
 }
@@ -2745,7 +4064,52 @@ impl flutter_rust_bridge::IntoIntoDart<crate::api::types::UserChannelId>
     }
 }
 
-impl SseEncode for RustOpaqueNom<Node<SqliteStore>> {
+impl SseEncode for NodeBuilder {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        <RustOpaqueNom<flutter_rust_bridge::for_generated::rust_async::RwLock<NodeBuilder>>>::sse_encode(flutter_rust_bridge::for_generated::rust_auto_opaque_encode::<_, StdArc<_>>(self), serializer);
+    }
+}
+
+impl SseEncode for RustOpaqueNom<Node> {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        let (ptr, size) = self.sse_encode_raw();
+        <usize>::sse_encode(ptr, serializer);
+        <i32>::sse_encode(size, serializer);
+    }
+}
+
+impl SseEncode
+    for RustOpaqueNom<flutter_rust_bridge::for_generated::rust_async::RwLock<NodeBuilder>>
+{
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        let (ptr, size) = self.sse_encode_raw();
+        <usize>::sse_encode(ptr, serializer);
+        <i32>::sse_encode(size, serializer);
+    }
+}
+
+impl SseEncode for RustOpaqueNom<ldk_node::payment::Bolt11Payment> {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        let (ptr, size) = self.sse_encode_raw();
+        <usize>::sse_encode(ptr, serializer);
+        <i32>::sse_encode(size, serializer);
+    }
+}
+
+impl SseEncode for RustOpaqueNom<ldk_node::payment::OnchainPayment> {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        let (ptr, size) = self.sse_encode_raw();
+        <usize>::sse_encode(ptr, serializer);
+        <i32>::sse_encode(size, serializer);
+    }
+}
+
+impl SseEncode for RustOpaqueNom<ldk_node::payment::SpontaneousPayment> {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
         let (ptr, size) = self.sse_encode_raw();
@@ -2765,6 +4129,28 @@ impl SseEncode for crate::api::types::Address {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
         <String>::sse_encode(self.s, serializer);
+    }
+}
+
+impl SseEncode for crate::api::types::BalanceDetails {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        <u64>::sse_encode(self.total_onchain_balance_sats, serializer);
+        <u64>::sse_encode(self.spendable_onchain_balance_sats, serializer);
+        <u64>::sse_encode(self.total_lightning_balance_sats, serializer);
+        <Vec<crate::api::types::LightningBalance>>::sse_encode(self.lightning_balances, serializer);
+        <Vec<crate::api::types::PendingSweepBalance>>::sse_encode(
+            self.pending_balances_from_channel_closures,
+            serializer,
+        );
+    }
+}
+
+impl SseEncode for crate::api::types::BestBlock {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        <String>::sse_encode(self.block_hash, serializer);
+        <u32>::sse_encode(self.height, serializer);
     }
 }
 
@@ -2799,7 +4185,7 @@ impl SseEncode for crate::api::error::BuilderException {
                 crate::api::error::BuilderException::KVStoreSetupFailed => 9,
                 crate::api::error::BuilderException::WalletSetupFailed => 10,
                 crate::api::error::BuilderException::LoggerSetupFailed => 11,
-                crate::api::error::BuilderException::InvalidTrustedPeer => 12,
+                crate::api::error::BuilderException::InvalidPublicKey => 12,
                 _ => {
                     unimplemented!("");
                 }
@@ -2827,7 +4213,7 @@ impl SseEncode for crate::api::types::ChannelConfig {
         <u32>::sse_encode(self.forwarding_fee_proportional_millionths, serializer);
         <u32>::sse_encode(self.forwarding_fee_base_msat, serializer);
         <u16>::sse_encode(self.cltv_expiry_delta, serializer);
-        <crate::api::types::MaxDustHTLCExposure>::sse_encode(
+        <Option<crate::api::types::MaxDustHTLCExposure>>::sse_encode(
             self.max_dust_htlc_exposure,
             serializer,
         );
@@ -2841,12 +4227,11 @@ impl SseEncode for crate::api::types::ChannelDetails {
     fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
         <crate::api::types::ChannelId>::sse_encode(self.channel_id, serializer);
         <crate::api::types::PublicKey>::sse_encode(self.counterparty_node_id, serializer);
-        <Option<String>>::sse_encode(self.funding_txo, serializer);
+        <Option<crate::api::types::OutPoint>>::sse_encode(self.funding_txo, serializer);
         <u64>::sse_encode(self.channel_value_sats, serializer);
         <Option<u64>>::sse_encode(self.unspendable_punishment_reserve, serializer);
         <crate::api::types::UserChannelId>::sse_encode(self.user_channel_id, serializer);
         <u32>::sse_encode(self.feerate_sat_per_1000_weight, serializer);
-        <u64>::sse_encode(self.balance_msat, serializer);
         <u64>::sse_encode(self.outbound_capacity_msat, serializer);
         <u64>::sse_encode(self.inbound_capacity_msat, serializer);
         <Option<u32>>::sse_encode(self.confirmations_required, serializer);
@@ -2855,6 +4240,25 @@ impl SseEncode for crate::api::types::ChannelDetails {
         <bool>::sse_encode(self.is_channel_ready, serializer);
         <bool>::sse_encode(self.is_usable, serializer);
         <bool>::sse_encode(self.is_public, serializer);
+        <Option<u16>>::sse_encode(self.cltv_expiry_delta, serializer);
+        <u64>::sse_encode(self.counterparty_unspendable_punishment_reserve, serializer);
+        <Option<u64>>::sse_encode(self.counterparty_outbound_htlc_minimum_msat, serializer);
+        <Option<u64>>::sse_encode(self.counterparty_outbound_htlc_maximum_msat, serializer);
+        <Option<u32>>::sse_encode(self.counterparty_forwarding_info_fee_base_msat, serializer);
+        <Option<u32>>::sse_encode(
+            self.counterparty_forwarding_info_fee_proportional_millionths,
+            serializer,
+        );
+        <Option<u16>>::sse_encode(
+            self.counterparty_forwarding_info_cltv_expiry_delta,
+            serializer,
+        );
+        <u64>::sse_encode(self.next_outbound_htlc_limit_msat, serializer);
+        <u64>::sse_encode(self.next_outbound_htlc_minimum_msat, serializer);
+        <Option<u16>>::sse_encode(self.force_close_spend_delay, serializer);
+        <u64>::sse_encode(self.inbound_htlc_minimum_msat, serializer);
+        <Option<u64>>::sse_encode(self.inbound_htlc_maximum_msat, serializer);
+        <crate::api::types::ChannelConfig>::sse_encode(self.config, serializer);
     }
 }
 
@@ -2862,6 +4266,55 @@ impl SseEncode for crate::api::types::ChannelId {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
         <[u8; 32]>::sse_encode(self.data, serializer);
+    }
+}
+
+impl SseEncode for crate::api::types::ClosureReason {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        match self {
+            crate::api::types::ClosureReason::CounterpartyForceClosed { peer_msg } => {
+                <i32>::sse_encode(0, serializer);
+                <String>::sse_encode(peer_msg, serializer);
+            }
+            crate::api::types::ClosureReason::HolderForceClosed => {
+                <i32>::sse_encode(1, serializer);
+            }
+            crate::api::types::ClosureReason::LegacyCooperativeClosure => {
+                <i32>::sse_encode(2, serializer);
+            }
+            crate::api::types::ClosureReason::CounterpartyInitiatedCooperativeClosure => {
+                <i32>::sse_encode(3, serializer);
+            }
+            crate::api::types::ClosureReason::LocallyInitiatedCooperativeClosure => {
+                <i32>::sse_encode(4, serializer);
+            }
+            crate::api::types::ClosureReason::CommitmentTxConfirmed => {
+                <i32>::sse_encode(5, serializer);
+            }
+            crate::api::types::ClosureReason::FundingTimedOut => {
+                <i32>::sse_encode(6, serializer);
+            }
+            crate::api::types::ClosureReason::ProcessingError { err } => {
+                <i32>::sse_encode(7, serializer);
+                <String>::sse_encode(err, serializer);
+            }
+            crate::api::types::ClosureReason::DisconnectedPeer => {
+                <i32>::sse_encode(8, serializer);
+            }
+            crate::api::types::ClosureReason::OutdatedChannelManager => {
+                <i32>::sse_encode(9, serializer);
+            }
+            crate::api::types::ClosureReason::CounterpartyCoopClosedUnfundedChannel => {
+                <i32>::sse_encode(10, serializer);
+            }
+            crate::api::types::ClosureReason::FundingBatchClosure => {
+                <i32>::sse_encode(11, serializer);
+            }
+            crate::api::types::ClosureReason::HTLCsTimedOut => {
+                <i32>::sse_encode(12, serializer);
+            }
+        }
     }
 }
 
@@ -2913,36 +4366,51 @@ impl SseEncode for crate::api::types::Event {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
         match self {
-            crate::api::types::Event::PaymentSuccessful { payment_hash } => {
+            crate::api::types::Event::PaymentSuccessful {
+                payment_id,
+                payment_hash,
+                fee_paid_msat,
+            } => {
                 <i32>::sse_encode(0, serializer);
+                <Option<crate::api::types::PaymentId>>::sse_encode(payment_id, serializer);
                 <crate::api::types::PaymentHash>::sse_encode(payment_hash, serializer);
+                <Option<u64>>::sse_encode(fee_paid_msat, serializer);
             }
-            crate::api::types::Event::PaymentFailed { payment_hash } => {
+            crate::api::types::Event::PaymentFailed {
+                payment_id,
+                payment_hash,
+                reason,
+            } => {
                 <i32>::sse_encode(1, serializer);
+                <Option<crate::api::types::PaymentId>>::sse_encode(payment_id, serializer);
                 <crate::api::types::PaymentHash>::sse_encode(payment_hash, serializer);
+                <Option<crate::api::types::PaymentFailureReason>>::sse_encode(reason, serializer);
             }
             crate::api::types::Event::PaymentReceived {
+                payment_id,
                 payment_hash,
                 amount_msat,
             } => {
                 <i32>::sse_encode(2, serializer);
+                <Option<crate::api::types::PaymentId>>::sse_encode(payment_id, serializer);
                 <crate::api::types::PaymentHash>::sse_encode(payment_hash, serializer);
                 <u64>::sse_encode(amount_msat, serializer);
             }
-            crate::api::types::Event::ChannelReady {
+            crate::api::types::Event::ChannelPending {
                 channel_id,
                 user_channel_id,
+                former_temporary_channel_id,
                 counterparty_node_id,
+                funding_txo,
             } => {
                 <i32>::sse_encode(3, serializer);
                 <crate::api::types::ChannelId>::sse_encode(channel_id, serializer);
                 <crate::api::types::UserChannelId>::sse_encode(user_channel_id, serializer);
-                <Option<crate::api::types::PublicKey>>::sse_encode(
-                    counterparty_node_id,
-                    serializer,
-                );
+                <crate::api::types::ChannelId>::sse_encode(former_temporary_channel_id, serializer);
+                <crate::api::types::PublicKey>::sse_encode(counterparty_node_id, serializer);
+                <crate::api::types::OutPoint>::sse_encode(funding_txo, serializer);
             }
-            crate::api::types::Event::ChannelClosed {
+            crate::api::types::Event::ChannelReady {
                 channel_id,
                 user_channel_id,
                 counterparty_node_id,
@@ -2955,19 +4423,20 @@ impl SseEncode for crate::api::types::Event {
                     serializer,
                 );
             }
-            crate::api::types::Event::ChannelPending {
+            crate::api::types::Event::ChannelClosed {
                 channel_id,
                 user_channel_id,
-                former_temporary_channel_id,
                 counterparty_node_id,
-                funding_txo,
+                reason,
             } => {
                 <i32>::sse_encode(5, serializer);
                 <crate::api::types::ChannelId>::sse_encode(channel_id, serializer);
                 <crate::api::types::UserChannelId>::sse_encode(user_channel_id, serializer);
-                <crate::api::types::ChannelId>::sse_encode(former_temporary_channel_id, serializer);
-                <crate::api::types::PublicKey>::sse_encode(counterparty_node_id, serializer);
-                <crate::api::types::OutPoint>::sse_encode(funding_txo, serializer);
+                <Option<crate::api::types::PublicKey>>::sse_encode(
+                    counterparty_node_id,
+                    serializer,
+                );
+                <Option<crate::api::types::ClosureReason>>::sse_encode(reason, serializer);
             }
         }
     }
@@ -2995,6 +4464,13 @@ impl SseEncode for i32 {
     }
 }
 
+impl SseEncode for crate::api::node::LdkBolt11Payment {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        <RustOpaqueNom<ldk_node::payment::Bolt11Payment>>::sse_encode(self.ptr, serializer);
+    }
+}
+
 impl SseEncode for crate::api::node::LdkMnemonic {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
@@ -3005,7 +4481,116 @@ impl SseEncode for crate::api::node::LdkMnemonic {
 impl SseEncode for crate::api::node::LdkNode {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
-        <RustOpaqueNom<Node<SqliteStore>>>::sse_encode(self.ptr, serializer);
+        <RustOpaqueNom<Node>>::sse_encode(self.ptr, serializer);
+    }
+}
+
+impl SseEncode for crate::api::node::LdkOnChainPayment {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        <RustOpaqueNom<ldk_node::payment::OnchainPayment>>::sse_encode(self.ptr, serializer);
+    }
+}
+
+impl SseEncode for crate::api::node::LdkSpontaneousPayment {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        <RustOpaqueNom<ldk_node::payment::SpontaneousPayment>>::sse_encode(self.ptr, serializer);
+    }
+}
+
+impl SseEncode for crate::api::types::LightningBalance {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        match self {
+            crate::api::types::LightningBalance::ClaimableOnChannelClose {
+                channel_id,
+                counterparty_node_id,
+                amount_satoshis,
+            } => {
+                <i32>::sse_encode(0, serializer);
+                <crate::api::types::ChannelId>::sse_encode(channel_id, serializer);
+                <crate::api::types::PublicKey>::sse_encode(counterparty_node_id, serializer);
+                <u64>::sse_encode(amount_satoshis, serializer);
+            }
+            crate::api::types::LightningBalance::ClaimableAwaitingConfirmations {
+                channel_id,
+                counterparty_node_id,
+                amount_satoshis,
+                confirmation_height,
+            } => {
+                <i32>::sse_encode(1, serializer);
+                <crate::api::types::ChannelId>::sse_encode(channel_id, serializer);
+                <crate::api::types::PublicKey>::sse_encode(counterparty_node_id, serializer);
+                <u64>::sse_encode(amount_satoshis, serializer);
+                <u32>::sse_encode(confirmation_height, serializer);
+            }
+            crate::api::types::LightningBalance::ContentiousClaimable {
+                channel_id,
+                counterparty_node_id,
+                amount_satoshis,
+                timeout_height,
+                payment_hash,
+                payment_preimage,
+            } => {
+                <i32>::sse_encode(2, serializer);
+                <crate::api::types::ChannelId>::sse_encode(channel_id, serializer);
+                <crate::api::types::PublicKey>::sse_encode(counterparty_node_id, serializer);
+                <u64>::sse_encode(amount_satoshis, serializer);
+                <u32>::sse_encode(timeout_height, serializer);
+                <crate::api::types::PaymentHash>::sse_encode(payment_hash, serializer);
+                <crate::api::types::PaymentPreimage>::sse_encode(payment_preimage, serializer);
+            }
+            crate::api::types::LightningBalance::MaybeTimeoutClaimableHTLC {
+                channel_id,
+                counterparty_node_id,
+                amount_satoshis,
+                claimable_height,
+                payment_hash,
+            } => {
+                <i32>::sse_encode(3, serializer);
+                <crate::api::types::ChannelId>::sse_encode(channel_id, serializer);
+                <crate::api::types::PublicKey>::sse_encode(counterparty_node_id, serializer);
+                <u64>::sse_encode(amount_satoshis, serializer);
+                <u32>::sse_encode(claimable_height, serializer);
+                <crate::api::types::PaymentHash>::sse_encode(payment_hash, serializer);
+            }
+            crate::api::types::LightningBalance::MaybePreimageClaimableHTLC {
+                channel_id,
+                counterparty_node_id,
+                amount_satoshis,
+                expiry_height,
+                payment_hash,
+            } => {
+                <i32>::sse_encode(4, serializer);
+                <crate::api::types::ChannelId>::sse_encode(channel_id, serializer);
+                <crate::api::types::PublicKey>::sse_encode(counterparty_node_id, serializer);
+                <u64>::sse_encode(amount_satoshis, serializer);
+                <u32>::sse_encode(expiry_height, serializer);
+                <crate::api::types::PaymentHash>::sse_encode(payment_hash, serializer);
+            }
+            crate::api::types::LightningBalance::CounterpartyRevokedOutputClaimable {
+                channel_id,
+                counterparty_node_id,
+                amount_satoshis,
+            } => {
+                <i32>::sse_encode(5, serializer);
+                <crate::api::types::ChannelId>::sse_encode(channel_id, serializer);
+                <crate::api::types::PublicKey>::sse_encode(counterparty_node_id, serializer);
+                <u64>::sse_encode(amount_satoshis, serializer);
+            }
+        }
+    }
+}
+
+impl SseEncode for crate::api::types::LiquiditySourceConfig {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        <(
+            crate::api::types::SocketAddress,
+            crate::api::types::PublicKey,
+            Option<String>,
+        )>::sse_encode(self.lsps2_service, serializer);
     }
 }
 
@@ -3015,6 +4600,16 @@ impl SseEncode for Vec<crate::api::types::ChannelDetails> {
         <i32>::sse_encode(self.len() as _, serializer);
         for item in self {
             <crate::api::types::ChannelDetails>::sse_encode(item, serializer);
+        }
+    }
+}
+
+impl SseEncode for Vec<crate::api::types::LightningBalance> {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        <i32>::sse_encode(self.len() as _, serializer);
+        for item in self {
+            <crate::api::types::LightningBalance>::sse_encode(item, serializer);
         }
     }
 }
@@ -3035,6 +4630,16 @@ impl SseEncode for Vec<crate::api::types::PeerDetails> {
         <i32>::sse_encode(self.len() as _, serializer);
         for item in self {
             <crate::api::types::PeerDetails>::sse_encode(item, serializer);
+        }
+    }
+}
+
+impl SseEncode for Vec<crate::api::types::PendingSweepBalance> {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        <i32>::sse_encode(self.len() as _, serializer);
+        for item in self {
+            <crate::api::types::PendingSweepBalance>::sse_encode(item, serializer);
         }
     }
 }
@@ -3086,6 +4691,14 @@ impl SseEncode for crate::api::types::LogLevel {
             },
             serializer,
         );
+    }
+}
+
+impl SseEncode for crate::api::types::LSPFeeLimits {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        <Option<u64>>::sse_encode(self.max_total_opening_fee_msat, serializer);
+        <Option<u64>>::sse_encode(self.max_proportional_opening_fee_ppm_msat, serializer);
     }
 }
 
@@ -3159,10 +4772,32 @@ impl SseEncode for crate::api::error::NodeException {
                 crate::api::error::NodeException::DuplicatePayment => 28,
                 crate::api::error::NodeException::InsufficientFunds => 29,
                 crate::api::error::NodeException::FeerateEstimationUpdateFailed => 30,
+                crate::api::error::NodeException::LiquidityRequestFailed => 31,
+                crate::api::error::NodeException::LiquiditySourceUnavailable => 32,
+                crate::api::error::NodeException::LiquidityFeeTooHigh => 33,
+                crate::api::error::NodeException::InvalidPaymentId => 34,
+                crate::api::error::NodeException::DecodeError => 35,
                 _ => {
                     unimplemented!("");
                 }
             },
+            serializer,
+        );
+    }
+}
+
+impl SseEncode for crate::api::types::NodeStatus {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        <bool>::sse_encode(self.is_running, serializer);
+        <bool>::sse_encode(self.is_listening, serializer);
+        <crate::api::types::BestBlock>::sse_encode(self.current_best_block, serializer);
+        <Option<u64>>::sse_encode(self.latest_wallet_sync_timestamp, serializer);
+        <Option<u64>>::sse_encode(self.latest_onchain_wallet_sync_timestamp, serializer);
+        <Option<u64>>::sse_encode(self.latest_fee_rate_cache_update_timestamp, serializer);
+        <Option<u64>>::sse_encode(self.latest_rgs_snapshot_timestamp, serializer);
+        <Option<u64>>::sse_encode(
+            self.latest_node_announcement_broadcast_timestamp,
             serializer,
         );
     }
@@ -3198,6 +4833,26 @@ impl SseEncode for Option<crate::api::types::ChannelConfig> {
     }
 }
 
+impl SseEncode for Option<crate::api::types::ChannelId> {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        <bool>::sse_encode(self.is_some(), serializer);
+        if let Some(value) = self {
+            <crate::api::types::ChannelId>::sse_encode(value, serializer);
+        }
+    }
+}
+
+impl SseEncode for Option<crate::api::types::ClosureReason> {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        <bool>::sse_encode(self.is_some(), serializer);
+        if let Some(value) = self {
+            <crate::api::types::ClosureReason>::sse_encode(value, serializer);
+        }
+    }
+}
+
 impl SseEncode for Option<crate::api::types::EntropySourceConfig> {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
@@ -3228,12 +4883,62 @@ impl SseEncode for Option<crate::api::types::GossipSourceConfig> {
     }
 }
 
+impl SseEncode for Option<crate::api::types::LiquiditySourceConfig> {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        <bool>::sse_encode(self.is_some(), serializer);
+        if let Some(value) = self {
+            <crate::api::types::LiquiditySourceConfig>::sse_encode(value, serializer);
+        }
+    }
+}
+
+impl SseEncode for Option<crate::api::types::MaxDustHTLCExposure> {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        <bool>::sse_encode(self.is_some(), serializer);
+        if let Some(value) = self {
+            <crate::api::types::MaxDustHTLCExposure>::sse_encode(value, serializer);
+        }
+    }
+}
+
+impl SseEncode for Option<crate::api::types::OutPoint> {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        <bool>::sse_encode(self.is_some(), serializer);
+        if let Some(value) = self {
+            <crate::api::types::OutPoint>::sse_encode(value, serializer);
+        }
+    }
+}
+
 impl SseEncode for Option<crate::api::types::PaymentDetails> {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
         <bool>::sse_encode(self.is_some(), serializer);
         if let Some(value) = self {
             <crate::api::types::PaymentDetails>::sse_encode(value, serializer);
+        }
+    }
+}
+
+impl SseEncode for Option<crate::api::types::PaymentFailureReason> {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        <bool>::sse_encode(self.is_some(), serializer);
+        if let Some(value) = self {
+            <crate::api::types::PaymentFailureReason>::sse_encode(value, serializer);
+        }
+    }
+}
+
+impl SseEncode for Option<crate::api::types::PaymentId> {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        <bool>::sse_encode(self.is_some(), serializer);
+        if let Some(value) = self {
+            <crate::api::types::PaymentId>::sse_encode(value, serializer);
         }
     }
 }
@@ -3264,6 +4969,16 @@ impl SseEncode for Option<crate::api::types::PublicKey> {
         <bool>::sse_encode(self.is_some(), serializer);
         if let Some(value) = self {
             <crate::api::types::PublicKey>::sse_encode(value, serializer);
+        }
+    }
+}
+
+impl SseEncode for Option<u16> {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        <bool>::sse_encode(self.is_some(), serializer);
+        if let Some(value) = self {
+            <u16>::sse_encode(value, serializer);
         }
     }
 }
@@ -3309,9 +5024,8 @@ impl SseEncode for crate::api::types::OutPoint {
 impl SseEncode for crate::api::types::PaymentDetails {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
-        <crate::api::types::PaymentHash>::sse_encode(self.hash, serializer);
-        <Option<crate::api::types::PaymentPreimage>>::sse_encode(self.preimage, serializer);
-        <Option<crate::api::types::PaymentSecret>>::sse_encode(self.secret, serializer);
+        <crate::api::types::PaymentId>::sse_encode(self.id, serializer);
+        <crate::api::types::PaymentKind>::sse_encode(self.kind, serializer);
         <Option<u64>>::sse_encode(self.amount_msat, serializer);
         <crate::api::types::PaymentDirection>::sse_encode(self.direction, serializer);
         <crate::api::types::PaymentStatus>::sse_encode(self.status, serializer);
@@ -3334,10 +5048,75 @@ impl SseEncode for crate::api::types::PaymentDirection {
     }
 }
 
+impl SseEncode for crate::api::types::PaymentFailureReason {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        <i32>::sse_encode(
+            match self {
+                crate::api::types::PaymentFailureReason::RecipientRejected => 0,
+                crate::api::types::PaymentFailureReason::UserAbandoned => 1,
+                crate::api::types::PaymentFailureReason::RetriesExhausted => 2,
+                crate::api::types::PaymentFailureReason::PaymentExpired => 3,
+                crate::api::types::PaymentFailureReason::RouteNotFound => 4,
+                crate::api::types::PaymentFailureReason::UnexpectedError => 5,
+                _ => {
+                    unimplemented!("");
+                }
+            },
+            serializer,
+        );
+    }
+}
+
 impl SseEncode for crate::api::types::PaymentHash {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
         <[u8; 32]>::sse_encode(self.data, serializer);
+    }
+}
+
+impl SseEncode for crate::api::types::PaymentId {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        <[u8; 32]>::sse_encode(self.0, serializer);
+    }
+}
+
+impl SseEncode for crate::api::types::PaymentKind {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        match self {
+            crate::api::types::PaymentKind::Onchain => {
+                <i32>::sse_encode(0, serializer);
+            }
+            crate::api::types::PaymentKind::Bolt11 {
+                hash,
+                preimage,
+                secret,
+            } => {
+                <i32>::sse_encode(1, serializer);
+                <crate::api::types::PaymentHash>::sse_encode(hash, serializer);
+                <Option<crate::api::types::PaymentPreimage>>::sse_encode(preimage, serializer);
+                <Option<crate::api::types::PaymentSecret>>::sse_encode(secret, serializer);
+            }
+            crate::api::types::PaymentKind::Bolt11Jit {
+                hash,
+                preimage,
+                secret,
+                lsp_fee_limits,
+            } => {
+                <i32>::sse_encode(2, serializer);
+                <crate::api::types::PaymentHash>::sse_encode(hash, serializer);
+                <Option<crate::api::types::PaymentPreimage>>::sse_encode(preimage, serializer);
+                <Option<crate::api::types::PaymentSecret>>::sse_encode(secret, serializer);
+                <crate::api::types::LSPFeeLimits>::sse_encode(lsp_fee_limits, serializer);
+            }
+            crate::api::types::PaymentKind::Spontaneous { hash, preimage } => {
+                <i32>::sse_encode(3, serializer);
+                <crate::api::types::PaymentHash>::sse_encode(hash, serializer);
+                <Option<crate::api::types::PaymentPreimage>>::sse_encode(preimage, serializer);
+            }
+        }
     }
 }
 
@@ -3381,10 +5160,67 @@ impl SseEncode for crate::api::types::PeerDetails {
     }
 }
 
+impl SseEncode for crate::api::types::PendingSweepBalance {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        match self {
+            crate::api::types::PendingSweepBalance::PendingBroadcast {
+                channel_id,
+                amount_satoshis,
+            } => {
+                <i32>::sse_encode(0, serializer);
+                <Option<crate::api::types::ChannelId>>::sse_encode(channel_id, serializer);
+                <u64>::sse_encode(amount_satoshis, serializer);
+            }
+            crate::api::types::PendingSweepBalance::BroadcastAwaitingConfirmation {
+                channel_id,
+                latest_broadcast_height,
+                latest_spending_txid,
+                amount_satoshis,
+            } => {
+                <i32>::sse_encode(1, serializer);
+                <Option<crate::api::types::ChannelId>>::sse_encode(channel_id, serializer);
+                <u32>::sse_encode(latest_broadcast_height, serializer);
+                <crate::api::types::Txid>::sse_encode(latest_spending_txid, serializer);
+                <u64>::sse_encode(amount_satoshis, serializer);
+            }
+            crate::api::types::PendingSweepBalance::AwaitingThresholdConfirmations {
+                channel_id,
+                latest_spending_txid,
+                confirmation_hash,
+                confirmation_height,
+                amount_satoshis,
+            } => {
+                <i32>::sse_encode(2, serializer);
+                <Option<crate::api::types::ChannelId>>::sse_encode(channel_id, serializer);
+                <crate::api::types::Txid>::sse_encode(latest_spending_txid, serializer);
+                <String>::sse_encode(confirmation_hash, serializer);
+                <u32>::sse_encode(confirmation_height, serializer);
+                <u64>::sse_encode(amount_satoshis, serializer);
+            }
+        }
+    }
+}
+
 impl SseEncode for crate::api::types::PublicKey {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
         <String>::sse_encode(self.hex, serializer);
+    }
+}
+
+impl SseEncode
+    for (
+        crate::api::types::SocketAddress,
+        crate::api::types::PublicKey,
+        Option<String>,
+    )
+{
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        <crate::api::types::SocketAddress>::sse_encode(self.0, serializer);
+        <crate::api::types::PublicKey>::sse_encode(self.1, serializer);
+        <Option<String>>::sse_encode(self.2, serializer);
     }
 }
 
@@ -3535,7 +5371,7 @@ impl SseEncode for () {
 impl SseEncode for crate::api::types::UserChannelId {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
-        <u64>::sse_encode(self.data, serializer);
+        <Vec<u8>>::sse_encode(self.data, serializer);
     }
 }
 

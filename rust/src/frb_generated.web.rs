@@ -42,6 +42,49 @@ impl CstDecode<crate::api::types::Address>
         }
     }
 }
+impl CstDecode<crate::api::types::BalanceDetails>
+    for flutter_rust_bridge::for_generated::wasm_bindgen::JsValue
+{
+    // Codec=Cst (C-struct based), see doc to use other codecs
+    fn cst_decode(self) -> crate::api::types::BalanceDetails {
+        let self_ = self
+            .dyn_into::<flutter_rust_bridge::for_generated::js_sys::Array>()
+            .unwrap();
+        assert_eq!(
+            self_.length(),
+            5,
+            "Expected 5 elements, got {}",
+            self_.length()
+        );
+        crate::api::types::BalanceDetails {
+            total_onchain_balance_sats: self_.get(0).cst_decode(),
+            spendable_onchain_balance_sats: self_.get(1).cst_decode(),
+            total_lightning_balance_sats: self_.get(2).cst_decode(),
+            lightning_balances: self_.get(3).cst_decode(),
+            pending_balances_from_channel_closures: self_.get(4).cst_decode(),
+        }
+    }
+}
+impl CstDecode<crate::api::types::BestBlock>
+    for flutter_rust_bridge::for_generated::wasm_bindgen::JsValue
+{
+    // Codec=Cst (C-struct based), see doc to use other codecs
+    fn cst_decode(self) -> crate::api::types::BestBlock {
+        let self_ = self
+            .dyn_into::<flutter_rust_bridge::for_generated::js_sys::Array>()
+            .unwrap();
+        assert_eq!(
+            self_.length(),
+            2,
+            "Expected 2 elements, got {}",
+            self_.length()
+        );
+        crate::api::types::BestBlock {
+            block_hash: self_.get(0).cst_decode(),
+            height: self_.get(1).cst_decode(),
+        }
+    }
+}
 impl CstDecode<crate::api::types::Bolt11Invoice>
     for flutter_rust_bridge::for_generated::wasm_bindgen::JsValue
 {
@@ -107,8 +150,8 @@ impl CstDecode<crate::api::types::ChannelDetails>
             .unwrap();
         assert_eq!(
             self_.length(),
-            16,
-            "Expected 16 elements, got {}",
+            28,
+            "Expected 28 elements, got {}",
             self_.length()
         );
         crate::api::types::ChannelDetails {
@@ -119,15 +162,27 @@ impl CstDecode<crate::api::types::ChannelDetails>
             unspendable_punishment_reserve: self_.get(4).cst_decode(),
             user_channel_id: self_.get(5).cst_decode(),
             feerate_sat_per_1000_weight: self_.get(6).cst_decode(),
-            balance_msat: self_.get(7).cst_decode(),
-            outbound_capacity_msat: self_.get(8).cst_decode(),
-            inbound_capacity_msat: self_.get(9).cst_decode(),
-            confirmations_required: self_.get(10).cst_decode(),
-            confirmations: self_.get(11).cst_decode(),
-            is_outbound: self_.get(12).cst_decode(),
-            is_channel_ready: self_.get(13).cst_decode(),
-            is_usable: self_.get(14).cst_decode(),
-            is_public: self_.get(15).cst_decode(),
+            outbound_capacity_msat: self_.get(7).cst_decode(),
+            inbound_capacity_msat: self_.get(8).cst_decode(),
+            confirmations_required: self_.get(9).cst_decode(),
+            confirmations: self_.get(10).cst_decode(),
+            is_outbound: self_.get(11).cst_decode(),
+            is_channel_ready: self_.get(12).cst_decode(),
+            is_usable: self_.get(13).cst_decode(),
+            is_public: self_.get(14).cst_decode(),
+            cltv_expiry_delta: self_.get(15).cst_decode(),
+            counterparty_unspendable_punishment_reserve: self_.get(16).cst_decode(),
+            counterparty_outbound_htlc_minimum_msat: self_.get(17).cst_decode(),
+            counterparty_outbound_htlc_maximum_msat: self_.get(18).cst_decode(),
+            counterparty_forwarding_info_fee_base_msat: self_.get(19).cst_decode(),
+            counterparty_forwarding_info_fee_proportional_millionths: self_.get(20).cst_decode(),
+            counterparty_forwarding_info_cltv_expiry_delta: self_.get(21).cst_decode(),
+            next_outbound_htlc_limit_msat: self_.get(22).cst_decode(),
+            next_outbound_htlc_minimum_msat: self_.get(23).cst_decode(),
+            force_close_spend_delay: self_.get(24).cst_decode(),
+            inbound_htlc_minimum_msat: self_.get(25).cst_decode(),
+            inbound_htlc_maximum_msat: self_.get(26).cst_decode(),
+            config: self_.get(27).cst_decode(),
         }
     }
 }
@@ -147,6 +202,34 @@ impl CstDecode<crate::api::types::ChannelId>
         );
         crate::api::types::ChannelId {
             data: self_.get(0).cst_decode(),
+        }
+    }
+}
+impl CstDecode<crate::api::types::ClosureReason>
+    for flutter_rust_bridge::for_generated::wasm_bindgen::JsValue
+{
+    // Codec=Cst (C-struct based), see doc to use other codecs
+    fn cst_decode(self) -> crate::api::types::ClosureReason {
+        let self_ = self.unchecked_into::<flutter_rust_bridge::for_generated::js_sys::Array>();
+        match self_.get(0).unchecked_into_f64() as _ {
+            0 => crate::api::types::ClosureReason::CounterpartyForceClosed {
+                peer_msg: self_.get(1).cst_decode(),
+            },
+            1 => crate::api::types::ClosureReason::HolderForceClosed,
+            2 => crate::api::types::ClosureReason::LegacyCooperativeClosure,
+            3 => crate::api::types::ClosureReason::CounterpartyInitiatedCooperativeClosure,
+            4 => crate::api::types::ClosureReason::LocallyInitiatedCooperativeClosure,
+            5 => crate::api::types::ClosureReason::CommitmentTxConfirmed,
+            6 => crate::api::types::ClosureReason::FundingTimedOut,
+            7 => crate::api::types::ClosureReason::ProcessingError {
+                err: self_.get(1).cst_decode(),
+            },
+            8 => crate::api::types::ClosureReason::DisconnectedPeer,
+            9 => crate::api::types::ClosureReason::OutdatedChannelManager,
+            10 => crate::api::types::ClosureReason::CounterpartyCoopClosedUnfundedChannel,
+            11 => crate::api::types::ClosureReason::FundingBatchClosure,
+            12 => crate::api::types::ClosureReason::HTLCsTimedOut,
+            _ => unreachable!(),
         }
     }
 }
@@ -204,31 +287,37 @@ impl CstDecode<crate::api::types::Event>
         let self_ = self.unchecked_into::<flutter_rust_bridge::for_generated::js_sys::Array>();
         match self_.get(0).unchecked_into_f64() as _ {
             0 => crate::api::types::Event::PaymentSuccessful {
-                payment_hash: self_.get(1).cst_decode(),
+                payment_id: self_.get(1).cst_decode(),
+                payment_hash: self_.get(2).cst_decode(),
+                fee_paid_msat: self_.get(3).cst_decode(),
             },
             1 => crate::api::types::Event::PaymentFailed {
-                payment_hash: self_.get(1).cst_decode(),
+                payment_id: self_.get(1).cst_decode(),
+                payment_hash: self_.get(2).cst_decode(),
+                reason: self_.get(3).cst_decode(),
             },
             2 => crate::api::types::Event::PaymentReceived {
-                payment_hash: self_.get(1).cst_decode(),
-                amount_msat: self_.get(2).cst_decode(),
+                payment_id: self_.get(1).cst_decode(),
+                payment_hash: self_.get(2).cst_decode(),
+                amount_msat: self_.get(3).cst_decode(),
             },
-            3 => crate::api::types::Event::ChannelReady {
-                channel_id: self_.get(1).cst_decode(),
-                user_channel_id: self_.get(2).cst_decode(),
-                counterparty_node_id: self_.get(3).cst_decode(),
-            },
-            4 => crate::api::types::Event::ChannelClosed {
-                channel_id: self_.get(1).cst_decode(),
-                user_channel_id: self_.get(2).cst_decode(),
-                counterparty_node_id: self_.get(3).cst_decode(),
-            },
-            5 => crate::api::types::Event::ChannelPending {
+            3 => crate::api::types::Event::ChannelPending {
                 channel_id: self_.get(1).cst_decode(),
                 user_channel_id: self_.get(2).cst_decode(),
                 former_temporary_channel_id: self_.get(3).cst_decode(),
                 counterparty_node_id: self_.get(4).cst_decode(),
                 funding_txo: self_.get(5).cst_decode(),
+            },
+            4 => crate::api::types::Event::ChannelReady {
+                channel_id: self_.get(1).cst_decode(),
+                user_channel_id: self_.get(2).cst_decode(),
+                counterparty_node_id: self_.get(3).cst_decode(),
+            },
+            5 => crate::api::types::Event::ChannelClosed {
+                channel_id: self_.get(1).cst_decode(),
+                user_channel_id: self_.get(2).cst_decode(),
+                counterparty_node_id: self_.get(3).cst_decode(),
+                reason: self_.get(4).cst_decode(),
             },
             _ => unreachable!(),
         }
@@ -244,6 +333,25 @@ impl CstDecode<crate::api::types::GossipSourceConfig>
             0 => crate::api::types::GossipSourceConfig::P2PNetwork,
             1 => crate::api::types::GossipSourceConfig::RapidGossipSync(self_.get(1).cst_decode()),
             _ => unreachable!(),
+        }
+    }
+}
+impl CstDecode<crate::api::node::LdkBolt11Payment>
+    for flutter_rust_bridge::for_generated::wasm_bindgen::JsValue
+{
+    // Codec=Cst (C-struct based), see doc to use other codecs
+    fn cst_decode(self) -> crate::api::node::LdkBolt11Payment {
+        let self_ = self
+            .dyn_into::<flutter_rust_bridge::for_generated::js_sys::Array>()
+            .unwrap();
+        assert_eq!(
+            self_.length(),
+            1,
+            "Expected 1 elements, got {}",
+            self_.length()
+        );
+        crate::api::node::LdkBolt11Payment {
+            ptr: self_.get(0).cst_decode(),
         }
     }
 }
@@ -285,11 +393,129 @@ impl CstDecode<crate::api::node::LdkNode>
         }
     }
 }
+impl CstDecode<crate::api::node::LdkOnChainPayment>
+    for flutter_rust_bridge::for_generated::wasm_bindgen::JsValue
+{
+    // Codec=Cst (C-struct based), see doc to use other codecs
+    fn cst_decode(self) -> crate::api::node::LdkOnChainPayment {
+        let self_ = self
+            .dyn_into::<flutter_rust_bridge::for_generated::js_sys::Array>()
+            .unwrap();
+        assert_eq!(
+            self_.length(),
+            1,
+            "Expected 1 elements, got {}",
+            self_.length()
+        );
+        crate::api::node::LdkOnChainPayment {
+            ptr: self_.get(0).cst_decode(),
+        }
+    }
+}
+impl CstDecode<crate::api::node::LdkSpontaneousPayment>
+    for flutter_rust_bridge::for_generated::wasm_bindgen::JsValue
+{
+    // Codec=Cst (C-struct based), see doc to use other codecs
+    fn cst_decode(self) -> crate::api::node::LdkSpontaneousPayment {
+        let self_ = self
+            .dyn_into::<flutter_rust_bridge::for_generated::js_sys::Array>()
+            .unwrap();
+        assert_eq!(
+            self_.length(),
+            1,
+            "Expected 1 elements, got {}",
+            self_.length()
+        );
+        crate::api::node::LdkSpontaneousPayment {
+            ptr: self_.get(0).cst_decode(),
+        }
+    }
+}
+impl CstDecode<crate::api::types::LightningBalance>
+    for flutter_rust_bridge::for_generated::wasm_bindgen::JsValue
+{
+    // Codec=Cst (C-struct based), see doc to use other codecs
+    fn cst_decode(self) -> crate::api::types::LightningBalance {
+        let self_ = self.unchecked_into::<flutter_rust_bridge::for_generated::js_sys::Array>();
+        match self_.get(0).unchecked_into_f64() as _ {
+            0 => crate::api::types::LightningBalance::ClaimableOnChannelClose {
+                channel_id: self_.get(1).cst_decode(),
+                counterparty_node_id: self_.get(2).cst_decode(),
+                amount_satoshis: self_.get(3).cst_decode(),
+            },
+            1 => crate::api::types::LightningBalance::ClaimableAwaitingConfirmations {
+                channel_id: self_.get(1).cst_decode(),
+                counterparty_node_id: self_.get(2).cst_decode(),
+                amount_satoshis: self_.get(3).cst_decode(),
+                confirmation_height: self_.get(4).cst_decode(),
+            },
+            2 => crate::api::types::LightningBalance::ContentiousClaimable {
+                channel_id: self_.get(1).cst_decode(),
+                counterparty_node_id: self_.get(2).cst_decode(),
+                amount_satoshis: self_.get(3).cst_decode(),
+                timeout_height: self_.get(4).cst_decode(),
+                payment_hash: self_.get(5).cst_decode(),
+                payment_preimage: self_.get(6).cst_decode(),
+            },
+            3 => crate::api::types::LightningBalance::MaybeTimeoutClaimableHTLC {
+                channel_id: self_.get(1).cst_decode(),
+                counterparty_node_id: self_.get(2).cst_decode(),
+                amount_satoshis: self_.get(3).cst_decode(),
+                claimable_height: self_.get(4).cst_decode(),
+                payment_hash: self_.get(5).cst_decode(),
+            },
+            4 => crate::api::types::LightningBalance::MaybePreimageClaimableHTLC {
+                channel_id: self_.get(1).cst_decode(),
+                counterparty_node_id: self_.get(2).cst_decode(),
+                amount_satoshis: self_.get(3).cst_decode(),
+                expiry_height: self_.get(4).cst_decode(),
+                payment_hash: self_.get(5).cst_decode(),
+            },
+            5 => crate::api::types::LightningBalance::CounterpartyRevokedOutputClaimable {
+                channel_id: self_.get(1).cst_decode(),
+                counterparty_node_id: self_.get(2).cst_decode(),
+                amount_satoshis: self_.get(3).cst_decode(),
+            },
+            _ => unreachable!(),
+        }
+    }
+}
+impl CstDecode<crate::api::types::LiquiditySourceConfig>
+    for flutter_rust_bridge::for_generated::wasm_bindgen::JsValue
+{
+    // Codec=Cst (C-struct based), see doc to use other codecs
+    fn cst_decode(self) -> crate::api::types::LiquiditySourceConfig {
+        let self_ = self
+            .dyn_into::<flutter_rust_bridge::for_generated::js_sys::Array>()
+            .unwrap();
+        assert_eq!(
+            self_.length(),
+            1,
+            "Expected 1 elements, got {}",
+            self_.length()
+        );
+        crate::api::types::LiquiditySourceConfig {
+            lsps2_service: self_.get(0).cst_decode(),
+        }
+    }
+}
 impl CstDecode<Vec<crate::api::types::ChannelDetails>>
     for flutter_rust_bridge::for_generated::wasm_bindgen::JsValue
 {
     // Codec=Cst (C-struct based), see doc to use other codecs
     fn cst_decode(self) -> Vec<crate::api::types::ChannelDetails> {
+        self.dyn_into::<flutter_rust_bridge::for_generated::js_sys::Array>()
+            .unwrap()
+            .iter()
+            .map(CstDecode::cst_decode)
+            .collect()
+    }
+}
+impl CstDecode<Vec<crate::api::types::LightningBalance>>
+    for flutter_rust_bridge::for_generated::wasm_bindgen::JsValue
+{
+    // Codec=Cst (C-struct based), see doc to use other codecs
+    fn cst_decode(self) -> Vec<crate::api::types::LightningBalance> {
         self.dyn_into::<flutter_rust_bridge::for_generated::js_sys::Array>()
             .unwrap()
             .iter()
@@ -314,6 +540,18 @@ impl CstDecode<Vec<crate::api::types::PeerDetails>>
 {
     // Codec=Cst (C-struct based), see doc to use other codecs
     fn cst_decode(self) -> Vec<crate::api::types::PeerDetails> {
+        self.dyn_into::<flutter_rust_bridge::for_generated::js_sys::Array>()
+            .unwrap()
+            .iter()
+            .map(CstDecode::cst_decode)
+            .collect()
+    }
+}
+impl CstDecode<Vec<crate::api::types::PendingSweepBalance>>
+    for flutter_rust_bridge::for_generated::wasm_bindgen::JsValue
+{
+    // Codec=Cst (C-struct based), see doc to use other codecs
+    fn cst_decode(self) -> Vec<crate::api::types::PendingSweepBalance> {
         self.dyn_into::<flutter_rust_bridge::for_generated::js_sys::Array>()
             .unwrap()
             .iter()
@@ -351,6 +589,26 @@ impl CstDecode<Vec<crate::api::types::SocketAddress>>
             .collect()
     }
 }
+impl CstDecode<crate::api::types::LSPFeeLimits>
+    for flutter_rust_bridge::for_generated::wasm_bindgen::JsValue
+{
+    // Codec=Cst (C-struct based), see doc to use other codecs
+    fn cst_decode(self) -> crate::api::types::LSPFeeLimits {
+        let self_ = self
+            .dyn_into::<flutter_rust_bridge::for_generated::js_sys::Array>()
+            .unwrap();
+        assert_eq!(
+            self_.length(),
+            2,
+            "Expected 2 elements, got {}",
+            self_.length()
+        );
+        crate::api::types::LSPFeeLimits {
+            max_total_opening_fee_msat: self_.get(0).cst_decode(),
+            max_proportional_opening_fee_ppm_msat: self_.get(1).cst_decode(),
+        }
+    }
+}
 impl CstDecode<crate::api::types::MaxDustHTLCExposure>
     for flutter_rust_bridge::for_generated::wasm_bindgen::JsValue
 {
@@ -363,6 +621,32 @@ impl CstDecode<crate::api::types::MaxDustHTLCExposure>
                 crate::api::types::MaxDustHTLCExposure::FeeRateMultiplier(self_.get(1).cst_decode())
             }
             _ => unreachable!(),
+        }
+    }
+}
+impl CstDecode<crate::api::types::NodeStatus>
+    for flutter_rust_bridge::for_generated::wasm_bindgen::JsValue
+{
+    // Codec=Cst (C-struct based), see doc to use other codecs
+    fn cst_decode(self) -> crate::api::types::NodeStatus {
+        let self_ = self
+            .dyn_into::<flutter_rust_bridge::for_generated::js_sys::Array>()
+            .unwrap();
+        assert_eq!(
+            self_.length(),
+            8,
+            "Expected 8 elements, got {}",
+            self_.length()
+        );
+        crate::api::types::NodeStatus {
+            is_running: self_.get(0).cst_decode(),
+            is_listening: self_.get(1).cst_decode(),
+            current_best_block: self_.get(2).cst_decode(),
+            latest_wallet_sync_timestamp: self_.get(3).cst_decode(),
+            latest_onchain_wallet_sync_timestamp: self_.get(4).cst_decode(),
+            latest_fee_rate_cache_update_timestamp: self_.get(5).cst_decode(),
+            latest_rgs_snapshot_timestamp: self_.get(6).cst_decode(),
+            latest_node_announcement_broadcast_timestamp: self_.get(7).cst_decode(),
         }
     }
 }
@@ -402,17 +686,16 @@ impl CstDecode<crate::api::types::PaymentDetails>
             .unwrap();
         assert_eq!(
             self_.length(),
-            6,
-            "Expected 6 elements, got {}",
+            5,
+            "Expected 5 elements, got {}",
             self_.length()
         );
         crate::api::types::PaymentDetails {
-            hash: self_.get(0).cst_decode(),
-            preimage: self_.get(1).cst_decode(),
-            secret: self_.get(2).cst_decode(),
-            amount_msat: self_.get(3).cst_decode(),
-            direction: self_.get(4).cst_decode(),
-            status: self_.get(5).cst_decode(),
+            id: self_.get(0).cst_decode(),
+            kind: self_.get(1).cst_decode(),
+            amount_msat: self_.get(2).cst_decode(),
+            direction: self_.get(3).cst_decode(),
+            status: self_.get(4).cst_decode(),
         }
     }
 }
@@ -432,6 +715,50 @@ impl CstDecode<crate::api::types::PaymentHash>
         );
         crate::api::types::PaymentHash {
             data: self_.get(0).cst_decode(),
+        }
+    }
+}
+impl CstDecode<crate::api::types::PaymentId>
+    for flutter_rust_bridge::for_generated::wasm_bindgen::JsValue
+{
+    // Codec=Cst (C-struct based), see doc to use other codecs
+    fn cst_decode(self) -> crate::api::types::PaymentId {
+        let self_ = self
+            .dyn_into::<flutter_rust_bridge::for_generated::js_sys::Array>()
+            .unwrap();
+        assert_eq!(
+            self_.length(),
+            1,
+            "Expected 1 elements, got {}",
+            self_.length()
+        );
+        crate::api::types::PaymentId(self_.get(0).cst_decode())
+    }
+}
+impl CstDecode<crate::api::types::PaymentKind>
+    for flutter_rust_bridge::for_generated::wasm_bindgen::JsValue
+{
+    // Codec=Cst (C-struct based), see doc to use other codecs
+    fn cst_decode(self) -> crate::api::types::PaymentKind {
+        let self_ = self.unchecked_into::<flutter_rust_bridge::for_generated::js_sys::Array>();
+        match self_.get(0).unchecked_into_f64() as _ {
+            0 => crate::api::types::PaymentKind::Onchain,
+            1 => crate::api::types::PaymentKind::Bolt11 {
+                hash: self_.get(1).cst_decode(),
+                preimage: self_.get(2).cst_decode(),
+                secret: self_.get(3).cst_decode(),
+            },
+            2 => crate::api::types::PaymentKind::Bolt11Jit {
+                hash: self_.get(1).cst_decode(),
+                preimage: self_.get(2).cst_decode(),
+                secret: self_.get(3).cst_decode(),
+                lsp_fee_limits: self_.get(4).cst_decode(),
+            },
+            3 => crate::api::types::PaymentKind::Spontaneous {
+                hash: self_.get(1).cst_decode(),
+                preimage: self_.get(2).cst_decode(),
+            },
+            _ => unreachable!(),
         }
     }
 }
@@ -494,6 +821,34 @@ impl CstDecode<crate::api::types::PeerDetails>
         }
     }
 }
+impl CstDecode<crate::api::types::PendingSweepBalance>
+    for flutter_rust_bridge::for_generated::wasm_bindgen::JsValue
+{
+    // Codec=Cst (C-struct based), see doc to use other codecs
+    fn cst_decode(self) -> crate::api::types::PendingSweepBalance {
+        let self_ = self.unchecked_into::<flutter_rust_bridge::for_generated::js_sys::Array>();
+        match self_.get(0).unchecked_into_f64() as _ {
+            0 => crate::api::types::PendingSweepBalance::PendingBroadcast {
+                channel_id: self_.get(1).cst_decode(),
+                amount_satoshis: self_.get(2).cst_decode(),
+            },
+            1 => crate::api::types::PendingSweepBalance::BroadcastAwaitingConfirmation {
+                channel_id: self_.get(1).cst_decode(),
+                latest_broadcast_height: self_.get(2).cst_decode(),
+                latest_spending_txid: self_.get(3).cst_decode(),
+                amount_satoshis: self_.get(4).cst_decode(),
+            },
+            2 => crate::api::types::PendingSweepBalance::AwaitingThresholdConfirmations {
+                channel_id: self_.get(1).cst_decode(),
+                latest_spending_txid: self_.get(2).cst_decode(),
+                confirmation_hash: self_.get(3).cst_decode(),
+                confirmation_height: self_.get(4).cst_decode(),
+                amount_satoshis: self_.get(5).cst_decode(),
+            },
+            _ => unreachable!(),
+        }
+    }
+}
 impl CstDecode<crate::api::types::PublicKey>
     for flutter_rust_bridge::for_generated::wasm_bindgen::JsValue
 {
@@ -511,6 +866,37 @@ impl CstDecode<crate::api::types::PublicKey>
         crate::api::types::PublicKey {
             hex: self_.get(0).cst_decode(),
         }
+    }
+}
+impl
+    CstDecode<(
+        crate::api::types::SocketAddress,
+        crate::api::types::PublicKey,
+        Option<String>,
+    )> for flutter_rust_bridge::for_generated::wasm_bindgen::JsValue
+{
+    // Codec=Cst (C-struct based), see doc to use other codecs
+    fn cst_decode(
+        self,
+    ) -> (
+        crate::api::types::SocketAddress,
+        crate::api::types::PublicKey,
+        Option<String>,
+    ) {
+        let self_ = self
+            .dyn_into::<flutter_rust_bridge::for_generated::js_sys::Array>()
+            .unwrap();
+        assert_eq!(
+            self_.length(),
+            3,
+            "Expected 3 elements, got {}",
+            self_.length()
+        );
+        (
+            self_.get(0).cst_decode(),
+            self_.get(1).cst_decode(),
+            self_.get(2).cst_decode(),
+        )
     }
 }
 impl CstDecode<crate::api::types::SocketAddress>
@@ -616,11 +1002,68 @@ impl CstDecode<crate::api::types::UserChannelId>
         }
     }
 }
-impl CstDecode<RustOpaqueNom<Node<SqliteStore>>>
+impl CstDecode<NodeBuilder> for flutter_rust_bridge::for_generated::wasm_bindgen::JsValue {
+    // Codec=Cst (C-struct based), see doc to use other codecs
+    fn cst_decode(self) -> NodeBuilder {
+        CstDecode::<
+            RustOpaqueNom<flutter_rust_bridge::for_generated::rust_async::RwLock<NodeBuilder>>,
+        >::cst_decode(self)
+        .rust_auto_opaque_decode_owned()
+    }
+}
+impl CstDecode<RustOpaqueNom<Node>> for flutter_rust_bridge::for_generated::wasm_bindgen::JsValue {
+    // Codec=Cst (C-struct based), see doc to use other codecs
+    fn cst_decode(self) -> RustOpaqueNom<Node> {
+        #[cfg(target_pointer_width = "64")]
+        {
+            compile_error!("64-bit pointers are not supported.");
+        }
+        unsafe { decode_rust_opaque_nom((self.as_f64().unwrap() as usize) as _) }
+    }
+}
+impl CstDecode<RustOpaqueNom<flutter_rust_bridge::for_generated::rust_async::RwLock<NodeBuilder>>>
     for flutter_rust_bridge::for_generated::wasm_bindgen::JsValue
 {
     // Codec=Cst (C-struct based), see doc to use other codecs
-    fn cst_decode(self) -> RustOpaqueNom<Node<SqliteStore>> {
+    fn cst_decode(
+        self,
+    ) -> RustOpaqueNom<flutter_rust_bridge::for_generated::rust_async::RwLock<NodeBuilder>> {
+        #[cfg(target_pointer_width = "64")]
+        {
+            compile_error!("64-bit pointers are not supported.");
+        }
+        unsafe { decode_rust_opaque_nom((self.as_f64().unwrap() as usize) as _) }
+    }
+}
+impl CstDecode<RustOpaqueNom<ldk_node::payment::Bolt11Payment>>
+    for flutter_rust_bridge::for_generated::wasm_bindgen::JsValue
+{
+    // Codec=Cst (C-struct based), see doc to use other codecs
+    fn cst_decode(self) -> RustOpaqueNom<ldk_node::payment::Bolt11Payment> {
+        #[cfg(target_pointer_width = "64")]
+        {
+            compile_error!("64-bit pointers are not supported.");
+        }
+        unsafe { decode_rust_opaque_nom((self.as_f64().unwrap() as usize) as _) }
+    }
+}
+impl CstDecode<RustOpaqueNom<ldk_node::payment::OnchainPayment>>
+    for flutter_rust_bridge::for_generated::wasm_bindgen::JsValue
+{
+    // Codec=Cst (C-struct based), see doc to use other codecs
+    fn cst_decode(self) -> RustOpaqueNom<ldk_node::payment::OnchainPayment> {
+        #[cfg(target_pointer_width = "64")]
+        {
+            compile_error!("64-bit pointers are not supported.");
+        }
+        unsafe { decode_rust_opaque_nom((self.as_f64().unwrap() as usize) as _) }
+    }
+}
+impl CstDecode<RustOpaqueNom<ldk_node::payment::SpontaneousPayment>>
+    for flutter_rust_bridge::for_generated::wasm_bindgen::JsValue
+{
+    // Codec=Cst (C-struct based), see doc to use other codecs
+    fn cst_decode(self) -> RustOpaqueNom<ldk_node::payment::SpontaneousPayment> {
         #[cfg(target_pointer_width = "64")]
         {
             compile_error!("64-bit pointers are not supported.");
@@ -691,6 +1134,14 @@ impl CstDecode<crate::api::types::PaymentDirection>
 {
     // Codec=Cst (C-struct based), see doc to use other codecs
     fn cst_decode(self) -> crate::api::types::PaymentDirection {
+        (self.unchecked_into_f64() as i32).cst_decode()
+    }
+}
+impl CstDecode<crate::api::types::PaymentFailureReason>
+    for flutter_rust_bridge::for_generated::wasm_bindgen::JsValue
+{
+    // Codec=Cst (C-struct based), see doc to use other codecs
+    fn cst_decode(self) -> crate::api::types::PaymentFailureReason {
         (self.unchecked_into_f64() as i32).cst_decode()
     }
 }
@@ -773,20 +1224,133 @@ impl CstDecode<usize> for flutter_rust_bridge::for_generated::wasm_bindgen::JsVa
 }
 
 #[wasm_bindgen]
-pub fn wire_build_with_sqlite_store(
+pub fn wire_NodeBuilder_build(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
+    that: flutter_rust_bridge::for_generated::wasm_bindgen::JsValue,
+) {
+    wire_NodeBuilder_build_impl(port_, that)
+}
+
+#[wasm_bindgen]
+pub fn wire_NodeBuilder_build_with_fs_store(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
+    that: flutter_rust_bridge::for_generated::wasm_bindgen::JsValue,
+) {
+    wire_NodeBuilder_build_with_fs_store_impl(port_, that)
+}
+
+#[wasm_bindgen]
+pub fn wire_NodeBuilder_create_builder(
     port_: flutter_rust_bridge::for_generated::MessagePort,
     config: flutter_rust_bridge::for_generated::wasm_bindgen::JsValue,
     chain_data_source_config: flutter_rust_bridge::for_generated::wasm_bindgen::JsValue,
     entropy_source_config: flutter_rust_bridge::for_generated::wasm_bindgen::JsValue,
     gossip_source_config: flutter_rust_bridge::for_generated::wasm_bindgen::JsValue,
+    liquidity_source_config: flutter_rust_bridge::for_generated::wasm_bindgen::JsValue,
 ) {
-    wire_build_with_sqlite_store_impl(
+    wire_NodeBuilder_create_builder_impl(
         port_,
         config,
         chain_data_source_config,
         entropy_source_config,
         gossip_source_config,
+        liquidity_source_config,
     )
+}
+
+#[wasm_bindgen]
+pub fn wire_ldk_bolt_11_payment_receive(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
+    that: flutter_rust_bridge::for_generated::wasm_bindgen::JsValue,
+    amount_msat: u64,
+    description: String,
+    expiry_secs: u32,
+) {
+    wire_ldk_bolt_11_payment_receive_impl(port_, that, amount_msat, description, expiry_secs)
+}
+
+#[wasm_bindgen]
+pub fn wire_ldk_bolt_11_payment_receive_variable_amount(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
+    that: flutter_rust_bridge::for_generated::wasm_bindgen::JsValue,
+    description: String,
+    expiry_secs: u32,
+) {
+    wire_ldk_bolt_11_payment_receive_variable_amount_impl(port_, that, description, expiry_secs)
+}
+
+#[wasm_bindgen]
+pub fn wire_ldk_bolt_11_payment_receive_variable_amount_via_jit_channel(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
+    that: flutter_rust_bridge::for_generated::wasm_bindgen::JsValue,
+    description: String,
+    expiry_secs: u32,
+    max_proportional_lsp_fee_limit_ppm_msat: flutter_rust_bridge::for_generated::wasm_bindgen::JsValue,
+) {
+    wire_ldk_bolt_11_payment_receive_variable_amount_via_jit_channel_impl(
+        port_,
+        that,
+        description,
+        expiry_secs,
+        max_proportional_lsp_fee_limit_ppm_msat,
+    )
+}
+
+#[wasm_bindgen]
+pub fn wire_ldk_bolt_11_payment_receive_via_jit_channel(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
+    that: flutter_rust_bridge::for_generated::wasm_bindgen::JsValue,
+    amount_msat: u64,
+    description: String,
+    expiry_secs: u32,
+    max_total_lsp_fee_limit_msat: flutter_rust_bridge::for_generated::wasm_bindgen::JsValue,
+) {
+    wire_ldk_bolt_11_payment_receive_via_jit_channel_impl(
+        port_,
+        that,
+        amount_msat,
+        description,
+        expiry_secs,
+        max_total_lsp_fee_limit_msat,
+    )
+}
+
+#[wasm_bindgen]
+pub fn wire_ldk_bolt_11_payment_send(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
+    that: flutter_rust_bridge::for_generated::wasm_bindgen::JsValue,
+    invoice: flutter_rust_bridge::for_generated::wasm_bindgen::JsValue,
+) {
+    wire_ldk_bolt_11_payment_send_impl(port_, that, invoice)
+}
+
+#[wasm_bindgen]
+pub fn wire_ldk_bolt_11_payment_send_probes(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
+    that: flutter_rust_bridge::for_generated::wasm_bindgen::JsValue,
+    invoice: flutter_rust_bridge::for_generated::wasm_bindgen::JsValue,
+) {
+    wire_ldk_bolt_11_payment_send_probes_impl(port_, that, invoice)
+}
+
+#[wasm_bindgen]
+pub fn wire_ldk_bolt_11_payment_send_probes_using_amount(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
+    that: flutter_rust_bridge::for_generated::wasm_bindgen::JsValue,
+    invoice: flutter_rust_bridge::for_generated::wasm_bindgen::JsValue,
+    amount_msat: u64,
+) {
+    wire_ldk_bolt_11_payment_send_probes_using_amount_impl(port_, that, invoice, amount_msat)
+}
+
+#[wasm_bindgen]
+pub fn wire_ldk_bolt_11_payment_send_using_amount(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
+    that: flutter_rust_bridge::for_generated::wasm_bindgen::JsValue,
+    invoice: flutter_rust_bridge::for_generated::wasm_bindgen::JsValue,
+    amount_msat: u64,
+) {
+    wire_ldk_bolt_11_payment_send_using_amount_impl(port_, that, invoice, amount_msat)
 }
 
 #[wasm_bindgen]
@@ -795,13 +1359,29 @@ pub fn wire_ldk_mnemonic_generate(port_: flutter_rust_bridge::for_generated::Mes
 }
 
 #[wasm_bindgen]
+pub fn wire_ldk_node_bolt11_payment(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
+    ptr: flutter_rust_bridge::for_generated::wasm_bindgen::JsValue,
+) {
+    wire_ldk_node_bolt11_payment_impl(port_, ptr)
+}
+
+#[wasm_bindgen]
 pub fn wire_ldk_node_close_channel(
     port_: flutter_rust_bridge::for_generated::MessagePort,
     that: flutter_rust_bridge::for_generated::wasm_bindgen::JsValue,
-    channel_id: flutter_rust_bridge::for_generated::wasm_bindgen::JsValue,
+    user_channel_id: flutter_rust_bridge::for_generated::wasm_bindgen::JsValue,
     counterparty_node_id: flutter_rust_bridge::for_generated::wasm_bindgen::JsValue,
 ) {
-    wire_ldk_node_close_channel_impl(port_, that, channel_id, counterparty_node_id)
+    wire_ldk_node_close_channel_impl(port_, that, user_channel_id, counterparty_node_id)
+}
+
+#[wasm_bindgen]
+pub fn wire_ldk_node_config(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
+    that: flutter_rust_bridge::for_generated::wasm_bindgen::JsValue,
+) {
+    wire_ldk_node_config_impl(port_, that)
 }
 
 #[wasm_bindgen]
@@ -856,11 +1436,11 @@ pub fn wire_ldk_node_event_handled(
 }
 
 #[wasm_bindgen]
-pub fn wire_ldk_node_is_running(
+pub fn wire_ldk_node_list_balances(
     port_: flutter_rust_bridge::for_generated::MessagePort,
     that: flutter_rust_bridge::for_generated::wasm_bindgen::JsValue,
 ) {
-    wire_ldk_node_is_running_impl(port_, that)
+    wire_ldk_node_list_balances_impl(port_, that)
 }
 
 #[wasm_bindgen]
@@ -905,19 +1485,19 @@ pub fn wire_ldk_node_listening_addresses(
 }
 
 #[wasm_bindgen]
-pub fn wire_ldk_node_new_onchain_address(
-    port_: flutter_rust_bridge::for_generated::MessagePort,
-    that: flutter_rust_bridge::for_generated::wasm_bindgen::JsValue,
-) {
-    wire_ldk_node_new_onchain_address_impl(port_, that)
-}
-
-#[wasm_bindgen]
 pub fn wire_ldk_node_next_event(
     port_: flutter_rust_bridge::for_generated::MessagePort,
     that: flutter_rust_bridge::for_generated::wasm_bindgen::JsValue,
 ) {
     wire_ldk_node_next_event_impl(port_, that)
+}
+
+#[wasm_bindgen]
+pub fn wire_ldk_node_next_event_async(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
+    that: flutter_rust_bridge::for_generated::wasm_bindgen::JsValue,
+) {
+    wire_ldk_node_next_event_async_impl(port_, that)
 }
 
 #[wasm_bindgen]
@@ -929,119 +1509,29 @@ pub fn wire_ldk_node_node_id(
 }
 
 #[wasm_bindgen]
+pub fn wire_ldk_node_on_chain_payment(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
+    ptr: flutter_rust_bridge::for_generated::wasm_bindgen::JsValue,
+) {
+    wire_ldk_node_on_chain_payment_impl(port_, ptr)
+}
+
+#[wasm_bindgen]
 pub fn wire_ldk_node_payment(
     port_: flutter_rust_bridge::for_generated::MessagePort,
     that: flutter_rust_bridge::for_generated::wasm_bindgen::JsValue,
-    payment_hash: flutter_rust_bridge::for_generated::wasm_bindgen::JsValue,
+    payment_id: flutter_rust_bridge::for_generated::wasm_bindgen::JsValue,
 ) {
-    wire_ldk_node_payment_impl(port_, that, payment_hash)
-}
-
-#[wasm_bindgen]
-pub fn wire_ldk_node_receive_payment(
-    port_: flutter_rust_bridge::for_generated::MessagePort,
-    that: flutter_rust_bridge::for_generated::wasm_bindgen::JsValue,
-    amount_msat: u64,
-    description: String,
-    expiry_secs: u32,
-) {
-    wire_ldk_node_receive_payment_impl(port_, that, amount_msat, description, expiry_secs)
-}
-
-#[wasm_bindgen]
-pub fn wire_ldk_node_receive_variable_amount_payment(
-    port_: flutter_rust_bridge::for_generated::MessagePort,
-    that: flutter_rust_bridge::for_generated::wasm_bindgen::JsValue,
-    description: String,
-    expiry_secs: u32,
-) {
-    wire_ldk_node_receive_variable_amount_payment_impl(port_, that, description, expiry_secs)
+    wire_ldk_node_payment_impl(port_, that, payment_id)
 }
 
 #[wasm_bindgen]
 pub fn wire_ldk_node_remove_payment(
     port_: flutter_rust_bridge::for_generated::MessagePort,
     that: flutter_rust_bridge::for_generated::wasm_bindgen::JsValue,
-    payment_hash: flutter_rust_bridge::for_generated::wasm_bindgen::JsValue,
+    payment_id: flutter_rust_bridge::for_generated::wasm_bindgen::JsValue,
 ) {
-    wire_ldk_node_remove_payment_impl(port_, that, payment_hash)
-}
-
-#[wasm_bindgen]
-pub fn wire_ldk_node_send_all_to_onchain_address(
-    port_: flutter_rust_bridge::for_generated::MessagePort,
-    that: flutter_rust_bridge::for_generated::wasm_bindgen::JsValue,
-    address: flutter_rust_bridge::for_generated::wasm_bindgen::JsValue,
-) {
-    wire_ldk_node_send_all_to_onchain_address_impl(port_, that, address)
-}
-
-#[wasm_bindgen]
-pub fn wire_ldk_node_send_payment(
-    port_: flutter_rust_bridge::for_generated::MessagePort,
-    that: flutter_rust_bridge::for_generated::wasm_bindgen::JsValue,
-    invoice: flutter_rust_bridge::for_generated::wasm_bindgen::JsValue,
-) {
-    wire_ldk_node_send_payment_impl(port_, that, invoice)
-}
-
-#[wasm_bindgen]
-pub fn wire_ldk_node_send_payment_probes(
-    port_: flutter_rust_bridge::for_generated::MessagePort,
-    that: flutter_rust_bridge::for_generated::wasm_bindgen::JsValue,
-    invoice: flutter_rust_bridge::for_generated::wasm_bindgen::JsValue,
-) {
-    wire_ldk_node_send_payment_probes_impl(port_, that, invoice)
-}
-
-#[wasm_bindgen]
-pub fn wire_ldk_node_send_payment_probes_using_amount(
-    port_: flutter_rust_bridge::for_generated::MessagePort,
-    that: flutter_rust_bridge::for_generated::wasm_bindgen::JsValue,
-    invoice: flutter_rust_bridge::for_generated::wasm_bindgen::JsValue,
-    amount_msat: u64,
-) {
-    wire_ldk_node_send_payment_probes_using_amount_impl(port_, that, invoice, amount_msat)
-}
-
-#[wasm_bindgen]
-pub fn wire_ldk_node_send_payment_using_amount(
-    port_: flutter_rust_bridge::for_generated::MessagePort,
-    that: flutter_rust_bridge::for_generated::wasm_bindgen::JsValue,
-    invoice: flutter_rust_bridge::for_generated::wasm_bindgen::JsValue,
-    amount_msat: u64,
-) {
-    wire_ldk_node_send_payment_using_amount_impl(port_, that, invoice, amount_msat)
-}
-
-#[wasm_bindgen]
-pub fn wire_ldk_node_send_spontaneous_payment(
-    port_: flutter_rust_bridge::for_generated::MessagePort,
-    that: flutter_rust_bridge::for_generated::wasm_bindgen::JsValue,
-    amount_msat: u64,
-    node_id: flutter_rust_bridge::for_generated::wasm_bindgen::JsValue,
-) {
-    wire_ldk_node_send_spontaneous_payment_impl(port_, that, amount_msat, node_id)
-}
-
-#[wasm_bindgen]
-pub fn wire_ldk_node_send_spontaneous_payment_probes(
-    port_: flutter_rust_bridge::for_generated::MessagePort,
-    that: flutter_rust_bridge::for_generated::wasm_bindgen::JsValue,
-    amount_msat: u64,
-    node_id: flutter_rust_bridge::for_generated::wasm_bindgen::JsValue,
-) {
-    wire_ldk_node_send_spontaneous_payment_probes_impl(port_, that, amount_msat, node_id)
-}
-
-#[wasm_bindgen]
-pub fn wire_ldk_node_send_to_onchain_address(
-    port_: flutter_rust_bridge::for_generated::MessagePort,
-    that: flutter_rust_bridge::for_generated::wasm_bindgen::JsValue,
-    address: flutter_rust_bridge::for_generated::wasm_bindgen::JsValue,
-    amount_sats: u64,
-) {
-    wire_ldk_node_send_to_onchain_address_impl(port_, that, address, amount_sats)
+    wire_ldk_node_remove_payment_impl(port_, that, payment_id)
 }
 
 #[wasm_bindgen]
@@ -1054,11 +1544,11 @@ pub fn wire_ldk_node_sign_message(
 }
 
 #[wasm_bindgen]
-pub fn wire_ldk_node_spendable_onchain_balance_sats(
+pub fn wire_ldk_node_spontaneous_payment(
     port_: flutter_rust_bridge::for_generated::MessagePort,
-    that: flutter_rust_bridge::for_generated::wasm_bindgen::JsValue,
+    ptr: flutter_rust_bridge::for_generated::wasm_bindgen::JsValue,
 ) {
-    wire_ldk_node_spendable_onchain_balance_sats_impl(port_, that)
+    wire_ldk_node_spontaneous_payment_impl(port_, ptr)
 }
 
 #[wasm_bindgen]
@@ -1067,6 +1557,14 @@ pub fn wire_ldk_node_start(
     that: flutter_rust_bridge::for_generated::wasm_bindgen::JsValue,
 ) {
     wire_ldk_node_start_impl(port_, that)
+}
+
+#[wasm_bindgen]
+pub fn wire_ldk_node_status(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
+    that: flutter_rust_bridge::for_generated::wasm_bindgen::JsValue,
+) {
+    wire_ldk_node_status_impl(port_, that)
 }
 
 #[wasm_bindgen]
@@ -1086,25 +1584,17 @@ pub fn wire_ldk_node_sync_wallets(
 }
 
 #[wasm_bindgen]
-pub fn wire_ldk_node_total_onchain_balance_sats(
-    port_: flutter_rust_bridge::for_generated::MessagePort,
-    that: flutter_rust_bridge::for_generated::wasm_bindgen::JsValue,
-) {
-    wire_ldk_node_total_onchain_balance_sats_impl(port_, that)
-}
-
-#[wasm_bindgen]
 pub fn wire_ldk_node_update_channel_config(
     port_: flutter_rust_bridge::for_generated::MessagePort,
     that: flutter_rust_bridge::for_generated::wasm_bindgen::JsValue,
-    channel_id: flutter_rust_bridge::for_generated::wasm_bindgen::JsValue,
+    user_channel_id: flutter_rust_bridge::for_generated::wasm_bindgen::JsValue,
     counterparty_node_id: flutter_rust_bridge::for_generated::wasm_bindgen::JsValue,
     channel_config: flutter_rust_bridge::for_generated::wasm_bindgen::JsValue,
 ) {
     wire_ldk_node_update_channel_config_impl(
         port_,
         that,
-        channel_id,
+        user_channel_id,
         counterparty_node_id,
         channel_config,
     )
@@ -1116,9 +1606,9 @@ pub fn wire_ldk_node_verify_signature(
     that: flutter_rust_bridge::for_generated::wasm_bindgen::JsValue,
     msg: Box<[u8]>,
     sig: String,
-    pkey: flutter_rust_bridge::for_generated::wasm_bindgen::JsValue,
+    public_key: flutter_rust_bridge::for_generated::wasm_bindgen::JsValue,
 ) {
-    wire_ldk_node_verify_signature_impl(port_, that, msg, sig, pkey)
+    wire_ldk_node_verify_signature_impl(port_, that, msg, sig, public_key)
 }
 
 #[wasm_bindgen]
@@ -1130,31 +1620,134 @@ pub fn wire_ldk_node_wait_next_event(
 }
 
 #[wasm_bindgen]
-pub fn wire_socket_address_as_string(
+pub fn wire_ldk_on_chain_payment_new_address(
     port_: flutter_rust_bridge::for_generated::MessagePort,
     that: flutter_rust_bridge::for_generated::wasm_bindgen::JsValue,
 ) {
-    wire_socket_address_as_string_impl(port_, that)
+    wire_ldk_on_chain_payment_new_address_impl(port_, that)
 }
 
 #[wasm_bindgen]
-pub fn wire_socket_address_from_str(
+pub fn wire_ldk_on_chain_payment_send_all_to_address(
     port_: flutter_rust_bridge::for_generated::MessagePort,
-    address: String,
+    that: flutter_rust_bridge::for_generated::wasm_bindgen::JsValue,
+    address: flutter_rust_bridge::for_generated::wasm_bindgen::JsValue,
 ) {
-    wire_socket_address_from_str_impl(port_, address)
+    wire_ldk_on_chain_payment_send_all_to_address_impl(port_, that, address)
 }
 
 #[wasm_bindgen]
-pub fn rust_arc_increment_strong_count_RustOpaque_NodeSqliteStore(ptr: *const std::ffi::c_void) {
+pub fn wire_ldk_on_chain_payment_send_to_address(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
+    that: flutter_rust_bridge::for_generated::wasm_bindgen::JsValue,
+    address: flutter_rust_bridge::for_generated::wasm_bindgen::JsValue,
+    amount_sats: u64,
+) {
+    wire_ldk_on_chain_payment_send_to_address_impl(port_, that, address, amount_sats)
+}
+
+#[wasm_bindgen]
+pub fn wire_ldk_spontaneous_payment_send(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
+    that: flutter_rust_bridge::for_generated::wasm_bindgen::JsValue,
+    amount_msat: u64,
+    node_id: flutter_rust_bridge::for_generated::wasm_bindgen::JsValue,
+) {
+    wire_ldk_spontaneous_payment_send_impl(port_, that, amount_msat, node_id)
+}
+
+#[wasm_bindgen]
+pub fn wire_ldk_spontaneous_payment_send_probes(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
+    that: flutter_rust_bridge::for_generated::wasm_bindgen::JsValue,
+    amount_msat: u64,
+    node_id: flutter_rust_bridge::for_generated::wasm_bindgen::JsValue,
+) {
+    wire_ldk_spontaneous_payment_send_probes_impl(port_, that, amount_msat, node_id)
+}
+
+#[wasm_bindgen]
+pub fn rust_arc_increment_strong_count_RustOpaque_Node(ptr: *const std::ffi::c_void) {
     unsafe {
-        StdArc::<Node<SqliteStore>>::increment_strong_count(ptr as _);
+        StdArc::<Node>::increment_strong_count(ptr as _);
     }
 }
 
 #[wasm_bindgen]
-pub fn rust_arc_decrement_strong_count_RustOpaque_NodeSqliteStore(ptr: *const std::ffi::c_void) {
+pub fn rust_arc_decrement_strong_count_RustOpaque_Node(ptr: *const std::ffi::c_void) {
     unsafe {
-        StdArc::<Node<SqliteStore>>::decrement_strong_count(ptr as _);
+        StdArc::<Node>::decrement_strong_count(ptr as _);
+    }
+}
+
+#[wasm_bindgen]
+pub fn rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedrust_asyncRwLockNodeBuilder(
+    ptr: *const std::ffi::c_void,
+) {
+    unsafe {
+        StdArc::<flutter_rust_bridge::for_generated::rust_async::RwLock<NodeBuilder>>::increment_strong_count(ptr as _);
+    }
+}
+
+#[wasm_bindgen]
+pub fn rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedrust_asyncRwLockNodeBuilder(
+    ptr: *const std::ffi::c_void,
+) {
+    unsafe {
+        StdArc::<flutter_rust_bridge::for_generated::rust_async::RwLock<NodeBuilder>>::decrement_strong_count(ptr as _);
+    }
+}
+
+#[wasm_bindgen]
+pub fn rust_arc_increment_strong_count_RustOpaque_ldk_nodepaymentBolt11Payment(
+    ptr: *const std::ffi::c_void,
+) {
+    unsafe {
+        StdArc::<ldk_node::payment::Bolt11Payment>::increment_strong_count(ptr as _);
+    }
+}
+
+#[wasm_bindgen]
+pub fn rust_arc_decrement_strong_count_RustOpaque_ldk_nodepaymentBolt11Payment(
+    ptr: *const std::ffi::c_void,
+) {
+    unsafe {
+        StdArc::<ldk_node::payment::Bolt11Payment>::decrement_strong_count(ptr as _);
+    }
+}
+
+#[wasm_bindgen]
+pub fn rust_arc_increment_strong_count_RustOpaque_ldk_nodepaymentOnchainPayment(
+    ptr: *const std::ffi::c_void,
+) {
+    unsafe {
+        StdArc::<ldk_node::payment::OnchainPayment>::increment_strong_count(ptr as _);
+    }
+}
+
+#[wasm_bindgen]
+pub fn rust_arc_decrement_strong_count_RustOpaque_ldk_nodepaymentOnchainPayment(
+    ptr: *const std::ffi::c_void,
+) {
+    unsafe {
+        StdArc::<ldk_node::payment::OnchainPayment>::decrement_strong_count(ptr as _);
+    }
+}
+
+#[wasm_bindgen]
+pub fn rust_arc_increment_strong_count_RustOpaque_ldk_nodepaymentSpontaneousPayment(
+    ptr: *const std::ffi::c_void,
+) {
+    unsafe {
+        StdArc::<ldk_node::payment::SpontaneousPayment>::increment_strong_count(ptr as _);
+    }
+}
+
+#[wasm_bindgen]
+pub fn rust_arc_decrement_strong_count_RustOpaque_ldk_nodepaymentSpontaneousPayment(
+    ptr: *const std::ffi::c_void,
+) {
+    unsafe {
+        StdArc::<ldk_node::payment::SpontaneousPayment>::decrement_strong_count(ptr as _);
     }
 }

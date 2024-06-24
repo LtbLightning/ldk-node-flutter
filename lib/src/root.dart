@@ -1,6 +1,5 @@
 import 'package:ldk_node/src/generated/api/error.dart' as error;
 import 'package:ldk_node/src/generated/api/types.dart' as types;
-import 'package:ldk_node/src/utils/default_services.dart';
 import 'package:ldk_node/src/utils/utils.dart';
 import 'package:path_provider/path_provider.dart';
 
@@ -56,9 +55,19 @@ class Node extends LdkNode {
     }
   }
 
-  // Confirm the last retrieved event handled.
+  ///Returns the status of the Node.
+  @override
+  Future<types.NodeStatus> status({hint}) async {
+    try {
+      return await super.status();
+    } on error.NodeException catch (e) {
+      throw mapNodeException(e);
+    }
+  }
+
+  /// Blocks until the next event is available.
   ///
-  /// **Note:** This **MUST** be called after each event has been handled.
+  /// **Note:** this will always return the same event until handling is confirmed via `node.eventHandled()`.
   @override
   Future<void> eventHandled({hint}) async {
     try {
@@ -68,9 +77,9 @@ class Node extends LdkNode {
     }
   }
 
-  /// Blocks until the next event is available.
+  // Confirm the last retrieved event handled.
   ///
-  /// **Note:** this will always return the same event until handling is confirmed via `node.eventHandled()`.
+  /// **Note:** This **MUST** be called after each event has been handled.
   @override
   Future<types.Event?> nextEvent({hint}) async {
     try {
@@ -89,6 +98,18 @@ class Node extends LdkNode {
   Future<types.Event?> waitNextHandled({hint}) async {
     try {
       return await super.waitNextEvent();
+    } on error.NodeException catch (e) {
+      throw mapNodeException(e);
+    }
+  }
+
+  ///Returns the next event in the event queue.
+  /// Will asynchronously poll the event queue until the next event is ready.
+  /// **Note:** this will always return the same event until handling is confirmed via `node.eventHandled()`.
+  @override
+  Future<types.Event> nextEventAsync({hint}) async {
+    try {
+      return await super.nextEventAsync();
     } on error.NodeException catch (e) {
       throw mapNodeException(e);
     }
@@ -114,54 +135,21 @@ class Node extends LdkNode {
     }
   }
 
-  /// Retrieve a new on-chain/funding address.
-  @override
-  Future<types.Address> newOnchainAddress({hint}) async {
-    try {
-      return await super.newOnchainAddress();
-    } on error.NodeException catch (e) {
-      throw mapNodeException(e);
-    }
-  }
-
   /// Retrieve the currently spendable on-chain balance in satoshis.
   @override
-  Future<int> spendableOnchainBalanceSats({hint}) async {
+  Future<types.BalanceDetails> listBalances({hint}) {
     try {
-      return await super.spendableOnchainBalanceSats();
+      return super.listBalances();
     } on error.NodeException catch (e) {
       throw mapNodeException(e);
     }
   }
 
-  /// Retrieve the current total on-chain balance in satoshis.
+  ///Returns the config with which the Node was initialized.
   @override
-  Future<int> totalOnchainBalanceSats({hint}) async {
+  Future<types.Config> config({hint}) {
     try {
-      return await super.totalOnchainBalanceSats();
-    } on error.NodeException catch (e) {
-      throw mapNodeException(e);
-    }
-  }
-
-  /// Send an on-chain payment to the given address.
-  @override
-  Future<types.Txid> sendToOnchainAddress(
-      {required types.Address address, required int amountSats, hint}) async {
-    try {
-      return await super
-          .sendToOnchainAddress(address: address, amountSats: amountSats);
-    } on error.NodeException catch (e) {
-      throw mapNodeException(e);
-    }
-  }
-
-  /// Send an on-chain payment to the given address, draining all the available funds.
-  @override
-  Future<types.Txid> sendAllToOnchainAddress(
-      {required types.Address address, hint}) async {
-    try {
-      return await super.sendAllToOnchainAddress(address: address);
+      return super.config();
     } on error.NodeException catch (e) {
       throw mapNodeException(e);
     }
@@ -220,7 +208,7 @@ class Node extends LdkNode {
   ///
   /// Returns a temporary channel id.
   @override
-  Future<void> connectOpenChannel(
+  Future<types.UserChannelId> connectOpenChannel(
       {required types.SocketAddress socketAddress,
       required types.PublicKey nodeId,
       required int channelAmountSats,
@@ -229,7 +217,7 @@ class Node extends LdkNode {
       int? pushToCounterpartyMsat,
       hint}) async {
     try {
-      await super.connectOpenChannel(
+      return await super.connectOpenChannel(
           socketAddress: socketAddress,
           nodeId: nodeId,
           pushToCounterpartyMsat: pushToCounterpartyMsat,
@@ -256,11 +244,11 @@ class Node extends LdkNode {
   @override
   Future<void> closeChannel(
       {required types.PublicKey counterpartyNodeId,
-      required types.ChannelId channelId,
+      required types.UserChannelId userChannelId,
       hint}) async {
     try {
       await super.closeChannel(
-        channelId: channelId,
+        userChannelId: userChannelId,
         counterpartyNodeId: counterpartyNodeId,
       );
     } on error.NodeException catch (e) {
@@ -273,137 +261,15 @@ class Node extends LdkNode {
   @override
   Future<void> updateChannelConfig(
       {required types.PublicKey counterpartyNodeId,
-      required types.ChannelId channelId,
+      required types.UserChannelId userChannelId,
       required types.ChannelConfig channelConfig,
       hint}) async {
     try {
       await super.updateChannelConfig(
-        channelId: channelId,
+        userChannelId: userChannelId,
         counterpartyNodeId: counterpartyNodeId,
         channelConfig: channelConfig,
       );
-    } on error.NodeException catch (e) {
-      throw mapNodeException(e);
-    }
-  }
-
-  /// Send a payement given an invoice.
-  @override
-  Future<types.PaymentHash> sendPayment(
-      {required types.Bolt11Invoice invoice, hint}) async {
-    try {
-      return await super.sendPayment(invoice: invoice);
-    } on error.NodeException catch (e) {
-      throw mapNodeException(e);
-    }
-  }
-
-  /// Send a payment given an invoice and an amount in millisatoshi.
-  ///
-  /// This will fail if the amount given is less than the value required by the given invoice.
-  ///
-  /// This can be used to pay a so-called "zero-amount" invoice, i.e., an invoice that leaves the
-  /// amount paid to be determined by the user.
-  @override
-  Future<types.PaymentHash> sendPaymentUsingAmount(
-      {required types.Bolt11Invoice invoice,
-      required int amountMsat,
-      hint}) async {
-    try {
-      return await super
-          .sendPaymentUsingAmount(invoice: invoice, amountMsat: amountMsat);
-    } on error.NodeException catch (e) {
-      throw mapNodeException(e);
-    }
-  }
-
-  /// Send a spontaneous, aka. "keysend", payment
-  @override
-  Future<types.PaymentHash> sendSpontaneousPayment(
-      {required types.PublicKey nodeId, required int amountMsat, hint}) async {
-    try {
-      return await super
-          .sendSpontaneousPayment(amountMsat: amountMsat, nodeId: nodeId);
-    } on error.NodeException catch (e) {
-      throw mapNodeException(e);
-    }
-  }
-
-  ///Sends payment probes over all paths of a route that would be used to pay the given amount to the given node_id.
-  @override
-  Future<void> sendSpontaneousPaymentProbes(
-      {required types.PublicKey nodeId, required int amountMsat, hint}) async {
-    try {
-      return await super
-          .sendSpontaneousPaymentProbes(amountMsat: amountMsat, nodeId: nodeId);
-    } on error.NodeException catch (e) {
-      throw mapNodeException(e);
-    }
-  }
-
-  // Sends payment probes over all paths of a route that would be used to pay the given invoice.
-  ///
-  /// This may be used to send "pre-flight" probes, i.e., to train our scorer before conducting
-  /// the actual payment. Note this is only useful if there likely is sufficient time for the
-  /// probe to settle before sending out the actual payment, e.g., when waiting for user
-  /// confirmation in a wallet UI.
-  ///
-  /// Otherwise, there is a chance the probe could take up some liquidity needed to complete the
-  /// actual payment. Users should therefore be cautious and might avoid sending probes if
-  /// liquidity is scarce and/or they don't expect the probe to return before they send the
-  /// payment. To mitigate this issue, channels with available liquidity less than the required
-  /// amount times "config.probingLiquidityLimitMultiplier"  won't be used to send
-  /// pre-flight probes.
-  ///
-  @override
-  Future<void> sendPaymentProbes(
-      {required types.Bolt11Invoice invoice, hint}) async {
-    try {
-      return await super.sendPaymentProbes(invoice: invoice);
-    } on error.NodeException catch (e) {
-      throw mapNodeException(e);
-    }
-  }
-
-  @override
-  Future<void> sendPaymentProbesUsingAmount(
-      {required types.Bolt11Invoice invoice,
-      required int amountMsat,
-      hint}) async {
-    try {
-      return await super.sendPaymentProbesUsingAmount(
-          invoice: invoice, amountMsat: amountMsat);
-    } on error.NodeException catch (e) {
-      throw mapNodeException(e);
-    }
-  }
-
-  /// Returns a payable invoice that can be used to request and receive a payment of the amount
-  /// given.
-  @override
-  Future<types.Bolt11Invoice> receivePayment(
-      {required int amountMsat,
-      required int expirySecs,
-      required String description,
-      hint}) async {
-    try {
-      return await super.receivePayment(
-          amountMsat: amountMsat,
-          description: description,
-          expirySecs: expirySecs);
-    } on error.NodeException catch (e) {
-      throw mapNodeException(e);
-    }
-  }
-
-  /// Returns a payable invoice that can be used to request and receive a payment for which the
-  /// amount is to be determined by the user, also known as a "zero-amount" invoice.
-  @override
-  Future<types.Bolt11Invoice> receiveVariableAmountPayment(
-      {required int expirySecs, required String description, hint}) async {
-    try {
-      return await super.receiveVariableAmountPayment(
-          description: description, expirySecs: expirySecs);
     } on error.NodeException catch (e) {
       throw mapNodeException(e);
     }
@@ -414,9 +280,9 @@ class Node extends LdkNode {
   /// Returns `PaymentDetails` if the payment was known and `null` otherwise.
   @override
   Future<types.PaymentDetails?> payment(
-      {required types.PaymentHash paymentHash, hint}) async {
+      {required types.PaymentId paymentId, hint}) async {
     try {
-      return await super.payment(paymentHash: paymentHash);
+      return await super.payment(paymentId: paymentId);
     } on error.NodeException catch (e) {
       throw mapNodeException(e);
     }
@@ -424,10 +290,9 @@ class Node extends LdkNode {
 
   ///Remove the payment with the given hash from the store.
   @override
-  Future<void> removePayment(
-      {required types.PaymentHash paymentHash, hint}) async {
+  Future<void> removePayment({required types.PaymentId paymentId, hint}) async {
     try {
-      return await super.removePayment(paymentHash: paymentHash);
+      return await super.removePayment(paymentId: paymentId);
     } on error.NodeException catch (e) {
       throw mapNodeException(e);
     }
@@ -486,10 +351,197 @@ class Node extends LdkNode {
   Future<bool> verifySignature(
       {required List<int> msg,
       required String sig,
-      required types.PublicKey pkey,
+      required types.PublicKey publicKey,
       hint}) async {
     try {
-      return await super.verifySignature(msg: msg, sig: sig, pkey: pkey);
+      return await super
+          .verifySignature(msg: msg, sig: sig, publicKey: publicKey);
+    } on error.NodeException catch (e) {
+      throw mapNodeException(e);
+    }
+  }
+
+  Future<Bolt11Payment> bolt11Payment() async {
+    try {
+      final res = await LdkNode.bolt11Payment(ptr: this);
+      return Bolt11Payment._(ptr: res.ptr);
+    } on error.NodeException catch (e) {
+      throw mapNodeException(e);
+    }
+  }
+
+  Future<OnChainPayment> onChainPayment() async {
+    try {
+      final res = await LdkNode.onChainPayment(ptr: this);
+      return OnChainPayment._(ptr: res.ptr);
+    } on error.NodeException catch (e) {
+      throw mapNodeException(e);
+    }
+  }
+
+  Future<SpontaneousPayment> spontaneousPayment() async {
+    try {
+      final res = await LdkNode.spontaneousPayment(ptr: this);
+      return SpontaneousPayment._(ptr: res.ptr);
+    } on error.NodeException catch (e) {
+      throw mapNodeException(e);
+    }
+  }
+}
+
+class SpontaneousPayment extends LdkSpontaneousPayment {
+  SpontaneousPayment._({required super.ptr});
+  @override
+  Future<void> sendProbes(
+      {required int amountMsat, required types.PublicKey nodeId, hint}) {
+    try {
+      return super.sendProbes(amountMsat: amountMsat, nodeId: nodeId);
+    } on error.NodeException catch (e) {
+      throw mapNodeException(e);
+    }
+  }
+
+  @override
+  Future<types.PaymentId> send(
+      {required int amountMsat,
+      required types.PublicKey nodeId,
+      dynamic hint}) {
+    try {
+      return super.send(amountMsat: amountMsat, nodeId: nodeId);
+    } on error.NodeException catch (e) {
+      throw mapNodeException(e);
+    }
+  }
+}
+
+class OnChainPayment extends LdkOnChainPayment {
+  OnChainPayment._({required super.ptr});
+  @override
+  Future<types.Address> newAddress({hint}) {
+    try {
+      return super.newAddress();
+    } on error.NodeException catch (e) {
+      throw mapNodeException(e);
+    }
+  }
+
+  @override
+  Future<types.Txid> sendAllToAddress({required types.Address address, hint}) {
+    try {
+      return super.sendAllToAddress(address: address);
+    } on error.NodeException catch (e) {
+      throw mapNodeException(e);
+    }
+  }
+
+  @override
+  Future<types.Txid> sendToAddress(
+      {required types.Address address, required int amountSats, hint}) {
+    try {
+      return super.sendToAddress(address: address, amountSats: amountSats);
+    } on error.NodeException catch (e) {
+      throw mapNodeException(e);
+    }
+  }
+}
+
+class Bolt11Payment extends LdkBolt11Payment {
+  Bolt11Payment._({required super.ptr});
+  @override
+  Future<types.Bolt11Invoice> receive(
+      {required int amountMsat,
+      required String description,
+      required int expirySecs,
+      hint}) {
+    try {
+      return super.receive(
+          amountMsat: amountMsat,
+          description: description,
+          expirySecs: expirySecs);
+    } on error.NodeException catch (e) {
+      throw mapNodeException(e);
+    }
+  }
+
+  @override
+  Future<types.Bolt11Invoice> receiveVariableAmount(
+      {required String description, required int expirySecs, hint}) {
+    try {
+      return super.receiveVariableAmount(
+          description: description, expirySecs: expirySecs);
+    } on error.NodeException catch (e) {
+      throw mapNodeException(e);
+    }
+  }
+
+  @override
+  Future<types.Bolt11Invoice> receiveVariableAmountViaJitChannel(
+      {required String description,
+      required int expirySecs,
+      int? maxProportionalLspFeeLimitPpmMsat,
+      hint}) {
+    try {
+      return super.receiveVariableAmountViaJitChannel(
+          description: description,
+          expirySecs: expirySecs,
+          maxProportionalLspFeeLimitPpmMsat: maxProportionalLspFeeLimitPpmMsat);
+    } on error.NodeException catch (e) {
+      throw mapNodeException(e);
+    }
+  }
+
+  @override
+  Future<types.Bolt11Invoice> receiveViaJitChannel(
+      {required int amountMsat,
+      required String description,
+      required int expirySecs,
+      int? maxTotalLspFeeLimitMsat,
+      hint}) {
+    try {
+      return super.receiveViaJitChannel(
+          description: description,
+          expirySecs: expirySecs,
+          maxTotalLspFeeLimitMsat: maxTotalLspFeeLimitMsat,
+          amountMsat: amountMsat);
+    } on error.NodeException catch (e) {
+      throw mapNodeException(e);
+    }
+  }
+
+  @override
+  Future<types.PaymentId> send({required types.Bolt11Invoice invoice, hint}) {
+    try {
+      return super.send(invoice: invoice);
+    } on error.NodeException catch (e) {
+      throw mapNodeException(e);
+    }
+  }
+
+  @override
+  Future<void> sendProbes({required types.Bolt11Invoice invoice, hint}) {
+    try {
+      return super.sendProbes(invoice: invoice);
+    } on error.NodeException catch (e) {
+      throw mapNodeException(e);
+    }
+  }
+
+  @override
+  Future<void> sendProbesUsingAmount(
+      {required types.Bolt11Invoice invoice, required int amountMsat, hint}) {
+    try {
+      return super
+          .sendProbesUsingAmount(invoice: invoice, amountMsat: amountMsat);
+    } on error.NodeException catch (e) {
+      throw mapNodeException(e);
+    }
+  }
+
+  @override
+  Future<types.PaymentId> sendUsingAmount(
+      {required types.Bolt11Invoice invoice, required int amountMsat, hint}) {
+    try {
+      return super.sendUsingAmount(invoice: invoice, amountMsat: amountMsat);
     } on error.NodeException catch (e) {
       throw mapNodeException(e);
     }
@@ -509,6 +561,7 @@ class Builder {
   types.EntropySourceConfig? _entropySource;
   types.ChainDataSourceConfig? _chainDataSourceConfig;
   types.GossipSourceConfig? _gossipSourceConfig;
+  types.LiquiditySourceConfig? _liquiditySourceConfig;
 
   /// Creates a new builder instance from an [Config].
   ///
@@ -533,30 +586,6 @@ class Builder {
         defaultCltvExpiryDelta: 144,
         trustedPeers0Conf: [],
         probingLiquidityLimitMultiplier: 3));
-  }
-
-  /// Creates a new builder instance with default services configured for testnet.
-  ///
-  factory Builder.testnet({types.Config? config}) {
-    final Builder builder =
-        config != null ? Builder.fromConfig(config: config) : Builder();
-
-    return builder
-        .setNetwork(types.Network.testnet)
-        .setEsploraServer(DefaultServicesTestnet.esploraServerUrl)
-        .setGossipSourceRgs(DefaultServicesTestnet.rgsServerUrl);
-  }
-
-  /// Creates a new builder instance with default services configured for mutinynet.
-  ///
-  factory Builder.mutinynet({types.Config? config}) {
-    final Builder builder =
-        config != null ? Builder.fromConfig(config: config) : Builder();
-
-    return builder
-        .setNetwork(types.Network.signet)
-        .setEsploraServer(DefaultServicesMutinynet.esploraServerUrl)
-        .setGossipSourceRgs(DefaultServicesMutinynet.rgsServerUrl);
   }
 
   /// Configures the [Node] instance to source its wallet entropy from a seed file on disk.
@@ -635,6 +664,22 @@ class Builder {
     return this;
   }
 
+  /// Configures the [Node] instance to source its inbound liquidity from the given
+  /// [LSPS2](https://github.com/BitcoinAndLightningLayerSpecs/lsp/blob/main/LSPS2/README.md)
+  /// service.
+  ///
+  /// Will mark the LSP as trusted for 0-confirmation channels, see `config.trustedPeers0conf`.
+  ///
+  /// The given `token` will be used by the LSP to authenticate the user.
+  Builder setLiquiditySourceLsps2(
+      {required types.SocketAddress address,
+      required types.PublicKey publicKey,
+      String? token}) {
+    _liquiditySourceConfig =
+        types.LiquiditySourceConfig(lsps2Service: (address, publicKey, token));
+    return this;
+  }
+
   /// Builds a [Node] instance with a SqliteStore backend and according to the options
   /// previously configured.
   ///
@@ -647,17 +692,38 @@ class Builder {
         final nodePath = "${directory.path}/ldk_cache/";
         _config!.storageDirPath = nodePath;
       }
-      final res = await buildWithSqliteStore(
-        config: _config!,
-        entropySourceConfig: _entropySource,
-        chainDataSourceConfig: _chainDataSourceConfig,
-        gossipSourceConfig: _gossipSourceConfig,
-      );
+      final builder = await NodeBuilder.createBuilder(
+          config: _config ?? Builder()._config!,
+          chainDataSourceConfig: _chainDataSourceConfig,
+          entropySourceConfig: _entropySource,
+          liquiditySourceConfig: _liquiditySourceConfig,
+          gossipSourceConfig: _gossipSourceConfig);
+      final res = await builder.build();
       return Node._(ptr: res.ptr);
     } on error.BuilderException catch (e) {
       throw mapBuilderException(e);
-    } on error.NodeException catch (e) {
-      throw mapNodeException(e);
+    }
+  }
+
+  ///Builds a Node instance with a FilesystemStore backend and according to the options previously configured.
+  Future<Node> buildWithFsStore() async {
+    try {
+      await Frb.verifyInit();
+      if (_config!.storageDirPath == '') {
+        final directory = await getApplicationDocumentsDirectory();
+        final nodePath = "${directory.path}/ldk_cache/";
+        _config!.storageDirPath = nodePath;
+      }
+      final builder = await NodeBuilder.createBuilder(
+          config: _config ?? Builder()._config!,
+          chainDataSourceConfig: _chainDataSourceConfig,
+          entropySourceConfig: _entropySource,
+          liquiditySourceConfig: _liquiditySourceConfig,
+          gossipSourceConfig: _gossipSourceConfig);
+      final res = await builder.buildWithFsStore();
+      return Node._(ptr: res.ptr);
+    } on error.BuilderException catch (e) {
+      throw mapBuilderException(e);
     }
   }
 }
