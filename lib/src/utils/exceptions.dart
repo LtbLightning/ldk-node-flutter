@@ -119,17 +119,11 @@ NodeException mapLdkNodeError(error.LdkNodeError e) {
           NodeException(message: "Failed to update fee rate estimation."),
       liquidityRequestFailed: (_) =>
           NodeException(message: "Liquidity request operation failed."),
-      liquiditySourceUnavailable: (_) => NodeException(
-          message:
-              "Liquidity operation failed due to the required liquidity source being unavailable."),
-      liquidityFeeTooHigh: (_) => NodeException(
-          message:
-              "Liquidity operation failed due to the LSP's required opening fee being too high."),
-      invalidTxid: (_) =>
-          NodeException(message: "The given transaction id is Invalid."),
+      liquiditySourceUnavailable: (_) => NodeException(message: "Liquidity operation failed due to the required liquidity source being unavailable."),
+      liquidityFeeTooHigh: (_) => NodeException(message: "Liquidity operation failed due to the LSP's required opening fee being too high."),
+      invalidTxid: (_) => NodeException(message: "The given transaction id is Invalid."),
       invalidPaymentId: (_) => NodeException(message: "The given paymentId is invalid."),
       decode: (e) => mapLdkDecodeError(e.field0),
-      //TODO;
       bolt12Parse: (e) => NodeException(message: e.toString()),
       walletOperationTimeout: (e) => NodeException(message: "A wallet operation timed out."),
       invoiceRequestCreationFailed: (e) => NodeException(message: "Invoice request creation failed."),
