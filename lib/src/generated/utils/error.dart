@@ -226,23 +226,47 @@ sealed class LdkNodeError with _$LdkNodeError implements FrbException {
   const factory LdkNodeError.bolt12Parse(
     Bolt12ParseError field0,
   ) = LdkNodeError_Bolt12Parse;
+
+  ///Invoice request creation failed.
   const factory LdkNodeError.invoiceRequestCreationFailed() =
       LdkNodeError_InvoiceRequestCreationFailed;
+
+  ///Offer creation failed.
   const factory LdkNodeError.offerCreationFailed() =
       LdkNodeError_OfferCreationFailed;
+
+  ///Refund creation failed.
   const factory LdkNodeError.refundCreationFailed() =
       LdkNodeError_RefundCreationFailed;
+
+  ///A fee rate estimation update timed out.
   const factory LdkNodeError.feerateEstimationUpdateTimeout() =
       LdkNodeError_FeerateEstimationUpdateTimeout;
+
+  ///A wallet operation timed out.
   const factory LdkNodeError.walletOperationTimeout() =
       LdkNodeError_WalletOperationTimeout;
+
+  ///A transaction sync operation timed out.
   const factory LdkNodeError.txSyncTimeout() = LdkNodeError_TxSyncTimeout;
+
+  ///A gossip updating operation timed out.
   const factory LdkNodeError.gossipUpdateTimeout() =
       LdkNodeError_GossipUpdateTimeout;
+
+  ///The given offer id is invalid.
   const factory LdkNodeError.invalidOfferId() = LdkNodeError_InvalidOfferId;
+
+  ///The given node id is invalid.
   const factory LdkNodeError.invalidNodeId() = LdkNodeError_InvalidNodeId;
+
+  ///The given offer is invalid.
   const factory LdkNodeError.invalidOffer() = LdkNodeError_InvalidOffer;
+
+  ///The given refund is invalid.
   const factory LdkNodeError.invalidRefund() = LdkNodeError_InvalidRefund;
+
+  ///The provided offer was denominated in an unsupported currency.
   const factory LdkNodeError.unsupportedCurrency() =
       LdkNodeError_UnsupportedCurrency;
 }

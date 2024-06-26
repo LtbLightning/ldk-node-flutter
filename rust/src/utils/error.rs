@@ -77,17 +77,29 @@ pub enum LdkNodeError {
     Decode(DecodeError),
     ///An error in decoding the Bolt12 offer.
     Bolt12Parse(Bolt12ParseError),
+    ///Invoice request creation failed.
     InvoiceRequestCreationFailed,
+    ///Offer creation failed.
     OfferCreationFailed,
+    ///Refund creation failed.
     RefundCreationFailed ,
+    ///A fee rate estimation update timed out.
     FeerateEstimationUpdateTimeout ,
+    ///A wallet operation timed out.
     WalletOperationTimeout ,
+    ///A transaction sync operation timed out.
     TxSyncTimeout ,
+    ///A gossip updating operation timed out.
     GossipUpdateTimeout,
+    ///The given offer id is invalid.
     InvalidOfferId,
+    ///The given node id is invalid.
     InvalidNodeId,
+    ///The given offer is invalid.
     InvalidOffer,
+    ///The given refund is invalid.
     InvalidRefund,
+    ///The provided offer was denominated in an unsupported currency.
     UnsupportedCurrency
 }
 #[allow(dead_code)]
