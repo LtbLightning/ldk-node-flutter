@@ -5,21 +5,21 @@ import 'package:ldk_node/src/generated/utils/error.dart' as error;
 import 'package:ldk_node/src/utils/utils.dart';
 import 'package:path_provider/path_provider.dart';
 
-import 'generated/api/builder.dart';
+import 'generated/api/builder.dart' as builder;
 import 'generated/api/node.dart';
-import 'generated/api/on_chain.dart';
-import 'generated/api/spontaneous.dart';
+import 'generated/api/on_chain.dart' as on_chain;
+import 'generated/api/spontaneous.dart' as spontaneous;
 import 'generated/lib.dart';
 
 ///The from string implementation will try to determine the language of the mnemonic from all the supported languages. (Languages have to be explicitly enabled using the Cargo features.)
 /// Supported number of words are 12, 15, 18, 21, and 24.
 ///
-class Mnemonic extends LdkMnemonic {
+class Mnemonic extends builder.LdkMnemonic {
   Mnemonic({required super.seedPhrase});
   static Future<Mnemonic> generate() async {
     try {
       await Frb.verifyInit();
-      final res = await LdkMnemonic.generate();
+      final res = await builder.LdkMnemonic.generate();
       return Mnemonic(seedPhrase: res.seedPhrase);
     } on error.LdkNodeError catch (e) {
       throw mapLdkNodeError(e);
@@ -414,7 +414,7 @@ class Node extends LdkNode {
   }
 }
 
-class SpontaneousPayment extends LdkSpontaneousPayment {
+class SpontaneousPayment extends spontaneous.LdkSpontaneousPayment {
   SpontaneousPayment._({required super.ptr});
   @override
   Future<void> sendProbes(
@@ -439,7 +439,7 @@ class SpontaneousPayment extends LdkSpontaneousPayment {
   }
 }
 
-class OnChainPayment extends LdkOnChainPayment {
+class OnChainPayment extends on_chain.LdkOnChainPayment {
   OnChainPayment._({required super.ptr});
   @override
   Future<types.Address> newAddress({hint}) {
@@ -802,13 +802,13 @@ class Builder {
         final nodePath = "${directory.path}/ldk_cache/";
         _config!.storageDirPath = nodePath;
       }
-      final builder = await NodeBuilder.createBuilder(
-          config: _config ?? Builder()._config!,
-          chainDataSourceConfig: _chainDataSourceConfig,
-          entropySourceConfig: _entropySource,
-          liquiditySourceConfig: _liquiditySourceConfig,
-          gossipSourceConfig: _gossipSourceConfig);
-      final res = await builder.build();
+      final res = await (await builder.NodeBuilder.createBuilder(
+              config: _config ?? Builder()._config!,
+              chainDataSourceConfig: _chainDataSourceConfig,
+              entropySourceConfig: _entropySource,
+              liquiditySourceConfig: _liquiditySourceConfig,
+              gossipSourceConfig: _gossipSourceConfig))
+          .build();
       return Node._(ptr: res.ptr);
     } on error.LdkBuilderError catch (e) {
       throw mapLdkBuilderError(e);
@@ -824,13 +824,13 @@ class Builder {
         final nodePath = "${directory.path}/ldk_cache/";
         _config!.storageDirPath = nodePath;
       }
-      final builder = await NodeBuilder.createBuilder(
-          config: _config ?? Builder()._config!,
-          chainDataSourceConfig: _chainDataSourceConfig,
-          entropySourceConfig: _entropySource,
-          liquiditySourceConfig: _liquiditySourceConfig,
-          gossipSourceConfig: _gossipSourceConfig);
-      final res = await builder.buildWithFsStore();
+      final res = await (await builder.NodeBuilder.createBuilder(
+              config: _config ?? Builder()._config!,
+              chainDataSourceConfig: _chainDataSourceConfig,
+              entropySourceConfig: _entropySource,
+              liquiditySourceConfig: _liquiditySourceConfig,
+              gossipSourceConfig: _gossipSourceConfig))
+          .buildWithFsStore();
       return Node._(ptr: res.ptr);
     } on error.LdkBuilderError catch (e) {
       throw mapLdkBuilderError(e);
