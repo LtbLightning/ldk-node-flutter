@@ -1,9 +1,14 @@
-import 'package:ldk_node/src/generated/api/error.dart' as error;
 import 'package:ldk_node/src/generated/api/types.dart' as types;
+import 'package:ldk_node/src/generated/utils/error.dart' as error;
 import 'package:ldk_node/src/utils/utils.dart';
 import 'package:path_provider/path_provider.dart';
 
+import 'generated/api/bolt11.dart';
+import 'generated/api/builder.dart';
 import 'generated/api/node.dart';
+import 'generated/api/on_chain.dart';
+import 'generated/api/spontaneous.dart';
+import 'generated/lib.dart';
 
 ///The from string implementation will try to determine the language of the mnemonic from all the supported languages. (Languages have to be explicitly enabled using the Cargo features.)
 /// Supported number of words are 12, 15, 18, 21, and 24.
@@ -15,8 +20,8 @@ class Mnemonic extends LdkMnemonic {
       await Frb.verifyInit();
       final res = await LdkMnemonic.generate();
       return Mnemonic(seedPhrase: res.seedPhrase);
-    } on error.NodeException catch (e) {
-      throw mapNodeException(e);
+    } on error.LdkNodeError catch (e) {
+      throw mapLdkNodeError(e);
     }
   }
 }
@@ -37,8 +42,8 @@ class Node extends LdkNode {
   Future<void> start({hint}) async {
     try {
       return super.start();
-    } on error.NodeException catch (e) {
-      throw mapNodeException(e);
+    } on error.LdkNodeError catch (e) {
+      throw mapLdkNodeError(e);
     }
   }
 
@@ -50,8 +55,8 @@ class Node extends LdkNode {
   Future<void> stop({hint}) async {
     try {
       await super.stop();
-    } on error.NodeException catch (e) {
-      throw mapNodeException(e);
+    } on error.LdkNodeError catch (e) {
+      throw mapLdkNodeError(e);
     }
   }
 
@@ -60,8 +65,8 @@ class Node extends LdkNode {
   Future<types.NodeStatus> status({hint}) async {
     try {
       return await super.status();
-    } on error.NodeException catch (e) {
-      throw mapNodeException(e);
+    } on error.LdkNodeError catch (e) {
+      throw mapLdkNodeError(e);
     }
   }
 
@@ -72,8 +77,8 @@ class Node extends LdkNode {
   Future<void> eventHandled({hint}) async {
     try {
       await super.eventHandled();
-    } on error.NodeException catch (e) {
-      throw mapNodeException(e);
+    } on error.LdkNodeError catch (e) {
+      throw mapLdkNodeError(e);
     }
   }
 
@@ -84,8 +89,8 @@ class Node extends LdkNode {
   Future<types.Event?> nextEvent({hint}) async {
     try {
       return await super.nextEvent();
-    } on error.NodeException catch (e) {
-      throw mapNodeException(e);
+    } on error.LdkNodeError catch (e) {
+      throw mapLdkNodeError(e);
     }
   }
 
@@ -98,8 +103,8 @@ class Node extends LdkNode {
   Future<types.Event?> waitNextHandled({hint}) async {
     try {
       return await super.waitNextEvent();
-    } on error.NodeException catch (e) {
-      throw mapNodeException(e);
+    } on error.LdkNodeError catch (e) {
+      throw mapLdkNodeError(e);
     }
   }
 
@@ -110,8 +115,8 @@ class Node extends LdkNode {
   Future<types.Event> nextEventAsync({hint}) async {
     try {
       return await super.nextEventAsync();
-    } on error.NodeException catch (e) {
-      throw mapNodeException(e);
+    } on error.LdkNodeError catch (e) {
+      throw mapLdkNodeError(e);
     }
   }
 
@@ -120,8 +125,8 @@ class Node extends LdkNode {
   Future<types.PublicKey> nodeId({hint}) async {
     try {
       return await super.nodeId();
-    } on error.NodeException catch (e) {
-      throw mapNodeException(e);
+    } on error.LdkNodeError catch (e) {
+      throw mapLdkNodeError(e);
     }
   }
 
@@ -130,8 +135,8 @@ class Node extends LdkNode {
   Future<List<types.SocketAddress>?> listeningAddresses({hint}) async {
     try {
       return await super.listeningAddresses();
-    } on error.NodeException catch (e) {
-      throw mapNodeException(e);
+    } on error.LdkNodeError catch (e) {
+      throw mapLdkNodeError(e);
     }
   }
 
@@ -140,8 +145,8 @@ class Node extends LdkNode {
   Future<types.BalanceDetails> listBalances({hint}) {
     try {
       return super.listBalances();
-    } on error.NodeException catch (e) {
-      throw mapNodeException(e);
+    } on error.LdkNodeError catch (e) {
+      throw mapLdkNodeError(e);
     }
   }
 
@@ -150,8 +155,8 @@ class Node extends LdkNode {
   Future<types.Config> config({hint}) {
     try {
       return super.config();
-    } on error.NodeException catch (e) {
-      throw mapNodeException(e);
+    } on error.LdkNodeError catch (e) {
+      throw mapLdkNodeError(e);
     }
   }
 
@@ -160,8 +165,8 @@ class Node extends LdkNode {
   Future<List<types.ChannelDetails>> listChannels({hint}) async {
     try {
       return await super.listChannels();
-    } on error.NodeException catch (e) {
-      throw mapNodeException(e);
+    } on error.LdkNodeError catch (e) {
+      throw mapLdkNodeError(e);
     }
   }
 
@@ -177,8 +182,8 @@ class Node extends LdkNode {
     try {
       return await super
           .connect(address: address, nodeId: nodeId, persist: persist);
-    } on error.NodeException catch (e) {
-      throw mapNodeException(e);
+    } on error.LdkNodeError catch (e) {
+      throw mapLdkNodeError(e);
     }
   }
 
@@ -193,8 +198,8 @@ class Node extends LdkNode {
       await super.disconnect(
         counterpartyNodeId: counterpartyNodeId,
       );
-    } on error.NodeException catch (e) {
-      throw mapNodeException(e);
+    } on error.LdkNodeError catch (e) {
+      throw mapLdkNodeError(e);
     }
   }
 
@@ -211,10 +216,10 @@ class Node extends LdkNode {
   Future<types.UserChannelId> connectOpenChannel(
       {required types.SocketAddress socketAddress,
       required types.PublicKey nodeId,
-      required int channelAmountSats,
+      required BigInt channelAmountSats,
       required bool announceChannel,
       types.ChannelConfig? channelConfig,
-      int? pushToCounterpartyMsat,
+      BigInt? pushToCounterpartyMsat,
       hint}) async {
     try {
       return await super.connectOpenChannel(
@@ -224,8 +229,8 @@ class Node extends LdkNode {
           channelAmountSats: channelAmountSats,
           channelConfig: channelConfig,
           announceChannel: announceChannel);
-    } on error.NodeException catch (e) {
-      throw mapNodeException(e);
+    } on error.LdkNodeError catch (e) {
+      throw mapLdkNodeError(e);
     }
   }
 
@@ -235,8 +240,8 @@ class Node extends LdkNode {
   Future<void> syncWallets({hint}) async {
     try {
       await super.syncWallets();
-    } on error.NodeException catch (e) {
-      throw mapNodeException(e);
+    } on error.LdkNodeError catch (e) {
+      throw mapLdkNodeError(e);
     }
   }
 
@@ -251,8 +256,27 @@ class Node extends LdkNode {
         userChannelId: userChannelId,
         counterpartyNodeId: counterpartyNodeId,
       );
-    } on error.NodeException catch (e) {
-      throw mapNodeException(e);
+    } on error.LdkNodeError catch (e) {
+      throw mapLdkNodeError(e);
+    }
+  }
+
+  ///Force-close a previously opened channel.
+  /// Will force-close the channel, potentially broadcasting our latest state. Note that in contrast to cooperative closure, force-closing will have the channel funds time-locked, i. e., they will only be available after the counterparty had time to contest our claim.
+  /// Force-closing channels also more costly in terms of on-chain fees. So cooperative closure should always be preferred (and tried first).
+  /// Broadcasting the closing transactions will be omitted for Anchor channels if we trust the counterparty to broadcast for us.
+  @override
+  Future<void> forceCloseChannel(
+      {required types.PublicKey counterpartyNodeId,
+      required types.UserChannelId userChannelId,
+      hint}) async {
+    try {
+      await super.forceCloseChannel(
+        userChannelId: userChannelId,
+        counterpartyNodeId: counterpartyNodeId,
+      );
+    } on error.LdkNodeError catch (e) {
+      throw mapLdkNodeError(e);
     }
   }
 
@@ -270,8 +294,8 @@ class Node extends LdkNode {
         counterpartyNodeId: counterpartyNodeId,
         channelConfig: channelConfig,
       );
-    } on error.NodeException catch (e) {
-      throw mapNodeException(e);
+    } on error.LdkNodeError catch (e) {
+      throw mapLdkNodeError(e);
     }
   }
 
@@ -283,8 +307,8 @@ class Node extends LdkNode {
       {required types.PaymentId paymentId, hint}) async {
     try {
       return await super.payment(paymentId: paymentId);
-    } on error.NodeException catch (e) {
-      throw mapNodeException(e);
+    } on error.LdkNodeError catch (e) {
+      throw mapLdkNodeError(e);
     }
   }
 
@@ -293,8 +317,8 @@ class Node extends LdkNode {
   Future<void> removePayment({required types.PaymentId paymentId, hint}) async {
     try {
       return await super.removePayment(paymentId: paymentId);
-    } on error.NodeException catch (e) {
-      throw mapNodeException(e);
+    } on error.LdkNodeError catch (e) {
+      throw mapLdkNodeError(e);
     }
   }
 
@@ -305,8 +329,8 @@ class Node extends LdkNode {
     try {
       return await super
           .listPaymentsWithFilter(paymentDirection: paymentDirection);
-    } on error.NodeException catch (e) {
-      throw mapNodeException(e);
+    } on error.LdkNodeError catch (e) {
+      throw mapLdkNodeError(e);
     }
   }
 
@@ -315,8 +339,8 @@ class Node extends LdkNode {
   Future<List<types.PaymentDetails>> listPayments({hint}) async {
     try {
       return super.listPayments();
-    } on error.NodeException catch (e) {
-      throw mapNodeException(e);
+    } on error.LdkNodeError catch (e) {
+      throw mapLdkNodeError(e);
     }
   }
 
@@ -325,8 +349,8 @@ class Node extends LdkNode {
   Future<List<types.PeerDetails>> listPeers({hint}) async {
     try {
       return await super.listPeers();
-    } on error.NodeException catch (e) {
-      throw mapNodeException(e);
+    } on error.LdkNodeError catch (e) {
+      throw mapLdkNodeError(e);
     }
   }
 
@@ -340,8 +364,8 @@ class Node extends LdkNode {
   Future<String> signMessage({required List<int> msg, hint}) async {
     try {
       return await super.signMessage(msg: msg);
-    } on error.NodeException catch (e) {
-      throw mapNodeException(e);
+    } on error.LdkNodeError catch (e) {
+      throw mapLdkNodeError(e);
     }
   }
 
@@ -356,8 +380,8 @@ class Node extends LdkNode {
     try {
       return await super
           .verifySignature(msg: msg, sig: sig, publicKey: publicKey);
-    } on error.NodeException catch (e) {
-      throw mapNodeException(e);
+    } on error.LdkNodeError catch (e) {
+      throw mapLdkNodeError(e);
     }
   }
 
@@ -365,8 +389,8 @@ class Node extends LdkNode {
     try {
       final res = await LdkNode.bolt11Payment(ptr: this);
       return Bolt11Payment._(ptr: res.ptr);
-    } on error.NodeException catch (e) {
-      throw mapNodeException(e);
+    } on error.LdkNodeError catch (e) {
+      throw mapLdkNodeError(e);
     }
   }
 
@@ -374,8 +398,8 @@ class Node extends LdkNode {
     try {
       final res = await LdkNode.onChainPayment(ptr: this);
       return OnChainPayment._(ptr: res.ptr);
-    } on error.NodeException catch (e) {
-      throw mapNodeException(e);
+    } on error.LdkNodeError catch (e) {
+      throw mapLdkNodeError(e);
     }
   }
 
@@ -383,8 +407,8 @@ class Node extends LdkNode {
     try {
       final res = await LdkNode.spontaneousPayment(ptr: this);
       return SpontaneousPayment._(ptr: res.ptr);
-    } on error.NodeException catch (e) {
-      throw mapNodeException(e);
+    } on error.LdkNodeError catch (e) {
+      throw mapLdkNodeError(e);
     }
   }
 }
@@ -393,23 +417,23 @@ class SpontaneousPayment extends LdkSpontaneousPayment {
   SpontaneousPayment._({required super.ptr});
   @override
   Future<void> sendProbes(
-      {required int amountMsat, required types.PublicKey nodeId, hint}) {
+      {required BigInt amountMsat, required types.PublicKey nodeId, hint}) {
     try {
       return super.sendProbes(amountMsat: amountMsat, nodeId: nodeId);
-    } on error.NodeException catch (e) {
-      throw mapNodeException(e);
+    } on error.LdkNodeError catch (e) {
+      throw mapLdkNodeError(e);
     }
   }
 
   @override
   Future<types.PaymentId> send(
-      {required int amountMsat,
+      {required BigInt amountMsat,
       required types.PublicKey nodeId,
       dynamic hint}) {
     try {
       return super.send(amountMsat: amountMsat, nodeId: nodeId);
-    } on error.NodeException catch (e) {
-      throw mapNodeException(e);
+    } on error.LdkNodeError catch (e) {
+      throw mapLdkNodeError(e);
     }
   }
 }
@@ -420,8 +444,8 @@ class OnChainPayment extends LdkOnChainPayment {
   Future<types.Address> newAddress({hint}) {
     try {
       return super.newAddress();
-    } on error.NodeException catch (e) {
-      throw mapNodeException(e);
+    } on error.LdkNodeError catch (e) {
+      throw mapLdkNodeError(e);
     }
   }
 
@@ -429,18 +453,18 @@ class OnChainPayment extends LdkOnChainPayment {
   Future<types.Txid> sendAllToAddress({required types.Address address, hint}) {
     try {
       return super.sendAllToAddress(address: address);
-    } on error.NodeException catch (e) {
-      throw mapNodeException(e);
+    } on error.LdkNodeError catch (e) {
+      throw mapLdkNodeError(e);
     }
   }
 
   @override
   Future<types.Txid> sendToAddress(
-      {required types.Address address, required int amountSats, hint}) {
+      {required types.Address address, required BigInt amountSats, hint}) {
     try {
       return super.sendToAddress(address: address, amountSats: amountSats);
-    } on error.NodeException catch (e) {
-      throw mapNodeException(e);
+    } on error.LdkNodeError catch (e) {
+      throw mapLdkNodeError(e);
     }
   }
 }
@@ -449,7 +473,7 @@ class Bolt11Payment extends LdkBolt11Payment {
   Bolt11Payment._({required super.ptr});
   @override
   Future<types.Bolt11Invoice> receive(
-      {required int amountMsat,
+      {required BigInt amountMsat,
       required String description,
       required int expirySecs,
       hint}) {
@@ -458,8 +482,8 @@ class Bolt11Payment extends LdkBolt11Payment {
           amountMsat: amountMsat,
           description: description,
           expirySecs: expirySecs);
-    } on error.NodeException catch (e) {
-      throw mapNodeException(e);
+    } on error.LdkNodeError catch (e) {
+      throw mapLdkNodeError(e);
     }
   }
 
@@ -469,8 +493,8 @@ class Bolt11Payment extends LdkBolt11Payment {
     try {
       return super.receiveVariableAmount(
           description: description, expirySecs: expirySecs);
-    } on error.NodeException catch (e) {
-      throw mapNodeException(e);
+    } on error.LdkNodeError catch (e) {
+      throw mapLdkNodeError(e);
     }
   }
 
@@ -478,24 +502,24 @@ class Bolt11Payment extends LdkBolt11Payment {
   Future<types.Bolt11Invoice> receiveVariableAmountViaJitChannel(
       {required String description,
       required int expirySecs,
-      int? maxProportionalLspFeeLimitPpmMsat,
+      BigInt? maxProportionalLspFeeLimitPpmMsat,
       hint}) {
     try {
       return super.receiveVariableAmountViaJitChannel(
           description: description,
           expirySecs: expirySecs,
           maxProportionalLspFeeLimitPpmMsat: maxProportionalLspFeeLimitPpmMsat);
-    } on error.NodeException catch (e) {
-      throw mapNodeException(e);
+    } on error.LdkNodeError catch (e) {
+      throw mapLdkNodeError(e);
     }
   }
 
   @override
   Future<types.Bolt11Invoice> receiveViaJitChannel(
-      {required int amountMsat,
+      {required BigInt amountMsat,
       required String description,
       required int expirySecs,
-      int? maxTotalLspFeeLimitMsat,
+      BigInt? maxTotalLspFeeLimitMsat,
       hint}) {
     try {
       return super.receiveViaJitChannel(
@@ -503,8 +527,8 @@ class Bolt11Payment extends LdkBolt11Payment {
           expirySecs: expirySecs,
           maxTotalLspFeeLimitMsat: maxTotalLspFeeLimitMsat,
           amountMsat: amountMsat);
-    } on error.NodeException catch (e) {
-      throw mapNodeException(e);
+    } on error.LdkNodeError catch (e) {
+      throw mapLdkNodeError(e);
     }
   }
 
@@ -512,8 +536,8 @@ class Bolt11Payment extends LdkBolt11Payment {
   Future<types.PaymentId> send({required types.Bolt11Invoice invoice, hint}) {
     try {
       return super.send(invoice: invoice);
-    } on error.NodeException catch (e) {
-      throw mapNodeException(e);
+    } on error.LdkNodeError catch (e) {
+      throw mapLdkNodeError(e);
     }
   }
 
@@ -521,29 +545,33 @@ class Bolt11Payment extends LdkBolt11Payment {
   Future<void> sendProbes({required types.Bolt11Invoice invoice, hint}) {
     try {
       return super.sendProbes(invoice: invoice);
-    } on error.NodeException catch (e) {
-      throw mapNodeException(e);
+    } on error.LdkNodeError catch (e) {
+      throw mapLdkNodeError(e);
     }
   }
 
   @override
   Future<void> sendProbesUsingAmount(
-      {required types.Bolt11Invoice invoice, required int amountMsat, hint}) {
+      {required types.Bolt11Invoice invoice,
+      required BigInt amountMsat,
+      hint}) {
     try {
       return super
           .sendProbesUsingAmount(invoice: invoice, amountMsat: amountMsat);
-    } on error.NodeException catch (e) {
-      throw mapNodeException(e);
+    } on error.LdkNodeError catch (e) {
+      throw mapLdkNodeError(e);
     }
   }
 
   @override
   Future<types.PaymentId> sendUsingAmount(
-      {required types.Bolt11Invoice invoice, required int amountMsat, hint}) {
+      {required types.Bolt11Invoice invoice,
+      required BigInt amountMsat,
+      hint}) {
     try {
       return super.sendUsingAmount(invoice: invoice, amountMsat: amountMsat);
-    } on error.NodeException catch (e) {
-      throw mapNodeException(e);
+    } on error.LdkNodeError catch (e) {
+      throw mapLdkNodeError(e);
     }
   }
 }
@@ -574,18 +602,19 @@ class Builder {
   ///
   factory Builder() {
     return Builder._(types.Config(
-        storageDirPath: '',
-        network: types.Network.bitcoin,
-        listeningAddresses: [
-          types.SocketAddress.hostname(addr: "0.0.0.0", port: 9735)
-        ],
-        onchainWalletSyncIntervalSecs: 60,
-        walletSyncIntervalSecs: 20,
-        feeRateCacheUpdateIntervalSecs: 600,
-        logLevel: types.LogLevel.debug,
-        defaultCltvExpiryDelta: 144,
-        trustedPeers0Conf: [],
-        probingLiquidityLimitMultiplier: 3));
+      storageDirPath: '',
+      network: types.Network.bitcoin,
+      listeningAddresses: [
+        types.SocketAddress.hostname(addr: "0.0.0.0", port: 9735)
+      ],
+      onchainWalletSyncIntervalSecs: BigInt.from(60),
+      walletSyncIntervalSecs: BigInt.from(20),
+      feeRateCacheUpdateIntervalSecs: BigInt.from(200),
+      logLevel: types.LogLevel.debug,
+      defaultCltvExpiryDelta: 144,
+      trustedPeers0Conf: [],
+      probingLiquidityLimitMultiplier: BigInt.from(3),
+    ));
   }
 
   /// Configures the [Node] instance to source its wallet entropy from a seed file on disk.
@@ -700,8 +729,8 @@ class Builder {
           gossipSourceConfig: _gossipSourceConfig);
       final res = await builder.build();
       return Node._(ptr: res.ptr);
-    } on error.BuilderException catch (e) {
-      throw mapBuilderException(e);
+    } on error.LdkBuilderError catch (e) {
+      throw mapLdkBuilderError(e);
     }
   }
 
@@ -722,8 +751,8 @@ class Builder {
           gossipSourceConfig: _gossipSourceConfig);
       final res = await builder.buildWithFsStore();
       return Node._(ptr: res.ptr);
-    } on error.BuilderException catch (e) {
-      throw mapBuilderException(e);
+    } on error.LdkBuilderError catch (e) {
+      throw mapLdkBuilderError(e);
     }
   }
 }

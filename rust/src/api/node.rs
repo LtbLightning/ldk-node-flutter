@@ -1,125 +1,15 @@
-use crate::api::error::{ BuilderException, NodeException };
 use crate::api::types::*;
 use crate::frb_generated::RustOpaque;
 pub use ldk_node::io::sqlite_store::SqliteStore;
-use ldk_node::lightning::util::ser::Writeable;
 pub use ldk_node::Node;
-use std::str::FromStr;
 pub use std::sync::{ Arc, Mutex };
-use flutter_rust_bridge::frb;
+use crate::api::bolt11::LdkBolt11Payment;
+use crate::api::bolt12::LdkBolt12Payment;
+use crate::api::graph::LdkNetworkGraph;
+use crate::api::on_chain::LdkOnChainPayment;
+use crate::api::spontaneous::LdkSpontaneousPayment;
+use crate::utils::error::{LdkNodeError};
 
-#[derive(Debug, Clone)]
-pub struct LdkMnemonic {
-    pub seed_phrase: String,
-}
-
-impl TryFrom<LdkMnemonic> for ldk_node::bip39::Mnemonic {
-    type Error = BuilderException;
-
-    fn try_from(value: LdkMnemonic) -> Result<Self, Self::Error> {
-        ldk_node::bip39::Mnemonic::from_str(&value.seed_phrase).map_err(|e| e.into())
-    }
-}
-impl From<ldk_node::bip39::Mnemonic> for LdkMnemonic {
-    fn from(value: ldk_node::bip39::Mnemonic) -> Self {
-        LdkMnemonic {
-            seed_phrase: value.to_string(),
-        }
-    }
-}
-impl LdkMnemonic {
-    pub fn generate() -> LdkMnemonic {
-        ldk_node::generate_entropy_mnemonic().into()
-    }
-}
-
- #[frb(opaque)]
-pub struct NodeBuilder {
-    pub builder: RustOpaque<ldk_node::Builder>
-}
-
-impl NodeBuilder {
-    pub fn create_builder(
-        config: Config,
-        chain_data_source_config: Option<ChainDataSourceConfig>,
-        entropy_source_config: Option<EntropySourceConfig>,
-        gossip_source_config: Option<GossipSourceConfig>,
-        liquidity_source_config: Option<LiquiditySourceConfig>,
-    ) -> Result<NodeBuilder, BuilderException> {
-        let mut builder = ldk_node::Builder::from_config(config.try_into()?);
-        if let Some(source) = entropy_source_config {
-            match source {
-                EntropySourceConfig::SeedFile(e) => builder.set_entropy_seed_path(e),
-                EntropySourceConfig::SeedBytes(e) => builder.set_entropy_seed_bytes(e.encode())?,
-                EntropySourceConfig::Bip39Mnemonic {
-                    mnemonic,
-                    passphrase,
-                } => builder.set_entropy_bip39_mnemonic(<LdkMnemonic as TryInto< ldk_node::bip39::Mnemonic>>::try_into(mnemonic)?, passphrase),
-            };
-        }
-        if let Some(source) = chain_data_source_config {
-            match source {
-                ChainDataSourceConfig::Esplora(e) => builder.set_esplora_server(e),
-            };
-        }
-        if let Some(source) = gossip_source_config {
-            match source {
-                GossipSourceConfig::P2PNetwork => builder.set_gossip_source_p2p(),
-                GossipSourceConfig::RapidGossipSync(e) => builder.set_gossip_source_rgs(e),
-            };
-        }
-        if let Some(liquidity) = liquidity_source_config {
-            builder.set_liquidity_source_lsps2(
-                liquidity.lsps2_service.0.try_into()?,
-                liquidity.lsps2_service.1.try_into().map_err(|_| BuilderException::InvalidPublicKey)?,
-                liquidity.lsps2_service.2,
-            );
-        }
-        Ok(NodeBuilder { builder: RustOpaque::new(builder) })
-    }
-    pub fn build(
-        self
-    ) -> anyhow::Result<LdkNode, BuilderException> {
-
-        match self.builder.build() {
-            Ok(e) => Ok(LdkNode {
-                ptr: RustOpaque::new(e),
-            }),
-            Err(e) => Err(e.into()),
-        }
-    }
-    pub fn build_with_fs_store(
-        self
-    ) -> anyhow::Result<LdkNode,BuilderException> {
-
-        match self.builder.build_with_fs_store() {
-            Ok(e) => Ok(LdkNode {
-                ptr: RustOpaque::new(e),
-            }),
-            Err(e) => Err(e.into()),
-        }
-    }
-// fn build_with_store(
-//     self
-// ) -> anyhow::Result<LdkNode,BuilderException> {
-//     match self.builder.build_with_store(Arc::new(())) {
-//         Ok(e) => Ok(LdkNode {
-//             ptr: RustOpaque::new(e),
-//         }),
-//         Err(e) => Err(e.into()),
-//     }
-// }
-}
-    // pub fn build_with_vss_store(
-    //     self, url: String, store_id: String
-    // ) -> anyhow::Result<LdkNode, LdkBuilderError> {
-    //     match self.builder.build_with_vss_store(url, store_id) {
-    //         Ok(e) => Ok(LdkNode {
-    //             ptr: RustOpaque::new(e),
-    //         }),
-    //         Err(e) => Err(e.into()),
-    //     }
-    // }
 
 
 
@@ -127,11 +17,11 @@ pub struct LdkNode {
     pub ptr: RustOpaque<Node>,
 }
 impl LdkNode {
-    pub fn start(&self) -> anyhow::Result<(), NodeException> {
+    pub fn start(&self) -> anyhow::Result<(), LdkNodeError> {
         self.ptr.start().map_err(|e| e.into())
     }
 
-    pub fn stop(&self) -> anyhow::Result<(), NodeException> {
+    pub fn stop(&self) -> anyhow::Result<(), LdkNodeError> {
         self.ptr.stop().map_err(|e| e.into())
     }
     pub fn status(&self) -> NodeStatus {
@@ -170,7 +60,7 @@ impl LdkNode {
         })
     }
 
-    pub fn list_balances(&self) -> anyhow::Result<BalanceDetails, NodeException> {
+    pub fn list_balances(&self) -> anyhow::Result<BalanceDetails, LdkNodeError> {
         Ok(self.ptr.list_balances().into())
     }
 
@@ -188,19 +78,19 @@ impl LdkNode {
         node_id: PublicKey,
         address: SocketAddress,
         persist: bool,
-    ) -> anyhow::Result<(), NodeException> {
+    ) -> anyhow::Result<(), LdkNodeError> {
         self.ptr
             .connect(
                 node_id.try_into()?,
                 address
                     .try_into()
-                    .map_err(|_| NodeException::InvalidAddress)?,
+                    .map_err(|_| LdkNodeError::InvalidAddress)?,
                 persist,
             )
             .map_err(|e| e.into())
     }
 
-    pub fn disconnect(&self, counterparty_node_id: PublicKey) -> anyhow::Result<(), NodeException> {
+    pub fn disconnect(&self, counterparty_node_id: PublicKey) -> anyhow::Result<(), LdkNodeError> {
         self.ptr
             .disconnect(counterparty_node_id.try_into()?)
             .map_err(|e| e.into())
@@ -214,13 +104,13 @@ impl LdkNode {
         push_to_counterparty_msat: Option<u64>,
         announce_channel: bool,
         channel_config: Option<ChannelConfig>,
-    ) -> Result<UserChannelId, NodeException> {
+    ) -> Result<UserChannelId, LdkNodeError> {
         self.ptr
             .connect_open_channel(
                 node_id.try_into()?,
                 socket_address
                     .try_into()
-                    .map_err(|_| NodeException::InvalidAddress)?,
+                    .map_err(|_| LdkNodeError::InvalidAddress)?,
                 channel_amount_sats,
                 push_to_counterparty_msat,
                 channel_config.map(|x| Arc::new(x.into())),
@@ -230,7 +120,7 @@ impl LdkNode {
             .map(|e| e.into())
     }
 
-    pub fn sync_wallets(&self) -> anyhow::Result<(), NodeException> {
+    pub fn sync_wallets(&self) -> anyhow::Result<(), LdkNodeError> {
         self.ptr.sync_wallets().map_err(|e| e.into())
     }
 
@@ -238,18 +128,30 @@ impl LdkNode {
         &self,
         user_channel_id: UserChannelId,
         counterparty_node_id: PublicKey,
-    ) -> anyhow::Result<(), NodeException> {
+    ) -> anyhow::Result<(), LdkNodeError> {
         self.ptr
             .close_channel(&(user_channel_id.try_into()?), counterparty_node_id.try_into()?)
             .map_err(|e| e.into())
     }
 
+    pub fn force_close_channel(
+        &self,
+        user_channel_id: UserChannelId,
+        counterparty_node_id: PublicKey,
+    ) -> anyhow::Result<(), LdkNodeError> {
+        self.ptr
+            .force_close_channel(&(user_channel_id.try_into()?), counterparty_node_id.try_into()?)
+            .map_err(|e| e.into())
+    }
+   pub fn network_graph(&self)-> LdkNetworkGraph {
+     self.ptr.network_graph().into()
+   }
     pub fn update_channel_config(
         &self,
         user_channel_id: UserChannelId,
         counterparty_node_id: PublicKey,
         channel_config: ChannelConfig
-    ) -> anyhow::Result<(), NodeException> {
+    ) -> anyhow::Result<(), LdkNodeError> {
         self.ptr
             .update_channel_config(
                 &(user_channel_id.try_into()?),
@@ -266,7 +168,7 @@ impl LdkNode {
         }
     }
 
-    pub fn remove_payment(&self, payment_id: PaymentId) -> Result<(), NodeException> {
+    pub fn remove_payment(&self, payment_id: PaymentId) -> Result<(), LdkNodeError> {
         self.ptr.remove_payment(&(payment_id.into())).map_err(|e| e.into())
     }
 
@@ -297,7 +199,7 @@ impl LdkNode {
             .collect()
     }
 
-    pub fn sign_message(&self, msg: Vec<u8>) -> anyhow::Result<String, NodeException> {
+    pub fn sign_message(&self, msg: Vec<u8>) -> anyhow::Result<String, LdkNodeError> {
         self.ptr.sign_message(msg.as_slice()).map_err(|e| e.into())
     }
     pub fn bolt11_payment(ptr: Self) -> LdkBolt11Payment {
@@ -309,154 +211,17 @@ impl LdkNode {
     pub fn spontaneous_payment(ptr: Self) -> LdkSpontaneousPayment {
         ptr.ptr.spontaneous_payment().into()
     }
+    pub fn bolt12_payment(ptr: Self) -> LdkBolt12Payment {
+        LdkBolt12Payment{ptr:RustOpaque::new(ptr.ptr.bolt12_payment())}
+    }
 
     pub fn verify_signature(
         &self,
         msg: Vec<u8>,
         sig: String,
         public_key: PublicKey
-    ) -> anyhow::Result<bool, NodeException> {
+    ) -> anyhow::Result<bool, LdkNodeError> {
         Ok(self.ptr.verify_signature(msg.as_slice(), sig.as_str(), &public_key.try_into()?))
     }
 }
-pub struct LdkSpontaneousPayment {
-    pub ptr:RustOpaque<ldk_node::payment::SpontaneousPayment>
-}
-impl From<ldk_node::payment::SpontaneousPayment> for LdkSpontaneousPayment {
-    fn from(value: ldk_node::payment::SpontaneousPayment) -> Self {
-        Self{ptr:RustOpaque::new(value)}
-    }
-}
-impl LdkSpontaneousPayment {
-    pub fn send(&self, amount_msat: u64, node_id: PublicKey) -> Result<PaymentId, NodeException> {
-        self.ptr.send(amount_msat, node_id.try_into()?).map_err(|e| e.into()).map(|e| e.into())
-    }
-    pub fn send_probes(&self, amount_msat: u64, node_id: PublicKey) -> Result<(),  NodeException> {
-        self.ptr.send_probes(amount_msat, node_id.try_into()?).map_err(|e| e.into()).map(|e| e.into())
-    }
-}
-pub struct LdkBolt11Payment {
-    pub ptr:RustOpaque<ldk_node::payment::Bolt11Payment>
-}
-impl From<ldk_node::payment::Bolt11Payment> for LdkBolt11Payment {
-    fn from(value: ldk_node::payment::Bolt11Payment) -> Self {
-        LdkBolt11Payment {ptr:RustOpaque::new(value)}
-    }
-}
 
-
-impl LdkBolt11Payment {
-    pub fn receive(
-        &self,
-        amount_msat: u64,
-        description: String,
-        expiry_secs: u32,
-    ) -> anyhow::Result<Bolt11Invoice, NodeException> {
-        self.ptr
-            .receive(amount_msat, description.as_str(), expiry_secs)
-            .map_err(|e| e.into())
-            .map(|e| e.into())
-    }
-    pub fn receive_variable_amount(
-        &self,
-        description: String,
-        expiry_secs: u32,
-    ) -> anyhow::Result<Bolt11Invoice, NodeException> {
-        self.ptr
-            .receive_variable_amount
-            (description.as_str(), expiry_secs)
-            .map_err(|e| e.into())
-            .map(|e| e.into())
-    }
-    pub fn receive_variable_amount_via_jit_channel(
-        &self,
-        description: String,
-        expiry_secs: u32,
-        max_proportional_lsp_fee_limit_ppm_msat: Option<u64>,
-    ) -> anyhow::Result<Bolt11Invoice, NodeException> {
-        match self.ptr.receive_variable_amount_via_jit_channel(
-            description.as_str(),
-            expiry_secs,
-            max_proportional_lsp_fee_limit_ppm_msat,
-        ) {
-            Ok(e) => Ok(e.into()),
-            Err(e) => Err(e.into()),
-        }
-    }
-
-    pub fn receive_via_jit_channel(
-        &self,
-        amount_msat: u64,
-        description: String,
-        expiry_secs: u32,
-        max_total_lsp_fee_limit_msat: Option<u64>,
-    ) -> anyhow::Result<Bolt11Invoice, NodeException> {
-        match self.ptr.receive_via_jit_channel(
-            amount_msat,
-            description.as_str(),
-            expiry_secs,
-            max_total_lsp_fee_limit_msat,
-        ) {
-            Ok(e) => Ok(e.into()),
-            Err(e) => Err(e.into()),
-        }
-    }
-
-
-    pub fn send_probes(&self, invoice: Bolt11Invoice) -> anyhow::Result<(), NodeException> {
-        self.ptr
-            .send_probes(&(invoice.try_into()?))
-            .map_err(|e| e.into())
-    }
-
-
-    pub fn send_probes_using_amount(
-        &self,
-        invoice: Bolt11Invoice,
-        amount_msat: u64,
-    ) -> Result<(), NodeException> {
-        self.ptr
-            .send_probes_using_amount(&(invoice.try_into()?), amount_msat)
-            .map_err(|e| e.into())
-    }
-
-    pub fn send(&self, invoice: Bolt11Invoice) -> Result<PaymentId, NodeException> {
-        self.ptr.send(&(invoice.try_into()?)).map_err(|e| e.into()).map(|e| e.into())
-    }
-    pub fn send_using_amount(
-        &self,
-        invoice: Bolt11Invoice,
-        amount_msat: u64,
-    ) -> anyhow::Result<PaymentId, NodeException> {
-        self.ptr
-            .send_using_amount(&(invoice.try_into()?), amount_msat)
-            .map_err(|e| e.into())
-            .map(|e| e.into())
-    }
-}
-pub struct LdkOnChainPayment {
-    pub ptr:RustOpaque<ldk_node::payment::OnchainPayment>
-}
-impl From<ldk_node::payment::OnchainPayment> for LdkOnChainPayment {
-    fn from(value: ldk_node::payment::OnchainPayment) -> Self {
-        LdkOnChainPayment {ptr:RustOpaque::new(value)}
-    }
-}
-
-impl LdkOnChainPayment {
-    pub fn new_address(&self) -> Result<Address, NodeException> {
-        self.ptr.new_address().map_err(|e| e.into()).map(|e| e.into())
-    }
-    pub fn send_to_address(
-        &self, address: Address, amount_sats: u64,
-    ) -> Result<Txid, NodeException> {
-        self.ptr.send_to_address(&(address.try_into()?), amount_sats).map_err(|e| e.into()).map(|e| e.into())
-    }
-    pub fn send_all_to_address(
-        &self, address: Address,
-    ) -> Result<Txid, NodeException> {
-        self.ptr.send_all_to_address(&(address.try_into()?)).map_err(|e| e.into()).map(|e| e.into())
-    }
-
-
-}
