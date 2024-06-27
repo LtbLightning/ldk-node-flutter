@@ -881,29 +881,7 @@ impl From<ldk_node::payment::PaymentKind> for PaymentKind {
         }
     }
 }
-#[derive(Debug, Clone, PartialEq, Eq)]
-///Represents a syntactically and semantically correct lightning BOLT11 invoice.
-///
-pub struct Bolt11Invoice {
-    pub signed_raw_invoice: String,
-}
 
-impl TryFrom<Bolt11Invoice> for ldk_node::lightning_invoice::Bolt11Invoice {
-    type Error = LdkNodeError;
-
-    fn try_from(value: Bolt11Invoice) -> Result<Self, Self::Error> {
-        ldk_node::lightning_invoice::Bolt11Invoice
-            ::from_str(value.signed_raw_invoice.as_str())
-            .map_err(|_| LdkNodeError::InvalidInvoice)
-    }
-}
-impl From<ldk_node::lightning_invoice::Bolt11Invoice> for Bolt11Invoice {
-    fn from(value: ldk_node::lightning_invoice::Bolt11Invoice) -> Self {
-        Bolt11Invoice {
-            signed_raw_invoice: value.to_string(),
-        }
-    }
-}
 ///A Secp256k1 public key, used for verification of signatures.
 ///
 #[derive(Debug, Clone, PartialEq, Eq)]

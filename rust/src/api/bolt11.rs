@@ -1,4 +1,5 @@
-use crate::api::types::{Bolt11Invoice, PaymentId};
+use std::str::FromStr;
+use crate::api::types::{ PaymentId};
 use crate::frb_generated::RustOpaque;
 use crate::utils::error::LdkNodeError;
 
@@ -10,7 +11,29 @@ impl From<ldk_node::payment::Bolt11Payment> for LdkBolt11Payment {
         LdkBolt11Payment {ptr:RustOpaque::new(value)}
     }
 }
+#[derive(Debug, Clone, PartialEq, Eq)]
+///Represents a syntactically and semantically correct lightning BOLT11 invoice.
+///
+pub struct Bolt11Invoice {
+    pub signed_raw_invoice: String,
+}
 
+impl TryFrom<Bolt11Invoice> for ldk_node::lightning_invoice::Bolt11Invoice {
+    type Error = LdkNodeError;
+
+    fn try_from(value: Bolt11Invoice) -> Result<Self, Self::Error> {
+        ldk_node::lightning_invoice::Bolt11Invoice
+        ::from_str(value.signed_raw_invoice.as_str())
+            .map_err(|_| LdkNodeError::InvalidInvoice)
+    }
+}
+impl From<ldk_node::lightning_invoice::Bolt11Invoice> for Bolt11Invoice {
+    fn from(value: ldk_node::lightning_invoice::Bolt11Invoice) -> Self {
+        Bolt11Invoice {
+            signed_raw_invoice: value.to_string(),
+        }
+    }
+}
 
 impl LdkBolt11Payment {
     pub fn receive(
