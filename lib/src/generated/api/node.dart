@@ -14,9 +14,6 @@ import 'package:flutter_rust_bridge/flutter_rust_bridge_for_generated.dart';
 import 'spontaneous.dart';
 import 'types.dart';
 
-// Rust type: RustOpaqueNom<Arc < ldk_node :: payment :: Bolt12Payment >>
-abstract class ArcBolt12Payment implements RustOpaqueInterface {}
-
 // Rust type: RustOpaqueNom<Node>
 abstract class Node implements RustOpaqueInterface {}
 

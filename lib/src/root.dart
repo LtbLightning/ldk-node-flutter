@@ -1,9 +1,10 @@
+import 'package:ldk_node/src/generated/api/bolt11.dart' as bolt11;
+import 'package:ldk_node/src/generated/api/bolt12.dart' as bolt12;
 import 'package:ldk_node/src/generated/api/types.dart' as types;
 import 'package:ldk_node/src/generated/utils/error.dart' as error;
 import 'package:ldk_node/src/utils/utils.dart';
 import 'package:path_provider/path_provider.dart';
 
-import 'generated/api/bolt11.dart';
 import 'generated/api/builder.dart';
 import 'generated/api/node.dart';
 import 'generated/api/on_chain.dart';
@@ -469,10 +470,11 @@ class OnChainPayment extends LdkOnChainPayment {
   }
 }
 
-class Bolt11Payment extends LdkBolt11Payment {
+///Represents a syntactically and semantically correct lightning BOLT11 invoice.
+class Bolt11Payment extends bolt11.LdkBolt11Payment {
   Bolt11Payment._({required super.ptr});
   @override
-  Future<types.Bolt11Invoice> receive(
+  Future<bolt11.Bolt11Invoice> receive(
       {required BigInt amountMsat,
       required String description,
       required int expirySecs,
@@ -488,7 +490,7 @@ class Bolt11Payment extends LdkBolt11Payment {
   }
 
   @override
-  Future<types.Bolt11Invoice> receiveVariableAmount(
+  Future<bolt11.Bolt11Invoice> receiveVariableAmount(
       {required String description, required int expirySecs, hint}) {
     try {
       return super.receiveVariableAmount(
@@ -499,7 +501,7 @@ class Bolt11Payment extends LdkBolt11Payment {
   }
 
   @override
-  Future<types.Bolt11Invoice> receiveVariableAmountViaJitChannel(
+  Future<bolt11.Bolt11Invoice> receiveVariableAmountViaJitChannel(
       {required String description,
       required int expirySecs,
       BigInt? maxProportionalLspFeeLimitPpmMsat,
@@ -515,7 +517,7 @@ class Bolt11Payment extends LdkBolt11Payment {
   }
 
   @override
-  Future<types.Bolt11Invoice> receiveViaJitChannel(
+  Future<bolt11.Bolt11Invoice> receiveViaJitChannel(
       {required BigInt amountMsat,
       required String description,
       required int expirySecs,
@@ -533,7 +535,7 @@ class Bolt11Payment extends LdkBolt11Payment {
   }
 
   @override
-  Future<types.PaymentId> send({required types.Bolt11Invoice invoice, hint}) {
+  Future<types.PaymentId> send({required bolt11.Bolt11Invoice invoice, hint}) {
     try {
       return super.send(invoice: invoice);
     } on error.LdkNodeError catch (e) {
@@ -542,7 +544,7 @@ class Bolt11Payment extends LdkBolt11Payment {
   }
 
   @override
-  Future<void> sendProbes({required types.Bolt11Invoice invoice, hint}) {
+  Future<void> sendProbes({required bolt11.Bolt11Invoice invoice, hint}) {
     try {
       return super.sendProbes(invoice: invoice);
     } on error.LdkNodeError catch (e) {
@@ -552,7 +554,7 @@ class Bolt11Payment extends LdkBolt11Payment {
 
   @override
   Future<void> sendProbesUsingAmount(
-      {required types.Bolt11Invoice invoice,
+      {required bolt11.Bolt11Invoice invoice,
       required BigInt amountMsat,
       hint}) {
     try {
@@ -565,11 +567,90 @@ class Bolt11Payment extends LdkBolt11Payment {
 
   @override
   Future<types.PaymentId> sendUsingAmount(
-      {required types.Bolt11Invoice invoice,
+      {required bolt11.Bolt11Invoice invoice,
       required BigInt amountMsat,
       hint}) {
     try {
       return super.sendUsingAmount(invoice: invoice, amountMsat: amountMsat);
+    } on error.LdkNodeError catch (e) {
+      throw mapLdkNodeError(e);
+    }
+  }
+}
+
+///A payment handler allowing to create and pay BOLT 12  offers and refunds.
+class Bolt12Payment extends bolt12.LdkBolt12Payment {
+  Bolt12Payment._({required super.ptr});
+
+  ///Returns a Refund object that can be used to offer a refund payment of the amount given.
+  @override
+  Future<bolt12.Refund> initiateRefund(
+      {required BigInt amountMsat, required int expirySecs}) {
+    try {
+      return super
+          .initiateRefund(amountMsat: amountMsat, expirySecs: expirySecs);
+    } on error.LdkNodeError catch (e) {
+      throw mapLdkNodeError(e);
+    }
+  }
+
+  ///Returns a payable offer that can be used to request and receive a payment of the amount given.
+  @override
+  Future<bolt12.Offer> receive(
+      {required BigInt amountMsat, required String description}) {
+    try {
+      return super.receive(amountMsat: amountMsat, description: description);
+    } on error.LdkNodeError catch (e) {
+      throw mapLdkNodeError(e);
+    }
+  }
+
+  ///Returns a payable offer that can be used to request and receive a payment for which the amount is to be determined by the user, also known as a "zero-amount" offer.
+  @override
+  Future<bolt12.Offer> receiveVariableAmount({required String description}) {
+    try {
+      return super.receiveVariableAmount(description: description);
+    } on error.LdkNodeError catch (e) {
+      throw mapLdkNodeError(e);
+    }
+  }
+
+  ///Requests a refund payment for the given Refund.
+  /// The returned `Bolt12Invoice` is for informational purposes only (i. e., isn't needed to retrieve the refund).
+  @override
+  Future<bolt12.Bolt12Invoice> requestRefundPayment(
+      {required bolt12.Refund refund}) {
+    try {
+      return super.requestRefundPayment(refund: refund);
+    } on error.LdkNodeError catch (e) {
+      throw mapLdkNodeError(e);
+    }
+  }
+
+  ///Send a payment given an offer and an amount in millisatoshi.
+  /// This will fail if the amount given is less than the value required by the given offer.
+  /// This can be used to pay a so-called "zero-amount" offers, i. e., an offer that leaves the amount paid to be determined by the user.
+  /// If payer_note is Some it will be seen by the recipient and reflected back in the invoice response.
+  @override
+  Future<types.PaymentId> sendUsingAmount(
+      {required bolt12.Offer offer,
+      String? payerNote,
+      required BigInt amountMsat}) {
+    try {
+      return super.sendUsingAmount(
+          offer: offer, payerNote: payerNote, amountMsat: amountMsat);
+    } on error.LdkNodeError catch (e) {
+      throw mapLdkNodeError(e);
+    }
+  }
+
+  ///Send a payment given an offer.
+  /// If payer_note is Some it will be seen by the recipient and reflected back in the invoice response.
+  @override
+  Future<types.PaymentId> send(
+      {required bolt12.Offer offer, String? payerNote}) {
+    try {
+      return super.send(offer: offer, payerNote: payerNote);
     } on error.LdkNodeError catch (e) {
       throw mapLdkNodeError(e);
     }
