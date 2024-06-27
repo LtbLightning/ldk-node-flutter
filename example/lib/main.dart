@@ -48,14 +48,14 @@ class _MyAppState extends State<MyApp> {
     final directory = await getApplicationDocumentsDirectory();
     final nodePath = "${directory.path}/ldk_cache/$path";
     final config = ldk.Config(
-        probingLiquidityLimitMultiplier: 3,
+        probingLiquidityLimitMultiplier: BigInt.from(3),
         trustedPeers0Conf: [],
         storageDirPath: nodePath,
         network: ldk.Network.regtest,
         listeningAddresses: [address],
-        onchainWalletSyncIntervalSecs: 60,
-        walletSyncIntervalSecs: 20,
-        feeRateCacheUpdateIntervalSecs: 600,
+        onchainWalletSyncIntervalSecs: BigInt.from(60),
+        walletSyncIntervalSecs: BigInt.from(20),
+        feeRateCacheUpdateIntervalSecs: BigInt.from(600),
         logLevel: ldk.LogLevel.debug,
         defaultCltvExpiryDelta: 144);
     return config;
@@ -122,7 +122,7 @@ class _MyAppState extends State<MyApp> {
       print("bob's spendable balance: ${bob.spendableOnchainBalanceSats}");
     }
     setState(() {
-      aliceBalance = alice.spendableOnchainBalanceSats;
+      aliceBalance = alice.spendableOnchainBalanceSats.toInt();
     });
   }
 
@@ -211,10 +211,10 @@ class _MyAppState extends State<MyApp> {
     final funding_amount_sat = 80000;
     final push_msat = (funding_amount_sat / 2) * 1000;
     userChannelId = await aliceNode.connectOpenChannel(
-        channelAmountSats: funding_amount_sat,
+        channelAmountSats: BigInt.from(funding_amount_sat),
         announceChannel: true,
         socketAddress: bobAddr!,
-        pushToCounterpartyMsat: push_msat.toInt(),
+        pushToCounterpartyMsat: BigInt.from(push_msat),
         nodeId: bobNodeId!);
   }
 
@@ -222,7 +222,9 @@ class _MyAppState extends State<MyApp> {
     final bobBolt11Handler = await bobNode.bolt11Payment();
     final aliceBolt11Handler = await aliceNode.bolt11Payment();
     invoice = await bobBolt11Handler.receive(
-        amountMsat: 2500000, description: 'asdf', expirySecs: 9217);
+        amountMsat: BigInt.from(2500000),
+        description: 'asdf',
+        expirySecs: 9217);
     setState(() {
       displayText = invoice.toString();
     });
@@ -267,6 +269,11 @@ class _MyAppState extends State<MyApp> {
       if (kDebugMode) {
         print(
             "channelClosed: ${e.channelId.data}, userChannelId: ${e.userChannelId.data}");
+      }
+    }, paymentClaimable: (e) {
+      if (kDebugMode) {
+        print(
+            "paymentId: ${e.paymentId.field0.toString()}, claimableAmountMsat: ${e.claimableAmountMsat}, userChannelId: ${e.claimDeadline}");
       }
     });
     await node.eventHandled();
