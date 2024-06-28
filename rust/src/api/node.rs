@@ -143,9 +143,7 @@ impl LdkNode {
             .force_close_channel(&(user_channel_id.try_into()?), counterparty_node_id.try_into()?)
             .map_err(|e| e.into())
     }
-   pub fn network_graph(&self)-> LdkNetworkGraph {
-     self.ptr.network_graph().into()
-   }
+
     pub fn update_channel_config(
         &self,
         user_channel_id: UserChannelId,
@@ -201,6 +199,9 @@ impl LdkNode {
 
     pub fn sign_message(&self, msg: Vec<u8>) -> anyhow::Result<String, LdkNodeError> {
         self.ptr.sign_message(msg.as_slice()).map_err(|e| e.into())
+    }
+    pub fn network_graph(ptr: Self)-> LdkNetworkGraph {
+        ptr.ptr.network_graph().into()
     }
     pub fn bolt11_payment(ptr: Self) -> LdkBolt11Payment {
         ptr.ptr.bolt11_payment().into()

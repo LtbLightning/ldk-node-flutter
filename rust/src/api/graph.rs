@@ -115,10 +115,10 @@ impl From<ldk_node::lightning::routing::gossip::NodeAnnouncementInfo> for NodeAn
         }
     }
 }
-pub struct LdkNetworkGraph {pub inner: RustOpaque<ldk_node::graph::NetworkGraph> }
+pub struct LdkNetworkGraph {pub ptr: RustOpaque<ldk_node::graph::NetworkGraph> }
 impl From<ldk_node::graph::NetworkGraph> for LdkNetworkGraph {
     fn from(value: ldk_node::graph::NetworkGraph) -> Self {
-            LdkNetworkGraph {inner: RustOpaque::new(value)}
+            LdkNetworkGraph { ptr: RustOpaque::new(value)}
     }
 }
 
@@ -126,17 +126,17 @@ impl LdkNetworkGraph {
 
     /// Returns the list of channels in the graph
     pub fn list_channels(&self) -> Vec<u64> {
-        self.inner.list_channels()
+        self.ptr.list_channels()
     }
 
     /// Returns information on a channel with the given id.
     pub fn channel(&self, short_channel_id: u64) -> Option<ChannelInfo> {
-        self.inner.channel(short_channel_id).map(|e| e.into())
+        self.ptr.channel(short_channel_id).map(|e| e.into())
     }
 
     /// Returns the list of nodes in the graph
     pub fn list_nodes(&self) -> Vec<NodeId> {
-        self.inner.list_nodes().iter().map(|e| e.to_owned().into()).collect()
+        self.ptr.list_nodes().iter().map(|e| e.to_owned().into()).collect()
     }
 
     // Returns information on a node with the given id.

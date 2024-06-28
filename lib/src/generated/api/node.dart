@@ -112,10 +112,8 @@ class LdkNode {
         that: this,
       );
 
-  Future<LdkNetworkGraph> networkGraph() =>
-      core.instance.api.crateApiNodeLdkNodeNetworkGraph(
-        that: this,
-      );
+  static Future<LdkNetworkGraph> networkGraph({required LdkNode ptr}) =>
+      core.instance.api.crateApiNodeLdkNodeNetworkGraph(ptr: ptr);
 
   Future<Event?> nextEvent() => core.instance.api.crateApiNodeLdkNodeNextEvent(
         that: this,

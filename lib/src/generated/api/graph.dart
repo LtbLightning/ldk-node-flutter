@@ -104,10 +104,10 @@ class ChannelUpdateInfo {
 }
 
 class LdkNetworkGraph {
-  final NetworkGraph inner;
+  final NetworkGraph ptr;
 
   const LdkNetworkGraph({
-    required this.inner,
+    required this.ptr,
   });
 
   /// Returns information on a channel with the given id.
@@ -128,14 +128,14 @@ class LdkNetworkGraph {
       );
 
   @override
-  int get hashCode => inner.hashCode;
+  int get hashCode => ptr.hashCode;
 
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
       other is LdkNetworkGraph &&
           runtimeType == other.runtimeType &&
-          inner == other.inner;
+          ptr == other.ptr;
 }
 
 ///Represents the compressed public key of a node

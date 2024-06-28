@@ -1,5 +1,7 @@
+import 'package:flutter_rust_bridge/flutter_rust_bridge.dart';
 import 'package:ldk_node/src/generated/api/bolt11.dart' as bolt11;
 import 'package:ldk_node/src/generated/api/bolt12.dart' as bolt12;
+import 'package:ldk_node/src/generated/api/graph.dart' as graph;
 import 'package:ldk_node/src/generated/api/types.dart' as types;
 import 'package:ldk_node/src/generated/utils/error.dart' as error;
 import 'package:ldk_node/src/utils/utils.dart';
@@ -246,6 +248,16 @@ class Node extends LdkNode {
     }
   }
 
+  ///Returns a handler allowing to query the network graph.
+  Future<NetworkGraph> networkGraph() async {
+    try {
+      final res = await LdkNode.networkGraph(ptr: this);
+      return NetworkGraph._(ptr: res.ptr);
+    } on error.LdkNodeError catch (e) {
+      throw mapLdkNodeError(e);
+    }
+  }
+
   /// Close a previously opened channel.
   @override
   Future<void> closeChannel(
@@ -464,6 +476,40 @@ class OnChainPayment extends on_chain.LdkOnChainPayment {
       {required types.Address address, required BigInt amountSats, hint}) {
     try {
       return super.sendToAddress(address: address, amountSats: amountSats);
+    } on error.LdkNodeError catch (e) {
+      throw mapLdkNodeError(e);
+    }
+  }
+}
+
+class NetworkGraph extends graph.LdkNetworkGraph {
+  NetworkGraph._({required super.ptr});
+
+  ///Returns information on a channel with the given id.
+  @override
+  Future<graph.ChannelInfo?> channel({required BigInt shortChannelId}) {
+    try {
+      return super.channel(shortChannelId: shortChannelId);
+    } on error.LdkNodeError catch (e) {
+      throw mapLdkNodeError(e);
+    }
+  }
+
+  ///Returns the list of channels in the graph
+  @override
+  Future<Uint64List> listChannels() {
+    try {
+      return super.listChannels();
+    } on error.LdkNodeError catch (e) {
+      throw mapLdkNodeError(e);
+    }
+  }
+
+  ///Returns the list of nodes in the graph
+  @override
+  Future<List<graph.NodeId>> listNodes() {
+    try {
+      return super.listNodes();
     } on error.LdkNodeError catch (e) {
       throw mapLdkNodeError(e);
     }
