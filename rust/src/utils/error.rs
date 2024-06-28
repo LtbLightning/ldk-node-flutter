@@ -1,6 +1,4 @@
-use ldk_node::{ BuildError, NodeError };
-
-
+use ldk_node::{BuildError, NodeError};
 
 #[derive(Debug, PartialEq)]
 pub enum LdkNodeError {
@@ -82,13 +80,13 @@ pub enum LdkNodeError {
     ///Offer creation failed.
     OfferCreationFailed,
     ///Refund creation failed.
-    RefundCreationFailed ,
+    RefundCreationFailed,
     ///A fee rate estimation update timed out.
-    FeerateEstimationUpdateTimeout ,
+    FeerateEstimationUpdateTimeout,
     ///A wallet operation timed out.
-    WalletOperationTimeout ,
+    WalletOperationTimeout,
     ///A transaction sync operation timed out.
-    TxSyncTimeout ,
+    TxSyncTimeout,
     ///A gossip updating operation timed out.
     GossipUpdateTimeout,
     ///The given offer id is invalid.
@@ -100,7 +98,7 @@ pub enum LdkNodeError {
     ///The given refund is invalid.
     InvalidRefund,
     ///The provided offer was denominated in an unsupported currency.
-    UnsupportedCurrency
+    UnsupportedCurrency,
 }
 #[allow(dead_code)]
 #[derive(Debug)]
@@ -169,15 +167,17 @@ impl From<NodeError> for LdkNodeError {
             NodeError::LiquiditySourceUnavailable => LdkNodeError::LiquiditySourceUnavailable,
             NodeError::LiquidityFeeTooHigh => LdkNodeError::LiquidityFeeTooHigh,
             NodeError::InvalidPaymentId => LdkNodeError::InvalidPaymentId,
-            NodeError::InvoiceRequestCreationFailed =>LdkNodeError::InvoiceRequestCreationFailed,
+            NodeError::InvoiceRequestCreationFailed => LdkNodeError::InvoiceRequestCreationFailed,
             NodeError::OfferCreationFailed => LdkNodeError::OfferCreationFailed,
             NodeError::RefundCreationFailed => LdkNodeError::RefundCreationFailed,
-            NodeError::FeerateEstimationUpdateTimeout => LdkNodeError::FeerateEstimationUpdateTimeout,
-            NodeError::WalletOperationTimeout =>LdkNodeError::WalletOperationTimeout,
-            NodeError::TxSyncTimeout =>LdkNodeError::TxSyncTimeout,
+            NodeError::FeerateEstimationUpdateTimeout => {
+                LdkNodeError::FeerateEstimationUpdateTimeout
+            }
+            NodeError::WalletOperationTimeout => LdkNodeError::WalletOperationTimeout,
+            NodeError::TxSyncTimeout => LdkNodeError::TxSyncTimeout,
             NodeError::GossipUpdateTimeout => LdkNodeError::GossipUpdateTimeout,
             NodeError::InvalidOfferId => LdkNodeError::InvalidOfferId,
-            NodeError::InvalidNodeId =>LdkNodeError::InvalidNodeId,
+            NodeError::InvalidNodeId => LdkNodeError::InvalidNodeId,
             NodeError::InvalidOffer => LdkNodeError::InvalidOffer,
             NodeError::InvalidRefund => LdkNodeError::InvalidRefund,
             NodeError::UnsupportedCurrency => LdkNodeError::UnsupportedCurrency,
@@ -221,14 +221,24 @@ impl From<ldk_node::lightning::ln::msgs::DecodeError> for LdkNodeError {
 impl From<ldk_node::lightning::ln::msgs::DecodeError> for DecodeError {
     fn from(e: ldk_node::lightning::ln::msgs::DecodeError) -> Self {
         match e {
-            ldk_node::lightning::ln::msgs::DecodeError::UnknownVersion => DecodeError::UnknownVersion,
-            ldk_node::lightning::ln::msgs::DecodeError::UnknownRequiredFeature => DecodeError::UnknownRequiredFeature,
+            ldk_node::lightning::ln::msgs::DecodeError::UnknownVersion => {
+                DecodeError::UnknownVersion
+            }
+            ldk_node::lightning::ln::msgs::DecodeError::UnknownRequiredFeature => {
+                DecodeError::UnknownRequiredFeature
+            }
             ldk_node::lightning::ln::msgs::DecodeError::InvalidValue => DecodeError::InvalidValue,
-            ldk_node::lightning::ln::msgs:: DecodeError::ShortRead => DecodeError::ShortRead,
-            ldk_node::lightning::ln::msgs::DecodeError::BadLengthDescriptor => DecodeError::BadLengthDescriptor,
+            ldk_node::lightning::ln::msgs::DecodeError::ShortRead => DecodeError::ShortRead,
+            ldk_node::lightning::ln::msgs::DecodeError::BadLengthDescriptor => {
+                DecodeError::BadLengthDescriptor
+            }
             ldk_node::lightning::ln::msgs::DecodeError::Io(e) => DecodeError::Io(e.to_string()),
-            ldk_node::lightning::ln::msgs::DecodeError::UnsupportedCompression => DecodeError::UnsupportedCompression,
-            ldk_node::lightning::ln::msgs::DecodeError::DangerousValue => DecodeError::DangerousValue,
+            ldk_node::lightning::ln::msgs::DecodeError::UnsupportedCompression => {
+                DecodeError::UnsupportedCompression
+            }
+            ldk_node::lightning::ln::msgs::DecodeError::DangerousValue => {
+                DecodeError::DangerousValue
+            }
         }
     }
 }
@@ -255,14 +265,25 @@ pub enum Bolt12ParseError {
 }
 impl From<ldk_node::lightning::offers::parse::Bolt12ParseError> for LdkNodeError {
     fn from(value: ldk_node::lightning::offers::parse::Bolt12ParseError) -> Self {
-        match value{
-            ldk_node::lightning::offers::parse::Bolt12ParseError::InvalidContinuation => LdkNodeError::Bolt12Parse(Bolt12ParseError::InvalidContinuation),
-            ldk_node::lightning::offers::parse::Bolt12ParseError::InvalidBech32Hrp => LdkNodeError::Bolt12Parse(Bolt12ParseError::InvalidBech32Hrp),
-            ldk_node::lightning::offers::parse::Bolt12ParseError::Bech32(e) =>LdkNodeError::Bolt12Parse(Bolt12ParseError::Bech32(e.to_string())),
-            ldk_node::lightning::offers::parse::Bolt12ParseError::Decode(e) => LdkNodeError::Bolt12Parse(Bolt12ParseError::Decode(e.into())),
-            ldk_node::lightning::offers::parse::Bolt12ParseError::InvalidSemantics(e) => LdkNodeError::Bolt12Parse(
-                Bolt12ParseError::InvalidSemantics(format!("{:?}", e))),
-            ldk_node::lightning::offers::parse::Bolt12ParseError::InvalidSignature(e) => LdkNodeError::Bolt12Parse(Bolt12ParseError::InvalidSignature(e.to_string())),
+        match value {
+            ldk_node::lightning::offers::parse::Bolt12ParseError::InvalidContinuation => {
+                LdkNodeError::Bolt12Parse(Bolt12ParseError::InvalidContinuation)
+            }
+            ldk_node::lightning::offers::parse::Bolt12ParseError::InvalidBech32Hrp => {
+                LdkNodeError::Bolt12Parse(Bolt12ParseError::InvalidBech32Hrp)
+            }
+            ldk_node::lightning::offers::parse::Bolt12ParseError::Bech32(e) => {
+                LdkNodeError::Bolt12Parse(Bolt12ParseError::Bech32(e.to_string()))
+            }
+            ldk_node::lightning::offers::parse::Bolt12ParseError::Decode(e) => {
+                LdkNodeError::Bolt12Parse(Bolt12ParseError::Decode(e.into()))
+            }
+            ldk_node::lightning::offers::parse::Bolt12ParseError::InvalidSemantics(e) => {
+                LdkNodeError::Bolt12Parse(Bolt12ParseError::InvalidSemantics(format!("{:?}", e)))
+            }
+            ldk_node::lightning::offers::parse::Bolt12ParseError::InvalidSignature(e) => {
+                LdkNodeError::Bolt12Parse(Bolt12ParseError::InvalidSignature(e.to_string()))
+            }
         }
     }
 }

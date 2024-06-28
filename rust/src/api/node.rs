@@ -1,17 +1,14 @@
-use crate::api::types::*;
-use crate::frb_generated::RustOpaque;
-pub use ldk_node::io::sqlite_store::SqliteStore;
-pub use ldk_node::Node;
-pub use std::sync::{ Arc, Mutex };
 use crate::api::bolt11::LdkBolt11Payment;
 use crate::api::bolt12::LdkBolt12Payment;
 use crate::api::graph::LdkNetworkGraph;
 use crate::api::on_chain::LdkOnChainPayment;
 use crate::api::spontaneous::LdkSpontaneousPayment;
-use crate::utils::error::{LdkNodeError};
-
-
-
+use crate::api::types::*;
+use crate::frb_generated::RustOpaque;
+use crate::utils::error::LdkNodeError;
+pub use ldk_node::io::sqlite_store::SqliteStore;
+pub use ldk_node::Node;
+pub use std::sync::{Arc, Mutex};
 
 pub struct LdkNode {
     pub ptr: RustOpaque<Node>,
@@ -64,13 +61,8 @@ impl LdkNode {
         Ok(self.ptr.list_balances().into())
     }
 
-
     pub fn list_channels(&self) -> Vec<ChannelDetails> {
-        self.ptr
-            .list_channels()
-            .iter()
-            .map(|x| x.into())
-            .collect()
+        self.ptr.list_channels().iter().map(|x| x.into()).collect()
     }
 
     pub fn connect(
@@ -130,7 +122,10 @@ impl LdkNode {
         counterparty_node_id: PublicKey,
     ) -> anyhow::Result<(), LdkNodeError> {
         self.ptr
-            .close_channel(&(user_channel_id.try_into()?), counterparty_node_id.try_into()?)
+            .close_channel(
+                &(user_channel_id.try_into()?),
+                counterparty_node_id.try_into()?,
+            )
             .map_err(|e| e.into())
     }
 
@@ -140,7 +135,10 @@ impl LdkNode {
         counterparty_node_id: PublicKey,
     ) -> anyhow::Result<(), LdkNodeError> {
         self.ptr
-            .force_close_channel(&(user_channel_id.try_into()?), counterparty_node_id.try_into()?)
+            .force_close_channel(
+                &(user_channel_id.try_into()?),
+                counterparty_node_id.try_into()?,
+            )
             .map_err(|e| e.into())
     }
 
@@ -148,13 +146,13 @@ impl LdkNode {
         &self,
         user_channel_id: UserChannelId,
         counterparty_node_id: PublicKey,
-        channel_config: ChannelConfig
+        channel_config: ChannelConfig,
     ) -> anyhow::Result<(), LdkNodeError> {
         self.ptr
             .update_channel_config(
                 &(user_channel_id.try_into()?),
                 counterparty_node_id.try_into()?,
-                Arc::new(channel_config.into())
+                Arc::new(channel_config.into()),
             )
             .map_err(|e| e.into())
     }
@@ -167,12 +165,14 @@ impl LdkNode {
     }
 
     pub fn remove_payment(&self, payment_id: PaymentId) -> Result<(), LdkNodeError> {
-        self.ptr.remove_payment(&(payment_id.into())).map_err(|e| e.into())
+        self.ptr
+            .remove_payment(&(payment_id.into()))
+            .map_err(|e| e.into())
     }
 
     pub fn list_payments_with_filter(
         &self,
-        payment_direction: PaymentDirection
+        payment_direction: PaymentDirection,
     ) -> Vec<PaymentDetails> {
         self.ptr
             .list_payments_with_filter(|p| p.direction == payment_direction.into())
@@ -200,7 +200,7 @@ impl LdkNode {
     pub fn sign_message(&self, msg: Vec<u8>) -> anyhow::Result<String, LdkNodeError> {
         self.ptr.sign_message(msg.as_slice()).map_err(|e| e.into())
     }
-    pub fn network_graph(ptr: Self)-> LdkNetworkGraph {
+    pub fn network_graph(ptr: Self) -> LdkNetworkGraph {
         ptr.ptr.network_graph().into()
     }
     pub fn bolt11_payment(ptr: Self) -> LdkBolt11Payment {
@@ -213,16 +213,19 @@ impl LdkNode {
         ptr.ptr.spontaneous_payment().into()
     }
     pub fn bolt12_payment(ptr: Self) -> LdkBolt12Payment {
-        LdkBolt12Payment{ptr:RustOpaque::new(ptr.ptr.bolt12_payment())}
+        LdkBolt12Payment {
+            ptr: RustOpaque::new(ptr.ptr.bolt12_payment()),
+        }
     }
 
     pub fn verify_signature(
         &self,
         msg: Vec<u8>,
         sig: String,
-        public_key: PublicKey
+        public_key: PublicKey,
     ) -> anyhow::Result<bool, LdkNodeError> {
-        Ok(self.ptr.verify_signature(msg.as_slice(), sig.as_str(), &public_key.try_into()?))
+        Ok(self
+            .ptr
+            .verify_signature(msg.as_slice(), sig.as_str(), &public_key.try_into()?))
     }
 }
-

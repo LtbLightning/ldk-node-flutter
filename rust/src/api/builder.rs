@@ -1,10 +1,12 @@
-use std::str::FromStr;
-use flutter_rust_bridge::frb;
-use ldk_node::lightning::util::ser::Writeable;
 use crate::api::node::LdkNode;
-use crate::api::types::{ChainDataSourceConfig, Config, EntropySourceConfig, GossipSourceConfig, LiquiditySourceConfig};
+use crate::api::types::{
+    ChainDataSourceConfig, Config, EntropySourceConfig, GossipSourceConfig, LiquiditySourceConfig,
+};
 use crate::frb_generated::RustOpaque;
 use crate::utils::error::LdkBuilderError;
+use flutter_rust_bridge::frb;
+use ldk_node::lightning::util::ser::Writeable;
+use std::str::FromStr;
 
 #[derive(Debug, Clone)]
 pub struct LdkMnemonic {
@@ -33,7 +35,7 @@ impl LdkMnemonic {
 
 #[frb(opaque)]
 pub struct NodeBuilder {
-    pub builder: RustOpaque<ldk_node::Builder>
+    pub builder: RustOpaque<ldk_node::Builder>,
 }
 
 impl NodeBuilder {
@@ -52,7 +54,10 @@ impl NodeBuilder {
                 EntropySourceConfig::Bip39Mnemonic {
                     mnemonic,
                     passphrase,
-                } => builder.set_entropy_bip39_mnemonic(<LdkMnemonic as TryInto< ldk_node::bip39::Mnemonic>>::try_into(mnemonic)?, passphrase),
+                } => builder.set_entropy_bip39_mnemonic(
+                    <LdkMnemonic as TryInto<ldk_node::bip39::Mnemonic>>::try_into(mnemonic)?,
+                    passphrase,
+                ),
             };
         }
         if let Some(source) = chain_data_source_config {
@@ -69,16 +74,19 @@ impl NodeBuilder {
         if let Some(liquidity) = liquidity_source_config {
             builder.set_liquidity_source_lsps2(
                 liquidity.lsps2_service.0.try_into()?,
-                liquidity.lsps2_service.1.try_into().map_err(|_| LdkBuilderError::InvalidPublicKey)?,
+                liquidity
+                    .lsps2_service
+                    .1
+                    .try_into()
+                    .map_err(|_| LdkBuilderError::InvalidPublicKey)?,
                 liquidity.lsps2_service.2,
             );
         }
-        Ok(NodeBuilder { builder: RustOpaque::new(builder) })
+        Ok(NodeBuilder {
+            builder: RustOpaque::new(builder),
+        })
     }
-    pub fn build(
-        self
-    ) -> anyhow::Result<LdkNode, LdkBuilderError> {
-
+    pub fn build(self) -> anyhow::Result<LdkNode, LdkBuilderError> {
         match self.builder.build() {
             Ok(e) => Ok(LdkNode {
                 ptr: RustOpaque::new(e),
@@ -86,10 +94,7 @@ impl NodeBuilder {
             Err(e) => Err(e.into()),
         }
     }
-    pub fn build_with_fs_store(
-        self
-    ) -> anyhow::Result<LdkNode, LdkBuilderError> {
-
+    pub fn build_with_fs_store(self) -> anyhow::Result<LdkNode, LdkBuilderError> {
         match self.builder.build_with_fs_store() {
             Ok(e) => Ok(LdkNode {
                 ptr: RustOpaque::new(e),
@@ -97,16 +102,16 @@ impl NodeBuilder {
             Err(e) => Err(e.into()),
         }
     }
-// fn build_with_store(
-//     self
-// ) -> anyhow::Result<LdkNode,BuilderException> {
-//     match self.builder.build_with_store(Arc::new(())) {
-//         Ok(e) => Ok(LdkNode {
-//             ptr: RustOpaque::new(e),
-//         }),
-//         Err(e) => Err(e.into()),
-//     }
-// }
+    // fn build_with_store(
+    //     self
+    // ) -> anyhow::Result<LdkNode,BuilderException> {
+    //     match self.builder.build_with_store(Arc::new(())) {
+    //         Ok(e) => Ok(LdkNode {
+    //             ptr: RustOpaque::new(e),
+    //         }),
+    //         Err(e) => Err(e.into()),
+    //     }
+    // }
 }
 
 // pub fn build_with_vss_store(

@@ -1,22 +1,26 @@
-
-use ldk_node::lightning::util::ser::Writeable;
 use crate::api::types::SocketAddress;
 use crate::frb_generated::RustOpaque;
 use crate::utils::error::LdkNodeError;
+use ldk_node::lightning::util::ser::Writeable;
 
 ///Represents the compressed public key of a node
-pub struct  NodeId{pub compressed: Vec<u8> }
+pub struct NodeId {
+    pub compressed: Vec<u8>,
+}
 
-impl From<ldk_node::lightning::routing::gossip::NodeId> for NodeId{
+impl From<ldk_node::lightning::routing::gossip::NodeId> for NodeId {
     fn from(value: ldk_node::lightning::routing::gossip::NodeId) -> Self {
-        Self{compressed: value.encode()}
+        Self {
+            compressed: value.encode(),
+        }
     }
 }
-impl TryFrom<NodeId> for ldk_node::lightning::routing::gossip::NodeId{
+impl TryFrom<NodeId> for ldk_node::lightning::routing::gossip::NodeId {
     type Error = LdkNodeError;
 
     fn try_from(value: NodeId) -> Result<Self, Self::Error> {
-        ldk_node::lightning::routing::gossip::NodeId::from_slice(value.compressed.as_slice()).map_err(|e| e.into())
+        ldk_node::lightning::routing::gossip::NodeId::from_slice(value.compressed.as_slice())
+            .map_err(|e| e.into())
     }
 }
 ///Fees for routing via a given channel or a node
@@ -26,9 +30,12 @@ pub struct RoutingFees {
     ///Liquidity-based routing fee in millionths of a routed amount. In other words, 10000 is 1%.
     pub proportional_millionths: u32,
 }
-impl From<ldk_node::lightning::routing::gossip::RoutingFees> for RoutingFees{
+impl From<ldk_node::lightning::routing::gossip::RoutingFees> for RoutingFees {
     fn from(value: ldk_node::lightning_invoice::RoutingFees) -> Self {
-        Self{ base_msat: value.base_msat, proportional_millionths: value.proportional_millionths }
+        Self {
+            base_msat: value.base_msat,
+            proportional_millionths: value.proportional_millionths,
+        }
     }
 }
 pub struct ChannelUpdateInfo {
@@ -47,7 +54,7 @@ pub struct ChannelUpdateInfo {
 }
 
 ///Details about a channel (both directions). Received within a channel announcement.
-pub struct ChannelInfo{
+pub struct ChannelInfo {
     ///Source node of the first direction of a channel
     pub node_one: NodeId,
     ///Details about the first direction of a channel
@@ -59,13 +66,13 @@ pub struct ChannelInfo{
     ///The channel capacity as seen on-chain, if chain lookup is available.
     pub capacity_sats: Option<u64>,
 }
-impl From<ldk_node::lightning::routing::gossip::ChannelInfo> for ChannelInfo{
+impl From<ldk_node::lightning::routing::gossip::ChannelInfo> for ChannelInfo {
     fn from(value: ldk_node::lightning::routing::gossip::ChannelInfo) -> Self {
-        Self{
-            node_one:value.node_one.into(),
+        Self {
+            node_one: value.node_one.into(),
             one_to_two: value.one_to_two.map(|e| e.into()),
             node_two: value.node_two.into(),
-            two_to_one:value.two_to_one.map(|e| e.into()),
+            two_to_one: value.two_to_one.map(|e| e.into()),
             capacity_sats: value.capacity_sats,
         }
     }
@@ -73,8 +80,8 @@ impl From<ldk_node::lightning::routing::gossip::ChannelInfo> for ChannelInfo{
 
 impl From<ldk_node::lightning::routing::gossip::ChannelUpdateInfo> for ChannelUpdateInfo {
     fn from(value: ldk_node::lightning::routing::gossip::ChannelUpdateInfo) -> Self {
-        ChannelUpdateInfo{
-            last_update:  value.last_update,
+        ChannelUpdateInfo {
+            last_update: value.last_update,
             enabled: value.enabled,
             cltv_expiry_delta: value.cltv_expiry_delta,
             htlc_minimum_msat: value.htlc_minimum_msat,
@@ -90,9 +97,12 @@ pub struct NodeInfo {
     pub announcement_info: Option<NodeAnnouncementInfo>,
 }
 
-impl From<ldk_node::lightning::routing::gossip::NodeInfo> for NodeInfo{
+impl From<ldk_node::lightning::routing::gossip::NodeInfo> for NodeInfo {
     fn from(value: ldk_node::lightning::routing::gossip::NodeInfo) -> Self {
-        NodeInfo{ channels: value.channels, announcement_info: value.announcement_info.map(|e| e.into()) }
+        NodeInfo {
+            channels: value.channels,
+            announcement_info: value.announcement_info.map(|e| e.into()),
+        }
     }
 }
 pub struct NodeAnnouncementInfo {
@@ -107,24 +117,31 @@ pub struct NodeAnnouncementInfo {
     pub addresses: Vec<SocketAddress>,
 }
 
-impl From<ldk_node::lightning::routing::gossip::NodeAnnouncementInfo> for NodeAnnouncementInfo{
+impl From<ldk_node::lightning::routing::gossip::NodeAnnouncementInfo> for NodeAnnouncementInfo {
     fn from(value: ldk_node::lightning::routing::gossip::NodeAnnouncementInfo) -> Self {
-        Self{
+        Self {
             last_update: value.last_update,
             alias: value.alias.to_string(),
-            addresses: value.addresses().iter().map(|e| e.to_owned().into()).collect(),
+            addresses: value
+                .addresses()
+                .iter()
+                .map(|e| e.to_owned().into())
+                .collect(),
         }
     }
 }
-pub struct LdkNetworkGraph {pub ptr: RustOpaque<ldk_node::graph::NetworkGraph> }
+pub struct LdkNetworkGraph {
+    pub ptr: RustOpaque<ldk_node::graph::NetworkGraph>,
+}
 impl From<ldk_node::graph::NetworkGraph> for LdkNetworkGraph {
     fn from(value: ldk_node::graph::NetworkGraph) -> Self {
-            LdkNetworkGraph { ptr: RustOpaque::new(value)}
+        LdkNetworkGraph {
+            ptr: RustOpaque::new(value),
+        }
     }
 }
 
 impl LdkNetworkGraph {
-
     /// Returns the list of channels in the graph
     pub fn list_channels(&self) -> Vec<u64> {
         self.ptr.list_channels()
@@ -137,9 +154,12 @@ impl LdkNetworkGraph {
 
     /// Returns the list of nodes in the graph
     pub fn list_nodes(&self) -> Vec<NodeId> {
-        self.ptr.list_nodes().iter().map(|e| e.to_owned().into()).collect()
+        self.ptr
+            .list_nodes()
+            .iter()
+            .map(|e| e.to_owned().into())
+            .collect()
     }
-
 
     pub fn node(&self, node_id: NodeId) -> Result<Option<NodeInfo>, LdkNodeError> {
         Ok(self.ptr.node(&(node_id.try_into()?)).map(|e| e.into()))
