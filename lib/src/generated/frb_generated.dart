@@ -64,7 +64,7 @@ class core extends BaseEntrypoint<coreApi, coreApiImpl, coreWire> {
   String get codegenVersion => '2.0.0';
 
   @override
-  int get rustContentHash => 1452486004;
+  int get rustContentHash => -1350521949;
 
   static const kDefaultExternalLibraryLoaderConfig =
       ExternalLibraryLoaderConfig(
@@ -172,6 +172,9 @@ abstract class coreApi extends BaseApi {
   Future<List<NodeId>> crateApiGraphLdkNetworkGraphListNodes(
       {required LdkNetworkGraph that});
 
+  Future<NodeInfo?> crateApiGraphLdkNetworkGraphNode(
+      {required LdkNetworkGraph that, required NodeId nodeId});
+
   Future<LdkBolt11Payment> crateApiNodeLdkNodeBolt11Payment(
       {required LdkNode ptr});
 
@@ -229,7 +232,7 @@ abstract class coreApi extends BaseApi {
       {required LdkNode that});
 
   Future<LdkNetworkGraph> crateApiNodeLdkNodeNetworkGraph(
-      {required LdkNode that});
+      {required LdkNode ptr});
 
   Future<Event?> crateApiNodeLdkNodeNextEvent({required LdkNode that});
 
@@ -1073,6 +1076,32 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
       );
 
   @override
+  Future<NodeInfo?> crateApiGraphLdkNetworkGraphNode(
+      {required LdkNetworkGraph that, required NodeId nodeId}) {
+    return handler.executeNormal(NormalTask(
+      callFfi: (port_) {
+        var arg0 = cst_encode_box_autoadd_ldk_network_graph(that);
+        var arg1 = cst_encode_box_autoadd_node_id(nodeId);
+        return wire.wire__crate__api__graph__ldk_network_graph_node(
+            port_, arg0, arg1);
+      },
+      codec: DcoCodec(
+        decodeSuccessData: dco_decode_opt_box_autoadd_node_info,
+        decodeErrorData: dco_decode_ldk_node_error,
+      ),
+      constMeta: kCrateApiGraphLdkNetworkGraphNodeConstMeta,
+      argValues: [that, nodeId],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta get kCrateApiGraphLdkNetworkGraphNodeConstMeta =>
+      const TaskConstMeta(
+        debugName: "ldk_network_graph_node",
+        argNames: ["that", "nodeId"],
+      );
+
+  @override
   Future<LdkBolt11Payment> crateApiNodeLdkNodeBolt11Payment(
       {required LdkNode ptr}) {
     return handler.executeNormal(NormalTask(
@@ -1483,10 +1512,10 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
 
   @override
   Future<LdkNetworkGraph> crateApiNodeLdkNodeNetworkGraph(
-      {required LdkNode that}) {
+      {required LdkNode ptr}) {
     return handler.executeNormal(NormalTask(
       callFfi: (port_) {
-        var arg0 = cst_encode_box_autoadd_ldk_node(that);
+        var arg0 = cst_encode_box_autoadd_ldk_node(ptr);
         return wire.wire__crate__api__node__ldk_node_network_graph(port_, arg0);
       },
       codec: DcoCodec(
@@ -1494,7 +1523,7 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
         decodeErrorData: null,
       ),
       constMeta: kCrateApiNodeLdkNodeNetworkGraphConstMeta,
-      argValues: [that],
+      argValues: [ptr],
       apiImpl: this,
     ));
   }
@@ -1502,7 +1531,7 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
   TaskConstMeta get kCrateApiNodeLdkNodeNetworkGraphConstMeta =>
       const TaskConstMeta(
         debugName: "ldk_node_network_graph",
-        argNames: ["that"],
+        argNames: ["ptr"],
       );
 
   @override
@@ -2435,6 +2464,25 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
   }
 
   @protected
+  NodeAnnouncementInfo dco_decode_box_autoadd_node_announcement_info(
+      dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return dco_decode_node_announcement_info(raw);
+  }
+
+  @protected
+  NodeId dco_decode_box_autoadd_node_id(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return dco_decode_node_id(raw);
+  }
+
+  @protected
+  NodeInfo dco_decode_box_autoadd_node_info(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return dco_decode_node_info(raw);
+  }
+
+  @protected
   Offer dco_decode_box_autoadd_offer(dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     return dco_decode_offer(raw);
@@ -2885,7 +2933,7 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
     if (arr.length != 1)
       throw Exception('unexpected arr length: expect 1 but see ${arr.length}');
     return LdkNetworkGraph(
-      inner: dco_decode_RustOpaque_ldk_nodegraphNetworkGraph(arr[0]),
+      ptr: dco_decode_RustOpaque_ldk_nodegraphNetworkGraph(arr[0]),
     );
   }
 
@@ -3208,6 +3256,19 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
   }
 
   @protected
+  NodeAnnouncementInfo dco_decode_node_announcement_info(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    final arr = raw as List<dynamic>;
+    if (arr.length != 3)
+      throw Exception('unexpected arr length: expect 3 but see ${arr.length}');
+    return NodeAnnouncementInfo(
+      lastUpdate: dco_decode_u_32(arr[0]),
+      alias: dco_decode_String(arr[1]),
+      addresses: dco_decode_list_socket_address(arr[2]),
+    );
+  }
+
+  @protected
   NodeId dco_decode_node_id(dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     final arr = raw as List<dynamic>;
@@ -3215,6 +3276,19 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
       throw Exception('unexpected arr length: expect 1 but see ${arr.length}');
     return NodeId(
       compressed: dco_decode_list_prim_u_8_strict(arr[0]),
+    );
+  }
+
+  @protected
+  NodeInfo dco_decode_node_info(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    final arr = raw as List<dynamic>;
+    if (arr.length != 2)
+      throw Exception('unexpected arr length: expect 2 but see ${arr.length}');
+    return NodeInfo(
+      channels: dco_decode_list_prim_u_64_strict(arr[0]),
+      announcementInfo:
+          dco_decode_opt_box_autoadd_node_announcement_info(arr[1]),
     );
   }
 
@@ -3355,6 +3429,21 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
     return raw == null
         ? null
         : dco_decode_box_autoadd_max_dust_htlc_exposure(raw);
+  }
+
+  @protected
+  NodeAnnouncementInfo? dco_decode_opt_box_autoadd_node_announcement_info(
+      dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return raw == null
+        ? null
+        : dco_decode_box_autoadd_node_announcement_info(raw);
+  }
+
+  @protected
+  NodeInfo? dco_decode_opt_box_autoadd_node_info(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return raw == null ? null : dco_decode_box_autoadd_node_info(raw);
   }
 
   @protected
@@ -4137,6 +4226,25 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
   }
 
   @protected
+  NodeAnnouncementInfo sse_decode_box_autoadd_node_announcement_info(
+      SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    return (sse_decode_node_announcement_info(deserializer));
+  }
+
+  @protected
+  NodeId sse_decode_box_autoadd_node_id(SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    return (sse_decode_node_id(deserializer));
+  }
+
+  @protected
+  NodeInfo sse_decode_box_autoadd_node_info(SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    return (sse_decode_node_info(deserializer));
+  }
+
+  @protected
   Offer sse_decode_box_autoadd_offer(SseDeserializer deserializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     return (sse_decode_offer(deserializer));
@@ -4667,9 +4775,8 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
   @protected
   LdkNetworkGraph sse_decode_ldk_network_graph(SseDeserializer deserializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
-    var var_inner =
-        sse_decode_RustOpaque_ldk_nodegraphNetworkGraph(deserializer);
-    return LdkNetworkGraph(inner: var_inner);
+    var var_ptr = sse_decode_RustOpaque_ldk_nodegraphNetworkGraph(deserializer);
+    return LdkNetworkGraph(ptr: var_ptr);
   }
 
   @protected
@@ -5067,10 +5174,31 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
   }
 
   @protected
+  NodeAnnouncementInfo sse_decode_node_announcement_info(
+      SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    var var_lastUpdate = sse_decode_u_32(deserializer);
+    var var_alias = sse_decode_String(deserializer);
+    var var_addresses = sse_decode_list_socket_address(deserializer);
+    return NodeAnnouncementInfo(
+        lastUpdate: var_lastUpdate, alias: var_alias, addresses: var_addresses);
+  }
+
+  @protected
   NodeId sse_decode_node_id(SseDeserializer deserializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     var var_compressed = sse_decode_list_prim_u_8_strict(deserializer);
     return NodeId(compressed: var_compressed);
+  }
+
+  @protected
+  NodeInfo sse_decode_node_info(SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    var var_channels = sse_decode_list_prim_u_64_strict(deserializer);
+    var var_announcementInfo =
+        sse_decode_opt_box_autoadd_node_announcement_info(deserializer);
+    return NodeInfo(
+        channels: var_channels, announcementInfo: var_announcementInfo);
   }
 
   @protected
@@ -5265,6 +5393,29 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
 
     if (sse_decode_bool(deserializer)) {
       return (sse_decode_box_autoadd_max_dust_htlc_exposure(deserializer));
+    } else {
+      return null;
+    }
+  }
+
+  @protected
+  NodeAnnouncementInfo? sse_decode_opt_box_autoadd_node_announcement_info(
+      SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+
+    if (sse_decode_bool(deserializer)) {
+      return (sse_decode_box_autoadd_node_announcement_info(deserializer));
+    } else {
+      return null;
+    }
+  }
+
+  @protected
+  NodeInfo? sse_decode_opt_box_autoadd_node_info(SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+
+    if (sse_decode_bool(deserializer)) {
+      return (sse_decode_box_autoadd_node_info(deserializer));
     } else {
       return null;
     }
@@ -6257,6 +6408,26 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
   }
 
   @protected
+  void sse_encode_box_autoadd_node_announcement_info(
+      NodeAnnouncementInfo self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_node_announcement_info(self, serializer);
+  }
+
+  @protected
+  void sse_encode_box_autoadd_node_id(NodeId self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_node_id(self, serializer);
+  }
+
+  @protected
+  void sse_encode_box_autoadd_node_info(
+      NodeInfo self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_node_info(self, serializer);
+  }
+
+  @protected
   void sse_encode_box_autoadd_offer(Offer self, SseSerializer serializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     sse_encode_offer(self, serializer);
@@ -6697,7 +6868,7 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
   void sse_encode_ldk_network_graph(
       LdkNetworkGraph self, SseSerializer serializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
-    sse_encode_RustOpaque_ldk_nodegraphNetworkGraph(self.inner, serializer);
+    sse_encode_RustOpaque_ldk_nodegraphNetworkGraph(self.ptr, serializer);
   }
 
   @protected
@@ -7059,9 +7230,26 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
   }
 
   @protected
+  void sse_encode_node_announcement_info(
+      NodeAnnouncementInfo self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_u_32(self.lastUpdate, serializer);
+    sse_encode_String(self.alias, serializer);
+    sse_encode_list_socket_address(self.addresses, serializer);
+  }
+
+  @protected
   void sse_encode_node_id(NodeId self, SseSerializer serializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     sse_encode_list_prim_u_8_strict(self.compressed, serializer);
+  }
+
+  @protected
+  void sse_encode_node_info(NodeInfo self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_list_prim_u_64_strict(self.channels, serializer);
+    sse_encode_opt_box_autoadd_node_announcement_info(
+        self.announcementInfo, serializer);
   }
 
   @protected
@@ -7231,6 +7419,28 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
     sse_encode_bool(self != null, serializer);
     if (self != null) {
       sse_encode_box_autoadd_max_dust_htlc_exposure(self, serializer);
+    }
+  }
+
+  @protected
+  void sse_encode_opt_box_autoadd_node_announcement_info(
+      NodeAnnouncementInfo? self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+
+    sse_encode_bool(self != null, serializer);
+    if (self != null) {
+      sse_encode_box_autoadd_node_announcement_info(self, serializer);
+    }
+  }
+
+  @protected
+  void sse_encode_opt_box_autoadd_node_info(
+      NodeInfo? self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+
+    sse_encode_bool(self != null, serializer);
+    if (self != null) {
+      sse_encode_box_autoadd_node_info(self, serializer);
     }
   }
 

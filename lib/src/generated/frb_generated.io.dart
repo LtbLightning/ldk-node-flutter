@@ -209,6 +209,16 @@ abstract class coreApiImplPlatform extends BaseApiImpl<coreWire> {
       dynamic raw);
 
   @protected
+  NodeAnnouncementInfo dco_decode_box_autoadd_node_announcement_info(
+      dynamic raw);
+
+  @protected
+  NodeId dco_decode_box_autoadd_node_id(dynamic raw);
+
+  @protected
+  NodeInfo dco_decode_box_autoadd_node_info(dynamic raw);
+
+  @protected
   Offer dco_decode_box_autoadd_offer(dynamic raw);
 
   @protected
@@ -378,7 +388,13 @@ abstract class coreApiImplPlatform extends BaseApiImpl<coreWire> {
   Network dco_decode_network(dynamic raw);
 
   @protected
+  NodeAnnouncementInfo dco_decode_node_announcement_info(dynamic raw);
+
+  @protected
   NodeId dco_decode_node_id(dynamic raw);
+
+  @protected
+  NodeInfo dco_decode_node_info(dynamic raw);
 
   @protected
   NodeStatus dco_decode_node_status(dynamic raw);
@@ -434,6 +450,13 @@ abstract class coreApiImplPlatform extends BaseApiImpl<coreWire> {
   @protected
   MaxDustHTLCExposure? dco_decode_opt_box_autoadd_max_dust_htlc_exposure(
       dynamic raw);
+
+  @protected
+  NodeAnnouncementInfo? dco_decode_opt_box_autoadd_node_announcement_info(
+      dynamic raw);
+
+  @protected
+  NodeInfo? dco_decode_opt_box_autoadd_node_info(dynamic raw);
 
   @protected
   OutPoint? dco_decode_opt_box_autoadd_out_point(dynamic raw);
@@ -730,6 +753,16 @@ abstract class coreApiImplPlatform extends BaseApiImpl<coreWire> {
       SseDeserializer deserializer);
 
   @protected
+  NodeAnnouncementInfo sse_decode_box_autoadd_node_announcement_info(
+      SseDeserializer deserializer);
+
+  @protected
+  NodeId sse_decode_box_autoadd_node_id(SseDeserializer deserializer);
+
+  @protected
+  NodeInfo sse_decode_box_autoadd_node_info(SseDeserializer deserializer);
+
+  @protected
   Offer sse_decode_box_autoadd_offer(SseDeserializer deserializer);
 
   @protected
@@ -917,7 +950,14 @@ abstract class coreApiImplPlatform extends BaseApiImpl<coreWire> {
   Network sse_decode_network(SseDeserializer deserializer);
 
   @protected
+  NodeAnnouncementInfo sse_decode_node_announcement_info(
+      SseDeserializer deserializer);
+
+  @protected
   NodeId sse_decode_node_id(SseDeserializer deserializer);
+
+  @protected
+  NodeInfo sse_decode_node_info(SseDeserializer deserializer);
 
   @protected
   NodeStatus sse_decode_node_status(SseDeserializer deserializer);
@@ -977,6 +1017,13 @@ abstract class coreApiImplPlatform extends BaseApiImpl<coreWire> {
   @protected
   MaxDustHTLCExposure? sse_decode_opt_box_autoadd_max_dust_htlc_exposure(
       SseDeserializer deserializer);
+
+  @protected
+  NodeAnnouncementInfo? sse_decode_opt_box_autoadd_node_announcement_info(
+      SseDeserializer deserializer);
+
+  @protected
+  NodeInfo? sse_decode_opt_box_autoadd_node_info(SseDeserializer deserializer);
 
   @protected
   OutPoint? sse_decode_opt_box_autoadd_out_point(SseDeserializer deserializer);
@@ -1347,6 +1394,32 @@ abstract class coreApiImplPlatform extends BaseApiImpl<coreWire> {
   }
 
   @protected
+  ffi.Pointer<wire_cst_node_announcement_info>
+      cst_encode_box_autoadd_node_announcement_info(NodeAnnouncementInfo raw) {
+    // Codec=Cst (C-struct based), see doc to use other codecs
+    final ptr = wire.cst_new_box_autoadd_node_announcement_info();
+    cst_api_fill_to_wire_node_announcement_info(raw, ptr.ref);
+    return ptr;
+  }
+
+  @protected
+  ffi.Pointer<wire_cst_node_id> cst_encode_box_autoadd_node_id(NodeId raw) {
+    // Codec=Cst (C-struct based), see doc to use other codecs
+    final ptr = wire.cst_new_box_autoadd_node_id();
+    cst_api_fill_to_wire_node_id(raw, ptr.ref);
+    return ptr;
+  }
+
+  @protected
+  ffi.Pointer<wire_cst_node_info> cst_encode_box_autoadd_node_info(
+      NodeInfo raw) {
+    // Codec=Cst (C-struct based), see doc to use other codecs
+    final ptr = wire.cst_new_box_autoadd_node_info();
+    cst_api_fill_to_wire_node_info(raw, ptr.ref);
+    return ptr;
+  }
+
+  @protected
   ffi.Pointer<wire_cst_offer> cst_encode_box_autoadd_offer(Offer raw) {
     // Codec=Cst (C-struct based), see doc to use other codecs
     final ptr = wire.cst_new_box_autoadd_offer();
@@ -1710,6 +1783,23 @@ abstract class coreApiImplPlatform extends BaseApiImpl<coreWire> {
     return raw == null
         ? ffi.nullptr
         : cst_encode_box_autoadd_max_dust_htlc_exposure(raw);
+  }
+
+  @protected
+  ffi.Pointer<wire_cst_node_announcement_info>
+      cst_encode_opt_box_autoadd_node_announcement_info(
+          NodeAnnouncementInfo? raw) {
+    // Codec=Cst (C-struct based), see doc to use other codecs
+    return raw == null
+        ? ffi.nullptr
+        : cst_encode_box_autoadd_node_announcement_info(raw);
+  }
+
+  @protected
+  ffi.Pointer<wire_cst_node_info> cst_encode_opt_box_autoadd_node_info(
+      NodeInfo? raw) {
+    // Codec=Cst (C-struct based), see doc to use other codecs
+    return raw == null ? ffi.nullptr : cst_encode_box_autoadd_node_info(raw);
   }
 
   @protected
@@ -2104,6 +2194,25 @@ abstract class coreApiImplPlatform extends BaseApiImpl<coreWire> {
       MaxDustHTLCExposure apiObj,
       ffi.Pointer<wire_cst_max_dust_htlc_exposure> wireObj) {
     cst_api_fill_to_wire_max_dust_htlc_exposure(apiObj, wireObj.ref);
+  }
+
+  @protected
+  void cst_api_fill_to_wire_box_autoadd_node_announcement_info(
+      NodeAnnouncementInfo apiObj,
+      ffi.Pointer<wire_cst_node_announcement_info> wireObj) {
+    cst_api_fill_to_wire_node_announcement_info(apiObj, wireObj.ref);
+  }
+
+  @protected
+  void cst_api_fill_to_wire_box_autoadd_node_id(
+      NodeId apiObj, ffi.Pointer<wire_cst_node_id> wireObj) {
+    cst_api_fill_to_wire_node_id(apiObj, wireObj.ref);
+  }
+
+  @protected
+  void cst_api_fill_to_wire_box_autoadd_node_info(
+      NodeInfo apiObj, ffi.Pointer<wire_cst_node_info> wireObj) {
+    cst_api_fill_to_wire_node_info(apiObj, wireObj.ref);
   }
 
   @protected
@@ -2592,8 +2701,7 @@ abstract class coreApiImplPlatform extends BaseApiImpl<coreWire> {
   @protected
   void cst_api_fill_to_wire_ldk_network_graph(
       LdkNetworkGraph apiObj, wire_cst_ldk_network_graph wireObj) {
-    wireObj.inner =
-        cst_encode_RustOpaque_ldk_nodegraphNetworkGraph(apiObj.inner);
+    wireObj.ptr = cst_encode_RustOpaque_ldk_nodegraphNetworkGraph(apiObj.ptr);
   }
 
   @protected
@@ -2962,8 +3070,25 @@ abstract class coreApiImplPlatform extends BaseApiImpl<coreWire> {
   }
 
   @protected
+  void cst_api_fill_to_wire_node_announcement_info(
+      NodeAnnouncementInfo apiObj, wire_cst_node_announcement_info wireObj) {
+    wireObj.last_update = cst_encode_u_32(apiObj.lastUpdate);
+    wireObj.alias = cst_encode_String(apiObj.alias);
+    wireObj.addresses = cst_encode_list_socket_address(apiObj.addresses);
+  }
+
+  @protected
   void cst_api_fill_to_wire_node_id(NodeId apiObj, wire_cst_node_id wireObj) {
     wireObj.compressed = cst_encode_list_prim_u_8_strict(apiObj.compressed);
+  }
+
+  @protected
+  void cst_api_fill_to_wire_node_info(
+      NodeInfo apiObj, wire_cst_node_info wireObj) {
+    wireObj.channels = cst_encode_list_prim_u_64_strict(apiObj.channels);
+    wireObj.announcement_info =
+        cst_encode_opt_box_autoadd_node_announcement_info(
+            apiObj.announcementInfo);
   }
 
   @protected
@@ -3502,6 +3627,17 @@ abstract class coreApiImplPlatform extends BaseApiImpl<coreWire> {
       MaxDustHTLCExposure self, SseSerializer serializer);
 
   @protected
+  void sse_encode_box_autoadd_node_announcement_info(
+      NodeAnnouncementInfo self, SseSerializer serializer);
+
+  @protected
+  void sse_encode_box_autoadd_node_id(NodeId self, SseSerializer serializer);
+
+  @protected
+  void sse_encode_box_autoadd_node_info(
+      NodeInfo self, SseSerializer serializer);
+
+  @protected
   void sse_encode_box_autoadd_offer(Offer self, SseSerializer serializer);
 
   @protected
@@ -3703,7 +3839,14 @@ abstract class coreApiImplPlatform extends BaseApiImpl<coreWire> {
   void sse_encode_network(Network self, SseSerializer serializer);
 
   @protected
+  void sse_encode_node_announcement_info(
+      NodeAnnouncementInfo self, SseSerializer serializer);
+
+  @protected
   void sse_encode_node_id(NodeId self, SseSerializer serializer);
+
+  @protected
+  void sse_encode_node_info(NodeInfo self, SseSerializer serializer);
 
   @protected
   void sse_encode_node_status(NodeStatus self, SseSerializer serializer);
@@ -3763,6 +3906,14 @@ abstract class coreApiImplPlatform extends BaseApiImpl<coreWire> {
   @protected
   void sse_encode_opt_box_autoadd_max_dust_htlc_exposure(
       MaxDustHTLCExposure? self, SseSerializer serializer);
+
+  @protected
+  void sse_encode_opt_box_autoadd_node_announcement_info(
+      NodeAnnouncementInfo? self, SseSerializer serializer);
+
+  @protected
+  void sse_encode_opt_box_autoadd_node_info(
+      NodeInfo? self, SseSerializer serializer);
 
   @protected
   void sse_encode_opt_box_autoadd_out_point(
@@ -4545,6 +4696,30 @@ class coreWire implements BaseWire {
       _wire__crate__api__graph__ldk_network_graph_list_nodesPtr.asFunction<
           void Function(int, ffi.Pointer<wire_cst_ldk_network_graph>)>();
 
+  void wire__crate__api__graph__ldk_network_graph_node(
+    int port_,
+    ffi.Pointer<wire_cst_ldk_network_graph> that,
+    ffi.Pointer<wire_cst_node_id> node_id,
+  ) {
+    return _wire__crate__api__graph__ldk_network_graph_node(
+      port_,
+      that,
+      node_id,
+    );
+  }
+
+  late final _wire__crate__api__graph__ldk_network_graph_nodePtr = _lookup<
+          ffi.NativeFunction<
+              ffi.Void Function(
+                  ffi.Int64,
+                  ffi.Pointer<wire_cst_ldk_network_graph>,
+                  ffi.Pointer<wire_cst_node_id>)>>(
+      'frbgen_ldk_node_wire__crate__api__graph__ldk_network_graph_node');
+  late final _wire__crate__api__graph__ldk_network_graph_node =
+      _wire__crate__api__graph__ldk_network_graph_nodePtr.asFunction<
+          void Function(int, ffi.Pointer<wire_cst_ldk_network_graph>,
+              ffi.Pointer<wire_cst_node_id>)>();
+
   void wire__crate__api__node__ldk_node_bolt11_payment(
     int port_,
     ffi.Pointer<wire_cst_ldk_node> ptr,
@@ -4893,11 +5068,11 @@ class coreWire implements BaseWire {
 
   void wire__crate__api__node__ldk_node_network_graph(
     int port_,
-    ffi.Pointer<wire_cst_ldk_node> that,
+    ffi.Pointer<wire_cst_ldk_node> ptr,
   ) {
     return _wire__crate__api__node__ldk_node_network_graph(
       port_,
-      that,
+      ptr,
     );
   }
 
@@ -5900,6 +6075,39 @@ class coreWire implements BaseWire {
       _cst_new_box_autoadd_max_dust_htlc_exposurePtr.asFunction<
           ffi.Pointer<wire_cst_max_dust_htlc_exposure> Function()>();
 
+  ffi.Pointer<wire_cst_node_announcement_info>
+      cst_new_box_autoadd_node_announcement_info() {
+    return _cst_new_box_autoadd_node_announcement_info();
+  }
+
+  late final _cst_new_box_autoadd_node_announcement_infoPtr = _lookup<
+          ffi.NativeFunction<
+              ffi.Pointer<wire_cst_node_announcement_info> Function()>>(
+      'frbgen_ldk_node_cst_new_box_autoadd_node_announcement_info');
+  late final _cst_new_box_autoadd_node_announcement_info =
+      _cst_new_box_autoadd_node_announcement_infoPtr.asFunction<
+          ffi.Pointer<wire_cst_node_announcement_info> Function()>();
+
+  ffi.Pointer<wire_cst_node_id> cst_new_box_autoadd_node_id() {
+    return _cst_new_box_autoadd_node_id();
+  }
+
+  late final _cst_new_box_autoadd_node_idPtr =
+      _lookup<ffi.NativeFunction<ffi.Pointer<wire_cst_node_id> Function()>>(
+          'frbgen_ldk_node_cst_new_box_autoadd_node_id');
+  late final _cst_new_box_autoadd_node_id = _cst_new_box_autoadd_node_idPtr
+      .asFunction<ffi.Pointer<wire_cst_node_id> Function()>();
+
+  ffi.Pointer<wire_cst_node_info> cst_new_box_autoadd_node_info() {
+    return _cst_new_box_autoadd_node_info();
+  }
+
+  late final _cst_new_box_autoadd_node_infoPtr =
+      _lookup<ffi.NativeFunction<ffi.Pointer<wire_cst_node_info> Function()>>(
+          'frbgen_ldk_node_cst_new_box_autoadd_node_info');
+  late final _cst_new_box_autoadd_node_info = _cst_new_box_autoadd_node_infoPtr
+      .asFunction<ffi.Pointer<wire_cst_node_info> Function()>();
+
   ffi.Pointer<wire_cst_offer> cst_new_box_autoadd_offer() {
     return _cst_new_box_autoadd_offer();
   }
@@ -6508,7 +6716,11 @@ final class wire_cst_liquidity_source_config extends ffi.Struct {
 
 final class wire_cst_ldk_network_graph extends ffi.Struct {
   @ffi.UintPtr()
-  external int inner;
+  external int ptr;
+}
+
+final class wire_cst_node_id extends ffi.Struct {
+  external ffi.Pointer<wire_cst_list_prim_u_8_strict> compressed;
 }
 
 final class wire_cst_ldk_node extends ffi.Struct {
@@ -6637,10 +6849,6 @@ final class wire_cst_bolt_12_parse_error extends ffi.Struct {
 
 final class wire_cst_channel_id extends ffi.Struct {
   external ffi.Pointer<wire_cst_list_prim_u_8_strict> data;
-}
-
-final class wire_cst_node_id extends ffi.Struct {
-  external ffi.Pointer<wire_cst_list_prim_u_8_strict> compressed;
 }
 
 final class wire_cst_routing_fees extends ffi.Struct {
@@ -6812,6 +7020,28 @@ final class wire_cst_lsp_fee_limits extends ffi.Struct {
   external ffi.Pointer<ffi.Uint64> max_total_opening_fee_msat;
 
   external ffi.Pointer<ffi.Uint64> max_proportional_opening_fee_ppm_msat;
+}
+
+final class wire_cst_node_announcement_info extends ffi.Struct {
+  @ffi.Uint32()
+  external int last_update;
+
+  external ffi.Pointer<wire_cst_list_prim_u_8_strict> alias;
+
+  external ffi.Pointer<wire_cst_list_socket_address> addresses;
+}
+
+final class wire_cst_list_prim_u_64_strict extends ffi.Struct {
+  external ffi.Pointer<ffi.Uint64> ptr;
+
+  @ffi.Int32()
+  external int len;
+}
+
+final class wire_cst_node_info extends ffi.Struct {
+  external ffi.Pointer<wire_cst_list_prim_u_64_strict> channels;
+
+  external ffi.Pointer<wire_cst_node_announcement_info> announcement_info;
 }
 
 final class wire_cst_offer_id extends ffi.Struct {
@@ -7176,13 +7406,6 @@ final class wire_cst_pending_sweep_balance extends ffi.Struct {
 
 final class wire_cst_list_pending_sweep_balance extends ffi.Struct {
   external ffi.Pointer<wire_cst_pending_sweep_balance> ptr;
-
-  @ffi.Int32()
-  external int len;
-}
-
-final class wire_cst_list_prim_u_64_strict extends ffi.Struct {
-  external ffi.Pointer<ffi.Uint64> ptr;
 
   @ffi.Int32()
   external int len;

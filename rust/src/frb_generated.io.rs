@@ -348,6 +348,27 @@ impl CstDecode<crate::api::types::MaxDustHTLCExposure> for *mut wire_cst_max_dus
         CstDecode::<crate::api::types::MaxDustHTLCExposure>::cst_decode(*wrap).into()
     }
 }
+impl CstDecode<crate::api::graph::NodeAnnouncementInfo> for *mut wire_cst_node_announcement_info {
+    // Codec=Cst (C-struct based), see doc to use other codecs
+    fn cst_decode(self) -> crate::api::graph::NodeAnnouncementInfo {
+        let wrap = unsafe { flutter_rust_bridge::for_generated::box_from_leak_ptr(self) };
+        CstDecode::<crate::api::graph::NodeAnnouncementInfo>::cst_decode(*wrap).into()
+    }
+}
+impl CstDecode<crate::api::graph::NodeId> for *mut wire_cst_node_id {
+    // Codec=Cst (C-struct based), see doc to use other codecs
+    fn cst_decode(self) -> crate::api::graph::NodeId {
+        let wrap = unsafe { flutter_rust_bridge::for_generated::box_from_leak_ptr(self) };
+        CstDecode::<crate::api::graph::NodeId>::cst_decode(*wrap).into()
+    }
+}
+impl CstDecode<crate::api::graph::NodeInfo> for *mut wire_cst_node_info {
+    // Codec=Cst (C-struct based), see doc to use other codecs
+    fn cst_decode(self) -> crate::api::graph::NodeInfo {
+        let wrap = unsafe { flutter_rust_bridge::for_generated::box_from_leak_ptr(self) };
+        CstDecode::<crate::api::graph::NodeInfo>::cst_decode(*wrap).into()
+    }
+}
 impl CstDecode<crate::api::bolt12::Offer> for *mut wire_cst_offer {
     // Codec=Cst (C-struct based), see doc to use other codecs
     fn cst_decode(self) -> crate::api::bolt12::Offer {
@@ -778,7 +799,7 @@ impl CstDecode<crate::api::graph::LdkNetworkGraph> for wire_cst_ldk_network_grap
     // Codec=Cst (C-struct based), see doc to use other codecs
     fn cst_decode(self) -> crate::api::graph::LdkNetworkGraph {
         crate::api::graph::LdkNetworkGraph {
-            inner: self.inner.cst_decode(),
+            ptr: self.ptr.cst_decode(),
         }
     }
 }
@@ -1079,11 +1100,30 @@ impl CstDecode<crate::api::types::MaxDustHTLCExposure> for wire_cst_max_dust_htl
         }
     }
 }
+impl CstDecode<crate::api::graph::NodeAnnouncementInfo> for wire_cst_node_announcement_info {
+    // Codec=Cst (C-struct based), see doc to use other codecs
+    fn cst_decode(self) -> crate::api::graph::NodeAnnouncementInfo {
+        crate::api::graph::NodeAnnouncementInfo {
+            last_update: self.last_update.cst_decode(),
+            alias: self.alias.cst_decode(),
+            addresses: self.addresses.cst_decode(),
+        }
+    }
+}
 impl CstDecode<crate::api::graph::NodeId> for wire_cst_node_id {
     // Codec=Cst (C-struct based), see doc to use other codecs
     fn cst_decode(self) -> crate::api::graph::NodeId {
         crate::api::graph::NodeId {
             compressed: self.compressed.cst_decode(),
+        }
+    }
+}
+impl CstDecode<crate::api::graph::NodeInfo> for wire_cst_node_info {
+    // Codec=Cst (C-struct based), see doc to use other codecs
+    fn cst_decode(self) -> crate::api::graph::NodeInfo {
+        crate::api::graph::NodeInfo {
+            channels: self.channels.cst_decode(),
+            announcement_info: self.announcement_info.cst_decode(),
         }
     }
 }
@@ -1739,7 +1779,7 @@ impl Default for wire_cst_ldk_mnemonic {
 impl NewWithNullPtr for wire_cst_ldk_network_graph {
     fn new_with_null_ptr() -> Self {
         Self {
-            inner: Default::default(),
+            ptr: Default::default(),
         }
     }
 }
@@ -1848,6 +1888,20 @@ impl Default for wire_cst_max_dust_htlc_exposure {
         Self::new_with_null_ptr()
     }
 }
+impl NewWithNullPtr for wire_cst_node_announcement_info {
+    fn new_with_null_ptr() -> Self {
+        Self {
+            last_update: Default::default(),
+            alias: core::ptr::null_mut(),
+            addresses: core::ptr::null_mut(),
+        }
+    }
+}
+impl Default for wire_cst_node_announcement_info {
+    fn default() -> Self {
+        Self::new_with_null_ptr()
+    }
+}
 impl NewWithNullPtr for wire_cst_node_id {
     fn new_with_null_ptr() -> Self {
         Self {
@@ -1856,6 +1910,19 @@ impl NewWithNullPtr for wire_cst_node_id {
     }
 }
 impl Default for wire_cst_node_id {
+    fn default() -> Self {
+        Self::new_with_null_ptr()
+    }
+}
+impl NewWithNullPtr for wire_cst_node_info {
+    fn new_with_null_ptr() -> Self {
+        Self {
+            channels: core::ptr::null_mut(),
+            announcement_info: core::ptr::null_mut(),
+        }
+    }
+}
+impl Default for wire_cst_node_info {
     fn default() -> Self {
         Self::new_with_null_ptr()
     }
@@ -2385,6 +2452,15 @@ pub extern "C" fn frbgen_ldk_node_wire__crate__api__graph__ldk_network_graph_lis
 }
 
 #[no_mangle]
+pub extern "C" fn frbgen_ldk_node_wire__crate__api__graph__ldk_network_graph_node(
+    port_: i64,
+    that: *mut wire_cst_ldk_network_graph,
+    node_id: *mut wire_cst_node_id,
+) {
+    wire__crate__api__graph__ldk_network_graph_node_impl(port_, that, node_id)
+}
+
+#[no_mangle]
 pub extern "C" fn frbgen_ldk_node_wire__crate__api__node__ldk_node_bolt11_payment(
     port_: i64,
     ptr: *mut wire_cst_ldk_node,
@@ -2541,9 +2617,9 @@ pub extern "C" fn frbgen_ldk_node_wire__crate__api__node__ldk_node_listening_add
 #[no_mangle]
 pub extern "C" fn frbgen_ldk_node_wire__crate__api__node__ldk_node_network_graph(
     port_: i64,
-    that: *mut wire_cst_ldk_node,
+    ptr: *mut wire_cst_ldk_node,
 ) {
-    wire__crate__api__node__ldk_node_network_graph_impl(port_, that)
+    wire__crate__api__node__ldk_node_network_graph_impl(port_, ptr)
 }
 
 #[no_mangle]
@@ -3061,6 +3137,24 @@ pub extern "C" fn frbgen_ldk_node_cst_new_box_autoadd_max_dust_htlc_exposure(
     flutter_rust_bridge::for_generated::new_leak_box_ptr(
         wire_cst_max_dust_htlc_exposure::new_with_null_ptr(),
     )
+}
+
+#[no_mangle]
+pub extern "C" fn frbgen_ldk_node_cst_new_box_autoadd_node_announcement_info(
+) -> *mut wire_cst_node_announcement_info {
+    flutter_rust_bridge::for_generated::new_leak_box_ptr(
+        wire_cst_node_announcement_info::new_with_null_ptr(),
+    )
+}
+
+#[no_mangle]
+pub extern "C" fn frbgen_ldk_node_cst_new_box_autoadd_node_id() -> *mut wire_cst_node_id {
+    flutter_rust_bridge::for_generated::new_leak_box_ptr(wire_cst_node_id::new_with_null_ptr())
+}
+
+#[no_mangle]
+pub extern "C" fn frbgen_ldk_node_cst_new_box_autoadd_node_info() -> *mut wire_cst_node_info {
+    flutter_rust_bridge::for_generated::new_leak_box_ptr(wire_cst_node_info::new_with_null_ptr())
 }
 
 #[no_mangle]
@@ -3654,7 +3748,7 @@ pub struct wire_cst_ldk_mnemonic {
 #[repr(C)]
 #[derive(Clone, Copy)]
 pub struct wire_cst_ldk_network_graph {
-    inner: usize,
+    ptr: usize,
 }
 #[repr(C)]
 #[derive(Clone, Copy)]
@@ -3864,8 +3958,21 @@ pub struct wire_cst_MaxDustHTLCExposure_FeeRateMultiplier {
 }
 #[repr(C)]
 #[derive(Clone, Copy)]
+pub struct wire_cst_node_announcement_info {
+    last_update: u32,
+    alias: *mut wire_cst_list_prim_u_8_strict,
+    addresses: *mut wire_cst_list_socket_address,
+}
+#[repr(C)]
+#[derive(Clone, Copy)]
 pub struct wire_cst_node_id {
     compressed: *mut wire_cst_list_prim_u_8_strict,
+}
+#[repr(C)]
+#[derive(Clone, Copy)]
+pub struct wire_cst_node_info {
+    channels: *mut wire_cst_list_prim_u_64_strict,
+    announcement_info: *mut wire_cst_node_announcement_info,
 }
 #[repr(C)]
 #[derive(Clone, Copy)]

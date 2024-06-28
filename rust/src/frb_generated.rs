@@ -41,7 +41,7 @@ flutter_rust_bridge::frb_generated_boilerplate!(
     default_rust_auto_opaque = RustAutoOpaqueNom,
 );
 pub(crate) const FLUTTER_RUST_BRIDGE_CODEGEN_VERSION: &str = "2.0.0";
-pub(crate) const FLUTTER_RUST_BRIDGE_CODEGEN_CONTENT_HASH: i32 = 1452486004;
+pub(crate) const FLUTTER_RUST_BRIDGE_CODEGEN_CONTENT_HASH: i32 = -1350521949;
 
 // Section: executor
 
@@ -695,6 +695,31 @@ fn wire__crate__api__graph__ldk_network_graph_list_nodes_impl(
         },
     )
 }
+fn wire__crate__api__graph__ldk_network_graph_node_impl(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
+    that: impl CstDecode<crate::api::graph::LdkNetworkGraph>,
+    node_id: impl CstDecode<crate::api::graph::NodeId>,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "ldk_network_graph_node",
+            port: Some(port_),
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
+        },
+        move || {
+            let api_that = that.cst_decode();
+            let api_node_id = node_id.cst_decode();
+            move |context| {
+                transform_result_dco::<_, _, crate::utils::error::LdkNodeError>((move || {
+                    let output_ok =
+                        crate::api::graph::LdkNetworkGraph::node(&api_that, api_node_id)?;
+                    Ok(output_ok)
+                })(
+                ))
+            }
+        },
+    )
+}
 fn wire__crate__api__node__ldk_node_bolt11_payment_impl(
     port_: flutter_rust_bridge::for_generated::MessagePort,
     ptr: impl CstDecode<crate::api::node::LdkNode>,
@@ -1084,7 +1109,7 @@ fn wire__crate__api__node__ldk_node_listening_addresses_impl(
 }
 fn wire__crate__api__node__ldk_node_network_graph_impl(
     port_: flutter_rust_bridge::for_generated::MessagePort,
-    that: impl CstDecode<crate::api::node::LdkNode>,
+    ptr: impl CstDecode<crate::api::node::LdkNode>,
 ) {
     FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
         flutter_rust_bridge::for_generated::TaskInfo {
@@ -1093,11 +1118,11 @@ fn wire__crate__api__node__ldk_node_network_graph_impl(
             mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
         },
         move || {
-            let api_that = that.cst_decode();
+            let api_ptr = ptr.cst_decode();
             move |context| {
                 transform_result_dco::<_, _, ()>((move || {
                     let output_ok =
-                        Result::<_, ()>::Ok(crate::api::node::LdkNode::network_graph(&api_that))?;
+                        Result::<_, ()>::Ok(crate::api::node::LdkNode::network_graph(api_ptr))?;
                     Ok(output_ok)
                 })())
             }
@@ -2428,9 +2453,8 @@ impl SseDecode for crate::api::builder::LdkMnemonic {
 impl SseDecode for crate::api::graph::LdkNetworkGraph {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
-        let mut var_inner =
-            <RustOpaqueNom<ldk_node::graph::NetworkGraph>>::sse_decode(deserializer);
-        return crate::api::graph::LdkNetworkGraph { inner: var_inner };
+        let mut var_ptr = <RustOpaqueNom<ldk_node::graph::NetworkGraph>>::sse_decode(deserializer);
+        return crate::api::graph::LdkNetworkGraph { ptr: var_ptr };
     }
 }
 
@@ -2924,12 +2948,39 @@ impl SseDecode for crate::api::types::Network {
     }
 }
 
+impl SseDecode for crate::api::graph::NodeAnnouncementInfo {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        let mut var_lastUpdate = <u32>::sse_decode(deserializer);
+        let mut var_alias = <String>::sse_decode(deserializer);
+        let mut var_addresses = <Vec<crate::api::types::SocketAddress>>::sse_decode(deserializer);
+        return crate::api::graph::NodeAnnouncementInfo {
+            last_update: var_lastUpdate,
+            alias: var_alias,
+            addresses: var_addresses,
+        };
+    }
+}
+
 impl SseDecode for crate::api::graph::NodeId {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
         let mut var_compressed = <Vec<u8>>::sse_decode(deserializer);
         return crate::api::graph::NodeId {
             compressed: var_compressed,
+        };
+    }
+}
+
+impl SseDecode for crate::api::graph::NodeInfo {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        let mut var_channels = <Vec<u64>>::sse_decode(deserializer);
+        let mut var_announcementInfo =
+            <Option<crate::api::graph::NodeAnnouncementInfo>>::sse_decode(deserializer);
+        return crate::api::graph::NodeInfo {
+            channels: var_channels,
+            announcement_info: var_announcementInfo,
         };
     }
 }
@@ -3127,6 +3178,30 @@ impl SseDecode for Option<crate::api::types::MaxDustHTLCExposure> {
             return Some(<crate::api::types::MaxDustHTLCExposure>::sse_decode(
                 deserializer,
             ));
+        } else {
+            return None;
+        }
+    }
+}
+
+impl SseDecode for Option<crate::api::graph::NodeAnnouncementInfo> {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        if (<bool>::sse_decode(deserializer)) {
+            return Some(<crate::api::graph::NodeAnnouncementInfo>::sse_decode(
+                deserializer,
+            ));
+        } else {
+            return None;
+        }
+    }
+}
+
+impl SseDecode for Option<crate::api::graph::NodeInfo> {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        if (<bool>::sse_decode(deserializer)) {
+            return Some(<crate::api::graph::NodeInfo>::sse_decode(deserializer));
         } else {
             return None;
         }
@@ -4446,7 +4521,7 @@ impl flutter_rust_bridge::IntoIntoDart<crate::api::builder::LdkMnemonic>
 // Codec=Dco (DartCObject based), see doc to use other codecs
 impl flutter_rust_bridge::IntoDart for crate::api::graph::LdkNetworkGraph {
     fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
-        [self.inner.into_into_dart().into_dart()].into_dart()
+        [self.ptr.into_into_dart().into_dart()].into_dart()
     }
 }
 impl flutter_rust_bridge::for_generated::IntoDartExceptPrimitive
@@ -4813,6 +4888,28 @@ impl flutter_rust_bridge::IntoIntoDart<crate::api::types::Network> for crate::ap
     }
 }
 // Codec=Dco (DartCObject based), see doc to use other codecs
+impl flutter_rust_bridge::IntoDart for crate::api::graph::NodeAnnouncementInfo {
+    fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
+        [
+            self.last_update.into_into_dart().into_dart(),
+            self.alias.into_into_dart().into_dart(),
+            self.addresses.into_into_dart().into_dart(),
+        ]
+        .into_dart()
+    }
+}
+impl flutter_rust_bridge::for_generated::IntoDartExceptPrimitive
+    for crate::api::graph::NodeAnnouncementInfo
+{
+}
+impl flutter_rust_bridge::IntoIntoDart<crate::api::graph::NodeAnnouncementInfo>
+    for crate::api::graph::NodeAnnouncementInfo
+{
+    fn into_into_dart(self) -> crate::api::graph::NodeAnnouncementInfo {
+        self
+    }
+}
+// Codec=Dco (DartCObject based), see doc to use other codecs
 impl flutter_rust_bridge::IntoDart for crate::api::graph::NodeId {
     fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
         [self.compressed.into_into_dart().into_dart()].into_dart()
@@ -4821,6 +4918,24 @@ impl flutter_rust_bridge::IntoDart for crate::api::graph::NodeId {
 impl flutter_rust_bridge::for_generated::IntoDartExceptPrimitive for crate::api::graph::NodeId {}
 impl flutter_rust_bridge::IntoIntoDart<crate::api::graph::NodeId> for crate::api::graph::NodeId {
     fn into_into_dart(self) -> crate::api::graph::NodeId {
+        self
+    }
+}
+// Codec=Dco (DartCObject based), see doc to use other codecs
+impl flutter_rust_bridge::IntoDart for crate::api::graph::NodeInfo {
+    fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
+        [
+            self.channels.into_into_dart().into_dart(),
+            self.announcement_info.into_into_dart().into_dart(),
+        ]
+        .into_dart()
+    }
+}
+impl flutter_rust_bridge::for_generated::IntoDartExceptPrimitive for crate::api::graph::NodeInfo {}
+impl flutter_rust_bridge::IntoIntoDart<crate::api::graph::NodeInfo>
+    for crate::api::graph::NodeInfo
+{
+    fn into_into_dart(self) -> crate::api::graph::NodeInfo {
         self
     }
 }
@@ -5934,7 +6049,7 @@ impl SseEncode for crate::api::builder::LdkMnemonic {
 impl SseEncode for crate::api::graph::LdkNetworkGraph {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
-        <RustOpaqueNom<ldk_node::graph::NetworkGraph>>::sse_encode(self.inner, serializer);
+        <RustOpaqueNom<ldk_node::graph::NetworkGraph>>::sse_encode(self.ptr, serializer);
     }
 }
 
@@ -6382,10 +6497,30 @@ impl SseEncode for crate::api::types::Network {
     }
 }
 
+impl SseEncode for crate::api::graph::NodeAnnouncementInfo {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        <u32>::sse_encode(self.last_update, serializer);
+        <String>::sse_encode(self.alias, serializer);
+        <Vec<crate::api::types::SocketAddress>>::sse_encode(self.addresses, serializer);
+    }
+}
+
 impl SseEncode for crate::api::graph::NodeId {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
         <Vec<u8>>::sse_encode(self.compressed, serializer);
+    }
+}
+
+impl SseEncode for crate::api::graph::NodeInfo {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        <Vec<u64>>::sse_encode(self.channels, serializer);
+        <Option<crate::api::graph::NodeAnnouncementInfo>>::sse_encode(
+            self.announcement_info,
+            serializer,
+        );
     }
 }
 
@@ -6546,6 +6681,26 @@ impl SseEncode for Option<crate::api::types::MaxDustHTLCExposure> {
         <bool>::sse_encode(self.is_some(), serializer);
         if let Some(value) = self {
             <crate::api::types::MaxDustHTLCExposure>::sse_encode(value, serializer);
+        }
+    }
+}
+
+impl SseEncode for Option<crate::api::graph::NodeAnnouncementInfo> {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        <bool>::sse_encode(self.is_some(), serializer);
+        if let Some(value) = self {
+            <crate::api::graph::NodeAnnouncementInfo>::sse_encode(value, serializer);
+        }
+    }
+}
+
+impl SseEncode for Option<crate::api::graph::NodeInfo> {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        <bool>::sse_encode(self.is_some(), serializer);
+        if let Some(value) = self {
+            <crate::api::graph::NodeInfo>::sse_encode(value, serializer);
         }
     }
 }

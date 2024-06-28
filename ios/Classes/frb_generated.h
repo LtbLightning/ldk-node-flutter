@@ -177,8 +177,12 @@ typedef struct wire_cst_liquidity_source_config {
 } wire_cst_liquidity_source_config;
 
 typedef struct wire_cst_ldk_network_graph {
-  uintptr_t inner;
+  uintptr_t ptr;
 } wire_cst_ldk_network_graph;
+
+typedef struct wire_cst_node_id {
+  struct wire_cst_list_prim_u_8_strict *compressed;
+} wire_cst_node_id;
 
 typedef struct wire_cst_ldk_node {
   uintptr_t ptr;
@@ -280,10 +284,6 @@ typedef struct wire_cst_bolt_12_parse_error {
 typedef struct wire_cst_channel_id {
   struct wire_cst_list_prim_u_8_strict *data;
 } wire_cst_channel_id;
-
-typedef struct wire_cst_node_id {
-  struct wire_cst_list_prim_u_8_strict *compressed;
-} wire_cst_node_id;
 
 typedef struct wire_cst_routing_fees {
   uint32_t base_msat;
@@ -403,6 +403,22 @@ typedef struct wire_cst_lsp_fee_limits {
   uint64_t *max_total_opening_fee_msat;
   uint64_t *max_proportional_opening_fee_ppm_msat;
 } wire_cst_lsp_fee_limits;
+
+typedef struct wire_cst_node_announcement_info {
+  uint32_t last_update;
+  struct wire_cst_list_prim_u_8_strict *alias;
+  struct wire_cst_list_socket_address *addresses;
+} wire_cst_node_announcement_info;
+
+typedef struct wire_cst_list_prim_u_64_strict {
+  uint64_t *ptr;
+  int32_t len;
+} wire_cst_list_prim_u_64_strict;
+
+typedef struct wire_cst_node_info {
+  struct wire_cst_list_prim_u_64_strict *channels;
+  struct wire_cst_node_announcement_info *announcement_info;
+} wire_cst_node_info;
 
 typedef struct wire_cst_offer_id {
   struct wire_cst_list_prim_u_8_strict *field0;
@@ -624,11 +640,6 @@ typedef struct wire_cst_list_pending_sweep_balance {
   int32_t len;
 } wire_cst_list_pending_sweep_balance;
 
-typedef struct wire_cst_list_prim_u_64_strict {
-  uint64_t *ptr;
-  int32_t len;
-} wire_cst_list_prim_u_64_strict;
-
 typedef struct wire_cst_balance_details {
   uint64_t total_onchain_balance_sats;
   uint64_t spendable_onchain_balance_sats;
@@ -775,6 +786,10 @@ void frbgen_ldk_node_wire__crate__api__graph__ldk_network_graph_list_channels(in
 void frbgen_ldk_node_wire__crate__api__graph__ldk_network_graph_list_nodes(int64_t port_,
                                                                            struct wire_cst_ldk_network_graph *that);
 
+void frbgen_ldk_node_wire__crate__api__graph__ldk_network_graph_node(int64_t port_,
+                                                                     struct wire_cst_ldk_network_graph *that,
+                                                                     struct wire_cst_node_id *node_id);
+
 void frbgen_ldk_node_wire__crate__api__node__ldk_node_bolt11_payment(int64_t port_,
                                                                      struct wire_cst_ldk_node *ptr);
 
@@ -836,7 +851,7 @@ void frbgen_ldk_node_wire__crate__api__node__ldk_node_listening_addresses(int64_
                                                                           struct wire_cst_ldk_node *that);
 
 void frbgen_ldk_node_wire__crate__api__node__ldk_node_network_graph(int64_t port_,
-                                                                    struct wire_cst_ldk_node *that);
+                                                                    struct wire_cst_ldk_node *ptr);
 
 void frbgen_ldk_node_wire__crate__api__node__ldk_node_next_event(int64_t port_,
                                                                  struct wire_cst_ldk_node *that);
@@ -996,6 +1011,12 @@ struct wire_cst_lsp_fee_limits *frbgen_ldk_node_cst_new_box_autoadd_lsp_fee_limi
 
 struct wire_cst_max_dust_htlc_exposure *frbgen_ldk_node_cst_new_box_autoadd_max_dust_htlc_exposure(void);
 
+struct wire_cst_node_announcement_info *frbgen_ldk_node_cst_new_box_autoadd_node_announcement_info(void);
+
+struct wire_cst_node_id *frbgen_ldk_node_cst_new_box_autoadd_node_id(void);
+
+struct wire_cst_node_info *frbgen_ldk_node_cst_new_box_autoadd_node_info(void);
+
 struct wire_cst_offer *frbgen_ldk_node_cst_new_box_autoadd_offer(void);
 
 struct wire_cst_offer_id *frbgen_ldk_node_cst_new_box_autoadd_offer_id(void);
@@ -1078,6 +1099,9 @@ static int64_t dummy_method_to_enforce_bundling(void) {
     dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_cst_new_box_autoadd_liquidity_source_config);
     dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_cst_new_box_autoadd_lsp_fee_limits);
     dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_cst_new_box_autoadd_max_dust_htlc_exposure);
+    dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_cst_new_box_autoadd_node_announcement_info);
+    dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_cst_new_box_autoadd_node_id);
+    dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_cst_new_box_autoadd_node_info);
     dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_cst_new_box_autoadd_offer);
     dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_cst_new_box_autoadd_offer_id);
     dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_cst_new_box_autoadd_out_point);
@@ -1145,6 +1169,7 @@ static int64_t dummy_method_to_enforce_bundling(void) {
     dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__crate__api__graph__ldk_network_graph_channel);
     dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__crate__api__graph__ldk_network_graph_list_channels);
     dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__crate__api__graph__ldk_network_graph_list_nodes);
+    dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__crate__api__graph__ldk_network_graph_node);
     dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__crate__api__node__ldk_node_bolt11_payment);
     dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__crate__api__node__ldk_node_bolt12_payment);
     dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__crate__api__node__ldk_node_close_channel);
