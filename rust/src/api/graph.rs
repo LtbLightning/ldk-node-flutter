@@ -1,5 +1,6 @@
-use ldk_node::lightning::ln::msgs::SocketAddress;
+
 use ldk_node::lightning::util::ser::Writeable;
+use crate::api::types::SocketAddress;
 use crate::frb_generated::RustOpaque;
 use crate::utils::error::LdkNodeError;
 
@@ -139,8 +140,8 @@ impl LdkNetworkGraph {
         self.ptr.list_nodes().iter().map(|e| e.to_owned().into()).collect()
     }
 
-    // Returns information on a node with the given id.
-    // pub fn node(&self, node_id: NodeId) -> Result<Option<NodeInfo>, NodeException> {
-    //     Ok(self.inner.node(node_id.try_into().unwrap()).map(|e| e.into()))
-    // }
+
+    pub fn node(&self, node_id: NodeId) -> Result<Option<NodeInfo>, LdkNodeError> {
+        Ok(self.ptr.node(&(node_id.try_into()?)).map(|e| e.into()))
+    }
 }

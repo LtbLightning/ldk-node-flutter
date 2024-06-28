@@ -523,6 +523,16 @@ class NetworkGraph extends graph.LdkNetworkGraph {
       throw mapLdkNodeError(e);
     }
   }
+
+  ///Returns information on a node with the given id.
+  @override
+  Future<graph.NodeInfo?> node({required graph.NodeId nodeId}) {
+    try {
+      return super.node(nodeId: nodeId);
+    } on error.LdkNodeError catch (e) {
+      throw mapLdkNodeError(e);
+    }
+  }
 }
 
 ///Represents a syntactically and semantically correct lightning BOLT11 invoice.

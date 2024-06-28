@@ -5,9 +5,10 @@
 
 import '../frb_generated.dart';
 import '../lib.dart';
+import '../utils/error.dart';
 import 'package:flutter_rust_bridge/flutter_rust_bridge_for_generated.dart';
+import 'types.dart';
 
-// These types are ignored because they are not used by any `pub` functions: `NodeAnnouncementInfo`, `NodeInfo`
 // These function are ignored because they are on traits that is not defined in current crate (put an empty `#[frb]` on it to unignore): `from`, `from`, `from`, `from`, `from`, `from`, `from`, `try_from`
 
 ///Details about a channel (both directions). Received within a channel announcement.
@@ -127,6 +128,9 @@ class LdkNetworkGraph {
         that: this,
       );
 
+  Future<NodeInfo?> node({required NodeId nodeId}) => core.instance.api
+      .crateApiGraphLdkNetworkGraphNode(that: this, nodeId: nodeId);
+
   @override
   int get hashCode => ptr.hashCode;
 
@@ -136,6 +140,38 @@ class LdkNetworkGraph {
       other is LdkNetworkGraph &&
           runtimeType == other.runtimeType &&
           ptr == other.ptr;
+}
+
+class NodeAnnouncementInfo {
+  /// When the last known update to the node state was issued.
+  /// Value is opaque, as set in the announcement.
+  final int lastUpdate;
+
+  /// Moniker assigned to the node.
+  /// May be invalid or malicious (eg control chars),
+  /// should not be exposed to the user.
+  final String alias;
+
+  /// List of addresses on which this node is reachable
+  final List<SocketAddress> addresses;
+
+  const NodeAnnouncementInfo({
+    required this.lastUpdate,
+    required this.alias,
+    required this.addresses,
+  });
+
+  @override
+  int get hashCode => lastUpdate.hashCode ^ alias.hashCode ^ addresses.hashCode;
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is NodeAnnouncementInfo &&
+          runtimeType == other.runtimeType &&
+          lastUpdate == other.lastUpdate &&
+          alias == other.alias &&
+          addresses == other.addresses;
 }
 
 ///Represents the compressed public key of a node
@@ -155,6 +191,30 @@ class NodeId {
       other is NodeId &&
           runtimeType == other.runtimeType &&
           compressed == other.compressed;
+}
+
+///Details about a node in the network, known from the network announcement.
+class NodeInfo {
+  final Uint64List channels;
+
+  ///More information about a node from node_announcement. Optional because we store a Node entry after learning about it from a channel announcement, but before receiving a node announcement.
+  final NodeAnnouncementInfo? announcementInfo;
+
+  const NodeInfo({
+    required this.channels,
+    this.announcementInfo,
+  });
+
+  @override
+  int get hashCode => channels.hashCode ^ announcementInfo.hashCode;
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is NodeInfo &&
+          runtimeType == other.runtimeType &&
+          channels == other.channels &&
+          announcementInfo == other.announcementInfo;
 }
 
 ///Fees for routing via a given channel or a node
