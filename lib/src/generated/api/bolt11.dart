@@ -38,6 +38,20 @@ class LdkBolt11Payment {
     required this.ptr,
   });
 
+  Future<void> claimForHash(
+          {required PaymentHash paymentHash,
+          required BigInt claimableAmountMsat,
+          required PaymentPreimage preimage}) =>
+      core.instance.api.crateApiBolt11LdkBolt11PaymentClaimForHash(
+          that: this,
+          paymentHash: paymentHash,
+          claimableAmountMsat: claimableAmountMsat,
+          preimage: preimage);
+
+  Future<void> failForHash({required PaymentHash paymentHash}) =>
+      core.instance.api.crateApiBolt11LdkBolt11PaymentFailForHash(
+          that: this, paymentHash: paymentHash);
+
   Future<Bolt11Invoice> receive(
           {required BigInt amountMsat,
           required String description,
@@ -48,10 +62,33 @@ class LdkBolt11Payment {
           description: description,
           expirySecs: expirySecs);
 
+  Future<Bolt11Invoice> receiveForHash(
+          {required PaymentHash paymentHash,
+          required BigInt amountMsat,
+          required String description,
+          required int expirySecs}) =>
+      core.instance.api.crateApiBolt11LdkBolt11PaymentReceiveForHash(
+          that: this,
+          paymentHash: paymentHash,
+          amountMsat: amountMsat,
+          description: description,
+          expirySecs: expirySecs);
+
   Future<Bolt11Invoice> receiveVariableAmount(
           {required String description, required int expirySecs}) =>
       core.instance.api.crateApiBolt11LdkBolt11PaymentReceiveVariableAmount(
           that: this, description: description, expirySecs: expirySecs);
+
+  Future<Bolt11Invoice> receiveVariableAmountForHash(
+          {required String description,
+          required int expirySecs,
+          required PaymentHash paymentHash}) =>
+      core.instance.api
+          .crateApiBolt11LdkBolt11PaymentReceiveVariableAmountForHash(
+              that: this,
+              description: description,
+              expirySecs: expirySecs,
+              paymentHash: paymentHash);
 
   Future<Bolt11Invoice> receiveVariableAmountViaJitChannel(
           {required String description,

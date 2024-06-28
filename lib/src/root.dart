@@ -539,6 +539,79 @@ class NetworkGraph extends graph.LdkNetworkGraph {
 class Bolt11Payment extends bolt11.LdkBolt11Payment {
   Bolt11Payment._({required super.ptr});
 
+  ///Allows to attempt manually claiming payments with the given preimage that have previously been registered via
+  ///`receiveForHash` or `receiveVariableAmountForHash`.
+  /// This should be called in response to a PaymentClaimable event as soon as the preimage is available.
+  /// Will check that the payment is known, and that the given preimage and claimable amount match our expectations before attempting to claim the payment, and will return an error otherwise.
+  /// When claiming the payment has succeeded, a PaymentReceived event will be emitted.
+  @override
+  Future<void> claimForHash(
+      {required types.PaymentHash paymentHash,
+      required BigInt claimableAmountMsat,
+      required types.PaymentPreimage preimage}) {
+    try {
+      return super.claimForHash(
+          paymentHash: paymentHash,
+          claimableAmountMsat: claimableAmountMsat,
+          preimage: preimage);
+    } on error.LdkNodeError catch (e) {
+      throw mapLdkNodeError(e);
+    }
+  }
+
+  ///Allows to manually fail payments with the given hash that have previously been registered via
+  ///`receiveForHash` or `receiveVariableAmountForHash`.
+  /// This should be called in response to a PaymentClaimable event if the payment needs to be failed back, e. g., if the correct preimage can't be retrieved in time before the claim deadline has been reached.
+  /// Will check that the payment is known before failing the payment, and will return an error otherwise.
+  @override
+  Future<void> failForHash({required types.PaymentHash paymentHash}) {
+    try {
+      return super.failForHash(paymentHash: paymentHash);
+    } on error.LdkNodeError catch (e) {
+      throw mapLdkNodeError(e);
+    }
+  }
+
+  ///Returns a payable invoice that can be used to request a payment of the amount given for the given payment hash.
+  /// We will register the given payment hash and emit a PaymentClaimable event once the inbound payment arrives.
+  /// Note: users MUST handle this event and claim the payment manually via claimForHash as soon as they have obtained access to the preimage of the given payment hash.
+  /// If they're unable to obtain the preimage, they MUST immediately fail the payment via failForHash.
+  @override
+  Future<bolt11.Bolt11Invoice> receiveForHash(
+      {required types.PaymentHash paymentHash,
+      required BigInt amountMsat,
+      required String description,
+      required int expirySecs}) {
+    try {
+      return super.receiveForHash(
+          paymentHash: paymentHash,
+          amountMsat: amountMsat,
+          description: description,
+          expirySecs: expirySecs);
+    } on error.LdkNodeError catch (e) {
+      throw mapLdkNodeError(e);
+    }
+  }
+
+  ///Returns a payable invoice that can be used to request a payment for the given payment hash and the amount to be determined by the user, also known as a "zero-amount" invoice.
+  /// We will register the given payment hash and emit a PaymentClaimable event once the inbound payment arrives.
+  /// Note: users MUST handle this event and claim the payment manually via `claimForHash` as soon as they have obtained access to the preimage
+  /// of the given payment hash. If they're unable to obtain the preimage, they MUST immediately fail the payment via `failForHash`.
+  @override
+  Future<bolt11.Bolt11Invoice> receiveVariableAmountForHash(
+      {required String description,
+      required int expirySecs,
+      required types.PaymentHash paymentHash}) {
+    try {
+      return super.receiveVariableAmountForHash(
+          description: description,
+          expirySecs: expirySecs,
+          paymentHash: paymentHash);
+    } on error.LdkNodeError catch (e) {
+      throw mapLdkNodeError(e);
+    }
+  }
+
   ///Returns a payable invoice that can be used to request and receive a payment of the amount given.
   /// The inbound payment will be automatically claimed upon arrival.
   @override
