@@ -398,6 +398,7 @@ class Node extends LdkNode {
     }
   }
 
+  ///Returns a payment handler allowing to create and pay BOLT 11  invoices.
   Future<Bolt11Payment> bolt11Payment() async {
     try {
       final res = await LdkNode.bolt11Payment(ptr: this);
@@ -407,6 +408,7 @@ class Node extends LdkNode {
     }
   }
 
+  ///Returns a payment handler allowing to send and receive on-chain payments.
   Future<OnChainPayment> onChainPayment() async {
     try {
       final res = await LdkNode.onChainPayment(ptr: this);
@@ -416,6 +418,7 @@ class Node extends LdkNode {
     }
   }
 
+  ///Returns a payment handler allowing to send spontaneous ("keysend") payments.
   Future<SpontaneousPayment> spontaneousPayment() async {
     try {
       final res = await LdkNode.spontaneousPayment(ptr: this);
@@ -426,8 +429,11 @@ class Node extends LdkNode {
   }
 }
 
+///A payment handler allowing to send spontaneous ("keysend") payments.
 class SpontaneousPayment extends spontaneous.LdkSpontaneousPayment {
   SpontaneousPayment._({required super.ptr});
+
+  ///Sends payment probes over all paths of a route that would be used to pay the given amount to the given node_id.
   @override
   Future<void> sendProbes(
       {required BigInt amountMsat, required types.PublicKey nodeId, hint}) {
@@ -438,6 +444,7 @@ class SpontaneousPayment extends spontaneous.LdkSpontaneousPayment {
     }
   }
 
+  ///Send a spontaneous, aka. "keysend", payment
   @override
   Future<types.PaymentId> send(
       {required BigInt amountMsat,
@@ -451,6 +458,7 @@ class SpontaneousPayment extends spontaneous.LdkSpontaneousPayment {
   }
 }
 
+///A payment handler allowing to send and receive on-chain payments.
 class OnChainPayment extends on_chain.LdkOnChainPayment {
   OnChainPayment._({required super.ptr});
   @override
@@ -482,6 +490,7 @@ class OnChainPayment extends on_chain.LdkOnChainPayment {
   }
 }
 
+///Represents the network as nodes and channels between them.
 class NetworkGraph extends graph.LdkNetworkGraph {
   NetworkGraph._({required super.ptr});
 
@@ -519,6 +528,9 @@ class NetworkGraph extends graph.LdkNetworkGraph {
 ///Represents a syntactically and semantically correct lightning BOLT11 invoice.
 class Bolt11Payment extends bolt11.LdkBolt11Payment {
   Bolt11Payment._({required super.ptr});
+
+  ///Returns a payable invoice that can be used to request and receive a payment of the amount given.
+  /// The inbound payment will be automatically claimed upon arrival.
   @override
   Future<bolt11.Bolt11Invoice> receive(
       {required BigInt amountMsat,
@@ -535,6 +547,8 @@ class Bolt11Payment extends bolt11.LdkBolt11Payment {
     }
   }
 
+  ///Returns a payable invoice that can be used to request and receive a payment for which the amount is to be determined by the user, also known as a "zero-amount" invoice.
+  /// The inbound payment will be automatically claimed upon arrival.
   @override
   Future<bolt11.Bolt11Invoice> receiveVariableAmount(
       {required String description, required int expirySecs, hint}) {
@@ -546,6 +560,9 @@ class Bolt11Payment extends bolt11.LdkBolt11Payment {
     }
   }
 
+  ///Returns a payable invoice that can be used to request a variable amount payment (also known as "zero-amount" invoice) and receive it via a newly created just-in-time (JIT) channel.
+  /// When the returned invoice is paid, the configured LSPS2 -compliant LSP will open a channel to us, supplying just-in-time inbound liquidity.
+  /// If set, `maxProportionalLspFeeLimitPpmMsat` will limit how much proportional fee, in parts-per-million millisatoshis, we allow the LSP to take for opening the channel to us. We'll use its cheapest offer otherwise.
   @override
   Future<bolt11.Bolt11Invoice> receiveVariableAmountViaJitChannel(
       {required String description,
@@ -562,6 +579,9 @@ class Bolt11Payment extends bolt11.LdkBolt11Payment {
     }
   }
 
+  ///Returns a payable invoice that can be used to request a payment of the amount given and receive it via a newly created just-in-time (JIT) channel.
+  /// When the returned invoice is paid, the configured LSPS2 -compliant LSP will open a channel to us, supplying just-in-time inbound liquidity.
+  /// If set, `maxTotalLspFeeLimitMsat` will limit how much fee we allow the LSP to take for opening the channel to us. We'll use its cheapest offer otherwise.
   @override
   Future<bolt11.Bolt11Invoice> receiveViaJitChannel(
       {required BigInt amountMsat,
@@ -580,6 +600,7 @@ class Bolt11Payment extends bolt11.LdkBolt11Payment {
     }
   }
 
+  ///Send a payment given an invoice.
   @override
   Future<types.PaymentId> send({required bolt11.Bolt11Invoice invoice, hint}) {
     try {
@@ -589,6 +610,11 @@ class Bolt11Payment extends bolt11.LdkBolt11Payment {
     }
   }
 
+  ///Sends payment probes over all paths of a route that would be used to pay the given invoice.
+  /// This may be used to send "pre-flight" probes, i. e., to train our scorer before conducting the actual payment. Note this is only useful if there likely is sufficient time for the probe to settle before sending out the actual payment, e. g., when waiting for user confirmation in a wallet UI.
+  /// Otherwise, there is a chance the probe could take up some liquidity needed to complete the actual payment.
+  /// Users should therefore be cautious and might avoid sending probes if liquidity is scarce and/ or they don't expect the probe to return before they send the payment.
+  /// To mitigate this issue, channels with available liquidity less than the required amount times
   @override
   Future<void> sendProbes({required bolt11.Bolt11Invoice invoice, hint}) {
     try {
@@ -598,6 +624,8 @@ class Bolt11Payment extends bolt11.LdkBolt11Payment {
     }
   }
 
+  ///Sends payment probes over all paths of a route that would be used to pay the given zero-value invoice using the given amount.
+  /// This can be used to send pre-flight probes for a so-called "zero-amount" invoice, i. e., an invoice that leaves the amount paid to be determined by the user.
   @override
   Future<void> sendProbesUsingAmount(
       {required bolt11.Bolt11Invoice invoice,
@@ -611,6 +639,9 @@ class Bolt11Payment extends bolt11.LdkBolt11Payment {
     }
   }
 
+  ///Send a payment given an invoice and an amount in millisatoshi.
+  /// This will fail if the amount given is less than the value required by the given invoice.
+  /// This can be used to pay a so-called "zero-amount" invoice, i. e., an invoice that leaves the amount paid to be determined by the user.
   @override
   Future<types.PaymentId> sendUsingAmount(
       {required bolt11.Bolt11Invoice invoice,
