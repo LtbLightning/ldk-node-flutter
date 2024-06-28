@@ -1,3 +1,7 @@
+export './src/generated/api/bolt11.dart';
+export './src/generated/api/bolt12.dart';
+export './src/generated/api/on_chain.dart';
+export './src/generated/api/spontaneous.dart';
 export './src/generated/api/types.dart'
     hide
         Event_ChannelClosed,
@@ -11,6 +15,7 @@ export './src/generated/api/types.dart'
         SocketAddress_OnionV2,
         EntropySourceConfig,
         SocketAddress_OnionV3,
+        $ChainDataSourceConfigCopyWith,
         SocketAddress_TcpIpV4,
         SocketAddress_TcpIpV6,
         MaxDustHTLCExposure_FeeRateMultiplier,
