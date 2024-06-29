@@ -4097,6 +4097,68 @@ class coreWire implements BaseWire {
   late final _store_dart_post_cobject = _store_dart_post_cobjectPtr
       .asFunction<void Function(DartPostCObjectFnType)>();
 
+  void wire__crate__api__bolt11__ldk_bolt_11_payment_claim_for_hash(
+    int port_,
+    ffi.Pointer<wire_cst_ldk_bolt_11_payment> that,
+    ffi.Pointer<wire_cst_payment_hash> payment_hash,
+    int claimable_amount_msat,
+    ffi.Pointer<wire_cst_payment_preimage> preimage,
+  ) {
+    return _wire__crate__api__bolt11__ldk_bolt_11_payment_claim_for_hash(
+      port_,
+      that,
+      payment_hash,
+      claimable_amount_msat,
+      preimage,
+    );
+  }
+
+  late final _wire__crate__api__bolt11__ldk_bolt_11_payment_claim_for_hashPtr =
+      _lookup<
+              ffi.NativeFunction<
+                  ffi.Void Function(
+                      ffi.Int64,
+                      ffi.Pointer<wire_cst_ldk_bolt_11_payment>,
+                      ffi.Pointer<wire_cst_payment_hash>,
+                      ffi.Uint64,
+                      ffi.Pointer<wire_cst_payment_preimage>)>>(
+          'frbgen_ldk_node_wire__crate__api__bolt11__ldk_bolt_11_payment_claim_for_hash');
+  late final _wire__crate__api__bolt11__ldk_bolt_11_payment_claim_for_hash =
+      _wire__crate__api__bolt11__ldk_bolt_11_payment_claim_for_hashPtr
+          .asFunction<
+              void Function(
+                  int,
+                  ffi.Pointer<wire_cst_ldk_bolt_11_payment>,
+                  ffi.Pointer<wire_cst_payment_hash>,
+                  int,
+                  ffi.Pointer<wire_cst_payment_preimage>)>();
+
+  void wire__crate__api__bolt11__ldk_bolt_11_payment_fail_for_hash(
+    int port_,
+    ffi.Pointer<wire_cst_ldk_bolt_11_payment> that,
+    ffi.Pointer<wire_cst_payment_hash> payment_hash,
+  ) {
+    return _wire__crate__api__bolt11__ldk_bolt_11_payment_fail_for_hash(
+      port_,
+      that,
+      payment_hash,
+    );
+  }
+
+  late final _wire__crate__api__bolt11__ldk_bolt_11_payment_fail_for_hashPtr =
+      _lookup<
+              ffi.NativeFunction<
+                  ffi.Void Function(
+                      ffi.Int64,
+                      ffi.Pointer<wire_cst_ldk_bolt_11_payment>,
+                      ffi.Pointer<wire_cst_payment_hash>)>>(
+          'frbgen_ldk_node_wire__crate__api__bolt11__ldk_bolt_11_payment_fail_for_hash');
+  late final _wire__crate__api__bolt11__ldk_bolt_11_payment_fail_for_hash =
+      _wire__crate__api__bolt11__ldk_bolt_11_payment_fail_for_hashPtr
+          .asFunction<
+              void Function(int, ffi.Pointer<wire_cst_ldk_bolt_11_payment>,
+                  ffi.Pointer<wire_cst_payment_hash>)>();
+
   void wire__crate__api__bolt11__ldk_bolt_11_payment_receive(
     int port_,
     ffi.Pointer<wire_cst_ldk_bolt_11_payment> that,
@@ -4127,6 +4189,46 @@ class coreWire implements BaseWire {
           void Function(int, ffi.Pointer<wire_cst_ldk_bolt_11_payment>, int,
               ffi.Pointer<wire_cst_list_prim_u_8_strict>, int)>();
 
+  void wire__crate__api__bolt11__ldk_bolt_11_payment_receive_for_hash(
+    int port_,
+    ffi.Pointer<wire_cst_ldk_bolt_11_payment> that,
+    ffi.Pointer<wire_cst_payment_hash> payment_hash,
+    int amount_msat,
+    ffi.Pointer<wire_cst_list_prim_u_8_strict> description,
+    int expiry_secs,
+  ) {
+    return _wire__crate__api__bolt11__ldk_bolt_11_payment_receive_for_hash(
+      port_,
+      that,
+      payment_hash,
+      amount_msat,
+      description,
+      expiry_secs,
+    );
+  }
+
+  late final _wire__crate__api__bolt11__ldk_bolt_11_payment_receive_for_hashPtr =
+      _lookup<
+              ffi.NativeFunction<
+                  ffi.Void Function(
+                      ffi.Int64,
+                      ffi.Pointer<wire_cst_ldk_bolt_11_payment>,
+                      ffi.Pointer<wire_cst_payment_hash>,
+                      ffi.Uint64,
+                      ffi.Pointer<wire_cst_list_prim_u_8_strict>,
+                      ffi.Uint32)>>(
+          'frbgen_ldk_node_wire__crate__api__bolt11__ldk_bolt_11_payment_receive_for_hash');
+  late final _wire__crate__api__bolt11__ldk_bolt_11_payment_receive_for_hash =
+      _wire__crate__api__bolt11__ldk_bolt_11_payment_receive_for_hashPtr
+          .asFunction<
+              void Function(
+                  int,
+                  ffi.Pointer<wire_cst_ldk_bolt_11_payment>,
+                  ffi.Pointer<wire_cst_payment_hash>,
+                  int,
+                  ffi.Pointer<wire_cst_list_prim_u_8_strict>,
+                  int)>();
+
   void wire__crate__api__bolt11__ldk_bolt_11_payment_receive_variable_amount(
     int port_,
     ffi.Pointer<wire_cst_ldk_bolt_11_payment> that,
@@ -4155,6 +4257,43 @@ class coreWire implements BaseWire {
           .asFunction<
               void Function(int, ffi.Pointer<wire_cst_ldk_bolt_11_payment>,
                   ffi.Pointer<wire_cst_list_prim_u_8_strict>, int)>();
+
+  void
+      wire__crate__api__bolt11__ldk_bolt_11_payment_receive_variable_amount_for_hash(
+    int port_,
+    ffi.Pointer<wire_cst_ldk_bolt_11_payment> that,
+    ffi.Pointer<wire_cst_list_prim_u_8_strict> description,
+    int expiry_secs,
+    ffi.Pointer<wire_cst_payment_hash> payment_hash,
+  ) {
+    return _wire__crate__api__bolt11__ldk_bolt_11_payment_receive_variable_amount_for_hash(
+      port_,
+      that,
+      description,
+      expiry_secs,
+      payment_hash,
+    );
+  }
+
+  late final _wire__crate__api__bolt11__ldk_bolt_11_payment_receive_variable_amount_for_hashPtr =
+      _lookup<
+              ffi.NativeFunction<
+                  ffi.Void Function(
+                      ffi.Int64,
+                      ffi.Pointer<wire_cst_ldk_bolt_11_payment>,
+                      ffi.Pointer<wire_cst_list_prim_u_8_strict>,
+                      ffi.Uint32,
+                      ffi.Pointer<wire_cst_payment_hash>)>>(
+          'frbgen_ldk_node_wire__crate__api__bolt11__ldk_bolt_11_payment_receive_variable_amount_for_hash');
+  late final _wire__crate__api__bolt11__ldk_bolt_11_payment_receive_variable_amount_for_hash =
+      _wire__crate__api__bolt11__ldk_bolt_11_payment_receive_variable_amount_for_hashPtr
+          .asFunction<
+              void Function(
+                  int,
+                  ffi.Pointer<wire_cst_ldk_bolt_11_payment>,
+                  ffi.Pointer<wire_cst_list_prim_u_8_strict>,
+                  int,
+                  ffi.Pointer<wire_cst_payment_hash>)>();
 
   void
       wire__crate__api__bolt11__ldk_bolt_11_payment_receive_variable_amount_via_jit_channel(
@@ -6506,6 +6645,14 @@ final class wire_cst_list_prim_u_8_strict extends ffi.Struct {
   external int len;
 }
 
+final class wire_cst_payment_hash extends ffi.Struct {
+  external ffi.Pointer<wire_cst_list_prim_u_8_strict> data;
+}
+
+final class wire_cst_payment_preimage extends ffi.Struct {
+  external ffi.Pointer<wire_cst_list_prim_u_8_strict> data;
+}
+
 final class wire_cst_bolt_11_invoice extends ffi.Struct {
   external ffi.Pointer<wire_cst_list_prim_u_8_strict> signed_raw_invoice;
 }
@@ -6912,10 +7059,6 @@ final class wire_cst_closure_reason extends ffi.Struct {
   external ClosureReasonKind kind;
 }
 
-final class wire_cst_payment_hash extends ffi.Struct {
-  external ffi.Pointer<wire_cst_list_prim_u_8_strict> data;
-}
-
 final class wire_cst_Event_PaymentClaimable extends ffi.Struct {
   external ffi.Pointer<wire_cst_payment_id> payment_id;
 
@@ -7046,10 +7189,6 @@ final class wire_cst_node_info extends ffi.Struct {
 
 final class wire_cst_offer_id extends ffi.Struct {
   external ffi.Pointer<wire_cst_list_prim_u_8_strict> field0;
-}
-
-final class wire_cst_payment_preimage extends ffi.Struct {
-  external ffi.Pointer<wire_cst_list_prim_u_8_strict> data;
 }
 
 final class wire_cst_payment_secret extends ffi.Struct {

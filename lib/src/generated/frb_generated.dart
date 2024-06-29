@@ -64,7 +64,7 @@ class core extends BaseEntrypoint<coreApi, coreApiImpl, coreWire> {
   String get codegenVersion => '2.0.0';
 
   @override
-  int get rustContentHash => -1350521949;
+  int get rustContentHash => 1761952349;
 
   static const kDefaultExternalLibraryLoaderConfig =
       ExternalLibraryLoaderConfig(
@@ -75,8 +75,24 @@ class core extends BaseEntrypoint<coreApi, coreApiImpl, coreWire> {
 }
 
 abstract class coreApi extends BaseApi {
+  Future<void> crateApiBolt11LdkBolt11PaymentClaimForHash(
+      {required LdkBolt11Payment that,
+      required PaymentHash paymentHash,
+      required BigInt claimableAmountMsat,
+      required PaymentPreimage preimage});
+
+  Future<void> crateApiBolt11LdkBolt11PaymentFailForHash(
+      {required LdkBolt11Payment that, required PaymentHash paymentHash});
+
   Future<Bolt11Invoice> crateApiBolt11LdkBolt11PaymentReceive(
       {required LdkBolt11Payment that,
+      required BigInt amountMsat,
+      required String description,
+      required int expirySecs});
+
+  Future<Bolt11Invoice> crateApiBolt11LdkBolt11PaymentReceiveForHash(
+      {required LdkBolt11Payment that,
+      required PaymentHash paymentHash,
       required BigInt amountMsat,
       required String description,
       required int expirySecs});
@@ -85,6 +101,13 @@ abstract class coreApi extends BaseApi {
       {required LdkBolt11Payment that,
       required String description,
       required int expirySecs});
+
+  Future<Bolt11Invoice>
+      crateApiBolt11LdkBolt11PaymentReceiveVariableAmountForHash(
+          {required LdkBolt11Payment that,
+          required String description,
+          required int expirySecs,
+          required PaymentHash paymentHash});
 
   Future<Bolt11Invoice>
       crateApiBolt11LdkBolt11PaymentReceiveVariableAmountViaJitChannel(
@@ -372,6 +395,64 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
   });
 
   @override
+  Future<void> crateApiBolt11LdkBolt11PaymentClaimForHash(
+      {required LdkBolt11Payment that,
+      required PaymentHash paymentHash,
+      required BigInt claimableAmountMsat,
+      required PaymentPreimage preimage}) {
+    return handler.executeNormal(NormalTask(
+      callFfi: (port_) {
+        var arg0 = cst_encode_box_autoadd_ldk_bolt_11_payment(that);
+        var arg1 = cst_encode_box_autoadd_payment_hash(paymentHash);
+        var arg2 = cst_encode_u_64(claimableAmountMsat);
+        var arg3 = cst_encode_box_autoadd_payment_preimage(preimage);
+        return wire
+            .wire__crate__api__bolt11__ldk_bolt_11_payment_claim_for_hash(
+                port_, arg0, arg1, arg2, arg3);
+      },
+      codec: DcoCodec(
+        decodeSuccessData: dco_decode_unit,
+        decodeErrorData: dco_decode_ldk_node_error,
+      ),
+      constMeta: kCrateApiBolt11LdkBolt11PaymentClaimForHashConstMeta,
+      argValues: [that, paymentHash, claimableAmountMsat, preimage],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta get kCrateApiBolt11LdkBolt11PaymentClaimForHashConstMeta =>
+      const TaskConstMeta(
+        debugName: "ldk_bolt_11_payment_claim_for_hash",
+        argNames: ["that", "paymentHash", "claimableAmountMsat", "preimage"],
+      );
+
+  @override
+  Future<void> crateApiBolt11LdkBolt11PaymentFailForHash(
+      {required LdkBolt11Payment that, required PaymentHash paymentHash}) {
+    return handler.executeNormal(NormalTask(
+      callFfi: (port_) {
+        var arg0 = cst_encode_box_autoadd_ldk_bolt_11_payment(that);
+        var arg1 = cst_encode_box_autoadd_payment_hash(paymentHash);
+        return wire.wire__crate__api__bolt11__ldk_bolt_11_payment_fail_for_hash(
+            port_, arg0, arg1);
+      },
+      codec: DcoCodec(
+        decodeSuccessData: dco_decode_unit,
+        decodeErrorData: dco_decode_ldk_node_error,
+      ),
+      constMeta: kCrateApiBolt11LdkBolt11PaymentFailForHashConstMeta,
+      argValues: [that, paymentHash],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta get kCrateApiBolt11LdkBolt11PaymentFailForHashConstMeta =>
+      const TaskConstMeta(
+        debugName: "ldk_bolt_11_payment_fail_for_hash",
+        argNames: ["that", "paymentHash"],
+      );
+
+  @override
   Future<Bolt11Invoice> crateApiBolt11LdkBolt11PaymentReceive(
       {required LdkBolt11Payment that,
       required BigInt amountMsat,
@@ -403,6 +484,46 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
       );
 
   @override
+  Future<Bolt11Invoice> crateApiBolt11LdkBolt11PaymentReceiveForHash(
+      {required LdkBolt11Payment that,
+      required PaymentHash paymentHash,
+      required BigInt amountMsat,
+      required String description,
+      required int expirySecs}) {
+    return handler.executeNormal(NormalTask(
+      callFfi: (port_) {
+        var arg0 = cst_encode_box_autoadd_ldk_bolt_11_payment(that);
+        var arg1 = cst_encode_box_autoadd_payment_hash(paymentHash);
+        var arg2 = cst_encode_u_64(amountMsat);
+        var arg3 = cst_encode_String(description);
+        var arg4 = cst_encode_u_32(expirySecs);
+        return wire
+            .wire__crate__api__bolt11__ldk_bolt_11_payment_receive_for_hash(
+                port_, arg0, arg1, arg2, arg3, arg4);
+      },
+      codec: DcoCodec(
+        decodeSuccessData: dco_decode_bolt_11_invoice,
+        decodeErrorData: dco_decode_ldk_node_error,
+      ),
+      constMeta: kCrateApiBolt11LdkBolt11PaymentReceiveForHashConstMeta,
+      argValues: [that, paymentHash, amountMsat, description, expirySecs],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta get kCrateApiBolt11LdkBolt11PaymentReceiveForHashConstMeta =>
+      const TaskConstMeta(
+        debugName: "ldk_bolt_11_payment_receive_for_hash",
+        argNames: [
+          "that",
+          "paymentHash",
+          "amountMsat",
+          "description",
+          "expirySecs"
+        ],
+      );
+
+  @override
   Future<Bolt11Invoice> crateApiBolt11LdkBolt11PaymentReceiveVariableAmount(
       {required LdkBolt11Payment that,
       required String description,
@@ -431,6 +552,41 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
           const TaskConstMeta(
             debugName: "ldk_bolt_11_payment_receive_variable_amount",
             argNames: ["that", "description", "expirySecs"],
+          );
+
+  @override
+  Future<Bolt11Invoice>
+      crateApiBolt11LdkBolt11PaymentReceiveVariableAmountForHash(
+          {required LdkBolt11Payment that,
+          required String description,
+          required int expirySecs,
+          required PaymentHash paymentHash}) {
+    return handler.executeNormal(NormalTask(
+      callFfi: (port_) {
+        var arg0 = cst_encode_box_autoadd_ldk_bolt_11_payment(that);
+        var arg1 = cst_encode_String(description);
+        var arg2 = cst_encode_u_32(expirySecs);
+        var arg3 = cst_encode_box_autoadd_payment_hash(paymentHash);
+        return wire
+            .wire__crate__api__bolt11__ldk_bolt_11_payment_receive_variable_amount_for_hash(
+                port_, arg0, arg1, arg2, arg3);
+      },
+      codec: DcoCodec(
+        decodeSuccessData: dco_decode_bolt_11_invoice,
+        decodeErrorData: dco_decode_ldk_node_error,
+      ),
+      constMeta:
+          kCrateApiBolt11LdkBolt11PaymentReceiveVariableAmountForHashConstMeta,
+      argValues: [that, description, expirySecs, paymentHash],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta
+      get kCrateApiBolt11LdkBolt11PaymentReceiveVariableAmountForHashConstMeta =>
+          const TaskConstMeta(
+            debugName: "ldk_bolt_11_payment_receive_variable_amount_for_hash",
+            argNames: ["that", "description", "expirySecs", "paymentHash"],
           );
 
   @override

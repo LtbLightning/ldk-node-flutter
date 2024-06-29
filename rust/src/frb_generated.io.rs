@@ -2177,6 +2177,32 @@ impl Default for wire_cst_user_channel_id {
 }
 
 #[no_mangle]
+pub extern "C" fn frbgen_ldk_node_wire__crate__api__bolt11__ldk_bolt_11_payment_claim_for_hash(
+    port_: i64,
+    that: *mut wire_cst_ldk_bolt_11_payment,
+    payment_hash: *mut wire_cst_payment_hash,
+    claimable_amount_msat: u64,
+    preimage: *mut wire_cst_payment_preimage,
+) {
+    wire__crate__api__bolt11__ldk_bolt_11_payment_claim_for_hash_impl(
+        port_,
+        that,
+        payment_hash,
+        claimable_amount_msat,
+        preimage,
+    )
+}
+
+#[no_mangle]
+pub extern "C" fn frbgen_ldk_node_wire__crate__api__bolt11__ldk_bolt_11_payment_fail_for_hash(
+    port_: i64,
+    that: *mut wire_cst_ldk_bolt_11_payment,
+    payment_hash: *mut wire_cst_payment_hash,
+) {
+    wire__crate__api__bolt11__ldk_bolt_11_payment_fail_for_hash_impl(port_, that, payment_hash)
+}
+
+#[no_mangle]
 pub extern "C" fn frbgen_ldk_node_wire__crate__api__bolt11__ldk_bolt_11_payment_receive(
     port_: i64,
     that: *mut wire_cst_ldk_bolt_11_payment,
@@ -2187,6 +2213,25 @@ pub extern "C" fn frbgen_ldk_node_wire__crate__api__bolt11__ldk_bolt_11_payment_
     wire__crate__api__bolt11__ldk_bolt_11_payment_receive_impl(
         port_,
         that,
+        amount_msat,
+        description,
+        expiry_secs,
+    )
+}
+
+#[no_mangle]
+pub extern "C" fn frbgen_ldk_node_wire__crate__api__bolt11__ldk_bolt_11_payment_receive_for_hash(
+    port_: i64,
+    that: *mut wire_cst_ldk_bolt_11_payment,
+    payment_hash: *mut wire_cst_payment_hash,
+    amount_msat: u64,
+    description: *mut wire_cst_list_prim_u_8_strict,
+    expiry_secs: u32,
+) {
+    wire__crate__api__bolt11__ldk_bolt_11_payment_receive_for_hash_impl(
+        port_,
+        that,
+        payment_hash,
         amount_msat,
         description,
         expiry_secs,
@@ -2205,6 +2250,23 @@ pub extern "C" fn frbgen_ldk_node_wire__crate__api__bolt11__ldk_bolt_11_payment_
         that,
         description,
         expiry_secs,
+    )
+}
+
+#[no_mangle]
+pub extern "C" fn frbgen_ldk_node_wire__crate__api__bolt11__ldk_bolt_11_payment_receive_variable_amount_for_hash(
+    port_: i64,
+    that: *mut wire_cst_ldk_bolt_11_payment,
+    description: *mut wire_cst_list_prim_u_8_strict,
+    expiry_secs: u32,
+    payment_hash: *mut wire_cst_payment_hash,
+) {
+    wire__crate__api__bolt11__ldk_bolt_11_payment_receive_variable_amount_for_hash_impl(
+        port_,
+        that,
+        description,
+        expiry_secs,
+        payment_hash,
     )
 }
 

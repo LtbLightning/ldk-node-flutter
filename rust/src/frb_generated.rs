@@ -41,7 +41,7 @@ flutter_rust_bridge::frb_generated_boilerplate!(
     default_rust_auto_opaque = RustAutoOpaqueNom,
 );
 pub(crate) const FLUTTER_RUST_BRIDGE_CODEGEN_VERSION: &str = "2.0.0";
-pub(crate) const FLUTTER_RUST_BRIDGE_CODEGEN_CONTENT_HASH: i32 = -1350521949;
+pub(crate) const FLUTTER_RUST_BRIDGE_CODEGEN_CONTENT_HASH: i32 = 1761952349;
 
 // Section: executor
 
@@ -49,6 +49,66 @@ flutter_rust_bridge::frb_generated_default_handler!();
 
 // Section: wire_funcs
 
+fn wire__crate__api__bolt11__ldk_bolt_11_payment_claim_for_hash_impl(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
+    that: impl CstDecode<crate::api::bolt11::LdkBolt11Payment>,
+    payment_hash: impl CstDecode<crate::api::types::PaymentHash>,
+    claimable_amount_msat: impl CstDecode<u64>,
+    preimage: impl CstDecode<crate::api::types::PaymentPreimage>,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "ldk_bolt_11_payment_claim_for_hash",
+            port: Some(port_),
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
+        },
+        move || {
+            let api_that = that.cst_decode();
+            let api_payment_hash = payment_hash.cst_decode();
+            let api_claimable_amount_msat = claimable_amount_msat.cst_decode();
+            let api_preimage = preimage.cst_decode();
+            move |context| {
+                transform_result_dco::<_, _, crate::utils::error::LdkNodeError>((move || {
+                    let output_ok = crate::api::bolt11::LdkBolt11Payment::claim_for_hash(
+                        &api_that,
+                        api_payment_hash,
+                        api_claimable_amount_msat,
+                        api_preimage,
+                    )?;
+                    Ok(output_ok)
+                })(
+                ))
+            }
+        },
+    )
+}
+fn wire__crate__api__bolt11__ldk_bolt_11_payment_fail_for_hash_impl(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
+    that: impl CstDecode<crate::api::bolt11::LdkBolt11Payment>,
+    payment_hash: impl CstDecode<crate::api::types::PaymentHash>,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "ldk_bolt_11_payment_fail_for_hash",
+            port: Some(port_),
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
+        },
+        move || {
+            let api_that = that.cst_decode();
+            let api_payment_hash = payment_hash.cst_decode();
+            move |context| {
+                transform_result_dco::<_, _, crate::utils::error::LdkNodeError>((move || {
+                    let output_ok = crate::api::bolt11::LdkBolt11Payment::fail_for_hash(
+                        &api_that,
+                        api_payment_hash,
+                    )?;
+                    Ok(output_ok)
+                })(
+                ))
+            }
+        },
+    )
+}
 fn wire__crate__api__bolt11__ldk_bolt_11_payment_receive_impl(
     port_: flutter_rust_bridge::for_generated::MessagePort,
     that: impl CstDecode<crate::api::bolt11::LdkBolt11Payment>,
@@ -71,6 +131,42 @@ fn wire__crate__api__bolt11__ldk_bolt_11_payment_receive_impl(
                 transform_result_dco::<_, _, crate::utils::error::LdkNodeError>((move || {
                     let output_ok = crate::api::bolt11::LdkBolt11Payment::receive(
                         &api_that,
+                        api_amount_msat,
+                        api_description,
+                        api_expiry_secs,
+                    )?;
+                    Ok(output_ok)
+                })(
+                ))
+            }
+        },
+    )
+}
+fn wire__crate__api__bolt11__ldk_bolt_11_payment_receive_for_hash_impl(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
+    that: impl CstDecode<crate::api::bolt11::LdkBolt11Payment>,
+    payment_hash: impl CstDecode<crate::api::types::PaymentHash>,
+    amount_msat: impl CstDecode<u64>,
+    description: impl CstDecode<String>,
+    expiry_secs: impl CstDecode<u32>,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "ldk_bolt_11_payment_receive_for_hash",
+            port: Some(port_),
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
+        },
+        move || {
+            let api_that = that.cst_decode();
+            let api_payment_hash = payment_hash.cst_decode();
+            let api_amount_msat = amount_msat.cst_decode();
+            let api_description = description.cst_decode();
+            let api_expiry_secs = expiry_secs.cst_decode();
+            move |context| {
+                transform_result_dco::<_, _, crate::utils::error::LdkNodeError>((move || {
+                    let output_ok = crate::api::bolt11::LdkBolt11Payment::receive_for_hash(
+                        &api_that,
+                        api_payment_hash,
                         api_amount_msat,
                         api_description,
                         api_expiry_secs,
@@ -105,6 +201,40 @@ fn wire__crate__api__bolt11__ldk_bolt_11_payment_receive_variable_amount_impl(
                         api_description,
                         api_expiry_secs,
                     )?;
+                    Ok(output_ok)
+                })(
+                ))
+            }
+        },
+    )
+}
+fn wire__crate__api__bolt11__ldk_bolt_11_payment_receive_variable_amount_for_hash_impl(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
+    that: impl CstDecode<crate::api::bolt11::LdkBolt11Payment>,
+    description: impl CstDecode<String>,
+    expiry_secs: impl CstDecode<u32>,
+    payment_hash: impl CstDecode<crate::api::types::PaymentHash>,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "ldk_bolt_11_payment_receive_variable_amount_for_hash",
+            port: Some(port_),
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
+        },
+        move || {
+            let api_that = that.cst_decode();
+            let api_description = description.cst_decode();
+            let api_expiry_secs = expiry_secs.cst_decode();
+            let api_payment_hash = payment_hash.cst_decode();
+            move |context| {
+                transform_result_dco::<_, _, crate::utils::error::LdkNodeError>((move || {
+                    let output_ok =
+                        crate::api::bolt11::LdkBolt11Payment::receive_variable_amount_for_hash(
+                            &api_that,
+                            api_description,
+                            api_expiry_secs,
+                            api_payment_hash,
+                        )?;
                     Ok(output_ok)
                 })(
                 ))

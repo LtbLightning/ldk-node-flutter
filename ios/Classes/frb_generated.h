@@ -23,6 +23,14 @@ typedef struct wire_cst_list_prim_u_8_strict {
   int32_t len;
 } wire_cst_list_prim_u_8_strict;
 
+typedef struct wire_cst_payment_hash {
+  struct wire_cst_list_prim_u_8_strict *data;
+} wire_cst_payment_hash;
+
+typedef struct wire_cst_payment_preimage {
+  struct wire_cst_list_prim_u_8_strict *data;
+} wire_cst_payment_preimage;
+
 typedef struct wire_cst_bolt_11_invoice {
   struct wire_cst_list_prim_u_8_strict *signed_raw_invoice;
 } wire_cst_bolt_11_invoice;
@@ -325,10 +333,6 @@ typedef struct wire_cst_closure_reason {
   union ClosureReasonKind kind;
 } wire_cst_closure_reason;
 
-typedef struct wire_cst_payment_hash {
-  struct wire_cst_list_prim_u_8_strict *data;
-} wire_cst_payment_hash;
-
 typedef struct wire_cst_Event_PaymentClaimable {
   struct wire_cst_payment_id *payment_id;
   struct wire_cst_payment_hash *payment_hash;
@@ -423,10 +427,6 @@ typedef struct wire_cst_node_info {
 typedef struct wire_cst_offer_id {
   struct wire_cst_list_prim_u_8_strict *field0;
 } wire_cst_offer_id;
-
-typedef struct wire_cst_payment_preimage {
-  struct wire_cst_list_prim_u_8_strict *data;
-} wire_cst_payment_preimage;
 
 typedef struct wire_cst_payment_secret {
   struct wire_cst_list_prim_u_8_strict *data;
@@ -686,16 +686,39 @@ typedef struct wire_cst_node_status {
   uint64_t *latest_node_announcement_broadcast_timestamp;
 } wire_cst_node_status;
 
+void frbgen_ldk_node_wire__crate__api__bolt11__ldk_bolt_11_payment_claim_for_hash(int64_t port_,
+                                                                                  struct wire_cst_ldk_bolt_11_payment *that,
+                                                                                  struct wire_cst_payment_hash *payment_hash,
+                                                                                  uint64_t claimable_amount_msat,
+                                                                                  struct wire_cst_payment_preimage *preimage);
+
+void frbgen_ldk_node_wire__crate__api__bolt11__ldk_bolt_11_payment_fail_for_hash(int64_t port_,
+                                                                                 struct wire_cst_ldk_bolt_11_payment *that,
+                                                                                 struct wire_cst_payment_hash *payment_hash);
+
 void frbgen_ldk_node_wire__crate__api__bolt11__ldk_bolt_11_payment_receive(int64_t port_,
                                                                            struct wire_cst_ldk_bolt_11_payment *that,
                                                                            uint64_t amount_msat,
                                                                            struct wire_cst_list_prim_u_8_strict *description,
                                                                            uint32_t expiry_secs);
 
+void frbgen_ldk_node_wire__crate__api__bolt11__ldk_bolt_11_payment_receive_for_hash(int64_t port_,
+                                                                                    struct wire_cst_ldk_bolt_11_payment *that,
+                                                                                    struct wire_cst_payment_hash *payment_hash,
+                                                                                    uint64_t amount_msat,
+                                                                                    struct wire_cst_list_prim_u_8_strict *description,
+                                                                                    uint32_t expiry_secs);
+
 void frbgen_ldk_node_wire__crate__api__bolt11__ldk_bolt_11_payment_receive_variable_amount(int64_t port_,
                                                                                            struct wire_cst_ldk_bolt_11_payment *that,
                                                                                            struct wire_cst_list_prim_u_8_strict *description,
                                                                                            uint32_t expiry_secs);
+
+void frbgen_ldk_node_wire__crate__api__bolt11__ldk_bolt_11_payment_receive_variable_amount_for_hash(int64_t port_,
+                                                                                                    struct wire_cst_ldk_bolt_11_payment *that,
+                                                                                                    struct wire_cst_list_prim_u_8_strict *description,
+                                                                                                    uint32_t expiry_secs,
+                                                                                                    struct wire_cst_payment_hash *payment_hash);
 
 void frbgen_ldk_node_wire__crate__api__bolt11__ldk_bolt_11_payment_receive_variable_amount_via_jit_channel(int64_t port_,
                                                                                                            struct wire_cst_ldk_bolt_11_payment *that,
@@ -1146,8 +1169,12 @@ static int64_t dummy_method_to_enforce_bundling(void) {
     dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_rust_arc_increment_strong_count_RustOpaque_ldk_nodepaymentBolt11Payment);
     dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_rust_arc_increment_strong_count_RustOpaque_ldk_nodepaymentOnchainPayment);
     dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_rust_arc_increment_strong_count_RustOpaque_ldk_nodepaymentSpontaneousPayment);
+    dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__crate__api__bolt11__ldk_bolt_11_payment_claim_for_hash);
+    dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__crate__api__bolt11__ldk_bolt_11_payment_fail_for_hash);
     dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__crate__api__bolt11__ldk_bolt_11_payment_receive);
+    dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__crate__api__bolt11__ldk_bolt_11_payment_receive_for_hash);
     dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__crate__api__bolt11__ldk_bolt_11_payment_receive_variable_amount);
+    dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__crate__api__bolt11__ldk_bolt_11_payment_receive_variable_amount_for_hash);
     dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__crate__api__bolt11__ldk_bolt_11_payment_receive_variable_amount_via_jit_channel);
     dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__crate__api__bolt11__ldk_bolt_11_payment_receive_via_jit_channel);
     dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__crate__api__bolt11__ldk_bolt_11_payment_send);
