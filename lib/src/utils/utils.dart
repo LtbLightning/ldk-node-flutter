@@ -7,8 +7,8 @@ export 'exceptions.dart';
 class Frb {
   static Future<void> verifyInit() async {
     try {
-      if (!LdkCore.instance.initialized) {
-        await LdkCore.init();
+      if (!core.instance.initialized) {
+        await core.init();
       }
     } catch (e) {
       debugPrint(e.toString());

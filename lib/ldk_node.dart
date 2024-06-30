@@ -1,3 +1,7 @@
+export './src/generated/api/bolt11.dart';
+export './src/generated/api/bolt12.dart';
+export './src/generated/api/on_chain.dart';
+export './src/generated/api/spontaneous.dart';
 export './src/generated/api/types.dart'
     hide
         Event_ChannelClosed,
@@ -11,6 +15,7 @@ export './src/generated/api/types.dart'
         SocketAddress_OnionV2,
         EntropySourceConfig,
         SocketAddress_OnionV3,
+        $ChainDataSourceConfigCopyWith,
         SocketAddress_TcpIpV4,
         SocketAddress_TcpIpV6,
         MaxDustHTLCExposure_FeeRateMultiplier,
@@ -24,7 +29,5 @@ export './src/generated/api/types.dart'
         GossipSourceConfig,
         EntropySourceConfig_SeedFile;
 export 'src/root.dart';
-export 'src/generated/api/node.dart'
-    show U8Array4, U8Array12, U8Array64, U8Array32;
 export 'src/utils/utils.dart'
-    hide LdkException, mapBuilderException, mapNodeException, Frb;
+    hide ExceptionBase, mapLdkBuilderError, mapLdkNodeError, Frb;
