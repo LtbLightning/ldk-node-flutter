@@ -8,7 +8,7 @@ jobs:
   Precompile:
     runs-on: ${{ matrix.os }}
     strategy:
-      fail-fast: false
+      fail-fast: true
       matrix:
         os:
           - ubuntu-20.04
@@ -24,7 +24,7 @@ jobs:
         run: |
           mkdir -p .cargo
           echo "[profile.release]" >> .cargo/config.toml
-          echo "opt-level = 'z'" >> .cargo/config.toml
+          echo "opt-level = '3'" >> .cargo/config.toml
           echo "lto = true" >> .cargo/config.toml
           echo "codegen-units = 1" >> .cargo/config.toml
           echo "panic = 'abort'" >> .cargo/config.toml
