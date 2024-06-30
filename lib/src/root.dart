@@ -4,6 +4,7 @@ import 'package:ldk_node/src/generated/api/bolt12.dart' as bolt12;
 import 'package:ldk_node/src/generated/api/graph.dart' as graph;
 import 'package:ldk_node/src/generated/api/types.dart' as types;
 import 'package:ldk_node/src/generated/utils/error.dart' as error;
+import 'package:ldk_node/src/utils/default_services.dart';
 import 'package:ldk_node/src/utils/utils.dart';
 import 'package:path_provider/path_provider.dart';
 
@@ -856,6 +857,40 @@ class Builder {
       trustedPeers0Conf: [],
       probingLiquidityLimitMultiplier: BigInt.from(3),
     ));
+  }
+
+  /// Creates a new builder instance with default services configured for testnet.
+  ///
+  factory Builder.testnet({types.Config? config}) {
+    final Builder builder =
+        config != null ? Builder.fromConfig(config: config) : Builder();
+
+    return builder
+        .setNetwork(types.Network.testnet)
+        .setEsploraServer(DefaultServicesTestnet.esploraServerUrl)
+        .setGossipSourceRgs(DefaultServicesTestnet.rgsServerUrl);
+  }
+
+  /// Creates a new builder instance with default services configured for mutinynet.
+  ///
+  factory Builder.mutinynet({types.Config? config}) {
+    final Builder builder =
+        config != null ? Builder.fromConfig(config: config) : Builder();
+
+    return builder
+        .setNetwork(types.Network.signet)
+        .setEsploraServer(DefaultServicesMutinynet.esploraServerUrl)
+        .setGossipSourceRgs(DefaultServicesMutinynet.rgsServerUrl)
+        .setLiquiditySourceLsps2(
+          address: types.SocketAddress.hostname(
+            addr: DefaultServicesMutinynet.lsps2SourceAddress,
+            port: DefaultServicesMutinynet.lsps2SourcePort,
+          ),
+          publicKey: types.PublicKey(
+            hex: DefaultServicesMutinynet.lsps2SourcePublicKey,
+          ),
+          token: DefaultServicesMutinynet.lsps2SourceToken,
+        );
   }
 
   /// Configures the [Node] instance to source its wallet entropy from a seed file on disk.
