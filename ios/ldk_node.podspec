@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = 'ldk_node'
-  s.version          = '0.2.2-dev'
+  s.version          = '0.3.0'
   s.summary          = 'A ready-to-go Lightning node library built using LDK and BDK.'
   s.homepage         = 'http://example.com'
   s.license          = { :file => '../LICENSE' }

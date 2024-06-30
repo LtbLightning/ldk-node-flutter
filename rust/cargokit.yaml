@@ -1,7 +1,10 @@
 cargo:
   release:
-    toolchain: stable
+    toolchain: nightly
+    extra_flags:
+      - -Z
+      - build-std=panic_abort,std
 
 precompiled_binaries:
   url_prefix: https://github.com/LtbLightning/ldk-node-flutter/releases/download/precompiled_
-  public_key: 9ac2de724ed22cc1e1400b7630331f82b99cfc11e76f8d4b04c0cd1f0c9dcfd1
+  public_key: 0e43d5e8452d00db7f3000c18fb1ba796babfcb5dc6306bb0629eff24f8be85b

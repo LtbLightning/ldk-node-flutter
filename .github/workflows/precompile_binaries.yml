@@ -1,19 +1,16 @@
 on:
   push:
-    branches: [v0.2.2-dev, main]
+    branches: [main, upgrade-v0.3.0, v0.3.0]
 
 name: Precompile Binaries
 
 jobs:
   Precompile:
-    runs-on: ${{ matrix.os }}
     strategy:
-      fail-fast: false
+      fail-fast: true
       matrix:
-        os:
-          - ubuntu-20.04
-          - macOS-latest
-          - windows-latest
+        os: [ubuntu-20.04, macOS-latest]
+    runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions-rs/toolchain@v1
@@ -25,7 +22,7 @@ jobs:
         run: |
           mkdir -p .cargo
           echo "[profile.release]" >> .cargo/config.toml
-          echo "opt-level = 'z'" >> .cargo/config.toml
+          echo "opt-level = 3" >> .cargo/config.toml
           echo "lto = true" >> .cargo/config.toml
           echo "codegen-units = 1" >> .cargo/config.toml
           echo "panic = 'abort'" >> .cargo/config.toml
@@ -33,24 +30,15 @@ jobs:
       - uses: subosito/flutter-action@v2
         with:
           channel: 'stable'
-      - name: Configure git with access token
-        run: |
-          git config --global url."https://x-access-token:${GITHUB_TOKEN}@github.com/".insteadOf "https://github.com/"
-        shell: bash
-        env:
-          GITHUB_TOKEN: ${{ secrets.CARGOKIT_PRIVATE_KEY }}
-      - name: Install GTK
-        if: (matrix.os == 'ubuntu-20.04')
-        run: sudo apt-get update && sudo apt-get install libgtk-3-dev
       - name: Precompile (with iOS)
-        if: (matrix.os == 'macOS-latest') || (matrix.os == 'windows-latest')
+        if: matrix.os == 'macOS-latest'
         run: dart run build_tool precompile-binaries -v --manifest-dir=../../rust --repository=LtbLightning/ldk-node-flutter
         working-directory: cargokit/build_tool
         env:
           GITHUB_TOKEN: ${{ secrets.RELEASE_TOKEN }}
           PRIVATE_KEY: ${{ secrets.CARGOKIT_PRIVATE_KEY }}
       - name: Precompile (with Android)
-        if: (matrix.os == 'ubuntu-20.04')
+        if: matrix.os == 'ubuntu-20.04'
         run: dart run build_tool precompile-binaries -v --manifest-dir=../../rust --repository=LtbLightning/ldk-node-flutter --android-sdk-location=/usr/local/lib/android/sdk --android-ndk-version=24.0.8215888 --android-min-sdk-version=23
         working-directory: cargokit/build_tool
         env:
