@@ -2,9 +2,9 @@ Pod::Spec.new do |s|
   s.name             = 'ldk_node'
   s.version          = '0.3.0'
   s.summary          = 'A ready-to-go Lightning node library built using LDK and BDK.'
-  s.homepage         = 'http://example.com'
+  s.homepage         = 'https://www.LtbL.io'
   s.license          = { :file => '../LICENSE' }
-  s.author           = { 'Your Company' => 'email@example.com' }
+  s.author           = { 'Let there be Lightning, Inc' => 'hello@LtbL.io' }
   s.source           = { :path => '.' }
   s.source_files = 'Classes/**/*'
   s.dependency 'Flutter'
