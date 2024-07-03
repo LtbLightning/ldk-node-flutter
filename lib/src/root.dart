@@ -399,11 +399,21 @@ class Node extends LdkNode {
     }
   }
 
-  ///Returns a payment handler allowing to create and pay BOLT 11  invoices.
+  ///Returns a payment handler allowing to create and pay BOLT 11 invoices.
   Future<Bolt11Payment> bolt11Payment() async {
     try {
       final res = await LdkNode.bolt11Payment(ptr: this);
       return Bolt11Payment._(ptr: res.ptr);
+    } on error.LdkNodeError catch (e) {
+      throw mapLdkNodeError(e);
+    }
+  }
+
+  ///Returns a payment handler allowing to create and pay BOLT 12 invoices.
+  Future<Bolt12Payment> bolt12Payment() async {
+    try {
+      final res = await LdkNode.bolt12Payment(ptr: this);
+      return Bolt12Payment._(ptr: res.ptr);
     } on error.LdkNodeError catch (e) {
       throw mapLdkNodeError(e);
     }
