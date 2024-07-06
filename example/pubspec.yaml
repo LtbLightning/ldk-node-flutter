@@ -13,6 +13,7 @@ dependencies:
   cupertino_icons: ^1.0.2
   path_provider: ^2.0.14
   google_fonts: ^4.0.4
+  dio: ^5.5.0+1
 dev_dependencies:
   flutter_test:
     sdk: flutter
