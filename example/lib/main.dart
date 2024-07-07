@@ -29,13 +29,11 @@ class _MyAppState extends State<MyApp> {
   ldk.UserChannelId? userChannelId;
 
   // Replace this with your local esplora url
-  String esploraUrl =
-      // "https://testnet-electrs.ltbl.io:3004";
-      Platform.isAndroid
-          ?
-          //10.0.2.2 to access the AVD
-          'http://10.0.2.2:30000'
-          : 'http://127.0.0.1:30000';
+  String esploraUrl = Platform.isAndroid
+      ?
+      //10.0.2.2 to access the AVD
+      'http://10.0.2.2:30000'
+      : 'http://127.0.0.1:30000';
 
   @override
   void initState() {
