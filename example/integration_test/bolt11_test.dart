@@ -6,12 +6,11 @@ import 'package:path_provider/path_provider.dart';
 
 void main() {
   BigInt satsToMsats(int sats) => BigInt.from(sats * 1000);
-  String mSatsToSats(BigInt mSats) => '${mSats.toInt() ~/ 1000}sats';
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
 
-  group('bolt11_&_bolt12', () {
+  group('bolt11_integration', () {
     setUp(() async {});
-    testWidgets('bolt11_full_cycle', (WidgetTester tester) async {
+    testWidgets('full_cycle', (WidgetTester tester) async {
       final directory = await getApplicationDocumentsDirectory();
       final ldkCache = "${directory.path}/ldk_cache";
       final aliceStoragePath = "$ldkCache/integration/alice";
