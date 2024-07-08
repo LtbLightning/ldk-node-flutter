@@ -1,6 +1,8 @@
 PODS:
   - Flutter (1.0.0)
-  - ldk_node (0.2.2-dev):
+  - integration_test (0.0.1):
+    - Flutter
+  - ldk_node (0.3.0):
     - Flutter
   - path_provider_foundation (0.0.1):
     - Flutter
@@ -8,12 +10,15 @@ PODS:
 
 DEPENDENCIES:
   - Flutter (from `Flutter`)
+  - integration_test (from `.symlinks/plugins/integration_test/ios`)
   - ldk_node (from `.symlinks/plugins/ldk_node/ios`)
   - path_provider_foundation (from `.symlinks/plugins/path_provider_foundation/darwin`)
 
 EXTERNAL SOURCES:
   Flutter:
     :path: Flutter
+  integration_test:
+    :path: ".symlinks/plugins/integration_test/ios"
   ldk_node:
     :path: ".symlinks/plugins/ldk_node/ios"
   path_provider_foundation:
@@ -21,8 +26,9 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   Flutter: e0871f40cf51350855a761d2e70bf5af5b9b5de7
-  ldk_node: 5b3cacf9e7a5d5ae0d5c24e133af5c37c3da338b
-  path_provider_foundation: 3784922295ac71e43754bd15e0653ccfd36a147c
+  integration_test: ce0a3ffa1de96d1a89ca0ac26fca7ea18a749ef4
+  ldk_node: fffac5d5afd55ed30034da12cdaca29f41b3fdd2
+  path_provider_foundation: 2b6b4c569c0fb62ec74538f866245ac84301af46
 
 PODFILE CHECKSUM: 4e8f8b2be68aeea4c0d5beb6ff1e79fface1d048
 
