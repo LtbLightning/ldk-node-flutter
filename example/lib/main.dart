@@ -29,11 +29,13 @@ class _MyAppState extends State<MyApp> {
   String esploraUrl = "https://mutinynet.ltbl.io/api";
   /*
   // For local esplora server
+
   String esploraUrl = Platform.isAndroid
       ?
       //10.0.2.2 to access the AVD
       'http://10.0.2.2:30000'
       : 'http://127.0.0.1:30000';*/
+
 
   @override
   void initState() {
