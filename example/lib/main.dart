@@ -36,46 +36,31 @@ class _MyAppState extends State<MyApp> {
       'http://10.0.2.2:30000'
       : 'http://127.0.0.1:30000';*/
 
-
   @override
   void initState() {
     initAliceNode();
     super.initState();
   }
 
-  Future<ldk.Config> initLdkConfig(
-      String path, ldk.SocketAddress address) async {
+  Future<ldk.Builder> createBuilder(
+      String path, ldk.SocketAddress address, String mnemonic) async {
     final directory = await getApplicationDocumentsDirectory();
-    final nodePath = "${directory.path}/ldk_cache/$path";
-    final config = ldk.Config(
-        probingLiquidityLimitMultiplier: BigInt.from(3),
-        trustedPeers0Conf: [],
-        storageDirPath: nodePath,
-        network: ldk.Network.regtest,
-        listeningAddresses: [address],
-        onchainWalletSyncIntervalSecs: BigInt.from(60),
-        walletSyncIntervalSecs: BigInt.from(20),
-        feeRateCacheUpdateIntervalSecs: BigInt.from(600),
-        logLevel: ldk.LogLevel.debug,
-        defaultCltvExpiryDelta: 144);
-    return config;
-  }
-
-  closeChannel() async {
-    await aliceNode.closeChannel(
-        userChannelId: userChannelId!, counterpartyNodeId: bobNodeId!);
+    final nodeStorageDir = "${directory.path}/ldk_cache/$path";
+    print(nodeStorageDir);
+    // For a node on the mutiny network with default config and service
+    ldk.Builder builder = ldk.Builder.mutinynet()
+        .setEntropyBip39Mnemonic(mnemonic: ldk.Mnemonic(seedPhrase: mnemonic))
+        .setEsploraServer(esploraUrl)
+        .setStorageDirPath(nodeStorageDir)
+        .setListeningAddresses([address]);
+    return builder;
   }
 
   Future initAliceNode() async {
-    final aliceConfig = await initLdkConfig('alice_mutinynet',
-        ldk.SocketAddress.hostname(addr: "0.0.0.0", port: 3003));
-    ldk.Builder aliceBuilder = ldk.Builder.fromConfig(config: aliceConfig);
-    aliceNode = await aliceBuilder
-        .setEntropyBip39Mnemonic(
-            mnemonic: ldk.Mnemonic(
-                seedPhrase:
-                    "cart super leaf clinic pistol plug replace close super tooth wealth usage"))
-        .setEsploraServer(esploraUrl)
+    aliceNode = await (await createBuilder(
+            'alice_mutinynet',
+            ldk.SocketAddress.hostname(addr: "0.0.0.0", port: 3003),
+            "cart super leaf clinic pistol plug replace close super tooth wealth usage"))
         .build();
     await startNode(aliceNode);
     final res = await aliceNode.nodeId();
@@ -85,22 +70,11 @@ class _MyAppState extends State<MyApp> {
     });
   }
 
-  startNode(ldk.Node node) async {
-    try {
-      node.start();
-    } on ldk.NodeException catch (e) {
-      print(e.toString());
-    }
-  }
-
   initBobNode() async {
-    ldk.Builder bobBuilder = ldk.Builder
-        .mutinynet(); // For a node on the mutiny network with default config and services
-    bobNode = await bobBuilder
-        .setEntropyBip39Mnemonic(
-            mnemonic: ldk.Mnemonic(
-                seedPhrase:
-                    'puppy interest whip tonight dad never sudden response push zone pig patch'))
+    bobNode = await (await createBuilder(
+            'bob_mutinynet',
+            ldk.SocketAddress.hostname(addr: "0.0.0.0", port: 3004),
+            "puppy interest whip tonight dad never sudden response push zone pig patch"))
         .build();
     await startNode(bobNode);
     final res = await bobNode.nodeId();
@@ -108,6 +82,14 @@ class _MyAppState extends State<MyApp> {
       bobNodeId = res;
       displayText = "${bobNodeId!.hex} started successfully";
     });
+  }
+
+  startNode(ldk.Node node) async {
+    try {
+      node.start();
+    } on ldk.NodeException catch (e) {
+      print(e.toString());
+    }
   }
 
   totalOnchainBalanceSats() async {
@@ -140,7 +122,7 @@ class _MyAppState extends State<MyApp> {
         for (var e in res) {
           print("nodeId: ${aliceNodeId!.hex}");
           print("userChannelId: ${e.userChannelId.data}");
-          print("channelId: ${e.channelId.data}");
+          print("confirmations required: ${e.confirmationsRequired}");
           print("isChannelReady: ${e.isChannelReady}");
           print("isUsable: ${e.isUsable}");
           print("outboundCapacityMsat: ${e.outboundCapacityMsat}");
@@ -205,6 +187,15 @@ class _MyAppState extends State<MyApp> {
     }
   }
 
+  closeChannel() async {
+    await aliceNode.closeChannel(
+        userChannelId: userChannelId!,
+        counterpartyNodeId: ldk.PublicKey(
+          hex:
+              '02465ed5be53d04fde66c9418ff14a5f2267723810176c9212b722e542dc1afb1b',
+        ));
+  }
+
   connectOpenChannel() async {
     final funding_amount_sat = 80000;
     final push_msat = (funding_amount_sat / 2) * 1000;
@@ -232,8 +223,9 @@ class _MyAppState extends State<MyApp> {
         amountMsat: BigInt.from(25000 * 1000),
         description: 'asdf',
         expirySecs: 9217);
+    print(invoice!.signedRawInvoice);
     setState(() {
-      displayText = invoice.toString();
+      displayText = invoice!.signedRawInvoice;
     });
     final paymentId = await aliceBolt11Handler.send(invoice: invoice!);
     final res = await aliceNode.payment(paymentId: paymentId);
