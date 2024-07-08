@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -28,12 +26,16 @@ class _MyAppState extends State<MyApp> {
   ldk.Bolt11Invoice? invoice;
   ldk.UserChannelId? userChannelId;
 
-  // Replace this with your local esplora url
+  String esploraUrl = "https://mutinynet.ltbl.io/api";
+  /*
+  // For local esplora server
+
   String esploraUrl = Platform.isAndroid
       ?
       //10.0.2.2 to access the AVD
       'http://10.0.2.2:30000'
-      : 'http://127.0.0.1:30000';
+      : 'http://127.0.0.1:30000';*/
+
 
   @override
   void initState() {
@@ -65,7 +67,7 @@ class _MyAppState extends State<MyApp> {
   }
 
   Future initAliceNode() async {
-    final aliceConfig = await initLdkConfig('alice_regtest',
+    final aliceConfig = await initLdkConfig('alice_mutinynet',
         ldk.SocketAddress.hostname(addr: "0.0.0.0", port: 3003));
     ldk.Builder aliceBuilder = ldk.Builder.fromConfig(config: aliceConfig);
     aliceNode = await aliceBuilder
@@ -92,15 +94,13 @@ class _MyAppState extends State<MyApp> {
   }
 
   initBobNode() async {
-    final bobConfig = await initLdkConfig(
-        "bob_regtest", ldk.SocketAddress.hostname(addr: "0.0.0.0", port: 3001));
-    ldk.Builder bobBuilder = ldk.Builder.fromConfig(config: bobConfig);
+    ldk.Builder bobBuilder = ldk.Builder
+        .mutinynet(); // For a node on the mutiny network with default config and services
     bobNode = await bobBuilder
         .setEntropyBip39Mnemonic(
             mnemonic: ldk.Mnemonic(
                 seedPhrase:
                     'puppy interest whip tonight dad never sudden response push zone pig patch'))
-        .setEsploraServer(esploraUrl)
         .build();
     await startNode(bobNode);
     final res = await bobNode.nodeId();
@@ -211,16 +211,25 @@ class _MyAppState extends State<MyApp> {
     userChannelId = await aliceNode.connectOpenChannel(
         channelAmountSats: BigInt.from(funding_amount_sat),
         announceChannel: true,
-        socketAddress: bobAddr!,
+        socketAddress: ldk.SocketAddress.hostname(
+          addr: '45.79.52.207',
+          port: 9735,
+        ),
         pushToCounterpartyMsat: BigInt.from(push_msat),
-        nodeId: bobNodeId!);
+        nodeId: ldk.PublicKey(
+          hex:
+              '02465ed5be53d04fde66c9418ff14a5f2267723810176c9212b722e542dc1afb1b',
+        ));
   }
 
   receiveAndSendPayments() async {
     final bobBolt11Handler = await bobNode.bolt11Payment();
     final aliceBolt11Handler = await aliceNode.bolt11Payment();
-    invoice = await bobBolt11Handler.receive(
-        amountMsat: BigInt.from(2500000),
+    // Bob doesn't have a channel yet, so he can't receive normal payments,
+    //  but he can receive payments via JIT channels through an LSP configured
+    //  in its node.
+    invoice = await bobBolt11Handler.receiveViaJitChannel(
+        amountMsat: BigInt.from(25000 * 1000),
         description: 'asdf',
         expirySecs: 9217);
     setState(() {
