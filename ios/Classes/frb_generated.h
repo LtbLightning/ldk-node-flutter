@@ -482,6 +482,7 @@ typedef struct wire_cst_payment_details {
   uint64_t *amount_msat;
   int32_t direction;
   int32_t status;
+  uint64_t latest_update_timestamp;
 } wire_cst_payment_details;
 
 typedef struct wire_cst_channel_details {

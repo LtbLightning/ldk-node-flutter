@@ -1259,12 +1259,16 @@ class PaymentDetails {
   /// The status of the payment.
   final PaymentStatus status;
 
+  /// The timestamp, in seconds since start of the UNIX epoch, when this entry was last updated.
+  final BigInt latestUpdateTimestamp;
+
   const PaymentDetails({
     required this.id,
     required this.kind,
     this.amountMsat,
     required this.direction,
     required this.status,
+    required this.latestUpdateTimestamp,
   });
 
   @override
@@ -1273,7 +1277,8 @@ class PaymentDetails {
       kind.hashCode ^
       amountMsat.hashCode ^
       direction.hashCode ^
-      status.hashCode;
+      status.hashCode ^
+      latestUpdateTimestamp.hashCode;
 
   @override
   bool operator ==(Object other) =>
@@ -1284,7 +1289,8 @@ class PaymentDetails {
           kind == other.kind &&
           amountMsat == other.amountMsat &&
           direction == other.direction &&
-          status == other.status;
+          status == other.status &&
+          latestUpdateTimestamp == other.latestUpdateTimestamp;
 }
 
 /// Represents the direction of a payment.

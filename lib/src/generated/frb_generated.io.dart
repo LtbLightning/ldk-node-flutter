@@ -3139,6 +3139,8 @@ abstract class coreApiImplPlatform extends BaseApiImpl<coreWire> {
     wireObj.amount_msat = cst_encode_opt_box_autoadd_u_64(apiObj.amountMsat);
     wireObj.direction = cst_encode_payment_direction(apiObj.direction);
     wireObj.status = cst_encode_payment_status(apiObj.status);
+    wireObj.latest_update_timestamp =
+        cst_encode_u_64(apiObj.latestUpdateTimestamp);
   }
 
   @protected
@@ -7268,6 +7270,9 @@ final class wire_cst_payment_details extends ffi.Struct {
 
   @ffi.Int32()
   external int status;
+
+  @ffi.Uint64()
+  external int latest_update_timestamp;
 }
 
 final class wire_cst_channel_details extends ffi.Struct {

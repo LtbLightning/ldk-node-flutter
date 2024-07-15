@@ -749,6 +749,8 @@ pub struct PaymentDetails {
     pub direction: PaymentDirection,
     /// The status of the payment.
     pub status: PaymentStatus,
+    /// The timestamp, in seconds since start of the UNIX epoch, when this entry was last updated.
+    pub latest_update_timestamp: u64,
 }
 
 impl From<ldk_node::payment::PaymentDetails> for PaymentDetails {
@@ -759,6 +761,7 @@ impl From<ldk_node::payment::PaymentDetails> for PaymentDetails {
             amount_msat: value.amount_msat,
             direction: value.direction.into(),
             kind: value.kind.into(),
+            latest_update_timestamp: value.latest_update_timestamp,
         }
     }
 }

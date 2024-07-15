@@ -3693,14 +3693,15 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
   PaymentDetails dco_decode_payment_details(dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     final arr = raw as List<dynamic>;
-    if (arr.length != 5)
-      throw Exception('unexpected arr length: expect 5 but see ${arr.length}');
+    if (arr.length != 6)
+      throw Exception('unexpected arr length: expect 6 but see ${arr.length}');
     return PaymentDetails(
       id: dco_decode_payment_id(arr[0]),
       kind: dco_decode_payment_kind(arr[1]),
       amountMsat: dco_decode_opt_box_autoadd_u_64(arr[2]),
       direction: dco_decode_payment_direction(arr[3]),
       status: dco_decode_payment_status(arr[4]),
+      latestUpdateTimestamp: dco_decode_u_64(arr[5]),
     );
   }
 
@@ -5733,12 +5734,14 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
     var var_amountMsat = sse_decode_opt_box_autoadd_u_64(deserializer);
     var var_direction = sse_decode_payment_direction(deserializer);
     var var_status = sse_decode_payment_status(deserializer);
+    var var_latestUpdateTimestamp = sse_decode_u_64(deserializer);
     return PaymentDetails(
         id: var_id,
         kind: var_kind,
         amountMsat: var_amountMsat,
         direction: var_direction,
-        status: var_status);
+        status: var_status,
+        latestUpdateTimestamp: var_latestUpdateTimestamp);
   }
 
   @protected
@@ -7745,6 +7748,7 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
     sse_encode_opt_box_autoadd_u_64(self.amountMsat, serializer);
     sse_encode_payment_direction(self.direction, serializer);
     sse_encode_payment_status(self.status, serializer);
+    sse_encode_u_64(self.latestUpdateTimestamp, serializer);
   }
 
   @protected

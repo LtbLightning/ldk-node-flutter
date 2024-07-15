@@ -3498,12 +3498,14 @@ impl SseDecode for crate::api::types::PaymentDetails {
         let mut var_amountMsat = <Option<u64>>::sse_decode(deserializer);
         let mut var_direction = <crate::api::types::PaymentDirection>::sse_decode(deserializer);
         let mut var_status = <crate::api::types::PaymentStatus>::sse_decode(deserializer);
+        let mut var_latestUpdateTimestamp = <u64>::sse_decode(deserializer);
         return crate::api::types::PaymentDetails {
             id: var_id,
             kind: var_kind,
             amount_msat: var_amountMsat,
             direction: var_direction,
             status: var_status,
+            latest_update_timestamp: var_latestUpdateTimestamp,
         };
     }
 }
@@ -5154,6 +5156,7 @@ impl flutter_rust_bridge::IntoDart for crate::api::types::PaymentDetails {
             self.amount_msat.into_into_dart().into_dart(),
             self.direction.into_into_dart().into_dart(),
             self.status.into_into_dart().into_dart(),
+            self.latest_update_timestamp.into_into_dart().into_dart(),
         ]
         .into_dart()
     }
@@ -6971,6 +6974,7 @@ impl SseEncode for crate::api::types::PaymentDetails {
         <Option<u64>>::sse_encode(self.amount_msat, serializer);
         <crate::api::types::PaymentDirection>::sse_encode(self.direction, serializer);
         <crate::api::types::PaymentStatus>::sse_encode(self.status, serializer);
+        <u64>::sse_encode(self.latest_update_timestamp, serializer);
     }
 }
 
