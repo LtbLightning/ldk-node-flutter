@@ -1180,6 +1180,7 @@ impl CstDecode<crate::api::types::PaymentDetails> for wire_cst_payment_details {
             amount_msat: self.amount_msat.cst_decode(),
             direction: self.direction.cst_decode(),
             status: self.status.cst_decode(),
+            latest_update_timestamp: self.latest_update_timestamp.cst_decode(),
         }
     }
 }
@@ -1991,6 +1992,7 @@ impl NewWithNullPtr for wire_cst_payment_details {
             amount_msat: core::ptr::null_mut(),
             direction: Default::default(),
             status: Default::default(),
+            latest_update_timestamp: Default::default(),
         }
     }
 }
@@ -4072,6 +4074,7 @@ pub struct wire_cst_payment_details {
     amount_msat: *mut u64,
     direction: i32,
     status: i32,
+    latest_update_timestamp: u64,
 }
 #[repr(C)]
 #[derive(Clone, Copy)]
