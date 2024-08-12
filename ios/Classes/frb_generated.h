@@ -953,6 +953,10 @@ void frbgen_ldk_node_wire__crate__api__spontaneous__ldk_spontaneous_payment_send
                                                                                         uint64_t amount_msat,
                                                                                         struct wire_cst_public_key *node_id);
 
+void frbgen_ldk_node_wire__crate__api__types__anchor_channels_config_default(int64_t port_);
+
+void frbgen_ldk_node_wire__crate__api__types__config_default(int64_t port_);
+
 void frbgen_ldk_node_rust_arc_increment_strong_count_RustOpaque_Arcldk_nodepaymentBolt12Payment(const void *ptr);
 
 void frbgen_ldk_node_rust_arc_decrement_strong_count_RustOpaque_Arcldk_nodepaymentBolt12Payment(const void *ptr);
@@ -1234,6 +1238,8 @@ static int64_t dummy_method_to_enforce_bundling(void) {
     dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__crate__api__on_chain__ldk_on_chain_payment_send_to_address);
     dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__crate__api__spontaneous__ldk_spontaneous_payment_send);
     dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__crate__api__spontaneous__ldk_spontaneous_payment_send_probes);
+    dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__crate__api__types__anchor_channels_config_default);
+    dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__crate__api__types__config_default);
     dummy_var ^= ((int64_t) (void*) store_dart_post_cobject);
     return dummy_var;
 }

@@ -10,15 +10,14 @@ crate-type = ["staticlib", "cdylib"]
 [build-dependencies]
 anyhow = "1.0.68"
 [dependencies]
-flutter_rust_bridge = "=2.0.0"
-anyhow = { version = "1.0.71"}
-ldk-node = { version = "= 0.3.0"  }
+flutter_rust_bridge = "=2.2.0"
+anyhow = { version = "1.0.71" }
+ldk-node = { version = "= 0.3.0" }
 # ldk-node = {git = 'https://github.com/lightningdevkit/ldk-node.git', rev = "246775d04dbb2e99528a6a1aa0bc04ad7378e900"}
 
 
 [profile.release]
 opt-level = 3     # Optimize for size.
-lto = true          # Enable Link Time Optimization
-codegen-units = 1   # Reduce number of codegen units to increase optimizations.
+lto = true        # Enable Link Time Optimization
+codegen-units = 1 # Reduce number of codegen units to increase optimizations.
 panic = 'abort'
-
