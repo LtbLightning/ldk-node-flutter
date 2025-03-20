@@ -853,20 +853,26 @@ class Builder {
   /// Creates a new builder instance with the default configuration.
   ///
   factory Builder() {
-    return Builder._(types.Config(
-      storageDirPath: '',
-      network: types.Network.bitcoin,
-      listeningAddresses: [
-        types.SocketAddress.hostname(addr: "0.0.0.0", port: 9735)
-      ],
-      onchainWalletSyncIntervalSecs: BigInt.from(60),
-      walletSyncIntervalSecs: BigInt.from(20),
-      feeRateCacheUpdateIntervalSecs: BigInt.from(200),
-      logLevel: types.LogLevel.debug,
-      defaultCltvExpiryDelta: 144,
-      trustedPeers0Conf: [],
-      probingLiquidityLimitMultiplier: BigInt.from(3),
-    ));
+    return Builder._(
+      types.Config(
+        storageDirPath: '',
+        network: types.Network.bitcoin,
+        listeningAddresses: [
+          types.SocketAddress.hostname(addr: "0.0.0.0", port: 9735)
+        ],
+        onchainWalletSyncIntervalSecs: BigInt.from(60),
+        walletSyncIntervalSecs: BigInt.from(20),
+        feeRateCacheUpdateIntervalSecs: BigInt.from(200),
+        logLevel: types.LogLevel.debug,
+        defaultCltvExpiryDelta: 144,
+        trustedPeers0Conf: [],
+        probingLiquidityLimitMultiplier: BigInt.from(3),
+        anchorChannelsConfig: types.AnchorChannelsConfig(
+          trustedPeersNoReserve: [],
+          perChannelReserveSats: BigInt.from(25000),
+        ),
+      ),
+    );
   }
 
   /// Creates a new builder instance with default services configured for testnet.
