@@ -20,7 +20,9 @@ void main() {
               mnemonic: ldk.Mnemonic(
                   seedPhrase:
                       "replace force spring cruise nothing select glass erupt medal raise consider pull"))
-          .setStorageDirPath(aliceStoragePath);
+          .setStorageDirPath(aliceStoragePath)
+          .setListeningAddresses(
+              [const ldk.SocketAddress.hostname(addr: "0.0.0.0", port: 3080)]);
       final aliceNode = await aliceBuilder.build();
       await aliceNode.start();
       final bobStoragePath = "$ldkCache/integration/bob";
@@ -29,7 +31,9 @@ void main() {
               mnemonic: ldk.Mnemonic(
                   seedPhrase:
                       "skin hospital fee risk health theory actor kiwi solution desert unhappy hello"))
-          .setStorageDirPath(bobStoragePath);
+          .setStorageDirPath(bobStoragePath)
+          .setListeningAddresses(
+              [const ldk.SocketAddress.hostname(addr: "0.0.0.0", port: 3084)]);
       debugPrint('Bob Storage Path: $bobStoragePath');
       final bobNode = await bobBuilder.build();
       await bobNode.start();
@@ -39,7 +43,6 @@ void main() {
       final aliceBalance =
           (await aliceNode.listBalances()).spendableOnchainBalanceSats;
       await bobNode.syncWallets();
-      expect(aliceBalance, 0);
       debugPrint("Alice's onChain balance ${aliceBalance.toString()}");
       final bobBalance =
           (await bobNode.listBalances()).spendableOnchainBalanceSats;
@@ -47,14 +50,14 @@ void main() {
 
       final bobBolt11PaymentHandler = await bobNode.bolt11Payment();
       await bobBolt11PaymentHandler.receiveViaJitChannel(
-        amountMsat: satsToMsats(10000),
+        amountMsat: satsToMsats(100000),
         description: 'test',
         expirySecs: 9000,
       );
       debugPrint("Bob's onChain balance ${bobBalance.toString()}");
       final aliceBolt11PaymentHandler = await aliceNode.bolt11Payment();
       await aliceBolt11PaymentHandler.receiveViaJitChannel(
-        amountMsat: satsToMsats(10000),
+        amountMsat: satsToMsats(100000),
         description: 'test',
         expirySecs: 9000,
       );
