@@ -2,7 +2,7 @@ PODS:
   - Flutter (1.0.0)
   - integration_test (0.0.1):
     - Flutter
-  - ldk_node (0.3.0):
+  - ldk_node (0.4.2):
     - Flutter
   - path_provider_foundation (0.0.1):
     - Flutter
@@ -26,10 +26,10 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   Flutter: e0871f40cf51350855a761d2e70bf5af5b9b5de7
-  integration_test: ce0a3ffa1de96d1a89ca0ac26fca7ea18a749ef4
-  ldk_node: fffac5d5afd55ed30034da12cdaca29f41b3fdd2
+  integration_test: 252f60fa39af5e17c3aa9899d35d908a0721b573
+  ldk_node: af81fe38d9cc72b0d9c58f614aa1ea9b3cbb7a4f
   path_provider_foundation: 2b6b4c569c0fb62ec74538f866245ac84301af46
 
 PODFILE CHECKSUM: 4e8f8b2be68aeea4c0d5beb6ff1e79fface1d048
 
-COCOAPODS: 1.14.3
+COCOAPODS: 1.15.2

@@ -6,3 +6,4 @@ pub mod node;
 pub mod on_chain;
 pub mod spontaneous;
 pub mod types;
+pub mod unified_qr;

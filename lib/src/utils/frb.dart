@@ -2,8 +2,6 @@ import 'package:flutter/foundation.dart';
 
 import '../generated/frb_generated.dart';
 
-export 'exceptions.dart';
-
 class Frb {
   static Future<void> verifyInit() async {
     try {

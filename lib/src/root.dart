@@ -1,31 +1,37 @@
-import 'package:flutter_rust_bridge/flutter_rust_bridge.dart';
+import 'dart:async';
+import 'dart:typed_data';
+
+import 'generated/lib.dart';
+import 'generated/api/builder.dart' as builder;
+import 'package:ldk_node/src/generated/api/node.dart';
+import 'package:ldk_node/src/generated/api/graph.dart' as graph;
 import 'package:ldk_node/src/generated/api/bolt11.dart' as bolt11;
 import 'package:ldk_node/src/generated/api/bolt12.dart' as bolt12;
-import 'package:ldk_node/src/generated/api/graph.dart' as graph;
-import 'package:ldk_node/src/generated/api/types.dart' as types;
-import 'package:ldk_node/src/generated/utils/error.dart' as error;
-import 'package:ldk_node/src/utils/default_services.dart';
-import 'package:ldk_node/src/utils/utils.dart';
-import 'package:path_provider/path_provider.dart';
-
-import 'generated/api/builder.dart' as builder;
-import 'generated/api/node.dart';
 import 'generated/api/on_chain.dart' as on_chain;
 import 'generated/api/spontaneous.dart' as spontaneous;
-import 'generated/lib.dart';
+import 'generated/api/unified_qr.dart' as unified_qr;
+
+import 'package:ldk_node/src/generated/api/types.dart' as types;
+import 'package:ldk_node/src/generated/utils/error.dart' as error;
+import 'package:ldk_node/src/utils/frb.dart';
+import 'package:ldk_node/src/utils/default_services.dart';
+import 'package:ldk_node/src/utils/exceptions.dart';
+
+import 'package:flutter_rust_bridge/flutter_rust_bridge.dart';
+import 'package:path_provider/path_provider.dart';
 
 ///The from string implementation will try to determine the language of the mnemonic from all the supported languages. (Languages have to be explicitly enabled using the Cargo features.)
 /// Supported number of words are 12, 15, 18, 21, and 24.
 ///
-class Mnemonic extends builder.LdkMnemonic {
+class Mnemonic extends builder.FfiMnemonic {
   Mnemonic({required super.seedPhrase});
   static Future<Mnemonic> generate() async {
     try {
       await Frb.verifyInit();
-      final res = await builder.LdkMnemonic.generate();
+      final res = await builder.FfiMnemonic.generate();
       return Mnemonic(seedPhrase: res.seedPhrase);
-    } on error.LdkNodeError catch (e) {
-      throw mapLdkNodeError(e);
+    } on error.FfiNodeError catch (e) {
+      throw mapFfiNodeError(e);
     }
   }
 }
@@ -34,8 +40,8 @@ class Mnemonic extends builder.LdkMnemonic {
 ///
 ///Needs to be initialized and instantiated through builder.build().
 ///
-class Node extends LdkNode {
-  Node._({required super.ptr});
+class Node extends FfiNode {
+  Node._({required super.opaque});
 
   /// Starts the necessary background tasks, such as handling events coming from user input,
   /// LDK/BDK, and the peer-to-peer network.
@@ -45,9 +51,9 @@ class Node extends LdkNode {
   @override
   Future<void> start({hint}) async {
     try {
-      return super.start();
-    } on error.LdkNodeError catch (e) {
-      throw mapLdkNodeError(e);
+      return await super.start();
+    } on error.FfiNodeError catch (e) {
+      throw mapFfiNodeError(e);
     }
   }
 
@@ -59,8 +65,8 @@ class Node extends LdkNode {
   Future<void> stop({hint}) async {
     try {
       await super.stop();
-    } on error.LdkNodeError catch (e) {
-      throw mapLdkNodeError(e);
+    } on error.FfiNodeError catch (e) {
+      throw mapFfiNodeError(e);
     }
   }
 
@@ -69,8 +75,8 @@ class Node extends LdkNode {
   Future<types.NodeStatus> status({hint}) async {
     try {
       return await super.status();
-    } on error.LdkNodeError catch (e) {
-      throw mapLdkNodeError(e);
+    } on error.FfiNodeError catch (e) {
+      throw mapFfiNodeError(e);
     }
   }
 
@@ -81,8 +87,8 @@ class Node extends LdkNode {
   Future<void> eventHandled({hint}) async {
     try {
       await super.eventHandled();
-    } on error.LdkNodeError catch (e) {
-      throw mapLdkNodeError(e);
+    } on error.FfiNodeError catch (e) {
+      throw mapFfiNodeError(e);
     }
   }
 
@@ -93,8 +99,8 @@ class Node extends LdkNode {
   Future<types.Event?> nextEvent({hint}) async {
     try {
       return await super.nextEvent();
-    } on error.LdkNodeError catch (e) {
-      throw mapLdkNodeError(e);
+    } on error.FfiNodeError catch (e) {
+      throw mapFfiNodeError(e);
     }
   }
 
@@ -107,8 +113,8 @@ class Node extends LdkNode {
   Future<types.Event?> waitNextHandled({hint}) async {
     try {
       return await super.waitNextEvent();
-    } on error.LdkNodeError catch (e) {
-      throw mapLdkNodeError(e);
+    } on error.FfiNodeError catch (e) {
+      throw mapFfiNodeError(e);
     }
   }
 
@@ -119,8 +125,8 @@ class Node extends LdkNode {
   Future<types.Event> nextEventAsync({hint}) async {
     try {
       return await super.nextEventAsync();
-    } on error.LdkNodeError catch (e) {
-      throw mapLdkNodeError(e);
+    } on error.FfiNodeError catch (e) {
+      throw mapFfiNodeError(e);
     }
   }
 
@@ -129,8 +135,8 @@ class Node extends LdkNode {
   Future<types.PublicKey> nodeId({hint}) async {
     try {
       return await super.nodeId();
-    } on error.LdkNodeError catch (e) {
-      throw mapLdkNodeError(e);
+    } on error.FfiNodeError catch (e) {
+      throw mapFfiNodeError(e);
     }
   }
 
@@ -139,28 +145,28 @@ class Node extends LdkNode {
   Future<List<types.SocketAddress>?> listeningAddresses({hint}) async {
     try {
       return await super.listeningAddresses();
-    } on error.LdkNodeError catch (e) {
-      throw mapLdkNodeError(e);
+    } on error.FfiNodeError catch (e) {
+      throw mapFfiNodeError(e);
     }
   }
 
   /// Retrieve the currently spendable on-chain balance in satoshis.
   @override
-  Future<types.BalanceDetails> listBalances({hint}) {
+  Future<types.BalanceDetails> listBalances({hint}) async {
     try {
-      return super.listBalances();
-    } on error.LdkNodeError catch (e) {
-      throw mapLdkNodeError(e);
+      return await super.listBalances();
+    } on error.FfiNodeError catch (e) {
+      throw mapFfiNodeError(e);
     }
   }
 
   ///Returns the config with which the Node was initialized.
   @override
-  Future<types.Config> config({hint}) {
+  Future<types.Config> config({hint}) async {
     try {
-      return super.config();
-    } on error.LdkNodeError catch (e) {
-      throw mapLdkNodeError(e);
+      return await super.config();
+    } on error.FfiNodeError catch (e) {
+      throw mapFfiNodeError(e);
     }
   }
 
@@ -169,8 +175,8 @@ class Node extends LdkNode {
   Future<List<types.ChannelDetails>> listChannels({hint}) async {
     try {
       return await super.listChannels();
-    } on error.LdkNodeError catch (e) {
-      throw mapLdkNodeError(e);
+    } on error.FfiNodeError catch (e) {
+      throw mapFfiNodeError(e);
     }
   }
 
@@ -186,8 +192,8 @@ class Node extends LdkNode {
     try {
       return await super
           .connect(address: address, nodeId: nodeId, persist: persist);
-    } on error.LdkNodeError catch (e) {
-      throw mapLdkNodeError(e);
+    } on error.FfiNodeError catch (e) {
+      throw mapFfiNodeError(e);
     }
   }
 
@@ -202,8 +208,8 @@ class Node extends LdkNode {
       await super.disconnect(
         counterpartyNodeId: counterpartyNodeId,
       );
-    } on error.LdkNodeError catch (e) {
-      throw mapLdkNodeError(e);
+    } on error.FfiNodeError catch (e) {
+      throw mapFfiNodeError(e);
     }
   }
 
@@ -217,24 +223,60 @@ class Node extends LdkNode {
   ///
   /// Returns a temporary channel id.
   @override
-  Future<types.UserChannelId> connectOpenChannel(
+  Future<types.UserChannelId> openChannel(
       {required types.SocketAddress socketAddress,
       required types.PublicKey nodeId,
       required BigInt channelAmountSats,
-      required bool announceChannel,
       types.ChannelConfig? channelConfig,
       BigInt? pushToCounterpartyMsat,
       hint}) async {
     try {
-      return await super.connectOpenChannel(
-          socketAddress: socketAddress,
-          nodeId: nodeId,
-          pushToCounterpartyMsat: pushToCounterpartyMsat,
-          channelAmountSats: channelAmountSats,
-          channelConfig: channelConfig,
-          announceChannel: announceChannel);
-    } on error.LdkNodeError catch (e) {
-      throw mapLdkNodeError(e);
+      return await super.openChannel(
+        socketAddress: socketAddress,
+        nodeId: nodeId,
+        pushToCounterpartyMsat: pushToCounterpartyMsat,
+        channelAmountSats: channelAmountSats,
+        channelConfig: channelConfig,
+      );
+    } on error.FfiNodeError catch (e) {
+      throw mapFfiNodeError(e);
+    }
+  }
+
+  /// Connect to a node and open a new announced channel.
+  ///
+  /// This will return an error if the node has not been sufficiently configured to operate as a
+  /// forwarding node that can properly announce its existence to the publip network graph, i.e.,
+  /// `config.listeningAddresses` and `config.nodeAlias` are unset.
+  ///
+  ///
+  /// If `pushToCounterpartyMsat` is set, the given value will be pushed (read: sent) to the
+  /// channel counterparty on channel open. This can be useful to start out with the balance not
+  /// entirely shifted to one side, therefore allowing to receive payments from the getgo.
+  ///
+  /// If Anchor channels are enabled, this will ensure the configured
+  /// `anchorChannelsConfig.perChannelReserveSats` is available and will be retained before
+  /// opening the channel.
+  ///
+  /// Returns a temporary channelId allowing to locally keep track of the channel.
+  @override
+  Future<types.UserChannelId> openAnnouncedChannel(
+      {required types.SocketAddress socketAddress,
+      required types.PublicKey nodeId,
+      required BigInt channelAmountSats,
+      types.ChannelConfig? channelConfig,
+      BigInt? pushToCounterpartyMsat,
+      hint}) async {
+    try {
+      return await super.openAnnouncedChannel(
+        socketAddress: socketAddress,
+        nodeId: nodeId,
+        pushToCounterpartyMsat: pushToCounterpartyMsat,
+        channelAmountSats: channelAmountSats,
+        channelConfig: channelConfig,
+      );
+    } on error.FfiNodeError catch (e) {
+      throw mapFfiNodeError(e);
     }
   }
 
@@ -244,18 +286,18 @@ class Node extends LdkNode {
   Future<void> syncWallets({hint}) async {
     try {
       await super.syncWallets();
-    } on error.LdkNodeError catch (e) {
-      throw mapLdkNodeError(e);
+    } on error.FfiNodeError catch (e) {
+      throw mapFfiNodeError(e);
     }
   }
 
   ///Returns a handler allowing to query the network graph.
   Future<NetworkGraph> networkGraph() async {
     try {
-      final res = await LdkNode.networkGraph(ptr: this);
-      return NetworkGraph._(ptr: res.ptr);
-    } on error.LdkNodeError catch (e) {
-      throw mapLdkNodeError(e);
+      final res = await FfiNode.networkGraph(ptr: this);
+      return NetworkGraph._(opaque: res.opaque);
+    } on error.FfiNodeError catch (e) {
+      throw mapFfiNodeError(e);
     }
   }
 
@@ -270,8 +312,8 @@ class Node extends LdkNode {
         userChannelId: userChannelId,
         counterpartyNodeId: counterpartyNodeId,
       );
-    } on error.LdkNodeError catch (e) {
-      throw mapLdkNodeError(e);
+    } on error.FfiNodeError catch (e) {
+      throw mapFfiNodeError(e);
     }
   }
 
@@ -289,8 +331,8 @@ class Node extends LdkNode {
         userChannelId: userChannelId,
         counterpartyNodeId: counterpartyNodeId,
       );
-    } on error.LdkNodeError catch (e) {
-      throw mapLdkNodeError(e);
+    } on error.FfiNodeError catch (e) {
+      throw mapFfiNodeError(e);
     }
   }
 
@@ -308,8 +350,8 @@ class Node extends LdkNode {
         counterpartyNodeId: counterpartyNodeId,
         channelConfig: channelConfig,
       );
-    } on error.LdkNodeError catch (e) {
-      throw mapLdkNodeError(e);
+    } on error.FfiNodeError catch (e) {
+      throw mapFfiNodeError(e);
     }
   }
 
@@ -321,8 +363,8 @@ class Node extends LdkNode {
       {required types.PaymentId paymentId, hint}) async {
     try {
       return await super.payment(paymentId: paymentId);
-    } on error.LdkNodeError catch (e) {
-      throw mapLdkNodeError(e);
+    } on error.FfiNodeError catch (e) {
+      throw mapFfiNodeError(e);
     }
   }
 
@@ -331,8 +373,8 @@ class Node extends LdkNode {
   Future<void> removePayment({required types.PaymentId paymentId, hint}) async {
     try {
       return await super.removePayment(paymentId: paymentId);
-    } on error.LdkNodeError catch (e) {
-      throw mapLdkNodeError(e);
+    } on error.FfiNodeError catch (e) {
+      throw mapFfiNodeError(e);
     }
   }
 
@@ -343,8 +385,8 @@ class Node extends LdkNode {
     try {
       return await super
           .listPaymentsWithFilter(paymentDirection: paymentDirection);
-    } on error.LdkNodeError catch (e) {
-      throw mapLdkNodeError(e);
+    } on error.FfiNodeError catch (e) {
+      throw mapFfiNodeError(e);
     }
   }
 
@@ -352,9 +394,9 @@ class Node extends LdkNode {
   @override
   Future<List<types.PaymentDetails>> listPayments({hint}) async {
     try {
-      return super.listPayments();
-    } on error.LdkNodeError catch (e) {
-      throw mapLdkNodeError(e);
+      return await super.listPayments();
+    } on error.FfiNodeError catch (e) {
+      throw mapFfiNodeError(e);
     }
   }
 
@@ -363,8 +405,8 @@ class Node extends LdkNode {
   Future<List<types.PeerDetails>> listPeers({hint}) async {
     try {
       return await super.listPeers();
-    } on error.LdkNodeError catch (e) {
-      throw mapLdkNodeError(e);
+    } on error.FfiNodeError catch (e) {
+      throw mapFfiNodeError(e);
     }
   }
 
@@ -378,8 +420,8 @@ class Node extends LdkNode {
   Future<String> signMessage({required List<int> msg, hint}) async {
     try {
       return await super.signMessage(msg: msg);
-    } on error.LdkNodeError catch (e) {
-      throw mapLdkNodeError(e);
+    } on error.FfiNodeError catch (e) {
+      throw mapFfiNodeError(e);
     }
   }
 
@@ -394,64 +436,76 @@ class Node extends LdkNode {
     try {
       return await super
           .verifySignature(msg: msg, sig: sig, publicKey: publicKey);
-    } on error.LdkNodeError catch (e) {
-      throw mapLdkNodeError(e);
+    } on error.FfiNodeError catch (e) {
+      throw mapFfiNodeError(e);
     }
   }
 
   ///Returns a payment handler allowing to create and pay BOLT 11 invoices.
   Future<Bolt11Payment> bolt11Payment() async {
     try {
-      final res = await LdkNode.bolt11Payment(ptr: this);
-      return Bolt11Payment._(ptr: res.ptr);
-    } on error.LdkNodeError catch (e) {
-      throw mapLdkNodeError(e);
+      final res = await FfiNode.bolt11Payment(ptr: this);
+      return Bolt11Payment._(opaque: res.opaque);
+    } on error.FfiNodeError catch (e) {
+      throw mapFfiNodeError(e);
     }
   }
 
   ///Returns a payment handler allowing to create and pay BOLT 12 invoices.
   Future<Bolt12Payment> bolt12Payment() async {
     try {
-      final res = await LdkNode.bolt12Payment(ptr: this);
-      return Bolt12Payment._(ptr: res.ptr);
-    } on error.LdkNodeError catch (e) {
-      throw mapLdkNodeError(e);
+      final res = await FfiNode.bolt12Payment(ptr: this);
+      return Bolt12Payment._(opaque: res.opaque);
+    } on error.FfiNodeError catch (e) {
+      throw mapFfiNodeError(e);
     }
   }
 
   ///Returns a payment handler allowing to send and receive on-chain payments.
   Future<OnChainPayment> onChainPayment() async {
     try {
-      final res = await LdkNode.onChainPayment(ptr: this);
-      return OnChainPayment._(ptr: res.ptr);
-    } on error.LdkNodeError catch (e) {
-      throw mapLdkNodeError(e);
+      final res = await FfiNode.onChainPayment(ptr: this);
+      return OnChainPayment._(opaque: res.opaque);
+    } on error.FfiNodeError catch (e) {
+      throw mapFfiNodeError(e);
     }
   }
 
   ///Returns a payment handler allowing to send spontaneous ("keysend") payments.
   Future<SpontaneousPayment> spontaneousPayment() async {
     try {
-      final res = await LdkNode.spontaneousPayment(ptr: this);
-      return SpontaneousPayment._(ptr: res.ptr);
-    } on error.LdkNodeError catch (e) {
-      throw mapLdkNodeError(e);
+      final res = await FfiNode.spontaneousPayment(ptr: this);
+      return SpontaneousPayment._(opaque: res.opaque);
+    } on error.FfiNodeError catch (e) {
+      throw mapFfiNodeError(e);
+    }
+  }
+
+  ///Returns a payment handler allowing to create BIP 21 URIs with an on-chain, BOLT 11, and BOLT 12 payment options.
+  Future<UnifiedQrPayment> unifiedQrPayment() async {
+    try {
+      final res = await FfiNode.unifiedQrPayment(ptr: this);
+      return UnifiedQrPayment._(opaque: res.opaque);
+    } on error.FfiNodeError catch (e) {
+      throw mapFfiNodeError(e);
     }
   }
 }
 
 ///A payment handler allowing to send spontaneous ("keysend") payments.
-class SpontaneousPayment extends spontaneous.LdkSpontaneousPayment {
-  SpontaneousPayment._({required super.ptr});
+class SpontaneousPayment extends spontaneous.FfiSpontaneousPayment {
+  SpontaneousPayment._({required super.opaque});
 
   ///Sends payment probes over all paths of a route that would be used to pay the given amount to the given node_id.
   @override
   Future<void> sendProbes(
-      {required BigInt amountMsat, required types.PublicKey nodeId, hint}) {
+      {required BigInt amountMsat,
+      required types.PublicKey nodeId,
+      hint}) async {
     try {
-      return super.sendProbes(amountMsat: amountMsat, nodeId: nodeId);
-    } on error.LdkNodeError catch (e) {
-      throw mapLdkNodeError(e);
+      return await super.sendProbes(amountMsat: amountMsat, nodeId: nodeId);
+    } on error.FfiNodeError catch (e) {
+      throw mapFfiNodeError(e);
     }
   }
 
@@ -460,95 +514,103 @@ class SpontaneousPayment extends spontaneous.LdkSpontaneousPayment {
   Future<types.PaymentId> send(
       {required BigInt amountMsat,
       required types.PublicKey nodeId,
-      dynamic hint}) {
+      types.SendingParameters? sendingParameters,
+      dynamic hint}) async {
     try {
-      return super.send(amountMsat: amountMsat, nodeId: nodeId);
-    } on error.LdkNodeError catch (e) {
-      throw mapLdkNodeError(e);
+      return await super.send(
+          amountMsat: amountMsat,
+          nodeId: nodeId,
+          sendingParameters: sendingParameters);
+    } on error.FfiNodeError catch (e) {
+      throw mapFfiNodeError(e);
     }
   }
 }
 
 ///A payment handler allowing to send and receive on-chain payments.
-class OnChainPayment extends on_chain.LdkOnChainPayment {
-  OnChainPayment._({required super.ptr});
+class OnChainPayment extends on_chain.FfiOnChainPayment {
+  OnChainPayment._({required super.opaque});
   @override
-  Future<types.Address> newAddress({hint}) {
+  Future<types.Address> newAddress({hint}) async {
     try {
-      return super.newAddress();
-    } on error.LdkNodeError catch (e) {
-      throw mapLdkNodeError(e);
+      return await super.newAddress();
+    } on error.FfiNodeError catch (e) {
+      throw mapFfiNodeError(e);
     }
   }
 
   @override
-  Future<types.Txid> sendAllToAddress({required types.Address address, hint}) {
+  Future<types.Txid> sendAllToAddress(
+      {required types.Address address, hint}) async {
     try {
-      return super.sendAllToAddress(address: address);
-    } on error.LdkNodeError catch (e) {
-      throw mapLdkNodeError(e);
+      return await super.sendAllToAddress(address: address);
+    } on error.FfiNodeError catch (e) {
+      throw mapFfiNodeError(e);
     }
   }
 
   @override
   Future<types.Txid> sendToAddress(
-      {required types.Address address, required BigInt amountSats, hint}) {
+      {required types.Address address,
+      required BigInt amountSats,
+      hint}) async {
     try {
-      return super.sendToAddress(address: address, amountSats: amountSats);
-    } on error.LdkNodeError catch (e) {
-      throw mapLdkNodeError(e);
+      return await super
+          .sendToAddress(address: address, amountSats: amountSats);
+    } on error.FfiNodeError catch (e) {
+      throw mapFfiNodeError(e);
     }
   }
 }
 
 ///Represents the network as nodes and channels between them.
-class NetworkGraph extends graph.LdkNetworkGraph {
-  NetworkGraph._({required super.ptr});
+class NetworkGraph extends graph.FfiNetworkGraph {
+  NetworkGraph._({required super.opaque});
 
   ///Returns information on a channel with the given id.
   @override
-  Future<graph.ChannelInfo?> channel({required BigInt shortChannelId}) {
+  Future<graph.ChannelInfo?> channel({required BigInt shortChannelId}) async {
     try {
-      return super.channel(shortChannelId: shortChannelId);
-    } on error.LdkNodeError catch (e) {
-      throw mapLdkNodeError(e);
+      return await super.channel(shortChannelId: shortChannelId);
+    } on error.FfiNodeError catch (e) {
+      throw mapFfiNodeError(e);
     }
   }
 
   ///Returns the list of channels in the graph
   @override
-  Future<Uint64List> listChannels() {
+  Future<Uint64List> listChannels() async {
     try {
-      return super.listChannels();
-    } on error.LdkNodeError catch (e) {
-      throw mapLdkNodeError(e);
+      return await super.listChannels();
+    } on error.FfiNodeError catch (e) {
+      throw mapFfiNodeError(e);
     }
   }
 
   ///Returns the list of nodes in the graph
   @override
-  Future<List<graph.NodeId>> listNodes() {
+  Future<List<graph.NodeId>> listNodes() async {
     try {
-      return super.listNodes();
-    } on error.LdkNodeError catch (e) {
-      throw mapLdkNodeError(e);
+      return await super.listNodes();
+    } on error.FfiNodeError catch (e) {
+      throw mapFfiNodeError(e);
     }
   }
 
   ///Returns information on a node with the given id.
   @override
-  Future<graph.NodeInfo?> node({required graph.NodeId nodeId}) {
+  Future<graph.NodeInfo?> node({required graph.NodeId nodeId}) async {
     try {
-      return super.node(nodeId: nodeId);
-    } on error.LdkNodeError catch (e) {
-      throw mapLdkNodeError(e);
+      return await super.node(nodeId: nodeId);
+    } on error.FfiNodeError catch (e) {
+      throw mapFfiNodeError(e);
     }
   }
 }
 
 ///Represents a syntactically and semantically correct lightning BOLT11 invoice.
-class Bolt11Payment extends bolt11.LdkBolt11Payment {
-  Bolt11Payment._({required super.ptr});
+class Bolt11Payment extends bolt11.FfiBolt11Payment {
+  Bolt11Payment._({required super.opaque});
 
   ///Allows to attempt manually claiming payments with the given preimage that have previously been registered via
   ///`receiveForHash` or `receiveVariableAmountForHash`.
@@ -559,14 +621,14 @@ class Bolt11Payment extends bolt11.LdkBolt11Payment {
   Future<void> claimForHash(
       {required types.PaymentHash paymentHash,
       required BigInt claimableAmountMsat,
-      required types.PaymentPreimage preimage}) {
+      required types.PaymentPreimage preimage}) async {
     try {
-      return super.claimForHash(
+      return await super.claimForHash(
           paymentHash: paymentHash,
           claimableAmountMsat: claimableAmountMsat,
           preimage: preimage);
-    } on error.LdkNodeError catch (e) {
-      throw mapLdkNodeError(e);
+    } on error.FfiNodeError catch (e) {
+      throw mapFfiNodeError(e);
     }
   }
 
@@ -575,11 +637,11 @@ class Bolt11Payment extends bolt11.LdkBolt11Payment {
   /// This should be called in response to a PaymentClaimable event if the payment needs to be failed back, e. g., if the correct preimage can't be retrieved in time before the claim deadline has been reached.
   /// Will check that the payment is known before failing the payment, and will return an error otherwise.
   @override
-  Future<void> failForHash({required types.PaymentHash paymentHash}) {
+  Future<void> failForHash({required types.PaymentHash paymentHash}) async {
     try {
-      return super.failForHash(paymentHash: paymentHash);
-    } on error.LdkNodeError catch (e) {
-      throw mapLdkNodeError(e);
+      return await super.failForHash(paymentHash: paymentHash);
+    } on error.FfiNodeError catch (e) {
+      throw mapFfiNodeError(e);
     }
   }
 
@@ -592,15 +654,15 @@ class Bolt11Payment extends bolt11.LdkBolt11Payment {
       {required types.PaymentHash paymentHash,
       required BigInt amountMsat,
       required String description,
-      required int expirySecs}) {
+      required int expirySecs}) async {
     try {
-      return super.receiveForHash(
+      return await super.receiveForHash(
           paymentHash: paymentHash,
           amountMsat: amountMsat,
           description: description,
           expirySecs: expirySecs);
-    } on error.LdkNodeError catch (e) {
-      throw mapLdkNodeError(e);
+    } on error.FfiNodeError catch (e) {
+      throw mapFfiNodeError(e);
     }
   }
 
@@ -612,14 +674,14 @@ class Bolt11Payment extends bolt11.LdkBolt11Payment {
   Future<bolt11.Bolt11Invoice> receiveVariableAmountForHash(
       {required String description,
       required int expirySecs,
-      required types.PaymentHash paymentHash}) {
+      required types.PaymentHash paymentHash}) async {
     try {
-      return super.receiveVariableAmountForHash(
+      return await super.receiveVariableAmountForHash(
           description: description,
           expirySecs: expirySecs,
           paymentHash: paymentHash);
-    } on error.LdkNodeError catch (e) {
-      throw mapLdkNodeError(e);
+    } on error.FfiNodeError catch (e) {
+      throw mapFfiNodeError(e);
     }
   }
 
@@ -630,14 +692,14 @@ class Bolt11Payment extends bolt11.LdkBolt11Payment {
       {required BigInt amountMsat,
       required String description,
       required int expirySecs,
-      hint}) {
+      hint}) async {
     try {
-      return super.receive(
+      return await super.receive(
           amountMsat: amountMsat,
           description: description,
           expirySecs: expirySecs);
-    } on error.LdkNodeError catch (e) {
-      throw mapLdkNodeError(e);
+    } on error.FfiNodeError catch (e) {
+      throw mapFfiNodeError(e);
     }
   }
 
@@ -645,12 +707,12 @@ class Bolt11Payment extends bolt11.LdkBolt11Payment {
   /// The inbound payment will be automatically claimed upon arrival.
   @override
   Future<bolt11.Bolt11Invoice> receiveVariableAmount(
-      {required String description, required int expirySecs, hint}) {
+      {required String description, required int expirySecs, hint}) async {
     try {
-      return super.receiveVariableAmount(
+      return await super.receiveVariableAmount(
           description: description, expirySecs: expirySecs);
-    } on error.LdkNodeError catch (e) {
-      throw mapLdkNodeError(e);
+    } on error.FfiNodeError catch (e) {
+      throw mapFfiNodeError(e);
     }
   }
 
@@ -662,14 +724,14 @@ class Bolt11Payment extends bolt11.LdkBolt11Payment {
       {required String description,
       required int expirySecs,
       BigInt? maxProportionalLspFeeLimitPpmMsat,
-      hint}) {
+      hint}) async {
     try {
-      return super.receiveVariableAmountViaJitChannel(
+      return await super.receiveVariableAmountViaJitChannel(
           description: description,
           expirySecs: expirySecs,
           maxProportionalLspFeeLimitPpmMsat: maxProportionalLspFeeLimitPpmMsat);
-    } on error.LdkNodeError catch (e) {
-      throw mapLdkNodeError(e);
+    } on error.FfiNodeError catch (e) {
+      throw mapFfiNodeError(e);
     }
   }
 
@@ -682,25 +744,29 @@ class Bolt11Payment extends bolt11.LdkBolt11Payment {
       required String description,
       required int expirySecs,
       BigInt? maxTotalLspFeeLimitMsat,
-      hint}) {
+      hint}) async {
     try {
-      return super.receiveViaJitChannel(
+      return await super.receiveViaJitChannel(
           description: description,
           expirySecs: expirySecs,
           maxTotalLspFeeLimitMsat: maxTotalLspFeeLimitMsat,
           amountMsat: amountMsat);
-    } on error.LdkNodeError catch (e) {
-      throw mapLdkNodeError(e);
+    } on error.FfiNodeError catch (e) {
+      throw mapFfiNodeError(e);
     }
   }
 
   ///Send a payment given an invoice.
   @override
-  Future<types.PaymentId> send({required bolt11.Bolt11Invoice invoice, hint}) {
+  Future<types.PaymentId> send(
+      {required bolt11.Bolt11Invoice invoice,
+      types.SendingParameters? sendingParameters,
+      hint}) async {
     try {
-      return super.send(invoice: invoice);
-    } on error.LdkNodeError catch (e) {
-      throw mapLdkNodeError(e);
+      return await super
+          .send(invoice: invoice, sendingParameters: sendingParameters);
+    } on error.FfiNodeError catch (e) {
+      throw mapFfiNodeError(e);
     }
   }
 
@@ -710,11 +776,11 @@ class Bolt11Payment extends bolt11.LdkBolt11Payment {
   /// Users should therefore be cautious and might avoid sending probes if liquidity is scarce and/ or they don't expect the probe to return before they send the payment.
   /// To mitigate this issue, channels with available liquidity less than the required amount times
   @override
-  Future<void> sendProbes({required bolt11.Bolt11Invoice invoice, hint}) {
+  Future<void> sendProbes({required bolt11.Bolt11Invoice invoice, hint}) async {
     try {
-      return super.sendProbes(invoice: invoice);
-    } on error.LdkNodeError catch (e) {
-      throw mapLdkNodeError(e);
+      return await super.sendProbes(invoice: invoice);
+    } on error.FfiNodeError catch (e) {
+      throw mapFfiNodeError(e);
     }
   }
 
@@ -724,12 +790,12 @@ class Bolt11Payment extends bolt11.LdkBolt11Payment {
   Future<void> sendProbesUsingAmount(
       {required bolt11.Bolt11Invoice invoice,
       required BigInt amountMsat,
-      hint}) {
+      hint}) async {
     try {
-      return super
+      return await super
           .sendProbesUsingAmount(invoice: invoice, amountMsat: amountMsat);
-    } on error.LdkNodeError catch (e) {
-      throw mapLdkNodeError(e);
+    } on error.FfiNodeError catch (e) {
+      throw mapFfiNodeError(e);
     }
   }
 
@@ -740,49 +806,70 @@ class Bolt11Payment extends bolt11.LdkBolt11Payment {
   Future<types.PaymentId> sendUsingAmount(
       {required bolt11.Bolt11Invoice invoice,
       required BigInt amountMsat,
-      hint}) {
+      types.SendingParameters? sendingParameters,
+      hint}) async {
     try {
-      return super.sendUsingAmount(invoice: invoice, amountMsat: amountMsat);
-    } on error.LdkNodeError catch (e) {
-      throw mapLdkNodeError(e);
+      return await super.sendUsingAmount(
+          invoice: invoice,
+          amountMsat: amountMsat,
+          sendingParameters: sendingParameters);
+    } on error.FfiNodeError catch (e) {
+      throw mapFfiNodeError(e);
     }
   }
 }
 
 ///A payment handler allowing to create and pay BOLT 12  offers and refunds.
-class Bolt12Payment extends bolt12.LdkBolt12Payment {
-  Bolt12Payment._({required super.ptr});
+class Bolt12Payment extends bolt12.FfiBolt12Payment {
+  Bolt12Payment._({required super.opaque});
 
   ///Returns a Refund object that can be used to offer a refund payment of the amount given.
   @override
-  Future<bolt12.Refund> initiateRefund(
-      {required BigInt amountMsat, required int expirySecs}) {
+  Future<bolt12.Refund> initiateRefund({
+    required BigInt amountMsat,
+    required int expirySecs,
+    BigInt? quantity,
+    String? payerNote,
+  }) async {
     try {
-      return super
-          .initiateRefund(amountMsat: amountMsat, expirySecs: expirySecs);
-    } on error.LdkNodeError catch (e) {
-      throw mapLdkNodeError(e);
+      return await super.initiateRefund(
+          amountMsat: amountMsat,
+          expirySecs: expirySecs,
+          quantity: quantity,
+          payerNote: payerNote);
+    } on error.FfiNodeError catch (e) {
+      throw mapFfiNodeError(e);
     }
   }
 
   ///Returns a payable offer that can be used to request and receive a payment of the amount given.
   @override
-  Future<bolt12.Offer> receive(
-      {required BigInt amountMsat, required String description}) {
+  Future<bolt12.Offer> receive({
+    required BigInt amountMsat,
+    required String description,
+    int? expirySecs,
+    BigInt? quantity,
+  }) async {
     try {
-      return super.receive(amountMsat: amountMsat, description: description);
-    } on error.LdkNodeError catch (e) {
-      throw mapLdkNodeError(e);
+      return await super.receive(
+          amountMsat: amountMsat,
+          description: description,
+          expirySecs: expirySecs,
+          quantity: quantity);
+    } on error.FfiNodeError catch (e) {
+      throw mapFfiNodeError(e);
     }
   }
 
   ///Returns a payable offer that can be used to request and receive a payment for which the amount is to be determined by the user, also known as a "zero-amount" offer.
   @override
-  Future<bolt12.Offer> receiveVariableAmount({required String description}) {
+  Future<bolt12.Offer> receiveVariableAmount(
+      {required String description, int? expirySecs}) async {
     try {
-      return super.receiveVariableAmount(description: description);
-    } on error.LdkNodeError catch (e) {
-      throw mapLdkNodeError(e);
+      return await super.receiveVariableAmount(
+          description: description, expirySecs: expirySecs);
+    } on error.FfiNodeError catch (e) {
+      throw mapFfiNodeError(e);
     }
   }
 
@@ -790,11 +877,11 @@ class Bolt12Payment extends bolt12.LdkBolt12Payment {
   /// The returned `Bolt12Invoice` is for informational purposes only (i. e., isn't needed to retrieve the refund).
   @override
   Future<bolt12.Bolt12Invoice> requestRefundPayment(
-      {required bolt12.Refund refund}) {
+      {required bolt12.Refund refund}) async {
     try {
-      return super.requestRefundPayment(refund: refund);
-    } on error.LdkNodeError catch (e) {
-      throw mapLdkNodeError(e);
+      return await super.requestRefundPayment(refund: refund);
+    } on error.FfiNodeError catch (e) {
+      throw mapFfiNodeError(e);
     }
   }
 
@@ -805,25 +892,78 @@ class Bolt12Payment extends bolt12.LdkBolt12Payment {
   @override
   Future<types.PaymentId> sendUsingAmount(
       {required bolt12.Offer offer,
+      BigInt? quantity,
       String? payerNote,
-      required BigInt amountMsat}) {
+      required BigInt amountMsat}) async {
     try {
-      return super.sendUsingAmount(
-          offer: offer, payerNote: payerNote, amountMsat: amountMsat);
-    } on error.LdkNodeError catch (e) {
-      throw mapLdkNodeError(e);
+      return await super.sendUsingAmount(
+          offer: offer,
+          payerNote: payerNote,
+          amountMsat: amountMsat,
+          quantity: quantity);
+    } on error.FfiNodeError catch (e) {
+      throw mapFfiNodeError(e);
     }
   }
 
   ///Send a payment given an offer.
   /// If payer_note is Some it will be seen by the recipient and reflected back in the invoice response.
   @override
-  Future<types.PaymentId> send(
-      {required bolt12.Offer offer, String? payerNote}) {
+  Future<types.PaymentId> send({
+    required bolt12.Offer offer,
+    String? payerNote,
+    BigInt? quantity,
+  }) async {
     try {
-      return super.send(offer: offer, payerNote: payerNote);
-    } on error.LdkNodeError catch (e) {
-      throw mapLdkNodeError(e);
+      return await super
+          .send(offer: offer, payerNote: payerNote, quantity: quantity);
+    } on error.FfiNodeError catch (e) {
+      throw mapFfiNodeError(e);
+    }
+  }
+}
+
+class UnifiedQrPayment extends unified_qr.FfiUnifiedQrPayment {
+  UnifiedQrPayment._({required super.opaque});
+
+  /// typically opt to use the provided BOLT11 invoice or BOLT12 offer.
+  ///
+  /// # Parameters
+  /// - `amount_sats`: The amount to be received, specified in satoshis.
+  /// - `description`: A description or note associated with the payment.
+  ///   This message is visible to the payer and can provide context or details about the payment.
+  /// - `expiry_sec`: The expiration time for the payment, specified in seconds.
+  ///
+  /// Returns a payable URI that can be used to request and receive a payment of the amount
+  /// given. In case of an error, the function throws `:WalletOperationFailed`for on-chain
+  /// address issues, `InvoiceCreationFailed` for BOLT11 invoice issues, or
+  /// `OfferCreationFailed` for BOLT12 offer issues.
+  ///
+  /// The generated URI can then be given to a QR code library.
+  ///
+  /// [BOLT 11]: https://github.com/lightning/bolts/blob/master/11-payment-encoding.md
+  /// [BOLT 12]: https://github.com/lightning/bolts/blob/master/12-offer-encoding.md
+  @override
+  Future<String> receive(
+      {required BigInt amountSats,
+      required String message,
+      required int expirySec}) async {
+    try {
+      return await super.receive(
+          amountSats: amountSats, message: message, expirySec: expirySec);
+    } on error.FfiNodeError catch (e) {
+      throw mapFfiNodeError(e);
+    }
+  }
+
+  ///Sends a payment given a BIP 21 URI.
+  ///This method parses the provided URI string and attempts to send the payment. If the URI has an offer and or invoice, it will try to pay the offer first followed by the invoice. If they both fail, the on-chain payment will be paid.
+  @override
+  Future<unified_qr.QrPaymentResult> send({required String uriStr}) async {
+    try {
+      return await super.send(uriStr: uriStr);
+    } on error.FfiNodeError catch (e) {
+      throw mapFfiNodeError(e);
     }
   }
 }
@@ -853,26 +993,16 @@ class Builder {
   /// Creates a new builder instance with the default configuration.
   ///
   factory Builder() {
-    return Builder._(
-      types.Config(
-        storageDirPath: '',
-        network: types.Network.bitcoin,
-        listeningAddresses: [
-          types.SocketAddress.hostname(addr: "0.0.0.0", port: 9735)
-        ],
-        onchainWalletSyncIntervalSecs: BigInt.from(60),
-        walletSyncIntervalSecs: BigInt.from(20),
-        feeRateCacheUpdateIntervalSecs: BigInt.from(200),
-        logLevel: types.LogLevel.debug,
-        defaultCltvExpiryDelta: 144,
-        trustedPeers0Conf: [],
-        probingLiquidityLimitMultiplier: BigInt.from(3),
-        anchorChannelsConfig: types.AnchorChannelsConfig(
-          trustedPeersNoReserve: [],
-          perChannelReserveSats: BigInt.from(25000),
-        ),
-      ),
-    );
+    return Builder._(types.Config(
+      storageDirPath: '',
+      network: types.Network.bitcoin,
+      listeningAddresses: [
+        types.SocketAddress.hostname(addr: "0.0.0.0", port: 9735)
+      ],
+      logLevel: types.LogLevel.debug,
+      trustedPeers0Conf: [],
+      probingLiquidityLimitMultiplier: BigInt.from(3),
+    ));
   }
 
   /// Creates a new builder instance with default services configured for testnet.
@@ -883,7 +1013,8 @@ class Builder {
 
     return builder
         .setNetwork(types.Network.testnet)
-        .setEsploraServer(DefaultServicesTestnet.esploraServerUrl)
+        .setChainSourceEsplora(
+            esploraServerUrl: DefaultServicesTestnet.esploraServerUrl)
         .setGossipSourceRgs(DefaultServicesTestnet.rgsServerUrl);
   }
 
@@ -895,7 +1026,9 @@ class Builder {
 
     return builder
         .setNetwork(types.Network.signet)
-        .setEsploraServer(DefaultServicesMutinynet.esploraServerUrl)
+        .setChainSourceEsplora(
+            esploraServerUrl: DefaultServicesMutinynet.esploraServerUrl,
+            syncConfig: DefaultServicesMutinynet.esploraServerConfig)
         .setGossipSourceRgs(DefaultServicesMutinynet.rgsServerUrl)
         .setLiquiditySourceLsps2(
           address: types.SocketAddress.hostname(
@@ -939,9 +1072,23 @@ class Builder {
 
   ///Configures the [Node] instance to source its chain data from the given Esplora server.
   ///
-  Builder setEsploraServer(String esploraServerUrl) {
-    _chainDataSourceConfig =
-        types.ChainDataSourceConfig.esplora(esploraServerUrl);
+  Builder setChainSourceEsplora(
+      {required String esploraServerUrl, types.EsploraSyncConfig? syncConfig}) {
+    _chainDataSourceConfig = types.ChainDataSourceConfig.esplora(
+        serverUrl: esploraServerUrl, syncConfig: syncConfig);
+    return this;
+  }
+
+  Builder setChainSourceBitcoinRpc(
+      {required String rpcHost,
+      required int rpcPort,
+      required String rpcUser,
+      required String rpcPassword}) {
+    _chainDataSourceConfig = types.ChainDataSourceConfig.bitcoindRpc(
+        rpcHost: rpcHost,
+        rpcPort: rpcPort,
+        rpcUser: rpcUser,
+        rpcPassword: rpcPassword);
     return this;
   }
 
@@ -981,7 +1128,32 @@ class Builder {
   ///
   ///
   Builder setListeningAddresses(List<types.SocketAddress> listeningAddresses) {
+    if (listeningAddresses.length > 100) {
+      throw BuilderException(message: "Given listening addresses are invalid.");
+    }
     _config!.listeningAddresses = listeningAddresses;
+    return this;
+  }
+
+  /// Sets the node alias that will be used when broadcasting announcements to the gossip
+  /// network.
+  ///
+  /// The provided alias must be a valid UTF-8 string and no longer than 32 bytes in total.
+  Builder setNodeAlias(String nodeAlias) {
+    // Alias must be 32 bytes or less.
+    if (nodeAlias.codeUnits.length > 32) {
+      throw BuilderException(message: "Invalid NodeAlias.");
+    }
+    final bytes = Uint8List(32)
+      ..setRange(0, nodeAlias.codeUnits.length, nodeAlias.codeUnits);
+    _config!.nodeAlias = types.NodeAlias(field0: U8Array32(bytes));
+    return this;
+  }
+
+  /// Sets the level at which [`Node`] will log messages.
+  ///
+  Builder setLogLevel(types.LogLevel logLevel) {
+    _config!.logLevel = logLevel;
     return this;
   }
 
@@ -1004,7 +1176,6 @@ class Builder {
   /// Builds a [Node] instance with a SqliteStore backend and according to the options
   /// previously configured.
   ///
-  ///
   Future<Node> build() async {
     try {
       await Frb.verifyInit();
@@ -1013,16 +1184,16 @@ class Builder {
         final nodePath = "${directory.path}/ldk_cache/";
         _config!.storageDirPath = nodePath;
       }
-      final res = await (await builder.NodeBuilder.createBuilder(
+      final res = await (await builder.FfiBuilder.createBuilder(
               config: _config ?? Builder()._config!,
               chainDataSourceConfig: _chainDataSourceConfig,
               entropySourceConfig: _entropySource,
               liquiditySourceConfig: _liquiditySourceConfig,
               gossipSourceConfig: _gossipSourceConfig))
           .build();
-      return Node._(ptr: res.ptr);
-    } on error.LdkBuilderError catch (e) {
-      throw mapLdkBuilderError(e);
+      return Node._(opaque: res.opaque);
+    } on error.FfiBuilderError catch (e) {
+      throw mapFfiBuilderError(e);
     }
   }
 
@@ -1035,16 +1206,70 @@ class Builder {
         final nodePath = "${directory.path}/ldk_cache/";
         _config!.storageDirPath = nodePath;
       }
-      final res = await (await builder.NodeBuilder.createBuilder(
+      final res = await (await builder.FfiBuilder.createBuilder(
               config: _config ?? Builder()._config!,
               chainDataSourceConfig: _chainDataSourceConfig,
               entropySourceConfig: _entropySource,
               liquiditySourceConfig: _liquiditySourceConfig,
               gossipSourceConfig: _gossipSourceConfig))
           .buildWithFsStore();
-      return Node._(ptr: res.ptr);
-    } on error.LdkBuilderError catch (e) {
-      throw mapLdkBuilderError(e);
+      return Node._(opaque: res.opaque);
+    } on error.FfiBuilderError catch (e) {
+      throw mapFfiBuilderError(e);
+    }
+  }
+
+  Future<Node> buildWithVssStore(
+      {required String vssUrl,
+      required String storeId,
+      required String lnurlAuthServerUrl,
+      required Map<String, String> fixedHeaders}) async {
+    try {
+      await Frb.verifyInit();
+      if (_config!.storageDirPath == '') {
+        final directory = await getApplicationDocumentsDirectory();
+        final nodePath = "${directory.path}/ldk_cache/";
+        _config!.storageDirPath = nodePath;
+      }
+      final res = await (await builder.FfiBuilder.createBuilder(
+              config: _config ?? Builder()._config!,
+              chainDataSourceConfig: _chainDataSourceConfig,
+              entropySourceConfig: _entropySource,
+              liquiditySourceConfig: _liquiditySourceConfig,
+              gossipSourceConfig: _gossipSourceConfig))
+          .buildWithVssStore(
+              vssUrl: vssUrl,
+              storeId: storeId,
+              lnurlAuthServerUrl: lnurlAuthServerUrl,
+              fixedHeaders: fixedHeaders);
+      return Node._(opaque: res.opaque);
+    } on error.FfiBuilderError catch (e) {
+      throw mapFfiBuilderError(e);
+    }
+  }
+
+  Future<Node> buildWithvssStoreAndFixedHeaders(
+      {required String vssUrl,
+      required String store_id,
+      required Map<String, String> fixedHeaders}) async {
+    try {
+      await Frb.verifyInit();
+      if (_config!.storageDirPath == '') {
+        final directory = await getApplicationDocumentsDirectory();
+        final nodePath = "${directory.path}/ldk_cache/";
+        _config!.storageDirPath = nodePath;
+      }
+      final res = await (await builder.FfiBuilder.createBuilder(
+              config: _config ?? Builder()._config!,
+              chainDataSourceConfig: _chainDataSourceConfig,
+              entropySourceConfig: _entropySource,
+              liquiditySourceConfig: _liquiditySourceConfig,
+              gossipSourceConfig: _gossipSourceConfig))
+          .buildWithVssStoreAndFixedHeaders(
+              vssUrl: vssUrl, storeId: store_id, fixedHeaders: fixedHeaders);
+      return Node._(opaque: res.opaque);
+    } on error.FfiBuilderError catch (e) {
+      throw mapFfiBuilderError(e);
     }
   }
 }

@@ -1,7 +1,7 @@
 use ldk_node::{BuildError, NodeError};
 
 #[derive(Debug, PartialEq)]
-pub enum LdkNodeError {
+pub enum FfiNodeError {
     InvalidTxid,
     /// Returned when trying to start [Node] while it is already running.
     AlreadyRunning,
@@ -99,10 +99,15 @@ pub enum LdkNodeError {
     InvalidRefund,
     ///The provided offer was denominated in an unsupported currency.
     UnsupportedCurrency,
+    UriParameterParsingFailed,
+    InvalidUri,
+    InvalidQuantity,
+    InvalidNodeAlias,
 }
 #[allow(dead_code)]
 #[derive(Debug)]
-pub enum LdkBuilderError {
+pub enum FfiBuilderError {
+    InvalidNodeAlias,
     SocketAddressParseError,
     /// The given seed bytes are invalid, e.g., have invalid length.
     InvalidSeedBytes,
@@ -130,92 +135,96 @@ pub enum LdkBuilderError {
     InvalidPublicKey,
 }
 
-impl From<NodeError> for LdkNodeError {
+impl From<NodeError> for FfiNodeError {
     fn from(value: NodeError) -> Self {
         match value {
-            NodeError::AlreadyRunning => LdkNodeError::AlreadyRunning,
-            NodeError::NotRunning => LdkNodeError::NotRunning,
-            NodeError::OnchainTxCreationFailed => LdkNodeError::OnchainTxCreationFailed,
-            NodeError::ConnectionFailed => LdkNodeError::ConnectionFailed,
-            NodeError::InvoiceCreationFailed => LdkNodeError::InvoiceCreationFailed,
-            NodeError::PaymentSendingFailed => LdkNodeError::PaymentSendingFailed,
-            NodeError::ProbeSendingFailed => LdkNodeError::ProbeSendingFailed,
-            NodeError::ChannelCreationFailed => LdkNodeError::ChannelCreationFailed,
-            NodeError::ChannelClosingFailed => LdkNodeError::ChannelClosingFailed,
-            NodeError::ChannelConfigUpdateFailed => LdkNodeError::ChannelConfigUpdateFailed,
-            NodeError::PersistenceFailed => LdkNodeError::PersistenceFailed,
-            NodeError::WalletOperationFailed => LdkNodeError::WalletOperationFailed,
-            NodeError::OnchainTxSigningFailed => LdkNodeError::OnchainTxSigningFailed,
-            NodeError::MessageSigningFailed => LdkNodeError::MessageSigningFailed,
-            NodeError::TxSyncFailed => LdkNodeError::TxSyncFailed,
-            NodeError::GossipUpdateFailed => LdkNodeError::GossipUpdateFailed,
-            NodeError::InvalidAddress => LdkNodeError::InvalidAddress,
-            NodeError::InvalidSocketAddress => LdkNodeError::InvalidSocketAddress,
-            NodeError::InvalidPublicKey => LdkNodeError::InvalidPublicKey,
-            NodeError::InvalidSecretKey => LdkNodeError::InvalidSecretKey,
-            NodeError::InvalidPaymentHash => LdkNodeError::InvalidPaymentHash,
-            NodeError::InvalidPaymentPreimage => LdkNodeError::InvalidPaymentPreimage,
-            NodeError::InvalidPaymentSecret => LdkNodeError::InvalidPaymentSecret,
-            NodeError::InvalidAmount => LdkNodeError::InvalidAmount,
-            NodeError::InvalidInvoice => LdkNodeError::InvalidInvoice,
-            NodeError::InvalidChannelId => LdkNodeError::InvalidChannelId,
-            NodeError::InvalidNetwork => LdkNodeError::InvalidNetwork,
-            NodeError::DuplicatePayment => LdkNodeError::DuplicatePayment,
-            NodeError::InsufficientFunds => LdkNodeError::InsufficientFunds,
-            NodeError::FeerateEstimationUpdateFailed => LdkNodeError::FeerateEstimationUpdateFailed,
-            NodeError::LiquidityRequestFailed => LdkNodeError::LiquidityRequestFailed,
-            NodeError::LiquiditySourceUnavailable => LdkNodeError::LiquiditySourceUnavailable,
-            NodeError::LiquidityFeeTooHigh => LdkNodeError::LiquidityFeeTooHigh,
-            NodeError::InvalidPaymentId => LdkNodeError::InvalidPaymentId,
-            NodeError::InvoiceRequestCreationFailed => LdkNodeError::InvoiceRequestCreationFailed,
-            NodeError::OfferCreationFailed => LdkNodeError::OfferCreationFailed,
-            NodeError::RefundCreationFailed => LdkNodeError::RefundCreationFailed,
+            NodeError::AlreadyRunning => FfiNodeError::AlreadyRunning,
+            NodeError::NotRunning => FfiNodeError::NotRunning,
+            NodeError::OnchainTxCreationFailed => FfiNodeError::OnchainTxCreationFailed,
+            NodeError::ConnectionFailed => FfiNodeError::ConnectionFailed,
+            NodeError::InvoiceCreationFailed => FfiNodeError::InvoiceCreationFailed,
+            NodeError::PaymentSendingFailed => FfiNodeError::PaymentSendingFailed,
+            NodeError::ProbeSendingFailed => FfiNodeError::ProbeSendingFailed,
+            NodeError::ChannelCreationFailed => FfiNodeError::ChannelCreationFailed,
+            NodeError::ChannelClosingFailed => FfiNodeError::ChannelClosingFailed,
+            NodeError::ChannelConfigUpdateFailed => FfiNodeError::ChannelConfigUpdateFailed,
+            NodeError::PersistenceFailed => FfiNodeError::PersistenceFailed,
+            NodeError::WalletOperationFailed => FfiNodeError::WalletOperationFailed,
+            NodeError::OnchainTxSigningFailed => FfiNodeError::OnchainTxSigningFailed,
+            NodeError::TxSyncFailed => FfiNodeError::TxSyncFailed,
+            NodeError::GossipUpdateFailed => FfiNodeError::GossipUpdateFailed,
+            NodeError::InvalidAddress => FfiNodeError::InvalidAddress,
+            NodeError::InvalidSocketAddress => FfiNodeError::InvalidSocketAddress,
+            NodeError::InvalidPublicKey => FfiNodeError::InvalidPublicKey,
+            NodeError::InvalidSecretKey => FfiNodeError::InvalidSecretKey,
+            NodeError::InvalidPaymentHash => FfiNodeError::InvalidPaymentHash,
+            NodeError::InvalidPaymentPreimage => FfiNodeError::InvalidPaymentPreimage,
+            NodeError::InvalidPaymentSecret => FfiNodeError::InvalidPaymentSecret,
+            NodeError::InvalidAmount => FfiNodeError::InvalidAmount,
+            NodeError::InvalidInvoice => FfiNodeError::InvalidInvoice,
+            NodeError::InvalidChannelId => FfiNodeError::InvalidChannelId,
+            NodeError::InvalidNetwork => FfiNodeError::InvalidNetwork,
+            NodeError::DuplicatePayment => FfiNodeError::DuplicatePayment,
+            NodeError::InsufficientFunds => FfiNodeError::InsufficientFunds,
+            NodeError::FeerateEstimationUpdateFailed => FfiNodeError::FeerateEstimationUpdateFailed,
+            NodeError::LiquidityRequestFailed => FfiNodeError::LiquidityRequestFailed,
+            NodeError::LiquiditySourceUnavailable => FfiNodeError::LiquiditySourceUnavailable,
+            NodeError::LiquidityFeeTooHigh => FfiNodeError::LiquidityFeeTooHigh,
+            NodeError::InvalidPaymentId => FfiNodeError::InvalidPaymentId,
+            NodeError::InvoiceRequestCreationFailed => FfiNodeError::InvoiceRequestCreationFailed,
+            NodeError::OfferCreationFailed => FfiNodeError::OfferCreationFailed,
+            NodeError::RefundCreationFailed => FfiNodeError::RefundCreationFailed,
             NodeError::FeerateEstimationUpdateTimeout => {
-                LdkNodeError::FeerateEstimationUpdateTimeout
+                FfiNodeError::FeerateEstimationUpdateTimeout
             }
-            NodeError::WalletOperationTimeout => LdkNodeError::WalletOperationTimeout,
-            NodeError::TxSyncTimeout => LdkNodeError::TxSyncTimeout,
-            NodeError::GossipUpdateTimeout => LdkNodeError::GossipUpdateTimeout,
-            NodeError::InvalidOfferId => LdkNodeError::InvalidOfferId,
-            NodeError::InvalidNodeId => LdkNodeError::InvalidNodeId,
-            NodeError::InvalidOffer => LdkNodeError::InvalidOffer,
-            NodeError::InvalidRefund => LdkNodeError::InvalidRefund,
-            NodeError::UnsupportedCurrency => LdkNodeError::UnsupportedCurrency,
+            NodeError::WalletOperationTimeout => FfiNodeError::WalletOperationTimeout,
+            NodeError::TxSyncTimeout => FfiNodeError::TxSyncTimeout,
+            NodeError::GossipUpdateTimeout => FfiNodeError::GossipUpdateTimeout,
+            NodeError::InvalidOfferId => FfiNodeError::InvalidOfferId,
+            NodeError::InvalidNodeId => FfiNodeError::InvalidNodeId,
+            NodeError::InvalidOffer => FfiNodeError::InvalidOffer,
+            NodeError::InvalidRefund => FfiNodeError::InvalidRefund,
+            NodeError::UnsupportedCurrency => FfiNodeError::UnsupportedCurrency,
+            NodeError::UriParameterParsingFailed => FfiNodeError::UriParameterParsingFailed,
+            NodeError::InvalidUri => FfiNodeError::InvalidUri,
+            NodeError::InvalidQuantity => FfiNodeError::InvalidQuantity,
+            NodeError::InvalidNodeAlias => FfiNodeError::InvalidNodeAlias,
         }
     }
 }
-impl From<BuildError> for LdkBuilderError {
+impl From<BuildError> for FfiBuilderError {
     fn from(value: BuildError) -> Self {
         match value {
-            BuildError::InvalidSeedBytes => LdkBuilderError::InvalidSeedBytes,
-            BuildError::InvalidSeedFile => LdkBuilderError::InvalidSeedFile,
-            BuildError::InvalidSystemTime => LdkBuilderError::InvalidSystemTime,
-            BuildError::ReadFailed => LdkBuilderError::ReadFailed,
-            BuildError::WriteFailed => LdkBuilderError::WriteFailed,
-            BuildError::StoragePathAccessFailed => LdkBuilderError::StoragePathAccessFailed,
-            BuildError::WalletSetupFailed => LdkBuilderError::WalletSetupFailed,
-            BuildError::LoggerSetupFailed => LdkBuilderError::LoggerSetupFailed,
-            BuildError::InvalidChannelMonitor => LdkBuilderError::InvalidChannelMonitor,
-            BuildError::KVStoreSetupFailed => LdkBuilderError::KVStoreSetupFailed,
-            BuildError::InvalidListeningAddresses => LdkBuilderError::InvalidListeningAddress,
+            BuildError::InvalidSeedBytes => FfiBuilderError::InvalidSeedBytes,
+            BuildError::InvalidSeedFile => FfiBuilderError::InvalidSeedFile,
+            BuildError::InvalidSystemTime => FfiBuilderError::InvalidSystemTime,
+            BuildError::ReadFailed => FfiBuilderError::ReadFailed,
+            BuildError::WriteFailed => FfiBuilderError::WriteFailed,
+            BuildError::StoragePathAccessFailed => FfiBuilderError::StoragePathAccessFailed,
+            BuildError::WalletSetupFailed => FfiBuilderError::WalletSetupFailed,
+            BuildError::LoggerSetupFailed => FfiBuilderError::LoggerSetupFailed,
+            BuildError::InvalidChannelMonitor => FfiBuilderError::InvalidChannelMonitor,
+            BuildError::KVStoreSetupFailed => FfiBuilderError::KVStoreSetupFailed,
+            BuildError::InvalidListeningAddresses => FfiBuilderError::InvalidListeningAddress,
+            BuildError::InvalidNodeAlias => FfiBuilderError::InvalidNodeAlias,
         }
     }
 }
 
-impl From<ldk_node::bip39::Error> for LdkBuilderError {
+impl From<ldk_node::bip39::Error> for FfiBuilderError {
     fn from(value: ldk_node::bip39::Error) -> Self {
         match value {
-            ldk_node::bip39::Error::BadWordCount(_) => LdkBuilderError::InvalidSeedBytes,
-            ldk_node::bip39::Error::UnknownWord(_) => LdkBuilderError::InvalidSeedBytes,
-            ldk_node::bip39::Error::BadEntropyBitCount(_) => LdkBuilderError::InvalidSeedBytes,
-            ldk_node::bip39::Error::InvalidChecksum => LdkBuilderError::InvalidSeedBytes,
-            ldk_node::bip39::Error::AmbiguousLanguages(_) => LdkBuilderError::InvalidSeedBytes,
+            ldk_node::bip39::Error::BadWordCount(_) => FfiBuilderError::InvalidSeedBytes,
+            ldk_node::bip39::Error::UnknownWord(_) => FfiBuilderError::InvalidSeedBytes,
+            ldk_node::bip39::Error::BadEntropyBitCount(_) => FfiBuilderError::InvalidSeedBytes,
+            ldk_node::bip39::Error::InvalidChecksum => FfiBuilderError::InvalidSeedBytes,
+            ldk_node::bip39::Error::AmbiguousLanguages(_) => FfiBuilderError::InvalidSeedBytes,
         }
     }
 }
-impl From<ldk_node::lightning::ln::msgs::DecodeError> for LdkNodeError {
+impl From<ldk_node::lightning::ln::msgs::DecodeError> for FfiNodeError {
     fn from(value: ldk_node::lightning::ln::msgs::DecodeError) -> Self {
-        LdkNodeError::Decode(value.into())
+        FfiNodeError::Decode(value.into())
     }
 }
 impl From<ldk_node::lightning::ln::msgs::DecodeError> for DecodeError {
@@ -232,7 +241,45 @@ impl From<ldk_node::lightning::ln::msgs::DecodeError> for DecodeError {
             ldk_node::lightning::ln::msgs::DecodeError::BadLengthDescriptor => {
                 DecodeError::BadLengthDescriptor
             }
-            ldk_node::lightning::ln::msgs::DecodeError::Io(e) => DecodeError::Io(e.to_string()),
+            ldk_node::lightning::ln::msgs::DecodeError::Io(e) =>
+                DecodeError::Io(match e {
+                    ldk_node::bitcoin::io::ErrorKind::NotFound =>
+                        "An entity was not found.".to_string(),
+                    ldk_node::bitcoin::io::ErrorKind::PermissionDenied =>
+                        "operation lacked the necessary privileges to complete.".to_string(),
+                    ldk_node::bitcoin::io::ErrorKind::ConnectionRefused =>
+                        " connection was refused by the remote server..".to_string(),
+                    ldk_node::bitcoin::io::ErrorKind::ConnectionReset =>
+                        "connection was reset by the remote server.".to_string(),
+                    ldk_node::bitcoin::io::ErrorKind::ConnectionAborted =>
+                        " connection was aborted (terminated) by the remote server.".to_string(),
+                    ldk_node::bitcoin::io::ErrorKind::NotConnected =>
+                        "network operation failed because it was not connected yet.".to_string(),
+                    ldk_node::bitcoin::io::ErrorKind::AddrInUse =>
+                        "socket address could not be bound because the address is already in use elsewhere.".to_string(),
+                    ldk_node::bitcoin::io::ErrorKind::AddrNotAvailable =>
+                        "nonexistent interface was requested or the requested address was not local.".to_string(),
+                    ldk_node::bitcoin::io::ErrorKind::BrokenPipe =>
+                        "operation failed because a pipe was closed.".to_string(),
+                    ldk_node::bitcoin::io::ErrorKind::AlreadyExists =>
+                        "entity already exists.".to_string(),
+                    ldk_node::bitcoin::io::ErrorKind::WouldBlock =>
+                        "operation needs to block to complete, but the blocking operation was requested to not occur.".to_string(),
+                    ldk_node::bitcoin::io::ErrorKind::InvalidInput =>
+                        "parameter was incorrect.".to_string(),
+                    ldk_node::bitcoin::io::ErrorKind::InvalidData =>
+                        "data not valid for the operation were encountered.".to_string(),
+                    ldk_node::bitcoin::io::ErrorKind::TimedOut =>
+                        " I/O operation’s timeout expired, causing it to be canceled.".to_string(),
+                    ldk_node::bitcoin::io::ErrorKind::WriteZero =>
+                        "error returned when an operation could not be completed because a call to write".to_string(),
+                    ldk_node::bitcoin::io::ErrorKind::Interrupted =>
+                        " operation was interrupted.".to_string(),
+                    ldk_node::bitcoin::io::ErrorKind::UnexpectedEof =>
+                        "error returned when an operation could not be completed because an “end of file” was reached prematurely.".to_string(),
+                    ldk_node::bitcoin::io::ErrorKind::Other =>
+                        "custom error that does not fall under any other I/O error kind".to_string(),
+                }),
             ldk_node::lightning::ln::msgs::DecodeError::UnsupportedCompression => {
                 DecodeError::UnsupportedCompression
             }
@@ -263,26 +310,26 @@ pub enum Bolt12ParseError {
     InvalidSemantics(String),
     InvalidSignature(String),
 }
-impl From<ldk_node::lightning::offers::parse::Bolt12ParseError> for LdkNodeError {
+impl From<ldk_node::lightning::offers::parse::Bolt12ParseError> for FfiNodeError {
     fn from(value: ldk_node::lightning::offers::parse::Bolt12ParseError) -> Self {
         match value {
             ldk_node::lightning::offers::parse::Bolt12ParseError::InvalidContinuation => {
-                LdkNodeError::Bolt12Parse(Bolt12ParseError::InvalidContinuation)
+                FfiNodeError::Bolt12Parse(Bolt12ParseError::InvalidContinuation)
             }
             ldk_node::lightning::offers::parse::Bolt12ParseError::InvalidBech32Hrp => {
-                LdkNodeError::Bolt12Parse(Bolt12ParseError::InvalidBech32Hrp)
+                FfiNodeError::Bolt12Parse(Bolt12ParseError::InvalidBech32Hrp)
             }
             ldk_node::lightning::offers::parse::Bolt12ParseError::Bech32(e) => {
-                LdkNodeError::Bolt12Parse(Bolt12ParseError::Bech32(e.to_string()))
+                FfiNodeError::Bolt12Parse(Bolt12ParseError::Bech32(e.to_string()))
             }
             ldk_node::lightning::offers::parse::Bolt12ParseError::Decode(e) => {
-                LdkNodeError::Bolt12Parse(Bolt12ParseError::Decode(e.into()))
+                FfiNodeError::Bolt12Parse(Bolt12ParseError::Decode(e.into()))
             }
             ldk_node::lightning::offers::parse::Bolt12ParseError::InvalidSemantics(e) => {
-                LdkNodeError::Bolt12Parse(Bolt12ParseError::InvalidSemantics(format!("{:?}", e)))
+                FfiNodeError::Bolt12Parse(Bolt12ParseError::InvalidSemantics(format!("{:?}", e)))
             }
             ldk_node::lightning::offers::parse::Bolt12ParseError::InvalidSignature(e) => {
-                LdkNodeError::Bolt12Parse(Bolt12ParseError::InvalidSignature(e.to_string()))
+                FfiNodeError::Bolt12Parse(Bolt12ParseError::InvalidSignature(e.to_string()))
             }
         }
     }

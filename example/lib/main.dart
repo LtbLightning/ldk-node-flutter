@@ -27,6 +27,10 @@ class _MyAppState extends State<MyApp> {
   ldk.UserChannelId? userChannelId;
 
   String esploraUrl = "https://mutinynet.ltbl.io/api";
+  final esploraConfig = ldk.EsploraSyncConfig(
+      onchainWalletSyncIntervalSecs: BigInt.from(60),
+      lightningWalletSyncIntervalSecs: BigInt.from(60),
+      feeRateCacheUpdateIntervalSecs: BigInt.from(600));
   /*
   // For local esplora server
 
@@ -46,11 +50,12 @@ class _MyAppState extends State<MyApp> {
       String path, ldk.SocketAddress address, String mnemonic) async {
     final directory = await getApplicationDocumentsDirectory();
     final nodeStorageDir = "${directory.path}/ldk_cache/$path";
-    print(nodeStorageDir);
+    debugPrint(nodeStorageDir);
     // For a node on the mutiny network with default config and service
     ldk.Builder builder = ldk.Builder.mutinynet()
         .setEntropyBip39Mnemonic(mnemonic: ldk.Mnemonic(seedPhrase: mnemonic))
-        .setEsploraServer(esploraUrl)
+        .setChainSourceEsplora(
+            syncConfig: esploraConfig, esploraServerUrl: esploraUrl)
         .setStorageDirPath(nodeStorageDir)
         .setListeningAddresses([address]);
     return builder;
@@ -59,7 +64,7 @@ class _MyAppState extends State<MyApp> {
   Future initAliceNode() async {
     aliceNode = await (await createBuilder(
             'alice_mutinynet',
-            ldk.SocketAddress.hostname(addr: "0.0.0.0", port: 3003),
+            const ldk.SocketAddress.hostname(addr: "0.0.0.0", port: 3003),
             "cart super leaf clinic pistol plug replace close super tooth wealth usage"))
         .build();
     await startNode(aliceNode);
@@ -73,7 +78,7 @@ class _MyAppState extends State<MyApp> {
   initBobNode() async {
     bobNode = await (await createBuilder(
             'bob_mutinynet',
-            ldk.SocketAddress.hostname(addr: "0.0.0.0", port: 3004),
+            const ldk.SocketAddress.hostname(addr: "0.0.0.0", port: 3004),
             "puppy interest whip tonight dad never sudden response push zone pig patch"))
         .build();
     await startNode(bobNode);
@@ -88,7 +93,7 @@ class _MyAppState extends State<MyApp> {
     try {
       node.start();
     } on ldk.NodeException catch (e) {
-      print(e.toString());
+      debugPrint(e.toString());
     }
   }
 
@@ -190,24 +195,23 @@ class _MyAppState extends State<MyApp> {
   closeChannel() async {
     await aliceNode.closeChannel(
         userChannelId: userChannelId!,
-        counterpartyNodeId: ldk.PublicKey(
+        counterpartyNodeId: const ldk.PublicKey(
           hex:
               '02465ed5be53d04fde66c9418ff14a5f2267723810176c9212b722e542dc1afb1b',
         ));
   }
 
   connectOpenChannel() async {
-    final funding_amount_sat = 80000;
-    final push_msat = (funding_amount_sat / 2) * 1000;
-    userChannelId = await aliceNode.connectOpenChannel(
-        channelAmountSats: BigInt.from(funding_amount_sat),
-        announceChannel: true,
-        socketAddress: ldk.SocketAddress.hostname(
+    const fundingAmountSat = 80000;
+    const pushMsat = (fundingAmountSat / 2) * 1000;
+    userChannelId = await aliceNode.openChannel(
+        channelAmountSats: BigInt.from(fundingAmountSat),
+        socketAddress: const ldk.SocketAddress.hostname(
           addr: '45.79.52.207',
           port: 9735,
         ),
-        pushToCounterpartyMsat: BigInt.from(push_msat),
-        nodeId: ldk.PublicKey(
+        pushToCounterpartyMsat: BigInt.from(pushMsat),
+        nodeId: const ldk.PublicKey(
           hex:
               '02465ed5be53d04fde66c9418ff14a5f2267723810176c9212b722e542dc1afb1b',
         ));
@@ -223,7 +227,7 @@ class _MyAppState extends State<MyApp> {
         amountMsat: BigInt.from(25000 * 1000),
         description: 'asdf',
         expirySecs: 9217);
-    print(invoice!.signedRawInvoice);
+    debugPrint(invoice!.signedRawInvoice);
     setState(() {
       displayText = invoice!.signedRawInvoice;
     });
@@ -248,7 +252,7 @@ class _MyAppState extends State<MyApp> {
       }
     }, paymentFailed: (e) {
       if (kDebugMode) {
-        print("paymentFailed: ${e.paymentHash.data}");
+        print("paymentFailed: ${e.paymentHash?.data.toList()}");
       }
     }, paymentReceived: (e) {
       if (kDebugMode) {
@@ -284,7 +288,7 @@ class _MyAppState extends State<MyApp> {
         debugShowCheckedModeBanner: false,
         home: Scaffold(
           appBar: PreferredSize(
-            preferredSize: const Size(double.infinity, kToolbarHeight * 1.8),
+            preferredSize: const Size(double.infinity, kToolbarHeight * 2),
             child: Container(
               padding: const EdgeInsets.only(right: 20, left: 20, top: 40),
               color: Colors.blue,

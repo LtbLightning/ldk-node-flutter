@@ -17,46 +17,47 @@ class BuilderException extends ExceptionBase {
   BuilderException({super.message});
 }
 
-BuilderException mapLdkBuilderError(error.LdkBuilderError e) {
+BuilderException mapFfiBuilderError(error.FfiBuilderError e) {
   switch (e) {
-    case error.LdkBuilderError.invalidSeedBytes:
+    case error.FfiBuilderError.invalidSeedBytes:
       return BuilderException(message: "Given seed bytes are invalid.");
-    case error.LdkBuilderError.invalidSeedFile:
+    case error.FfiBuilderError.invalidSeedFile:
       return BuilderException(
           message: "Given seed file is invalid or could not be read.");
-    case error.LdkBuilderError.invalidSystemTime:
+    case error.FfiBuilderError.invalidSystemTime:
       return BuilderException(
           message:
               "System time is invalid. Clocks might have gone back in time.");
-    case error.LdkBuilderError.readFailed:
+    case error.FfiBuilderError.readFailed:
       return BuilderException(message: "Failed to read from store.");
-    case error.LdkBuilderError.writeFailed:
+    case error.FfiBuilderError.writeFailed:
       return BuilderException(message: "Failed to write to store.");
-    case error.LdkBuilderError.storagePathAccessFailed:
+    case error.FfiBuilderError.storagePathAccessFailed:
       return BuilderException(
           message: "Failed to access the given storage path.");
-    case error.LdkBuilderError.walletSetupFailed:
+    case error.FfiBuilderError.walletSetupFailed:
       return BuilderException(message: "Failed to setup onchain wallet.");
-    case error.LdkBuilderError.loggerSetupFailed:
+    case error.FfiBuilderError.loggerSetupFailed:
       return BuilderException(message: "Failed to setup the logger.");
 
-    case error.LdkBuilderError.invalidChannelMonitor:
+    case error.FfiBuilderError.invalidChannelMonitor:
       return BuilderException(
           message: "Failed to watch a deserialized ChannelMonitor.");
-    case error.LdkBuilderError.invalidListeningAddress:
+    case error.FfiBuilderError.invalidListeningAddress:
       return BuilderException(
           message: "Given listening addresses are invalid.");
-    case error.LdkBuilderError.kvStoreSetupFailed:
+    case error.FfiBuilderError.kvStoreSetupFailed:
       return BuilderException(message: "Failed to setup KVStore.");
-    case error.LdkBuilderError.socketAddressParseError:
+    case error.FfiBuilderError.socketAddressParseError:
       return BuilderException(message: "Invalid SocketAddress.");
-
-    case error.LdkBuilderError.invalidPublicKey:
+    case error.FfiBuilderError.invalidNodeAlias:
+      return BuilderException(message: "Invalid NodeAlias.");
+    case error.FfiBuilderError.invalidPublicKey:
       return BuilderException(message: "Invalid PublicKey.");
   }
 }
 
-NodeException mapLdkNodeError(error.LdkNodeError e) {
+NodeException mapFfiNodeError(error.FfiNodeError e) {
   return e.map(
       alreadyRunning: (_) => NodeException(message: "Node is already running."),
       notRunning: (_) => NodeException(message: "Node is not running."),
@@ -136,7 +137,11 @@ NodeException mapLdkNodeError(error.LdkNodeError e) {
       invalidNodeId: (e) => NodeException(message: "The given node id is invalid."),
       invalidOffer: (e) => NodeException(message: "The given offer is invalid."),
       invalidRefund: (e) => NodeException(message: "The given refund is invalid."),
-      unsupportedCurrency: (e) => NodeException(message: "The provided offer was denominated in an unsupported currency."));
+      unsupportedCurrency: (e) => NodeException(message: "The provided offer was denominated in an unsupported currency."),
+      uriParameterParsingFailed: (e) => NodeException(message: "Parsing a URI parameter has failed."),
+      invalidUri: (e) => NodeException(message: "The given URI is invalid."),
+      invalidQuantity: (e) => NodeException(message: "The given quantity is invalid."),
+      invalidNodeAlias: (e) => NodeException(message: "The given node alias is invalid."));
 }
 
 NodeException mapLdkDecodeError(error.DecodeError e) {

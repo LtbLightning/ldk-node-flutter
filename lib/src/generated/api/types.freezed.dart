@@ -16,42 +16,51 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$ChainDataSourceConfig {
-  String get field0 => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(String field0) esplora,
+    required TResult Function(String serverUrl, EsploraSyncConfig? syncConfig)
+        esplora,
+    required TResult Function(
+            String rpcHost, int rpcPort, String rpcUser, String rpcPassword)
+        bitcoindRpc,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(String field0)? esplora,
+    TResult? Function(String serverUrl, EsploraSyncConfig? syncConfig)? esplora,
+    TResult? Function(
+            String rpcHost, int rpcPort, String rpcUser, String rpcPassword)?
+        bitcoindRpc,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(String field0)? esplora,
+    TResult Function(String serverUrl, EsploraSyncConfig? syncConfig)? esplora,
+    TResult Function(
+            String rpcHost, int rpcPort, String rpcUser, String rpcPassword)?
+        bitcoindRpc,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(ChainDataSourceConfig_Esplora value) esplora,
+    required TResult Function(ChainDataSourceConfig_BitcoindRpc value)
+        bitcoindRpc,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(ChainDataSourceConfig_Esplora value)? esplora,
+    TResult? Function(ChainDataSourceConfig_BitcoindRpc value)? bitcoindRpc,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(ChainDataSourceConfig_Esplora value)? esplora,
+    TResult Function(ChainDataSourceConfig_BitcoindRpc value)? bitcoindRpc,
     required TResult orElse(),
   }) =>
-      throw _privateConstructorUsedError;
-
-  @JsonKey(ignore: true)
-  $ChainDataSourceConfigCopyWith<ChainDataSourceConfig> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
@@ -60,8 +69,6 @@ abstract class $ChainDataSourceConfigCopyWith<$Res> {
   factory $ChainDataSourceConfigCopyWith(ChainDataSourceConfig value,
           $Res Function(ChainDataSourceConfig) then) =
       _$ChainDataSourceConfigCopyWithImpl<$Res, ChainDataSourceConfig>;
-  @useResult
-  $Res call({String field0});
 }
 
 /// @nodoc
@@ -74,31 +81,16 @@ class _$ChainDataSourceConfigCopyWithImpl<$Res,
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
-
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? field0 = null,
-  }) {
-    return _then(_value.copyWith(
-      field0: null == field0
-          ? _value.field0
-          : field0 // ignore: cast_nullable_to_non_nullable
-              as String,
-    ) as $Val);
-  }
 }
 
 /// @nodoc
-abstract class _$$ChainDataSourceConfig_EsploraImplCopyWith<$Res>
-    implements $ChainDataSourceConfigCopyWith<$Res> {
+abstract class _$$ChainDataSourceConfig_EsploraImplCopyWith<$Res> {
   factory _$$ChainDataSourceConfig_EsploraImplCopyWith(
           _$ChainDataSourceConfig_EsploraImpl value,
           $Res Function(_$ChainDataSourceConfig_EsploraImpl) then) =
       __$$ChainDataSourceConfig_EsploraImplCopyWithImpl<$Res>;
-  @override
   @useResult
-  $Res call({String field0});
+  $Res call({String serverUrl, EsploraSyncConfig? syncConfig});
 }
 
 /// @nodoc
@@ -114,13 +106,18 @@ class __$$ChainDataSourceConfig_EsploraImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? field0 = null,
+    Object? serverUrl = null,
+    Object? syncConfig = freezed,
   }) {
     return _then(_$ChainDataSourceConfig_EsploraImpl(
-      null == field0
-          ? _value.field0
-          : field0 // ignore: cast_nullable_to_non_nullable
+      serverUrl: null == serverUrl
+          ? _value.serverUrl
+          : serverUrl // ignore: cast_nullable_to_non_nullable
               as String,
+      syncConfig: freezed == syncConfig
+          ? _value.syncConfig
+          : syncConfig // ignore: cast_nullable_to_non_nullable
+              as EsploraSyncConfig?,
     ));
   }
 }
@@ -129,14 +126,18 @@ class __$$ChainDataSourceConfig_EsploraImplCopyWithImpl<$Res>
 
 class _$ChainDataSourceConfig_EsploraImpl
     extends ChainDataSourceConfig_Esplora {
-  const _$ChainDataSourceConfig_EsploraImpl(this.field0) : super._();
+  const _$ChainDataSourceConfig_EsploraImpl(
+      {required this.serverUrl, this.syncConfig})
+      : super._();
 
   @override
-  final String field0;
+  final String serverUrl;
+  @override
+  final EsploraSyncConfig? syncConfig;
 
   @override
   String toString() {
-    return 'ChainDataSourceConfig.esplora(field0: $field0)';
+    return 'ChainDataSourceConfig.esplora(serverUrl: $serverUrl, syncConfig: $syncConfig)';
   }
 
   @override
@@ -144,11 +145,14 @@ class _$ChainDataSourceConfig_EsploraImpl
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$ChainDataSourceConfig_EsploraImpl &&
-            (identical(other.field0, field0) || other.field0 == field0));
+            (identical(other.serverUrl, serverUrl) ||
+                other.serverUrl == serverUrl) &&
+            (identical(other.syncConfig, syncConfig) ||
+                other.syncConfig == syncConfig));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, field0);
+  int get hashCode => Object.hash(runtimeType, serverUrl, syncConfig);
 
   @JsonKey(ignore: true)
   @override
@@ -161,27 +165,37 @@ class _$ChainDataSourceConfig_EsploraImpl
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(String field0) esplora,
+    required TResult Function(String serverUrl, EsploraSyncConfig? syncConfig)
+        esplora,
+    required TResult Function(
+            String rpcHost, int rpcPort, String rpcUser, String rpcPassword)
+        bitcoindRpc,
   }) {
-    return esplora(field0);
+    return esplora(serverUrl, syncConfig);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(String field0)? esplora,
+    TResult? Function(String serverUrl, EsploraSyncConfig? syncConfig)? esplora,
+    TResult? Function(
+            String rpcHost, int rpcPort, String rpcUser, String rpcPassword)?
+        bitcoindRpc,
   }) {
-    return esplora?.call(field0);
+    return esplora?.call(serverUrl, syncConfig);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(String field0)? esplora,
+    TResult Function(String serverUrl, EsploraSyncConfig? syncConfig)? esplora,
+    TResult Function(
+            String rpcHost, int rpcPort, String rpcUser, String rpcPassword)?
+        bitcoindRpc,
     required TResult orElse(),
   }) {
     if (esplora != null) {
-      return esplora(field0);
+      return esplora(serverUrl, syncConfig);
     }
     return orElse();
   }
@@ -190,6 +204,8 @@ class _$ChainDataSourceConfig_EsploraImpl
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(ChainDataSourceConfig_Esplora value) esplora,
+    required TResult Function(ChainDataSourceConfig_BitcoindRpc value)
+        bitcoindRpc,
   }) {
     return esplora(this);
   }
@@ -198,6 +214,7 @@ class _$ChainDataSourceConfig_EsploraImpl
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(ChainDataSourceConfig_Esplora value)? esplora,
+    TResult? Function(ChainDataSourceConfig_BitcoindRpc value)? bitcoindRpc,
   }) {
     return esplora?.call(this);
   }
@@ -206,6 +223,7 @@ class _$ChainDataSourceConfig_EsploraImpl
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(ChainDataSourceConfig_Esplora value)? esplora,
+    TResult Function(ChainDataSourceConfig_BitcoindRpc value)? bitcoindRpc,
     required TResult orElse(),
   }) {
     if (esplora != null) {
@@ -216,13 +234,14 @@ class _$ChainDataSourceConfig_EsploraImpl
 }
 
 abstract class ChainDataSourceConfig_Esplora extends ChainDataSourceConfig {
-  const factory ChainDataSourceConfig_Esplora(final String field0) =
+  const factory ChainDataSourceConfig_Esplora(
+          {required final String serverUrl,
+          final EsploraSyncConfig? syncConfig}) =
       _$ChainDataSourceConfig_EsploraImpl;
   const ChainDataSourceConfig_Esplora._() : super._();
 
-  @override
-  String get field0;
-  @override
+  String get serverUrl;
+  EsploraSyncConfig? get syncConfig;
   @JsonKey(ignore: true)
   _$$ChainDataSourceConfig_EsploraImplCopyWith<
           _$ChainDataSourceConfig_EsploraImpl>
@@ -230,11 +249,202 @@ abstract class ChainDataSourceConfig_Esplora extends ChainDataSourceConfig {
 }
 
 /// @nodoc
+abstract class _$$ChainDataSourceConfig_BitcoindRpcImplCopyWith<$Res> {
+  factory _$$ChainDataSourceConfig_BitcoindRpcImplCopyWith(
+          _$ChainDataSourceConfig_BitcoindRpcImpl value,
+          $Res Function(_$ChainDataSourceConfig_BitcoindRpcImpl) then) =
+      __$$ChainDataSourceConfig_BitcoindRpcImplCopyWithImpl<$Res>;
+  @useResult
+  $Res call({String rpcHost, int rpcPort, String rpcUser, String rpcPassword});
+}
+
+/// @nodoc
+class __$$ChainDataSourceConfig_BitcoindRpcImplCopyWithImpl<$Res>
+    extends _$ChainDataSourceConfigCopyWithImpl<$Res,
+        _$ChainDataSourceConfig_BitcoindRpcImpl>
+    implements _$$ChainDataSourceConfig_BitcoindRpcImplCopyWith<$Res> {
+  __$$ChainDataSourceConfig_BitcoindRpcImplCopyWithImpl(
+      _$ChainDataSourceConfig_BitcoindRpcImpl _value,
+      $Res Function(_$ChainDataSourceConfig_BitcoindRpcImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? rpcHost = null,
+    Object? rpcPort = null,
+    Object? rpcUser = null,
+    Object? rpcPassword = null,
+  }) {
+    return _then(_$ChainDataSourceConfig_BitcoindRpcImpl(
+      rpcHost: null == rpcHost
+          ? _value.rpcHost
+          : rpcHost // ignore: cast_nullable_to_non_nullable
+              as String,
+      rpcPort: null == rpcPort
+          ? _value.rpcPort
+          : rpcPort // ignore: cast_nullable_to_non_nullable
+              as int,
+      rpcUser: null == rpcUser
+          ? _value.rpcUser
+          : rpcUser // ignore: cast_nullable_to_non_nullable
+              as String,
+      rpcPassword: null == rpcPassword
+          ? _value.rpcPassword
+          : rpcPassword // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$ChainDataSourceConfig_BitcoindRpcImpl
+    extends ChainDataSourceConfig_BitcoindRpc {
+  const _$ChainDataSourceConfig_BitcoindRpcImpl(
+      {required this.rpcHost,
+      required this.rpcPort,
+      required this.rpcUser,
+      required this.rpcPassword})
+      : super._();
+
+  @override
+  final String rpcHost;
+  @override
+  final int rpcPort;
+  @override
+  final String rpcUser;
+  @override
+  final String rpcPassword;
+
+  @override
+  String toString() {
+    return 'ChainDataSourceConfig.bitcoindRpc(rpcHost: $rpcHost, rpcPort: $rpcPort, rpcUser: $rpcUser, rpcPassword: $rpcPassword)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$ChainDataSourceConfig_BitcoindRpcImpl &&
+            (identical(other.rpcHost, rpcHost) || other.rpcHost == rpcHost) &&
+            (identical(other.rpcPort, rpcPort) || other.rpcPort == rpcPort) &&
+            (identical(other.rpcUser, rpcUser) || other.rpcUser == rpcUser) &&
+            (identical(other.rpcPassword, rpcPassword) ||
+                other.rpcPassword == rpcPassword));
+  }
+
+  @override
+  int get hashCode =>
+      Object.hash(runtimeType, rpcHost, rpcPort, rpcUser, rpcPassword);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$ChainDataSourceConfig_BitcoindRpcImplCopyWith<
+          _$ChainDataSourceConfig_BitcoindRpcImpl>
+      get copyWith => __$$ChainDataSourceConfig_BitcoindRpcImplCopyWithImpl<
+          _$ChainDataSourceConfig_BitcoindRpcImpl>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(String serverUrl, EsploraSyncConfig? syncConfig)
+        esplora,
+    required TResult Function(
+            String rpcHost, int rpcPort, String rpcUser, String rpcPassword)
+        bitcoindRpc,
+  }) {
+    return bitcoindRpc(rpcHost, rpcPort, rpcUser, rpcPassword);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(String serverUrl, EsploraSyncConfig? syncConfig)? esplora,
+    TResult? Function(
+            String rpcHost, int rpcPort, String rpcUser, String rpcPassword)?
+        bitcoindRpc,
+  }) {
+    return bitcoindRpc?.call(rpcHost, rpcPort, rpcUser, rpcPassword);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(String serverUrl, EsploraSyncConfig? syncConfig)? esplora,
+    TResult Function(
+            String rpcHost, int rpcPort, String rpcUser, String rpcPassword)?
+        bitcoindRpc,
+    required TResult orElse(),
+  }) {
+    if (bitcoindRpc != null) {
+      return bitcoindRpc(rpcHost, rpcPort, rpcUser, rpcPassword);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(ChainDataSourceConfig_Esplora value) esplora,
+    required TResult Function(ChainDataSourceConfig_BitcoindRpc value)
+        bitcoindRpc,
+  }) {
+    return bitcoindRpc(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(ChainDataSourceConfig_Esplora value)? esplora,
+    TResult? Function(ChainDataSourceConfig_BitcoindRpc value)? bitcoindRpc,
+  }) {
+    return bitcoindRpc?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(ChainDataSourceConfig_Esplora value)? esplora,
+    TResult Function(ChainDataSourceConfig_BitcoindRpc value)? bitcoindRpc,
+    required TResult orElse(),
+  }) {
+    if (bitcoindRpc != null) {
+      return bitcoindRpc(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class ChainDataSourceConfig_BitcoindRpc extends ChainDataSourceConfig {
+  const factory ChainDataSourceConfig_BitcoindRpc(
+          {required final String rpcHost,
+          required final int rpcPort,
+          required final String rpcUser,
+          required final String rpcPassword}) =
+      _$ChainDataSourceConfig_BitcoindRpcImpl;
+  const ChainDataSourceConfig_BitcoindRpc._() : super._();
+
+  String get rpcHost;
+  int get rpcPort;
+  String get rpcUser;
+  String get rpcPassword;
+  @JsonKey(ignore: true)
+  _$$ChainDataSourceConfig_BitcoindRpcImplCopyWith<
+          _$ChainDataSourceConfig_BitcoindRpcImpl>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
 mixin _$ClosureReason {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
+    required TResult Function(
+            int peerFeerateSatPerKw, int requiredFeerateSatPerKw)
+        peerFeerateTooLow,
     required TResult Function(String peerMsg) counterpartyForceClosed,
-    required TResult Function() holderForceClosed,
+    required TResult Function(bool? broadcastedLatestTxn) holderForceClosed,
     required TResult Function() legacyCooperativeClosure,
     required TResult Function() counterpartyInitiatedCooperativeClosure,
     required TResult Function() locallyInitiatedCooperativeClosure,
@@ -250,8 +460,10 @@ mixin _$ClosureReason {
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(int peerFeerateSatPerKw, int requiredFeerateSatPerKw)?
+        peerFeerateTooLow,
     TResult? Function(String peerMsg)? counterpartyForceClosed,
-    TResult? Function()? holderForceClosed,
+    TResult? Function(bool? broadcastedLatestTxn)? holderForceClosed,
     TResult? Function()? legacyCooperativeClosure,
     TResult? Function()? counterpartyInitiatedCooperativeClosure,
     TResult? Function()? locallyInitiatedCooperativeClosure,
@@ -267,8 +479,10 @@ mixin _$ClosureReason {
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
+    TResult Function(int peerFeerateSatPerKw, int requiredFeerateSatPerKw)?
+        peerFeerateTooLow,
     TResult Function(String peerMsg)? counterpartyForceClosed,
-    TResult Function()? holderForceClosed,
+    TResult Function(bool? broadcastedLatestTxn)? holderForceClosed,
     TResult Function()? legacyCooperativeClosure,
     TResult Function()? counterpartyInitiatedCooperativeClosure,
     TResult Function()? locallyInitiatedCooperativeClosure,
@@ -285,6 +499,8 @@ mixin _$ClosureReason {
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
+    required TResult Function(ClosureReason_PeerFeerateTooLow value)
+        peerFeerateTooLow,
     required TResult Function(ClosureReason_CounterpartyForceClosed value)
         counterpartyForceClosed,
     required TResult Function(ClosureReason_HolderForceClosed value)
@@ -317,6 +533,7 @@ mixin _$ClosureReason {
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(ClosureReason_PeerFeerateTooLow value)? peerFeerateTooLow,
     TResult? Function(ClosureReason_CounterpartyForceClosed value)?
         counterpartyForceClosed,
     TResult? Function(ClosureReason_HolderForceClosed value)? holderForceClosed,
@@ -344,6 +561,7 @@ mixin _$ClosureReason {
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
+    TResult Function(ClosureReason_PeerFeerateTooLow value)? peerFeerateTooLow,
     TResult Function(ClosureReason_CounterpartyForceClosed value)?
         counterpartyForceClosed,
     TResult Function(ClosureReason_HolderForceClosed value)? holderForceClosed,
@@ -387,6 +605,278 @@ class _$ClosureReasonCopyWithImpl<$Res, $Val extends ClosureReason>
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
+}
+
+/// @nodoc
+abstract class _$$ClosureReason_PeerFeerateTooLowImplCopyWith<$Res> {
+  factory _$$ClosureReason_PeerFeerateTooLowImplCopyWith(
+          _$ClosureReason_PeerFeerateTooLowImpl value,
+          $Res Function(_$ClosureReason_PeerFeerateTooLowImpl) then) =
+      __$$ClosureReason_PeerFeerateTooLowImplCopyWithImpl<$Res>;
+  @useResult
+  $Res call({int peerFeerateSatPerKw, int requiredFeerateSatPerKw});
+}
+
+/// @nodoc
+class __$$ClosureReason_PeerFeerateTooLowImplCopyWithImpl<$Res>
+    extends _$ClosureReasonCopyWithImpl<$Res,
+        _$ClosureReason_PeerFeerateTooLowImpl>
+    implements _$$ClosureReason_PeerFeerateTooLowImplCopyWith<$Res> {
+  __$$ClosureReason_PeerFeerateTooLowImplCopyWithImpl(
+      _$ClosureReason_PeerFeerateTooLowImpl _value,
+      $Res Function(_$ClosureReason_PeerFeerateTooLowImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? peerFeerateSatPerKw = null,
+    Object? requiredFeerateSatPerKw = null,
+  }) {
+    return _then(_$ClosureReason_PeerFeerateTooLowImpl(
+      peerFeerateSatPerKw: null == peerFeerateSatPerKw
+          ? _value.peerFeerateSatPerKw
+          : peerFeerateSatPerKw // ignore: cast_nullable_to_non_nullable
+              as int,
+      requiredFeerateSatPerKw: null == requiredFeerateSatPerKw
+          ? _value.requiredFeerateSatPerKw
+          : requiredFeerateSatPerKw // ignore: cast_nullable_to_non_nullable
+              as int,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$ClosureReason_PeerFeerateTooLowImpl
+    extends ClosureReason_PeerFeerateTooLow {
+  const _$ClosureReason_PeerFeerateTooLowImpl(
+      {required this.peerFeerateSatPerKw,
+      required this.requiredFeerateSatPerKw})
+      : super._();
+
+  @override
+  final int peerFeerateSatPerKw;
+  @override
+  final int requiredFeerateSatPerKw;
+
+  @override
+  String toString() {
+    return 'ClosureReason.peerFeerateTooLow(peerFeerateSatPerKw: $peerFeerateSatPerKw, requiredFeerateSatPerKw: $requiredFeerateSatPerKw)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$ClosureReason_PeerFeerateTooLowImpl &&
+            (identical(other.peerFeerateSatPerKw, peerFeerateSatPerKw) ||
+                other.peerFeerateSatPerKw == peerFeerateSatPerKw) &&
+            (identical(
+                    other.requiredFeerateSatPerKw, requiredFeerateSatPerKw) ||
+                other.requiredFeerateSatPerKw == requiredFeerateSatPerKw));
+  }
+
+  @override
+  int get hashCode =>
+      Object.hash(runtimeType, peerFeerateSatPerKw, requiredFeerateSatPerKw);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$ClosureReason_PeerFeerateTooLowImplCopyWith<
+          _$ClosureReason_PeerFeerateTooLowImpl>
+      get copyWith => __$$ClosureReason_PeerFeerateTooLowImplCopyWithImpl<
+          _$ClosureReason_PeerFeerateTooLowImpl>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(
+            int peerFeerateSatPerKw, int requiredFeerateSatPerKw)
+        peerFeerateTooLow,
+    required TResult Function(String peerMsg) counterpartyForceClosed,
+    required TResult Function(bool? broadcastedLatestTxn) holderForceClosed,
+    required TResult Function() legacyCooperativeClosure,
+    required TResult Function() counterpartyInitiatedCooperativeClosure,
+    required TResult Function() locallyInitiatedCooperativeClosure,
+    required TResult Function() commitmentTxConfirmed,
+    required TResult Function() fundingTimedOut,
+    required TResult Function(String err) processingError,
+    required TResult Function() disconnectedPeer,
+    required TResult Function() outdatedChannelManager,
+    required TResult Function() counterpartyCoopClosedUnfundedChannel,
+    required TResult Function() fundingBatchClosure,
+    required TResult Function() htlCsTimedOut,
+  }) {
+    return peerFeerateTooLow(peerFeerateSatPerKw, requiredFeerateSatPerKw);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(int peerFeerateSatPerKw, int requiredFeerateSatPerKw)?
+        peerFeerateTooLow,
+    TResult? Function(String peerMsg)? counterpartyForceClosed,
+    TResult? Function(bool? broadcastedLatestTxn)? holderForceClosed,
+    TResult? Function()? legacyCooperativeClosure,
+    TResult? Function()? counterpartyInitiatedCooperativeClosure,
+    TResult? Function()? locallyInitiatedCooperativeClosure,
+    TResult? Function()? commitmentTxConfirmed,
+    TResult? Function()? fundingTimedOut,
+    TResult? Function(String err)? processingError,
+    TResult? Function()? disconnectedPeer,
+    TResult? Function()? outdatedChannelManager,
+    TResult? Function()? counterpartyCoopClosedUnfundedChannel,
+    TResult? Function()? fundingBatchClosure,
+    TResult? Function()? htlCsTimedOut,
+  }) {
+    return peerFeerateTooLow?.call(
+        peerFeerateSatPerKw, requiredFeerateSatPerKw);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(int peerFeerateSatPerKw, int requiredFeerateSatPerKw)?
+        peerFeerateTooLow,
+    TResult Function(String peerMsg)? counterpartyForceClosed,
+    TResult Function(bool? broadcastedLatestTxn)? holderForceClosed,
+    TResult Function()? legacyCooperativeClosure,
+    TResult Function()? counterpartyInitiatedCooperativeClosure,
+    TResult Function()? locallyInitiatedCooperativeClosure,
+    TResult Function()? commitmentTxConfirmed,
+    TResult Function()? fundingTimedOut,
+    TResult Function(String err)? processingError,
+    TResult Function()? disconnectedPeer,
+    TResult Function()? outdatedChannelManager,
+    TResult Function()? counterpartyCoopClosedUnfundedChannel,
+    TResult Function()? fundingBatchClosure,
+    TResult Function()? htlCsTimedOut,
+    required TResult orElse(),
+  }) {
+    if (peerFeerateTooLow != null) {
+      return peerFeerateTooLow(peerFeerateSatPerKw, requiredFeerateSatPerKw);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(ClosureReason_PeerFeerateTooLow value)
+        peerFeerateTooLow,
+    required TResult Function(ClosureReason_CounterpartyForceClosed value)
+        counterpartyForceClosed,
+    required TResult Function(ClosureReason_HolderForceClosed value)
+        holderForceClosed,
+    required TResult Function(ClosureReason_LegacyCooperativeClosure value)
+        legacyCooperativeClosure,
+    required TResult Function(
+            ClosureReason_CounterpartyInitiatedCooperativeClosure value)
+        counterpartyInitiatedCooperativeClosure,
+    required TResult Function(
+            ClosureReason_LocallyInitiatedCooperativeClosure value)
+        locallyInitiatedCooperativeClosure,
+    required TResult Function(ClosureReason_CommitmentTxConfirmed value)
+        commitmentTxConfirmed,
+    required TResult Function(ClosureReason_FundingTimedOut value)
+        fundingTimedOut,
+    required TResult Function(ClosureReason_ProcessingError value)
+        processingError,
+    required TResult Function(ClosureReason_DisconnectedPeer value)
+        disconnectedPeer,
+    required TResult Function(ClosureReason_OutdatedChannelManager value)
+        outdatedChannelManager,
+    required TResult Function(
+            ClosureReason_CounterpartyCoopClosedUnfundedChannel value)
+        counterpartyCoopClosedUnfundedChannel,
+    required TResult Function(ClosureReason_FundingBatchClosure value)
+        fundingBatchClosure,
+    required TResult Function(ClosureReason_HTLCsTimedOut value) htlCsTimedOut,
+  }) {
+    return peerFeerateTooLow(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(ClosureReason_PeerFeerateTooLow value)? peerFeerateTooLow,
+    TResult? Function(ClosureReason_CounterpartyForceClosed value)?
+        counterpartyForceClosed,
+    TResult? Function(ClosureReason_HolderForceClosed value)? holderForceClosed,
+    TResult? Function(ClosureReason_LegacyCooperativeClosure value)?
+        legacyCooperativeClosure,
+    TResult? Function(
+            ClosureReason_CounterpartyInitiatedCooperativeClosure value)?
+        counterpartyInitiatedCooperativeClosure,
+    TResult? Function(ClosureReason_LocallyInitiatedCooperativeClosure value)?
+        locallyInitiatedCooperativeClosure,
+    TResult? Function(ClosureReason_CommitmentTxConfirmed value)?
+        commitmentTxConfirmed,
+    TResult? Function(ClosureReason_FundingTimedOut value)? fundingTimedOut,
+    TResult? Function(ClosureReason_ProcessingError value)? processingError,
+    TResult? Function(ClosureReason_DisconnectedPeer value)? disconnectedPeer,
+    TResult? Function(ClosureReason_OutdatedChannelManager value)?
+        outdatedChannelManager,
+    TResult? Function(
+            ClosureReason_CounterpartyCoopClosedUnfundedChannel value)?
+        counterpartyCoopClosedUnfundedChannel,
+    TResult? Function(ClosureReason_FundingBatchClosure value)?
+        fundingBatchClosure,
+    TResult? Function(ClosureReason_HTLCsTimedOut value)? htlCsTimedOut,
+  }) {
+    return peerFeerateTooLow?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(ClosureReason_PeerFeerateTooLow value)? peerFeerateTooLow,
+    TResult Function(ClosureReason_CounterpartyForceClosed value)?
+        counterpartyForceClosed,
+    TResult Function(ClosureReason_HolderForceClosed value)? holderForceClosed,
+    TResult Function(ClosureReason_LegacyCooperativeClosure value)?
+        legacyCooperativeClosure,
+    TResult Function(
+            ClosureReason_CounterpartyInitiatedCooperativeClosure value)?
+        counterpartyInitiatedCooperativeClosure,
+    TResult Function(ClosureReason_LocallyInitiatedCooperativeClosure value)?
+        locallyInitiatedCooperativeClosure,
+    TResult Function(ClosureReason_CommitmentTxConfirmed value)?
+        commitmentTxConfirmed,
+    TResult Function(ClosureReason_FundingTimedOut value)? fundingTimedOut,
+    TResult Function(ClosureReason_ProcessingError value)? processingError,
+    TResult Function(ClosureReason_DisconnectedPeer value)? disconnectedPeer,
+    TResult Function(ClosureReason_OutdatedChannelManager value)?
+        outdatedChannelManager,
+    TResult Function(ClosureReason_CounterpartyCoopClosedUnfundedChannel value)?
+        counterpartyCoopClosedUnfundedChannel,
+    TResult Function(ClosureReason_FundingBatchClosure value)?
+        fundingBatchClosure,
+    TResult Function(ClosureReason_HTLCsTimedOut value)? htlCsTimedOut,
+    required TResult orElse(),
+  }) {
+    if (peerFeerateTooLow != null) {
+      return peerFeerateTooLow(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class ClosureReason_PeerFeerateTooLow extends ClosureReason {
+  const factory ClosureReason_PeerFeerateTooLow(
+          {required final int peerFeerateSatPerKw,
+          required final int requiredFeerateSatPerKw}) =
+      _$ClosureReason_PeerFeerateTooLowImpl;
+  const ClosureReason_PeerFeerateTooLow._() : super._();
+
+  int get peerFeerateSatPerKw;
+  int get requiredFeerateSatPerKw;
+  @JsonKey(ignore: true)
+  _$$ClosureReason_PeerFeerateTooLowImplCopyWith<
+          _$ClosureReason_PeerFeerateTooLowImpl>
+      get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
@@ -467,8 +957,11 @@ class _$ClosureReason_CounterpartyForceClosedImpl
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
+    required TResult Function(
+            int peerFeerateSatPerKw, int requiredFeerateSatPerKw)
+        peerFeerateTooLow,
     required TResult Function(String peerMsg) counterpartyForceClosed,
-    required TResult Function() holderForceClosed,
+    required TResult Function(bool? broadcastedLatestTxn) holderForceClosed,
     required TResult Function() legacyCooperativeClosure,
     required TResult Function() counterpartyInitiatedCooperativeClosure,
     required TResult Function() locallyInitiatedCooperativeClosure,
@@ -487,8 +980,10 @@ class _$ClosureReason_CounterpartyForceClosedImpl
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(int peerFeerateSatPerKw, int requiredFeerateSatPerKw)?
+        peerFeerateTooLow,
     TResult? Function(String peerMsg)? counterpartyForceClosed,
-    TResult? Function()? holderForceClosed,
+    TResult? Function(bool? broadcastedLatestTxn)? holderForceClosed,
     TResult? Function()? legacyCooperativeClosure,
     TResult? Function()? counterpartyInitiatedCooperativeClosure,
     TResult? Function()? locallyInitiatedCooperativeClosure,
@@ -507,8 +1002,10 @@ class _$ClosureReason_CounterpartyForceClosedImpl
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
+    TResult Function(int peerFeerateSatPerKw, int requiredFeerateSatPerKw)?
+        peerFeerateTooLow,
     TResult Function(String peerMsg)? counterpartyForceClosed,
-    TResult Function()? holderForceClosed,
+    TResult Function(bool? broadcastedLatestTxn)? holderForceClosed,
     TResult Function()? legacyCooperativeClosure,
     TResult Function()? counterpartyInitiatedCooperativeClosure,
     TResult Function()? locallyInitiatedCooperativeClosure,
@@ -531,6 +1028,8 @@ class _$ClosureReason_CounterpartyForceClosedImpl
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
+    required TResult Function(ClosureReason_PeerFeerateTooLow value)
+        peerFeerateTooLow,
     required TResult Function(ClosureReason_CounterpartyForceClosed value)
         counterpartyForceClosed,
     required TResult Function(ClosureReason_HolderForceClosed value)
@@ -566,6 +1065,7 @@ class _$ClosureReason_CounterpartyForceClosedImpl
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(ClosureReason_PeerFeerateTooLow value)? peerFeerateTooLow,
     TResult? Function(ClosureReason_CounterpartyForceClosed value)?
         counterpartyForceClosed,
     TResult? Function(ClosureReason_HolderForceClosed value)? holderForceClosed,
@@ -596,6 +1096,7 @@ class _$ClosureReason_CounterpartyForceClosedImpl
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
+    TResult Function(ClosureReason_PeerFeerateTooLow value)? peerFeerateTooLow,
     TResult Function(ClosureReason_CounterpartyForceClosed value)?
         counterpartyForceClosed,
     TResult Function(ClosureReason_HolderForceClosed value)? holderForceClosed,
@@ -653,6 +1154,8 @@ abstract class _$$ClosureReason_HolderForceClosedImplCopyWith<$Res> {
           _$ClosureReason_HolderForceClosedImpl value,
           $Res Function(_$ClosureReason_HolderForceClosedImpl) then) =
       __$$ClosureReason_HolderForceClosedImplCopyWithImpl<$Res>;
+  @useResult
+  $Res call({bool? broadcastedLatestTxn});
 }
 
 /// @nodoc
@@ -664,34 +1167,64 @@ class __$$ClosureReason_HolderForceClosedImplCopyWithImpl<$Res>
       _$ClosureReason_HolderForceClosedImpl _value,
       $Res Function(_$ClosureReason_HolderForceClosedImpl) _then)
       : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? broadcastedLatestTxn = freezed,
+  }) {
+    return _then(_$ClosureReason_HolderForceClosedImpl(
+      broadcastedLatestTxn: freezed == broadcastedLatestTxn
+          ? _value.broadcastedLatestTxn
+          : broadcastedLatestTxn // ignore: cast_nullable_to_non_nullable
+              as bool?,
+    ));
+  }
 }
 
 /// @nodoc
 
 class _$ClosureReason_HolderForceClosedImpl
     extends ClosureReason_HolderForceClosed {
-  const _$ClosureReason_HolderForceClosedImpl() : super._();
+  const _$ClosureReason_HolderForceClosedImpl({this.broadcastedLatestTxn})
+      : super._();
+
+  @override
+  final bool? broadcastedLatestTxn;
 
   @override
   String toString() {
-    return 'ClosureReason.holderForceClosed()';
+    return 'ClosureReason.holderForceClosed(broadcastedLatestTxn: $broadcastedLatestTxn)';
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$ClosureReason_HolderForceClosedImpl);
+            other is _$ClosureReason_HolderForceClosedImpl &&
+            (identical(other.broadcastedLatestTxn, broadcastedLatestTxn) ||
+                other.broadcastedLatestTxn == broadcastedLatestTxn));
   }
 
   @override
-  int get hashCode => runtimeType.hashCode;
+  int get hashCode => Object.hash(runtimeType, broadcastedLatestTxn);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$ClosureReason_HolderForceClosedImplCopyWith<
+          _$ClosureReason_HolderForceClosedImpl>
+      get copyWith => __$$ClosureReason_HolderForceClosedImplCopyWithImpl<
+          _$ClosureReason_HolderForceClosedImpl>(this, _$identity);
 
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
+    required TResult Function(
+            int peerFeerateSatPerKw, int requiredFeerateSatPerKw)
+        peerFeerateTooLow,
     required TResult Function(String peerMsg) counterpartyForceClosed,
-    required TResult Function() holderForceClosed,
+    required TResult Function(bool? broadcastedLatestTxn) holderForceClosed,
     required TResult Function() legacyCooperativeClosure,
     required TResult Function() counterpartyInitiatedCooperativeClosure,
     required TResult Function() locallyInitiatedCooperativeClosure,
@@ -704,14 +1237,16 @@ class _$ClosureReason_HolderForceClosedImpl
     required TResult Function() fundingBatchClosure,
     required TResult Function() htlCsTimedOut,
   }) {
-    return holderForceClosed();
+    return holderForceClosed(broadcastedLatestTxn);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(int peerFeerateSatPerKw, int requiredFeerateSatPerKw)?
+        peerFeerateTooLow,
     TResult? Function(String peerMsg)? counterpartyForceClosed,
-    TResult? Function()? holderForceClosed,
+    TResult? Function(bool? broadcastedLatestTxn)? holderForceClosed,
     TResult? Function()? legacyCooperativeClosure,
     TResult? Function()? counterpartyInitiatedCooperativeClosure,
     TResult? Function()? locallyInitiatedCooperativeClosure,
@@ -724,14 +1259,16 @@ class _$ClosureReason_HolderForceClosedImpl
     TResult? Function()? fundingBatchClosure,
     TResult? Function()? htlCsTimedOut,
   }) {
-    return holderForceClosed?.call();
+    return holderForceClosed?.call(broadcastedLatestTxn);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
+    TResult Function(int peerFeerateSatPerKw, int requiredFeerateSatPerKw)?
+        peerFeerateTooLow,
     TResult Function(String peerMsg)? counterpartyForceClosed,
-    TResult Function()? holderForceClosed,
+    TResult Function(bool? broadcastedLatestTxn)? holderForceClosed,
     TResult Function()? legacyCooperativeClosure,
     TResult Function()? counterpartyInitiatedCooperativeClosure,
     TResult Function()? locallyInitiatedCooperativeClosure,
@@ -746,7 +1283,7 @@ class _$ClosureReason_HolderForceClosedImpl
     required TResult orElse(),
   }) {
     if (holderForceClosed != null) {
-      return holderForceClosed();
+      return holderForceClosed(broadcastedLatestTxn);
     }
     return orElse();
   }
@@ -754,6 +1291,8 @@ class _$ClosureReason_HolderForceClosedImpl
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
+    required TResult Function(ClosureReason_PeerFeerateTooLow value)
+        peerFeerateTooLow,
     required TResult Function(ClosureReason_CounterpartyForceClosed value)
         counterpartyForceClosed,
     required TResult Function(ClosureReason_HolderForceClosed value)
@@ -789,6 +1328,7 @@ class _$ClosureReason_HolderForceClosedImpl
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(ClosureReason_PeerFeerateTooLow value)? peerFeerateTooLow,
     TResult? Function(ClosureReason_CounterpartyForceClosed value)?
         counterpartyForceClosed,
     TResult? Function(ClosureReason_HolderForceClosed value)? holderForceClosed,
@@ -819,6 +1359,7 @@ class _$ClosureReason_HolderForceClosedImpl
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
+    TResult Function(ClosureReason_PeerFeerateTooLow value)? peerFeerateTooLow,
     TResult Function(ClosureReason_CounterpartyForceClosed value)?
         counterpartyForceClosed,
     TResult Function(ClosureReason_HolderForceClosed value)? holderForceClosed,
@@ -851,9 +1392,16 @@ class _$ClosureReason_HolderForceClosedImpl
 }
 
 abstract class ClosureReason_HolderForceClosed extends ClosureReason {
-  const factory ClosureReason_HolderForceClosed() =
+  const factory ClosureReason_HolderForceClosed(
+          {final bool? broadcastedLatestTxn}) =
       _$ClosureReason_HolderForceClosedImpl;
   const ClosureReason_HolderForceClosed._() : super._();
+
+  bool? get broadcastedLatestTxn;
+  @JsonKey(ignore: true)
+  _$$ClosureReason_HolderForceClosedImplCopyWith<
+          _$ClosureReason_HolderForceClosedImpl>
+      get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
@@ -899,8 +1447,11 @@ class _$ClosureReason_LegacyCooperativeClosureImpl
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
+    required TResult Function(
+            int peerFeerateSatPerKw, int requiredFeerateSatPerKw)
+        peerFeerateTooLow,
     required TResult Function(String peerMsg) counterpartyForceClosed,
-    required TResult Function() holderForceClosed,
+    required TResult Function(bool? broadcastedLatestTxn) holderForceClosed,
     required TResult Function() legacyCooperativeClosure,
     required TResult Function() counterpartyInitiatedCooperativeClosure,
     required TResult Function() locallyInitiatedCooperativeClosure,
@@ -919,8 +1470,10 @@ class _$ClosureReason_LegacyCooperativeClosureImpl
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(int peerFeerateSatPerKw, int requiredFeerateSatPerKw)?
+        peerFeerateTooLow,
     TResult? Function(String peerMsg)? counterpartyForceClosed,
-    TResult? Function()? holderForceClosed,
+    TResult? Function(bool? broadcastedLatestTxn)? holderForceClosed,
     TResult? Function()? legacyCooperativeClosure,
     TResult? Function()? counterpartyInitiatedCooperativeClosure,
     TResult? Function()? locallyInitiatedCooperativeClosure,
@@ -939,8 +1492,10 @@ class _$ClosureReason_LegacyCooperativeClosureImpl
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
+    TResult Function(int peerFeerateSatPerKw, int requiredFeerateSatPerKw)?
+        peerFeerateTooLow,
     TResult Function(String peerMsg)? counterpartyForceClosed,
-    TResult Function()? holderForceClosed,
+    TResult Function(bool? broadcastedLatestTxn)? holderForceClosed,
     TResult Function()? legacyCooperativeClosure,
     TResult Function()? counterpartyInitiatedCooperativeClosure,
     TResult Function()? locallyInitiatedCooperativeClosure,
@@ -963,6 +1518,8 @@ class _$ClosureReason_LegacyCooperativeClosureImpl
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
+    required TResult Function(ClosureReason_PeerFeerateTooLow value)
+        peerFeerateTooLow,
     required TResult Function(ClosureReason_CounterpartyForceClosed value)
         counterpartyForceClosed,
     required TResult Function(ClosureReason_HolderForceClosed value)
@@ -998,6 +1555,7 @@ class _$ClosureReason_LegacyCooperativeClosureImpl
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(ClosureReason_PeerFeerateTooLow value)? peerFeerateTooLow,
     TResult? Function(ClosureReason_CounterpartyForceClosed value)?
         counterpartyForceClosed,
     TResult? Function(ClosureReason_HolderForceClosed value)? holderForceClosed,
@@ -1028,6 +1586,7 @@ class _$ClosureReason_LegacyCooperativeClosureImpl
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
+    TResult Function(ClosureReason_PeerFeerateTooLow value)? peerFeerateTooLow,
     TResult Function(ClosureReason_CounterpartyForceClosed value)?
         counterpartyForceClosed,
     TResult Function(ClosureReason_HolderForceClosed value)? holderForceClosed,
@@ -1118,8 +1677,11 @@ class _$ClosureReason_CounterpartyInitiatedCooperativeClosureImpl
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
+    required TResult Function(
+            int peerFeerateSatPerKw, int requiredFeerateSatPerKw)
+        peerFeerateTooLow,
     required TResult Function(String peerMsg) counterpartyForceClosed,
-    required TResult Function() holderForceClosed,
+    required TResult Function(bool? broadcastedLatestTxn) holderForceClosed,
     required TResult Function() legacyCooperativeClosure,
     required TResult Function() counterpartyInitiatedCooperativeClosure,
     required TResult Function() locallyInitiatedCooperativeClosure,
@@ -1138,8 +1700,10 @@ class _$ClosureReason_CounterpartyInitiatedCooperativeClosureImpl
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(int peerFeerateSatPerKw, int requiredFeerateSatPerKw)?
+        peerFeerateTooLow,
     TResult? Function(String peerMsg)? counterpartyForceClosed,
-    TResult? Function()? holderForceClosed,
+    TResult? Function(bool? broadcastedLatestTxn)? holderForceClosed,
     TResult? Function()? legacyCooperativeClosure,
     TResult? Function()? counterpartyInitiatedCooperativeClosure,
     TResult? Function()? locallyInitiatedCooperativeClosure,
@@ -1158,8 +1722,10 @@ class _$ClosureReason_CounterpartyInitiatedCooperativeClosureImpl
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
+    TResult Function(int peerFeerateSatPerKw, int requiredFeerateSatPerKw)?
+        peerFeerateTooLow,
     TResult Function(String peerMsg)? counterpartyForceClosed,
-    TResult Function()? holderForceClosed,
+    TResult Function(bool? broadcastedLatestTxn)? holderForceClosed,
     TResult Function()? legacyCooperativeClosure,
     TResult Function()? counterpartyInitiatedCooperativeClosure,
     TResult Function()? locallyInitiatedCooperativeClosure,
@@ -1182,6 +1748,8 @@ class _$ClosureReason_CounterpartyInitiatedCooperativeClosureImpl
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
+    required TResult Function(ClosureReason_PeerFeerateTooLow value)
+        peerFeerateTooLow,
     required TResult Function(ClosureReason_CounterpartyForceClosed value)
         counterpartyForceClosed,
     required TResult Function(ClosureReason_HolderForceClosed value)
@@ -1217,6 +1785,7 @@ class _$ClosureReason_CounterpartyInitiatedCooperativeClosureImpl
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(ClosureReason_PeerFeerateTooLow value)? peerFeerateTooLow,
     TResult? Function(ClosureReason_CounterpartyForceClosed value)?
         counterpartyForceClosed,
     TResult? Function(ClosureReason_HolderForceClosed value)? holderForceClosed,
@@ -1247,6 +1816,7 @@ class _$ClosureReason_CounterpartyInitiatedCooperativeClosureImpl
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
+    TResult Function(ClosureReason_PeerFeerateTooLow value)? peerFeerateTooLow,
     TResult Function(ClosureReason_CounterpartyForceClosed value)?
         counterpartyForceClosed,
     TResult Function(ClosureReason_HolderForceClosed value)? holderForceClosed,
@@ -1333,8 +1903,11 @@ class _$ClosureReason_LocallyInitiatedCooperativeClosureImpl
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
+    required TResult Function(
+            int peerFeerateSatPerKw, int requiredFeerateSatPerKw)
+        peerFeerateTooLow,
     required TResult Function(String peerMsg) counterpartyForceClosed,
-    required TResult Function() holderForceClosed,
+    required TResult Function(bool? broadcastedLatestTxn) holderForceClosed,
     required TResult Function() legacyCooperativeClosure,
     required TResult Function() counterpartyInitiatedCooperativeClosure,
     required TResult Function() locallyInitiatedCooperativeClosure,
@@ -1353,8 +1926,10 @@ class _$ClosureReason_LocallyInitiatedCooperativeClosureImpl
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(int peerFeerateSatPerKw, int requiredFeerateSatPerKw)?
+        peerFeerateTooLow,
     TResult? Function(String peerMsg)? counterpartyForceClosed,
-    TResult? Function()? holderForceClosed,
+    TResult? Function(bool? broadcastedLatestTxn)? holderForceClosed,
     TResult? Function()? legacyCooperativeClosure,
     TResult? Function()? counterpartyInitiatedCooperativeClosure,
     TResult? Function()? locallyInitiatedCooperativeClosure,
@@ -1373,8 +1948,10 @@ class _$ClosureReason_LocallyInitiatedCooperativeClosureImpl
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
+    TResult Function(int peerFeerateSatPerKw, int requiredFeerateSatPerKw)?
+        peerFeerateTooLow,
     TResult Function(String peerMsg)? counterpartyForceClosed,
-    TResult Function()? holderForceClosed,
+    TResult Function(bool? broadcastedLatestTxn)? holderForceClosed,
     TResult Function()? legacyCooperativeClosure,
     TResult Function()? counterpartyInitiatedCooperativeClosure,
     TResult Function()? locallyInitiatedCooperativeClosure,
@@ -1397,6 +1974,8 @@ class _$ClosureReason_LocallyInitiatedCooperativeClosureImpl
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
+    required TResult Function(ClosureReason_PeerFeerateTooLow value)
+        peerFeerateTooLow,
     required TResult Function(ClosureReason_CounterpartyForceClosed value)
         counterpartyForceClosed,
     required TResult Function(ClosureReason_HolderForceClosed value)
@@ -1432,6 +2011,7 @@ class _$ClosureReason_LocallyInitiatedCooperativeClosureImpl
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(ClosureReason_PeerFeerateTooLow value)? peerFeerateTooLow,
     TResult? Function(ClosureReason_CounterpartyForceClosed value)?
         counterpartyForceClosed,
     TResult? Function(ClosureReason_HolderForceClosed value)? holderForceClosed,
@@ -1462,6 +2042,7 @@ class _$ClosureReason_LocallyInitiatedCooperativeClosureImpl
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
+    TResult Function(ClosureReason_PeerFeerateTooLow value)? peerFeerateTooLow,
     TResult Function(ClosureReason_CounterpartyForceClosed value)?
         counterpartyForceClosed,
     TResult Function(ClosureReason_HolderForceClosed value)? holderForceClosed,
@@ -1543,8 +2124,11 @@ class _$ClosureReason_CommitmentTxConfirmedImpl
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
+    required TResult Function(
+            int peerFeerateSatPerKw, int requiredFeerateSatPerKw)
+        peerFeerateTooLow,
     required TResult Function(String peerMsg) counterpartyForceClosed,
-    required TResult Function() holderForceClosed,
+    required TResult Function(bool? broadcastedLatestTxn) holderForceClosed,
     required TResult Function() legacyCooperativeClosure,
     required TResult Function() counterpartyInitiatedCooperativeClosure,
     required TResult Function() locallyInitiatedCooperativeClosure,
@@ -1563,8 +2147,10 @@ class _$ClosureReason_CommitmentTxConfirmedImpl
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(int peerFeerateSatPerKw, int requiredFeerateSatPerKw)?
+        peerFeerateTooLow,
     TResult? Function(String peerMsg)? counterpartyForceClosed,
-    TResult? Function()? holderForceClosed,
+    TResult? Function(bool? broadcastedLatestTxn)? holderForceClosed,
     TResult? Function()? legacyCooperativeClosure,
     TResult? Function()? counterpartyInitiatedCooperativeClosure,
     TResult? Function()? locallyInitiatedCooperativeClosure,
@@ -1583,8 +2169,10 @@ class _$ClosureReason_CommitmentTxConfirmedImpl
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
+    TResult Function(int peerFeerateSatPerKw, int requiredFeerateSatPerKw)?
+        peerFeerateTooLow,
     TResult Function(String peerMsg)? counterpartyForceClosed,
-    TResult Function()? holderForceClosed,
+    TResult Function(bool? broadcastedLatestTxn)? holderForceClosed,
     TResult Function()? legacyCooperativeClosure,
     TResult Function()? counterpartyInitiatedCooperativeClosure,
     TResult Function()? locallyInitiatedCooperativeClosure,
@@ -1607,6 +2195,8 @@ class _$ClosureReason_CommitmentTxConfirmedImpl
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
+    required TResult Function(ClosureReason_PeerFeerateTooLow value)
+        peerFeerateTooLow,
     required TResult Function(ClosureReason_CounterpartyForceClosed value)
         counterpartyForceClosed,
     required TResult Function(ClosureReason_HolderForceClosed value)
@@ -1642,6 +2232,7 @@ class _$ClosureReason_CommitmentTxConfirmedImpl
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(ClosureReason_PeerFeerateTooLow value)? peerFeerateTooLow,
     TResult? Function(ClosureReason_CounterpartyForceClosed value)?
         counterpartyForceClosed,
     TResult? Function(ClosureReason_HolderForceClosed value)? holderForceClosed,
@@ -1672,6 +2263,7 @@ class _$ClosureReason_CommitmentTxConfirmedImpl
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
+    TResult Function(ClosureReason_PeerFeerateTooLow value)? peerFeerateTooLow,
     TResult Function(ClosureReason_CounterpartyForceClosed value)?
         counterpartyForceClosed,
     TResult Function(ClosureReason_HolderForceClosed value)? holderForceClosed,
@@ -1752,8 +2344,11 @@ class _$ClosureReason_FundingTimedOutImpl
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
+    required TResult Function(
+            int peerFeerateSatPerKw, int requiredFeerateSatPerKw)
+        peerFeerateTooLow,
     required TResult Function(String peerMsg) counterpartyForceClosed,
-    required TResult Function() holderForceClosed,
+    required TResult Function(bool? broadcastedLatestTxn) holderForceClosed,
     required TResult Function() legacyCooperativeClosure,
     required TResult Function() counterpartyInitiatedCooperativeClosure,
     required TResult Function() locallyInitiatedCooperativeClosure,
@@ -1772,8 +2367,10 @@ class _$ClosureReason_FundingTimedOutImpl
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(int peerFeerateSatPerKw, int requiredFeerateSatPerKw)?
+        peerFeerateTooLow,
     TResult? Function(String peerMsg)? counterpartyForceClosed,
-    TResult? Function()? holderForceClosed,
+    TResult? Function(bool? broadcastedLatestTxn)? holderForceClosed,
     TResult? Function()? legacyCooperativeClosure,
     TResult? Function()? counterpartyInitiatedCooperativeClosure,
     TResult? Function()? locallyInitiatedCooperativeClosure,
@@ -1792,8 +2389,10 @@ class _$ClosureReason_FundingTimedOutImpl
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
+    TResult Function(int peerFeerateSatPerKw, int requiredFeerateSatPerKw)?
+        peerFeerateTooLow,
     TResult Function(String peerMsg)? counterpartyForceClosed,
-    TResult Function()? holderForceClosed,
+    TResult Function(bool? broadcastedLatestTxn)? holderForceClosed,
     TResult Function()? legacyCooperativeClosure,
     TResult Function()? counterpartyInitiatedCooperativeClosure,
     TResult Function()? locallyInitiatedCooperativeClosure,
@@ -1816,6 +2415,8 @@ class _$ClosureReason_FundingTimedOutImpl
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
+    required TResult Function(ClosureReason_PeerFeerateTooLow value)
+        peerFeerateTooLow,
     required TResult Function(ClosureReason_CounterpartyForceClosed value)
         counterpartyForceClosed,
     required TResult Function(ClosureReason_HolderForceClosed value)
@@ -1851,6 +2452,7 @@ class _$ClosureReason_FundingTimedOutImpl
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(ClosureReason_PeerFeerateTooLow value)? peerFeerateTooLow,
     TResult? Function(ClosureReason_CounterpartyForceClosed value)?
         counterpartyForceClosed,
     TResult? Function(ClosureReason_HolderForceClosed value)? holderForceClosed,
@@ -1881,6 +2483,7 @@ class _$ClosureReason_FundingTimedOutImpl
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
+    TResult Function(ClosureReason_PeerFeerateTooLow value)? peerFeerateTooLow,
     TResult Function(ClosureReason_CounterpartyForceClosed value)?
         counterpartyForceClosed,
     TResult Function(ClosureReason_HolderForceClosed value)? holderForceClosed,
@@ -1989,8 +2592,11 @@ class _$ClosureReason_ProcessingErrorImpl
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
+    required TResult Function(
+            int peerFeerateSatPerKw, int requiredFeerateSatPerKw)
+        peerFeerateTooLow,
     required TResult Function(String peerMsg) counterpartyForceClosed,
-    required TResult Function() holderForceClosed,
+    required TResult Function(bool? broadcastedLatestTxn) holderForceClosed,
     required TResult Function() legacyCooperativeClosure,
     required TResult Function() counterpartyInitiatedCooperativeClosure,
     required TResult Function() locallyInitiatedCooperativeClosure,
@@ -2009,8 +2615,10 @@ class _$ClosureReason_ProcessingErrorImpl
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(int peerFeerateSatPerKw, int requiredFeerateSatPerKw)?
+        peerFeerateTooLow,
     TResult? Function(String peerMsg)? counterpartyForceClosed,
-    TResult? Function()? holderForceClosed,
+    TResult? Function(bool? broadcastedLatestTxn)? holderForceClosed,
     TResult? Function()? legacyCooperativeClosure,
     TResult? Function()? counterpartyInitiatedCooperativeClosure,
     TResult? Function()? locallyInitiatedCooperativeClosure,
@@ -2029,8 +2637,10 @@ class _$ClosureReason_ProcessingErrorImpl
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
+    TResult Function(int peerFeerateSatPerKw, int requiredFeerateSatPerKw)?
+        peerFeerateTooLow,
     TResult Function(String peerMsg)? counterpartyForceClosed,
-    TResult Function()? holderForceClosed,
+    TResult Function(bool? broadcastedLatestTxn)? holderForceClosed,
     TResult Function()? legacyCooperativeClosure,
     TResult Function()? counterpartyInitiatedCooperativeClosure,
     TResult Function()? locallyInitiatedCooperativeClosure,
@@ -2053,6 +2663,8 @@ class _$ClosureReason_ProcessingErrorImpl
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
+    required TResult Function(ClosureReason_PeerFeerateTooLow value)
+        peerFeerateTooLow,
     required TResult Function(ClosureReason_CounterpartyForceClosed value)
         counterpartyForceClosed,
     required TResult Function(ClosureReason_HolderForceClosed value)
@@ -2088,6 +2700,7 @@ class _$ClosureReason_ProcessingErrorImpl
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(ClosureReason_PeerFeerateTooLow value)? peerFeerateTooLow,
     TResult? Function(ClosureReason_CounterpartyForceClosed value)?
         counterpartyForceClosed,
     TResult? Function(ClosureReason_HolderForceClosed value)? holderForceClosed,
@@ -2118,6 +2731,7 @@ class _$ClosureReason_ProcessingErrorImpl
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
+    TResult Function(ClosureReason_PeerFeerateTooLow value)? peerFeerateTooLow,
     TResult Function(ClosureReason_CounterpartyForceClosed value)?
         counterpartyForceClosed,
     TResult Function(ClosureReason_HolderForceClosed value)? holderForceClosed,
@@ -2205,8 +2819,11 @@ class _$ClosureReason_DisconnectedPeerImpl
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
+    required TResult Function(
+            int peerFeerateSatPerKw, int requiredFeerateSatPerKw)
+        peerFeerateTooLow,
     required TResult Function(String peerMsg) counterpartyForceClosed,
-    required TResult Function() holderForceClosed,
+    required TResult Function(bool? broadcastedLatestTxn) holderForceClosed,
     required TResult Function() legacyCooperativeClosure,
     required TResult Function() counterpartyInitiatedCooperativeClosure,
     required TResult Function() locallyInitiatedCooperativeClosure,
@@ -2225,8 +2842,10 @@ class _$ClosureReason_DisconnectedPeerImpl
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(int peerFeerateSatPerKw, int requiredFeerateSatPerKw)?
+        peerFeerateTooLow,
     TResult? Function(String peerMsg)? counterpartyForceClosed,
-    TResult? Function()? holderForceClosed,
+    TResult? Function(bool? broadcastedLatestTxn)? holderForceClosed,
     TResult? Function()? legacyCooperativeClosure,
     TResult? Function()? counterpartyInitiatedCooperativeClosure,
     TResult? Function()? locallyInitiatedCooperativeClosure,
@@ -2245,8 +2864,10 @@ class _$ClosureReason_DisconnectedPeerImpl
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
+    TResult Function(int peerFeerateSatPerKw, int requiredFeerateSatPerKw)?
+        peerFeerateTooLow,
     TResult Function(String peerMsg)? counterpartyForceClosed,
-    TResult Function()? holderForceClosed,
+    TResult Function(bool? broadcastedLatestTxn)? holderForceClosed,
     TResult Function()? legacyCooperativeClosure,
     TResult Function()? counterpartyInitiatedCooperativeClosure,
     TResult Function()? locallyInitiatedCooperativeClosure,
@@ -2269,6 +2890,8 @@ class _$ClosureReason_DisconnectedPeerImpl
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
+    required TResult Function(ClosureReason_PeerFeerateTooLow value)
+        peerFeerateTooLow,
     required TResult Function(ClosureReason_CounterpartyForceClosed value)
         counterpartyForceClosed,
     required TResult Function(ClosureReason_HolderForceClosed value)
@@ -2304,6 +2927,7 @@ class _$ClosureReason_DisconnectedPeerImpl
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(ClosureReason_PeerFeerateTooLow value)? peerFeerateTooLow,
     TResult? Function(ClosureReason_CounterpartyForceClosed value)?
         counterpartyForceClosed,
     TResult? Function(ClosureReason_HolderForceClosed value)? holderForceClosed,
@@ -2334,6 +2958,7 @@ class _$ClosureReason_DisconnectedPeerImpl
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
+    TResult Function(ClosureReason_PeerFeerateTooLow value)? peerFeerateTooLow,
     TResult Function(ClosureReason_CounterpartyForceClosed value)?
         counterpartyForceClosed,
     TResult Function(ClosureReason_HolderForceClosed value)? holderForceClosed,
@@ -2414,8 +3039,11 @@ class _$ClosureReason_OutdatedChannelManagerImpl
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
+    required TResult Function(
+            int peerFeerateSatPerKw, int requiredFeerateSatPerKw)
+        peerFeerateTooLow,
     required TResult Function(String peerMsg) counterpartyForceClosed,
-    required TResult Function() holderForceClosed,
+    required TResult Function(bool? broadcastedLatestTxn) holderForceClosed,
     required TResult Function() legacyCooperativeClosure,
     required TResult Function() counterpartyInitiatedCooperativeClosure,
     required TResult Function() locallyInitiatedCooperativeClosure,
@@ -2434,8 +3062,10 @@ class _$ClosureReason_OutdatedChannelManagerImpl
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(int peerFeerateSatPerKw, int requiredFeerateSatPerKw)?
+        peerFeerateTooLow,
     TResult? Function(String peerMsg)? counterpartyForceClosed,
-    TResult? Function()? holderForceClosed,
+    TResult? Function(bool? broadcastedLatestTxn)? holderForceClosed,
     TResult? Function()? legacyCooperativeClosure,
     TResult? Function()? counterpartyInitiatedCooperativeClosure,
     TResult? Function()? locallyInitiatedCooperativeClosure,
@@ -2454,8 +3084,10 @@ class _$ClosureReason_OutdatedChannelManagerImpl
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
+    TResult Function(int peerFeerateSatPerKw, int requiredFeerateSatPerKw)?
+        peerFeerateTooLow,
     TResult Function(String peerMsg)? counterpartyForceClosed,
-    TResult Function()? holderForceClosed,
+    TResult Function(bool? broadcastedLatestTxn)? holderForceClosed,
     TResult Function()? legacyCooperativeClosure,
     TResult Function()? counterpartyInitiatedCooperativeClosure,
     TResult Function()? locallyInitiatedCooperativeClosure,
@@ -2478,6 +3110,8 @@ class _$ClosureReason_OutdatedChannelManagerImpl
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
+    required TResult Function(ClosureReason_PeerFeerateTooLow value)
+        peerFeerateTooLow,
     required TResult Function(ClosureReason_CounterpartyForceClosed value)
         counterpartyForceClosed,
     required TResult Function(ClosureReason_HolderForceClosed value)
@@ -2513,6 +3147,7 @@ class _$ClosureReason_OutdatedChannelManagerImpl
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(ClosureReason_PeerFeerateTooLow value)? peerFeerateTooLow,
     TResult? Function(ClosureReason_CounterpartyForceClosed value)?
         counterpartyForceClosed,
     TResult? Function(ClosureReason_HolderForceClosed value)? holderForceClosed,
@@ -2543,6 +3178,7 @@ class _$ClosureReason_OutdatedChannelManagerImpl
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
+    TResult Function(ClosureReason_PeerFeerateTooLow value)? peerFeerateTooLow,
     TResult Function(ClosureReason_CounterpartyForceClosed value)?
         counterpartyForceClosed,
     TResult Function(ClosureReason_HolderForceClosed value)? holderForceClosed,
@@ -2631,8 +3267,11 @@ class _$ClosureReason_CounterpartyCoopClosedUnfundedChannelImpl
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
+    required TResult Function(
+            int peerFeerateSatPerKw, int requiredFeerateSatPerKw)
+        peerFeerateTooLow,
     required TResult Function(String peerMsg) counterpartyForceClosed,
-    required TResult Function() holderForceClosed,
+    required TResult Function(bool? broadcastedLatestTxn) holderForceClosed,
     required TResult Function() legacyCooperativeClosure,
     required TResult Function() counterpartyInitiatedCooperativeClosure,
     required TResult Function() locallyInitiatedCooperativeClosure,
@@ -2651,8 +3290,10 @@ class _$ClosureReason_CounterpartyCoopClosedUnfundedChannelImpl
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(int peerFeerateSatPerKw, int requiredFeerateSatPerKw)?
+        peerFeerateTooLow,
     TResult? Function(String peerMsg)? counterpartyForceClosed,
-    TResult? Function()? holderForceClosed,
+    TResult? Function(bool? broadcastedLatestTxn)? holderForceClosed,
     TResult? Function()? legacyCooperativeClosure,
     TResult? Function()? counterpartyInitiatedCooperativeClosure,
     TResult? Function()? locallyInitiatedCooperativeClosure,
@@ -2671,8 +3312,10 @@ class _$ClosureReason_CounterpartyCoopClosedUnfundedChannelImpl
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
+    TResult Function(int peerFeerateSatPerKw, int requiredFeerateSatPerKw)?
+        peerFeerateTooLow,
     TResult Function(String peerMsg)? counterpartyForceClosed,
-    TResult Function()? holderForceClosed,
+    TResult Function(bool? broadcastedLatestTxn)? holderForceClosed,
     TResult Function()? legacyCooperativeClosure,
     TResult Function()? counterpartyInitiatedCooperativeClosure,
     TResult Function()? locallyInitiatedCooperativeClosure,
@@ -2695,6 +3338,8 @@ class _$ClosureReason_CounterpartyCoopClosedUnfundedChannelImpl
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
+    required TResult Function(ClosureReason_PeerFeerateTooLow value)
+        peerFeerateTooLow,
     required TResult Function(ClosureReason_CounterpartyForceClosed value)
         counterpartyForceClosed,
     required TResult Function(ClosureReason_HolderForceClosed value)
@@ -2730,6 +3375,7 @@ class _$ClosureReason_CounterpartyCoopClosedUnfundedChannelImpl
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(ClosureReason_PeerFeerateTooLow value)? peerFeerateTooLow,
     TResult? Function(ClosureReason_CounterpartyForceClosed value)?
         counterpartyForceClosed,
     TResult? Function(ClosureReason_HolderForceClosed value)? holderForceClosed,
@@ -2760,6 +3406,7 @@ class _$ClosureReason_CounterpartyCoopClosedUnfundedChannelImpl
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
+    TResult Function(ClosureReason_PeerFeerateTooLow value)? peerFeerateTooLow,
     TResult Function(ClosureReason_CounterpartyForceClosed value)?
         counterpartyForceClosed,
     TResult Function(ClosureReason_HolderForceClosed value)? holderForceClosed,
@@ -2841,8 +3488,11 @@ class _$ClosureReason_FundingBatchClosureImpl
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
+    required TResult Function(
+            int peerFeerateSatPerKw, int requiredFeerateSatPerKw)
+        peerFeerateTooLow,
     required TResult Function(String peerMsg) counterpartyForceClosed,
-    required TResult Function() holderForceClosed,
+    required TResult Function(bool? broadcastedLatestTxn) holderForceClosed,
     required TResult Function() legacyCooperativeClosure,
     required TResult Function() counterpartyInitiatedCooperativeClosure,
     required TResult Function() locallyInitiatedCooperativeClosure,
@@ -2861,8 +3511,10 @@ class _$ClosureReason_FundingBatchClosureImpl
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(int peerFeerateSatPerKw, int requiredFeerateSatPerKw)?
+        peerFeerateTooLow,
     TResult? Function(String peerMsg)? counterpartyForceClosed,
-    TResult? Function()? holderForceClosed,
+    TResult? Function(bool? broadcastedLatestTxn)? holderForceClosed,
     TResult? Function()? legacyCooperativeClosure,
     TResult? Function()? counterpartyInitiatedCooperativeClosure,
     TResult? Function()? locallyInitiatedCooperativeClosure,
@@ -2881,8 +3533,10 @@ class _$ClosureReason_FundingBatchClosureImpl
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
+    TResult Function(int peerFeerateSatPerKw, int requiredFeerateSatPerKw)?
+        peerFeerateTooLow,
     TResult Function(String peerMsg)? counterpartyForceClosed,
-    TResult Function()? holderForceClosed,
+    TResult Function(bool? broadcastedLatestTxn)? holderForceClosed,
     TResult Function()? legacyCooperativeClosure,
     TResult Function()? counterpartyInitiatedCooperativeClosure,
     TResult Function()? locallyInitiatedCooperativeClosure,
@@ -2905,6 +3559,8 @@ class _$ClosureReason_FundingBatchClosureImpl
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
+    required TResult Function(ClosureReason_PeerFeerateTooLow value)
+        peerFeerateTooLow,
     required TResult Function(ClosureReason_CounterpartyForceClosed value)
         counterpartyForceClosed,
     required TResult Function(ClosureReason_HolderForceClosed value)
@@ -2940,6 +3596,7 @@ class _$ClosureReason_FundingBatchClosureImpl
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(ClosureReason_PeerFeerateTooLow value)? peerFeerateTooLow,
     TResult? Function(ClosureReason_CounterpartyForceClosed value)?
         counterpartyForceClosed,
     TResult? Function(ClosureReason_HolderForceClosed value)? holderForceClosed,
@@ -2970,6 +3627,7 @@ class _$ClosureReason_FundingBatchClosureImpl
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
+    TResult Function(ClosureReason_PeerFeerateTooLow value)? peerFeerateTooLow,
     TResult Function(ClosureReason_CounterpartyForceClosed value)?
         counterpartyForceClosed,
     TResult Function(ClosureReason_HolderForceClosed value)? holderForceClosed,
@@ -3048,8 +3706,11 @@ class _$ClosureReason_HTLCsTimedOutImpl extends ClosureReason_HTLCsTimedOut {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
+    required TResult Function(
+            int peerFeerateSatPerKw, int requiredFeerateSatPerKw)
+        peerFeerateTooLow,
     required TResult Function(String peerMsg) counterpartyForceClosed,
-    required TResult Function() holderForceClosed,
+    required TResult Function(bool? broadcastedLatestTxn) holderForceClosed,
     required TResult Function() legacyCooperativeClosure,
     required TResult Function() counterpartyInitiatedCooperativeClosure,
     required TResult Function() locallyInitiatedCooperativeClosure,
@@ -3068,8 +3729,10 @@ class _$ClosureReason_HTLCsTimedOutImpl extends ClosureReason_HTLCsTimedOut {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(int peerFeerateSatPerKw, int requiredFeerateSatPerKw)?
+        peerFeerateTooLow,
     TResult? Function(String peerMsg)? counterpartyForceClosed,
-    TResult? Function()? holderForceClosed,
+    TResult? Function(bool? broadcastedLatestTxn)? holderForceClosed,
     TResult? Function()? legacyCooperativeClosure,
     TResult? Function()? counterpartyInitiatedCooperativeClosure,
     TResult? Function()? locallyInitiatedCooperativeClosure,
@@ -3088,8 +3751,10 @@ class _$ClosureReason_HTLCsTimedOutImpl extends ClosureReason_HTLCsTimedOut {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
+    TResult Function(int peerFeerateSatPerKw, int requiredFeerateSatPerKw)?
+        peerFeerateTooLow,
     TResult Function(String peerMsg)? counterpartyForceClosed,
-    TResult Function()? holderForceClosed,
+    TResult Function(bool? broadcastedLatestTxn)? holderForceClosed,
     TResult Function()? legacyCooperativeClosure,
     TResult Function()? counterpartyInitiatedCooperativeClosure,
     TResult Function()? locallyInitiatedCooperativeClosure,
@@ -3112,6 +3777,8 @@ class _$ClosureReason_HTLCsTimedOutImpl extends ClosureReason_HTLCsTimedOut {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
+    required TResult Function(ClosureReason_PeerFeerateTooLow value)
+        peerFeerateTooLow,
     required TResult Function(ClosureReason_CounterpartyForceClosed value)
         counterpartyForceClosed,
     required TResult Function(ClosureReason_HolderForceClosed value)
@@ -3147,6 +3814,7 @@ class _$ClosureReason_HTLCsTimedOutImpl extends ClosureReason_HTLCsTimedOut {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(ClosureReason_PeerFeerateTooLow value)? peerFeerateTooLow,
     TResult? Function(ClosureReason_CounterpartyForceClosed value)?
         counterpartyForceClosed,
     TResult? Function(ClosureReason_HolderForceClosed value)? holderForceClosed,
@@ -3177,6 +3845,7 @@ class _$ClosureReason_HTLCsTimedOutImpl extends ClosureReason_HTLCsTimedOut {
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
+    TResult Function(ClosureReason_PeerFeerateTooLow value)? peerFeerateTooLow,
     TResult Function(ClosureReason_CounterpartyForceClosed value)?
         counterpartyForceClosed,
     TResult Function(ClosureReason_HolderForceClosed value)? holderForceClosed,
@@ -3220,7 +3889,7 @@ mixin _$EntropySourceConfig {
   TResult when<TResult extends Object?>({
     required TResult Function(String field0) seedFile,
     required TResult Function(U8Array64 field0) seedBytes,
-    required TResult Function(LdkMnemonic mnemonic, String? passphrase)
+    required TResult Function(FfiMnemonic mnemonic, String? passphrase)
         bip39Mnemonic,
   }) =>
       throw _privateConstructorUsedError;
@@ -3228,14 +3897,14 @@ mixin _$EntropySourceConfig {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(String field0)? seedFile,
     TResult? Function(U8Array64 field0)? seedBytes,
-    TResult? Function(LdkMnemonic mnemonic, String? passphrase)? bip39Mnemonic,
+    TResult? Function(FfiMnemonic mnemonic, String? passphrase)? bip39Mnemonic,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(String field0)? seedFile,
     TResult Function(U8Array64 field0)? seedBytes,
-    TResult Function(LdkMnemonic mnemonic, String? passphrase)? bip39Mnemonic,
+    TResult Function(FfiMnemonic mnemonic, String? passphrase)? bip39Mnemonic,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -3353,7 +4022,7 @@ class _$EntropySourceConfig_SeedFileImpl extends EntropySourceConfig_SeedFile {
   TResult when<TResult extends Object?>({
     required TResult Function(String field0) seedFile,
     required TResult Function(U8Array64 field0) seedBytes,
-    required TResult Function(LdkMnemonic mnemonic, String? passphrase)
+    required TResult Function(FfiMnemonic mnemonic, String? passphrase)
         bip39Mnemonic,
   }) {
     return seedFile(field0);
@@ -3364,7 +4033,7 @@ class _$EntropySourceConfig_SeedFileImpl extends EntropySourceConfig_SeedFile {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(String field0)? seedFile,
     TResult? Function(U8Array64 field0)? seedBytes,
-    TResult? Function(LdkMnemonic mnemonic, String? passphrase)? bip39Mnemonic,
+    TResult? Function(FfiMnemonic mnemonic, String? passphrase)? bip39Mnemonic,
   }) {
     return seedFile?.call(field0);
   }
@@ -3374,7 +4043,7 @@ class _$EntropySourceConfig_SeedFileImpl extends EntropySourceConfig_SeedFile {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(String field0)? seedFile,
     TResult Function(U8Array64 field0)? seedBytes,
-    TResult Function(LdkMnemonic mnemonic, String? passphrase)? bip39Mnemonic,
+    TResult Function(FfiMnemonic mnemonic, String? passphrase)? bip39Mnemonic,
     required TResult orElse(),
   }) {
     if (seedFile != null) {
@@ -3504,7 +4173,7 @@ class _$EntropySourceConfig_SeedBytesImpl
   TResult when<TResult extends Object?>({
     required TResult Function(String field0) seedFile,
     required TResult Function(U8Array64 field0) seedBytes,
-    required TResult Function(LdkMnemonic mnemonic, String? passphrase)
+    required TResult Function(FfiMnemonic mnemonic, String? passphrase)
         bip39Mnemonic,
   }) {
     return seedBytes(field0);
@@ -3515,7 +4184,7 @@ class _$EntropySourceConfig_SeedBytesImpl
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(String field0)? seedFile,
     TResult? Function(U8Array64 field0)? seedBytes,
-    TResult? Function(LdkMnemonic mnemonic, String? passphrase)? bip39Mnemonic,
+    TResult? Function(FfiMnemonic mnemonic, String? passphrase)? bip39Mnemonic,
   }) {
     return seedBytes?.call(field0);
   }
@@ -3525,7 +4194,7 @@ class _$EntropySourceConfig_SeedBytesImpl
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(String field0)? seedFile,
     TResult Function(U8Array64 field0)? seedBytes,
-    TResult Function(LdkMnemonic mnemonic, String? passphrase)? bip39Mnemonic,
+    TResult Function(FfiMnemonic mnemonic, String? passphrase)? bip39Mnemonic,
     required TResult orElse(),
   }) {
     if (seedBytes != null) {
@@ -3589,7 +4258,7 @@ abstract class _$$EntropySourceConfig_Bip39MnemonicImplCopyWith<$Res> {
           $Res Function(_$EntropySourceConfig_Bip39MnemonicImpl) then) =
       __$$EntropySourceConfig_Bip39MnemonicImplCopyWithImpl<$Res>;
   @useResult
-  $Res call({LdkMnemonic mnemonic, String? passphrase});
+  $Res call({FfiMnemonic mnemonic, String? passphrase});
 }
 
 /// @nodoc
@@ -3612,7 +4281,7 @@ class __$$EntropySourceConfig_Bip39MnemonicImplCopyWithImpl<$Res>
       mnemonic: null == mnemonic
           ? _value.mnemonic
           : mnemonic // ignore: cast_nullable_to_non_nullable
-              as LdkMnemonic,
+              as FfiMnemonic,
       passphrase: freezed == passphrase
           ? _value.passphrase
           : passphrase // ignore: cast_nullable_to_non_nullable
@@ -3630,7 +4299,7 @@ class _$EntropySourceConfig_Bip39MnemonicImpl
       : super._();
 
   @override
-  final LdkMnemonic mnemonic;
+  final FfiMnemonic mnemonic;
   @override
   final String? passphrase;
 
@@ -3666,7 +4335,7 @@ class _$EntropySourceConfig_Bip39MnemonicImpl
   TResult when<TResult extends Object?>({
     required TResult Function(String field0) seedFile,
     required TResult Function(U8Array64 field0) seedBytes,
-    required TResult Function(LdkMnemonic mnemonic, String? passphrase)
+    required TResult Function(FfiMnemonic mnemonic, String? passphrase)
         bip39Mnemonic,
   }) {
     return bip39Mnemonic(mnemonic, passphrase);
@@ -3677,7 +4346,7 @@ class _$EntropySourceConfig_Bip39MnemonicImpl
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(String field0)? seedFile,
     TResult? Function(U8Array64 field0)? seedBytes,
-    TResult? Function(LdkMnemonic mnemonic, String? passphrase)? bip39Mnemonic,
+    TResult? Function(FfiMnemonic mnemonic, String? passphrase)? bip39Mnemonic,
   }) {
     return bip39Mnemonic?.call(mnemonic, passphrase);
   }
@@ -3687,7 +4356,7 @@ class _$EntropySourceConfig_Bip39MnemonicImpl
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(String field0)? seedFile,
     TResult Function(U8Array64 field0)? seedBytes,
-    TResult Function(LdkMnemonic mnemonic, String? passphrase)? bip39Mnemonic,
+    TResult Function(FfiMnemonic mnemonic, String? passphrase)? bip39Mnemonic,
     required TResult orElse(),
   }) {
     if (bip39Mnemonic != null) {
@@ -3734,11 +4403,11 @@ class _$EntropySourceConfig_Bip39MnemonicImpl
 
 abstract class EntropySourceConfig_Bip39Mnemonic extends EntropySourceConfig {
   const factory EntropySourceConfig_Bip39Mnemonic(
-      {required final LdkMnemonic mnemonic,
+      {required final FfiMnemonic mnemonic,
       final String? passphrase}) = _$EntropySourceConfig_Bip39MnemonicImpl;
   const EntropySourceConfig_Bip39Mnemonic._() : super._();
 
-  LdkMnemonic get mnemonic;
+  FfiMnemonic get mnemonic;
   String? get passphrase;
   @JsonKey(ignore: true)
   _$$EntropySourceConfig_Bip39MnemonicImplCopyWith<
@@ -3756,7 +4425,7 @@ mixin _$Event {
     required TResult Function(
             PaymentId? paymentId, PaymentHash paymentHash, BigInt? feePaidMsat)
         paymentSuccessful,
-    required TResult Function(PaymentId? paymentId, PaymentHash paymentHash,
+    required TResult Function(PaymentId? paymentId, PaymentHash? paymentHash,
             PaymentFailureReason? reason)
         paymentFailed,
     required TResult Function(
@@ -3785,7 +4454,7 @@ mixin _$Event {
     TResult? Function(
             PaymentId? paymentId, PaymentHash paymentHash, BigInt? feePaidMsat)?
         paymentSuccessful,
-    TResult? Function(PaymentId? paymentId, PaymentHash paymentHash,
+    TResult? Function(PaymentId? paymentId, PaymentHash? paymentHash,
             PaymentFailureReason? reason)?
         paymentFailed,
     TResult? Function(
@@ -3814,7 +4483,7 @@ mixin _$Event {
     TResult Function(
             PaymentId? paymentId, PaymentHash paymentHash, BigInt? feePaidMsat)?
         paymentSuccessful,
-    TResult Function(PaymentId? paymentId, PaymentHash paymentHash,
+    TResult Function(PaymentId? paymentId, PaymentHash? paymentHash,
             PaymentFailureReason? reason)?
         paymentFailed,
     TResult Function(
@@ -4008,7 +4677,7 @@ class _$Event_PaymentClaimableImpl extends Event_PaymentClaimable {
     required TResult Function(
             PaymentId? paymentId, PaymentHash paymentHash, BigInt? feePaidMsat)
         paymentSuccessful,
-    required TResult Function(PaymentId? paymentId, PaymentHash paymentHash,
+    required TResult Function(PaymentId? paymentId, PaymentHash? paymentHash,
             PaymentFailureReason? reason)
         paymentFailed,
     required TResult Function(
@@ -4041,7 +4710,7 @@ class _$Event_PaymentClaimableImpl extends Event_PaymentClaimable {
     TResult? Function(
             PaymentId? paymentId, PaymentHash paymentHash, BigInt? feePaidMsat)?
         paymentSuccessful,
-    TResult? Function(PaymentId? paymentId, PaymentHash paymentHash,
+    TResult? Function(PaymentId? paymentId, PaymentHash? paymentHash,
             PaymentFailureReason? reason)?
         paymentFailed,
     TResult? Function(
@@ -4074,7 +4743,7 @@ class _$Event_PaymentClaimableImpl extends Event_PaymentClaimable {
     TResult Function(
             PaymentId? paymentId, PaymentHash paymentHash, BigInt? feePaidMsat)?
         paymentSuccessful,
-    TResult Function(PaymentId? paymentId, PaymentHash paymentHash,
+    TResult Function(PaymentId? paymentId, PaymentHash? paymentHash,
             PaymentFailureReason? reason)?
         paymentFailed,
     TResult Function(
@@ -4277,7 +4946,7 @@ class _$Event_PaymentSuccessfulImpl extends Event_PaymentSuccessful {
     required TResult Function(
             PaymentId? paymentId, PaymentHash paymentHash, BigInt? feePaidMsat)
         paymentSuccessful,
-    required TResult Function(PaymentId? paymentId, PaymentHash paymentHash,
+    required TResult Function(PaymentId? paymentId, PaymentHash? paymentHash,
             PaymentFailureReason? reason)
         paymentFailed,
     required TResult Function(
@@ -4309,7 +4978,7 @@ class _$Event_PaymentSuccessfulImpl extends Event_PaymentSuccessful {
     TResult? Function(
             PaymentId? paymentId, PaymentHash paymentHash, BigInt? feePaidMsat)?
         paymentSuccessful,
-    TResult? Function(PaymentId? paymentId, PaymentHash paymentHash,
+    TResult? Function(PaymentId? paymentId, PaymentHash? paymentHash,
             PaymentFailureReason? reason)?
         paymentFailed,
     TResult? Function(
@@ -4341,7 +5010,7 @@ class _$Event_PaymentSuccessfulImpl extends Event_PaymentSuccessful {
     TResult Function(
             PaymentId? paymentId, PaymentHash paymentHash, BigInt? feePaidMsat)?
         paymentSuccessful,
-    TResult Function(PaymentId? paymentId, PaymentHash paymentHash,
+    TResult Function(PaymentId? paymentId, PaymentHash? paymentHash,
             PaymentFailureReason? reason)?
         paymentFailed,
     TResult Function(
@@ -4445,7 +5114,7 @@ abstract class _$$Event_PaymentFailedImplCopyWith<$Res> {
   @useResult
   $Res call(
       {PaymentId? paymentId,
-      PaymentHash paymentHash,
+      PaymentHash? paymentHash,
       PaymentFailureReason? reason});
 }
 
@@ -4461,7 +5130,7 @@ class __$$Event_PaymentFailedImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? paymentId = freezed,
-    Object? paymentHash = null,
+    Object? paymentHash = freezed,
     Object? reason = freezed,
   }) {
     return _then(_$Event_PaymentFailedImpl(
@@ -4469,10 +5138,10 @@ class __$$Event_PaymentFailedImplCopyWithImpl<$Res>
           ? _value.paymentId
           : paymentId // ignore: cast_nullable_to_non_nullable
               as PaymentId?,
-      paymentHash: null == paymentHash
+      paymentHash: freezed == paymentHash
           ? _value.paymentHash
           : paymentHash // ignore: cast_nullable_to_non_nullable
-              as PaymentHash,
+              as PaymentHash?,
       reason: freezed == reason
           ? _value.reason
           : reason // ignore: cast_nullable_to_non_nullable
@@ -4485,7 +5154,7 @@ class __$$Event_PaymentFailedImplCopyWithImpl<$Res>
 
 class _$Event_PaymentFailedImpl extends Event_PaymentFailed {
   const _$Event_PaymentFailedImpl(
-      {this.paymentId, required this.paymentHash, this.reason})
+      {this.paymentId, this.paymentHash, this.reason})
       : super._();
 
   /// A local identifier used to track the payment.
@@ -4496,7 +5165,7 @@ class _$Event_PaymentFailedImpl extends Event_PaymentFailed {
 
   /// The hash of the payment.
   @override
-  final PaymentHash paymentHash;
+  final PaymentHash? paymentHash;
 
   /// The reason why the payment failed.
   ///
@@ -4540,7 +5209,7 @@ class _$Event_PaymentFailedImpl extends Event_PaymentFailed {
     required TResult Function(
             PaymentId? paymentId, PaymentHash paymentHash, BigInt? feePaidMsat)
         paymentSuccessful,
-    required TResult Function(PaymentId? paymentId, PaymentHash paymentHash,
+    required TResult Function(PaymentId? paymentId, PaymentHash? paymentHash,
             PaymentFailureReason? reason)
         paymentFailed,
     required TResult Function(
@@ -4572,7 +5241,7 @@ class _$Event_PaymentFailedImpl extends Event_PaymentFailed {
     TResult? Function(
             PaymentId? paymentId, PaymentHash paymentHash, BigInt? feePaidMsat)?
         paymentSuccessful,
-    TResult? Function(PaymentId? paymentId, PaymentHash paymentHash,
+    TResult? Function(PaymentId? paymentId, PaymentHash? paymentHash,
             PaymentFailureReason? reason)?
         paymentFailed,
     TResult? Function(
@@ -4604,7 +5273,7 @@ class _$Event_PaymentFailedImpl extends Event_PaymentFailed {
     TResult Function(
             PaymentId? paymentId, PaymentHash paymentHash, BigInt? feePaidMsat)?
         paymentSuccessful,
-    TResult Function(PaymentId? paymentId, PaymentHash paymentHash,
+    TResult Function(PaymentId? paymentId, PaymentHash? paymentHash,
             PaymentFailureReason? reason)?
         paymentFailed,
     TResult Function(
@@ -4681,7 +5350,7 @@ class _$Event_PaymentFailedImpl extends Event_PaymentFailed {
 abstract class Event_PaymentFailed extends Event {
   const factory Event_PaymentFailed(
       {final PaymentId? paymentId,
-      required final PaymentHash paymentHash,
+      final PaymentHash? paymentHash,
       final PaymentFailureReason? reason}) = _$Event_PaymentFailedImpl;
   const Event_PaymentFailed._() : super._();
 
@@ -4691,7 +5360,7 @@ abstract class Event_PaymentFailed extends Event {
   PaymentId? get paymentId;
 
   /// The hash of the payment.
-  PaymentHash get paymentHash;
+  PaymentHash? get paymentHash;
 
   /// The reason why the payment failed.
   ///
@@ -4803,7 +5472,7 @@ class _$Event_PaymentReceivedImpl extends Event_PaymentReceived {
     required TResult Function(
             PaymentId? paymentId, PaymentHash paymentHash, BigInt? feePaidMsat)
         paymentSuccessful,
-    required TResult Function(PaymentId? paymentId, PaymentHash paymentHash,
+    required TResult Function(PaymentId? paymentId, PaymentHash? paymentHash,
             PaymentFailureReason? reason)
         paymentFailed,
     required TResult Function(
@@ -4835,7 +5504,7 @@ class _$Event_PaymentReceivedImpl extends Event_PaymentReceived {
     TResult? Function(
             PaymentId? paymentId, PaymentHash paymentHash, BigInt? feePaidMsat)?
         paymentSuccessful,
-    TResult? Function(PaymentId? paymentId, PaymentHash paymentHash,
+    TResult? Function(PaymentId? paymentId, PaymentHash? paymentHash,
             PaymentFailureReason? reason)?
         paymentFailed,
     TResult? Function(
@@ -4867,7 +5536,7 @@ class _$Event_PaymentReceivedImpl extends Event_PaymentReceived {
     TResult Function(
             PaymentId? paymentId, PaymentHash paymentHash, BigInt? feePaidMsat)?
         paymentSuccessful,
-    TResult Function(PaymentId? paymentId, PaymentHash paymentHash,
+    TResult Function(PaymentId? paymentId, PaymentHash? paymentHash,
             PaymentFailureReason? reason)?
         paymentFailed,
     TResult Function(
@@ -5094,7 +5763,7 @@ class _$Event_ChannelPendingImpl extends Event_ChannelPending {
     required TResult Function(
             PaymentId? paymentId, PaymentHash paymentHash, BigInt? feePaidMsat)
         paymentSuccessful,
-    required TResult Function(PaymentId? paymentId, PaymentHash paymentHash,
+    required TResult Function(PaymentId? paymentId, PaymentHash? paymentHash,
             PaymentFailureReason? reason)
         paymentFailed,
     required TResult Function(
@@ -5127,7 +5796,7 @@ class _$Event_ChannelPendingImpl extends Event_ChannelPending {
     TResult? Function(
             PaymentId? paymentId, PaymentHash paymentHash, BigInt? feePaidMsat)?
         paymentSuccessful,
-    TResult? Function(PaymentId? paymentId, PaymentHash paymentHash,
+    TResult? Function(PaymentId? paymentId, PaymentHash? paymentHash,
             PaymentFailureReason? reason)?
         paymentFailed,
     TResult? Function(
@@ -5160,7 +5829,7 @@ class _$Event_ChannelPendingImpl extends Event_ChannelPending {
     TResult Function(
             PaymentId? paymentId, PaymentHash paymentHash, BigInt? feePaidMsat)?
         paymentSuccessful,
-    TResult Function(PaymentId? paymentId, PaymentHash paymentHash,
+    TResult Function(PaymentId? paymentId, PaymentHash? paymentHash,
             PaymentFailureReason? reason)?
         paymentFailed,
     TResult Function(
@@ -5368,7 +6037,7 @@ class _$Event_ChannelReadyImpl extends Event_ChannelReady {
     required TResult Function(
             PaymentId? paymentId, PaymentHash paymentHash, BigInt? feePaidMsat)
         paymentSuccessful,
-    required TResult Function(PaymentId? paymentId, PaymentHash paymentHash,
+    required TResult Function(PaymentId? paymentId, PaymentHash? paymentHash,
             PaymentFailureReason? reason)
         paymentFailed,
     required TResult Function(
@@ -5400,7 +6069,7 @@ class _$Event_ChannelReadyImpl extends Event_ChannelReady {
     TResult? Function(
             PaymentId? paymentId, PaymentHash paymentHash, BigInt? feePaidMsat)?
         paymentSuccessful,
-    TResult? Function(PaymentId? paymentId, PaymentHash paymentHash,
+    TResult? Function(PaymentId? paymentId, PaymentHash? paymentHash,
             PaymentFailureReason? reason)?
         paymentFailed,
     TResult? Function(
@@ -5432,7 +6101,7 @@ class _$Event_ChannelReadyImpl extends Event_ChannelReady {
     TResult Function(
             PaymentId? paymentId, PaymentHash paymentHash, BigInt? feePaidMsat)?
         paymentSuccessful,
-    TResult Function(PaymentId? paymentId, PaymentHash paymentHash,
+    TResult Function(PaymentId? paymentId, PaymentHash? paymentHash,
             PaymentFailureReason? reason)?
         paymentFailed,
     TResult Function(
@@ -5659,7 +6328,7 @@ class _$Event_ChannelClosedImpl extends Event_ChannelClosed {
     required TResult Function(
             PaymentId? paymentId, PaymentHash paymentHash, BigInt? feePaidMsat)
         paymentSuccessful,
-    required TResult Function(PaymentId? paymentId, PaymentHash paymentHash,
+    required TResult Function(PaymentId? paymentId, PaymentHash? paymentHash,
             PaymentFailureReason? reason)
         paymentFailed,
     required TResult Function(
@@ -5691,7 +6360,7 @@ class _$Event_ChannelClosedImpl extends Event_ChannelClosed {
     TResult? Function(
             PaymentId? paymentId, PaymentHash paymentHash, BigInt? feePaidMsat)?
         paymentSuccessful,
-    TResult? Function(PaymentId? paymentId, PaymentHash paymentHash,
+    TResult? Function(PaymentId? paymentId, PaymentHash? paymentHash,
             PaymentFailureReason? reason)?
         paymentFailed,
     TResult? Function(
@@ -5724,7 +6393,7 @@ class _$Event_ChannelClosedImpl extends Event_ChannelClosed {
     TResult Function(
             PaymentId? paymentId, PaymentHash paymentHash, BigInt? feePaidMsat)?
         paymentSuccessful,
-    TResult Function(PaymentId? paymentId, PaymentHash paymentHash,
+    TResult Function(PaymentId? paymentId, PaymentHash? paymentHash,
             PaymentFailureReason? reason)?
         paymentFailed,
     TResult Function(
@@ -6155,11 +6824,18 @@ mixin _$LightningBalance {
   BigInt get amountSatoshis => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(ChannelId channelId, PublicKey counterpartyNodeId,
-            BigInt amountSatoshis)
+    required TResult Function(
+            ChannelId channelId,
+            PublicKey counterpartyNodeId,
+            BigInt amountSatoshis,
+            BigInt transactionFeeSatoshis,
+            BigInt outboundPaymentHtlcRoundedMsat,
+            BigInt outboundForwardedHtlcRoundedMsat,
+            BigInt inboundClaimingHtlcRoundedMsat,
+            BigInt inboundHtlcRoundedMsat)
         claimableOnChannelClose,
     required TResult Function(ChannelId channelId, PublicKey counterpartyNodeId,
-            BigInt amountSatoshis, int confirmationHeight)
+            BigInt amountSatoshis, int confirmationHeight, BalanceSource source)
         claimableAwaitingConfirmations,
     required TResult Function(
             ChannelId channelId,
@@ -6169,8 +6845,13 @@ mixin _$LightningBalance {
             PaymentHash paymentHash,
             PaymentPreimage paymentPreimage)
         contentiousClaimable,
-    required TResult Function(ChannelId channelId, PublicKey counterpartyNodeId,
-            BigInt amountSatoshis, int claimableHeight, PaymentHash paymentHash)
+    required TResult Function(
+            ChannelId channelId,
+            PublicKey counterpartyNodeId,
+            BigInt amountSatoshis,
+            int claimableHeight,
+            PaymentHash paymentHash,
+            bool outboundPayment)
         maybeTimeoutClaimableHtlc,
     required TResult Function(ChannelId channelId, PublicKey counterpartyNodeId,
             BigInt amountSatoshis, int expiryHeight, PaymentHash paymentHash)
@@ -6182,11 +6863,22 @@ mixin _$LightningBalance {
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(ChannelId channelId, PublicKey counterpartyNodeId,
-            BigInt amountSatoshis)?
+    TResult? Function(
+            ChannelId channelId,
+            PublicKey counterpartyNodeId,
+            BigInt amountSatoshis,
+            BigInt transactionFeeSatoshis,
+            BigInt outboundPaymentHtlcRoundedMsat,
+            BigInt outboundForwardedHtlcRoundedMsat,
+            BigInt inboundClaimingHtlcRoundedMsat,
+            BigInt inboundHtlcRoundedMsat)?
         claimableOnChannelClose,
-    TResult? Function(ChannelId channelId, PublicKey counterpartyNodeId,
-            BigInt amountSatoshis, int confirmationHeight)?
+    TResult? Function(
+            ChannelId channelId,
+            PublicKey counterpartyNodeId,
+            BigInt amountSatoshis,
+            int confirmationHeight,
+            BalanceSource source)?
         claimableAwaitingConfirmations,
     TResult? Function(
             ChannelId channelId,
@@ -6201,7 +6893,8 @@ mixin _$LightningBalance {
             PublicKey counterpartyNodeId,
             BigInt amountSatoshis,
             int claimableHeight,
-            PaymentHash paymentHash)?
+            PaymentHash paymentHash,
+            bool outboundPayment)?
         maybeTimeoutClaimableHtlc,
     TResult? Function(ChannelId channelId, PublicKey counterpartyNodeId,
             BigInt amountSatoshis, int expiryHeight, PaymentHash paymentHash)?
@@ -6213,11 +6906,22 @@ mixin _$LightningBalance {
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(ChannelId channelId, PublicKey counterpartyNodeId,
-            BigInt amountSatoshis)?
+    TResult Function(
+            ChannelId channelId,
+            PublicKey counterpartyNodeId,
+            BigInt amountSatoshis,
+            BigInt transactionFeeSatoshis,
+            BigInt outboundPaymentHtlcRoundedMsat,
+            BigInt outboundForwardedHtlcRoundedMsat,
+            BigInt inboundClaimingHtlcRoundedMsat,
+            BigInt inboundHtlcRoundedMsat)?
         claimableOnChannelClose,
-    TResult Function(ChannelId channelId, PublicKey counterpartyNodeId,
-            BigInt amountSatoshis, int confirmationHeight)?
+    TResult Function(
+            ChannelId channelId,
+            PublicKey counterpartyNodeId,
+            BigInt amountSatoshis,
+            int confirmationHeight,
+            BalanceSource source)?
         claimableAwaitingConfirmations,
     TResult Function(
             ChannelId channelId,
@@ -6232,7 +6936,8 @@ mixin _$LightningBalance {
             PublicKey counterpartyNodeId,
             BigInt amountSatoshis,
             int claimableHeight,
-            PaymentHash paymentHash)?
+            PaymentHash paymentHash,
+            bool outboundPayment)?
         maybeTimeoutClaimableHtlc,
     TResult Function(ChannelId channelId, PublicKey counterpartyNodeId,
             BigInt amountSatoshis, int expiryHeight, PaymentHash paymentHash)?
@@ -6359,7 +7064,12 @@ abstract class _$$LightningBalance_ClaimableOnChannelCloseImplCopyWith<$Res>
   $Res call(
       {ChannelId channelId,
       PublicKey counterpartyNodeId,
-      BigInt amountSatoshis});
+      BigInt amountSatoshis,
+      BigInt transactionFeeSatoshis,
+      BigInt outboundPaymentHtlcRoundedMsat,
+      BigInt outboundForwardedHtlcRoundedMsat,
+      BigInt inboundClaimingHtlcRoundedMsat,
+      BigInt inboundHtlcRoundedMsat});
 }
 
 /// @nodoc
@@ -6378,6 +7088,11 @@ class __$$LightningBalance_ClaimableOnChannelCloseImplCopyWithImpl<$Res>
     Object? channelId = null,
     Object? counterpartyNodeId = null,
     Object? amountSatoshis = null,
+    Object? transactionFeeSatoshis = null,
+    Object? outboundPaymentHtlcRoundedMsat = null,
+    Object? outboundForwardedHtlcRoundedMsat = null,
+    Object? inboundClaimingHtlcRoundedMsat = null,
+    Object? inboundHtlcRoundedMsat = null,
   }) {
     return _then(_$LightningBalance_ClaimableOnChannelCloseImpl(
       channelId: null == channelId
@@ -6392,6 +7107,26 @@ class __$$LightningBalance_ClaimableOnChannelCloseImplCopyWithImpl<$Res>
           ? _value.amountSatoshis
           : amountSatoshis // ignore: cast_nullable_to_non_nullable
               as BigInt,
+      transactionFeeSatoshis: null == transactionFeeSatoshis
+          ? _value.transactionFeeSatoshis
+          : transactionFeeSatoshis // ignore: cast_nullable_to_non_nullable
+              as BigInt,
+      outboundPaymentHtlcRoundedMsat: null == outboundPaymentHtlcRoundedMsat
+          ? _value.outboundPaymentHtlcRoundedMsat
+          : outboundPaymentHtlcRoundedMsat // ignore: cast_nullable_to_non_nullable
+              as BigInt,
+      outboundForwardedHtlcRoundedMsat: null == outboundForwardedHtlcRoundedMsat
+          ? _value.outboundForwardedHtlcRoundedMsat
+          : outboundForwardedHtlcRoundedMsat // ignore: cast_nullable_to_non_nullable
+              as BigInt,
+      inboundClaimingHtlcRoundedMsat: null == inboundClaimingHtlcRoundedMsat
+          ? _value.inboundClaimingHtlcRoundedMsat
+          : inboundClaimingHtlcRoundedMsat // ignore: cast_nullable_to_non_nullable
+              as BigInt,
+      inboundHtlcRoundedMsat: null == inboundHtlcRoundedMsat
+          ? _value.inboundHtlcRoundedMsat
+          : inboundHtlcRoundedMsat // ignore: cast_nullable_to_non_nullable
+              as BigInt,
     ));
   }
 }
@@ -6403,7 +7138,12 @@ class _$LightningBalance_ClaimableOnChannelCloseImpl
   const _$LightningBalance_ClaimableOnChannelCloseImpl(
       {required this.channelId,
       required this.counterpartyNodeId,
-      required this.amountSatoshis})
+      required this.amountSatoshis,
+      required this.transactionFeeSatoshis,
+      required this.outboundPaymentHtlcRoundedMsat,
+      required this.outboundForwardedHtlcRoundedMsat,
+      required this.inboundClaimingHtlcRoundedMsat,
+      required this.inboundHtlcRoundedMsat})
       : super._();
 
   /// The identifier of the channel this balance belongs to.
@@ -6419,9 +7159,53 @@ class _$LightningBalance_ClaimableOnChannelCloseImpl
   @override
   final BigInt amountSatoshis;
 
+  /// The transaction fee we pay for the closing commitment transaction. This amount is not
+  /// included in the `amount_satoshis` value.
+  ///
+  /// Note that if this channel is inbound (and thus our counterparty pays the commitment
+  /// transaction fee) this value will be zero. For channels created prior to LDK Node 0.4
+  /// the channel is always treated as outbound (and thus this value is never zero).
+  @override
+  final BigInt transactionFeeSatoshis;
+
+  /// The amount of millisatoshis which has been burned to fees from HTLCs which are outbound
+  /// from us and are related to a payment which was sent by us. This is the sum of the
+  /// millisatoshis part of all HTLCs which are otherwise represented by
+  /// This amount (rounded up to a whole satoshi value) will not be included in `amountSatoshis`.
+  @override
+  final BigInt outboundPaymentHtlcRoundedMsat;
+
+  /// The amount of millisatoshis which has been burned to fees from HTLCs which are outbound
+  /// from us and are related to a forwarded HTLC. This is the sum of the millisatoshis part
+  /// of all HTLCs which are otherwise represented by
+  /// This amount (rounded up to a whole satoshi value) will not be included in `amountSatoshis`.
+  @override
+  final BigInt outboundForwardedHtlcRoundedMsat;
+
+  /// The amount of millisatoshis which has been burned to fees from HTLCs which are inbound
+  /// to us and for which we know the preimage. This is the sum of the millisatoshis part of
+  /// all HTLCs which would be represented by `lightningBalance.ContentiousClaimable` on
+  /// channel close, but whose current value is included in `amountSatoshis`, as well as any
+  /// dust HTLCs which would otherwise be represented the same.
+  ///
+  /// This amount (rounded up to a whole satoshi value) will not be included in `amountSatoshis`.
+  @override
+  final BigInt inboundClaimingHtlcRoundedMsat;
+
+  /// The amount of millisatoshis which has been burned to fees from HTLCs which are inbound
+  /// to us and for which we do not know the preimage. This is the sum of the millisatoshis
+  /// part of all HTLCs which would be represented by
+  /// `lightningBalance.MaybePreimageClaimableHTLC` on channel close, as well as any dust
+  /// HTLCs which would otherwise be represented the same.
+  ///
+  /// This amount (rounded up to a whole satoshi value) will not be included in the
+  /// counterparty's `amountSatoshis`.
+  @override
+  final BigInt inboundHtlcRoundedMsat;
+
   @override
   String toString() {
-    return 'LightningBalance.claimableOnChannelClose(channelId: $channelId, counterpartyNodeId: $counterpartyNodeId, amountSatoshis: $amountSatoshis)';
+    return 'LightningBalance.claimableOnChannelClose(channelId: $channelId, counterpartyNodeId: $counterpartyNodeId, amountSatoshis: $amountSatoshis, transactionFeeSatoshis: $transactionFeeSatoshis, outboundPaymentHtlcRoundedMsat: $outboundPaymentHtlcRoundedMsat, outboundForwardedHtlcRoundedMsat: $outboundForwardedHtlcRoundedMsat, inboundClaimingHtlcRoundedMsat: $inboundClaimingHtlcRoundedMsat, inboundHtlcRoundedMsat: $inboundHtlcRoundedMsat)';
   }
 
   @override
@@ -6434,12 +7218,36 @@ class _$LightningBalance_ClaimableOnChannelCloseImpl
             (identical(other.counterpartyNodeId, counterpartyNodeId) ||
                 other.counterpartyNodeId == counterpartyNodeId) &&
             (identical(other.amountSatoshis, amountSatoshis) ||
-                other.amountSatoshis == amountSatoshis));
+                other.amountSatoshis == amountSatoshis) &&
+            (identical(other.transactionFeeSatoshis, transactionFeeSatoshis) ||
+                other.transactionFeeSatoshis == transactionFeeSatoshis) &&
+            (identical(other.outboundPaymentHtlcRoundedMsat,
+                    outboundPaymentHtlcRoundedMsat) ||
+                other.outboundPaymentHtlcRoundedMsat ==
+                    outboundPaymentHtlcRoundedMsat) &&
+            (identical(other.outboundForwardedHtlcRoundedMsat,
+                    outboundForwardedHtlcRoundedMsat) ||
+                other.outboundForwardedHtlcRoundedMsat ==
+                    outboundForwardedHtlcRoundedMsat) &&
+            (identical(other.inboundClaimingHtlcRoundedMsat,
+                    inboundClaimingHtlcRoundedMsat) ||
+                other.inboundClaimingHtlcRoundedMsat ==
+                    inboundClaimingHtlcRoundedMsat) &&
+            (identical(other.inboundHtlcRoundedMsat, inboundHtlcRoundedMsat) ||
+                other.inboundHtlcRoundedMsat == inboundHtlcRoundedMsat));
   }
 
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, channelId, counterpartyNodeId, amountSatoshis);
+  int get hashCode => Object.hash(
+      runtimeType,
+      channelId,
+      counterpartyNodeId,
+      amountSatoshis,
+      transactionFeeSatoshis,
+      outboundPaymentHtlcRoundedMsat,
+      outboundForwardedHtlcRoundedMsat,
+      inboundClaimingHtlcRoundedMsat,
+      inboundHtlcRoundedMsat);
 
   @JsonKey(ignore: true)
   @override
@@ -6453,11 +7261,18 @@ class _$LightningBalance_ClaimableOnChannelCloseImpl
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(ChannelId channelId, PublicKey counterpartyNodeId,
-            BigInt amountSatoshis)
+    required TResult Function(
+            ChannelId channelId,
+            PublicKey counterpartyNodeId,
+            BigInt amountSatoshis,
+            BigInt transactionFeeSatoshis,
+            BigInt outboundPaymentHtlcRoundedMsat,
+            BigInt outboundForwardedHtlcRoundedMsat,
+            BigInt inboundClaimingHtlcRoundedMsat,
+            BigInt inboundHtlcRoundedMsat)
         claimableOnChannelClose,
     required TResult Function(ChannelId channelId, PublicKey counterpartyNodeId,
-            BigInt amountSatoshis, int confirmationHeight)
+            BigInt amountSatoshis, int confirmationHeight, BalanceSource source)
         claimableAwaitingConfirmations,
     required TResult Function(
             ChannelId channelId,
@@ -6467,8 +7282,13 @@ class _$LightningBalance_ClaimableOnChannelCloseImpl
             PaymentHash paymentHash,
             PaymentPreimage paymentPreimage)
         contentiousClaimable,
-    required TResult Function(ChannelId channelId, PublicKey counterpartyNodeId,
-            BigInt amountSatoshis, int claimableHeight, PaymentHash paymentHash)
+    required TResult Function(
+            ChannelId channelId,
+            PublicKey counterpartyNodeId,
+            BigInt amountSatoshis,
+            int claimableHeight,
+            PaymentHash paymentHash,
+            bool outboundPayment)
         maybeTimeoutClaimableHtlc,
     required TResult Function(ChannelId channelId, PublicKey counterpartyNodeId,
             BigInt amountSatoshis, int expiryHeight, PaymentHash paymentHash)
@@ -6478,17 +7298,35 @@ class _$LightningBalance_ClaimableOnChannelCloseImpl
         counterpartyRevokedOutputClaimable,
   }) {
     return claimableOnChannelClose(
-        channelId, counterpartyNodeId, amountSatoshis);
+        channelId,
+        counterpartyNodeId,
+        amountSatoshis,
+        transactionFeeSatoshis,
+        outboundPaymentHtlcRoundedMsat,
+        outboundForwardedHtlcRoundedMsat,
+        inboundClaimingHtlcRoundedMsat,
+        inboundHtlcRoundedMsat);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(ChannelId channelId, PublicKey counterpartyNodeId,
-            BigInt amountSatoshis)?
+    TResult? Function(
+            ChannelId channelId,
+            PublicKey counterpartyNodeId,
+            BigInt amountSatoshis,
+            BigInt transactionFeeSatoshis,
+            BigInt outboundPaymentHtlcRoundedMsat,
+            BigInt outboundForwardedHtlcRoundedMsat,
+            BigInt inboundClaimingHtlcRoundedMsat,
+            BigInt inboundHtlcRoundedMsat)?
         claimableOnChannelClose,
-    TResult? Function(ChannelId channelId, PublicKey counterpartyNodeId,
-            BigInt amountSatoshis, int confirmationHeight)?
+    TResult? Function(
+            ChannelId channelId,
+            PublicKey counterpartyNodeId,
+            BigInt amountSatoshis,
+            int confirmationHeight,
+            BalanceSource source)?
         claimableAwaitingConfirmations,
     TResult? Function(
             ChannelId channelId,
@@ -6503,7 +7341,8 @@ class _$LightningBalance_ClaimableOnChannelCloseImpl
             PublicKey counterpartyNodeId,
             BigInt amountSatoshis,
             int claimableHeight,
-            PaymentHash paymentHash)?
+            PaymentHash paymentHash,
+            bool outboundPayment)?
         maybeTimeoutClaimableHtlc,
     TResult? Function(ChannelId channelId, PublicKey counterpartyNodeId,
             BigInt amountSatoshis, int expiryHeight, PaymentHash paymentHash)?
@@ -6513,17 +7352,35 @@ class _$LightningBalance_ClaimableOnChannelCloseImpl
         counterpartyRevokedOutputClaimable,
   }) {
     return claimableOnChannelClose?.call(
-        channelId, counterpartyNodeId, amountSatoshis);
+        channelId,
+        counterpartyNodeId,
+        amountSatoshis,
+        transactionFeeSatoshis,
+        outboundPaymentHtlcRoundedMsat,
+        outboundForwardedHtlcRoundedMsat,
+        inboundClaimingHtlcRoundedMsat,
+        inboundHtlcRoundedMsat);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(ChannelId channelId, PublicKey counterpartyNodeId,
-            BigInt amountSatoshis)?
+    TResult Function(
+            ChannelId channelId,
+            PublicKey counterpartyNodeId,
+            BigInt amountSatoshis,
+            BigInt transactionFeeSatoshis,
+            BigInt outboundPaymentHtlcRoundedMsat,
+            BigInt outboundForwardedHtlcRoundedMsat,
+            BigInt inboundClaimingHtlcRoundedMsat,
+            BigInt inboundHtlcRoundedMsat)?
         claimableOnChannelClose,
-    TResult Function(ChannelId channelId, PublicKey counterpartyNodeId,
-            BigInt amountSatoshis, int confirmationHeight)?
+    TResult Function(
+            ChannelId channelId,
+            PublicKey counterpartyNodeId,
+            BigInt amountSatoshis,
+            int confirmationHeight,
+            BalanceSource source)?
         claimableAwaitingConfirmations,
     TResult Function(
             ChannelId channelId,
@@ -6538,7 +7395,8 @@ class _$LightningBalance_ClaimableOnChannelCloseImpl
             PublicKey counterpartyNodeId,
             BigInt amountSatoshis,
             int claimableHeight,
-            PaymentHash paymentHash)?
+            PaymentHash paymentHash,
+            bool outboundPayment)?
         maybeTimeoutClaimableHtlc,
     TResult Function(ChannelId channelId, PublicKey counterpartyNodeId,
             BigInt amountSatoshis, int expiryHeight, PaymentHash paymentHash)?
@@ -6550,7 +7408,14 @@ class _$LightningBalance_ClaimableOnChannelCloseImpl
   }) {
     if (claimableOnChannelClose != null) {
       return claimableOnChannelClose(
-          channelId, counterpartyNodeId, amountSatoshis);
+          channelId,
+          counterpartyNodeId,
+          amountSatoshis,
+          transactionFeeSatoshis,
+          outboundPaymentHtlcRoundedMsat,
+          outboundForwardedHtlcRoundedMsat,
+          inboundClaimingHtlcRoundedMsat,
+          inboundHtlcRoundedMsat);
     }
     return orElse();
   }
@@ -6625,7 +7490,12 @@ abstract class LightningBalance_ClaimableOnChannelClose
   const factory LightningBalance_ClaimableOnChannelClose(
           {required final ChannelId channelId,
           required final PublicKey counterpartyNodeId,
-          required final BigInt amountSatoshis}) =
+          required final BigInt amountSatoshis,
+          required final BigInt transactionFeeSatoshis,
+          required final BigInt outboundPaymentHtlcRoundedMsat,
+          required final BigInt outboundForwardedHtlcRoundedMsat,
+          required final BigInt inboundClaimingHtlcRoundedMsat,
+          required final BigInt inboundHtlcRoundedMsat}) =
       _$LightningBalance_ClaimableOnChannelCloseImpl;
   const LightningBalance_ClaimableOnChannelClose._() : super._();
 
@@ -6642,6 +7512,45 @@ abstract class LightningBalance_ClaimableOnChannelClose
   /// The amount available to claim, in satoshis, excluding the on-chain fees which will be
   /// required to do so.
   BigInt get amountSatoshis;
+
+  /// The transaction fee we pay for the closing commitment transaction. This amount is not
+  /// included in the `amount_satoshis` value.
+  ///
+  /// Note that if this channel is inbound (and thus our counterparty pays the commitment
+  /// transaction fee) this value will be zero. For channels created prior to LDK Node 0.4
+  /// the channel is always treated as outbound (and thus this value is never zero).
+  BigInt get transactionFeeSatoshis;
+
+  /// The amount of millisatoshis which has been burned to fees from HTLCs which are outbound
+  /// from us and are related to a payment which was sent by us. This is the sum of the
+  /// millisatoshis part of all HTLCs which are otherwise represented by
+  /// This amount (rounded up to a whole satoshi value) will not be included in `amountSatoshis`.
+  BigInt get outboundPaymentHtlcRoundedMsat;
+
+  /// The amount of millisatoshis which has been burned to fees from HTLCs which are outbound
+  /// from us and are related to a forwarded HTLC. This is the sum of the millisatoshis part
+  /// of all HTLCs which are otherwise represented by
+  /// This amount (rounded up to a whole satoshi value) will not be included in `amountSatoshis`.
+  BigInt get outboundForwardedHtlcRoundedMsat;
+
+  /// The amount of millisatoshis which has been burned to fees from HTLCs which are inbound
+  /// to us and for which we know the preimage. This is the sum of the millisatoshis part of
+  /// all HTLCs which would be represented by `lightningBalance.ContentiousClaimable` on
+  /// channel close, but whose current value is included in `amountSatoshis`, as well as any
+  /// dust HTLCs which would otherwise be represented the same.
+  ///
+  /// This amount (rounded up to a whole satoshi value) will not be included in `amountSatoshis`.
+  BigInt get inboundClaimingHtlcRoundedMsat;
+
+  /// The amount of millisatoshis which has been burned to fees from HTLCs which are inbound
+  /// to us and for which we do not know the preimage. This is the sum of the millisatoshis
+  /// part of all HTLCs which would be represented by
+  /// `lightningBalance.MaybePreimageClaimableHTLC` on channel close, as well as any dust
+  /// HTLCs which would otherwise be represented the same.
+  ///
+  /// This amount (rounded up to a whole satoshi value) will not be included in the
+  /// counterparty's `amountSatoshis`.
+  BigInt get inboundHtlcRoundedMsat;
   @override
   @JsonKey(ignore: true)
   _$$LightningBalance_ClaimableOnChannelCloseImplCopyWith<
@@ -6663,7 +7572,8 @@ abstract class _$$LightningBalance_ClaimableAwaitingConfirmationsImplCopyWith<
       {ChannelId channelId,
       PublicKey counterpartyNodeId,
       BigInt amountSatoshis,
-      int confirmationHeight});
+      int confirmationHeight,
+      BalanceSource source});
 }
 
 /// @nodoc
@@ -6685,6 +7595,7 @@ class __$$LightningBalance_ClaimableAwaitingConfirmationsImplCopyWithImpl<$Res>
     Object? counterpartyNodeId = null,
     Object? amountSatoshis = null,
     Object? confirmationHeight = null,
+    Object? source = null,
   }) {
     return _then(_$LightningBalance_ClaimableAwaitingConfirmationsImpl(
       channelId: null == channelId
@@ -6703,6 +7614,10 @@ class __$$LightningBalance_ClaimableAwaitingConfirmationsImplCopyWithImpl<$Res>
           ? _value.confirmationHeight
           : confirmationHeight // ignore: cast_nullable_to_non_nullable
               as int,
+      source: null == source
+          ? _value.source
+          : source // ignore: cast_nullable_to_non_nullable
+              as BalanceSource,
     ));
   }
 }
@@ -6715,7 +7630,8 @@ class _$LightningBalance_ClaimableAwaitingConfirmationsImpl
       {required this.channelId,
       required this.counterpartyNodeId,
       required this.amountSatoshis,
-      required this.confirmationHeight})
+      required this.confirmationHeight,
+      required this.source})
       : super._();
 
   /// The identifier of the channel this balance belongs to.
@@ -6731,16 +7647,19 @@ class _$LightningBalance_ClaimableAwaitingConfirmationsImpl
   @override
   final BigInt amountSatoshis;
 
-  /// The height at which an [`Event::SpendableOutputs`] event will be generated for this
+  /// The height at which an `event.SpendableOutputs` event will be generated for this
   /// amount.
   ///
-  /// [`Event::SpendableOutputs`]: lightning::events::Event::SpendableOutputs
   @override
   final int confirmationHeight;
 
+  /// Whether this balance is a result of cooperative close, a force-close, or an HTLC.
+  @override
+  final BalanceSource source;
+
   @override
   String toString() {
-    return 'LightningBalance.claimableAwaitingConfirmations(channelId: $channelId, counterpartyNodeId: $counterpartyNodeId, amountSatoshis: $amountSatoshis, confirmationHeight: $confirmationHeight)';
+    return 'LightningBalance.claimableAwaitingConfirmations(channelId: $channelId, counterpartyNodeId: $counterpartyNodeId, amountSatoshis: $amountSatoshis, confirmationHeight: $confirmationHeight, source: $source)';
   }
 
   @override
@@ -6755,12 +7674,13 @@ class _$LightningBalance_ClaimableAwaitingConfirmationsImpl
             (identical(other.amountSatoshis, amountSatoshis) ||
                 other.amountSatoshis == amountSatoshis) &&
             (identical(other.confirmationHeight, confirmationHeight) ||
-                other.confirmationHeight == confirmationHeight));
+                other.confirmationHeight == confirmationHeight) &&
+            (identical(other.source, source) || other.source == source));
   }
 
   @override
   int get hashCode => Object.hash(runtimeType, channelId, counterpartyNodeId,
-      amountSatoshis, confirmationHeight);
+      amountSatoshis, confirmationHeight, source);
 
   @JsonKey(ignore: true)
   @override
@@ -6775,11 +7695,18 @@ class _$LightningBalance_ClaimableAwaitingConfirmationsImpl
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(ChannelId channelId, PublicKey counterpartyNodeId,
-            BigInt amountSatoshis)
+    required TResult Function(
+            ChannelId channelId,
+            PublicKey counterpartyNodeId,
+            BigInt amountSatoshis,
+            BigInt transactionFeeSatoshis,
+            BigInt outboundPaymentHtlcRoundedMsat,
+            BigInt outboundForwardedHtlcRoundedMsat,
+            BigInt inboundClaimingHtlcRoundedMsat,
+            BigInt inboundHtlcRoundedMsat)
         claimableOnChannelClose,
     required TResult Function(ChannelId channelId, PublicKey counterpartyNodeId,
-            BigInt amountSatoshis, int confirmationHeight)
+            BigInt amountSatoshis, int confirmationHeight, BalanceSource source)
         claimableAwaitingConfirmations,
     required TResult Function(
             ChannelId channelId,
@@ -6789,8 +7716,13 @@ class _$LightningBalance_ClaimableAwaitingConfirmationsImpl
             PaymentHash paymentHash,
             PaymentPreimage paymentPreimage)
         contentiousClaimable,
-    required TResult Function(ChannelId channelId, PublicKey counterpartyNodeId,
-            BigInt amountSatoshis, int claimableHeight, PaymentHash paymentHash)
+    required TResult Function(
+            ChannelId channelId,
+            PublicKey counterpartyNodeId,
+            BigInt amountSatoshis,
+            int claimableHeight,
+            PaymentHash paymentHash,
+            bool outboundPayment)
         maybeTimeoutClaimableHtlc,
     required TResult Function(ChannelId channelId, PublicKey counterpartyNodeId,
             BigInt amountSatoshis, int expiryHeight, PaymentHash paymentHash)
@@ -6799,18 +7731,29 @@ class _$LightningBalance_ClaimableAwaitingConfirmationsImpl
             BigInt amountSatoshis)
         counterpartyRevokedOutputClaimable,
   }) {
-    return claimableAwaitingConfirmations(
-        channelId, counterpartyNodeId, amountSatoshis, confirmationHeight);
+    return claimableAwaitingConfirmations(channelId, counterpartyNodeId,
+        amountSatoshis, confirmationHeight, source);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(ChannelId channelId, PublicKey counterpartyNodeId,
-            BigInt amountSatoshis)?
+    TResult? Function(
+            ChannelId channelId,
+            PublicKey counterpartyNodeId,
+            BigInt amountSatoshis,
+            BigInt transactionFeeSatoshis,
+            BigInt outboundPaymentHtlcRoundedMsat,
+            BigInt outboundForwardedHtlcRoundedMsat,
+            BigInt inboundClaimingHtlcRoundedMsat,
+            BigInt inboundHtlcRoundedMsat)?
         claimableOnChannelClose,
-    TResult? Function(ChannelId channelId, PublicKey counterpartyNodeId,
-            BigInt amountSatoshis, int confirmationHeight)?
+    TResult? Function(
+            ChannelId channelId,
+            PublicKey counterpartyNodeId,
+            BigInt amountSatoshis,
+            int confirmationHeight,
+            BalanceSource source)?
         claimableAwaitingConfirmations,
     TResult? Function(
             ChannelId channelId,
@@ -6825,7 +7768,8 @@ class _$LightningBalance_ClaimableAwaitingConfirmationsImpl
             PublicKey counterpartyNodeId,
             BigInt amountSatoshis,
             int claimableHeight,
-            PaymentHash paymentHash)?
+            PaymentHash paymentHash,
+            bool outboundPayment)?
         maybeTimeoutClaimableHtlc,
     TResult? Function(ChannelId channelId, PublicKey counterpartyNodeId,
             BigInt amountSatoshis, int expiryHeight, PaymentHash paymentHash)?
@@ -6834,18 +7778,29 @@ class _$LightningBalance_ClaimableAwaitingConfirmationsImpl
             BigInt amountSatoshis)?
         counterpartyRevokedOutputClaimable,
   }) {
-    return claimableAwaitingConfirmations?.call(
-        channelId, counterpartyNodeId, amountSatoshis, confirmationHeight);
+    return claimableAwaitingConfirmations?.call(channelId, counterpartyNodeId,
+        amountSatoshis, confirmationHeight, source);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(ChannelId channelId, PublicKey counterpartyNodeId,
-            BigInt amountSatoshis)?
+    TResult Function(
+            ChannelId channelId,
+            PublicKey counterpartyNodeId,
+            BigInt amountSatoshis,
+            BigInt transactionFeeSatoshis,
+            BigInt outboundPaymentHtlcRoundedMsat,
+            BigInt outboundForwardedHtlcRoundedMsat,
+            BigInt inboundClaimingHtlcRoundedMsat,
+            BigInt inboundHtlcRoundedMsat)?
         claimableOnChannelClose,
-    TResult Function(ChannelId channelId, PublicKey counterpartyNodeId,
-            BigInt amountSatoshis, int confirmationHeight)?
+    TResult Function(
+            ChannelId channelId,
+            PublicKey counterpartyNodeId,
+            BigInt amountSatoshis,
+            int confirmationHeight,
+            BalanceSource source)?
         claimableAwaitingConfirmations,
     TResult Function(
             ChannelId channelId,
@@ -6860,7 +7815,8 @@ class _$LightningBalance_ClaimableAwaitingConfirmationsImpl
             PublicKey counterpartyNodeId,
             BigInt amountSatoshis,
             int claimableHeight,
-            PaymentHash paymentHash)?
+            PaymentHash paymentHash,
+            bool outboundPayment)?
         maybeTimeoutClaimableHtlc,
     TResult Function(ChannelId channelId, PublicKey counterpartyNodeId,
             BigInt amountSatoshis, int expiryHeight, PaymentHash paymentHash)?
@@ -6871,8 +7827,8 @@ class _$LightningBalance_ClaimableAwaitingConfirmationsImpl
     required TResult orElse(),
   }) {
     if (claimableAwaitingConfirmations != null) {
-      return claimableAwaitingConfirmations(
-          channelId, counterpartyNodeId, amountSatoshis, confirmationHeight);
+      return claimableAwaitingConfirmations(channelId, counterpartyNodeId,
+          amountSatoshis, confirmationHeight, source);
     }
     return orElse();
   }
@@ -6948,7 +7904,8 @@ abstract class LightningBalance_ClaimableAwaitingConfirmations
           {required final ChannelId channelId,
           required final PublicKey counterpartyNodeId,
           required final BigInt amountSatoshis,
-          required final int confirmationHeight}) =
+          required final int confirmationHeight,
+          required final BalanceSource source}) =
       _$LightningBalance_ClaimableAwaitingConfirmationsImpl;
   const LightningBalance_ClaimableAwaitingConfirmations._() : super._();
 
@@ -6966,11 +7923,13 @@ abstract class LightningBalance_ClaimableAwaitingConfirmations
   /// were spent in broadcasting the transaction.
   BigInt get amountSatoshis;
 
-  /// The height at which an [`Event::SpendableOutputs`] event will be generated for this
+  /// The height at which an `event.SpendableOutputs` event will be generated for this
   /// amount.
   ///
-  /// [`Event::SpendableOutputs`]: lightning::events::Event::SpendableOutputs
   int get confirmationHeight;
+
+  /// Whether this balance is a result of cooperative close, a force-close, or an HTLC.
+  BalanceSource get source;
   @override
   @JsonKey(ignore: true)
   _$$LightningBalance_ClaimableAwaitingConfirmationsImplCopyWith<
@@ -7123,11 +8082,18 @@ class _$LightningBalance_ContentiousClaimableImpl
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(ChannelId channelId, PublicKey counterpartyNodeId,
-            BigInt amountSatoshis)
+    required TResult Function(
+            ChannelId channelId,
+            PublicKey counterpartyNodeId,
+            BigInt amountSatoshis,
+            BigInt transactionFeeSatoshis,
+            BigInt outboundPaymentHtlcRoundedMsat,
+            BigInt outboundForwardedHtlcRoundedMsat,
+            BigInt inboundClaimingHtlcRoundedMsat,
+            BigInt inboundHtlcRoundedMsat)
         claimableOnChannelClose,
     required TResult Function(ChannelId channelId, PublicKey counterpartyNodeId,
-            BigInt amountSatoshis, int confirmationHeight)
+            BigInt amountSatoshis, int confirmationHeight, BalanceSource source)
         claimableAwaitingConfirmations,
     required TResult Function(
             ChannelId channelId,
@@ -7137,8 +8103,13 @@ class _$LightningBalance_ContentiousClaimableImpl
             PaymentHash paymentHash,
             PaymentPreimage paymentPreimage)
         contentiousClaimable,
-    required TResult Function(ChannelId channelId, PublicKey counterpartyNodeId,
-            BigInt amountSatoshis, int claimableHeight, PaymentHash paymentHash)
+    required TResult Function(
+            ChannelId channelId,
+            PublicKey counterpartyNodeId,
+            BigInt amountSatoshis,
+            int claimableHeight,
+            PaymentHash paymentHash,
+            bool outboundPayment)
         maybeTimeoutClaimableHtlc,
     required TResult Function(ChannelId channelId, PublicKey counterpartyNodeId,
             BigInt amountSatoshis, int expiryHeight, PaymentHash paymentHash)
@@ -7154,11 +8125,22 @@ class _$LightningBalance_ContentiousClaimableImpl
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(ChannelId channelId, PublicKey counterpartyNodeId,
-            BigInt amountSatoshis)?
+    TResult? Function(
+            ChannelId channelId,
+            PublicKey counterpartyNodeId,
+            BigInt amountSatoshis,
+            BigInt transactionFeeSatoshis,
+            BigInt outboundPaymentHtlcRoundedMsat,
+            BigInt outboundForwardedHtlcRoundedMsat,
+            BigInt inboundClaimingHtlcRoundedMsat,
+            BigInt inboundHtlcRoundedMsat)?
         claimableOnChannelClose,
-    TResult? Function(ChannelId channelId, PublicKey counterpartyNodeId,
-            BigInt amountSatoshis, int confirmationHeight)?
+    TResult? Function(
+            ChannelId channelId,
+            PublicKey counterpartyNodeId,
+            BigInt amountSatoshis,
+            int confirmationHeight,
+            BalanceSource source)?
         claimableAwaitingConfirmations,
     TResult? Function(
             ChannelId channelId,
@@ -7173,7 +8155,8 @@ class _$LightningBalance_ContentiousClaimableImpl
             PublicKey counterpartyNodeId,
             BigInt amountSatoshis,
             int claimableHeight,
-            PaymentHash paymentHash)?
+            PaymentHash paymentHash,
+            bool outboundPayment)?
         maybeTimeoutClaimableHtlc,
     TResult? Function(ChannelId channelId, PublicKey counterpartyNodeId,
             BigInt amountSatoshis, int expiryHeight, PaymentHash paymentHash)?
@@ -7189,11 +8172,22 @@ class _$LightningBalance_ContentiousClaimableImpl
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(ChannelId channelId, PublicKey counterpartyNodeId,
-            BigInt amountSatoshis)?
+    TResult Function(
+            ChannelId channelId,
+            PublicKey counterpartyNodeId,
+            BigInt amountSatoshis,
+            BigInt transactionFeeSatoshis,
+            BigInt outboundPaymentHtlcRoundedMsat,
+            BigInt outboundForwardedHtlcRoundedMsat,
+            BigInt inboundClaimingHtlcRoundedMsat,
+            BigInt inboundHtlcRoundedMsat)?
         claimableOnChannelClose,
-    TResult Function(ChannelId channelId, PublicKey counterpartyNodeId,
-            BigInt amountSatoshis, int confirmationHeight)?
+    TResult Function(
+            ChannelId channelId,
+            PublicKey counterpartyNodeId,
+            BigInt amountSatoshis,
+            int confirmationHeight,
+            BalanceSource source)?
         claimableAwaitingConfirmations,
     TResult Function(
             ChannelId channelId,
@@ -7208,7 +8202,8 @@ class _$LightningBalance_ContentiousClaimableImpl
             PublicKey counterpartyNodeId,
             BigInt amountSatoshis,
             int claimableHeight,
-            PaymentHash paymentHash)?
+            PaymentHash paymentHash,
+            bool outboundPayment)?
         maybeTimeoutClaimableHtlc,
     TResult Function(ChannelId channelId, PublicKey counterpartyNodeId,
             BigInt amountSatoshis, int expiryHeight, PaymentHash paymentHash)?
@@ -7346,7 +8341,8 @@ abstract class _$$LightningBalance_MaybeTimeoutClaimableHTLCImplCopyWith<$Res>
       PublicKey counterpartyNodeId,
       BigInt amountSatoshis,
       int claimableHeight,
-      PaymentHash paymentHash});
+      PaymentHash paymentHash,
+      bool outboundPayment});
 }
 
 /// @nodoc
@@ -7367,6 +8363,7 @@ class __$$LightningBalance_MaybeTimeoutClaimableHTLCImplCopyWithImpl<$Res>
     Object? amountSatoshis = null,
     Object? claimableHeight = null,
     Object? paymentHash = null,
+    Object? outboundPayment = null,
   }) {
     return _then(_$LightningBalance_MaybeTimeoutClaimableHTLCImpl(
       channelId: null == channelId
@@ -7389,6 +8386,10 @@ class __$$LightningBalance_MaybeTimeoutClaimableHTLCImplCopyWithImpl<$Res>
           ? _value.paymentHash
           : paymentHash // ignore: cast_nullable_to_non_nullable
               as PaymentHash,
+      outboundPayment: null == outboundPayment
+          ? _value.outboundPayment
+          : outboundPayment // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
@@ -7402,7 +8403,8 @@ class _$LightningBalance_MaybeTimeoutClaimableHTLCImpl
       required this.counterpartyNodeId,
       required this.amountSatoshis,
       required this.claimableHeight,
-      required this.paymentHash})
+      required this.paymentHash,
+      required this.outboundPayment})
       : super._();
 
   /// The identifier of the channel this balance belongs to.
@@ -7427,9 +8429,13 @@ class _$LightningBalance_MaybeTimeoutClaimableHTLCImpl
   @override
   final PaymentHash paymentHash;
 
+  ///
+  @override
+  final bool outboundPayment;
+
   @override
   String toString() {
-    return 'LightningBalance.maybeTimeoutClaimableHtlc(channelId: $channelId, counterpartyNodeId: $counterpartyNodeId, amountSatoshis: $amountSatoshis, claimableHeight: $claimableHeight, paymentHash: $paymentHash)';
+    return 'LightningBalance.maybeTimeoutClaimableHtlc(channelId: $channelId, counterpartyNodeId: $counterpartyNodeId, amountSatoshis: $amountSatoshis, claimableHeight: $claimableHeight, paymentHash: $paymentHash, outboundPayment: $outboundPayment)';
   }
 
   @override
@@ -7446,12 +8452,14 @@ class _$LightningBalance_MaybeTimeoutClaimableHTLCImpl
             (identical(other.claimableHeight, claimableHeight) ||
                 other.claimableHeight == claimableHeight) &&
             (identical(other.paymentHash, paymentHash) ||
-                other.paymentHash == paymentHash));
+                other.paymentHash == paymentHash) &&
+            (identical(other.outboundPayment, outboundPayment) ||
+                other.outboundPayment == outboundPayment));
   }
 
   @override
   int get hashCode => Object.hash(runtimeType, channelId, counterpartyNodeId,
-      amountSatoshis, claimableHeight, paymentHash);
+      amountSatoshis, claimableHeight, paymentHash, outboundPayment);
 
   @JsonKey(ignore: true)
   @override
@@ -7466,11 +8474,18 @@ class _$LightningBalance_MaybeTimeoutClaimableHTLCImpl
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(ChannelId channelId, PublicKey counterpartyNodeId,
-            BigInt amountSatoshis)
+    required TResult Function(
+            ChannelId channelId,
+            PublicKey counterpartyNodeId,
+            BigInt amountSatoshis,
+            BigInt transactionFeeSatoshis,
+            BigInt outboundPaymentHtlcRoundedMsat,
+            BigInt outboundForwardedHtlcRoundedMsat,
+            BigInt inboundClaimingHtlcRoundedMsat,
+            BigInt inboundHtlcRoundedMsat)
         claimableOnChannelClose,
     required TResult Function(ChannelId channelId, PublicKey counterpartyNodeId,
-            BigInt amountSatoshis, int confirmationHeight)
+            BigInt amountSatoshis, int confirmationHeight, BalanceSource source)
         claimableAwaitingConfirmations,
     required TResult Function(
             ChannelId channelId,
@@ -7480,8 +8495,13 @@ class _$LightningBalance_MaybeTimeoutClaimableHTLCImpl
             PaymentHash paymentHash,
             PaymentPreimage paymentPreimage)
         contentiousClaimable,
-    required TResult Function(ChannelId channelId, PublicKey counterpartyNodeId,
-            BigInt amountSatoshis, int claimableHeight, PaymentHash paymentHash)
+    required TResult Function(
+            ChannelId channelId,
+            PublicKey counterpartyNodeId,
+            BigInt amountSatoshis,
+            int claimableHeight,
+            PaymentHash paymentHash,
+            bool outboundPayment)
         maybeTimeoutClaimableHtlc,
     required TResult Function(ChannelId channelId, PublicKey counterpartyNodeId,
             BigInt amountSatoshis, int expiryHeight, PaymentHash paymentHash)
@@ -7491,17 +8511,28 @@ class _$LightningBalance_MaybeTimeoutClaimableHTLCImpl
         counterpartyRevokedOutputClaimable,
   }) {
     return maybeTimeoutClaimableHtlc(channelId, counterpartyNodeId,
-        amountSatoshis, claimableHeight, paymentHash);
+        amountSatoshis, claimableHeight, paymentHash, outboundPayment);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(ChannelId channelId, PublicKey counterpartyNodeId,
-            BigInt amountSatoshis)?
+    TResult? Function(
+            ChannelId channelId,
+            PublicKey counterpartyNodeId,
+            BigInt amountSatoshis,
+            BigInt transactionFeeSatoshis,
+            BigInt outboundPaymentHtlcRoundedMsat,
+            BigInt outboundForwardedHtlcRoundedMsat,
+            BigInt inboundClaimingHtlcRoundedMsat,
+            BigInt inboundHtlcRoundedMsat)?
         claimableOnChannelClose,
-    TResult? Function(ChannelId channelId, PublicKey counterpartyNodeId,
-            BigInt amountSatoshis, int confirmationHeight)?
+    TResult? Function(
+            ChannelId channelId,
+            PublicKey counterpartyNodeId,
+            BigInt amountSatoshis,
+            int confirmationHeight,
+            BalanceSource source)?
         claimableAwaitingConfirmations,
     TResult? Function(
             ChannelId channelId,
@@ -7516,7 +8547,8 @@ class _$LightningBalance_MaybeTimeoutClaimableHTLCImpl
             PublicKey counterpartyNodeId,
             BigInt amountSatoshis,
             int claimableHeight,
-            PaymentHash paymentHash)?
+            PaymentHash paymentHash,
+            bool outboundPayment)?
         maybeTimeoutClaimableHtlc,
     TResult? Function(ChannelId channelId, PublicKey counterpartyNodeId,
             BigInt amountSatoshis, int expiryHeight, PaymentHash paymentHash)?
@@ -7526,17 +8558,28 @@ class _$LightningBalance_MaybeTimeoutClaimableHTLCImpl
         counterpartyRevokedOutputClaimable,
   }) {
     return maybeTimeoutClaimableHtlc?.call(channelId, counterpartyNodeId,
-        amountSatoshis, claimableHeight, paymentHash);
+        amountSatoshis, claimableHeight, paymentHash, outboundPayment);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(ChannelId channelId, PublicKey counterpartyNodeId,
-            BigInt amountSatoshis)?
+    TResult Function(
+            ChannelId channelId,
+            PublicKey counterpartyNodeId,
+            BigInt amountSatoshis,
+            BigInt transactionFeeSatoshis,
+            BigInt outboundPaymentHtlcRoundedMsat,
+            BigInt outboundForwardedHtlcRoundedMsat,
+            BigInt inboundClaimingHtlcRoundedMsat,
+            BigInt inboundHtlcRoundedMsat)?
         claimableOnChannelClose,
-    TResult Function(ChannelId channelId, PublicKey counterpartyNodeId,
-            BigInt amountSatoshis, int confirmationHeight)?
+    TResult Function(
+            ChannelId channelId,
+            PublicKey counterpartyNodeId,
+            BigInt amountSatoshis,
+            int confirmationHeight,
+            BalanceSource source)?
         claimableAwaitingConfirmations,
     TResult Function(
             ChannelId channelId,
@@ -7551,7 +8594,8 @@ class _$LightningBalance_MaybeTimeoutClaimableHTLCImpl
             PublicKey counterpartyNodeId,
             BigInt amountSatoshis,
             int claimableHeight,
-            PaymentHash paymentHash)?
+            PaymentHash paymentHash,
+            bool outboundPayment)?
         maybeTimeoutClaimableHtlc,
     TResult Function(ChannelId channelId, PublicKey counterpartyNodeId,
             BigInt amountSatoshis, int expiryHeight, PaymentHash paymentHash)?
@@ -7563,7 +8607,7 @@ class _$LightningBalance_MaybeTimeoutClaimableHTLCImpl
   }) {
     if (maybeTimeoutClaimableHtlc != null) {
       return maybeTimeoutClaimableHtlc(channelId, counterpartyNodeId,
-          amountSatoshis, claimableHeight, paymentHash);
+          amountSatoshis, claimableHeight, paymentHash, outboundPayment);
     }
     return orElse();
   }
@@ -7640,7 +8684,8 @@ abstract class LightningBalance_MaybeTimeoutClaimableHTLC
           required final PublicKey counterpartyNodeId,
           required final BigInt amountSatoshis,
           required final int claimableHeight,
-          required final PaymentHash paymentHash}) =
+          required final PaymentHash paymentHash,
+          required final bool outboundPayment}) =
       _$LightningBalance_MaybeTimeoutClaimableHTLCImpl;
   const LightningBalance_MaybeTimeoutClaimableHTLC._() : super._();
 
@@ -7664,6 +8709,9 @@ abstract class LightningBalance_MaybeTimeoutClaimableHTLC
 
   /// The payment hash whose preimage our counterparty needs to claim this HTLC.
   PaymentHash get paymentHash;
+
+  ///
+  bool get outboundPayment;
   @override
   @JsonKey(ignore: true)
   _$$LightningBalance_MaybeTimeoutClaimableHTLCImplCopyWith<
@@ -7807,11 +8855,18 @@ class _$LightningBalance_MaybePreimageClaimableHTLCImpl
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(ChannelId channelId, PublicKey counterpartyNodeId,
-            BigInt amountSatoshis)
+    required TResult Function(
+            ChannelId channelId,
+            PublicKey counterpartyNodeId,
+            BigInt amountSatoshis,
+            BigInt transactionFeeSatoshis,
+            BigInt outboundPaymentHtlcRoundedMsat,
+            BigInt outboundForwardedHtlcRoundedMsat,
+            BigInt inboundClaimingHtlcRoundedMsat,
+            BigInt inboundHtlcRoundedMsat)
         claimableOnChannelClose,
     required TResult Function(ChannelId channelId, PublicKey counterpartyNodeId,
-            BigInt amountSatoshis, int confirmationHeight)
+            BigInt amountSatoshis, int confirmationHeight, BalanceSource source)
         claimableAwaitingConfirmations,
     required TResult Function(
             ChannelId channelId,
@@ -7821,8 +8876,13 @@ class _$LightningBalance_MaybePreimageClaimableHTLCImpl
             PaymentHash paymentHash,
             PaymentPreimage paymentPreimage)
         contentiousClaimable,
-    required TResult Function(ChannelId channelId, PublicKey counterpartyNodeId,
-            BigInt amountSatoshis, int claimableHeight, PaymentHash paymentHash)
+    required TResult Function(
+            ChannelId channelId,
+            PublicKey counterpartyNodeId,
+            BigInt amountSatoshis,
+            int claimableHeight,
+            PaymentHash paymentHash,
+            bool outboundPayment)
         maybeTimeoutClaimableHtlc,
     required TResult Function(ChannelId channelId, PublicKey counterpartyNodeId,
             BigInt amountSatoshis, int expiryHeight, PaymentHash paymentHash)
@@ -7838,11 +8898,22 @@ class _$LightningBalance_MaybePreimageClaimableHTLCImpl
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(ChannelId channelId, PublicKey counterpartyNodeId,
-            BigInt amountSatoshis)?
+    TResult? Function(
+            ChannelId channelId,
+            PublicKey counterpartyNodeId,
+            BigInt amountSatoshis,
+            BigInt transactionFeeSatoshis,
+            BigInt outboundPaymentHtlcRoundedMsat,
+            BigInt outboundForwardedHtlcRoundedMsat,
+            BigInt inboundClaimingHtlcRoundedMsat,
+            BigInt inboundHtlcRoundedMsat)?
         claimableOnChannelClose,
-    TResult? Function(ChannelId channelId, PublicKey counterpartyNodeId,
-            BigInt amountSatoshis, int confirmationHeight)?
+    TResult? Function(
+            ChannelId channelId,
+            PublicKey counterpartyNodeId,
+            BigInt amountSatoshis,
+            int confirmationHeight,
+            BalanceSource source)?
         claimableAwaitingConfirmations,
     TResult? Function(
             ChannelId channelId,
@@ -7857,7 +8928,8 @@ class _$LightningBalance_MaybePreimageClaimableHTLCImpl
             PublicKey counterpartyNodeId,
             BigInt amountSatoshis,
             int claimableHeight,
-            PaymentHash paymentHash)?
+            PaymentHash paymentHash,
+            bool outboundPayment)?
         maybeTimeoutClaimableHtlc,
     TResult? Function(ChannelId channelId, PublicKey counterpartyNodeId,
             BigInt amountSatoshis, int expiryHeight, PaymentHash paymentHash)?
@@ -7873,11 +8945,22 @@ class _$LightningBalance_MaybePreimageClaimableHTLCImpl
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(ChannelId channelId, PublicKey counterpartyNodeId,
-            BigInt amountSatoshis)?
+    TResult Function(
+            ChannelId channelId,
+            PublicKey counterpartyNodeId,
+            BigInt amountSatoshis,
+            BigInt transactionFeeSatoshis,
+            BigInt outboundPaymentHtlcRoundedMsat,
+            BigInt outboundForwardedHtlcRoundedMsat,
+            BigInt inboundClaimingHtlcRoundedMsat,
+            BigInt inboundHtlcRoundedMsat)?
         claimableOnChannelClose,
-    TResult Function(ChannelId channelId, PublicKey counterpartyNodeId,
-            BigInt amountSatoshis, int confirmationHeight)?
+    TResult Function(
+            ChannelId channelId,
+            PublicKey counterpartyNodeId,
+            BigInt amountSatoshis,
+            int confirmationHeight,
+            BalanceSource source)?
         claimableAwaitingConfirmations,
     TResult Function(
             ChannelId channelId,
@@ -7892,7 +8975,8 @@ class _$LightningBalance_MaybePreimageClaimableHTLCImpl
             PublicKey counterpartyNodeId,
             BigInt amountSatoshis,
             int claimableHeight,
-            PaymentHash paymentHash)?
+            PaymentHash paymentHash,
+            bool outboundPayment)?
         maybeTimeoutClaimableHtlc,
     TResult Function(ChannelId channelId, PublicKey counterpartyNodeId,
             BigInt amountSatoshis, int expiryHeight, PaymentHash paymentHash)?
@@ -8126,11 +9210,18 @@ class _$LightningBalance_CounterpartyRevokedOutputClaimableImpl
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(ChannelId channelId, PublicKey counterpartyNodeId,
-            BigInt amountSatoshis)
+    required TResult Function(
+            ChannelId channelId,
+            PublicKey counterpartyNodeId,
+            BigInt amountSatoshis,
+            BigInt transactionFeeSatoshis,
+            BigInt outboundPaymentHtlcRoundedMsat,
+            BigInt outboundForwardedHtlcRoundedMsat,
+            BigInt inboundClaimingHtlcRoundedMsat,
+            BigInt inboundHtlcRoundedMsat)
         claimableOnChannelClose,
     required TResult Function(ChannelId channelId, PublicKey counterpartyNodeId,
-            BigInt amountSatoshis, int confirmationHeight)
+            BigInt amountSatoshis, int confirmationHeight, BalanceSource source)
         claimableAwaitingConfirmations,
     required TResult Function(
             ChannelId channelId,
@@ -8140,8 +9231,13 @@ class _$LightningBalance_CounterpartyRevokedOutputClaimableImpl
             PaymentHash paymentHash,
             PaymentPreimage paymentPreimage)
         contentiousClaimable,
-    required TResult Function(ChannelId channelId, PublicKey counterpartyNodeId,
-            BigInt amountSatoshis, int claimableHeight, PaymentHash paymentHash)
+    required TResult Function(
+            ChannelId channelId,
+            PublicKey counterpartyNodeId,
+            BigInt amountSatoshis,
+            int claimableHeight,
+            PaymentHash paymentHash,
+            bool outboundPayment)
         maybeTimeoutClaimableHtlc,
     required TResult Function(ChannelId channelId, PublicKey counterpartyNodeId,
             BigInt amountSatoshis, int expiryHeight, PaymentHash paymentHash)
@@ -8157,11 +9253,22 @@ class _$LightningBalance_CounterpartyRevokedOutputClaimableImpl
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(ChannelId channelId, PublicKey counterpartyNodeId,
-            BigInt amountSatoshis)?
+    TResult? Function(
+            ChannelId channelId,
+            PublicKey counterpartyNodeId,
+            BigInt amountSatoshis,
+            BigInt transactionFeeSatoshis,
+            BigInt outboundPaymentHtlcRoundedMsat,
+            BigInt outboundForwardedHtlcRoundedMsat,
+            BigInt inboundClaimingHtlcRoundedMsat,
+            BigInt inboundHtlcRoundedMsat)?
         claimableOnChannelClose,
-    TResult? Function(ChannelId channelId, PublicKey counterpartyNodeId,
-            BigInt amountSatoshis, int confirmationHeight)?
+    TResult? Function(
+            ChannelId channelId,
+            PublicKey counterpartyNodeId,
+            BigInt amountSatoshis,
+            int confirmationHeight,
+            BalanceSource source)?
         claimableAwaitingConfirmations,
     TResult? Function(
             ChannelId channelId,
@@ -8176,7 +9283,8 @@ class _$LightningBalance_CounterpartyRevokedOutputClaimableImpl
             PublicKey counterpartyNodeId,
             BigInt amountSatoshis,
             int claimableHeight,
-            PaymentHash paymentHash)?
+            PaymentHash paymentHash,
+            bool outboundPayment)?
         maybeTimeoutClaimableHtlc,
     TResult? Function(ChannelId channelId, PublicKey counterpartyNodeId,
             BigInt amountSatoshis, int expiryHeight, PaymentHash paymentHash)?
@@ -8192,11 +9300,22 @@ class _$LightningBalance_CounterpartyRevokedOutputClaimableImpl
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(ChannelId channelId, PublicKey counterpartyNodeId,
-            BigInt amountSatoshis)?
+    TResult Function(
+            ChannelId channelId,
+            PublicKey counterpartyNodeId,
+            BigInt amountSatoshis,
+            BigInt transactionFeeSatoshis,
+            BigInt outboundPaymentHtlcRoundedMsat,
+            BigInt outboundForwardedHtlcRoundedMsat,
+            BigInt inboundClaimingHtlcRoundedMsat,
+            BigInt inboundHtlcRoundedMsat)?
         claimableOnChannelClose,
-    TResult Function(ChannelId channelId, PublicKey counterpartyNodeId,
-            BigInt amountSatoshis, int confirmationHeight)?
+    TResult Function(
+            ChannelId channelId,
+            PublicKey counterpartyNodeId,
+            BigInt amountSatoshis,
+            int confirmationHeight,
+            BalanceSource source)?
         claimableAwaitingConfirmations,
     TResult Function(
             ChannelId channelId,
@@ -8211,7 +9330,8 @@ class _$LightningBalance_CounterpartyRevokedOutputClaimableImpl
             PublicKey counterpartyNodeId,
             BigInt amountSatoshis,
             int claimableHeight,
-            PaymentHash paymentHash)?
+            PaymentHash paymentHash,
+            bool outboundPayment)?
         maybeTimeoutClaimableHtlc,
     TResult Function(ChannelId channelId, PublicKey counterpartyNodeId,
             BigInt amountSatoshis, int expiryHeight, PaymentHash paymentHash)?
@@ -8707,6 +9827,322 @@ abstract class MaxDustHTLCExposure_FeeRateMultiplier
 }
 
 /// @nodoc
+mixin _$MaxTotalRoutingFeeLimit {
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() noFeeCap,
+    required TResult Function(BigInt amountMsat) feeCap,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? noFeeCap,
+    TResult? Function(BigInt amountMsat)? feeCap,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? noFeeCap,
+    TResult Function(BigInt amountMsat)? feeCap,
+    required TResult orElse(),
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(MaxTotalRoutingFeeLimit_NoFeeCap value) noFeeCap,
+    required TResult Function(MaxTotalRoutingFeeLimit_FeeCap value) feeCap,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(MaxTotalRoutingFeeLimit_NoFeeCap value)? noFeeCap,
+    TResult? Function(MaxTotalRoutingFeeLimit_FeeCap value)? feeCap,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(MaxTotalRoutingFeeLimit_NoFeeCap value)? noFeeCap,
+    TResult Function(MaxTotalRoutingFeeLimit_FeeCap value)? feeCap,
+    required TResult orElse(),
+  }) =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $MaxTotalRoutingFeeLimitCopyWith<$Res> {
+  factory $MaxTotalRoutingFeeLimitCopyWith(MaxTotalRoutingFeeLimit value,
+          $Res Function(MaxTotalRoutingFeeLimit) then) =
+      _$MaxTotalRoutingFeeLimitCopyWithImpl<$Res, MaxTotalRoutingFeeLimit>;
+}
+
+/// @nodoc
+class _$MaxTotalRoutingFeeLimitCopyWithImpl<$Res,
+        $Val extends MaxTotalRoutingFeeLimit>
+    implements $MaxTotalRoutingFeeLimitCopyWith<$Res> {
+  _$MaxTotalRoutingFeeLimitCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+}
+
+/// @nodoc
+abstract class _$$MaxTotalRoutingFeeLimit_NoFeeCapImplCopyWith<$Res> {
+  factory _$$MaxTotalRoutingFeeLimit_NoFeeCapImplCopyWith(
+          _$MaxTotalRoutingFeeLimit_NoFeeCapImpl value,
+          $Res Function(_$MaxTotalRoutingFeeLimit_NoFeeCapImpl) then) =
+      __$$MaxTotalRoutingFeeLimit_NoFeeCapImplCopyWithImpl<$Res>;
+}
+
+/// @nodoc
+class __$$MaxTotalRoutingFeeLimit_NoFeeCapImplCopyWithImpl<$Res>
+    extends _$MaxTotalRoutingFeeLimitCopyWithImpl<$Res,
+        _$MaxTotalRoutingFeeLimit_NoFeeCapImpl>
+    implements _$$MaxTotalRoutingFeeLimit_NoFeeCapImplCopyWith<$Res> {
+  __$$MaxTotalRoutingFeeLimit_NoFeeCapImplCopyWithImpl(
+      _$MaxTotalRoutingFeeLimit_NoFeeCapImpl _value,
+      $Res Function(_$MaxTotalRoutingFeeLimit_NoFeeCapImpl) _then)
+      : super(_value, _then);
+}
+
+/// @nodoc
+
+class _$MaxTotalRoutingFeeLimit_NoFeeCapImpl
+    extends MaxTotalRoutingFeeLimit_NoFeeCap {
+  const _$MaxTotalRoutingFeeLimit_NoFeeCapImpl() : super._();
+
+  @override
+  String toString() {
+    return 'MaxTotalRoutingFeeLimit.noFeeCap()';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$MaxTotalRoutingFeeLimit_NoFeeCapImpl);
+  }
+
+  @override
+  int get hashCode => runtimeType.hashCode;
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() noFeeCap,
+    required TResult Function(BigInt amountMsat) feeCap,
+  }) {
+    return noFeeCap();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? noFeeCap,
+    TResult? Function(BigInt amountMsat)? feeCap,
+  }) {
+    return noFeeCap?.call();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? noFeeCap,
+    TResult Function(BigInt amountMsat)? feeCap,
+    required TResult orElse(),
+  }) {
+    if (noFeeCap != null) {
+      return noFeeCap();
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(MaxTotalRoutingFeeLimit_NoFeeCap value) noFeeCap,
+    required TResult Function(MaxTotalRoutingFeeLimit_FeeCap value) feeCap,
+  }) {
+    return noFeeCap(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(MaxTotalRoutingFeeLimit_NoFeeCap value)? noFeeCap,
+    TResult? Function(MaxTotalRoutingFeeLimit_FeeCap value)? feeCap,
+  }) {
+    return noFeeCap?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(MaxTotalRoutingFeeLimit_NoFeeCap value)? noFeeCap,
+    TResult Function(MaxTotalRoutingFeeLimit_FeeCap value)? feeCap,
+    required TResult orElse(),
+  }) {
+    if (noFeeCap != null) {
+      return noFeeCap(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class MaxTotalRoutingFeeLimit_NoFeeCap
+    extends MaxTotalRoutingFeeLimit {
+  const factory MaxTotalRoutingFeeLimit_NoFeeCap() =
+      _$MaxTotalRoutingFeeLimit_NoFeeCapImpl;
+  const MaxTotalRoutingFeeLimit_NoFeeCap._() : super._();
+}
+
+/// @nodoc
+abstract class _$$MaxTotalRoutingFeeLimit_FeeCapImplCopyWith<$Res> {
+  factory _$$MaxTotalRoutingFeeLimit_FeeCapImplCopyWith(
+          _$MaxTotalRoutingFeeLimit_FeeCapImpl value,
+          $Res Function(_$MaxTotalRoutingFeeLimit_FeeCapImpl) then) =
+      __$$MaxTotalRoutingFeeLimit_FeeCapImplCopyWithImpl<$Res>;
+  @useResult
+  $Res call({BigInt amountMsat});
+}
+
+/// @nodoc
+class __$$MaxTotalRoutingFeeLimit_FeeCapImplCopyWithImpl<$Res>
+    extends _$MaxTotalRoutingFeeLimitCopyWithImpl<$Res,
+        _$MaxTotalRoutingFeeLimit_FeeCapImpl>
+    implements _$$MaxTotalRoutingFeeLimit_FeeCapImplCopyWith<$Res> {
+  __$$MaxTotalRoutingFeeLimit_FeeCapImplCopyWithImpl(
+      _$MaxTotalRoutingFeeLimit_FeeCapImpl _value,
+      $Res Function(_$MaxTotalRoutingFeeLimit_FeeCapImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? amountMsat = null,
+  }) {
+    return _then(_$MaxTotalRoutingFeeLimit_FeeCapImpl(
+      amountMsat: null == amountMsat
+          ? _value.amountMsat
+          : amountMsat // ignore: cast_nullable_to_non_nullable
+              as BigInt,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$MaxTotalRoutingFeeLimit_FeeCapImpl
+    extends MaxTotalRoutingFeeLimit_FeeCap {
+  const _$MaxTotalRoutingFeeLimit_FeeCapImpl({required this.amountMsat})
+      : super._();
+
+  @override
+  final BigInt amountMsat;
+
+  @override
+  String toString() {
+    return 'MaxTotalRoutingFeeLimit.feeCap(amountMsat: $amountMsat)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$MaxTotalRoutingFeeLimit_FeeCapImpl &&
+            (identical(other.amountMsat, amountMsat) ||
+                other.amountMsat == amountMsat));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, amountMsat);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$MaxTotalRoutingFeeLimit_FeeCapImplCopyWith<
+          _$MaxTotalRoutingFeeLimit_FeeCapImpl>
+      get copyWith => __$$MaxTotalRoutingFeeLimit_FeeCapImplCopyWithImpl<
+          _$MaxTotalRoutingFeeLimit_FeeCapImpl>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() noFeeCap,
+    required TResult Function(BigInt amountMsat) feeCap,
+  }) {
+    return feeCap(amountMsat);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? noFeeCap,
+    TResult? Function(BigInt amountMsat)? feeCap,
+  }) {
+    return feeCap?.call(amountMsat);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? noFeeCap,
+    TResult Function(BigInt amountMsat)? feeCap,
+    required TResult orElse(),
+  }) {
+    if (feeCap != null) {
+      return feeCap(amountMsat);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(MaxTotalRoutingFeeLimit_NoFeeCap value) noFeeCap,
+    required TResult Function(MaxTotalRoutingFeeLimit_FeeCap value) feeCap,
+  }) {
+    return feeCap(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(MaxTotalRoutingFeeLimit_NoFeeCap value)? noFeeCap,
+    TResult? Function(MaxTotalRoutingFeeLimit_FeeCap value)? feeCap,
+  }) {
+    return feeCap?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(MaxTotalRoutingFeeLimit_NoFeeCap value)? noFeeCap,
+    TResult Function(MaxTotalRoutingFeeLimit_FeeCap value)? feeCap,
+    required TResult orElse(),
+  }) {
+    if (feeCap != null) {
+      return feeCap(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class MaxTotalRoutingFeeLimit_FeeCap extends MaxTotalRoutingFeeLimit {
+  const factory MaxTotalRoutingFeeLimit_FeeCap(
+          {required final BigInt amountMsat}) =
+      _$MaxTotalRoutingFeeLimit_FeeCapImpl;
+  const MaxTotalRoutingFeeLimit_FeeCap._() : super._();
+
+  BigInt get amountMsat;
+  @JsonKey(ignore: true)
+  _$$MaxTotalRoutingFeeLimit_FeeCapImplCopyWith<
+          _$MaxTotalRoutingFeeLimit_FeeCapImpl>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
 mixin _$PaymentKind {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
@@ -8719,11 +10155,16 @@ mixin _$PaymentKind {
         bolt11Jit,
     required TResult Function(PaymentHash hash, PaymentPreimage? preimage)
         spontaneous,
-    required TResult Function(PaymentHash? hash, PaymentPreimage? preimage,
-            PaymentSecret? secret, OfferId offerId)
-        bolt12Offer,
     required TResult Function(
-            PaymentHash? hash, PaymentPreimage? preimage, PaymentSecret? secret)
+            PaymentHash? hash,
+            PaymentPreimage? preimage,
+            PaymentSecret? secret,
+            OfferId offerId,
+            String? payerNote,
+            BigInt? quantity)
+        bolt12Offer,
+    required TResult Function(PaymentHash? hash, PaymentPreimage? preimage,
+            PaymentSecret? secret, String? payerNote, BigInt? quantity)
         bolt12Refund,
   }) =>
       throw _privateConstructorUsedError;
@@ -8737,11 +10178,16 @@ mixin _$PaymentKind {
             PaymentSecret? secret, LSPFeeLimits lspFeeLimits)?
         bolt11Jit,
     TResult? Function(PaymentHash hash, PaymentPreimage? preimage)? spontaneous,
-    TResult? Function(PaymentHash? hash, PaymentPreimage? preimage,
-            PaymentSecret? secret, OfferId offerId)?
+    TResult? Function(
+            PaymentHash? hash,
+            PaymentPreimage? preimage,
+            PaymentSecret? secret,
+            OfferId offerId,
+            String? payerNote,
+            BigInt? quantity)?
         bolt12Offer,
     TResult? Function(PaymentHash? hash, PaymentPreimage? preimage,
-            PaymentSecret? secret)?
+            PaymentSecret? secret, String? payerNote, BigInt? quantity)?
         bolt12Refund,
   }) =>
       throw _privateConstructorUsedError;
@@ -8755,11 +10201,16 @@ mixin _$PaymentKind {
             PaymentSecret? secret, LSPFeeLimits lspFeeLimits)?
         bolt11Jit,
     TResult Function(PaymentHash hash, PaymentPreimage? preimage)? spontaneous,
-    TResult Function(PaymentHash? hash, PaymentPreimage? preimage,
-            PaymentSecret? secret, OfferId offerId)?
+    TResult Function(
+            PaymentHash? hash,
+            PaymentPreimage? preimage,
+            PaymentSecret? secret,
+            OfferId offerId,
+            String? payerNote,
+            BigInt? quantity)?
         bolt12Offer,
     TResult Function(PaymentHash? hash, PaymentPreimage? preimage,
-            PaymentSecret? secret)?
+            PaymentSecret? secret, String? payerNote, BigInt? quantity)?
         bolt12Refund,
     required TResult orElse(),
   }) =>
@@ -8863,11 +10314,16 @@ class _$PaymentKind_OnchainImpl extends PaymentKind_Onchain {
         bolt11Jit,
     required TResult Function(PaymentHash hash, PaymentPreimage? preimage)
         spontaneous,
-    required TResult Function(PaymentHash? hash, PaymentPreimage? preimage,
-            PaymentSecret? secret, OfferId offerId)
-        bolt12Offer,
     required TResult Function(
-            PaymentHash? hash, PaymentPreimage? preimage, PaymentSecret? secret)
+            PaymentHash? hash,
+            PaymentPreimage? preimage,
+            PaymentSecret? secret,
+            OfferId offerId,
+            String? payerNote,
+            BigInt? quantity)
+        bolt12Offer,
+    required TResult Function(PaymentHash? hash, PaymentPreimage? preimage,
+            PaymentSecret? secret, String? payerNote, BigInt? quantity)
         bolt12Refund,
   }) {
     return onchain();
@@ -8884,11 +10340,16 @@ class _$PaymentKind_OnchainImpl extends PaymentKind_Onchain {
             PaymentSecret? secret, LSPFeeLimits lspFeeLimits)?
         bolt11Jit,
     TResult? Function(PaymentHash hash, PaymentPreimage? preimage)? spontaneous,
-    TResult? Function(PaymentHash? hash, PaymentPreimage? preimage,
-            PaymentSecret? secret, OfferId offerId)?
+    TResult? Function(
+            PaymentHash? hash,
+            PaymentPreimage? preimage,
+            PaymentSecret? secret,
+            OfferId offerId,
+            String? payerNote,
+            BigInt? quantity)?
         bolt12Offer,
     TResult? Function(PaymentHash? hash, PaymentPreimage? preimage,
-            PaymentSecret? secret)?
+            PaymentSecret? secret, String? payerNote, BigInt? quantity)?
         bolt12Refund,
   }) {
     return onchain?.call();
@@ -8905,11 +10366,16 @@ class _$PaymentKind_OnchainImpl extends PaymentKind_Onchain {
             PaymentSecret? secret, LSPFeeLimits lspFeeLimits)?
         bolt11Jit,
     TResult Function(PaymentHash hash, PaymentPreimage? preimage)? spontaneous,
-    TResult Function(PaymentHash? hash, PaymentPreimage? preimage,
-            PaymentSecret? secret, OfferId offerId)?
+    TResult Function(
+            PaymentHash? hash,
+            PaymentPreimage? preimage,
+            PaymentSecret? secret,
+            OfferId offerId,
+            String? payerNote,
+            BigInt? quantity)?
         bolt12Offer,
     TResult Function(PaymentHash? hash, PaymentPreimage? preimage,
-            PaymentSecret? secret)?
+            PaymentSecret? secret, String? payerNote, BigInt? quantity)?
         bolt12Refund,
     required TResult orElse(),
   }) {
@@ -9067,11 +10533,16 @@ class _$PaymentKind_Bolt11Impl extends PaymentKind_Bolt11 {
         bolt11Jit,
     required TResult Function(PaymentHash hash, PaymentPreimage? preimage)
         spontaneous,
-    required TResult Function(PaymentHash? hash, PaymentPreimage? preimage,
-            PaymentSecret? secret, OfferId offerId)
-        bolt12Offer,
     required TResult Function(
-            PaymentHash? hash, PaymentPreimage? preimage, PaymentSecret? secret)
+            PaymentHash? hash,
+            PaymentPreimage? preimage,
+            PaymentSecret? secret,
+            OfferId offerId,
+            String? payerNote,
+            BigInt? quantity)
+        bolt12Offer,
+    required TResult Function(PaymentHash? hash, PaymentPreimage? preimage,
+            PaymentSecret? secret, String? payerNote, BigInt? quantity)
         bolt12Refund,
   }) {
     return bolt11(hash, preimage, secret);
@@ -9088,11 +10559,16 @@ class _$PaymentKind_Bolt11Impl extends PaymentKind_Bolt11 {
             PaymentSecret? secret, LSPFeeLimits lspFeeLimits)?
         bolt11Jit,
     TResult? Function(PaymentHash hash, PaymentPreimage? preimage)? spontaneous,
-    TResult? Function(PaymentHash? hash, PaymentPreimage? preimage,
-            PaymentSecret? secret, OfferId offerId)?
+    TResult? Function(
+            PaymentHash? hash,
+            PaymentPreimage? preimage,
+            PaymentSecret? secret,
+            OfferId offerId,
+            String? payerNote,
+            BigInt? quantity)?
         bolt12Offer,
     TResult? Function(PaymentHash? hash, PaymentPreimage? preimage,
-            PaymentSecret? secret)?
+            PaymentSecret? secret, String? payerNote, BigInt? quantity)?
         bolt12Refund,
   }) {
     return bolt11?.call(hash, preimage, secret);
@@ -9109,11 +10585,16 @@ class _$PaymentKind_Bolt11Impl extends PaymentKind_Bolt11 {
             PaymentSecret? secret, LSPFeeLimits lspFeeLimits)?
         bolt11Jit,
     TResult Function(PaymentHash hash, PaymentPreimage? preimage)? spontaneous,
-    TResult Function(PaymentHash? hash, PaymentPreimage? preimage,
-            PaymentSecret? secret, OfferId offerId)?
+    TResult Function(
+            PaymentHash? hash,
+            PaymentPreimage? preimage,
+            PaymentSecret? secret,
+            OfferId offerId,
+            String? payerNote,
+            BigInt? quantity)?
         bolt12Offer,
     TResult Function(PaymentHash? hash, PaymentPreimage? preimage,
-            PaymentSecret? secret)?
+            PaymentSecret? secret, String? payerNote, BigInt? quantity)?
         bolt12Refund,
     required TResult orElse(),
   }) {
@@ -9309,11 +10790,16 @@ class _$PaymentKind_Bolt11JitImpl extends PaymentKind_Bolt11Jit {
         bolt11Jit,
     required TResult Function(PaymentHash hash, PaymentPreimage? preimage)
         spontaneous,
-    required TResult Function(PaymentHash? hash, PaymentPreimage? preimage,
-            PaymentSecret? secret, OfferId offerId)
-        bolt12Offer,
     required TResult Function(
-            PaymentHash? hash, PaymentPreimage? preimage, PaymentSecret? secret)
+            PaymentHash? hash,
+            PaymentPreimage? preimage,
+            PaymentSecret? secret,
+            OfferId offerId,
+            String? payerNote,
+            BigInt? quantity)
+        bolt12Offer,
+    required TResult Function(PaymentHash? hash, PaymentPreimage? preimage,
+            PaymentSecret? secret, String? payerNote, BigInt? quantity)
         bolt12Refund,
   }) {
     return bolt11Jit(hash, preimage, secret, lspFeeLimits);
@@ -9330,11 +10816,16 @@ class _$PaymentKind_Bolt11JitImpl extends PaymentKind_Bolt11Jit {
             PaymentSecret? secret, LSPFeeLimits lspFeeLimits)?
         bolt11Jit,
     TResult? Function(PaymentHash hash, PaymentPreimage? preimage)? spontaneous,
-    TResult? Function(PaymentHash? hash, PaymentPreimage? preimage,
-            PaymentSecret? secret, OfferId offerId)?
+    TResult? Function(
+            PaymentHash? hash,
+            PaymentPreimage? preimage,
+            PaymentSecret? secret,
+            OfferId offerId,
+            String? payerNote,
+            BigInt? quantity)?
         bolt12Offer,
     TResult? Function(PaymentHash? hash, PaymentPreimage? preimage,
-            PaymentSecret? secret)?
+            PaymentSecret? secret, String? payerNote, BigInt? quantity)?
         bolt12Refund,
   }) {
     return bolt11Jit?.call(hash, preimage, secret, lspFeeLimits);
@@ -9351,11 +10842,16 @@ class _$PaymentKind_Bolt11JitImpl extends PaymentKind_Bolt11Jit {
             PaymentSecret? secret, LSPFeeLimits lspFeeLimits)?
         bolt11Jit,
     TResult Function(PaymentHash hash, PaymentPreimage? preimage)? spontaneous,
-    TResult Function(PaymentHash? hash, PaymentPreimage? preimage,
-            PaymentSecret? secret, OfferId offerId)?
+    TResult Function(
+            PaymentHash? hash,
+            PaymentPreimage? preimage,
+            PaymentSecret? secret,
+            OfferId offerId,
+            String? payerNote,
+            BigInt? quantity)?
         bolt12Offer,
     TResult Function(PaymentHash? hash, PaymentPreimage? preimage,
-            PaymentSecret? secret)?
+            PaymentSecret? secret, String? payerNote, BigInt? quantity)?
         bolt12Refund,
     required TResult orElse(),
   }) {
@@ -9526,11 +11022,16 @@ class _$PaymentKind_SpontaneousImpl extends PaymentKind_Spontaneous {
         bolt11Jit,
     required TResult Function(PaymentHash hash, PaymentPreimage? preimage)
         spontaneous,
-    required TResult Function(PaymentHash? hash, PaymentPreimage? preimage,
-            PaymentSecret? secret, OfferId offerId)
-        bolt12Offer,
     required TResult Function(
-            PaymentHash? hash, PaymentPreimage? preimage, PaymentSecret? secret)
+            PaymentHash? hash,
+            PaymentPreimage? preimage,
+            PaymentSecret? secret,
+            OfferId offerId,
+            String? payerNote,
+            BigInt? quantity)
+        bolt12Offer,
+    required TResult Function(PaymentHash? hash, PaymentPreimage? preimage,
+            PaymentSecret? secret, String? payerNote, BigInt? quantity)
         bolt12Refund,
   }) {
     return spontaneous(hash, preimage);
@@ -9547,11 +11048,16 @@ class _$PaymentKind_SpontaneousImpl extends PaymentKind_Spontaneous {
             PaymentSecret? secret, LSPFeeLimits lspFeeLimits)?
         bolt11Jit,
     TResult? Function(PaymentHash hash, PaymentPreimage? preimage)? spontaneous,
-    TResult? Function(PaymentHash? hash, PaymentPreimage? preimage,
-            PaymentSecret? secret, OfferId offerId)?
+    TResult? Function(
+            PaymentHash? hash,
+            PaymentPreimage? preimage,
+            PaymentSecret? secret,
+            OfferId offerId,
+            String? payerNote,
+            BigInt? quantity)?
         bolt12Offer,
     TResult? Function(PaymentHash? hash, PaymentPreimage? preimage,
-            PaymentSecret? secret)?
+            PaymentSecret? secret, String? payerNote, BigInt? quantity)?
         bolt12Refund,
   }) {
     return spontaneous?.call(hash, preimage);
@@ -9568,11 +11074,16 @@ class _$PaymentKind_SpontaneousImpl extends PaymentKind_Spontaneous {
             PaymentSecret? secret, LSPFeeLimits lspFeeLimits)?
         bolt11Jit,
     TResult Function(PaymentHash hash, PaymentPreimage? preimage)? spontaneous,
-    TResult Function(PaymentHash? hash, PaymentPreimage? preimage,
-            PaymentSecret? secret, OfferId offerId)?
+    TResult Function(
+            PaymentHash? hash,
+            PaymentPreimage? preimage,
+            PaymentSecret? secret,
+            OfferId offerId,
+            String? payerNote,
+            BigInt? quantity)?
         bolt12Offer,
     TResult Function(PaymentHash? hash, PaymentPreimage? preimage,
-            PaymentSecret? secret)?
+            PaymentSecret? secret, String? payerNote, BigInt? quantity)?
         bolt12Refund,
     required TResult orElse(),
   }) {
@@ -9653,7 +11164,9 @@ abstract class _$$PaymentKind_Bolt12OfferImplCopyWith<$Res> {
       {PaymentHash? hash,
       PaymentPreimage? preimage,
       PaymentSecret? secret,
-      OfferId offerId});
+      OfferId offerId,
+      String? payerNote,
+      BigInt? quantity});
 }
 
 /// @nodoc
@@ -9672,6 +11185,8 @@ class __$$PaymentKind_Bolt12OfferImplCopyWithImpl<$Res>
     Object? preimage = freezed,
     Object? secret = freezed,
     Object? offerId = null,
+    Object? payerNote = freezed,
+    Object? quantity = freezed,
   }) {
     return _then(_$PaymentKind_Bolt12OfferImpl(
       hash: freezed == hash
@@ -9690,6 +11205,14 @@ class __$$PaymentKind_Bolt12OfferImplCopyWithImpl<$Res>
           ? _value.offerId
           : offerId // ignore: cast_nullable_to_non_nullable
               as OfferId,
+      payerNote: freezed == payerNote
+          ? _value.payerNote
+          : payerNote // ignore: cast_nullable_to_non_nullable
+              as String?,
+      quantity: freezed == quantity
+          ? _value.quantity
+          : quantity // ignore: cast_nullable_to_non_nullable
+              as BigInt?,
     ));
   }
 }
@@ -9698,7 +11221,12 @@ class __$$PaymentKind_Bolt12OfferImplCopyWithImpl<$Res>
 
 class _$PaymentKind_Bolt12OfferImpl extends PaymentKind_Bolt12Offer {
   const _$PaymentKind_Bolt12OfferImpl(
-      {this.hash, this.preimage, this.secret, required this.offerId})
+      {this.hash,
+      this.preimage,
+      this.secret,
+      required this.offerId,
+      this.payerNote,
+      this.quantity})
       : super._();
 
   /// The payment hash, i.e., the hash of the `preimage`.
@@ -9717,9 +11245,23 @@ class _$PaymentKind_Bolt12OfferImpl extends PaymentKind_Bolt12Offer {
   @override
   final OfferId offerId;
 
+  /// The payer note for the payment.
+  ///
+  /// Truncated to `PAYER_NOTE_LIMIT` characters.
+  ///
+  /// This will always be `None` for payments serialized with version `v0.3.0`.
+  @override
+  final String? payerNote;
+
+  /// The quantity of an item requested in the offer.
+  ///
+  /// This will always be `None` for payments serialized with version `v0.3.0`.
+  @override
+  final BigInt? quantity;
+
   @override
   String toString() {
-    return 'PaymentKind.bolt12Offer(hash: $hash, preimage: $preimage, secret: $secret, offerId: $offerId)';
+    return 'PaymentKind.bolt12Offer(hash: $hash, preimage: $preimage, secret: $secret, offerId: $offerId, payerNote: $payerNote, quantity: $quantity)';
   }
 
   @override
@@ -9731,11 +11273,16 @@ class _$PaymentKind_Bolt12OfferImpl extends PaymentKind_Bolt12Offer {
             (identical(other.preimage, preimage) ||
                 other.preimage == preimage) &&
             (identical(other.secret, secret) || other.secret == secret) &&
-            (identical(other.offerId, offerId) || other.offerId == offerId));
+            (identical(other.offerId, offerId) || other.offerId == offerId) &&
+            (identical(other.payerNote, payerNote) ||
+                other.payerNote == payerNote) &&
+            (identical(other.quantity, quantity) ||
+                other.quantity == quantity));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, hash, preimage, secret, offerId);
+  int get hashCode => Object.hash(
+      runtimeType, hash, preimage, secret, offerId, payerNote, quantity);
 
   @JsonKey(ignore: true)
   @override
@@ -9756,14 +11303,19 @@ class _$PaymentKind_Bolt12OfferImpl extends PaymentKind_Bolt12Offer {
         bolt11Jit,
     required TResult Function(PaymentHash hash, PaymentPreimage? preimage)
         spontaneous,
-    required TResult Function(PaymentHash? hash, PaymentPreimage? preimage,
-            PaymentSecret? secret, OfferId offerId)
-        bolt12Offer,
     required TResult Function(
-            PaymentHash? hash, PaymentPreimage? preimage, PaymentSecret? secret)
+            PaymentHash? hash,
+            PaymentPreimage? preimage,
+            PaymentSecret? secret,
+            OfferId offerId,
+            String? payerNote,
+            BigInt? quantity)
+        bolt12Offer,
+    required TResult Function(PaymentHash? hash, PaymentPreimage? preimage,
+            PaymentSecret? secret, String? payerNote, BigInt? quantity)
         bolt12Refund,
   }) {
-    return bolt12Offer(hash, preimage, secret, offerId);
+    return bolt12Offer(hash, preimage, secret, offerId, payerNote, quantity);
   }
 
   @override
@@ -9777,14 +11329,20 @@ class _$PaymentKind_Bolt12OfferImpl extends PaymentKind_Bolt12Offer {
             PaymentSecret? secret, LSPFeeLimits lspFeeLimits)?
         bolt11Jit,
     TResult? Function(PaymentHash hash, PaymentPreimage? preimage)? spontaneous,
-    TResult? Function(PaymentHash? hash, PaymentPreimage? preimage,
-            PaymentSecret? secret, OfferId offerId)?
+    TResult? Function(
+            PaymentHash? hash,
+            PaymentPreimage? preimage,
+            PaymentSecret? secret,
+            OfferId offerId,
+            String? payerNote,
+            BigInt? quantity)?
         bolt12Offer,
     TResult? Function(PaymentHash? hash, PaymentPreimage? preimage,
-            PaymentSecret? secret)?
+            PaymentSecret? secret, String? payerNote, BigInt? quantity)?
         bolt12Refund,
   }) {
-    return bolt12Offer?.call(hash, preimage, secret, offerId);
+    return bolt12Offer?.call(
+        hash, preimage, secret, offerId, payerNote, quantity);
   }
 
   @override
@@ -9798,16 +11356,21 @@ class _$PaymentKind_Bolt12OfferImpl extends PaymentKind_Bolt12Offer {
             PaymentSecret? secret, LSPFeeLimits lspFeeLimits)?
         bolt11Jit,
     TResult Function(PaymentHash hash, PaymentPreimage? preimage)? spontaneous,
-    TResult Function(PaymentHash? hash, PaymentPreimage? preimage,
-            PaymentSecret? secret, OfferId offerId)?
+    TResult Function(
+            PaymentHash? hash,
+            PaymentPreimage? preimage,
+            PaymentSecret? secret,
+            OfferId offerId,
+            String? payerNote,
+            BigInt? quantity)?
         bolt12Offer,
     TResult Function(PaymentHash? hash, PaymentPreimage? preimage,
-            PaymentSecret? secret)?
+            PaymentSecret? secret, String? payerNote, BigInt? quantity)?
         bolt12Refund,
     required TResult orElse(),
   }) {
     if (bolt12Offer != null) {
-      return bolt12Offer(hash, preimage, secret, offerId);
+      return bolt12Offer(hash, preimage, secret, offerId, payerNote, quantity);
     }
     return orElse();
   }
@@ -9861,7 +11424,9 @@ abstract class PaymentKind_Bolt12Offer extends PaymentKind {
       {final PaymentHash? hash,
       final PaymentPreimage? preimage,
       final PaymentSecret? secret,
-      required final OfferId offerId}) = _$PaymentKind_Bolt12OfferImpl;
+      required final OfferId offerId,
+      final String? payerNote,
+      final BigInt? quantity}) = _$PaymentKind_Bolt12OfferImpl;
   const PaymentKind_Bolt12Offer._() : super._();
 
   /// The payment hash, i.e., the hash of the `preimage`.
@@ -9875,6 +11440,18 @@ abstract class PaymentKind_Bolt12Offer extends PaymentKind {
 
   /// The ID of the offer this payment is for.
   OfferId get offerId;
+
+  /// The payer note for the payment.
+  ///
+  /// Truncated to `PAYER_NOTE_LIMIT` characters.
+  ///
+  /// This will always be `None` for payments serialized with version `v0.3.0`.
+  String? get payerNote;
+
+  /// The quantity of an item requested in the offer.
+  ///
+  /// This will always be `None` for payments serialized with version `v0.3.0`.
+  BigInt? get quantity;
   @JsonKey(ignore: true)
   _$$PaymentKind_Bolt12OfferImplCopyWith<_$PaymentKind_Bolt12OfferImpl>
       get copyWith => throw _privateConstructorUsedError;
@@ -9888,7 +11465,11 @@ abstract class _$$PaymentKind_Bolt12RefundImplCopyWith<$Res> {
       __$$PaymentKind_Bolt12RefundImplCopyWithImpl<$Res>;
   @useResult
   $Res call(
-      {PaymentHash? hash, PaymentPreimage? preimage, PaymentSecret? secret});
+      {PaymentHash? hash,
+      PaymentPreimage? preimage,
+      PaymentSecret? secret,
+      String? payerNote,
+      BigInt? quantity});
 }
 
 /// @nodoc
@@ -9906,6 +11487,8 @@ class __$$PaymentKind_Bolt12RefundImplCopyWithImpl<$Res>
     Object? hash = freezed,
     Object? preimage = freezed,
     Object? secret = freezed,
+    Object? payerNote = freezed,
+    Object? quantity = freezed,
   }) {
     return _then(_$PaymentKind_Bolt12RefundImpl(
       hash: freezed == hash
@@ -9920,6 +11503,14 @@ class __$$PaymentKind_Bolt12RefundImplCopyWithImpl<$Res>
           ? _value.secret
           : secret // ignore: cast_nullable_to_non_nullable
               as PaymentSecret?,
+      payerNote: freezed == payerNote
+          ? _value.payerNote
+          : payerNote // ignore: cast_nullable_to_non_nullable
+              as String?,
+      quantity: freezed == quantity
+          ? _value.quantity
+          : quantity // ignore: cast_nullable_to_non_nullable
+              as BigInt?,
     ));
   }
 }
@@ -9927,7 +11518,8 @@ class __$$PaymentKind_Bolt12RefundImplCopyWithImpl<$Res>
 /// @nodoc
 
 class _$PaymentKind_Bolt12RefundImpl extends PaymentKind_Bolt12Refund {
-  const _$PaymentKind_Bolt12RefundImpl({this.hash, this.preimage, this.secret})
+  const _$PaymentKind_Bolt12RefundImpl(
+      {this.hash, this.preimage, this.secret, this.payerNote, this.quantity})
       : super._();
 
   /// The payment hash, i.e., the hash of the `preimage`.
@@ -9942,9 +11534,20 @@ class _$PaymentKind_Bolt12RefundImpl extends PaymentKind_Bolt12Refund {
   @override
   final PaymentSecret? secret;
 
+  ///
+  /// This will always be `None` for payments serialized with version `v0.3.0`.
+  @override
+  final String? payerNote;
+
+  /// The quantity of an item that the refund is for.
+  ///
+  /// This will always be `None` for payments serialized with version `v0.3.0`.
+  @override
+  final BigInt? quantity;
+
   @override
   String toString() {
-    return 'PaymentKind.bolt12Refund(hash: $hash, preimage: $preimage, secret: $secret)';
+    return 'PaymentKind.bolt12Refund(hash: $hash, preimage: $preimage, secret: $secret, payerNote: $payerNote, quantity: $quantity)';
   }
 
   @override
@@ -9955,11 +11558,16 @@ class _$PaymentKind_Bolt12RefundImpl extends PaymentKind_Bolt12Refund {
             (identical(other.hash, hash) || other.hash == hash) &&
             (identical(other.preimage, preimage) ||
                 other.preimage == preimage) &&
-            (identical(other.secret, secret) || other.secret == secret));
+            (identical(other.secret, secret) || other.secret == secret) &&
+            (identical(other.payerNote, payerNote) ||
+                other.payerNote == payerNote) &&
+            (identical(other.quantity, quantity) ||
+                other.quantity == quantity));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, hash, preimage, secret);
+  int get hashCode =>
+      Object.hash(runtimeType, hash, preimage, secret, payerNote, quantity);
 
   @JsonKey(ignore: true)
   @override
@@ -9980,14 +11588,19 @@ class _$PaymentKind_Bolt12RefundImpl extends PaymentKind_Bolt12Refund {
         bolt11Jit,
     required TResult Function(PaymentHash hash, PaymentPreimage? preimage)
         spontaneous,
-    required TResult Function(PaymentHash? hash, PaymentPreimage? preimage,
-            PaymentSecret? secret, OfferId offerId)
-        bolt12Offer,
     required TResult Function(
-            PaymentHash? hash, PaymentPreimage? preimage, PaymentSecret? secret)
+            PaymentHash? hash,
+            PaymentPreimage? preimage,
+            PaymentSecret? secret,
+            OfferId offerId,
+            String? payerNote,
+            BigInt? quantity)
+        bolt12Offer,
+    required TResult Function(PaymentHash? hash, PaymentPreimage? preimage,
+            PaymentSecret? secret, String? payerNote, BigInt? quantity)
         bolt12Refund,
   }) {
-    return bolt12Refund(hash, preimage, secret);
+    return bolt12Refund(hash, preimage, secret, payerNote, quantity);
   }
 
   @override
@@ -10001,14 +11614,19 @@ class _$PaymentKind_Bolt12RefundImpl extends PaymentKind_Bolt12Refund {
             PaymentSecret? secret, LSPFeeLimits lspFeeLimits)?
         bolt11Jit,
     TResult? Function(PaymentHash hash, PaymentPreimage? preimage)? spontaneous,
-    TResult? Function(PaymentHash? hash, PaymentPreimage? preimage,
-            PaymentSecret? secret, OfferId offerId)?
+    TResult? Function(
+            PaymentHash? hash,
+            PaymentPreimage? preimage,
+            PaymentSecret? secret,
+            OfferId offerId,
+            String? payerNote,
+            BigInt? quantity)?
         bolt12Offer,
     TResult? Function(PaymentHash? hash, PaymentPreimage? preimage,
-            PaymentSecret? secret)?
+            PaymentSecret? secret, String? payerNote, BigInt? quantity)?
         bolt12Refund,
   }) {
-    return bolt12Refund?.call(hash, preimage, secret);
+    return bolt12Refund?.call(hash, preimage, secret, payerNote, quantity);
   }
 
   @override
@@ -10022,16 +11640,21 @@ class _$PaymentKind_Bolt12RefundImpl extends PaymentKind_Bolt12Refund {
             PaymentSecret? secret, LSPFeeLimits lspFeeLimits)?
         bolt11Jit,
     TResult Function(PaymentHash hash, PaymentPreimage? preimage)? spontaneous,
-    TResult Function(PaymentHash? hash, PaymentPreimage? preimage,
-            PaymentSecret? secret, OfferId offerId)?
+    TResult Function(
+            PaymentHash? hash,
+            PaymentPreimage? preimage,
+            PaymentSecret? secret,
+            OfferId offerId,
+            String? payerNote,
+            BigInt? quantity)?
         bolt12Offer,
     TResult Function(PaymentHash? hash, PaymentPreimage? preimage,
-            PaymentSecret? secret)?
+            PaymentSecret? secret, String? payerNote, BigInt? quantity)?
         bolt12Refund,
     required TResult orElse(),
   }) {
     if (bolt12Refund != null) {
-      return bolt12Refund(hash, preimage, secret);
+      return bolt12Refund(hash, preimage, secret, payerNote, quantity);
     }
     return orElse();
   }
@@ -10084,7 +11707,9 @@ abstract class PaymentKind_Bolt12Refund extends PaymentKind {
   const factory PaymentKind_Bolt12Refund(
       {final PaymentHash? hash,
       final PaymentPreimage? preimage,
-      final PaymentSecret? secret}) = _$PaymentKind_Bolt12RefundImpl;
+      final PaymentSecret? secret,
+      final String? payerNote,
+      final BigInt? quantity}) = _$PaymentKind_Bolt12RefundImpl;
   const PaymentKind_Bolt12Refund._() : super._();
 
   /// The payment hash, i.e., the hash of the `preimage`.
@@ -10095,6 +11720,15 @@ abstract class PaymentKind_Bolt12Refund extends PaymentKind {
 
   /// The secret used by the payment.
   PaymentSecret? get secret;
+
+  ///
+  /// This will always be `None` for payments serialized with version `v0.3.0`.
+  String? get payerNote;
+
+  /// The quantity of an item that the refund is for.
+  ///
+  /// This will always be `None` for payments serialized with version `v0.3.0`.
+  BigInt? get quantity;
   @JsonKey(ignore: true)
   _$$PaymentKind_Bolt12RefundImplCopyWith<_$PaymentKind_Bolt12RefundImpl>
       get copyWith => throw _privateConstructorUsedError;
