@@ -26,11 +26,6 @@ class _MyAppState extends State<MyApp> {
   ldk.Bolt11Invoice? invoice;
   ldk.UserChannelId? userChannelId;
 
-  String esploraUrl = "https://mutinynet.ltbl.io/api";
-  final esploraConfig = ldk.EsploraSyncConfig(
-      onchainWalletSyncIntervalSecs: BigInt.from(60),
-      lightningWalletSyncIntervalSecs: BigInt.from(60),
-      feeRateCacheUpdateIntervalSecs: BigInt.from(600));
   /*
   // For local esplora server
 
@@ -54,8 +49,6 @@ class _MyAppState extends State<MyApp> {
     // For a node on the mutiny network with default config and service
     ldk.Builder builder = ldk.Builder.mutinynet()
         .setEntropyBip39Mnemonic(mnemonic: ldk.Mnemonic(seedPhrase: mnemonic))
-        .setChainSourceEsplora(
-            syncConfig: esploraConfig, esploraServerUrl: esploraUrl)
         .setStorageDirPath(nodeStorageDir)
         .setListeningAddresses([address]);
     return builder;
@@ -66,7 +59,11 @@ class _MyAppState extends State<MyApp> {
             'alice_mutinynet',
             const ldk.SocketAddress.hostname(addr: "0.0.0.0", port: 3003),
             "cart super leaf clinic pistol plug replace close super tooth wealth usage"))
-        .build();
+        .buildWithVssStoreAndFixedHeaders(
+            vssUrl: "https://mutinynet.ltbl.io/vss/",
+            storeId: "alice_mutinynet_store",
+            fixedHeaders: {});
+
     await startNode(aliceNode);
     final res = await aliceNode.nodeId();
     setState(() {
@@ -91,7 +88,7 @@ class _MyAppState extends State<MyApp> {
 
   startNode(ldk.Node node) async {
     try {
-      node.start();
+      await node.start();
     } on ldk.NodeException catch (e) {
       debugPrint(e.toString());
     }
@@ -102,9 +99,9 @@ class _MyAppState extends State<MyApp> {
     final bob = await bobNode.listBalances();
     if (kDebugMode) {
       print("alice's balance: ${alice.totalOnchainBalanceSats}");
-      print("alice's spendable balance: ${alice.spendableOnchainBalanceSats}");
+      print("alice's lightning balance: ${alice.totalLightningBalanceSats}");
       print("bob's balance: ${bob.totalOnchainBalanceSats}");
-      print("bob's spendable balance: ${bob.spendableOnchainBalanceSats}");
+      print("bob's lightning balance: ${bob.totalLightningBalanceSats}");
     }
     setState(() {
       aliceBalance = alice.spendableOnchainBalanceSats.toInt();
@@ -120,12 +117,24 @@ class _MyAppState extends State<MyApp> {
   }
 
   listChannels() async {
-    final res = await aliceNode.listChannels();
+    final aliceChannnels = await aliceNode.listChannels();
+    final bobChannels = await bobNode.listChannels();
     if (kDebugMode) {
-      if (res.isNotEmpty) {
-        print("======Channels========");
-        for (var e in res) {
-          print("nodeId: ${aliceNodeId!.hex}");
+      if (aliceChannnels.isNotEmpty) {
+        print("======Alice Channels========");
+        for (var e in aliceChannnels) {
+          print("counterparty nodeId: ${e.counterpartyNodeId.hex}");
+          print("userChannelId: ${e.userChannelId.data}");
+          print("confirmations required: ${e.confirmationsRequired}");
+          print("isChannelReady: ${e.isChannelReady}");
+          print("isUsable: ${e.isUsable}");
+          print("outboundCapacityMsat: ${e.outboundCapacityMsat}");
+        }
+      }
+      if (bobChannels.isNotEmpty) {
+        print("======Bob Channels========");
+        for (var e in bobChannels) {
+          print("counterparty nodeId: ${e.counterpartyNodeId.hex}");
           print("userChannelId: ${e.userChannelId.data}");
           print("confirmations required: ${e.confirmationsRequired}");
           print("isChannelReady: ${e.isChannelReady}");
@@ -223,15 +232,22 @@ class _MyAppState extends State<MyApp> {
     // Bob doesn't have a channel yet, so he can't receive normal payments,
     //  but he can receive payments via JIT channels through an LSP configured
     //  in its node.
-    invoice = await bobBolt11Handler.receiveViaJitChannel(
-        amountMsat: BigInt.from(25000 * 1000),
+    final bobInvoice = await bobBolt11Handler.receive(
+        amountMsat: BigInt.from(5000000),
         description: 'asdf',
         expirySecs: 9217);
-    debugPrint(invoice!.signedRawInvoice);
+    final aliceLBalance =
+        (await aliceNode.listBalances()).totalLightningBalanceSats;
+    debugPrint("Alice's Lightning balance ${aliceLBalance.toString()}");
+    final bobLBalance =
+        (await bobNode.listBalances()).totalLightningBalanceSats;
+    debugPrint("Bob's Lightning balance ${bobLBalance.toString()}");
+    print(bobInvoice.signedRawInvoice);
     setState(() {
-      displayText = invoice!.signedRawInvoice;
+      displayText = bobInvoice.signedRawInvoice;
     });
-    final paymentId = await aliceBolt11Handler.send(invoice: invoice!);
+    final paymentId = await aliceBolt11Handler.send(invoice: bobInvoice);
+    debugPrint("Alice's payment id ${paymentId.field0.toString()}");
     final res = await aliceNode.payment(paymentId: paymentId);
     setState(() {
       displayText =

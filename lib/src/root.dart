@@ -1248,9 +1248,9 @@ class Builder {
     }
   }
 
-  Future<Node> buildWithvssStoreAndFixedHeaders(
+  Future<Node> buildWithVssStoreAndFixedHeaders(
       {required String vssUrl,
-      required String store_id,
+      required String storeId,
       required Map<String, String> fixedHeaders}) async {
     try {
       await Frb.verifyInit();
@@ -1266,7 +1266,7 @@ class Builder {
               liquiditySourceConfig: _liquiditySourceConfig,
               gossipSourceConfig: _gossipSourceConfig))
           .buildWithVssStoreAndFixedHeaders(
-              vssUrl: vssUrl, storeId: store_id, fixedHeaders: fixedHeaders);
+              vssUrl: vssUrl, storeId: storeId, fixedHeaders: fixedHeaders);
       return Node._(opaque: res.opaque);
     } on error.FfiBuilderError catch (e) {
       throw mapFfiBuilderError(e);
