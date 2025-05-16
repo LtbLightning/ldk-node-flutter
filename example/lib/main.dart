@@ -77,7 +77,10 @@ class _MyAppState extends State<MyApp> {
             'bob_mutinynet',
             const ldk.SocketAddress.hostname(addr: "0.0.0.0", port: 3004),
             "puppy interest whip tonight dad never sudden response push zone pig patch"))
-        .build();
+        .buildWithVssStoreAndFixedHeaders(
+            vssUrl: "https://mutinynet.ltbl.io/vss/",
+            storeId: "bob_mutinynet_store",
+            fixedHeaders: {});
     await startNode(bobNode);
     final res = await bobNode.nodeId();
     setState(() {
