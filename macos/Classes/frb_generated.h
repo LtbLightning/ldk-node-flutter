@@ -909,12 +909,11 @@ void frbgen_ldk_node_wire__crate__api__builder__FfiBuilder_build_with_vss_store_
                                                                                                   struct wire_cst_list_prim_u_8_strict *store_id,
                                                                                                   struct wire_cst_list_record_string_string *fixed_headers);
 
-void frbgen_ldk_node_wire__crate__api__builder__FfiBuilder_create_builder(int64_t port_,
-                                                                          struct wire_cst_config *config,
-                                                                          struct wire_cst_chain_data_source_config *chain_data_source_config,
-                                                                          struct wire_cst_entropy_source_config *entropy_source_config,
-                                                                          struct wire_cst_gossip_source_config *gossip_source_config,
-                                                                          struct wire_cst_liquidity_source_config *liquidity_source_config);
+WireSyncRust2DartDco frbgen_ldk_node_wire__crate__api__builder__FfiBuilder_create_builder(struct wire_cst_config *config,
+                                                                                          struct wire_cst_chain_data_source_config *chain_data_source_config,
+                                                                                          struct wire_cst_entropy_source_config *entropy_source_config,
+                                                                                          struct wire_cst_gossip_source_config *gossip_source_config,
+                                                                                          struct wire_cst_liquidity_source_config *liquidity_source_config);
 
 void frbgen_ldk_node_wire__crate__api__builder__ffi_mnemonic_generate(int64_t port_);
 

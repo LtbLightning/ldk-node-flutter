@@ -212,7 +212,7 @@ abstract class coreApi extends BaseApi {
       required String storeId,
       required Map<String, String> fixedHeaders});
 
-  Future<FfiBuilder> crateApiBuilderFfiBuilderCreateBuilder(
+  FfiBuilder crateApiBuilderFfiBuilderCreateBuilder(
       {required Config config,
       ChainDataSourceConfig? chainDataSourceConfig,
       EntropySourceConfig? entropySourceConfig,
@@ -1255,14 +1255,14 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
           );
 
   @override
-  Future<FfiBuilder> crateApiBuilderFfiBuilderCreateBuilder(
+  FfiBuilder crateApiBuilderFfiBuilderCreateBuilder(
       {required Config config,
       ChainDataSourceConfig? chainDataSourceConfig,
       EntropySourceConfig? entropySourceConfig,
       GossipSourceConfig? gossipSourceConfig,
       LiquiditySourceConfig? liquiditySourceConfig}) {
-    return handler.executeNormal(NormalTask(
-      callFfi: (port_) {
+    return handler.executeSync(SyncTask(
+      callFfi: () {
         var arg0 = cst_encode_box_autoadd_config(config);
         var arg1 = cst_encode_opt_box_autoadd_chain_data_source_config(
             chainDataSourceConfig);
@@ -1273,7 +1273,7 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
         var arg4 = cst_encode_opt_box_autoadd_liquidity_source_config(
             liquiditySourceConfig);
         return wire.wire__crate__api__builder__FfiBuilder_create_builder(
-            port_, arg0, arg1, arg2, arg3, arg4);
+            arg0, arg1, arg2, arg3, arg4);
       },
       codec: DcoCodec(
         decodeSuccessData:

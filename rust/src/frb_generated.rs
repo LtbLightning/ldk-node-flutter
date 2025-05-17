@@ -825,18 +825,17 @@ fn wire__crate__api__builder__FfiBuilder_build_with_vss_store_and_fixed_headers_
     )
 }
 fn wire__crate__api__builder__FfiBuilder_create_builder_impl(
-    port_: flutter_rust_bridge::for_generated::MessagePort,
     config: impl CstDecode<crate::api::types::Config>,
     chain_data_source_config: impl CstDecode<Option<crate::api::types::ChainDataSourceConfig>>,
     entropy_source_config: impl CstDecode<Option<crate::api::types::EntropySourceConfig>>,
     gossip_source_config: impl CstDecode<Option<crate::api::types::GossipSourceConfig>>,
     liquidity_source_config: impl CstDecode<Option<crate::api::types::LiquiditySourceConfig>>,
-) {
-    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
+) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync::<flutter_rust_bridge::for_generated::DcoCodec, _>(
         flutter_rust_bridge::for_generated::TaskInfo {
             debug_name: "FfiBuilder_create_builder",
-            port: Some(port_),
-            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
+            port: None,
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Sync,
         },
         move || {
             let api_config = config.cst_decode();
@@ -844,19 +843,16 @@ fn wire__crate__api__builder__FfiBuilder_create_builder_impl(
             let api_entropy_source_config = entropy_source_config.cst_decode();
             let api_gossip_source_config = gossip_source_config.cst_decode();
             let api_liquidity_source_config = liquidity_source_config.cst_decode();
-            move |context| {
-                transform_result_dco::<_, _, crate::utils::error::FfiBuilderError>((move || {
-                    let output_ok = crate::api::builder::FfiBuilder::create_builder(
-                        api_config,
-                        api_chain_data_source_config,
-                        api_entropy_source_config,
-                        api_gossip_source_config,
-                        api_liquidity_source_config,
-                    )?;
-                    Ok(output_ok)
-                })(
-                ))
-            }
+            transform_result_dco::<_, _, crate::utils::error::FfiBuilderError>((move || {
+                let output_ok = crate::api::builder::FfiBuilder::create_builder(
+                    api_config,
+                    api_chain_data_source_config,
+                    api_entropy_source_config,
+                    api_gossip_source_config,
+                    api_liquidity_source_config,
+                )?;
+                Ok(output_ok)
+            })())
         },
     )
 }
@@ -11265,15 +11261,13 @@ mod io {
 
     #[no_mangle]
     pub extern "C" fn frbgen_ldk_node_wire__crate__api__builder__FfiBuilder_create_builder(
-        port_: i64,
         config: *mut wire_cst_config,
         chain_data_source_config: *mut wire_cst_chain_data_source_config,
         entropy_source_config: *mut wire_cst_entropy_source_config,
         gossip_source_config: *mut wire_cst_gossip_source_config,
         liquidity_source_config: *mut wire_cst_liquidity_source_config,
-    ) {
+    ) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
         wire__crate__api__builder__FfiBuilder_create_builder_impl(
-            port_,
             config,
             chain_data_source_config,
             entropy_source_config,

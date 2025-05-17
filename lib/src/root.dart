@@ -1184,12 +1184,12 @@ class Builder {
         final nodePath = "${directory.path}/ldk_cache/";
         _config!.storageDirPath = nodePath;
       }
-      final res = await (await builder.FfiBuilder.createBuilder(
+      final res = await builder.FfiBuilder.createBuilder(
               config: _config ?? Builder()._config!,
               chainDataSourceConfig: _chainDataSourceConfig,
               entropySourceConfig: _entropySource,
               liquiditySourceConfig: _liquiditySourceConfig,
-              gossipSourceConfig: _gossipSourceConfig))
+              gossipSourceConfig: _gossipSourceConfig)
           .build();
       return Node._(opaque: res.opaque);
     } on error.FfiBuilderError catch (e) {
@@ -1206,12 +1206,12 @@ class Builder {
         final nodePath = "${directory.path}/ldk_cache/";
         _config!.storageDirPath = nodePath;
       }
-      final res = await (await builder.FfiBuilder.createBuilder(
+      final res = await builder.FfiBuilder.createBuilder(
               config: _config ?? Builder()._config!,
               chainDataSourceConfig: _chainDataSourceConfig,
               entropySourceConfig: _entropySource,
               liquiditySourceConfig: _liquiditySourceConfig,
-              gossipSourceConfig: _gossipSourceConfig))
+              gossipSourceConfig: _gossipSourceConfig)
           .buildWithFsStore();
       return Node._(opaque: res.opaque);
     } on error.FfiBuilderError catch (e) {
@@ -1231,12 +1231,12 @@ class Builder {
         final nodePath = "${directory.path}/ldk_cache/";
         _config!.storageDirPath = nodePath;
       }
-      final res = await (await builder.FfiBuilder.createBuilder(
+      final res = await builder.FfiBuilder.createBuilder(
               config: _config ?? Builder()._config!,
               chainDataSourceConfig: _chainDataSourceConfig,
               entropySourceConfig: _entropySource,
               liquiditySourceConfig: _liquiditySourceConfig,
-              gossipSourceConfig: _gossipSourceConfig))
+              gossipSourceConfig: _gossipSourceConfig)
           .buildWithVssStore(
               vssUrl: vssUrl,
               storeId: storeId,
@@ -1259,12 +1259,12 @@ class Builder {
         final nodePath = "${directory.path}/ldk_cache/";
         _config!.storageDirPath = nodePath;
       }
-      final res = await (await builder.FfiBuilder.createBuilder(
+      final res = await builder.FfiBuilder.createBuilder(
               config: _config ?? Builder()._config!,
               chainDataSourceConfig: _chainDataSourceConfig,
               entropySourceConfig: _entropySource,
               liquiditySourceConfig: _liquiditySourceConfig,
-              gossipSourceConfig: _gossipSourceConfig))
+              gossipSourceConfig: _gossipSourceConfig)
           .buildWithVssStoreAndFixedHeaders(
               vssUrl: vssUrl, storeId: storeId, fixedHeaders: fixedHeaders);
       return Node._(opaque: res.opaque);

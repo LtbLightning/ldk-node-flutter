@@ -5386,8 +5386,7 @@ class coreWire implements BaseWire {
                   ffi.Pointer<wire_cst_list_prim_u_8_strict>,
                   ffi.Pointer<wire_cst_list_record_string_string>)>();
 
-  void wire__crate__api__builder__FfiBuilder_create_builder(
-    int port_,
+  WireSyncRust2DartDco wire__crate__api__builder__FfiBuilder_create_builder(
     ffi.Pointer<wire_cst_config> config,
     ffi.Pointer<wire_cst_chain_data_source_config> chain_data_source_config,
     ffi.Pointer<wire_cst_entropy_source_config> entropy_source_config,
@@ -5395,7 +5394,6 @@ class coreWire implements BaseWire {
     ffi.Pointer<wire_cst_liquidity_source_config> liquidity_source_config,
   ) {
     return _wire__crate__api__builder__FfiBuilder_create_builder(
-      port_,
       config,
       chain_data_source_config,
       entropy_source_config,
@@ -5406,8 +5404,7 @@ class coreWire implements BaseWire {
 
   late final _wire__crate__api__builder__FfiBuilder_create_builderPtr = _lookup<
           ffi.NativeFunction<
-              ffi.Void Function(
-                  ffi.Int64,
+              WireSyncRust2DartDco Function(
                   ffi.Pointer<wire_cst_config>,
                   ffi.Pointer<wire_cst_chain_data_source_config>,
                   ffi.Pointer<wire_cst_entropy_source_config>,
@@ -5416,8 +5413,7 @@ class coreWire implements BaseWire {
       'frbgen_ldk_node_wire__crate__api__builder__FfiBuilder_create_builder');
   late final _wire__crate__api__builder__FfiBuilder_create_builder =
       _wire__crate__api__builder__FfiBuilder_create_builderPtr.asFunction<
-          void Function(
-              int,
+          WireSyncRust2DartDco Function(
               ffi.Pointer<wire_cst_config>,
               ffi.Pointer<wire_cst_chain_data_source_config>,
               ffi.Pointer<wire_cst_entropy_source_config>,

@@ -33,7 +33,7 @@ abstract class FfiBuilder implements RustOpaqueInterface {
       required String storeId,
       required Map<String, String> fixedHeaders});
 
-  static Future<FfiBuilder> createBuilder(
+  static FfiBuilder createBuilder(
           {required Config config,
           ChainDataSourceConfig? chainDataSourceConfig,
           EntropySourceConfig? entropySourceConfig,

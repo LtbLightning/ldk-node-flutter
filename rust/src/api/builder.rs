@@ -40,6 +40,7 @@ pub struct FfiBuilder {
 }
 
 impl FfiBuilder {
+    #[frb(sync)]
     pub fn create_builder(
         config: Config,
         chain_data_source_config: Option<ChainDataSourceConfig>,
