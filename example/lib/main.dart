@@ -247,7 +247,7 @@ class _MyAppState extends State<MyApp> {
     final bobLBalance =
         (await bobNode.listBalances()).totalLightningBalanceSats;
     debugPrint("Bob's Lightning balance ${bobLBalance.toString()}");
-    print(bobInvoice.signedRawInvoice);
+    debugPrint(bobInvoice.signedRawInvoice);
     setState(() {
       displayText = bobInvoice.signedRawInvoice;
     });
