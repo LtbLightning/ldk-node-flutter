@@ -14,58 +14,10 @@ void store_dart_post_cobject(DartPostCObjectFnType ptr);
 // EXTRA END
 typedef struct _Dart_Handle* Dart_Handle;
 
-typedef struct wire_cst_ffi_bolt_11_payment {
-  uintptr_t opaque;
-} wire_cst_ffi_bolt_11_payment;
-
 typedef struct wire_cst_list_prim_u_8_strict {
   uint8_t *ptr;
   int32_t len;
 } wire_cst_list_prim_u_8_strict;
-
-typedef struct wire_cst_payment_hash {
-  struct wire_cst_list_prim_u_8_strict *data;
-} wire_cst_payment_hash;
-
-typedef struct wire_cst_payment_preimage {
-  struct wire_cst_list_prim_u_8_strict *data;
-} wire_cst_payment_preimage;
-
-typedef struct wire_cst_bolt_11_invoice {
-  struct wire_cst_list_prim_u_8_strict *signed_raw_invoice;
-} wire_cst_bolt_11_invoice;
-
-typedef struct wire_cst_MaxTotalRoutingFeeLimit_FeeCap {
-  uint64_t amount_msat;
-} wire_cst_MaxTotalRoutingFeeLimit_FeeCap;
-
-typedef union MaxTotalRoutingFeeLimitKind {
-  struct wire_cst_MaxTotalRoutingFeeLimit_FeeCap FeeCap;
-} MaxTotalRoutingFeeLimitKind;
-
-typedef struct wire_cst_max_total_routing_fee_limit {
-  int32_t tag;
-  union MaxTotalRoutingFeeLimitKind kind;
-} wire_cst_max_total_routing_fee_limit;
-
-typedef struct wire_cst_sending_parameters {
-  struct wire_cst_max_total_routing_fee_limit *max_total_routing_fee_msat;
-  uint32_t *max_total_cltv_expiry_delta;
-  uint8_t *max_path_count;
-  uint8_t *max_channel_saturation_power_of_half;
-} wire_cst_sending_parameters;
-
-typedef struct wire_cst_ffi_bolt_12_payment {
-  uintptr_t opaque;
-} wire_cst_ffi_bolt_12_payment;
-
-typedef struct wire_cst_refund {
-  struct wire_cst_list_prim_u_8_strict *s;
-} wire_cst_refund;
-
-typedef struct wire_cst_offer {
-  struct wire_cst_list_prim_u_8_strict *s;
-} wire_cst_offer;
 
 typedef struct wire_cst_record_string_string {
   struct wire_cst_list_prim_u_8_strict *field0;
@@ -138,6 +90,26 @@ typedef struct wire_cst_anchor_channels_config {
   struct wire_cst_list_public_key *trusted_peers_no_reserve;
   uint64_t per_channel_reserve_sats;
 } wire_cst_anchor_channels_config;
+
+typedef struct wire_cst_MaxTotalRoutingFeeLimit_FeeCap {
+  uint64_t amount_msat;
+} wire_cst_MaxTotalRoutingFeeLimit_FeeCap;
+
+typedef union MaxTotalRoutingFeeLimitKind {
+  struct wire_cst_MaxTotalRoutingFeeLimit_FeeCap FeeCap;
+} MaxTotalRoutingFeeLimitKind;
+
+typedef struct wire_cst_max_total_routing_fee_limit {
+  int32_t tag;
+  union MaxTotalRoutingFeeLimitKind kind;
+} wire_cst_max_total_routing_fee_limit;
+
+typedef struct wire_cst_sending_parameters {
+  struct wire_cst_max_total_routing_fee_limit *max_total_routing_fee_msat;
+  uint32_t *max_total_cltv_expiry_delta;
+  uint8_t *max_path_count;
+  uint8_t *max_channel_saturation_power_of_half;
+} wire_cst_sending_parameters;
 
 typedef struct wire_cst_config {
   struct wire_cst_list_prim_u_8_strict *storage_dir_path;
@@ -230,6 +202,34 @@ typedef struct wire_cst_record_socket_address_public_key_opt_string {
 typedef struct wire_cst_liquidity_source_config {
   struct wire_cst_record_socket_address_public_key_opt_string lsps2_service;
 } wire_cst_liquidity_source_config;
+
+typedef struct wire_cst_ffi_bolt_11_payment {
+  uintptr_t opaque;
+} wire_cst_ffi_bolt_11_payment;
+
+typedef struct wire_cst_payment_hash {
+  struct wire_cst_list_prim_u_8_strict *data;
+} wire_cst_payment_hash;
+
+typedef struct wire_cst_payment_preimage {
+  struct wire_cst_list_prim_u_8_strict *data;
+} wire_cst_payment_preimage;
+
+typedef struct wire_cst_bolt_11_invoice {
+  struct wire_cst_list_prim_u_8_strict *signed_raw_invoice;
+} wire_cst_bolt_11_invoice;
+
+typedef struct wire_cst_ffi_bolt_12_payment {
+  uintptr_t opaque;
+} wire_cst_ffi_bolt_12_payment;
+
+typedef struct wire_cst_refund {
+  struct wire_cst_list_prim_u_8_strict *s;
+} wire_cst_refund;
+
+typedef struct wire_cst_offer {
+  struct wire_cst_list_prim_u_8_strict *s;
+} wire_cst_offer;
 
 typedef struct wire_cst_ffi_network_graph {
   uintptr_t opaque;
@@ -783,6 +783,39 @@ typedef struct wire_cst_qr_payment_result {
   union QrPaymentResultKind kind;
 } wire_cst_qr_payment_result;
 
+WireSyncRust2DartDco frbgen_ldk_node_wire__crate__api__builder__FfiBuilder_auto_accessor_get_opaque(uintptr_t that);
+
+WireSyncRust2DartDco frbgen_ldk_node_wire__crate__api__builder__FfiBuilder_auto_accessor_set_opaque(uintptr_t that,
+                                                                                                    uintptr_t opaque);
+
+void frbgen_ldk_node_wire__crate__api__builder__FfiBuilder_build(int64_t port_, uintptr_t that);
+
+void frbgen_ldk_node_wire__crate__api__builder__FfiBuilder_build_with_fs_store(int64_t port_,
+                                                                               uintptr_t that);
+
+void frbgen_ldk_node_wire__crate__api__builder__FfiBuilder_build_with_vss_store(int64_t port_,
+                                                                                uintptr_t that,
+                                                                                struct wire_cst_list_prim_u_8_strict *vss_url,
+                                                                                struct wire_cst_list_prim_u_8_strict *store_id,
+                                                                                struct wire_cst_list_prim_u_8_strict *lnurl_auth_server_url,
+                                                                                struct wire_cst_list_record_string_string *fixed_headers);
+
+void frbgen_ldk_node_wire__crate__api__builder__FfiBuilder_build_with_vss_store_and_fixed_headers(int64_t port_,
+                                                                                                  uintptr_t that,
+                                                                                                  struct wire_cst_list_prim_u_8_strict *vss_url,
+                                                                                                  struct wire_cst_list_prim_u_8_strict *store_id,
+                                                                                                  struct wire_cst_list_record_string_string *fixed_headers);
+
+WireSyncRust2DartDco frbgen_ldk_node_wire__crate__api__builder__FfiBuilder_create_builder(struct wire_cst_config *config,
+                                                                                          struct wire_cst_chain_data_source_config *chain_data_source_config,
+                                                                                          struct wire_cst_entropy_source_config *entropy_source_config,
+                                                                                          struct wire_cst_gossip_source_config *gossip_source_config,
+                                                                                          struct wire_cst_liquidity_source_config *liquidity_source_config);
+
+void frbgen_ldk_node_wire__crate__api__types__anchor_channels_config_default(int64_t port_);
+
+void frbgen_ldk_node_wire__crate__api__types__config_default(int64_t port_);
+
 void frbgen_ldk_node_wire__crate__api__bolt11__ffi_bolt_11_payment_claim_for_hash(int64_t port_,
                                                                                   struct wire_cst_ffi_bolt_11_payment *that,
                                                                                   struct wire_cst_payment_hash *payment_hash,
@@ -885,35 +918,6 @@ void frbgen_ldk_node_wire__crate__api__bolt12__ffi_bolt_12_payment_send_using_am
                                                                                      uint64_t amount_msat,
                                                                                      uint64_t *quantity,
                                                                                      struct wire_cst_list_prim_u_8_strict *payer_note);
-
-WireSyncRust2DartDco frbgen_ldk_node_wire__crate__api__builder__FfiBuilder_auto_accessor_get_opaque(uintptr_t that);
-
-WireSyncRust2DartDco frbgen_ldk_node_wire__crate__api__builder__FfiBuilder_auto_accessor_set_opaque(uintptr_t that,
-                                                                                                    uintptr_t opaque);
-
-void frbgen_ldk_node_wire__crate__api__builder__FfiBuilder_build(int64_t port_, uintptr_t that);
-
-void frbgen_ldk_node_wire__crate__api__builder__FfiBuilder_build_with_fs_store(int64_t port_,
-                                                                               uintptr_t that);
-
-void frbgen_ldk_node_wire__crate__api__builder__FfiBuilder_build_with_vss_store(int64_t port_,
-                                                                                uintptr_t that,
-                                                                                struct wire_cst_list_prim_u_8_strict *vss_url,
-                                                                                struct wire_cst_list_prim_u_8_strict *store_id,
-                                                                                struct wire_cst_list_prim_u_8_strict *lnurl_auth_server_url,
-                                                                                struct wire_cst_list_record_string_string *fixed_headers);
-
-void frbgen_ldk_node_wire__crate__api__builder__FfiBuilder_build_with_vss_store_and_fixed_headers(int64_t port_,
-                                                                                                  uintptr_t that,
-                                                                                                  struct wire_cst_list_prim_u_8_strict *vss_url,
-                                                                                                  struct wire_cst_list_prim_u_8_strict *store_id,
-                                                                                                  struct wire_cst_list_record_string_string *fixed_headers);
-
-WireSyncRust2DartDco frbgen_ldk_node_wire__crate__api__builder__FfiBuilder_create_builder(struct wire_cst_config *config,
-                                                                                          struct wire_cst_chain_data_source_config *chain_data_source_config,
-                                                                                          struct wire_cst_entropy_source_config *entropy_source_config,
-                                                                                          struct wire_cst_gossip_source_config *gossip_source_config,
-                                                                                          struct wire_cst_liquidity_source_config *liquidity_source_config);
 
 void frbgen_ldk_node_wire__crate__api__builder__ffi_mnemonic_generate(int64_t port_);
 
@@ -1080,10 +1084,6 @@ void frbgen_ldk_node_wire__crate__api__spontaneous__ffi_spontaneous_payment_send
                                                                                         struct wire_cst_ffi_spontaneous_payment *that,
                                                                                         uint64_t amount_msat,
                                                                                         struct wire_cst_public_key *node_id);
-
-void frbgen_ldk_node_wire__crate__api__types__anchor_channels_config_default(int64_t port_);
-
-void frbgen_ldk_node_wire__crate__api__types__config_default(int64_t port_);
 
 void frbgen_ldk_node_wire__crate__api__unified_qr__ffi_unified_qr_payment_receive(int64_t port_,
                                                                                   struct wire_cst_ffi_unified_qr_payment *that,
