@@ -1,4 +1,26 @@
 ## [0.4.2]
+Updated `flutter_rust_bridge` to `2.6.0`.
+Updated `ldk-node` to `0.4.2`.
+#### APIs added
+- Support for multiple chain sources has been added. The `setChainSourceBitcoinRpc` method has been introduced in the Builder class to allow the use of 
+  Bitcoin Core RPC.
+- Support for sourcing chain and fee estimation data from a Bitcoin Core RPC backed.
+- Initial experimental support for an encrypted VSS remote storage backend has been added using `builder.buildWithVssStore` &     
+  `builder.buildWithVssStoreAndFixedHeaders` methods.
+   - **Caution**: VSS support is in **alpha** and is considered experimental. Using VSS (or any remote persistence) may cause LDK to throw an exception 
+     if persistence failures are unrecoverable, i.e., if they remain unresolved after internal retries are exhausted.
+- Support for setting the `NodeAlias` in public node announcements using `builder.setNodeAlias` has been added.
+- Exposed `node.unifiedQrPayment` & `UnifiedQrPayment` handler for generating and paying unified QR codes.   
+- Support for `quantity` and `payerNote` fields when sending or receiving `BOLT12` payments have been added.
+- Support for setting `SendingParameters` when sending `BOLT11` payments has been added.
+#### API changed
+- `node.connectOpenChannel` was split into `openChannel` and `openAnnouncedChannel`.
+- The `setEsploraServer` method has been renamed to `setChainSourceEsplora`, and Esplora-specific configuration options can now be provided using 
+  `EsploraSyncConfig`.
+#### Fixed
+- The `ChannelConfig` object has been refactored, now allowing to query the currently applied `MaxDustHTLCExposure` limit.
+- The `Node` no longer throws an exception when hitting a persistence failure during event handling. Instead, events will be replayed until successful.
+- The `Node` is no longer prohibited from using available confirmed on-chain funds to spend/bump Anchor outputs.
 
 ## [0.3.0]
 Updated `flutter_rust_bridge` to `2.0.0`.
