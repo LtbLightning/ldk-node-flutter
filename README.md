@@ -60,31 +60,15 @@ import 'package:ldk_node/ldk_node.dart';
 // Path to a directory where the application may place data that is user-generated
 final path = "${directory.path}/alice's_node";
 
-// Your preferred `Esplora` url
-final esploraUrl = "https://mempool.space/testnet/api";
 
-// configuration options for the node
-final config   = Config(
-                        probingLiquidityLimitMultiplier: 3,
-                        trustedPeers0Conf: [],
-                        storageDirPath: path,
-                        network: Network.Testnet,
-                        listeningAddresses: [
-                         SocketAddress.hostname(addr: "0.0.0.0", port: 3003)
-                        ],
-                        onchainWalletSyncIntervalSecs: 60,
-                        walletSyncIntervalSecs: 20,
-                        feeRateCacheUpdateIntervalSecs: 600,
-                        logLevel: ldk.LogLevel.Debug,
-                        defaultCltvExpiryDelta: 144
-                     );
-Builder builder = Builder.fromConfig(config);
-    final node  = await builder
-                                .setEntropyBip39Mnemonic( 
-                                     mnemonic: ldk.Mnemonic(
-                                                   'certain sense kiss guide crumble hint transfer crime much stereo warm coral'))
-                                .setEsploraServer(esploraUrl)
-                                .build();
+// For a node on the testnet network with default config and service 
+// esploraUrl: "https://mempool.space/testnet/api";
+Builder builder = Builder.testnet()
+                         .setStorageDirPath(path) 
+                         .setEntropyBip39Mnemonic( 
+                                    mnemonic: Mnemonic(
+                                                   'certain sense kiss guide crumble hint transfer crime much stereo warm coral'));
+    final node  = await builder.build();
 
 // Starting the node
 await node.start();
