@@ -8,7 +8,11 @@ abstract class ExceptionBase implements Exception {
       (message != null) ? '$runtimeType( $message )' : runtimeType.toString();
 }
 
-/// Returned when trying to start [Node] while it is already running.
+/// Returned when trying to start [flutter_rust_bridge].
+class BridgeException extends ExceptionBase {
+  BridgeException({super.message});
+}
+
 class NodeException extends ExceptionBase {
   NodeException({super.message});
 }
