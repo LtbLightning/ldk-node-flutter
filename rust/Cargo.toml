@@ -12,7 +12,7 @@ anyhow = "1.0.68"
 [dependencies]
 flutter_rust_bridge = "=2.6.0"
 anyhow = { version = "1.0.71"}
-ldk-node = { version = "= 0.4.2"  }
+ldk-node = { version = "= 0.4.3"  }
 # ldk-node = {git = 'https://github.com/lightningdevkit/ldk-node.git', rev = "246775d04dbb2e99528a6a1aa0bc04ad7378e900"}
 
 

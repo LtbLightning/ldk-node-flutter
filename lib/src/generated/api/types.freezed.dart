@@ -81,6 +81,9 @@ class _$ChainDataSourceConfigCopyWithImpl<$Res,
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
+
+  /// Create a copy of ChainDataSourceConfig
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -103,6 +106,8 @@ class __$$ChainDataSourceConfig_EsploraImplCopyWithImpl<$Res>
       $Res Function(_$ChainDataSourceConfig_EsploraImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of ChainDataSourceConfig
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -154,7 +159,9 @@ class _$ChainDataSourceConfig_EsploraImpl
   @override
   int get hashCode => Object.hash(runtimeType, serverUrl, syncConfig);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of ChainDataSourceConfig
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$ChainDataSourceConfig_EsploraImplCopyWith<
@@ -242,7 +249,10 @@ abstract class ChainDataSourceConfig_Esplora extends ChainDataSourceConfig {
 
   String get serverUrl;
   EsploraSyncConfig? get syncConfig;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of ChainDataSourceConfig
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$ChainDataSourceConfig_EsploraImplCopyWith<
           _$ChainDataSourceConfig_EsploraImpl>
       get copyWith => throw _privateConstructorUsedError;
@@ -268,6 +278,8 @@ class __$$ChainDataSourceConfig_BitcoindRpcImplCopyWithImpl<$Res>
       $Res Function(_$ChainDataSourceConfig_BitcoindRpcImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of ChainDataSourceConfig
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -338,7 +350,9 @@ class _$ChainDataSourceConfig_BitcoindRpcImpl
   int get hashCode =>
       Object.hash(runtimeType, rpcHost, rpcPort, rpcUser, rpcPassword);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of ChainDataSourceConfig
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$ChainDataSourceConfig_BitcoindRpcImplCopyWith<
@@ -430,7 +444,10 @@ abstract class ChainDataSourceConfig_BitcoindRpc extends ChainDataSourceConfig {
   int get rpcPort;
   String get rpcUser;
   String get rpcPassword;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of ChainDataSourceConfig
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$ChainDataSourceConfig_BitcoindRpcImplCopyWith<
           _$ChainDataSourceConfig_BitcoindRpcImpl>
       get copyWith => throw _privateConstructorUsedError;
@@ -605,6 +622,9 @@ class _$ClosureReasonCopyWithImpl<$Res, $Val extends ClosureReason>
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
+
+  /// Create a copy of ClosureReason
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -627,6 +647,8 @@ class __$$ClosureReason_PeerFeerateTooLowImplCopyWithImpl<$Res>
       $Res Function(_$ClosureReason_PeerFeerateTooLowImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of ClosureReason
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -681,7 +703,9 @@ class _$ClosureReason_PeerFeerateTooLowImpl
   int get hashCode =>
       Object.hash(runtimeType, peerFeerateSatPerKw, requiredFeerateSatPerKw);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of ClosureReason
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$ClosureReason_PeerFeerateTooLowImplCopyWith<
@@ -873,7 +897,10 @@ abstract class ClosureReason_PeerFeerateTooLow extends ClosureReason {
 
   int get peerFeerateSatPerKw;
   int get requiredFeerateSatPerKw;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of ClosureReason
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$ClosureReason_PeerFeerateTooLowImplCopyWith<
           _$ClosureReason_PeerFeerateTooLowImpl>
       get copyWith => throw _privateConstructorUsedError;
@@ -899,6 +926,8 @@ class __$$ClosureReason_CounterpartyForceClosedImplCopyWithImpl<$Res>
       $Res Function(_$ClosureReason_CounterpartyForceClosedImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of ClosureReason
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -946,7 +975,9 @@ class _$ClosureReason_CounterpartyForceClosedImpl
   @override
   int get hashCode => Object.hash(runtimeType, peerMsg);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of ClosureReason
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$ClosureReason_CounterpartyForceClosedImplCopyWith<
@@ -1142,7 +1173,10 @@ abstract class ClosureReason_CounterpartyForceClosed extends ClosureReason {
   ///
   /// [`UntrustedString`]: crate::util::string::UntrustedString
   String get peerMsg;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of ClosureReason
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$ClosureReason_CounterpartyForceClosedImplCopyWith<
           _$ClosureReason_CounterpartyForceClosedImpl>
       get copyWith => throw _privateConstructorUsedError;
@@ -1168,6 +1202,8 @@ class __$$ClosureReason_HolderForceClosedImplCopyWithImpl<$Res>
       $Res Function(_$ClosureReason_HolderForceClosedImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of ClosureReason
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -1209,7 +1245,9 @@ class _$ClosureReason_HolderForceClosedImpl
   @override
   int get hashCode => Object.hash(runtimeType, broadcastedLatestTxn);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of ClosureReason
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$ClosureReason_HolderForceClosedImplCopyWith<
@@ -1398,7 +1436,10 @@ abstract class ClosureReason_HolderForceClosed extends ClosureReason {
   const ClosureReason_HolderForceClosed._() : super._();
 
   bool? get broadcastedLatestTxn;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of ClosureReason
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$ClosureReason_HolderForceClosedImplCopyWith<
           _$ClosureReason_HolderForceClosedImpl>
       get copyWith => throw _privateConstructorUsedError;
@@ -1421,6 +1462,9 @@ class __$$ClosureReason_LegacyCooperativeClosureImplCopyWithImpl<$Res>
       _$ClosureReason_LegacyCooperativeClosureImpl _value,
       $Res Function(_$ClosureReason_LegacyCooperativeClosureImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of ClosureReason
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -1649,6 +1693,9 @@ class __$$ClosureReason_CounterpartyInitiatedCooperativeClosureImplCopyWithImpl<
       $Res Function(_$ClosureReason_CounterpartyInitiatedCooperativeClosureImpl)
           _then)
       : super(_value, _then);
+
+  /// Create a copy of ClosureReason
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -1877,6 +1924,9 @@ class __$$ClosureReason_LocallyInitiatedCooperativeClosureImplCopyWithImpl<$Res>
       $Res Function(_$ClosureReason_LocallyInitiatedCooperativeClosureImpl)
           _then)
       : super(_value, _then);
+
+  /// Create a copy of ClosureReason
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -2098,6 +2148,9 @@ class __$$ClosureReason_CommitmentTxConfirmedImplCopyWithImpl<$Res>
       _$ClosureReason_CommitmentTxConfirmedImpl _value,
       $Res Function(_$ClosureReason_CommitmentTxConfirmedImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of ClosureReason
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -2318,6 +2371,9 @@ class __$$ClosureReason_FundingTimedOutImplCopyWithImpl<$Res>
       _$ClosureReason_FundingTimedOutImpl _value,
       $Res Function(_$ClosureReason_FundingTimedOutImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of ClosureReason
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -2541,6 +2597,8 @@ class __$$ClosureReason_ProcessingErrorImplCopyWithImpl<$Res>
       $Res Function(_$ClosureReason_ProcessingErrorImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of ClosureReason
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -2581,7 +2639,9 @@ class _$ClosureReason_ProcessingErrorImpl
   @override
   int get hashCode => Object.hash(runtimeType, err);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of ClosureReason
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$ClosureReason_ProcessingErrorImplCopyWith<
@@ -2770,7 +2830,10 @@ abstract class ClosureReason_ProcessingError extends ClosureReason {
 
   /// A developer-readable error message which we generated.
   String get err;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of ClosureReason
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$ClosureReason_ProcessingErrorImplCopyWith<
           _$ClosureReason_ProcessingErrorImpl>
       get copyWith => throw _privateConstructorUsedError;
@@ -2793,6 +2856,9 @@ class __$$ClosureReason_DisconnectedPeerImplCopyWithImpl<$Res>
       _$ClosureReason_DisconnectedPeerImpl _value,
       $Res Function(_$ClosureReason_DisconnectedPeerImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of ClosureReason
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -3013,6 +3079,9 @@ class __$$ClosureReason_OutdatedChannelManagerImplCopyWithImpl<$Res>
       _$ClosureReason_OutdatedChannelManagerImpl _value,
       $Res Function(_$ClosureReason_OutdatedChannelManagerImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of ClosureReason
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -3241,6 +3310,9 @@ class __$$ClosureReason_CounterpartyCoopClosedUnfundedChannelImplCopyWithImpl<
       $Res Function(_$ClosureReason_CounterpartyCoopClosedUnfundedChannelImpl)
           _then)
       : super(_value, _then);
+
+  /// Create a copy of ClosureReason
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -3462,6 +3534,9 @@ class __$$ClosureReason_FundingBatchClosureImplCopyWithImpl<$Res>
       _$ClosureReason_FundingBatchClosureImpl _value,
       $Res Function(_$ClosureReason_FundingBatchClosureImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of ClosureReason
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -3681,6 +3756,9 @@ class __$$ClosureReason_HTLCsTimedOutImplCopyWithImpl<$Res>
       _$ClosureReason_HTLCsTimedOutImpl _value,
       $Res Function(_$ClosureReason_HTLCsTimedOutImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of ClosureReason
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -3949,6 +4027,9 @@ class _$EntropySourceConfigCopyWithImpl<$Res, $Val extends EntropySourceConfig>
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
+
+  /// Create a copy of EntropySourceConfig
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -3971,6 +4052,8 @@ class __$$EntropySourceConfig_SeedFileImplCopyWithImpl<$Res>
       $Res Function(_$EntropySourceConfig_SeedFileImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of EntropySourceConfig
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -4009,7 +4092,9 @@ class _$EntropySourceConfig_SeedFileImpl extends EntropySourceConfig_SeedFile {
   @override
   int get hashCode => Object.hash(runtimeType, field0);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of EntropySourceConfig
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$EntropySourceConfig_SeedFileImplCopyWith<
@@ -4094,7 +4179,10 @@ abstract class EntropySourceConfig_SeedFile extends EntropySourceConfig {
   const EntropySourceConfig_SeedFile._() : super._();
 
   String get field0;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of EntropySourceConfig
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$EntropySourceConfig_SeedFileImplCopyWith<
           _$EntropySourceConfig_SeedFileImpl>
       get copyWith => throw _privateConstructorUsedError;
@@ -4120,6 +4208,8 @@ class __$$EntropySourceConfig_SeedBytesImplCopyWithImpl<$Res>
       $Res Function(_$EntropySourceConfig_SeedBytesImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of EntropySourceConfig
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -4160,7 +4250,9 @@ class _$EntropySourceConfig_SeedBytesImpl
   int get hashCode =>
       Object.hash(runtimeType, const DeepCollectionEquality().hash(field0));
 
-  @JsonKey(ignore: true)
+  /// Create a copy of EntropySourceConfig
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$EntropySourceConfig_SeedBytesImplCopyWith<
@@ -4245,7 +4337,10 @@ abstract class EntropySourceConfig_SeedBytes extends EntropySourceConfig {
   const EntropySourceConfig_SeedBytes._() : super._();
 
   U8Array64 get field0;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of EntropySourceConfig
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$EntropySourceConfig_SeedBytesImplCopyWith<
           _$EntropySourceConfig_SeedBytesImpl>
       get copyWith => throw _privateConstructorUsedError;
@@ -4271,6 +4366,8 @@ class __$$EntropySourceConfig_Bip39MnemonicImplCopyWithImpl<$Res>
       $Res Function(_$EntropySourceConfig_Bip39MnemonicImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of EntropySourceConfig
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -4322,7 +4419,9 @@ class _$EntropySourceConfig_Bip39MnemonicImpl
   @override
   int get hashCode => Object.hash(runtimeType, mnemonic, passphrase);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of EntropySourceConfig
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$EntropySourceConfig_Bip39MnemonicImplCopyWith<
@@ -4409,7 +4508,10 @@ abstract class EntropySourceConfig_Bip39Mnemonic extends EntropySourceConfig {
 
   FfiMnemonic get mnemonic;
   String? get passphrase;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of EntropySourceConfig
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$EntropySourceConfig_Bip39MnemonicImplCopyWith<
           _$EntropySourceConfig_Bip39MnemonicImpl>
       get copyWith => throw _privateConstructorUsedError;
@@ -4556,6 +4658,9 @@ class _$EventCopyWithImpl<$Res, $Val extends Event>
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
+
+  /// Create a copy of Event
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -4581,6 +4686,8 @@ class __$$Event_PaymentClaimableImplCopyWithImpl<$Res>
       $Res Function(_$Event_PaymentClaimableImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of Event
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -4661,7 +4768,9 @@ class _$Event_PaymentClaimableImpl extends Event_PaymentClaimable {
   int get hashCode => Object.hash(
       runtimeType, paymentId, paymentHash, claimableAmountMsat, claimDeadline);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of Event
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$Event_PaymentClaimableImplCopyWith<_$Event_PaymentClaimableImpl>
@@ -4838,7 +4947,10 @@ abstract class Event_PaymentClaimable extends Event {
   /// The block height at which this payment will be failed back and will no longer be
   /// eligible for claiming.
   int? get claimDeadline;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of Event
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$Event_PaymentClaimableImplCopyWith<_$Event_PaymentClaimableImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -4863,6 +4975,8 @@ class __$$Event_PaymentSuccessfulImplCopyWithImpl<$Res>
       $Res Function(_$Event_PaymentSuccessfulImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of Event
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -4930,7 +5044,9 @@ class _$Event_PaymentSuccessfulImpl extends Event_PaymentSuccessful {
   int get hashCode =>
       Object.hash(runtimeType, paymentId, paymentHash, feePaidMsat);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of Event
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$Event_PaymentSuccessfulImplCopyWith<_$Event_PaymentSuccessfulImpl>
@@ -5101,7 +5217,10 @@ abstract class Event_PaymentSuccessful extends Event {
 
   /// The total fee which was spent at intermediate hops in this payment.
   BigInt? get feePaidMsat;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of Event
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$Event_PaymentSuccessfulImplCopyWith<_$Event_PaymentSuccessfulImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -5126,6 +5245,8 @@ class __$$Event_PaymentFailedImplCopyWithImpl<$Res>
       $Res Function(_$Event_PaymentFailedImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of Event
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -5193,7 +5314,9 @@ class _$Event_PaymentFailedImpl extends Event_PaymentFailed {
   @override
   int get hashCode => Object.hash(runtimeType, paymentId, paymentHash, reason);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of Event
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$Event_PaymentFailedImplCopyWith<_$Event_PaymentFailedImpl> get copyWith =>
@@ -5366,7 +5489,10 @@ abstract class Event_PaymentFailed extends Event {
   ///
   /// This will be `None` for events serialized by LDK Node v0.2.1 and prior.
   PaymentFailureReason? get reason;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of Event
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$Event_PaymentFailedImplCopyWith<_$Event_PaymentFailedImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -5389,6 +5515,8 @@ class __$$Event_PaymentReceivedImplCopyWithImpl<$Res>
       $Res Function(_$Event_PaymentReceivedImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of Event
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -5456,7 +5584,9 @@ class _$Event_PaymentReceivedImpl extends Event_PaymentReceived {
   int get hashCode =>
       Object.hash(runtimeType, paymentId, paymentHash, amountMsat);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of Event
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$Event_PaymentReceivedImplCopyWith<_$Event_PaymentReceivedImpl>
@@ -5627,7 +5757,10 @@ abstract class Event_PaymentReceived extends Event {
 
   /// The value, in thousandths of a satoshi, that has been received.
   BigInt get amountMsat;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of Event
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$Event_PaymentReceivedImplCopyWith<_$Event_PaymentReceivedImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -5654,6 +5787,8 @@ class __$$Event_ChannelPendingImplCopyWithImpl<$Res>
       $Res Function(_$Event_ChannelPendingImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of Event
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -5746,7 +5881,9 @@ class _$Event_ChannelPendingImpl extends Event_ChannelPending {
   int get hashCode => Object.hash(runtimeType, channelId, userChannelId,
       formerTemporaryChannelId, counterpartyNodeId, fundingTxo);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of Event
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$Event_ChannelPendingImplCopyWith<_$Event_ChannelPendingImpl>
@@ -5927,7 +6064,10 @@ abstract class Event_ChannelPending extends Event {
 
   /// The outpoint of the channel's funding transaction.
   OutPoint get fundingTxo;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of Event
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$Event_ChannelPendingImplCopyWith<_$Event_ChannelPendingImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -5952,6 +6092,8 @@ class __$$Event_ChannelReadyImplCopyWithImpl<$Res>
       $Res Function(_$Event_ChannelReadyImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of Event
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -6021,7 +6163,9 @@ class _$Event_ChannelReadyImpl extends Event_ChannelReady {
   int get hashCode =>
       Object.hash(runtimeType, channelId, userChannelId, counterpartyNodeId);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of Event
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$Event_ChannelReadyImplCopyWith<_$Event_ChannelReadyImpl> get copyWith =>
@@ -6192,7 +6336,10 @@ abstract class Event_ChannelReady extends Event {
   ///
   /// This will be `None` for events serialized by LDK Node v0.1.0 and prior.
   PublicKey? get counterpartyNodeId;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of Event
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$Event_ChannelReadyImplCopyWith<_$Event_ChannelReadyImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -6220,6 +6367,8 @@ class __$$Event_ChannelClosedImplCopyWithImpl<$Res>
       $Res Function(_$Event_ChannelClosedImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of Event
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -6248,6 +6397,8 @@ class __$$Event_ChannelClosedImplCopyWithImpl<$Res>
     ));
   }
 
+  /// Create a copy of Event
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $ClosureReasonCopyWith<$Res>? get reason {
@@ -6312,7 +6463,9 @@ class _$Event_ChannelClosedImpl extends Event_ChannelClosed {
   int get hashCode => Object.hash(
       runtimeType, channelId, userChannelId, counterpartyNodeId, reason);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of Event
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$Event_ChannelClosedImplCopyWith<_$Event_ChannelClosedImpl> get copyWith =>
@@ -6489,7 +6642,10 @@ abstract class Event_ChannelClosed extends Event {
 
   /// This will be `None` for events serialized by LDK Node v0.2.1 and prior.
   ClosureReason? get reason;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of Event
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$Event_ChannelClosedImplCopyWith<_$Event_ChannelClosedImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -6554,6 +6710,9 @@ class _$GossipSourceConfigCopyWithImpl<$Res, $Val extends GossipSourceConfig>
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
+
+  /// Create a copy of GossipSourceConfig
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -6573,6 +6732,9 @@ class __$$GossipSourceConfig_P2PNetworkImplCopyWithImpl<$Res>
       _$GossipSourceConfig_P2PNetworkImpl _value,
       $Res Function(_$GossipSourceConfig_P2PNetworkImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of GossipSourceConfig
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -6687,6 +6849,8 @@ class __$$GossipSourceConfig_RapidGossipSyncImplCopyWithImpl<$Res>
       $Res Function(_$GossipSourceConfig_RapidGossipSyncImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of GossipSourceConfig
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -6726,7 +6890,9 @@ class _$GossipSourceConfig_RapidGossipSyncImpl
   @override
   int get hashCode => Object.hash(runtimeType, field0);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of GossipSourceConfig
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$GossipSourceConfig_RapidGossipSyncImplCopyWith<
@@ -6805,7 +6971,10 @@ abstract class GossipSourceConfig_RapidGossipSync extends GossipSourceConfig {
   const GossipSourceConfig_RapidGossipSync._() : super._();
 
   String get field0;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of GossipSourceConfig
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$GossipSourceConfig_RapidGossipSyncImplCopyWith<
           _$GossipSourceConfig_RapidGossipSyncImpl>
       get copyWith => throw _privateConstructorUsedError;
@@ -7001,7 +7170,9 @@ mixin _$LightningBalance {
   }) =>
       throw _privateConstructorUsedError;
 
-  @JsonKey(ignore: true)
+  /// Create a copy of LightningBalance
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $LightningBalanceCopyWith<LightningBalance> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -7028,6 +7199,8 @@ class _$LightningBalanceCopyWithImpl<$Res, $Val extends LightningBalance>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of LightningBalance
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -7082,6 +7255,8 @@ class __$$LightningBalance_ClaimableOnChannelCloseImplCopyWithImpl<$Res>
       $Res Function(_$LightningBalance_ClaimableOnChannelCloseImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of LightningBalance
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -7249,7 +7424,9 @@ class _$LightningBalance_ClaimableOnChannelCloseImpl
       inboundClaimingHtlcRoundedMsat,
       inboundHtlcRoundedMsat);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of LightningBalance
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$LightningBalance_ClaimableOnChannelCloseImplCopyWith<
@@ -7499,18 +7676,17 @@ abstract class LightningBalance_ClaimableOnChannelClose
       _$LightningBalance_ClaimableOnChannelCloseImpl;
   const LightningBalance_ClaimableOnChannelClose._() : super._();
 
-  @override
-
   /// The identifier of the channel this balance belongs to.
-  ChannelId get channelId;
   @override
+  ChannelId get channelId;
 
   /// The identifier of our channel counterparty.
-  PublicKey get counterpartyNodeId;
   @override
+  PublicKey get counterpartyNodeId;
 
   /// The amount available to claim, in satoshis, excluding the on-chain fees which will be
   /// required to do so.
+  @override
   BigInt get amountSatoshis;
 
   /// The transaction fee we pay for the closing commitment transaction. This amount is not
@@ -7551,8 +7727,11 @@ abstract class LightningBalance_ClaimableOnChannelClose
   /// This amount (rounded up to a whole satoshi value) will not be included in the
   /// counterparty's `amountSatoshis`.
   BigInt get inboundHtlcRoundedMsat;
+
+  /// Create a copy of LightningBalance
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$LightningBalance_ClaimableOnChannelCloseImplCopyWith<
           _$LightningBalance_ClaimableOnChannelCloseImpl>
       get copyWith => throw _privateConstructorUsedError;
@@ -7588,6 +7767,8 @@ class __$$LightningBalance_ClaimableAwaitingConfirmationsImplCopyWithImpl<$Res>
           _then)
       : super(_value, _then);
 
+  /// Create a copy of LightningBalance
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -7682,7 +7863,9 @@ class _$LightningBalance_ClaimableAwaitingConfirmationsImpl
   int get hashCode => Object.hash(runtimeType, channelId, counterpartyNodeId,
       amountSatoshis, confirmationHeight, source);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of LightningBalance
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$LightningBalance_ClaimableAwaitingConfirmationsImplCopyWith<
@@ -7909,18 +8092,17 @@ abstract class LightningBalance_ClaimableAwaitingConfirmations
       _$LightningBalance_ClaimableAwaitingConfirmationsImpl;
   const LightningBalance_ClaimableAwaitingConfirmations._() : super._();
 
-  @override
-
   /// The identifier of the channel this balance belongs to.
-  ChannelId get channelId;
   @override
+  ChannelId get channelId;
 
   /// The identifier of our channel counterparty.
-  PublicKey get counterpartyNodeId;
   @override
+  PublicKey get counterpartyNodeId;
 
   /// The amount available to claim, in satoshis, possibly excluding the on-chain fees which
   /// were spent in broadcasting the transaction.
+  @override
   BigInt get amountSatoshis;
 
   /// The height at which an `event.SpendableOutputs` event will be generated for this
@@ -7930,8 +8112,11 @@ abstract class LightningBalance_ClaimableAwaitingConfirmations
 
   /// Whether this balance is a result of cooperative close, a force-close, or an HTLC.
   BalanceSource get source;
+
+  /// Create a copy of LightningBalance
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$LightningBalance_ClaimableAwaitingConfirmationsImplCopyWith<
           _$LightningBalance_ClaimableAwaitingConfirmationsImpl>
       get copyWith => throw _privateConstructorUsedError;
@@ -7965,6 +8150,8 @@ class __$$LightningBalance_ContentiousClaimableImplCopyWithImpl<$Res>
       $Res Function(_$LightningBalance_ContentiousClaimableImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of LightningBalance
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -8071,7 +8258,9 @@ class _$LightningBalance_ContentiousClaimableImpl
   int get hashCode => Object.hash(runtimeType, channelId, counterpartyNodeId,
       amountSatoshis, timeoutHeight, paymentHash, paymentPreimage);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of LightningBalance
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$LightningBalance_ContentiousClaimableImplCopyWith<
@@ -8296,18 +8485,17 @@ abstract class LightningBalance_ContentiousClaimable extends LightningBalance {
       _$LightningBalance_ContentiousClaimableImpl;
   const LightningBalance_ContentiousClaimable._() : super._();
 
-  @override
-
   /// The identifier of the channel this balance belongs to.
-  ChannelId get channelId;
   @override
+  ChannelId get channelId;
 
   /// The identifier of our channel counterparty.
-  PublicKey get counterpartyNodeId;
   @override
+  PublicKey get counterpartyNodeId;
 
   /// The amount available to claim, in satoshis, excluding the on-chain fees which will be
   /// required to do so.
+  @override
   BigInt get amountSatoshis;
 
   /// The height at which the counterparty may be able to claim the balance if we have not
@@ -8319,8 +8507,11 @@ abstract class LightningBalance_ContentiousClaimable extends LightningBalance {
 
   /// The preimage that can be used to claim this HTLC.
   PaymentPreimage get paymentPreimage;
+
+  /// Create a copy of LightningBalance
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$LightningBalance_ContentiousClaimableImplCopyWith<
           _$LightningBalance_ContentiousClaimableImpl>
       get copyWith => throw _privateConstructorUsedError;
@@ -8355,6 +8546,8 @@ class __$$LightningBalance_MaybeTimeoutClaimableHTLCImplCopyWithImpl<$Res>
       $Res Function(_$LightningBalance_MaybeTimeoutClaimableHTLCImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of LightningBalance
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -8461,7 +8654,9 @@ class _$LightningBalance_MaybeTimeoutClaimableHTLCImpl
   int get hashCode => Object.hash(runtimeType, channelId, counterpartyNodeId,
       amountSatoshis, claimableHeight, paymentHash, outboundPayment);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of LightningBalance
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$LightningBalance_MaybeTimeoutClaimableHTLCImplCopyWith<
@@ -8689,18 +8884,17 @@ abstract class LightningBalance_MaybeTimeoutClaimableHTLC
       _$LightningBalance_MaybeTimeoutClaimableHTLCImpl;
   const LightningBalance_MaybeTimeoutClaimableHTLC._() : super._();
 
-  @override
-
   /// The identifier of the channel this balance belongs to.
-  ChannelId get channelId;
   @override
+  ChannelId get channelId;
 
   /// The identifier of our channel counterparty.
-  PublicKey get counterpartyNodeId;
   @override
+  PublicKey get counterpartyNodeId;
 
   /// The amount potentially available to claim, in satoshis, excluding the on-chain fees
   /// which will be required to do so.
+  @override
   BigInt get amountSatoshis;
 
   /// The height at which we will be able to claim the balance if our counterparty has not
@@ -8712,8 +8906,11 @@ abstract class LightningBalance_MaybeTimeoutClaimableHTLC
 
   ///
   bool get outboundPayment;
+
+  /// Create a copy of LightningBalance
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$LightningBalance_MaybeTimeoutClaimableHTLCImplCopyWith<
           _$LightningBalance_MaybeTimeoutClaimableHTLCImpl>
       get copyWith => throw _privateConstructorUsedError;
@@ -8748,6 +8945,8 @@ class __$$LightningBalance_MaybePreimageClaimableHTLCImplCopyWithImpl<$Res>
       $Res Function(_$LightningBalance_MaybePreimageClaimableHTLCImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of LightningBalance
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -8842,7 +9041,9 @@ class _$LightningBalance_MaybePreimageClaimableHTLCImpl
   int get hashCode => Object.hash(runtimeType, channelId, counterpartyNodeId,
       amountSatoshis, expiryHeight, paymentHash);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of LightningBalance
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$LightningBalance_MaybePreimageClaimableHTLCImplCopyWith<
@@ -9069,18 +9270,17 @@ abstract class LightningBalance_MaybePreimageClaimableHTLC
       _$LightningBalance_MaybePreimageClaimableHTLCImpl;
   const LightningBalance_MaybePreimageClaimableHTLC._() : super._();
 
-  @override
-
   /// The identifier of the channel this balance belongs to.
-  ChannelId get channelId;
   @override
+  ChannelId get channelId;
 
   /// The identifier of our channel counterparty.
-  PublicKey get counterpartyNodeId;
   @override
+  PublicKey get counterpartyNodeId;
 
   /// The amount potentially available to claim, in satoshis, excluding the on-chain fees
   /// which will be required to do so.
+  @override
   BigInt get amountSatoshis;
 
   /// The height at which our counterparty will be able to claim the balance if we have not
@@ -9089,8 +9289,11 @@ abstract class LightningBalance_MaybePreimageClaimableHTLC
 
   /// The payment hash whose preimage we need to claim this HTLC.
   PaymentHash get paymentHash;
+
+  /// Create a copy of LightningBalance
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$LightningBalance_MaybePreimageClaimableHTLCImplCopyWith<
           _$LightningBalance_MaybePreimageClaimableHTLCImpl>
       get copyWith => throw _privateConstructorUsedError;
@@ -9128,6 +9331,8 @@ class __$$LightningBalance_CounterpartyRevokedOutputClaimableImplCopyWithImpl<
           _then)
       : super(_value, _then);
 
+  /// Create a copy of LightningBalance
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -9197,7 +9402,9 @@ class _$LightningBalance_CounterpartyRevokedOutputClaimableImpl
   int get hashCode =>
       Object.hash(runtimeType, channelId, counterpartyNodeId, amountSatoshis);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of LightningBalance
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$LightningBalance_CounterpartyRevokedOutputClaimableImplCopyWith<
@@ -9422,20 +9629,22 @@ abstract class LightningBalance_CounterpartyRevokedOutputClaimable
       _$LightningBalance_CounterpartyRevokedOutputClaimableImpl;
   const LightningBalance_CounterpartyRevokedOutputClaimable._() : super._();
 
-  @override
-
   /// The identifier of the channel this balance belongs to.
-  ChannelId get channelId;
   @override
+  ChannelId get channelId;
 
   /// The identifier of our channel counterparty.
-  PublicKey get counterpartyNodeId;
   @override
+  PublicKey get counterpartyNodeId;
 
   /// The amount, in satoshis, of the output which we can claim.
-  BigInt get amountSatoshis;
   @override
-  @JsonKey(ignore: true)
+  BigInt get amountSatoshis;
+
+  /// Create a copy of LightningBalance
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$LightningBalance_CounterpartyRevokedOutputClaimableImplCopyWith<
           _$LightningBalance_CounterpartyRevokedOutputClaimableImpl>
       get copyWith => throw _privateConstructorUsedError;
@@ -9487,7 +9696,9 @@ mixin _$MaxDustHTLCExposure {
   }) =>
       throw _privateConstructorUsedError;
 
-  @JsonKey(ignore: true)
+  /// Create a copy of MaxDustHTLCExposure
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $MaxDustHTLCExposureCopyWith<MaxDustHTLCExposure> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -9511,6 +9722,8 @@ class _$MaxDustHTLCExposureCopyWithImpl<$Res, $Val extends MaxDustHTLCExposure>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of MaxDustHTLCExposure
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -9547,6 +9760,8 @@ class __$$MaxDustHTLCExposure_FixedLimitMsatImplCopyWithImpl<$Res>
       $Res Function(_$MaxDustHTLCExposure_FixedLimitMsatImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of MaxDustHTLCExposure
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -9586,7 +9801,9 @@ class _$MaxDustHTLCExposure_FixedLimitMsatImpl
   @override
   int get hashCode => Object.hash(runtimeType, field0);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of MaxDustHTLCExposure
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$MaxDustHTLCExposure_FixedLimitMsatImplCopyWith<
@@ -9668,8 +9885,11 @@ abstract class MaxDustHTLCExposure_FixedLimitMsat extends MaxDustHTLCExposure {
 
   @override
   BigInt get field0;
+
+  /// Create a copy of MaxDustHTLCExposure
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$MaxDustHTLCExposure_FixedLimitMsatImplCopyWith<
           _$MaxDustHTLCExposure_FixedLimitMsatImpl>
       get copyWith => throw _privateConstructorUsedError;
@@ -9697,6 +9917,8 @@ class __$$MaxDustHTLCExposure_FeeRateMultiplierImplCopyWithImpl<$Res>
       $Res Function(_$MaxDustHTLCExposure_FeeRateMultiplierImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of MaxDustHTLCExposure
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -9736,7 +9958,9 @@ class _$MaxDustHTLCExposure_FeeRateMultiplierImpl
   @override
   int get hashCode => Object.hash(runtimeType, field0);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of MaxDustHTLCExposure
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$MaxDustHTLCExposure_FeeRateMultiplierImplCopyWith<
@@ -9819,8 +10043,11 @@ abstract class MaxDustHTLCExposure_FeeRateMultiplier
 
   @override
   BigInt get field0;
+
+  /// Create a copy of MaxDustHTLCExposure
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$MaxDustHTLCExposure_FeeRateMultiplierImplCopyWith<
           _$MaxDustHTLCExposure_FeeRateMultiplierImpl>
       get copyWith => throw _privateConstructorUsedError;
@@ -9885,6 +10112,9 @@ class _$MaxTotalRoutingFeeLimitCopyWithImpl<$Res,
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
+
+  /// Create a copy of MaxTotalRoutingFeeLimit
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -9904,6 +10134,9 @@ class __$$MaxTotalRoutingFeeLimit_NoFeeCapImplCopyWithImpl<$Res>
       _$MaxTotalRoutingFeeLimit_NoFeeCapImpl _value,
       $Res Function(_$MaxTotalRoutingFeeLimit_NoFeeCapImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of MaxTotalRoutingFeeLimit
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -10017,6 +10250,8 @@ class __$$MaxTotalRoutingFeeLimit_FeeCapImplCopyWithImpl<$Res>
       $Res Function(_$MaxTotalRoutingFeeLimit_FeeCapImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of MaxTotalRoutingFeeLimit
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -10058,7 +10293,9 @@ class _$MaxTotalRoutingFeeLimit_FeeCapImpl
   @override
   int get hashCode => Object.hash(runtimeType, amountMsat);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of MaxTotalRoutingFeeLimit
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$MaxTotalRoutingFeeLimit_FeeCapImplCopyWith<
@@ -10136,7 +10373,10 @@ abstract class MaxTotalRoutingFeeLimit_FeeCap extends MaxTotalRoutingFeeLimit {
   const MaxTotalRoutingFeeLimit_FeeCap._() : super._();
 
   BigInt get amountMsat;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of MaxTotalRoutingFeeLimit
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$MaxTotalRoutingFeeLimit_FeeCapImplCopyWith<
           _$MaxTotalRoutingFeeLimit_FeeCapImpl>
       get copyWith => throw _privateConstructorUsedError;
@@ -10264,6 +10504,9 @@ class _$PaymentKindCopyWithImpl<$Res, $Val extends PaymentKind>
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
+
+  /// Create a copy of PaymentKind
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -10280,6 +10523,9 @@ class __$$PaymentKind_OnchainImplCopyWithImpl<$Res>
   __$$PaymentKind_OnchainImplCopyWithImpl(_$PaymentKind_OnchainImpl _value,
       $Res Function(_$PaymentKind_OnchainImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of PaymentKind
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -10452,6 +10698,8 @@ class __$$PaymentKind_Bolt11ImplCopyWithImpl<$Res>
       $Res Function(_$PaymentKind_Bolt11Impl) _then)
       : super(_value, _then);
 
+  /// Create a copy of PaymentKind
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -10514,7 +10762,9 @@ class _$PaymentKind_Bolt11Impl extends PaymentKind_Bolt11 {
   @override
   int get hashCode => Object.hash(runtimeType, hash, preimage, secret);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of PaymentKind
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$PaymentKind_Bolt11ImplCopyWith<_$PaymentKind_Bolt11Impl> get copyWith =>
@@ -10663,7 +10913,10 @@ abstract class PaymentKind_Bolt11 extends PaymentKind {
 
   /// The secret used by the payment.
   PaymentSecret? get secret;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of PaymentKind
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$PaymentKind_Bolt11ImplCopyWith<_$PaymentKind_Bolt11Impl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -10690,6 +10943,8 @@ class __$$PaymentKind_Bolt11JitImplCopyWithImpl<$Res>
       $Res Function(_$PaymentKind_Bolt11JitImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of PaymentKind
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -10771,7 +11026,9 @@ class _$PaymentKind_Bolt11JitImpl extends PaymentKind_Bolt11Jit {
   int get hashCode =>
       Object.hash(runtimeType, hash, preimage, secret, lspFeeLimits);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of PaymentKind
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$PaymentKind_Bolt11JitImplCopyWith<_$PaymentKind_Bolt11JitImpl>
@@ -10928,7 +11185,10 @@ abstract class PaymentKind_Bolt11Jit extends PaymentKind {
   /// channel opening fees.
   ///
   LSPFeeLimits get lspFeeLimits;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of PaymentKind
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$PaymentKind_Bolt11JitImplCopyWith<_$PaymentKind_Bolt11JitImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -10952,6 +11212,8 @@ class __$$PaymentKind_SpontaneousImplCopyWithImpl<$Res>
       $Res Function(_$PaymentKind_SpontaneousImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of PaymentKind
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -11003,7 +11265,9 @@ class _$PaymentKind_SpontaneousImpl extends PaymentKind_Spontaneous {
   @override
   int get hashCode => Object.hash(runtimeType, hash, preimage);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of PaymentKind
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$PaymentKind_SpontaneousImplCopyWith<_$PaymentKind_SpontaneousImpl>
@@ -11148,7 +11412,10 @@ abstract class PaymentKind_Spontaneous extends PaymentKind {
 
   /// The pre-image used by the payment.
   PaymentPreimage? get preimage;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of PaymentKind
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$PaymentKind_SpontaneousImplCopyWith<_$PaymentKind_SpontaneousImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -11178,6 +11445,8 @@ class __$$PaymentKind_Bolt12OfferImplCopyWithImpl<$Res>
       $Res Function(_$PaymentKind_Bolt12OfferImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of PaymentKind
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -11284,7 +11553,9 @@ class _$PaymentKind_Bolt12OfferImpl extends PaymentKind_Bolt12Offer {
   int get hashCode => Object.hash(
       runtimeType, hash, preimage, secret, offerId, payerNote, quantity);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of PaymentKind
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$PaymentKind_Bolt12OfferImplCopyWith<_$PaymentKind_Bolt12OfferImpl>
@@ -11452,7 +11723,10 @@ abstract class PaymentKind_Bolt12Offer extends PaymentKind {
   ///
   /// This will always be `None` for payments serialized with version `v0.3.0`.
   BigInt? get quantity;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of PaymentKind
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$PaymentKind_Bolt12OfferImplCopyWith<_$PaymentKind_Bolt12OfferImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -11481,6 +11755,8 @@ class __$$PaymentKind_Bolt12RefundImplCopyWithImpl<$Res>
       $Res Function(_$PaymentKind_Bolt12RefundImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of PaymentKind
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -11569,7 +11845,9 @@ class _$PaymentKind_Bolt12RefundImpl extends PaymentKind_Bolt12Refund {
   int get hashCode =>
       Object.hash(runtimeType, hash, preimage, secret, payerNote, quantity);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of PaymentKind
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$PaymentKind_Bolt12RefundImplCopyWith<_$PaymentKind_Bolt12RefundImpl>
@@ -11729,7 +12007,10 @@ abstract class PaymentKind_Bolt12Refund extends PaymentKind {
   ///
   /// This will always be `None` for payments serialized with version `v0.3.0`.
   BigInt? get quantity;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of PaymentKind
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$PaymentKind_Bolt12RefundImplCopyWith<_$PaymentKind_Bolt12RefundImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -11824,7 +12105,9 @@ mixin _$PendingSweepBalance {
   }) =>
       throw _privateConstructorUsedError;
 
-  @JsonKey(ignore: true)
+  /// Create a copy of PendingSweepBalance
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $PendingSweepBalanceCopyWith<PendingSweepBalance> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -11848,6 +12131,8 @@ class _$PendingSweepBalanceCopyWithImpl<$Res, $Val extends PendingSweepBalance>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of PendingSweepBalance
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -11889,6 +12174,8 @@ class __$$PendingSweepBalance_PendingBroadcastImplCopyWithImpl<$Res>
       $Res Function(_$PendingSweepBalance_PendingBroadcastImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of PendingSweepBalance
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -11943,7 +12230,9 @@ class _$PendingSweepBalance_PendingBroadcastImpl
   @override
   int get hashCode => Object.hash(runtimeType, channelId, amountSatoshis);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of PendingSweepBalance
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$PendingSweepBalance_PendingBroadcastImplCopyWith<
@@ -12065,16 +12354,18 @@ abstract class PendingSweepBalance_PendingBroadcast
       _$PendingSweepBalance_PendingBroadcastImpl;
   const PendingSweepBalance_PendingBroadcast._() : super._();
 
-  @override
-
   /// The identifier of the channel this balance belongs to.
-  ChannelId? get channelId;
   @override
+  ChannelId? get channelId;
 
   /// The amount, in satoshis, of the output being swept.
-  BigInt get amountSatoshis;
   @override
-  @JsonKey(ignore: true)
+  BigInt get amountSatoshis;
+
+  /// Create a copy of PendingSweepBalance
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$PendingSweepBalance_PendingBroadcastImplCopyWith<
           _$PendingSweepBalance_PendingBroadcastImpl>
       get copyWith => throw _privateConstructorUsedError;
@@ -12111,6 +12402,8 @@ class __$$PendingSweepBalance_BroadcastAwaitingConfirmationImplCopyWithImpl<
           _then)
       : super(_value, _then);
 
+  /// Create a copy of PendingSweepBalance
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -12191,7 +12484,9 @@ class _$PendingSweepBalance_BroadcastAwaitingConfirmationImpl
   int get hashCode => Object.hash(runtimeType, channelId, latestBroadcastHeight,
       latestSpendingTxid, amountSatoshis);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of PendingSweepBalance
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$PendingSweepBalance_BroadcastAwaitingConfirmationImplCopyWith<
@@ -12321,9 +12616,8 @@ abstract class PendingSweepBalance_BroadcastAwaitingConfirmation
       _$PendingSweepBalance_BroadcastAwaitingConfirmationImpl;
   const PendingSweepBalance_BroadcastAwaitingConfirmation._() : super._();
 
-  @override
-
   /// The identifier of the channel this balance belongs to.
+  @override
   ChannelId? get channelId;
 
   /// The best height when we last broadcast a transaction spending the output being swept.
@@ -12331,12 +12625,15 @@ abstract class PendingSweepBalance_BroadcastAwaitingConfirmation
 
   /// The identifier of the transaction spending the swept output we last broadcast.
   Txid get latestSpendingTxid;
-  @override
 
   /// The amount, in satoshis, of the output being swept.
-  BigInt get amountSatoshis;
   @override
-  @JsonKey(ignore: true)
+  BigInt get amountSatoshis;
+
+  /// Create a copy of PendingSweepBalance
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$PendingSweepBalance_BroadcastAwaitingConfirmationImplCopyWith<
           _$PendingSweepBalance_BroadcastAwaitingConfirmationImpl>
       get copyWith => throw _privateConstructorUsedError;
@@ -12376,6 +12673,8 @@ class __$$PendingSweepBalance_AwaitingThresholdConfirmationsImplCopyWithImpl<
           _then)
       : super(_value, _then);
 
+  /// Create a copy of PendingSweepBalance
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -12468,7 +12767,9 @@ class _$PendingSweepBalance_AwaitingThresholdConfirmationsImpl
   int get hashCode => Object.hash(runtimeType, channelId, latestSpendingTxid,
       confirmationHash, confirmationHeight, amountSatoshis);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of PendingSweepBalance
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$PendingSweepBalance_AwaitingThresholdConfirmationsImplCopyWith<
@@ -12599,9 +12900,8 @@ abstract class PendingSweepBalance_AwaitingThresholdConfirmations
       _$PendingSweepBalance_AwaitingThresholdConfirmationsImpl;
   const PendingSweepBalance_AwaitingThresholdConfirmations._() : super._();
 
-  @override
-
   /// The identifier of the channel this balance belongs to.
+  @override
   ChannelId? get channelId;
 
   /// The identifier of the confirmed transaction spending the swept output.
@@ -12612,12 +12912,15 @@ abstract class PendingSweepBalance_AwaitingThresholdConfirmations
 
   /// The height at which the spending transaction was confirmed.
   int get confirmationHeight;
-  @override
 
   /// The amount, in satoshis, of the output being swept.
-  BigInt get amountSatoshis;
   @override
-  @JsonKey(ignore: true)
+  BigInt get amountSatoshis;
+
+  /// Create a copy of PendingSweepBalance
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$PendingSweepBalance_AwaitingThresholdConfirmationsImplCopyWith<
           _$PendingSweepBalance_AwaitingThresholdConfirmationsImpl>
       get copyWith => throw _privateConstructorUsedError;
@@ -12705,6 +13008,9 @@ class _$SocketAddressCopyWithImpl<$Res, $Val extends SocketAddress>
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
+
+  /// Create a copy of SocketAddress
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -12725,6 +13031,8 @@ class __$$SocketAddress_TcpIpV4ImplCopyWithImpl<$Res>
       $Res Function(_$SocketAddress_TcpIpV4Impl) _then)
       : super(_value, _then);
 
+  /// Create a copy of SocketAddress
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -12773,7 +13081,9 @@ class _$SocketAddress_TcpIpV4Impl extends SocketAddress_TcpIpV4 {
   int get hashCode =>
       Object.hash(runtimeType, const DeepCollectionEquality().hash(addr), port);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of SocketAddress
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$SocketAddress_TcpIpV4ImplCopyWith<_$SocketAddress_TcpIpV4Impl>
@@ -12875,7 +13185,10 @@ abstract class SocketAddress_TcpIpV4 extends SocketAddress {
 
   U8Array4 get addr;
   int get port;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of SocketAddress
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$SocketAddress_TcpIpV4ImplCopyWith<_$SocketAddress_TcpIpV4Impl>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -12898,6 +13211,8 @@ class __$$SocketAddress_TcpIpV6ImplCopyWithImpl<$Res>
       $Res Function(_$SocketAddress_TcpIpV6Impl) _then)
       : super(_value, _then);
 
+  /// Create a copy of SocketAddress
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -12946,7 +13261,9 @@ class _$SocketAddress_TcpIpV6Impl extends SocketAddress_TcpIpV6 {
   int get hashCode =>
       Object.hash(runtimeType, const DeepCollectionEquality().hash(addr), port);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of SocketAddress
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$SocketAddress_TcpIpV6ImplCopyWith<_$SocketAddress_TcpIpV6Impl>
@@ -13048,7 +13365,10 @@ abstract class SocketAddress_TcpIpV6 extends SocketAddress {
 
   U8Array16 get addr;
   int get port;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of SocketAddress
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$SocketAddress_TcpIpV6ImplCopyWith<_$SocketAddress_TcpIpV6Impl>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -13071,6 +13391,8 @@ class __$$SocketAddress_OnionV2ImplCopyWithImpl<$Res>
       $Res Function(_$SocketAddress_OnionV2Impl) _then)
       : super(_value, _then);
 
+  /// Create a copy of SocketAddress
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -13110,7 +13432,9 @@ class _$SocketAddress_OnionV2Impl extends SocketAddress_OnionV2 {
   int get hashCode =>
       Object.hash(runtimeType, const DeepCollectionEquality().hash(field0));
 
-  @JsonKey(ignore: true)
+  /// Create a copy of SocketAddress
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$SocketAddress_OnionV2ImplCopyWith<_$SocketAddress_OnionV2Impl>
@@ -13210,7 +13534,10 @@ abstract class SocketAddress_OnionV2 extends SocketAddress {
   const SocketAddress_OnionV2._() : super._();
 
   U8Array12 get field0;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of SocketAddress
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$SocketAddress_OnionV2ImplCopyWith<_$SocketAddress_OnionV2Impl>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -13233,6 +13560,8 @@ class __$$SocketAddress_OnionV3ImplCopyWithImpl<$Res>
       $Res Function(_$SocketAddress_OnionV3Impl) _then)
       : super(_value, _then);
 
+  /// Create a copy of SocketAddress
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -13307,7 +13636,9 @@ class _$SocketAddress_OnionV3Impl extends SocketAddress_OnionV3 {
       version,
       port);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of SocketAddress
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$SocketAddress_OnionV3ImplCopyWith<_$SocketAddress_OnionV3Impl>
@@ -13413,7 +13744,10 @@ abstract class SocketAddress_OnionV3 extends SocketAddress {
   int get checksum;
   int get version;
   int get port;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of SocketAddress
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$SocketAddress_OnionV3ImplCopyWith<_$SocketAddress_OnionV3Impl>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -13437,6 +13771,8 @@ class __$$SocketAddress_HostnameImplCopyWithImpl<$Res>
       $Res Function(_$SocketAddress_HostnameImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of SocketAddress
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -13484,7 +13820,9 @@ class _$SocketAddress_HostnameImpl extends SocketAddress_Hostname {
   @override
   int get hashCode => Object.hash(runtimeType, addr, port);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of SocketAddress
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$SocketAddress_HostnameImplCopyWith<_$SocketAddress_HostnameImpl>
@@ -13586,7 +13924,10 @@ abstract class SocketAddress_Hostname extends SocketAddress {
 
   String get addr;
   int get port;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of SocketAddress
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$SocketAddress_HostnameImplCopyWith<_$SocketAddress_HostnameImpl>
       get copyWith => throw _privateConstructorUsedError;
 }

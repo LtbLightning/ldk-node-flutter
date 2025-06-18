@@ -78,6 +78,9 @@ class _$QrPaymentResultCopyWithImpl<$Res, $Val extends QrPaymentResult>
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
+
+  /// Create a copy of QrPaymentResult
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -99,6 +102,8 @@ class __$$QrPaymentResult_OnchainImplCopyWithImpl<$Res>
       $Res Function(_$QrPaymentResult_OnchainImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of QrPaymentResult
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -138,7 +143,9 @@ class _$QrPaymentResult_OnchainImpl extends QrPaymentResult_Onchain {
   @override
   int get hashCode => Object.hash(runtimeType, txid);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of QrPaymentResult
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$QrPaymentResult_OnchainImplCopyWith<_$QrPaymentResult_OnchainImpl>
@@ -221,7 +228,10 @@ abstract class QrPaymentResult_Onchain extends QrPaymentResult {
 
   /// The transaction ID (txid) of the on-chain payment.
   Txid get txid;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of QrPaymentResult
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$QrPaymentResult_OnchainImplCopyWith<_$QrPaymentResult_OnchainImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -245,6 +255,8 @@ class __$$QrPaymentResult_Bolt11ImplCopyWithImpl<$Res>
       $Res Function(_$QrPaymentResult_Bolt11Impl) _then)
       : super(_value, _then);
 
+  /// Create a copy of QrPaymentResult
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -285,7 +297,9 @@ class _$QrPaymentResult_Bolt11Impl extends QrPaymentResult_Bolt11 {
   @override
   int get hashCode => Object.hash(runtimeType, paymentId);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of QrPaymentResult
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$QrPaymentResult_Bolt11ImplCopyWith<_$QrPaymentResult_Bolt11Impl>
@@ -368,7 +382,10 @@ abstract class QrPaymentResult_Bolt11 extends QrPaymentResult {
 
   /// The payment ID for the BOLT11 invoice.
   PaymentId get paymentId;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of QrPaymentResult
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$QrPaymentResult_Bolt11ImplCopyWith<_$QrPaymentResult_Bolt11Impl>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -392,6 +409,8 @@ class __$$QrPaymentResult_Bolt12ImplCopyWithImpl<$Res>
       $Res Function(_$QrPaymentResult_Bolt12Impl) _then)
       : super(_value, _then);
 
+  /// Create a copy of QrPaymentResult
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -432,7 +451,9 @@ class _$QrPaymentResult_Bolt12Impl extends QrPaymentResult_Bolt12 {
   @override
   int get hashCode => Object.hash(runtimeType, paymentId);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of QrPaymentResult
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$QrPaymentResult_Bolt12ImplCopyWith<_$QrPaymentResult_Bolt12Impl>
@@ -515,7 +536,10 @@ abstract class QrPaymentResult_Bolt12 extends QrPaymentResult {
 
   /// The payment ID for the BOLT12 offer.
   PaymentId get paymentId;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of QrPaymentResult
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$QrPaymentResult_Bolt12ImplCopyWith<_$QrPaymentResult_Bolt12Impl>
       get copyWith => throw _privateConstructorUsedError;
 }

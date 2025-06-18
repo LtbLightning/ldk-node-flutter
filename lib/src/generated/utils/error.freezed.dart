@@ -105,6 +105,9 @@ class _$Bolt12ParseErrorCopyWithImpl<$Res, $Val extends Bolt12ParseError>
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
+
+  /// Create a copy of Bolt12ParseError
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -124,6 +127,9 @@ class __$$Bolt12ParseError_InvalidContinuationImplCopyWithImpl<$Res>
       _$Bolt12ParseError_InvalidContinuationImpl _value,
       $Res Function(_$Bolt12ParseError_InvalidContinuationImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of Bolt12ParseError
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -266,6 +272,9 @@ class __$$Bolt12ParseError_InvalidBech32HrpImplCopyWithImpl<$Res>
       _$Bolt12ParseError_InvalidBech32HrpImpl _value,
       $Res Function(_$Bolt12ParseError_InvalidBech32HrpImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of Bolt12ParseError
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -410,6 +419,8 @@ class __$$Bolt12ParseError_Bech32ImplCopyWithImpl<$Res>
       $Res Function(_$Bolt12ParseError_Bech32Impl) _then)
       : super(_value, _then);
 
+  /// Create a copy of Bolt12ParseError
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -448,7 +459,9 @@ class _$Bolt12ParseError_Bech32Impl extends Bolt12ParseError_Bech32 {
   @override
   int get hashCode => Object.hash(runtimeType, field0);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of Bolt12ParseError
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$Bolt12ParseError_Bech32ImplCopyWith<_$Bolt12ParseError_Bech32Impl>
@@ -557,7 +570,10 @@ abstract class Bolt12ParseError_Bech32 extends Bolt12ParseError {
   const Bolt12ParseError_Bech32._() : super._();
 
   String get field0;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of Bolt12ParseError
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$Bolt12ParseError_Bech32ImplCopyWith<_$Bolt12ParseError_Bech32Impl>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -583,6 +599,8 @@ class __$$Bolt12ParseError_DecodeImplCopyWithImpl<$Res>
       $Res Function(_$Bolt12ParseError_DecodeImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of Bolt12ParseError
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -596,6 +614,8 @@ class __$$Bolt12ParseError_DecodeImplCopyWithImpl<$Res>
     ));
   }
 
+  /// Create a copy of Bolt12ParseError
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $DecodeErrorCopyWith<$Res> get field0 {
@@ -629,7 +649,9 @@ class _$Bolt12ParseError_DecodeImpl extends Bolt12ParseError_Decode {
   @override
   int get hashCode => Object.hash(runtimeType, field0);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of Bolt12ParseError
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$Bolt12ParseError_DecodeImplCopyWith<_$Bolt12ParseError_DecodeImpl>
@@ -738,7 +760,10 @@ abstract class Bolt12ParseError_Decode extends Bolt12ParseError {
   const Bolt12ParseError_Decode._() : super._();
 
   DecodeError get field0;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of Bolt12ParseError
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$Bolt12ParseError_DecodeImplCopyWith<_$Bolt12ParseError_DecodeImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -763,6 +788,8 @@ class __$$Bolt12ParseError_InvalidSemanticsImplCopyWithImpl<$Res>
       $Res Function(_$Bolt12ParseError_InvalidSemanticsImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of Bolt12ParseError
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -802,7 +829,9 @@ class _$Bolt12ParseError_InvalidSemanticsImpl
   @override
   int get hashCode => Object.hash(runtimeType, field0);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of Bolt12ParseError
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$Bolt12ParseError_InvalidSemanticsImplCopyWith<
@@ -912,7 +941,10 @@ abstract class Bolt12ParseError_InvalidSemantics extends Bolt12ParseError {
   const Bolt12ParseError_InvalidSemantics._() : super._();
 
   String get field0;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of Bolt12ParseError
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$Bolt12ParseError_InvalidSemanticsImplCopyWith<
           _$Bolt12ParseError_InvalidSemanticsImpl>
       get copyWith => throw _privateConstructorUsedError;
@@ -938,6 +970,8 @@ class __$$Bolt12ParseError_InvalidSignatureImplCopyWithImpl<$Res>
       $Res Function(_$Bolt12ParseError_InvalidSignatureImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of Bolt12ParseError
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -977,7 +1011,9 @@ class _$Bolt12ParseError_InvalidSignatureImpl
   @override
   int get hashCode => Object.hash(runtimeType, field0);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of Bolt12ParseError
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$Bolt12ParseError_InvalidSignatureImplCopyWith<
@@ -1087,7 +1123,10 @@ abstract class Bolt12ParseError_InvalidSignature extends Bolt12ParseError {
   const Bolt12ParseError_InvalidSignature._() : super._();
 
   String get field0;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of Bolt12ParseError
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$Bolt12ParseError_InvalidSignatureImplCopyWith<
           _$Bolt12ParseError_InvalidSignatureImpl>
       get copyWith => throw _privateConstructorUsedError;
@@ -1196,6 +1235,9 @@ class _$DecodeErrorCopyWithImpl<$Res, $Val extends DecodeError>
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
+
+  /// Create a copy of DecodeError
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -1214,6 +1256,9 @@ class __$$DecodeError_UnknownVersionImplCopyWithImpl<$Res>
       _$DecodeError_UnknownVersionImpl _value,
       $Res Function(_$DecodeError_UnknownVersionImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of DecodeError
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -1366,6 +1411,9 @@ class __$$DecodeError_UnknownRequiredFeatureImplCopyWithImpl<$Res>
       _$DecodeError_UnknownRequiredFeatureImpl _value,
       $Res Function(_$DecodeError_UnknownRequiredFeatureImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of DecodeError
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -1519,6 +1567,9 @@ class __$$DecodeError_InvalidValueImplCopyWithImpl<$Res>
       _$DecodeError_InvalidValueImpl _value,
       $Res Function(_$DecodeError_InvalidValueImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of DecodeError
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -1669,6 +1720,9 @@ class __$$DecodeError_ShortReadImplCopyWithImpl<$Res>
   __$$DecodeError_ShortReadImplCopyWithImpl(_$DecodeError_ShortReadImpl _value,
       $Res Function(_$DecodeError_ShortReadImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of DecodeError
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -1821,6 +1875,9 @@ class __$$DecodeError_BadLengthDescriptorImplCopyWithImpl<$Res>
       _$DecodeError_BadLengthDescriptorImpl _value,
       $Res Function(_$DecodeError_BadLengthDescriptorImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of DecodeError
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -1975,6 +2032,8 @@ class __$$DecodeError_IoImplCopyWithImpl<$Res>
       _$DecodeError_IoImpl _value, $Res Function(_$DecodeError_IoImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of DecodeError
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -2013,7 +2072,9 @@ class _$DecodeError_IoImpl extends DecodeError_Io {
   @override
   int get hashCode => Object.hash(runtimeType, field0);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of DecodeError
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$DecodeError_IoImplCopyWith<_$DecodeError_IoImpl> get copyWith =>
@@ -2133,7 +2194,10 @@ abstract class DecodeError_Io extends DecodeError {
   const DecodeError_Io._() : super._();
 
   String get field0;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of DecodeError
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$DecodeError_IoImplCopyWith<_$DecodeError_IoImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -2155,6 +2219,9 @@ class __$$DecodeError_UnsupportedCompressionImplCopyWithImpl<$Res>
       _$DecodeError_UnsupportedCompressionImpl _value,
       $Res Function(_$DecodeError_UnsupportedCompressionImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of DecodeError
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -2308,6 +2375,9 @@ class __$$DecodeError_DangerousValueImplCopyWithImpl<$Res>
       _$DecodeError_DangerousValueImpl _value,
       $Res Function(_$DecodeError_DangerousValueImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of DecodeError
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -2895,6 +2965,9 @@ class _$FfiNodeErrorCopyWithImpl<$Res, $Val extends FfiNodeError>
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
+
+  /// Create a copy of FfiNodeError
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -2913,6 +2986,9 @@ class __$$FfiNodeError_InvalidTxidImplCopyWithImpl<$Res>
       _$FfiNodeError_InvalidTxidImpl _value,
       $Res Function(_$FfiNodeError_InvalidTxidImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of FfiNodeError
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -3413,6 +3489,9 @@ class __$$FfiNodeError_AlreadyRunningImplCopyWithImpl<$Res>
       _$FfiNodeError_AlreadyRunningImpl _value,
       $Res Function(_$FfiNodeError_AlreadyRunningImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of FfiNodeError
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -3914,6 +3993,9 @@ class __$$FfiNodeError_NotRunningImplCopyWithImpl<$Res>
       _$FfiNodeError_NotRunningImpl _value,
       $Res Function(_$FfiNodeError_NotRunningImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of FfiNodeError
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -4415,6 +4497,9 @@ class __$$FfiNodeError_OnchainTxCreationFailedImplCopyWithImpl<$Res>
       _$FfiNodeError_OnchainTxCreationFailedImpl _value,
       $Res Function(_$FfiNodeError_OnchainTxCreationFailedImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of FfiNodeError
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -4918,6 +5003,9 @@ class __$$FfiNodeError_ConnectionFailedImplCopyWithImpl<$Res>
       _$FfiNodeError_ConnectionFailedImpl _value,
       $Res Function(_$FfiNodeError_ConnectionFailedImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of FfiNodeError
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -5421,6 +5509,9 @@ class __$$FfiNodeError_InvoiceCreationFailedImplCopyWithImpl<$Res>
       _$FfiNodeError_InvoiceCreationFailedImpl _value,
       $Res Function(_$FfiNodeError_InvoiceCreationFailedImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of FfiNodeError
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -5924,6 +6015,9 @@ class __$$FfiNodeError_PaymentSendingFailedImplCopyWithImpl<$Res>
       _$FfiNodeError_PaymentSendingFailedImpl _value,
       $Res Function(_$FfiNodeError_PaymentSendingFailedImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of FfiNodeError
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -6427,6 +6521,9 @@ class __$$FfiNodeError_ProbeSendingFailedImplCopyWithImpl<$Res>
       _$FfiNodeError_ProbeSendingFailedImpl _value,
       $Res Function(_$FfiNodeError_ProbeSendingFailedImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of FfiNodeError
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -6930,6 +7027,9 @@ class __$$FfiNodeError_ChannelCreationFailedImplCopyWithImpl<$Res>
       _$FfiNodeError_ChannelCreationFailedImpl _value,
       $Res Function(_$FfiNodeError_ChannelCreationFailedImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of FfiNodeError
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -7433,6 +7533,9 @@ class __$$FfiNodeError_ChannelClosingFailedImplCopyWithImpl<$Res>
       _$FfiNodeError_ChannelClosingFailedImpl _value,
       $Res Function(_$FfiNodeError_ChannelClosingFailedImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of FfiNodeError
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -7936,6 +8039,9 @@ class __$$FfiNodeError_ChannelConfigUpdateFailedImplCopyWithImpl<$Res>
       _$FfiNodeError_ChannelConfigUpdateFailedImpl _value,
       $Res Function(_$FfiNodeError_ChannelConfigUpdateFailedImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of FfiNodeError
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -8439,6 +8545,9 @@ class __$$FfiNodeError_PersistenceFailedImplCopyWithImpl<$Res>
       _$FfiNodeError_PersistenceFailedImpl _value,
       $Res Function(_$FfiNodeError_PersistenceFailedImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of FfiNodeError
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -8942,6 +9051,9 @@ class __$$FfiNodeError_WalletOperationFailedImplCopyWithImpl<$Res>
       _$FfiNodeError_WalletOperationFailedImpl _value,
       $Res Function(_$FfiNodeError_WalletOperationFailedImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of FfiNodeError
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -9445,6 +9557,9 @@ class __$$FfiNodeError_OnchainTxSigningFailedImplCopyWithImpl<$Res>
       _$FfiNodeError_OnchainTxSigningFailedImpl _value,
       $Res Function(_$FfiNodeError_OnchainTxSigningFailedImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of FfiNodeError
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -9948,6 +10063,9 @@ class __$$FfiNodeError_MessageSigningFailedImplCopyWithImpl<$Res>
       _$FfiNodeError_MessageSigningFailedImpl _value,
       $Res Function(_$FfiNodeError_MessageSigningFailedImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of FfiNodeError
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -10450,6 +10568,9 @@ class __$$FfiNodeError_TxSyncFailedImplCopyWithImpl<$Res>
       _$FfiNodeError_TxSyncFailedImpl _value,
       $Res Function(_$FfiNodeError_TxSyncFailedImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of FfiNodeError
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -10951,6 +11072,9 @@ class __$$FfiNodeError_GossipUpdateFailedImplCopyWithImpl<$Res>
       _$FfiNodeError_GossipUpdateFailedImpl _value,
       $Res Function(_$FfiNodeError_GossipUpdateFailedImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of FfiNodeError
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -11453,6 +11577,9 @@ class __$$FfiNodeError_InvalidAddressImplCopyWithImpl<$Res>
       _$FfiNodeError_InvalidAddressImpl _value,
       $Res Function(_$FfiNodeError_InvalidAddressImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of FfiNodeError
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -11955,6 +12082,9 @@ class __$$FfiNodeError_InvalidSocketAddressImplCopyWithImpl<$Res>
       _$FfiNodeError_InvalidSocketAddressImpl _value,
       $Res Function(_$FfiNodeError_InvalidSocketAddressImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of FfiNodeError
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -12458,6 +12588,9 @@ class __$$FfiNodeError_InvalidPublicKeyImplCopyWithImpl<$Res>
       _$FfiNodeError_InvalidPublicKeyImpl _value,
       $Res Function(_$FfiNodeError_InvalidPublicKeyImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of FfiNodeError
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -12961,6 +13094,9 @@ class __$$FfiNodeError_InvalidSecretKeyImplCopyWithImpl<$Res>
       _$FfiNodeError_InvalidSecretKeyImpl _value,
       $Res Function(_$FfiNodeError_InvalidSecretKeyImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of FfiNodeError
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -13464,6 +13600,9 @@ class __$$FfiNodeError_InvalidPaymentHashImplCopyWithImpl<$Res>
       _$FfiNodeError_InvalidPaymentHashImpl _value,
       $Res Function(_$FfiNodeError_InvalidPaymentHashImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of FfiNodeError
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -13967,6 +14106,9 @@ class __$$FfiNodeError_InvalidPaymentPreimageImplCopyWithImpl<$Res>
       _$FfiNodeError_InvalidPaymentPreimageImpl _value,
       $Res Function(_$FfiNodeError_InvalidPaymentPreimageImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of FfiNodeError
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -14470,6 +14612,9 @@ class __$$FfiNodeError_InvalidPaymentSecretImplCopyWithImpl<$Res>
       _$FfiNodeError_InvalidPaymentSecretImpl _value,
       $Res Function(_$FfiNodeError_InvalidPaymentSecretImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of FfiNodeError
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -14972,6 +15117,9 @@ class __$$FfiNodeError_InvalidAmountImplCopyWithImpl<$Res>
       _$FfiNodeError_InvalidAmountImpl _value,
       $Res Function(_$FfiNodeError_InvalidAmountImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of FfiNodeError
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -15472,6 +15620,9 @@ class __$$FfiNodeError_InvalidInvoiceImplCopyWithImpl<$Res>
       _$FfiNodeError_InvalidInvoiceImpl _value,
       $Res Function(_$FfiNodeError_InvalidInvoiceImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of FfiNodeError
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -15974,6 +16125,9 @@ class __$$FfiNodeError_InvalidChannelIdImplCopyWithImpl<$Res>
       _$FfiNodeError_InvalidChannelIdImpl _value,
       $Res Function(_$FfiNodeError_InvalidChannelIdImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of FfiNodeError
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -16476,6 +16630,9 @@ class __$$FfiNodeError_InvalidNetworkImplCopyWithImpl<$Res>
       _$FfiNodeError_InvalidNetworkImpl _value,
       $Res Function(_$FfiNodeError_InvalidNetworkImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of FfiNodeError
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -16978,6 +17135,9 @@ class __$$FfiNodeError_DuplicatePaymentImplCopyWithImpl<$Res>
       _$FfiNodeError_DuplicatePaymentImpl _value,
       $Res Function(_$FfiNodeError_DuplicatePaymentImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of FfiNodeError
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -17481,6 +17641,9 @@ class __$$FfiNodeError_InsufficientFundsImplCopyWithImpl<$Res>
       _$FfiNodeError_InsufficientFundsImpl _value,
       $Res Function(_$FfiNodeError_InsufficientFundsImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of FfiNodeError
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -17985,6 +18148,9 @@ class __$$FfiNodeError_FeerateEstimationUpdateFailedImplCopyWithImpl<$Res>
       _$FfiNodeError_FeerateEstimationUpdateFailedImpl _value,
       $Res Function(_$FfiNodeError_FeerateEstimationUpdateFailedImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of FfiNodeError
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -18488,6 +18654,9 @@ class __$$FfiNodeError_LiquidityRequestFailedImplCopyWithImpl<$Res>
       _$FfiNodeError_LiquidityRequestFailedImpl _value,
       $Res Function(_$FfiNodeError_LiquidityRequestFailedImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of FfiNodeError
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -18991,6 +19160,9 @@ class __$$FfiNodeError_LiquiditySourceUnavailableImplCopyWithImpl<$Res>
       _$FfiNodeError_LiquiditySourceUnavailableImpl _value,
       $Res Function(_$FfiNodeError_LiquiditySourceUnavailableImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of FfiNodeError
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -19494,6 +19666,9 @@ class __$$FfiNodeError_LiquidityFeeTooHighImplCopyWithImpl<$Res>
       _$FfiNodeError_LiquidityFeeTooHighImpl _value,
       $Res Function(_$FfiNodeError_LiquidityFeeTooHighImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of FfiNodeError
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -19997,6 +20172,9 @@ class __$$FfiNodeError_InvalidPaymentIdImplCopyWithImpl<$Res>
       _$FfiNodeError_InvalidPaymentIdImpl _value,
       $Res Function(_$FfiNodeError_InvalidPaymentIdImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of FfiNodeError
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -20502,6 +20680,8 @@ class __$$FfiNodeError_DecodeImplCopyWithImpl<$Res>
       $Res Function(_$FfiNodeError_DecodeImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of FfiNodeError
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -20515,6 +20695,8 @@ class __$$FfiNodeError_DecodeImplCopyWithImpl<$Res>
     ));
   }
 
+  /// Create a copy of FfiNodeError
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $DecodeErrorCopyWith<$Res> get field0 {
@@ -20548,7 +20730,9 @@ class _$FfiNodeError_DecodeImpl extends FfiNodeError_Decode {
   @override
   int get hashCode => Object.hash(runtimeType, field0);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of FfiNodeError
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$FfiNodeError_DecodeImplCopyWith<_$FfiNodeError_DecodeImpl> get copyWith =>
@@ -21018,7 +21202,10 @@ abstract class FfiNodeError_Decode extends FfiNodeError {
   const FfiNodeError_Decode._() : super._();
 
   DecodeError get field0;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of FfiNodeError
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$FfiNodeError_DecodeImplCopyWith<_$FfiNodeError_DecodeImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -21044,6 +21231,8 @@ class __$$FfiNodeError_Bolt12ParseImplCopyWithImpl<$Res>
       $Res Function(_$FfiNodeError_Bolt12ParseImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of FfiNodeError
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -21057,6 +21246,8 @@ class __$$FfiNodeError_Bolt12ParseImplCopyWithImpl<$Res>
     ));
   }
 
+  /// Create a copy of FfiNodeError
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $Bolt12ParseErrorCopyWith<$Res> get field0 {
@@ -21090,7 +21281,9 @@ class _$FfiNodeError_Bolt12ParseImpl extends FfiNodeError_Bolt12Parse {
   @override
   int get hashCode => Object.hash(runtimeType, field0);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of FfiNodeError
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$FfiNodeError_Bolt12ParseImplCopyWith<_$FfiNodeError_Bolt12ParseImpl>
@@ -21560,7 +21753,10 @@ abstract class FfiNodeError_Bolt12Parse extends FfiNodeError {
   const FfiNodeError_Bolt12Parse._() : super._();
 
   Bolt12ParseError get field0;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of FfiNodeError
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$FfiNodeError_Bolt12ParseImplCopyWith<_$FfiNodeError_Bolt12ParseImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -21582,6 +21778,9 @@ class __$$FfiNodeError_InvoiceRequestCreationFailedImplCopyWithImpl<$Res>
       _$FfiNodeError_InvoiceRequestCreationFailedImpl _value,
       $Res Function(_$FfiNodeError_InvoiceRequestCreationFailedImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of FfiNodeError
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -22085,6 +22284,9 @@ class __$$FfiNodeError_OfferCreationFailedImplCopyWithImpl<$Res>
       _$FfiNodeError_OfferCreationFailedImpl _value,
       $Res Function(_$FfiNodeError_OfferCreationFailedImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of FfiNodeError
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -22588,6 +22790,9 @@ class __$$FfiNodeError_RefundCreationFailedImplCopyWithImpl<$Res>
       _$FfiNodeError_RefundCreationFailedImpl _value,
       $Res Function(_$FfiNodeError_RefundCreationFailedImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of FfiNodeError
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -23094,6 +23299,9 @@ class __$$FfiNodeError_FeerateEstimationUpdateTimeoutImplCopyWithImpl<$Res>
       _$FfiNodeError_FeerateEstimationUpdateTimeoutImpl _value,
       $Res Function(_$FfiNodeError_FeerateEstimationUpdateTimeoutImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of FfiNodeError
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -23598,6 +23806,9 @@ class __$$FfiNodeError_WalletOperationTimeoutImplCopyWithImpl<$Res>
       _$FfiNodeError_WalletOperationTimeoutImpl _value,
       $Res Function(_$FfiNodeError_WalletOperationTimeoutImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of FfiNodeError
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -24100,6 +24311,9 @@ class __$$FfiNodeError_TxSyncTimeoutImplCopyWithImpl<$Res>
       _$FfiNodeError_TxSyncTimeoutImpl _value,
       $Res Function(_$FfiNodeError_TxSyncTimeoutImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of FfiNodeError
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -24601,6 +24815,9 @@ class __$$FfiNodeError_GossipUpdateTimeoutImplCopyWithImpl<$Res>
       _$FfiNodeError_GossipUpdateTimeoutImpl _value,
       $Res Function(_$FfiNodeError_GossipUpdateTimeoutImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of FfiNodeError
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -25103,6 +25320,9 @@ class __$$FfiNodeError_InvalidOfferIdImplCopyWithImpl<$Res>
       _$FfiNodeError_InvalidOfferIdImpl _value,
       $Res Function(_$FfiNodeError_InvalidOfferIdImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of FfiNodeError
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -25604,6 +25824,9 @@ class __$$FfiNodeError_InvalidNodeIdImplCopyWithImpl<$Res>
       _$FfiNodeError_InvalidNodeIdImpl _value,
       $Res Function(_$FfiNodeError_InvalidNodeIdImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of FfiNodeError
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -26104,6 +26327,9 @@ class __$$FfiNodeError_InvalidOfferImplCopyWithImpl<$Res>
       _$FfiNodeError_InvalidOfferImpl _value,
       $Res Function(_$FfiNodeError_InvalidOfferImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of FfiNodeError
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -26604,6 +26830,9 @@ class __$$FfiNodeError_InvalidRefundImplCopyWithImpl<$Res>
       _$FfiNodeError_InvalidRefundImpl _value,
       $Res Function(_$FfiNodeError_InvalidRefundImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of FfiNodeError
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -27105,6 +27334,9 @@ class __$$FfiNodeError_UnsupportedCurrencyImplCopyWithImpl<$Res>
       _$FfiNodeError_UnsupportedCurrencyImpl _value,
       $Res Function(_$FfiNodeError_UnsupportedCurrencyImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of FfiNodeError
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -27608,6 +27840,9 @@ class __$$FfiNodeError_UriParameterParsingFailedImplCopyWithImpl<$Res>
       _$FfiNodeError_UriParameterParsingFailedImpl _value,
       $Res Function(_$FfiNodeError_UriParameterParsingFailedImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of FfiNodeError
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -28110,6 +28345,9 @@ class __$$FfiNodeError_InvalidUriImplCopyWithImpl<$Res>
       _$FfiNodeError_InvalidUriImpl _value,
       $Res Function(_$FfiNodeError_InvalidUriImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of FfiNodeError
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -28610,6 +28848,9 @@ class __$$FfiNodeError_InvalidQuantityImplCopyWithImpl<$Res>
       _$FfiNodeError_InvalidQuantityImpl _value,
       $Res Function(_$FfiNodeError_InvalidQuantityImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of FfiNodeError
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -29112,6 +29353,9 @@ class __$$FfiNodeError_InvalidNodeAliasImplCopyWithImpl<$Res>
       _$FfiNodeError_InvalidNodeAliasImpl _value,
       $Res Function(_$FfiNodeError_InvalidNodeAliasImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of FfiNodeError
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
