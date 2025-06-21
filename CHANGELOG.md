@@ -1,32 +1,47 @@
+## [0.4.3]
+
+Updated `flutter_rust_bridge` to `2.6.0`.
+Updated `ldk-node` to `0.4.3`.
+
 ## [0.4.2]
+
 Updated `flutter_rust_bridge` to `2.6.0`.
 Updated `ldk-node` to `0.4.2`.
+
 #### APIs added
-- Support for multiple chain sources has been added. The `setChainSourceBitcoinRpc` method has been introduced in the Builder class to allow the use of 
+
+- Support for multiple chain sources has been added. The `setChainSourceBitcoinRpc` method has been introduced in the Builder class to allow the use of
   Bitcoin Core RPC.
 - Support for sourcing chain and fee estimation data from a Bitcoin Core RPC backed.
-- Initial experimental support for an encrypted VSS remote storage backend has been added using `builder.buildWithVssStore` &     
+- Initial experimental support for an encrypted VSS remote storage backend has been added using `builder.buildWithVssStore` &  
   `builder.buildWithVssStoreAndFixedHeaders` methods.
-   - **Caution**: VSS support is in **alpha** and is considered experimental. Using VSS (or any remote persistence) may cause LDK to throw an exception 
-     if persistence failures are unrecoverable, i.e., if they remain unresolved after internal retries are exhausted.
+  - **Caution**: VSS support is in **alpha** and is considered experimental. Using VSS (or any remote persistence) may cause LDK to throw an exception
+    if persistence failures are unrecoverable, i.e., if they remain unresolved after internal retries are exhausted.
 - Support for setting the `NodeAlias` in public node announcements using `builder.setNodeAlias` has been added.
-- Exposed `node.unifiedQrPayment` & `UnifiedQrPayment` handler for generating and paying unified QR codes.   
+- Exposed `node.unifiedQrPayment` & `UnifiedQrPayment` handler for generating and paying unified QR codes.
 - Support for `quantity` and `payerNote` fields when sending or receiving `BOLT12` payments have been added.
 - Support for setting `SendingParameters` when sending `BOLT11` payments has been added.
+
 #### API changed
+
 - `node.connectOpenChannel` was split into `openChannel` and `openAnnouncedChannel`.
-- The `setEsploraServer` method has been renamed to `setChainSourceEsplora`, and Esplora-specific configuration options can now be provided using 
+- The `setEsploraServer` method has been renamed to `setChainSourceEsplora`, and Esplora-specific configuration options can now be provided using
   `EsploraSyncConfig`.
+
 #### Fixed
+
 - The `ChannelConfig` object has been refactored, now allowing to query the currently applied `MaxDustHTLCExposure` limit.
 - The `Node` no longer throws an exception when hitting a persistence failure during event handling. Instead, events will be replayed until successful.
 - The `Node` is no longer prohibited from using available confirmed on-chain funds to spend/bump Anchor outputs.
 
 ## [0.3.0]
+
 Updated `flutter_rust_bridge` to `2.0.0`.
+
 #### APIs added
+
 - `buildWithFsStore` method is added in the `Builder` class allowing to use the filesystem storage backend.
-- Exposed `setLiquiditySourceLsps2` method to `Builder` to configure the `Node` instance to source the inbound liquidity. 
+- Exposed `setLiquiditySourceLsps2` method to `Builder` to configure the `Node` instance to source the inbound liquidity.
 - `nextEventAsync` method is added to `Node` class that allows polling the event queue asynchronously.
 - `status` method has been added to `Node` allowing to retrieve information about the Node's status.
 - `config` method added to get the config with which the `Node` was initialized.
@@ -35,60 +50,84 @@ Updated `flutter_rust_bridge` to `2.0.0`.
 - Support for creating and paying BOLT12 offers and refunds has been added.
 - Added `networkGraph` handler method allowing to query the network graph.
 - Added `forceCloseChannel` to `Node` class.
+
 #### API changed
+
 - All available balances outside of channel balances are now exposed via a unified `listBalances` interface method.
+
 #### Fixed
+
 Persisted peers are now correctly reconnected after startup.
 
 ## [0.2.2-dev]
+
 Updated Rust and Flutter dependencies.
+
 #### APIs added
+
 - Expose `isRunning()` in `Node` class.
+
 #### API changed
+
 - Renamed `waitUntilNextHandled()` to `waitNextHandled`.
 - Renamed `listeningAddress()` to `listeningAddresses`.
 - Upgraded `BuilderException` to handle invalid `socketAddress` & `trustedPeers.
 - Upgraded `NodeException` to handle invalid `txid`.
+
 #### Fixed
+
 - Functions hang indefinitely on iOs devices
 - Android support bug resolved
 - Thread `frb_workerpool` panic on `SocketAddress`, `PublicKey`, `Address` `Bolt11Invoice`, `Config` and `Txid`.
 
 ## [0.2.0]
+
 Updated `Rust` and `Flutter` dependencies.
 
 ## [0.1.3]
+
 Updated `Rust` and `Flutter` dependencies.
 Invalid `BuilderException` bug resolved
+
 #### APIs added
-- Expose  `generate()` in `Mnemonic` class.
+
+- Expose `generate()` in `Mnemonic` class.
+
 #### API changed
+
 - Remove `generateEntropyMnemonic()`.
 
 ## [0.1.2]
+
 #### APIs added
+
 - Expose `generateEntropyMnemonic` function - a utility method for generating a BIP39 mnemonic.
-- Expose `Node` class's `updateChannelConfig`, `verifySignature`, `signMessage`,  `sendPaymentProbe`, `sendSpontaneousPaymentProbe` methods.
+- Expose `Node` class's `updateChannelConfig`, `verifySignature`, `signMessage`, `sendPaymentProbe`, `sendSpontaneousPaymentProbe` methods.
 - Add `ChannelConfig?` to node.connectOpenChannel() params - a `ChannelConfig` may now be specified on channel open or updated afterwards.
 - Expose `counterpartyNodeId`, `funding_txo` & `channelValueSats` in `ChannelDetails`.
 - Expose `trustedPeers0Conf` `probingLiquidityLimitMultiplier`, `logDirPath`, `onchainWalletSyncInterval_secs`, `walletSyncIntervalSecs`, &
-  `feeRateCacheUpdateIntervalSecs` in `Config` - allowing inbound trusted 0conf channels. 
+  `feeRateCacheUpdateIntervalSecs` in `Config` - allowing inbound trusted 0conf channels.
 - Non-permanently connected peers are now included in node.listPeers().
 
 #### API changed
+
 - node.newFundingAddress renamed to `newOnchainAddress`.
 - node.sendToOnChainAddress renamed to `sendToOnchainAddress`.
 - node.sendAllToOnChainAddress renamed to `sendAllToOnchainAddress`.
 - Remove node.onChainBalance.
 
 ## [0.1.1-alpha]
+
 Support `Dart 3` and `Flutter 3.10`
 
 ## [0.1.1]
+
 Support `Dart 3` and `Flutter 3.10`
 
 ### Fixed
- -  `setEntropyBip39Mnemonic` issue resolved
+
+- `setEntropyBip39Mnemonic` issue resolved
+
 ## [0.1.0]
 
 This is the first release of `ldk_node`. It features support for sourcing chain data via an `Esplora` server, filesystem persistence, gossip sourcing via the `Lightning` peer-to-peer network, and configurble entropy sources for the integrated LDK & BDK-based wallets.
