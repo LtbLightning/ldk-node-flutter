@@ -1,8 +1,6 @@
-import 'package:flutter/foundation.dart';
+import 'package:ldk_node/src/utils/exceptions.dart';
 
 import '../generated/frb_generated.dart';
-
-export 'exceptions.dart';
 
 class Frb {
   static Future<void> verifyInit() async {
@@ -11,8 +9,7 @@ class Frb {
         await core.init();
       }
     } catch (e) {
-      debugPrint(e.toString());
-      throw Exception("Failed to initialize ldk-node");
+      throw BridgeException(message: e.toString());
     }
   }
 }

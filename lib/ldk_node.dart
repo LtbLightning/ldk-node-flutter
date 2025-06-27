@@ -1,34 +1,58 @@
-export './src/generated/api/bolt11.dart';
-export './src/generated/api/bolt12.dart';
-export './src/generated/api/on_chain.dart';
-export './src/generated/api/spontaneous.dart';
-export './src/generated/api/types.dart'
-    hide
-        Event_ChannelClosed,
-        Event_ChannelReady,
-        Event_PaymentFailed,
-        Event_PaymentReceived,
-        Event_PaymentSuccessful,
-        Event_ChannelPending,
-        MaxDustHTLCExposure,
-        SocketAddress_Hostname,
-        SocketAddress_OnionV2,
-        EntropySourceConfig,
-        SocketAddress_OnionV3,
-        $ChainDataSourceConfigCopyWith,
-        SocketAddress_TcpIpV4,
-        SocketAddress_TcpIpV6,
-        MaxDustHTLCExposure_FeeRateMultiplier,
-        MaxDustHTLCExposure_FixedLimitMsat,
-        EntropySourceConfig_SeedBytes,
-        EntropySourceConfig_Bip39Mnemonic,
-        ChainDataSourceConfig_Esplora,
-        GossipSourceConfig_P2PNetwork,
-        GossipSourceConfig_RapidGossipSync,
+export 'src/generated/api/bolt11.dart' show Bolt11Invoice;
+export 'src/generated/api/bolt12.dart' show Bolt12Invoice, Offer, Refund;
+export 'src/generated/api/unified_qr.dart' show QrPaymentResult;
+export 'src/generated/api/graph.dart'
+    show
+        ChannelInfo,
+        ChannelUpdateInfo,
+        NodeAnnouncementInfo,
+        NodeId,
+        NodeInfo,
+        RoutingFees;
+export 'src/generated/api/types.dart'
+    show
+        Address,
+        AnchorChannelsConfig,
+        BalanceDetails,
+        BalanceSource,
+        LightningBalance,
+        BestBlock,
         ChainDataSourceConfig,
+        ChannelConfig,
+        ChannelDetails,
+        ChannelId,
+        ClosureReason,
+        Config,
+        EntropySourceConfig,
+        EsploraSyncConfig,
         GossipSourceConfig,
-        EntropySourceConfig_SeedFile;
+        LiquiditySourceConfig,
+        LSPFeeLimits,
+        MaxDustHTLCExposure,
+        MaxTotalRoutingFeeLimit,
+        Event,
+        LogLevel,
+        Network,
+        NodeAlias,
+        NodeStatus,
+        OutPoint,
+        PaymentDetails,
+        PaymentDirection,
+        PaymentFailureReason,
+        PaymentHash,
+        PaymentId,
+        PaymentKind,
+        PaymentPreimage,
+        PaymentSecret,
+        PaymentStatus,
+        PeerDetails,
+        PendingSweepBalance,
+        PublicKey,
+        SendingParameters,
+        SocketAddress,
+        Txid,
+        UserChannelId;
 export 'src/root.dart';
 export 'src/generated/lib.dart' show U8Array4, U8Array12, U8Array64, U8Array32;
-export 'src/utils/utils.dart'
-    hide ExceptionBase, mapLdkBuilderError, mapLdkNodeError, Frb;
+export 'src/utils/default_services.dart';
+export 'src/utils/exceptions.dart' show NodeException, BuilderException;

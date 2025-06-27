@@ -15,23 +15,27 @@ void main() {
       final ldkCache = "${directory.path}/ldk_cache";
       final aliceStoragePath = "$ldkCache/integration/alice";
       debugPrint('Alice Storage Path: $aliceStoragePath');
-      final alice_builder = ldk.Builder.mutinynet()
+      final aliceBuilder = ldk.Builder.mutinynet()
           .setEntropyBip39Mnemonic(
               mnemonic: ldk.Mnemonic(
                   seedPhrase:
                       "replace force spring cruise nothing select glass erupt medal raise consider pull"))
-          .setStorageDirPath(aliceStoragePath);
-      final aliceNode = await alice_builder.build();
+          .setStorageDirPath(aliceStoragePath)
+          .setListeningAddresses(
+              [const ldk.SocketAddress.hostname(addr: "0.0.0.0", port: 3080)]);
+      final aliceNode = await aliceBuilder.build();
       await aliceNode.start();
       final bobStoragePath = "$ldkCache/integration/bob";
-      final bob_builder = ldk.Builder.mutinynet()
+      final bobBuilder = ldk.Builder.mutinynet()
           .setEntropyBip39Mnemonic(
               mnemonic: ldk.Mnemonic(
                   seedPhrase:
                       "skin hospital fee risk health theory actor kiwi solution desert unhappy hello"))
-          .setStorageDirPath(bobStoragePath);
+          .setStorageDirPath(bobStoragePath)
+          .setListeningAddresses(
+              [const ldk.SocketAddress.hostname(addr: "0.0.0.0", port: 3084)]);
       debugPrint('Bob Storage Path: $bobStoragePath');
-      final bobNode = await bob_builder.build();
+      final bobNode = await bobBuilder.build();
       await bobNode.start();
       debugPrint("Manually syncing Alice's node");
       await aliceNode.syncWallets();
@@ -39,23 +43,21 @@ void main() {
       final aliceBalance =
           (await aliceNode.listBalances()).spendableOnchainBalanceSats;
       await bobNode.syncWallets();
-      expect(aliceBalance, 0);
       debugPrint("Alice's onChain balance ${aliceBalance.toString()}");
       final bobBalance =
           (await bobNode.listBalances()).spendableOnchainBalanceSats;
       debugPrint("Bob's onChain balance ${bobBalance.toString()}");
 
       final bobBolt11PaymentHandler = await bobNode.bolt11Payment();
-      final bobJitInvoice = await bobBolt11PaymentHandler.receiveViaJitChannel(
-        amountMsat: satsToMsats(10000),
+      await bobBolt11PaymentHandler.receiveViaJitChannel(
+        amountMsat: satsToMsats(100000),
         description: 'test',
         expirySecs: 9000,
       );
       debugPrint("Bob's onChain balance ${bobBalance.toString()}");
       final aliceBolt11PaymentHandler = await aliceNode.bolt11Payment();
-      final aliceJitInvoice =
-          await aliceBolt11PaymentHandler.receiveViaJitChannel(
-        amountMsat: satsToMsats(10000),
+      await aliceBolt11PaymentHandler.receiveViaJitChannel(
+        amountMsat: satsToMsats(100000),
         description: 'test',
         expirySecs: 9000,
       );

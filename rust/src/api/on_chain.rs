@@ -1,21 +1,21 @@
 use crate::api::types::{Address, Txid};
 use crate::frb_generated::RustOpaque;
-use crate::utils::error::LdkNodeError;
+use crate::utils::error::FfiNodeError;
 
-pub struct LdkOnChainPayment {
-    pub ptr: RustOpaque<ldk_node::payment::OnchainPayment>,
+pub struct FfiOnChainPayment {
+    pub opaque: RustOpaque<ldk_node::payment::OnchainPayment>,
 }
-impl From<ldk_node::payment::OnchainPayment> for LdkOnChainPayment {
+impl From<ldk_node::payment::OnchainPayment> for FfiOnChainPayment {
     fn from(value: ldk_node::payment::OnchainPayment) -> Self {
-        LdkOnChainPayment {
-            ptr: RustOpaque::new(value),
+        FfiOnChainPayment {
+            opaque: RustOpaque::new(value),
         }
     }
 }
 
-impl LdkOnChainPayment {
-    pub fn new_address(&self) -> Result<Address, LdkNodeError> {
-        self.ptr
+impl FfiOnChainPayment {
+    pub fn new_address(&self) -> Result<Address, FfiNodeError> {
+        self.opaque
             .new_address()
             .map_err(|e| e.into())
             .map(|e| e.into())
@@ -24,15 +24,15 @@ impl LdkOnChainPayment {
         &self,
         address: Address,
         amount_sats: u64,
-    ) -> Result<Txid, LdkNodeError> {
-        self.ptr
-            .send_to_address(&(address.try_into()?), amount_sats)
+    ) -> Result<Txid, FfiNodeError> {
+        self.opaque
+            .send_to_address(&address.try_into()?, amount_sats)
             .map_err(|e| e.into())
             .map(|e| e.into())
     }
-    pub fn send_all_to_address(&self, address: Address) -> Result<Txid, LdkNodeError> {
-        self.ptr
-            .send_all_to_address(&(address.try_into()?))
+    pub fn send_all_to_address(&self, address: Address) -> Result<Txid, FfiNodeError> {
+        self.opaque
+            .send_all_to_address(&address.try_into()?)
             .map_err(|e| e.into())
             .map(|e| e.into())
     }

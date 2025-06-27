@@ -15,150 +15,160 @@ void main() {
       'http://10.0.2.2:30000'
       : 'http://127.0.0.1:30000';
   final regTestClient = BtcClient("");
+  final esploraConfig = ldk.EsploraSyncConfig(
+      onchainWalletSyncIntervalSecs: BigInt.from(60),
+      lightningWalletSyncIntervalSecs: BigInt.from(60),
+      feeRateCacheUpdateIntervalSecs: BigInt.from(600));
   Future<ldk.Config> initLdkConfig(
       String path, ldk.SocketAddress address) async {
     final directory = await getApplicationDocumentsDirectory();
     final nodePath = "${directory.path}/ldk_cache/integration/regtest/$path";
     final config = ldk.Config(
-        probingLiquidityLimitMultiplier: BigInt.from(3),
-        trustedPeers0Conf: [],
-        storageDirPath: nodePath,
-        network: ldk.Network.regtest,
-        listeningAddresses: [address],
-        onchainWalletSyncIntervalSecs: BigInt.from(60),
-        walletSyncIntervalSecs: BigInt.from(20),
-        feeRateCacheUpdateIntervalSecs: BigInt.from(600),
-        logLevel: ldk.LogLevel.debug,
-        defaultCltvExpiryDelta: 144);
+      probingLiquidityLimitMultiplier: BigInt.from(3),
+      trustedPeers0Conf: [],
+      storageDirPath: nodePath,
+      network: ldk.Network.regtest,
+      listeningAddresses: [address],
+      logLevel: ldk.LogLevel.debug,
+    );
     return config;
   }
 
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
-  testWidgets('full_cycle', (WidgetTester tester) async {
-    final aliceConfig = await initLdkConfig(
-        'alice', ldk.SocketAddress.hostname(addr: "0.0.0.0", port: 3003));
-    final alice_builder = ldk.Builder.fromConfig(config: aliceConfig)
-        .setEntropyBip39Mnemonic(
-            mnemonic: ldk.Mnemonic(
-                seedPhrase:
-                    "replace force spring cruise nothing select glass erupt medal raise consider pull"))
-        .setEsploraServer(esploraUrl);
-    final aliceNode = await alice_builder.build();
-    await aliceNode.start();
-    final bobConfig = await initLdkConfig(
-        'bob', ldk.SocketAddress.hostname(addr: "0.0.0.0", port: 3004));
+  group('bolt11_integration', () {
+    setUp(() async {});
+    testWidgets('full_cycle', (WidgetTester tester) async {
+      final aliceConfig = await initLdkConfig('alice',
+          const ldk.SocketAddress.hostname(addr: "0.0.0.0", port: 3003));
+      final aliceBuilder = ldk.Builder.fromConfig(config: aliceConfig)
+          .setEntropyBip39Mnemonic(
+              mnemonic: ldk.Mnemonic(
+                  seedPhrase:
+                      "replace force spring cruise nothing select glass erupt medal raise consider pull"))
+          .setChainSourceEsplora(
+              esploraServerUrl: esploraUrl, syncConfig: esploraConfig);
+      final aliceNode = await aliceBuilder.build();
+      await aliceNode.start();
+      final bobConfig = await initLdkConfig(
+          'bob', const ldk.SocketAddress.hostname(addr: "0.0.0.0", port: 3004));
 
-    final bob_builder = ldk.Builder.fromConfig(config: bobConfig)
-        .setEntropyBip39Mnemonic(
-            mnemonic: ldk.Mnemonic(
-                seedPhrase:
-                    "skin hospital fee risk health theory actor kiwi solution desert unhappy hello"))
-        .setEsploraServer(esploraUrl);
-    final bobNode = await bob_builder.build();
-    await bobNode.start();
-    // loading bitcoin core wallet
-    await regTestClient.loadWallet();
-    debugPrint("Manually syncing Alice's node");
-    await Future.wait([aliceNode.syncWallets()]);
+      final bobBuilder = ldk.Builder.fromConfig(config: bobConfig)
+          .setEntropyBip39Mnemonic(
+              mnemonic: ldk.Mnemonic(
+                  seedPhrase:
+                      "skin hospital fee risk health theory actor kiwi solution desert unhappy hello"))
+          .setChainSourceEsplora(
+              esploraServerUrl: esploraUrl, syncConfig: esploraConfig);
+      final bobNode = await bobBuilder.build();
+      await bobNode.start();
+      // loading bitcoin core wallet
+      await regTestClient.loadWallet();
+      debugPrint("Manually syncing Alice's node");
+      await Future.wait([aliceNode.syncWallets()]);
 
-    debugPrint("Manually syncing Bob's node");
-    await Future.wait([bobNode.syncWallets()]);
+      debugPrint("Manually syncing Bob's node");
+      await Future.wait([bobNode.syncWallets()]);
 
-    debugPrint("syncing complete");
+      debugPrint("syncing complete");
 
-    final aliceNodeAddress =
-        await (await aliceNode.onChainPayment()).newAddress();
-    final bobNodeAddress = await (await bobNode.onChainPayment()).newAddress();
-    debugPrint(aliceNodeAddress.s);
-    debugPrint(bobNodeAddress.s);
-    await regTestClient.generate(11, aliceNodeAddress.s);
-    await regTestClient.generate(11, bobNodeAddress.s);
-    debugPrint("Manually syncing Alice's node");
-    await Future.wait([aliceNode.syncWallets()]);
+      final aliceNodeAddress =
+          await (await aliceNode.onChainPayment()).newAddress();
+      final bobNodeAddress =
+          await (await bobNode.onChainPayment()).newAddress();
+      debugPrint(aliceNodeAddress.s);
+      debugPrint(bobNodeAddress.s);
+      await regTestClient.generate(11, aliceNodeAddress.s);
+      await regTestClient.generate(11, bobNodeAddress.s);
+      debugPrint("Manually syncing Alice's node");
+      await Future.wait([aliceNode.syncWallets()]);
 
-    debugPrint("Manually syncing Bob's node");
-    await Future.wait([bobNode.syncWallets()]);
-    debugPrint("syncing complete");
-    debugPrint(
-        "Alice's onChain Balance:${(await aliceNode.listBalances()).spendableOnchainBalanceSats}");
-    debugPrint(
-        "Bob's onChain Balance:${(await bobNode.listBalances()).spendableOnchainBalanceSats}");
+      debugPrint("Manually syncing Bob's node");
+      await Future.wait([bobNode.syncWallets()]);
+      debugPrint("syncing complete");
+      debugPrint(
+          "Alice's onChain Balance:${(await aliceNode.listBalances()).spendableOnchainBalanceSats}");
+      debugPrint(
+          "Bob's onChain Balance:${(await bobNode.listBalances()).spendableOnchainBalanceSats}");
 
-    debugPrint("Opening channel from aliceNode to bobNode");
-    final bobNodeId = await bobNode.nodeId();
-    final funding_amount_sat = 10000;
-    final push_msat = (funding_amount_sat / 2) * 1000;
-    final userChannelId = await aliceNode.connectOpenChannel(
+      debugPrint("Opening channel from aliceNode to bobNode");
+      final bobNodeId = await bobNode.nodeId();
+      const fundingAmountSat = 10000;
+      const pushMsat = (fundingAmountSat / 2) * 1000;
+      final userChannelId = await aliceNode.openChannel(
         socketAddress: (await bobNode.listeningAddresses())!.first,
         nodeId: bobNodeId,
-        channelAmountSats: BigInt.from(funding_amount_sat),
-        pushToCounterpartyMsat: BigInt.from(push_msat),
-        announceChannel: true);
-    debugPrint("Channel created; id: ${userChannelId.data}");
-    final alicePeers = await aliceNode.listPeers();
-    final aliceChannels = await aliceNode.listChannels();
-    expect(
-        (alicePeers.where((e) => e.nodeId.hex == bobNodeId.hex)).toList() != [],
-        true);
+        channelAmountSats: BigInt.from(fundingAmountSat),
+        pushToCounterpartyMsat: BigInt.from(pushMsat),
+      );
+      debugPrint("Channel created; id: ${userChannelId.data}");
+      final alicePeers = await aliceNode.listPeers();
+      final aliceChannels = await aliceNode.listChannels();
+      expect(
+          (alicePeers.where((e) => e.nodeId.hex == bobNodeId.hex)).toList() !=
+              [],
+          true);
 
-    await regTestClient.generate(11, aliceNodeAddress.s);
-    expect(
-        (aliceChannels.where((e) => e.counterpartyNodeId.hex == bobNodeId.hex))
-                .where((f) => f.isUsable && f.isChannelReady)
-                .toList() !=
-            [],
-        true);
+      await regTestClient.generate(11, aliceNodeAddress.s);
+      expect(
+          (aliceChannels
+                      .where((e) => e.counterpartyNodeId.hex == bobNodeId.hex))
+                  .where((f) => f.isUsable && f.isChannelReady)
+                  .toList() !=
+              [],
+          true);
 
-    debugPrint("waiting for latest node announcement broadcast timestamp");
-    while ((await bobNode.status()).latestNodeAnnouncementBroadcastTimestamp ==
-        null) {
-      await Future.delayed(Duration(milliseconds: 5));
-    }
-    final payment1ExpectedAmountMsat = BigInt.from(1000000000);
-    final bobNodeBol12Handler = await bobNode.bolt12Payment();
-    final aliceNodeBol12Handler = await aliceNode.bolt12Payment();
+      debugPrint("waiting for latest node announcement broadcast timestamp");
+      while (
+          (await bobNode.status()).latestNodeAnnouncementBroadcastTimestamp ==
+              null) {
+        await Future.delayed(const Duration(milliseconds: 5));
+      }
+      final payment1ExpectedAmountMsat = BigInt.from(1000000000);
+      final bobNodeBol12Handler = await bobNode.bolt12Payment();
+      final aliceNodeBol12Handler = await aliceNode.bolt12Payment();
 
-    final offer1 = await bobNodeBol12Handler.receive(
-        amountMsat: payment1ExpectedAmountMsat, description: "payment_1");
-    final payment1Id = await aliceNodeBol12Handler.send(offer: offer1);
-    debugPrint("payment_1 successful: ${payment1Id.field0}");
-    expect((await aliceNode.listPayments()).length == 1, true);
-    final offerAmountMsat = 100000000;
+      final offer1 = await bobNodeBol12Handler.receive(
+          amountMsat: payment1ExpectedAmountMsat, description: "payment_1");
+      final payment1Id = await aliceNodeBol12Handler.send(offer: offer1);
+      debugPrint("payment_1 successful: ${payment1Id.field0}");
+      expect((await aliceNode.listPayments()).length == 1, true);
+      const offerAmountMsat = 100000000;
 
-    final payment2ExpectedAmountMsat = offerAmountMsat + 10000;
-    final offer2 = await bobNodeBol12Handler.receive(
-        amountMsat: BigInt.from(offerAmountMsat), description: "payment_2");
-    final payment2Id = await aliceNodeBol12Handler.sendUsingAmount(
-        offer: offer2, amountMsat: BigInt.from(payment2ExpectedAmountMsat));
-    debugPrint("payment_2 successful: ${payment2Id.field0}");
-    expect(
-        ((await aliceNode.listPayments())
-                    .where((e) => listEquals(e.id.field0, payment2Id.field0)))
-                .length ==
-            1,
-        true);
-    // Now bobNode refunds the amount aliceNode just overpaid.
-    final overPaidAmount = payment2ExpectedAmountMsat - offerAmountMsat;
-    final payment2Refund = await bobNodeBol12Handler.initiateRefund(
-        amountMsat: BigInt.from(overPaidAmount), expirySecs: 3600);
-    final payment2RefundInvoice = await aliceNodeBol12Handler
-        .requestRefundPayment(refund: payment2Refund);
-    debugPrint("payment_2 refund successful: ${payment2RefundInvoice.data}");
-    final bobNodePayment3Id = (await bobNode.listPayments())
-        .firstWhere((p) => p.amountMsat == BigInt.from(overPaidAmount))
-        .id;
-    expect(
-        ((await bobNode.listPayments()).where(
-                    (e) => listEquals(e.id.field0, bobNodePayment3Id.field0)))
-                .length ==
-            1,
-        true);
-    await aliceNode.closeChannel(
-        counterpartyNodeId: bobNodeId, userChannelId: userChannelId);
-    await aliceNode.stop();
-    await bobNode.stop();
-    expect((await aliceNode.status()).isRunning, false);
-    expect((await bobNode.status()).isRunning, false);
+      const payment2ExpectedAmountMsat = offerAmountMsat + 10000;
+      final offer2 = await bobNodeBol12Handler.receive(
+          amountMsat: BigInt.from(offerAmountMsat), description: "payment_2");
+      final payment2Id = await aliceNodeBol12Handler.sendUsingAmount(
+          offer: offer2, amountMsat: BigInt.from(payment2ExpectedAmountMsat));
+      debugPrint("payment_2 successful: ${payment2Id.field0}");
+      expect(
+          ((await aliceNode.listPayments())
+                      .where((e) => listEquals(e.id.field0, payment2Id.field0)))
+                  .length ==
+              1,
+          true);
+      // Now bobNode refunds the amount aliceNode just overpaid.
+      const overPaidAmount = payment2ExpectedAmountMsat - offerAmountMsat;
+      final payment2Refund = await bobNodeBol12Handler.initiateRefund(
+          amountMsat: BigInt.from(overPaidAmount), expirySecs: 3600);
+      final payment2RefundInvoice = await aliceNodeBol12Handler
+          .requestRefundPayment(refund: payment2Refund);
+      debugPrint("payment_2 refund successful: ${payment2RefundInvoice.data}");
+      final bobNodePayment3Id = (await bobNode.listPayments())
+          .firstWhere((p) => p.amountMsat == BigInt.from(overPaidAmount))
+          .id;
+      expect(
+          ((await bobNode.listPayments()).where(
+                      (e) => listEquals(e.id.field0, bobNodePayment3Id.field0)))
+                  .length ==
+              1,
+          true);
+      await aliceNode.closeChannel(
+          counterpartyNodeId: bobNodeId, userChannelId: userChannelId);
+      await aliceNode.stop();
+      await bobNode.stop();
+      expect((await aliceNode.status()).isRunning, false);
+      expect((await bobNode.status()).isRunning, false);
+    });
   });
 }
 

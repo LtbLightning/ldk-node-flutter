@@ -1,6 +1,6 @@
 use crate::api::types::SocketAddress;
 use crate::frb_generated::RustOpaque;
-use crate::utils::error::LdkNodeError;
+use crate::utils::error::FfiNodeError;
 use ldk_node::lightning::util::ser::Writeable;
 
 ///Represents the compressed public key of a node
@@ -16,7 +16,7 @@ impl From<ldk_node::lightning::routing::gossip::NodeId> for NodeId {
     }
 }
 impl TryFrom<NodeId> for ldk_node::lightning::routing::gossip::NodeId {
-    type Error = LdkNodeError;
+    type Error = FfiNodeError;
 
     fn try_from(value: NodeId) -> Result<Self, Self::Error> {
         ldk_node::lightning::routing::gossip::NodeId::from_slice(value.compressed.as_slice())
@@ -120,8 +120,8 @@ pub struct NodeAnnouncementInfo {
 impl From<ldk_node::lightning::routing::gossip::NodeAnnouncementInfo> for NodeAnnouncementInfo {
     fn from(value: ldk_node::lightning::routing::gossip::NodeAnnouncementInfo) -> Self {
         Self {
-            last_update: value.last_update,
-            alias: value.alias.to_string(),
+            last_update: value.last_update(),
+            alias: value.alias().to_string(),
             addresses: value
                 .addresses()
                 .iter()
@@ -130,38 +130,38 @@ impl From<ldk_node::lightning::routing::gossip::NodeAnnouncementInfo> for NodeAn
         }
     }
 }
-pub struct LdkNetworkGraph {
-    pub ptr: RustOpaque<ldk_node::graph::NetworkGraph>,
+pub struct FfiNetworkGraph {
+    pub opaque: RustOpaque<ldk_node::graph::NetworkGraph>,
 }
-impl From<ldk_node::graph::NetworkGraph> for LdkNetworkGraph {
+impl From<ldk_node::graph::NetworkGraph> for FfiNetworkGraph {
     fn from(value: ldk_node::graph::NetworkGraph) -> Self {
-        LdkNetworkGraph {
-            ptr: RustOpaque::new(value),
+        FfiNetworkGraph {
+            opaque: RustOpaque::new(value),
         }
     }
 }
 
-impl LdkNetworkGraph {
+impl FfiNetworkGraph {
     /// Returns the list of channels in the graph
     pub fn list_channels(&self) -> Vec<u64> {
-        self.ptr.list_channels()
+        self.opaque.list_channels()
     }
 
     /// Returns information on a channel with the given id.
     pub fn channel(&self, short_channel_id: u64) -> Option<ChannelInfo> {
-        self.ptr.channel(short_channel_id).map(|e| e.into())
+        self.opaque.channel(short_channel_id).map(|e| e.into())
     }
 
     /// Returns the list of nodes in the graph
     pub fn list_nodes(&self) -> Vec<NodeId> {
-        self.ptr
+        self.opaque
             .list_nodes()
             .iter()
             .map(|e| e.to_owned().into())
             .collect()
     }
 
-    pub fn node(&self, node_id: NodeId) -> Result<Option<NodeInfo>, LdkNodeError> {
-        Ok(self.ptr.node(&(node_id.try_into()?)).map(|e| e.into()))
+    pub fn node(&self, node_id: NodeId) -> Result<Option<NodeInfo>, FfiNodeError> {
+        Ok(self.opaque.node(&node_id.try_into()?).map(|e| e.into()))
     }
 }
