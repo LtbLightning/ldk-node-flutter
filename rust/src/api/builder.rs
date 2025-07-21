@@ -55,7 +55,7 @@ impl FfiBuilder {
                     builder.set_entropy_seed_path(e);
                 }
                 EntropySourceConfig::SeedBytes(e) => {
-                    builder.set_entropy_seed_bytes(e.encode())?;
+                    builder.set_entropy_seed_bytes(e);
                 }
                 EntropySourceConfig::Bip39Mnemonic {
                     mnemonic,
@@ -104,12 +104,12 @@ impl FfiBuilder {
         }
         if let Some(liquidity) = liquidity_source_config {
             builder.set_liquidity_source_lsps2(
-                liquidity.lsps2_service.0.try_into()?,
                 liquidity
                     .lsps2_service
                     .1
                     .try_into()
                     .map_err(|_| FfiBuilderError::InvalidPublicKey)?,
+                liquidity.lsps2_service.0.try_into()?,
                 liquidity.lsps2_service.2,
             );
         }

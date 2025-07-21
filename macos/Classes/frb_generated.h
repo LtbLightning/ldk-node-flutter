@@ -14,6 +14,8 @@ void store_dart_post_cobject(DartPostCObjectFnType ptr);
 // EXTRA END
 typedef struct _Dart_Handle* Dart_Handle;
 
+typedef struct FeeRate FeeRate;
+
 typedef struct wire_cst_list_prim_u_8_strict {
   uint8_t *ptr;
   int32_t len;
@@ -113,21 +115,24 @@ typedef struct wire_cst_sending_parameters {
 
 typedef struct wire_cst_config {
   struct wire_cst_list_prim_u_8_strict *storage_dir_path;
-  struct wire_cst_list_prim_u_8_strict *log_dir_path;
   int32_t network;
   struct wire_cst_list_socket_address *listening_addresses;
+  struct wire_cst_list_socket_address *announcement_addresses;
   struct wire_cst_node_alias *node_alias;
   struct wire_cst_list_public_key *trusted_peers_0conf;
   uint64_t probing_liquidity_limit_multiplier;
-  int32_t log_level;
   struct wire_cst_anchor_channels_config *anchor_channels_config;
   struct wire_cst_sending_parameters *sending_parameters;
 } wire_cst_config;
 
-typedef struct wire_cst_esplora_sync_config {
+typedef struct wire_cst_background_sync_config {
   uint64_t onchain_wallet_sync_interval_secs;
   uint64_t lightning_wallet_sync_interval_secs;
   uint64_t fee_rate_cache_update_interval_secs;
+} wire_cst_background_sync_config;
+
+typedef struct wire_cst_esplora_sync_config {
+  struct wire_cst_background_sync_config *background_sync_config;
 } wire_cst_esplora_sync_config;
 
 typedef struct wire_cst_ChainDataSourceConfig_Esplora {
@@ -203,6 +208,14 @@ typedef struct wire_cst_liquidity_source_config {
   struct wire_cst_record_socket_address_public_key_opt_string lsps2_service;
 } wire_cst_liquidity_source_config;
 
+typedef struct wire_cst_payment_id {
+  struct wire_cst_list_prim_u_8_strict *field0;
+} wire_cst_payment_id;
+
+typedef struct wire_cst_fee_rate {
+  uint64_t field0;
+} wire_cst_fee_rate;
+
 typedef struct wire_cst_ffi_bolt_11_payment {
   uintptr_t opaque;
 } wire_cst_ffi_bolt_11_payment;
@@ -273,10 +286,6 @@ typedef struct wire_cst_channel_config {
   uint64_t force_close_avoidance_max_fee_satoshis;
   bool accept_underpaying_htlcs;
 } wire_cst_channel_config;
-
-typedef struct wire_cst_payment_id {
-  struct wire_cst_list_prim_u_8_strict *field0;
-} wire_cst_payment_id;
 
 typedef struct wire_cst_list_prim_u_8_loose {
   uint8_t *ptr;
@@ -395,17 +404,29 @@ typedef struct wire_cst_closure_reason {
   union ClosureReasonKind kind;
 } wire_cst_closure_reason;
 
+typedef struct wire_cst_custom_tlv_record {
+  uint64_t type_num;
+  struct wire_cst_list_prim_u_8_strict *value;
+} wire_cst_custom_tlv_record;
+
+typedef struct wire_cst_list_custom_tlv_record {
+  struct wire_cst_custom_tlv_record *ptr;
+  int32_t len;
+} wire_cst_list_custom_tlv_record;
+
 typedef struct wire_cst_Event_PaymentClaimable {
   struct wire_cst_payment_id *payment_id;
   struct wire_cst_payment_hash *payment_hash;
   uint64_t claimable_amount_msat;
   uint32_t *claim_deadline;
+  struct wire_cst_list_custom_tlv_record *custom_records;
 } wire_cst_Event_PaymentClaimable;
 
 typedef struct wire_cst_Event_PaymentSuccessful {
   struct wire_cst_payment_id *payment_id;
   struct wire_cst_payment_hash *payment_hash;
   uint64_t *fee_paid_msat;
+  struct wire_cst_payment_preimage *preimage;
 } wire_cst_Event_PaymentSuccessful;
 
 typedef struct wire_cst_Event_PaymentFailed {
@@ -418,6 +439,7 @@ typedef struct wire_cst_Event_PaymentReceived {
   struct wire_cst_payment_id *payment_id;
   struct wire_cst_payment_hash *payment_hash;
   uint64_t amount_msat;
+  struct wire_cst_list_custom_tlv_record *custom_records;
 } wire_cst_Event_PaymentReceived;
 
 typedef struct wire_cst_txid {
@@ -450,6 +472,19 @@ typedef struct wire_cst_Event_ChannelClosed {
   struct wire_cst_closure_reason *reason;
 } wire_cst_Event_ChannelClosed;
 
+typedef struct wire_cst_Event_PaymentForwarded {
+  struct wire_cst_channel_id *prev_channel_id;
+  struct wire_cst_channel_id *next_channel_id;
+  struct wire_cst_user_channel_id *prev_user_channel_id;
+  struct wire_cst_user_channel_id *next_user_channel_id;
+  struct wire_cst_public_key *prev_node_id;
+  struct wire_cst_public_key *next_node_id;
+  uint64_t *total_fee_earned_msat;
+  uint64_t *skimmed_fee_msat;
+  bool claim_from_onchain_tx;
+  uint64_t *outbound_amount_forwarded_msat;
+} wire_cst_Event_PaymentForwarded;
+
 typedef union EventKind {
   struct wire_cst_Event_PaymentClaimable PaymentClaimable;
   struct wire_cst_Event_PaymentSuccessful PaymentSuccessful;
@@ -458,17 +493,13 @@ typedef union EventKind {
   struct wire_cst_Event_ChannelPending ChannelPending;
   struct wire_cst_Event_ChannelReady ChannelReady;
   struct wire_cst_Event_ChannelClosed ChannelClosed;
+  struct wire_cst_Event_PaymentForwarded PaymentForwarded;
 } EventKind;
 
 typedef struct wire_cst_event {
   int32_t tag;
   union EventKind kind;
 } wire_cst_event;
-
-typedef struct wire_cst_lsp_fee_limits {
-  uint64_t *max_total_opening_fee_msat;
-  uint64_t *max_proportional_opening_fee_ppm_msat;
-} wire_cst_lsp_fee_limits;
 
 typedef struct wire_cst_node_announcement_info {
   uint32_t last_update;
@@ -486,70 +517,10 @@ typedef struct wire_cst_node_info {
   struct wire_cst_node_announcement_info *announcement_info;
 } wire_cst_node_info;
 
-typedef struct wire_cst_offer_id {
-  struct wire_cst_list_prim_u_8_strict *field0;
-} wire_cst_offer_id;
-
-typedef struct wire_cst_payment_secret {
-  struct wire_cst_list_prim_u_8_strict *data;
-} wire_cst_payment_secret;
-
-typedef struct wire_cst_PaymentKind_Bolt11 {
-  struct wire_cst_payment_hash *hash;
-  struct wire_cst_payment_preimage *preimage;
-  struct wire_cst_payment_secret *secret;
-} wire_cst_PaymentKind_Bolt11;
-
-typedef struct wire_cst_PaymentKind_Bolt11Jit {
-  struct wire_cst_payment_hash *hash;
-  struct wire_cst_payment_preimage *preimage;
-  struct wire_cst_payment_secret *secret;
-  struct wire_cst_lsp_fee_limits *lsp_fee_limits;
-} wire_cst_PaymentKind_Bolt11Jit;
-
-typedef struct wire_cst_PaymentKind_Spontaneous {
-  struct wire_cst_payment_hash *hash;
-  struct wire_cst_payment_preimage *preimage;
-} wire_cst_PaymentKind_Spontaneous;
-
-typedef struct wire_cst_PaymentKind_Bolt12Offer {
-  struct wire_cst_payment_hash *hash;
-  struct wire_cst_payment_preimage *preimage;
-  struct wire_cst_payment_secret *secret;
-  struct wire_cst_offer_id *offer_id;
-  struct wire_cst_list_prim_u_8_strict *payer_note;
-  uint64_t *quantity;
-} wire_cst_PaymentKind_Bolt12Offer;
-
-typedef struct wire_cst_PaymentKind_Bolt12Refund {
-  struct wire_cst_payment_hash *hash;
-  struct wire_cst_payment_preimage *preimage;
-  struct wire_cst_payment_secret *secret;
-  struct wire_cst_list_prim_u_8_strict *payer_note;
-  uint64_t *quantity;
-} wire_cst_PaymentKind_Bolt12Refund;
-
-typedef union PaymentKindKind {
-  struct wire_cst_PaymentKind_Bolt11 Bolt11;
-  struct wire_cst_PaymentKind_Bolt11Jit Bolt11Jit;
-  struct wire_cst_PaymentKind_Spontaneous Spontaneous;
-  struct wire_cst_PaymentKind_Bolt12Offer Bolt12Offer;
-  struct wire_cst_PaymentKind_Bolt12Refund Bolt12Refund;
-} PaymentKindKind;
-
-typedef struct wire_cst_payment_kind {
-  int32_t tag;
-  union PaymentKindKind kind;
-} wire_cst_payment_kind;
-
-typedef struct wire_cst_payment_details {
-  struct wire_cst_payment_id id;
-  struct wire_cst_payment_kind kind;
-  uint64_t *amount_msat;
-  int32_t direction;
-  int32_t status;
-  uint64_t latest_update_timestamp;
-} wire_cst_payment_details;
+typedef struct wire_cst_list_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPaymentDetails {
+  uintptr_t *ptr;
+  int32_t len;
+} wire_cst_list_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPaymentDetails;
 
 typedef struct wire_cst_channel_details {
   struct wire_cst_channel_id channel_id;
@@ -661,11 +632,6 @@ typedef struct wire_cst_list_node_id {
   int32_t len;
 } wire_cst_list_node_id;
 
-typedef struct wire_cst_list_payment_details {
-  struct wire_cst_payment_details *ptr;
-  int32_t len;
-} wire_cst_list_payment_details;
-
 typedef struct wire_cst_peer_details {
   struct wire_cst_public_key node_id;
   struct wire_cst_socket_address address;
@@ -738,9 +704,14 @@ typedef struct wire_cst_FfiNodeError_Bolt12Parse {
   struct wire_cst_bolt_12_parse_error *field0;
 } wire_cst_FfiNodeError_Bolt12Parse;
 
+typedef struct wire_cst_FfiNodeError_CreationError {
+  int32_t field0;
+} wire_cst_FfiNodeError_CreationError;
+
 typedef union FfiNodeErrorKind {
   struct wire_cst_FfiNodeError_Decode Decode;
   struct wire_cst_FfiNodeError_Bolt12Parse Bolt12Parse;
+  struct wire_cst_FfiNodeError_CreationError CreationError;
 } FfiNodeErrorKind;
 
 typedef struct wire_cst_ffi_node_error {
@@ -783,6 +754,12 @@ typedef struct wire_cst_qr_payment_result {
   union QrPaymentResultKind kind;
 } wire_cst_qr_payment_result;
 
+
+
+
+
+
+
 WireSyncRust2DartDco frbgen_ldk_node_wire__crate__api__builder__FfiBuilder_auto_accessor_get_opaque(uintptr_t that);
 
 WireSyncRust2DartDco frbgen_ldk_node_wire__crate__api__builder__FfiBuilder_auto_accessor_set_opaque(uintptr_t that,
@@ -812,9 +789,54 @@ WireSyncRust2DartDco frbgen_ldk_node_wire__crate__api__builder__FfiBuilder_creat
                                                                                           struct wire_cst_gossip_source_config *gossip_source_config,
                                                                                           struct wire_cst_liquidity_source_config *liquidity_source_config);
 
+WireSyncRust2DartDco frbgen_ldk_node_wire__crate__api__types__PaymentDetails_auto_accessor_get_amount_msat(uintptr_t that);
+
+WireSyncRust2DartDco frbgen_ldk_node_wire__crate__api__types__PaymentDetails_auto_accessor_get_direction(uintptr_t that);
+
+WireSyncRust2DartDco frbgen_ldk_node_wire__crate__api__types__PaymentDetails_auto_accessor_get_id(uintptr_t that);
+
+WireSyncRust2DartDco frbgen_ldk_node_wire__crate__api__types__PaymentDetails_auto_accessor_get_kind(uintptr_t that);
+
+WireSyncRust2DartDco frbgen_ldk_node_wire__crate__api__types__PaymentDetails_auto_accessor_get_latest_update_timestamp(uintptr_t that);
+
+WireSyncRust2DartDco frbgen_ldk_node_wire__crate__api__types__PaymentDetails_auto_accessor_get_status(uintptr_t that);
+
+WireSyncRust2DartDco frbgen_ldk_node_wire__crate__api__types__PaymentDetails_auto_accessor_set_amount_msat(uintptr_t that,
+                                                                                                           uint64_t *amount_msat);
+
+WireSyncRust2DartDco frbgen_ldk_node_wire__crate__api__types__PaymentDetails_auto_accessor_set_direction(uintptr_t that,
+                                                                                                         int32_t direction);
+
+WireSyncRust2DartDco frbgen_ldk_node_wire__crate__api__types__PaymentDetails_auto_accessor_set_id(uintptr_t that,
+                                                                                                  struct wire_cst_payment_id id);
+
+WireSyncRust2DartDco frbgen_ldk_node_wire__crate__api__types__PaymentDetails_auto_accessor_set_kind(uintptr_t that,
+                                                                                                    uintptr_t kind);
+
+WireSyncRust2DartDco frbgen_ldk_node_wire__crate__api__types__PaymentDetails_auto_accessor_set_latest_update_timestamp(uintptr_t that,
+                                                                                                                       uint64_t latest_update_timestamp);
+
+WireSyncRust2DartDco frbgen_ldk_node_wire__crate__api__types__PaymentDetails_auto_accessor_set_status(uintptr_t that,
+                                                                                                      int32_t status);
+
 void frbgen_ldk_node_wire__crate__api__types__anchor_channels_config_default(int64_t port_);
 
 void frbgen_ldk_node_wire__crate__api__types__config_default(int64_t port_);
+
+WireSyncRust2DartDco frbgen_ldk_node_wire__crate__api__types__fee_rate_from_sat_per_kwu(uint64_t sat_kwu);
+
+WireSyncRust2DartDco frbgen_ldk_node_wire__crate__api__types__fee_rate_from_sat_per_vb(uint64_t sat_vb);
+
+WireSyncRust2DartDco frbgen_ldk_node_wire__crate__api__types__fee_rate_from_sat_per_vb_unchecked(uint64_t sat_vb);
+
+void frbgen_ldk_node_wire__crate__api__types__fee_rate_to_sat_per_kwu(int64_t port_,
+                                                                      struct wire_cst_fee_rate *that);
+
+void frbgen_ldk_node_wire__crate__api__types__fee_rate_to_sat_per_vb_ceil(int64_t port_,
+                                                                          struct wire_cst_fee_rate *that);
+
+void frbgen_ldk_node_wire__crate__api__types__fee_rate_to_sat_per_vb_floor(int64_t port_,
+                                                                           struct wire_cst_fee_rate *that);
 
 void frbgen_ldk_node_wire__crate__api__bolt11__ffi_bolt_11_payment_claim_for_hash(int64_t port_,
                                                                                   struct wire_cst_ffi_bolt_11_payment *that,
@@ -1067,12 +1089,15 @@ void frbgen_ldk_node_wire__crate__api__on_chain__ffi_on_chain_payment_new_addres
 
 void frbgen_ldk_node_wire__crate__api__on_chain__ffi_on_chain_payment_send_all_to_address(int64_t port_,
                                                                                           struct wire_cst_ffi_on_chain_payment *that,
-                                                                                          struct wire_cst_address *address);
+                                                                                          struct wire_cst_address *address,
+                                                                                          bool retain_reserves,
+                                                                                          struct wire_cst_fee_rate *fee_rate);
 
 void frbgen_ldk_node_wire__crate__api__on_chain__ffi_on_chain_payment_send_to_address(int64_t port_,
                                                                                       struct wire_cst_ffi_on_chain_payment *that,
                                                                                       struct wire_cst_address *address,
-                                                                                      uint64_t amount_sats);
+                                                                                      uint64_t amount_sats,
+                                                                                      struct wire_cst_fee_rate *fee_rate);
 
 void frbgen_ldk_node_wire__crate__api__spontaneous__ffi_spontaneous_payment_send(int64_t port_,
                                                                                  struct wire_cst_ffi_spontaneous_payment *that,
@@ -1098,6 +1123,14 @@ void frbgen_ldk_node_wire__crate__api__unified_qr__ffi_unified_qr_payment_send(i
 void frbgen_ldk_node_rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerFfiBuilder(const void *ptr);
 
 void frbgen_ldk_node_rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerFfiBuilder(const void *ptr);
+
+void frbgen_ldk_node_rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPaymentDetails(const void *ptr);
+
+void frbgen_ldk_node_rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPaymentDetails(const void *ptr);
+
+void frbgen_ldk_node_rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPaymentKind(const void *ptr);
+
+void frbgen_ldk_node_rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPaymentKind(const void *ptr);
 
 void frbgen_ldk_node_rust_arc_increment_strong_count_RustOpaque_ldk_nodeBuilder(const void *ptr);
 
@@ -1131,9 +1164,13 @@ void frbgen_ldk_node_rust_arc_increment_strong_count_RustOpaque_ldk_nodepaymentU
 
 void frbgen_ldk_node_rust_arc_decrement_strong_count_RustOpaque_ldk_nodepaymentUnifiedQrPayment(const void *ptr);
 
+uintptr_t *frbgen_ldk_node_cst_new_box_autoadd_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPaymentDetails(uintptr_t value);
+
 struct wire_cst_address *frbgen_ldk_node_cst_new_box_autoadd_address(void);
 
 struct wire_cst_anchor_channels_config *frbgen_ldk_node_cst_new_box_autoadd_anchor_channels_config(void);
+
+struct wire_cst_background_sync_config *frbgen_ldk_node_cst_new_box_autoadd_background_sync_config(void);
 
 struct wire_cst_bolt_11_invoice *frbgen_ldk_node_cst_new_box_autoadd_bolt_11_invoice(void);
 
@@ -1163,6 +1200,8 @@ struct wire_cst_esplora_sync_config *frbgen_ldk_node_cst_new_box_autoadd_esplora
 
 struct wire_cst_event *frbgen_ldk_node_cst_new_box_autoadd_event(void);
 
+struct wire_cst_fee_rate *frbgen_ldk_node_cst_new_box_autoadd_fee_rate(void);
+
 struct wire_cst_ffi_bolt_11_payment *frbgen_ldk_node_cst_new_box_autoadd_ffi_bolt_11_payment(void);
 
 struct wire_cst_ffi_bolt_12_payment *frbgen_ldk_node_cst_new_box_autoadd_ffi_bolt_12_payment(void);
@@ -1183,8 +1222,6 @@ struct wire_cst_gossip_source_config *frbgen_ldk_node_cst_new_box_autoadd_gossip
 
 struct wire_cst_liquidity_source_config *frbgen_ldk_node_cst_new_box_autoadd_liquidity_source_config(void);
 
-struct wire_cst_lsp_fee_limits *frbgen_ldk_node_cst_new_box_autoadd_lsp_fee_limits(void);
-
 struct wire_cst_max_total_routing_fee_limit *frbgen_ldk_node_cst_new_box_autoadd_max_total_routing_fee_limit(void);
 
 struct wire_cst_node_alias *frbgen_ldk_node_cst_new_box_autoadd_node_alias(void);
@@ -1197,11 +1234,7 @@ struct wire_cst_node_info *frbgen_ldk_node_cst_new_box_autoadd_node_info(void);
 
 struct wire_cst_offer *frbgen_ldk_node_cst_new_box_autoadd_offer(void);
 
-struct wire_cst_offer_id *frbgen_ldk_node_cst_new_box_autoadd_offer_id(void);
-
 struct wire_cst_out_point *frbgen_ldk_node_cst_new_box_autoadd_out_point(void);
-
-struct wire_cst_payment_details *frbgen_ldk_node_cst_new_box_autoadd_payment_details(void);
 
 int32_t *frbgen_ldk_node_cst_new_box_autoadd_payment_failure_reason(int32_t value);
 
@@ -1210,8 +1243,6 @@ struct wire_cst_payment_hash *frbgen_ldk_node_cst_new_box_autoadd_payment_hash(v
 struct wire_cst_payment_id *frbgen_ldk_node_cst_new_box_autoadd_payment_id(void);
 
 struct wire_cst_payment_preimage *frbgen_ldk_node_cst_new_box_autoadd_payment_preimage(void);
-
-struct wire_cst_payment_secret *frbgen_ldk_node_cst_new_box_autoadd_payment_secret(void);
 
 struct wire_cst_public_key *frbgen_ldk_node_cst_new_box_autoadd_public_key(void);
 
@@ -1233,13 +1264,15 @@ uint8_t *frbgen_ldk_node_cst_new_box_autoadd_u_8(uint8_t value);
 
 struct wire_cst_user_channel_id *frbgen_ldk_node_cst_new_box_autoadd_user_channel_id(void);
 
+struct wire_cst_list_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPaymentDetails *frbgen_ldk_node_cst_new_list_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPaymentDetails(int32_t len);
+
 struct wire_cst_list_channel_details *frbgen_ldk_node_cst_new_list_channel_details(int32_t len);
+
+struct wire_cst_list_custom_tlv_record *frbgen_ldk_node_cst_new_list_custom_tlv_record(int32_t len);
 
 struct wire_cst_list_lightning_balance *frbgen_ldk_node_cst_new_list_lightning_balance(int32_t len);
 
 struct wire_cst_list_node_id *frbgen_ldk_node_cst_new_list_node_id(int32_t len);
-
-struct wire_cst_list_payment_details *frbgen_ldk_node_cst_new_list_payment_details(int32_t len);
 
 struct wire_cst_list_peer_details *frbgen_ldk_node_cst_new_list_peer_details(int32_t len);
 
@@ -1258,8 +1291,10 @@ struct wire_cst_list_record_string_string *frbgen_ldk_node_cst_new_list_record_s
 struct wire_cst_list_socket_address *frbgen_ldk_node_cst_new_list_socket_address(int32_t len);
 static int64_t dummy_method_to_enforce_bundling(void) {
     int64_t dummy_var = 0;
+    dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_cst_new_box_autoadd_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPaymentDetails);
     dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_cst_new_box_autoadd_address);
     dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_cst_new_box_autoadd_anchor_channels_config);
+    dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_cst_new_box_autoadd_background_sync_config);
     dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_cst_new_box_autoadd_bolt_11_invoice);
     dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_cst_new_box_autoadd_bolt_12_parse_error);
     dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_cst_new_box_autoadd_bool);
@@ -1274,6 +1309,7 @@ static int64_t dummy_method_to_enforce_bundling(void) {
     dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_cst_new_box_autoadd_entropy_source_config);
     dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_cst_new_box_autoadd_esplora_sync_config);
     dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_cst_new_box_autoadd_event);
+    dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_cst_new_box_autoadd_fee_rate);
     dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_cst_new_box_autoadd_ffi_bolt_11_payment);
     dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_cst_new_box_autoadd_ffi_bolt_12_payment);
     dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_cst_new_box_autoadd_ffi_mnemonic);
@@ -1284,21 +1320,17 @@ static int64_t dummy_method_to_enforce_bundling(void) {
     dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_cst_new_box_autoadd_ffi_unified_qr_payment);
     dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_cst_new_box_autoadd_gossip_source_config);
     dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_cst_new_box_autoadd_liquidity_source_config);
-    dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_cst_new_box_autoadd_lsp_fee_limits);
     dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_cst_new_box_autoadd_max_total_routing_fee_limit);
     dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_cst_new_box_autoadd_node_alias);
     dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_cst_new_box_autoadd_node_announcement_info);
     dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_cst_new_box_autoadd_node_id);
     dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_cst_new_box_autoadd_node_info);
     dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_cst_new_box_autoadd_offer);
-    dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_cst_new_box_autoadd_offer_id);
     dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_cst_new_box_autoadd_out_point);
-    dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_cst_new_box_autoadd_payment_details);
     dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_cst_new_box_autoadd_payment_failure_reason);
     dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_cst_new_box_autoadd_payment_hash);
     dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_cst_new_box_autoadd_payment_id);
     dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_cst_new_box_autoadd_payment_preimage);
-    dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_cst_new_box_autoadd_payment_secret);
     dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_cst_new_box_autoadd_public_key);
     dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_cst_new_box_autoadd_refund);
     dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_cst_new_box_autoadd_sending_parameters);
@@ -1309,10 +1341,11 @@ static int64_t dummy_method_to_enforce_bundling(void) {
     dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_cst_new_box_autoadd_u_64);
     dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_cst_new_box_autoadd_u_8);
     dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_cst_new_box_autoadd_user_channel_id);
+    dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_cst_new_list_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPaymentDetails);
     dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_cst_new_list_channel_details);
+    dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_cst_new_list_custom_tlv_record);
     dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_cst_new_list_lightning_balance);
     dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_cst_new_list_node_id);
-    dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_cst_new_list_payment_details);
     dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_cst_new_list_peer_details);
     dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_cst_new_list_pending_sweep_balance);
     dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_cst_new_list_prim_u_64_strict);
@@ -1322,6 +1355,8 @@ static int64_t dummy_method_to_enforce_bundling(void) {
     dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_cst_new_list_record_string_string);
     dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_cst_new_list_socket_address);
     dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerFfiBuilder);
+    dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPaymentDetails);
+    dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPaymentKind);
     dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_rust_arc_decrement_strong_count_RustOpaque_ldk_nodeBuilder);
     dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_rust_arc_decrement_strong_count_RustOpaque_ldk_nodeNode);
     dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_rust_arc_decrement_strong_count_RustOpaque_ldk_nodegraphNetworkGraph);
@@ -1331,6 +1366,8 @@ static int64_t dummy_method_to_enforce_bundling(void) {
     dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_rust_arc_decrement_strong_count_RustOpaque_ldk_nodepaymentSpontaneousPayment);
     dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_rust_arc_decrement_strong_count_RustOpaque_ldk_nodepaymentUnifiedQrPayment);
     dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerFfiBuilder);
+    dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPaymentDetails);
+    dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPaymentKind);
     dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_rust_arc_increment_strong_count_RustOpaque_ldk_nodeBuilder);
     dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_rust_arc_increment_strong_count_RustOpaque_ldk_nodeNode);
     dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_rust_arc_increment_strong_count_RustOpaque_ldk_nodegraphNetworkGraph);
@@ -1407,8 +1444,26 @@ static int64_t dummy_method_to_enforce_bundling(void) {
     dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__crate__api__on_chain__ffi_on_chain_payment_send_to_address);
     dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__crate__api__spontaneous__ffi_spontaneous_payment_send);
     dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__crate__api__spontaneous__ffi_spontaneous_payment_send_probes);
+    dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__crate__api__types__PaymentDetails_auto_accessor_get_amount_msat);
+    dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__crate__api__types__PaymentDetails_auto_accessor_get_direction);
+    dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__crate__api__types__PaymentDetails_auto_accessor_get_id);
+    dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__crate__api__types__PaymentDetails_auto_accessor_get_kind);
+    dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__crate__api__types__PaymentDetails_auto_accessor_get_latest_update_timestamp);
+    dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__crate__api__types__PaymentDetails_auto_accessor_get_status);
+    dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__crate__api__types__PaymentDetails_auto_accessor_set_amount_msat);
+    dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__crate__api__types__PaymentDetails_auto_accessor_set_direction);
+    dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__crate__api__types__PaymentDetails_auto_accessor_set_id);
+    dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__crate__api__types__PaymentDetails_auto_accessor_set_kind);
+    dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__crate__api__types__PaymentDetails_auto_accessor_set_latest_update_timestamp);
+    dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__crate__api__types__PaymentDetails_auto_accessor_set_status);
     dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__crate__api__types__anchor_channels_config_default);
     dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__crate__api__types__config_default);
+    dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__crate__api__types__fee_rate_from_sat_per_kwu);
+    dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__crate__api__types__fee_rate_from_sat_per_vb);
+    dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__crate__api__types__fee_rate_from_sat_per_vb_unchecked);
+    dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__crate__api__types__fee_rate_to_sat_per_kwu);
+    dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__crate__api__types__fee_rate_to_sat_per_vb_ceil);
+    dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__crate__api__types__fee_rate_to_sat_per_vb_floor);
     dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__crate__api__unified_qr__ffi_unified_qr_payment_receive);
     dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__crate__api__unified_qr__ffi_unified_qr_payment_send);
     dummy_var ^= ((int64_t) (void*) store_dart_post_cobject);

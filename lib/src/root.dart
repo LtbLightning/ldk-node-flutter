@@ -541,9 +541,12 @@ class OnChainPayment extends on_chain.FfiOnChainPayment {
 
   @override
   Future<types.Txid> sendAllToAddress(
-      {required types.Address address, hint}) async {
+      {required types.Address address,
+      required bool retainReserves,
+      types.FeeRate? feeRate}) async {
     try {
-      return await super.sendAllToAddress(address: address);
+      return await super.sendAllToAddress(
+          address: address, retainReserves: retainReserves, feeRate: feeRate);
     } on error.FfiNodeError catch (e) {
       throw mapFfiNodeError(e);
     }
@@ -553,10 +556,10 @@ class OnChainPayment extends on_chain.FfiOnChainPayment {
   Future<types.Txid> sendToAddress(
       {required types.Address address,
       required BigInt amountSats,
-      hint}) async {
+      types.FeeRate? feeRate}) async {
     try {
-      return await super
-          .sendToAddress(address: address, amountSats: amountSats);
+      return await super.sendToAddress(
+          address: address, amountSats: amountSats, feeRate: feeRate);
     } on error.FfiNodeError catch (e) {
       throw mapFfiNodeError(e);
     }
@@ -999,7 +1002,7 @@ class Builder {
       listeningAddresses: [
         types.SocketAddress.hostname(addr: "0.0.0.0", port: 9735)
       ],
-      logLevel: types.LogLevel.debug,
+      // logLevel: types.LogLevel.debug,
       trustedPeers0Conf: [],
       probingLiquidityLimitMultiplier: BigInt.from(3),
     ));
@@ -1152,10 +1155,10 @@ class Builder {
 
   /// Sets the level at which [`Node`] will log messages.
   ///
-  Builder setLogLevel(types.LogLevel logLevel) {
-    _config!.logLevel = logLevel;
-    return this;
-  }
+  // Builder setLogLevel(types.LogLevel logLevel) {
+  //   _config!.logLevel = logLevel;
+  //   return this;
+  // }
 
   /// Configures the [Node] instance to source its inbound liquidity from the given
   /// [LSPS2](https://github.com/BitcoinAndLightningLayerSpecs/lsp/blob/main/LSPS2/README.md)

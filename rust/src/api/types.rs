@@ -1,11 +1,11 @@
 use crate::api::builder::FfiMnemonic;
 use crate::utils::error::{FfiBuilderError, FfiNodeError};
 use flutter_rust_bridge::*;
+use ldk_node::bitcoin;
 use ldk_node::lightning::util::ser::{Readable, Writeable};
 use std::default::Default;
 use std::str::FromStr;
 use std::string::ToString;
-
 
 // todo: LogLevel, log_path on Config
 
@@ -487,7 +487,7 @@ pub enum Event {
         /// The block height at which this payment will be failed back and will no longer be
         /// eligible for claiming.
         claim_deadline: Option<u32>,
-        /// todo: docs
+		/// Custom TLV records attached to the payment
         custom_records: Vec<CustomTlvRecord>,
     },
     /// A sent payment was successful.
@@ -501,7 +501,7 @@ pub enum Event {
         /// The total fee which was spent at intermediate hops in this payment.
         fee_paid_msat: Option<u64>,
         /// The preimage of the payment hash, which can be used to claim the payment.
-        preimage: Option<ldk_node::lightning::types::payment::PaymentPreimage>,
+        preimage: Option<PaymentPreimage>,
     },
     /// A sent payment has failed.
     PaymentFailed {
@@ -526,7 +526,7 @@ pub enum Event {
         payment_hash: PaymentHash,
         /// The value, in thousandths of a satoshi, that has been received.
         amount_msat: u64,
-        /// todo: docs
+		/// Custom TLV records received on the payment
         custom_records: Vec<CustomTlvRecord>,
     },
     /// A channel has been created and is pending confirmation on-chain.
@@ -567,36 +567,35 @@ pub enum Event {
         reason: Option<ClosureReason>,
     },
     PaymentForwarded {
-		/// The channel id of the incoming channel between the previous node and us.
-		prev_channel_id: ChannelId,
-		/// The channel id of the outgoing channel between the next node and us.
-		next_channel_id: ChannelId,
-		/// The `user_channel_id` of the incoming channel between the previous node and us.
-		prev_user_channel_id: Option<UserChannelId>,
-		/// The `user_channel_id` of the outgoing channel between the next node and us.
-		next_user_channel_id: Option<UserChannelId>,
-		/// The node id of the previous node.
-		///
-		/// This is only `None` for HTLCs received prior to LDK Node v0.5 or for events serialized by
-		/// versions prior to v0.5.
-		prev_node_id: Option<PublicKey>,
-		/// The node id of the next node.
-		///
-		/// This is only `None` for HTLCs received prior to LDK Node v0.5 or for events serialized by
-		/// versions prior to v0.5.
-		next_node_id: Option<PublicKey>,
-		/// The total fee, in milli-satoshis, which was earned as a result of the payment.
-		total_fee_earned_msat: Option<u64>,
-		/// The share of the total fee, in milli-satoshis, which was withheld in addition to the
-		/// forwarding fee.
-		skimmed_fee_msat: Option<u64>,
-		/// If this is `true`, the forwarded HTLC was claimed by our counterparty via an on-chain
-		/// transaction.
-		claim_from_onchain_tx: bool,
-		/// The final amount forwarded, in milli-satoshis, after the fee is deducted.
-
-		outbound_amount_forwarded_msat: Option<u64>,
-	},
+        /// The channel id of the incoming channel between the previous node and us.
+        prev_channel_id: ChannelId,
+        /// The channel id of the outgoing channel between the next node and us.
+        next_channel_id: ChannelId,
+        /// The `user_channel_id` of the incoming channel between the previous node and us.
+        prev_user_channel_id: Option<UserChannelId>,
+        /// The `user_channel_id` of the outgoing channel between the next node and us.
+        next_user_channel_id: Option<UserChannelId>,
+        /// The node id of the previous node.
+        ///
+        /// This is only `None` for HTLCs received prior to LDK Node v0.5 or for events serialized by
+        /// versions prior to v0.5.
+        prev_node_id: Option<PublicKey>,
+        /// The node id of the next node.
+        ///
+        /// This is only `None` for HTLCs received prior to LDK Node v0.5 or for events serialized by
+        /// versions prior to v0.5.
+        next_node_id: Option<PublicKey>,
+        /// The total fee, in milli-satoshis, which was earned as a result of the payment.
+        total_fee_earned_msat: Option<u64>,
+        /// The share of the total fee, in milli-satoshis, which was withheld in addition to the
+        /// forwarding fee.
+        skimmed_fee_msat: Option<u64>,
+        /// If this is `true`, the forwarded HTLC was claimed by our counterparty via an on-chain
+        /// transaction.
+        claim_from_onchain_tx: bool,
+        /// The final amount forwarded, in milli-satoshis, after the fee is deducted.
+        outbound_amount_forwarded_msat: Option<u64>,
+    },
 }
 
 impl From<ldk_node::Event> for Event {
@@ -702,25 +701,24 @@ impl From<ldk_node::Event> for Event {
                 skimmed_fee_msat,
                 claim_from_onchain_tx,
                 outbound_amount_forwarded_msat,
-            } => {
-                Event::PaymentForwarded {
-                    prev_channel_id: prev_channel_id.into(),
-                    next_channel_id: next_channel_id.into(),
-                    prev_user_channel_id: prev_user_channel_id.map(|e| e.into()),
-                    next_user_channel_id: next_user_channel_id.map(|e| e.into()),
-                    prev_node_id: prev_node_id.map(|e| e.into()),
-                    next_node_id: next_node_id.map(|e| e.into()),
-                    total_fee_earned_msat,
-                    skimmed_fee_msat,
-                    claim_from_onchain_tx,
-                    outbound_amount_forwarded_msat,
-                }
-            }
+            } => Event::PaymentForwarded {
+                prev_channel_id: prev_channel_id.into(),
+                next_channel_id: next_channel_id.into(),
+                prev_user_channel_id: prev_user_channel_id.map(|e| e.into()),
+                next_user_channel_id: next_user_channel_id.map(|e| e.into()),
+                prev_node_id: prev_node_id.map(|e| e.into()),
+                next_node_id: next_node_id.map(|e| e.into()),
+                total_fee_earned_msat,
+                skimmed_fee_msat,
+                claim_from_onchain_tx,
+                outbound_amount_forwarded_msat,
+            },
         }
     }
 }
-/// A custom TLV record, todo: docs
-///   
+
+
+/// A Custom TLV entry.
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub struct CustomTlvRecord {
     /// Type number.
@@ -949,11 +947,68 @@ impl From<OfferId> for ldk_node::lightning::offers::offer::OfferId {
         Self(value.0)
     }
 }
+
+/// Represents the confirmation status of a transaction.
+#[derive(Copy, Clone, Debug, PartialEq, Eq)]
+pub enum ConfirmationStatus {
+	/// The transaction is confirmed in the best chain.
+	Confirmed {
+		/// The hash of the block in which the transaction was confirmed.
+		block_hash: bitcoin::BlockHash,
+		/// The height under which the block was confirmed.
+		height: u32,
+		/// The timestamp, in seconds since start of the UNIX epoch, when this entry was last updated.
+		timestamp: u64,
+	},
+	/// The transaction is unconfirmed.
+	Unconfirmed,
+}
+
+
+impl From<ldk_node::payment::ConfirmationStatus> for ConfirmationStatus {
+    fn from(value: ldk_node::payment::ConfirmationStatus) -> Self {
+        match value {
+            ldk_node::payment::ConfirmationStatus::Confirmed {
+                block_hash,
+                height,
+                timestamp,
+            } => ConfirmationStatus::Confirmed {
+                block_hash,
+                height,
+                timestamp,
+            },
+            ldk_node::payment::ConfirmationStatus::Unconfirmed => ConfirmationStatus::Unconfirmed,
+        }
+    }
+}
+
+impl From<ConfirmationStatus> for ldk_node::payment::ConfirmationStatus {
+    fn from(value: ConfirmationStatus) -> Self {
+        match value {
+            ConfirmationStatus::Confirmed {
+                block_hash,
+                height,
+                timestamp,
+            } => ldk_node::payment::ConfirmationStatus::Confirmed {
+                block_hash,
+                height,
+                timestamp,
+            },
+            ConfirmationStatus::Unconfirmed => ldk_node::payment::ConfirmationStatus::Unconfirmed,
+        }
+    }
+}
+
 /// Represents the kind of a payment.
 #[derive(Clone, Debug, PartialEq, Eq)]
 pub enum PaymentKind {
     /// An on-chain payment.
-    Onchain,
+    Onchain {
+        /// The transaction ID of the on-chain payment.
+        txid: Txid,
+        /// The status of the on-chain payment.
+        status: ConfirmationStatus
+    },
     /// A [BOLT 11] payment.
     ///
     /// [BOLT 11]: https://github.com/lightning/bolts/blob/master/11-payment-encoding.md
@@ -983,6 +1038,12 @@ pub enum PaymentKind {
         /// channel opening fees.
         ///
         lsp_fee_limits: LSPFeeLimits,
+        /// The value, in thousands of a satoshi, that was deducted from this payment as an extra
+		/// fee taken by our channel counterparty.
+		///
+		/// Will only be `Some` once we received the payment. Will always be `None` for LDK Node
+		/// v0.4 and prior.
+		counterparty_skimmed_fee_msat: Option<u64>,
     },
     /// A spontaneous ("keysend") payment.
     Spontaneous {
@@ -1038,11 +1099,10 @@ pub enum PaymentKind {
 impl From<ldk_node::payment::PaymentKind> for PaymentKind {
     fn from(value: ldk_node::payment::PaymentKind) -> Self {
         match value {
-            ldk_node::payment::PaymentKind::Onchain {
-                txid,
-                status,
-            }
-            => PaymentKind::Onchain,
+            ldk_node::payment::PaymentKind::Onchain { txid, status } => PaymentKind::Onchain {
+                txid: txid.into(),
+                status: status.into(),
+            },
             ldk_node::payment::PaymentKind::Bolt11 {
                 hash,
                 preimage,
@@ -1057,13 +1117,13 @@ impl From<ldk_node::payment::PaymentKind> for PaymentKind {
                 preimage,
                 secret,
                 lsp_fee_limits,
-
-                counterparty_skimmed_fee_msat, // todo
+                counterparty_skimmed_fee_msat
             } => PaymentKind::Bolt11Jit {
                 hash: hash.into(),
                 preimage: preimage.map(|e| e.into()),
                 secret: secret.map(|e| e.into()),
                 lsp_fee_limits: lsp_fee_limits.into(),
+                counterparty_skimmed_fee_msat,
             },
             ldk_node::payment::PaymentKind::Spontaneous { hash, preimage } => {
                 PaymentKind::Spontaneous {
@@ -1559,8 +1619,18 @@ impl TryFrom<Config> for ldk_node::config::Config {
             anchor_channels_config,
             node_alias: value.node_alias.map(|e| e.into()),
             sending_parameters: value.sending_parameters.map(|e| e.into()),
-
-            announcement_addresses: None, // todo
+            announcement_addresses: if let Some(vec_socket_addr) = value.announcement_addresses {
+                let addr_vec: Result<
+                    Vec<ldk_node::lightning::ln::msgs::SocketAddress>,
+                    FfiBuilderError,
+                > = vec_socket_addr
+                    .into_iter()
+                    .map(|socket_addr| socket_addr.try_into())
+                    .collect();
+                Some(addr_vec?)
+            } else {
+                None
+            },
         })
     }
 }
@@ -1586,6 +1656,12 @@ impl From<ldk_node::config::Config> for Config {
             anchor_channels_config: value.anchor_channels_config.map(|e| e.into()),
             sending_parameters: value.sending_parameters.map(|e| e.into()),
             node_alias: value.node_alias.map(|e| e.into()),
+            announcement_addresses: value.announcement_addresses.map(|vec_socket_addr| {
+                vec_socket_addr
+                    .into_iter()
+                    .map(|socket_addr| socket_addr.into())
+                    .collect()
+            }),
         }
     }
 }
@@ -1623,6 +1699,9 @@ pub struct Config {
     ///
     #[frb(non_final)]
     pub listening_addresses: Option<Vec<SocketAddress>>,
+    /// The addresses which the node will announce to the gossip network that it accepts connections on.
+    #[frb(non_final)]
+	pub announcement_addresses: Option<Vec<SocketAddress>>,
     #[frb(non_final)]
     /// The node alias that will be used when broadcasting announcements to the gossip network.
     ///
@@ -1671,6 +1750,7 @@ impl Default for Config {
             // log_dir_path: None,
             network: DEFAULT_NETWORK,
             listening_addresses: None,
+            announcement_addresses: None,
             trusted_peers_0conf: vec![],
             probing_liquidity_limit_multiplier: 3,
             // log_level: DEFAULT_LOG_LEVEL,
@@ -2277,22 +2357,21 @@ impl From<EsploraSyncConfig> for ldk_node::config::EsploraSyncConfig {
 /// | `fee_rate_cache_update_interval_secs`  | 600                |
 #[derive(Debug, Copy, Clone, PartialEq, Eq)]
 pub struct BackgroundSyncConfig {
-	/// The time in-between background sync attempts of the onchain wallet, in seconds.
-	///
-	/// **Note:** A minimum of 10 seconds is enforced when background syncing is enabled.
-	pub onchain_wallet_sync_interval_secs: u64,
+    /// The time in-between background sync attempts of the onchain wallet, in seconds.
+    ///
+    /// **Note:** A minimum of 10 seconds is enforced when background syncing is enabled.
+    pub onchain_wallet_sync_interval_secs: u64,
 
-	/// The time in-between background sync attempts of the LDK wallet, in seconds.
-	///
-	/// **Note:** A minimum of 10 seconds is enforced when background syncing is enabled.
-	pub lightning_wallet_sync_interval_secs: u64,
+    /// The time in-between background sync attempts of the LDK wallet, in seconds.
+    ///
+    /// **Note:** A minimum of 10 seconds is enforced when background syncing is enabled.
+    pub lightning_wallet_sync_interval_secs: u64,
 
-	/// The time in-between background update attempts to our fee rate cache, in seconds.
-	///
-	/// **Note:** A minimum of 10 seconds is enforced when background syncing is enabled.
-	pub fee_rate_cache_update_interval_secs: u64,
+    /// The time in-between background update attempts to our fee rate cache, in seconds.
+    ///
+    /// **Note:** A minimum of 10 seconds is enforced when background syncing is enabled.
+    pub fee_rate_cache_update_interval_secs: u64,
 }
-
 
 impl From<BackgroundSyncConfig> for ldk_node::config::BackgroundSyncConfig {
     fn from(value: BackgroundSyncConfig) -> Self {
@@ -2304,7 +2383,6 @@ impl From<BackgroundSyncConfig> for ldk_node::config::BackgroundSyncConfig {
     }
 }
 
-
 impl From<ldk_node::config::BackgroundSyncConfig> for BackgroundSyncConfig {
     fn from(value: ldk_node::config::BackgroundSyncConfig) -> Self {
         BackgroundSyncConfig {
@@ -2313,10 +2391,79 @@ impl From<ldk_node::config::BackgroundSyncConfig> for BackgroundSyncConfig {
             fee_rate_cache_update_interval_secs: value.fee_rate_cache_update_interval_secs,
         }
     }
-    
 }
 
 // Config defaults
 const DEFAULT_STORAGE_DIR_PATH: &str = "/tmp/ldk_node/";
 const DEFAULT_NETWORK: Network = Network::Testnet;
 const DEFAULT_LOG_LEVEL: LogLevel = LogLevel::Debug;
+
+#[derive(Debug, Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash)]
+pub struct FeeRate(pub(crate) u64);
+
+impl FeeRate {
+    /// 0 sat/kwu.
+    ///
+    /// Equivalent to [`MIN`](Self::MIN), may better express intent in some contexts.
+    pub const ZERO: FeeRate = FeeRate(0);
+
+    /// Minimum possible value (0 sat/kwu).
+    ///
+    /// Equivalent to [`ZERO`](Self::ZERO), may better express intent in some contexts.
+    pub const MIN: FeeRate = FeeRate::ZERO;
+
+    /// Maximum possible value.
+    pub const MAX: FeeRate = FeeRate(u64::MAX);
+
+    /// Minimum fee rate required to broadcast a transaction.
+    ///
+    /// The value matches the default Bitcoin Core policy at the time of library release.
+    pub const BROADCAST_MIN: FeeRate = FeeRate::from_sat_per_vb_unchecked(1);
+
+    /// Fee rate used to compute dust amount.
+    pub const DUST: FeeRate = FeeRate::from_sat_per_vb_unchecked(3);
+
+    /// Constructs `FeeRate` from satoshis per 1000 weight units.
+    #[frb(sync)]
+    pub fn from_sat_per_kwu(sat_kwu: u64) -> Self { FeeRate(sat_kwu) }
+
+    /// Constructs `FeeRate` from satoshis per virtual bytes.
+    ///
+    /// # Errors
+    ///
+    /// Returns a null on arithmetic overflow.
+    #[frb(sync)]
+    pub fn from_sat_per_vb(sat_vb: u64) -> Option<Self> {
+        // 1 vb == 4 wu
+        // 1 sat/vb == 1/4 sat/wu
+        // sat_vb sat/vb * 1000 / 4 == sat/kwu
+        Some(FeeRate(sat_vb.checked_mul(1000 / 4)?))
+    }
+
+    /// Constructs `FeeRate` from satoshis per virtual bytes without overflow check.
+    #[frb(sync)]
+    pub const fn from_sat_per_vb_unchecked(sat_vb: u64) -> Self { FeeRate(sat_vb * (1000 / 4)) }
+
+    /// Returns raw fee rate.
+    ///
+    /// Can be used instead of `into()` to avoid inference issues.
+    pub fn to_sat_per_kwu(self) -> u64 { self.0 }
+
+    /// Converts to sat/vB rounding down.
+    pub fn to_sat_per_vb_floor(self) -> u64 { self.0 / (1000 / 4) }
+
+    /// Converts to sat/vB rounding up.
+    pub fn to_sat_per_vb_ceil(self) -> u64 { (self.0 + (1000 / 4 - 1)) / (1000 / 4) }
+}
+
+impl From<ldk_node::bitcoin::FeeRate> for FeeRate {
+    fn from(value: ldk_node::bitcoin::FeeRate) -> Self {
+        FeeRate(value.to_sat_per_kwu())
+    }
+}
+
+impl From<FeeRate> for ldk_node::bitcoin::FeeRate {
+    fn from(value: FeeRate) -> Self {
+        ldk_node::bitcoin::FeeRate::from_sat_per_kwu(value.to_sat_per_kwu())
+    }
+}

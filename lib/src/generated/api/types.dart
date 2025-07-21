@@ -10,7 +10,38 @@ import 'package:flutter_rust_bridge/flutter_rust_bridge_for_generated.dart';
 import 'package:freezed_annotation/freezed_annotation.dart' hide protected;
 part 'types.freezed.dart';
 
-// These function are ignored because they are on traits that is not defined in current crate (put an empty `#[frb]` on it to unignore): `assert_receiver_is_total_eq`, `assert_receiver_is_total_eq`, `assert_receiver_is_total_eq`, `assert_receiver_is_total_eq`, `assert_receiver_is_total_eq`, `assert_receiver_is_total_eq`, `assert_receiver_is_total_eq`, `assert_receiver_is_total_eq`, `assert_receiver_is_total_eq`, `assert_receiver_is_total_eq`, `assert_receiver_is_total_eq`, `assert_receiver_is_total_eq`, `assert_receiver_is_total_eq`, `assert_receiver_is_total_eq`, `assert_receiver_is_total_eq`, `assert_receiver_is_total_eq`, `assert_receiver_is_total_eq`, `assert_receiver_is_total_eq`, `assert_receiver_is_total_eq`, `assert_receiver_is_total_eq`, `assert_receiver_is_total_eq`, `assert_receiver_is_total_eq`, `assert_receiver_is_total_eq`, `assert_receiver_is_total_eq`, `assert_receiver_is_total_eq`, `assert_receiver_is_total_eq`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `eq`, `eq`, `eq`, `eq`, `eq`, `eq`, `eq`, `eq`, `eq`, `eq`, `eq`, `eq`, `eq`, `eq`, `eq`, `eq`, `eq`, `eq`, `eq`, `eq`, `eq`, `eq`, `eq`, `eq`, `eq`, `eq`, `eq`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `hash`, `hash`, `hash`, `hash`, `try_from`, `try_from`, `try_from`, `try_from`, `try_from`, `try_from`, `try_from`
+// These types are ignored because they are neither used by any `pub` functions nor (for structs and enums) marked `#[frb(unignore)]`: `ConfirmationStatus`, `LSPFeeLimits`, `LogLevel`, `OfferId`, `PaymentSecret`
+// These function are ignored because they are on traits that is not defined in current crate (put an empty `#[frb]` on it to unignore): `assert_receiver_is_total_eq`, `assert_receiver_is_total_eq`, `assert_receiver_is_total_eq`, `assert_receiver_is_total_eq`, `assert_receiver_is_total_eq`, `assert_receiver_is_total_eq`, `assert_receiver_is_total_eq`, `assert_receiver_is_total_eq`, `assert_receiver_is_total_eq`, `assert_receiver_is_total_eq`, `assert_receiver_is_total_eq`, `assert_receiver_is_total_eq`, `assert_receiver_is_total_eq`, `assert_receiver_is_total_eq`, `assert_receiver_is_total_eq`, `assert_receiver_is_total_eq`, `assert_receiver_is_total_eq`, `assert_receiver_is_total_eq`, `assert_receiver_is_total_eq`, `assert_receiver_is_total_eq`, `assert_receiver_is_total_eq`, `assert_receiver_is_total_eq`, `assert_receiver_is_total_eq`, `assert_receiver_is_total_eq`, `assert_receiver_is_total_eq`, `assert_receiver_is_total_eq`, `assert_receiver_is_total_eq`, `assert_receiver_is_total_eq`, `assert_receiver_is_total_eq`, `assert_receiver_is_total_eq`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `cmp`, `eq`, `eq`, `eq`, `eq`, `eq`, `eq`, `eq`, `eq`, `eq`, `eq`, `eq`, `eq`, `eq`, `eq`, `eq`, `eq`, `eq`, `eq`, `eq`, `eq`, `eq`, `eq`, `eq`, `eq`, `eq`, `eq`, `eq`, `eq`, `eq`, `eq`, `eq`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `hash`, `hash`, `hash`, `hash`, `hash`, `partial_cmp`, `try_from`, `try_from`, `try_from`, `try_from`, `try_from`, `try_from`, `try_from`
+
+// Rust type: RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<PaymentDetails>>
+abstract class PaymentDetails implements RustOpaqueInterface {
+  BigInt? get amountMsat;
+
+  PaymentDirection get direction;
+
+  PaymentId get id;
+
+  PaymentKind get kind;
+
+  BigInt get latestUpdateTimestamp;
+
+  PaymentStatus get status;
+
+  set amountMsat(BigInt? amountMsat);
+
+  set direction(PaymentDirection direction);
+
+  set id(PaymentId id);
+
+  set kind(PaymentKind kind);
+
+  set latestUpdateTimestamp(BigInt latestUpdateTimestamp);
+
+  set status(PaymentStatus status);
+}
+
+// Rust type: RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<PaymentKind>>
+abstract class PaymentKind implements RustOpaqueInterface {}
 
 /// A Bitcoin address.
 ///
@@ -110,6 +141,56 @@ class AnchorChannelsConfig {
           runtimeType == other.runtimeType &&
           trustedPeersNoReserve == other.trustedPeersNoReserve &&
           perChannelReserveSats == other.perChannelReserveSats;
+}
+
+/// Options related to background syncing the Lightning and on-chain wallets.
+///
+/// ### Defaults
+///
+/// | Parameter                              | Value              |
+/// |----------------------------------------|--------------------|
+/// | `onchain_wallet_sync_interval_secs`    | 80                 |
+/// | `lightning_wallet_sync_interval_secs`  | 30                 |
+/// | `fee_rate_cache_update_interval_secs`  | 600                |
+class BackgroundSyncConfig {
+  /// The time in-between background sync attempts of the onchain wallet, in seconds.
+  ///
+  /// **Note:** A minimum of 10 seconds is enforced when background syncing is enabled.
+  final BigInt onchainWalletSyncIntervalSecs;
+
+  /// The time in-between background sync attempts of the LDK wallet, in seconds.
+  ///
+  /// **Note:** A minimum of 10 seconds is enforced when background syncing is enabled.
+  final BigInt lightningWalletSyncIntervalSecs;
+
+  /// The time in-between background update attempts to our fee rate cache, in seconds.
+  ///
+  /// **Note:** A minimum of 10 seconds is enforced when background syncing is enabled.
+  final BigInt feeRateCacheUpdateIntervalSecs;
+
+  const BackgroundSyncConfig({
+    required this.onchainWalletSyncIntervalSecs,
+    required this.lightningWalletSyncIntervalSecs,
+    required this.feeRateCacheUpdateIntervalSecs,
+  });
+
+  @override
+  int get hashCode =>
+      onchainWalletSyncIntervalSecs.hashCode ^
+      lightningWalletSyncIntervalSecs.hashCode ^
+      feeRateCacheUpdateIntervalSecs.hashCode;
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is BackgroundSyncConfig &&
+          runtimeType == other.runtimeType &&
+          onchainWalletSyncIntervalSecs ==
+              other.onchainWalletSyncIntervalSecs &&
+          lightningWalletSyncIntervalSecs ==
+              other.lightningWalletSyncIntervalSecs &&
+          feeRateCacheUpdateIntervalSecs ==
+              other.feeRateCacheUpdateIntervalSecs;
 }
 
 /// Details of the known available balances returned by `node.listBalances`.
@@ -670,7 +751,6 @@ sealed class ClosureReason with _$ClosureReason {
 ///
 class Config {
   String storageDirPath;
-  String? logDirPath;
 
   /// The used Bitcoin network.
   ///
@@ -679,6 +759,9 @@ class Config {
   /// The IP address and TCP port the node will listen on.
   ///
   List<SocketAddress>? listeningAddresses;
+
+  /// The addresses which the node will announce to the gossip network that it accepts connections on.
+  List<SocketAddress>? announcementAddresses;
 
   /// The node alias that will be used when broadcasting announcements to the gossip network.
   ///
@@ -697,7 +780,6 @@ class Config {
   ///The level at which we log messages.
   /// Any messages below this level will be excluded from the logs.
   ///
-  LogLevel logLevel;
   AnchorChannelsConfig? anchorChannelsConfig;
 
   /// Configuration options for payment routing and pathfinding.
@@ -711,13 +793,12 @@ class Config {
 
   Config({
     required this.storageDirPath,
-    this.logDirPath,
     required this.network,
     this.listeningAddresses,
+    this.announcementAddresses,
     this.nodeAlias,
     required this.trustedPeers0Conf,
     required this.probingLiquidityLimitMultiplier,
-    required this.logLevel,
     this.anchorChannelsConfig,
     this.sendingParameters,
   });
@@ -728,13 +809,12 @@ class Config {
   @override
   int get hashCode =>
       storageDirPath.hashCode ^
-      logDirPath.hashCode ^
       network.hashCode ^
       listeningAddresses.hashCode ^
+      announcementAddresses.hashCode ^
       nodeAlias.hashCode ^
       trustedPeers0Conf.hashCode ^
       probingLiquidityLimitMultiplier.hashCode ^
-      logLevel.hashCode ^
       anchorChannelsConfig.hashCode ^
       sendingParameters.hashCode;
 
@@ -744,16 +824,40 @@ class Config {
       other is Config &&
           runtimeType == other.runtimeType &&
           storageDirPath == other.storageDirPath &&
-          logDirPath == other.logDirPath &&
           network == other.network &&
           listeningAddresses == other.listeningAddresses &&
+          announcementAddresses == other.announcementAddresses &&
           nodeAlias == other.nodeAlias &&
           trustedPeers0Conf == other.trustedPeers0Conf &&
           probingLiquidityLimitMultiplier ==
               other.probingLiquidityLimitMultiplier &&
-          logLevel == other.logLevel &&
           anchorChannelsConfig == other.anchorChannelsConfig &&
           sendingParameters == other.sendingParameters;
+}
+
+/// A Custom TLV entry.
+class CustomTlvRecord {
+  /// Type number.
+  final BigInt typeNum;
+
+  /// Serialized value.
+  final Uint8List value;
+
+  const CustomTlvRecord({
+    required this.typeNum,
+    required this.value,
+  });
+
+  @override
+  int get hashCode => typeNum.hashCode ^ value.hashCode;
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is CustomTlvRecord &&
+          runtimeType == other.runtimeType &&
+          typeNum == other.typeNum &&
+          value == other.value;
 }
 
 @freezed
@@ -773,44 +877,21 @@ sealed class EntropySourceConfig with _$EntropySourceConfig {
 }
 
 class EsploraSyncConfig {
-  /// The time in-between background sync attempts of the onchain wallet, in seconds.
-  ///
-  /// **Note:** A minimum of 10 seconds is always enforced.
-  final BigInt onchainWalletSyncIntervalSecs;
-
-  /// The time in-between background sync attempts of the LDK wallet, in seconds.
-  ///
-  /// **Note:** A minimum of 10 seconds is always enforced.
-  final BigInt lightningWalletSyncIntervalSecs;
-
-  /// The time in-between background update attempts to our fee rate cache, in seconds.
-  ///
-  /// **Note:** A minimum of 10 seconds is always enforced.
-  final BigInt feeRateCacheUpdateIntervalSecs;
+  final BackgroundSyncConfig? backgroundSyncConfig;
 
   const EsploraSyncConfig({
-    required this.onchainWalletSyncIntervalSecs,
-    required this.lightningWalletSyncIntervalSecs,
-    required this.feeRateCacheUpdateIntervalSecs,
+    this.backgroundSyncConfig,
   });
 
   @override
-  int get hashCode =>
-      onchainWalletSyncIntervalSecs.hashCode ^
-      lightningWalletSyncIntervalSecs.hashCode ^
-      feeRateCacheUpdateIntervalSecs.hashCode;
+  int get hashCode => backgroundSyncConfig.hashCode;
 
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
       other is EsploraSyncConfig &&
           runtimeType == other.runtimeType &&
-          onchainWalletSyncIntervalSecs ==
-              other.onchainWalletSyncIntervalSecs &&
-          lightningWalletSyncIntervalSecs ==
-              other.lightningWalletSyncIntervalSecs &&
-          feeRateCacheUpdateIntervalSecs ==
-              other.feeRateCacheUpdateIntervalSecs;
+          backgroundSyncConfig == other.backgroundSyncConfig;
 }
 
 @freezed
@@ -836,6 +917,9 @@ sealed class Event with _$Event {
     /// The block height at which this payment will be failed back and will no longer be
     /// eligible for claiming.
     int? claimDeadline,
+
+    /// Custom TLV records attached to the payment
+    required List<CustomTlvRecord> customRecords,
   }) = Event_PaymentClaimable;
 
   /// A sent payment was successful.
@@ -850,6 +934,9 @@ sealed class Event with _$Event {
 
     /// The total fee which was spent at intermediate hops in this payment.
     BigInt? feePaidMsat,
+
+    /// The preimage of the payment hash, which can be used to claim the payment.
+    PaymentPreimage? preimage,
   }) = Event_PaymentSuccessful;
 
   /// A sent payment has failed.
@@ -880,6 +967,9 @@ sealed class Event with _$Event {
 
     /// The value, in thousandths of a satoshi, that has been received.
     required BigInt amountMsat,
+
+    /// Custom TLV records received on the payment
+    required List<CustomTlvRecord> customRecords,
   }) = Event_PaymentReceived;
 
   /// A channel has been created and is pending confirmation on-chain.
@@ -930,6 +1020,99 @@ sealed class Event with _$Event {
     /// This will be `None` for events serialized by LDK Node v0.2.1 and prior.
     ClosureReason? reason,
   }) = Event_ChannelClosed;
+  const factory Event.paymentForwarded({
+    /// The channel id of the incoming channel between the previous node and us.
+    required ChannelId prevChannelId,
+
+    /// The channel id of the outgoing channel between the next node and us.
+    required ChannelId nextChannelId,
+
+    /// The `user_channel_id` of the incoming channel between the previous node and us.
+    UserChannelId? prevUserChannelId,
+
+    /// The `user_channel_id` of the outgoing channel between the next node and us.
+    UserChannelId? nextUserChannelId,
+
+    /// The node id of the previous node.
+    ///
+    /// This is only `None` for HTLCs received prior to LDK Node v0.5 or for events serialized by
+    /// versions prior to v0.5.
+    PublicKey? prevNodeId,
+
+    /// The node id of the next node.
+    ///
+    /// This is only `None` for HTLCs received prior to LDK Node v0.5 or for events serialized by
+    /// versions prior to v0.5.
+    PublicKey? nextNodeId,
+
+    /// The total fee, in milli-satoshis, which was earned as a result of the payment.
+    BigInt? totalFeeEarnedMsat,
+
+    /// The share of the total fee, in milli-satoshis, which was withheld in addition to the
+    /// forwarding fee.
+    BigInt? skimmedFeeMsat,
+
+    /// If this is `true`, the forwarded HTLC was claimed by our counterparty via an on-chain
+    /// transaction.
+    required bool claimFromOnchainTx,
+
+    /// The final amount forwarded, in milli-satoshis, after the fee is deducted.
+    BigInt? outboundAmountForwardedMsat,
+  }) = Event_PaymentForwarded;
+}
+
+class FeeRate {
+  final BigInt field0;
+
+  const FeeRate({
+    required this.field0,
+  });
+
+  /// Constructs `FeeRate` from satoshis per 1000 weight units.
+  static FeeRate fromSatPerKwu({required BigInt satKwu}) =>
+      core.instance.api.crateApiTypesFeeRateFromSatPerKwu(satKwu: satKwu);
+
+  /// Constructs `FeeRate` from satoshis per virtual bytes.
+  ///
+  /// # Errors
+  ///
+  /// Returns a null on arithmetic overflow.
+  static FeeRate? fromSatPerVb({required BigInt satVb}) =>
+      core.instance.api.crateApiTypesFeeRateFromSatPerVb(satVb: satVb);
+
+  /// Constructs `FeeRate` from satoshis per virtual bytes without overflow check.
+  static FeeRate fromSatPerVbUnchecked({required BigInt satVb}) =>
+      core.instance.api.crateApiTypesFeeRateFromSatPerVbUnchecked(satVb: satVb);
+
+  /// Returns raw fee rate.
+  ///
+  /// Can be used instead of `into()` to avoid inference issues.
+  Future<BigInt> toSatPerKwu() =>
+      core.instance.api.crateApiTypesFeeRateToSatPerKwu(
+        that: this,
+      );
+
+  /// Converts to sat/vB rounding up.
+  Future<BigInt> toSatPerVbCeil() =>
+      core.instance.api.crateApiTypesFeeRateToSatPerVbCeil(
+        that: this,
+      );
+
+  /// Converts to sat/vB rounding down.
+  Future<BigInt> toSatPerVbFloor() =>
+      core.instance.api.crateApiTypesFeeRateToSatPerVbFloor(
+        that: this,
+      );
+
+  @override
+  int get hashCode => field0.hashCode;
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is FeeRate &&
+          runtimeType == other.runtimeType &&
+          field0 == other.field0;
 }
 
 @freezed
@@ -1133,65 +1316,6 @@ class LiquiditySourceConfig {
           lsps2Service == other.lsps2Service;
 }
 
-/// An enum representing the available verbosity levels of the logger.
-///
-enum LogLevel {
-  /// Designates extremely verbose information, including gossip-induced messages
-  ///
-  gossip,
-
-  /// Designates very low priority, often extremely verbose, information
-  ///
-  trace,
-
-  /// Designates lower priority information
-  ///
-  debug,
-
-  /// Designates useful information
-  ///
-  info,
-
-  /// Designates hazardous situations
-  ///
-  warn,
-
-  /// Designates very serious errors
-  ///
-  error,
-  ;
-}
-
-/// Limits applying to how much fee we allow an LSP to deduct from the payment amount.
-class LSPFeeLimits {
-  /// The maximal total amount we allow any configured LSP withhold from us when forwarding the
-  /// payment.
-  final BigInt? maxTotalOpeningFeeMsat;
-
-  /// The maximal proportional fee, in parts-per-million millisatoshi, we allow any configured
-  /// LSP withhold from us when forwarding the payment.
-  final BigInt? maxProportionalOpeningFeePpmMsat;
-
-  const LSPFeeLimits({
-    this.maxTotalOpeningFeeMsat,
-    this.maxProportionalOpeningFeePpmMsat,
-  });
-
-  @override
-  int get hashCode =>
-      maxTotalOpeningFeeMsat.hashCode ^
-      maxProportionalOpeningFeePpmMsat.hashCode;
-
-  @override
-  bool operator ==(Object other) =>
-      identical(this, other) ||
-      other is LSPFeeLimits &&
-          runtimeType == other.runtimeType &&
-          maxTotalOpeningFeeMsat == other.maxTotalOpeningFeeMsat &&
-          maxProportionalOpeningFeePpmMsat ==
-              other.maxProportionalOpeningFeePpmMsat;
-}
-
 @freezed
 sealed class MaxDustHTLCExposure with _$MaxDustHTLCExposure {
   const MaxDustHTLCExposure._();
@@ -1352,24 +1476,6 @@ class NodeStatus {
               other.latestChannelMonitorArchivalHeight;
 }
 
-class OfferId {
-  final U8Array32 field0;
-
-  const OfferId({
-    required this.field0,
-  });
-
-  @override
-  int get hashCode => field0.hashCode;
-
-  @override
-  bool operator ==(Object other) =>
-      identical(this, other) ||
-      other is OfferId &&
-          runtimeType == other.runtimeType &&
-          field0 == other.field0;
-}
-
 ///A reference to a transaction output.
 ///
 class OutPoint {
@@ -1391,57 +1497,6 @@ class OutPoint {
           runtimeType == other.runtimeType &&
           txid == other.txid &&
           vout == other.vout;
-}
-
-/// Represents a payment.
-class PaymentDetails {
-  /// The identifier of this payment.
-  final PaymentId id;
-
-  /// The kind of the payment.
-  final PaymentKind kind;
-
-  /// The amount transferred.
-  final BigInt? amountMsat;
-
-  /// The direction of the payment.
-  final PaymentDirection direction;
-
-  /// The status of the payment.
-  final PaymentStatus status;
-
-  /// The timestamp, in seconds since start of the UNIX epoch, when this entry was last updated.
-  final BigInt latestUpdateTimestamp;
-
-  const PaymentDetails({
-    required this.id,
-    required this.kind,
-    this.amountMsat,
-    required this.direction,
-    required this.status,
-    required this.latestUpdateTimestamp,
-  });
-
-  @override
-  int get hashCode =>
-      id.hashCode ^
-      kind.hashCode ^
-      amountMsat.hashCode ^
-      direction.hashCode ^
-      status.hashCode ^
-      latestUpdateTimestamp.hashCode;
-
-  @override
-  bool operator ==(Object other) =>
-      identical(this, other) ||
-      other is PaymentDetails &&
-          runtimeType == other.runtimeType &&
-          id == other.id &&
-          kind == other.kind &&
-          amountMsat == other.amountMsat &&
-          direction == other.direction &&
-          status == other.status &&
-          latestUpdateTimestamp == other.latestUpdateTimestamp;
 }
 
 /// Represents the direction of a payment.
@@ -1489,6 +1544,9 @@ enum PaymentFailureReason {
 
   ///An InvoiceRequest for the payment was rejected by the recipient.
   invoiceRequestRejected,
+
+  ///A BlindedPath creation failed.
+  blindedPathCreationFailed,
   ;
 }
 
@@ -1531,111 +1589,6 @@ class PaymentId {
           field0 == other.field0;
 }
 
-@freezed
-sealed class PaymentKind with _$PaymentKind {
-  const PaymentKind._();
-
-  /// An on-chain payment.
-  const factory PaymentKind.onchain() = PaymentKind_Onchain;
-
-  /// A [BOLT 11] payment.
-  ///
-  /// [BOLT 11]: https://github.com/lightning/bolts/blob/master/11-payment-encoding.md
-  const factory PaymentKind.bolt11({
-    /// The payment hash, i.e., the hash of the `preimage`.
-    required PaymentHash hash,
-
-    /// The pre-image used by the payment.
-    PaymentPreimage? preimage,
-
-    /// The secret used by the payment.
-    PaymentSecret? secret,
-  }) = PaymentKind_Bolt11;
-
-  /// A [BOLT 11] payment intended to open an [LSPS 2] just-in-time channel.
-  ///
-  /// [BOLT 11]: https://github.com/lightning/bolts/blob/master/11-payment-encoding.md
-  /// [LSPS 2]: https://github.com/BitcoinAndLightningLayerSpecs/lsp/blob/main/LSPS2/README.md
-  const factory PaymentKind.bolt11Jit({
-    /// The payment hash, i.e., the hash of the `preimage`.
-    required PaymentHash hash,
-
-    /// The pre-image used by the payment.
-    PaymentPreimage? preimage,
-
-    /// The secret used by the payment.
-    PaymentSecret? secret,
-
-    /// Limits applying to how much fee we allow an LSP to deduct from the payment amount.
-    ///
-    /// Allowing them to deduct this fee from the first inbound payment will pay for the LSP's
-    /// channel opening fees.
-    ///
-    required LSPFeeLimits lspFeeLimits,
-  }) = PaymentKind_Bolt11Jit;
-
-  /// A spontaneous ("keysend") payment.
-  const factory PaymentKind.spontaneous({
-    /// The payment hash, i.e., the hash of the `preimage`.
-    required PaymentHash hash,
-
-    /// The pre-image used by the payment.
-    PaymentPreimage? preimage,
-  }) = PaymentKind_Spontaneous;
-
-  /// A [BOLT 12] offer payment, i.e., a payment for an `Offer`.
-  ///
-  /// [BOLT 12]: https://github.com/lightning/bolts/blob/master/12-offer-encoding.md
-  const factory PaymentKind.bolt12Offer({
-    /// The payment hash, i.e., the hash of the `preimage`.
-    PaymentHash? hash,
-
-    /// The pre-image used by the payment.
-    PaymentPreimage? preimage,
-
-    /// The secret used by the payment.
-    PaymentSecret? secret,
-
-    /// The ID of the offer this payment is for.
-    required OfferId offerId,
-
-    /// The payer note for the payment.
-    ///
-    /// Truncated to `PAYER_NOTE_LIMIT` characters.
-    ///
-    /// This will always be `None` for payments serialized with version `v0.3.0`.
-    String? payerNote,
-
-    /// The quantity of an item requested in the offer.
-    ///
-    /// This will always be `None` for payments serialized with version `v0.3.0`.
-    BigInt? quantity,
-  }) = PaymentKind_Bolt12Offer;
-
-  /// A [BOLT 12] 'refund' payment, i.e., a payment for a `Refund`.
-  ///
-  /// [BOLT 12]: https://github.com/lightning/bolts/blob/master/12-offer-encoding.md
-  const factory PaymentKind.bolt12Refund({
-    /// The payment hash, i.e., the hash of the `preimage`.
-    PaymentHash? hash,
-
-    /// The pre-image used by the payment.
-    PaymentPreimage? preimage,
-
-    /// The secret used by the payment.
-    PaymentSecret? secret,
-
-    ///
-    /// This will always be `None` for payments serialized with version `v0.3.0`.
-    String? payerNote,
-
-    /// The quantity of an item that the refund is for.
-    ///
-    /// This will always be `None` for payments serialized with version `v0.3.0`.
-    BigInt? quantity,
-  }) = PaymentKind_Bolt12Refund;
-}
-
 /// paymentPreimage type, use to route payment between hop
 ///
 class PaymentPreimage {
@@ -1652,26 +1605,6 @@ class PaymentPreimage {
   bool operator ==(Object other) =>
       identical(this, other) ||
       other is PaymentPreimage &&
-          runtimeType == other.runtimeType &&
-          data == other.data;
-}
-
-/// payment_secret type, use to authenticate sender to the receiver and tie MPP HTLCs together
-///
-class PaymentSecret {
-  final U8Array32 data;
-
-  const PaymentSecret({
-    required this.data,
-  });
-
-  @override
-  int get hashCode => data.hashCode;
-
-  @override
-  bool operator ==(Object other) =>
-      identical(this, other) ||
-      other is PaymentSecret &&
           runtimeType == other.runtimeType &&
           data == other.data;
 }

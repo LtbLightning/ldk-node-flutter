@@ -29,8 +29,8 @@ impl FfiNode {
     pub fn config(&self) -> Config {
         self.opaque.config().into()
     }
-    pub fn event_handled(&self) {
-        self.opaque.event_handled()
+    pub fn event_handled(&self) -> Result<(), FfiNodeError> {
+        self.opaque.event_handled().map_err(|e| e.into())
     }
 
     pub fn next_event(&self) -> Option<Event> {

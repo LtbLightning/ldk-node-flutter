@@ -3,6 +3,10 @@ name = "ldk_node"
 version = "0.4.2"
 edition = "2021"
 
+# This is needed to suppress the frb_expand cfg warning
+[lints.rust]
+unexpected_cfgs = { level = "warn", check-cfg = ['cfg(frb_expand)'] }
+
 [lib]
 crate-type = ["staticlib", "cdylib"]
 
