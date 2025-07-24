@@ -140,6 +140,15 @@ typedef struct wire_cst_ChainDataSourceConfig_Esplora {
   struct wire_cst_esplora_sync_config *sync_config;
 } wire_cst_ChainDataSourceConfig_Esplora;
 
+typedef struct wire_cst_electrum_sync_config {
+  struct wire_cst_background_sync_config *background_sync_config;
+} wire_cst_electrum_sync_config;
+
+typedef struct wire_cst_ChainDataSourceConfig_Electrum {
+  struct wire_cst_list_prim_u_8_strict *server_url;
+  struct wire_cst_electrum_sync_config *sync_config;
+} wire_cst_ChainDataSourceConfig_Electrum;
+
 typedef struct wire_cst_ChainDataSourceConfig_BitcoindRpc {
   struct wire_cst_list_prim_u_8_strict *rpc_host;
   uint16_t rpc_port;
@@ -149,6 +158,7 @@ typedef struct wire_cst_ChainDataSourceConfig_BitcoindRpc {
 
 typedef union ChainDataSourceConfigKind {
   struct wire_cst_ChainDataSourceConfig_Esplora Esplora;
+  struct wire_cst_ChainDataSourceConfig_Electrum Electrum;
   struct wire_cst_ChainDataSourceConfig_BitcoindRpc BitcoindRpc;
 } ChainDataSourceConfigKind;
 
@@ -304,6 +314,16 @@ typedef struct wire_cst_ffi_spontaneous_payment {
   uintptr_t opaque;
 } wire_cst_ffi_spontaneous_payment;
 
+typedef struct wire_cst_custom_tlv_record {
+  uint64_t type_num;
+  struct wire_cst_list_prim_u_8_strict *value;
+} wire_cst_custom_tlv_record;
+
+typedef struct wire_cst_list_custom_tlv_record {
+  struct wire_cst_custom_tlv_record *ptr;
+  int32_t len;
+} wire_cst_list_custom_tlv_record;
+
 typedef struct wire_cst_ffi_unified_qr_payment {
   uintptr_t opaque;
 } wire_cst_ffi_unified_qr_payment;
@@ -403,16 +423,6 @@ typedef struct wire_cst_closure_reason {
   int32_t tag;
   union ClosureReasonKind kind;
 } wire_cst_closure_reason;
-
-typedef struct wire_cst_custom_tlv_record {
-  uint64_t type_num;
-  struct wire_cst_list_prim_u_8_strict *value;
-} wire_cst_custom_tlv_record;
-
-typedef struct wire_cst_list_custom_tlv_record {
-  struct wire_cst_custom_tlv_record *ptr;
-  int32_t len;
-} wire_cst_list_custom_tlv_record;
 
 typedef struct wire_cst_Event_PaymentClaimable {
   struct wire_cst_payment_id *payment_id;
@@ -984,6 +994,9 @@ void frbgen_ldk_node_wire__crate__api__node__ffi_node_disconnect(int64_t port_,
 void frbgen_ldk_node_wire__crate__api__node__ffi_node_event_handled(int64_t port_,
                                                                     struct wire_cst_ffi_node *that);
 
+void frbgen_ldk_node_wire__crate__api__node__ffi_node_export_pathfinding_scores(int64_t port_,
+                                                                                struct wire_cst_ffi_node *that);
+
 void frbgen_ldk_node_wire__crate__api__node__ffi_node_force_close_channel(int64_t port_,
                                                                           struct wire_cst_ffi_node *that,
                                                                           struct wire_cst_user_channel_id *user_channel_id,
@@ -1110,6 +1123,13 @@ void frbgen_ldk_node_wire__crate__api__spontaneous__ffi_spontaneous_payment_send
                                                                                         uint64_t amount_msat,
                                                                                         struct wire_cst_public_key *node_id);
 
+void frbgen_ldk_node_wire__crate__api__spontaneous__ffi_spontaneous_payment_send_with_custom_tlvs(int64_t port_,
+                                                                                                  struct wire_cst_ffi_spontaneous_payment *that,
+                                                                                                  uint64_t amount_msat,
+                                                                                                  struct wire_cst_public_key *node_id,
+                                                                                                  struct wire_cst_sending_parameters *sending_parameters,
+                                                                                                  struct wire_cst_list_custom_tlv_record *custom_tlvs);
+
 void frbgen_ldk_node_wire__crate__api__unified_qr__ffi_unified_qr_payment_receive(int64_t port_,
                                                                                   struct wire_cst_ffi_unified_qr_payment *that,
                                                                                   uint64_t amount_sats,
@@ -1193,6 +1213,8 @@ struct wire_cst_closure_reason *frbgen_ldk_node_cst_new_box_autoadd_closure_reas
 struct wire_cst_config *frbgen_ldk_node_cst_new_box_autoadd_config(void);
 
 struct wire_cst_decode_error *frbgen_ldk_node_cst_new_box_autoadd_decode_error(void);
+
+struct wire_cst_electrum_sync_config *frbgen_ldk_node_cst_new_box_autoadd_electrum_sync_config(void);
 
 struct wire_cst_entropy_source_config *frbgen_ldk_node_cst_new_box_autoadd_entropy_source_config(void);
 
@@ -1306,6 +1328,7 @@ static int64_t dummy_method_to_enforce_bundling(void) {
     dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_cst_new_box_autoadd_closure_reason);
     dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_cst_new_box_autoadd_config);
     dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_cst_new_box_autoadd_decode_error);
+    dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_cst_new_box_autoadd_electrum_sync_config);
     dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_cst_new_box_autoadd_entropy_source_config);
     dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_cst_new_box_autoadd_esplora_sync_config);
     dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_cst_new_box_autoadd_event);
@@ -1413,6 +1436,7 @@ static int64_t dummy_method_to_enforce_bundling(void) {
     dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__crate__api__node__ffi_node_connect);
     dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__crate__api__node__ffi_node_disconnect);
     dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__crate__api__node__ffi_node_event_handled);
+    dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__crate__api__node__ffi_node_export_pathfinding_scores);
     dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__crate__api__node__ffi_node_force_close_channel);
     dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__crate__api__node__ffi_node_list_balances);
     dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__crate__api__node__ffi_node_list_channels);
@@ -1444,6 +1468,7 @@ static int64_t dummy_method_to_enforce_bundling(void) {
     dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__crate__api__on_chain__ffi_on_chain_payment_send_to_address);
     dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__crate__api__spontaneous__ffi_spontaneous_payment_send);
     dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__crate__api__spontaneous__ffi_spontaneous_payment_send_probes);
+    dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__crate__api__spontaneous__ffi_spontaneous_payment_send_with_custom_tlvs);
     dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__crate__api__types__PaymentDetails_auto_accessor_get_amount_msat);
     dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__crate__api__types__PaymentDetails_auto_accessor_get_direction);
     dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__crate__api__types__PaymentDetails_auto_accessor_get_id);

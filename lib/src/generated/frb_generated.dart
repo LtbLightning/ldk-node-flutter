@@ -77,7 +77,7 @@ class core extends BaseEntrypoint<coreApi, coreApiImpl, coreWire> {
   String get codegenVersion => '2.11.1';
 
   @override
-  int get rustContentHash => 611976355;
+  int get rustContentHash => -1548022217;
 
   static const kDefaultExternalLibraryLoaderConfig =
       ExternalLibraryLoaderConfig(
@@ -311,6 +311,9 @@ abstract class coreApi extends BaseApi {
 
   Future<void> crateApiNodeFfiNodeEventHandled({required FfiNode that});
 
+  Future<Uint8List> crateApiNodeFfiNodeExportPathfindingScores(
+      {required FfiNode that});
+
   Future<void> crateApiNodeFfiNodeForceCloseChannel(
       {required FfiNode that,
       required UserChannelId userChannelId,
@@ -424,6 +427,13 @@ abstract class coreApi extends BaseApi {
       {required FfiSpontaneousPayment that,
       required BigInt amountMsat,
       required PublicKey nodeId});
+
+  Future<PaymentId> crateApiSpontaneousFfiSpontaneousPaymentSendWithCustomTlvs(
+      {required FfiSpontaneousPayment that,
+      required BigInt amountMsat,
+      required PublicKey nodeId,
+      SendingParameters? sendingParameters,
+      required List<CustomTlvRecord> customTlvs});
 
   Future<String> crateApiUnifiedQrFfiUnifiedQrPaymentReceive(
       {required FfiUnifiedQrPayment that,
@@ -2222,6 +2232,31 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
       );
 
   @override
+  Future<Uint8List> crateApiNodeFfiNodeExportPathfindingScores(
+      {required FfiNode that}) {
+    return handler.executeNormal(NormalTask(
+      callFfi: (port_) {
+        var arg0 = cst_encode_box_autoadd_ffi_node(that);
+        return wire.wire__crate__api__node__ffi_node_export_pathfinding_scores(
+            port_, arg0);
+      },
+      codec: DcoCodec(
+        decodeSuccessData: dco_decode_list_prim_u_8_strict,
+        decodeErrorData: dco_decode_ffi_node_error,
+      ),
+      constMeta: kCrateApiNodeFfiNodeExportPathfindingScoresConstMeta,
+      argValues: [that],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta get kCrateApiNodeFfiNodeExportPathfindingScoresConstMeta =>
+      const TaskConstMeta(
+        debugName: "ffi_node_export_pathfinding_scores",
+        argNames: ["that"],
+      );
+
+  @override
   Future<void> crateApiNodeFfiNodeForceCloseChannel(
       {required FfiNode that,
       required UserChannelId userChannelId,
@@ -3077,6 +3112,49 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
           );
 
   @override
+  Future<PaymentId> crateApiSpontaneousFfiSpontaneousPaymentSendWithCustomTlvs(
+      {required FfiSpontaneousPayment that,
+      required BigInt amountMsat,
+      required PublicKey nodeId,
+      SendingParameters? sendingParameters,
+      required List<CustomTlvRecord> customTlvs}) {
+    return handler.executeNormal(NormalTask(
+      callFfi: (port_) {
+        var arg0 = cst_encode_box_autoadd_ffi_spontaneous_payment(that);
+        var arg1 = cst_encode_u_64(amountMsat);
+        var arg2 = cst_encode_box_autoadd_public_key(nodeId);
+        var arg3 =
+            cst_encode_opt_box_autoadd_sending_parameters(sendingParameters);
+        var arg4 = cst_encode_list_custom_tlv_record(customTlvs);
+        return wire
+            .wire__crate__api__spontaneous__ffi_spontaneous_payment_send_with_custom_tlvs(
+                port_, arg0, arg1, arg2, arg3, arg4);
+      },
+      codec: DcoCodec(
+        decodeSuccessData: dco_decode_payment_id,
+        decodeErrorData: dco_decode_ffi_node_error,
+      ),
+      constMeta:
+          kCrateApiSpontaneousFfiSpontaneousPaymentSendWithCustomTlvsConstMeta,
+      argValues: [that, amountMsat, nodeId, sendingParameters, customTlvs],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta
+      get kCrateApiSpontaneousFfiSpontaneousPaymentSendWithCustomTlvsConstMeta =>
+          const TaskConstMeta(
+            debugName: "ffi_spontaneous_payment_send_with_custom_tlvs",
+            argNames: [
+              "that",
+              "amountMsat",
+              "nodeId",
+              "sendingParameters",
+              "customTlvs"
+            ],
+          );
+
+  @override
   Future<String> crateApiUnifiedQrFfiUnifiedQrPaymentReceive(
       {required FfiUnifiedQrPayment that,
       required BigInt amountSats,
@@ -3590,6 +3668,12 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
   }
 
   @protected
+  ElectrumSyncConfig dco_decode_box_autoadd_electrum_sync_config(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return dco_decode_electrum_sync_config(raw);
+  }
+
+  @protected
   EntropySourceConfig dco_decode_box_autoadd_entropy_source_config(
       dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
@@ -3816,6 +3900,11 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
           syncConfig: dco_decode_opt_box_autoadd_esplora_sync_config(raw[2]),
         );
       case 1:
+        return ChainDataSourceConfig_Electrum(
+          serverUrl: dco_decode_String(raw[1]),
+          syncConfig: dco_decode_opt_box_autoadd_electrum_sync_config(raw[2]),
+        );
+      case 2:
         return ChainDataSourceConfig_BitcoindRpc(
           rpcHost: dco_decode_String(raw[1]),
           rpcPort: dco_decode_u_16(raw[2]),
@@ -4030,6 +4119,18 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
       default:
         throw Exception("unreachable");
     }
+  }
+
+  @protected
+  ElectrumSyncConfig dco_decode_electrum_sync_config(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    final arr = raw as List<dynamic>;
+    if (arr.length != 1)
+      throw Exception('unexpected arr length: expect 1 but see ${arr.length}');
+    return ElectrumSyncConfig(
+      backgroundSyncConfig:
+          dco_decode_opt_box_autoadd_background_sync_config(arr[0]),
+    );
   }
 
   @protected
@@ -4754,6 +4855,15 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
   ClosureReason? dco_decode_opt_box_autoadd_closure_reason(dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     return raw == null ? null : dco_decode_box_autoadd_closure_reason(raw);
+  }
+
+  @protected
+  ElectrumSyncConfig? dco_decode_opt_box_autoadd_electrum_sync_config(
+      dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return raw == null
+        ? null
+        : dco_decode_box_autoadd_electrum_sync_config(raw);
   }
 
   @protected
@@ -5623,6 +5733,13 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
   }
 
   @protected
+  ElectrumSyncConfig sse_decode_box_autoadd_electrum_sync_config(
+      SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    return (sse_decode_electrum_sync_config(deserializer));
+  }
+
+  @protected
   EntropySourceConfig sse_decode_box_autoadd_entropy_source_config(
       SseDeserializer deserializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
@@ -5865,6 +5982,12 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
         return ChainDataSourceConfig_Esplora(
             serverUrl: var_serverUrl, syncConfig: var_syncConfig);
       case 1:
+        var var_serverUrl = sse_decode_String(deserializer);
+        var var_syncConfig =
+            sse_decode_opt_box_autoadd_electrum_sync_config(deserializer);
+        return ChainDataSourceConfig_Electrum(
+            serverUrl: var_serverUrl, syncConfig: var_syncConfig);
+      case 2:
         var var_rpcHost = sse_decode_String(deserializer);
         var var_rpcPort = sse_decode_u_16(deserializer);
         var var_rpcUser = sse_decode_String(deserializer);
@@ -6130,6 +6253,15 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
       default:
         throw UnimplementedError('');
     }
+  }
+
+  @protected
+  ElectrumSyncConfig sse_decode_electrum_sync_config(
+      SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    var var_backgroundSyncConfig =
+        sse_decode_opt_box_autoadd_background_sync_config(deserializer);
+    return ElectrumSyncConfig(backgroundSyncConfig: var_backgroundSyncConfig);
   }
 
   @protected
@@ -7027,6 +7159,18 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
 
     if (sse_decode_bool(deserializer)) {
       return (sse_decode_box_autoadd_closure_reason(deserializer));
+    } else {
+      return null;
+    }
+  }
+
+  @protected
+  ElectrumSyncConfig? sse_decode_opt_box_autoadd_electrum_sync_config(
+      SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+
+    if (sse_decode_bool(deserializer)) {
+      return (sse_decode_box_autoadd_electrum_sync_config(deserializer));
     } else {
       return null;
     }
@@ -8193,6 +8337,13 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
   }
 
   @protected
+  void sse_encode_box_autoadd_electrum_sync_config(
+      ElectrumSyncConfig self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_electrum_sync_config(self, serializer);
+  }
+
+  @protected
   void sse_encode_box_autoadd_entropy_source_config(
       EntropySourceConfig self, SseSerializer serializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
@@ -8438,13 +8589,20 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
         sse_encode_i_32(0, serializer);
         sse_encode_String(serverUrl, serializer);
         sse_encode_opt_box_autoadd_esplora_sync_config(syncConfig, serializer);
+      case ChainDataSourceConfig_Electrum(
+          serverUrl: final serverUrl,
+          syncConfig: final syncConfig
+        ):
+        sse_encode_i_32(1, serializer);
+        sse_encode_String(serverUrl, serializer);
+        sse_encode_opt_box_autoadd_electrum_sync_config(syncConfig, serializer);
       case ChainDataSourceConfig_BitcoindRpc(
           rpcHost: final rpcHost,
           rpcPort: final rpcPort,
           rpcUser: final rpcUser,
           rpcPassword: final rpcPassword
         ):
-        sse_encode_i_32(1, serializer);
+        sse_encode_i_32(2, serializer);
         sse_encode_String(rpcHost, serializer);
         sse_encode_u_16(rpcPort, serializer);
         sse_encode_String(rpcUser, serializer);
@@ -8621,6 +8779,14 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
       case DecodeError_DangerousValue():
         sse_encode_i_32(7, serializer);
     }
+  }
+
+  @protected
+  void sse_encode_electrum_sync_config(
+      ElectrumSyncConfig self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_opt_box_autoadd_background_sync_config(
+        self.backgroundSyncConfig, serializer);
   }
 
   @protected
@@ -9415,6 +9581,17 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
     sse_encode_bool(self != null, serializer);
     if (self != null) {
       sse_encode_box_autoadd_closure_reason(self, serializer);
+    }
+  }
+
+  @protected
+  void sse_encode_opt_box_autoadd_electrum_sync_config(
+      ElectrumSyncConfig? self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+
+    sse_encode_bool(self != null, serializer);
+    if (self != null) {
+      sse_encode_box_autoadd_electrum_sync_config(self, serializer);
     }
   }
 
