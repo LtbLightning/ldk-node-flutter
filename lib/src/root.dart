@@ -985,6 +985,7 @@ class Builder {
   types.ChainDataSourceConfig? _chainDataSourceConfig;
   types.GossipSourceConfig? _gossipSourceConfig;
   types.LiquiditySourceConfig? _liquiditySourceConfig;
+  builder.FfiBuilder? _configuredBuilder;
 
   /// Creates a new builder instance from an [Config].
   ///
@@ -1160,6 +1161,78 @@ class Builder {
   //   return this;
   // }
 
+  /// Configures the Node instance to write logs to the filesystem.
+  ///
+  /// The `logFilePath` defaults to 'ldk_node.log' in the configured storage directory if set to `null`.
+  /// If set, the `maxLogLevel` sets the maximum log level. Otherwise, defaults to Debug level.
+  ///
+  /// Example:
+  /// ```dart
+  /// await builder.setFilesystemLogger(
+  ///   logFilePath: '/path/to/logs/ldk.log',
+  ///   maxLogLevel: types.LogLevel.info,
+  /// );
+  /// ```
+  Future<Builder> setFilesystemLogger({
+    String? logFilePath,
+    types.LogLevel? maxLogLevel,
+  }) async {
+    try {
+      await Frb.verifyInit();
+
+      // Create or get the builder instance
+      _configuredBuilder ??= await builder.FfiBuilder.createBuilder(
+        config: _config ?? Builder()._config!,
+        chainDataSourceConfig: _chainDataSourceConfig,
+        entropySourceConfig: _entropySource,
+        liquiditySourceConfig: _liquiditySourceConfig,
+        gossipSourceConfig: _gossipSourceConfig,
+      );
+
+      // Configure filesystem logging
+      _configuredBuilder = await _configuredBuilder!.setFilesystemLogger(
+        logFilePath: logFilePath,
+        maxLogLevel: maxLogLevel,
+      );
+
+      return this;
+    } on error.FfiBuilderError catch (e) {
+      throw mapFfiBuilderError(e);
+    }
+  }
+
+  /// Configures the Node instance to write logs to the Rust log facade.
+  ///
+  /// This forwards logs to the Rust `log` crate, allowing integration with existing
+  /// Rust logging frameworks and making logs available to Dart through standard
+  /// Rust logging mechanisms.
+  ///
+  /// Example:
+  /// ```dart
+  /// await builder.setLogFacadeLogger();
+  /// ```
+  Future<Builder> setLogFacadeLogger() async {
+    try {
+      await Frb.verifyInit();
+
+      // Create or get the builder instance
+      _configuredBuilder ??= await builder.FfiBuilder.createBuilder(
+        config: _config ?? Builder()._config!,
+        chainDataSourceConfig: _chainDataSourceConfig,
+        entropySourceConfig: _entropySource,
+        liquiditySourceConfig: _liquiditySourceConfig,
+        gossipSourceConfig: _gossipSourceConfig,
+      );
+
+      // Configure log facade
+      _configuredBuilder = await _configuredBuilder!.setLogFacadeLogger();
+
+      return this;
+    } on error.FfiBuilderError catch (e) {
+      throw mapFfiBuilderError(e);
+    }
+  }
+
   /// Configures the [Node] instance to source its inbound liquidity from the given
   /// [LSPS2](https://github.com/BitcoinAndLightningLayerSpecs/lsp/blob/main/LSPS2/README.md)
   /// service.
@@ -1187,13 +1260,18 @@ class Builder {
         final nodePath = "${directory.path}/ldk_cache/";
         _config!.storageDirPath = nodePath;
       }
-      final res = await builder.FfiBuilder.createBuilder(
-              config: _config ?? Builder()._config!,
-              chainDataSourceConfig: _chainDataSourceConfig,
-              entropySourceConfig: _entropySource,
-              liquiditySourceConfig: _liquiditySourceConfig,
-              gossipSourceConfig: _gossipSourceConfig)
-          .build();
+
+      // Use configured builder if available, otherwise create new one
+      final builderInstance = _configuredBuilder ??
+          await builder.FfiBuilder.createBuilder(
+            config: _config ?? Builder()._config!,
+            chainDataSourceConfig: _chainDataSourceConfig,
+            entropySourceConfig: _entropySource,
+            liquiditySourceConfig: _liquiditySourceConfig,
+            gossipSourceConfig: _gossipSourceConfig,
+          );
+
+      final res = await builderInstance.build();
       return Node._(opaque: res.opaque);
     } on error.FfiBuilderError catch (e) {
       throw mapFfiBuilderError(e);
@@ -1209,13 +1287,18 @@ class Builder {
         final nodePath = "${directory.path}/ldk_cache/";
         _config!.storageDirPath = nodePath;
       }
-      final res = await builder.FfiBuilder.createBuilder(
-              config: _config ?? Builder()._config!,
-              chainDataSourceConfig: _chainDataSourceConfig,
-              entropySourceConfig: _entropySource,
-              liquiditySourceConfig: _liquiditySourceConfig,
-              gossipSourceConfig: _gossipSourceConfig)
-          .buildWithFsStore();
+
+      // Use configured builder if available, otherwise create new one
+      final builderInstance = _configuredBuilder ??
+          await builder.FfiBuilder.createBuilder(
+            config: _config ?? Builder()._config!,
+            chainDataSourceConfig: _chainDataSourceConfig,
+            entropySourceConfig: _entropySource,
+            liquiditySourceConfig: _liquiditySourceConfig,
+            gossipSourceConfig: _gossipSourceConfig,
+          );
+
+      final res = await builderInstance.buildWithFsStore();
       return Node._(opaque: res.opaque);
     } on error.FfiBuilderError catch (e) {
       throw mapFfiBuilderError(e);

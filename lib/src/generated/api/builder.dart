@@ -11,7 +11,6 @@ import 'package:flutter_rust_bridge/flutter_rust_bridge_for_generated.dart';
 import 'types.dart';
 
 // These function are ignored because they are on traits that is not defined in current crate (put an empty `#[frb]` on it to unignore): `clone`, `fmt`, `from`, `try_from`
-// These functions have error during generation (see debug logs or enable `stop_on_error: true` for more details): `set_entropy_seed_bytes`
 
 // Rust type: RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<FfiBuilder>>
 abstract class FfiBuilder implements RustOpaqueInterface {
@@ -46,6 +45,13 @@ abstract class FfiBuilder implements RustOpaqueInterface {
           entropySourceConfig: entropySourceConfig,
           gossipSourceConfig: gossipSourceConfig,
           liquiditySourceConfig: liquiditySourceConfig);
+
+  FfiBuilder setEntropySeedBytes({required List<int> seedBytes});
+
+  Future<FfiBuilder> setFilesystemLogger(
+      {String? logFilePath, LogLevel? maxLogLevel});
+
+  Future<FfiBuilder> setLogFacadeLogger();
 }
 
 // Rust type: RustOpaqueNom<ldk_node :: Builder>

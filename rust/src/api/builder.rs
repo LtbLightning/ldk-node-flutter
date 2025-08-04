@@ -1,11 +1,10 @@
 use crate::api::node::FfiNode;
 use crate::api::types::{
-    ChainDataSourceConfig, Config, EntropySourceConfig, GossipSourceConfig, LiquiditySourceConfig,
+    ChainDataSourceConfig, Config, EntropySourceConfig, GossipSourceConfig, LiquiditySourceConfig, LogLevel,
 };
 use crate::frb_generated::RustOpaque;
 use crate::utils::error::FfiBuilderError;
 use flutter_rust_bridge::frb;
-use ldk_node::lightning::util::ser::Writeable;
 use std::collections::HashMap;
 use std::str::FromStr;
 
@@ -192,11 +191,56 @@ impl FfiBuilder {
     //     }
     // }
 
-    pub fn set_entropy_seed_bytes(mut self, seed_bytes: [u8; 64]) -> Result<Self, FfiBuilderError> {
+    #[frb(sync)]
+    pub fn set_entropy_seed_bytes(self, seed_bytes: Vec<u8>) -> Result<Self, FfiBuilderError> {
+        // Validate the length of the seed bytes
+        if seed_bytes.len() != 64 {
+            return Err(FfiBuilderError::InvalidSeedBytes);
+        }
+
+        // Convert the Vec<u8> into a fixed-size array
+        let mut seed_array = [0u8; 64];
+        seed_array.copy_from_slice(&seed_bytes);
+
         // Extract the inner builder, modify it, and wrap it back
         let mut builder = self.opaque.into_inner().ok_or(FfiBuilderError::OpaqueNotFound)?;
-        builder.set_entropy_seed_bytes(seed_bytes);
-        self.opaque = RustOpaque::new(builder);
-        Ok(self)
+        builder.set_entropy_seed_bytes(seed_array);
+        Ok(
+            FfiBuilder {
+                opaque: RustOpaque::new(builder),
+            }
+        )
+    }
+
+    // Configures the Node instance to write logs to the filesystem.
+    //
+    // The `log_file_path` defaults to 'ldk_node.log' in the configured storage directory if set to `None`.
+    // If set, the `max_log_level` sets the maximum log level. Otherwise, defaults to Debug level.
+    pub fn set_filesystem_logger(
+        self,
+        log_file_path: Option<String>,
+        max_log_level: Option<LogLevel>,
+    ) -> Result<Self, FfiBuilderError> {
+        let mut builder = self.opaque.into_inner().ok_or(FfiBuilderError::OpaqueNotFound)?;
+        
+        let ldk_max_log_level = max_log_level.map(|level| level.into());
+        builder.set_filesystem_logger(log_file_path, ldk_max_log_level);
+        
+        Ok(FfiBuilder {
+            opaque: RustOpaque::new(builder),
+        })
+    }
+
+    // Configures the Node instance to write logs to the Rust log facade.
+    //
+    // This allows integration with existing Rust logging frameworks.
+    pub fn set_log_facade_logger(self) -> Result<Self, FfiBuilderError> {
+        let mut builder = self.opaque.into_inner().ok_or(FfiBuilderError::OpaqueNotFound)?;
+    
+        builder.set_log_facade_logger();
+
+        Ok(FfiBuilder {
+            opaque: RustOpaque::new(builder),
+        })
     }
 }

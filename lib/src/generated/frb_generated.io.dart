@@ -153,6 +153,9 @@ abstract class coreApiImplPlatform extends BaseApiImpl<coreWire> {
   String dco_decode_String(dynamic raw);
 
   @protected
+  FfiLogWriter dco_decode_TraitDef_FfiLogWriter(dynamic raw);
+
+  @protected
   Address dco_decode_address(dynamic raw);
 
   @protected
@@ -254,6 +257,9 @@ abstract class coreApiImplPlatform extends BaseApiImpl<coreWire> {
   FfiBolt12Payment dco_decode_box_autoadd_ffi_bolt_12_payment(dynamic raw);
 
   @protected
+  FfiLogRecord dco_decode_box_autoadd_ffi_log_record(dynamic raw);
+
+  @protected
   FfiMnemonic dco_decode_box_autoadd_ffi_mnemonic(dynamic raw);
 
   @protected
@@ -279,6 +285,9 @@ abstract class coreApiImplPlatform extends BaseApiImpl<coreWire> {
   @protected
   LiquiditySourceConfig dco_decode_box_autoadd_liquidity_source_config(
       dynamic raw);
+
+  @protected
+  LogLevel dco_decode_box_autoadd_log_level(dynamic raw);
 
   @protected
   MaxTotalRoutingFeeLimit dco_decode_box_autoadd_max_total_routing_fee_limit(
@@ -404,6 +413,9 @@ abstract class coreApiImplPlatform extends BaseApiImpl<coreWire> {
   FfiCreationError dco_decode_ffi_creation_error(dynamic raw);
 
   @protected
+  FfiLogRecord dco_decode_ffi_log_record(dynamic raw);
+
+  @protected
   FfiMnemonic dco_decode_ffi_mnemonic(dynamic raw);
 
   @protected
@@ -476,6 +488,9 @@ abstract class coreApiImplPlatform extends BaseApiImpl<coreWire> {
 
   @protected
   List<SocketAddress> dco_decode_list_socket_address(dynamic raw);
+
+  @protected
+  LogLevel dco_decode_log_level(dynamic raw);
 
   @protected
   MaxDustHTLCExposure dco_decode_max_dust_htlc_exposure(dynamic raw);
@@ -568,6 +583,9 @@ abstract class coreApiImplPlatform extends BaseApiImpl<coreWire> {
   @protected
   LiquiditySourceConfig? dco_decode_opt_box_autoadd_liquidity_source_config(
       dynamic raw);
+
+  @protected
+  LogLevel? dco_decode_opt_box_autoadd_log_level(dynamic raw);
 
   @protected
   MaxTotalRoutingFeeLimit?
@@ -915,6 +933,10 @@ abstract class coreApiImplPlatform extends BaseApiImpl<coreWire> {
       SseDeserializer deserializer);
 
   @protected
+  FfiLogRecord sse_decode_box_autoadd_ffi_log_record(
+      SseDeserializer deserializer);
+
+  @protected
   FfiMnemonic sse_decode_box_autoadd_ffi_mnemonic(SseDeserializer deserializer);
 
   @protected
@@ -943,6 +965,9 @@ abstract class coreApiImplPlatform extends BaseApiImpl<coreWire> {
   @protected
   LiquiditySourceConfig sse_decode_box_autoadd_liquidity_source_config(
       SseDeserializer deserializer);
+
+  @protected
+  LogLevel sse_decode_box_autoadd_log_level(SseDeserializer deserializer);
 
   @protected
   MaxTotalRoutingFeeLimit sse_decode_box_autoadd_max_total_routing_fee_limit(
@@ -1077,6 +1102,9 @@ abstract class coreApiImplPlatform extends BaseApiImpl<coreWire> {
   FfiCreationError sse_decode_ffi_creation_error(SseDeserializer deserializer);
 
   @protected
+  FfiLogRecord sse_decode_ffi_log_record(SseDeserializer deserializer);
+
+  @protected
   FfiMnemonic sse_decode_ffi_mnemonic(SseDeserializer deserializer);
 
   @protected
@@ -1160,6 +1188,9 @@ abstract class coreApiImplPlatform extends BaseApiImpl<coreWire> {
   @protected
   List<SocketAddress> sse_decode_list_socket_address(
       SseDeserializer deserializer);
+
+  @protected
+  LogLevel sse_decode_log_level(SseDeserializer deserializer);
 
   @protected
   MaxDustHTLCExposure sse_decode_max_dust_htlc_exposure(
@@ -1259,6 +1290,9 @@ abstract class coreApiImplPlatform extends BaseApiImpl<coreWire> {
   @protected
   LiquiditySourceConfig? sse_decode_opt_box_autoadd_liquidity_source_config(
       SseDeserializer deserializer);
+
+  @protected
+  LogLevel? sse_decode_opt_box_autoadd_log_level(SseDeserializer deserializer);
 
   @protected
   MaxTotalRoutingFeeLimit?
@@ -1627,6 +1661,15 @@ abstract class coreApiImplPlatform extends BaseApiImpl<coreWire> {
   }
 
   @protected
+  ffi.Pointer<wire_cst_ffi_log_record> cst_encode_box_autoadd_ffi_log_record(
+      FfiLogRecord raw) {
+    // Codec=Cst (C-struct based), see doc to use other codecs
+    final ptr = wire.cst_new_box_autoadd_ffi_log_record();
+    cst_api_fill_to_wire_ffi_log_record(raw, ptr.ref);
+    return ptr;
+  }
+
+  @protected
   ffi.Pointer<wire_cst_ffi_mnemonic> cst_encode_box_autoadd_ffi_mnemonic(
       FfiMnemonic raw) {
     // Codec=Cst (C-struct based), see doc to use other codecs
@@ -1697,6 +1740,12 @@ abstract class coreApiImplPlatform extends BaseApiImpl<coreWire> {
     final ptr = wire.cst_new_box_autoadd_liquidity_source_config();
     cst_api_fill_to_wire_liquidity_source_config(raw, ptr.ref);
     return ptr;
+  }
+
+  @protected
+  ffi.Pointer<ffi.Int32> cst_encode_box_autoadd_log_level(LogLevel raw) {
+    // Codec=Cst (C-struct based), see doc to use other codecs
+    return wire.cst_new_box_autoadd_log_level(cst_encode_log_level(raw));
   }
 
   @protected
@@ -2170,6 +2219,12 @@ abstract class coreApiImplPlatform extends BaseApiImpl<coreWire> {
   }
 
   @protected
+  ffi.Pointer<ffi.Int32> cst_encode_opt_box_autoadd_log_level(LogLevel? raw) {
+    // Codec=Cst (C-struct based), see doc to use other codecs
+    return raw == null ? ffi.nullptr : cst_encode_box_autoadd_log_level(raw);
+  }
+
+  @protected
   ffi.Pointer<wire_cst_max_total_routing_fee_limit>
       cst_encode_opt_box_autoadd_max_total_routing_fee_limit(
           MaxTotalRoutingFeeLimit? raw) {
@@ -2580,6 +2635,12 @@ abstract class coreApiImplPlatform extends BaseApiImpl<coreWire> {
       FfiBolt12Payment apiObj,
       ffi.Pointer<wire_cst_ffi_bolt_12_payment> wireObj) {
     cst_api_fill_to_wire_ffi_bolt_12_payment(apiObj, wireObj.ref);
+  }
+
+  @protected
+  void cst_api_fill_to_wire_box_autoadd_ffi_log_record(
+      FfiLogRecord apiObj, ffi.Pointer<wire_cst_ffi_log_record> wireObj) {
+    cst_api_fill_to_wire_ffi_log_record(apiObj, wireObj.ref);
   }
 
   @protected
@@ -3227,6 +3288,15 @@ abstract class coreApiImplPlatform extends BaseApiImpl<coreWire> {
       FfiBolt12Payment apiObj, wire_cst_ffi_bolt_12_payment wireObj) {
     wireObj.opaque =
         cst_encode_RustOpaque_ldk_nodepaymentBolt12Payment(apiObj.opaque);
+  }
+
+  @protected
+  void cst_api_fill_to_wire_ffi_log_record(
+      FfiLogRecord apiObj, wire_cst_ffi_log_record wireObj) {
+    wireObj.level = cst_encode_log_level(apiObj.level);
+    wireObj.args = cst_encode_String(apiObj.args);
+    wireObj.module_path = cst_encode_String(apiObj.modulePath);
+    wireObj.line = cst_encode_u_32(apiObj.line);
   }
 
   @protected
@@ -4051,6 +4121,9 @@ abstract class coreApiImplPlatform extends BaseApiImpl<coreWire> {
   int cst_encode_i_32(int raw);
 
   @protected
+  int cst_encode_log_level(LogLevel raw);
+
+  @protected
   int cst_encode_network(Network raw);
 
   @protected
@@ -4281,6 +4354,10 @@ abstract class coreApiImplPlatform extends BaseApiImpl<coreWire> {
       FfiBolt12Payment self, SseSerializer serializer);
 
   @protected
+  void sse_encode_box_autoadd_ffi_log_record(
+      FfiLogRecord self, SseSerializer serializer);
+
+  @protected
   void sse_encode_box_autoadd_ffi_mnemonic(
       FfiMnemonic self, SseSerializer serializer);
 
@@ -4310,6 +4387,10 @@ abstract class coreApiImplPlatform extends BaseApiImpl<coreWire> {
   @protected
   void sse_encode_box_autoadd_liquidity_source_config(
       LiquiditySourceConfig self, SseSerializer serializer);
+
+  @protected
+  void sse_encode_box_autoadd_log_level(
+      LogLevel self, SseSerializer serializer);
 
   @protected
   void sse_encode_box_autoadd_max_total_routing_fee_limit(
@@ -4456,6 +4537,9 @@ abstract class coreApiImplPlatform extends BaseApiImpl<coreWire> {
       FfiCreationError self, SseSerializer serializer);
 
   @protected
+  void sse_encode_ffi_log_record(FfiLogRecord self, SseSerializer serializer);
+
+  @protected
   void sse_encode_ffi_mnemonic(FfiMnemonic self, SseSerializer serializer);
 
   @protected
@@ -4545,6 +4629,9 @@ abstract class coreApiImplPlatform extends BaseApiImpl<coreWire> {
   @protected
   void sse_encode_list_socket_address(
       List<SocketAddress> self, SseSerializer serializer);
+
+  @protected
+  void sse_encode_log_level(LogLevel self, SseSerializer serializer);
 
   @protected
   void sse_encode_max_dust_htlc_exposure(
@@ -4645,6 +4732,10 @@ abstract class coreApiImplPlatform extends BaseApiImpl<coreWire> {
   @protected
   void sse_encode_opt_box_autoadd_liquidity_source_config(
       LiquiditySourceConfig? self, SseSerializer serializer);
+
+  @protected
+  void sse_encode_opt_box_autoadd_log_level(
+      LogLevel? self, SseSerializer serializer);
 
   @protected
   void sse_encode_opt_box_autoadd_max_total_routing_fee_limit(
@@ -5028,6 +5119,87 @@ class coreWire implements BaseWire {
             ffi.Pointer<wire_cst_gossip_source_config>,
             ffi.Pointer<wire_cst_liquidity_source_config>,
           )>();
+
+  WireSyncRust2DartDco
+      wire__crate__api__builder__FfiBuilder_set_entropy_seed_bytes(
+    int that,
+    ffi.Pointer<wire_cst_list_prim_u_8_loose> seed_bytes,
+  ) {
+    return _wire__crate__api__builder__FfiBuilder_set_entropy_seed_bytes(
+      that,
+      seed_bytes,
+    );
+  }
+
+  late final _wire__crate__api__builder__FfiBuilder_set_entropy_seed_bytesPtr =
+      _lookup<
+          ffi.NativeFunction<
+              WireSyncRust2DartDco Function(
+                ffi.UintPtr,
+                ffi.Pointer<wire_cst_list_prim_u_8_loose>,
+              )>>(
+    'frbgen_ldk_node_wire__crate__api__builder__FfiBuilder_set_entropy_seed_bytes',
+  );
+  late final _wire__crate__api__builder__FfiBuilder_set_entropy_seed_bytes =
+      _wire__crate__api__builder__FfiBuilder_set_entropy_seed_bytesPtr
+          .asFunction<
+              WireSyncRust2DartDco Function(
+                int,
+                ffi.Pointer<wire_cst_list_prim_u_8_loose>,
+              )>();
+
+  void wire__crate__api__builder__FfiBuilder_set_filesystem_logger(
+    int port_,
+    int that,
+    ffi.Pointer<wire_cst_list_prim_u_8_strict> log_file_path,
+    ffi.Pointer<ffi.Int32> max_log_level,
+  ) {
+    return _wire__crate__api__builder__FfiBuilder_set_filesystem_logger(
+      port_,
+      that,
+      log_file_path,
+      max_log_level,
+    );
+  }
+
+  late final _wire__crate__api__builder__FfiBuilder_set_filesystem_loggerPtr =
+      _lookup<
+          ffi.NativeFunction<
+              ffi.Void Function(
+                ffi.Int64,
+                ffi.UintPtr,
+                ffi.Pointer<wire_cst_list_prim_u_8_strict>,
+                ffi.Pointer<ffi.Int32>,
+              )>>(
+    'frbgen_ldk_node_wire__crate__api__builder__FfiBuilder_set_filesystem_logger',
+  );
+  late final _wire__crate__api__builder__FfiBuilder_set_filesystem_logger =
+      _wire__crate__api__builder__FfiBuilder_set_filesystem_loggerPtr
+          .asFunction<
+              void Function(
+                int,
+                int,
+                ffi.Pointer<wire_cst_list_prim_u_8_strict>,
+                ffi.Pointer<ffi.Int32>,
+              )>();
+
+  void wire__crate__api__builder__FfiBuilder_set_log_facade_logger(
+    int port_,
+    int that,
+  ) {
+    return _wire__crate__api__builder__FfiBuilder_set_log_facade_logger(
+      port_,
+      that,
+    );
+  }
+
+  late final _wire__crate__api__builder__FfiBuilder_set_log_facade_loggerPtr =
+      _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Int64, ffi.UintPtr)>>(
+    'frbgen_ldk_node_wire__crate__api__builder__FfiBuilder_set_log_facade_logger',
+  );
+  late final _wire__crate__api__builder__FfiBuilder_set_log_facade_logger =
+      _wire__crate__api__builder__FfiBuilder_set_log_facade_loggerPtr
+          .asFunction<void Function(int, int)>();
 
   WireSyncRust2DartDco
       wire__crate__api__types__PaymentDetails_auto_accessor_get_amount_msat(
@@ -7779,6 +7951,17 @@ class coreWire implements BaseWire {
       _cst_new_box_autoadd_ffi_bolt_12_paymentPtr
           .asFunction<ffi.Pointer<wire_cst_ffi_bolt_12_payment> Function()>();
 
+  ffi.Pointer<wire_cst_ffi_log_record> cst_new_box_autoadd_ffi_log_record() {
+    return _cst_new_box_autoadd_ffi_log_record();
+  }
+
+  late final _cst_new_box_autoadd_ffi_log_recordPtr = _lookup<
+          ffi.NativeFunction<ffi.Pointer<wire_cst_ffi_log_record> Function()>>(
+      'frbgen_ldk_node_cst_new_box_autoadd_ffi_log_record');
+  late final _cst_new_box_autoadd_ffi_log_record =
+      _cst_new_box_autoadd_ffi_log_recordPtr
+          .asFunction<ffi.Pointer<wire_cst_ffi_log_record> Function()>();
+
   ffi.Pointer<wire_cst_ffi_mnemonic> cst_new_box_autoadd_ffi_mnemonic() {
     return _cst_new_box_autoadd_ffi_mnemonic();
   }
@@ -7878,6 +8061,17 @@ class coreWire implements BaseWire {
   late final _cst_new_box_autoadd_liquidity_source_config =
       _cst_new_box_autoadd_liquidity_source_configPtr.asFunction<
           ffi.Pointer<wire_cst_liquidity_source_config> Function()>();
+
+  ffi.Pointer<ffi.Int32> cst_new_box_autoadd_log_level(int value) {
+    return _cst_new_box_autoadd_log_level(value);
+  }
+
+  late final _cst_new_box_autoadd_log_levelPtr =
+      _lookup<ffi.NativeFunction<ffi.Pointer<ffi.Int32> Function(ffi.Int32)>>(
+    'frbgen_ldk_node_cst_new_box_autoadd_log_level',
+  );
+  late final _cst_new_box_autoadd_log_level = _cst_new_box_autoadd_log_levelPtr
+      .asFunction<ffi.Pointer<ffi.Int32> Function(int)>();
 
   ffi.Pointer<wire_cst_max_total_routing_fee_limit>
       cst_new_box_autoadd_max_total_routing_fee_limit() {
@@ -8596,6 +8790,13 @@ final class wire_cst_liquidity_source_config extends ffi.Struct {
   external wire_cst_record_socket_address_public_key_opt_string lsps2_service;
 }
 
+final class wire_cst_list_prim_u_8_loose extends ffi.Struct {
+  external ffi.Pointer<ffi.Uint8> ptr;
+
+  @ffi.Int32()
+  external int len;
+}
+
 final class wire_cst_payment_id extends ffi.Struct {
   external ffi.Pointer<wire_cst_list_prim_u_8_strict> field0;
 }
@@ -8693,13 +8894,6 @@ final class wire_cst_channel_config extends ffi.Struct {
 
   @ffi.Bool()
   external bool accept_underpaying_htlcs;
-}
-
-final class wire_cst_list_prim_u_8_loose extends ffi.Struct {
-  external ffi.Pointer<ffi.Uint8> ptr;
-
-  @ffi.Int32()
-  external int len;
 }
 
 final class wire_cst_ffi_on_chain_payment extends ffi.Struct {
@@ -8993,6 +9187,18 @@ final class wire_cst_event extends ffi.Struct {
   external int tag;
 
   external EventKind kind;
+}
+
+final class wire_cst_ffi_log_record extends ffi.Struct {
+  @ffi.Int32()
+  external int level;
+
+  external ffi.Pointer<wire_cst_list_prim_u_8_strict> args;
+
+  external ffi.Pointer<wire_cst_list_prim_u_8_strict> module_path;
+
+  @ffi.Uint32()
+  external int line;
 }
 
 final class wire_cst_node_announcement_info extends ffi.Struct {

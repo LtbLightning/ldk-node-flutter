@@ -218,6 +218,11 @@ typedef struct wire_cst_liquidity_source_config {
   struct wire_cst_record_socket_address_public_key_opt_string lsps2_service;
 } wire_cst_liquidity_source_config;
 
+typedef struct wire_cst_list_prim_u_8_loose {
+  uint8_t *ptr;
+  int32_t len;
+} wire_cst_list_prim_u_8_loose;
+
 typedef struct wire_cst_payment_id {
   struct wire_cst_list_prim_u_8_strict *field0;
 } wire_cst_payment_id;
@@ -296,11 +301,6 @@ typedef struct wire_cst_channel_config {
   uint64_t force_close_avoidance_max_fee_satoshis;
   bool accept_underpaying_htlcs;
 } wire_cst_channel_config;
-
-typedef struct wire_cst_list_prim_u_8_loose {
-  uint8_t *ptr;
-  int32_t len;
-} wire_cst_list_prim_u_8_loose;
 
 typedef struct wire_cst_ffi_on_chain_payment {
   uintptr_t opaque;
@@ -510,6 +510,13 @@ typedef struct wire_cst_event {
   int32_t tag;
   union EventKind kind;
 } wire_cst_event;
+
+typedef struct wire_cst_ffi_log_record {
+  int32_t level;
+  struct wire_cst_list_prim_u_8_strict *args;
+  struct wire_cst_list_prim_u_8_strict *module_path;
+  uint32_t line;
+} wire_cst_ffi_log_record;
 
 typedef struct wire_cst_node_announcement_info {
   uint32_t last_update;
@@ -798,6 +805,17 @@ WireSyncRust2DartDco frbgen_ldk_node_wire__crate__api__builder__FfiBuilder_creat
                                                                                           struct wire_cst_entropy_source_config *entropy_source_config,
                                                                                           struct wire_cst_gossip_source_config *gossip_source_config,
                                                                                           struct wire_cst_liquidity_source_config *liquidity_source_config);
+
+WireSyncRust2DartDco frbgen_ldk_node_wire__crate__api__builder__FfiBuilder_set_entropy_seed_bytes(uintptr_t that,
+                                                                                                  struct wire_cst_list_prim_u_8_loose *seed_bytes);
+
+void frbgen_ldk_node_wire__crate__api__builder__FfiBuilder_set_filesystem_logger(int64_t port_,
+                                                                                 uintptr_t that,
+                                                                                 struct wire_cst_list_prim_u_8_strict *log_file_path,
+                                                                                 int32_t *max_log_level);
+
+void frbgen_ldk_node_wire__crate__api__builder__FfiBuilder_set_log_facade_logger(int64_t port_,
+                                                                                 uintptr_t that);
 
 WireSyncRust2DartDco frbgen_ldk_node_wire__crate__api__types__PaymentDetails_auto_accessor_get_amount_msat(uintptr_t that);
 
@@ -1228,6 +1246,8 @@ struct wire_cst_ffi_bolt_11_payment *frbgen_ldk_node_cst_new_box_autoadd_ffi_bol
 
 struct wire_cst_ffi_bolt_12_payment *frbgen_ldk_node_cst_new_box_autoadd_ffi_bolt_12_payment(void);
 
+struct wire_cst_ffi_log_record *frbgen_ldk_node_cst_new_box_autoadd_ffi_log_record(void);
+
 struct wire_cst_ffi_mnemonic *frbgen_ldk_node_cst_new_box_autoadd_ffi_mnemonic(void);
 
 struct wire_cst_ffi_network_graph *frbgen_ldk_node_cst_new_box_autoadd_ffi_network_graph(void);
@@ -1243,6 +1263,8 @@ struct wire_cst_ffi_unified_qr_payment *frbgen_ldk_node_cst_new_box_autoadd_ffi_
 struct wire_cst_gossip_source_config *frbgen_ldk_node_cst_new_box_autoadd_gossip_source_config(void);
 
 struct wire_cst_liquidity_source_config *frbgen_ldk_node_cst_new_box_autoadd_liquidity_source_config(void);
+
+int32_t *frbgen_ldk_node_cst_new_box_autoadd_log_level(int32_t value);
 
 struct wire_cst_max_total_routing_fee_limit *frbgen_ldk_node_cst_new_box_autoadd_max_total_routing_fee_limit(void);
 
@@ -1335,6 +1357,7 @@ static int64_t dummy_method_to_enforce_bundling(void) {
     dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_cst_new_box_autoadd_fee_rate);
     dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_cst_new_box_autoadd_ffi_bolt_11_payment);
     dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_cst_new_box_autoadd_ffi_bolt_12_payment);
+    dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_cst_new_box_autoadd_ffi_log_record);
     dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_cst_new_box_autoadd_ffi_mnemonic);
     dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_cst_new_box_autoadd_ffi_network_graph);
     dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_cst_new_box_autoadd_ffi_node);
@@ -1343,6 +1366,7 @@ static int64_t dummy_method_to_enforce_bundling(void) {
     dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_cst_new_box_autoadd_ffi_unified_qr_payment);
     dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_cst_new_box_autoadd_gossip_source_config);
     dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_cst_new_box_autoadd_liquidity_source_config);
+    dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_cst_new_box_autoadd_log_level);
     dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_cst_new_box_autoadd_max_total_routing_fee_limit);
     dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_cst_new_box_autoadd_node_alias);
     dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_cst_new_box_autoadd_node_announcement_info);
@@ -1424,6 +1448,9 @@ static int64_t dummy_method_to_enforce_bundling(void) {
     dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__crate__api__builder__FfiBuilder_build_with_vss_store);
     dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__crate__api__builder__FfiBuilder_build_with_vss_store_and_fixed_headers);
     dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__crate__api__builder__FfiBuilder_create_builder);
+    dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__crate__api__builder__FfiBuilder_set_entropy_seed_bytes);
+    dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__crate__api__builder__FfiBuilder_set_filesystem_logger);
+    dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__crate__api__builder__FfiBuilder_set_log_facade_logger);
     dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__crate__api__builder__ffi_mnemonic_generate);
     dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__crate__api__graph__ffi_network_graph_channel);
     dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__crate__api__graph__ffi_network_graph_list_channels);
