@@ -28,6 +28,10 @@ abstract class coreApiImplPlatform extends BaseApiImpl<coreWire> {
     required super.portManager,
   });
 
+  CrossPlatformFinalizerArg
+      get rust_arc_decrement_strong_count_ConfirmationStatusPtr => wire
+          ._rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerConfirmationStatusPtr;
+
   CrossPlatformFinalizerArg get rust_arc_decrement_strong_count_FfiBuilderPtr =>
       wire._rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerFfiBuilderPtr;
 
@@ -70,6 +74,11 @@ abstract class coreApiImplPlatform extends BaseApiImpl<coreWire> {
           ._rust_arc_decrement_strong_count_RustOpaque_ldk_nodepaymentUnifiedQrPaymentPtr;
 
   @protected
+  ConfirmationStatus
+      dco_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerConfirmationStatus(
+          dynamic raw);
+
+  @protected
   FfiBuilder
       dco_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerFfiBuilder(
           dynamic raw);
@@ -106,6 +115,11 @@ abstract class coreApiImplPlatform extends BaseApiImpl<coreWire> {
 
   @protected
   Map<String, String> dco_decode_Map_String_String_None(dynamic raw);
+
+  @protected
+  ConfirmationStatus
+      dco_decode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerConfirmationStatus(
+          dynamic raw);
 
   @protected
   FfiBuilder
@@ -493,6 +507,9 @@ abstract class coreApiImplPlatform extends BaseApiImpl<coreWire> {
   LogLevel dco_decode_log_level(dynamic raw);
 
   @protected
+  LSPFeeLimits dco_decode_lsp_fee_limits(dynamic raw);
+
+  @protected
   MaxDustHTLCExposure dco_decode_max_dust_htlc_exposure(dynamic raw);
 
   @protected
@@ -518,6 +535,9 @@ abstract class coreApiImplPlatform extends BaseApiImpl<coreWire> {
 
   @protected
   Offer dco_decode_offer(dynamic raw);
+
+  @protected
+  OfferId dco_decode_offer_id(dynamic raw);
 
   @protected
   String? dco_decode_opt_String(dynamic raw);
@@ -660,6 +680,9 @@ abstract class coreApiImplPlatform extends BaseApiImpl<coreWire> {
   PaymentPreimage dco_decode_payment_preimage(dynamic raw);
 
   @protected
+  PaymentSecret dco_decode_payment_secret(dynamic raw);
+
+  @protected
   PaymentStatus dco_decode_payment_status(dynamic raw);
 
   @protected
@@ -733,6 +756,11 @@ abstract class coreApiImplPlatform extends BaseApiImpl<coreWire> {
   BigInt dco_decode_usize(dynamic raw);
 
   @protected
+  ConfirmationStatus
+      sse_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerConfirmationStatus(
+          SseDeserializer deserializer);
+
+  @protected
   FfiBuilder
       sse_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerFfiBuilder(
           SseDeserializer deserializer);
@@ -770,6 +798,11 @@ abstract class coreApiImplPlatform extends BaseApiImpl<coreWire> {
   @protected
   Map<String, String> sse_decode_Map_String_String_None(
       SseDeserializer deserializer);
+
+  @protected
+  ConfirmationStatus
+      sse_decode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerConfirmationStatus(
+          SseDeserializer deserializer);
 
   @protected
   FfiBuilder
@@ -1193,6 +1226,9 @@ abstract class coreApiImplPlatform extends BaseApiImpl<coreWire> {
   LogLevel sse_decode_log_level(SseDeserializer deserializer);
 
   @protected
+  LSPFeeLimits sse_decode_lsp_fee_limits(SseDeserializer deserializer);
+
+  @protected
   MaxDustHTLCExposure sse_decode_max_dust_htlc_exposure(
       SseDeserializer deserializer);
 
@@ -1221,6 +1257,9 @@ abstract class coreApiImplPlatform extends BaseApiImpl<coreWire> {
 
   @protected
   Offer sse_decode_offer(SseDeserializer deserializer);
+
+  @protected
+  OfferId sse_decode_offer_id(SseDeserializer deserializer);
 
   @protected
   String? sse_decode_opt_String(SseDeserializer deserializer);
@@ -1375,6 +1414,9 @@ abstract class coreApiImplPlatform extends BaseApiImpl<coreWire> {
 
   @protected
   PaymentPreimage sse_decode_payment_preimage(SseDeserializer deserializer);
+
+  @protected
+  PaymentSecret sse_decode_payment_secret(SseDeserializer deserializer);
 
   @protected
   PaymentStatus sse_decode_payment_status(SseDeserializer deserializer);
@@ -3733,6 +3775,16 @@ abstract class coreApiImplPlatform extends BaseApiImpl<coreWire> {
   }
 
   @protected
+  void cst_api_fill_to_wire_lsp_fee_limits(
+      LSPFeeLimits apiObj, wire_cst_lsp_fee_limits wireObj) {
+    wireObj.max_total_opening_fee_msat =
+        cst_encode_opt_box_autoadd_u_64(apiObj.maxTotalOpeningFeeMsat);
+    wireObj.max_proportional_opening_fee_ppm_msat =
+        cst_encode_opt_box_autoadd_u_64(
+            apiObj.maxProportionalOpeningFeePpmMsat);
+  }
+
+  @protected
   void cst_api_fill_to_wire_max_dust_htlc_exposure(
       MaxDustHTLCExposure apiObj, wire_cst_max_dust_htlc_exposure wireObj) {
     if (apiObj is MaxDustHTLCExposure_FixedLimitMsat) {
@@ -3825,6 +3877,12 @@ abstract class coreApiImplPlatform extends BaseApiImpl<coreWire> {
   }
 
   @protected
+  void cst_api_fill_to_wire_offer_id(
+      OfferId apiObj, wire_cst_offer_id wireObj) {
+    wireObj.field0 = cst_encode_u_8_array_32(apiObj.field0);
+  }
+
+  @protected
   void cst_api_fill_to_wire_out_point(
       OutPoint apiObj, wire_cst_out_point wireObj) {
     cst_api_fill_to_wire_txid(apiObj.txid, wireObj.txid);
@@ -3846,6 +3904,12 @@ abstract class coreApiImplPlatform extends BaseApiImpl<coreWire> {
   @protected
   void cst_api_fill_to_wire_payment_preimage(
       PaymentPreimage apiObj, wire_cst_payment_preimage wireObj) {
+    wireObj.data = cst_encode_u_8_array_32(apiObj.data);
+  }
+
+  @protected
+  void cst_api_fill_to_wire_payment_secret(
+      PaymentSecret apiObj, wire_cst_payment_secret wireObj) {
     wireObj.data = cst_encode_u_8_array_32(apiObj.data);
   }
 
@@ -4040,6 +4104,10 @@ abstract class coreApiImplPlatform extends BaseApiImpl<coreWire> {
   }
 
   @protected
+  int cst_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerConfirmationStatus(
+      ConfirmationStatus raw);
+
+  @protected
   int cst_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerFfiBuilder(
       FfiBuilder raw);
 
@@ -4066,6 +4134,10 @@ abstract class coreApiImplPlatform extends BaseApiImpl<coreWire> {
   @protected
   int cst_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPaymentDetails(
       PaymentDetails raw);
+
+  @protected
+  int cst_encode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerConfirmationStatus(
+      ConfirmationStatus raw);
 
   @protected
   int cst_encode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerFfiBuilder(
@@ -4149,6 +4221,11 @@ abstract class coreApiImplPlatform extends BaseApiImpl<coreWire> {
 
   @protected
   void
+      sse_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerConfirmationStatus(
+          ConfirmationStatus self, SseSerializer serializer);
+
+  @protected
+  void
       sse_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerFfiBuilder(
           FfiBuilder self, SseSerializer serializer);
 
@@ -4185,6 +4262,11 @@ abstract class coreApiImplPlatform extends BaseApiImpl<coreWire> {
   @protected
   void sse_encode_Map_String_String_None(
       Map<String, String> self, SseSerializer serializer);
+
+  @protected
+  void
+      sse_encode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerConfirmationStatus(
+          ConfirmationStatus self, SseSerializer serializer);
 
   @protected
   void
@@ -4634,6 +4716,9 @@ abstract class coreApiImplPlatform extends BaseApiImpl<coreWire> {
   void sse_encode_log_level(LogLevel self, SseSerializer serializer);
 
   @protected
+  void sse_encode_lsp_fee_limits(LSPFeeLimits self, SseSerializer serializer);
+
+  @protected
   void sse_encode_max_dust_htlc_exposure(
       MaxDustHTLCExposure self, SseSerializer serializer);
 
@@ -4662,6 +4747,9 @@ abstract class coreApiImplPlatform extends BaseApiImpl<coreWire> {
 
   @protected
   void sse_encode_offer(Offer self, SseSerializer serializer);
+
+  @protected
+  void sse_encode_offer_id(OfferId self, SseSerializer serializer);
 
   @protected
   void sse_encode_opt_String(String? self, SseSerializer serializer);
@@ -4821,6 +4909,9 @@ abstract class coreApiImplPlatform extends BaseApiImpl<coreWire> {
   @protected
   void sse_encode_payment_preimage(
       PaymentPreimage self, SseSerializer serializer);
+
+  @protected
+  void sse_encode_payment_secret(PaymentSecret self, SseSerializer serializer);
 
   @protected
   void sse_encode_payment_status(PaymentStatus self, SseSerializer serializer);
@@ -5148,14 +5239,13 @@ class coreWire implements BaseWire {
                 ffi.Pointer<wire_cst_list_prim_u_8_loose>,
               )>();
 
-  void wire__crate__api__builder__FfiBuilder_set_filesystem_logger(
-    int port_,
+  WireSyncRust2DartDco
+      wire__crate__api__builder__FfiBuilder_set_filesystem_logger(
     int that,
     ffi.Pointer<wire_cst_list_prim_u_8_strict> log_file_path,
     ffi.Pointer<ffi.Int32> max_log_level,
   ) {
     return _wire__crate__api__builder__FfiBuilder_set_filesystem_logger(
-      port_,
       that,
       log_file_path,
       max_log_level,
@@ -5165,8 +5255,7 @@ class coreWire implements BaseWire {
   late final _wire__crate__api__builder__FfiBuilder_set_filesystem_loggerPtr =
       _lookup<
           ffi.NativeFunction<
-              ffi.Void Function(
-                ffi.Int64,
+              WireSyncRust2DartDco Function(
                 ffi.UintPtr,
                 ffi.Pointer<wire_cst_list_prim_u_8_strict>,
                 ffi.Pointer<ffi.Int32>,
@@ -5176,30 +5265,24 @@ class coreWire implements BaseWire {
   late final _wire__crate__api__builder__FfiBuilder_set_filesystem_logger =
       _wire__crate__api__builder__FfiBuilder_set_filesystem_loggerPtr
           .asFunction<
-              void Function(
-                int,
+              WireSyncRust2DartDco Function(
                 int,
                 ffi.Pointer<wire_cst_list_prim_u_8_strict>,
                 ffi.Pointer<ffi.Int32>,
               )>();
 
-  void wire__crate__api__builder__FfiBuilder_set_log_facade_logger(
-    int port_,
-    int that,
-  ) {
-    return _wire__crate__api__builder__FfiBuilder_set_log_facade_logger(
-      port_,
-      that,
-    );
+  WireSyncRust2DartDco
+      wire__crate__api__builder__FfiBuilder_set_log_facade_logger(int that) {
+    return _wire__crate__api__builder__FfiBuilder_set_log_facade_logger(that);
   }
 
   late final _wire__crate__api__builder__FfiBuilder_set_log_facade_loggerPtr =
-      _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Int64, ffi.UintPtr)>>(
+      _lookup<ffi.NativeFunction<WireSyncRust2DartDco Function(ffi.UintPtr)>>(
     'frbgen_ldk_node_wire__crate__api__builder__FfiBuilder_set_log_facade_logger',
   );
   late final _wire__crate__api__builder__FfiBuilder_set_log_facade_logger =
       _wire__crate__api__builder__FfiBuilder_set_log_facade_loggerPtr
-          .asFunction<void Function(int, int)>();
+          .asFunction<WireSyncRust2DartDco Function(int)>();
 
   WireSyncRust2DartDco
       wire__crate__api__types__PaymentDetails_auto_accessor_get_amount_msat(
@@ -7326,6 +7409,40 @@ class coreWire implements BaseWire {
             ffi.Pointer<wire_cst_ffi_unified_qr_payment>,
             ffi.Pointer<wire_cst_list_prim_u_8_strict>,
           )>();
+
+  void
+      rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerConfirmationStatus(
+    ffi.Pointer<ffi.Void> ptr,
+  ) {
+    return _rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerConfirmationStatus(
+      ptr,
+    );
+  }
+
+  late final _rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerConfirmationStatusPtr =
+      _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void>)>>(
+    'frbgen_ldk_node_rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerConfirmationStatus',
+  );
+  late final _rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerConfirmationStatus =
+      _rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerConfirmationStatusPtr
+          .asFunction<void Function(ffi.Pointer<ffi.Void>)>();
+
+  void
+      rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerConfirmationStatus(
+    ffi.Pointer<ffi.Void> ptr,
+  ) {
+    return _rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerConfirmationStatus(
+      ptr,
+    );
+  }
+
+  late final _rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerConfirmationStatusPtr =
+      _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void>)>>(
+    'frbgen_ldk_node_rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerConfirmationStatus',
+  );
+  late final _rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerConfirmationStatus =
+      _rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerConfirmationStatusPtr
+          .asFunction<void Function(ffi.Pointer<ffi.Void>)>();
 
   void
       rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerFfiBuilder(
@@ -9577,6 +9694,12 @@ final class wire_cst_ffi_node_error extends ffi.Struct {
   external FfiNodeErrorKind kind;
 }
 
+final class wire_cst_lsp_fee_limits extends ffi.Struct {
+  external ffi.Pointer<ffi.Uint64> max_total_opening_fee_msat;
+
+  external ffi.Pointer<ffi.Uint64> max_proportional_opening_fee_ppm_msat;
+}
+
 final class wire_cst_node_status extends ffi.Struct {
   @ffi.Bool()
   external bool is_running;
@@ -9597,6 +9720,14 @@ final class wire_cst_node_status extends ffi.Struct {
   external ffi.Pointer<ffi.Uint64> latest_node_announcement_broadcast_timestamp;
 
   external ffi.Pointer<ffi.Uint32> latest_channel_monitor_archival_height;
+}
+
+final class wire_cst_offer_id extends ffi.Struct {
+  external ffi.Pointer<wire_cst_list_prim_u_8_strict> field0;
+}
+
+final class wire_cst_payment_secret extends ffi.Struct {
+  external ffi.Pointer<wire_cst_list_prim_u_8_strict> data;
 }
 
 final class wire_cst_QrPaymentResult_Onchain extends ffi.Struct {

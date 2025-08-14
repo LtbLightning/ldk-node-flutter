@@ -1168,20 +1168,18 @@ class Builder {
   ///
   /// Example:
   /// ```dart
-  /// await builder.setFilesystemLogger(
+  /// builder.setFilesystemLogger(
   ///   logFilePath: '/path/to/logs/ldk.log',
   ///   maxLogLevel: types.LogLevel.info,
   /// );
   /// ```
-  Future<Builder> setFilesystemLogger({
+  Builder setFilesystemLogger({
     String? logFilePath,
     types.LogLevel? maxLogLevel,
-  }) async {
+  }) {
     try {
-      await Frb.verifyInit();
-
       // Create or get the builder instance
-      _configuredBuilder ??= await builder.FfiBuilder.createBuilder(
+      _configuredBuilder ??= builder.FfiBuilder.createBuilder(
         config: _config ?? Builder()._config!,
         chainDataSourceConfig: _chainDataSourceConfig,
         entropySourceConfig: _entropySource,
@@ -1190,7 +1188,7 @@ class Builder {
       );
 
       // Configure filesystem logging
-      _configuredBuilder = await _configuredBuilder!.setFilesystemLogger(
+      _configuredBuilder = _configuredBuilder!.setFilesystemLogger(
         logFilePath: logFilePath,
         maxLogLevel: maxLogLevel,
       );
@@ -1209,14 +1207,12 @@ class Builder {
   ///
   /// Example:
   /// ```dart
-  /// await builder.setLogFacadeLogger();
+  /// builder.setLogFacadeLogger();
   /// ```
-  Future<Builder> setLogFacadeLogger() async {
+  Builder setLogFacadeLogger() {
     try {
-      await Frb.verifyInit();
-
       // Create or get the builder instance
-      _configuredBuilder ??= await builder.FfiBuilder.createBuilder(
+      _configuredBuilder ??= builder.FfiBuilder.createBuilder(
         config: _config ?? Builder()._config!,
         chainDataSourceConfig: _chainDataSourceConfig,
         entropySourceConfig: _entropySource,
@@ -1225,7 +1221,7 @@ class Builder {
       );
 
       // Configure log facade
-      _configuredBuilder = await _configuredBuilder!.setLogFacadeLogger();
+      _configuredBuilder = _configuredBuilder!.setLogFacadeLogger();
 
       return this;
     } on error.FfiBuilderError catch (e) {
