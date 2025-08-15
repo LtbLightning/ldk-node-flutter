@@ -453,7 +453,6 @@ pub enum ClosureReason {
     HTLCsTimedOut,
 }
 ///A user-provided identifier in channelManager.sendPayment used to uniquely identify a payment and ensure idempotency in LDK.
-#[frb(non_opaque)]
 #[derive(Eq, PartialEq, Debug, Clone)]
 pub struct PaymentId(pub [u8; 32]);
 
@@ -2445,8 +2444,7 @@ const DEFAULT_STORAGE_DIR_PATH: &str = "/tmp/ldk_node/";
 const DEFAULT_NETWORK: Network = Network::Testnet;
 const DEFAULT_LOG_LEVEL: LogLevel = LogLevel::Debug;
 
-#[frb(non_opaque)]
-#[derive(Debug, Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash)]
+#[derive(Debug, Copy, Clone)]
 pub struct FeeRate(pub u64);
 
 impl FeeRate {
