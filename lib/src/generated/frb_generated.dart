@@ -77,7 +77,7 @@ class core extends BaseEntrypoint<coreApi, coreApiImpl, coreWire> {
   String get codegenVersion => '2.11.1';
 
   @override
-  int get rustContentHash => 255394442;
+  int get rustContentHash => -2010085546;
 
   static const kDefaultExternalLibraryLoaderConfig =
       ExternalLibraryLoaderConfig(
@@ -167,18 +167,6 @@ abstract class coreApi extends BaseApi {
   Future<AnchorChannelsConfig> crateApiTypesAnchorChannelsConfigDefault();
 
   Future<Config> crateApiTypesConfigDefault();
-
-  FeeRate crateApiTypesFeeRateFromSatPerKwu({required BigInt satKwu});
-
-  FeeRate? crateApiTypesFeeRateFromSatPerVb({required BigInt satVb});
-
-  FeeRate crateApiTypesFeeRateFromSatPerVbUnchecked({required BigInt satVb});
-
-  Future<BigInt> crateApiTypesFeeRateToSatPerKwu({required FeeRate that});
-
-  Future<BigInt> crateApiTypesFeeRateToSatPerVbCeil({required FeeRate that});
-
-  Future<BigInt> crateApiTypesFeeRateToSatPerVbFloor({required FeeRate that});
 
   Future<void> crateApiBolt11FfiBolt11PaymentClaimForHash(
       {required FfiBolt11Payment that,
@@ -418,13 +406,13 @@ abstract class coreApi extends BaseApi {
       {required FfiOnChainPayment that,
       required Address address,
       required bool retainReserves,
-      FeeRate? feeRate});
+      BigInt? feeRateSatPerKwu});
 
   Future<Txid> crateApiOnChainFfiOnChainPaymentSendToAddress(
       {required FfiOnChainPayment that,
       required Address address,
       required BigInt amountSats,
-      FeeRate? feeRate});
+      BigInt? feeRateSatPerKwu});
 
   Future<PaymentId> crateApiSpontaneousFfiSpontaneousPaymentSend(
       {required FfiSpontaneousPayment that,
@@ -1283,148 +1271,6 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
   TaskConstMeta get kCrateApiTypesConfigDefaultConstMeta => const TaskConstMeta(
         debugName: "config_default",
         argNames: [],
-      );
-
-  @override
-  FeeRate crateApiTypesFeeRateFromSatPerKwu({required BigInt satKwu}) {
-    return handler.executeSync(SyncTask(
-      callFfi: () {
-        var arg0 = cst_encode_u_64(satKwu);
-        return wire.wire__crate__api__types__fee_rate_from_sat_per_kwu(arg0);
-      },
-      codec: DcoCodec(
-        decodeSuccessData: dco_decode_fee_rate,
-        decodeErrorData: null,
-      ),
-      constMeta: kCrateApiTypesFeeRateFromSatPerKwuConstMeta,
-      argValues: [satKwu],
-      apiImpl: this,
-    ));
-  }
-
-  TaskConstMeta get kCrateApiTypesFeeRateFromSatPerKwuConstMeta =>
-      const TaskConstMeta(
-        debugName: "fee_rate_from_sat_per_kwu",
-        argNames: ["satKwu"],
-      );
-
-  @override
-  FeeRate? crateApiTypesFeeRateFromSatPerVb({required BigInt satVb}) {
-    return handler.executeSync(SyncTask(
-      callFfi: () {
-        var arg0 = cst_encode_u_64(satVb);
-        return wire.wire__crate__api__types__fee_rate_from_sat_per_vb(arg0);
-      },
-      codec: DcoCodec(
-        decodeSuccessData: dco_decode_opt_box_autoadd_fee_rate,
-        decodeErrorData: null,
-      ),
-      constMeta: kCrateApiTypesFeeRateFromSatPerVbConstMeta,
-      argValues: [satVb],
-      apiImpl: this,
-    ));
-  }
-
-  TaskConstMeta get kCrateApiTypesFeeRateFromSatPerVbConstMeta =>
-      const TaskConstMeta(
-        debugName: "fee_rate_from_sat_per_vb",
-        argNames: ["satVb"],
-      );
-
-  @override
-  FeeRate crateApiTypesFeeRateFromSatPerVbUnchecked({required BigInt satVb}) {
-    return handler.executeSync(SyncTask(
-      callFfi: () {
-        var arg0 = cst_encode_u_64(satVb);
-        return wire
-            .wire__crate__api__types__fee_rate_from_sat_per_vb_unchecked(arg0);
-      },
-      codec: DcoCodec(
-        decodeSuccessData: dco_decode_fee_rate,
-        decodeErrorData: null,
-      ),
-      constMeta: kCrateApiTypesFeeRateFromSatPerVbUncheckedConstMeta,
-      argValues: [satVb],
-      apiImpl: this,
-    ));
-  }
-
-  TaskConstMeta get kCrateApiTypesFeeRateFromSatPerVbUncheckedConstMeta =>
-      const TaskConstMeta(
-        debugName: "fee_rate_from_sat_per_vb_unchecked",
-        argNames: ["satVb"],
-      );
-
-  @override
-  Future<BigInt> crateApiTypesFeeRateToSatPerKwu({required FeeRate that}) {
-    return handler.executeNormal(NormalTask(
-      callFfi: (port_) {
-        var arg0 = cst_encode_box_autoadd_fee_rate(that);
-        return wire.wire__crate__api__types__fee_rate_to_sat_per_kwu(
-            port_, arg0);
-      },
-      codec: DcoCodec(
-        decodeSuccessData: dco_decode_u_64,
-        decodeErrorData: null,
-      ),
-      constMeta: kCrateApiTypesFeeRateToSatPerKwuConstMeta,
-      argValues: [that],
-      apiImpl: this,
-    ));
-  }
-
-  TaskConstMeta get kCrateApiTypesFeeRateToSatPerKwuConstMeta =>
-      const TaskConstMeta(
-        debugName: "fee_rate_to_sat_per_kwu",
-        argNames: ["that"],
-      );
-
-  @override
-  Future<BigInt> crateApiTypesFeeRateToSatPerVbCeil({required FeeRate that}) {
-    return handler.executeNormal(NormalTask(
-      callFfi: (port_) {
-        var arg0 = cst_encode_box_autoadd_fee_rate(that);
-        return wire.wire__crate__api__types__fee_rate_to_sat_per_vb_ceil(
-            port_, arg0);
-      },
-      codec: DcoCodec(
-        decodeSuccessData: dco_decode_u_64,
-        decodeErrorData: null,
-      ),
-      constMeta: kCrateApiTypesFeeRateToSatPerVbCeilConstMeta,
-      argValues: [that],
-      apiImpl: this,
-    ));
-  }
-
-  TaskConstMeta get kCrateApiTypesFeeRateToSatPerVbCeilConstMeta =>
-      const TaskConstMeta(
-        debugName: "fee_rate_to_sat_per_vb_ceil",
-        argNames: ["that"],
-      );
-
-  @override
-  Future<BigInt> crateApiTypesFeeRateToSatPerVbFloor({required FeeRate that}) {
-    return handler.executeNormal(NormalTask(
-      callFfi: (port_) {
-        var arg0 = cst_encode_box_autoadd_fee_rate(that);
-        return wire.wire__crate__api__types__fee_rate_to_sat_per_vb_floor(
-            port_, arg0);
-      },
-      codec: DcoCodec(
-        decodeSuccessData: dco_decode_u_64,
-        decodeErrorData: null,
-      ),
-      constMeta: kCrateApiTypesFeeRateToSatPerVbFloorConstMeta,
-      argValues: [that],
-      apiImpl: this,
-    ));
-  }
-
-  TaskConstMeta get kCrateApiTypesFeeRateToSatPerVbFloorConstMeta =>
-      const TaskConstMeta(
-        debugName: "fee_rate_to_sat_per_vb_floor",
-        argNames: ["that"],
       );
 
   @override
@@ -3094,13 +2940,13 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
       {required FfiOnChainPayment that,
       required Address address,
       required bool retainReserves,
-      FeeRate? feeRate}) {
+      BigInt? feeRateSatPerKwu}) {
     return handler.executeNormal(NormalTask(
       callFfi: (port_) {
         var arg0 = cst_encode_box_autoadd_ffi_on_chain_payment(that);
         var arg1 = cst_encode_box_autoadd_address(address);
         var arg2 = cst_encode_bool(retainReserves);
-        var arg3 = cst_encode_opt_box_autoadd_fee_rate(feeRate);
+        var arg3 = cst_encode_opt_box_autoadd_u_64(feeRateSatPerKwu);
         return wire
             .wire__crate__api__on_chain__ffi_on_chain_payment_send_all_to_address(
                 port_, arg0, arg1, arg2, arg3);
@@ -3110,7 +2956,7 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
         decodeErrorData: dco_decode_ffi_node_error,
       ),
       constMeta: kCrateApiOnChainFfiOnChainPaymentSendAllToAddressConstMeta,
-      argValues: [that, address, retainReserves, feeRate],
+      argValues: [that, address, retainReserves, feeRateSatPerKwu],
       apiImpl: this,
     ));
   }
@@ -3119,7 +2965,7 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
       get kCrateApiOnChainFfiOnChainPaymentSendAllToAddressConstMeta =>
           const TaskConstMeta(
             debugName: "ffi_on_chain_payment_send_all_to_address",
-            argNames: ["that", "address", "retainReserves", "feeRate"],
+            argNames: ["that", "address", "retainReserves", "feeRateSatPerKwu"],
           );
 
   @override
@@ -3127,13 +2973,13 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
       {required FfiOnChainPayment that,
       required Address address,
       required BigInt amountSats,
-      FeeRate? feeRate}) {
+      BigInt? feeRateSatPerKwu}) {
     return handler.executeNormal(NormalTask(
       callFfi: (port_) {
         var arg0 = cst_encode_box_autoadd_ffi_on_chain_payment(that);
         var arg1 = cst_encode_box_autoadd_address(address);
         var arg2 = cst_encode_u_64(amountSats);
-        var arg3 = cst_encode_opt_box_autoadd_fee_rate(feeRate);
+        var arg3 = cst_encode_opt_box_autoadd_u_64(feeRateSatPerKwu);
         return wire
             .wire__crate__api__on_chain__ffi_on_chain_payment_send_to_address(
                 port_, arg0, arg1, arg2, arg3);
@@ -3143,7 +2989,7 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
         decodeErrorData: dco_decode_ffi_node_error,
       ),
       constMeta: kCrateApiOnChainFfiOnChainPaymentSendToAddressConstMeta,
-      argValues: [that, address, amountSats, feeRate],
+      argValues: [that, address, amountSats, feeRateSatPerKwu],
       apiImpl: this,
     ));
   }
@@ -3151,7 +2997,7 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
   TaskConstMeta get kCrateApiOnChainFfiOnChainPaymentSendToAddressConstMeta =>
       const TaskConstMeta(
         debugName: "ffi_on_chain_payment_send_to_address",
-        argNames: ["that", "address", "amountSats", "feeRate"],
+        argNames: ["that", "address", "amountSats", "feeRateSatPerKwu"],
       );
 
   @override
@@ -3829,12 +3675,6 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
   }
 
   @protected
-  FeeRate dco_decode_box_autoadd_fee_rate(dynamic raw) {
-    // Codec=Dco (DartCObject based), see doc to use other codecs
-    return dco_decode_fee_rate(raw);
-  }
-
-  @protected
   FfiBolt11Payment dco_decode_box_autoadd_ffi_bolt_11_payment(dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     return dco_decode_ffi_bolt_11_payment(raw);
@@ -4384,17 +4224,6 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
       default:
         throw Exception("unreachable");
     }
-  }
-
-  @protected
-  FeeRate dco_decode_fee_rate(dynamic raw) {
-    // Codec=Dco (DartCObject based), see doc to use other codecs
-    final arr = raw as List<dynamic>;
-    if (arr.length != 1)
-      throw Exception('unexpected arr length: expect 1 but see ${arr.length}');
-    return FeeRate(
-      field0: dco_decode_u_64(arr[0]),
-    );
   }
 
   @protected
@@ -5080,12 +4909,6 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
   }
 
   @protected
-  FeeRate? dco_decode_opt_box_autoadd_fee_rate(dynamic raw) {
-    // Codec=Dco (DartCObject based), see doc to use other codecs
-    return raw == null ? null : dco_decode_box_autoadd_fee_rate(raw);
-  }
-
-  @protected
   GossipSourceConfig? dco_decode_opt_box_autoadd_gossip_source_config(
       dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
@@ -5263,7 +5086,7 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
     if (arr.length != 1)
       throw Exception('unexpected arr length: expect 1 but see ${arr.length}');
     return PaymentId(
-      field0: dco_decode_u_8_array_32(arr[0]),
+      data: dco_decode_list_prim_u_8_strict(arr[0]),
     );
   }
 
@@ -5986,12 +5809,6 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
   }
 
   @protected
-  FeeRate sse_decode_box_autoadd_fee_rate(SseDeserializer deserializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    return (sse_decode_fee_rate(deserializer));
-  }
-
-  @protected
   FfiBolt11Payment sse_decode_box_autoadd_ffi_bolt_11_payment(
       SseDeserializer deserializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
@@ -6653,13 +6470,6 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
       default:
         throw UnimplementedError('');
     }
-  }
-
-  @protected
-  FeeRate sse_decode_fee_rate(SseDeserializer deserializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    var var_field0 = sse_decode_u_64(deserializer);
-    return FeeRate(field0: var_field0);
   }
 
   @protected
@@ -7491,17 +7301,6 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
   }
 
   @protected
-  FeeRate? sse_decode_opt_box_autoadd_fee_rate(SseDeserializer deserializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-
-    if (sse_decode_bool(deserializer)) {
-      return (sse_decode_box_autoadd_fee_rate(deserializer));
-    } else {
-      return null;
-    }
-  }
-
-  @protected
   GossipSourceConfig? sse_decode_opt_box_autoadd_gossip_source_config(
       SseDeserializer deserializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
@@ -7768,8 +7567,8 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
   @protected
   PaymentId sse_decode_payment_id(SseDeserializer deserializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
-    var var_field0 = sse_decode_u_8_array_32(deserializer);
-    return PaymentId(field0: var_field0);
+    var var_data = sse_decode_list_prim_u_8_strict(deserializer);
+    return PaymentId(data: var_data);
   }
 
   @protected
@@ -8703,12 +8502,6 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
   }
 
   @protected
-  void sse_encode_box_autoadd_fee_rate(FeeRate self, SseSerializer serializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    sse_encode_fee_rate(self, serializer);
-  }
-
-  @protected
   void sse_encode_box_autoadd_ffi_bolt_11_payment(
       FfiBolt11Payment self, SseSerializer serializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
@@ -9279,12 +9072,6 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
         sse_encode_opt_box_autoadd_u_64(
             outboundAmountForwardedMsat, serializer);
     }
-  }
-
-  @protected
-  void sse_encode_fee_rate(FeeRate self, SseSerializer serializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    sse_encode_u_64(self.field0, serializer);
   }
 
   @protected
@@ -10010,17 +9797,6 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
   }
 
   @protected
-  void sse_encode_opt_box_autoadd_fee_rate(
-      FeeRate? self, SseSerializer serializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-
-    sse_encode_bool(self != null, serializer);
-    if (self != null) {
-      sse_encode_box_autoadd_fee_rate(self, serializer);
-    }
-  }
-
-  @protected
   void sse_encode_opt_box_autoadd_gossip_source_config(
       GossipSourceConfig? self, SseSerializer serializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
@@ -10266,7 +10042,7 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
   @protected
   void sse_encode_payment_id(PaymentId self, SseSerializer serializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
-    sse_encode_u_8_array_32(self.field0, serializer);
+    sse_encode_list_prim_u_8_strict(self.data, serializer);
   }
 
   @protected

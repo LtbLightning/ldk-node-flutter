@@ -111,9 +111,8 @@ void main() {
       final alicePeers = await aliceNode.listPeers();
       final aliceChannels = await aliceNode.listChannels();
       expect(
-          (alicePeers.where((e) => e.nodeId.hex == bobNodeId.hex)).toList() !=
-              [],
-          true);
+          (alicePeers.where((e) => e.nodeId.hex == bobNodeId.hex)).toList().isNotEmpty,
+          equals(true));
 
       await regTestClient.generate(11, aliceNodeAddress.s);
       expect(
@@ -137,7 +136,7 @@ void main() {
       final offer1 = await bobNodeBol12Handler.receive(
           amountMsat: payment1ExpectedAmountMsat, description: "payment_1");
       final payment1Id = await aliceNodeBol12Handler.send(offer: offer1);
-      debugPrint("payment_1 successful: ${payment1Id.field0}");
+      debugPrint("payment_1 successful: ${payment1Id.data.toString()}");
       expect((await aliceNode.listPayments()).length == 1, true);
       const offerAmountMsat = 100000000;
 
@@ -146,12 +145,12 @@ void main() {
           amountMsat: BigInt.from(offerAmountMsat), description: "payment_2");
       final payment2Id = await aliceNodeBol12Handler.sendUsingAmount(
           offer: offer2, amountMsat: BigInt.from(payment2ExpectedAmountMsat));
-      debugPrint("payment_2 successful: ${payment2Id.field0}");
+      debugPrint("payment_2 successful: ${payment2Id.data.toString()}");
       expect(
           ((await aliceNode.listPayments())
-                      .where((e) => listEquals(e.id.field0, payment2Id.field0)))
-                  .length ==
-              1,
+                  .where((e) => e.id.data == payment2Id.data))
+              .length ==
+          1,
           true);
       // Now bobNode refunds the amount aliceNode just overpaid.
       const overPaidAmount = payment2ExpectedAmountMsat - offerAmountMsat;
@@ -165,7 +164,7 @@ void main() {
           .id;
       expect(
           ((await bobNode.listPayments()).where(
-                      (e) => listEquals(e.id.field0, bobNodePayment3Id.field0)))
+                      (e) => listEquals(e.id.data, bobNodePayment3Id.data)))
                   .length ==
               1,
           true);

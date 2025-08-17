@@ -453,17 +453,21 @@ pub enum ClosureReason {
     HTLCsTimedOut,
 }
 ///A user-provided identifier in channelManager.sendPayment used to uniquely identify a payment and ensure idempotency in LDK.
-#[derive(Eq, PartialEq, Debug, Clone)]
-pub struct PaymentId(pub [u8; 32]);
+#[derive(Debug, Clone, PartialEq, Eq)]
+// pub struct PaymentId(pub [u8; 32]);
+#[frb(serialize)]
+pub struct PaymentId {
+    pub data: Vec<u8>,
+}
 
 impl From<ldk_node::lightning::ln::channelmanager::PaymentId> for PaymentId {
     fn from(value: ldk_node::lightning::ln::channelmanager::PaymentId) -> Self {
-        PaymentId(value.0)
+        PaymentId { data: value.0.to_vec()  }
     }
 }
 impl From<PaymentId> for ldk_node::lightning::ln::channelmanager::PaymentId {
     fn from(value: PaymentId) -> Self {
-        ldk_node::lightning::ln::channelmanager::PaymentId(value.0)
+        ldk_node::lightning::ln::channelmanager::PaymentId(value.data.try_into().expect("PaymentId data should be 32 bytes long"))
     }
 }
 /// An event emitted by [`Node`], which should be handled by the user.
@@ -2443,83 +2447,3 @@ impl From<ldk_node::config::BackgroundSyncConfig> for BackgroundSyncConfig {
 const DEFAULT_STORAGE_DIR_PATH: &str = "/tmp/ldk_node/";
 const DEFAULT_NETWORK: Network = Network::Testnet;
 const DEFAULT_LOG_LEVEL: LogLevel = LogLevel::Debug;
-
-#[derive(Debug, Copy, Clone)]
-pub struct FeeRate(pub u64);
-
-impl FeeRate {
-    /// 0 sat/kwu.
-    ///
-    /// Equivalent to [`MIN`](Self::MIN), may better express intent in some contexts.
-    pub const ZERO: FeeRate = FeeRate(0);
-
-    /// Minimum possible value (0 sat/kwu).
-    ///
-    /// Equivalent to [`ZERO`](Self::ZERO), may better express intent in some contexts.
-    pub const MIN: FeeRate = FeeRate::ZERO;
-
-    /// Maximum possible value.
-    pub const MAX: FeeRate = FeeRate(u64::MAX);
-
-    /// Minimum fee rate required to broadcast a transaction.
-    ///
-    /// The value matches the default Bitcoin Core policy at the time of library release.
-    pub const BROADCAST_MIN: FeeRate = FeeRate::from_sat_per_vb_unchecked(1);
-
-    /// Fee rate used to compute dust amount.
-    pub const DUST: FeeRate = FeeRate::from_sat_per_vb_unchecked(3);
-
-    /// Constructs `FeeRate` from satoshis per 1000 weight units.
-    #[frb(sync)]
-    pub fn from_sat_per_kwu(sat_kwu: u64) -> Self {
-        FeeRate(sat_kwu)
-    }
-
-    /// Constructs `FeeRate` from satoshis per virtual bytes.
-    ///
-    /// # Errors
-    ///
-    /// Returns a null on arithmetic overflow.
-    #[frb(sync)]
-    pub fn from_sat_per_vb(sat_vb: u64) -> Option<Self> {
-        // 1 vb == 4 wu
-        // 1 sat/vb == 1/4 sat/wu
-        // sat_vb sat/vb * 1000 / 4 == sat/kwu
-        Some(FeeRate(sat_vb.checked_mul(1000 / 4)?))
-    }
-
-    /// Constructs `FeeRate` from satoshis per virtual bytes without overflow check.
-    #[frb(sync)]
-    pub const fn from_sat_per_vb_unchecked(sat_vb: u64) -> Self {
-        FeeRate(sat_vb * (1000 / 4))
-    }
-
-    /// Returns raw fee rate.
-    ///
-    /// Can be used instead of `into()` to avoid inference issues.
-    pub fn to_sat_per_kwu(self) -> u64 {
-        self.0
-    }
-
-    /// Converts to sat/vB rounding down.
-    pub fn to_sat_per_vb_floor(self) -> u64 {
-        self.0 / (1000 / 4)
-    }
-
-    /// Converts to sat/vB rounding up.
-    pub fn to_sat_per_vb_ceil(self) -> u64 {
-        (self.0 + (1000 / 4 - 1)) / (1000 / 4)
-    }
-}
-
-impl From<ldk_node::bitcoin::FeeRate> for FeeRate {
-    fn from(value: ldk_node::bitcoin::FeeRate) -> Self {
-        FeeRate(value.to_sat_per_kwu())
-    }
-}
-
-impl From<FeeRate> for ldk_node::bitcoin::FeeRate {
-    fn from(value: FeeRate) -> Self {
-        ldk_node::bitcoin::FeeRate::from_sat_per_kwu(value.to_sat_per_kwu())
-    }
-}

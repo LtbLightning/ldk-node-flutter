@@ -262,9 +262,6 @@ abstract class coreApiImplPlatform extends BaseApiImpl<coreWire> {
   Event dco_decode_box_autoadd_event(dynamic raw);
 
   @protected
-  FeeRate dco_decode_box_autoadd_fee_rate(dynamic raw);
-
-  @protected
   FfiBolt11Payment dco_decode_box_autoadd_ffi_bolt_11_payment(dynamic raw);
 
   @protected
@@ -410,9 +407,6 @@ abstract class coreApiImplPlatform extends BaseApiImpl<coreWire> {
 
   @protected
   Event dco_decode_event(dynamic raw);
-
-  @protected
-  FeeRate dco_decode_fee_rate(dynamic raw);
 
   @protected
   FfiBolt11Payment dco_decode_ffi_bolt_11_payment(dynamic raw);
@@ -592,9 +586,6 @@ abstract class coreApiImplPlatform extends BaseApiImpl<coreWire> {
 
   @protected
   Event? dco_decode_opt_box_autoadd_event(dynamic raw);
-
-  @protected
-  FeeRate? dco_decode_opt_box_autoadd_fee_rate(dynamic raw);
 
   @protected
   GossipSourceConfig? dco_decode_opt_box_autoadd_gossip_source_config(
@@ -955,9 +946,6 @@ abstract class coreApiImplPlatform extends BaseApiImpl<coreWire> {
   Event sse_decode_box_autoadd_event(SseDeserializer deserializer);
 
   @protected
-  FeeRate sse_decode_box_autoadd_fee_rate(SseDeserializer deserializer);
-
-  @protected
   FfiBolt11Payment sse_decode_box_autoadd_ffi_bolt_11_payment(
       SseDeserializer deserializer);
 
@@ -1118,9 +1106,6 @@ abstract class coreApiImplPlatform extends BaseApiImpl<coreWire> {
 
   @protected
   Event sse_decode_event(SseDeserializer deserializer);
-
-  @protected
-  FeeRate sse_decode_fee_rate(SseDeserializer deserializer);
 
   @protected
   FfiBolt11Payment sse_decode_ffi_bolt_11_payment(SseDeserializer deserializer);
@@ -1318,9 +1303,6 @@ abstract class coreApiImplPlatform extends BaseApiImpl<coreWire> {
 
   @protected
   Event? sse_decode_opt_box_autoadd_event(SseDeserializer deserializer);
-
-  @protected
-  FeeRate? sse_decode_opt_box_autoadd_fee_rate(SseDeserializer deserializer);
 
   @protected
   GossipSourceConfig? sse_decode_opt_box_autoadd_gossip_source_config(
@@ -1673,14 +1655,6 @@ abstract class coreApiImplPlatform extends BaseApiImpl<coreWire> {
     // Codec=Cst (C-struct based), see doc to use other codecs
     final ptr = wire.cst_new_box_autoadd_event();
     cst_api_fill_to_wire_event(raw, ptr.ref);
-    return ptr;
-  }
-
-  @protected
-  ffi.Pointer<wire_cst_fee_rate> cst_encode_box_autoadd_fee_rate(FeeRate raw) {
-    // Codec=Cst (C-struct based), see doc to use other codecs
-    final ptr = wire.cst_new_box_autoadd_fee_rate();
-    cst_api_fill_to_wire_fee_rate(raw, ptr.ref);
     return ptr;
   }
 
@@ -2235,13 +2209,6 @@ abstract class coreApiImplPlatform extends BaseApiImpl<coreWire> {
   }
 
   @protected
-  ffi.Pointer<wire_cst_fee_rate> cst_encode_opt_box_autoadd_fee_rate(
-      FeeRate? raw) {
-    // Codec=Cst (C-struct based), see doc to use other codecs
-    return raw == null ? ffi.nullptr : cst_encode_box_autoadd_fee_rate(raw);
-  }
-
-  @protected
   ffi.Pointer<wire_cst_gossip_source_config>
       cst_encode_opt_box_autoadd_gossip_source_config(GossipSourceConfig? raw) {
     // Codec=Cst (C-struct based), see doc to use other codecs
@@ -2657,12 +2624,6 @@ abstract class coreApiImplPlatform extends BaseApiImpl<coreWire> {
   void cst_api_fill_to_wire_box_autoadd_event(
       Event apiObj, ffi.Pointer<wire_cst_event> wireObj) {
     cst_api_fill_to_wire_event(apiObj, wireObj.ref);
-  }
-
-  @protected
-  void cst_api_fill_to_wire_box_autoadd_fee_rate(
-      FeeRate apiObj, ffi.Pointer<wire_cst_fee_rate> wireObj) {
-    cst_api_fill_to_wire_fee_rate(apiObj, wireObj.ref);
   }
 
   @protected
@@ -3313,12 +3274,6 @@ abstract class coreApiImplPlatform extends BaseApiImpl<coreWire> {
   }
 
   @protected
-  void cst_api_fill_to_wire_fee_rate(
-      FeeRate apiObj, wire_cst_fee_rate wireObj) {
-    wireObj.field0 = cst_encode_u_64(apiObj.field0);
-  }
-
-  @protected
   void cst_api_fill_to_wire_ffi_bolt_11_payment(
       FfiBolt11Payment apiObj, wire_cst_ffi_bolt_11_payment wireObj) {
     wireObj.opaque =
@@ -3898,7 +3853,7 @@ abstract class coreApiImplPlatform extends BaseApiImpl<coreWire> {
   @protected
   void cst_api_fill_to_wire_payment_id(
       PaymentId apiObj, wire_cst_payment_id wireObj) {
-    wireObj.field0 = cst_encode_u_8_array_32(apiObj.field0);
+    wireObj.data = cst_encode_list_prim_u_8_strict(apiObj.data);
   }
 
   @protected
@@ -4425,9 +4380,6 @@ abstract class coreApiImplPlatform extends BaseApiImpl<coreWire> {
   void sse_encode_box_autoadd_event(Event self, SseSerializer serializer);
 
   @protected
-  void sse_encode_box_autoadd_fee_rate(FeeRate self, SseSerializer serializer);
-
-  @protected
   void sse_encode_box_autoadd_ffi_bolt_11_payment(
       FfiBolt11Payment self, SseSerializer serializer);
 
@@ -4598,9 +4550,6 @@ abstract class coreApiImplPlatform extends BaseApiImpl<coreWire> {
 
   @protected
   void sse_encode_event(Event self, SseSerializer serializer);
-
-  @protected
-  void sse_encode_fee_rate(FeeRate self, SseSerializer serializer);
 
   @protected
   void sse_encode_ffi_bolt_11_payment(
@@ -4808,10 +4757,6 @@ abstract class coreApiImplPlatform extends BaseApiImpl<coreWire> {
 
   @protected
   void sse_encode_opt_box_autoadd_event(Event? self, SseSerializer serializer);
-
-  @protected
-  void sse_encode_opt_box_autoadd_fee_rate(
-      FeeRate? self, SseSerializer serializer);
 
   @protected
   void sse_encode_opt_box_autoadd_gossip_source_config(
@@ -5531,94 +5476,6 @@ class coreWire implements BaseWire {
   late final _wire__crate__api__types__config_default =
       _wire__crate__api__types__config_defaultPtr
           .asFunction<void Function(int)>();
-
-  WireSyncRust2DartDco wire__crate__api__types__fee_rate_from_sat_per_kwu(
-    int sat_kwu,
-  ) {
-    return _wire__crate__api__types__fee_rate_from_sat_per_kwu(sat_kwu);
-  }
-
-  late final _wire__crate__api__types__fee_rate_from_sat_per_kwuPtr =
-      _lookup<ffi.NativeFunction<WireSyncRust2DartDco Function(ffi.Uint64)>>(
-    'frbgen_ldk_node_wire__crate__api__types__fee_rate_from_sat_per_kwu',
-  );
-  late final _wire__crate__api__types__fee_rate_from_sat_per_kwu =
-      _wire__crate__api__types__fee_rate_from_sat_per_kwuPtr
-          .asFunction<WireSyncRust2DartDco Function(int)>();
-
-  WireSyncRust2DartDco wire__crate__api__types__fee_rate_from_sat_per_vb(
-    int sat_vb,
-  ) {
-    return _wire__crate__api__types__fee_rate_from_sat_per_vb(sat_vb);
-  }
-
-  late final _wire__crate__api__types__fee_rate_from_sat_per_vbPtr =
-      _lookup<ffi.NativeFunction<WireSyncRust2DartDco Function(ffi.Uint64)>>(
-    'frbgen_ldk_node_wire__crate__api__types__fee_rate_from_sat_per_vb',
-  );
-  late final _wire__crate__api__types__fee_rate_from_sat_per_vb =
-      _wire__crate__api__types__fee_rate_from_sat_per_vbPtr
-          .asFunction<WireSyncRust2DartDco Function(int)>();
-
-  WireSyncRust2DartDco
-      wire__crate__api__types__fee_rate_from_sat_per_vb_unchecked(int sat_vb) {
-    return _wire__crate__api__types__fee_rate_from_sat_per_vb_unchecked(sat_vb);
-  }
-
-  late final _wire__crate__api__types__fee_rate_from_sat_per_vb_uncheckedPtr =
-      _lookup<ffi.NativeFunction<WireSyncRust2DartDco Function(ffi.Uint64)>>(
-    'frbgen_ldk_node_wire__crate__api__types__fee_rate_from_sat_per_vb_unchecked',
-  );
-  late final _wire__crate__api__types__fee_rate_from_sat_per_vb_unchecked =
-      _wire__crate__api__types__fee_rate_from_sat_per_vb_uncheckedPtr
-          .asFunction<WireSyncRust2DartDco Function(int)>();
-
-  void wire__crate__api__types__fee_rate_to_sat_per_kwu(
-    int port_,
-    ffi.Pointer<wire_cst_fee_rate> that,
-  ) {
-    return _wire__crate__api__types__fee_rate_to_sat_per_kwu(port_, that);
-  }
-
-  late final _wire__crate__api__types__fee_rate_to_sat_per_kwuPtr = _lookup<
-          ffi.NativeFunction<
-              ffi.Void Function(ffi.Int64, ffi.Pointer<wire_cst_fee_rate>)>>(
-      'frbgen_ldk_node_wire__crate__api__types__fee_rate_to_sat_per_kwu');
-  late final _wire__crate__api__types__fee_rate_to_sat_per_kwu =
-      _wire__crate__api__types__fee_rate_to_sat_per_kwuPtr
-          .asFunction<void Function(int, ffi.Pointer<wire_cst_fee_rate>)>();
-
-  void wire__crate__api__types__fee_rate_to_sat_per_vb_ceil(
-    int port_,
-    ffi.Pointer<wire_cst_fee_rate> that,
-  ) {
-    return _wire__crate__api__types__fee_rate_to_sat_per_vb_ceil(port_, that);
-  }
-
-  late final _wire__crate__api__types__fee_rate_to_sat_per_vb_ceilPtr = _lookup<
-          ffi.NativeFunction<
-              ffi.Void Function(ffi.Int64, ffi.Pointer<wire_cst_fee_rate>)>>(
-      'frbgen_ldk_node_wire__crate__api__types__fee_rate_to_sat_per_vb_ceil');
-  late final _wire__crate__api__types__fee_rate_to_sat_per_vb_ceil =
-      _wire__crate__api__types__fee_rate_to_sat_per_vb_ceilPtr
-          .asFunction<void Function(int, ffi.Pointer<wire_cst_fee_rate>)>();
-
-  void wire__crate__api__types__fee_rate_to_sat_per_vb_floor(
-    int port_,
-    ffi.Pointer<wire_cst_fee_rate> that,
-  ) {
-    return _wire__crate__api__types__fee_rate_to_sat_per_vb_floor(port_, that);
-  }
-
-  late final _wire__crate__api__types__fee_rate_to_sat_per_vb_floorPtr =
-      _lookup<
-          ffi.NativeFunction<
-              ffi.Void Function(ffi.Int64, ffi.Pointer<wire_cst_fee_rate>)>>(
-    'frbgen_ldk_node_wire__crate__api__types__fee_rate_to_sat_per_vb_floor',
-  );
-  late final _wire__crate__api__types__fee_rate_to_sat_per_vb_floor =
-      _wire__crate__api__types__fee_rate_to_sat_per_vb_floorPtr
-          .asFunction<void Function(int, ffi.Pointer<wire_cst_fee_rate>)>();
 
   void wire__crate__api__bolt11__ffi_bolt_11_payment_claim_for_hash(
     int port_,
@@ -7150,14 +7007,14 @@ class coreWire implements BaseWire {
     ffi.Pointer<wire_cst_ffi_on_chain_payment> that,
     ffi.Pointer<wire_cst_address> address,
     bool retain_reserves,
-    ffi.Pointer<wire_cst_fee_rate> fee_rate,
+    ffi.Pointer<ffi.Uint64> fee_rate_sat_per_kwu,
   ) {
     return _wire__crate__api__on_chain__ffi_on_chain_payment_send_all_to_address(
       port_,
       that,
       address,
       retain_reserves,
-      fee_rate,
+      fee_rate_sat_per_kwu,
     );
   }
 
@@ -7169,7 +7026,7 @@ class coreWire implements BaseWire {
                 ffi.Pointer<wire_cst_ffi_on_chain_payment>,
                 ffi.Pointer<wire_cst_address>,
                 ffi.Bool,
-                ffi.Pointer<wire_cst_fee_rate>,
+                ffi.Pointer<ffi.Uint64>,
               )>>(
     'frbgen_ldk_node_wire__crate__api__on_chain__ffi_on_chain_payment_send_all_to_address',
   );
@@ -7181,7 +7038,7 @@ class coreWire implements BaseWire {
                 ffi.Pointer<wire_cst_ffi_on_chain_payment>,
                 ffi.Pointer<wire_cst_address>,
                 bool,
-                ffi.Pointer<wire_cst_fee_rate>,
+                ffi.Pointer<ffi.Uint64>,
               )>();
 
   void wire__crate__api__on_chain__ffi_on_chain_payment_send_to_address(
@@ -7189,14 +7046,14 @@ class coreWire implements BaseWire {
     ffi.Pointer<wire_cst_ffi_on_chain_payment> that,
     ffi.Pointer<wire_cst_address> address,
     int amount_sats,
-    ffi.Pointer<wire_cst_fee_rate> fee_rate,
+    ffi.Pointer<ffi.Uint64> fee_rate_sat_per_kwu,
   ) {
     return _wire__crate__api__on_chain__ffi_on_chain_payment_send_to_address(
       port_,
       that,
       address,
       amount_sats,
-      fee_rate,
+      fee_rate_sat_per_kwu,
     );
   }
 
@@ -7208,7 +7065,7 @@ class coreWire implements BaseWire {
                 ffi.Pointer<wire_cst_ffi_on_chain_payment>,
                 ffi.Pointer<wire_cst_address>,
                 ffi.Uint64,
-                ffi.Pointer<wire_cst_fee_rate>,
+                ffi.Pointer<ffi.Uint64>,
               )>>(
     'frbgen_ldk_node_wire__crate__api__on_chain__ffi_on_chain_payment_send_to_address',
   );
@@ -7220,7 +7077,7 @@ class coreWire implements BaseWire {
                 ffi.Pointer<wire_cst_ffi_on_chain_payment>,
                 ffi.Pointer<wire_cst_address>,
                 int,
-                ffi.Pointer<wire_cst_fee_rate>,
+                ffi.Pointer<ffi.Uint64>,
               )>();
 
   void wire__crate__api__spontaneous__ffi_spontaneous_payment_send(
@@ -8031,17 +7888,6 @@ class coreWire implements BaseWire {
   late final _cst_new_box_autoadd_event = _cst_new_box_autoadd_eventPtr
       .asFunction<ffi.Pointer<wire_cst_event> Function()>();
 
-  ffi.Pointer<wire_cst_fee_rate> cst_new_box_autoadd_fee_rate() {
-    return _cst_new_box_autoadd_fee_rate();
-  }
-
-  late final _cst_new_box_autoadd_fee_ratePtr =
-      _lookup<ffi.NativeFunction<ffi.Pointer<wire_cst_fee_rate> Function()>>(
-    'frbgen_ldk_node_cst_new_box_autoadd_fee_rate',
-  );
-  late final _cst_new_box_autoadd_fee_rate = _cst_new_box_autoadd_fee_ratePtr
-      .asFunction<ffi.Pointer<wire_cst_fee_rate> Function()>();
-
   ffi.Pointer<wire_cst_ffi_bolt_11_payment>
       cst_new_box_autoadd_ffi_bolt_11_payment() {
     return _cst_new_box_autoadd_ffi_bolt_11_payment();
@@ -8632,8 +8478,6 @@ typedef DartDartPostCObjectFnTypeFunction = bool Function(
 typedef DartPort = ffi.Int64;
 typedef DartDartPort = int;
 
-final class FeeRate extends ffi.Opaque {}
-
 final class wire_cst_list_prim_u_8_strict extends ffi.Struct {
   external ffi.Pointer<ffi.Uint8> ptr;
 
@@ -8915,12 +8759,7 @@ final class wire_cst_list_prim_u_8_loose extends ffi.Struct {
 }
 
 final class wire_cst_payment_id extends ffi.Struct {
-  external ffi.Pointer<wire_cst_list_prim_u_8_strict> field0;
-}
-
-final class wire_cst_fee_rate extends ffi.Struct {
-  @ffi.Uint64()
-  external int field0;
+  external ffi.Pointer<wire_cst_list_prim_u_8_strict> data;
 }
 
 final class wire_cst_ffi_bolt_11_payment extends ffi.Struct {

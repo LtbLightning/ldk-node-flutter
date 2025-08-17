@@ -40,7 +40,7 @@ flutter_rust_bridge::frb_generated_boilerplate!(
     default_rust_auto_opaque = RustAutoOpaqueNom,
 );
 pub(crate) const FLUTTER_RUST_BRIDGE_CODEGEN_VERSION: &str = "2.11.1";
-pub(crate) const FLUTTER_RUST_BRIDGE_CODEGEN_CONTENT_HASH: i32 = 255394442;
+pub(crate) const FLUTTER_RUST_BRIDGE_CODEGEN_CONTENT_HASH: i32 = -2010085546;
 
 // Section: executor
 
@@ -845,132 +845,6 @@ fn wire__crate__api__types__config_default_impl(
             move |context| {
                 transform_result_dco::<_, _, ()>((move || {
                     let output_ok = Result::<_, ()>::Ok(crate::api::types::Config::default())?;
-                    Ok(output_ok)
-                })())
-            }
-        },
-    )
-}
-fn wire__crate__api__types__fee_rate_from_sat_per_kwu_impl(
-    sat_kwu: impl CstDecode<u64>,
-) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
-    FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync::<flutter_rust_bridge::for_generated::DcoCodec, _>(
-        flutter_rust_bridge::for_generated::TaskInfo {
-            debug_name: "fee_rate_from_sat_per_kwu",
-            port: None,
-            mode: flutter_rust_bridge::for_generated::FfiCallMode::Sync,
-        },
-        move || {
-            let api_sat_kwu = sat_kwu.cst_decode();
-            transform_result_dco::<_, _, ()>((move || {
-                let output_ok =
-                    Result::<_, ()>::Ok(crate::api::types::FeeRate::from_sat_per_kwu(api_sat_kwu))?;
-                Ok(output_ok)
-            })())
-        },
-    )
-}
-fn wire__crate__api__types__fee_rate_from_sat_per_vb_impl(
-    sat_vb: impl CstDecode<u64>,
-) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
-    FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync::<flutter_rust_bridge::for_generated::DcoCodec, _>(
-        flutter_rust_bridge::for_generated::TaskInfo {
-            debug_name: "fee_rate_from_sat_per_vb",
-            port: None,
-            mode: flutter_rust_bridge::for_generated::FfiCallMode::Sync,
-        },
-        move || {
-            let api_sat_vb = sat_vb.cst_decode();
-            transform_result_dco::<_, _, ()>((move || {
-                let output_ok =
-                    Result::<_, ()>::Ok(crate::api::types::FeeRate::from_sat_per_vb(api_sat_vb))?;
-                Ok(output_ok)
-            })())
-        },
-    )
-}
-fn wire__crate__api__types__fee_rate_from_sat_per_vb_unchecked_impl(
-    sat_vb: impl CstDecode<u64>,
-) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
-    FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync::<flutter_rust_bridge::for_generated::DcoCodec, _>(
-        flutter_rust_bridge::for_generated::TaskInfo {
-            debug_name: "fee_rate_from_sat_per_vb_unchecked",
-            port: None,
-            mode: flutter_rust_bridge::for_generated::FfiCallMode::Sync,
-        },
-        move || {
-            let api_sat_vb = sat_vb.cst_decode();
-            transform_result_dco::<_, _, ()>((move || {
-                let output_ok = Result::<_, ()>::Ok(
-                    crate::api::types::FeeRate::from_sat_per_vb_unchecked(api_sat_vb),
-                )?;
-                Ok(output_ok)
-            })())
-        },
-    )
-}
-fn wire__crate__api__types__fee_rate_to_sat_per_kwu_impl(
-    port_: flutter_rust_bridge::for_generated::MessagePort,
-    that: impl CstDecode<crate::api::types::FeeRate>,
-) {
-    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
-        flutter_rust_bridge::for_generated::TaskInfo {
-            debug_name: "fee_rate_to_sat_per_kwu",
-            port: Some(port_),
-            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
-        },
-        move || {
-            let api_that = that.cst_decode();
-            move |context| {
-                transform_result_dco::<_, _, ()>((move || {
-                    let output_ok =
-                        Result::<_, ()>::Ok(crate::api::types::FeeRate::to_sat_per_kwu(api_that))?;
-                    Ok(output_ok)
-                })())
-            }
-        },
-    )
-}
-fn wire__crate__api__types__fee_rate_to_sat_per_vb_ceil_impl(
-    port_: flutter_rust_bridge::for_generated::MessagePort,
-    that: impl CstDecode<crate::api::types::FeeRate>,
-) {
-    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
-        flutter_rust_bridge::for_generated::TaskInfo {
-            debug_name: "fee_rate_to_sat_per_vb_ceil",
-            port: Some(port_),
-            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
-        },
-        move || {
-            let api_that = that.cst_decode();
-            move |context| {
-                transform_result_dco::<_, _, ()>((move || {
-                    let output_ok = Result::<_, ()>::Ok(
-                        crate::api::types::FeeRate::to_sat_per_vb_ceil(api_that),
-                    )?;
-                    Ok(output_ok)
-                })())
-            }
-        },
-    )
-}
-fn wire__crate__api__types__fee_rate_to_sat_per_vb_floor_impl(
-    port_: flutter_rust_bridge::for_generated::MessagePort,
-    that: impl CstDecode<crate::api::types::FeeRate>,
-) {
-    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
-        flutter_rust_bridge::for_generated::TaskInfo {
-            debug_name: "fee_rate_to_sat_per_vb_floor",
-            port: Some(port_),
-            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
-        },
-        move || {
-            let api_that = that.cst_decode();
-            move |context| {
-                transform_result_dco::<_, _, ()>((move || {
-                    let output_ok = Result::<_, ()>::Ok(
-                        crate::api::types::FeeRate::to_sat_per_vb_floor(api_that),
-                    )?;
                     Ok(output_ok)
                 })())
             }
@@ -2537,7 +2411,7 @@ fn wire__crate__api__on_chain__ffi_on_chain_payment_send_all_to_address_impl(
     that: impl CstDecode<crate::api::on_chain::FfiOnChainPayment>,
     address: impl CstDecode<crate::api::types::Address>,
     retain_reserves: impl CstDecode<bool>,
-    fee_rate: impl CstDecode<Option<crate::api::types::FeeRate>>,
+    fee_rate_sat_per_kwu: impl CstDecode<Option<u64>>,
 ) {
     FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
         flutter_rust_bridge::for_generated::TaskInfo {
@@ -2549,14 +2423,14 @@ fn wire__crate__api__on_chain__ffi_on_chain_payment_send_all_to_address_impl(
             let api_that = that.cst_decode();
             let api_address = address.cst_decode();
             let api_retain_reserves = retain_reserves.cst_decode();
-            let api_fee_rate = fee_rate.cst_decode();
+            let api_fee_rate_sat_per_kwu = fee_rate_sat_per_kwu.cst_decode();
             move |context| {
                 transform_result_dco::<_, _, crate::utils::error::FfiNodeError>((move || {
                     let output_ok = crate::api::on_chain::FfiOnChainPayment::send_all_to_address(
                         &api_that,
                         api_address,
                         api_retain_reserves,
-                        api_fee_rate,
+                        api_fee_rate_sat_per_kwu,
                     )?;
                     Ok(output_ok)
                 })(
@@ -2570,7 +2444,7 @@ fn wire__crate__api__on_chain__ffi_on_chain_payment_send_to_address_impl(
     that: impl CstDecode<crate::api::on_chain::FfiOnChainPayment>,
     address: impl CstDecode<crate::api::types::Address>,
     amount_sats: impl CstDecode<u64>,
-    fee_rate: impl CstDecode<Option<crate::api::types::FeeRate>>,
+    fee_rate_sat_per_kwu: impl CstDecode<Option<u64>>,
 ) {
     FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
         flutter_rust_bridge::for_generated::TaskInfo {
@@ -2582,14 +2456,14 @@ fn wire__crate__api__on_chain__ffi_on_chain_payment_send_to_address_impl(
             let api_that = that.cst_decode();
             let api_address = address.cst_decode();
             let api_amount_sats = amount_sats.cst_decode();
-            let api_fee_rate = fee_rate.cst_decode();
+            let api_fee_rate_sat_per_kwu = fee_rate_sat_per_kwu.cst_decode();
             move |context| {
                 transform_result_dco::<_, _, crate::utils::error::FfiNodeError>((move || {
                     let output_ok = crate::api::on_chain::FfiOnChainPayment::send_to_address(
                         &api_that,
                         api_address,
                         api_amount_sats,
-                        api_fee_rate,
+                        api_fee_rate_sat_per_kwu,
                     )?;
                     Ok(output_ok)
                 })(
@@ -3736,14 +3610,6 @@ impl SseDecode for crate::api::types::Event {
     }
 }
 
-impl SseDecode for crate::api::types::FeeRate {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
-        let mut var_field0 = <u64>::sse_decode(deserializer);
-        return crate::api::types::FeeRate(var_field0);
-    }
-}
-
 impl SseDecode for crate::api::bolt11::FfiBolt11Payment {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
@@ -4718,17 +4584,6 @@ impl SseDecode for Option<crate::api::types::Event> {
     }
 }
 
-impl SseDecode for Option<crate::api::types::FeeRate> {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
-        if (<bool>::sse_decode(deserializer)) {
-            return Some(<crate::api::types::FeeRate>::sse_decode(deserializer));
-        } else {
-            return None;
-        }
-    }
-}
-
 impl SseDecode for Option<crate::api::types::GossipSourceConfig> {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
@@ -5020,8 +4875,8 @@ impl SseDecode for crate::api::types::PaymentHash {
 impl SseDecode for crate::api::types::PaymentId {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
-        let mut var_field0 = <[u8; 32]>::sse_decode(deserializer);
-        return crate::api::types::PaymentId(var_field0);
+        let mut var_data = <Vec<u8>>::sse_decode(deserializer);
+        return crate::api::types::PaymentId { data: var_data };
     }
 }
 
@@ -6211,18 +6066,6 @@ impl flutter_rust_bridge::IntoIntoDart<crate::api::types::Event> for crate::api:
     }
 }
 // Codec=Dco (DartCObject based), see doc to use other codecs
-impl flutter_rust_bridge::IntoDart for crate::api::types::FeeRate {
-    fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
-        [self.0.into_into_dart().into_dart()].into_dart()
-    }
-}
-impl flutter_rust_bridge::for_generated::IntoDartExceptPrimitive for crate::api::types::FeeRate {}
-impl flutter_rust_bridge::IntoIntoDart<crate::api::types::FeeRate> for crate::api::types::FeeRate {
-    fn into_into_dart(self) -> crate::api::types::FeeRate {
-        self
-    }
-}
-// Codec=Dco (DartCObject based), see doc to use other codecs
 impl flutter_rust_bridge::IntoDart for crate::api::bolt11::FfiBolt11Payment {
     fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
         [self.opaque.into_into_dart().into_dart()].into_dart()
@@ -7040,7 +6883,7 @@ impl flutter_rust_bridge::IntoIntoDart<crate::api::types::PaymentHash>
 // Codec=Dco (DartCObject based), see doc to use other codecs
 impl flutter_rust_bridge::IntoDart for crate::api::types::PaymentId {
     fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
-        [self.0.into_into_dart().into_dart()].into_dart()
+        [self.data.into_into_dart().into_dart()].into_dart()
     }
 }
 impl flutter_rust_bridge::for_generated::IntoDartExceptPrimitive for crate::api::types::PaymentId {}
@@ -8090,13 +7933,6 @@ impl SseEncode for crate::api::types::Event {
     }
 }
 
-impl SseEncode for crate::api::types::FeeRate {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
-        <u64>::sse_encode(self.0, serializer);
-    }
-}
-
 impl SseEncode for crate::api::bolt11::FfiBolt11Payment {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
@@ -8955,16 +8791,6 @@ impl SseEncode for Option<crate::api::types::Event> {
     }
 }
 
-impl SseEncode for Option<crate::api::types::FeeRate> {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
-        <bool>::sse_encode(self.is_some(), serializer);
-        if let Some(value) = self {
-            <crate::api::types::FeeRate>::sse_encode(value, serializer);
-        }
-    }
-}
-
 impl SseEncode for Option<crate::api::types::GossipSourceConfig> {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
@@ -9223,7 +9049,7 @@ impl SseEncode for crate::api::types::PaymentHash {
 impl SseEncode for crate::api::types::PaymentId {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
-        <[u8; 32]>::sse_encode(self.0, serializer);
+        <Vec<u8>>::sse_encode(self.data, serializer);
     }
 }
 
@@ -9975,13 +9801,6 @@ mod io {
             CstDecode::<crate::api::types::Event>::cst_decode(*wrap).into()
         }
     }
-    impl CstDecode<crate::api::types::FeeRate> for *mut wire_cst_fee_rate {
-        // Codec=Cst (C-struct based), see doc to use other codecs
-        fn cst_decode(self) -> crate::api::types::FeeRate {
-            let wrap = unsafe { flutter_rust_bridge::for_generated::box_from_leak_ptr(self) };
-            CstDecode::<crate::api::types::FeeRate>::cst_decode(*wrap).into()
-        }
-    }
     impl CstDecode<crate::api::bolt11::FfiBolt11Payment> for *mut wire_cst_ffi_bolt_11_payment {
         // Codec=Cst (C-struct based), see doc to use other codecs
         fn cst_decode(self) -> crate::api::bolt11::FfiBolt11Payment {
@@ -10558,12 +10377,6 @@ mod io {
             }
         }
     }
-    impl CstDecode<crate::api::types::FeeRate> for wire_cst_fee_rate {
-        // Codec=Cst (C-struct based), see doc to use other codecs
-        fn cst_decode(self) -> crate::api::types::FeeRate {
-            crate::api::types::FeeRate(self.field0.cst_decode())
-        }
-    }
     impl CstDecode<crate::api::bolt11::FfiBolt11Payment> for wire_cst_ffi_bolt_11_payment {
         // Codec=Cst (C-struct based), see doc to use other codecs
         fn cst_decode(self) -> crate::api::bolt11::FfiBolt11Payment {
@@ -11081,7 +10894,9 @@ mod io {
     impl CstDecode<crate::api::types::PaymentId> for wire_cst_payment_id {
         // Codec=Cst (C-struct based), see doc to use other codecs
         fn cst_decode(self) -> crate::api::types::PaymentId {
-            crate::api::types::PaymentId(self.field0.cst_decode())
+            crate::api::types::PaymentId {
+                data: self.data.cst_decode(),
+            }
         }
     }
     impl CstDecode<crate::api::types::PaymentPreimage> for wire_cst_payment_preimage {
@@ -11656,18 +11471,6 @@ mod io {
             Self::new_with_null_ptr()
         }
     }
-    impl NewWithNullPtr for wire_cst_fee_rate {
-        fn new_with_null_ptr() -> Self {
-            Self {
-                field0: Default::default(),
-            }
-        }
-    }
-    impl Default for wire_cst_fee_rate {
-        fn default() -> Self {
-            Self::new_with_null_ptr()
-        }
-    }
     impl NewWithNullPtr for wire_cst_ffi_bolt_11_payment {
         fn new_with_null_ptr() -> Self {
             Self {
@@ -11992,7 +11795,7 @@ mod io {
     impl NewWithNullPtr for wire_cst_payment_id {
         fn new_with_null_ptr() -> Self {
             Self {
-                field0: core::ptr::null_mut(),
+                data: core::ptr::null_mut(),
             }
         }
     }
@@ -12400,51 +12203,6 @@ mod io {
     #[unsafe(no_mangle)]
     pub extern "C" fn frbgen_ldk_node_wire__crate__api__types__config_default(port_: i64) {
         wire__crate__api__types__config_default_impl(port_)
-    }
-
-    #[unsafe(no_mangle)]
-    pub extern "C" fn frbgen_ldk_node_wire__crate__api__types__fee_rate_from_sat_per_kwu(
-        sat_kwu: u64,
-    ) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
-        wire__crate__api__types__fee_rate_from_sat_per_kwu_impl(sat_kwu)
-    }
-
-    #[unsafe(no_mangle)]
-    pub extern "C" fn frbgen_ldk_node_wire__crate__api__types__fee_rate_from_sat_per_vb(
-        sat_vb: u64,
-    ) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
-        wire__crate__api__types__fee_rate_from_sat_per_vb_impl(sat_vb)
-    }
-
-    #[unsafe(no_mangle)]
-    pub extern "C" fn frbgen_ldk_node_wire__crate__api__types__fee_rate_from_sat_per_vb_unchecked(
-        sat_vb: u64,
-    ) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
-        wire__crate__api__types__fee_rate_from_sat_per_vb_unchecked_impl(sat_vb)
-    }
-
-    #[unsafe(no_mangle)]
-    pub extern "C" fn frbgen_ldk_node_wire__crate__api__types__fee_rate_to_sat_per_kwu(
-        port_: i64,
-        that: *mut wire_cst_fee_rate,
-    ) {
-        wire__crate__api__types__fee_rate_to_sat_per_kwu_impl(port_, that)
-    }
-
-    #[unsafe(no_mangle)]
-    pub extern "C" fn frbgen_ldk_node_wire__crate__api__types__fee_rate_to_sat_per_vb_ceil(
-        port_: i64,
-        that: *mut wire_cst_fee_rate,
-    ) {
-        wire__crate__api__types__fee_rate_to_sat_per_vb_ceil_impl(port_, that)
-    }
-
-    #[unsafe(no_mangle)]
-    pub extern "C" fn frbgen_ldk_node_wire__crate__api__types__fee_rate_to_sat_per_vb_floor(
-        port_: i64,
-        that: *mut wire_cst_fee_rate,
-    ) {
-        wire__crate__api__types__fee_rate_to_sat_per_vb_floor_impl(port_, that)
     }
 
     #[unsafe(no_mangle)]
@@ -13118,14 +12876,14 @@ mod io {
         that: *mut wire_cst_ffi_on_chain_payment,
         address: *mut wire_cst_address,
         retain_reserves: bool,
-        fee_rate: *mut wire_cst_fee_rate,
+        fee_rate_sat_per_kwu: *mut u64,
     ) {
         wire__crate__api__on_chain__ffi_on_chain_payment_send_all_to_address_impl(
             port_,
             that,
             address,
             retain_reserves,
-            fee_rate,
+            fee_rate_sat_per_kwu,
         )
     }
 
@@ -13135,14 +12893,14 @@ mod io {
         that: *mut wire_cst_ffi_on_chain_payment,
         address: *mut wire_cst_address,
         amount_sats: u64,
-        fee_rate: *mut wire_cst_fee_rate,
+        fee_rate_sat_per_kwu: *mut u64,
     ) {
         wire__crate__api__on_chain__ffi_on_chain_payment_send_to_address_impl(
             port_,
             that,
             address,
             amount_sats,
-            fee_rate,
+            fee_rate_sat_per_kwu,
         )
     }
 
@@ -13575,11 +13333,6 @@ mod io {
     #[unsafe(no_mangle)]
     pub extern "C" fn frbgen_ldk_node_cst_new_box_autoadd_event() -> *mut wire_cst_event {
         flutter_rust_bridge::for_generated::new_leak_box_ptr(wire_cst_event::new_with_null_ptr())
-    }
-
-    #[unsafe(no_mangle)]
-    pub extern "C" fn frbgen_ldk_node_cst_new_box_autoadd_fee_rate() -> *mut wire_cst_fee_rate {
-        flutter_rust_bridge::for_generated::new_leak_box_ptr(wire_cst_fee_rate::new_with_null_ptr())
     }
 
     #[unsafe(no_mangle)]
@@ -14349,11 +14102,6 @@ mod io {
     }
     #[repr(C)]
     #[derive(Clone, Copy)]
-    pub struct wire_cst_fee_rate {
-        field0: u64,
-    }
-    #[repr(C)]
-    #[derive(Clone, Copy)]
     pub struct wire_cst_ffi_bolt_11_payment {
         opaque: usize,
     }
@@ -14711,7 +14459,7 @@ mod io {
     #[repr(C)]
     #[derive(Clone, Copy)]
     pub struct wire_cst_payment_id {
-        field0: *mut wire_cst_list_prim_u_8_strict,
+        data: *mut wire_cst_list_prim_u_8_strict,
     }
     #[repr(C)]
     #[derive(Clone, Copy)]
