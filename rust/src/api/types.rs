@@ -452,10 +452,9 @@ pub enum ClosureReason {
     /// One of our HTLCs timed out in a channel, causing us to force close the channel.
     HTLCsTimedOut,
 }
-///A user-provided identifier in channelManager.sendPayment used to uniquely identify a payment and ensure idempotency in LDK.
+
 #[derive(Debug, Clone, PartialEq, Eq)]
-// pub struct PaymentId(pub [u8; 32]);
-#[frb(serialize)]
+#[frb]
 pub struct PaymentId {
     pub data: Vec<u8>,
 }
@@ -892,6 +891,7 @@ impl From<ldk_node::lightning_invoice::PaymentSecret> for PaymentSecret {
 }
 /// Represents a payment.
 #[derive(Clone, Debug, PartialEq, Eq)]
+#[frb(non_opaque)]
 pub struct PaymentDetails {
     /// The identifier of this payment.
     pub id: PaymentId,
