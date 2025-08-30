@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -26,6 +27,8 @@ class _MyAppState extends State<MyApp> {
   ldk.SocketAddress? bobAddr;
   ldk.Bolt11Invoice? invoice;
   ldk.UserChannelId? userChannelId;
+  bool isInitialized = false;
+  bool isInitializing = true;
 
   /*
   // For local esplora server
@@ -38,8 +41,58 @@ class _MyAppState extends State<MyApp> {
 
   @override
   void initState() {
-    initAliceNode();
     super.initState();
+    initNodes();
+  }
+
+  Future<void> clearStorageDirectories() async {
+    try {
+      final directory = await getApplicationDocumentsDirectory();
+      final ldkCacheDir = Directory("${directory.path}/ldk_cache");
+      
+      if (await ldkCacheDir.exists()) {
+        await ldkCacheDir.delete(recursive: true);
+        debugPrint("Cleared LDK cache directory");
+      }
+    } catch (e) {
+      debugPrint("Error clearing storage directories: $e");
+    }
+  }
+
+  Future<void> initNodes() async {
+    try {
+      setState(() {
+        displayText = "Clearing old data and initializing nodes...";
+        isInitializing = true;
+      });
+      
+      // Clear any old/corrupted storage data
+      await clearStorageDirectories();
+      
+      setState(() {
+        displayText = "Initializing Alice's node...";
+      });
+      
+      await initAliceNode();
+      
+      setState(() {
+        displayText = "Initializing Bob's node...";
+      });
+      
+      await initBobNode();
+      
+      setState(() {
+        isInitialized = true;
+        isInitializing = false;
+        displayText = "Both nodes initialized successfully";
+      });
+    } catch (e) {
+      setState(() {
+        isInitializing = false;
+        displayText = "Initialization failed: $e";
+      });
+      debugPrint("Node initialization error: $e");
+    }
   }
 
   Future<ldk.Builder> createBuilder(
@@ -55,7 +108,7 @@ class _MyAppState extends State<MyApp> {
     return builder;
   }
 
-  Future initAliceNode() async {
+  Future<void> initAliceNode() async {
     aliceNode = await (await createBuilder(
             'alice_mutinynet',
             const ldk.SocketAddress.hostname(addr: "0.0.0.0", port: 3003),
@@ -68,13 +121,10 @@ class _MyAppState extends State<MyApp> {
 
     await startNode(aliceNode);
     final res = await aliceNode.nodeId();
-    setState(() {
-      aliceNodeId = res;
-      displayText = "${aliceNodeId?.hex} started successfully";
-    });
+    aliceNodeId = res;
   }
 
-  initBobNode() async {
+  Future<void> initBobNode() async {
     bobNode = await (await createBuilder(
             'bob_mutinynet',
             const ldk.SocketAddress.hostname(addr: "0.0.0.0", port: 3004),
@@ -86,10 +136,7 @@ class _MyAppState extends State<MyApp> {
             fixedHeaders: {});
     await startNode(bobNode);
     final res = await bobNode.nodeId();
-    setState(() {
-      bobNodeId = res;
-      displayText = "${bobNodeId!.hex} started successfully";
-    });
+    bobNodeId = res;
   }
 
   startNode(ldk.Node node) async {
@@ -424,34 +471,66 @@ class _MyAppState extends State<MyApp> {
                       ),
                     ],
                   ),
+                  if (isInitializing)
+                    const Padding(
+                      padding: EdgeInsets.all(16.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          CircularProgressIndicator(),
+                          SizedBox(width: 16),
+                          Text("Initializing nodes..."),
+                        ],
+                      ),
+                    ),
                   TextButton(
-                      onPressed: () async {
-                        await initBobNode();
+                      onPressed: isInitialized ? null : () async {
+                        if (!isInitializing) {
+                          await initNodes();
+                        }
                       },
                       child: Text(
-                        "Initialize Bob's node",
+                        isInitialized ? "Nodes initialized ✓" : "Initialize Nodes",
                         style: GoogleFonts.nunito(
-                            color: Colors.indigoAccent,
+                            color: isInitialized ? Colors.green : Colors.indigoAccent,
                             fontSize: 12,
                             height: 1.5,
                             fontWeight: FontWeight.w800),
                       )),
                   TextButton(
-                      onPressed: () async {
+                      onPressed: (!isInitialized && !isInitializing) ? () async {
+                        setState(() {
+                          displayText = "Clearing storage directories...";
+                        });
+                        await clearStorageDirectories();
+                        setState(() {
+                          displayText = "Storage cleared. You can now initialize nodes.";
+                        });
+                      } : null,
+                      child: Text(
+                        "Clear Storage & Reset",
+                        style: GoogleFonts.nunito(
+                            color: (!isInitialized && !isInitializing) ? Colors.red : Colors.grey,
+                            fontSize: 12,
+                            height: 1.5,
+                            fontWeight: FontWeight.w800),
+                      )),
+                  TextButton(
+                      onPressed: isInitialized ? () async {
                         await syncWallets();
-                      },
+                      } : null,
                       child: Text(
                         "Sync Alice's & Bob's node",
                         style: GoogleFonts.nunito(
-                            color: Colors.indigoAccent,
+                            color: isInitialized ? Colors.indigoAccent : Colors.grey,
                             fontSize: 12,
                             height: 1.5,
                             fontWeight: FontWeight.w800),
                       )),
                   TextButton(
-                      onPressed: () async {
+                      onPressed: isInitialized ? () async {
                         await listChannels();
-                      },
+                      } : null,
                       child: Text(
                         'List Channels',
                         overflow: TextOverflow.clip,
@@ -463,9 +542,9 @@ class _MyAppState extends State<MyApp> {
                             fontWeight: FontWeight.w800),
                       )),
                   TextButton(
-                      onPressed: () async {
+                      onPressed: isInitialized ? () async {
                         await totalOnchainBalanceSats();
-                      },
+                      } : null,
                       child: Text(
                         'Get total Onchain BalanceSats',
                         overflow: TextOverflow.clip,
@@ -477,9 +556,9 @@ class _MyAppState extends State<MyApp> {
                             fontWeight: FontWeight.w800),
                       )),
                   TextButton(
-                      onPressed: () async {
+                      onPressed: isInitialized ? () async {
                         await newOnchainAddress();
-                      },
+                      } : null,
                       child: Text(
                         'Get new Onchain Address for Alice and Bob',
                         style: GoogleFonts.nunito(
@@ -489,9 +568,9 @@ class _MyAppState extends State<MyApp> {
                             fontWeight: FontWeight.w800),
                       )),
                   TextButton(
-                      onPressed: () async {
+                      onPressed: isInitialized ? () async {
                         await listeningAddress();
-                      },
+                      } : null,
                       child: Text(
                         'Get node listening addresses',
                         style: GoogleFonts.nunito(
@@ -501,9 +580,9 @@ class _MyAppState extends State<MyApp> {
                             fontWeight: FontWeight.w800),
                       )),
                   TextButton(
-                      onPressed: () async {
+                      onPressed: isInitialized ? () async {
                         await connectOpenChannel();
-                      },
+                      } : null,
                       child: Text(
                         'Connect Open Channel',
                         style: GoogleFonts.nunito(
@@ -513,10 +592,10 @@ class _MyAppState extends State<MyApp> {
                             fontWeight: FontWeight.w800),
                       )),
                   TextButton(
-                      onPressed: () async {
+                      onPressed: isInitialized ? () async {
                         await handleEvent(aliceNode);
                         await handleEvent(bobNode);
-                      },
+                      } : null,
                       child: Text('Handle event',
                           style: GoogleFonts.nunito(
                               color: Colors.indigoAccent,
@@ -524,9 +603,9 @@ class _MyAppState extends State<MyApp> {
                               height: 1.5,
                               fontWeight: FontWeight.w800))),
                   TextButton(
-                      onPressed: () async {
+                      onPressed: isInitialized ? () async {
                         await receiveAndSendPayments();
-                      },
+                      } : null,
                       child: Text(
                         'Send & Receive Invoice Payment',
                         textAlign: TextAlign.center,
@@ -537,9 +616,9 @@ class _MyAppState extends State<MyApp> {
                             fontWeight: FontWeight.w800),
                       )),
                   TextButton(
-                      onPressed: () async {
+                      onPressed: isInitialized ? () async {
                         await listPaymentsWithFilter(true);
-                      },
+                      } : null,
                       child: Text(
                         'List Payments',
                         textAlign: TextAlign.center,
@@ -550,9 +629,9 @@ class _MyAppState extends State<MyApp> {
                             fontWeight: FontWeight.w800),
                       )),
                   TextButton(
-                      onPressed: () async {
+                      onPressed: isInitialized ? () async {
                         await listPaymentsWithFilter(true);
-                      },
+                      } : null,
                       child: Text(
                         'Remove the last payment',
                         textAlign: TextAlign.center,
@@ -563,9 +642,9 @@ class _MyAppState extends State<MyApp> {
                             fontWeight: FontWeight.w800),
                       )),
                   TextButton(
-                      onPressed: () async {
+                      onPressed: isInitialized ? () async {
                         await closeChannel();
-                      },
+                      } : null,
                       child: Text(
                         'Close channel',
                         textAlign: TextAlign.center,
@@ -576,9 +655,9 @@ class _MyAppState extends State<MyApp> {
                             fontWeight: FontWeight.w800),
                       )),
                   TextButton(
-                      onPressed: () async {
+                      onPressed: isInitialized ? () async {
                         await stop();
-                      },
+                      } : null,
                       child: Text(
                         'Stop nodes',
                         textAlign: TextAlign.center,
@@ -597,7 +676,7 @@ class _MyAppState extends State<MyApp> {
                     overflow: TextOverflow.ellipsis,
                     textAlign: TextAlign.center,
                     style: GoogleFonts.nunito(
-                        color: Colors.black.withOpacity(.3),
+                        color: Colors.black.withValues(alpha: 0.3),
                         fontSize: 12,
                         height: 2,
                         fontWeight: FontWeight.w700),
