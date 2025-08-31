@@ -114,10 +114,11 @@ class _MyAppState extends State<MyApp> {
             const ldk.SocketAddress.hostname(addr: "0.0.0.0", port: 3003),
             "cart super leaf clinic pistol plug replace close super tooth wealth usage"))
         .setNodeAlias("alice_mutinynet_node")
-        .buildWithVssStoreAndFixedHeaders(
-            vssUrl: "https://mutinynet.ltbl.io/vss",
-            storeId: "alice_mutinynet_store",
-            fixedHeaders: {});
+        // .buildWithVssStoreAndFixedHeaders(
+        //     vssUrl: "https://mutinynet.ltbl.io/vss",
+        //     storeId: "alice_mutinynet_store",
+        //     fixedHeaders: {});
+        .build();
 
     await startNode(aliceNode);
     final res = await aliceNode.nodeId();
@@ -130,10 +131,11 @@ class _MyAppState extends State<MyApp> {
             const ldk.SocketAddress.hostname(addr: "0.0.0.0", port: 3004),
             "puppy interest whip tonight dad never sudden response push zone pig patch"))
         .setNodeAlias("bob_mutinynet_node")
-        .buildWithVssStoreAndFixedHeaders(
-            vssUrl: "https://mutinynet.ltbl.io/vss",
-            storeId: "bob_mutinynet_store",
-            fixedHeaders: {});
+        // .buildWithVssStoreAndFixedHeaders(
+        //     vssUrl: "https://mutinynet.ltbl.io/vss",
+        //     storeId: "bob_mutinynet_store",
+        //     fixedHeaders: {});
+        .build();
     await startNode(bobNode);
     final res = await bobNode.nodeId();
     bobNodeId = res;
