@@ -57,6 +57,11 @@ class FfiNode {
         that: this,
       );
 
+  Future<Uint8List> exportPathfindingScores() =>
+      core.instance.api.crateApiNodeFfiNodeExportPathfindingScores(
+        that: this,
+      );
+
   Future<void> forceCloseChannel(
           {required UserChannelId userChannelId,
           required PublicKey counterpartyNodeId}) =>
@@ -169,6 +174,7 @@ class FfiNode {
         that: this,
       );
 
+  /// When background sync is left as Null, you can use this to sync manually.
   Future<void> syncWallets() =>
       core.instance.api.crateApiNodeFfiNodeSyncWallets(
         that: this,

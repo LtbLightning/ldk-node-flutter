@@ -20,6 +20,8 @@ mixin _$ChainDataSourceConfig {
   TResult when<TResult extends Object?>({
     required TResult Function(String serverUrl, EsploraSyncConfig? syncConfig)
         esplora,
+    required TResult Function(String serverUrl, ElectrumSyncConfig? syncConfig)
+        electrum,
     required TResult Function(
             String rpcHost, int rpcPort, String rpcUser, String rpcPassword)
         bitcoindRpc,
@@ -28,6 +30,8 @@ mixin _$ChainDataSourceConfig {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(String serverUrl, EsploraSyncConfig? syncConfig)? esplora,
+    TResult? Function(String serverUrl, ElectrumSyncConfig? syncConfig)?
+        electrum,
     TResult? Function(
             String rpcHost, int rpcPort, String rpcUser, String rpcPassword)?
         bitcoindRpc,
@@ -36,6 +40,8 @@ mixin _$ChainDataSourceConfig {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(String serverUrl, EsploraSyncConfig? syncConfig)? esplora,
+    TResult Function(String serverUrl, ElectrumSyncConfig? syncConfig)?
+        electrum,
     TResult Function(
             String rpcHost, int rpcPort, String rpcUser, String rpcPassword)?
         bitcoindRpc,
@@ -45,6 +51,7 @@ mixin _$ChainDataSourceConfig {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(ChainDataSourceConfig_Esplora value) esplora,
+    required TResult Function(ChainDataSourceConfig_Electrum value) electrum,
     required TResult Function(ChainDataSourceConfig_BitcoindRpc value)
         bitcoindRpc,
   }) =>
@@ -52,12 +59,14 @@ mixin _$ChainDataSourceConfig {
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(ChainDataSourceConfig_Esplora value)? esplora,
+    TResult? Function(ChainDataSourceConfig_Electrum value)? electrum,
     TResult? Function(ChainDataSourceConfig_BitcoindRpc value)? bitcoindRpc,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(ChainDataSourceConfig_Esplora value)? esplora,
+    TResult Function(ChainDataSourceConfig_Electrum value)? electrum,
     TResult Function(ChainDataSourceConfig_BitcoindRpc value)? bitcoindRpc,
     required TResult orElse(),
   }) =>
@@ -174,6 +183,8 @@ class _$ChainDataSourceConfig_EsploraImpl
   TResult when<TResult extends Object?>({
     required TResult Function(String serverUrl, EsploraSyncConfig? syncConfig)
         esplora,
+    required TResult Function(String serverUrl, ElectrumSyncConfig? syncConfig)
+        electrum,
     required TResult Function(
             String rpcHost, int rpcPort, String rpcUser, String rpcPassword)
         bitcoindRpc,
@@ -185,6 +196,8 @@ class _$ChainDataSourceConfig_EsploraImpl
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(String serverUrl, EsploraSyncConfig? syncConfig)? esplora,
+    TResult? Function(String serverUrl, ElectrumSyncConfig? syncConfig)?
+        electrum,
     TResult? Function(
             String rpcHost, int rpcPort, String rpcUser, String rpcPassword)?
         bitcoindRpc,
@@ -196,6 +209,8 @@ class _$ChainDataSourceConfig_EsploraImpl
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(String serverUrl, EsploraSyncConfig? syncConfig)? esplora,
+    TResult Function(String serverUrl, ElectrumSyncConfig? syncConfig)?
+        electrum,
     TResult Function(
             String rpcHost, int rpcPort, String rpcUser, String rpcPassword)?
         bitcoindRpc,
@@ -211,6 +226,7 @@ class _$ChainDataSourceConfig_EsploraImpl
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(ChainDataSourceConfig_Esplora value) esplora,
+    required TResult Function(ChainDataSourceConfig_Electrum value) electrum,
     required TResult Function(ChainDataSourceConfig_BitcoindRpc value)
         bitcoindRpc,
   }) {
@@ -221,6 +237,7 @@ class _$ChainDataSourceConfig_EsploraImpl
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(ChainDataSourceConfig_Esplora value)? esplora,
+    TResult? Function(ChainDataSourceConfig_Electrum value)? electrum,
     TResult? Function(ChainDataSourceConfig_BitcoindRpc value)? bitcoindRpc,
   }) {
     return esplora?.call(this);
@@ -230,6 +247,7 @@ class _$ChainDataSourceConfig_EsploraImpl
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(ChainDataSourceConfig_Esplora value)? esplora,
+    TResult Function(ChainDataSourceConfig_Electrum value)? electrum,
     TResult Function(ChainDataSourceConfig_BitcoindRpc value)? bitcoindRpc,
     required TResult orElse(),
   }) {
@@ -255,6 +273,187 @@ abstract class ChainDataSourceConfig_Esplora extends ChainDataSourceConfig {
   @JsonKey(includeFromJson: false, includeToJson: false)
   _$$ChainDataSourceConfig_EsploraImplCopyWith<
           _$ChainDataSourceConfig_EsploraImpl>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$ChainDataSourceConfig_ElectrumImplCopyWith<$Res> {
+  factory _$$ChainDataSourceConfig_ElectrumImplCopyWith(
+          _$ChainDataSourceConfig_ElectrumImpl value,
+          $Res Function(_$ChainDataSourceConfig_ElectrumImpl) then) =
+      __$$ChainDataSourceConfig_ElectrumImplCopyWithImpl<$Res>;
+  @useResult
+  $Res call({String serverUrl, ElectrumSyncConfig? syncConfig});
+}
+
+/// @nodoc
+class __$$ChainDataSourceConfig_ElectrumImplCopyWithImpl<$Res>
+    extends _$ChainDataSourceConfigCopyWithImpl<$Res,
+        _$ChainDataSourceConfig_ElectrumImpl>
+    implements _$$ChainDataSourceConfig_ElectrumImplCopyWith<$Res> {
+  __$$ChainDataSourceConfig_ElectrumImplCopyWithImpl(
+      _$ChainDataSourceConfig_ElectrumImpl _value,
+      $Res Function(_$ChainDataSourceConfig_ElectrumImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of ChainDataSourceConfig
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? serverUrl = null,
+    Object? syncConfig = freezed,
+  }) {
+    return _then(_$ChainDataSourceConfig_ElectrumImpl(
+      serverUrl: null == serverUrl
+          ? _value.serverUrl
+          : serverUrl // ignore: cast_nullable_to_non_nullable
+              as String,
+      syncConfig: freezed == syncConfig
+          ? _value.syncConfig
+          : syncConfig // ignore: cast_nullable_to_non_nullable
+              as ElectrumSyncConfig?,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$ChainDataSourceConfig_ElectrumImpl
+    extends ChainDataSourceConfig_Electrum {
+  const _$ChainDataSourceConfig_ElectrumImpl(
+      {required this.serverUrl, this.syncConfig})
+      : super._();
+
+  @override
+  final String serverUrl;
+  @override
+  final ElectrumSyncConfig? syncConfig;
+
+  @override
+  String toString() {
+    return 'ChainDataSourceConfig.electrum(serverUrl: $serverUrl, syncConfig: $syncConfig)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$ChainDataSourceConfig_ElectrumImpl &&
+            (identical(other.serverUrl, serverUrl) ||
+                other.serverUrl == serverUrl) &&
+            (identical(other.syncConfig, syncConfig) ||
+                other.syncConfig == syncConfig));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, serverUrl, syncConfig);
+
+  /// Create a copy of ChainDataSourceConfig
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$ChainDataSourceConfig_ElectrumImplCopyWith<
+          _$ChainDataSourceConfig_ElectrumImpl>
+      get copyWith => __$$ChainDataSourceConfig_ElectrumImplCopyWithImpl<
+          _$ChainDataSourceConfig_ElectrumImpl>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(String serverUrl, EsploraSyncConfig? syncConfig)
+        esplora,
+    required TResult Function(String serverUrl, ElectrumSyncConfig? syncConfig)
+        electrum,
+    required TResult Function(
+            String rpcHost, int rpcPort, String rpcUser, String rpcPassword)
+        bitcoindRpc,
+  }) {
+    return electrum(serverUrl, syncConfig);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(String serverUrl, EsploraSyncConfig? syncConfig)? esplora,
+    TResult? Function(String serverUrl, ElectrumSyncConfig? syncConfig)?
+        electrum,
+    TResult? Function(
+            String rpcHost, int rpcPort, String rpcUser, String rpcPassword)?
+        bitcoindRpc,
+  }) {
+    return electrum?.call(serverUrl, syncConfig);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(String serverUrl, EsploraSyncConfig? syncConfig)? esplora,
+    TResult Function(String serverUrl, ElectrumSyncConfig? syncConfig)?
+        electrum,
+    TResult Function(
+            String rpcHost, int rpcPort, String rpcUser, String rpcPassword)?
+        bitcoindRpc,
+    required TResult orElse(),
+  }) {
+    if (electrum != null) {
+      return electrum(serverUrl, syncConfig);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(ChainDataSourceConfig_Esplora value) esplora,
+    required TResult Function(ChainDataSourceConfig_Electrum value) electrum,
+    required TResult Function(ChainDataSourceConfig_BitcoindRpc value)
+        bitcoindRpc,
+  }) {
+    return electrum(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(ChainDataSourceConfig_Esplora value)? esplora,
+    TResult? Function(ChainDataSourceConfig_Electrum value)? electrum,
+    TResult? Function(ChainDataSourceConfig_BitcoindRpc value)? bitcoindRpc,
+  }) {
+    return electrum?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(ChainDataSourceConfig_Esplora value)? esplora,
+    TResult Function(ChainDataSourceConfig_Electrum value)? electrum,
+    TResult Function(ChainDataSourceConfig_BitcoindRpc value)? bitcoindRpc,
+    required TResult orElse(),
+  }) {
+    if (electrum != null) {
+      return electrum(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class ChainDataSourceConfig_Electrum extends ChainDataSourceConfig {
+  const factory ChainDataSourceConfig_Electrum(
+          {required final String serverUrl,
+          final ElectrumSyncConfig? syncConfig}) =
+      _$ChainDataSourceConfig_ElectrumImpl;
+  const ChainDataSourceConfig_Electrum._() : super._();
+
+  String get serverUrl;
+  ElectrumSyncConfig? get syncConfig;
+
+  /// Create a copy of ChainDataSourceConfig
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$ChainDataSourceConfig_ElectrumImplCopyWith<
+          _$ChainDataSourceConfig_ElectrumImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
 
@@ -365,6 +564,8 @@ class _$ChainDataSourceConfig_BitcoindRpcImpl
   TResult when<TResult extends Object?>({
     required TResult Function(String serverUrl, EsploraSyncConfig? syncConfig)
         esplora,
+    required TResult Function(String serverUrl, ElectrumSyncConfig? syncConfig)
+        electrum,
     required TResult Function(
             String rpcHost, int rpcPort, String rpcUser, String rpcPassword)
         bitcoindRpc,
@@ -376,6 +577,8 @@ class _$ChainDataSourceConfig_BitcoindRpcImpl
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(String serverUrl, EsploraSyncConfig? syncConfig)? esplora,
+    TResult? Function(String serverUrl, ElectrumSyncConfig? syncConfig)?
+        electrum,
     TResult? Function(
             String rpcHost, int rpcPort, String rpcUser, String rpcPassword)?
         bitcoindRpc,
@@ -387,6 +590,8 @@ class _$ChainDataSourceConfig_BitcoindRpcImpl
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(String serverUrl, EsploraSyncConfig? syncConfig)? esplora,
+    TResult Function(String serverUrl, ElectrumSyncConfig? syncConfig)?
+        electrum,
     TResult Function(
             String rpcHost, int rpcPort, String rpcUser, String rpcPassword)?
         bitcoindRpc,
@@ -402,6 +607,7 @@ class _$ChainDataSourceConfig_BitcoindRpcImpl
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(ChainDataSourceConfig_Esplora value) esplora,
+    required TResult Function(ChainDataSourceConfig_Electrum value) electrum,
     required TResult Function(ChainDataSourceConfig_BitcoindRpc value)
         bitcoindRpc,
   }) {
@@ -412,6 +618,7 @@ class _$ChainDataSourceConfig_BitcoindRpcImpl
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(ChainDataSourceConfig_Esplora value)? esplora,
+    TResult? Function(ChainDataSourceConfig_Electrum value)? electrum,
     TResult? Function(ChainDataSourceConfig_BitcoindRpc value)? bitcoindRpc,
   }) {
     return bitcoindRpc?.call(this);
@@ -421,6 +628,7 @@ class _$ChainDataSourceConfig_BitcoindRpcImpl
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(ChainDataSourceConfig_Esplora value)? esplora,
+    TResult Function(ChainDataSourceConfig_Electrum value)? electrum,
     TResult Function(ChainDataSourceConfig_BitcoindRpc value)? bitcoindRpc,
     required TResult orElse(),
   }) {
@@ -7267,14 +7475,14 @@ class _$Event_PaymentForwardedImpl extends Event_PaymentForwarded {
 
   /// The node id of the previous node.
   ///
-  /// This is only `None` for HTLCs received prior to LDK Node v0.5 or for events serialized by
+  /// This is only null for HTLCs received prior to LDK Node v0.5 or for events serialized by
   /// versions prior to v0.5.
   @override
   final PublicKey? prevNodeId;
 
   /// The node id of the next node.
   ///
-  /// This is only `None` for HTLCs received prior to LDK Node v0.5 or for events serialized by
+  /// This is only null for HTLCs received prior to LDK Node v0.5 or for events serialized by
   /// versions prior to v0.5.
   @override
   final PublicKey? nextNodeId;
@@ -7611,13 +7819,13 @@ abstract class Event_PaymentForwarded extends Event {
 
   /// The node id of the previous node.
   ///
-  /// This is only `None` for HTLCs received prior to LDK Node v0.5 or for events serialized by
+  /// This is only null for HTLCs received prior to LDK Node v0.5 or for events serialized by
   /// versions prior to v0.5.
   PublicKey? get prevNodeId;
 
   /// The node id of the next node.
   ///
-  /// This is only `None` for HTLCs received prior to LDK Node v0.5 or for events serialized by
+  /// This is only null for HTLCs received prior to LDK Node v0.5 or for events serialized by
   /// versions prior to v0.5.
   PublicKey? get nextNodeId;
 

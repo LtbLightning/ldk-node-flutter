@@ -40,7 +40,7 @@ flutter_rust_bridge::frb_generated_boilerplate!(
     default_rust_auto_opaque = RustAutoOpaqueNom,
 );
 pub(crate) const FLUTTER_RUST_BRIDGE_CODEGEN_VERSION: &str = "2.11.1";
-pub(crate) const FLUTTER_RUST_BRIDGE_CODEGEN_CONTENT_HASH: i32 = 611976355;
+pub(crate) const FLUTTER_RUST_BRIDGE_CODEGEN_CONTENT_HASH: i32 = -1548022217;
 
 // Section: executor
 
@@ -1761,6 +1761,29 @@ fn wire__crate__api__node__ffi_node_event_handled_impl(
         },
     )
 }
+fn wire__crate__api__node__ffi_node_export_pathfinding_scores_impl(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
+    that: impl CstDecode<crate::api::node::FfiNode>,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "ffi_node_export_pathfinding_scores",
+            port: Some(port_),
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
+        },
+        move || {
+            let api_that = that.cst_decode();
+            move |context| {
+                transform_result_dco::<_, _, crate::utils::error::FfiNodeError>((move || {
+                    let output_ok =
+                        crate::api::node::FfiNode::export_pathfinding_scores(&api_that)?;
+                    Ok(output_ok)
+                })(
+                ))
+            }
+        },
+    )
+}
 fn wire__crate__api__node__ffi_node_force_close_channel_impl(
     port_: flutter_rust_bridge::for_generated::MessagePort,
     that: impl CstDecode<crate::api::node::FfiNode>,
@@ -2571,6 +2594,43 @@ fn wire__crate__api__spontaneous__ffi_spontaneous_payment_send_probes_impl(
         },
     )
 }
+fn wire__crate__api__spontaneous__ffi_spontaneous_payment_send_with_custom_tlvs_impl(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
+    that: impl CstDecode<crate::api::spontaneous::FfiSpontaneousPayment>,
+    amount_msat: impl CstDecode<u64>,
+    node_id: impl CstDecode<crate::api::types::PublicKey>,
+    sending_parameters: impl CstDecode<Option<crate::api::types::SendingParameters>>,
+    custom_tlvs: impl CstDecode<Vec<crate::api::types::CustomTlvRecord>>,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "ffi_spontaneous_payment_send_with_custom_tlvs",
+            port: Some(port_),
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
+        },
+        move || {
+            let api_that = that.cst_decode();
+            let api_amount_msat = amount_msat.cst_decode();
+            let api_node_id = node_id.cst_decode();
+            let api_sending_parameters = sending_parameters.cst_decode();
+            let api_custom_tlvs = custom_tlvs.cst_decode();
+            move |context| {
+                transform_result_dco::<_, _, crate::utils::error::FfiNodeError>((move || {
+                    let output_ok =
+                        crate::api::spontaneous::FfiSpontaneousPayment::send_with_custom_tlvs(
+                            &api_that,
+                            api_amount_msat,
+                            api_node_id,
+                            api_sending_parameters,
+                            api_custom_tlvs,
+                        )?;
+                    Ok(output_ok)
+                })(
+                ))
+            }
+        },
+    )
+}
 fn wire__crate__api__unified_qr__ffi_unified_qr_payment_receive_impl(
     port_: flutter_rust_bridge::for_generated::MessagePort,
     that: impl CstDecode<crate::api::unified_qr::FfiUnifiedQrPayment>,
@@ -2670,6 +2730,7 @@ impl CstDecode<crate::utils::error::FfiBuilderError> for i32 {
             13 => crate::utils::error::FfiBuilderError::InvalidPublicKey,
             14 => crate::utils::error::FfiBuilderError::InvalidAnnouncementAddresses,
             15 => crate::utils::error::FfiBuilderError::NetworkMismatch,
+            16 => crate::utils::error::FfiBuilderError::OpaqueNotFound,
             _ => unreachable!("Invalid variant for FfiBuilderError: {}", self),
         }
     }
@@ -3070,6 +3131,15 @@ impl SseDecode for crate::api::types::ChainDataSourceConfig {
                 };
             }
             1 => {
+                let mut var_serverUrl = <String>::sse_decode(deserializer);
+                let mut var_syncConfig =
+                    <Option<crate::api::types::ElectrumSyncConfig>>::sse_decode(deserializer);
+                return crate::api::types::ChainDataSourceConfig::Electrum {
+                    server_url: var_serverUrl,
+                    sync_config: var_syncConfig,
+                };
+            }
+            2 => {
                 let mut var_rpcHost = <String>::sse_decode(deserializer);
                 let mut var_rpcPort = <u16>::sse_decode(deserializer);
                 let mut var_rpcUser = <String>::sse_decode(deserializer);
@@ -3370,6 +3440,17 @@ impl SseDecode for crate::utils::error::DecodeError {
     }
 }
 
+impl SseDecode for crate::api::types::ElectrumSyncConfig {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        let mut var_backgroundSyncConfig =
+            <Option<crate::api::types::BackgroundSyncConfig>>::sse_decode(deserializer);
+        return crate::api::types::ElectrumSyncConfig {
+            background_sync_config: var_backgroundSyncConfig,
+        };
+    }
+}
+
 impl SseDecode for crate::api::types::EntropySourceConfig {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
@@ -3601,6 +3682,7 @@ impl SseDecode for crate::utils::error::FfiBuilderError {
             13 => crate::utils::error::FfiBuilderError::InvalidPublicKey,
             14 => crate::utils::error::FfiBuilderError::InvalidAnnouncementAddresses,
             15 => crate::utils::error::FfiBuilderError::NetworkMismatch,
+            16 => crate::utils::error::FfiBuilderError::OpaqueNotFound,
             _ => unreachable!("Invalid variant for FfiBuilderError: {}", inner),
         };
     }
@@ -4427,6 +4509,19 @@ impl SseDecode for Option<crate::api::types::ClosureReason> {
     fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
         if (<bool>::sse_decode(deserializer)) {
             return Some(<crate::api::types::ClosureReason>::sse_decode(deserializer));
+        } else {
+            return None;
+        }
+    }
+}
+
+impl SseDecode for Option<crate::api::types::ElectrumSyncConfig> {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        if (<bool>::sse_decode(deserializer)) {
+            return Some(<crate::api::types::ElectrumSyncConfig>::sse_decode(
+                deserializer,
+            ));
         } else {
             return None;
         }
@@ -5386,13 +5481,22 @@ impl flutter_rust_bridge::IntoDart for crate::api::types::ChainDataSourceConfig 
                 sync_config.into_into_dart().into_dart(),
             ]
             .into_dart(),
+            crate::api::types::ChainDataSourceConfig::Electrum {
+                server_url,
+                sync_config,
+            } => [
+                1.into_dart(),
+                server_url.into_into_dart().into_dart(),
+                sync_config.into_into_dart().into_dart(),
+            ]
+            .into_dart(),
             crate::api::types::ChainDataSourceConfig::BitcoindRpc {
                 rpc_host,
                 rpc_port,
                 rpc_user,
                 rpc_password,
             } => [
-                1.into_dart(),
+                2.into_dart(),
                 rpc_host.into_into_dart().into_dart(),
                 rpc_port.into_into_dart().into_dart(),
                 rpc_user.into_into_dart().into_dart(),
@@ -5715,6 +5819,23 @@ impl flutter_rust_bridge::IntoIntoDart<crate::utils::error::DecodeError>
     }
 }
 // Codec=Dco (DartCObject based), see doc to use other codecs
+impl flutter_rust_bridge::IntoDart for crate::api::types::ElectrumSyncConfig {
+    fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
+        [self.background_sync_config.into_into_dart().into_dart()].into_dart()
+    }
+}
+impl flutter_rust_bridge::for_generated::IntoDartExceptPrimitive
+    for crate::api::types::ElectrumSyncConfig
+{
+}
+impl flutter_rust_bridge::IntoIntoDart<crate::api::types::ElectrumSyncConfig>
+    for crate::api::types::ElectrumSyncConfig
+{
+    fn into_into_dart(self) -> crate::api::types::ElectrumSyncConfig {
+        self
+    }
+}
+// Codec=Dco (DartCObject based), see doc to use other codecs
 impl flutter_rust_bridge::IntoDart for crate::api::types::EntropySourceConfig {
     fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
         match self {
@@ -5965,6 +6086,7 @@ impl flutter_rust_bridge::IntoDart for crate::utils::error::FfiBuilderError {
             Self::InvalidPublicKey => 13.into_dart(),
             Self::InvalidAnnouncementAddresses => 14.into_dart(),
             Self::NetworkMismatch => 15.into_dart(),
+            Self::OpaqueNotFound => 16.into_dart(),
             _ => unreachable!(),
         }
     }
@@ -7237,13 +7359,24 @@ impl SseEncode for crate::api::types::ChainDataSourceConfig {
                 <String>::sse_encode(server_url, serializer);
                 <Option<crate::api::types::EsploraSyncConfig>>::sse_encode(sync_config, serializer);
             }
+            crate::api::types::ChainDataSourceConfig::Electrum {
+                server_url,
+                sync_config,
+            } => {
+                <i32>::sse_encode(1, serializer);
+                <String>::sse_encode(server_url, serializer);
+                <Option<crate::api::types::ElectrumSyncConfig>>::sse_encode(
+                    sync_config,
+                    serializer,
+                );
+            }
             crate::api::types::ChainDataSourceConfig::BitcoindRpc {
                 rpc_host,
                 rpc_port,
                 rpc_user,
                 rpc_password,
             } => {
-                <i32>::sse_encode(1, serializer);
+                <i32>::sse_encode(2, serializer);
                 <String>::sse_encode(rpc_host, serializer);
                 <u16>::sse_encode(rpc_port, serializer);
                 <String>::sse_encode(rpc_user, serializer);
@@ -7474,6 +7607,16 @@ impl SseEncode for crate::utils::error::DecodeError {
     }
 }
 
+impl SseEncode for crate::api::types::ElectrumSyncConfig {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        <Option<crate::api::types::BackgroundSyncConfig>>::sse_encode(
+            self.background_sync_config,
+            serializer,
+        );
+    }
+}
+
 impl SseEncode for crate::api::types::EntropySourceConfig {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
@@ -7684,6 +7827,7 @@ impl SseEncode for crate::utils::error::FfiBuilderError {
                 crate::utils::error::FfiBuilderError::InvalidPublicKey => 13,
                 crate::utils::error::FfiBuilderError::InvalidAnnouncementAddresses => 14,
                 crate::utils::error::FfiBuilderError::NetworkMismatch => 15,
+                crate::utils::error::FfiBuilderError::OpaqueNotFound => 16,
                 _ => {
                     unimplemented!("");
                 }
@@ -8417,6 +8561,16 @@ impl SseEncode for Option<crate::api::types::ClosureReason> {
         <bool>::sse_encode(self.is_some(), serializer);
         if let Some(value) = self {
             <crate::api::types::ClosureReason>::sse_encode(value, serializer);
+        }
+    }
+}
+
+impl SseEncode for Option<crate::api::types::ElectrumSyncConfig> {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        <bool>::sse_encode(self.is_some(), serializer);
+        if let Some(value) = self {
+            <crate::api::types::ElectrumSyncConfig>::sse_encode(value, serializer);
         }
     }
 }
@@ -9398,6 +9552,13 @@ mod io {
             CstDecode::<crate::utils::error::DecodeError>::cst_decode(*wrap).into()
         }
     }
+    impl CstDecode<crate::api::types::ElectrumSyncConfig> for *mut wire_cst_electrum_sync_config {
+        // Codec=Cst (C-struct based), see doc to use other codecs
+        fn cst_decode(self) -> crate::api::types::ElectrumSyncConfig {
+            let wrap = unsafe { flutter_rust_bridge::for_generated::box_from_leak_ptr(self) };
+            CstDecode::<crate::api::types::ElectrumSyncConfig>::cst_decode(*wrap).into()
+        }
+    }
     impl CstDecode<crate::api::types::EntropySourceConfig> for *mut wire_cst_entropy_source_config {
         // Codec=Cst (C-struct based), see doc to use other codecs
         fn cst_decode(self) -> crate::api::types::EntropySourceConfig {
@@ -9657,6 +9818,13 @@ mod io {
                     }
                 }
                 1 => {
+                    let ans = unsafe { self.kind.Electrum };
+                    crate::api::types::ChainDataSourceConfig::Electrum {
+                        server_url: ans.server_url.cst_decode(),
+                        sync_config: ans.sync_config.cst_decode(),
+                    }
+                }
+                2 => {
                     let ans = unsafe { self.kind.BitcoindRpc };
                     crate::api::types::ChainDataSourceConfig::BitcoindRpc {
                         rpc_host: ans.rpc_host.cst_decode(),
@@ -9851,6 +10019,14 @@ mod io {
                 6 => crate::utils::error::DecodeError::UnsupportedCompression,
                 7 => crate::utils::error::DecodeError::DangerousValue,
                 _ => unreachable!(),
+            }
+        }
+    }
+    impl CstDecode<crate::api::types::ElectrumSyncConfig> for wire_cst_electrum_sync_config {
+        // Codec=Cst (C-struct based), see doc to use other codecs
+        fn cst_decode(self) -> crate::api::types::ElectrumSyncConfig {
+            crate::api::types::ElectrumSyncConfig {
+                background_sync_config: self.background_sync_config.cst_decode(),
             }
         }
     }
@@ -10981,6 +11157,18 @@ mod io {
         }
     }
     impl Default for wire_cst_decode_error {
+        fn default() -> Self {
+            Self::new_with_null_ptr()
+        }
+    }
+    impl NewWithNullPtr for wire_cst_electrum_sync_config {
+        fn new_with_null_ptr() -> Self {
+            Self {
+                background_sync_config: core::ptr::null_mut(),
+            }
+        }
+    }
+    impl Default for wire_cst_electrum_sync_config {
         fn default() -> Self {
             Self::new_with_null_ptr()
         }
@@ -12123,6 +12311,14 @@ mod io {
     }
 
     #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_ldk_node_wire__crate__api__node__ffi_node_export_pathfinding_scores(
+        port_: i64,
+        that: *mut wire_cst_ffi_node,
+    ) {
+        wire__crate__api__node__ffi_node_export_pathfinding_scores_impl(port_, that)
+    }
+
+    #[unsafe(no_mangle)]
     pub extern "C" fn frbgen_ldk_node_wire__crate__api__node__ffi_node_force_close_channel(
         port_: i64,
         that: *mut wire_cst_ffi_node,
@@ -12458,6 +12654,25 @@ mod io {
     }
 
     #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_ldk_node_wire__crate__api__spontaneous__ffi_spontaneous_payment_send_with_custom_tlvs(
+        port_: i64,
+        that: *mut wire_cst_ffi_spontaneous_payment,
+        amount_msat: u64,
+        node_id: *mut wire_cst_public_key,
+        sending_parameters: *mut wire_cst_sending_parameters,
+        custom_tlvs: *mut wire_cst_list_custom_tlv_record,
+    ) {
+        wire__crate__api__spontaneous__ffi_spontaneous_payment_send_with_custom_tlvs_impl(
+            port_,
+            that,
+            amount_msat,
+            node_id,
+            sending_parameters,
+            custom_tlvs,
+        )
+    }
+
+    #[unsafe(no_mangle)]
     pub extern "C" fn frbgen_ldk_node_wire__crate__api__unified_qr__ffi_unified_qr_payment_receive(
         port_: i64,
         that: *mut wire_cst_ffi_unified_qr_payment,
@@ -12787,6 +13002,14 @@ mod io {
     ) -> *mut wire_cst_decode_error {
         flutter_rust_bridge::for_generated::new_leak_box_ptr(
             wire_cst_decode_error::new_with_null_ptr(),
+        )
+    }
+
+    #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_ldk_node_cst_new_box_autoadd_electrum_sync_config(
+    ) -> *mut wire_cst_electrum_sync_config {
+        flutter_rust_bridge::for_generated::new_leak_box_ptr(
+            wire_cst_electrum_sync_config::new_with_null_ptr(),
         )
     }
 
@@ -13278,6 +13501,7 @@ mod io {
     #[derive(Clone, Copy)]
     pub union ChainDataSourceConfigKind {
         Esplora: wire_cst_ChainDataSourceConfig_Esplora,
+        Electrum: wire_cst_ChainDataSourceConfig_Electrum,
         BitcoindRpc: wire_cst_ChainDataSourceConfig_BitcoindRpc,
         nil__: (),
     }
@@ -13286,6 +13510,12 @@ mod io {
     pub struct wire_cst_ChainDataSourceConfig_Esplora {
         server_url: *mut wire_cst_list_prim_u_8_strict,
         sync_config: *mut wire_cst_esplora_sync_config,
+    }
+    #[repr(C)]
+    #[derive(Clone, Copy)]
+    pub struct wire_cst_ChainDataSourceConfig_Electrum {
+        server_url: *mut wire_cst_list_prim_u_8_strict,
+        sync_config: *mut wire_cst_electrum_sync_config,
     }
     #[repr(C)]
     #[derive(Clone, Copy)]
@@ -13431,6 +13661,11 @@ mod io {
     #[derive(Clone, Copy)]
     pub struct wire_cst_DecodeError_Io {
         field0: *mut wire_cst_list_prim_u_8_strict,
+    }
+    #[repr(C)]
+    #[derive(Clone, Copy)]
+    pub struct wire_cst_electrum_sync_config {
+        background_sync_config: *mut wire_cst_background_sync_config,
     }
     #[repr(C)]
     #[derive(Clone, Copy)]

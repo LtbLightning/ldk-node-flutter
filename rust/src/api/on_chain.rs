@@ -27,7 +27,11 @@ impl FfiOnChainPayment {
         fee_rate: Option<FeeRate>,
     ) -> Result<Txid, FfiNodeError> {
         self.opaque
-            .send_to_address(&address.try_into()?, amount_sats, fee_rate.map(|e| e.into()))
+            .send_to_address(
+                &address.try_into()?,
+                amount_sats,
+                fee_rate.map(|e| e.into()),
+            )
             .map_err(|e| e.into())
             .map(|e| e.into())
     }
@@ -43,7 +47,11 @@ impl FfiOnChainPayment {
         fee_rate: Option<FeeRate>,
     ) -> Result<Txid, FfiNodeError> {
         self.opaque
-            .send_all_to_address(&address.try_into()?, retain_reserves, fee_rate.map(|e| e.into()))
+            .send_all_to_address(
+                &address.try_into()?,
+                retain_reserves,
+                fee_rate.map(|e| e.into()),
+            )
             .map_err(|e| e.into())
             .map(|e| e.into())
     }
