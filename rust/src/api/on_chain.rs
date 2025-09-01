@@ -1,4 +1,4 @@
-use crate::api::types::{Address, Txid};
+use crate::api::types::{Address, FeeRate, Txid};
 use crate::frb_generated::RustOpaque;
 use crate::utils::error::FfiNodeError;
 
@@ -24,14 +24,10 @@ impl FfiOnChainPayment {
         &self,
         address: Address,
         amount_sats: u64,
-        fee_rate_sat_per_kwu: Option<u64>,
+        fee_rate: Option<FeeRate>,
     ) -> Result<Txid, FfiNodeError> {
         self.opaque
-            .send_to_address(
-                &address.try_into()?,
-                amount_sats,
-                fee_rate_sat_per_kwu.map(|rate| ldk_node::bitcoin::FeeRate::from_sat_per_kwu(rate)),
-            )
+            .send_to_address(&address.try_into()?, amount_sats, fee_rate.map(|e| e.into()))
             .map_err(|e| e.into())
             .map(|e| e.into())
     }
@@ -44,14 +40,10 @@ impl FfiOnChainPayment {
         &self,
         address: Address,
         retain_reserves: bool,
-        fee_rate_sat_per_kwu: Option<u64>,
+        fee_rate: Option<FeeRate>,
     ) -> Result<Txid, FfiNodeError> {
         self.opaque
-            .send_all_to_address(
-                &address.try_into()?,
-                retain_reserves,
-                fee_rate_sat_per_kwu.map(|rate| ldk_node::bitcoin::FeeRate::from_sat_per_kwu(rate)),
-            )
+            .send_all_to_address(&address.try_into()?, retain_reserves, fee_rate.map(|e| e.into()))
             .map_err(|e| e.into())
             .map(|e| e.into())
     }

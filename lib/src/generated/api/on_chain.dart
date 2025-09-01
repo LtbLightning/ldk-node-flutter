@@ -30,22 +30,22 @@ class FfiOnChainPayment {
   Future<Txid> sendAllToAddress(
           {required Address address,
           required bool retainReserves,
-          BigInt? feeRateSatPerKwu}) =>
+          FeeRate? feeRate}) =>
       core.instance.api.crateApiOnChainFfiOnChainPaymentSendAllToAddress(
           that: this,
           address: address,
           retainReserves: retainReserves,
-          feeRateSatPerKwu: feeRateSatPerKwu);
+          feeRate: feeRate);
 
   Future<Txid> sendToAddress(
           {required Address address,
           required BigInt amountSats,
-          BigInt? feeRateSatPerKwu}) =>
+          FeeRate? feeRate}) =>
       core.instance.api.crateApiOnChainFfiOnChainPaymentSendToAddress(
           that: this,
           address: address,
           amountSats: amountSats,
-          feeRateSatPerKwu: feeRateSatPerKwu);
+          feeRate: feeRate);
 
   @override
   int get hashCode => opaque.hashCode;

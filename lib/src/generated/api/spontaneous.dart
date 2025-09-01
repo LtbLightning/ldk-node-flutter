@@ -18,34 +18,20 @@ class FfiSpontaneousPayment {
     required this.opaque,
   });
 
-  Future<void> sendProbesUnsafe(
-          {required BigInt amountMsat, required PublicKey nodeId}) =>
-      core.instance.api
-          .crateApiSpontaneousFfiSpontaneousPaymentSendProbesUnsafe(
-              that: this, amountMsat: amountMsat, nodeId: nodeId);
-
-  Future<PaymentId> sendUnsafe(
+  Future<PaymentId> send(
           {required BigInt amountMsat,
           required PublicKey nodeId,
           SendingParameters? sendingParameters}) =>
-      core.instance.api.crateApiSpontaneousFfiSpontaneousPaymentSendUnsafe(
+      core.instance.api.crateApiSpontaneousFfiSpontaneousPaymentSend(
           that: this,
           amountMsat: amountMsat,
           nodeId: nodeId,
           sendingParameters: sendingParameters);
 
-  Future<PaymentId> sendWithCustomTlvsUnsafe(
-          {required BigInt amountMsat,
-          required PublicKey nodeId,
-          SendingParameters? sendingParameters,
-          required List<CustomTlvRecord> customTlvs}) =>
-      core.instance.api
-          .crateApiSpontaneousFfiSpontaneousPaymentSendWithCustomTlvsUnsafe(
-              that: this,
-              amountMsat: amountMsat,
-              nodeId: nodeId,
-              sendingParameters: sendingParameters,
-              customTlvs: customTlvs);
+  Future<void> sendProbes(
+          {required BigInt amountMsat, required PublicKey nodeId}) =>
+      core.instance.api.crateApiSpontaneousFfiSpontaneousPaymentSendProbes(
+          that: this, amountMsat: amountMsat, nodeId: nodeId);
 
   @override
   int get hashCode => opaque.hashCode;

@@ -86,7 +86,7 @@ class CargoKitPlugin implements Plugin<Project> {
    private Plugin _findFlutterPlugin(Map projects) {
         for (project in projects) {
             for (plugin in project.value.getPlugins()) {
-                if (plugin.class.name == "com.flutter.gradle.FlutterPlugin") {
+                if (plugin.class.name == "FlutterPlugin") {
                     return plugin;
                 }
             }
@@ -119,7 +119,7 @@ class CargoKitPlugin implements Plugin<Project> {
             def jniLibs = project.android.sourceSets.maybeCreate(buildType).jniLibs;
             jniLibs.srcDir(new File(cargoOutputDir))
 
-            def platforms = ["android-arm", "android-arm64", "android-x64"]
+            def platforms = plugin.getTargetPlatforms().collect()
 
             // Respect NDK ABI filters if set
             def abiFilters = plugin.project.android.defaultConfig.ndk?.abiFilters

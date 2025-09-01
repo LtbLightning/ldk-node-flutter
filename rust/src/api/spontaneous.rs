@@ -1,4 +1,4 @@
-use crate::api::types::{CustomTlvRecord, PaymentId, PublicKey};
+use crate::api::types::{PaymentId, PublicKey};
 use crate::frb_generated::RustOpaque;
 use crate::utils::error::FfiNodeError;
 
@@ -15,7 +15,7 @@ impl From<ldk_node::payment::SpontaneousPayment> for FfiSpontaneousPayment {
     }
 }
 impl FfiSpontaneousPayment {
-    pub fn send_unsafe(
+    pub fn send(
         &self,
         amount_msat: u64,
         node_id: PublicKey,
@@ -30,26 +30,9 @@ impl FfiSpontaneousPayment {
             .map_err(|e| e.into())
             .map(|e| e.into())
     }
-    pub fn send_probes_unsafe(&self, amount_msat: u64, node_id: PublicKey) -> Result<(), FfiNodeError> {
+    pub fn send_probes(&self, amount_msat: u64, node_id: PublicKey) -> Result<(), FfiNodeError> {
         self.opaque
             .send_probes(amount_msat, node_id.try_into()?)
             .map_err(|e| e.into())
-    }
-    pub fn send_with_custom_tlvs_unsafe(
-        &self,
-        amount_msat: u64,
-        node_id: PublicKey,
-        sending_parameters: Option<SendingParameters>,
-        custom_tlvs: Vec<CustomTlvRecord>,
-    ) -> Result<PaymentId, FfiNodeError> {
-        self.opaque
-            .send_with_custom_tlvs(
-                amount_msat,
-                node_id.try_into()?,
-                sending_parameters.map(|e| e.into()),
-                custom_tlvs.into_iter().map(|e| e.into()).collect(),
-            )
-            .map_err(|e| e.into())
-            .map(|e| e.into())
     }
 }

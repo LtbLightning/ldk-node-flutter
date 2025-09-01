@@ -45,12 +45,6 @@ abstract class FfiBuilder implements RustOpaqueInterface {
           entropySourceConfig: entropySourceConfig,
           gossipSourceConfig: gossipSourceConfig,
           liquiditySourceConfig: liquiditySourceConfig);
-
-  FfiBuilder setEntropySeedBytes({required List<int> seedBytes});
-
-  FfiBuilder setFilesystemLogger({String? logFilePath, LogLevel? maxLogLevel});
-
-  FfiBuilder setLogFacadeLogger();
 }
 
 // Rust type: RustOpaqueNom<ldk_node :: Builder>

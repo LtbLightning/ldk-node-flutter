@@ -88,7 +88,6 @@ enum FfiBuilderError {
   invalidPublicKey,
   invalidAnnouncementAddresses,
   networkMismatch,
-  opaqueNotFound,
   ;
 }
 

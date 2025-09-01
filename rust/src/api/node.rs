@@ -113,7 +113,6 @@ impl FfiNode {
             .map(|e| e.into())
     }
 
-    /// When background sync is left as Null, you can use this to sync manually.
     pub fn sync_wallets(&self) -> anyhow::Result<(), FfiNodeError> {
         self.opaque.sync_wallets().map_err(|e| e.into())
     }
@@ -249,9 +248,5 @@ impl FfiNode {
         Ok(self
             .opaque
             .verify_signature(msg.as_slice(), sig.as_str(), &public_key.try_into()?))
-    }
-
-    pub fn export_pathfinding_scores(&self) -> Result<Vec<u8>, FfiNodeError> {
-        self.opaque.export_pathfinding_scores().map_err(|e| e.into())
     }
 }

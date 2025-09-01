@@ -10,18 +10,38 @@ import 'package:flutter_rust_bridge/flutter_rust_bridge_for_generated.dart';
 import 'package:freezed_annotation/freezed_annotation.dart' hide protected;
 part 'types.freezed.dart';
 
-// These function are ignored because they are on traits that is not defined in current crate (put an empty `#[frb]` on it to unignore): `assert_receiver_is_total_eq`, `assert_receiver_is_total_eq`, `assert_receiver_is_total_eq`, `assert_receiver_is_total_eq`, `assert_receiver_is_total_eq`, `assert_receiver_is_total_eq`, `assert_receiver_is_total_eq`, `assert_receiver_is_total_eq`, `assert_receiver_is_total_eq`, `assert_receiver_is_total_eq`, `assert_receiver_is_total_eq`, `assert_receiver_is_total_eq`, `assert_receiver_is_total_eq`, `assert_receiver_is_total_eq`, `assert_receiver_is_total_eq`, `assert_receiver_is_total_eq`, `assert_receiver_is_total_eq`, `assert_receiver_is_total_eq`, `assert_receiver_is_total_eq`, `assert_receiver_is_total_eq`, `assert_receiver_is_total_eq`, `assert_receiver_is_total_eq`, `assert_receiver_is_total_eq`, `assert_receiver_is_total_eq`, `assert_receiver_is_total_eq`, `assert_receiver_is_total_eq`, `assert_receiver_is_total_eq`, `assert_receiver_is_total_eq`, `assert_receiver_is_total_eq`, `assert_receiver_is_total_eq`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `eq`, `eq`, `eq`, `eq`, `eq`, `eq`, `eq`, `eq`, `eq`, `eq`, `eq`, `eq`, `eq`, `eq`, `eq`, `eq`, `eq`, `eq`, `eq`, `eq`, `eq`, `eq`, `eq`, `eq`, `eq`, `eq`, `eq`, `eq`, `eq`, `eq`, `eq`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `hash`, `hash`, `hash`, `hash`, `try_from`, `try_from`, `try_from`, `try_from`, `try_from`, `try_from`, `try_from`
+// These types are ignored because they are neither used by any `pub` functions nor (for structs and enums) marked `#[frb(unignore)]`: `ConfirmationStatus`, `LSPFeeLimits`, `LogLevel`, `OfferId`, `PaymentSecret`
+// These function are ignored because they are on traits that is not defined in current crate (put an empty `#[frb]` on it to unignore): `assert_receiver_is_total_eq`, `assert_receiver_is_total_eq`, `assert_receiver_is_total_eq`, `assert_receiver_is_total_eq`, `assert_receiver_is_total_eq`, `assert_receiver_is_total_eq`, `assert_receiver_is_total_eq`, `assert_receiver_is_total_eq`, `assert_receiver_is_total_eq`, `assert_receiver_is_total_eq`, `assert_receiver_is_total_eq`, `assert_receiver_is_total_eq`, `assert_receiver_is_total_eq`, `assert_receiver_is_total_eq`, `assert_receiver_is_total_eq`, `assert_receiver_is_total_eq`, `assert_receiver_is_total_eq`, `assert_receiver_is_total_eq`, `assert_receiver_is_total_eq`, `assert_receiver_is_total_eq`, `assert_receiver_is_total_eq`, `assert_receiver_is_total_eq`, `assert_receiver_is_total_eq`, `assert_receiver_is_total_eq`, `assert_receiver_is_total_eq`, `assert_receiver_is_total_eq`, `assert_receiver_is_total_eq`, `assert_receiver_is_total_eq`, `assert_receiver_is_total_eq`, `assert_receiver_is_total_eq`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `cmp`, `eq`, `eq`, `eq`, `eq`, `eq`, `eq`, `eq`, `eq`, `eq`, `eq`, `eq`, `eq`, `eq`, `eq`, `eq`, `eq`, `eq`, `eq`, `eq`, `eq`, `eq`, `eq`, `eq`, `eq`, `eq`, `eq`, `eq`, `eq`, `eq`, `eq`, `eq`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `hash`, `hash`, `hash`, `hash`, `hash`, `partial_cmp`, `try_from`, `try_from`, `try_from`, `try_from`, `try_from`, `try_from`, `try_from`
 
-// Rust type: RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<ConfirmationStatus>>
-abstract class ConfirmationStatus implements RustOpaqueInterface {}
+// Rust type: RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<PaymentDetails>>
+abstract class PaymentDetails implements RustOpaqueInterface {
+  BigInt? get amountMsat;
+
+  PaymentDirection get direction;
+
+  PaymentId get id;
+
+  PaymentKind get kind;
+
+  BigInt get latestUpdateTimestamp;
+
+  PaymentStatus get status;
+
+  set amountMsat(BigInt? amountMsat);
+
+  set direction(PaymentDirection direction);
+
+  set id(PaymentId id);
+
+  set kind(PaymentKind kind);
+
+  set latestUpdateTimestamp(BigInt latestUpdateTimestamp);
+
+  set status(PaymentStatus status);
+}
 
 // Rust type: RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<PaymentKind>>
 abstract class PaymentKind implements RustOpaqueInterface {}
-
-abstract class FfiLogWriter {
-  /// Handle a log record.
-  Future<void> log({required FfiLogRecord record});
-}
 
 /// A Bitcoin address.
 ///
@@ -282,10 +302,6 @@ sealed class ChainDataSourceConfig with _$ChainDataSourceConfig {
     required String serverUrl,
     EsploraSyncConfig? syncConfig,
   }) = ChainDataSourceConfig_Esplora;
-  const factory ChainDataSourceConfig.electrum({
-    required String serverUrl,
-    ElectrumSyncConfig? syncConfig,
-  }) = ChainDataSourceConfig_Electrum;
   const factory ChainDataSourceConfig.bitcoindRpc({
     required String rpcHost,
     required int rpcPort,
@@ -844,28 +860,6 @@ class CustomTlvRecord {
           value == other.value;
 }
 
-class ElectrumSyncConfig {
-  /// Background sync configuration.
-  ///
-  /// If set to `Null`, background syncing is disabled.
-  /// you must use `sync_wallets` to manually sync the wallets.
-  final BackgroundSyncConfig? backgroundSyncConfig;
-
-  const ElectrumSyncConfig({
-    this.backgroundSyncConfig,
-  });
-
-  @override
-  int get hashCode => backgroundSyncConfig.hashCode;
-
-  @override
-  bool operator ==(Object other) =>
-      identical(this, other) ||
-      other is ElectrumSyncConfig &&
-          runtimeType == other.runtimeType &&
-          backgroundSyncConfig == other.backgroundSyncConfig;
-}
-
 @freezed
 sealed class EntropySourceConfig with _$EntropySourceConfig {
   const EntropySourceConfig._();
@@ -883,10 +877,6 @@ sealed class EntropySourceConfig with _$EntropySourceConfig {
 }
 
 class EsploraSyncConfig {
-  /// Background sync configuration.
-  ///
-  /// If set to `Null`, background syncing is disabled.
-  /// you must use `sync_wallets` to manually sync the wallets.
   final BackgroundSyncConfig? backgroundSyncConfig;
 
   const EsploraSyncConfig({
@@ -1045,13 +1035,13 @@ sealed class Event with _$Event {
 
     /// The node id of the previous node.
     ///
-    /// This is only null for HTLCs received prior to LDK Node v0.5 or for events serialized by
+    /// This is only `None` for HTLCs received prior to LDK Node v0.5 or for events serialized by
     /// versions prior to v0.5.
     PublicKey? prevNodeId,
 
     /// The node id of the next node.
     ///
-    /// This is only null for HTLCs received prior to LDK Node v0.5 or for events serialized by
+    /// This is only `None` for HTLCs received prior to LDK Node v0.5 or for events serialized by
     /// versions prior to v0.5.
     PublicKey? nextNodeId,
 
@@ -1071,40 +1061,58 @@ sealed class Event with _$Event {
   }) = Event_PaymentForwarded;
 }
 
-/// A unit of logging output with metadata to enable filtering by module path and line number.
-class FfiLogRecord {
-  /// The verbosity level of the message.
-  final LogLevel level;
+class FeeRate {
+  final BigInt field0;
 
-  /// The message body.
-  final String args;
-
-  /// The module path of the message.
-  final String modulePath;
-
-  /// The line containing the message.
-  final int line;
-
-  const FfiLogRecord({
-    required this.level,
-    required this.args,
-    required this.modulePath,
-    required this.line,
+  const FeeRate({
+    required this.field0,
   });
 
+  /// Constructs `FeeRate` from satoshis per 1000 weight units.
+  static FeeRate fromSatPerKwu({required BigInt satKwu}) =>
+      core.instance.api.crateApiTypesFeeRateFromSatPerKwu(satKwu: satKwu);
+
+  /// Constructs `FeeRate` from satoshis per virtual bytes.
+  ///
+  /// # Errors
+  ///
+  /// Returns a null on arithmetic overflow.
+  static FeeRate? fromSatPerVb({required BigInt satVb}) =>
+      core.instance.api.crateApiTypesFeeRateFromSatPerVb(satVb: satVb);
+
+  /// Constructs `FeeRate` from satoshis per virtual bytes without overflow check.
+  static FeeRate fromSatPerVbUnchecked({required BigInt satVb}) =>
+      core.instance.api.crateApiTypesFeeRateFromSatPerVbUnchecked(satVb: satVb);
+
+  /// Returns raw fee rate.
+  ///
+  /// Can be used instead of `into()` to avoid inference issues.
+  Future<BigInt> toSatPerKwu() =>
+      core.instance.api.crateApiTypesFeeRateToSatPerKwu(
+        that: this,
+      );
+
+  /// Converts to sat/vB rounding up.
+  Future<BigInt> toSatPerVbCeil() =>
+      core.instance.api.crateApiTypesFeeRateToSatPerVbCeil(
+        that: this,
+      );
+
+  /// Converts to sat/vB rounding down.
+  Future<BigInt> toSatPerVbFloor() =>
+      core.instance.api.crateApiTypesFeeRateToSatPerVbFloor(
+        that: this,
+      );
+
   @override
-  int get hashCode =>
-      level.hashCode ^ args.hashCode ^ modulePath.hashCode ^ line.hashCode;
+  int get hashCode => field0.hashCode;
 
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is FfiLogRecord &&
+      other is FeeRate &&
           runtimeType == other.runtimeType &&
-          level == other.level &&
-          args == other.args &&
-          modulePath == other.modulePath &&
-          line == other.line;
+          field0 == other.field0;
 }
 
 @freezed
@@ -1308,65 +1316,6 @@ class LiquiditySourceConfig {
           lsps2Service == other.lsps2Service;
 }
 
-/// An enum representing the available verbosity levels of the logger.
-///
-enum LogLevel {
-  /// Designates extremely verbose information, including gossip-induced messages
-  ///
-  gossip,
-
-  /// Designates very low priority, often extremely verbose, information
-  ///
-  trace,
-
-  /// Designates lower priority information
-  ///
-  debug,
-
-  /// Designates useful information
-  ///
-  info,
-
-  /// Designates hazardous situations
-  ///
-  warn,
-
-  /// Designates very serious errors
-  ///
-  error,
-  ;
-}
-
-/// Limits applying to how much fee we allow an LSP to deduct from the payment amount.
-class LSPFeeLimits {
-  /// The maximal total amount we allow any configured LSP withhold from us when forwarding the
-  /// payment.
-  final BigInt? maxTotalOpeningFeeMsat;
-
-  /// The maximal proportional fee, in parts-per-million millisatoshi, we allow any configured
-  /// LSP withhold from us when forwarding the payment.
-  final BigInt? maxProportionalOpeningFeePpmMsat;
-
-  const LSPFeeLimits({
-    this.maxTotalOpeningFeeMsat,
-    this.maxProportionalOpeningFeePpmMsat,
-  });
-
-  @override
-  int get hashCode =>
-      maxTotalOpeningFeeMsat.hashCode ^
-      maxProportionalOpeningFeePpmMsat.hashCode;
-
-  @override
-  bool operator ==(Object other) =>
-      identical(this, other) ||
-      other is LSPFeeLimits &&
-          runtimeType == other.runtimeType &&
-          maxTotalOpeningFeeMsat == other.maxTotalOpeningFeeMsat &&
-          maxProportionalOpeningFeePpmMsat ==
-              other.maxProportionalOpeningFeePpmMsat;
-}
-
 @freezed
 sealed class MaxDustHTLCExposure with _$MaxDustHTLCExposure {
   const MaxDustHTLCExposure._();
@@ -1527,24 +1476,6 @@ class NodeStatus {
               other.latestChannelMonitorArchivalHeight;
 }
 
-class OfferId {
-  final U8Array32 field0;
-
-  const OfferId({
-    required this.field0,
-  });
-
-  @override
-  int get hashCode => field0.hashCode;
-
-  @override
-  bool operator ==(Object other) =>
-      identical(this, other) ||
-      other is OfferId &&
-          runtimeType == other.runtimeType &&
-          field0 == other.field0;
-}
-
 ///A reference to a transaction output.
 ///
 class OutPoint {
@@ -1566,57 +1497,6 @@ class OutPoint {
           runtimeType == other.runtimeType &&
           txid == other.txid &&
           vout == other.vout;
-}
-
-/// Represents a payment.
-class PaymentDetails {
-  /// The identifier of this payment.
-  final PaymentId id;
-
-  /// The kind of the payment.
-  final PaymentKind kind;
-
-  /// The amount transferred.
-  final BigInt? amountMsat;
-
-  /// The direction of the payment.
-  final PaymentDirection direction;
-
-  /// The status of the payment.
-  final PaymentStatus status;
-
-  /// The timestamp, in seconds since start of the UNIX epoch, when this entry was last updated.
-  final BigInt latestUpdateTimestamp;
-
-  const PaymentDetails({
-    required this.id,
-    required this.kind,
-    this.amountMsat,
-    required this.direction,
-    required this.status,
-    required this.latestUpdateTimestamp,
-  });
-
-  @override
-  int get hashCode =>
-      id.hashCode ^
-      kind.hashCode ^
-      amountMsat.hashCode ^
-      direction.hashCode ^
-      status.hashCode ^
-      latestUpdateTimestamp.hashCode;
-
-  @override
-  bool operator ==(Object other) =>
-      identical(this, other) ||
-      other is PaymentDetails &&
-          runtimeType == other.runtimeType &&
-          id == other.id &&
-          kind == other.kind &&
-          amountMsat == other.amountMsat &&
-          direction == other.direction &&
-          status == other.status &&
-          latestUpdateTimestamp == other.latestUpdateTimestamp;
 }
 
 /// Represents the direction of a payment.
@@ -1690,22 +1570,23 @@ class PaymentHash {
           data == other.data;
 }
 
+///A user-provided identifier in channelManager.sendPayment used to uniquely identify a payment and ensure idempotency in LDK.
 class PaymentId {
-  final Uint8List data;
+  final U8Array32 field0;
 
   const PaymentId({
-    required this.data,
+    required this.field0,
   });
 
   @override
-  int get hashCode => data.hashCode;
+  int get hashCode => field0.hashCode;
 
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
       other is PaymentId &&
           runtimeType == other.runtimeType &&
-          data == other.data;
+          field0 == other.field0;
 }
 
 /// paymentPreimage type, use to route payment between hop
@@ -1724,26 +1605,6 @@ class PaymentPreimage {
   bool operator ==(Object other) =>
       identical(this, other) ||
       other is PaymentPreimage &&
-          runtimeType == other.runtimeType &&
-          data == other.data;
-}
-
-/// payment_secret type, use to authenticate sender to the receiver and tie MPP HTLCs together
-///
-class PaymentSecret {
-  final U8Array32 data;
-
-  const PaymentSecret({
-    required this.data,
-  });
-
-  @override
-  int get hashCode => data.hashCode;
-
-  @override
-  bool operator ==(Object other) =>
-      identical(this, other) ||
-      other is PaymentSecret &&
           runtimeType == other.runtimeType &&
           data == other.data;
 }
