@@ -10,8 +10,10 @@ import 'package:flutter_rust_bridge/flutter_rust_bridge_for_generated.dart';
 import 'package:freezed_annotation/freezed_annotation.dart' hide protected;
 part 'types.freezed.dart';
 
-// These types are ignored because they are neither used by any `pub` functions nor (for structs and enums) marked `#[frb(unignore)]`: `ConfirmationStatus`, `LSPFeeLimits`, `OfferId`, `PaymentSecret`
 // These function are ignored because they are on traits that is not defined in current crate (put an empty `#[frb]` on it to unignore): `assert_receiver_is_total_eq`, `assert_receiver_is_total_eq`, `assert_receiver_is_total_eq`, `assert_receiver_is_total_eq`, `assert_receiver_is_total_eq`, `assert_receiver_is_total_eq`, `assert_receiver_is_total_eq`, `assert_receiver_is_total_eq`, `assert_receiver_is_total_eq`, `assert_receiver_is_total_eq`, `assert_receiver_is_total_eq`, `assert_receiver_is_total_eq`, `assert_receiver_is_total_eq`, `assert_receiver_is_total_eq`, `assert_receiver_is_total_eq`, `assert_receiver_is_total_eq`, `assert_receiver_is_total_eq`, `assert_receiver_is_total_eq`, `assert_receiver_is_total_eq`, `assert_receiver_is_total_eq`, `assert_receiver_is_total_eq`, `assert_receiver_is_total_eq`, `assert_receiver_is_total_eq`, `assert_receiver_is_total_eq`, `assert_receiver_is_total_eq`, `assert_receiver_is_total_eq`, `assert_receiver_is_total_eq`, `assert_receiver_is_total_eq`, `assert_receiver_is_total_eq`, `assert_receiver_is_total_eq`, `assert_receiver_is_total_eq`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `cmp`, `eq`, `eq`, `eq`, `eq`, `eq`, `eq`, `eq`, `eq`, `eq`, `eq`, `eq`, `eq`, `eq`, `eq`, `eq`, `eq`, `eq`, `eq`, `eq`, `eq`, `eq`, `eq`, `eq`, `eq`, `eq`, `eq`, `eq`, `eq`, `eq`, `eq`, `eq`, `eq`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `hash`, `hash`, `hash`, `hash`, `hash`, `partial_cmp`, `try_from`, `try_from`, `try_from`, `try_from`, `try_from`, `try_from`, `try_from`
+
+// Rust type: RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<ConfirmationStatus>>
+abstract class ConfirmationStatus implements RustOpaqueInterface {}
 
 // Rust type: RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<PaymentDetails>>
 abstract class PaymentDetails implements RustOpaqueInterface {
@@ -1416,6 +1418,36 @@ enum LogLevel {
   ;
 }
 
+/// Limits applying to how much fee we allow an LSP to deduct from the payment amount.
+class LSPFeeLimits {
+  /// The maximal total amount we allow any configured LSP withhold from us when forwarding the
+  /// payment.
+  final BigInt? maxTotalOpeningFeeMsat;
+
+  /// The maximal proportional fee, in parts-per-million millisatoshi, we allow any configured
+  /// LSP withhold from us when forwarding the payment.
+  final BigInt? maxProportionalOpeningFeePpmMsat;
+
+  const LSPFeeLimits({
+    this.maxTotalOpeningFeeMsat,
+    this.maxProportionalOpeningFeePpmMsat,
+  });
+
+  @override
+  int get hashCode =>
+      maxTotalOpeningFeeMsat.hashCode ^
+      maxProportionalOpeningFeePpmMsat.hashCode;
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is LSPFeeLimits &&
+          runtimeType == other.runtimeType &&
+          maxTotalOpeningFeeMsat == other.maxTotalOpeningFeeMsat &&
+          maxProportionalOpeningFeePpmMsat ==
+              other.maxProportionalOpeningFeePpmMsat;
+}
+
 @freezed
 sealed class MaxDustHTLCExposure with _$MaxDustHTLCExposure {
   const MaxDustHTLCExposure._();
@@ -1576,6 +1608,24 @@ class NodeStatus {
               other.latestChannelMonitorArchivalHeight;
 }
 
+class OfferId {
+  final U8Array32 field0;
+
+  const OfferId({
+    required this.field0,
+  });
+
+  @override
+  int get hashCode => field0.hashCode;
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is OfferId &&
+          runtimeType == other.runtimeType &&
+          field0 == other.field0;
+}
+
 ///A reference to a transaction output.
 ///
 class OutPoint {
@@ -1705,6 +1755,26 @@ class PaymentPreimage {
   bool operator ==(Object other) =>
       identical(this, other) ||
       other is PaymentPreimage &&
+          runtimeType == other.runtimeType &&
+          data == other.data;
+}
+
+/// payment_secret type, use to authenticate sender to the receiver and tie MPP HTLCs together
+///
+class PaymentSecret {
+  final U8Array32 data;
+
+  const PaymentSecret({
+    required this.data,
+  });
+
+  @override
+  int get hashCode => data.hashCode;
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is PaymentSecret &&
           runtimeType == other.runtimeType &&
           data == other.data;
 }

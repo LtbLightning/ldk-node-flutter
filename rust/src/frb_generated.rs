@@ -324,55 +324,46 @@ fn wire__crate__api__builder__FfiBuilder_set_entropy_seed_bytes_impl(
     )
 }
 fn wire__crate__api__builder__FfiBuilder_set_filesystem_logger_impl(
-    port_: flutter_rust_bridge::for_generated::MessagePort,
     that: impl CstDecode<FfiBuilder>,
     log_file_path: impl CstDecode<Option<String>>,
     max_log_level: impl CstDecode<Option<crate::api::types::LogLevel>>,
-) {
-    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
+) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync::<flutter_rust_bridge::for_generated::DcoCodec, _>(
         flutter_rust_bridge::for_generated::TaskInfo {
             debug_name: "FfiBuilder_set_filesystem_logger",
-            port: Some(port_),
-            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
+            port: None,
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Sync,
         },
         move || {
             let api_that = that.cst_decode();
             let api_log_file_path = log_file_path.cst_decode();
             let api_max_log_level = max_log_level.cst_decode();
-            move |context| {
-                transform_result_dco::<_, _, crate::utils::error::FfiBuilderError>((move || {
-                    let output_ok = crate::api::builder::FfiBuilder::set_filesystem_logger(
-                        api_that,
-                        api_log_file_path,
-                        api_max_log_level,
-                    )?;
-                    Ok(output_ok)
-                })(
-                ))
-            }
+            transform_result_dco::<_, _, crate::utils::error::FfiBuilderError>((move || {
+                let output_ok = crate::api::builder::FfiBuilder::set_filesystem_logger(
+                    api_that,
+                    api_log_file_path,
+                    api_max_log_level,
+                )?;
+                Ok(output_ok)
+            })())
         },
     )
 }
 fn wire__crate__api__builder__FfiBuilder_set_log_facade_logger_impl(
-    port_: flutter_rust_bridge::for_generated::MessagePort,
     that: impl CstDecode<FfiBuilder>,
-) {
-    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
+) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync::<flutter_rust_bridge::for_generated::DcoCodec, _>(
         flutter_rust_bridge::for_generated::TaskInfo {
             debug_name: "FfiBuilder_set_log_facade_logger",
-            port: Some(port_),
-            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
+            port: None,
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Sync,
         },
         move || {
             let api_that = that.cst_decode();
-            move |context| {
-                transform_result_dco::<_, _, crate::utils::error::FfiBuilderError>((move || {
-                    let output_ok =
-                        crate::api::builder::FfiBuilder::set_log_facade_logger(api_that)?;
-                    Ok(output_ok)
-                })(
-                ))
-            }
+            transform_result_dco::<_, _, crate::utils::error::FfiBuilderError>((move || {
+                let output_ok = crate::api::builder::FfiBuilder::set_log_facade_logger(api_that)?;
+                Ok(output_ok)
+            })())
         },
     )
 }
@@ -2926,6 +2917,16 @@ impl CstDecode<usize> for usize {
         self
     }
 }
+impl SseDecode for ConfirmationStatus {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        let mut inner = <RustOpaqueNom<
+            flutter_rust_bridge::for_generated::RustAutoOpaqueInner<ConfirmationStatus>,
+        >>::sse_decode(deserializer);
+        return flutter_rust_bridge::for_generated::rust_auto_opaque_decode_owned(inner);
+    }
+}
+
 impl SseDecode for FfiBuilder {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
@@ -2961,6 +2962,16 @@ impl SseDecode for std::collections::HashMap<String, String> {
     fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
         let mut inner = <Vec<(String, String)>>::sse_decode(deserializer);
         return inner.into_iter().collect();
+    }
+}
+
+impl SseDecode
+    for RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<ConfirmationStatus>>
+{
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        let mut inner = <usize>::sse_decode(deserializer);
+        return unsafe { decode_rust_opaque_nom(inner) };
     }
 }
 
@@ -4372,6 +4383,18 @@ impl SseDecode for crate::api::types::LogLevel {
     }
 }
 
+impl SseDecode for crate::api::types::LSPFeeLimits {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        let mut var_maxTotalOpeningFeeMsat = <Option<u64>>::sse_decode(deserializer);
+        let mut var_maxProportionalOpeningFeePpmMsat = <Option<u64>>::sse_decode(deserializer);
+        return crate::api::types::LSPFeeLimits {
+            max_total_opening_fee_msat: var_maxTotalOpeningFeeMsat,
+            max_proportional_opening_fee_ppm_msat: var_maxProportionalOpeningFeePpmMsat,
+        };
+    }
+}
+
 impl SseDecode for crate::api::types::MaxDustHTLCExposure {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
@@ -4505,6 +4528,14 @@ impl SseDecode for crate::api::bolt12::Offer {
     fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
         let mut var_s = <String>::sse_decode(deserializer);
         return crate::api::bolt12::Offer { s: var_s };
+    }
+}
+
+impl SseDecode for crate::api::types::OfferId {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        let mut var_field0 = <[u8; 32]>::sse_decode(deserializer);
+        return crate::api::types::OfferId(var_field0);
     }
 }
 
@@ -5002,6 +5033,14 @@ impl SseDecode for crate::api::types::PaymentPreimage {
     }
 }
 
+impl SseDecode for crate::api::types::PaymentSecret {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        let mut var_data = <[u8; 32]>::sse_decode(deserializer);
+        return crate::api::types::PaymentSecret { data: var_data };
+    }
+}
+
 impl SseDecode for crate::api::types::PaymentStatus {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
@@ -5352,6 +5391,24 @@ fn pde_ffi_dispatcher_sync_impl(
 }
 
 // Section: rust2dart
+
+// Codec=Dco (DartCObject based), see doc to use other codecs
+impl flutter_rust_bridge::IntoDart for FrbWrapper<ConfirmationStatus> {
+    fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
+        flutter_rust_bridge::for_generated::rust_auto_opaque_encode::<_, StdArc<_>>(self.0)
+            .into_dart()
+    }
+}
+impl flutter_rust_bridge::for_generated::IntoDartExceptPrimitive
+    for FrbWrapper<ConfirmationStatus>
+{
+}
+
+impl flutter_rust_bridge::IntoIntoDart<FrbWrapper<ConfirmationStatus>> for ConfirmationStatus {
+    fn into_into_dart(self) -> FrbWrapper<ConfirmationStatus> {
+        self.into()
+    }
+}
 
 // Codec=Dco (DartCObject based), see doc to use other codecs
 impl flutter_rust_bridge::IntoDart for FrbWrapper<FfiBuilder> {
@@ -6676,6 +6733,29 @@ impl flutter_rust_bridge::IntoIntoDart<crate::api::types::LogLevel>
     }
 }
 // Codec=Dco (DartCObject based), see doc to use other codecs
+impl flutter_rust_bridge::IntoDart for crate::api::types::LSPFeeLimits {
+    fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
+        [
+            self.max_total_opening_fee_msat.into_into_dart().into_dart(),
+            self.max_proportional_opening_fee_ppm_msat
+                .into_into_dart()
+                .into_dart(),
+        ]
+        .into_dart()
+    }
+}
+impl flutter_rust_bridge::for_generated::IntoDartExceptPrimitive
+    for crate::api::types::LSPFeeLimits
+{
+}
+impl flutter_rust_bridge::IntoIntoDart<crate::api::types::LSPFeeLimits>
+    for crate::api::types::LSPFeeLimits
+{
+    fn into_into_dart(self) -> crate::api::types::LSPFeeLimits {
+        self
+    }
+}
+// Codec=Dco (DartCObject based), see doc to use other codecs
 impl flutter_rust_bridge::IntoDart for crate::api::types::MaxDustHTLCExposure {
     fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
         match self {
@@ -6861,6 +6941,18 @@ impl flutter_rust_bridge::IntoIntoDart<crate::api::bolt12::Offer> for crate::api
     }
 }
 // Codec=Dco (DartCObject based), see doc to use other codecs
+impl flutter_rust_bridge::IntoDart for crate::api::types::OfferId {
+    fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
+        [self.0.into_into_dart().into_dart()].into_dart()
+    }
+}
+impl flutter_rust_bridge::for_generated::IntoDartExceptPrimitive for crate::api::types::OfferId {}
+impl flutter_rust_bridge::IntoIntoDart<crate::api::types::OfferId> for crate::api::types::OfferId {
+    fn into_into_dart(self) -> crate::api::types::OfferId {
+        self
+    }
+}
+// Codec=Dco (DartCObject based), see doc to use other codecs
 impl flutter_rust_bridge::IntoDart for crate::api::types::OutPoint {
     fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
         [
@@ -6973,6 +7065,23 @@ impl flutter_rust_bridge::IntoIntoDart<crate::api::types::PaymentPreimage>
     for crate::api::types::PaymentPreimage
 {
     fn into_into_dart(self) -> crate::api::types::PaymentPreimage {
+        self
+    }
+}
+// Codec=Dco (DartCObject based), see doc to use other codecs
+impl flutter_rust_bridge::IntoDart for crate::api::types::PaymentSecret {
+    fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
+        [self.data.into_into_dart().into_dart()].into_dart()
+    }
+}
+impl flutter_rust_bridge::for_generated::IntoDartExceptPrimitive
+    for crate::api::types::PaymentSecret
+{
+}
+impl flutter_rust_bridge::IntoIntoDart<crate::api::types::PaymentSecret>
+    for crate::api::types::PaymentSecret
+{
+    fn into_into_dart(self) -> crate::api::types::PaymentSecret {
         self
     }
 }
@@ -7267,6 +7376,13 @@ impl flutter_rust_bridge::IntoIntoDart<crate::api::types::UserChannelId>
     }
 }
 
+impl SseEncode for ConfirmationStatus {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        <RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<ConfirmationStatus>>>::sse_encode(flutter_rust_bridge::for_generated::rust_auto_opaque_encode::<_, StdArc<_>>(self), serializer);
+    }
+}
+
 impl SseEncode for FfiBuilder {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
@@ -7292,6 +7408,17 @@ impl SseEncode for std::collections::HashMap<String, String> {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
         <Vec<(String, String)>>::sse_encode(self.into_iter().collect(), serializer);
+    }
+}
+
+impl SseEncode
+    for RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<ConfirmationStatus>>
+{
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        let (ptr, size) = self.sse_encode_raw();
+        <usize>::sse_encode(ptr, serializer);
+        <i32>::sse_encode(size, serializer);
     }
 }
 
@@ -8549,6 +8676,14 @@ impl SseEncode for crate::api::types::LogLevel {
     }
 }
 
+impl SseEncode for crate::api::types::LSPFeeLimits {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        <Option<u64>>::sse_encode(self.max_total_opening_fee_msat, serializer);
+        <Option<u64>>::sse_encode(self.max_proportional_opening_fee_ppm_msat, serializer);
+    }
+}
+
 impl SseEncode for crate::api::types::MaxDustHTLCExposure {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
@@ -8660,6 +8795,13 @@ impl SseEncode for crate::api::bolt12::Offer {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
         <String>::sse_encode(self.s, serializer);
+    }
+}
+
+impl SseEncode for crate::api::types::OfferId {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        <[u8; 32]>::sse_encode(self.0, serializer);
     }
 }
 
@@ -9092,6 +9234,13 @@ impl SseEncode for crate::api::types::PaymentPreimage {
     }
 }
 
+impl SseEncode for crate::api::types::PaymentSecret {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        <[u8; 32]>::sse_encode(self.data, serializer);
+    }
+}
+
 impl SseEncode for crate::api::types::PaymentStatus {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
@@ -9431,6 +9580,18 @@ mod io {
 
     // Section: dart2rust
 
+    impl CstDecode<ConfirmationStatus> for usize {
+        // Codec=Cst (C-struct based), see doc to use other codecs
+        fn cst_decode(self) -> ConfirmationStatus {
+            flutter_rust_bridge::for_generated::rust_auto_opaque_decode_owned(CstDecode::<
+                RustOpaqueNom<
+                    flutter_rust_bridge::for_generated::RustAutoOpaqueInner<ConfirmationStatus>,
+                >,
+            >::cst_decode(
+                self
+            ))
+        }
+    }
     impl CstDecode<FfiBuilder> for usize {
         // Codec=Cst (C-struct based), see doc to use other codecs
         fn cst_decode(self) -> FfiBuilder {
@@ -9470,6 +9631,22 @@ mod io {
         fn cst_decode(self) -> std::collections::HashMap<String, String> {
             let vec: Vec<(String, String)> = self.cst_decode();
             vec.into_iter().collect()
+        }
+    }
+    impl
+        CstDecode<
+            RustOpaqueNom<
+                flutter_rust_bridge::for_generated::RustAutoOpaqueInner<ConfirmationStatus>,
+            >,
+        > for usize
+    {
+        // Codec=Cst (C-struct based), see doc to use other codecs
+        fn cst_decode(
+            self,
+        ) -> RustOpaqueNom<
+            flutter_rust_bridge::for_generated::RustAutoOpaqueInner<ConfirmationStatus>,
+        > {
+            unsafe { decode_rust_opaque_nom(self as _) }
         }
     }
     impl
@@ -10765,6 +10942,17 @@ mod io {
             vec.into_iter().map(CstDecode::cst_decode).collect()
         }
     }
+    impl CstDecode<crate::api::types::LSPFeeLimits> for wire_cst_lsp_fee_limits {
+        // Codec=Cst (C-struct based), see doc to use other codecs
+        fn cst_decode(self) -> crate::api::types::LSPFeeLimits {
+            crate::api::types::LSPFeeLimits {
+                max_total_opening_fee_msat: self.max_total_opening_fee_msat.cst_decode(),
+                max_proportional_opening_fee_ppm_msat: self
+                    .max_proportional_opening_fee_ppm_msat
+                    .cst_decode(),
+            }
+        }
+    }
     impl CstDecode<crate::api::types::MaxDustHTLCExposure> for wire_cst_max_dust_htlc_exposure {
         // Codec=Cst (C-struct based), see doc to use other codecs
         fn cst_decode(self) -> crate::api::types::MaxDustHTLCExposure {
@@ -10867,6 +11055,12 @@ mod io {
             }
         }
     }
+    impl CstDecode<crate::api::types::OfferId> for wire_cst_offer_id {
+        // Codec=Cst (C-struct based), see doc to use other codecs
+        fn cst_decode(self) -> crate::api::types::OfferId {
+            crate::api::types::OfferId(self.field0.cst_decode())
+        }
+    }
     impl CstDecode<crate::api::types::OutPoint> for wire_cst_out_point {
         // Codec=Cst (C-struct based), see doc to use other codecs
         fn cst_decode(self) -> crate::api::types::OutPoint {
@@ -10894,6 +11088,14 @@ mod io {
         // Codec=Cst (C-struct based), see doc to use other codecs
         fn cst_decode(self) -> crate::api::types::PaymentPreimage {
             crate::api::types::PaymentPreimage {
+                data: self.data.cst_decode(),
+            }
+        }
+    }
+    impl CstDecode<crate::api::types::PaymentSecret> for wire_cst_payment_secret {
+        // Codec=Cst (C-struct based), see doc to use other codecs
+        fn cst_decode(self) -> crate::api::types::PaymentSecret {
+            crate::api::types::PaymentSecret {
                 data: self.data.cst_decode(),
             }
         }
@@ -11628,6 +11830,19 @@ mod io {
             Self::new_with_null_ptr()
         }
     }
+    impl NewWithNullPtr for wire_cst_lsp_fee_limits {
+        fn new_with_null_ptr() -> Self {
+            Self {
+                max_total_opening_fee_msat: core::ptr::null_mut(),
+                max_proportional_opening_fee_ppm_msat: core::ptr::null_mut(),
+            }
+        }
+    }
+    impl Default for wire_cst_lsp_fee_limits {
+        fn default() -> Self {
+            Self::new_with_null_ptr()
+        }
+    }
     impl NewWithNullPtr for wire_cst_max_dust_htlc_exposure {
         fn new_with_null_ptr() -> Self {
             Self {
@@ -11737,6 +11952,18 @@ mod io {
             Self::new_with_null_ptr()
         }
     }
+    impl NewWithNullPtr for wire_cst_offer_id {
+        fn new_with_null_ptr() -> Self {
+            Self {
+                field0: core::ptr::null_mut(),
+            }
+        }
+    }
+    impl Default for wire_cst_offer_id {
+        fn default() -> Self {
+            Self::new_with_null_ptr()
+        }
+    }
     impl NewWithNullPtr for wire_cst_out_point {
         fn new_with_null_ptr() -> Self {
             Self {
@@ -11782,6 +12009,18 @@ mod io {
         }
     }
     impl Default for wire_cst_payment_preimage {
+        fn default() -> Self {
+            Self::new_with_null_ptr()
+        }
+    }
+    impl NewWithNullPtr for wire_cst_payment_secret {
+        fn new_with_null_ptr() -> Self {
+            Self {
+                data: core::ptr::null_mut(),
+            }
+        }
+    }
+    impl Default for wire_cst_payment_secret {
         fn default() -> Self {
             Self::new_with_null_ptr()
         }
@@ -12037,13 +12276,11 @@ mod io {
 
     #[unsafe(no_mangle)]
     pub extern "C" fn frbgen_ldk_node_wire__crate__api__builder__FfiBuilder_set_filesystem_logger(
-        port_: i64,
         that: usize,
         log_file_path: *mut wire_cst_list_prim_u_8_strict,
         max_log_level: *mut i32,
-    ) {
+    ) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
         wire__crate__api__builder__FfiBuilder_set_filesystem_logger_impl(
-            port_,
             that,
             log_file_path,
             max_log_level,
@@ -12052,10 +12289,9 @@ mod io {
 
     #[unsafe(no_mangle)]
     pub extern "C" fn frbgen_ldk_node_wire__crate__api__builder__FfiBuilder_set_log_facade_logger(
-        port_: i64,
         that: usize,
-    ) {
-        wire__crate__api__builder__FfiBuilder_set_log_facade_logger_impl(port_, that)
+    ) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
+        wire__crate__api__builder__FfiBuilder_set_log_facade_logger_impl(that)
     }
 
     #[unsafe(no_mangle)]
@@ -12985,6 +13221,24 @@ mod io {
         uri_str: *mut wire_cst_list_prim_u_8_strict,
     ) {
         wire__crate__api__unified_qr__ffi_unified_qr_payment_send_impl(port_, that, uri_str)
+    }
+
+    #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_ldk_node_rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerConfirmationStatus(
+        ptr: *const std::ffi::c_void,
+    ) {
+        unsafe {
+            StdArc::<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<ConfirmationStatus>>::increment_strong_count(ptr as _);
+        }
+    }
+
+    #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_ldk_node_rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerConfirmationStatus(
+        ptr: *const std::ffi::c_void,
+    ) {
+        unsafe {
+            StdArc::<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<ConfirmationStatus>>::decrement_strong_count(ptr as _);
+        }
     }
 
     #[unsafe(no_mangle)]
@@ -14353,6 +14607,12 @@ mod io {
     }
     #[repr(C)]
     #[derive(Clone, Copy)]
+    pub struct wire_cst_lsp_fee_limits {
+        max_total_opening_fee_msat: *mut u64,
+        max_proportional_opening_fee_ppm_msat: *mut u64,
+    }
+    #[repr(C)]
+    #[derive(Clone, Copy)]
     pub struct wire_cst_max_dust_htlc_exposure {
         tag: i32,
         kind: MaxDustHTLCExposureKind,
@@ -14434,6 +14694,11 @@ mod io {
     }
     #[repr(C)]
     #[derive(Clone, Copy)]
+    pub struct wire_cst_offer_id {
+        field0: *mut wire_cst_list_prim_u_8_strict,
+    }
+    #[repr(C)]
+    #[derive(Clone, Copy)]
     pub struct wire_cst_out_point {
         txid: wire_cst_txid,
         vout: u32,
@@ -14451,6 +14716,11 @@ mod io {
     #[repr(C)]
     #[derive(Clone, Copy)]
     pub struct wire_cst_payment_preimage {
+        data: *mut wire_cst_list_prim_u_8_strict,
+    }
+    #[repr(C)]
+    #[derive(Clone, Copy)]
+    pub struct wire_cst_payment_secret {
         data: *mut wire_cst_list_prim_u_8_strict,
     }
     #[repr(C)]

@@ -736,6 +736,11 @@ typedef struct wire_cst_ffi_node_error {
   union FfiNodeErrorKind kind;
 } wire_cst_ffi_node_error;
 
+typedef struct wire_cst_lsp_fee_limits {
+  uint64_t *max_total_opening_fee_msat;
+  uint64_t *max_proportional_opening_fee_ppm_msat;
+} wire_cst_lsp_fee_limits;
+
 typedef struct wire_cst_node_status {
   bool is_running;
   bool is_listening;
@@ -747,6 +752,14 @@ typedef struct wire_cst_node_status {
   uint64_t *latest_node_announcement_broadcast_timestamp;
   uint32_t *latest_channel_monitor_archival_height;
 } wire_cst_node_status;
+
+typedef struct wire_cst_offer_id {
+  struct wire_cst_list_prim_u_8_strict *field0;
+} wire_cst_offer_id;
+
+typedef struct wire_cst_payment_secret {
+  struct wire_cst_list_prim_u_8_strict *data;
+} wire_cst_payment_secret;
 
 typedef struct wire_cst_QrPaymentResult_Onchain {
   struct wire_cst_txid *txid;
@@ -809,13 +822,11 @@ WireSyncRust2DartDco frbgen_ldk_node_wire__crate__api__builder__FfiBuilder_creat
 WireSyncRust2DartDco frbgen_ldk_node_wire__crate__api__builder__FfiBuilder_set_entropy_seed_bytes(uintptr_t that,
                                                                                                   struct wire_cst_list_prim_u_8_loose *seed_bytes);
 
-void frbgen_ldk_node_wire__crate__api__builder__FfiBuilder_set_filesystem_logger(int64_t port_,
-                                                                                 uintptr_t that,
-                                                                                 struct wire_cst_list_prim_u_8_strict *log_file_path,
-                                                                                 int32_t *max_log_level);
+WireSyncRust2DartDco frbgen_ldk_node_wire__crate__api__builder__FfiBuilder_set_filesystem_logger(uintptr_t that,
+                                                                                                 struct wire_cst_list_prim_u_8_strict *log_file_path,
+                                                                                                 int32_t *max_log_level);
 
-void frbgen_ldk_node_wire__crate__api__builder__FfiBuilder_set_log_facade_logger(int64_t port_,
-                                                                                 uintptr_t that);
+WireSyncRust2DartDco frbgen_ldk_node_wire__crate__api__builder__FfiBuilder_set_log_facade_logger(uintptr_t that);
 
 WireSyncRust2DartDco frbgen_ldk_node_wire__crate__api__types__PaymentDetails_auto_accessor_get_amount_msat(uintptr_t that);
 
@@ -1158,6 +1169,10 @@ void frbgen_ldk_node_wire__crate__api__unified_qr__ffi_unified_qr_payment_send(i
                                                                                struct wire_cst_ffi_unified_qr_payment *that,
                                                                                struct wire_cst_list_prim_u_8_strict *uri_str);
 
+void frbgen_ldk_node_rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerConfirmationStatus(const void *ptr);
+
+void frbgen_ldk_node_rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerConfirmationStatus(const void *ptr);
+
 void frbgen_ldk_node_rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerFfiBuilder(const void *ptr);
 
 void frbgen_ldk_node_rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerFfiBuilder(const void *ptr);
@@ -1401,6 +1416,7 @@ static int64_t dummy_method_to_enforce_bundling(void) {
     dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_cst_new_list_public_key);
     dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_cst_new_list_record_string_string);
     dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_cst_new_list_socket_address);
+    dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerConfirmationStatus);
     dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerFfiBuilder);
     dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPaymentDetails);
     dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPaymentKind);
@@ -1412,6 +1428,7 @@ static int64_t dummy_method_to_enforce_bundling(void) {
     dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_rust_arc_decrement_strong_count_RustOpaque_ldk_nodepaymentOnchainPayment);
     dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_rust_arc_decrement_strong_count_RustOpaque_ldk_nodepaymentSpontaneousPayment);
     dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_rust_arc_decrement_strong_count_RustOpaque_ldk_nodepaymentUnifiedQrPayment);
+    dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerConfirmationStatus);
     dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerFfiBuilder);
     dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPaymentDetails);
     dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPaymentKind);

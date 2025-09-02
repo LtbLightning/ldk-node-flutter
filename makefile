@@ -16,15 +16,11 @@ init:
 	cargo install flutter_rust_bridge_codegen --version 2.11.1 --locked
 
 ## fmt: Format Rust code.
-## codegen: Generate Flutter Rust Bridge code with proper environment.
-## example: Run the example app with optional flags (e.g., make example -d chrome).
-## android-debug: Build Android debug APK with clean environment.
-## android-release: Build Android release APK with clean environment.
-## :
-
-all: init fmt codegen 
 fmt:
 	cd rust &&  cargo fmt --all
+
+## all: Initialize, format, and generate code.
+all: init fmt codegen 
 
 ## codegen: Generate Flutter Rust Bridge code with proper environment
 codegen:
@@ -33,6 +29,14 @@ codegen:
 		echo "Setting up environment for Linux..."; \
 		export CPATH="$$(clang -v 2>&1 | grep "Selected GCC installation" | rev | cut -d' ' -f1 | rev)/include" && \
 		echo "CPATH set to: $$CPATH" && \
+		flutter_rust_bridge_codegen generate; \
+	elif [ "$$(uname)" = "Darwin" ]; then \
+		echo "Setting up environment for macOS..."; \
+		export CPATH="$$(xcrun --show-sdk-path)/usr/include"; \
+		export LIBRARY_PATH="$$(xcrun --show-sdk-path)/usr/lib"; \
+		export LDFLAGS="-L/opt/homebrew/opt/llvm/lib"; \
+		export CPPFLAGS="-I/opt/homebrew/opt/llvm/include"; \
+		echo "SDK path: $$(xcrun --show-sdk-path)"; \
 		flutter_rust_bridge_codegen generate; \
 	else \
 		echo "Running on $$(uname)..."; \
