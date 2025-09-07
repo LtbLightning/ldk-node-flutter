@@ -31,4 +31,3 @@ build/
 rust/target/
 rust/wallets/
 rust/ldk.0.2.1/
-reference/
