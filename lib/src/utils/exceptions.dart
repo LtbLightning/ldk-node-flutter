@@ -58,6 +58,17 @@ BuilderException mapFfiBuilderError(error.FfiBuilderError e) {
       return BuilderException(message: "Invalid NodeAlias.");
     case error.FfiBuilderError.invalidPublicKey:
       return BuilderException(message: "Invalid PublicKey.");
+    case error.FfiBuilderError.invalidAnnouncementAddresses:
+      return BuilderException(
+          message: "Invalid AnnouncementAddresses. e.g. too many were passed.");
+    case error.FfiBuilderError.networkMismatch:
+      return BuilderException(
+          message:
+              "The given network does not match the node's previously configured network.");
+    case error.FfiBuilderError.opaqueNotFound:
+      return BuilderException(
+          message:
+              "The given opaque data could not be found. This might be due to a previous operation failing.");
   }
 }
 
@@ -124,9 +135,14 @@ NodeException mapFfiNodeError(error.FfiNodeError e) {
           NodeException(message: "Failed to update fee rate estimation."),
       liquidityRequestFailed: (_) =>
           NodeException(message: "Liquidity request operation failed."),
-      liquiditySourceUnavailable: (_) => NodeException(message: "Liquidity operation failed due to the required liquidity source being unavailable."),
-      liquidityFeeTooHigh: (_) => NodeException(message: "Liquidity operation failed due to the LSP's required opening fee being too high."),
-      invalidTxid: (_) => NodeException(message: "The given transaction id is Invalid."),
+      liquiditySourceUnavailable: (_) => NodeException(
+          message:
+              "Liquidity operation failed due to the required liquidity source being unavailable."),
+      liquidityFeeTooHigh: (_) => NodeException(
+          message:
+              "Liquidity operation failed due to the LSP's required opening fee being too high."),
+      invalidTxid: (_) =>
+          NodeException(message: "The given transaction id is Invalid."),
       invalidPaymentId: (_) => NodeException(message: "The given paymentId is invalid."),
       decode: (e) => mapLdkDecodeError(e.field0),
       bolt12Parse: (e) => NodeException(message: e.toString()),
@@ -145,7 +161,39 @@ NodeException mapFfiNodeError(error.FfiNodeError e) {
       uriParameterParsingFailed: (e) => NodeException(message: "Parsing a URI parameter has failed."),
       invalidUri: (e) => NodeException(message: "The given URI is invalid."),
       invalidQuantity: (e) => NodeException(message: "The given quantity is invalid."),
-      invalidNodeAlias: (e) => NodeException(message: "The given node alias is invalid."));
+      invalidNodeAlias: (e) => NodeException(message: "The given node alias is invalid."),
+      invalidCustomTlvs: (e) {
+        return NodeException(
+            message: "Sending of spontaneous payment with custom TLVs failed.");
+      },
+      invalidDateTime: (e) {
+        return NodeException(message: "The given date time is invalid.");
+      },
+      invalidFeeRate: (e) {
+        return NodeException(message: "The given fee rate is invalid.");
+      },
+      creationError: (e) {
+        return mapFfiCreationError(e.field0);
+      });
+}
+
+NodeException mapFfiCreationError(error.FfiCreationError e) {
+  switch (e) {
+    case error.FfiCreationError.descriptionTooLong:
+      return NodeException(
+          message: "Description is too long. It must be less than 640 bytes.");
+    case error.FfiCreationError.routeTooLong:
+      return NodeException(message: "Route is too long.");
+    case error.FfiCreationError.timestampOutOfBounds:
+      return NodeException(message: "Timestamp is out of bounds.");
+    case error.FfiCreationError.invalidAmount:
+      return NodeException(message: "Amount is invalid.");
+    case error.FfiCreationError.missingRouteHints:
+      return NodeException(message: "Route hints are missing.");
+    case error.FfiCreationError.minFinalCltvExpiryDeltaTooShort:
+      return NodeException(
+          message: "Minimum final CLTV expiry delta is too short.");
+  }
 }
 
 NodeException mapLdkDecodeError(error.DecodeError e) {
