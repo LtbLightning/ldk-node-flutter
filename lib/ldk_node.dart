@@ -27,6 +27,7 @@ export 'src/generated/api/types.dart'
         ConfirmationStatus,
         EntropySourceConfig,
         EsploraSyncConfig,
+        FeeRate,
         GossipSourceConfig,
         LiquiditySourceConfig,
         LSPFeeLimits,
