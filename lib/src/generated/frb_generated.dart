@@ -77,7 +77,7 @@ class core extends BaseEntrypoint<coreApi, coreApiImpl, coreWire> {
   String get codegenVersion => '2.11.1';
 
   @override
-  int get rustContentHash => -2010085546;
+  int get rustContentHash => -409041388;
 
   static const kDefaultExternalLibraryLoaderConfig =
       ExternalLibraryLoaderConfig(
@@ -127,42 +127,6 @@ abstract class coreApi extends BaseApi {
 
   FfiBuilder crateApiBuilderFfiBuilderSetLogFacadeLogger(
       {required FfiBuilder that});
-
-  BigInt? crateApiTypesPaymentDetailsAutoAccessorGetAmountMsat(
-      {required PaymentDetails that});
-
-  PaymentDirection crateApiTypesPaymentDetailsAutoAccessorGetDirection(
-      {required PaymentDetails that});
-
-  PaymentId crateApiTypesPaymentDetailsAutoAccessorGetId(
-      {required PaymentDetails that});
-
-  PaymentKind crateApiTypesPaymentDetailsAutoAccessorGetKind(
-      {required PaymentDetails that});
-
-  BigInt crateApiTypesPaymentDetailsAutoAccessorGetLatestUpdateTimestamp(
-      {required PaymentDetails that});
-
-  PaymentStatus crateApiTypesPaymentDetailsAutoAccessorGetStatus(
-      {required PaymentDetails that});
-
-  void crateApiTypesPaymentDetailsAutoAccessorSetAmountMsat(
-      {required PaymentDetails that, BigInt? amountMsat});
-
-  void crateApiTypesPaymentDetailsAutoAccessorSetDirection(
-      {required PaymentDetails that, required PaymentDirection direction});
-
-  void crateApiTypesPaymentDetailsAutoAccessorSetId(
-      {required PaymentDetails that, required PaymentId id});
-
-  void crateApiTypesPaymentDetailsAutoAccessorSetKind(
-      {required PaymentDetails that, required PaymentKind kind});
-
-  void crateApiTypesPaymentDetailsAutoAccessorSetLatestUpdateTimestamp(
-      {required PaymentDetails that, required BigInt latestUpdateTimestamp});
-
-  void crateApiTypesPaymentDetailsAutoAccessorSetStatus(
-      {required PaymentDetails that, required PaymentStatus status});
 
   Future<AnchorChannelsConfig> crateApiTypesAnchorChannelsConfigDefault();
 
@@ -457,15 +421,6 @@ abstract class coreApi extends BaseApi {
       get rust_arc_decrement_strong_count_FfiBuilder;
 
   CrossPlatformFinalizerArg get rust_arc_decrement_strong_count_FfiBuilderPtr;
-
-  RustArcIncrementStrongCountFnType
-      get rust_arc_increment_strong_count_PaymentDetails;
-
-  RustArcDecrementStrongCountFnType
-      get rust_arc_decrement_strong_count_PaymentDetails;
-
-  CrossPlatformFinalizerArg
-      get rust_arc_decrement_strong_count_PaymentDetailsPtr;
 
   RustArcIncrementStrongCountFnType
       get rust_arc_increment_strong_count_PaymentKind;
@@ -872,362 +827,6 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
         debugName: "FfiBuilder_set_log_facade_logger",
         argNames: ["that"],
       );
-
-  @override
-  BigInt? crateApiTypesPaymentDetailsAutoAccessorGetAmountMsat(
-      {required PaymentDetails that}) {
-    return handler.executeSync(SyncTask(
-      callFfi: () {
-        var arg0 =
-            cst_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPaymentDetails(
-                that);
-        return wire
-            .wire__crate__api__types__PaymentDetails_auto_accessor_get_amount_msat(
-                arg0);
-      },
-      codec: DcoCodec(
-        decodeSuccessData: dco_decode_opt_box_autoadd_u_64,
-        decodeErrorData: null,
-      ),
-      constMeta: kCrateApiTypesPaymentDetailsAutoAccessorGetAmountMsatConstMeta,
-      argValues: [that],
-      apiImpl: this,
-    ));
-  }
-
-  TaskConstMeta
-      get kCrateApiTypesPaymentDetailsAutoAccessorGetAmountMsatConstMeta =>
-          const TaskConstMeta(
-            debugName: "PaymentDetails_auto_accessor_get_amount_msat",
-            argNames: ["that"],
-          );
-
-  @override
-  PaymentDirection crateApiTypesPaymentDetailsAutoAccessorGetDirection(
-      {required PaymentDetails that}) {
-    return handler.executeSync(SyncTask(
-      callFfi: () {
-        var arg0 =
-            cst_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPaymentDetails(
-                that);
-        return wire
-            .wire__crate__api__types__PaymentDetails_auto_accessor_get_direction(
-                arg0);
-      },
-      codec: DcoCodec(
-        decodeSuccessData: dco_decode_payment_direction,
-        decodeErrorData: null,
-      ),
-      constMeta: kCrateApiTypesPaymentDetailsAutoAccessorGetDirectionConstMeta,
-      argValues: [that],
-      apiImpl: this,
-    ));
-  }
-
-  TaskConstMeta
-      get kCrateApiTypesPaymentDetailsAutoAccessorGetDirectionConstMeta =>
-          const TaskConstMeta(
-            debugName: "PaymentDetails_auto_accessor_get_direction",
-            argNames: ["that"],
-          );
-
-  @override
-  PaymentId crateApiTypesPaymentDetailsAutoAccessorGetId(
-      {required PaymentDetails that}) {
-    return handler.executeSync(SyncTask(
-      callFfi: () {
-        var arg0 =
-            cst_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPaymentDetails(
-                that);
-        return wire
-            .wire__crate__api__types__PaymentDetails_auto_accessor_get_id(arg0);
-      },
-      codec: DcoCodec(
-        decodeSuccessData: dco_decode_payment_id,
-        decodeErrorData: null,
-      ),
-      constMeta: kCrateApiTypesPaymentDetailsAutoAccessorGetIdConstMeta,
-      argValues: [that],
-      apiImpl: this,
-    ));
-  }
-
-  TaskConstMeta get kCrateApiTypesPaymentDetailsAutoAccessorGetIdConstMeta =>
-      const TaskConstMeta(
-        debugName: "PaymentDetails_auto_accessor_get_id",
-        argNames: ["that"],
-      );
-
-  @override
-  PaymentKind crateApiTypesPaymentDetailsAutoAccessorGetKind(
-      {required PaymentDetails that}) {
-    return handler.executeSync(SyncTask(
-      callFfi: () {
-        var arg0 =
-            cst_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPaymentDetails(
-                that);
-        return wire
-            .wire__crate__api__types__PaymentDetails_auto_accessor_get_kind(
-                arg0);
-      },
-      codec: DcoCodec(
-        decodeSuccessData:
-            dco_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPaymentKind,
-        decodeErrorData: null,
-      ),
-      constMeta: kCrateApiTypesPaymentDetailsAutoAccessorGetKindConstMeta,
-      argValues: [that],
-      apiImpl: this,
-    ));
-  }
-
-  TaskConstMeta get kCrateApiTypesPaymentDetailsAutoAccessorGetKindConstMeta =>
-      const TaskConstMeta(
-        debugName: "PaymentDetails_auto_accessor_get_kind",
-        argNames: ["that"],
-      );
-
-  @override
-  BigInt crateApiTypesPaymentDetailsAutoAccessorGetLatestUpdateTimestamp(
-      {required PaymentDetails that}) {
-    return handler.executeSync(SyncTask(
-      callFfi: () {
-        var arg0 =
-            cst_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPaymentDetails(
-                that);
-        return wire
-            .wire__crate__api__types__PaymentDetails_auto_accessor_get_latest_update_timestamp(
-                arg0);
-      },
-      codec: DcoCodec(
-        decodeSuccessData: dco_decode_u_64,
-        decodeErrorData: null,
-      ),
-      constMeta:
-          kCrateApiTypesPaymentDetailsAutoAccessorGetLatestUpdateTimestampConstMeta,
-      argValues: [that],
-      apiImpl: this,
-    ));
-  }
-
-  TaskConstMeta
-      get kCrateApiTypesPaymentDetailsAutoAccessorGetLatestUpdateTimestampConstMeta =>
-          const TaskConstMeta(
-            debugName:
-                "PaymentDetails_auto_accessor_get_latest_update_timestamp",
-            argNames: ["that"],
-          );
-
-  @override
-  PaymentStatus crateApiTypesPaymentDetailsAutoAccessorGetStatus(
-      {required PaymentDetails that}) {
-    return handler.executeSync(SyncTask(
-      callFfi: () {
-        var arg0 =
-            cst_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPaymentDetails(
-                that);
-        return wire
-            .wire__crate__api__types__PaymentDetails_auto_accessor_get_status(
-                arg0);
-      },
-      codec: DcoCodec(
-        decodeSuccessData: dco_decode_payment_status,
-        decodeErrorData: null,
-      ),
-      constMeta: kCrateApiTypesPaymentDetailsAutoAccessorGetStatusConstMeta,
-      argValues: [that],
-      apiImpl: this,
-    ));
-  }
-
-  TaskConstMeta
-      get kCrateApiTypesPaymentDetailsAutoAccessorGetStatusConstMeta =>
-          const TaskConstMeta(
-            debugName: "PaymentDetails_auto_accessor_get_status",
-            argNames: ["that"],
-          );
-
-  @override
-  void crateApiTypesPaymentDetailsAutoAccessorSetAmountMsat(
-      {required PaymentDetails that, BigInt? amountMsat}) {
-    return handler.executeSync(SyncTask(
-      callFfi: () {
-        var arg0 =
-            cst_encode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPaymentDetails(
-                that);
-        var arg1 = cst_encode_opt_box_autoadd_u_64(amountMsat);
-        return wire
-            .wire__crate__api__types__PaymentDetails_auto_accessor_set_amount_msat(
-                arg0, arg1);
-      },
-      codec: DcoCodec(
-        decodeSuccessData: dco_decode_unit,
-        decodeErrorData: null,
-      ),
-      constMeta: kCrateApiTypesPaymentDetailsAutoAccessorSetAmountMsatConstMeta,
-      argValues: [that, amountMsat],
-      apiImpl: this,
-    ));
-  }
-
-  TaskConstMeta
-      get kCrateApiTypesPaymentDetailsAutoAccessorSetAmountMsatConstMeta =>
-          const TaskConstMeta(
-            debugName: "PaymentDetails_auto_accessor_set_amount_msat",
-            argNames: ["that", "amountMsat"],
-          );
-
-  @override
-  void crateApiTypesPaymentDetailsAutoAccessorSetDirection(
-      {required PaymentDetails that, required PaymentDirection direction}) {
-    return handler.executeSync(SyncTask(
-      callFfi: () {
-        var arg0 =
-            cst_encode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPaymentDetails(
-                that);
-        var arg1 = cst_encode_payment_direction(direction);
-        return wire
-            .wire__crate__api__types__PaymentDetails_auto_accessor_set_direction(
-                arg0, arg1);
-      },
-      codec: DcoCodec(
-        decodeSuccessData: dco_decode_unit,
-        decodeErrorData: null,
-      ),
-      constMeta: kCrateApiTypesPaymentDetailsAutoAccessorSetDirectionConstMeta,
-      argValues: [that, direction],
-      apiImpl: this,
-    ));
-  }
-
-  TaskConstMeta
-      get kCrateApiTypesPaymentDetailsAutoAccessorSetDirectionConstMeta =>
-          const TaskConstMeta(
-            debugName: "PaymentDetails_auto_accessor_set_direction",
-            argNames: ["that", "direction"],
-          );
-
-  @override
-  void crateApiTypesPaymentDetailsAutoAccessorSetId(
-      {required PaymentDetails that, required PaymentId id}) {
-    return handler.executeSync(SyncTask(
-      callFfi: () {
-        var arg0 =
-            cst_encode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPaymentDetails(
-                that);
-        var arg1 = cst_encode_payment_id(id);
-        return wire
-            .wire__crate__api__types__PaymentDetails_auto_accessor_set_id(
-                arg0, arg1);
-      },
-      codec: DcoCodec(
-        decodeSuccessData: dco_decode_unit,
-        decodeErrorData: null,
-      ),
-      constMeta: kCrateApiTypesPaymentDetailsAutoAccessorSetIdConstMeta,
-      argValues: [that, id],
-      apiImpl: this,
-    ));
-  }
-
-  TaskConstMeta get kCrateApiTypesPaymentDetailsAutoAccessorSetIdConstMeta =>
-      const TaskConstMeta(
-        debugName: "PaymentDetails_auto_accessor_set_id",
-        argNames: ["that", "id"],
-      );
-
-  @override
-  void crateApiTypesPaymentDetailsAutoAccessorSetKind(
-      {required PaymentDetails that, required PaymentKind kind}) {
-    return handler.executeSync(SyncTask(
-      callFfi: () {
-        var arg0 =
-            cst_encode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPaymentDetails(
-                that);
-        var arg1 =
-            cst_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPaymentKind(
-                kind);
-        return wire
-            .wire__crate__api__types__PaymentDetails_auto_accessor_set_kind(
-                arg0, arg1);
-      },
-      codec: DcoCodec(
-        decodeSuccessData: dco_decode_unit,
-        decodeErrorData: null,
-      ),
-      constMeta: kCrateApiTypesPaymentDetailsAutoAccessorSetKindConstMeta,
-      argValues: [that, kind],
-      apiImpl: this,
-    ));
-  }
-
-  TaskConstMeta get kCrateApiTypesPaymentDetailsAutoAccessorSetKindConstMeta =>
-      const TaskConstMeta(
-        debugName: "PaymentDetails_auto_accessor_set_kind",
-        argNames: ["that", "kind"],
-      );
-
-  @override
-  void crateApiTypesPaymentDetailsAutoAccessorSetLatestUpdateTimestamp(
-      {required PaymentDetails that, required BigInt latestUpdateTimestamp}) {
-    return handler.executeSync(SyncTask(
-      callFfi: () {
-        var arg0 =
-            cst_encode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPaymentDetails(
-                that);
-        var arg1 = cst_encode_u_64(latestUpdateTimestamp);
-        return wire
-            .wire__crate__api__types__PaymentDetails_auto_accessor_set_latest_update_timestamp(
-                arg0, arg1);
-      },
-      codec: DcoCodec(
-        decodeSuccessData: dco_decode_unit,
-        decodeErrorData: null,
-      ),
-      constMeta:
-          kCrateApiTypesPaymentDetailsAutoAccessorSetLatestUpdateTimestampConstMeta,
-      argValues: [that, latestUpdateTimestamp],
-      apiImpl: this,
-    ));
-  }
-
-  TaskConstMeta
-      get kCrateApiTypesPaymentDetailsAutoAccessorSetLatestUpdateTimestampConstMeta =>
-          const TaskConstMeta(
-            debugName:
-                "PaymentDetails_auto_accessor_set_latest_update_timestamp",
-            argNames: ["that", "latestUpdateTimestamp"],
-          );
-
-  @override
-  void crateApiTypesPaymentDetailsAutoAccessorSetStatus(
-      {required PaymentDetails that, required PaymentStatus status}) {
-    return handler.executeSync(SyncTask(
-      callFfi: () {
-        var arg0 =
-            cst_encode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPaymentDetails(
-                that);
-        var arg1 = cst_encode_payment_status(status);
-        return wire
-            .wire__crate__api__types__PaymentDetails_auto_accessor_set_status(
-                arg0, arg1);
-      },
-      codec: DcoCodec(
-        decodeSuccessData: dco_decode_unit,
-        decodeErrorData: null,
-      ),
-      constMeta: kCrateApiTypesPaymentDetailsAutoAccessorSetStatusConstMeta,
-      argValues: [that, status],
-      apiImpl: this,
-    ));
-  }
-
-  TaskConstMeta
-      get kCrateApiTypesPaymentDetailsAutoAccessorSetStatusConstMeta =>
-          const TaskConstMeta(
-            debugName: "PaymentDetails_auto_accessor_set_status",
-            argNames: ["that", "status"],
-          );
 
   @override
   Future<AnchorChannelsConfig> crateApiTypesAnchorChannelsConfigDefault() {
@@ -2294,8 +1893,7 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
         return wire.wire__crate__api__node__ffi_node_list_payments(port_, arg0);
       },
       codec: DcoCodec(
-        decodeSuccessData:
-            dco_decode_list_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPaymentDetails,
+        decodeSuccessData: dco_decode_list_payment_details,
         decodeErrorData: null,
       ),
       constMeta: kCrateApiNodeFfiNodeListPaymentsConstMeta,
@@ -2321,8 +1919,7 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
             port_, arg0, arg1);
       },
       codec: DcoCodec(
-        decodeSuccessData:
-            dco_decode_list_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPaymentDetails,
+        decodeSuccessData: dco_decode_list_payment_details,
         decodeErrorData: null,
       ),
       constMeta: kCrateApiNodeFfiNodeListPaymentsWithFilterConstMeta,
@@ -2612,8 +2209,7 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
         return wire.wire__crate__api__node__ffi_node_payment(port_, arg0, arg1);
       },
       codec: DcoCodec(
-        decodeSuccessData:
-            dco_decode_opt_box_autoadd_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPaymentDetails,
+        decodeSuccessData: dco_decode_opt_box_autoadd_payment_details,
         decodeErrorData: null,
       ),
       constMeta: kCrateApiNodeFfiNodePaymentConstMeta,
@@ -3181,14 +2777,6 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
           .rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerFfiBuilder;
 
   RustArcIncrementStrongCountFnType
-      get rust_arc_increment_strong_count_PaymentDetails => wire
-          .rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPaymentDetails;
-
-  RustArcDecrementStrongCountFnType
-      get rust_arc_decrement_strong_count_PaymentDetails => wire
-          .rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPaymentDetails;
-
-  RustArcIncrementStrongCountFnType
       get rust_arc_increment_strong_count_PaymentKind => wire
           .rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPaymentKind;
 
@@ -3275,14 +2863,6 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
   }
 
   @protected
-  PaymentDetails
-      dco_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPaymentDetails(
-          dynamic raw) {
-    // Codec=Dco (DartCObject based), see doc to use other codecs
-    return PaymentDetailsImpl.frbInternalDcoDecode(raw as List<dynamic>);
-  }
-
-  @protected
   PaymentKind
       dco_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPaymentKind(
           dynamic raw) {
@@ -3299,27 +2879,11 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
   }
 
   @protected
-  PaymentDetails
-      dco_decode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPaymentDetails(
-          dynamic raw) {
-    // Codec=Dco (DartCObject based), see doc to use other codecs
-    return PaymentDetailsImpl.frbInternalDcoDecode(raw as List<dynamic>);
-  }
-
-  @protected
   FfiBuilder
       dco_decode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerFfiBuilder(
           dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     return FfiBuilderImpl.frbInternalDcoDecode(raw as List<dynamic>);
-  }
-
-  @protected
-  PaymentDetails
-      dco_decode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPaymentDetails(
-          dynamic raw) {
-    // Codec=Dco (DartCObject based), see doc to use other codecs
-    return PaymentDetailsImpl.frbInternalDcoDecode(raw as List<dynamic>);
   }
 
   @protected
@@ -3343,14 +2907,6 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
           dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     return FfiBuilderImpl.frbInternalDcoDecode(raw as List<dynamic>);
-  }
-
-  @protected
-  PaymentDetails
-      dco_decode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPaymentDetails(
-          dynamic raw) {
-    // Codec=Dco (DartCObject based), see doc to use other codecs
-    return PaymentDetailsImpl.frbInternalDcoDecode(raw as List<dynamic>);
   }
 
   @protected
@@ -3551,15 +3107,6 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
   bool dco_decode_bool(dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     return raw as bool;
-  }
-
-  @protected
-  PaymentDetails
-      dco_decode_box_autoadd_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPaymentDetails(
-          dynamic raw) {
-    // Codec=Dco (DartCObject based), see doc to use other codecs
-    return dco_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPaymentDetails(
-        raw);
   }
 
   @protected
@@ -3791,6 +3338,12 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
   OutPoint dco_decode_box_autoadd_out_point(dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     return dco_decode_out_point(raw);
+  }
+
+  @protected
+  PaymentDetails dco_decode_box_autoadd_payment_details(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return dco_decode_payment_details(raw);
   }
 
   @protected
@@ -4563,17 +4116,6 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
   }
 
   @protected
-  List<PaymentDetails>
-      dco_decode_list_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPaymentDetails(
-          dynamic raw) {
-    // Codec=Dco (DartCObject based), see doc to use other codecs
-    return (raw as List<dynamic>)
-        .map(
-            dco_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPaymentDetails)
-        .toList();
-  }
-
-  @protected
   List<ChannelDetails> dco_decode_list_channel_details(dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     return (raw as List<dynamic>).map(dco_decode_channel_details).toList();
@@ -4595,6 +4137,12 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
   List<NodeId> dco_decode_list_node_id(dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     return (raw as List<dynamic>).map(dco_decode_node_id).toList();
+  }
+
+  @protected
+  List<PaymentDetails> dco_decode_list_payment_details(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return (raw as List<dynamic>).map(dco_decode_payment_details).toList();
   }
 
   @protected
@@ -4803,17 +4351,6 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
   }
 
   @protected
-  PaymentDetails?
-      dco_decode_opt_box_autoadd_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPaymentDetails(
-          dynamic raw) {
-    // Codec=Dco (DartCObject based), see doc to use other codecs
-    return raw == null
-        ? null
-        : dco_decode_box_autoadd_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPaymentDetails(
-            raw);
-  }
-
-  @protected
   AnchorChannelsConfig? dco_decode_opt_box_autoadd_anchor_channels_config(
       dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
@@ -4969,6 +4506,12 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
   }
 
   @protected
+  PaymentDetails? dco_decode_opt_box_autoadd_payment_details(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return raw == null ? null : dco_decode_box_autoadd_payment_details(raw);
+  }
+
+  @protected
   PaymentFailureReason? dco_decode_opt_box_autoadd_payment_failure_reason(
       dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
@@ -5053,6 +4596,24 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
     return OutPoint(
       txid: dco_decode_txid(arr[0]),
       vout: dco_decode_u_32(arr[1]),
+    );
+  }
+
+  @protected
+  PaymentDetails dco_decode_payment_details(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    final arr = raw as List<dynamic>;
+    if (arr.length != 6)
+      throw Exception('unexpected arr length: expect 6 but see ${arr.length}');
+    return PaymentDetails(
+      id: dco_decode_payment_id(arr[0]),
+      kind:
+          dco_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPaymentKind(
+              arr[1]),
+      amountMsat: dco_decode_opt_box_autoadd_u_64(arr[2]),
+      direction: dco_decode_payment_direction(arr[3]),
+      status: dco_decode_payment_status(arr[4]),
+      latestUpdateTimestamp: dco_decode_u_64(arr[5]),
     );
   }
 
@@ -5400,15 +4961,6 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
   }
 
   @protected
-  PaymentDetails
-      sse_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPaymentDetails(
-          SseDeserializer deserializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    return PaymentDetailsImpl.frbInternalSseDecode(
-        sse_decode_usize(deserializer), sse_decode_i_32(deserializer));
-  }
-
-  @protected
   PaymentKind
       sse_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPaymentKind(
           SseDeserializer deserializer) {
@@ -5427,29 +4979,11 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
   }
 
   @protected
-  PaymentDetails
-      sse_decode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPaymentDetails(
-          SseDeserializer deserializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    return PaymentDetailsImpl.frbInternalSseDecode(
-        sse_decode_usize(deserializer), sse_decode_i_32(deserializer));
-  }
-
-  @protected
   FfiBuilder
       sse_decode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerFfiBuilder(
           SseDeserializer deserializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     return FfiBuilderImpl.frbInternalSseDecode(
-        sse_decode_usize(deserializer), sse_decode_i_32(deserializer));
-  }
-
-  @protected
-  PaymentDetails
-      sse_decode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPaymentDetails(
-          SseDeserializer deserializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    return PaymentDetailsImpl.frbInternalSseDecode(
         sse_decode_usize(deserializer), sse_decode_i_32(deserializer));
   }
 
@@ -5476,15 +5010,6 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
           SseDeserializer deserializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     return FfiBuilderImpl.frbInternalSseDecode(
-        sse_decode_usize(deserializer), sse_decode_i_32(deserializer));
-  }
-
-  @protected
-  PaymentDetails
-      sse_decode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPaymentDetails(
-          SseDeserializer deserializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    return PaymentDetailsImpl.frbInternalSseDecode(
         sse_decode_usize(deserializer), sse_decode_i_32(deserializer));
   }
 
@@ -5676,15 +5201,6 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
   bool sse_decode_bool(SseDeserializer deserializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     return deserializer.buffer.getUint8() != 0;
-  }
-
-  @protected
-  PaymentDetails
-      sse_decode_box_autoadd_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPaymentDetails(
-          SseDeserializer deserializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    return (sse_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPaymentDetails(
-        deserializer));
   }
 
   @protected
@@ -5932,6 +5448,13 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
   OutPoint sse_decode_box_autoadd_out_point(SseDeserializer deserializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     return (sse_decode_out_point(deserializer));
+  }
+
+  @protected
+  PaymentDetails sse_decode_box_autoadd_payment_details(
+      SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    return (sse_decode_payment_details(deserializer));
   }
 
   @protected
@@ -6827,22 +6350,6 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
   }
 
   @protected
-  List<PaymentDetails>
-      sse_decode_list_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPaymentDetails(
-          SseDeserializer deserializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-
-    var len_ = sse_decode_i_32(deserializer);
-    var ans_ = <PaymentDetails>[];
-    for (var idx_ = 0; idx_ < len_; ++idx_) {
-      ans_.add(
-          sse_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPaymentDetails(
-              deserializer));
-    }
-    return ans_;
-  }
-
-  @protected
   List<ChannelDetails> sse_decode_list_channel_details(
       SseDeserializer deserializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
@@ -6889,6 +6396,19 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
     var ans_ = <NodeId>[];
     for (var idx_ = 0; idx_ < len_; ++idx_) {
       ans_.add(sse_decode_node_id(deserializer));
+    }
+    return ans_;
+  }
+
+  @protected
+  List<PaymentDetails> sse_decode_list_payment_details(
+      SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+
+    var len_ = sse_decode_i_32(deserializer);
+    var ans_ = <PaymentDetails>[];
+    for (var idx_ = 0; idx_ < len_; ++idx_) {
+      ans_.add(sse_decode_payment_details(deserializer));
     }
     return ans_;
   }
@@ -7127,20 +6647,6 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
 
     if (sse_decode_bool(deserializer)) {
       return (sse_decode_String(deserializer));
-    } else {
-      return null;
-    }
-  }
-
-  @protected
-  PaymentDetails?
-      sse_decode_opt_box_autoadd_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPaymentDetails(
-          SseDeserializer deserializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-
-    if (sse_decode_bool(deserializer)) {
-      return (sse_decode_box_autoadd_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPaymentDetails(
-          deserializer));
     } else {
       return null;
     }
@@ -7395,6 +6901,18 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
   }
 
   @protected
+  PaymentDetails? sse_decode_opt_box_autoadd_payment_details(
+      SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+
+    if (sse_decode_bool(deserializer)) {
+      return (sse_decode_box_autoadd_payment_details(deserializer));
+    } else {
+      return null;
+    }
+  }
+
+  @protected
   PaymentFailureReason? sse_decode_opt_box_autoadd_payment_failure_reason(
       SseDeserializer deserializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
@@ -7540,6 +7058,26 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
     var var_txid = sse_decode_txid(deserializer);
     var var_vout = sse_decode_u_32(deserializer);
     return OutPoint(txid: var_txid, vout: var_vout);
+  }
+
+  @protected
+  PaymentDetails sse_decode_payment_details(SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    var var_id = sse_decode_payment_id(deserializer);
+    var var_kind =
+        sse_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPaymentKind(
+            deserializer);
+    var var_amountMsat = sse_decode_opt_box_autoadd_u_64(deserializer);
+    var var_direction = sse_decode_payment_direction(deserializer);
+    var var_status = sse_decode_payment_status(deserializer);
+    var var_latestUpdateTimestamp = sse_decode_u_64(deserializer);
+    return PaymentDetails(
+        id: var_id,
+        kind: var_kind,
+        amountMsat: var_amountMsat,
+        direction: var_direction,
+        status: var_status,
+        latestUpdateTimestamp: var_latestUpdateTimestamp);
   }
 
   @protected
@@ -7860,14 +7398,6 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
   }
 
   @protected
-  int cst_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPaymentDetails(
-      PaymentDetails raw) {
-    // Codec=Cst (C-struct based), see doc to use other codecs
-// ignore: invalid_use_of_internal_member
-    return (raw as PaymentDetailsImpl).frbInternalCstEncode(move: true);
-  }
-
-  @protected
   int cst_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPaymentKind(
       PaymentKind raw) {
     // Codec=Cst (C-struct based), see doc to use other codecs
@@ -7884,27 +7414,11 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
   }
 
   @protected
-  int cst_encode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPaymentDetails(
-      PaymentDetails raw) {
-    // Codec=Cst (C-struct based), see doc to use other codecs
-// ignore: invalid_use_of_internal_member
-    return (raw as PaymentDetailsImpl).frbInternalCstEncode(move: false);
-  }
-
-  @protected
   int cst_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerFfiBuilder(
       FfiBuilder raw) {
     // Codec=Cst (C-struct based), see doc to use other codecs
 // ignore: invalid_use_of_internal_member
     return (raw as FfiBuilderImpl).frbInternalCstEncode(move: false);
-  }
-
-  @protected
-  int cst_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPaymentDetails(
-      PaymentDetails raw) {
-    // Codec=Cst (C-struct based), see doc to use other codecs
-// ignore: invalid_use_of_internal_member
-    return (raw as PaymentDetailsImpl).frbInternalCstEncode(move: false);
   }
 
   @protected
@@ -7921,14 +7435,6 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
     // Codec=Cst (C-struct based), see doc to use other codecs
 // ignore: invalid_use_of_internal_member
     return (raw as FfiBuilderImpl).frbInternalCstEncode();
-  }
-
-  @protected
-  int cst_encode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPaymentDetails(
-      PaymentDetails raw) {
-    // Codec=Cst (C-struct based), see doc to use other codecs
-// ignore: invalid_use_of_internal_member
-    return (raw as PaymentDetailsImpl).frbInternalCstEncode();
   }
 
   @protected
@@ -8102,16 +7608,6 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
 
   @protected
   void
-      sse_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPaymentDetails(
-          PaymentDetails self, SseSerializer serializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    sse_encode_usize(
-        (self as PaymentDetailsImpl).frbInternalSseEncode(move: true),
-        serializer);
-  }
-
-  @protected
-  void
       sse_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPaymentKind(
           PaymentKind self, SseSerializer serializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
@@ -8130,31 +7626,11 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
 
   @protected
   void
-      sse_encode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPaymentDetails(
-          PaymentDetails self, SseSerializer serializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    sse_encode_usize(
-        (self as PaymentDetailsImpl).frbInternalSseEncode(move: false),
-        serializer);
-  }
-
-  @protected
-  void
       sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerFfiBuilder(
           FfiBuilder self, SseSerializer serializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     sse_encode_usize(
         (self as FfiBuilderImpl).frbInternalSseEncode(move: false), serializer);
-  }
-
-  @protected
-  void
-      sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPaymentDetails(
-          PaymentDetails self, SseSerializer serializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    sse_encode_usize(
-        (self as PaymentDetailsImpl).frbInternalSseEncode(move: false),
-        serializer);
   }
 
   @protected
@@ -8182,16 +7658,6 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
     // Codec=Sse (Serialization based), see doc to use other codecs
     sse_encode_usize(
         (self as FfiBuilderImpl).frbInternalSseEncode(move: null), serializer);
-  }
-
-  @protected
-  void
-      sse_encode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPaymentDetails(
-          PaymentDetails self, SseSerializer serializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    sse_encode_usize(
-        (self as PaymentDetailsImpl).frbInternalSseEncode(move: null),
-        serializer);
   }
 
   @protected
@@ -8368,15 +7834,6 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
   void sse_encode_bool(bool self, SseSerializer serializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     serializer.buffer.putUint8(self ? 1 : 0);
-  }
-
-  @protected
-  void
-      sse_encode_box_autoadd_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPaymentDetails(
-          PaymentDetails self, SseSerializer serializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    sse_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPaymentDetails(
-        self, serializer);
   }
 
   @protected
@@ -8629,6 +8086,13 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
       OutPoint self, SseSerializer serializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     sse_encode_out_point(self, serializer);
+  }
+
+  @protected
+  void sse_encode_box_autoadd_payment_details(
+      PaymentDetails self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_payment_details(self, serializer);
   }
 
   @protected
@@ -9399,18 +8863,6 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
   }
 
   @protected
-  void
-      sse_encode_list_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPaymentDetails(
-          List<PaymentDetails> self, SseSerializer serializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    sse_encode_i_32(self.length, serializer);
-    for (final item in self) {
-      sse_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPaymentDetails(
-          item, serializer);
-    }
-  }
-
-  @protected
   void sse_encode_list_channel_details(
       List<ChannelDetails> self, SseSerializer serializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
@@ -9446,6 +8898,16 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
     sse_encode_i_32(self.length, serializer);
     for (final item in self) {
       sse_encode_node_id(item, serializer);
+    }
+  }
+
+  @protected
+  void sse_encode_list_payment_details(
+      List<PaymentDetails> self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_i_32(self.length, serializer);
+    for (final item in self) {
+      sse_encode_payment_details(item, serializer);
     }
   }
 
@@ -9639,19 +9101,6 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
     sse_encode_bool(self != null, serializer);
     if (self != null) {
       sse_encode_String(self, serializer);
-    }
-  }
-
-  @protected
-  void
-      sse_encode_opt_box_autoadd_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPaymentDetails(
-          PaymentDetails? self, SseSerializer serializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-
-    sse_encode_bool(self != null, serializer);
-    if (self != null) {
-      sse_encode_box_autoadd_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPaymentDetails(
-          self, serializer);
     }
   }
 
@@ -9885,6 +9334,17 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
   }
 
   @protected
+  void sse_encode_opt_box_autoadd_payment_details(
+      PaymentDetails? self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+
+    sse_encode_bool(self != null, serializer);
+    if (self != null) {
+      sse_encode_box_autoadd_payment_details(self, serializer);
+    }
+  }
+
+  @protected
   void sse_encode_opt_box_autoadd_payment_failure_reason(
       PaymentFailureReason? self, SseSerializer serializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
@@ -10017,6 +9477,19 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
     // Codec=Sse (Serialization based), see doc to use other codecs
     sse_encode_txid(self.txid, serializer);
     sse_encode_u_32(self.vout, serializer);
+  }
+
+  @protected
+  void sse_encode_payment_details(
+      PaymentDetails self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_payment_id(self.id, serializer);
+    sse_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPaymentKind(
+        self.kind, serializer);
+    sse_encode_opt_box_autoadd_u_64(self.amountMsat, serializer);
+    sse_encode_payment_direction(self.direction, serializer);
+    sse_encode_payment_status(self.status, serializer);
+    sse_encode_u_64(self.latestUpdateTimestamp, serializer);
   }
 
   @protected
@@ -10502,78 +9975,6 @@ class OnchainPaymentImpl extends RustOpaque implements OnchainPayment {
     rustArcDecrementStrongCountPtr:
         core.instance.api.rust_arc_decrement_strong_count_OnchainPaymentPtr,
   );
-}
-
-@sealed
-class PaymentDetailsImpl extends RustOpaque implements PaymentDetails {
-  // Not to be used by end users
-  PaymentDetailsImpl.frbInternalDcoDecode(List<dynamic> wire)
-      : super.frbInternalDcoDecode(wire, _kStaticData);
-
-  // Not to be used by end users
-  PaymentDetailsImpl.frbInternalSseDecode(BigInt ptr, int externalSizeOnNative)
-      : super.frbInternalSseDecode(ptr, externalSizeOnNative, _kStaticData);
-
-  static final _kStaticData = RustArcStaticData(
-    rustArcIncrementStrongCount:
-        core.instance.api.rust_arc_increment_strong_count_PaymentDetails,
-    rustArcDecrementStrongCount:
-        core.instance.api.rust_arc_decrement_strong_count_PaymentDetails,
-    rustArcDecrementStrongCountPtr:
-        core.instance.api.rust_arc_decrement_strong_count_PaymentDetailsPtr,
-  );
-
-  BigInt? get amountMsat =>
-      core.instance.api.crateApiTypesPaymentDetailsAutoAccessorGetAmountMsat(
-        that: this,
-      );
-
-  PaymentDirection get direction =>
-      core.instance.api.crateApiTypesPaymentDetailsAutoAccessorGetDirection(
-        that: this,
-      );
-
-  PaymentId get id =>
-      core.instance.api.crateApiTypesPaymentDetailsAutoAccessorGetId(
-        that: this,
-      );
-
-  PaymentKind get kind =>
-      core.instance.api.crateApiTypesPaymentDetailsAutoAccessorGetKind(
-        that: this,
-      );
-
-  BigInt get latestUpdateTimestamp => core.instance.api
-          .crateApiTypesPaymentDetailsAutoAccessorGetLatestUpdateTimestamp(
-        that: this,
-      );
-
-  PaymentStatus get status =>
-      core.instance.api.crateApiTypesPaymentDetailsAutoAccessorGetStatus(
-        that: this,
-      );
-
-  set amountMsat(BigInt? amountMsat) =>
-      core.instance.api.crateApiTypesPaymentDetailsAutoAccessorSetAmountMsat(
-          that: this, amountMsat: amountMsat);
-
-  set direction(PaymentDirection direction) =>
-      core.instance.api.crateApiTypesPaymentDetailsAutoAccessorSetDirection(
-          that: this, direction: direction);
-
-  set id(PaymentId id) => core.instance.api
-      .crateApiTypesPaymentDetailsAutoAccessorSetId(that: this, id: id);
-
-  set kind(PaymentKind kind) => core.instance.api
-      .crateApiTypesPaymentDetailsAutoAccessorSetKind(that: this, kind: kind);
-
-  set latestUpdateTimestamp(BigInt latestUpdateTimestamp) => core.instance.api
-      .crateApiTypesPaymentDetailsAutoAccessorSetLatestUpdateTimestamp(
-          that: this, latestUpdateTimestamp: latestUpdateTimestamp);
-
-  set status(PaymentStatus status) =>
-      core.instance.api.crateApiTypesPaymentDetailsAutoAccessorSetStatus(
-          that: this, status: status);
 }
 
 @sealed

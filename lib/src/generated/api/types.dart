@@ -15,33 +15,6 @@ part 'types.freezed.dart';
 // Rust type: RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<ConfirmationStatus>>
 abstract class ConfirmationStatus implements RustOpaqueInterface {}
 
-// Rust type: RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<PaymentDetails>>
-abstract class PaymentDetails implements RustOpaqueInterface {
-  BigInt? get amountMsat;
-
-  PaymentDirection get direction;
-
-  PaymentId get id;
-
-  PaymentKind get kind;
-
-  BigInt get latestUpdateTimestamp;
-
-  PaymentStatus get status;
-
-  set amountMsat(BigInt? amountMsat);
-
-  set direction(PaymentDirection direction);
-
-  set id(PaymentId id);
-
-  set kind(PaymentKind kind);
-
-  set latestUpdateTimestamp(BigInt latestUpdateTimestamp);
-
-  set status(PaymentStatus status);
-}
-
 // Rust type: RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<PaymentKind>>
 abstract class PaymentKind implements RustOpaqueInterface {}
 
@@ -1595,6 +1568,57 @@ class OutPoint {
           vout == other.vout;
 }
 
+/// Represents a payment.
+class PaymentDetails {
+  /// The identifier of this payment.
+  final PaymentId id;
+
+  /// The kind of the payment.
+  final PaymentKind kind;
+
+  /// The amount transferred.
+  final BigInt? amountMsat;
+
+  /// The direction of the payment.
+  final PaymentDirection direction;
+
+  /// The status of the payment.
+  final PaymentStatus status;
+
+  /// The timestamp, in seconds since start of the UNIX epoch, when this entry was last updated.
+  final BigInt latestUpdateTimestamp;
+
+  const PaymentDetails({
+    required this.id,
+    required this.kind,
+    this.amountMsat,
+    required this.direction,
+    required this.status,
+    required this.latestUpdateTimestamp,
+  });
+
+  @override
+  int get hashCode =>
+      id.hashCode ^
+      kind.hashCode ^
+      amountMsat.hashCode ^
+      direction.hashCode ^
+      status.hashCode ^
+      latestUpdateTimestamp.hashCode;
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is PaymentDetails &&
+          runtimeType == other.runtimeType &&
+          id == other.id &&
+          kind == other.kind &&
+          amountMsat == other.amountMsat &&
+          direction == other.direction &&
+          status == other.status &&
+          latestUpdateTimestamp == other.latestUpdateTimestamp;
+}
+
 /// Represents the direction of a payment.
 ///
 enum PaymentDirection {
@@ -1666,7 +1690,6 @@ class PaymentHash {
           data == other.data;
 }
 
-///A user-provided identifier in channelManager.sendPayment used to uniquely identify a payment and ensure idempotency in LDK.
 class PaymentId {
   final Uint8List data;
 
