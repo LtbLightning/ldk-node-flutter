@@ -1,0 +1,2 @@
+/Users/mac/Desktop/nuCode/ldk_node_flutter/example/android/app/.cxx/Debug/s70z84a2/x86/CMakeFiles/edit_cache.dir
+/Users/mac/Desktop/nuCode/ldk_node_flutter/example/android/app/.cxx/Debug/s70z84a2/x86/CMakeFiles/rebuild_cache.dir
