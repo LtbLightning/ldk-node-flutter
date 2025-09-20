@@ -530,6 +530,7 @@ class SpontaneousPayment extends spontaneous.FfiSpontaneousPayment {
 ///A payment handler allowing to send and receive on-chain payments.
 class OnChainPayment extends on_chain.FfiOnChainPayment {
   OnChainPayment._({required super.opaque});
+
   @override
   Future<types.Address> newAddress({hint}) async {
     try {
@@ -539,24 +540,77 @@ class OnChainPayment extends on_chain.FfiOnChainPayment {
     }
   }
 
-  @override
-  Future<types.Txid> sendAllToAddress(
-      {required types.Address address, hint}) async {
+  /// Sends all available on-chain funds to the given address.
+  /// 
+  /// This method uses our custom [FeeRate] class to avoid FFI type conflicts.
+  Future<types.Txid> sendAllToAddress({
+    required types.Address address,
+    required bool retainReserves,
+    BigInt? feeRateSatPerKwu,
+  }) async {
     try {
-      return await super.sendAllToAddress(address: address);
+      return await super.sendAllToAddress(
+        address: address,
+        retainReserves: retainReserves,
+        feeRateSatPerKwu: feeRateSatPerKwu,
+      );
     } on error.FfiNodeError catch (e) {
       throw mapFfiNodeError(e);
     }
   }
 
-  @override
-  Future<types.Txid> sendToAddress(
-      {required types.Address address,
-      required BigInt amountSats,
-      hint}) async {
+  /// Sends all available on-chain funds to the given address using a [FeeRate].
+  /// 
+  /// This method uses our custom [FeeRate] class to avoid FFI type conflicts.
+  Future<types.Txid> sendAllToAddressWithFeeRate({
+    required types.Address address,
+    required bool retainReserves,
+    FeeRate? feeRate,
+  }) async {
     try {
-      return await super
-          .sendToAddress(address: address, amountSats: amountSats);
+      return await super.sendAllToAddress(
+        address: address,
+        retainReserves: retainReserves,
+        feeRateSatPerKwu: feeRate?.satPerKwu,
+      );
+    } on error.FfiNodeError catch (e) {
+      throw mapFfiNodeError(e);
+    }
+  }
+
+  /// Sends the given amount to the given address.
+  /// 
+  /// This method uses our custom [FeeRate] class to avoid FFI type conflicts.
+  Future<types.Txid> sendToAddress({
+    required types.Address address,
+    required BigInt amountSats,
+    BigInt? feeRateSatPerKwu,
+  }) async {
+    try {
+      return await super.sendToAddress(
+        address: address,
+        amountSats: amountSats,
+        feeRateSatPerKwu: feeRateSatPerKwu,
+      );
+    } on error.FfiNodeError catch (e) {
+      throw mapFfiNodeError(e);
+    }
+  }
+
+  /// Sends the given amount to the given address using a [FeeRate].
+  /// 
+  /// This method uses our custom [FeeRate] class to avoid FFI type conflicts.
+  Future<types.Txid> sendToAddressWithFeeRate({
+    required types.Address address,
+    required BigInt amountSats,
+    FeeRate? feeRate,
+  }) async {
+    try {
+      return await super.sendToAddress(
+        address: address,
+        amountSats: amountSats,
+        feeRateSatPerKwu: feeRate?.satPerKwu,
+      );
     } on error.FfiNodeError catch (e) {
       throw mapFfiNodeError(e);
     }
@@ -982,6 +1036,7 @@ class Builder {
   types.ChainDataSourceConfig? _chainDataSourceConfig;
   types.GossipSourceConfig? _gossipSourceConfig;
   types.LiquiditySourceConfig? _liquiditySourceConfig;
+  builder.FfiBuilder? _configuredBuilder;
 
   /// Creates a new builder instance from an [Config].
   ///
@@ -999,7 +1054,7 @@ class Builder {
       listeningAddresses: [
         types.SocketAddress.hostname(addr: "0.0.0.0", port: 9735)
       ],
-      logLevel: types.LogLevel.debug,
+      // logLevel: types.LogLevel.debug,
       trustedPeers0Conf: [],
       probingLiquidityLimitMultiplier: BigInt.from(3),
     ));
@@ -1152,9 +1207,77 @@ class Builder {
 
   /// Sets the level at which [`Node`] will log messages.
   ///
-  Builder setLogLevel(types.LogLevel logLevel) {
-    _config!.logLevel = logLevel;
-    return this;
+  // Builder setLogLevel(types.LogLevel logLevel) {
+  //   _config!.logLevel = logLevel;
+  //   return this;
+  // }
+
+  /// Configures the Node instance to write logs to the filesystem.
+  ///
+  /// The `logFilePath` defaults to 'ldk_node.log' in the configured storage directory if set to `null`.
+  /// If set, the `maxLogLevel` sets the maximum log level. Otherwise, defaults to Debug level.
+  ///
+  /// Example:
+  /// ```dart
+  /// builder.setFilesystemLogger(
+  ///   logFilePath: '/path/to/logs/ldk.log',
+  ///   maxLogLevel: types.LogLevel.info,
+  /// );
+  /// ```
+  Builder setFilesystemLogger({
+    String? logFilePath,
+    types.LogLevel? maxLogLevel,
+  }) {
+    try {
+      // Create or get the builder instance
+      _configuredBuilder ??= builder.FfiBuilder.createBuilder(
+        config: _config ?? Builder()._config!,
+        chainDataSourceConfig: _chainDataSourceConfig,
+        entropySourceConfig: _entropySource,
+        liquiditySourceConfig: _liquiditySourceConfig,
+        gossipSourceConfig: _gossipSourceConfig,
+      );
+
+      // Configure filesystem logging
+      _configuredBuilder = _configuredBuilder!.setFilesystemLogger(
+        logFilePath: logFilePath,
+        maxLogLevel: maxLogLevel,
+      );
+
+      return this;
+    } on error.FfiBuilderError catch (e) {
+      throw mapFfiBuilderError(e);
+    }
+  }
+
+  /// Configures the Node instance to write logs to the Rust log facade.
+  ///
+  /// This forwards logs to the Rust `log` crate, allowing integration with existing
+  /// Rust logging frameworks and making logs available to Dart through standard
+  /// Rust logging mechanisms.
+  ///
+  /// Example:
+  /// ```dart
+  /// builder.setLogFacadeLogger();
+  /// ```
+  Builder setLogFacadeLogger() {
+    try {
+      // Create or get the builder instance
+      _configuredBuilder ??= builder.FfiBuilder.createBuilder(
+        config: _config ?? Builder()._config!,
+        chainDataSourceConfig: _chainDataSourceConfig,
+        entropySourceConfig: _entropySource,
+        liquiditySourceConfig: _liquiditySourceConfig,
+        gossipSourceConfig: _gossipSourceConfig,
+      );
+
+      // Configure log facade
+      _configuredBuilder = _configuredBuilder!.setLogFacadeLogger();
+
+      return this;
+    } on error.FfiBuilderError catch (e) {
+      throw mapFfiBuilderError(e);
+    }
   }
 
   /// Configures the [Node] instance to source its inbound liquidity from the given
@@ -1184,13 +1307,18 @@ class Builder {
         final nodePath = "${directory.path}/ldk_cache/";
         _config!.storageDirPath = nodePath;
       }
-      final res = await builder.FfiBuilder.createBuilder(
-              config: _config ?? Builder()._config!,
-              chainDataSourceConfig: _chainDataSourceConfig,
-              entropySourceConfig: _entropySource,
-              liquiditySourceConfig: _liquiditySourceConfig,
-              gossipSourceConfig: _gossipSourceConfig)
-          .build();
+
+      // Use configured builder if available, otherwise create new one
+      final builderInstance = _configuredBuilder ??
+          await builder.FfiBuilder.createBuilder(
+            config: _config ?? Builder()._config!,
+            chainDataSourceConfig: _chainDataSourceConfig,
+            entropySourceConfig: _entropySource,
+            liquiditySourceConfig: _liquiditySourceConfig,
+            gossipSourceConfig: _gossipSourceConfig,
+          );
+
+      final res = await builderInstance.build();
       return Node._(opaque: res.opaque);
     } on error.FfiBuilderError catch (e) {
       throw mapFfiBuilderError(e);
@@ -1206,13 +1334,18 @@ class Builder {
         final nodePath = "${directory.path}/ldk_cache/";
         _config!.storageDirPath = nodePath;
       }
-      final res = await builder.FfiBuilder.createBuilder(
-              config: _config ?? Builder()._config!,
-              chainDataSourceConfig: _chainDataSourceConfig,
-              entropySourceConfig: _entropySource,
-              liquiditySourceConfig: _liquiditySourceConfig,
-              gossipSourceConfig: _gossipSourceConfig)
-          .buildWithFsStore();
+
+      // Use configured builder if available, otherwise create new one
+      final builderInstance = _configuredBuilder ??
+          await builder.FfiBuilder.createBuilder(
+            config: _config ?? Builder()._config!,
+            chainDataSourceConfig: _chainDataSourceConfig,
+            entropySourceConfig: _entropySource,
+            liquiditySourceConfig: _liquiditySourceConfig,
+            gossipSourceConfig: _gossipSourceConfig,
+          );
+
+      final res = await builderInstance.buildWithFsStore();
       return Node._(opaque: res.opaque);
     } on error.FfiBuilderError catch (e) {
       throw mapFfiBuilderError(e);
@@ -1272,4 +1405,96 @@ class Builder {
       throw mapFfiBuilderError(e);
     }
   }
+}
+
+/// Represents the fee rate for Bitcoin transactions.
+/// 
+/// Fee rates are measured in satoshis per 1000 weight units (sat/kwu).
+/// This class provides utilities for converting between different fee rate units
+/// and includes common fee rate constants.
+class FeeRate {
+  /// The fee rate in satoshis per 1000 weight units
+  final BigInt _satPerKwu;
+
+  /// Private constructor
+  const FeeRate._(this._satPerKwu);
+
+  /// 0 sat/kwu.
+  /// 
+  /// Equivalent to [min], may better express intent in some contexts.
+  static final FeeRate zero = FeeRate._(BigInt.zero);
+
+  /// Minimum possible value (0 sat/kwu).
+  /// 
+  /// Equivalent to [zero], may better express intent in some contexts.
+  static final FeeRate min = FeeRate._(BigInt.zero);
+
+  /// Maximum possible value.
+  static final FeeRate max = FeeRate._(BigInt.parse('18446744073709551615')); // u64::MAX
+
+  /// Minimum fee rate required to broadcast a transaction.
+  /// 
+  /// The value matches the default Bitcoin Core policy at the time of library release.
+  static final FeeRate broadcastMin = FeeRate.fromSatPerVbUnchecked(1);
+
+  /// Fee rate used to compute dust amount.
+  static final FeeRate dust = FeeRate.fromSatPerVbUnchecked(3);
+
+  /// Constructs [FeeRate] from satoshis per 1000 weight units.
+  static FeeRate fromSatPerKwu(BigInt satKwu) {
+    return FeeRate._(satKwu);
+  }
+
+  /// Constructs [FeeRate] from satoshis per virtual bytes.
+  /// 
+  /// Returns null on arithmetic overflow.
+  static FeeRate? fromSatPerVb(BigInt satVb) {
+    // 1 vb == 4 wu
+    // 1 sat/vb == 1/4 sat/wu
+    // sat_vb sat/vb * 1000 / 4 == sat/kwu
+    try {
+      final result = satVb * BigInt.from(1000 ~/ 4);
+      return FeeRate._(result);
+    } catch (e) {
+      return null; // Overflow occurred
+    }
+  }
+
+  /// Constructs [FeeRate] from satoshis per virtual bytes without overflow check.
+  static FeeRate fromSatPerVbUnchecked(int satVb) {
+    return FeeRate._(BigInt.from(satVb * (1000 ~/ 4)));
+  }
+
+  /// Returns raw fee rate.
+  /// 
+  /// Can be used instead of getter to avoid inference issues.
+  BigInt toSatPerKwu() {
+    return _satPerKwu;
+  }
+
+  /// Gets the raw fee rate in satoshis per 1000 weight units.
+  BigInt get satPerKwu => _satPerKwu;
+
+  /// Converts to sat/vB rounding down.
+  BigInt toSatPerVbFloor() {
+    return _satPerKwu ~/ BigInt.from(1000 ~/ 4);
+  }
+
+  /// Converts to sat/vB rounding up.
+  BigInt toSatPerVbCeil() {
+    final divisor = BigInt.from(1000 ~/ 4);
+    return (_satPerKwu + divisor - BigInt.one) ~/ divisor;
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    return other is FeeRate && other._satPerKwu == _satPerKwu;
+  }
+
+  @override
+  int get hashCode => _satPerKwu.hashCode;
+
+  @override
+  String toString() => 'FeeRate(${_satPerKwu} sat/kwu)';
 }
