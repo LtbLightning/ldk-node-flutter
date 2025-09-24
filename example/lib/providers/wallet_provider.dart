@@ -132,7 +132,7 @@ class WalletNotifier extends StateNotifier<WalletState> {
       final payments = await state.node!.listPayments();
       final paymentDetails = payments
           .map((payment) => PaymentDetails(
-                id: payment.id.field0.toString(),
+                id: payment.id.toString(),
                 amountMsat: payment.amountMsat ?? BigInt.zero,
                 status: _mapPaymentStatus(payment.status),
                 timestamp: DateTime.fromMillisecondsSinceEpoch(
@@ -154,15 +154,9 @@ class WalletNotifier extends StateNotifier<WalletState> {
   }
 
   String? _extractDescription(ldk.PaymentKind kind) {
-    return kind.when(
-      onchain: () => null,
-      bolt11: (hash, preimage, secret) => null,
-      bolt11Jit: (hash, preimage, secret, lspFeeLimits) => null,
-      spontaneous: (hash, preimage) => null,
-      bolt12Offer: (hash, preimage, secret, offerId, payerNote, quantity) =>
-          payerNote,
-      bolt12Refund: (hash, preimage, secret, payerNote, quantity) => payerNote,
-    );
+    // PaymentKind is a RustOpaque type, so we can't extract description
+    // In LDK Node 0.5.0, payment description is not accessible from PaymentKind
+    return null;
   }
 
   PaymentStatus _mapPaymentStatus(ldk.PaymentStatus status) {
@@ -173,8 +167,6 @@ class WalletNotifier extends StateNotifier<WalletState> {
         return PaymentStatus.successful;
       case ldk.PaymentStatus.failed:
         return PaymentStatus.failed;
-      default:
-        return PaymentStatus.pending;
     }
   }
 
@@ -221,7 +213,7 @@ class WalletNotifier extends StateNotifier<WalletState> {
       // Update payments list
       await updatePayments();
 
-      return paymentId.field0.toString();
+      return paymentId.toString();
     } catch (e) {
       throw Exception('Failed to pay invoice: $e');
     }
@@ -295,37 +287,14 @@ class WalletNotifier extends StateNotifier<WalletState> {
     try {
       final event = await state.node!.nextEvent();
       if (event != null) {
-        event.map(
-          paymentSuccessful: (e) {
-            debugPrint("Payment successful: ${e.paymentHash.data}");
-            updatePayments();
-          },
-          paymentFailed: (e) {
-            debugPrint("Payment failed: ${e.paymentHash?.data}");
-            updatePayments();
-          },
-          paymentReceived: (e) {
-            debugPrint("Payment received: ${e.paymentHash.data}");
-            updatePayments();
-            _updateBalances();
-          },
-          channelReady: (e) {
-            debugPrint("Channel ready: ${e.channelId.data}");
-            _updateChannels();
-          },
-          channelClosed: (e) {
-            debugPrint("Channel closed: ${e.channelId.data}");
-            _updateChannels();
-          },
-          channelPending: (e) {
-            debugPrint("Channel pending: ${e.channelId.data}");
-            _updateChannels();
-          },
-          paymentClaimable: (e) {
-            debugPrint("Payment claimable: ${e.paymentId.field0}");
-            updatePayments();
-          },
-        );
+        // Handle different event types
+        // Since Event is RustOpaque in LDK Node 0.5.0, we can't use pattern matching
+        // We'll just update payments and channels for all events to be safe
+        debugPrint("Received event: ${event.runtimeType}");
+        updatePayments();
+        _updateBalances();
+        _updateChannels();
+
         await state.node!.eventHandled();
       }
     } catch (e) {

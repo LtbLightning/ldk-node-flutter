@@ -239,50 +239,13 @@ class RecentTransactions extends ConsumerWidget {
   }
 
   Widget _buildKindTag(ldk.PaymentKind kind) {
-    return kind.when(
-      onchain: () => Chip(
-        label: const Text('On-chain',
-            style: TextStyle(color: Colors.white, fontSize: 11)),
-        backgroundColor: Colors.green,
-        visualDensity: VisualDensity.compact,
-        padding: EdgeInsets.zero,
-      ),
-      bolt11: (hash, preimage, secret) => Chip(
-        label: const Text('Lightning',
-            style: TextStyle(color: Colors.white, fontSize: 11)),
-        backgroundColor: Colors.blue,
-        visualDensity: VisualDensity.compact,
-        padding: EdgeInsets.zero,
-      ),
-      bolt11Jit: (hash, preimage, secret, lspFeeLimits) => Chip(
-        label: const Text('Lightning',
-            style: TextStyle(color: Colors.white, fontSize: 11)),
-        backgroundColor: Colors.blue,
-        visualDensity: VisualDensity.compact,
-        padding: EdgeInsets.zero,
-      ),
-      spontaneous: (hash, preimage) => Chip(
-        label: const Text('Lightning',
-            style: TextStyle(color: Colors.white, fontSize: 11)),
-        backgroundColor: Colors.blue,
-        visualDensity: VisualDensity.compact,
-        padding: EdgeInsets.zero,
-      ),
-      bolt12Offer: (hash, preimage, secret, offerId, payerNote, quantity) =>
-          Chip(
-        label: const Text('Lightning',
-            style: TextStyle(color: Colors.white, fontSize: 11)),
-        backgroundColor: Colors.blue,
-        visualDensity: VisualDensity.compact,
-        padding: EdgeInsets.zero,
-      ),
-      bolt12Refund: (hash, preimage, secret, payerNote, quantity) => Chip(
-        label: const Text('Lightning',
-            style: TextStyle(color: Colors.white, fontSize: 11)),
-        backgroundColor: Colors.blue,
-        visualDensity: VisualDensity.compact,
-        padding: EdgeInsets.zero,
-      ),
+    // PaymentKind is RustOpaque in LDK Node 0.5.0, can't determine exact type
+    return Chip(
+      label: const Text('Lightning',
+          style: TextStyle(color: Colors.white, fontSize: 11)),
+      backgroundColor: Colors.blue,
+      visualDensity: VisualDensity.compact,
+      padding: EdgeInsets.zero,
     );
   }
 
@@ -320,13 +283,7 @@ class RecentTransactions extends ConsumerWidget {
   }
 
   String _getPaymentTypeText(ldk.PaymentKind kind) {
-    return kind.map(
-      onchain: (_) => 'On-chain',
-      bolt11: (_) => 'BOLT 11',
-      bolt11Jit: (_) => 'BOLT 11 JIT',
-      spontaneous: (_) => 'Keysend',
-      bolt12Offer: (_) => 'BOLT 12 Offer',
-      bolt12Refund: (_) => 'BOLT 12 Refund',
-    );
+    // PaymentKind is RustOpaque in LDK Node 0.5.0, can't determine exact type
+    return 'Lightning';
   }
 }

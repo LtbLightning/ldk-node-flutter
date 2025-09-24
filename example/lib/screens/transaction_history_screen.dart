@@ -133,103 +133,51 @@ class TransactionHistoryScreen extends ConsumerWidget {
   }
 
   Widget _buildKindTag(ldk.PaymentKind kind) {
-    return kind.when(
-      onchain: () => Chip(
-        label: const Text('On-chain',
-            style: TextStyle(color: Colors.white, fontSize: 11)),
-        backgroundColor: Colors.green,
-        visualDensity: VisualDensity.compact,
-        padding: EdgeInsets.zero,
-      ),
-      bolt11: (hash, preimage, secret) => Chip(
-        label: const Text('Lightning',
-            style: TextStyle(color: Colors.white, fontSize: 11)),
-        backgroundColor: Colors.blue,
-        visualDensity: VisualDensity.compact,
-        padding: EdgeInsets.zero,
-      ),
-      bolt11Jit: (hash, preimage, secret, lspFeeLimits) => Chip(
-        label: const Text('Lightning',
-            style: TextStyle(color: Colors.white, fontSize: 11)),
-        backgroundColor: Colors.blue,
-        visualDensity: VisualDensity.compact,
-        padding: EdgeInsets.zero,
-      ),
-      spontaneous: (hash, preimage) => Chip(
-        label: const Text('Lightning',
-            style: TextStyle(color: Colors.white, fontSize: 11)),
-        backgroundColor: Colors.blue,
-        visualDensity: VisualDensity.compact,
-        padding: EdgeInsets.zero,
-      ),
-      bolt12Offer: (hash, preimage, secret, offerId, payerNote, quantity) =>
-          Chip(
-        label: const Text('Lightning',
-            style: TextStyle(color: Colors.white, fontSize: 11)),
-        backgroundColor: Colors.blue,
-        visualDensity: VisualDensity.compact,
-        padding: EdgeInsets.zero,
-      ),
-      bolt12Refund: (hash, preimage, secret, payerNote, quantity) => Chip(
-        label: const Text('Lightning',
-            style: TextStyle(color: Colors.white, fontSize: 11)),
-        backgroundColor: Colors.blue,
-        visualDensity: VisualDensity.compact,
-        padding: EdgeInsets.zero,
-      ),
+    // PaymentKind is RustOpaque in LDK Node 0.5.0, can't determine exact type
+    return Chip(
+      label: const Text('Lightning',
+          style: TextStyle(color: Colors.white, fontSize: 11)),
+      backgroundColor: Colors.blue,
+      visualDensity: VisualDensity.compact,
+      padding: EdgeInsets.zero,
     );
   }
+}
 
-  String _getPaymentTypeText(ldk.PaymentKind kind) {
-    return kind.when(
-      onchain: () => 'On-chain',
-      bolt11: (hash, preimage, secret) => 'BOLT 11 Invoice',
-      bolt11Jit: (hash, preimage, secret, lspFeeLimits) =>
-          'BOLT 11 JIT Channel',
-      spontaneous: (hash, preimage) => 'Spontaneous (Keysend)',
-      bolt12Offer: (hash, preimage, secret, offerId, payerNote, quantity) =>
-          'BOLT 12 Offer',
-      bolt12Refund: (hash, preimage, secret, payerNote, quantity) =>
-          'BOLT 12 Refund',
-    );
+String _getPaymentTypeText(ldk.PaymentKind kind) {
+  // PaymentKind is RustOpaque in LDK Node 0.5.0, can't determine exact type
+  return 'Lightning';
+}
+
+String _getStatusText(ldk.PaymentStatus status) {
+  switch (status) {
+    case ldk.PaymentStatus.pending:
+      return 'Pending';
+    case ldk.PaymentStatus.succeeded:
+      return 'Succeeded';
+    case ldk.PaymentStatus.failed:
+      return 'Failed';
   }
+}
 
-  String _getStatusText(ldk.PaymentStatus status) {
-    switch (status) {
-      case ldk.PaymentStatus.pending:
-        return 'Pending';
-      case ldk.PaymentStatus.succeeded:
-        return 'Succeeded';
-      case ldk.PaymentStatus.failed:
-        return 'Failed';
-      default:
-        return '';
-    }
+Color _getStatusColor(ldk.PaymentStatus status) {
+  switch (status) {
+    case ldk.PaymentStatus.pending:
+      return Colors.orange;
+    case ldk.PaymentStatus.succeeded:
+      return Colors.green;
+    case ldk.PaymentStatus.failed:
+      return Colors.red;
   }
+}
 
-  Color _getStatusColor(ldk.PaymentStatus status) {
-    switch (status) {
-      case ldk.PaymentStatus.pending:
-        return Colors.orange;
-      case ldk.PaymentStatus.succeeded:
-        return Colors.green;
-      case ldk.PaymentStatus.failed:
-        return Colors.red;
-      default:
-        return Colors.grey;
-    }
-  }
-
-  IconData _getStatusIcon(ldk.PaymentStatus status) {
-    switch (status) {
-      case ldk.PaymentStatus.pending:
-        return Icons.hourglass_empty;
-      case ldk.PaymentStatus.succeeded:
-        return Icons.check_circle;
-      case ldk.PaymentStatus.failed:
-        return Icons.error;
-      default:
-        return Icons.help;
-    }
+IconData _getStatusIcon(ldk.PaymentStatus status) {
+  switch (status) {
+    case ldk.PaymentStatus.pending:
+      return Icons.hourglass_empty;
+    case ldk.PaymentStatus.succeeded:
+      return Icons.check_circle;
+    case ldk.PaymentStatus.failed:
+      return Icons.error;
   }
 }
