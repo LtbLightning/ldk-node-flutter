@@ -23,7 +23,7 @@ class SettingsService {
   // Generate a new mnemonic
   static Future<String> generateMnemonic() async {
     final mnemonic = await ldk.Mnemonic.generate();
-    return mnemonic.seedPhrase;
+    return mnemonic.words.join(" ");
   }
 
   // Save user mnemonic

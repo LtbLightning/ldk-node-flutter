@@ -49,7 +49,23 @@ abstract class BitcoinAddress implements RustOpaqueInterface {
 abstract class BitcoinAddressInner implements RustOpaqueInterface {}
 
 // Rust type: RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<SocketAddress>>
-abstract class SocketAddress implements RustOpaqueInterface {}
+abstract class SocketAddress implements RustOpaqueInterface {
+  (String, int)? asHostname();
+
+  U8Array12? asOnionV2();
+
+  (U8Array32, int, int, int)? asOnionV3();
+
+  (U8Array4, int)? asTcpIpV4();
+
+  (U8Array16, int)? asTcpIpV6();
+
+  String host();
+
+  int port();
+
+  String strType();
+}
 
 // Rust type: RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<TaprootSpendInfo>>
 abstract class TaprootSpendInfo implements RustOpaqueInterface {

@@ -8,8 +8,57 @@ import '../../lib.dart';
 import '../shared.dart';
 import 'package:flutter_rust_bridge/flutter_rust_bridge_for_generated.dart';
 
-// These types are ignored because they are neither used by any `pub` functions nor (for structs and enums) marked `#[frb(unignore)]`: `BackgroundSyncConfig`, `BalanceSource`, `ClosureReason`, `ConfirmationStatus`, `ElectrumSyncConfig`, `EsploraSyncConfig`, `LSPFeeLimits`, `MaxTotalRoutingFeeLimit`, `OfferId`, `PaymentFailureReason`, `PaymentSecret`
+// These types are ignored because they are neither used by any `pub` functions nor (for structs and enums) marked `#[frb(unignore)]`: `BackgroundSyncConfig`, `BalanceSource`, `ClosureReason`, `ConfirmationStatus`, `ElectrumSyncConfig`, `EsploraSyncConfig`, `MaxTotalRoutingFeeLimit`, `PaymentFailureReason`
 // These function are ignored because they are on traits that is not defined in current crate (put an empty `#[frb]` on it to unignore): `assert_receiver_is_total_eq`, `assert_receiver_is_total_eq`, `assert_receiver_is_total_eq`, `assert_receiver_is_total_eq`, `assert_receiver_is_total_eq`, `assert_receiver_is_total_eq`, `assert_receiver_is_total_eq`, `assert_receiver_is_total_eq`, `assert_receiver_is_total_eq`, `assert_receiver_is_total_eq`, `assert_receiver_is_total_eq`, `assert_receiver_is_total_eq`, `assert_receiver_is_total_eq`, `assert_receiver_is_total_eq`, `assert_receiver_is_total_eq`, `assert_receiver_is_total_eq`, `assert_receiver_is_total_eq`, `assert_receiver_is_total_eq`, `assert_receiver_is_total_eq`, `assert_receiver_is_total_eq`, `assert_receiver_is_total_eq`, `assert_receiver_is_total_eq`, `assert_receiver_is_total_eq`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `eq`, `eq`, `eq`, `eq`, `eq`, `eq`, `eq`, `eq`, `eq`, `eq`, `eq`, `eq`, `eq`, `eq`, `eq`, `eq`, `eq`, `eq`, `eq`, `eq`, `eq`, `eq`, `eq`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `hash`, `hash`, `hash`, `try_from`, `try_from`, `try_from`
+
+// Rust type: RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<AnchorChannelsConfig>>
+abstract class AnchorChannelsConfig implements RustOpaqueInterface {
+  /// Adds a trusted peer to the configuration.
+  Future<void> addTrustedPeer({required PublicKey peer});
+
+  BigInt get perChannelReserveSats;
+
+  List<PublicKey> get trustedPeersNoReserve;
+
+  set perChannelReserveSats(BigInt perChannelReserveSats);
+
+  set trustedPeersNoReserve(List<PublicKey> trustedPeersNoReserve);
+
+  /// Creates a conservative AnchorChannelsConfig with no trusted peers and high reserve.
+  static Future<AnchorChannelsConfig> conservative() =>
+      core.instance.api.ldkAdapterTypesAnchorChannelsConfigConservative();
+
+  static Future<AnchorChannelsConfig> default_() =>
+      core.instance.api.ldkAdapterTypesAnchorChannelsConfigDefault();
+
+  /// Checks if a peer is trusted (no reserve required).
+  Future<bool> isPeerTrusted({required PublicKey peer});
+
+  /// Creates a more aggressive AnchorChannelsConfig with lower reserve.
+  static Future<AnchorChannelsConfig> lowReserve() =>
+      core.instance.api.ldkAdapterTypesAnchorChannelsConfigLowReserve();
+
+  // HINT: Make it `#[frb(sync)]` to let it become the default constructor of Dart class.
+  /// Creates a new AnchorChannelsConfig.
+  static Future<AnchorChannelsConfig> newInstance(
+          {required List<PublicKey> trustedPeersNoReserve,
+          required BigInt perChannelReserveSats}) =>
+      core.instance.api.ldkAdapterTypesAnchorChannelsConfigNew(
+          trustedPeersNoReserve: trustedPeersNoReserve,
+          perChannelReserveSats: perChannelReserveSats);
+
+  /// Removes a trusted peer from the configuration.
+  Future<void> removeTrustedPeer({required PublicKey peer});
+
+  /// Returns the number of trusted peers.
+  Future<BigInt> trustedPeersCount();
+
+  /// Creates an AnchorChannelsConfig that trusts specific peers with no reserve.
+  static Future<AnchorChannelsConfig> withTrustedPeers(
+          {required List<PublicKey> trustedPeers}) =>
+      core.instance.api.ldkAdapterTypesAnchorChannelsConfigWithTrustedPeers(
+          trustedPeers: trustedPeers);
+}
 
 // Rust type: RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<ChainDataSourceConfig>>
 abstract class ChainDataSourceConfig implements RustOpaqueInterface {}
@@ -41,6 +90,36 @@ abstract class ChannelConfig implements RustOpaqueInterface {
       int forwardingFeeProportionalMillionths);
 
   set maxDustHtlcExposure(MaxDustHtlcExposure maxDustHtlcExposure);
+
+  /// Gets the total forwarding fee for a given amount in millisatoshis.
+  Future<BigInt> calculateForwardingFee({required BigInt amountMsat});
+
+  /// Creates a high-fee routing configuration.
+  static Future<ChannelConfig> highFeeRouting() =>
+      core.instance.api.ldkAdapterTypesChannelConfigHighFeeRouting();
+
+  /// Creates a low-fee routing configuration.
+  static Future<ChannelConfig> lowFeeRouting() =>
+      core.instance.api.ldkAdapterTypesChannelConfigLowFeeRouting();
+
+  // HINT: Make it `#[frb(sync)]` to let it become the default constructor of Dart class.
+  /// Creates a new ChannelConfig with default values.
+  /// Creates a new ChannelConfig with all arguments specified.
+  static Future<ChannelConfig> newInstance(
+          {required int forwardingFeeProportionalMillionths,
+          required int forwardingFeeBaseMsat,
+          required int cltvExpiryDelta,
+          required MaxDustHtlcExposure maxDustHtlcExposure,
+          required BigInt forceCloseAvoidanceMaxFeeSatoshis,
+          required bool acceptUnderpayingHtlcs}) =>
+      core.instance.api.ldkAdapterTypesChannelConfigNew(
+          forwardingFeeProportionalMillionths:
+              forwardingFeeProportionalMillionths,
+          forwardingFeeBaseMsat: forwardingFeeBaseMsat,
+          cltvExpiryDelta: cltvExpiryDelta,
+          maxDustHtlcExposure: maxDustHtlcExposure,
+          forceCloseAvoidanceMaxFeeSatoshis: forceCloseAvoidanceMaxFeeSatoshis,
+          acceptUnderpayingHtlcs: acceptUnderpayingHtlcs);
 }
 
 // Rust type: RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<ChannelDetails>>
@@ -158,6 +237,52 @@ abstract class ChannelDetails implements RustOpaqueInterface {
   set unspendablePunishmentReserve(BigInt? unspendablePunishmentReserve);
 
   set userChannelId(UserChannelId userChannelId);
+
+  /// Returns the balance ratio (outbound / total) as a percentage.
+  Future<double> balanceRatioPercent();
+
+  /// Checks if the channel can receive the specified amount in millisatoshis.
+  Future<bool> canReceive({required BigInt amountMsat});
+
+  /// Checks if the channel can send the specified amount in millisatoshis.
+  Future<bool> canSend({required BigInt amountMsat});
+
+  /// Returns the total channel capacity in satoshis.
+  Future<BigInt> capacitySats();
+
+  // HINT: Make it `#[frb(sync)]` to let it become the default constructor of Dart class.
+  /// Creates a new ChannelDetails (mainly for testing purposes).
+  static Future<ChannelDetails> newInstance(
+          {required ChannelId channelId,
+          required PublicKey counterpartyNodeId,
+          OutPoint? fundingTxo,
+          required BigInt channelValueSats,
+          BigInt? unspendablePunishmentReserve,
+          required UserChannelId userChannelId,
+          required int feerateSatPer1000Weight,
+          required BigInt outboundCapacityMsat,
+          required BigInt inboundCapacityMsat,
+          required bool isOutbound,
+          required bool isChannelReady,
+          required bool isUsable,
+          required ChannelConfig config}) =>
+      core.instance.api.ldkAdapterTypesChannelDetailsNew(
+          channelId: channelId,
+          counterpartyNodeId: counterpartyNodeId,
+          fundingTxo: fundingTxo,
+          channelValueSats: channelValueSats,
+          unspendablePunishmentReserve: unspendablePunishmentReserve,
+          userChannelId: userChannelId,
+          feerateSatPer1000Weight: feerateSatPer1000Weight,
+          outboundCapacityMsat: outboundCapacityMsat,
+          inboundCapacityMsat: inboundCapacityMsat,
+          isOutbound: isOutbound,
+          isChannelReady: isChannelReady,
+          isUsable: isUsable,
+          config: config);
+
+  /// Returns the total available liquidity (inbound + outbound) in millisatoshis.
+  Future<BigInt> totalLiquidityMsat();
 }
 
 // Rust type: RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<EntropySourceConfig>>
@@ -173,7 +298,27 @@ abstract class GossipSourceConfig implements RustOpaqueInterface {}
 abstract class LightningBalance implements RustOpaqueInterface {}
 
 // Rust type: RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<MaxDustHTLCExposure>>
-abstract class MaxDustHtlcExposure implements RustOpaqueInterface {}
+abstract class MaxDustHtlcExposure implements RustOpaqueInterface {
+  /// Creates a conservative fixed limit (1 million msat).
+  static Future<MaxDustHtlcExposure> conservative() =>
+      core.instance.api.ldkAdapterTypesMaxDustHtlcExposureConservative();
+
+  /// Creates a default fee rate multiplier configuration.
+  static Future<MaxDustHtlcExposure> defaultFeeRate() =>
+      core.instance.api.ldkAdapterTypesMaxDustHtlcExposureDefaultFeeRate();
+
+  /// Creates a new MaxDustHTLCExposure with a fee rate multiplier.
+  static Future<MaxDustHtlcExposure> newFeeRateMultiplier(
+          {required BigInt multiplier}) =>
+      core.instance.api.ldkAdapterTypesMaxDustHtlcExposureNewFeeRateMultiplier(
+          multiplier: multiplier);
+
+  /// Creates a new MaxDustHTLCExposure with a fixed limit in millisatoshis.
+  static Future<MaxDustHtlcExposure> newFixedLimit(
+          {required BigInt limitMsat}) =>
+      core.instance.api.ldkAdapterTypesMaxDustHtlcExposureNewFixedLimit(
+          limitMsat: limitMsat);
+}
 
 // Rust type: RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<PaymentDetails>>
 abstract class PaymentDetails implements RustOpaqueInterface {
@@ -200,6 +345,48 @@ abstract class PaymentDetails implements RustOpaqueInterface {
   set latestUpdateTimestamp(BigInt latestUpdateTimestamp);
 
   set status(PaymentStatus status);
+
+  /// Checks if the payment failed.
+  Future<bool> isFailed();
+
+  /// Checks if the payment is pending.
+  Future<bool> isPending();
+
+  /// Checks if the payment is successful.
+  Future<bool> isSucceeded();
+
+  // HINT: Make it `#[frb(sync)]` to let it become the default constructor of Dart class.
+  /// Creates a new PaymentDetails.
+  static Future<PaymentDetails> newInstance(
+          {required PaymentId id,
+          required PaymentKind kind,
+          BigInt? amountMsat,
+          required PaymentDirection direction,
+          required PaymentStatus status,
+          required BigInt latestUpdateTimestamp}) =>
+      core.instance.api.ldkAdapterTypesPaymentDetailsNew(
+          id: id,
+          kind: kind,
+          amountMsat: amountMsat,
+          direction: direction,
+          status: status,
+          latestUpdateTimestamp: latestUpdateTimestamp);
+
+  /// Creates a new pending inbound payment.
+  static Future<PaymentDetails> newInboundPending(
+          {required PaymentId id,
+          required PaymentKind kind,
+          BigInt? amountMsat}) =>
+      core.instance.api.ldkAdapterTypesPaymentDetailsNewInboundPending(
+          id: id, kind: kind, amountMsat: amountMsat);
+
+  /// Creates a new pending outbound payment.
+  static Future<PaymentDetails> newOutboundPending(
+          {required PaymentId id,
+          required PaymentKind kind,
+          BigInt? amountMsat}) =>
+      core.instance.api.ldkAdapterTypesPaymentDetailsNewOutboundPending(
+          id: id, kind: kind, amountMsat: amountMsat);
 }
 
 // Rust type: RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<PaymentKind>>
@@ -218,6 +405,33 @@ abstract class PeerDetails implements RustOpaqueInterface {
   set isConnected(bool isConnected);
 
   set nodeId(PublicKey nodeId);
+
+  /// Checks if the peer is currently disconnected.
+  Future<bool> isOffline();
+
+  /// Checks if the peer is currently connected.
+  Future<bool> isOnline();
+
+  // HINT: Make it `#[frb(sync)]` to let it become the default constructor of Dart class.
+  /// Creates a new PeerDetails.
+  static Future<PeerDetails> newInstance(
+          {required PublicKey nodeId,
+          required SocketAddress address,
+          required bool isConnected}) =>
+      core.instance.api.ldkAdapterTypesPeerDetailsNew(
+          nodeId: nodeId, address: address, isConnected: isConnected);
+
+  /// Creates a new connected peer.
+  static Future<PeerDetails> newConnected(
+          {required PublicKey nodeId, required SocketAddress address}) =>
+      core.instance.api.ldkAdapterTypesPeerDetailsNewConnected(
+          nodeId: nodeId, address: address);
+
+  /// Creates a new disconnected peer.
+  static Future<PeerDetails> newDisconnected(
+          {required PublicKey nodeId, required SocketAddress address}) =>
+      core.instance.api.ldkAdapterTypesPeerDetailsNewDisconnected(
+          nodeId: nodeId, address: address);
 }
 
 // Rust type: RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<PendingSweepBalance>>
@@ -226,88 +440,6 @@ abstract class PendingSweepBalance implements RustOpaqueInterface {}
 abstract class FfiLogWriter {
   /// Handle a log record.
   Future<void> log({required FfiLogRecord record});
-}
-
-/// Configuration options pertaining to 'Anchor' channels, i.e., channels for which the
-/// `optionAnchorsZeroFeeHtlcTx` channel type is negotiated.
-///
-/// Prior to the introduction of Anchor channels, the on-chain fees paying for the transactions
-/// issued on channel closure were pre-determined and locked-in at the time of the channel
-/// opening. This required to estimate what fee rate would be sufficient to still have the
-/// closing transactions be spendable on-chain (i.e., not be considered dust). This legacy
-/// design of pre-anchor channels proved inadequate in the unpredictable, often turbulent, fee
-/// markets we experience today.
-///
-/// In contrast, Anchor channels allow to determine an adequate fee rate *at the time of channel
-/// closure*, making them much more robust in the face of fee spikes. In turn, they require to
-/// maintain a reserve of on-chain funds to have the channel closure transactions confirmed
-/// on-chain, at least if the channel counterparty can't be trusted to do this for us.
-///
-/// See [BOLT 3] for more technical details on Anchor channels.
-///
-///
-/// ### Defaults
-///
-/// | Parameter                  | Value  |
-/// |----------------------------|--------|
-/// | `trustedPeersNoReserve` | []     |
-/// | `perChannelReserveSats` | 25000  |
-///
-///
-/// [BOLT 3]: https://github.com/lightning/bolts/blob/master/03-transactions.md#htlc-timeout-and-htlc-success-transactions
-class AnchorChannelsConfig {
-  /// A list of peers that we trust to get the required channel closing transactions confirmed
-  /// on-chain.
-  ///
-  /// Channels with these peers won't count towards the retained on-chain reserve and we won't
-  /// take any action to get the required transactions confirmed ourselves.
-  ///
-  /// **Note:** Trusting the channel counterparty to take the necessary actions to get the
-  /// required Anchor spending and HTLC transactions confirmed on-chain is potentially insecure
-  /// as the channel may not be closed if they refuse to do so, potentially leaving the user
-  /// funds stuck *or* even allow the counterparty to steal any in-flight funds after the
-  /// corresponding HTLCs time out.
-  final List<PublicKey> trustedPeersNoReserve;
-
-  /// The amount of satoshis per anchors-negotiated channel with an untrusted peer that we keep
-  /// as an emergency reserve in our on-chain wallet.
-  ///
-  /// This allows for having the required Anchor output spending and HTLC transactions confirmed
-  /// when the channel is closed.
-  ///
-  /// If the channel peer is not marked as trusted via trustedPeersNoReserve,
-  /// we will always try to spend the Anchor
-  /// outputs with *any* on-chain funds available, i.e., the total reserve value as well as any
-  /// spendable funds available in the on-chain wallet. Therefore, this per-channel multiplier is
-  /// really an emergency reserve that we maintain at all time to reduce reduce the risk of
-  /// insufficient funds at time of a channel closure. To this end, we will refuse to open
-  /// outbound or accept inbound channels if we don't have sufficient on-chain funds available to
-  /// cover the additional reserve requirement.
-  ///
-  /// **Note:** Depending on the fee market at the time of closure, this reserve amount might or
-  /// might not suffice to successfully spend the Anchor output and have the HTLC transactions
-  /// confirmed on-chain, i.e., you may want to adjust this value accordingly.
-  final BigInt perChannelReserveSats;
-
-  const AnchorChannelsConfig({
-    required this.trustedPeersNoReserve,
-    required this.perChannelReserveSats,
-  });
-
-  static Future<AnchorChannelsConfig> default_() =>
-      core.instance.api.ldkAdapterTypesAnchorChannelsConfigDefault();
-
-  @override
-  int get hashCode =>
-      trustedPeersNoReserve.hashCode ^ perChannelReserveSats.hashCode;
-
-  @override
-  bool operator ==(Object other) =>
-      identical(this, other) ||
-      other is AnchorChannelsConfig &&
-          runtimeType == other.runtimeType &&
-          trustedPeersNoReserve == other.trustedPeersNoReserve &&
-          perChannelReserveSats == other.perChannelReserveSats;
 }
 
 /// Details of the known available balances returned by `node.listBalances`.
@@ -406,6 +538,21 @@ class ChannelId {
   const ChannelId({
     required this.data,
   });
+
+  /// Returns the channel ID as bytes.
+  Future<void> asBytes() => core.instance.api.ldkAdapterTypesChannelIdAsBytes(
+        that: this,
+      );
+
+  /// Creates a new ChannelId from a byte slice.
+  /// Returns None if the slice is not exactly 32 bytes.
+  static Future<ChannelId?> fromBytes({required List<int> bytes}) =>
+      core.instance.api.ldkAdapterTypesChannelIdFromBytes(bytes: bytes);
+
+  // HINT: Make it `#[frb(sync)]` to let it become the default constructor of Dart class.
+  /// Creates a new ChannelId from a 32-byte array.
+  static Future<ChannelId> newInstance({required U8Array32 data}) =>
+      core.instance.api.ldkAdapterTypesChannelIdNew(data: data);
 
   @override
   int get hashCode => data.hashCode;
@@ -518,6 +665,31 @@ class CustomTlvRecord {
     required this.value,
   });
 
+  /// Creates a new CustomTlvRecord from a string value.
+  static Future<CustomTlvRecord> fromString(
+          {required BigInt typeNum, required String value}) =>
+      core.instance.api.ldkAdapterTypesCustomTlvRecordFromString(
+          typeNum: typeNum, value: value);
+
+  /// Creates a new CustomTlvRecord from a u64 value.
+  static Future<CustomTlvRecord> fromU64(
+          {required BigInt typeNum, required BigInt value}) =>
+      core.instance.api.ldkAdapterTypesCustomTlvRecordFromU64(
+          typeNum: typeNum, value: value);
+
+  // HINT: Make it `#[frb(sync)]` to let it become the default constructor of Dart class.
+  /// Creates a new CustomTlvRecord.
+  static Future<CustomTlvRecord> newInstance(
+          {required BigInt typeNum, required List<int> value}) =>
+      core.instance.api
+          .ldkAdapterTypesCustomTlvRecordNew(typeNum: typeNum, value: value);
+
+  /// Returns the value as a string if it's valid UTF-8.
+  Future<String?> valueAsString() =>
+      core.instance.api.ldkAdapterTypesCustomTlvRecordValueAsString(
+        that: this,
+      );
+
   @override
   int get hashCode => typeNum.hashCode ^ value.hashCode;
 
@@ -550,6 +722,73 @@ class FfiLogRecord {
     required this.modulePath,
     required this.line,
   });
+
+  /// Creates a new debug log record.
+  static Future<FfiLogRecord> debug(
+          {required String args,
+          required String modulePath,
+          required int line}) =>
+      core.instance.api.ldkAdapterTypesFfiLogRecordDebug(
+          args: args, modulePath: modulePath, line: line);
+
+  /// Creates a new error log record.
+  static Future<FfiLogRecord> error(
+          {required String args,
+          required String modulePath,
+          required int line}) =>
+      core.instance.api.ldkAdapterTypesFfiLogRecordError(
+          args: args, modulePath: modulePath, line: line);
+
+  /// Returns a formatted log message.
+  Future<String> formatted() =>
+      core.instance.api.ldkAdapterTypesFfiLogRecordFormatted(
+        that: this,
+      );
+
+  /// Creates a new info log record.
+  static Future<FfiLogRecord> info(
+          {required String args,
+          required String modulePath,
+          required int line}) =>
+      core.instance.api.ldkAdapterTypesFfiLogRecordInfo(
+          args: args, modulePath: modulePath, line: line);
+
+  /// Checks if this is an error log.
+  Future<bool> isError() =>
+      core.instance.api.ldkAdapterTypesFfiLogRecordIsError(
+        that: this,
+      );
+
+  /// Checks if this is a warning log.
+  Future<bool> isWarn() => core.instance.api.ldkAdapterTypesFfiLogRecordIsWarn(
+        that: this,
+      );
+
+  // HINT: Make it `#[frb(sync)]` to let it become the default constructor of Dart class.
+  /// Creates a new FfiLogRecord.
+  static Future<FfiLogRecord> newInstance(
+          {required LogLevel level,
+          required String args,
+          required String modulePath,
+          required int line}) =>
+      core.instance.api.ldkAdapterTypesFfiLogRecordNew(
+          level: level, args: args, modulePath: modulePath, line: line);
+
+  /// Creates a new trace log record.
+  static Future<FfiLogRecord> trace(
+          {required String args,
+          required String modulePath,
+          required int line}) =>
+      core.instance.api.ldkAdapterTypesFfiLogRecordTrace(
+          args: args, modulePath: modulePath, line: line);
+
+  /// Creates a new warning log record.
+  static Future<FfiLogRecord> warn(
+          {required String args,
+          required String modulePath,
+          required int line}) =>
+      core.instance.api.ldkAdapterTypesFfiLogRecordWarn(
+          args: args, modulePath: modulePath, line: line);
 
   @override
   int get hashCode =>
@@ -611,6 +850,57 @@ enum LogLevel {
   ///
   error,
   ;
+}
+
+/// Limits applying to how much fee we allow an LSP to deduct from the payment amount.
+class LSPFeeLimits {
+  /// The maximal total amount we allow any configured LSP withhold from us when forwarding the
+  /// payment.
+  final BigInt? maxTotalOpeningFeeMsat;
+
+  /// The maximal proportional fee, in parts-per-million millisatoshi, we allow any configured
+  /// LSP withhold from us when forwarding the payment.
+  final BigInt? maxProportionalOpeningFeePpmMsat;
+
+  const LSPFeeLimits({
+    this.maxTotalOpeningFeeMsat,
+    this.maxProportionalOpeningFeePpmMsat,
+  });
+
+  /// Creates conservative LSP fee limits.
+  static Future<LSPFeeLimits> conservative() =>
+      core.instance.api.ldkAdapterTypesLspFeeLimitsConservative();
+
+  // HINT: Make it `#[frb(sync)]` to let it become the default constructor of Dart class.
+  /// Creates a new LSPFeeLimits.
+  static Future<LSPFeeLimits> newInstance(
+          {BigInt? maxTotalOpeningFeeMsat,
+          BigInt? maxProportionalOpeningFeePpmMsat}) =>
+      core.instance.api.ldkAdapterTypesLspFeeLimitsNew(
+          maxTotalOpeningFeeMsat: maxTotalOpeningFeeMsat,
+          maxProportionalOpeningFeePpmMsat: maxProportionalOpeningFeePpmMsat);
+
+  /// Creates permissive LSP fee limits.
+  static Future<LSPFeeLimits> permissive() =>
+      core.instance.api.ldkAdapterTypesLspFeeLimitsPermissive();
+
+  /// Creates unlimited LSP fee limits (no limits).
+  static Future<LSPFeeLimits> unlimited() =>
+      core.instance.api.ldkAdapterTypesLspFeeLimitsUnlimited();
+
+  @override
+  int get hashCode =>
+      maxTotalOpeningFeeMsat.hashCode ^
+      maxProportionalOpeningFeePpmMsat.hashCode;
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is LSPFeeLimits &&
+          runtimeType == other.runtimeType &&
+          maxTotalOpeningFeeMsat == other.maxTotalOpeningFeeMsat &&
+          maxProportionalOpeningFeePpmMsat ==
+              other.maxProportionalOpeningFeePpmMsat;
 }
 
 /// A user-defined name for a node, which may be used when displaying the node in a graph.
@@ -726,6 +1016,39 @@ class NodeStatus {
               other.latestChannelMonitorArchivalHeight;
 }
 
+class OfferId {
+  final U8Array32 field0;
+
+  const OfferId({
+    required this.field0,
+  });
+
+  /// Returns the offer ID as bytes.
+  Future<void> asBytes() => core.instance.api.ldkAdapterTypesOfferIdAsBytes(
+        that: this,
+      );
+
+  /// Creates a new OfferId from a byte slice.
+  /// Returns None if the slice is not exactly 32 bytes.
+  static Future<OfferId?> fromBytes({required List<int> bytes}) =>
+      core.instance.api.ldkAdapterTypesOfferIdFromBytes(bytes: bytes);
+
+  // HINT: Make it `#[frb(sync)]` to let it become the default constructor of Dart class.
+  /// Creates a new OfferId from a 32-byte array.
+  static Future<OfferId> newInstance({required U8Array32 data}) =>
+      core.instance.api.ldkAdapterTypesOfferIdNew(data: data);
+
+  @override
+  int get hashCode => field0.hashCode;
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is OfferId &&
+          runtimeType == other.runtimeType &&
+          field0 == other.field0;
+}
+
 /// Represents the direction of a payment.
 ///
 enum PaymentDirection {
@@ -735,6 +1058,42 @@ enum PaymentDirection {
   /// The payment is outbound.
   outbound,
   ;
+}
+
+/// payment_secret type, use to authenticate sender to the receiver and tie MPP HTLCs together
+///
+class PaymentSecret {
+  final U8Array32 data;
+
+  const PaymentSecret({
+    required this.data,
+  });
+
+  /// Returns the payment secret as bytes.
+  Future<void> asBytes() =>
+      core.instance.api.ldkAdapterTypesPaymentSecretAsBytes(
+        that: this,
+      );
+
+  /// Creates a new PaymentSecret from a byte slice.
+  /// Returns None if the slice is not exactly 32 bytes.
+  static Future<PaymentSecret?> fromBytes({required List<int> bytes}) =>
+      core.instance.api.ldkAdapterTypesPaymentSecretFromBytes(bytes: bytes);
+
+  // HINT: Make it `#[frb(sync)]` to let it become the default constructor of Dart class.
+  /// Creates a new PaymentSecret from a 32-byte array.
+  static Future<PaymentSecret> newInstance({required U8Array32 data}) =>
+      core.instance.api.ldkAdapterTypesPaymentSecretNew(data: data);
+
+  @override
+  int get hashCode => data.hashCode;
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is PaymentSecret &&
+          runtimeType == other.runtimeType &&
+          data == other.data;
 }
 
 /// Represents the current status of a payment.
@@ -761,6 +1120,25 @@ class UserChannelId {
   const UserChannelId({
     required this.data,
   });
+
+  /// Returns the data as a byte slice.
+  Future<void> asBytes() =>
+      core.instance.api.ldkAdapterTypesUserChannelIdAsBytes(
+        that: this,
+      );
+
+  /// Creates a new UserChannelId from a string.
+  static Future<UserChannelId> fromString({required String s}) =>
+      core.instance.api.ldkAdapterTypesUserChannelIdFromString(s: s);
+
+  /// Creates a new UserChannelId from a u64.
+  static Future<UserChannelId> fromU64({required BigInt id}) =>
+      core.instance.api.ldkAdapterTypesUserChannelIdFromU64(id: id);
+
+  // HINT: Make it `#[frb(sync)]` to let it become the default constructor of Dart class.
+  /// Creates a new UserChannelId from a byte vector.
+  static Future<UserChannelId> newInstance({required List<int> data}) =>
+      core.instance.api.ldkAdapterTypesUserChannelIdNew(data: data);
 
   @override
   int get hashCode => data.hashCode;

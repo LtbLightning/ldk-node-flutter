@@ -23,6 +23,7 @@ export 'src/generated/third_party/shared.dart'
         ScriptBuf,
         SendingParameters,
         SocketAddress,
+        Mnemonic,
         Txid;
 
 // Generated core types

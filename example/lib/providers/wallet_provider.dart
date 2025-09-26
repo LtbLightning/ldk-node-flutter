@@ -32,7 +32,7 @@ class WalletNotifier extends StateNotifier<WalletState> {
       }
 
       final builder = ldk.Builder()
-          .setEntropyBip39Mnemonic(mnemonic: ldk.Mnemonic(seedPhrase: mnemonic))
+          .setEntropyBip39Mnemonic(mnemonic: ldk.Mnemonic(words: mnemonic.split(" ")))
           .setStorageDirPath(nodeStorageDir)
           .setNetwork(ldk.Network.signet)
           .setChainSourceEsplora(

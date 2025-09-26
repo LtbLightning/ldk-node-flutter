@@ -1482,6 +1482,7 @@ name = "ldk-adapter"
 version = "0.1.0"
 dependencies = [
  "anyhow",
+ "flutter_rust_bridge",
  "ldk-node",
  "shared",
  "thiserror 2.0.16",
@@ -2537,6 +2538,7 @@ dependencies = [
  "anyhow",
  "bark-bitcoin-ext",
  "bip39",
+ "flutter_rust_bridge",
  "ldk-node",
  "rand 0.8.5",
  "serde",

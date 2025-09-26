@@ -10,8 +10,8 @@ import 'node.dart';
 import 'package:flutter_rust_bridge/flutter_rust_bridge_for_generated.dart';
 import 'types.dart';
 
-// Rust type: RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<Builder>>
-abstract class Builder implements RustOpaqueInterface {
+// Rust type: RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<LdkBuilder>>
+abstract class LdkBuilder implements RustOpaqueInterface {
   Future<Node> build();
 
   Future<Node> buildWithFsStore();
@@ -27,23 +27,23 @@ abstract class Builder implements RustOpaqueInterface {
       required String storeId,
       required Map<String, String> fixedHeaders});
 
-  static Future<Builder> createBuilder(
+  static Future<LdkBuilder> createBuilder(
           {required Config config,
           ChainDataSourceConfig? chainDataSourceConfig,
           EntropySourceConfig? entropySourceConfig,
           GossipSourceConfig? gossipSourceConfig,
           LiquiditySourceConfig? liquiditySourceConfig}) =>
-      core.instance.api.ldkAdapterBuilderBuilderCreateBuilder(
+      core.instance.api.ldkAdapterBuilderLdkBuilderCreateBuilder(
           config: config,
           chainDataSourceConfig: chainDataSourceConfig,
           entropySourceConfig: entropySourceConfig,
           gossipSourceConfig: gossipSourceConfig,
           liquiditySourceConfig: liquiditySourceConfig);
 
-  Future<Builder> setEntropySeedBytes({required List<int> seedBytes});
+  Future<LdkBuilder> setEntropySeedBytes({required List<int> seedBytes});
 
-  Future<Builder> setFilesystemLogger(
+  Future<LdkBuilder> setFilesystemLogger(
       {String? logFilePath, LogLevel? maxLogLevel});
 
-  Future<Builder> setLogFacadeLogger();
+  Future<LdkBuilder> setLogFacadeLogger();
 }
