@@ -16,7 +16,7 @@ impl From<ldk_node::payment::Bolt12Payment> for FfiBolt12Payment {
     }
 }
 impl FfiBolt12Payment {
-    pub fn send(
+    pub fn send_unsafe(
         &self,
         offer: Offer,
         quantity: Option<u64>,
@@ -27,7 +27,7 @@ impl FfiBolt12Payment {
             .map_err(|e| e.into())
             .map(|e| e.into())
     }
-    pub fn send_using_amount(
+    pub fn send_using_amount_unsafe(
         &self,
         offer: Offer,
         amount_msat: u64,
@@ -39,7 +39,7 @@ impl FfiBolt12Payment {
             .map_err(|e| e.into())
             .map(|e| e.into())
     }
-    pub fn receive(
+    pub fn receive_unsafe(
         &self,
         amount_msat: u64,
         description: String,
@@ -51,7 +51,7 @@ impl FfiBolt12Payment {
             .map_err(|e| e.into())
             .map(|e| e.into())
     }
-    pub fn receive_variable_amount(
+    pub fn receive_variable_amount_unsafe(
         &self,
         description: String,
         expiry_secs: Option<u32>,
@@ -62,7 +62,7 @@ impl FfiBolt12Payment {
             .map(|e| e.into())
     }
 
-    pub fn request_refund_payment(
+    pub fn request_refund_payment_unsafe(
         &self,
         refund: Refund,
     ) -> anyhow::Result<Bolt12Invoice, FfiNodeError> {
@@ -72,7 +72,7 @@ impl FfiBolt12Payment {
             .map(|e| e.into())
     }
 
-    pub fn initiate_refund(
+    pub fn initiate_refund_unsafe(
         &self,
         amount_msat: u64,
         expiry_secs: u32,

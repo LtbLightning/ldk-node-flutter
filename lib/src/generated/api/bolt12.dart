@@ -37,50 +37,52 @@ class FfiBolt12Payment {
     required this.opaque,
   });
 
-  Future<Refund> initiateRefund(
+  Future<Refund> initiateRefundUnsafe(
           {required BigInt amountMsat,
           required int expirySecs,
           BigInt? quantity,
           String? payerNote}) =>
-      core.instance.api.crateApiBolt12FfiBolt12PaymentInitiateRefund(
+      core.instance.api.crateApiBolt12FfiBolt12PaymentInitiateRefundUnsafe(
           that: this,
           amountMsat: amountMsat,
           expirySecs: expirySecs,
           quantity: quantity,
           payerNote: payerNote);
 
-  Future<Offer> receive(
+  Future<Offer> receiveUnsafe(
           {required BigInt amountMsat,
           required String description,
           int? expirySecs,
           BigInt? quantity}) =>
-      core.instance.api.crateApiBolt12FfiBolt12PaymentReceive(
+      core.instance.api.crateApiBolt12FfiBolt12PaymentReceiveUnsafe(
           that: this,
           amountMsat: amountMsat,
           description: description,
           expirySecs: expirySecs,
           quantity: quantity);
 
-  Future<Offer> receiveVariableAmount(
+  Future<Offer> receiveVariableAmountUnsafe(
           {required String description, int? expirySecs}) =>
-      core.instance.api.crateApiBolt12FfiBolt12PaymentReceiveVariableAmount(
-          that: this, description: description, expirySecs: expirySecs);
+      core.instance.api
+          .crateApiBolt12FfiBolt12PaymentReceiveVariableAmountUnsafe(
+              that: this, description: description, expirySecs: expirySecs);
 
-  Future<Bolt12Invoice> requestRefundPayment({required Refund refund}) =>
-      core.instance.api.crateApiBolt12FfiBolt12PaymentRequestRefundPayment(
-          that: this, refund: refund);
+  Future<Bolt12Invoice> requestRefundPaymentUnsafe({required Refund refund}) =>
+      core.instance.api
+          .crateApiBolt12FfiBolt12PaymentRequestRefundPaymentUnsafe(
+              that: this, refund: refund);
 
-  Future<PaymentId> send(
+  Future<PaymentId> sendUnsafe(
           {required Offer offer, BigInt? quantity, String? payerNote}) =>
-      core.instance.api.crateApiBolt12FfiBolt12PaymentSend(
+      core.instance.api.crateApiBolt12FfiBolt12PaymentSendUnsafe(
           that: this, offer: offer, quantity: quantity, payerNote: payerNote);
 
-  Future<PaymentId> sendUsingAmount(
+  Future<PaymentId> sendUsingAmountUnsafe(
           {required Offer offer,
           required BigInt amountMsat,
           BigInt? quantity,
           String? payerNote}) =>
-      core.instance.api.crateApiBolt12FfiBolt12PaymentSendUsingAmount(
+      core.instance.api.crateApiBolt12FfiBolt12PaymentSendUsingAmountUnsafe(
           that: this,
           offer: offer,
           amountMsat: amountMsat,
