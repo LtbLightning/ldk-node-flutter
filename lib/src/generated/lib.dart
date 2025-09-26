@@ -7,51 +7,11 @@ import 'frb_generated.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter_rust_bridge/flutter_rust_bridge_for_generated.dart';
 
-// Rust type: RustOpaqueNom<ldk_node :: graph :: NetworkGraph>
-abstract class NetworkGraph implements RustOpaqueInterface {}
+// Rust type: RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<BitcoinTransactionInner>>
+abstract class BitcoinTransactionInner implements RustOpaqueInterface {}
 
-// Rust type: RustOpaqueNom<ldk_node :: payment :: Bolt11Payment>
-abstract class Bolt11Payment implements RustOpaqueInterface {}
-
-// Rust type: RustOpaqueNom<ldk_node :: payment :: Bolt12Payment>
-abstract class Bolt12Payment implements RustOpaqueInterface {}
-
-// Rust type: RustOpaqueNom<ldk_node :: payment :: OnchainPayment>
-abstract class OnchainPayment implements RustOpaqueInterface {}
-
-// Rust type: RustOpaqueNom<ldk_node :: payment :: SpontaneousPayment>
-abstract class SpontaneousPayment implements RustOpaqueInterface {}
-
-// Rust type: RustOpaqueNom<ldk_node :: payment :: UnifiedQrPayment>
-abstract class UnifiedQrPayment implements RustOpaqueInterface {}
-
-class U8Array12 extends NonGrowableListView<int> {
-  static const arraySize = 12;
-
-  @internal
-  Uint8List get inner => _inner;
-  final Uint8List _inner;
-
-  U8Array12(this._inner)
-      : assert(_inner.length == arraySize),
-        super(_inner);
-
-  U8Array12.init() : this(Uint8List(arraySize));
-}
-
-class U8Array16 extends NonGrowableListView<int> {
-  static const arraySize = 16;
-
-  @internal
-  Uint8List get inner => _inner;
-  final Uint8List _inner;
-
-  U8Array16(this._inner)
-      : assert(_inner.length == arraySize),
-        super(_inner);
-
-  U8Array16.init() : this(Uint8List(arraySize));
-}
+// Rust type: RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<TaprootSpendInfoInner>>
+abstract class TaprootSpendInfoInner implements RustOpaqueInterface {}
 
 class U8Array32 extends NonGrowableListView<int> {
   static const arraySize = 32;
@@ -65,20 +25,6 @@ class U8Array32 extends NonGrowableListView<int> {
         super(_inner);
 
   U8Array32.init() : this(Uint8List(arraySize));
-}
-
-class U8Array4 extends NonGrowableListView<int> {
-  static const arraySize = 4;
-
-  @internal
-  Uint8List get inner => _inner;
-  final Uint8List _inner;
-
-  U8Array4(this._inner)
-      : assert(_inner.length == arraySize),
-        super(_inner);
-
-  U8Array4.init() : this(Uint8List(arraySize));
 }
 
 class U8Array64 extends NonGrowableListView<int> {

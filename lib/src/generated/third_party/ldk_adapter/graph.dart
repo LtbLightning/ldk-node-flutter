@@ -3,29 +3,42 @@
 
 // ignore_for_file: invalid_use_of_internal_member, unused_import, unnecessary_import
 
-import '../frb_generated.dart';
-import '../lib.dart';
-import '../utils/error.dart';
+import '../../frb_generated.dart';
+import '../shared.dart';
 import 'package:flutter_rust_bridge/flutter_rust_bridge_for_generated.dart';
-import 'types.dart';
 
-// These function are ignored because they are on traits that is not defined in current crate (put an empty `#[frb]` on it to unignore): `from`, `from`, `from`, `from`, `from`, `from`, `from`, `try_from`
+// These function are ignored because they are on traits that is not defined in current crate (put an empty `#[frb]` on it to unignore): `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `try_from`
 
-///Details about a channel (both directions). Received within a channel announcement.
+// Rust type: RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<NetworkGraph>>
+abstract class NetworkGraph implements RustOpaqueInterface {
+  /// Returns information on a channel with the given id.
+  Future<ChannelInfo?> channel({required BigInt shortChannelId});
+
+  /// Returns the list of channels in the graph
+  Future<Uint64List> listChannels();
+
+  /// Returns the list of nodes in the graph
+  Future<List<NodeId>> listNodes();
+
+  /// Returns information about a specific node
+  Future<NodeInfo?> node({required NodeId nodeId});
+}
+
+/// Details about a channel (both directions). Received within a channel announcement.
 class ChannelInfo {
-  ///Source node of the first direction of a channel
+  /// Source node of the first direction of a channel
   final NodeId nodeOne;
 
-  ///Details about the first direction of a channel
+  /// Details about the first direction of a channel
   final ChannelUpdateInfo? oneToTwo;
 
-  ///Source node of the second direction of a channel
+  /// Source node of the second direction of a channel
   final NodeId nodeTwo;
 
-  ///Details about the second direction of a channel
+  /// Details about the second direction of a channel
   final ChannelUpdateInfo? twoToOne;
 
-  ///The channel capacity as seen on-chain, if chain lookup is available.
+  /// The channel capacity as seen on-chain, if chain lookup is available.
   final BigInt? capacitySats;
 
   const ChannelInfo({
@@ -56,21 +69,24 @@ class ChannelInfo {
           capacitySats == other.capacitySats;
 }
 
+/// Channel update information for one direction of a channel
 class ChannelUpdateInfo {
-  ///When the last update to the channel direction was issued. Value is opaque, as set in the announcement.
+  /// When the last update to the channel direction was issued. Value is opaque, as set in the announcement.
   final int lastUpdate;
 
-  ///Whether the channel can be currently used for payments (in this one direction).
+  /// Whether the channel can be currently used for payments (in this one direction).
   final bool enabled;
 
-  ///The difference in CLTV values that you must have when routing through this channel.
+  /// The difference in CLTV values that you must have when routing through this channel.
   final int cltvExpiryDelta;
 
-  ///The minimum value, which must be relayed to the next hop via the channel
+  /// The minimum value, which must be relayed to the next hop via the channel
   final BigInt htlcMinimumMsat;
 
-  ///The maximum value which may be relayed to the next hop via the channel.
+  /// The maximum value which may be relayed to the next hop via the channel.
   final BigInt htlcMaximumMsat;
+
+  /// Fees charged when the channel is used for routing
   final RoutingFees fees;
 
   const ChannelUpdateInfo({
@@ -104,44 +120,7 @@ class ChannelUpdateInfo {
           fees == other.fees;
 }
 
-class FfiNetworkGraph {
-  final NetworkGraph opaque;
-
-  const FfiNetworkGraph({
-    required this.opaque,
-  });
-
-  /// Returns information on a channel with the given id.
-  Future<ChannelInfo?> channelUnsafe({required BigInt shortChannelId}) =>
-      core.instance.api.crateApiGraphFfiNetworkGraphChannelUnsafe(
-          that: this, shortChannelId: shortChannelId);
-
-  /// Returns the list of channels in the graph
-  Future<Uint64List> listChannelsUnsafe() =>
-      core.instance.api.crateApiGraphFfiNetworkGraphListChannelsUnsafe(
-        that: this,
-      );
-
-  /// Returns the list of nodes in the graph
-  Future<List<NodeId>> listNodesUnsafe() =>
-      core.instance.api.crateApiGraphFfiNetworkGraphListNodesUnsafe(
-        that: this,
-      );
-
-  Future<NodeInfo?> nodeUnsafe({required NodeId nodeId}) => core.instance.api
-      .crateApiGraphFfiNetworkGraphNodeUnsafe(that: this, nodeId: nodeId);
-
-  @override
-  int get hashCode => opaque.hashCode;
-
-  @override
-  bool operator ==(Object other) =>
-      identical(this, other) ||
-      other is FfiNetworkGraph &&
-          runtimeType == other.runtimeType &&
-          opaque == other.opaque;
-}
-
+/// Node announcement information
 class NodeAnnouncementInfo {
   /// When the last known update to the node state was issued.
   /// Value is opaque, as set in the announcement.
@@ -174,7 +153,6 @@ class NodeAnnouncementInfo {
           addresses == other.addresses;
 }
 
-///Represents the compressed public key of a node
 class NodeId {
   final Uint8List compressed;
 
@@ -193,11 +171,13 @@ class NodeId {
           compressed == other.compressed;
 }
 
-///Details about a node in the network, known from the network announcement.
+/// Details about a node in the network, known from the network announcement.
 class NodeInfo {
   final Uint64List channels;
 
-  ///More information about a node from node_announcement. Optional because we store a Node entry after learning about it from a channel announcement, but before receiving a node announcement.
+  /// More information about a node from node_announcement.
+  /// Optional because we store a Node entry after learning about it from
+  /// a channel announcement, but before receiving a node announcement.
   final NodeAnnouncementInfo? announcementInfo;
 
   const NodeInfo({
@@ -217,7 +197,6 @@ class NodeInfo {
           announcementInfo == other.announcementInfo;
 }
 
-///Fees for routing via a given channel or a node
 class RoutingFees {
   ///Flat routing fee in millisatoshis.
   final int baseMsat;

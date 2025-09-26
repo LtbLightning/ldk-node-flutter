@@ -3,15 +3,6 @@
 
 // ignore_for_file: unused_import, unused_element, unnecessary_import, duplicate_ignore, invalid_use_of_internal_member, annotate_overrides, non_constant_identifier_names, curly_braces_in_flow_control_structures, prefer_const_literals_to_create_immutables, unused_field
 
-import 'api/bolt11.dart';
-import 'api/bolt12.dart';
-import 'api/builder.dart';
-import 'api/graph.dart';
-import 'api/node.dart';
-import 'api/on_chain.dart';
-import 'api/spontaneous.dart';
-import 'api/types.dart';
-import 'api/unified_qr.dart';
 import 'dart:async';
 import 'dart:convert';
 import 'frb_generated.dart';
@@ -19,7 +10,16 @@ import 'frb_generated.io.dart'
     if (dart.library.js_interop) 'frb_generated.web.dart';
 import 'lib.dart';
 import 'package:flutter_rust_bridge/flutter_rust_bridge_for_generated.dart';
-import 'utils/error.dart';
+import 'third_party/ldk_adapter/bolt11.dart';
+import 'third_party/ldk_adapter/bolt12.dart';
+import 'third_party/ldk_adapter/builder.dart';
+import 'third_party/ldk_adapter/graph.dart';
+import 'third_party/ldk_adapter/node.dart';
+import 'third_party/ldk_adapter/on_chain.dart';
+import 'third_party/ldk_adapter/spontaneous.dart';
+import 'third_party/ldk_adapter/types.dart';
+import 'third_party/ldk_adapter/unified_qr.dart';
+import 'third_party/shared.dart';
 
 /// Main entrypoint of the Rust API
 class core extends BaseEntrypoint<coreApi, coreApiImpl, coreWire> {
@@ -77,7 +77,7 @@ class core extends BaseEntrypoint<coreApi, coreApiImpl, coreWire> {
   String get codegenVersion => '2.11.1';
 
   @override
-  int get rustContentHash => 354908666;
+  int get rustContentHash => -1280831240;
 
   static const kDefaultExternalLibraryLoaderConfig =
       ExternalLibraryLoaderConfig(
@@ -88,371 +88,702 @@ class core extends BaseEntrypoint<coreApi, coreApiImpl, coreWire> {
 }
 
 abstract class coreApi extends BaseApi {
-  Builder crateApiBuilderFfiBuilderAutoAccessorGetOpaque(
-      {required FfiBuilder that});
+  BitcoinAddressInner sharedBitcoinAddressAutoAccessorGetInner(
+      {required BitcoinAddress that});
 
-  void crateApiBuilderFfiBuilderAutoAccessorSetOpaque(
-      {required FfiBuilder that, required Builder opaque});
+  void sharedBitcoinAddressAutoAccessorSetInner(
+      {required BitcoinAddress that, required BitcoinAddressInner inner});
 
-  Future<FfiNode> crateApiBuilderFfiBuilderBuild({required FfiBuilder that});
+  Future<BitcoinAddress> sharedBitcoinAddressFromScript(
+      {required ScriptBuf script, required Network network});
 
-  Future<FfiNode> crateApiBuilderFfiBuilderBuildWithFsStore(
-      {required FfiBuilder that});
+  Future<bool> sharedBitcoinAddressIsValidForNetwork(
+      {required BitcoinAddress that, required Network network});
 
-  Future<FfiNode> crateApiBuilderFfiBuilderBuildWithVssStore(
-      {required FfiBuilder that,
+  Future<BitcoinAddress> sharedBitcoinAddressNew(
+      {required String address, required Network network});
+
+  Future<ScriptBuf> sharedBitcoinAddressScriptPubkey(
+      {required BitcoinAddress that});
+
+  Future<AddressData> sharedBitcoinAddressToAddressData(
+      {required BitcoinAddress that});
+
+  Future<String> sharedBitcoinAddressToQrUri({required BitcoinAddress that});
+
+  Future<void> ldkAdapterBolt11Bolt11PaymentClaimForHash(
+      {required Bolt11Payment that,
+      required PaymentHash paymentHash,
+      required BigInt claimableAmountMsat,
+      required PaymentPreimage preimage});
+
+  Future<void> ldkAdapterBolt11Bolt11PaymentFailForHash(
+      {required Bolt11Payment that, required PaymentHash paymentHash});
+
+  Future<Bolt11Invoice> ldkAdapterBolt11Bolt11PaymentReceive(
+      {required Bolt11Payment that,
+      required BigInt amountMsat,
+      required String description,
+      required int expirySecs});
+
+  Future<Bolt11Invoice> ldkAdapterBolt11Bolt11PaymentReceiveForHash(
+      {required Bolt11Payment that,
+      required PaymentHash paymentHash,
+      required BigInt amountMsat,
+      required String description,
+      required int expirySecs});
+
+  Future<Bolt11Invoice> ldkAdapterBolt11Bolt11PaymentReceiveVariableAmount(
+      {required Bolt11Payment that,
+      required String description,
+      required int expirySecs});
+
+  Future<Bolt11Invoice>
+      ldkAdapterBolt11Bolt11PaymentReceiveVariableAmountForHash(
+          {required Bolt11Payment that,
+          required String description,
+          required int expirySecs,
+          required PaymentHash paymentHash});
+
+  Future<Bolt11Invoice>
+      ldkAdapterBolt11Bolt11PaymentReceiveVariableAmountViaJitChannel(
+          {required Bolt11Payment that,
+          required String description,
+          required int expirySecs,
+          BigInt? maxProportionalLspFeeLimitPpmMsat});
+
+  Future<Bolt11Invoice> ldkAdapterBolt11Bolt11PaymentReceiveViaJitChannel(
+      {required Bolt11Payment that,
+      required BigInt amountMsat,
+      required String description,
+      required int expirySecs,
+      BigInt? maxTotalLspFeeLimitMsat});
+
+  Future<PaymentId> ldkAdapterBolt11Bolt11PaymentSend(
+      {required Bolt11Payment that,
+      required Bolt11Invoice invoice,
+      SendingParameters? sendingParameters});
+
+  Future<void> ldkAdapterBolt11Bolt11PaymentSendProbes(
+      {required Bolt11Payment that, required Bolt11Invoice invoice});
+
+  Future<void> ldkAdapterBolt11Bolt11PaymentSendProbesUsingAmount(
+      {required Bolt11Payment that,
+      required Bolt11Invoice invoice,
+      required BigInt amountMsat});
+
+  Future<PaymentId> ldkAdapterBolt11Bolt11PaymentSendUsingAmount(
+      {required Bolt11Payment that,
+      required Bolt11Invoice invoice,
+      required BigInt amountMsat,
+      SendingParameters? sendingParameters});
+
+  Future<Refund> ldkAdapterBolt12Bolt12PaymentInitiateRefund(
+      {required Bolt12Payment that,
+      required BigInt amountMsat,
+      required int expirySecs,
+      BigInt? quantity,
+      String? payerNote});
+
+  Future<Offer> ldkAdapterBolt12Bolt12PaymentReceive(
+      {required Bolt12Payment that,
+      required BigInt amountMsat,
+      required String description,
+      int? expirySecs,
+      BigInt? quantity});
+
+  Future<Offer> ldkAdapterBolt12Bolt12PaymentReceiveVariableAmount(
+      {required Bolt12Payment that,
+      required String description,
+      int? expirySecs});
+
+  Future<Bolt12Invoice> ldkAdapterBolt12Bolt12PaymentRequestRefundPayment(
+      {required Bolt12Payment that, required Refund refund});
+
+  Future<PaymentId> ldkAdapterBolt12Bolt12PaymentSend(
+      {required Bolt12Payment that,
+      required Offer offer,
+      BigInt? quantity,
+      String? payerNote});
+
+  Future<PaymentId> ldkAdapterBolt12Bolt12PaymentSendUsingAmount(
+      {required Bolt12Payment that,
+      required Offer offer,
+      required BigInt amountMsat,
+      BigInt? quantity,
+      String? payerNote});
+
+  Future<Node> ldkAdapterBuilderBuilderBuild({required Builder that});
+
+  Future<Node> ldkAdapterBuilderBuilderBuildWithFsStore(
+      {required Builder that});
+
+  Future<Node> ldkAdapterBuilderBuilderBuildWithVssStore(
+      {required Builder that,
       required String vssUrl,
       required String storeId,
       required String lnurlAuthServerUrl,
       required Map<String, String> fixedHeaders});
 
-  Future<FfiNode> crateApiBuilderFfiBuilderBuildWithVssStoreAndFixedHeaders(
-      {required FfiBuilder that,
+  Future<Node> ldkAdapterBuilderBuilderBuildWithVssStoreAndFixedHeaders(
+      {required Builder that,
       required String vssUrl,
       required String storeId,
       required Map<String, String> fixedHeaders});
 
-  FfiBuilder crateApiBuilderFfiBuilderCreateBuilder(
+  Future<Builder> ldkAdapterBuilderBuilderCreateBuilder(
       {required Config config,
       ChainDataSourceConfig? chainDataSourceConfig,
       EntropySourceConfig? entropySourceConfig,
       GossipSourceConfig? gossipSourceConfig,
       LiquiditySourceConfig? liquiditySourceConfig});
 
-  FfiBuilder crateApiBuilderFfiBuilderSetEntropySeedBytes(
-      {required FfiBuilder that, required List<int> seedBytes});
+  Future<Builder> ldkAdapterBuilderBuilderSetEntropySeedBytes(
+      {required Builder that, required List<int> seedBytes});
 
-  FfiBuilder crateApiBuilderFfiBuilderSetFilesystemLogger(
-      {required FfiBuilder that, String? logFilePath, LogLevel? maxLogLevel});
+  Future<Builder> ldkAdapterBuilderBuilderSetFilesystemLogger(
+      {required Builder that, String? logFilePath, LogLevel? maxLogLevel});
 
-  FfiBuilder crateApiBuilderFfiBuilderSetLogFacadeLogger(
-      {required FfiBuilder that});
+  Future<Builder> ldkAdapterBuilderBuilderSetLogFacadeLogger(
+      {required Builder that});
 
-  Future<AnchorChannelsConfig> crateApiTypesAnchorChannelsConfigDefault();
+  bool ldkAdapterTypesChannelConfigAutoAccessorGetAcceptUnderpayingHtlcs(
+      {required ChannelConfig that});
 
-  Future<Config> crateApiTypesConfigDefault();
+  int ldkAdapterTypesChannelConfigAutoAccessorGetCltvExpiryDelta(
+      {required ChannelConfig that});
 
-  Future<void> crateApiBolt11FfiBolt11PaymentClaimForHashUnsafe(
-      {required FfiBolt11Payment that,
-      required PaymentHash paymentHash,
-      required BigInt claimableAmountMsat,
-      required PaymentPreimage preimage});
+  BigInt
+      ldkAdapterTypesChannelConfigAutoAccessorGetForceCloseAvoidanceMaxFeeSatoshis(
+          {required ChannelConfig that});
 
-  Future<void> crateApiBolt11FfiBolt11PaymentFailForHashUnsafe(
-      {required FfiBolt11Payment that, required PaymentHash paymentHash});
+  int ldkAdapterTypesChannelConfigAutoAccessorGetForwardingFeeBaseMsat(
+      {required ChannelConfig that});
 
-  Future<Bolt11Invoice> crateApiBolt11FfiBolt11PaymentReceiveForHashUnsafe(
-      {required FfiBolt11Payment that,
-      required PaymentHash paymentHash,
-      required BigInt amountMsat,
-      required String description,
-      required int expirySecs});
+  int ldkAdapterTypesChannelConfigAutoAccessorGetForwardingFeeProportionalMillionths(
+      {required ChannelConfig that});
 
-  Future<Bolt11Invoice> crateApiBolt11FfiBolt11PaymentReceiveUnsafe(
-      {required FfiBolt11Payment that,
-      required BigInt amountMsat,
-      required String description,
-      required int expirySecs});
+  MaxDustHtlcExposure
+      ldkAdapterTypesChannelConfigAutoAccessorGetMaxDustHtlcExposure(
+          {required ChannelConfig that});
 
-  Future<Bolt11Invoice>
-      crateApiBolt11FfiBolt11PaymentReceiveVariableAmountForHashUnsafe(
-          {required FfiBolt11Payment that,
-          required String description,
-          required int expirySecs,
-          required PaymentHash paymentHash});
+  void ldkAdapterTypesChannelConfigAutoAccessorSetAcceptUnderpayingHtlcs(
+      {required ChannelConfig that, required bool acceptUnderpayingHtlcs});
 
-  Future<Bolt11Invoice>
-      crateApiBolt11FfiBolt11PaymentReceiveVariableAmountUnsafe(
-          {required FfiBolt11Payment that,
-          required String description,
-          required int expirySecs});
+  void ldkAdapterTypesChannelConfigAutoAccessorSetCltvExpiryDelta(
+      {required ChannelConfig that, required int cltvExpiryDelta});
 
-  Future<Bolt11Invoice>
-      crateApiBolt11FfiBolt11PaymentReceiveVariableAmountViaJitChannelUnsafe(
-          {required FfiBolt11Payment that,
-          required String description,
-          required int expirySecs,
-          BigInt? maxProportionalLspFeeLimitPpmMsat});
+  void
+      ldkAdapterTypesChannelConfigAutoAccessorSetForceCloseAvoidanceMaxFeeSatoshis(
+          {required ChannelConfig that,
+          required BigInt forceCloseAvoidanceMaxFeeSatoshis});
 
-  Future<Bolt11Invoice>
-      crateApiBolt11FfiBolt11PaymentReceiveViaJitChannelUnsafe(
-          {required FfiBolt11Payment that,
-          required BigInt amountMsat,
-          required String description,
-          required int expirySecs,
-          BigInt? maxTotalLspFeeLimitMsat});
+  void ldkAdapterTypesChannelConfigAutoAccessorSetForwardingFeeBaseMsat(
+      {required ChannelConfig that, required int forwardingFeeBaseMsat});
 
-  Future<void> crateApiBolt11FfiBolt11PaymentSendProbesUnsafe(
-      {required FfiBolt11Payment that, required Bolt11Invoice invoice});
+  void
+      ldkAdapterTypesChannelConfigAutoAccessorSetForwardingFeeProportionalMillionths(
+          {required ChannelConfig that,
+          required int forwardingFeeProportionalMillionths});
 
-  Future<void> crateApiBolt11FfiBolt11PaymentSendProbesUsingAmountUnsafe(
-      {required FfiBolt11Payment that,
-      required Bolt11Invoice invoice,
-      required BigInt amountMsat});
+  void ldkAdapterTypesChannelConfigAutoAccessorSetMaxDustHtlcExposure(
+      {required ChannelConfig that,
+      required MaxDustHtlcExposure maxDustHtlcExposure});
 
-  Future<PaymentId> crateApiBolt11FfiBolt11PaymentSendUnsafe(
-      {required FfiBolt11Payment that,
-      required Bolt11Invoice invoice,
-      SendingParameters? sendingParameters});
+  ChannelId ldkAdapterTypesChannelDetailsAutoAccessorGetChannelId(
+      {required ChannelDetails that});
 
-  Future<PaymentId> crateApiBolt11FfiBolt11PaymentSendUsingAmountUnsafe(
-      {required FfiBolt11Payment that,
-      required Bolt11Invoice invoice,
-      required BigInt amountMsat,
-      SendingParameters? sendingParameters});
+  BigInt ldkAdapterTypesChannelDetailsAutoAccessorGetChannelValueSats(
+      {required ChannelDetails that});
 
-  Future<Refund> crateApiBolt12FfiBolt12PaymentInitiateRefundUnsafe(
-      {required FfiBolt12Payment that,
-      required BigInt amountMsat,
-      required int expirySecs,
-      BigInt? quantity,
-      String? payerNote});
+  int? ldkAdapterTypesChannelDetailsAutoAccessorGetCltvExpiryDelta(
+      {required ChannelDetails that});
 
-  Future<Offer> crateApiBolt12FfiBolt12PaymentReceiveUnsafe(
-      {required FfiBolt12Payment that,
-      required BigInt amountMsat,
-      required String description,
-      int? expirySecs,
-      BigInt? quantity});
+  ChannelConfig ldkAdapterTypesChannelDetailsAutoAccessorGetConfig(
+      {required ChannelDetails that});
 
-  Future<Offer> crateApiBolt12FfiBolt12PaymentReceiveVariableAmountUnsafe(
-      {required FfiBolt12Payment that,
-      required String description,
-      int? expirySecs});
+  int? ldkAdapterTypesChannelDetailsAutoAccessorGetConfirmations(
+      {required ChannelDetails that});
 
-  Future<Bolt12Invoice>
-      crateApiBolt12FfiBolt12PaymentRequestRefundPaymentUnsafe(
-          {required FfiBolt12Payment that, required Refund refund});
+  int? ldkAdapterTypesChannelDetailsAutoAccessorGetConfirmationsRequired(
+      {required ChannelDetails that});
 
-  Future<PaymentId> crateApiBolt12FfiBolt12PaymentSendUnsafe(
-      {required FfiBolt12Payment that,
-      required Offer offer,
-      BigInt? quantity,
-      String? payerNote});
+  int?
+      ldkAdapterTypesChannelDetailsAutoAccessorGetCounterpartyForwardingInfoCltvExpiryDelta(
+          {required ChannelDetails that});
 
-  Future<PaymentId> crateApiBolt12FfiBolt12PaymentSendUsingAmountUnsafe(
-      {required FfiBolt12Payment that,
-      required Offer offer,
-      required BigInt amountMsat,
-      BigInt? quantity,
-      String? payerNote});
+  int?
+      ldkAdapterTypesChannelDetailsAutoAccessorGetCounterpartyForwardingInfoFeeBaseMsat(
+          {required ChannelDetails that});
 
-  Future<FfiMnemonic> crateApiBuilderFfiMnemonicGenerate();
+  int?
+      ldkAdapterTypesChannelDetailsAutoAccessorGetCounterpartyForwardingInfoFeeProportionalMillionths(
+          {required ChannelDetails that});
 
-  Future<ChannelInfo?> crateApiGraphFfiNetworkGraphChannelUnsafe(
-      {required FfiNetworkGraph that, required BigInt shortChannelId});
+  PublicKey ldkAdapterTypesChannelDetailsAutoAccessorGetCounterpartyNodeId(
+      {required ChannelDetails that});
 
-  Future<Uint64List> crateApiGraphFfiNetworkGraphListChannelsUnsafe(
-      {required FfiNetworkGraph that});
+  BigInt?
+      ldkAdapterTypesChannelDetailsAutoAccessorGetCounterpartyOutboundHtlcMaximumMsat(
+          {required ChannelDetails that});
 
-  Future<List<NodeId>> crateApiGraphFfiNetworkGraphListNodesUnsafe(
-      {required FfiNetworkGraph that});
+  BigInt?
+      ldkAdapterTypesChannelDetailsAutoAccessorGetCounterpartyOutboundHtlcMinimumMsat(
+          {required ChannelDetails that});
 
-  Future<NodeInfo?> crateApiGraphFfiNetworkGraphNodeUnsafe(
-      {required FfiNetworkGraph that, required NodeId nodeId});
+  BigInt
+      ldkAdapterTypesChannelDetailsAutoAccessorGetCounterpartyUnspendablePunishmentReserve(
+          {required ChannelDetails that});
 
-  Future<FfiBolt11Payment> crateApiNodeFfiNodeBolt11Payment(
-      {required FfiNode ptr});
+  int ldkAdapterTypesChannelDetailsAutoAccessorGetFeerateSatPer1000Weight(
+      {required ChannelDetails that});
 
-  Future<FfiBolt12Payment> crateApiNodeFfiNodeBolt12Payment(
-      {required FfiNode ptr});
+  int? ldkAdapterTypesChannelDetailsAutoAccessorGetForceCloseSpendDelay(
+      {required ChannelDetails that});
 
-  Future<void> crateApiNodeFfiNodeCloseChannel(
-      {required FfiNode that,
+  OutPoint? ldkAdapterTypesChannelDetailsAutoAccessorGetFundingTxo(
+      {required ChannelDetails that});
+
+  BigInt ldkAdapterTypesChannelDetailsAutoAccessorGetInboundCapacityMsat(
+      {required ChannelDetails that});
+
+  BigInt? ldkAdapterTypesChannelDetailsAutoAccessorGetInboundHtlcMaximumMsat(
+      {required ChannelDetails that});
+
+  BigInt ldkAdapterTypesChannelDetailsAutoAccessorGetInboundHtlcMinimumMsat(
+      {required ChannelDetails that});
+
+  bool ldkAdapterTypesChannelDetailsAutoAccessorGetIsChannelReady(
+      {required ChannelDetails that});
+
+  bool ldkAdapterTypesChannelDetailsAutoAccessorGetIsOutbound(
+      {required ChannelDetails that});
+
+  bool ldkAdapterTypesChannelDetailsAutoAccessorGetIsUsable(
+      {required ChannelDetails that});
+
+  BigInt ldkAdapterTypesChannelDetailsAutoAccessorGetNextOutboundHtlcLimitMsat(
+      {required ChannelDetails that});
+
+  BigInt
+      ldkAdapterTypesChannelDetailsAutoAccessorGetNextOutboundHtlcMinimumMsat(
+          {required ChannelDetails that});
+
+  BigInt ldkAdapterTypesChannelDetailsAutoAccessorGetOutboundCapacityMsat(
+      {required ChannelDetails that});
+
+  BigInt?
+      ldkAdapterTypesChannelDetailsAutoAccessorGetUnspendablePunishmentReserve(
+          {required ChannelDetails that});
+
+  UserChannelId ldkAdapterTypesChannelDetailsAutoAccessorGetUserChannelId(
+      {required ChannelDetails that});
+
+  void ldkAdapterTypesChannelDetailsAutoAccessorSetChannelId(
+      {required ChannelDetails that, required ChannelId channelId});
+
+  void ldkAdapterTypesChannelDetailsAutoAccessorSetChannelValueSats(
+      {required ChannelDetails that, required BigInt channelValueSats});
+
+  void ldkAdapterTypesChannelDetailsAutoAccessorSetCltvExpiryDelta(
+      {required ChannelDetails that, int? cltvExpiryDelta});
+
+  void ldkAdapterTypesChannelDetailsAutoAccessorSetConfig(
+      {required ChannelDetails that, required ChannelConfig config});
+
+  void ldkAdapterTypesChannelDetailsAutoAccessorSetConfirmations(
+      {required ChannelDetails that, int? confirmations});
+
+  void ldkAdapterTypesChannelDetailsAutoAccessorSetConfirmationsRequired(
+      {required ChannelDetails that, int? confirmationsRequired});
+
+  void
+      ldkAdapterTypesChannelDetailsAutoAccessorSetCounterpartyForwardingInfoCltvExpiryDelta(
+          {required ChannelDetails that,
+          int? counterpartyForwardingInfoCltvExpiryDelta});
+
+  void
+      ldkAdapterTypesChannelDetailsAutoAccessorSetCounterpartyForwardingInfoFeeBaseMsat(
+          {required ChannelDetails that,
+          int? counterpartyForwardingInfoFeeBaseMsat});
+
+  void
+      ldkAdapterTypesChannelDetailsAutoAccessorSetCounterpartyForwardingInfoFeeProportionalMillionths(
+          {required ChannelDetails that,
+          int? counterpartyForwardingInfoFeeProportionalMillionths});
+
+  void ldkAdapterTypesChannelDetailsAutoAccessorSetCounterpartyNodeId(
+      {required ChannelDetails that, required PublicKey counterpartyNodeId});
+
+  void
+      ldkAdapterTypesChannelDetailsAutoAccessorSetCounterpartyOutboundHtlcMaximumMsat(
+          {required ChannelDetails that,
+          BigInt? counterpartyOutboundHtlcMaximumMsat});
+
+  void
+      ldkAdapterTypesChannelDetailsAutoAccessorSetCounterpartyOutboundHtlcMinimumMsat(
+          {required ChannelDetails that,
+          BigInt? counterpartyOutboundHtlcMinimumMsat});
+
+  void
+      ldkAdapterTypesChannelDetailsAutoAccessorSetCounterpartyUnspendablePunishmentReserve(
+          {required ChannelDetails that,
+          required BigInt counterpartyUnspendablePunishmentReserve});
+
+  void ldkAdapterTypesChannelDetailsAutoAccessorSetFeerateSatPer1000Weight(
+      {required ChannelDetails that, required int feerateSatPer1000Weight});
+
+  void ldkAdapterTypesChannelDetailsAutoAccessorSetForceCloseSpendDelay(
+      {required ChannelDetails that, int? forceCloseSpendDelay});
+
+  void ldkAdapterTypesChannelDetailsAutoAccessorSetFundingTxo(
+      {required ChannelDetails that, OutPoint? fundingTxo});
+
+  void ldkAdapterTypesChannelDetailsAutoAccessorSetInboundCapacityMsat(
+      {required ChannelDetails that, required BigInt inboundCapacityMsat});
+
+  void ldkAdapterTypesChannelDetailsAutoAccessorSetInboundHtlcMaximumMsat(
+      {required ChannelDetails that, BigInt? inboundHtlcMaximumMsat});
+
+  void ldkAdapterTypesChannelDetailsAutoAccessorSetInboundHtlcMinimumMsat(
+      {required ChannelDetails that, required BigInt inboundHtlcMinimumMsat});
+
+  void ldkAdapterTypesChannelDetailsAutoAccessorSetIsChannelReady(
+      {required ChannelDetails that, required bool isChannelReady});
+
+  void ldkAdapterTypesChannelDetailsAutoAccessorSetIsOutbound(
+      {required ChannelDetails that, required bool isOutbound});
+
+  void ldkAdapterTypesChannelDetailsAutoAccessorSetIsUsable(
+      {required ChannelDetails that, required bool isUsable});
+
+  void ldkAdapterTypesChannelDetailsAutoAccessorSetNextOutboundHtlcLimitMsat(
+      {required ChannelDetails that,
+      required BigInt nextOutboundHtlcLimitMsat});
+
+  void ldkAdapterTypesChannelDetailsAutoAccessorSetNextOutboundHtlcMinimumMsat(
+      {required ChannelDetails that,
+      required BigInt nextOutboundHtlcMinimumMsat});
+
+  void ldkAdapterTypesChannelDetailsAutoAccessorSetOutboundCapacityMsat(
+      {required ChannelDetails that, required BigInt outboundCapacityMsat});
+
+  void ldkAdapterTypesChannelDetailsAutoAccessorSetUnspendablePunishmentReserve(
+      {required ChannelDetails that, BigInt? unspendablePunishmentReserve});
+
+  void ldkAdapterTypesChannelDetailsAutoAccessorSetUserChannelId(
+      {required ChannelDetails that, required UserChannelId userChannelId});
+
+  Future<ChannelInfo?> ldkAdapterGraphNetworkGraphChannel(
+      {required NetworkGraph that, required BigInt shortChannelId});
+
+  Future<Uint64List> ldkAdapterGraphNetworkGraphListChannels(
+      {required NetworkGraph that});
+
+  Future<List<NodeId>> ldkAdapterGraphNetworkGraphListNodes(
+      {required NetworkGraph that});
+
+  Future<NodeInfo?> ldkAdapterGraphNetworkGraphNode(
+      {required NetworkGraph that, required NodeId nodeId});
+
+  Future<Bolt11Payment> ldkAdapterNodeNodeBolt11Payment({required Node ptr});
+
+  Future<Bolt12Payment> ldkAdapterNodeNodeBolt12Payment({required Node ptr});
+
+  Future<void> ldkAdapterNodeNodeCloseChannel(
+      {required Node that,
       required UserChannelId userChannelId,
       required PublicKey counterpartyNodeId});
 
-  Future<Config> crateApiNodeFfiNodeConfig({required FfiNode that});
+  Future<Config> ldkAdapterNodeNodeConfig({required Node that});
 
-  Future<void> crateApiNodeFfiNodeConnect(
-      {required FfiNode that,
+  Future<void> ldkAdapterNodeNodeConnect(
+      {required Node that,
       required PublicKey nodeId,
       required SocketAddress address,
       required bool persist});
 
-  Future<void> crateApiNodeFfiNodeDisconnect(
-      {required FfiNode that, required PublicKey counterpartyNodeId});
+  Future<void> ldkAdapterNodeNodeDisconnect(
+      {required Node that, required PublicKey counterpartyNodeId});
 
-  Future<void> crateApiNodeFfiNodeEventHandled({required FfiNode that});
+  Future<void> ldkAdapterNodeNodeEventHandled({required Node that});
 
-  Future<Uint8List> crateApiNodeFfiNodeExportPathfindingScores(
-      {required FfiNode that});
+  Future<Uint8List> ldkAdapterNodeNodeExportPathfindingScores(
+      {required Node that});
 
-  Future<void> crateApiNodeFfiNodeForceCloseChannel(
-      {required FfiNode that,
+  Future<void> ldkAdapterNodeNodeForceCloseChannel(
+      {required Node that,
       required UserChannelId userChannelId,
       required PublicKey counterpartyNodeId});
 
-  Future<BalanceDetails> crateApiNodeFfiNodeListBalances(
-      {required FfiNode that});
+  Future<BalanceDetails> ldkAdapterNodeNodeListBalances({required Node that});
 
-  Future<List<ChannelDetails>> crateApiNodeFfiNodeListChannels(
-      {required FfiNode that});
+  Future<List<ChannelDetails>> ldkAdapterNodeNodeListChannels(
+      {required Node that});
 
-  Future<List<PaymentDetails>> crateApiNodeFfiNodeListPayments(
-      {required FfiNode that});
+  Future<List<PaymentDetails>> ldkAdapterNodeNodeListPayments(
+      {required Node that});
 
-  Future<List<PaymentDetails>> crateApiNodeFfiNodeListPaymentsWithFilter(
-      {required FfiNode that, required PaymentDirection paymentDirection});
+  Future<List<PaymentDetails>> ldkAdapterNodeNodeListPaymentsWithFilter(
+      {required Node that, required PaymentDirection paymentDirection});
 
-  Future<List<PeerDetails>> crateApiNodeFfiNodeListPeers(
-      {required FfiNode that});
+  Future<List<PeerDetails>> ldkAdapterNodeNodeListPeers({required Node that});
 
-  Future<List<SocketAddress>?> crateApiNodeFfiNodeListeningAddresses(
-      {required FfiNode that});
+  Future<List<SocketAddress>?> ldkAdapterNodeNodeListeningAddresses(
+      {required Node that});
 
-  Future<FfiNetworkGraph> crateApiNodeFfiNodeNetworkGraph(
-      {required FfiNode ptr});
+  Future<NetworkGraph> ldkAdapterNodeNodeNetworkGraph({required Node ptr});
 
-  Future<Event?> crateApiNodeFfiNodeNextEvent({required FfiNode that});
+  Future<Event?> ldkAdapterNodeNodeNextEvent({required Node that});
 
-  Future<Event> crateApiNodeFfiNodeNextEventAsync({required FfiNode that});
+  Future<Event> ldkAdapterNodeNodeNextEventAsync({required Node that});
 
-  Future<PublicKey> crateApiNodeFfiNodeNodeId({required FfiNode that});
+  Future<PublicKey> ldkAdapterNodeNodeNodeId({required Node that});
 
-  Future<FfiOnChainPayment> crateApiNodeFfiNodeOnChainPayment(
-      {required FfiNode ptr});
+  Future<OnChainPayment> ldkAdapterNodeNodeOnChainPayment({required Node ptr});
 
-  Future<UserChannelId> crateApiNodeFfiNodeOpenAnnouncedChannel(
-      {required FfiNode that,
+  Future<UserChannelId> ldkAdapterNodeNodeOpenAnnouncedChannel(
+      {required Node that,
       required SocketAddress socketAddress,
       required PublicKey nodeId,
       required BigInt channelAmountSats,
       BigInt? pushToCounterpartyMsat,
       ChannelConfig? channelConfig});
 
-  Future<UserChannelId> crateApiNodeFfiNodeOpenChannel(
-      {required FfiNode that,
+  Future<UserChannelId> ldkAdapterNodeNodeOpenChannel(
+      {required Node that,
       required SocketAddress socketAddress,
       required PublicKey nodeId,
       required BigInt channelAmountSats,
       BigInt? pushToCounterpartyMsat,
       ChannelConfig? channelConfig});
 
-  Future<PaymentDetails?> crateApiNodeFfiNodePayment(
-      {required FfiNode that, required PaymentId paymentId});
+  Future<PaymentDetails?> ldkAdapterNodeNodePayment(
+      {required Node that, required PaymentId paymentId});
 
-  Future<void> crateApiNodeFfiNodeRemovePayment(
-      {required FfiNode that, required PaymentId paymentId});
+  Future<void> ldkAdapterNodeNodeRemovePayment(
+      {required Node that, required PaymentId paymentId});
 
-  Future<String> crateApiNodeFfiNodeSignMessage(
-      {required FfiNode that, required List<int> msg});
+  Future<String> ldkAdapterNodeNodeSignMessage(
+      {required Node that, required List<int> msg});
 
-  Future<FfiSpontaneousPayment> crateApiNodeFfiNodeSpontaneousPayment(
-      {required FfiNode ptr});
+  Future<SpontaneousPayment> ldkAdapterNodeNodeSpontaneousPayment(
+      {required Node ptr});
 
-  Future<void> crateApiNodeFfiNodeStart({required FfiNode that});
+  Future<void> ldkAdapterNodeNodeStart({required Node that});
 
-  Future<NodeStatus> crateApiNodeFfiNodeStatus({required FfiNode that});
+  Future<NodeStatus> ldkAdapterNodeNodeStatus({required Node that});
 
-  Future<void> crateApiNodeFfiNodeStop({required FfiNode that});
+  Future<void> ldkAdapterNodeNodeStop({required Node that});
 
-  Future<void> crateApiNodeFfiNodeSyncWallets({required FfiNode that});
+  Future<void> ldkAdapterNodeNodeSyncWallets({required Node that});
 
-  Future<FfiUnifiedQrPayment> crateApiNodeFfiNodeUnifiedQrPayment(
-      {required FfiNode ptr});
+  Future<UnifiedQrPayment> ldkAdapterNodeNodeUnifiedQrPayment(
+      {required Node ptr});
 
-  Future<void> crateApiNodeFfiNodeUpdateChannelConfig(
-      {required FfiNode that,
+  Future<void> ldkAdapterNodeNodeUpdateChannelConfig(
+      {required Node that,
       required UserChannelId userChannelId,
       required PublicKey counterpartyNodeId,
       required ChannelConfig channelConfig});
 
-  Future<bool> crateApiNodeFfiNodeVerifySignature(
-      {required FfiNode that,
+  Future<bool> ldkAdapterNodeNodeVerifySignature(
+      {required Node that,
       required List<int> msg,
       required String sig,
       required PublicKey publicKey});
 
-  Future<Event> crateApiNodeFfiNodeWaitNextEvent({required FfiNode that});
+  Future<Event> ldkAdapterNodeNodeWaitNextEvent({required Node that});
 
-  Future<Address> crateApiOnChainFfiOnChainPaymentNewAddress(
-      {required FfiOnChainPayment that});
+  Future<BitcoinAddress> ldkAdapterOnChainOnChainPaymentNewAddress(
+      {required OnChainPayment that});
 
-  Future<Txid> crateApiOnChainFfiOnChainPaymentSendAllToAddress(
-      {required FfiOnChainPayment that,
-      required Address address,
+  Future<Txid> ldkAdapterOnChainOnChainPaymentSendAllToAddress(
+      {required OnChainPayment that,
+      required BitcoinAddress address,
       required bool retainReserves,
       BigInt? feeRateSatPerKwu});
 
-  Future<Txid> crateApiOnChainFfiOnChainPaymentSendToAddress(
-      {required FfiOnChainPayment that,
-      required Address address,
+  Future<Txid> ldkAdapterOnChainOnChainPaymentSendToAddress(
+      {required OnChainPayment that,
+      required BitcoinAddress address,
       required BigInt amountSats,
       BigInt? feeRateSatPerKwu});
 
-  Future<void> crateApiSpontaneousFfiSpontaneousPaymentSendProbesUnsafe(
-      {required FfiSpontaneousPayment that,
+  BigInt? ldkAdapterTypesPaymentDetailsAutoAccessorGetAmountMsat(
+      {required PaymentDetails that});
+
+  PaymentDirection ldkAdapterTypesPaymentDetailsAutoAccessorGetDirection(
+      {required PaymentDetails that});
+
+  PaymentId ldkAdapterTypesPaymentDetailsAutoAccessorGetId(
+      {required PaymentDetails that});
+
+  PaymentKind ldkAdapterTypesPaymentDetailsAutoAccessorGetKind(
+      {required PaymentDetails that});
+
+  BigInt ldkAdapterTypesPaymentDetailsAutoAccessorGetLatestUpdateTimestamp(
+      {required PaymentDetails that});
+
+  PaymentStatus ldkAdapterTypesPaymentDetailsAutoAccessorGetStatus(
+      {required PaymentDetails that});
+
+  void ldkAdapterTypesPaymentDetailsAutoAccessorSetAmountMsat(
+      {required PaymentDetails that, BigInt? amountMsat});
+
+  void ldkAdapterTypesPaymentDetailsAutoAccessorSetDirection(
+      {required PaymentDetails that, required PaymentDirection direction});
+
+  void ldkAdapterTypesPaymentDetailsAutoAccessorSetId(
+      {required PaymentDetails that, required PaymentId id});
+
+  void ldkAdapterTypesPaymentDetailsAutoAccessorSetKind(
+      {required PaymentDetails that, required PaymentKind kind});
+
+  void ldkAdapterTypesPaymentDetailsAutoAccessorSetLatestUpdateTimestamp(
+      {required PaymentDetails that, required BigInt latestUpdateTimestamp});
+
+  void ldkAdapterTypesPaymentDetailsAutoAccessorSetStatus(
+      {required PaymentDetails that, required PaymentStatus status});
+
+  SocketAddress ldkAdapterTypesPeerDetailsAutoAccessorGetAddress(
+      {required PeerDetails that});
+
+  bool ldkAdapterTypesPeerDetailsAutoAccessorGetIsConnected(
+      {required PeerDetails that});
+
+  PublicKey ldkAdapterTypesPeerDetailsAutoAccessorGetNodeId(
+      {required PeerDetails that});
+
+  void ldkAdapterTypesPeerDetailsAutoAccessorSetAddress(
+      {required PeerDetails that, required SocketAddress address});
+
+  void ldkAdapterTypesPeerDetailsAutoAccessorSetIsConnected(
+      {required PeerDetails that, required bool isConnected});
+
+  void ldkAdapterTypesPeerDetailsAutoAccessorSetNodeId(
+      {required PeerDetails that, required PublicKey nodeId});
+
+  Future<void> ldkAdapterSpontaneousSpontaneousPaymentSendProbesUnsafe(
+      {required SpontaneousPayment that,
       required BigInt amountMsat,
       required PublicKey nodeId});
 
-  Future<PaymentId> crateApiSpontaneousFfiSpontaneousPaymentSendUnsafe(
-      {required FfiSpontaneousPayment that,
+  Future<PaymentId> ldkAdapterSpontaneousSpontaneousPaymentSendUnsafe(
+      {required SpontaneousPayment that,
       required BigInt amountMsat,
       required PublicKey nodeId,
       SendingParameters? sendingParameters});
 
   Future<PaymentId>
-      crateApiSpontaneousFfiSpontaneousPaymentSendWithCustomTlvsUnsafe(
-          {required FfiSpontaneousPayment that,
+      ldkAdapterSpontaneousSpontaneousPaymentSendWithCustomTlvsUnsafe(
+          {required SpontaneousPayment that,
           required BigInt amountMsat,
           required PublicKey nodeId,
           SendingParameters? sendingParameters,
           required List<CustomTlvRecord> customTlvs});
 
-  Future<String> crateApiUnifiedQrFfiUnifiedQrPaymentReceiveUnsafe(
-      {required FfiUnifiedQrPayment that,
+  TaprootSpendInfoInner sharedTaprootSpendInfoAutoAccessorGetInner(
+      {required TaprootSpendInfo that});
+
+  void sharedTaprootSpendInfoAutoAccessorSetInner(
+      {required TaprootSpendInfo that, required TaprootSpendInfoInner inner});
+
+  BitcoinTransactionInner sharedTransactionAutoAccessorGetInner(
+      {required Transaction that});
+
+  void sharedTransactionAutoAccessorSetInner(
+      {required Transaction that, required BitcoinTransactionInner inner});
+
+  Future<Txid> sharedTransactionComputeTxid({required Transaction that});
+
+  Future<WTxid> sharedTransactionComputeWtxid({required Transaction that});
+
+  Future<List<TxIn>> sharedTransactionInput({required Transaction that});
+
+  Future<bool> sharedTransactionIsCoinbase({required Transaction that});
+
+  Future<bool> sharedTransactionIsExplicitlyRbf({required Transaction that});
+
+  Future<bool> sharedTransactionIsLockTimeEnabled({required Transaction that});
+
+  Future<int> sharedTransactionLockTime({required Transaction that});
+
+  Future<Transaction> sharedTransactionNew(
+      {required List<int> transactionBytes});
+
+  Future<List<TxOut>> sharedTransactionOutput({required Transaction that});
+
+  Future<BigInt> sharedTransactionTotalSize({required Transaction that});
+
+  Future<int> sharedTransactionVersion({required Transaction that});
+
+  Future<BigInt> sharedTransactionVsize({required Transaction that});
+
+  Future<BigInt> sharedTransactionWeight({required Transaction that});
+
+  Future<String> ldkAdapterUnifiedQrUnifiedQrPaymentReceive(
+      {required UnifiedQrPayment that,
       required BigInt amountSats,
       required String message,
       required int expirySec});
 
-  Future<QrPaymentResult> crateApiUnifiedQrFfiUnifiedQrPaymentSendUnsafe(
-      {required FfiUnifiedQrPayment that, required String uriStr});
+  Future<QrPaymentResult> ldkAdapterUnifiedQrUnifiedQrPaymentSend(
+      {required UnifiedQrPayment that, required String uriStr});
+
+  Future<AnchorChannelsConfig> ldkAdapterTypesAnchorChannelsConfigDefault();
+
+  Future<Config> ldkAdapterTypesConfigDefault();
+
+  Future<String> sharedMnemonicAsString({required Mnemonic that});
+
+  Future<Mnemonic> sharedMnemonicFromEntropy({required List<int> entropy});
+
+  Future<Mnemonic> sharedMnemonicGenerate();
+
+  Future<U8Array64> sharedMnemonicToSeed(
+      {required Mnemonic that, required String passphrase});
+
+  Future<Transaction> sharedPsbtExtractTx({required Psbt that});
+
+  Future<BigInt> sharedPsbtFee({required Psbt that});
+
+  Future<Psbt> sharedPsbtFromBase64({required String base64});
 
   RustArcIncrementStrongCountFnType
-      get rust_arc_increment_strong_count_ConfirmationStatus;
+      get rust_arc_increment_strong_count_AddressData;
 
   RustArcDecrementStrongCountFnType
-      get rust_arc_decrement_strong_count_ConfirmationStatus;
+      get rust_arc_decrement_strong_count_AddressData;
+
+  CrossPlatformFinalizerArg get rust_arc_decrement_strong_count_AddressDataPtr;
+
+  RustArcIncrementStrongCountFnType
+      get rust_arc_increment_strong_count_BitcoinAddress;
+
+  RustArcDecrementStrongCountFnType
+      get rust_arc_decrement_strong_count_BitcoinAddress;
 
   CrossPlatformFinalizerArg
-      get rust_arc_decrement_strong_count_ConfirmationStatusPtr;
+      get rust_arc_decrement_strong_count_BitcoinAddressPtr;
 
   RustArcIncrementStrongCountFnType
-      get rust_arc_increment_strong_count_FfiBuilder;
+      get rust_arc_increment_strong_count_BitcoinAddressInner;
 
   RustArcDecrementStrongCountFnType
-      get rust_arc_decrement_strong_count_FfiBuilder;
+      get rust_arc_decrement_strong_count_BitcoinAddressInner;
 
-  CrossPlatformFinalizerArg get rust_arc_decrement_strong_count_FfiBuilderPtr;
+  CrossPlatformFinalizerArg
+      get rust_arc_decrement_strong_count_BitcoinAddressInnerPtr;
 
   RustArcIncrementStrongCountFnType
-      get rust_arc_increment_strong_count_PaymentKind;
+      get rust_arc_increment_strong_count_BitcoinTransactionInner;
 
   RustArcDecrementStrongCountFnType
-      get rust_arc_decrement_strong_count_PaymentKind;
+      get rust_arc_decrement_strong_count_BitcoinTransactionInner;
 
-  CrossPlatformFinalizerArg get rust_arc_decrement_strong_count_PaymentKindPtr;
-
-  RustArcIncrementStrongCountFnType get rust_arc_increment_strong_count_Builder;
-
-  RustArcDecrementStrongCountFnType get rust_arc_decrement_strong_count_Builder;
-
-  CrossPlatformFinalizerArg get rust_arc_decrement_strong_count_BuilderPtr;
-
-  RustArcIncrementStrongCountFnType get rust_arc_increment_strong_count_Node;
-
-  RustArcDecrementStrongCountFnType get rust_arc_decrement_strong_count_Node;
-
-  CrossPlatformFinalizerArg get rust_arc_decrement_strong_count_NodePtr;
-
-  RustArcIncrementStrongCountFnType
-      get rust_arc_increment_strong_count_NetworkGraph;
-
-  RustArcDecrementStrongCountFnType
-      get rust_arc_decrement_strong_count_NetworkGraph;
-
-  CrossPlatformFinalizerArg get rust_arc_decrement_strong_count_NetworkGraphPtr;
+  CrossPlatformFinalizerArg
+      get rust_arc_decrement_strong_count_BitcoinTransactionInnerPtr;
 
   RustArcIncrementStrongCountFnType
       get rust_arc_increment_strong_count_Bolt11Payment;
@@ -472,14 +803,155 @@ abstract class coreApi extends BaseApi {
   CrossPlatformFinalizerArg
       get rust_arc_decrement_strong_count_Bolt12PaymentPtr;
 
+  RustArcIncrementStrongCountFnType get rust_arc_increment_strong_count_Builder;
+
+  RustArcDecrementStrongCountFnType get rust_arc_decrement_strong_count_Builder;
+
+  CrossPlatformFinalizerArg get rust_arc_decrement_strong_count_BuilderPtr;
+
   RustArcIncrementStrongCountFnType
-      get rust_arc_increment_strong_count_OnchainPayment;
+      get rust_arc_increment_strong_count_ChainDataSourceConfig;
 
   RustArcDecrementStrongCountFnType
-      get rust_arc_decrement_strong_count_OnchainPayment;
+      get rust_arc_decrement_strong_count_ChainDataSourceConfig;
 
   CrossPlatformFinalizerArg
-      get rust_arc_decrement_strong_count_OnchainPaymentPtr;
+      get rust_arc_decrement_strong_count_ChainDataSourceConfigPtr;
+
+  RustArcIncrementStrongCountFnType
+      get rust_arc_increment_strong_count_ChannelConfig;
+
+  RustArcDecrementStrongCountFnType
+      get rust_arc_decrement_strong_count_ChannelConfig;
+
+  CrossPlatformFinalizerArg
+      get rust_arc_decrement_strong_count_ChannelConfigPtr;
+
+  RustArcIncrementStrongCountFnType
+      get rust_arc_increment_strong_count_ChannelDetails;
+
+  RustArcDecrementStrongCountFnType
+      get rust_arc_decrement_strong_count_ChannelDetails;
+
+  CrossPlatformFinalizerArg
+      get rust_arc_decrement_strong_count_ChannelDetailsPtr;
+
+  RustArcIncrementStrongCountFnType
+      get rust_arc_increment_strong_count_EntropySourceConfig;
+
+  RustArcDecrementStrongCountFnType
+      get rust_arc_decrement_strong_count_EntropySourceConfig;
+
+  CrossPlatformFinalizerArg
+      get rust_arc_decrement_strong_count_EntropySourceConfigPtr;
+
+  RustArcIncrementStrongCountFnType get rust_arc_increment_strong_count_Event;
+
+  RustArcDecrementStrongCountFnType get rust_arc_decrement_strong_count_Event;
+
+  CrossPlatformFinalizerArg get rust_arc_decrement_strong_count_EventPtr;
+
+  RustArcIncrementStrongCountFnType
+      get rust_arc_increment_strong_count_GossipSourceConfig;
+
+  RustArcDecrementStrongCountFnType
+      get rust_arc_decrement_strong_count_GossipSourceConfig;
+
+  CrossPlatformFinalizerArg
+      get rust_arc_decrement_strong_count_GossipSourceConfigPtr;
+
+  RustArcIncrementStrongCountFnType
+      get rust_arc_increment_strong_count_LightningBalance;
+
+  RustArcDecrementStrongCountFnType
+      get rust_arc_decrement_strong_count_LightningBalance;
+
+  CrossPlatformFinalizerArg
+      get rust_arc_decrement_strong_count_LightningBalancePtr;
+
+  RustArcIncrementStrongCountFnType
+      get rust_arc_increment_strong_count_MaxDustHtlcExposure;
+
+  RustArcDecrementStrongCountFnType
+      get rust_arc_decrement_strong_count_MaxDustHtlcExposure;
+
+  CrossPlatformFinalizerArg
+      get rust_arc_decrement_strong_count_MaxDustHtlcExposurePtr;
+
+  RustArcIncrementStrongCountFnType
+      get rust_arc_increment_strong_count_NetworkGraph;
+
+  RustArcDecrementStrongCountFnType
+      get rust_arc_decrement_strong_count_NetworkGraph;
+
+  CrossPlatformFinalizerArg get rust_arc_decrement_strong_count_NetworkGraphPtr;
+
+  RustArcIncrementStrongCountFnType get rust_arc_increment_strong_count_Node;
+
+  RustArcDecrementStrongCountFnType get rust_arc_decrement_strong_count_Node;
+
+  CrossPlatformFinalizerArg get rust_arc_decrement_strong_count_NodePtr;
+
+  RustArcIncrementStrongCountFnType
+      get rust_arc_increment_strong_count_OnChainPayment;
+
+  RustArcDecrementStrongCountFnType
+      get rust_arc_decrement_strong_count_OnChainPayment;
+
+  CrossPlatformFinalizerArg
+      get rust_arc_decrement_strong_count_OnChainPaymentPtr;
+
+  RustArcIncrementStrongCountFnType
+      get rust_arc_increment_strong_count_PaymentDetails;
+
+  RustArcDecrementStrongCountFnType
+      get rust_arc_decrement_strong_count_PaymentDetails;
+
+  CrossPlatformFinalizerArg
+      get rust_arc_decrement_strong_count_PaymentDetailsPtr;
+
+  RustArcIncrementStrongCountFnType
+      get rust_arc_increment_strong_count_PaymentKind;
+
+  RustArcDecrementStrongCountFnType
+      get rust_arc_decrement_strong_count_PaymentKind;
+
+  CrossPlatformFinalizerArg get rust_arc_decrement_strong_count_PaymentKindPtr;
+
+  RustArcIncrementStrongCountFnType
+      get rust_arc_increment_strong_count_PeerDetails;
+
+  RustArcDecrementStrongCountFnType
+      get rust_arc_decrement_strong_count_PeerDetails;
+
+  CrossPlatformFinalizerArg get rust_arc_decrement_strong_count_PeerDetailsPtr;
+
+  RustArcIncrementStrongCountFnType
+      get rust_arc_increment_strong_count_PendingSweepBalance;
+
+  RustArcDecrementStrongCountFnType
+      get rust_arc_decrement_strong_count_PendingSweepBalance;
+
+  CrossPlatformFinalizerArg
+      get rust_arc_decrement_strong_count_PendingSweepBalancePtr;
+
+  RustArcIncrementStrongCountFnType
+      get rust_arc_increment_strong_count_QrPaymentResult;
+
+  RustArcDecrementStrongCountFnType
+      get rust_arc_decrement_strong_count_QrPaymentResult;
+
+  CrossPlatformFinalizerArg
+      get rust_arc_decrement_strong_count_QrPaymentResultPtr;
+
+  RustArcIncrementStrongCountFnType
+      get rust_arc_increment_strong_count_SocketAddress;
+
+  RustArcDecrementStrongCountFnType
+      get rust_arc_decrement_strong_count_SocketAddress;
+
+  CrossPlatformFinalizerArg
+      get rust_arc_decrement_strong_count_SocketAddressPtr;
 
   RustArcIncrementStrongCountFnType
       get rust_arc_increment_strong_count_SpontaneousPayment;
@@ -489,6 +961,32 @@ abstract class coreApi extends BaseApi {
 
   CrossPlatformFinalizerArg
       get rust_arc_decrement_strong_count_SpontaneousPaymentPtr;
+
+  RustArcIncrementStrongCountFnType
+      get rust_arc_increment_strong_count_TaprootSpendInfo;
+
+  RustArcDecrementStrongCountFnType
+      get rust_arc_decrement_strong_count_TaprootSpendInfo;
+
+  CrossPlatformFinalizerArg
+      get rust_arc_decrement_strong_count_TaprootSpendInfoPtr;
+
+  RustArcIncrementStrongCountFnType
+      get rust_arc_increment_strong_count_TaprootSpendInfoInner;
+
+  RustArcDecrementStrongCountFnType
+      get rust_arc_decrement_strong_count_TaprootSpendInfoInner;
+
+  CrossPlatformFinalizerArg
+      get rust_arc_decrement_strong_count_TaprootSpendInfoInnerPtr;
+
+  RustArcIncrementStrongCountFnType
+      get rust_arc_increment_strong_count_Transaction;
+
+  RustArcDecrementStrongCountFnType
+      get rust_arc_decrement_strong_count_Transaction;
+
+  CrossPlatformFinalizerArg get rust_arc_decrement_strong_count_TransactionPtr;
 
   RustArcIncrementStrongCountFnType
       get rust_arc_increment_strong_count_UnifiedQrPayment;
@@ -509,604 +1007,450 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
   });
 
   @override
-  Builder crateApiBuilderFfiBuilderAutoAccessorGetOpaque(
-      {required FfiBuilder that}) {
+  BitcoinAddressInner sharedBitcoinAddressAutoAccessorGetInner(
+      {required BitcoinAddress that}) {
     return handler.executeSync(SyncTask(
       callFfi: () {
         var arg0 =
-            cst_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerFfiBuilder(
+            cst_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerBitcoinAddress(
                 that);
-        return wire
-            .wire__crate__api__builder__FfiBuilder_auto_accessor_get_opaque(
-                arg0);
+        return wire.wire__shared__BitcoinAddress_auto_accessor_get_inner(arg0);
       },
       codec: DcoCodec(
-        decodeSuccessData: dco_decode_RustOpaque_ldk_nodeBuilder,
+        decodeSuccessData:
+            dco_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerBitcoinAddressInner,
         decodeErrorData: null,
       ),
-      constMeta: kCrateApiBuilderFfiBuilderAutoAccessorGetOpaqueConstMeta,
+      constMeta: kSharedBitcoinAddressAutoAccessorGetInnerConstMeta,
       argValues: [that],
       apiImpl: this,
     ));
   }
 
-  TaskConstMeta get kCrateApiBuilderFfiBuilderAutoAccessorGetOpaqueConstMeta =>
+  TaskConstMeta get kSharedBitcoinAddressAutoAccessorGetInnerConstMeta =>
       const TaskConstMeta(
-        debugName: "FfiBuilder_auto_accessor_get_opaque",
+        debugName: "BitcoinAddress_auto_accessor_get_inner",
         argNames: ["that"],
       );
 
   @override
-  void crateApiBuilderFfiBuilderAutoAccessorSetOpaque(
-      {required FfiBuilder that, required Builder opaque}) {
+  void sharedBitcoinAddressAutoAccessorSetInner(
+      {required BitcoinAddress that, required BitcoinAddressInner inner}) {
     return handler.executeSync(SyncTask(
       callFfi: () {
         var arg0 =
-            cst_encode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerFfiBuilder(
+            cst_encode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerBitcoinAddress(
                 that);
-        var arg1 = cst_encode_RustOpaque_ldk_nodeBuilder(opaque);
-        return wire
-            .wire__crate__api__builder__FfiBuilder_auto_accessor_set_opaque(
-                arg0, arg1);
+        var arg1 =
+            cst_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerBitcoinAddressInner(
+                inner);
+        return wire.wire__shared__BitcoinAddress_auto_accessor_set_inner(
+            arg0, arg1);
       },
       codec: DcoCodec(
         decodeSuccessData: dco_decode_unit,
         decodeErrorData: null,
       ),
-      constMeta: kCrateApiBuilderFfiBuilderAutoAccessorSetOpaqueConstMeta,
-      argValues: [that, opaque],
+      constMeta: kSharedBitcoinAddressAutoAccessorSetInnerConstMeta,
+      argValues: [that, inner],
       apiImpl: this,
     ));
   }
 
-  TaskConstMeta get kCrateApiBuilderFfiBuilderAutoAccessorSetOpaqueConstMeta =>
+  TaskConstMeta get kSharedBitcoinAddressAutoAccessorSetInnerConstMeta =>
       const TaskConstMeta(
-        debugName: "FfiBuilder_auto_accessor_set_opaque",
-        argNames: ["that", "opaque"],
+        debugName: "BitcoinAddress_auto_accessor_set_inner",
+        argNames: ["that", "inner"],
       );
 
   @override
-  Future<FfiNode> crateApiBuilderFfiBuilderBuild({required FfiBuilder that}) {
+  Future<BitcoinAddress> sharedBitcoinAddressFromScript(
+      {required ScriptBuf script, required Network network}) {
     return handler.executeNormal(NormalTask(
       callFfi: (port_) {
-        var arg0 =
-            cst_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerFfiBuilder(
-                that);
-        return wire.wire__crate__api__builder__FfiBuilder_build(port_, arg0);
-      },
-      codec: DcoCodec(
-        decodeSuccessData: dco_decode_ffi_node,
-        decodeErrorData: dco_decode_ffi_builder_error,
-      ),
-      constMeta: kCrateApiBuilderFfiBuilderBuildConstMeta,
-      argValues: [that],
-      apiImpl: this,
-    ));
-  }
-
-  TaskConstMeta get kCrateApiBuilderFfiBuilderBuildConstMeta =>
-      const TaskConstMeta(
-        debugName: "FfiBuilder_build",
-        argNames: ["that"],
-      );
-
-  @override
-  Future<FfiNode> crateApiBuilderFfiBuilderBuildWithFsStore(
-      {required FfiBuilder that}) {
-    return handler.executeNormal(NormalTask(
-      callFfi: (port_) {
-        var arg0 =
-            cst_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerFfiBuilder(
-                that);
-        return wire.wire__crate__api__builder__FfiBuilder_build_with_fs_store(
-            port_, arg0);
-      },
-      codec: DcoCodec(
-        decodeSuccessData: dco_decode_ffi_node,
-        decodeErrorData: dco_decode_ffi_builder_error,
-      ),
-      constMeta: kCrateApiBuilderFfiBuilderBuildWithFsStoreConstMeta,
-      argValues: [that],
-      apiImpl: this,
-    ));
-  }
-
-  TaskConstMeta get kCrateApiBuilderFfiBuilderBuildWithFsStoreConstMeta =>
-      const TaskConstMeta(
-        debugName: "FfiBuilder_build_with_fs_store",
-        argNames: ["that"],
-      );
-
-  @override
-  Future<FfiNode> crateApiBuilderFfiBuilderBuildWithVssStore(
-      {required FfiBuilder that,
-      required String vssUrl,
-      required String storeId,
-      required String lnurlAuthServerUrl,
-      required Map<String, String> fixedHeaders}) {
-    return handler.executeNormal(NormalTask(
-      callFfi: (port_) {
-        var arg0 =
-            cst_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerFfiBuilder(
-                that);
-        var arg1 = cst_encode_String(vssUrl);
-        var arg2 = cst_encode_String(storeId);
-        var arg3 = cst_encode_String(lnurlAuthServerUrl);
-        var arg4 = cst_encode_Map_String_String_None(fixedHeaders);
-        return wire.wire__crate__api__builder__FfiBuilder_build_with_vss_store(
-            port_, arg0, arg1, arg2, arg3, arg4);
-      },
-      codec: DcoCodec(
-        decodeSuccessData: dco_decode_ffi_node,
-        decodeErrorData: dco_decode_ffi_builder_error,
-      ),
-      constMeta: kCrateApiBuilderFfiBuilderBuildWithVssStoreConstMeta,
-      argValues: [that, vssUrl, storeId, lnurlAuthServerUrl, fixedHeaders],
-      apiImpl: this,
-    ));
-  }
-
-  TaskConstMeta get kCrateApiBuilderFfiBuilderBuildWithVssStoreConstMeta =>
-      const TaskConstMeta(
-        debugName: "FfiBuilder_build_with_vss_store",
-        argNames: [
-          "that",
-          "vssUrl",
-          "storeId",
-          "lnurlAuthServerUrl",
-          "fixedHeaders"
-        ],
-      );
-
-  @override
-  Future<FfiNode> crateApiBuilderFfiBuilderBuildWithVssStoreAndFixedHeaders(
-      {required FfiBuilder that,
-      required String vssUrl,
-      required String storeId,
-      required Map<String, String> fixedHeaders}) {
-    return handler.executeNormal(NormalTask(
-      callFfi: (port_) {
-        var arg0 =
-            cst_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerFfiBuilder(
-                that);
-        var arg1 = cst_encode_String(vssUrl);
-        var arg2 = cst_encode_String(storeId);
-        var arg3 = cst_encode_Map_String_String_None(fixedHeaders);
-        return wire
-            .wire__crate__api__builder__FfiBuilder_build_with_vss_store_and_fixed_headers(
-                port_, arg0, arg1, arg2, arg3);
-      },
-      codec: DcoCodec(
-        decodeSuccessData: dco_decode_ffi_node,
-        decodeErrorData: dco_decode_ffi_builder_error,
-      ),
-      constMeta:
-          kCrateApiBuilderFfiBuilderBuildWithVssStoreAndFixedHeadersConstMeta,
-      argValues: [that, vssUrl, storeId, fixedHeaders],
-      apiImpl: this,
-    ));
-  }
-
-  TaskConstMeta
-      get kCrateApiBuilderFfiBuilderBuildWithVssStoreAndFixedHeadersConstMeta =>
-          const TaskConstMeta(
-            debugName: "FfiBuilder_build_with_vss_store_and_fixed_headers",
-            argNames: ["that", "vssUrl", "storeId", "fixedHeaders"],
-          );
-
-  @override
-  FfiBuilder crateApiBuilderFfiBuilderCreateBuilder(
-      {required Config config,
-      ChainDataSourceConfig? chainDataSourceConfig,
-      EntropySourceConfig? entropySourceConfig,
-      GossipSourceConfig? gossipSourceConfig,
-      LiquiditySourceConfig? liquiditySourceConfig}) {
-    return handler.executeSync(SyncTask(
-      callFfi: () {
-        var arg0 = cst_encode_box_autoadd_config(config);
-        var arg1 = cst_encode_opt_box_autoadd_chain_data_source_config(
-            chainDataSourceConfig);
-        var arg2 = cst_encode_opt_box_autoadd_entropy_source_config(
-            entropySourceConfig);
-        var arg3 =
-            cst_encode_opt_box_autoadd_gossip_source_config(gossipSourceConfig);
-        var arg4 = cst_encode_opt_box_autoadd_liquidity_source_config(
-            liquiditySourceConfig);
-        return wire.wire__crate__api__builder__FfiBuilder_create_builder(
-            arg0, arg1, arg2, arg3, arg4);
+        var arg0 = cst_encode_box_autoadd_script_buf(script);
+        var arg1 = cst_encode_network(network);
+        return wire.wire__shared__BitcoinAddress_from_script(port_, arg0, arg1);
       },
       codec: DcoCodec(
         decodeSuccessData:
-            dco_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerFfiBuilder,
-        decodeErrorData: dco_decode_ffi_builder_error,
+            dco_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerBitcoinAddress,
+        decodeErrorData: dco_decode_AnyhowException,
       ),
-      constMeta: kCrateApiBuilderFfiBuilderCreateBuilderConstMeta,
-      argValues: [
-        config,
-        chainDataSourceConfig,
-        entropySourceConfig,
-        gossipSourceConfig,
-        liquiditySourceConfig
-      ],
+      constMeta: kSharedBitcoinAddressFromScriptConstMeta,
+      argValues: [script, network],
       apiImpl: this,
     ));
   }
 
-  TaskConstMeta get kCrateApiBuilderFfiBuilderCreateBuilderConstMeta =>
+  TaskConstMeta get kSharedBitcoinAddressFromScriptConstMeta =>
       const TaskConstMeta(
-        debugName: "FfiBuilder_create_builder",
-        argNames: [
-          "config",
-          "chainDataSourceConfig",
-          "entropySourceConfig",
-          "gossipSourceConfig",
-          "liquiditySourceConfig"
-        ],
+        debugName: "BitcoinAddress_from_script",
+        argNames: ["script", "network"],
       );
 
   @override
-  FfiBuilder crateApiBuilderFfiBuilderSetEntropySeedBytes(
-      {required FfiBuilder that, required List<int> seedBytes}) {
-    return handler.executeSync(SyncTask(
-      callFfi: () {
-        var arg0 =
-            cst_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerFfiBuilder(
-                that);
-        var arg1 = cst_encode_list_prim_u_8_loose(seedBytes);
-        return wire
-            .wire__crate__api__builder__FfiBuilder_set_entropy_seed_bytes(
-                arg0, arg1);
-      },
-      codec: DcoCodec(
-        decodeSuccessData:
-            dco_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerFfiBuilder,
-        decodeErrorData: dco_decode_ffi_builder_error,
-      ),
-      constMeta: kCrateApiBuilderFfiBuilderSetEntropySeedBytesConstMeta,
-      argValues: [that, seedBytes],
-      apiImpl: this,
-    ));
-  }
-
-  TaskConstMeta get kCrateApiBuilderFfiBuilderSetEntropySeedBytesConstMeta =>
-      const TaskConstMeta(
-        debugName: "FfiBuilder_set_entropy_seed_bytes",
-        argNames: ["that", "seedBytes"],
-      );
-
-  @override
-  FfiBuilder crateApiBuilderFfiBuilderSetFilesystemLogger(
-      {required FfiBuilder that, String? logFilePath, LogLevel? maxLogLevel}) {
-    return handler.executeSync(SyncTask(
-      callFfi: () {
-        var arg0 =
-            cst_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerFfiBuilder(
-                that);
-        var arg1 = cst_encode_opt_String(logFilePath);
-        var arg2 = cst_encode_opt_box_autoadd_log_level(maxLogLevel);
-        return wire.wire__crate__api__builder__FfiBuilder_set_filesystem_logger(
-            arg0, arg1, arg2);
-      },
-      codec: DcoCodec(
-        decodeSuccessData:
-            dco_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerFfiBuilder,
-        decodeErrorData: dco_decode_ffi_builder_error,
-      ),
-      constMeta: kCrateApiBuilderFfiBuilderSetFilesystemLoggerConstMeta,
-      argValues: [that, logFilePath, maxLogLevel],
-      apiImpl: this,
-    ));
-  }
-
-  TaskConstMeta get kCrateApiBuilderFfiBuilderSetFilesystemLoggerConstMeta =>
-      const TaskConstMeta(
-        debugName: "FfiBuilder_set_filesystem_logger",
-        argNames: ["that", "logFilePath", "maxLogLevel"],
-      );
-
-  @override
-  FfiBuilder crateApiBuilderFfiBuilderSetLogFacadeLogger(
-      {required FfiBuilder that}) {
-    return handler.executeSync(SyncTask(
-      callFfi: () {
-        var arg0 =
-            cst_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerFfiBuilder(
-                that);
-        return wire
-            .wire__crate__api__builder__FfiBuilder_set_log_facade_logger(arg0);
-      },
-      codec: DcoCodec(
-        decodeSuccessData:
-            dco_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerFfiBuilder,
-        decodeErrorData: dco_decode_ffi_builder_error,
-      ),
-      constMeta: kCrateApiBuilderFfiBuilderSetLogFacadeLoggerConstMeta,
-      argValues: [that],
-      apiImpl: this,
-    ));
-  }
-
-  TaskConstMeta get kCrateApiBuilderFfiBuilderSetLogFacadeLoggerConstMeta =>
-      const TaskConstMeta(
-        debugName: "FfiBuilder_set_log_facade_logger",
-        argNames: ["that"],
-      );
-
-  @override
-  Future<AnchorChannelsConfig> crateApiTypesAnchorChannelsConfigDefault() {
+  Future<bool> sharedBitcoinAddressIsValidForNetwork(
+      {required BitcoinAddress that, required Network network}) {
     return handler.executeNormal(NormalTask(
       callFfi: (port_) {
-        return wire
-            .wire__crate__api__types__anchor_channels_config_default(port_);
+        var arg0 =
+            cst_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerBitcoinAddress(
+                that);
+        var arg1 = cst_encode_network(network);
+        return wire.wire__shared__BitcoinAddress_is_valid_for_network(
+            port_, arg0, arg1);
       },
       codec: DcoCodec(
-        decodeSuccessData: dco_decode_anchor_channels_config,
+        decodeSuccessData: dco_decode_bool,
         decodeErrorData: null,
       ),
-      constMeta: kCrateApiTypesAnchorChannelsConfigDefaultConstMeta,
-      argValues: [],
+      constMeta: kSharedBitcoinAddressIsValidForNetworkConstMeta,
+      argValues: [that, network],
       apiImpl: this,
     ));
   }
 
-  TaskConstMeta get kCrateApiTypesAnchorChannelsConfigDefaultConstMeta =>
+  TaskConstMeta get kSharedBitcoinAddressIsValidForNetworkConstMeta =>
       const TaskConstMeta(
-        debugName: "anchor_channels_config_default",
-        argNames: [],
+        debugName: "BitcoinAddress_is_valid_for_network",
+        argNames: ["that", "network"],
       );
 
   @override
-  Future<Config> crateApiTypesConfigDefault() {
+  Future<BitcoinAddress> sharedBitcoinAddressNew(
+      {required String address, required Network network}) {
     return handler.executeNormal(NormalTask(
       callFfi: (port_) {
-        return wire.wire__crate__api__types__config_default(port_);
+        var arg0 = cst_encode_String(address);
+        var arg1 = cst_encode_network(network);
+        return wire.wire__shared__BitcoinAddress_new(port_, arg0, arg1);
       },
       codec: DcoCodec(
-        decodeSuccessData: dco_decode_config,
-        decodeErrorData: null,
+        decodeSuccessData:
+            dco_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerBitcoinAddress,
+        decodeErrorData: dco_decode_AnyhowException,
       ),
-      constMeta: kCrateApiTypesConfigDefaultConstMeta,
-      argValues: [],
+      constMeta: kSharedBitcoinAddressNewConstMeta,
+      argValues: [address, network],
       apiImpl: this,
     ));
   }
 
-  TaskConstMeta get kCrateApiTypesConfigDefaultConstMeta => const TaskConstMeta(
-        debugName: "config_default",
-        argNames: [],
+  TaskConstMeta get kSharedBitcoinAddressNewConstMeta => const TaskConstMeta(
+        debugName: "BitcoinAddress_new",
+        argNames: ["address", "network"],
       );
 
   @override
-  Future<void> crateApiBolt11FfiBolt11PaymentClaimForHashUnsafe(
-      {required FfiBolt11Payment that,
+  Future<ScriptBuf> sharedBitcoinAddressScriptPubkey(
+      {required BitcoinAddress that}) {
+    return handler.executeNormal(NormalTask(
+      callFfi: (port_) {
+        var arg0 =
+            cst_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerBitcoinAddress(
+                that);
+        return wire.wire__shared__BitcoinAddress_script_pubkey(port_, arg0);
+      },
+      codec: DcoCodec(
+        decodeSuccessData: dco_decode_script_buf,
+        decodeErrorData: null,
+      ),
+      constMeta: kSharedBitcoinAddressScriptPubkeyConstMeta,
+      argValues: [that],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta get kSharedBitcoinAddressScriptPubkeyConstMeta =>
+      const TaskConstMeta(
+        debugName: "BitcoinAddress_script_pubkey",
+        argNames: ["that"],
+      );
+
+  @override
+  Future<AddressData> sharedBitcoinAddressToAddressData(
+      {required BitcoinAddress that}) {
+    return handler.executeNormal(NormalTask(
+      callFfi: (port_) {
+        var arg0 =
+            cst_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerBitcoinAddress(
+                that);
+        return wire.wire__shared__BitcoinAddress_to_address_data(port_, arg0);
+      },
+      codec: DcoCodec(
+        decodeSuccessData:
+            dco_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerAddressData,
+        decodeErrorData: null,
+      ),
+      constMeta: kSharedBitcoinAddressToAddressDataConstMeta,
+      argValues: [that],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta get kSharedBitcoinAddressToAddressDataConstMeta =>
+      const TaskConstMeta(
+        debugName: "BitcoinAddress_to_address_data",
+        argNames: ["that"],
+      );
+
+  @override
+  Future<String> sharedBitcoinAddressToQrUri({required BitcoinAddress that}) {
+    return handler.executeNormal(NormalTask(
+      callFfi: (port_) {
+        var arg0 =
+            cst_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerBitcoinAddress(
+                that);
+        return wire.wire__shared__BitcoinAddress_to_qr_uri(port_, arg0);
+      },
+      codec: DcoCodec(
+        decodeSuccessData: dco_decode_String,
+        decodeErrorData: null,
+      ),
+      constMeta: kSharedBitcoinAddressToQrUriConstMeta,
+      argValues: [that],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta get kSharedBitcoinAddressToQrUriConstMeta =>
+      const TaskConstMeta(
+        debugName: "BitcoinAddress_to_qr_uri",
+        argNames: ["that"],
+      );
+
+  @override
+  Future<void> ldkAdapterBolt11Bolt11PaymentClaimForHash(
+      {required Bolt11Payment that,
       required PaymentHash paymentHash,
       required BigInt claimableAmountMsat,
       required PaymentPreimage preimage}) {
     return handler.executeNormal(NormalTask(
       callFfi: (port_) {
-        var arg0 = cst_encode_box_autoadd_ffi_bolt_11_payment(that);
+        var arg0 =
+            cst_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerBolt11Payment(
+                that);
         var arg1 = cst_encode_box_autoadd_payment_hash(paymentHash);
         var arg2 = cst_encode_u_64(claimableAmountMsat);
         var arg3 = cst_encode_box_autoadd_payment_preimage(preimage);
-        return wire
-            .wire__crate__api__bolt11__ffi_bolt_11_payment_claim_for_hash_unsafe(
-                port_, arg0, arg1, arg2, arg3);
+        return wire.wire__ldk_adapter__bolt11__Bolt11Payment_claim_for_hash(
+            port_, arg0, arg1, arg2, arg3);
       },
       codec: DcoCodec(
         decodeSuccessData: dco_decode_unit,
-        decodeErrorData: dco_decode_ffi_node_error,
+        decodeErrorData: dco_decode_AnyhowException,
       ),
-      constMeta: kCrateApiBolt11FfiBolt11PaymentClaimForHashUnsafeConstMeta,
+      constMeta: kLdkAdapterBolt11Bolt11PaymentClaimForHashConstMeta,
       argValues: [that, paymentHash, claimableAmountMsat, preimage],
       apiImpl: this,
     ));
   }
 
-  TaskConstMeta
-      get kCrateApiBolt11FfiBolt11PaymentClaimForHashUnsafeConstMeta =>
-          const TaskConstMeta(
-            debugName: "ffi_bolt_11_payment_claim_for_hash_unsafe",
-            argNames: [
-              "that",
-              "paymentHash",
-              "claimableAmountMsat",
-              "preimage"
-            ],
-          );
+  TaskConstMeta get kLdkAdapterBolt11Bolt11PaymentClaimForHashConstMeta =>
+      const TaskConstMeta(
+        debugName: "Bolt11Payment_claim_for_hash",
+        argNames: ["that", "paymentHash", "claimableAmountMsat", "preimage"],
+      );
 
   @override
-  Future<void> crateApiBolt11FfiBolt11PaymentFailForHashUnsafe(
-      {required FfiBolt11Payment that, required PaymentHash paymentHash}) {
+  Future<void> ldkAdapterBolt11Bolt11PaymentFailForHash(
+      {required Bolt11Payment that, required PaymentHash paymentHash}) {
     return handler.executeNormal(NormalTask(
       callFfi: (port_) {
-        var arg0 = cst_encode_box_autoadd_ffi_bolt_11_payment(that);
+        var arg0 =
+            cst_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerBolt11Payment(
+                that);
         var arg1 = cst_encode_box_autoadd_payment_hash(paymentHash);
-        return wire
-            .wire__crate__api__bolt11__ffi_bolt_11_payment_fail_for_hash_unsafe(
-                port_, arg0, arg1);
+        return wire.wire__ldk_adapter__bolt11__Bolt11Payment_fail_for_hash(
+            port_, arg0, arg1);
       },
       codec: DcoCodec(
         decodeSuccessData: dco_decode_unit,
-        decodeErrorData: dco_decode_ffi_node_error,
+        decodeErrorData: dco_decode_AnyhowException,
       ),
-      constMeta: kCrateApiBolt11FfiBolt11PaymentFailForHashUnsafeConstMeta,
+      constMeta: kLdkAdapterBolt11Bolt11PaymentFailForHashConstMeta,
       argValues: [that, paymentHash],
       apiImpl: this,
     ));
   }
 
-  TaskConstMeta get kCrateApiBolt11FfiBolt11PaymentFailForHashUnsafeConstMeta =>
+  TaskConstMeta get kLdkAdapterBolt11Bolt11PaymentFailForHashConstMeta =>
       const TaskConstMeta(
-        debugName: "ffi_bolt_11_payment_fail_for_hash_unsafe",
+        debugName: "Bolt11Payment_fail_for_hash",
         argNames: ["that", "paymentHash"],
       );
 
   @override
-  Future<Bolt11Invoice> crateApiBolt11FfiBolt11PaymentReceiveForHashUnsafe(
-      {required FfiBolt11Payment that,
+  Future<Bolt11Invoice> ldkAdapterBolt11Bolt11PaymentReceive(
+      {required Bolt11Payment that,
+      required BigInt amountMsat,
+      required String description,
+      required int expirySecs}) {
+    return handler.executeNormal(NormalTask(
+      callFfi: (port_) {
+        var arg0 =
+            cst_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerBolt11Payment(
+                that);
+        var arg1 = cst_encode_u_64(amountMsat);
+        var arg2 = cst_encode_String(description);
+        var arg3 = cst_encode_u_32(expirySecs);
+        return wire.wire__ldk_adapter__bolt11__Bolt11Payment_receive(
+            port_, arg0, arg1, arg2, arg3);
+      },
+      codec: DcoCodec(
+        decodeSuccessData: dco_decode_bolt_11_invoice,
+        decodeErrorData: dco_decode_AnyhowException,
+      ),
+      constMeta: kLdkAdapterBolt11Bolt11PaymentReceiveConstMeta,
+      argValues: [that, amountMsat, description, expirySecs],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta get kLdkAdapterBolt11Bolt11PaymentReceiveConstMeta =>
+      const TaskConstMeta(
+        debugName: "Bolt11Payment_receive",
+        argNames: ["that", "amountMsat", "description", "expirySecs"],
+      );
+
+  @override
+  Future<Bolt11Invoice> ldkAdapterBolt11Bolt11PaymentReceiveForHash(
+      {required Bolt11Payment that,
       required PaymentHash paymentHash,
       required BigInt amountMsat,
       required String description,
       required int expirySecs}) {
     return handler.executeNormal(NormalTask(
       callFfi: (port_) {
-        var arg0 = cst_encode_box_autoadd_ffi_bolt_11_payment(that);
+        var arg0 =
+            cst_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerBolt11Payment(
+                that);
         var arg1 = cst_encode_box_autoadd_payment_hash(paymentHash);
         var arg2 = cst_encode_u_64(amountMsat);
         var arg3 = cst_encode_String(description);
         var arg4 = cst_encode_u_32(expirySecs);
-        return wire
-            .wire__crate__api__bolt11__ffi_bolt_11_payment_receive_for_hash_unsafe(
-                port_, arg0, arg1, arg2, arg3, arg4);
+        return wire.wire__ldk_adapter__bolt11__Bolt11Payment_receive_for_hash(
+            port_, arg0, arg1, arg2, arg3, arg4);
       },
       codec: DcoCodec(
         decodeSuccessData: dco_decode_bolt_11_invoice,
-        decodeErrorData: dco_decode_ffi_node_error,
+        decodeErrorData: dco_decode_AnyhowException,
       ),
-      constMeta: kCrateApiBolt11FfiBolt11PaymentReceiveForHashUnsafeConstMeta,
+      constMeta: kLdkAdapterBolt11Bolt11PaymentReceiveForHashConstMeta,
       argValues: [that, paymentHash, amountMsat, description, expirySecs],
       apiImpl: this,
     ));
   }
 
-  TaskConstMeta
-      get kCrateApiBolt11FfiBolt11PaymentReceiveForHashUnsafeConstMeta =>
-          const TaskConstMeta(
-            debugName: "ffi_bolt_11_payment_receive_for_hash_unsafe",
-            argNames: [
-              "that",
-              "paymentHash",
-              "amountMsat",
-              "description",
-              "expirySecs"
-            ],
-          );
+  TaskConstMeta get kLdkAdapterBolt11Bolt11PaymentReceiveForHashConstMeta =>
+      const TaskConstMeta(
+        debugName: "Bolt11Payment_receive_for_hash",
+        argNames: [
+          "that",
+          "paymentHash",
+          "amountMsat",
+          "description",
+          "expirySecs"
+        ],
+      );
 
   @override
-  Future<Bolt11Invoice> crateApiBolt11FfiBolt11PaymentReceiveUnsafe(
-      {required FfiBolt11Payment that,
-      required BigInt amountMsat,
+  Future<Bolt11Invoice> ldkAdapterBolt11Bolt11PaymentReceiveVariableAmount(
+      {required Bolt11Payment that,
       required String description,
       required int expirySecs}) {
     return handler.executeNormal(NormalTask(
       callFfi: (port_) {
-        var arg0 = cst_encode_box_autoadd_ffi_bolt_11_payment(that);
-        var arg1 = cst_encode_u_64(amountMsat);
-        var arg2 = cst_encode_String(description);
-        var arg3 = cst_encode_u_32(expirySecs);
-        return wire
-            .wire__crate__api__bolt11__ffi_bolt_11_payment_receive_unsafe(
-                port_, arg0, arg1, arg2, arg3);
-      },
-      codec: DcoCodec(
-        decodeSuccessData: dco_decode_bolt_11_invoice,
-        decodeErrorData: dco_decode_ffi_node_error,
-      ),
-      constMeta: kCrateApiBolt11FfiBolt11PaymentReceiveUnsafeConstMeta,
-      argValues: [that, amountMsat, description, expirySecs],
-      apiImpl: this,
-    ));
-  }
-
-  TaskConstMeta get kCrateApiBolt11FfiBolt11PaymentReceiveUnsafeConstMeta =>
-      const TaskConstMeta(
-        debugName: "ffi_bolt_11_payment_receive_unsafe",
-        argNames: ["that", "amountMsat", "description", "expirySecs"],
-      );
-
-  @override
-  Future<Bolt11Invoice>
-      crateApiBolt11FfiBolt11PaymentReceiveVariableAmountForHashUnsafe(
-          {required FfiBolt11Payment that,
-          required String description,
-          required int expirySecs,
-          required PaymentHash paymentHash}) {
-    return handler.executeNormal(NormalTask(
-      callFfi: (port_) {
-        var arg0 = cst_encode_box_autoadd_ffi_bolt_11_payment(that);
-        var arg1 = cst_encode_String(description);
-        var arg2 = cst_encode_u_32(expirySecs);
-        var arg3 = cst_encode_box_autoadd_payment_hash(paymentHash);
-        return wire
-            .wire__crate__api__bolt11__ffi_bolt_11_payment_receive_variable_amount_for_hash_unsafe(
-                port_, arg0, arg1, arg2, arg3);
-      },
-      codec: DcoCodec(
-        decodeSuccessData: dco_decode_bolt_11_invoice,
-        decodeErrorData: dco_decode_ffi_node_error,
-      ),
-      constMeta:
-          kCrateApiBolt11FfiBolt11PaymentReceiveVariableAmountForHashUnsafeConstMeta,
-      argValues: [that, description, expirySecs, paymentHash],
-      apiImpl: this,
-    ));
-  }
-
-  TaskConstMeta
-      get kCrateApiBolt11FfiBolt11PaymentReceiveVariableAmountForHashUnsafeConstMeta =>
-          const TaskConstMeta(
-            debugName:
-                "ffi_bolt_11_payment_receive_variable_amount_for_hash_unsafe",
-            argNames: ["that", "description", "expirySecs", "paymentHash"],
-          );
-
-  @override
-  Future<Bolt11Invoice>
-      crateApiBolt11FfiBolt11PaymentReceiveVariableAmountUnsafe(
-          {required FfiBolt11Payment that,
-          required String description,
-          required int expirySecs}) {
-    return handler.executeNormal(NormalTask(
-      callFfi: (port_) {
-        var arg0 = cst_encode_box_autoadd_ffi_bolt_11_payment(that);
+        var arg0 =
+            cst_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerBolt11Payment(
+                that);
         var arg1 = cst_encode_String(description);
         var arg2 = cst_encode_u_32(expirySecs);
         return wire
-            .wire__crate__api__bolt11__ffi_bolt_11_payment_receive_variable_amount_unsafe(
+            .wire__ldk_adapter__bolt11__Bolt11Payment_receive_variable_amount(
                 port_, arg0, arg1, arg2);
       },
       codec: DcoCodec(
         decodeSuccessData: dco_decode_bolt_11_invoice,
-        decodeErrorData: dco_decode_ffi_node_error,
+        decodeErrorData: dco_decode_AnyhowException,
       ),
-      constMeta:
-          kCrateApiBolt11FfiBolt11PaymentReceiveVariableAmountUnsafeConstMeta,
+      constMeta: kLdkAdapterBolt11Bolt11PaymentReceiveVariableAmountConstMeta,
       argValues: [that, description, expirySecs],
       apiImpl: this,
     ));
   }
 
   TaskConstMeta
-      get kCrateApiBolt11FfiBolt11PaymentReceiveVariableAmountUnsafeConstMeta =>
+      get kLdkAdapterBolt11Bolt11PaymentReceiveVariableAmountConstMeta =>
           const TaskConstMeta(
-            debugName: "ffi_bolt_11_payment_receive_variable_amount_unsafe",
+            debugName: "Bolt11Payment_receive_variable_amount",
             argNames: ["that", "description", "expirySecs"],
           );
 
   @override
   Future<Bolt11Invoice>
-      crateApiBolt11FfiBolt11PaymentReceiveVariableAmountViaJitChannelUnsafe(
-          {required FfiBolt11Payment that,
+      ldkAdapterBolt11Bolt11PaymentReceiveVariableAmountForHash(
+          {required Bolt11Payment that,
+          required String description,
+          required int expirySecs,
+          required PaymentHash paymentHash}) {
+    return handler.executeNormal(NormalTask(
+      callFfi: (port_) {
+        var arg0 =
+            cst_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerBolt11Payment(
+                that);
+        var arg1 = cst_encode_String(description);
+        var arg2 = cst_encode_u_32(expirySecs);
+        var arg3 = cst_encode_box_autoadd_payment_hash(paymentHash);
+        return wire
+            .wire__ldk_adapter__bolt11__Bolt11Payment_receive_variable_amount_for_hash(
+                port_, arg0, arg1, arg2, arg3);
+      },
+      codec: DcoCodec(
+        decodeSuccessData: dco_decode_bolt_11_invoice,
+        decodeErrorData: dco_decode_AnyhowException,
+      ),
+      constMeta:
+          kLdkAdapterBolt11Bolt11PaymentReceiveVariableAmountForHashConstMeta,
+      argValues: [that, description, expirySecs, paymentHash],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta
+      get kLdkAdapterBolt11Bolt11PaymentReceiveVariableAmountForHashConstMeta =>
+          const TaskConstMeta(
+            debugName: "Bolt11Payment_receive_variable_amount_for_hash",
+            argNames: ["that", "description", "expirySecs", "paymentHash"],
+          );
+
+  @override
+  Future<Bolt11Invoice>
+      ldkAdapterBolt11Bolt11PaymentReceiveVariableAmountViaJitChannel(
+          {required Bolt11Payment that,
           required String description,
           required int expirySecs,
           BigInt? maxProportionalLspFeeLimitPpmMsat}) {
     return handler.executeNormal(NormalTask(
       callFfi: (port_) {
-        var arg0 = cst_encode_box_autoadd_ffi_bolt_11_payment(that);
+        var arg0 =
+            cst_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerBolt11Payment(
+                that);
         var arg1 = cst_encode_String(description);
         var arg2 = cst_encode_u_32(expirySecs);
         var arg3 =
             cst_encode_opt_box_autoadd_u_64(maxProportionalLspFeeLimitPpmMsat);
         return wire
-            .wire__crate__api__bolt11__ffi_bolt_11_payment_receive_variable_amount_via_jit_channel_unsafe(
+            .wire__ldk_adapter__bolt11__Bolt11Payment_receive_variable_amount_via_jit_channel(
                 port_, arg0, arg1, arg2, arg3);
       },
       codec: DcoCodec(
         decodeSuccessData: dco_decode_bolt_11_invoice,
-        decodeErrorData: dco_decode_ffi_node_error,
+        decodeErrorData: dco_decode_AnyhowException,
       ),
       constMeta:
-          kCrateApiBolt11FfiBolt11PaymentReceiveVariableAmountViaJitChannelUnsafeConstMeta,
+          kLdkAdapterBolt11Bolt11PaymentReceiveVariableAmountViaJitChannelConstMeta,
       argValues: [
         that,
         description,
@@ -1118,10 +1462,9 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
   }
 
   TaskConstMeta
-      get kCrateApiBolt11FfiBolt11PaymentReceiveVariableAmountViaJitChannelUnsafeConstMeta =>
+      get kLdkAdapterBolt11Bolt11PaymentReceiveVariableAmountViaJitChannelConstMeta =>
           const TaskConstMeta(
-            debugName:
-                "ffi_bolt_11_payment_receive_variable_amount_via_jit_channel_unsafe",
+            debugName: "Bolt11Payment_receive_variable_amount_via_jit_channel",
             argNames: [
               "that",
               "description",
@@ -1131,30 +1474,30 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
           );
 
   @override
-  Future<Bolt11Invoice>
-      crateApiBolt11FfiBolt11PaymentReceiveViaJitChannelUnsafe(
-          {required FfiBolt11Payment that,
-          required BigInt amountMsat,
-          required String description,
-          required int expirySecs,
-          BigInt? maxTotalLspFeeLimitMsat}) {
+  Future<Bolt11Invoice> ldkAdapterBolt11Bolt11PaymentReceiveViaJitChannel(
+      {required Bolt11Payment that,
+      required BigInt amountMsat,
+      required String description,
+      required int expirySecs,
+      BigInt? maxTotalLspFeeLimitMsat}) {
     return handler.executeNormal(NormalTask(
       callFfi: (port_) {
-        var arg0 = cst_encode_box_autoadd_ffi_bolt_11_payment(that);
+        var arg0 =
+            cst_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerBolt11Payment(
+                that);
         var arg1 = cst_encode_u_64(amountMsat);
         var arg2 = cst_encode_String(description);
         var arg3 = cst_encode_u_32(expirySecs);
         var arg4 = cst_encode_opt_box_autoadd_u_64(maxTotalLspFeeLimitMsat);
         return wire
-            .wire__crate__api__bolt11__ffi_bolt_11_payment_receive_via_jit_channel_unsafe(
+            .wire__ldk_adapter__bolt11__Bolt11Payment_receive_via_jit_channel(
                 port_, arg0, arg1, arg2, arg3, arg4);
       },
       codec: DcoCodec(
         decodeSuccessData: dco_decode_bolt_11_invoice,
-        decodeErrorData: dco_decode_ffi_node_error,
+        decodeErrorData: dco_decode_AnyhowException,
       ),
-      constMeta:
-          kCrateApiBolt11FfiBolt11PaymentReceiveViaJitChannelUnsafeConstMeta,
+      constMeta: kLdkAdapterBolt11Bolt11PaymentReceiveViaJitChannelConstMeta,
       argValues: [
         that,
         amountMsat,
@@ -1167,9 +1510,9 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
   }
 
   TaskConstMeta
-      get kCrateApiBolt11FfiBolt11PaymentReceiveViaJitChannelUnsafeConstMeta =>
+      get kLdkAdapterBolt11Bolt11PaymentReceiveViaJitChannelConstMeta =>
           const TaskConstMeta(
-            debugName: "ffi_bolt_11_payment_receive_via_jit_channel_unsafe",
+            debugName: "Bolt11Payment_receive_via_jit_channel",
             argNames: [
               "that",
               "amountMsat",
@@ -1180,200 +1523,199 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
           );
 
   @override
-  Future<void> crateApiBolt11FfiBolt11PaymentSendProbesUnsafe(
-      {required FfiBolt11Payment that, required Bolt11Invoice invoice}) {
+  Future<PaymentId> ldkAdapterBolt11Bolt11PaymentSend(
+      {required Bolt11Payment that,
+      required Bolt11Invoice invoice,
+      SendingParameters? sendingParameters}) {
     return handler.executeNormal(NormalTask(
       callFfi: (port_) {
-        var arg0 = cst_encode_box_autoadd_ffi_bolt_11_payment(that);
+        var arg0 =
+            cst_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerBolt11Payment(
+                that);
         var arg1 = cst_encode_box_autoadd_bolt_11_invoice(invoice);
-        return wire
-            .wire__crate__api__bolt11__ffi_bolt_11_payment_send_probes_unsafe(
-                port_, arg0, arg1);
+        var arg2 =
+            cst_encode_opt_box_autoadd_sending_parameters(sendingParameters);
+        return wire.wire__ldk_adapter__bolt11__Bolt11Payment_send(
+            port_, arg0, arg1, arg2);
+      },
+      codec: DcoCodec(
+        decodeSuccessData: dco_decode_payment_id,
+        decodeErrorData: dco_decode_AnyhowException,
+      ),
+      constMeta: kLdkAdapterBolt11Bolt11PaymentSendConstMeta,
+      argValues: [that, invoice, sendingParameters],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta get kLdkAdapterBolt11Bolt11PaymentSendConstMeta =>
+      const TaskConstMeta(
+        debugName: "Bolt11Payment_send",
+        argNames: ["that", "invoice", "sendingParameters"],
+      );
+
+  @override
+  Future<void> ldkAdapterBolt11Bolt11PaymentSendProbes(
+      {required Bolt11Payment that, required Bolt11Invoice invoice}) {
+    return handler.executeNormal(NormalTask(
+      callFfi: (port_) {
+        var arg0 =
+            cst_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerBolt11Payment(
+                that);
+        var arg1 = cst_encode_box_autoadd_bolt_11_invoice(invoice);
+        return wire.wire__ldk_adapter__bolt11__Bolt11Payment_send_probes(
+            port_, arg0, arg1);
       },
       codec: DcoCodec(
         decodeSuccessData: dco_decode_unit,
-        decodeErrorData: dco_decode_ffi_node_error,
+        decodeErrorData: dco_decode_AnyhowException,
       ),
-      constMeta: kCrateApiBolt11FfiBolt11PaymentSendProbesUnsafeConstMeta,
+      constMeta: kLdkAdapterBolt11Bolt11PaymentSendProbesConstMeta,
       argValues: [that, invoice],
       apiImpl: this,
     ));
   }
 
-  TaskConstMeta get kCrateApiBolt11FfiBolt11PaymentSendProbesUnsafeConstMeta =>
+  TaskConstMeta get kLdkAdapterBolt11Bolt11PaymentSendProbesConstMeta =>
       const TaskConstMeta(
-        debugName: "ffi_bolt_11_payment_send_probes_unsafe",
+        debugName: "Bolt11Payment_send_probes",
         argNames: ["that", "invoice"],
       );
 
   @override
-  Future<void> crateApiBolt11FfiBolt11PaymentSendProbesUsingAmountUnsafe(
-      {required FfiBolt11Payment that,
+  Future<void> ldkAdapterBolt11Bolt11PaymentSendProbesUsingAmount(
+      {required Bolt11Payment that,
       required Bolt11Invoice invoice,
       required BigInt amountMsat}) {
     return handler.executeNormal(NormalTask(
       callFfi: (port_) {
-        var arg0 = cst_encode_box_autoadd_ffi_bolt_11_payment(that);
+        var arg0 =
+            cst_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerBolt11Payment(
+                that);
         var arg1 = cst_encode_box_autoadd_bolt_11_invoice(invoice);
         var arg2 = cst_encode_u_64(amountMsat);
         return wire
-            .wire__crate__api__bolt11__ffi_bolt_11_payment_send_probes_using_amount_unsafe(
+            .wire__ldk_adapter__bolt11__Bolt11Payment_send_probes_using_amount(
                 port_, arg0, arg1, arg2);
       },
       codec: DcoCodec(
         decodeSuccessData: dco_decode_unit,
-        decodeErrorData: dco_decode_ffi_node_error,
+        decodeErrorData: dco_decode_AnyhowException,
       ),
-      constMeta:
-          kCrateApiBolt11FfiBolt11PaymentSendProbesUsingAmountUnsafeConstMeta,
+      constMeta: kLdkAdapterBolt11Bolt11PaymentSendProbesUsingAmountConstMeta,
       argValues: [that, invoice, amountMsat],
       apiImpl: this,
     ));
   }
 
   TaskConstMeta
-      get kCrateApiBolt11FfiBolt11PaymentSendProbesUsingAmountUnsafeConstMeta =>
+      get kLdkAdapterBolt11Bolt11PaymentSendProbesUsingAmountConstMeta =>
           const TaskConstMeta(
-            debugName: "ffi_bolt_11_payment_send_probes_using_amount_unsafe",
+            debugName: "Bolt11Payment_send_probes_using_amount",
             argNames: ["that", "invoice", "amountMsat"],
           );
 
   @override
-  Future<PaymentId> crateApiBolt11FfiBolt11PaymentSendUnsafe(
-      {required FfiBolt11Payment that,
-      required Bolt11Invoice invoice,
-      SendingParameters? sendingParameters}) {
-    return handler.executeNormal(NormalTask(
-      callFfi: (port_) {
-        var arg0 = cst_encode_box_autoadd_ffi_bolt_11_payment(that);
-        var arg1 = cst_encode_box_autoadd_bolt_11_invoice(invoice);
-        var arg2 =
-            cst_encode_opt_box_autoadd_sending_parameters(sendingParameters);
-        return wire.wire__crate__api__bolt11__ffi_bolt_11_payment_send_unsafe(
-            port_, arg0, arg1, arg2);
-      },
-      codec: DcoCodec(
-        decodeSuccessData: dco_decode_payment_id,
-        decodeErrorData: dco_decode_ffi_node_error,
-      ),
-      constMeta: kCrateApiBolt11FfiBolt11PaymentSendUnsafeConstMeta,
-      argValues: [that, invoice, sendingParameters],
-      apiImpl: this,
-    ));
-  }
-
-  TaskConstMeta get kCrateApiBolt11FfiBolt11PaymentSendUnsafeConstMeta =>
-      const TaskConstMeta(
-        debugName: "ffi_bolt_11_payment_send_unsafe",
-        argNames: ["that", "invoice", "sendingParameters"],
-      );
-
-  @override
-  Future<PaymentId> crateApiBolt11FfiBolt11PaymentSendUsingAmountUnsafe(
-      {required FfiBolt11Payment that,
+  Future<PaymentId> ldkAdapterBolt11Bolt11PaymentSendUsingAmount(
+      {required Bolt11Payment that,
       required Bolt11Invoice invoice,
       required BigInt amountMsat,
       SendingParameters? sendingParameters}) {
     return handler.executeNormal(NormalTask(
       callFfi: (port_) {
-        var arg0 = cst_encode_box_autoadd_ffi_bolt_11_payment(that);
+        var arg0 =
+            cst_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerBolt11Payment(
+                that);
         var arg1 = cst_encode_box_autoadd_bolt_11_invoice(invoice);
         var arg2 = cst_encode_u_64(amountMsat);
         var arg3 =
             cst_encode_opt_box_autoadd_sending_parameters(sendingParameters);
-        return wire
-            .wire__crate__api__bolt11__ffi_bolt_11_payment_send_using_amount_unsafe(
-                port_, arg0, arg1, arg2, arg3);
+        return wire.wire__ldk_adapter__bolt11__Bolt11Payment_send_using_amount(
+            port_, arg0, arg1, arg2, arg3);
       },
       codec: DcoCodec(
         decodeSuccessData: dco_decode_payment_id,
-        decodeErrorData: dco_decode_ffi_node_error,
+        decodeErrorData: dco_decode_AnyhowException,
       ),
-      constMeta: kCrateApiBolt11FfiBolt11PaymentSendUsingAmountUnsafeConstMeta,
+      constMeta: kLdkAdapterBolt11Bolt11PaymentSendUsingAmountConstMeta,
       argValues: [that, invoice, amountMsat, sendingParameters],
       apiImpl: this,
     ));
   }
 
-  TaskConstMeta
-      get kCrateApiBolt11FfiBolt11PaymentSendUsingAmountUnsafeConstMeta =>
-          const TaskConstMeta(
-            debugName: "ffi_bolt_11_payment_send_using_amount_unsafe",
-            argNames: ["that", "invoice", "amountMsat", "sendingParameters"],
-          );
+  TaskConstMeta get kLdkAdapterBolt11Bolt11PaymentSendUsingAmountConstMeta =>
+      const TaskConstMeta(
+        debugName: "Bolt11Payment_send_using_amount",
+        argNames: ["that", "invoice", "amountMsat", "sendingParameters"],
+      );
 
   @override
-  Future<Refund> crateApiBolt12FfiBolt12PaymentInitiateRefundUnsafe(
-      {required FfiBolt12Payment that,
+  Future<Refund> ldkAdapterBolt12Bolt12PaymentInitiateRefund(
+      {required Bolt12Payment that,
       required BigInt amountMsat,
       required int expirySecs,
       BigInt? quantity,
       String? payerNote}) {
     return handler.executeNormal(NormalTask(
       callFfi: (port_) {
-        var arg0 = cst_encode_box_autoadd_ffi_bolt_12_payment(that);
+        var arg0 =
+            cst_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerBolt12Payment(
+                that);
         var arg1 = cst_encode_u_64(amountMsat);
         var arg2 = cst_encode_u_32(expirySecs);
         var arg3 = cst_encode_opt_box_autoadd_u_64(quantity);
         var arg4 = cst_encode_opt_String(payerNote);
-        return wire
-            .wire__crate__api__bolt12__ffi_bolt_12_payment_initiate_refund_unsafe(
-                port_, arg0, arg1, arg2, arg3, arg4);
+        return wire.wire__ldk_adapter__bolt12__Bolt12Payment_initiate_refund(
+            port_, arg0, arg1, arg2, arg3, arg4);
       },
       codec: DcoCodec(
         decodeSuccessData: dco_decode_refund,
-        decodeErrorData: dco_decode_ffi_node_error,
+        decodeErrorData: dco_decode_AnyhowException,
       ),
-      constMeta: kCrateApiBolt12FfiBolt12PaymentInitiateRefundUnsafeConstMeta,
+      constMeta: kLdkAdapterBolt12Bolt12PaymentInitiateRefundConstMeta,
       argValues: [that, amountMsat, expirySecs, quantity, payerNote],
       apiImpl: this,
     ));
   }
 
-  TaskConstMeta
-      get kCrateApiBolt12FfiBolt12PaymentInitiateRefundUnsafeConstMeta =>
-          const TaskConstMeta(
-            debugName: "ffi_bolt_12_payment_initiate_refund_unsafe",
-            argNames: [
-              "that",
-              "amountMsat",
-              "expirySecs",
-              "quantity",
-              "payerNote"
-            ],
-          );
+  TaskConstMeta get kLdkAdapterBolt12Bolt12PaymentInitiateRefundConstMeta =>
+      const TaskConstMeta(
+        debugName: "Bolt12Payment_initiate_refund",
+        argNames: ["that", "amountMsat", "expirySecs", "quantity", "payerNote"],
+      );
 
   @override
-  Future<Offer> crateApiBolt12FfiBolt12PaymentReceiveUnsafe(
-      {required FfiBolt12Payment that,
+  Future<Offer> ldkAdapterBolt12Bolt12PaymentReceive(
+      {required Bolt12Payment that,
       required BigInt amountMsat,
       required String description,
       int? expirySecs,
       BigInt? quantity}) {
     return handler.executeNormal(NormalTask(
       callFfi: (port_) {
-        var arg0 = cst_encode_box_autoadd_ffi_bolt_12_payment(that);
+        var arg0 =
+            cst_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerBolt12Payment(
+                that);
         var arg1 = cst_encode_u_64(amountMsat);
         var arg2 = cst_encode_String(description);
         var arg3 = cst_encode_opt_box_autoadd_u_32(expirySecs);
         var arg4 = cst_encode_opt_box_autoadd_u_64(quantity);
-        return wire
-            .wire__crate__api__bolt12__ffi_bolt_12_payment_receive_unsafe(
-                port_, arg0, arg1, arg2, arg3, arg4);
+        return wire.wire__ldk_adapter__bolt12__Bolt12Payment_receive(
+            port_, arg0, arg1, arg2, arg3, arg4);
       },
       codec: DcoCodec(
         decodeSuccessData: dco_decode_offer,
-        decodeErrorData: dco_decode_ffi_node_error,
+        decodeErrorData: dco_decode_AnyhowException,
       ),
-      constMeta: kCrateApiBolt12FfiBolt12PaymentReceiveUnsafeConstMeta,
+      constMeta: kLdkAdapterBolt12Bolt12PaymentReceiveConstMeta,
       argValues: [that, amountMsat, description, expirySecs, quantity],
       apiImpl: this,
     ));
   }
 
-  TaskConstMeta get kCrateApiBolt12FfiBolt12PaymentReceiveUnsafeConstMeta =>
+  TaskConstMeta get kLdkAdapterBolt12Bolt12PaymentReceiveConstMeta =>
       const TaskConstMeta(
-        debugName: "ffi_bolt_12_payment_receive_unsafe",
+        debugName: "Bolt12Payment_receive",
         argNames: [
           "that",
           "amountMsat",
@@ -1384,761 +1726,3154 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
       );
 
   @override
-  Future<Offer> crateApiBolt12FfiBolt12PaymentReceiveVariableAmountUnsafe(
-      {required FfiBolt12Payment that,
+  Future<Offer> ldkAdapterBolt12Bolt12PaymentReceiveVariableAmount(
+      {required Bolt12Payment that,
       required String description,
       int? expirySecs}) {
     return handler.executeNormal(NormalTask(
       callFfi: (port_) {
-        var arg0 = cst_encode_box_autoadd_ffi_bolt_12_payment(that);
+        var arg0 =
+            cst_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerBolt12Payment(
+                that);
         var arg1 = cst_encode_String(description);
         var arg2 = cst_encode_opt_box_autoadd_u_32(expirySecs);
         return wire
-            .wire__crate__api__bolt12__ffi_bolt_12_payment_receive_variable_amount_unsafe(
+            .wire__ldk_adapter__bolt12__Bolt12Payment_receive_variable_amount(
                 port_, arg0, arg1, arg2);
       },
       codec: DcoCodec(
         decodeSuccessData: dco_decode_offer,
-        decodeErrorData: dco_decode_ffi_node_error,
+        decodeErrorData: dco_decode_AnyhowException,
       ),
-      constMeta:
-          kCrateApiBolt12FfiBolt12PaymentReceiveVariableAmountUnsafeConstMeta,
+      constMeta: kLdkAdapterBolt12Bolt12PaymentReceiveVariableAmountConstMeta,
       argValues: [that, description, expirySecs],
       apiImpl: this,
     ));
   }
 
   TaskConstMeta
-      get kCrateApiBolt12FfiBolt12PaymentReceiveVariableAmountUnsafeConstMeta =>
+      get kLdkAdapterBolt12Bolt12PaymentReceiveVariableAmountConstMeta =>
           const TaskConstMeta(
-            debugName: "ffi_bolt_12_payment_receive_variable_amount_unsafe",
+            debugName: "Bolt12Payment_receive_variable_amount",
             argNames: ["that", "description", "expirySecs"],
           );
 
   @override
-  Future<Bolt12Invoice>
-      crateApiBolt12FfiBolt12PaymentRequestRefundPaymentUnsafe(
-          {required FfiBolt12Payment that, required Refund refund}) {
+  Future<Bolt12Invoice> ldkAdapterBolt12Bolt12PaymentRequestRefundPayment(
+      {required Bolt12Payment that, required Refund refund}) {
     return handler.executeNormal(NormalTask(
       callFfi: (port_) {
-        var arg0 = cst_encode_box_autoadd_ffi_bolt_12_payment(that);
+        var arg0 =
+            cst_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerBolt12Payment(
+                that);
         var arg1 = cst_encode_box_autoadd_refund(refund);
         return wire
-            .wire__crate__api__bolt12__ffi_bolt_12_payment_request_refund_payment_unsafe(
+            .wire__ldk_adapter__bolt12__Bolt12Payment_request_refund_payment(
                 port_, arg0, arg1);
       },
       codec: DcoCodec(
         decodeSuccessData: dco_decode_bolt_12_invoice,
-        decodeErrorData: dco_decode_ffi_node_error,
+        decodeErrorData: dco_decode_AnyhowException,
       ),
-      constMeta:
-          kCrateApiBolt12FfiBolt12PaymentRequestRefundPaymentUnsafeConstMeta,
+      constMeta: kLdkAdapterBolt12Bolt12PaymentRequestRefundPaymentConstMeta,
       argValues: [that, refund],
       apiImpl: this,
     ));
   }
 
   TaskConstMeta
-      get kCrateApiBolt12FfiBolt12PaymentRequestRefundPaymentUnsafeConstMeta =>
+      get kLdkAdapterBolt12Bolt12PaymentRequestRefundPaymentConstMeta =>
           const TaskConstMeta(
-            debugName: "ffi_bolt_12_payment_request_refund_payment_unsafe",
+            debugName: "Bolt12Payment_request_refund_payment",
             argNames: ["that", "refund"],
           );
 
   @override
-  Future<PaymentId> crateApiBolt12FfiBolt12PaymentSendUnsafe(
-      {required FfiBolt12Payment that,
+  Future<PaymentId> ldkAdapterBolt12Bolt12PaymentSend(
+      {required Bolt12Payment that,
       required Offer offer,
       BigInt? quantity,
       String? payerNote}) {
     return handler.executeNormal(NormalTask(
       callFfi: (port_) {
-        var arg0 = cst_encode_box_autoadd_ffi_bolt_12_payment(that);
+        var arg0 =
+            cst_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerBolt12Payment(
+                that);
         var arg1 = cst_encode_box_autoadd_offer(offer);
         var arg2 = cst_encode_opt_box_autoadd_u_64(quantity);
         var arg3 = cst_encode_opt_String(payerNote);
-        return wire.wire__crate__api__bolt12__ffi_bolt_12_payment_send_unsafe(
+        return wire.wire__ldk_adapter__bolt12__Bolt12Payment_send(
             port_, arg0, arg1, arg2, arg3);
       },
       codec: DcoCodec(
         decodeSuccessData: dco_decode_payment_id,
-        decodeErrorData: dco_decode_ffi_node_error,
+        decodeErrorData: dco_decode_AnyhowException,
       ),
-      constMeta: kCrateApiBolt12FfiBolt12PaymentSendUnsafeConstMeta,
+      constMeta: kLdkAdapterBolt12Bolt12PaymentSendConstMeta,
       argValues: [that, offer, quantity, payerNote],
       apiImpl: this,
     ));
   }
 
-  TaskConstMeta get kCrateApiBolt12FfiBolt12PaymentSendUnsafeConstMeta =>
+  TaskConstMeta get kLdkAdapterBolt12Bolt12PaymentSendConstMeta =>
       const TaskConstMeta(
-        debugName: "ffi_bolt_12_payment_send_unsafe",
+        debugName: "Bolt12Payment_send",
         argNames: ["that", "offer", "quantity", "payerNote"],
       );
 
   @override
-  Future<PaymentId> crateApiBolt12FfiBolt12PaymentSendUsingAmountUnsafe(
-      {required FfiBolt12Payment that,
+  Future<PaymentId> ldkAdapterBolt12Bolt12PaymentSendUsingAmount(
+      {required Bolt12Payment that,
       required Offer offer,
       required BigInt amountMsat,
       BigInt? quantity,
       String? payerNote}) {
     return handler.executeNormal(NormalTask(
       callFfi: (port_) {
-        var arg0 = cst_encode_box_autoadd_ffi_bolt_12_payment(that);
+        var arg0 =
+            cst_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerBolt12Payment(
+                that);
         var arg1 = cst_encode_box_autoadd_offer(offer);
         var arg2 = cst_encode_u_64(amountMsat);
         var arg3 = cst_encode_opt_box_autoadd_u_64(quantity);
         var arg4 = cst_encode_opt_String(payerNote);
-        return wire
-            .wire__crate__api__bolt12__ffi_bolt_12_payment_send_using_amount_unsafe(
-                port_, arg0, arg1, arg2, arg3, arg4);
+        return wire.wire__ldk_adapter__bolt12__Bolt12Payment_send_using_amount(
+            port_, arg0, arg1, arg2, arg3, arg4);
       },
       codec: DcoCodec(
         decodeSuccessData: dco_decode_payment_id,
-        decodeErrorData: dco_decode_ffi_node_error,
+        decodeErrorData: dco_decode_AnyhowException,
       ),
-      constMeta: kCrateApiBolt12FfiBolt12PaymentSendUsingAmountUnsafeConstMeta,
+      constMeta: kLdkAdapterBolt12Bolt12PaymentSendUsingAmountConstMeta,
       argValues: [that, offer, amountMsat, quantity, payerNote],
       apiImpl: this,
     ));
   }
 
-  TaskConstMeta
-      get kCrateApiBolt12FfiBolt12PaymentSendUsingAmountUnsafeConstMeta =>
-          const TaskConstMeta(
-            debugName: "ffi_bolt_12_payment_send_using_amount_unsafe",
-            argNames: ["that", "offer", "amountMsat", "quantity", "payerNote"],
-          );
+  TaskConstMeta get kLdkAdapterBolt12Bolt12PaymentSendUsingAmountConstMeta =>
+      const TaskConstMeta(
+        debugName: "Bolt12Payment_send_using_amount",
+        argNames: ["that", "offer", "amountMsat", "quantity", "payerNote"],
+      );
 
   @override
-  Future<FfiMnemonic> crateApiBuilderFfiMnemonicGenerate() {
+  Future<Node> ldkAdapterBuilderBuilderBuild({required Builder that}) {
     return handler.executeNormal(NormalTask(
       callFfi: (port_) {
-        return wire.wire__crate__api__builder__ffi_mnemonic_generate(port_);
+        var arg0 =
+            cst_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerBuilder(
+                that);
+        return wire.wire__ldk_adapter__builder__Builder_build(port_, arg0);
       },
       codec: DcoCodec(
-        decodeSuccessData: dco_decode_ffi_mnemonic,
-        decodeErrorData: null,
+        decodeSuccessData:
+            dco_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerNode,
+        decodeErrorData: dco_decode_AnyhowException,
       ),
-      constMeta: kCrateApiBuilderFfiMnemonicGenerateConstMeta,
-      argValues: [],
+      constMeta: kLdkAdapterBuilderBuilderBuildConstMeta,
+      argValues: [that],
       apiImpl: this,
     ));
   }
 
-  TaskConstMeta get kCrateApiBuilderFfiMnemonicGenerateConstMeta =>
+  TaskConstMeta get kLdkAdapterBuilderBuilderBuildConstMeta =>
       const TaskConstMeta(
-        debugName: "ffi_mnemonic_generate",
-        argNames: [],
+        debugName: "Builder_build",
+        argNames: ["that"],
       );
 
   @override
-  Future<ChannelInfo?> crateApiGraphFfiNetworkGraphChannelUnsafe(
-      {required FfiNetworkGraph that, required BigInt shortChannelId}) {
+  Future<Node> ldkAdapterBuilderBuilderBuildWithFsStore(
+      {required Builder that}) {
     return handler.executeNormal(NormalTask(
       callFfi: (port_) {
-        var arg0 = cst_encode_box_autoadd_ffi_network_graph(that);
+        var arg0 =
+            cst_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerBuilder(
+                that);
+        return wire.wire__ldk_adapter__builder__Builder_build_with_fs_store(
+            port_, arg0);
+      },
+      codec: DcoCodec(
+        decodeSuccessData:
+            dco_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerNode,
+        decodeErrorData: dco_decode_AnyhowException,
+      ),
+      constMeta: kLdkAdapterBuilderBuilderBuildWithFsStoreConstMeta,
+      argValues: [that],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta get kLdkAdapterBuilderBuilderBuildWithFsStoreConstMeta =>
+      const TaskConstMeta(
+        debugName: "Builder_build_with_fs_store",
+        argNames: ["that"],
+      );
+
+  @override
+  Future<Node> ldkAdapterBuilderBuilderBuildWithVssStore(
+      {required Builder that,
+      required String vssUrl,
+      required String storeId,
+      required String lnurlAuthServerUrl,
+      required Map<String, String> fixedHeaders}) {
+    return handler.executeNormal(NormalTask(
+      callFfi: (port_) {
+        var arg0 =
+            cst_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerBuilder(
+                that);
+        var arg1 = cst_encode_String(vssUrl);
+        var arg2 = cst_encode_String(storeId);
+        var arg3 = cst_encode_String(lnurlAuthServerUrl);
+        var arg4 = cst_encode_Map_String_String_None(fixedHeaders);
+        return wire.wire__ldk_adapter__builder__Builder_build_with_vss_store(
+            port_, arg0, arg1, arg2, arg3, arg4);
+      },
+      codec: DcoCodec(
+        decodeSuccessData:
+            dco_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerNode,
+        decodeErrorData: dco_decode_AnyhowException,
+      ),
+      constMeta: kLdkAdapterBuilderBuilderBuildWithVssStoreConstMeta,
+      argValues: [that, vssUrl, storeId, lnurlAuthServerUrl, fixedHeaders],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta get kLdkAdapterBuilderBuilderBuildWithVssStoreConstMeta =>
+      const TaskConstMeta(
+        debugName: "Builder_build_with_vss_store",
+        argNames: [
+          "that",
+          "vssUrl",
+          "storeId",
+          "lnurlAuthServerUrl",
+          "fixedHeaders"
+        ],
+      );
+
+  @override
+  Future<Node> ldkAdapterBuilderBuilderBuildWithVssStoreAndFixedHeaders(
+      {required Builder that,
+      required String vssUrl,
+      required String storeId,
+      required Map<String, String> fixedHeaders}) {
+    return handler.executeNormal(NormalTask(
+      callFfi: (port_) {
+        var arg0 =
+            cst_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerBuilder(
+                that);
+        var arg1 = cst_encode_String(vssUrl);
+        var arg2 = cst_encode_String(storeId);
+        var arg3 = cst_encode_Map_String_String_None(fixedHeaders);
+        return wire
+            .wire__ldk_adapter__builder__Builder_build_with_vss_store_and_fixed_headers(
+                port_, arg0, arg1, arg2, arg3);
+      },
+      codec: DcoCodec(
+        decodeSuccessData:
+            dco_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerNode,
+        decodeErrorData: dco_decode_AnyhowException,
+      ),
+      constMeta:
+          kLdkAdapterBuilderBuilderBuildWithVssStoreAndFixedHeadersConstMeta,
+      argValues: [that, vssUrl, storeId, fixedHeaders],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta
+      get kLdkAdapterBuilderBuilderBuildWithVssStoreAndFixedHeadersConstMeta =>
+          const TaskConstMeta(
+            debugName: "Builder_build_with_vss_store_and_fixed_headers",
+            argNames: ["that", "vssUrl", "storeId", "fixedHeaders"],
+          );
+
+  @override
+  Future<Builder> ldkAdapterBuilderBuilderCreateBuilder(
+      {required Config config,
+      ChainDataSourceConfig? chainDataSourceConfig,
+      EntropySourceConfig? entropySourceConfig,
+      GossipSourceConfig? gossipSourceConfig,
+      LiquiditySourceConfig? liquiditySourceConfig}) {
+    return handler.executeNormal(NormalTask(
+      callFfi: (port_) {
+        var arg0 = cst_encode_box_autoadd_config(config);
+        var arg1 =
+            cst_encode_opt_box_autoadd_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerChainDataSourceConfig(
+                chainDataSourceConfig);
+        var arg2 =
+            cst_encode_opt_box_autoadd_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerEntropySourceConfig(
+                entropySourceConfig);
+        var arg3 =
+            cst_encode_opt_box_autoadd_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerGossipSourceConfig(
+                gossipSourceConfig);
+        var arg4 = cst_encode_opt_box_autoadd_liquidity_source_config(
+            liquiditySourceConfig);
+        return wire.wire__ldk_adapter__builder__Builder_create_builder(
+            port_, arg0, arg1, arg2, arg3, arg4);
+      },
+      codec: DcoCodec(
+        decodeSuccessData:
+            dco_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerBuilder,
+        decodeErrorData: dco_decode_AnyhowException,
+      ),
+      constMeta: kLdkAdapterBuilderBuilderCreateBuilderConstMeta,
+      argValues: [
+        config,
+        chainDataSourceConfig,
+        entropySourceConfig,
+        gossipSourceConfig,
+        liquiditySourceConfig
+      ],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta get kLdkAdapterBuilderBuilderCreateBuilderConstMeta =>
+      const TaskConstMeta(
+        debugName: "Builder_create_builder",
+        argNames: [
+          "config",
+          "chainDataSourceConfig",
+          "entropySourceConfig",
+          "gossipSourceConfig",
+          "liquiditySourceConfig"
+        ],
+      );
+
+  @override
+  Future<Builder> ldkAdapterBuilderBuilderSetEntropySeedBytes(
+      {required Builder that, required List<int> seedBytes}) {
+    return handler.executeNormal(NormalTask(
+      callFfi: (port_) {
+        var arg0 =
+            cst_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerBuilder(
+                that);
+        var arg1 = cst_encode_list_prim_u_8_loose(seedBytes);
+        return wire.wire__ldk_adapter__builder__Builder_set_entropy_seed_bytes(
+            port_, arg0, arg1);
+      },
+      codec: DcoCodec(
+        decodeSuccessData:
+            dco_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerBuilder,
+        decodeErrorData: dco_decode_AnyhowException,
+      ),
+      constMeta: kLdkAdapterBuilderBuilderSetEntropySeedBytesConstMeta,
+      argValues: [that, seedBytes],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta get kLdkAdapterBuilderBuilderSetEntropySeedBytesConstMeta =>
+      const TaskConstMeta(
+        debugName: "Builder_set_entropy_seed_bytes",
+        argNames: ["that", "seedBytes"],
+      );
+
+  @override
+  Future<Builder> ldkAdapterBuilderBuilderSetFilesystemLogger(
+      {required Builder that, String? logFilePath, LogLevel? maxLogLevel}) {
+    return handler.executeNormal(NormalTask(
+      callFfi: (port_) {
+        var arg0 =
+            cst_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerBuilder(
+                that);
+        var arg1 = cst_encode_opt_String(logFilePath);
+        var arg2 = cst_encode_opt_box_autoadd_log_level(maxLogLevel);
+        return wire.wire__ldk_adapter__builder__Builder_set_filesystem_logger(
+            port_, arg0, arg1, arg2);
+      },
+      codec: DcoCodec(
+        decodeSuccessData:
+            dco_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerBuilder,
+        decodeErrorData: dco_decode_AnyhowException,
+      ),
+      constMeta: kLdkAdapterBuilderBuilderSetFilesystemLoggerConstMeta,
+      argValues: [that, logFilePath, maxLogLevel],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta get kLdkAdapterBuilderBuilderSetFilesystemLoggerConstMeta =>
+      const TaskConstMeta(
+        debugName: "Builder_set_filesystem_logger",
+        argNames: ["that", "logFilePath", "maxLogLevel"],
+      );
+
+  @override
+  Future<Builder> ldkAdapterBuilderBuilderSetLogFacadeLogger(
+      {required Builder that}) {
+    return handler.executeNormal(NormalTask(
+      callFfi: (port_) {
+        var arg0 =
+            cst_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerBuilder(
+                that);
+        return wire.wire__ldk_adapter__builder__Builder_set_log_facade_logger(
+            port_, arg0);
+      },
+      codec: DcoCodec(
+        decodeSuccessData:
+            dco_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerBuilder,
+        decodeErrorData: dco_decode_AnyhowException,
+      ),
+      constMeta: kLdkAdapterBuilderBuilderSetLogFacadeLoggerConstMeta,
+      argValues: [that],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta get kLdkAdapterBuilderBuilderSetLogFacadeLoggerConstMeta =>
+      const TaskConstMeta(
+        debugName: "Builder_set_log_facade_logger",
+        argNames: ["that"],
+      );
+
+  @override
+  bool ldkAdapterTypesChannelConfigAutoAccessorGetAcceptUnderpayingHtlcs(
+      {required ChannelConfig that}) {
+    return handler.executeSync(SyncTask(
+      callFfi: () {
+        var arg0 =
+            cst_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerChannelConfig(
+                that);
+        return wire
+            .wire__ldk_adapter__types__ChannelConfig_auto_accessor_get_accept_underpaying_htlcs(
+                arg0);
+      },
+      codec: DcoCodec(
+        decodeSuccessData: dco_decode_bool,
+        decodeErrorData: null,
+      ),
+      constMeta:
+          kLdkAdapterTypesChannelConfigAutoAccessorGetAcceptUnderpayingHtlcsConstMeta,
+      argValues: [that],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta
+      get kLdkAdapterTypesChannelConfigAutoAccessorGetAcceptUnderpayingHtlcsConstMeta =>
+          const TaskConstMeta(
+            debugName:
+                "ChannelConfig_auto_accessor_get_accept_underpaying_htlcs",
+            argNames: ["that"],
+          );
+
+  @override
+  int ldkAdapterTypesChannelConfigAutoAccessorGetCltvExpiryDelta(
+      {required ChannelConfig that}) {
+    return handler.executeSync(SyncTask(
+      callFfi: () {
+        var arg0 =
+            cst_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerChannelConfig(
+                that);
+        return wire
+            .wire__ldk_adapter__types__ChannelConfig_auto_accessor_get_cltv_expiry_delta(
+                arg0);
+      },
+      codec: DcoCodec(
+        decodeSuccessData: dco_decode_u_16,
+        decodeErrorData: null,
+      ),
+      constMeta:
+          kLdkAdapterTypesChannelConfigAutoAccessorGetCltvExpiryDeltaConstMeta,
+      argValues: [that],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta
+      get kLdkAdapterTypesChannelConfigAutoAccessorGetCltvExpiryDeltaConstMeta =>
+          const TaskConstMeta(
+            debugName: "ChannelConfig_auto_accessor_get_cltv_expiry_delta",
+            argNames: ["that"],
+          );
+
+  @override
+  BigInt
+      ldkAdapterTypesChannelConfigAutoAccessorGetForceCloseAvoidanceMaxFeeSatoshis(
+          {required ChannelConfig that}) {
+    return handler.executeSync(SyncTask(
+      callFfi: () {
+        var arg0 =
+            cst_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerChannelConfig(
+                that);
+        return wire
+            .wire__ldk_adapter__types__ChannelConfig_auto_accessor_get_force_close_avoidance_max_fee_satoshis(
+                arg0);
+      },
+      codec: DcoCodec(
+        decodeSuccessData: dco_decode_u_64,
+        decodeErrorData: null,
+      ),
+      constMeta:
+          kLdkAdapterTypesChannelConfigAutoAccessorGetForceCloseAvoidanceMaxFeeSatoshisConstMeta,
+      argValues: [that],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta
+      get kLdkAdapterTypesChannelConfigAutoAccessorGetForceCloseAvoidanceMaxFeeSatoshisConstMeta =>
+          const TaskConstMeta(
+            debugName:
+                "ChannelConfig_auto_accessor_get_force_close_avoidance_max_fee_satoshis",
+            argNames: ["that"],
+          );
+
+  @override
+  int ldkAdapterTypesChannelConfigAutoAccessorGetForwardingFeeBaseMsat(
+      {required ChannelConfig that}) {
+    return handler.executeSync(SyncTask(
+      callFfi: () {
+        var arg0 =
+            cst_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerChannelConfig(
+                that);
+        return wire
+            .wire__ldk_adapter__types__ChannelConfig_auto_accessor_get_forwarding_fee_base_msat(
+                arg0);
+      },
+      codec: DcoCodec(
+        decodeSuccessData: dco_decode_u_32,
+        decodeErrorData: null,
+      ),
+      constMeta:
+          kLdkAdapterTypesChannelConfigAutoAccessorGetForwardingFeeBaseMsatConstMeta,
+      argValues: [that],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta
+      get kLdkAdapterTypesChannelConfigAutoAccessorGetForwardingFeeBaseMsatConstMeta =>
+          const TaskConstMeta(
+            debugName:
+                "ChannelConfig_auto_accessor_get_forwarding_fee_base_msat",
+            argNames: ["that"],
+          );
+
+  @override
+  int ldkAdapterTypesChannelConfigAutoAccessorGetForwardingFeeProportionalMillionths(
+      {required ChannelConfig that}) {
+    return handler.executeSync(SyncTask(
+      callFfi: () {
+        var arg0 =
+            cst_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerChannelConfig(
+                that);
+        return wire
+            .wire__ldk_adapter__types__ChannelConfig_auto_accessor_get_forwarding_fee_proportional_millionths(
+                arg0);
+      },
+      codec: DcoCodec(
+        decodeSuccessData: dco_decode_u_32,
+        decodeErrorData: null,
+      ),
+      constMeta:
+          kLdkAdapterTypesChannelConfigAutoAccessorGetForwardingFeeProportionalMillionthsConstMeta,
+      argValues: [that],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta
+      get kLdkAdapterTypesChannelConfigAutoAccessorGetForwardingFeeProportionalMillionthsConstMeta =>
+          const TaskConstMeta(
+            debugName:
+                "ChannelConfig_auto_accessor_get_forwarding_fee_proportional_millionths",
+            argNames: ["that"],
+          );
+
+  @override
+  MaxDustHtlcExposure
+      ldkAdapterTypesChannelConfigAutoAccessorGetMaxDustHtlcExposure(
+          {required ChannelConfig that}) {
+    return handler.executeSync(SyncTask(
+      callFfi: () {
+        var arg0 =
+            cst_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerChannelConfig(
+                that);
+        return wire
+            .wire__ldk_adapter__types__ChannelConfig_auto_accessor_get_max_dust_htlc_exposure(
+                arg0);
+      },
+      codec: DcoCodec(
+        decodeSuccessData:
+            dco_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerMaxDustHTLCExposure,
+        decodeErrorData: null,
+      ),
+      constMeta:
+          kLdkAdapterTypesChannelConfigAutoAccessorGetMaxDustHtlcExposureConstMeta,
+      argValues: [that],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta
+      get kLdkAdapterTypesChannelConfigAutoAccessorGetMaxDustHtlcExposureConstMeta =>
+          const TaskConstMeta(
+            debugName: "ChannelConfig_auto_accessor_get_max_dust_htlc_exposure",
+            argNames: ["that"],
+          );
+
+  @override
+  void ldkAdapterTypesChannelConfigAutoAccessorSetAcceptUnderpayingHtlcs(
+      {required ChannelConfig that, required bool acceptUnderpayingHtlcs}) {
+    return handler.executeSync(SyncTask(
+      callFfi: () {
+        var arg0 =
+            cst_encode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerChannelConfig(
+                that);
+        var arg1 = cst_encode_bool(acceptUnderpayingHtlcs);
+        return wire
+            .wire__ldk_adapter__types__ChannelConfig_auto_accessor_set_accept_underpaying_htlcs(
+                arg0, arg1);
+      },
+      codec: DcoCodec(
+        decodeSuccessData: dco_decode_unit,
+        decodeErrorData: null,
+      ),
+      constMeta:
+          kLdkAdapterTypesChannelConfigAutoAccessorSetAcceptUnderpayingHtlcsConstMeta,
+      argValues: [that, acceptUnderpayingHtlcs],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta
+      get kLdkAdapterTypesChannelConfigAutoAccessorSetAcceptUnderpayingHtlcsConstMeta =>
+          const TaskConstMeta(
+            debugName:
+                "ChannelConfig_auto_accessor_set_accept_underpaying_htlcs",
+            argNames: ["that", "acceptUnderpayingHtlcs"],
+          );
+
+  @override
+  void ldkAdapterTypesChannelConfigAutoAccessorSetCltvExpiryDelta(
+      {required ChannelConfig that, required int cltvExpiryDelta}) {
+    return handler.executeSync(SyncTask(
+      callFfi: () {
+        var arg0 =
+            cst_encode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerChannelConfig(
+                that);
+        var arg1 = cst_encode_u_16(cltvExpiryDelta);
+        return wire
+            .wire__ldk_adapter__types__ChannelConfig_auto_accessor_set_cltv_expiry_delta(
+                arg0, arg1);
+      },
+      codec: DcoCodec(
+        decodeSuccessData: dco_decode_unit,
+        decodeErrorData: null,
+      ),
+      constMeta:
+          kLdkAdapterTypesChannelConfigAutoAccessorSetCltvExpiryDeltaConstMeta,
+      argValues: [that, cltvExpiryDelta],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta
+      get kLdkAdapterTypesChannelConfigAutoAccessorSetCltvExpiryDeltaConstMeta =>
+          const TaskConstMeta(
+            debugName: "ChannelConfig_auto_accessor_set_cltv_expiry_delta",
+            argNames: ["that", "cltvExpiryDelta"],
+          );
+
+  @override
+  void
+      ldkAdapterTypesChannelConfigAutoAccessorSetForceCloseAvoidanceMaxFeeSatoshis(
+          {required ChannelConfig that,
+          required BigInt forceCloseAvoidanceMaxFeeSatoshis}) {
+    return handler.executeSync(SyncTask(
+      callFfi: () {
+        var arg0 =
+            cst_encode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerChannelConfig(
+                that);
+        var arg1 = cst_encode_u_64(forceCloseAvoidanceMaxFeeSatoshis);
+        return wire
+            .wire__ldk_adapter__types__ChannelConfig_auto_accessor_set_force_close_avoidance_max_fee_satoshis(
+                arg0, arg1);
+      },
+      codec: DcoCodec(
+        decodeSuccessData: dco_decode_unit,
+        decodeErrorData: null,
+      ),
+      constMeta:
+          kLdkAdapterTypesChannelConfigAutoAccessorSetForceCloseAvoidanceMaxFeeSatoshisConstMeta,
+      argValues: [that, forceCloseAvoidanceMaxFeeSatoshis],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta
+      get kLdkAdapterTypesChannelConfigAutoAccessorSetForceCloseAvoidanceMaxFeeSatoshisConstMeta =>
+          const TaskConstMeta(
+            debugName:
+                "ChannelConfig_auto_accessor_set_force_close_avoidance_max_fee_satoshis",
+            argNames: ["that", "forceCloseAvoidanceMaxFeeSatoshis"],
+          );
+
+  @override
+  void ldkAdapterTypesChannelConfigAutoAccessorSetForwardingFeeBaseMsat(
+      {required ChannelConfig that, required int forwardingFeeBaseMsat}) {
+    return handler.executeSync(SyncTask(
+      callFfi: () {
+        var arg0 =
+            cst_encode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerChannelConfig(
+                that);
+        var arg1 = cst_encode_u_32(forwardingFeeBaseMsat);
+        return wire
+            .wire__ldk_adapter__types__ChannelConfig_auto_accessor_set_forwarding_fee_base_msat(
+                arg0, arg1);
+      },
+      codec: DcoCodec(
+        decodeSuccessData: dco_decode_unit,
+        decodeErrorData: null,
+      ),
+      constMeta:
+          kLdkAdapterTypesChannelConfigAutoAccessorSetForwardingFeeBaseMsatConstMeta,
+      argValues: [that, forwardingFeeBaseMsat],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta
+      get kLdkAdapterTypesChannelConfigAutoAccessorSetForwardingFeeBaseMsatConstMeta =>
+          const TaskConstMeta(
+            debugName:
+                "ChannelConfig_auto_accessor_set_forwarding_fee_base_msat",
+            argNames: ["that", "forwardingFeeBaseMsat"],
+          );
+
+  @override
+  void
+      ldkAdapterTypesChannelConfigAutoAccessorSetForwardingFeeProportionalMillionths(
+          {required ChannelConfig that,
+          required int forwardingFeeProportionalMillionths}) {
+    return handler.executeSync(SyncTask(
+      callFfi: () {
+        var arg0 =
+            cst_encode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerChannelConfig(
+                that);
+        var arg1 = cst_encode_u_32(forwardingFeeProportionalMillionths);
+        return wire
+            .wire__ldk_adapter__types__ChannelConfig_auto_accessor_set_forwarding_fee_proportional_millionths(
+                arg0, arg1);
+      },
+      codec: DcoCodec(
+        decodeSuccessData: dco_decode_unit,
+        decodeErrorData: null,
+      ),
+      constMeta:
+          kLdkAdapterTypesChannelConfigAutoAccessorSetForwardingFeeProportionalMillionthsConstMeta,
+      argValues: [that, forwardingFeeProportionalMillionths],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta
+      get kLdkAdapterTypesChannelConfigAutoAccessorSetForwardingFeeProportionalMillionthsConstMeta =>
+          const TaskConstMeta(
+            debugName:
+                "ChannelConfig_auto_accessor_set_forwarding_fee_proportional_millionths",
+            argNames: ["that", "forwardingFeeProportionalMillionths"],
+          );
+
+  @override
+  void ldkAdapterTypesChannelConfigAutoAccessorSetMaxDustHtlcExposure(
+      {required ChannelConfig that,
+      required MaxDustHtlcExposure maxDustHtlcExposure}) {
+    return handler.executeSync(SyncTask(
+      callFfi: () {
+        var arg0 =
+            cst_encode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerChannelConfig(
+                that);
+        var arg1 =
+            cst_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerMaxDustHTLCExposure(
+                maxDustHtlcExposure);
+        return wire
+            .wire__ldk_adapter__types__ChannelConfig_auto_accessor_set_max_dust_htlc_exposure(
+                arg0, arg1);
+      },
+      codec: DcoCodec(
+        decodeSuccessData: dco_decode_unit,
+        decodeErrorData: null,
+      ),
+      constMeta:
+          kLdkAdapterTypesChannelConfigAutoAccessorSetMaxDustHtlcExposureConstMeta,
+      argValues: [that, maxDustHtlcExposure],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta
+      get kLdkAdapterTypesChannelConfigAutoAccessorSetMaxDustHtlcExposureConstMeta =>
+          const TaskConstMeta(
+            debugName: "ChannelConfig_auto_accessor_set_max_dust_htlc_exposure",
+            argNames: ["that", "maxDustHtlcExposure"],
+          );
+
+  @override
+  ChannelId ldkAdapterTypesChannelDetailsAutoAccessorGetChannelId(
+      {required ChannelDetails that}) {
+    return handler.executeSync(SyncTask(
+      callFfi: () {
+        var arg0 =
+            cst_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerChannelDetails(
+                that);
+        return wire
+            .wire__ldk_adapter__types__ChannelDetails_auto_accessor_get_channel_id(
+                arg0);
+      },
+      codec: DcoCodec(
+        decodeSuccessData: dco_decode_channel_id,
+        decodeErrorData: null,
+      ),
+      constMeta:
+          kLdkAdapterTypesChannelDetailsAutoAccessorGetChannelIdConstMeta,
+      argValues: [that],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta
+      get kLdkAdapterTypesChannelDetailsAutoAccessorGetChannelIdConstMeta =>
+          const TaskConstMeta(
+            debugName: "ChannelDetails_auto_accessor_get_channel_id",
+            argNames: ["that"],
+          );
+
+  @override
+  BigInt ldkAdapterTypesChannelDetailsAutoAccessorGetChannelValueSats(
+      {required ChannelDetails that}) {
+    return handler.executeSync(SyncTask(
+      callFfi: () {
+        var arg0 =
+            cst_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerChannelDetails(
+                that);
+        return wire
+            .wire__ldk_adapter__types__ChannelDetails_auto_accessor_get_channel_value_sats(
+                arg0);
+      },
+      codec: DcoCodec(
+        decodeSuccessData: dco_decode_u_64,
+        decodeErrorData: null,
+      ),
+      constMeta:
+          kLdkAdapterTypesChannelDetailsAutoAccessorGetChannelValueSatsConstMeta,
+      argValues: [that],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta
+      get kLdkAdapterTypesChannelDetailsAutoAccessorGetChannelValueSatsConstMeta =>
+          const TaskConstMeta(
+            debugName: "ChannelDetails_auto_accessor_get_channel_value_sats",
+            argNames: ["that"],
+          );
+
+  @override
+  int? ldkAdapterTypesChannelDetailsAutoAccessorGetCltvExpiryDelta(
+      {required ChannelDetails that}) {
+    return handler.executeSync(SyncTask(
+      callFfi: () {
+        var arg0 =
+            cst_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerChannelDetails(
+                that);
+        return wire
+            .wire__ldk_adapter__types__ChannelDetails_auto_accessor_get_cltv_expiry_delta(
+                arg0);
+      },
+      codec: DcoCodec(
+        decodeSuccessData: dco_decode_opt_box_autoadd_u_16,
+        decodeErrorData: null,
+      ),
+      constMeta:
+          kLdkAdapterTypesChannelDetailsAutoAccessorGetCltvExpiryDeltaConstMeta,
+      argValues: [that],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta
+      get kLdkAdapterTypesChannelDetailsAutoAccessorGetCltvExpiryDeltaConstMeta =>
+          const TaskConstMeta(
+            debugName: "ChannelDetails_auto_accessor_get_cltv_expiry_delta",
+            argNames: ["that"],
+          );
+
+  @override
+  ChannelConfig ldkAdapterTypesChannelDetailsAutoAccessorGetConfig(
+      {required ChannelDetails that}) {
+    return handler.executeSync(SyncTask(
+      callFfi: () {
+        var arg0 =
+            cst_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerChannelDetails(
+                that);
+        return wire
+            .wire__ldk_adapter__types__ChannelDetails_auto_accessor_get_config(
+                arg0);
+      },
+      codec: DcoCodec(
+        decodeSuccessData:
+            dco_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerChannelConfig,
+        decodeErrorData: null,
+      ),
+      constMeta: kLdkAdapterTypesChannelDetailsAutoAccessorGetConfigConstMeta,
+      argValues: [that],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta
+      get kLdkAdapterTypesChannelDetailsAutoAccessorGetConfigConstMeta =>
+          const TaskConstMeta(
+            debugName: "ChannelDetails_auto_accessor_get_config",
+            argNames: ["that"],
+          );
+
+  @override
+  int? ldkAdapterTypesChannelDetailsAutoAccessorGetConfirmations(
+      {required ChannelDetails that}) {
+    return handler.executeSync(SyncTask(
+      callFfi: () {
+        var arg0 =
+            cst_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerChannelDetails(
+                that);
+        return wire
+            .wire__ldk_adapter__types__ChannelDetails_auto_accessor_get_confirmations(
+                arg0);
+      },
+      codec: DcoCodec(
+        decodeSuccessData: dco_decode_opt_box_autoadd_u_32,
+        decodeErrorData: null,
+      ),
+      constMeta:
+          kLdkAdapterTypesChannelDetailsAutoAccessorGetConfirmationsConstMeta,
+      argValues: [that],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta
+      get kLdkAdapterTypesChannelDetailsAutoAccessorGetConfirmationsConstMeta =>
+          const TaskConstMeta(
+            debugName: "ChannelDetails_auto_accessor_get_confirmations",
+            argNames: ["that"],
+          );
+
+  @override
+  int? ldkAdapterTypesChannelDetailsAutoAccessorGetConfirmationsRequired(
+      {required ChannelDetails that}) {
+    return handler.executeSync(SyncTask(
+      callFfi: () {
+        var arg0 =
+            cst_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerChannelDetails(
+                that);
+        return wire
+            .wire__ldk_adapter__types__ChannelDetails_auto_accessor_get_confirmations_required(
+                arg0);
+      },
+      codec: DcoCodec(
+        decodeSuccessData: dco_decode_opt_box_autoadd_u_32,
+        decodeErrorData: null,
+      ),
+      constMeta:
+          kLdkAdapterTypesChannelDetailsAutoAccessorGetConfirmationsRequiredConstMeta,
+      argValues: [that],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta
+      get kLdkAdapterTypesChannelDetailsAutoAccessorGetConfirmationsRequiredConstMeta =>
+          const TaskConstMeta(
+            debugName:
+                "ChannelDetails_auto_accessor_get_confirmations_required",
+            argNames: ["that"],
+          );
+
+  @override
+  int?
+      ldkAdapterTypesChannelDetailsAutoAccessorGetCounterpartyForwardingInfoCltvExpiryDelta(
+          {required ChannelDetails that}) {
+    return handler.executeSync(SyncTask(
+      callFfi: () {
+        var arg0 =
+            cst_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerChannelDetails(
+                that);
+        return wire
+            .wire__ldk_adapter__types__ChannelDetails_auto_accessor_get_counterparty_forwarding_info_cltv_expiry_delta(
+                arg0);
+      },
+      codec: DcoCodec(
+        decodeSuccessData: dco_decode_opt_box_autoadd_u_16,
+        decodeErrorData: null,
+      ),
+      constMeta:
+          kLdkAdapterTypesChannelDetailsAutoAccessorGetCounterpartyForwardingInfoCltvExpiryDeltaConstMeta,
+      argValues: [that],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta
+      get kLdkAdapterTypesChannelDetailsAutoAccessorGetCounterpartyForwardingInfoCltvExpiryDeltaConstMeta =>
+          const TaskConstMeta(
+            debugName:
+                "ChannelDetails_auto_accessor_get_counterparty_forwarding_info_cltv_expiry_delta",
+            argNames: ["that"],
+          );
+
+  @override
+  int?
+      ldkAdapterTypesChannelDetailsAutoAccessorGetCounterpartyForwardingInfoFeeBaseMsat(
+          {required ChannelDetails that}) {
+    return handler.executeSync(SyncTask(
+      callFfi: () {
+        var arg0 =
+            cst_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerChannelDetails(
+                that);
+        return wire
+            .wire__ldk_adapter__types__ChannelDetails_auto_accessor_get_counterparty_forwarding_info_fee_base_msat(
+                arg0);
+      },
+      codec: DcoCodec(
+        decodeSuccessData: dco_decode_opt_box_autoadd_u_32,
+        decodeErrorData: null,
+      ),
+      constMeta:
+          kLdkAdapterTypesChannelDetailsAutoAccessorGetCounterpartyForwardingInfoFeeBaseMsatConstMeta,
+      argValues: [that],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta
+      get kLdkAdapterTypesChannelDetailsAutoAccessorGetCounterpartyForwardingInfoFeeBaseMsatConstMeta =>
+          const TaskConstMeta(
+            debugName:
+                "ChannelDetails_auto_accessor_get_counterparty_forwarding_info_fee_base_msat",
+            argNames: ["that"],
+          );
+
+  @override
+  int?
+      ldkAdapterTypesChannelDetailsAutoAccessorGetCounterpartyForwardingInfoFeeProportionalMillionths(
+          {required ChannelDetails that}) {
+    return handler.executeSync(SyncTask(
+      callFfi: () {
+        var arg0 =
+            cst_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerChannelDetails(
+                that);
+        return wire
+            .wire__ldk_adapter__types__ChannelDetails_auto_accessor_get_counterparty_forwarding_info_fee_proportional_millionths(
+                arg0);
+      },
+      codec: DcoCodec(
+        decodeSuccessData: dco_decode_opt_box_autoadd_u_32,
+        decodeErrorData: null,
+      ),
+      constMeta:
+          kLdkAdapterTypesChannelDetailsAutoAccessorGetCounterpartyForwardingInfoFeeProportionalMillionthsConstMeta,
+      argValues: [that],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta
+      get kLdkAdapterTypesChannelDetailsAutoAccessorGetCounterpartyForwardingInfoFeeProportionalMillionthsConstMeta =>
+          const TaskConstMeta(
+            debugName:
+                "ChannelDetails_auto_accessor_get_counterparty_forwarding_info_fee_proportional_millionths",
+            argNames: ["that"],
+          );
+
+  @override
+  PublicKey ldkAdapterTypesChannelDetailsAutoAccessorGetCounterpartyNodeId(
+      {required ChannelDetails that}) {
+    return handler.executeSync(SyncTask(
+      callFfi: () {
+        var arg0 =
+            cst_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerChannelDetails(
+                that);
+        return wire
+            .wire__ldk_adapter__types__ChannelDetails_auto_accessor_get_counterparty_node_id(
+                arg0);
+      },
+      codec: DcoCodec(
+        decodeSuccessData: dco_decode_public_key,
+        decodeErrorData: null,
+      ),
+      constMeta:
+          kLdkAdapterTypesChannelDetailsAutoAccessorGetCounterpartyNodeIdConstMeta,
+      argValues: [that],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta
+      get kLdkAdapterTypesChannelDetailsAutoAccessorGetCounterpartyNodeIdConstMeta =>
+          const TaskConstMeta(
+            debugName: "ChannelDetails_auto_accessor_get_counterparty_node_id",
+            argNames: ["that"],
+          );
+
+  @override
+  BigInt?
+      ldkAdapterTypesChannelDetailsAutoAccessorGetCounterpartyOutboundHtlcMaximumMsat(
+          {required ChannelDetails that}) {
+    return handler.executeSync(SyncTask(
+      callFfi: () {
+        var arg0 =
+            cst_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerChannelDetails(
+                that);
+        return wire
+            .wire__ldk_adapter__types__ChannelDetails_auto_accessor_get_counterparty_outbound_htlc_maximum_msat(
+                arg0);
+      },
+      codec: DcoCodec(
+        decodeSuccessData: dco_decode_opt_box_autoadd_u_64,
+        decodeErrorData: null,
+      ),
+      constMeta:
+          kLdkAdapterTypesChannelDetailsAutoAccessorGetCounterpartyOutboundHtlcMaximumMsatConstMeta,
+      argValues: [that],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta
+      get kLdkAdapterTypesChannelDetailsAutoAccessorGetCounterpartyOutboundHtlcMaximumMsatConstMeta =>
+          const TaskConstMeta(
+            debugName:
+                "ChannelDetails_auto_accessor_get_counterparty_outbound_htlc_maximum_msat",
+            argNames: ["that"],
+          );
+
+  @override
+  BigInt?
+      ldkAdapterTypesChannelDetailsAutoAccessorGetCounterpartyOutboundHtlcMinimumMsat(
+          {required ChannelDetails that}) {
+    return handler.executeSync(SyncTask(
+      callFfi: () {
+        var arg0 =
+            cst_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerChannelDetails(
+                that);
+        return wire
+            .wire__ldk_adapter__types__ChannelDetails_auto_accessor_get_counterparty_outbound_htlc_minimum_msat(
+                arg0);
+      },
+      codec: DcoCodec(
+        decodeSuccessData: dco_decode_opt_box_autoadd_u_64,
+        decodeErrorData: null,
+      ),
+      constMeta:
+          kLdkAdapterTypesChannelDetailsAutoAccessorGetCounterpartyOutboundHtlcMinimumMsatConstMeta,
+      argValues: [that],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta
+      get kLdkAdapterTypesChannelDetailsAutoAccessorGetCounterpartyOutboundHtlcMinimumMsatConstMeta =>
+          const TaskConstMeta(
+            debugName:
+                "ChannelDetails_auto_accessor_get_counterparty_outbound_htlc_minimum_msat",
+            argNames: ["that"],
+          );
+
+  @override
+  BigInt
+      ldkAdapterTypesChannelDetailsAutoAccessorGetCounterpartyUnspendablePunishmentReserve(
+          {required ChannelDetails that}) {
+    return handler.executeSync(SyncTask(
+      callFfi: () {
+        var arg0 =
+            cst_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerChannelDetails(
+                that);
+        return wire
+            .wire__ldk_adapter__types__ChannelDetails_auto_accessor_get_counterparty_unspendable_punishment_reserve(
+                arg0);
+      },
+      codec: DcoCodec(
+        decodeSuccessData: dco_decode_u_64,
+        decodeErrorData: null,
+      ),
+      constMeta:
+          kLdkAdapterTypesChannelDetailsAutoAccessorGetCounterpartyUnspendablePunishmentReserveConstMeta,
+      argValues: [that],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta
+      get kLdkAdapterTypesChannelDetailsAutoAccessorGetCounterpartyUnspendablePunishmentReserveConstMeta =>
+          const TaskConstMeta(
+            debugName:
+                "ChannelDetails_auto_accessor_get_counterparty_unspendable_punishment_reserve",
+            argNames: ["that"],
+          );
+
+  @override
+  int ldkAdapterTypesChannelDetailsAutoAccessorGetFeerateSatPer1000Weight(
+      {required ChannelDetails that}) {
+    return handler.executeSync(SyncTask(
+      callFfi: () {
+        var arg0 =
+            cst_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerChannelDetails(
+                that);
+        return wire
+            .wire__ldk_adapter__types__ChannelDetails_auto_accessor_get_feerate_sat_per_1000_weight(
+                arg0);
+      },
+      codec: DcoCodec(
+        decodeSuccessData: dco_decode_u_32,
+        decodeErrorData: null,
+      ),
+      constMeta:
+          kLdkAdapterTypesChannelDetailsAutoAccessorGetFeerateSatPer1000WeightConstMeta,
+      argValues: [that],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta
+      get kLdkAdapterTypesChannelDetailsAutoAccessorGetFeerateSatPer1000WeightConstMeta =>
+          const TaskConstMeta(
+            debugName:
+                "ChannelDetails_auto_accessor_get_feerate_sat_per_1000_weight",
+            argNames: ["that"],
+          );
+
+  @override
+  int? ldkAdapterTypesChannelDetailsAutoAccessorGetForceCloseSpendDelay(
+      {required ChannelDetails that}) {
+    return handler.executeSync(SyncTask(
+      callFfi: () {
+        var arg0 =
+            cst_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerChannelDetails(
+                that);
+        return wire
+            .wire__ldk_adapter__types__ChannelDetails_auto_accessor_get_force_close_spend_delay(
+                arg0);
+      },
+      codec: DcoCodec(
+        decodeSuccessData: dco_decode_opt_box_autoadd_u_16,
+        decodeErrorData: null,
+      ),
+      constMeta:
+          kLdkAdapterTypesChannelDetailsAutoAccessorGetForceCloseSpendDelayConstMeta,
+      argValues: [that],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta
+      get kLdkAdapterTypesChannelDetailsAutoAccessorGetForceCloseSpendDelayConstMeta =>
+          const TaskConstMeta(
+            debugName:
+                "ChannelDetails_auto_accessor_get_force_close_spend_delay",
+            argNames: ["that"],
+          );
+
+  @override
+  OutPoint? ldkAdapterTypesChannelDetailsAutoAccessorGetFundingTxo(
+      {required ChannelDetails that}) {
+    return handler.executeSync(SyncTask(
+      callFfi: () {
+        var arg0 =
+            cst_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerChannelDetails(
+                that);
+        return wire
+            .wire__ldk_adapter__types__ChannelDetails_auto_accessor_get_funding_txo(
+                arg0);
+      },
+      codec: DcoCodec(
+        decodeSuccessData: dco_decode_opt_box_autoadd_out_point,
+        decodeErrorData: null,
+      ),
+      constMeta:
+          kLdkAdapterTypesChannelDetailsAutoAccessorGetFundingTxoConstMeta,
+      argValues: [that],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta
+      get kLdkAdapterTypesChannelDetailsAutoAccessorGetFundingTxoConstMeta =>
+          const TaskConstMeta(
+            debugName: "ChannelDetails_auto_accessor_get_funding_txo",
+            argNames: ["that"],
+          );
+
+  @override
+  BigInt ldkAdapterTypesChannelDetailsAutoAccessorGetInboundCapacityMsat(
+      {required ChannelDetails that}) {
+    return handler.executeSync(SyncTask(
+      callFfi: () {
+        var arg0 =
+            cst_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerChannelDetails(
+                that);
+        return wire
+            .wire__ldk_adapter__types__ChannelDetails_auto_accessor_get_inbound_capacity_msat(
+                arg0);
+      },
+      codec: DcoCodec(
+        decodeSuccessData: dco_decode_u_64,
+        decodeErrorData: null,
+      ),
+      constMeta:
+          kLdkAdapterTypesChannelDetailsAutoAccessorGetInboundCapacityMsatConstMeta,
+      argValues: [that],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta
+      get kLdkAdapterTypesChannelDetailsAutoAccessorGetInboundCapacityMsatConstMeta =>
+          const TaskConstMeta(
+            debugName: "ChannelDetails_auto_accessor_get_inbound_capacity_msat",
+            argNames: ["that"],
+          );
+
+  @override
+  BigInt? ldkAdapterTypesChannelDetailsAutoAccessorGetInboundHtlcMaximumMsat(
+      {required ChannelDetails that}) {
+    return handler.executeSync(SyncTask(
+      callFfi: () {
+        var arg0 =
+            cst_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerChannelDetails(
+                that);
+        return wire
+            .wire__ldk_adapter__types__ChannelDetails_auto_accessor_get_inbound_htlc_maximum_msat(
+                arg0);
+      },
+      codec: DcoCodec(
+        decodeSuccessData: dco_decode_opt_box_autoadd_u_64,
+        decodeErrorData: null,
+      ),
+      constMeta:
+          kLdkAdapterTypesChannelDetailsAutoAccessorGetInboundHtlcMaximumMsatConstMeta,
+      argValues: [that],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta
+      get kLdkAdapterTypesChannelDetailsAutoAccessorGetInboundHtlcMaximumMsatConstMeta =>
+          const TaskConstMeta(
+            debugName:
+                "ChannelDetails_auto_accessor_get_inbound_htlc_maximum_msat",
+            argNames: ["that"],
+          );
+
+  @override
+  BigInt ldkAdapterTypesChannelDetailsAutoAccessorGetInboundHtlcMinimumMsat(
+      {required ChannelDetails that}) {
+    return handler.executeSync(SyncTask(
+      callFfi: () {
+        var arg0 =
+            cst_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerChannelDetails(
+                that);
+        return wire
+            .wire__ldk_adapter__types__ChannelDetails_auto_accessor_get_inbound_htlc_minimum_msat(
+                arg0);
+      },
+      codec: DcoCodec(
+        decodeSuccessData: dco_decode_u_64,
+        decodeErrorData: null,
+      ),
+      constMeta:
+          kLdkAdapterTypesChannelDetailsAutoAccessorGetInboundHtlcMinimumMsatConstMeta,
+      argValues: [that],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta
+      get kLdkAdapterTypesChannelDetailsAutoAccessorGetInboundHtlcMinimumMsatConstMeta =>
+          const TaskConstMeta(
+            debugName:
+                "ChannelDetails_auto_accessor_get_inbound_htlc_minimum_msat",
+            argNames: ["that"],
+          );
+
+  @override
+  bool ldkAdapterTypesChannelDetailsAutoAccessorGetIsChannelReady(
+      {required ChannelDetails that}) {
+    return handler.executeSync(SyncTask(
+      callFfi: () {
+        var arg0 =
+            cst_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerChannelDetails(
+                that);
+        return wire
+            .wire__ldk_adapter__types__ChannelDetails_auto_accessor_get_is_channel_ready(
+                arg0);
+      },
+      codec: DcoCodec(
+        decodeSuccessData: dco_decode_bool,
+        decodeErrorData: null,
+      ),
+      constMeta:
+          kLdkAdapterTypesChannelDetailsAutoAccessorGetIsChannelReadyConstMeta,
+      argValues: [that],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta
+      get kLdkAdapterTypesChannelDetailsAutoAccessorGetIsChannelReadyConstMeta =>
+          const TaskConstMeta(
+            debugName: "ChannelDetails_auto_accessor_get_is_channel_ready",
+            argNames: ["that"],
+          );
+
+  @override
+  bool ldkAdapterTypesChannelDetailsAutoAccessorGetIsOutbound(
+      {required ChannelDetails that}) {
+    return handler.executeSync(SyncTask(
+      callFfi: () {
+        var arg0 =
+            cst_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerChannelDetails(
+                that);
+        return wire
+            .wire__ldk_adapter__types__ChannelDetails_auto_accessor_get_is_outbound(
+                arg0);
+      },
+      codec: DcoCodec(
+        decodeSuccessData: dco_decode_bool,
+        decodeErrorData: null,
+      ),
+      constMeta:
+          kLdkAdapterTypesChannelDetailsAutoAccessorGetIsOutboundConstMeta,
+      argValues: [that],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta
+      get kLdkAdapterTypesChannelDetailsAutoAccessorGetIsOutboundConstMeta =>
+          const TaskConstMeta(
+            debugName: "ChannelDetails_auto_accessor_get_is_outbound",
+            argNames: ["that"],
+          );
+
+  @override
+  bool ldkAdapterTypesChannelDetailsAutoAccessorGetIsUsable(
+      {required ChannelDetails that}) {
+    return handler.executeSync(SyncTask(
+      callFfi: () {
+        var arg0 =
+            cst_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerChannelDetails(
+                that);
+        return wire
+            .wire__ldk_adapter__types__ChannelDetails_auto_accessor_get_is_usable(
+                arg0);
+      },
+      codec: DcoCodec(
+        decodeSuccessData: dco_decode_bool,
+        decodeErrorData: null,
+      ),
+      constMeta: kLdkAdapterTypesChannelDetailsAutoAccessorGetIsUsableConstMeta,
+      argValues: [that],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta
+      get kLdkAdapterTypesChannelDetailsAutoAccessorGetIsUsableConstMeta =>
+          const TaskConstMeta(
+            debugName: "ChannelDetails_auto_accessor_get_is_usable",
+            argNames: ["that"],
+          );
+
+  @override
+  BigInt ldkAdapterTypesChannelDetailsAutoAccessorGetNextOutboundHtlcLimitMsat(
+      {required ChannelDetails that}) {
+    return handler.executeSync(SyncTask(
+      callFfi: () {
+        var arg0 =
+            cst_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerChannelDetails(
+                that);
+        return wire
+            .wire__ldk_adapter__types__ChannelDetails_auto_accessor_get_next_outbound_htlc_limit_msat(
+                arg0);
+      },
+      codec: DcoCodec(
+        decodeSuccessData: dco_decode_u_64,
+        decodeErrorData: null,
+      ),
+      constMeta:
+          kLdkAdapterTypesChannelDetailsAutoAccessorGetNextOutboundHtlcLimitMsatConstMeta,
+      argValues: [that],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta
+      get kLdkAdapterTypesChannelDetailsAutoAccessorGetNextOutboundHtlcLimitMsatConstMeta =>
+          const TaskConstMeta(
+            debugName:
+                "ChannelDetails_auto_accessor_get_next_outbound_htlc_limit_msat",
+            argNames: ["that"],
+          );
+
+  @override
+  BigInt
+      ldkAdapterTypesChannelDetailsAutoAccessorGetNextOutboundHtlcMinimumMsat(
+          {required ChannelDetails that}) {
+    return handler.executeSync(SyncTask(
+      callFfi: () {
+        var arg0 =
+            cst_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerChannelDetails(
+                that);
+        return wire
+            .wire__ldk_adapter__types__ChannelDetails_auto_accessor_get_next_outbound_htlc_minimum_msat(
+                arg0);
+      },
+      codec: DcoCodec(
+        decodeSuccessData: dco_decode_u_64,
+        decodeErrorData: null,
+      ),
+      constMeta:
+          kLdkAdapterTypesChannelDetailsAutoAccessorGetNextOutboundHtlcMinimumMsatConstMeta,
+      argValues: [that],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta
+      get kLdkAdapterTypesChannelDetailsAutoAccessorGetNextOutboundHtlcMinimumMsatConstMeta =>
+          const TaskConstMeta(
+            debugName:
+                "ChannelDetails_auto_accessor_get_next_outbound_htlc_minimum_msat",
+            argNames: ["that"],
+          );
+
+  @override
+  BigInt ldkAdapterTypesChannelDetailsAutoAccessorGetOutboundCapacityMsat(
+      {required ChannelDetails that}) {
+    return handler.executeSync(SyncTask(
+      callFfi: () {
+        var arg0 =
+            cst_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerChannelDetails(
+                that);
+        return wire
+            .wire__ldk_adapter__types__ChannelDetails_auto_accessor_get_outbound_capacity_msat(
+                arg0);
+      },
+      codec: DcoCodec(
+        decodeSuccessData: dco_decode_u_64,
+        decodeErrorData: null,
+      ),
+      constMeta:
+          kLdkAdapterTypesChannelDetailsAutoAccessorGetOutboundCapacityMsatConstMeta,
+      argValues: [that],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta
+      get kLdkAdapterTypesChannelDetailsAutoAccessorGetOutboundCapacityMsatConstMeta =>
+          const TaskConstMeta(
+            debugName:
+                "ChannelDetails_auto_accessor_get_outbound_capacity_msat",
+            argNames: ["that"],
+          );
+
+  @override
+  BigInt?
+      ldkAdapterTypesChannelDetailsAutoAccessorGetUnspendablePunishmentReserve(
+          {required ChannelDetails that}) {
+    return handler.executeSync(SyncTask(
+      callFfi: () {
+        var arg0 =
+            cst_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerChannelDetails(
+                that);
+        return wire
+            .wire__ldk_adapter__types__ChannelDetails_auto_accessor_get_unspendable_punishment_reserve(
+                arg0);
+      },
+      codec: DcoCodec(
+        decodeSuccessData: dco_decode_opt_box_autoadd_u_64,
+        decodeErrorData: null,
+      ),
+      constMeta:
+          kLdkAdapterTypesChannelDetailsAutoAccessorGetUnspendablePunishmentReserveConstMeta,
+      argValues: [that],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta
+      get kLdkAdapterTypesChannelDetailsAutoAccessorGetUnspendablePunishmentReserveConstMeta =>
+          const TaskConstMeta(
+            debugName:
+                "ChannelDetails_auto_accessor_get_unspendable_punishment_reserve",
+            argNames: ["that"],
+          );
+
+  @override
+  UserChannelId ldkAdapterTypesChannelDetailsAutoAccessorGetUserChannelId(
+      {required ChannelDetails that}) {
+    return handler.executeSync(SyncTask(
+      callFfi: () {
+        var arg0 =
+            cst_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerChannelDetails(
+                that);
+        return wire
+            .wire__ldk_adapter__types__ChannelDetails_auto_accessor_get_user_channel_id(
+                arg0);
+      },
+      codec: DcoCodec(
+        decodeSuccessData: dco_decode_user_channel_id,
+        decodeErrorData: null,
+      ),
+      constMeta:
+          kLdkAdapterTypesChannelDetailsAutoAccessorGetUserChannelIdConstMeta,
+      argValues: [that],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta
+      get kLdkAdapterTypesChannelDetailsAutoAccessorGetUserChannelIdConstMeta =>
+          const TaskConstMeta(
+            debugName: "ChannelDetails_auto_accessor_get_user_channel_id",
+            argNames: ["that"],
+          );
+
+  @override
+  void ldkAdapterTypesChannelDetailsAutoAccessorSetChannelId(
+      {required ChannelDetails that, required ChannelId channelId}) {
+    return handler.executeSync(SyncTask(
+      callFfi: () {
+        var arg0 =
+            cst_encode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerChannelDetails(
+                that);
+        var arg1 = cst_encode_channel_id(channelId);
+        return wire
+            .wire__ldk_adapter__types__ChannelDetails_auto_accessor_set_channel_id(
+                arg0, arg1);
+      },
+      codec: DcoCodec(
+        decodeSuccessData: dco_decode_unit,
+        decodeErrorData: null,
+      ),
+      constMeta:
+          kLdkAdapterTypesChannelDetailsAutoAccessorSetChannelIdConstMeta,
+      argValues: [that, channelId],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta
+      get kLdkAdapterTypesChannelDetailsAutoAccessorSetChannelIdConstMeta =>
+          const TaskConstMeta(
+            debugName: "ChannelDetails_auto_accessor_set_channel_id",
+            argNames: ["that", "channelId"],
+          );
+
+  @override
+  void ldkAdapterTypesChannelDetailsAutoAccessorSetChannelValueSats(
+      {required ChannelDetails that, required BigInt channelValueSats}) {
+    return handler.executeSync(SyncTask(
+      callFfi: () {
+        var arg0 =
+            cst_encode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerChannelDetails(
+                that);
+        var arg1 = cst_encode_u_64(channelValueSats);
+        return wire
+            .wire__ldk_adapter__types__ChannelDetails_auto_accessor_set_channel_value_sats(
+                arg0, arg1);
+      },
+      codec: DcoCodec(
+        decodeSuccessData: dco_decode_unit,
+        decodeErrorData: null,
+      ),
+      constMeta:
+          kLdkAdapterTypesChannelDetailsAutoAccessorSetChannelValueSatsConstMeta,
+      argValues: [that, channelValueSats],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta
+      get kLdkAdapterTypesChannelDetailsAutoAccessorSetChannelValueSatsConstMeta =>
+          const TaskConstMeta(
+            debugName: "ChannelDetails_auto_accessor_set_channel_value_sats",
+            argNames: ["that", "channelValueSats"],
+          );
+
+  @override
+  void ldkAdapterTypesChannelDetailsAutoAccessorSetCltvExpiryDelta(
+      {required ChannelDetails that, int? cltvExpiryDelta}) {
+    return handler.executeSync(SyncTask(
+      callFfi: () {
+        var arg0 =
+            cst_encode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerChannelDetails(
+                that);
+        var arg1 = cst_encode_opt_box_autoadd_u_16(cltvExpiryDelta);
+        return wire
+            .wire__ldk_adapter__types__ChannelDetails_auto_accessor_set_cltv_expiry_delta(
+                arg0, arg1);
+      },
+      codec: DcoCodec(
+        decodeSuccessData: dco_decode_unit,
+        decodeErrorData: null,
+      ),
+      constMeta:
+          kLdkAdapterTypesChannelDetailsAutoAccessorSetCltvExpiryDeltaConstMeta,
+      argValues: [that, cltvExpiryDelta],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta
+      get kLdkAdapterTypesChannelDetailsAutoAccessorSetCltvExpiryDeltaConstMeta =>
+          const TaskConstMeta(
+            debugName: "ChannelDetails_auto_accessor_set_cltv_expiry_delta",
+            argNames: ["that", "cltvExpiryDelta"],
+          );
+
+  @override
+  void ldkAdapterTypesChannelDetailsAutoAccessorSetConfig(
+      {required ChannelDetails that, required ChannelConfig config}) {
+    return handler.executeSync(SyncTask(
+      callFfi: () {
+        var arg0 =
+            cst_encode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerChannelDetails(
+                that);
+        var arg1 =
+            cst_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerChannelConfig(
+                config);
+        return wire
+            .wire__ldk_adapter__types__ChannelDetails_auto_accessor_set_config(
+                arg0, arg1);
+      },
+      codec: DcoCodec(
+        decodeSuccessData: dco_decode_unit,
+        decodeErrorData: null,
+      ),
+      constMeta: kLdkAdapterTypesChannelDetailsAutoAccessorSetConfigConstMeta,
+      argValues: [that, config],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta
+      get kLdkAdapterTypesChannelDetailsAutoAccessorSetConfigConstMeta =>
+          const TaskConstMeta(
+            debugName: "ChannelDetails_auto_accessor_set_config",
+            argNames: ["that", "config"],
+          );
+
+  @override
+  void ldkAdapterTypesChannelDetailsAutoAccessorSetConfirmations(
+      {required ChannelDetails that, int? confirmations}) {
+    return handler.executeSync(SyncTask(
+      callFfi: () {
+        var arg0 =
+            cst_encode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerChannelDetails(
+                that);
+        var arg1 = cst_encode_opt_box_autoadd_u_32(confirmations);
+        return wire
+            .wire__ldk_adapter__types__ChannelDetails_auto_accessor_set_confirmations(
+                arg0, arg1);
+      },
+      codec: DcoCodec(
+        decodeSuccessData: dco_decode_unit,
+        decodeErrorData: null,
+      ),
+      constMeta:
+          kLdkAdapterTypesChannelDetailsAutoAccessorSetConfirmationsConstMeta,
+      argValues: [that, confirmations],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta
+      get kLdkAdapterTypesChannelDetailsAutoAccessorSetConfirmationsConstMeta =>
+          const TaskConstMeta(
+            debugName: "ChannelDetails_auto_accessor_set_confirmations",
+            argNames: ["that", "confirmations"],
+          );
+
+  @override
+  void ldkAdapterTypesChannelDetailsAutoAccessorSetConfirmationsRequired(
+      {required ChannelDetails that, int? confirmationsRequired}) {
+    return handler.executeSync(SyncTask(
+      callFfi: () {
+        var arg0 =
+            cst_encode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerChannelDetails(
+                that);
+        var arg1 = cst_encode_opt_box_autoadd_u_32(confirmationsRequired);
+        return wire
+            .wire__ldk_adapter__types__ChannelDetails_auto_accessor_set_confirmations_required(
+                arg0, arg1);
+      },
+      codec: DcoCodec(
+        decodeSuccessData: dco_decode_unit,
+        decodeErrorData: null,
+      ),
+      constMeta:
+          kLdkAdapterTypesChannelDetailsAutoAccessorSetConfirmationsRequiredConstMeta,
+      argValues: [that, confirmationsRequired],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta
+      get kLdkAdapterTypesChannelDetailsAutoAccessorSetConfirmationsRequiredConstMeta =>
+          const TaskConstMeta(
+            debugName:
+                "ChannelDetails_auto_accessor_set_confirmations_required",
+            argNames: ["that", "confirmationsRequired"],
+          );
+
+  @override
+  void
+      ldkAdapterTypesChannelDetailsAutoAccessorSetCounterpartyForwardingInfoCltvExpiryDelta(
+          {required ChannelDetails that,
+          int? counterpartyForwardingInfoCltvExpiryDelta}) {
+    return handler.executeSync(SyncTask(
+      callFfi: () {
+        var arg0 =
+            cst_encode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerChannelDetails(
+                that);
+        var arg1 = cst_encode_opt_box_autoadd_u_16(
+            counterpartyForwardingInfoCltvExpiryDelta);
+        return wire
+            .wire__ldk_adapter__types__ChannelDetails_auto_accessor_set_counterparty_forwarding_info_cltv_expiry_delta(
+                arg0, arg1);
+      },
+      codec: DcoCodec(
+        decodeSuccessData: dco_decode_unit,
+        decodeErrorData: null,
+      ),
+      constMeta:
+          kLdkAdapterTypesChannelDetailsAutoAccessorSetCounterpartyForwardingInfoCltvExpiryDeltaConstMeta,
+      argValues: [that, counterpartyForwardingInfoCltvExpiryDelta],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta
+      get kLdkAdapterTypesChannelDetailsAutoAccessorSetCounterpartyForwardingInfoCltvExpiryDeltaConstMeta =>
+          const TaskConstMeta(
+            debugName:
+                "ChannelDetails_auto_accessor_set_counterparty_forwarding_info_cltv_expiry_delta",
+            argNames: ["that", "counterpartyForwardingInfoCltvExpiryDelta"],
+          );
+
+  @override
+  void
+      ldkAdapterTypesChannelDetailsAutoAccessorSetCounterpartyForwardingInfoFeeBaseMsat(
+          {required ChannelDetails that,
+          int? counterpartyForwardingInfoFeeBaseMsat}) {
+    return handler.executeSync(SyncTask(
+      callFfi: () {
+        var arg0 =
+            cst_encode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerChannelDetails(
+                that);
+        var arg1 = cst_encode_opt_box_autoadd_u_32(
+            counterpartyForwardingInfoFeeBaseMsat);
+        return wire
+            .wire__ldk_adapter__types__ChannelDetails_auto_accessor_set_counterparty_forwarding_info_fee_base_msat(
+                arg0, arg1);
+      },
+      codec: DcoCodec(
+        decodeSuccessData: dco_decode_unit,
+        decodeErrorData: null,
+      ),
+      constMeta:
+          kLdkAdapterTypesChannelDetailsAutoAccessorSetCounterpartyForwardingInfoFeeBaseMsatConstMeta,
+      argValues: [that, counterpartyForwardingInfoFeeBaseMsat],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta
+      get kLdkAdapterTypesChannelDetailsAutoAccessorSetCounterpartyForwardingInfoFeeBaseMsatConstMeta =>
+          const TaskConstMeta(
+            debugName:
+                "ChannelDetails_auto_accessor_set_counterparty_forwarding_info_fee_base_msat",
+            argNames: ["that", "counterpartyForwardingInfoFeeBaseMsat"],
+          );
+
+  @override
+  void
+      ldkAdapterTypesChannelDetailsAutoAccessorSetCounterpartyForwardingInfoFeeProportionalMillionths(
+          {required ChannelDetails that,
+          int? counterpartyForwardingInfoFeeProportionalMillionths}) {
+    return handler.executeSync(SyncTask(
+      callFfi: () {
+        var arg0 =
+            cst_encode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerChannelDetails(
+                that);
+        var arg1 = cst_encode_opt_box_autoadd_u_32(
+            counterpartyForwardingInfoFeeProportionalMillionths);
+        return wire
+            .wire__ldk_adapter__types__ChannelDetails_auto_accessor_set_counterparty_forwarding_info_fee_proportional_millionths(
+                arg0, arg1);
+      },
+      codec: DcoCodec(
+        decodeSuccessData: dco_decode_unit,
+        decodeErrorData: null,
+      ),
+      constMeta:
+          kLdkAdapterTypesChannelDetailsAutoAccessorSetCounterpartyForwardingInfoFeeProportionalMillionthsConstMeta,
+      argValues: [that, counterpartyForwardingInfoFeeProportionalMillionths],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta
+      get kLdkAdapterTypesChannelDetailsAutoAccessorSetCounterpartyForwardingInfoFeeProportionalMillionthsConstMeta =>
+          const TaskConstMeta(
+            debugName:
+                "ChannelDetails_auto_accessor_set_counterparty_forwarding_info_fee_proportional_millionths",
+            argNames: [
+              "that",
+              "counterpartyForwardingInfoFeeProportionalMillionths"
+            ],
+          );
+
+  @override
+  void ldkAdapterTypesChannelDetailsAutoAccessorSetCounterpartyNodeId(
+      {required ChannelDetails that, required PublicKey counterpartyNodeId}) {
+    return handler.executeSync(SyncTask(
+      callFfi: () {
+        var arg0 =
+            cst_encode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerChannelDetails(
+                that);
+        var arg1 = cst_encode_public_key(counterpartyNodeId);
+        return wire
+            .wire__ldk_adapter__types__ChannelDetails_auto_accessor_set_counterparty_node_id(
+                arg0, arg1);
+      },
+      codec: DcoCodec(
+        decodeSuccessData: dco_decode_unit,
+        decodeErrorData: null,
+      ),
+      constMeta:
+          kLdkAdapterTypesChannelDetailsAutoAccessorSetCounterpartyNodeIdConstMeta,
+      argValues: [that, counterpartyNodeId],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta
+      get kLdkAdapterTypesChannelDetailsAutoAccessorSetCounterpartyNodeIdConstMeta =>
+          const TaskConstMeta(
+            debugName: "ChannelDetails_auto_accessor_set_counterparty_node_id",
+            argNames: ["that", "counterpartyNodeId"],
+          );
+
+  @override
+  void
+      ldkAdapterTypesChannelDetailsAutoAccessorSetCounterpartyOutboundHtlcMaximumMsat(
+          {required ChannelDetails that,
+          BigInt? counterpartyOutboundHtlcMaximumMsat}) {
+    return handler.executeSync(SyncTask(
+      callFfi: () {
+        var arg0 =
+            cst_encode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerChannelDetails(
+                that);
+        var arg1 = cst_encode_opt_box_autoadd_u_64(
+            counterpartyOutboundHtlcMaximumMsat);
+        return wire
+            .wire__ldk_adapter__types__ChannelDetails_auto_accessor_set_counterparty_outbound_htlc_maximum_msat(
+                arg0, arg1);
+      },
+      codec: DcoCodec(
+        decodeSuccessData: dco_decode_unit,
+        decodeErrorData: null,
+      ),
+      constMeta:
+          kLdkAdapterTypesChannelDetailsAutoAccessorSetCounterpartyOutboundHtlcMaximumMsatConstMeta,
+      argValues: [that, counterpartyOutboundHtlcMaximumMsat],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta
+      get kLdkAdapterTypesChannelDetailsAutoAccessorSetCounterpartyOutboundHtlcMaximumMsatConstMeta =>
+          const TaskConstMeta(
+            debugName:
+                "ChannelDetails_auto_accessor_set_counterparty_outbound_htlc_maximum_msat",
+            argNames: ["that", "counterpartyOutboundHtlcMaximumMsat"],
+          );
+
+  @override
+  void
+      ldkAdapterTypesChannelDetailsAutoAccessorSetCounterpartyOutboundHtlcMinimumMsat(
+          {required ChannelDetails that,
+          BigInt? counterpartyOutboundHtlcMinimumMsat}) {
+    return handler.executeSync(SyncTask(
+      callFfi: () {
+        var arg0 =
+            cst_encode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerChannelDetails(
+                that);
+        var arg1 = cst_encode_opt_box_autoadd_u_64(
+            counterpartyOutboundHtlcMinimumMsat);
+        return wire
+            .wire__ldk_adapter__types__ChannelDetails_auto_accessor_set_counterparty_outbound_htlc_minimum_msat(
+                arg0, arg1);
+      },
+      codec: DcoCodec(
+        decodeSuccessData: dco_decode_unit,
+        decodeErrorData: null,
+      ),
+      constMeta:
+          kLdkAdapterTypesChannelDetailsAutoAccessorSetCounterpartyOutboundHtlcMinimumMsatConstMeta,
+      argValues: [that, counterpartyOutboundHtlcMinimumMsat],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta
+      get kLdkAdapterTypesChannelDetailsAutoAccessorSetCounterpartyOutboundHtlcMinimumMsatConstMeta =>
+          const TaskConstMeta(
+            debugName:
+                "ChannelDetails_auto_accessor_set_counterparty_outbound_htlc_minimum_msat",
+            argNames: ["that", "counterpartyOutboundHtlcMinimumMsat"],
+          );
+
+  @override
+  void
+      ldkAdapterTypesChannelDetailsAutoAccessorSetCounterpartyUnspendablePunishmentReserve(
+          {required ChannelDetails that,
+          required BigInt counterpartyUnspendablePunishmentReserve}) {
+    return handler.executeSync(SyncTask(
+      callFfi: () {
+        var arg0 =
+            cst_encode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerChannelDetails(
+                that);
+        var arg1 = cst_encode_u_64(counterpartyUnspendablePunishmentReserve);
+        return wire
+            .wire__ldk_adapter__types__ChannelDetails_auto_accessor_set_counterparty_unspendable_punishment_reserve(
+                arg0, arg1);
+      },
+      codec: DcoCodec(
+        decodeSuccessData: dco_decode_unit,
+        decodeErrorData: null,
+      ),
+      constMeta:
+          kLdkAdapterTypesChannelDetailsAutoAccessorSetCounterpartyUnspendablePunishmentReserveConstMeta,
+      argValues: [that, counterpartyUnspendablePunishmentReserve],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta
+      get kLdkAdapterTypesChannelDetailsAutoAccessorSetCounterpartyUnspendablePunishmentReserveConstMeta =>
+          const TaskConstMeta(
+            debugName:
+                "ChannelDetails_auto_accessor_set_counterparty_unspendable_punishment_reserve",
+            argNames: ["that", "counterpartyUnspendablePunishmentReserve"],
+          );
+
+  @override
+  void ldkAdapterTypesChannelDetailsAutoAccessorSetFeerateSatPer1000Weight(
+      {required ChannelDetails that, required int feerateSatPer1000Weight}) {
+    return handler.executeSync(SyncTask(
+      callFfi: () {
+        var arg0 =
+            cst_encode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerChannelDetails(
+                that);
+        var arg1 = cst_encode_u_32(feerateSatPer1000Weight);
+        return wire
+            .wire__ldk_adapter__types__ChannelDetails_auto_accessor_set_feerate_sat_per_1000_weight(
+                arg0, arg1);
+      },
+      codec: DcoCodec(
+        decodeSuccessData: dco_decode_unit,
+        decodeErrorData: null,
+      ),
+      constMeta:
+          kLdkAdapterTypesChannelDetailsAutoAccessorSetFeerateSatPer1000WeightConstMeta,
+      argValues: [that, feerateSatPer1000Weight],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta
+      get kLdkAdapterTypesChannelDetailsAutoAccessorSetFeerateSatPer1000WeightConstMeta =>
+          const TaskConstMeta(
+            debugName:
+                "ChannelDetails_auto_accessor_set_feerate_sat_per_1000_weight",
+            argNames: ["that", "feerateSatPer1000Weight"],
+          );
+
+  @override
+  void ldkAdapterTypesChannelDetailsAutoAccessorSetForceCloseSpendDelay(
+      {required ChannelDetails that, int? forceCloseSpendDelay}) {
+    return handler.executeSync(SyncTask(
+      callFfi: () {
+        var arg0 =
+            cst_encode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerChannelDetails(
+                that);
+        var arg1 = cst_encode_opt_box_autoadd_u_16(forceCloseSpendDelay);
+        return wire
+            .wire__ldk_adapter__types__ChannelDetails_auto_accessor_set_force_close_spend_delay(
+                arg0, arg1);
+      },
+      codec: DcoCodec(
+        decodeSuccessData: dco_decode_unit,
+        decodeErrorData: null,
+      ),
+      constMeta:
+          kLdkAdapterTypesChannelDetailsAutoAccessorSetForceCloseSpendDelayConstMeta,
+      argValues: [that, forceCloseSpendDelay],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta
+      get kLdkAdapterTypesChannelDetailsAutoAccessorSetForceCloseSpendDelayConstMeta =>
+          const TaskConstMeta(
+            debugName:
+                "ChannelDetails_auto_accessor_set_force_close_spend_delay",
+            argNames: ["that", "forceCloseSpendDelay"],
+          );
+
+  @override
+  void ldkAdapterTypesChannelDetailsAutoAccessorSetFundingTxo(
+      {required ChannelDetails that, OutPoint? fundingTxo}) {
+    return handler.executeSync(SyncTask(
+      callFfi: () {
+        var arg0 =
+            cst_encode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerChannelDetails(
+                that);
+        var arg1 = cst_encode_opt_box_autoadd_out_point(fundingTxo);
+        return wire
+            .wire__ldk_adapter__types__ChannelDetails_auto_accessor_set_funding_txo(
+                arg0, arg1);
+      },
+      codec: DcoCodec(
+        decodeSuccessData: dco_decode_unit,
+        decodeErrorData: null,
+      ),
+      constMeta:
+          kLdkAdapterTypesChannelDetailsAutoAccessorSetFundingTxoConstMeta,
+      argValues: [that, fundingTxo],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta
+      get kLdkAdapterTypesChannelDetailsAutoAccessorSetFundingTxoConstMeta =>
+          const TaskConstMeta(
+            debugName: "ChannelDetails_auto_accessor_set_funding_txo",
+            argNames: ["that", "fundingTxo"],
+          );
+
+  @override
+  void ldkAdapterTypesChannelDetailsAutoAccessorSetInboundCapacityMsat(
+      {required ChannelDetails that, required BigInt inboundCapacityMsat}) {
+    return handler.executeSync(SyncTask(
+      callFfi: () {
+        var arg0 =
+            cst_encode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerChannelDetails(
+                that);
+        var arg1 = cst_encode_u_64(inboundCapacityMsat);
+        return wire
+            .wire__ldk_adapter__types__ChannelDetails_auto_accessor_set_inbound_capacity_msat(
+                arg0, arg1);
+      },
+      codec: DcoCodec(
+        decodeSuccessData: dco_decode_unit,
+        decodeErrorData: null,
+      ),
+      constMeta:
+          kLdkAdapterTypesChannelDetailsAutoAccessorSetInboundCapacityMsatConstMeta,
+      argValues: [that, inboundCapacityMsat],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta
+      get kLdkAdapterTypesChannelDetailsAutoAccessorSetInboundCapacityMsatConstMeta =>
+          const TaskConstMeta(
+            debugName: "ChannelDetails_auto_accessor_set_inbound_capacity_msat",
+            argNames: ["that", "inboundCapacityMsat"],
+          );
+
+  @override
+  void ldkAdapterTypesChannelDetailsAutoAccessorSetInboundHtlcMaximumMsat(
+      {required ChannelDetails that, BigInt? inboundHtlcMaximumMsat}) {
+    return handler.executeSync(SyncTask(
+      callFfi: () {
+        var arg0 =
+            cst_encode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerChannelDetails(
+                that);
+        var arg1 = cst_encode_opt_box_autoadd_u_64(inboundHtlcMaximumMsat);
+        return wire
+            .wire__ldk_adapter__types__ChannelDetails_auto_accessor_set_inbound_htlc_maximum_msat(
+                arg0, arg1);
+      },
+      codec: DcoCodec(
+        decodeSuccessData: dco_decode_unit,
+        decodeErrorData: null,
+      ),
+      constMeta:
+          kLdkAdapterTypesChannelDetailsAutoAccessorSetInboundHtlcMaximumMsatConstMeta,
+      argValues: [that, inboundHtlcMaximumMsat],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta
+      get kLdkAdapterTypesChannelDetailsAutoAccessorSetInboundHtlcMaximumMsatConstMeta =>
+          const TaskConstMeta(
+            debugName:
+                "ChannelDetails_auto_accessor_set_inbound_htlc_maximum_msat",
+            argNames: ["that", "inboundHtlcMaximumMsat"],
+          );
+
+  @override
+  void ldkAdapterTypesChannelDetailsAutoAccessorSetInboundHtlcMinimumMsat(
+      {required ChannelDetails that, required BigInt inboundHtlcMinimumMsat}) {
+    return handler.executeSync(SyncTask(
+      callFfi: () {
+        var arg0 =
+            cst_encode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerChannelDetails(
+                that);
+        var arg1 = cst_encode_u_64(inboundHtlcMinimumMsat);
+        return wire
+            .wire__ldk_adapter__types__ChannelDetails_auto_accessor_set_inbound_htlc_minimum_msat(
+                arg0, arg1);
+      },
+      codec: DcoCodec(
+        decodeSuccessData: dco_decode_unit,
+        decodeErrorData: null,
+      ),
+      constMeta:
+          kLdkAdapterTypesChannelDetailsAutoAccessorSetInboundHtlcMinimumMsatConstMeta,
+      argValues: [that, inboundHtlcMinimumMsat],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta
+      get kLdkAdapterTypesChannelDetailsAutoAccessorSetInboundHtlcMinimumMsatConstMeta =>
+          const TaskConstMeta(
+            debugName:
+                "ChannelDetails_auto_accessor_set_inbound_htlc_minimum_msat",
+            argNames: ["that", "inboundHtlcMinimumMsat"],
+          );
+
+  @override
+  void ldkAdapterTypesChannelDetailsAutoAccessorSetIsChannelReady(
+      {required ChannelDetails that, required bool isChannelReady}) {
+    return handler.executeSync(SyncTask(
+      callFfi: () {
+        var arg0 =
+            cst_encode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerChannelDetails(
+                that);
+        var arg1 = cst_encode_bool(isChannelReady);
+        return wire
+            .wire__ldk_adapter__types__ChannelDetails_auto_accessor_set_is_channel_ready(
+                arg0, arg1);
+      },
+      codec: DcoCodec(
+        decodeSuccessData: dco_decode_unit,
+        decodeErrorData: null,
+      ),
+      constMeta:
+          kLdkAdapterTypesChannelDetailsAutoAccessorSetIsChannelReadyConstMeta,
+      argValues: [that, isChannelReady],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta
+      get kLdkAdapterTypesChannelDetailsAutoAccessorSetIsChannelReadyConstMeta =>
+          const TaskConstMeta(
+            debugName: "ChannelDetails_auto_accessor_set_is_channel_ready",
+            argNames: ["that", "isChannelReady"],
+          );
+
+  @override
+  void ldkAdapterTypesChannelDetailsAutoAccessorSetIsOutbound(
+      {required ChannelDetails that, required bool isOutbound}) {
+    return handler.executeSync(SyncTask(
+      callFfi: () {
+        var arg0 =
+            cst_encode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerChannelDetails(
+                that);
+        var arg1 = cst_encode_bool(isOutbound);
+        return wire
+            .wire__ldk_adapter__types__ChannelDetails_auto_accessor_set_is_outbound(
+                arg0, arg1);
+      },
+      codec: DcoCodec(
+        decodeSuccessData: dco_decode_unit,
+        decodeErrorData: null,
+      ),
+      constMeta:
+          kLdkAdapterTypesChannelDetailsAutoAccessorSetIsOutboundConstMeta,
+      argValues: [that, isOutbound],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta
+      get kLdkAdapterTypesChannelDetailsAutoAccessorSetIsOutboundConstMeta =>
+          const TaskConstMeta(
+            debugName: "ChannelDetails_auto_accessor_set_is_outbound",
+            argNames: ["that", "isOutbound"],
+          );
+
+  @override
+  void ldkAdapterTypesChannelDetailsAutoAccessorSetIsUsable(
+      {required ChannelDetails that, required bool isUsable}) {
+    return handler.executeSync(SyncTask(
+      callFfi: () {
+        var arg0 =
+            cst_encode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerChannelDetails(
+                that);
+        var arg1 = cst_encode_bool(isUsable);
+        return wire
+            .wire__ldk_adapter__types__ChannelDetails_auto_accessor_set_is_usable(
+                arg0, arg1);
+      },
+      codec: DcoCodec(
+        decodeSuccessData: dco_decode_unit,
+        decodeErrorData: null,
+      ),
+      constMeta: kLdkAdapterTypesChannelDetailsAutoAccessorSetIsUsableConstMeta,
+      argValues: [that, isUsable],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta
+      get kLdkAdapterTypesChannelDetailsAutoAccessorSetIsUsableConstMeta =>
+          const TaskConstMeta(
+            debugName: "ChannelDetails_auto_accessor_set_is_usable",
+            argNames: ["that", "isUsable"],
+          );
+
+  @override
+  void ldkAdapterTypesChannelDetailsAutoAccessorSetNextOutboundHtlcLimitMsat(
+      {required ChannelDetails that,
+      required BigInt nextOutboundHtlcLimitMsat}) {
+    return handler.executeSync(SyncTask(
+      callFfi: () {
+        var arg0 =
+            cst_encode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerChannelDetails(
+                that);
+        var arg1 = cst_encode_u_64(nextOutboundHtlcLimitMsat);
+        return wire
+            .wire__ldk_adapter__types__ChannelDetails_auto_accessor_set_next_outbound_htlc_limit_msat(
+                arg0, arg1);
+      },
+      codec: DcoCodec(
+        decodeSuccessData: dco_decode_unit,
+        decodeErrorData: null,
+      ),
+      constMeta:
+          kLdkAdapterTypesChannelDetailsAutoAccessorSetNextOutboundHtlcLimitMsatConstMeta,
+      argValues: [that, nextOutboundHtlcLimitMsat],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta
+      get kLdkAdapterTypesChannelDetailsAutoAccessorSetNextOutboundHtlcLimitMsatConstMeta =>
+          const TaskConstMeta(
+            debugName:
+                "ChannelDetails_auto_accessor_set_next_outbound_htlc_limit_msat",
+            argNames: ["that", "nextOutboundHtlcLimitMsat"],
+          );
+
+  @override
+  void ldkAdapterTypesChannelDetailsAutoAccessorSetNextOutboundHtlcMinimumMsat(
+      {required ChannelDetails that,
+      required BigInt nextOutboundHtlcMinimumMsat}) {
+    return handler.executeSync(SyncTask(
+      callFfi: () {
+        var arg0 =
+            cst_encode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerChannelDetails(
+                that);
+        var arg1 = cst_encode_u_64(nextOutboundHtlcMinimumMsat);
+        return wire
+            .wire__ldk_adapter__types__ChannelDetails_auto_accessor_set_next_outbound_htlc_minimum_msat(
+                arg0, arg1);
+      },
+      codec: DcoCodec(
+        decodeSuccessData: dco_decode_unit,
+        decodeErrorData: null,
+      ),
+      constMeta:
+          kLdkAdapterTypesChannelDetailsAutoAccessorSetNextOutboundHtlcMinimumMsatConstMeta,
+      argValues: [that, nextOutboundHtlcMinimumMsat],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta
+      get kLdkAdapterTypesChannelDetailsAutoAccessorSetNextOutboundHtlcMinimumMsatConstMeta =>
+          const TaskConstMeta(
+            debugName:
+                "ChannelDetails_auto_accessor_set_next_outbound_htlc_minimum_msat",
+            argNames: ["that", "nextOutboundHtlcMinimumMsat"],
+          );
+
+  @override
+  void ldkAdapterTypesChannelDetailsAutoAccessorSetOutboundCapacityMsat(
+      {required ChannelDetails that, required BigInt outboundCapacityMsat}) {
+    return handler.executeSync(SyncTask(
+      callFfi: () {
+        var arg0 =
+            cst_encode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerChannelDetails(
+                that);
+        var arg1 = cst_encode_u_64(outboundCapacityMsat);
+        return wire
+            .wire__ldk_adapter__types__ChannelDetails_auto_accessor_set_outbound_capacity_msat(
+                arg0, arg1);
+      },
+      codec: DcoCodec(
+        decodeSuccessData: dco_decode_unit,
+        decodeErrorData: null,
+      ),
+      constMeta:
+          kLdkAdapterTypesChannelDetailsAutoAccessorSetOutboundCapacityMsatConstMeta,
+      argValues: [that, outboundCapacityMsat],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta
+      get kLdkAdapterTypesChannelDetailsAutoAccessorSetOutboundCapacityMsatConstMeta =>
+          const TaskConstMeta(
+            debugName:
+                "ChannelDetails_auto_accessor_set_outbound_capacity_msat",
+            argNames: ["that", "outboundCapacityMsat"],
+          );
+
+  @override
+  void ldkAdapterTypesChannelDetailsAutoAccessorSetUnspendablePunishmentReserve(
+      {required ChannelDetails that, BigInt? unspendablePunishmentReserve}) {
+    return handler.executeSync(SyncTask(
+      callFfi: () {
+        var arg0 =
+            cst_encode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerChannelDetails(
+                that);
+        var arg1 =
+            cst_encode_opt_box_autoadd_u_64(unspendablePunishmentReserve);
+        return wire
+            .wire__ldk_adapter__types__ChannelDetails_auto_accessor_set_unspendable_punishment_reserve(
+                arg0, arg1);
+      },
+      codec: DcoCodec(
+        decodeSuccessData: dco_decode_unit,
+        decodeErrorData: null,
+      ),
+      constMeta:
+          kLdkAdapterTypesChannelDetailsAutoAccessorSetUnspendablePunishmentReserveConstMeta,
+      argValues: [that, unspendablePunishmentReserve],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta
+      get kLdkAdapterTypesChannelDetailsAutoAccessorSetUnspendablePunishmentReserveConstMeta =>
+          const TaskConstMeta(
+            debugName:
+                "ChannelDetails_auto_accessor_set_unspendable_punishment_reserve",
+            argNames: ["that", "unspendablePunishmentReserve"],
+          );
+
+  @override
+  void ldkAdapterTypesChannelDetailsAutoAccessorSetUserChannelId(
+      {required ChannelDetails that, required UserChannelId userChannelId}) {
+    return handler.executeSync(SyncTask(
+      callFfi: () {
+        var arg0 =
+            cst_encode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerChannelDetails(
+                that);
+        var arg1 = cst_encode_user_channel_id(userChannelId);
+        return wire
+            .wire__ldk_adapter__types__ChannelDetails_auto_accessor_set_user_channel_id(
+                arg0, arg1);
+      },
+      codec: DcoCodec(
+        decodeSuccessData: dco_decode_unit,
+        decodeErrorData: null,
+      ),
+      constMeta:
+          kLdkAdapterTypesChannelDetailsAutoAccessorSetUserChannelIdConstMeta,
+      argValues: [that, userChannelId],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta
+      get kLdkAdapterTypesChannelDetailsAutoAccessorSetUserChannelIdConstMeta =>
+          const TaskConstMeta(
+            debugName: "ChannelDetails_auto_accessor_set_user_channel_id",
+            argNames: ["that", "userChannelId"],
+          );
+
+  @override
+  Future<ChannelInfo?> ldkAdapterGraphNetworkGraphChannel(
+      {required NetworkGraph that, required BigInt shortChannelId}) {
+    return handler.executeNormal(NormalTask(
+      callFfi: (port_) {
+        var arg0 =
+            cst_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerNetworkGraph(
+                that);
         var arg1 = cst_encode_u_64(shortChannelId);
-        return wire.wire__crate__api__graph__ffi_network_graph_channel_unsafe(
+        return wire.wire__ldk_adapter__graph__NetworkGraph_channel(
             port_, arg0, arg1);
       },
       codec: DcoCodec(
         decodeSuccessData: dco_decode_opt_box_autoadd_channel_info,
         decodeErrorData: null,
       ),
-      constMeta: kCrateApiGraphFfiNetworkGraphChannelUnsafeConstMeta,
+      constMeta: kLdkAdapterGraphNetworkGraphChannelConstMeta,
       argValues: [that, shortChannelId],
       apiImpl: this,
     ));
   }
 
-  TaskConstMeta get kCrateApiGraphFfiNetworkGraphChannelUnsafeConstMeta =>
+  TaskConstMeta get kLdkAdapterGraphNetworkGraphChannelConstMeta =>
       const TaskConstMeta(
-        debugName: "ffi_network_graph_channel_unsafe",
+        debugName: "NetworkGraph_channel",
         argNames: ["that", "shortChannelId"],
       );
 
   @override
-  Future<Uint64List> crateApiGraphFfiNetworkGraphListChannelsUnsafe(
-      {required FfiNetworkGraph that}) {
+  Future<Uint64List> ldkAdapterGraphNetworkGraphListChannels(
+      {required NetworkGraph that}) {
     return handler.executeNormal(NormalTask(
       callFfi: (port_) {
-        var arg0 = cst_encode_box_autoadd_ffi_network_graph(that);
-        return wire
-            .wire__crate__api__graph__ffi_network_graph_list_channels_unsafe(
-                port_, arg0);
+        var arg0 =
+            cst_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerNetworkGraph(
+                that);
+        return wire.wire__ldk_adapter__graph__NetworkGraph_list_channels(
+            port_, arg0);
       },
       codec: DcoCodec(
         decodeSuccessData: dco_decode_list_prim_u_64_strict,
         decodeErrorData: null,
       ),
-      constMeta: kCrateApiGraphFfiNetworkGraphListChannelsUnsafeConstMeta,
+      constMeta: kLdkAdapterGraphNetworkGraphListChannelsConstMeta,
       argValues: [that],
       apiImpl: this,
     ));
   }
 
-  TaskConstMeta get kCrateApiGraphFfiNetworkGraphListChannelsUnsafeConstMeta =>
+  TaskConstMeta get kLdkAdapterGraphNetworkGraphListChannelsConstMeta =>
       const TaskConstMeta(
-        debugName: "ffi_network_graph_list_channels_unsafe",
+        debugName: "NetworkGraph_list_channels",
         argNames: ["that"],
       );
 
   @override
-  Future<List<NodeId>> crateApiGraphFfiNetworkGraphListNodesUnsafe(
-      {required FfiNetworkGraph that}) {
+  Future<List<NodeId>> ldkAdapterGraphNetworkGraphListNodes(
+      {required NetworkGraph that}) {
     return handler.executeNormal(NormalTask(
       callFfi: (port_) {
-        var arg0 = cst_encode_box_autoadd_ffi_network_graph(that);
-        return wire
-            .wire__crate__api__graph__ffi_network_graph_list_nodes_unsafe(
-                port_, arg0);
+        var arg0 =
+            cst_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerNetworkGraph(
+                that);
+        return wire.wire__ldk_adapter__graph__NetworkGraph_list_nodes(
+            port_, arg0);
       },
       codec: DcoCodec(
         decodeSuccessData: dco_decode_list_node_id,
         decodeErrorData: null,
       ),
-      constMeta: kCrateApiGraphFfiNetworkGraphListNodesUnsafeConstMeta,
+      constMeta: kLdkAdapterGraphNetworkGraphListNodesConstMeta,
       argValues: [that],
       apiImpl: this,
     ));
   }
 
-  TaskConstMeta get kCrateApiGraphFfiNetworkGraphListNodesUnsafeConstMeta =>
+  TaskConstMeta get kLdkAdapterGraphNetworkGraphListNodesConstMeta =>
       const TaskConstMeta(
-        debugName: "ffi_network_graph_list_nodes_unsafe",
+        debugName: "NetworkGraph_list_nodes",
         argNames: ["that"],
       );
 
   @override
-  Future<NodeInfo?> crateApiGraphFfiNetworkGraphNodeUnsafe(
-      {required FfiNetworkGraph that, required NodeId nodeId}) {
+  Future<NodeInfo?> ldkAdapterGraphNetworkGraphNode(
+      {required NetworkGraph that, required NodeId nodeId}) {
     return handler.executeNormal(NormalTask(
       callFfi: (port_) {
-        var arg0 = cst_encode_box_autoadd_ffi_network_graph(that);
+        var arg0 =
+            cst_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerNetworkGraph(
+                that);
         var arg1 = cst_encode_box_autoadd_node_id(nodeId);
-        return wire.wire__crate__api__graph__ffi_network_graph_node_unsafe(
+        return wire.wire__ldk_adapter__graph__NetworkGraph_node(
             port_, arg0, arg1);
       },
       codec: DcoCodec(
         decodeSuccessData: dco_decode_opt_box_autoadd_node_info,
-        decodeErrorData: dco_decode_ffi_node_error,
+        decodeErrorData: dco_decode_AnyhowException,
       ),
-      constMeta: kCrateApiGraphFfiNetworkGraphNodeUnsafeConstMeta,
+      constMeta: kLdkAdapterGraphNetworkGraphNodeConstMeta,
       argValues: [that, nodeId],
       apiImpl: this,
     ));
   }
 
-  TaskConstMeta get kCrateApiGraphFfiNetworkGraphNodeUnsafeConstMeta =>
+  TaskConstMeta get kLdkAdapterGraphNetworkGraphNodeConstMeta =>
       const TaskConstMeta(
-        debugName: "ffi_network_graph_node_unsafe",
+        debugName: "NetworkGraph_node",
         argNames: ["that", "nodeId"],
       );
 
   @override
-  Future<FfiBolt11Payment> crateApiNodeFfiNodeBolt11Payment(
-      {required FfiNode ptr}) {
+  Future<Bolt11Payment> ldkAdapterNodeNodeBolt11Payment({required Node ptr}) {
     return handler.executeNormal(NormalTask(
       callFfi: (port_) {
-        var arg0 = cst_encode_box_autoadd_ffi_node(ptr);
-        return wire.wire__crate__api__node__ffi_node_bolt11_payment(
-            port_, arg0);
+        var arg0 =
+            cst_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerNode(
+                ptr);
+        return wire.wire__ldk_adapter__node__Node_bolt11_payment(port_, arg0);
       },
       codec: DcoCodec(
-        decodeSuccessData: dco_decode_ffi_bolt_11_payment,
+        decodeSuccessData:
+            dco_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerBolt11Payment,
         decodeErrorData: null,
       ),
-      constMeta: kCrateApiNodeFfiNodeBolt11PaymentConstMeta,
+      constMeta: kLdkAdapterNodeNodeBolt11PaymentConstMeta,
       argValues: [ptr],
       apiImpl: this,
     ));
   }
 
-  TaskConstMeta get kCrateApiNodeFfiNodeBolt11PaymentConstMeta =>
+  TaskConstMeta get kLdkAdapterNodeNodeBolt11PaymentConstMeta =>
       const TaskConstMeta(
-        debugName: "ffi_node_bolt11_payment",
+        debugName: "Node_bolt11_payment",
         argNames: ["ptr"],
       );
 
   @override
-  Future<FfiBolt12Payment> crateApiNodeFfiNodeBolt12Payment(
-      {required FfiNode ptr}) {
+  Future<Bolt12Payment> ldkAdapterNodeNodeBolt12Payment({required Node ptr}) {
     return handler.executeNormal(NormalTask(
       callFfi: (port_) {
-        var arg0 = cst_encode_box_autoadd_ffi_node(ptr);
-        return wire.wire__crate__api__node__ffi_node_bolt12_payment(
-            port_, arg0);
+        var arg0 =
+            cst_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerNode(
+                ptr);
+        return wire.wire__ldk_adapter__node__Node_bolt12_payment(port_, arg0);
       },
       codec: DcoCodec(
-        decodeSuccessData: dco_decode_ffi_bolt_12_payment,
+        decodeSuccessData:
+            dco_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerBolt12Payment,
         decodeErrorData: null,
       ),
-      constMeta: kCrateApiNodeFfiNodeBolt12PaymentConstMeta,
+      constMeta: kLdkAdapterNodeNodeBolt12PaymentConstMeta,
       argValues: [ptr],
       apiImpl: this,
     ));
   }
 
-  TaskConstMeta get kCrateApiNodeFfiNodeBolt12PaymentConstMeta =>
+  TaskConstMeta get kLdkAdapterNodeNodeBolt12PaymentConstMeta =>
       const TaskConstMeta(
-        debugName: "ffi_node_bolt12_payment",
+        debugName: "Node_bolt12_payment",
         argNames: ["ptr"],
       );
 
   @override
-  Future<void> crateApiNodeFfiNodeCloseChannel(
-      {required FfiNode that,
+  Future<void> ldkAdapterNodeNodeCloseChannel(
+      {required Node that,
       required UserChannelId userChannelId,
       required PublicKey counterpartyNodeId}) {
     return handler.executeNormal(NormalTask(
       callFfi: (port_) {
-        var arg0 = cst_encode_box_autoadd_ffi_node(that);
+        var arg0 =
+            cst_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerNode(
+                that);
         var arg1 = cst_encode_box_autoadd_user_channel_id(userChannelId);
         var arg2 = cst_encode_box_autoadd_public_key(counterpartyNodeId);
-        return wire.wire__crate__api__node__ffi_node_close_channel(
+        return wire.wire__ldk_adapter__node__Node_close_channel(
             port_, arg0, arg1, arg2);
       },
       codec: DcoCodec(
         decodeSuccessData: dco_decode_unit,
-        decodeErrorData: dco_decode_ffi_node_error,
+        decodeErrorData: dco_decode_AnyhowException,
       ),
-      constMeta: kCrateApiNodeFfiNodeCloseChannelConstMeta,
+      constMeta: kLdkAdapterNodeNodeCloseChannelConstMeta,
       argValues: [that, userChannelId, counterpartyNodeId],
       apiImpl: this,
     ));
   }
 
-  TaskConstMeta get kCrateApiNodeFfiNodeCloseChannelConstMeta =>
+  TaskConstMeta get kLdkAdapterNodeNodeCloseChannelConstMeta =>
       const TaskConstMeta(
-        debugName: "ffi_node_close_channel",
+        debugName: "Node_close_channel",
         argNames: ["that", "userChannelId", "counterpartyNodeId"],
       );
 
   @override
-  Future<Config> crateApiNodeFfiNodeConfig({required FfiNode that}) {
+  Future<Config> ldkAdapterNodeNodeConfig({required Node that}) {
     return handler.executeNormal(NormalTask(
       callFfi: (port_) {
-        var arg0 = cst_encode_box_autoadd_ffi_node(that);
-        return wire.wire__crate__api__node__ffi_node_config(port_, arg0);
+        var arg0 =
+            cst_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerNode(
+                that);
+        return wire.wire__ldk_adapter__node__Node_config(port_, arg0);
       },
       codec: DcoCodec(
         decodeSuccessData: dco_decode_config,
         decodeErrorData: null,
       ),
-      constMeta: kCrateApiNodeFfiNodeConfigConstMeta,
+      constMeta: kLdkAdapterNodeNodeConfigConstMeta,
       argValues: [that],
       apiImpl: this,
     ));
   }
 
-  TaskConstMeta get kCrateApiNodeFfiNodeConfigConstMeta => const TaskConstMeta(
-        debugName: "ffi_node_config",
+  TaskConstMeta get kLdkAdapterNodeNodeConfigConstMeta => const TaskConstMeta(
+        debugName: "Node_config",
         argNames: ["that"],
       );
 
   @override
-  Future<void> crateApiNodeFfiNodeConnect(
-      {required FfiNode that,
+  Future<void> ldkAdapterNodeNodeConnect(
+      {required Node that,
       required PublicKey nodeId,
       required SocketAddress address,
       required bool persist}) {
     return handler.executeNormal(NormalTask(
       callFfi: (port_) {
-        var arg0 = cst_encode_box_autoadd_ffi_node(that);
+        var arg0 =
+            cst_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerNode(
+                that);
         var arg1 = cst_encode_box_autoadd_public_key(nodeId);
-        var arg2 = cst_encode_box_autoadd_socket_address(address);
+        var arg2 =
+            cst_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSocketAddress(
+                address);
         var arg3 = cst_encode_bool(persist);
-        return wire.wire__crate__api__node__ffi_node_connect(
+        return wire.wire__ldk_adapter__node__Node_connect(
             port_, arg0, arg1, arg2, arg3);
       },
       codec: DcoCodec(
         decodeSuccessData: dco_decode_unit,
-        decodeErrorData: dco_decode_ffi_node_error,
+        decodeErrorData: dco_decode_AnyhowException,
       ),
-      constMeta: kCrateApiNodeFfiNodeConnectConstMeta,
+      constMeta: kLdkAdapterNodeNodeConnectConstMeta,
       argValues: [that, nodeId, address, persist],
       apiImpl: this,
     ));
   }
 
-  TaskConstMeta get kCrateApiNodeFfiNodeConnectConstMeta => const TaskConstMeta(
-        debugName: "ffi_node_connect",
+  TaskConstMeta get kLdkAdapterNodeNodeConnectConstMeta => const TaskConstMeta(
+        debugName: "Node_connect",
         argNames: ["that", "nodeId", "address", "persist"],
       );
 
   @override
-  Future<void> crateApiNodeFfiNodeDisconnect(
-      {required FfiNode that, required PublicKey counterpartyNodeId}) {
+  Future<void> ldkAdapterNodeNodeDisconnect(
+      {required Node that, required PublicKey counterpartyNodeId}) {
     return handler.executeNormal(NormalTask(
       callFfi: (port_) {
-        var arg0 = cst_encode_box_autoadd_ffi_node(that);
+        var arg0 =
+            cst_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerNode(
+                that);
         var arg1 = cst_encode_box_autoadd_public_key(counterpartyNodeId);
-        return wire.wire__crate__api__node__ffi_node_disconnect(
-            port_, arg0, arg1);
+        return wire.wire__ldk_adapter__node__Node_disconnect(port_, arg0, arg1);
       },
       codec: DcoCodec(
         decodeSuccessData: dco_decode_unit,
-        decodeErrorData: dco_decode_ffi_node_error,
+        decodeErrorData: dco_decode_AnyhowException,
       ),
-      constMeta: kCrateApiNodeFfiNodeDisconnectConstMeta,
+      constMeta: kLdkAdapterNodeNodeDisconnectConstMeta,
       argValues: [that, counterpartyNodeId],
       apiImpl: this,
     ));
   }
 
-  TaskConstMeta get kCrateApiNodeFfiNodeDisconnectConstMeta =>
+  TaskConstMeta get kLdkAdapterNodeNodeDisconnectConstMeta =>
       const TaskConstMeta(
-        debugName: "ffi_node_disconnect",
+        debugName: "Node_disconnect",
         argNames: ["that", "counterpartyNodeId"],
       );
 
   @override
-  Future<void> crateApiNodeFfiNodeEventHandled({required FfiNode that}) {
+  Future<void> ldkAdapterNodeNodeEventHandled({required Node that}) {
     return handler.executeNormal(NormalTask(
       callFfi: (port_) {
-        var arg0 = cst_encode_box_autoadd_ffi_node(that);
-        return wire.wire__crate__api__node__ffi_node_event_handled(port_, arg0);
+        var arg0 =
+            cst_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerNode(
+                that);
+        return wire.wire__ldk_adapter__node__Node_event_handled(port_, arg0);
       },
       codec: DcoCodec(
         decodeSuccessData: dco_decode_unit,
-        decodeErrorData: dco_decode_ffi_node_error,
+        decodeErrorData: dco_decode_AnyhowException,
       ),
-      constMeta: kCrateApiNodeFfiNodeEventHandledConstMeta,
+      constMeta: kLdkAdapterNodeNodeEventHandledConstMeta,
       argValues: [that],
       apiImpl: this,
     ));
   }
 
-  TaskConstMeta get kCrateApiNodeFfiNodeEventHandledConstMeta =>
+  TaskConstMeta get kLdkAdapterNodeNodeEventHandledConstMeta =>
       const TaskConstMeta(
-        debugName: "ffi_node_event_handled",
+        debugName: "Node_event_handled",
         argNames: ["that"],
       );
 
   @override
-  Future<Uint8List> crateApiNodeFfiNodeExportPathfindingScores(
-      {required FfiNode that}) {
+  Future<Uint8List> ldkAdapterNodeNodeExportPathfindingScores(
+      {required Node that}) {
     return handler.executeNormal(NormalTask(
       callFfi: (port_) {
-        var arg0 = cst_encode_box_autoadd_ffi_node(that);
-        return wire.wire__crate__api__node__ffi_node_export_pathfinding_scores(
+        var arg0 =
+            cst_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerNode(
+                that);
+        return wire.wire__ldk_adapter__node__Node_export_pathfinding_scores(
             port_, arg0);
       },
       codec: DcoCodec(
         decodeSuccessData: dco_decode_list_prim_u_8_strict,
-        decodeErrorData: dco_decode_ffi_node_error,
+        decodeErrorData: dco_decode_AnyhowException,
       ),
-      constMeta: kCrateApiNodeFfiNodeExportPathfindingScoresConstMeta,
+      constMeta: kLdkAdapterNodeNodeExportPathfindingScoresConstMeta,
       argValues: [that],
       apiImpl: this,
     ));
   }
 
-  TaskConstMeta get kCrateApiNodeFfiNodeExportPathfindingScoresConstMeta =>
+  TaskConstMeta get kLdkAdapterNodeNodeExportPathfindingScoresConstMeta =>
       const TaskConstMeta(
-        debugName: "ffi_node_export_pathfinding_scores",
+        debugName: "Node_export_pathfinding_scores",
         argNames: ["that"],
       );
 
   @override
-  Future<void> crateApiNodeFfiNodeForceCloseChannel(
-      {required FfiNode that,
+  Future<void> ldkAdapterNodeNodeForceCloseChannel(
+      {required Node that,
       required UserChannelId userChannelId,
       required PublicKey counterpartyNodeId}) {
     return handler.executeNormal(NormalTask(
       callFfi: (port_) {
-        var arg0 = cst_encode_box_autoadd_ffi_node(that);
+        var arg0 =
+            cst_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerNode(
+                that);
         var arg1 = cst_encode_box_autoadd_user_channel_id(userChannelId);
         var arg2 = cst_encode_box_autoadd_public_key(counterpartyNodeId);
-        return wire.wire__crate__api__node__ffi_node_force_close_channel(
+        return wire.wire__ldk_adapter__node__Node_force_close_channel(
             port_, arg0, arg1, arg2);
       },
       codec: DcoCodec(
         decodeSuccessData: dco_decode_unit,
-        decodeErrorData: dco_decode_ffi_node_error,
+        decodeErrorData: dco_decode_AnyhowException,
       ),
-      constMeta: kCrateApiNodeFfiNodeForceCloseChannelConstMeta,
+      constMeta: kLdkAdapterNodeNodeForceCloseChannelConstMeta,
       argValues: [that, userChannelId, counterpartyNodeId],
       apiImpl: this,
     ));
   }
 
-  TaskConstMeta get kCrateApiNodeFfiNodeForceCloseChannelConstMeta =>
+  TaskConstMeta get kLdkAdapterNodeNodeForceCloseChannelConstMeta =>
       const TaskConstMeta(
-        debugName: "ffi_node_force_close_channel",
+        debugName: "Node_force_close_channel",
         argNames: ["that", "userChannelId", "counterpartyNodeId"],
       );
 
   @override
-  Future<BalanceDetails> crateApiNodeFfiNodeListBalances(
-      {required FfiNode that}) {
+  Future<BalanceDetails> ldkAdapterNodeNodeListBalances({required Node that}) {
     return handler.executeNormal(NormalTask(
       callFfi: (port_) {
-        var arg0 = cst_encode_box_autoadd_ffi_node(that);
-        return wire.wire__crate__api__node__ffi_node_list_balances(port_, arg0);
+        var arg0 =
+            cst_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerNode(
+                that);
+        return wire.wire__ldk_adapter__node__Node_list_balances(port_, arg0);
       },
       codec: DcoCodec(
         decodeSuccessData: dco_decode_balance_details,
-        decodeErrorData: dco_decode_ffi_node_error,
+        decodeErrorData: dco_decode_AnyhowException,
       ),
-      constMeta: kCrateApiNodeFfiNodeListBalancesConstMeta,
+      constMeta: kLdkAdapterNodeNodeListBalancesConstMeta,
       argValues: [that],
       apiImpl: this,
     ));
   }
 
-  TaskConstMeta get kCrateApiNodeFfiNodeListBalancesConstMeta =>
+  TaskConstMeta get kLdkAdapterNodeNodeListBalancesConstMeta =>
       const TaskConstMeta(
-        debugName: "ffi_node_list_balances",
+        debugName: "Node_list_balances",
         argNames: ["that"],
       );
 
   @override
-  Future<List<ChannelDetails>> crateApiNodeFfiNodeListChannels(
-      {required FfiNode that}) {
+  Future<List<ChannelDetails>> ldkAdapterNodeNodeListChannels(
+      {required Node that}) {
     return handler.executeNormal(NormalTask(
       callFfi: (port_) {
-        var arg0 = cst_encode_box_autoadd_ffi_node(that);
-        return wire.wire__crate__api__node__ffi_node_list_channels(port_, arg0);
+        var arg0 =
+            cst_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerNode(
+                that);
+        return wire.wire__ldk_adapter__node__Node_list_channels(port_, arg0);
       },
       codec: DcoCodec(
-        decodeSuccessData: dco_decode_list_channel_details,
+        decodeSuccessData:
+            dco_decode_list_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerChannelDetails,
         decodeErrorData: null,
       ),
-      constMeta: kCrateApiNodeFfiNodeListChannelsConstMeta,
+      constMeta: kLdkAdapterNodeNodeListChannelsConstMeta,
       argValues: [that],
       apiImpl: this,
     ));
   }
 
-  TaskConstMeta get kCrateApiNodeFfiNodeListChannelsConstMeta =>
+  TaskConstMeta get kLdkAdapterNodeNodeListChannelsConstMeta =>
       const TaskConstMeta(
-        debugName: "ffi_node_list_channels",
+        debugName: "Node_list_channels",
         argNames: ["that"],
       );
 
   @override
-  Future<List<PaymentDetails>> crateApiNodeFfiNodeListPayments(
-      {required FfiNode that}) {
+  Future<List<PaymentDetails>> ldkAdapterNodeNodeListPayments(
+      {required Node that}) {
     return handler.executeNormal(NormalTask(
       callFfi: (port_) {
-        var arg0 = cst_encode_box_autoadd_ffi_node(that);
-        return wire.wire__crate__api__node__ffi_node_list_payments(port_, arg0);
+        var arg0 =
+            cst_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerNode(
+                that);
+        return wire.wire__ldk_adapter__node__Node_list_payments(port_, arg0);
       },
       codec: DcoCodec(
-        decodeSuccessData: dco_decode_list_payment_details,
+        decodeSuccessData:
+            dco_decode_list_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPaymentDetails,
         decodeErrorData: null,
       ),
-      constMeta: kCrateApiNodeFfiNodeListPaymentsConstMeta,
+      constMeta: kLdkAdapterNodeNodeListPaymentsConstMeta,
       argValues: [that],
       apiImpl: this,
     ));
   }
 
-  TaskConstMeta get kCrateApiNodeFfiNodeListPaymentsConstMeta =>
+  TaskConstMeta get kLdkAdapterNodeNodeListPaymentsConstMeta =>
       const TaskConstMeta(
-        debugName: "ffi_node_list_payments",
+        debugName: "Node_list_payments",
         argNames: ["that"],
       );
 
   @override
-  Future<List<PaymentDetails>> crateApiNodeFfiNodeListPaymentsWithFilter(
-      {required FfiNode that, required PaymentDirection paymentDirection}) {
+  Future<List<PaymentDetails>> ldkAdapterNodeNodeListPaymentsWithFilter(
+      {required Node that, required PaymentDirection paymentDirection}) {
     return handler.executeNormal(NormalTask(
       callFfi: (port_) {
-        var arg0 = cst_encode_box_autoadd_ffi_node(that);
+        var arg0 =
+            cst_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerNode(
+                that);
         var arg1 = cst_encode_payment_direction(paymentDirection);
-        return wire.wire__crate__api__node__ffi_node_list_payments_with_filter(
+        return wire.wire__ldk_adapter__node__Node_list_payments_with_filter(
             port_, arg0, arg1);
       },
       codec: DcoCodec(
-        decodeSuccessData: dco_decode_list_payment_details,
+        decodeSuccessData:
+            dco_decode_list_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPaymentDetails,
         decodeErrorData: null,
       ),
-      constMeta: kCrateApiNodeFfiNodeListPaymentsWithFilterConstMeta,
+      constMeta: kLdkAdapterNodeNodeListPaymentsWithFilterConstMeta,
       argValues: [that, paymentDirection],
       apiImpl: this,
     ));
   }
 
-  TaskConstMeta get kCrateApiNodeFfiNodeListPaymentsWithFilterConstMeta =>
+  TaskConstMeta get kLdkAdapterNodeNodeListPaymentsWithFilterConstMeta =>
       const TaskConstMeta(
-        debugName: "ffi_node_list_payments_with_filter",
+        debugName: "Node_list_payments_with_filter",
         argNames: ["that", "paymentDirection"],
       );
 
   @override
-  Future<List<PeerDetails>> crateApiNodeFfiNodeListPeers(
-      {required FfiNode that}) {
+  Future<List<PeerDetails>> ldkAdapterNodeNodeListPeers({required Node that}) {
     return handler.executeNormal(NormalTask(
       callFfi: (port_) {
-        var arg0 = cst_encode_box_autoadd_ffi_node(that);
-        return wire.wire__crate__api__node__ffi_node_list_peers(port_, arg0);
+        var arg0 =
+            cst_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerNode(
+                that);
+        return wire.wire__ldk_adapter__node__Node_list_peers(port_, arg0);
       },
       codec: DcoCodec(
-        decodeSuccessData: dco_decode_list_peer_details,
+        decodeSuccessData:
+            dco_decode_list_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPeerDetails,
         decodeErrorData: null,
       ),
-      constMeta: kCrateApiNodeFfiNodeListPeersConstMeta,
+      constMeta: kLdkAdapterNodeNodeListPeersConstMeta,
       argValues: [that],
       apiImpl: this,
     ));
   }
 
-  TaskConstMeta get kCrateApiNodeFfiNodeListPeersConstMeta =>
+  TaskConstMeta get kLdkAdapterNodeNodeListPeersConstMeta =>
       const TaskConstMeta(
-        debugName: "ffi_node_list_peers",
+        debugName: "Node_list_peers",
         argNames: ["that"],
       );
 
   @override
-  Future<List<SocketAddress>?> crateApiNodeFfiNodeListeningAddresses(
-      {required FfiNode that}) {
+  Future<List<SocketAddress>?> ldkAdapterNodeNodeListeningAddresses(
+      {required Node that}) {
     return handler.executeNormal(NormalTask(
       callFfi: (port_) {
-        var arg0 = cst_encode_box_autoadd_ffi_node(that);
-        return wire.wire__crate__api__node__ffi_node_listening_addresses(
+        var arg0 =
+            cst_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerNode(
+                that);
+        return wire.wire__ldk_adapter__node__Node_listening_addresses(
             port_, arg0);
       },
       codec: DcoCodec(
-        decodeSuccessData: dco_decode_opt_list_socket_address,
+        decodeSuccessData:
+            dco_decode_opt_list_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSocketAddress,
         decodeErrorData: null,
       ),
-      constMeta: kCrateApiNodeFfiNodeListeningAddressesConstMeta,
+      constMeta: kLdkAdapterNodeNodeListeningAddressesConstMeta,
       argValues: [that],
       apiImpl: this,
     ));
   }
 
-  TaskConstMeta get kCrateApiNodeFfiNodeListeningAddressesConstMeta =>
+  TaskConstMeta get kLdkAdapterNodeNodeListeningAddressesConstMeta =>
       const TaskConstMeta(
-        debugName: "ffi_node_listening_addresses",
+        debugName: "Node_listening_addresses",
         argNames: ["that"],
       );
 
   @override
-  Future<FfiNetworkGraph> crateApiNodeFfiNodeNetworkGraph(
-      {required FfiNode ptr}) {
+  Future<NetworkGraph> ldkAdapterNodeNodeNetworkGraph({required Node ptr}) {
     return handler.executeNormal(NormalTask(
       callFfi: (port_) {
-        var arg0 = cst_encode_box_autoadd_ffi_node(ptr);
-        return wire.wire__crate__api__node__ffi_node_network_graph(port_, arg0);
+        var arg0 =
+            cst_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerNode(
+                ptr);
+        return wire.wire__ldk_adapter__node__Node_network_graph(port_, arg0);
       },
       codec: DcoCodec(
-        decodeSuccessData: dco_decode_ffi_network_graph,
+        decodeSuccessData:
+            dco_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerNetworkGraph,
         decodeErrorData: null,
       ),
-      constMeta: kCrateApiNodeFfiNodeNetworkGraphConstMeta,
+      constMeta: kLdkAdapterNodeNodeNetworkGraphConstMeta,
       argValues: [ptr],
       apiImpl: this,
     ));
   }
 
-  TaskConstMeta get kCrateApiNodeFfiNodeNetworkGraphConstMeta =>
+  TaskConstMeta get kLdkAdapterNodeNodeNetworkGraphConstMeta =>
       const TaskConstMeta(
-        debugName: "ffi_node_network_graph",
+        debugName: "Node_network_graph",
         argNames: ["ptr"],
       );
 
   @override
-  Future<Event?> crateApiNodeFfiNodeNextEvent({required FfiNode that}) {
+  Future<Event?> ldkAdapterNodeNodeNextEvent({required Node that}) {
     return handler.executeNormal(NormalTask(
       callFfi: (port_) {
-        var arg0 = cst_encode_box_autoadd_ffi_node(that);
-        return wire.wire__crate__api__node__ffi_node_next_event(port_, arg0);
+        var arg0 =
+            cst_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerNode(
+                that);
+        return wire.wire__ldk_adapter__node__Node_next_event(port_, arg0);
       },
       codec: DcoCodec(
-        decodeSuccessData: dco_decode_opt_box_autoadd_event,
+        decodeSuccessData:
+            dco_decode_opt_box_autoadd_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerEvent,
         decodeErrorData: null,
       ),
-      constMeta: kCrateApiNodeFfiNodeNextEventConstMeta,
+      constMeta: kLdkAdapterNodeNodeNextEventConstMeta,
       argValues: [that],
       apiImpl: this,
     ));
   }
 
-  TaskConstMeta get kCrateApiNodeFfiNodeNextEventConstMeta =>
+  TaskConstMeta get kLdkAdapterNodeNodeNextEventConstMeta =>
       const TaskConstMeta(
-        debugName: "ffi_node_next_event",
+        debugName: "Node_next_event",
         argNames: ["that"],
       );
 
   @override
-  Future<Event> crateApiNodeFfiNodeNextEventAsync({required FfiNode that}) {
+  Future<Event> ldkAdapterNodeNodeNextEventAsync({required Node that}) {
     return handler.executeNormal(NormalTask(
       callFfi: (port_) {
-        var arg0 = cst_encode_box_autoadd_ffi_node(that);
-        return wire.wire__crate__api__node__ffi_node_next_event_async(
-            port_, arg0);
+        var arg0 =
+            cst_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerNode(
+                that);
+        return wire.wire__ldk_adapter__node__Node_next_event_async(port_, arg0);
       },
       codec: DcoCodec(
-        decodeSuccessData: dco_decode_event,
+        decodeSuccessData:
+            dco_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerEvent,
         decodeErrorData: null,
       ),
-      constMeta: kCrateApiNodeFfiNodeNextEventAsyncConstMeta,
+      constMeta: kLdkAdapterNodeNodeNextEventAsyncConstMeta,
       argValues: [that],
       apiImpl: this,
     ));
   }
 
-  TaskConstMeta get kCrateApiNodeFfiNodeNextEventAsyncConstMeta =>
+  TaskConstMeta get kLdkAdapterNodeNodeNextEventAsyncConstMeta =>
       const TaskConstMeta(
-        debugName: "ffi_node_next_event_async",
+        debugName: "Node_next_event_async",
         argNames: ["that"],
       );
 
   @override
-  Future<PublicKey> crateApiNodeFfiNodeNodeId({required FfiNode that}) {
+  Future<PublicKey> ldkAdapterNodeNodeNodeId({required Node that}) {
     return handler.executeNormal(NormalTask(
       callFfi: (port_) {
-        var arg0 = cst_encode_box_autoadd_ffi_node(that);
-        return wire.wire__crate__api__node__ffi_node_node_id(port_, arg0);
+        var arg0 =
+            cst_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerNode(
+                that);
+        return wire.wire__ldk_adapter__node__Node_node_id(port_, arg0);
       },
       codec: DcoCodec(
         decodeSuccessData: dco_decode_public_key,
         decodeErrorData: null,
       ),
-      constMeta: kCrateApiNodeFfiNodeNodeIdConstMeta,
+      constMeta: kLdkAdapterNodeNodeNodeIdConstMeta,
       argValues: [that],
       apiImpl: this,
     ));
   }
 
-  TaskConstMeta get kCrateApiNodeFfiNodeNodeIdConstMeta => const TaskConstMeta(
-        debugName: "ffi_node_node_id",
+  TaskConstMeta get kLdkAdapterNodeNodeNodeIdConstMeta => const TaskConstMeta(
+        debugName: "Node_node_id",
         argNames: ["that"],
       );
 
   @override
-  Future<FfiOnChainPayment> crateApiNodeFfiNodeOnChainPayment(
-      {required FfiNode ptr}) {
+  Future<OnChainPayment> ldkAdapterNodeNodeOnChainPayment({required Node ptr}) {
     return handler.executeNormal(NormalTask(
       callFfi: (port_) {
-        var arg0 = cst_encode_box_autoadd_ffi_node(ptr);
-        return wire.wire__crate__api__node__ffi_node_on_chain_payment(
-            port_, arg0);
+        var arg0 =
+            cst_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerNode(
+                ptr);
+        return wire.wire__ldk_adapter__node__Node_on_chain_payment(port_, arg0);
       },
       codec: DcoCodec(
-        decodeSuccessData: dco_decode_ffi_on_chain_payment,
+        decodeSuccessData:
+            dco_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerOnChainPayment,
         decodeErrorData: null,
       ),
-      constMeta: kCrateApiNodeFfiNodeOnChainPaymentConstMeta,
+      constMeta: kLdkAdapterNodeNodeOnChainPaymentConstMeta,
       argValues: [ptr],
       apiImpl: this,
     ));
   }
 
-  TaskConstMeta get kCrateApiNodeFfiNodeOnChainPaymentConstMeta =>
+  TaskConstMeta get kLdkAdapterNodeNodeOnChainPaymentConstMeta =>
       const TaskConstMeta(
-        debugName: "ffi_node_on_chain_payment",
+        debugName: "Node_on_chain_payment",
         argNames: ["ptr"],
       );
 
   @override
-  Future<UserChannelId> crateApiNodeFfiNodeOpenAnnouncedChannel(
-      {required FfiNode that,
+  Future<UserChannelId> ldkAdapterNodeNodeOpenAnnouncedChannel(
+      {required Node that,
       required SocketAddress socketAddress,
       required PublicKey nodeId,
       required BigInt channelAmountSats,
@@ -2146,20 +4881,26 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
       ChannelConfig? channelConfig}) {
     return handler.executeNormal(NormalTask(
       callFfi: (port_) {
-        var arg0 = cst_encode_box_autoadd_ffi_node(that);
-        var arg1 = cst_encode_box_autoadd_socket_address(socketAddress);
+        var arg0 =
+            cst_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerNode(
+                that);
+        var arg1 =
+            cst_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSocketAddress(
+                socketAddress);
         var arg2 = cst_encode_box_autoadd_public_key(nodeId);
         var arg3 = cst_encode_u_64(channelAmountSats);
         var arg4 = cst_encode_opt_box_autoadd_u_64(pushToCounterpartyMsat);
-        var arg5 = cst_encode_opt_box_autoadd_channel_config(channelConfig);
-        return wire.wire__crate__api__node__ffi_node_open_announced_channel(
+        var arg5 =
+            cst_encode_opt_box_autoadd_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerChannelConfig(
+                channelConfig);
+        return wire.wire__ldk_adapter__node__Node_open_announced_channel(
             port_, arg0, arg1, arg2, arg3, arg4, arg5);
       },
       codec: DcoCodec(
         decodeSuccessData: dco_decode_user_channel_id,
-        decodeErrorData: dco_decode_ffi_node_error,
+        decodeErrorData: dco_decode_AnyhowException,
       ),
-      constMeta: kCrateApiNodeFfiNodeOpenAnnouncedChannelConstMeta,
+      constMeta: kLdkAdapterNodeNodeOpenAnnouncedChannelConstMeta,
       argValues: [
         that,
         socketAddress,
@@ -2172,9 +4913,9 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
     ));
   }
 
-  TaskConstMeta get kCrateApiNodeFfiNodeOpenAnnouncedChannelConstMeta =>
+  TaskConstMeta get kLdkAdapterNodeNodeOpenAnnouncedChannelConstMeta =>
       const TaskConstMeta(
-        debugName: "ffi_node_open_announced_channel",
+        debugName: "Node_open_announced_channel",
         argNames: [
           "that",
           "socketAddress",
@@ -2186,8 +4927,8 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
       );
 
   @override
-  Future<UserChannelId> crateApiNodeFfiNodeOpenChannel(
-      {required FfiNode that,
+  Future<UserChannelId> ldkAdapterNodeNodeOpenChannel(
+      {required Node that,
       required SocketAddress socketAddress,
       required PublicKey nodeId,
       required BigInt channelAmountSats,
@@ -2195,20 +4936,26 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
       ChannelConfig? channelConfig}) {
     return handler.executeNormal(NormalTask(
       callFfi: (port_) {
-        var arg0 = cst_encode_box_autoadd_ffi_node(that);
-        var arg1 = cst_encode_box_autoadd_socket_address(socketAddress);
+        var arg0 =
+            cst_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerNode(
+                that);
+        var arg1 =
+            cst_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSocketAddress(
+                socketAddress);
         var arg2 = cst_encode_box_autoadd_public_key(nodeId);
         var arg3 = cst_encode_u_64(channelAmountSats);
         var arg4 = cst_encode_opt_box_autoadd_u_64(pushToCounterpartyMsat);
-        var arg5 = cst_encode_opt_box_autoadd_channel_config(channelConfig);
-        return wire.wire__crate__api__node__ffi_node_open_channel(
+        var arg5 =
+            cst_encode_opt_box_autoadd_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerChannelConfig(
+                channelConfig);
+        return wire.wire__ldk_adapter__node__Node_open_channel(
             port_, arg0, arg1, arg2, arg3, arg4, arg5);
       },
       codec: DcoCodec(
         decodeSuccessData: dco_decode_user_channel_id,
-        decodeErrorData: dco_decode_ffi_node_error,
+        decodeErrorData: dco_decode_AnyhowException,
       ),
-      constMeta: kCrateApiNodeFfiNodeOpenChannelConstMeta,
+      constMeta: kLdkAdapterNodeNodeOpenChannelConstMeta,
       argValues: [
         that,
         socketAddress,
@@ -2221,9 +4968,9 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
     ));
   }
 
-  TaskConstMeta get kCrateApiNodeFfiNodeOpenChannelConstMeta =>
+  TaskConstMeta get kLdkAdapterNodeNodeOpenChannelConstMeta =>
       const TaskConstMeta(
-        debugName: "ffi_node_open_channel",
+        debugName: "Node_open_channel",
         argNames: [
           "that",
           "socketAddress",
@@ -2235,248 +4982,273 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
       );
 
   @override
-  Future<PaymentDetails?> crateApiNodeFfiNodePayment(
-      {required FfiNode that, required PaymentId paymentId}) {
+  Future<PaymentDetails?> ldkAdapterNodeNodePayment(
+      {required Node that, required PaymentId paymentId}) {
     return handler.executeNormal(NormalTask(
       callFfi: (port_) {
-        var arg0 = cst_encode_box_autoadd_ffi_node(that);
+        var arg0 =
+            cst_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerNode(
+                that);
         var arg1 = cst_encode_box_autoadd_payment_id(paymentId);
-        return wire.wire__crate__api__node__ffi_node_payment(port_, arg0, arg1);
+        return wire.wire__ldk_adapter__node__Node_payment(port_, arg0, arg1);
       },
       codec: DcoCodec(
-        decodeSuccessData: dco_decode_opt_box_autoadd_payment_details,
+        decodeSuccessData:
+            dco_decode_opt_box_autoadd_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPaymentDetails,
         decodeErrorData: null,
       ),
-      constMeta: kCrateApiNodeFfiNodePaymentConstMeta,
+      constMeta: kLdkAdapterNodeNodePaymentConstMeta,
       argValues: [that, paymentId],
       apiImpl: this,
     ));
   }
 
-  TaskConstMeta get kCrateApiNodeFfiNodePaymentConstMeta => const TaskConstMeta(
-        debugName: "ffi_node_payment",
+  TaskConstMeta get kLdkAdapterNodeNodePaymentConstMeta => const TaskConstMeta(
+        debugName: "Node_payment",
         argNames: ["that", "paymentId"],
       );
 
   @override
-  Future<void> crateApiNodeFfiNodeRemovePayment(
-      {required FfiNode that, required PaymentId paymentId}) {
+  Future<void> ldkAdapterNodeNodeRemovePayment(
+      {required Node that, required PaymentId paymentId}) {
     return handler.executeNormal(NormalTask(
       callFfi: (port_) {
-        var arg0 = cst_encode_box_autoadd_ffi_node(that);
+        var arg0 =
+            cst_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerNode(
+                that);
         var arg1 = cst_encode_box_autoadd_payment_id(paymentId);
-        return wire.wire__crate__api__node__ffi_node_remove_payment(
+        return wire.wire__ldk_adapter__node__Node_remove_payment(
             port_, arg0, arg1);
       },
       codec: DcoCodec(
         decodeSuccessData: dco_decode_unit,
-        decodeErrorData: dco_decode_ffi_node_error,
+        decodeErrorData: dco_decode_AnyhowException,
       ),
-      constMeta: kCrateApiNodeFfiNodeRemovePaymentConstMeta,
+      constMeta: kLdkAdapterNodeNodeRemovePaymentConstMeta,
       argValues: [that, paymentId],
       apiImpl: this,
     ));
   }
 
-  TaskConstMeta get kCrateApiNodeFfiNodeRemovePaymentConstMeta =>
+  TaskConstMeta get kLdkAdapterNodeNodeRemovePaymentConstMeta =>
       const TaskConstMeta(
-        debugName: "ffi_node_remove_payment",
+        debugName: "Node_remove_payment",
         argNames: ["that", "paymentId"],
       );
 
   @override
-  Future<String> crateApiNodeFfiNodeSignMessage(
-      {required FfiNode that, required List<int> msg}) {
+  Future<String> ldkAdapterNodeNodeSignMessage(
+      {required Node that, required List<int> msg}) {
     return handler.executeNormal(NormalTask(
       callFfi: (port_) {
-        var arg0 = cst_encode_box_autoadd_ffi_node(that);
+        var arg0 =
+            cst_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerNode(
+                that);
         var arg1 = cst_encode_list_prim_u_8_loose(msg);
-        return wire.wire__crate__api__node__ffi_node_sign_message(
+        return wire.wire__ldk_adapter__node__Node_sign_message(
             port_, arg0, arg1);
       },
       codec: DcoCodec(
         decodeSuccessData: dco_decode_String,
         decodeErrorData: null,
       ),
-      constMeta: kCrateApiNodeFfiNodeSignMessageConstMeta,
+      constMeta: kLdkAdapterNodeNodeSignMessageConstMeta,
       argValues: [that, msg],
       apiImpl: this,
     ));
   }
 
-  TaskConstMeta get kCrateApiNodeFfiNodeSignMessageConstMeta =>
+  TaskConstMeta get kLdkAdapterNodeNodeSignMessageConstMeta =>
       const TaskConstMeta(
-        debugName: "ffi_node_sign_message",
+        debugName: "Node_sign_message",
         argNames: ["that", "msg"],
       );
 
   @override
-  Future<FfiSpontaneousPayment> crateApiNodeFfiNodeSpontaneousPayment(
-      {required FfiNode ptr}) {
+  Future<SpontaneousPayment> ldkAdapterNodeNodeSpontaneousPayment(
+      {required Node ptr}) {
     return handler.executeNormal(NormalTask(
       callFfi: (port_) {
-        var arg0 = cst_encode_box_autoadd_ffi_node(ptr);
-        return wire.wire__crate__api__node__ffi_node_spontaneous_payment(
+        var arg0 =
+            cst_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerNode(
+                ptr);
+        return wire.wire__ldk_adapter__node__Node_spontaneous_payment(
             port_, arg0);
       },
       codec: DcoCodec(
-        decodeSuccessData: dco_decode_ffi_spontaneous_payment,
+        decodeSuccessData:
+            dco_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSpontaneousPayment,
         decodeErrorData: null,
       ),
-      constMeta: kCrateApiNodeFfiNodeSpontaneousPaymentConstMeta,
+      constMeta: kLdkAdapterNodeNodeSpontaneousPaymentConstMeta,
       argValues: [ptr],
       apiImpl: this,
     ));
   }
 
-  TaskConstMeta get kCrateApiNodeFfiNodeSpontaneousPaymentConstMeta =>
+  TaskConstMeta get kLdkAdapterNodeNodeSpontaneousPaymentConstMeta =>
       const TaskConstMeta(
-        debugName: "ffi_node_spontaneous_payment",
+        debugName: "Node_spontaneous_payment",
         argNames: ["ptr"],
       );
 
   @override
-  Future<void> crateApiNodeFfiNodeStart({required FfiNode that}) {
+  Future<void> ldkAdapterNodeNodeStart({required Node that}) {
     return handler.executeNormal(NormalTask(
       callFfi: (port_) {
-        var arg0 = cst_encode_box_autoadd_ffi_node(that);
-        return wire.wire__crate__api__node__ffi_node_start(port_, arg0);
+        var arg0 =
+            cst_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerNode(
+                that);
+        return wire.wire__ldk_adapter__node__Node_start(port_, arg0);
       },
       codec: DcoCodec(
         decodeSuccessData: dco_decode_unit,
-        decodeErrorData: dco_decode_ffi_node_error,
+        decodeErrorData: dco_decode_AnyhowException,
       ),
-      constMeta: kCrateApiNodeFfiNodeStartConstMeta,
+      constMeta: kLdkAdapterNodeNodeStartConstMeta,
       argValues: [that],
       apiImpl: this,
     ));
   }
 
-  TaskConstMeta get kCrateApiNodeFfiNodeStartConstMeta => const TaskConstMeta(
-        debugName: "ffi_node_start",
+  TaskConstMeta get kLdkAdapterNodeNodeStartConstMeta => const TaskConstMeta(
+        debugName: "Node_start",
         argNames: ["that"],
       );
 
   @override
-  Future<NodeStatus> crateApiNodeFfiNodeStatus({required FfiNode that}) {
+  Future<NodeStatus> ldkAdapterNodeNodeStatus({required Node that}) {
     return handler.executeNormal(NormalTask(
       callFfi: (port_) {
-        var arg0 = cst_encode_box_autoadd_ffi_node(that);
-        return wire.wire__crate__api__node__ffi_node_status(port_, arg0);
+        var arg0 =
+            cst_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerNode(
+                that);
+        return wire.wire__ldk_adapter__node__Node_status(port_, arg0);
       },
       codec: DcoCodec(
         decodeSuccessData: dco_decode_node_status,
         decodeErrorData: null,
       ),
-      constMeta: kCrateApiNodeFfiNodeStatusConstMeta,
+      constMeta: kLdkAdapterNodeNodeStatusConstMeta,
       argValues: [that],
       apiImpl: this,
     ));
   }
 
-  TaskConstMeta get kCrateApiNodeFfiNodeStatusConstMeta => const TaskConstMeta(
-        debugName: "ffi_node_status",
+  TaskConstMeta get kLdkAdapterNodeNodeStatusConstMeta => const TaskConstMeta(
+        debugName: "Node_status",
         argNames: ["that"],
       );
 
   @override
-  Future<void> crateApiNodeFfiNodeStop({required FfiNode that}) {
+  Future<void> ldkAdapterNodeNodeStop({required Node that}) {
     return handler.executeNormal(NormalTask(
       callFfi: (port_) {
-        var arg0 = cst_encode_box_autoadd_ffi_node(that);
-        return wire.wire__crate__api__node__ffi_node_stop(port_, arg0);
+        var arg0 =
+            cst_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerNode(
+                that);
+        return wire.wire__ldk_adapter__node__Node_stop(port_, arg0);
       },
       codec: DcoCodec(
         decodeSuccessData: dco_decode_unit,
-        decodeErrorData: dco_decode_ffi_node_error,
+        decodeErrorData: dco_decode_AnyhowException,
       ),
-      constMeta: kCrateApiNodeFfiNodeStopConstMeta,
+      constMeta: kLdkAdapterNodeNodeStopConstMeta,
       argValues: [that],
       apiImpl: this,
     ));
   }
 
-  TaskConstMeta get kCrateApiNodeFfiNodeStopConstMeta => const TaskConstMeta(
-        debugName: "ffi_node_stop",
+  TaskConstMeta get kLdkAdapterNodeNodeStopConstMeta => const TaskConstMeta(
+        debugName: "Node_stop",
         argNames: ["that"],
       );
 
   @override
-  Future<void> crateApiNodeFfiNodeSyncWallets({required FfiNode that}) {
+  Future<void> ldkAdapterNodeNodeSyncWallets({required Node that}) {
     return handler.executeNormal(NormalTask(
       callFfi: (port_) {
-        var arg0 = cst_encode_box_autoadd_ffi_node(that);
-        return wire.wire__crate__api__node__ffi_node_sync_wallets(port_, arg0);
+        var arg0 =
+            cst_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerNode(
+                that);
+        return wire.wire__ldk_adapter__node__Node_sync_wallets(port_, arg0);
       },
       codec: DcoCodec(
         decodeSuccessData: dco_decode_unit,
-        decodeErrorData: dco_decode_ffi_node_error,
+        decodeErrorData: dco_decode_AnyhowException,
       ),
-      constMeta: kCrateApiNodeFfiNodeSyncWalletsConstMeta,
+      constMeta: kLdkAdapterNodeNodeSyncWalletsConstMeta,
       argValues: [that],
       apiImpl: this,
     ));
   }
 
-  TaskConstMeta get kCrateApiNodeFfiNodeSyncWalletsConstMeta =>
+  TaskConstMeta get kLdkAdapterNodeNodeSyncWalletsConstMeta =>
       const TaskConstMeta(
-        debugName: "ffi_node_sync_wallets",
+        debugName: "Node_sync_wallets",
         argNames: ["that"],
       );
 
   @override
-  Future<FfiUnifiedQrPayment> crateApiNodeFfiNodeUnifiedQrPayment(
-      {required FfiNode ptr}) {
+  Future<UnifiedQrPayment> ldkAdapterNodeNodeUnifiedQrPayment(
+      {required Node ptr}) {
     return handler.executeNormal(NormalTask(
       callFfi: (port_) {
-        var arg0 = cst_encode_box_autoadd_ffi_node(ptr);
-        return wire.wire__crate__api__node__ffi_node_unified_qr_payment(
+        var arg0 =
+            cst_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerNode(
+                ptr);
+        return wire.wire__ldk_adapter__node__Node_unified_qr_payment(
             port_, arg0);
       },
       codec: DcoCodec(
-        decodeSuccessData: dco_decode_ffi_unified_qr_payment,
+        decodeSuccessData:
+            dco_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerUnifiedQrPayment,
         decodeErrorData: null,
       ),
-      constMeta: kCrateApiNodeFfiNodeUnifiedQrPaymentConstMeta,
+      constMeta: kLdkAdapterNodeNodeUnifiedQrPaymentConstMeta,
       argValues: [ptr],
       apiImpl: this,
     ));
   }
 
-  TaskConstMeta get kCrateApiNodeFfiNodeUnifiedQrPaymentConstMeta =>
+  TaskConstMeta get kLdkAdapterNodeNodeUnifiedQrPaymentConstMeta =>
       const TaskConstMeta(
-        debugName: "ffi_node_unified_qr_payment",
+        debugName: "Node_unified_qr_payment",
         argNames: ["ptr"],
       );
 
   @override
-  Future<void> crateApiNodeFfiNodeUpdateChannelConfig(
-      {required FfiNode that,
+  Future<void> ldkAdapterNodeNodeUpdateChannelConfig(
+      {required Node that,
       required UserChannelId userChannelId,
       required PublicKey counterpartyNodeId,
       required ChannelConfig channelConfig}) {
     return handler.executeNormal(NormalTask(
       callFfi: (port_) {
-        var arg0 = cst_encode_box_autoadd_ffi_node(that);
+        var arg0 =
+            cst_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerNode(
+                that);
         var arg1 = cst_encode_box_autoadd_user_channel_id(userChannelId);
         var arg2 = cst_encode_box_autoadd_public_key(counterpartyNodeId);
-        var arg3 = cst_encode_box_autoadd_channel_config(channelConfig);
-        return wire.wire__crate__api__node__ffi_node_update_channel_config(
+        var arg3 =
+            cst_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerChannelConfig(
+                channelConfig);
+        return wire.wire__ldk_adapter__node__Node_update_channel_config(
             port_, arg0, arg1, arg2, arg3);
       },
       codec: DcoCodec(
         decodeSuccessData: dco_decode_unit,
-        decodeErrorData: dco_decode_ffi_node_error,
+        decodeErrorData: dco_decode_AnyhowException,
       ),
-      constMeta: kCrateApiNodeFfiNodeUpdateChannelConfigConstMeta,
+      constMeta: kLdkAdapterNodeNodeUpdateChannelConfigConstMeta,
       argValues: [that, userChannelId, counterpartyNodeId, channelConfig],
       apiImpl: this,
     ));
   }
 
-  TaskConstMeta get kCrateApiNodeFfiNodeUpdateChannelConfigConstMeta =>
+  TaskConstMeta get kLdkAdapterNodeNodeUpdateChannelConfigConstMeta =>
       const TaskConstMeta(
-        debugName: "ffi_node_update_channel_config",
+        debugName: "Node_update_channel_config",
         argNames: [
           "that",
           "userChannelId",
@@ -2486,252 +5258,811 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
       );
 
   @override
-  Future<bool> crateApiNodeFfiNodeVerifySignature(
-      {required FfiNode that,
+  Future<bool> ldkAdapterNodeNodeVerifySignature(
+      {required Node that,
       required List<int> msg,
       required String sig,
       required PublicKey publicKey}) {
     return handler.executeNormal(NormalTask(
       callFfi: (port_) {
-        var arg0 = cst_encode_box_autoadd_ffi_node(that);
+        var arg0 =
+            cst_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerNode(
+                that);
         var arg1 = cst_encode_list_prim_u_8_loose(msg);
         var arg2 = cst_encode_String(sig);
         var arg3 = cst_encode_box_autoadd_public_key(publicKey);
-        return wire.wire__crate__api__node__ffi_node_verify_signature(
+        return wire.wire__ldk_adapter__node__Node_verify_signature(
             port_, arg0, arg1, arg2, arg3);
       },
       codec: DcoCodec(
         decodeSuccessData: dco_decode_bool,
-        decodeErrorData: dco_decode_ffi_node_error,
+        decodeErrorData: dco_decode_AnyhowException,
       ),
-      constMeta: kCrateApiNodeFfiNodeVerifySignatureConstMeta,
+      constMeta: kLdkAdapterNodeNodeVerifySignatureConstMeta,
       argValues: [that, msg, sig, publicKey],
       apiImpl: this,
     ));
   }
 
-  TaskConstMeta get kCrateApiNodeFfiNodeVerifySignatureConstMeta =>
+  TaskConstMeta get kLdkAdapterNodeNodeVerifySignatureConstMeta =>
       const TaskConstMeta(
-        debugName: "ffi_node_verify_signature",
+        debugName: "Node_verify_signature",
         argNames: ["that", "msg", "sig", "publicKey"],
       );
 
   @override
-  Future<Event> crateApiNodeFfiNodeWaitNextEvent({required FfiNode that}) {
+  Future<Event> ldkAdapterNodeNodeWaitNextEvent({required Node that}) {
     return handler.executeNormal(NormalTask(
       callFfi: (port_) {
-        var arg0 = cst_encode_box_autoadd_ffi_node(that);
-        return wire.wire__crate__api__node__ffi_node_wait_next_event(
+        var arg0 =
+            cst_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerNode(
+                that);
+        return wire.wire__ldk_adapter__node__Node_wait_next_event(port_, arg0);
+      },
+      codec: DcoCodec(
+        decodeSuccessData:
+            dco_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerEvent,
+        decodeErrorData: null,
+      ),
+      constMeta: kLdkAdapterNodeNodeWaitNextEventConstMeta,
+      argValues: [that],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta get kLdkAdapterNodeNodeWaitNextEventConstMeta =>
+      const TaskConstMeta(
+        debugName: "Node_wait_next_event",
+        argNames: ["that"],
+      );
+
+  @override
+  Future<BitcoinAddress> ldkAdapterOnChainOnChainPaymentNewAddress(
+      {required OnChainPayment that}) {
+    return handler.executeNormal(NormalTask(
+      callFfi: (port_) {
+        var arg0 =
+            cst_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerOnChainPayment(
+                that);
+        return wire.wire__ldk_adapter__on_chain__OnChainPayment_new_address(
             port_, arg0);
       },
       codec: DcoCodec(
-        decodeSuccessData: dco_decode_event,
-        decodeErrorData: null,
+        decodeSuccessData:
+            dco_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerBitcoinAddress,
+        decodeErrorData: dco_decode_AnyhowException,
       ),
-      constMeta: kCrateApiNodeFfiNodeWaitNextEventConstMeta,
+      constMeta: kLdkAdapterOnChainOnChainPaymentNewAddressConstMeta,
       argValues: [that],
       apiImpl: this,
     ));
   }
 
-  TaskConstMeta get kCrateApiNodeFfiNodeWaitNextEventConstMeta =>
+  TaskConstMeta get kLdkAdapterOnChainOnChainPaymentNewAddressConstMeta =>
       const TaskConstMeta(
-        debugName: "ffi_node_wait_next_event",
+        debugName: "OnChainPayment_new_address",
         argNames: ["that"],
       );
 
   @override
-  Future<Address> crateApiOnChainFfiOnChainPaymentNewAddress(
-      {required FfiOnChainPayment that}) {
-    return handler.executeNormal(NormalTask(
-      callFfi: (port_) {
-        var arg0 = cst_encode_box_autoadd_ffi_on_chain_payment(that);
-        return wire
-            .wire__crate__api__on_chain__ffi_on_chain_payment_new_address(
-                port_, arg0);
-      },
-      codec: DcoCodec(
-        decodeSuccessData: dco_decode_address,
-        decodeErrorData: dco_decode_ffi_node_error,
-      ),
-      constMeta: kCrateApiOnChainFfiOnChainPaymentNewAddressConstMeta,
-      argValues: [that],
-      apiImpl: this,
-    ));
-  }
-
-  TaskConstMeta get kCrateApiOnChainFfiOnChainPaymentNewAddressConstMeta =>
-      const TaskConstMeta(
-        debugName: "ffi_on_chain_payment_new_address",
-        argNames: ["that"],
-      );
-
-  @override
-  Future<Txid> crateApiOnChainFfiOnChainPaymentSendAllToAddress(
-      {required FfiOnChainPayment that,
-      required Address address,
+  Future<Txid> ldkAdapterOnChainOnChainPaymentSendAllToAddress(
+      {required OnChainPayment that,
+      required BitcoinAddress address,
       required bool retainReserves,
       BigInt? feeRateSatPerKwu}) {
     return handler.executeNormal(NormalTask(
       callFfi: (port_) {
-        var arg0 = cst_encode_box_autoadd_ffi_on_chain_payment(that);
-        var arg1 = cst_encode_box_autoadd_address(address);
+        var arg0 =
+            cst_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerOnChainPayment(
+                that);
+        var arg1 =
+            cst_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerBitcoinAddress(
+                address);
         var arg2 = cst_encode_bool(retainReserves);
         var arg3 = cst_encode_opt_box_autoadd_u_64(feeRateSatPerKwu);
         return wire
-            .wire__crate__api__on_chain__ffi_on_chain_payment_send_all_to_address(
+            .wire__ldk_adapter__on_chain__OnChainPayment_send_all_to_address(
                 port_, arg0, arg1, arg2, arg3);
       },
       codec: DcoCodec(
         decodeSuccessData: dco_decode_txid,
-        decodeErrorData: dco_decode_ffi_node_error,
+        decodeErrorData: dco_decode_AnyhowException,
       ),
-      constMeta: kCrateApiOnChainFfiOnChainPaymentSendAllToAddressConstMeta,
+      constMeta: kLdkAdapterOnChainOnChainPaymentSendAllToAddressConstMeta,
       argValues: [that, address, retainReserves, feeRateSatPerKwu],
       apiImpl: this,
     ));
   }
 
-  TaskConstMeta
-      get kCrateApiOnChainFfiOnChainPaymentSendAllToAddressConstMeta =>
-          const TaskConstMeta(
-            debugName: "ffi_on_chain_payment_send_all_to_address",
-            argNames: ["that", "address", "retainReserves", "feeRateSatPerKwu"],
-          );
+  TaskConstMeta get kLdkAdapterOnChainOnChainPaymentSendAllToAddressConstMeta =>
+      const TaskConstMeta(
+        debugName: "OnChainPayment_send_all_to_address",
+        argNames: ["that", "address", "retainReserves", "feeRateSatPerKwu"],
+      );
 
   @override
-  Future<Txid> crateApiOnChainFfiOnChainPaymentSendToAddress(
-      {required FfiOnChainPayment that,
-      required Address address,
+  Future<Txid> ldkAdapterOnChainOnChainPaymentSendToAddress(
+      {required OnChainPayment that,
+      required BitcoinAddress address,
       required BigInt amountSats,
       BigInt? feeRateSatPerKwu}) {
     return handler.executeNormal(NormalTask(
       callFfi: (port_) {
-        var arg0 = cst_encode_box_autoadd_ffi_on_chain_payment(that);
-        var arg1 = cst_encode_box_autoadd_address(address);
+        var arg0 =
+            cst_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerOnChainPayment(
+                that);
+        var arg1 =
+            cst_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerBitcoinAddress(
+                address);
         var arg2 = cst_encode_u_64(amountSats);
         var arg3 = cst_encode_opt_box_autoadd_u_64(feeRateSatPerKwu);
-        return wire
-            .wire__crate__api__on_chain__ffi_on_chain_payment_send_to_address(
-                port_, arg0, arg1, arg2, arg3);
+        return wire.wire__ldk_adapter__on_chain__OnChainPayment_send_to_address(
+            port_, arg0, arg1, arg2, arg3);
       },
       codec: DcoCodec(
         decodeSuccessData: dco_decode_txid,
-        decodeErrorData: dco_decode_ffi_node_error,
+        decodeErrorData: dco_decode_AnyhowException,
       ),
-      constMeta: kCrateApiOnChainFfiOnChainPaymentSendToAddressConstMeta,
+      constMeta: kLdkAdapterOnChainOnChainPaymentSendToAddressConstMeta,
       argValues: [that, address, amountSats, feeRateSatPerKwu],
       apiImpl: this,
     ));
   }
 
-  TaskConstMeta get kCrateApiOnChainFfiOnChainPaymentSendToAddressConstMeta =>
+  TaskConstMeta get kLdkAdapterOnChainOnChainPaymentSendToAddressConstMeta =>
       const TaskConstMeta(
-        debugName: "ffi_on_chain_payment_send_to_address",
+        debugName: "OnChainPayment_send_to_address",
         argNames: ["that", "address", "amountSats", "feeRateSatPerKwu"],
       );
 
   @override
-  Future<void> crateApiSpontaneousFfiSpontaneousPaymentSendProbesUnsafe(
-      {required FfiSpontaneousPayment that,
+  BigInt? ldkAdapterTypesPaymentDetailsAutoAccessorGetAmountMsat(
+      {required PaymentDetails that}) {
+    return handler.executeSync(SyncTask(
+      callFfi: () {
+        var arg0 =
+            cst_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPaymentDetails(
+                that);
+        return wire
+            .wire__ldk_adapter__types__PaymentDetails_auto_accessor_get_amount_msat(
+                arg0);
+      },
+      codec: DcoCodec(
+        decodeSuccessData: dco_decode_opt_box_autoadd_u_64,
+        decodeErrorData: null,
+      ),
+      constMeta:
+          kLdkAdapterTypesPaymentDetailsAutoAccessorGetAmountMsatConstMeta,
+      argValues: [that],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta
+      get kLdkAdapterTypesPaymentDetailsAutoAccessorGetAmountMsatConstMeta =>
+          const TaskConstMeta(
+            debugName: "PaymentDetails_auto_accessor_get_amount_msat",
+            argNames: ["that"],
+          );
+
+  @override
+  PaymentDirection ldkAdapterTypesPaymentDetailsAutoAccessorGetDirection(
+      {required PaymentDetails that}) {
+    return handler.executeSync(SyncTask(
+      callFfi: () {
+        var arg0 =
+            cst_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPaymentDetails(
+                that);
+        return wire
+            .wire__ldk_adapter__types__PaymentDetails_auto_accessor_get_direction(
+                arg0);
+      },
+      codec: DcoCodec(
+        decodeSuccessData: dco_decode_payment_direction,
+        decodeErrorData: null,
+      ),
+      constMeta:
+          kLdkAdapterTypesPaymentDetailsAutoAccessorGetDirectionConstMeta,
+      argValues: [that],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta
+      get kLdkAdapterTypesPaymentDetailsAutoAccessorGetDirectionConstMeta =>
+          const TaskConstMeta(
+            debugName: "PaymentDetails_auto_accessor_get_direction",
+            argNames: ["that"],
+          );
+
+  @override
+  PaymentId ldkAdapterTypesPaymentDetailsAutoAccessorGetId(
+      {required PaymentDetails that}) {
+    return handler.executeSync(SyncTask(
+      callFfi: () {
+        var arg0 =
+            cst_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPaymentDetails(
+                that);
+        return wire
+            .wire__ldk_adapter__types__PaymentDetails_auto_accessor_get_id(
+                arg0);
+      },
+      codec: DcoCodec(
+        decodeSuccessData: dco_decode_payment_id,
+        decodeErrorData: null,
+      ),
+      constMeta: kLdkAdapterTypesPaymentDetailsAutoAccessorGetIdConstMeta,
+      argValues: [that],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta get kLdkAdapterTypesPaymentDetailsAutoAccessorGetIdConstMeta =>
+      const TaskConstMeta(
+        debugName: "PaymentDetails_auto_accessor_get_id",
+        argNames: ["that"],
+      );
+
+  @override
+  PaymentKind ldkAdapterTypesPaymentDetailsAutoAccessorGetKind(
+      {required PaymentDetails that}) {
+    return handler.executeSync(SyncTask(
+      callFfi: () {
+        var arg0 =
+            cst_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPaymentDetails(
+                that);
+        return wire
+            .wire__ldk_adapter__types__PaymentDetails_auto_accessor_get_kind(
+                arg0);
+      },
+      codec: DcoCodec(
+        decodeSuccessData:
+            dco_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPaymentKind,
+        decodeErrorData: null,
+      ),
+      constMeta: kLdkAdapterTypesPaymentDetailsAutoAccessorGetKindConstMeta,
+      argValues: [that],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta
+      get kLdkAdapterTypesPaymentDetailsAutoAccessorGetKindConstMeta =>
+          const TaskConstMeta(
+            debugName: "PaymentDetails_auto_accessor_get_kind",
+            argNames: ["that"],
+          );
+
+  @override
+  BigInt ldkAdapterTypesPaymentDetailsAutoAccessorGetLatestUpdateTimestamp(
+      {required PaymentDetails that}) {
+    return handler.executeSync(SyncTask(
+      callFfi: () {
+        var arg0 =
+            cst_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPaymentDetails(
+                that);
+        return wire
+            .wire__ldk_adapter__types__PaymentDetails_auto_accessor_get_latest_update_timestamp(
+                arg0);
+      },
+      codec: DcoCodec(
+        decodeSuccessData: dco_decode_u_64,
+        decodeErrorData: null,
+      ),
+      constMeta:
+          kLdkAdapterTypesPaymentDetailsAutoAccessorGetLatestUpdateTimestampConstMeta,
+      argValues: [that],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta
+      get kLdkAdapterTypesPaymentDetailsAutoAccessorGetLatestUpdateTimestampConstMeta =>
+          const TaskConstMeta(
+            debugName:
+                "PaymentDetails_auto_accessor_get_latest_update_timestamp",
+            argNames: ["that"],
+          );
+
+  @override
+  PaymentStatus ldkAdapterTypesPaymentDetailsAutoAccessorGetStatus(
+      {required PaymentDetails that}) {
+    return handler.executeSync(SyncTask(
+      callFfi: () {
+        var arg0 =
+            cst_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPaymentDetails(
+                that);
+        return wire
+            .wire__ldk_adapter__types__PaymentDetails_auto_accessor_get_status(
+                arg0);
+      },
+      codec: DcoCodec(
+        decodeSuccessData: dco_decode_payment_status,
+        decodeErrorData: null,
+      ),
+      constMeta: kLdkAdapterTypesPaymentDetailsAutoAccessorGetStatusConstMeta,
+      argValues: [that],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta
+      get kLdkAdapterTypesPaymentDetailsAutoAccessorGetStatusConstMeta =>
+          const TaskConstMeta(
+            debugName: "PaymentDetails_auto_accessor_get_status",
+            argNames: ["that"],
+          );
+
+  @override
+  void ldkAdapterTypesPaymentDetailsAutoAccessorSetAmountMsat(
+      {required PaymentDetails that, BigInt? amountMsat}) {
+    return handler.executeSync(SyncTask(
+      callFfi: () {
+        var arg0 =
+            cst_encode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPaymentDetails(
+                that);
+        var arg1 = cst_encode_opt_box_autoadd_u_64(amountMsat);
+        return wire
+            .wire__ldk_adapter__types__PaymentDetails_auto_accessor_set_amount_msat(
+                arg0, arg1);
+      },
+      codec: DcoCodec(
+        decodeSuccessData: dco_decode_unit,
+        decodeErrorData: null,
+      ),
+      constMeta:
+          kLdkAdapterTypesPaymentDetailsAutoAccessorSetAmountMsatConstMeta,
+      argValues: [that, amountMsat],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta
+      get kLdkAdapterTypesPaymentDetailsAutoAccessorSetAmountMsatConstMeta =>
+          const TaskConstMeta(
+            debugName: "PaymentDetails_auto_accessor_set_amount_msat",
+            argNames: ["that", "amountMsat"],
+          );
+
+  @override
+  void ldkAdapterTypesPaymentDetailsAutoAccessorSetDirection(
+      {required PaymentDetails that, required PaymentDirection direction}) {
+    return handler.executeSync(SyncTask(
+      callFfi: () {
+        var arg0 =
+            cst_encode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPaymentDetails(
+                that);
+        var arg1 = cst_encode_payment_direction(direction);
+        return wire
+            .wire__ldk_adapter__types__PaymentDetails_auto_accessor_set_direction(
+                arg0, arg1);
+      },
+      codec: DcoCodec(
+        decodeSuccessData: dco_decode_unit,
+        decodeErrorData: null,
+      ),
+      constMeta:
+          kLdkAdapterTypesPaymentDetailsAutoAccessorSetDirectionConstMeta,
+      argValues: [that, direction],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta
+      get kLdkAdapterTypesPaymentDetailsAutoAccessorSetDirectionConstMeta =>
+          const TaskConstMeta(
+            debugName: "PaymentDetails_auto_accessor_set_direction",
+            argNames: ["that", "direction"],
+          );
+
+  @override
+  void ldkAdapterTypesPaymentDetailsAutoAccessorSetId(
+      {required PaymentDetails that, required PaymentId id}) {
+    return handler.executeSync(SyncTask(
+      callFfi: () {
+        var arg0 =
+            cst_encode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPaymentDetails(
+                that);
+        var arg1 = cst_encode_payment_id(id);
+        return wire
+            .wire__ldk_adapter__types__PaymentDetails_auto_accessor_set_id(
+                arg0, arg1);
+      },
+      codec: DcoCodec(
+        decodeSuccessData: dco_decode_unit,
+        decodeErrorData: null,
+      ),
+      constMeta: kLdkAdapterTypesPaymentDetailsAutoAccessorSetIdConstMeta,
+      argValues: [that, id],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta get kLdkAdapterTypesPaymentDetailsAutoAccessorSetIdConstMeta =>
+      const TaskConstMeta(
+        debugName: "PaymentDetails_auto_accessor_set_id",
+        argNames: ["that", "id"],
+      );
+
+  @override
+  void ldkAdapterTypesPaymentDetailsAutoAccessorSetKind(
+      {required PaymentDetails that, required PaymentKind kind}) {
+    return handler.executeSync(SyncTask(
+      callFfi: () {
+        var arg0 =
+            cst_encode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPaymentDetails(
+                that);
+        var arg1 =
+            cst_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPaymentKind(
+                kind);
+        return wire
+            .wire__ldk_adapter__types__PaymentDetails_auto_accessor_set_kind(
+                arg0, arg1);
+      },
+      codec: DcoCodec(
+        decodeSuccessData: dco_decode_unit,
+        decodeErrorData: null,
+      ),
+      constMeta: kLdkAdapterTypesPaymentDetailsAutoAccessorSetKindConstMeta,
+      argValues: [that, kind],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta
+      get kLdkAdapterTypesPaymentDetailsAutoAccessorSetKindConstMeta =>
+          const TaskConstMeta(
+            debugName: "PaymentDetails_auto_accessor_set_kind",
+            argNames: ["that", "kind"],
+          );
+
+  @override
+  void ldkAdapterTypesPaymentDetailsAutoAccessorSetLatestUpdateTimestamp(
+      {required PaymentDetails that, required BigInt latestUpdateTimestamp}) {
+    return handler.executeSync(SyncTask(
+      callFfi: () {
+        var arg0 =
+            cst_encode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPaymentDetails(
+                that);
+        var arg1 = cst_encode_u_64(latestUpdateTimestamp);
+        return wire
+            .wire__ldk_adapter__types__PaymentDetails_auto_accessor_set_latest_update_timestamp(
+                arg0, arg1);
+      },
+      codec: DcoCodec(
+        decodeSuccessData: dco_decode_unit,
+        decodeErrorData: null,
+      ),
+      constMeta:
+          kLdkAdapterTypesPaymentDetailsAutoAccessorSetLatestUpdateTimestampConstMeta,
+      argValues: [that, latestUpdateTimestamp],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta
+      get kLdkAdapterTypesPaymentDetailsAutoAccessorSetLatestUpdateTimestampConstMeta =>
+          const TaskConstMeta(
+            debugName:
+                "PaymentDetails_auto_accessor_set_latest_update_timestamp",
+            argNames: ["that", "latestUpdateTimestamp"],
+          );
+
+  @override
+  void ldkAdapterTypesPaymentDetailsAutoAccessorSetStatus(
+      {required PaymentDetails that, required PaymentStatus status}) {
+    return handler.executeSync(SyncTask(
+      callFfi: () {
+        var arg0 =
+            cst_encode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPaymentDetails(
+                that);
+        var arg1 = cst_encode_payment_status(status);
+        return wire
+            .wire__ldk_adapter__types__PaymentDetails_auto_accessor_set_status(
+                arg0, arg1);
+      },
+      codec: DcoCodec(
+        decodeSuccessData: dco_decode_unit,
+        decodeErrorData: null,
+      ),
+      constMeta: kLdkAdapterTypesPaymentDetailsAutoAccessorSetStatusConstMeta,
+      argValues: [that, status],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta
+      get kLdkAdapterTypesPaymentDetailsAutoAccessorSetStatusConstMeta =>
+          const TaskConstMeta(
+            debugName: "PaymentDetails_auto_accessor_set_status",
+            argNames: ["that", "status"],
+          );
+
+  @override
+  SocketAddress ldkAdapterTypesPeerDetailsAutoAccessorGetAddress(
+      {required PeerDetails that}) {
+    return handler.executeSync(SyncTask(
+      callFfi: () {
+        var arg0 =
+            cst_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPeerDetails(
+                that);
+        return wire
+            .wire__ldk_adapter__types__PeerDetails_auto_accessor_get_address(
+                arg0);
+      },
+      codec: DcoCodec(
+        decodeSuccessData:
+            dco_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSocketAddress,
+        decodeErrorData: null,
+      ),
+      constMeta: kLdkAdapterTypesPeerDetailsAutoAccessorGetAddressConstMeta,
+      argValues: [that],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta
+      get kLdkAdapterTypesPeerDetailsAutoAccessorGetAddressConstMeta =>
+          const TaskConstMeta(
+            debugName: "PeerDetails_auto_accessor_get_address",
+            argNames: ["that"],
+          );
+
+  @override
+  bool ldkAdapterTypesPeerDetailsAutoAccessorGetIsConnected(
+      {required PeerDetails that}) {
+    return handler.executeSync(SyncTask(
+      callFfi: () {
+        var arg0 =
+            cst_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPeerDetails(
+                that);
+        return wire
+            .wire__ldk_adapter__types__PeerDetails_auto_accessor_get_is_connected(
+                arg0);
+      },
+      codec: DcoCodec(
+        decodeSuccessData: dco_decode_bool,
+        decodeErrorData: null,
+      ),
+      constMeta: kLdkAdapterTypesPeerDetailsAutoAccessorGetIsConnectedConstMeta,
+      argValues: [that],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta
+      get kLdkAdapterTypesPeerDetailsAutoAccessorGetIsConnectedConstMeta =>
+          const TaskConstMeta(
+            debugName: "PeerDetails_auto_accessor_get_is_connected",
+            argNames: ["that"],
+          );
+
+  @override
+  PublicKey ldkAdapterTypesPeerDetailsAutoAccessorGetNodeId(
+      {required PeerDetails that}) {
+    return handler.executeSync(SyncTask(
+      callFfi: () {
+        var arg0 =
+            cst_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPeerDetails(
+                that);
+        return wire
+            .wire__ldk_adapter__types__PeerDetails_auto_accessor_get_node_id(
+                arg0);
+      },
+      codec: DcoCodec(
+        decodeSuccessData: dco_decode_public_key,
+        decodeErrorData: null,
+      ),
+      constMeta: kLdkAdapterTypesPeerDetailsAutoAccessorGetNodeIdConstMeta,
+      argValues: [that],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta get kLdkAdapterTypesPeerDetailsAutoAccessorGetNodeIdConstMeta =>
+      const TaskConstMeta(
+        debugName: "PeerDetails_auto_accessor_get_node_id",
+        argNames: ["that"],
+      );
+
+  @override
+  void ldkAdapterTypesPeerDetailsAutoAccessorSetAddress(
+      {required PeerDetails that, required SocketAddress address}) {
+    return handler.executeSync(SyncTask(
+      callFfi: () {
+        var arg0 =
+            cst_encode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPeerDetails(
+                that);
+        var arg1 =
+            cst_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSocketAddress(
+                address);
+        return wire
+            .wire__ldk_adapter__types__PeerDetails_auto_accessor_set_address(
+                arg0, arg1);
+      },
+      codec: DcoCodec(
+        decodeSuccessData: dco_decode_unit,
+        decodeErrorData: null,
+      ),
+      constMeta: kLdkAdapterTypesPeerDetailsAutoAccessorSetAddressConstMeta,
+      argValues: [that, address],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta
+      get kLdkAdapterTypesPeerDetailsAutoAccessorSetAddressConstMeta =>
+          const TaskConstMeta(
+            debugName: "PeerDetails_auto_accessor_set_address",
+            argNames: ["that", "address"],
+          );
+
+  @override
+  void ldkAdapterTypesPeerDetailsAutoAccessorSetIsConnected(
+      {required PeerDetails that, required bool isConnected}) {
+    return handler.executeSync(SyncTask(
+      callFfi: () {
+        var arg0 =
+            cst_encode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPeerDetails(
+                that);
+        var arg1 = cst_encode_bool(isConnected);
+        return wire
+            .wire__ldk_adapter__types__PeerDetails_auto_accessor_set_is_connected(
+                arg0, arg1);
+      },
+      codec: DcoCodec(
+        decodeSuccessData: dco_decode_unit,
+        decodeErrorData: null,
+      ),
+      constMeta: kLdkAdapterTypesPeerDetailsAutoAccessorSetIsConnectedConstMeta,
+      argValues: [that, isConnected],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta
+      get kLdkAdapterTypesPeerDetailsAutoAccessorSetIsConnectedConstMeta =>
+          const TaskConstMeta(
+            debugName: "PeerDetails_auto_accessor_set_is_connected",
+            argNames: ["that", "isConnected"],
+          );
+
+  @override
+  void ldkAdapterTypesPeerDetailsAutoAccessorSetNodeId(
+      {required PeerDetails that, required PublicKey nodeId}) {
+    return handler.executeSync(SyncTask(
+      callFfi: () {
+        var arg0 =
+            cst_encode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPeerDetails(
+                that);
+        var arg1 = cst_encode_public_key(nodeId);
+        return wire
+            .wire__ldk_adapter__types__PeerDetails_auto_accessor_set_node_id(
+                arg0, arg1);
+      },
+      codec: DcoCodec(
+        decodeSuccessData: dco_decode_unit,
+        decodeErrorData: null,
+      ),
+      constMeta: kLdkAdapterTypesPeerDetailsAutoAccessorSetNodeIdConstMeta,
+      argValues: [that, nodeId],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta get kLdkAdapterTypesPeerDetailsAutoAccessorSetNodeIdConstMeta =>
+      const TaskConstMeta(
+        debugName: "PeerDetails_auto_accessor_set_node_id",
+        argNames: ["that", "nodeId"],
+      );
+
+  @override
+  Future<void> ldkAdapterSpontaneousSpontaneousPaymentSendProbesUnsafe(
+      {required SpontaneousPayment that,
       required BigInt amountMsat,
       required PublicKey nodeId}) {
     return handler.executeNormal(NormalTask(
       callFfi: (port_) {
-        var arg0 = cst_encode_box_autoadd_ffi_spontaneous_payment(that);
+        var arg0 =
+            cst_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSpontaneousPayment(
+                that);
         var arg1 = cst_encode_u_64(amountMsat);
         var arg2 = cst_encode_box_autoadd_public_key(nodeId);
         return wire
-            .wire__crate__api__spontaneous__ffi_spontaneous_payment_send_probes_unsafe(
+            .wire__ldk_adapter__spontaneous__SpontaneousPayment_send_probes_unsafe(
                 port_, arg0, arg1, arg2);
       },
       codec: DcoCodec(
         decodeSuccessData: dco_decode_unit,
-        decodeErrorData: dco_decode_ffi_node_error,
+        decodeErrorData: dco_decode_AnyhowException,
       ),
       constMeta:
-          kCrateApiSpontaneousFfiSpontaneousPaymentSendProbesUnsafeConstMeta,
+          kLdkAdapterSpontaneousSpontaneousPaymentSendProbesUnsafeConstMeta,
       argValues: [that, amountMsat, nodeId],
       apiImpl: this,
     ));
   }
 
   TaskConstMeta
-      get kCrateApiSpontaneousFfiSpontaneousPaymentSendProbesUnsafeConstMeta =>
+      get kLdkAdapterSpontaneousSpontaneousPaymentSendProbesUnsafeConstMeta =>
           const TaskConstMeta(
-            debugName: "ffi_spontaneous_payment_send_probes_unsafe",
+            debugName: "SpontaneousPayment_send_probes_unsafe",
             argNames: ["that", "amountMsat", "nodeId"],
           );
 
   @override
-  Future<PaymentId> crateApiSpontaneousFfiSpontaneousPaymentSendUnsafe(
-      {required FfiSpontaneousPayment that,
+  Future<PaymentId> ldkAdapterSpontaneousSpontaneousPaymentSendUnsafe(
+      {required SpontaneousPayment that,
       required BigInt amountMsat,
       required PublicKey nodeId,
       SendingParameters? sendingParameters}) {
     return handler.executeNormal(NormalTask(
       callFfi: (port_) {
-        var arg0 = cst_encode_box_autoadd_ffi_spontaneous_payment(that);
+        var arg0 =
+            cst_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSpontaneousPayment(
+                that);
         var arg1 = cst_encode_u_64(amountMsat);
         var arg2 = cst_encode_box_autoadd_public_key(nodeId);
         var arg3 =
             cst_encode_opt_box_autoadd_sending_parameters(sendingParameters);
         return wire
-            .wire__crate__api__spontaneous__ffi_spontaneous_payment_send_unsafe(
+            .wire__ldk_adapter__spontaneous__SpontaneousPayment_send_unsafe(
                 port_, arg0, arg1, arg2, arg3);
       },
       codec: DcoCodec(
         decodeSuccessData: dco_decode_payment_id,
-        decodeErrorData: dco_decode_ffi_node_error,
+        decodeErrorData: dco_decode_AnyhowException,
       ),
-      constMeta: kCrateApiSpontaneousFfiSpontaneousPaymentSendUnsafeConstMeta,
+      constMeta: kLdkAdapterSpontaneousSpontaneousPaymentSendUnsafeConstMeta,
       argValues: [that, amountMsat, nodeId, sendingParameters],
       apiImpl: this,
     ));
   }
 
   TaskConstMeta
-      get kCrateApiSpontaneousFfiSpontaneousPaymentSendUnsafeConstMeta =>
+      get kLdkAdapterSpontaneousSpontaneousPaymentSendUnsafeConstMeta =>
           const TaskConstMeta(
-            debugName: "ffi_spontaneous_payment_send_unsafe",
+            debugName: "SpontaneousPayment_send_unsafe",
             argNames: ["that", "amountMsat", "nodeId", "sendingParameters"],
           );
 
   @override
   Future<PaymentId>
-      crateApiSpontaneousFfiSpontaneousPaymentSendWithCustomTlvsUnsafe(
-          {required FfiSpontaneousPayment that,
+      ldkAdapterSpontaneousSpontaneousPaymentSendWithCustomTlvsUnsafe(
+          {required SpontaneousPayment that,
           required BigInt amountMsat,
           required PublicKey nodeId,
           SendingParameters? sendingParameters,
           required List<CustomTlvRecord> customTlvs}) {
     return handler.executeNormal(NormalTask(
       callFfi: (port_) {
-        var arg0 = cst_encode_box_autoadd_ffi_spontaneous_payment(that);
+        var arg0 =
+            cst_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSpontaneousPayment(
+                that);
         var arg1 = cst_encode_u_64(amountMsat);
         var arg2 = cst_encode_box_autoadd_public_key(nodeId);
         var arg3 =
             cst_encode_opt_box_autoadd_sending_parameters(sendingParameters);
         var arg4 = cst_encode_list_custom_tlv_record(customTlvs);
         return wire
-            .wire__crate__api__spontaneous__ffi_spontaneous_payment_send_with_custom_tlvs_unsafe(
+            .wire__ldk_adapter__spontaneous__SpontaneousPayment_send_with_custom_tlvs_unsafe(
                 port_, arg0, arg1, arg2, arg3, arg4);
       },
       codec: DcoCodec(
         decodeSuccessData: dco_decode_payment_id,
-        decodeErrorData: dco_decode_ffi_node_error,
+        decodeErrorData: dco_decode_AnyhowException,
       ),
       constMeta:
-          kCrateApiSpontaneousFfiSpontaneousPaymentSendWithCustomTlvsUnsafeConstMeta,
+          kLdkAdapterSpontaneousSpontaneousPaymentSendWithCustomTlvsUnsafeConstMeta,
       argValues: [that, amountMsat, nodeId, sendingParameters, customTlvs],
       apiImpl: this,
     ));
   }
 
   TaskConstMeta
-      get kCrateApiSpontaneousFfiSpontaneousPaymentSendWithCustomTlvsUnsafeConstMeta =>
+      get kLdkAdapterSpontaneousSpontaneousPaymentSendWithCustomTlvsUnsafeConstMeta =>
           const TaskConstMeta(
-            debugName: "ffi_spontaneous_payment_send_with_custom_tlvs_unsafe",
+            debugName: "SpontaneousPayment_send_with_custom_tlvs_unsafe",
             argNames: [
               "that",
               "amountMsat",
@@ -2742,80 +6073,847 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
           );
 
   @override
-  Future<String> crateApiUnifiedQrFfiUnifiedQrPaymentReceiveUnsafe(
-      {required FfiUnifiedQrPayment that,
+  TaprootSpendInfoInner sharedTaprootSpendInfoAutoAccessorGetInner(
+      {required TaprootSpendInfo that}) {
+    return handler.executeSync(SyncTask(
+      callFfi: () {
+        var arg0 =
+            cst_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerTaprootSpendInfo(
+                that);
+        return wire
+            .wire__shared__TaprootSpendInfo_auto_accessor_get_inner(arg0);
+      },
+      codec: DcoCodec(
+        decodeSuccessData:
+            dco_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerTaprootSpendInfoInner,
+        decodeErrorData: null,
+      ),
+      constMeta: kSharedTaprootSpendInfoAutoAccessorGetInnerConstMeta,
+      argValues: [that],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta get kSharedTaprootSpendInfoAutoAccessorGetInnerConstMeta =>
+      const TaskConstMeta(
+        debugName: "TaprootSpendInfo_auto_accessor_get_inner",
+        argNames: ["that"],
+      );
+
+  @override
+  void sharedTaprootSpendInfoAutoAccessorSetInner(
+      {required TaprootSpendInfo that, required TaprootSpendInfoInner inner}) {
+    return handler.executeSync(SyncTask(
+      callFfi: () {
+        var arg0 =
+            cst_encode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerTaprootSpendInfo(
+                that);
+        var arg1 =
+            cst_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerTaprootSpendInfoInner(
+                inner);
+        return wire.wire__shared__TaprootSpendInfo_auto_accessor_set_inner(
+            arg0, arg1);
+      },
+      codec: DcoCodec(
+        decodeSuccessData: dco_decode_unit,
+        decodeErrorData: null,
+      ),
+      constMeta: kSharedTaprootSpendInfoAutoAccessorSetInnerConstMeta,
+      argValues: [that, inner],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta get kSharedTaprootSpendInfoAutoAccessorSetInnerConstMeta =>
+      const TaskConstMeta(
+        debugName: "TaprootSpendInfo_auto_accessor_set_inner",
+        argNames: ["that", "inner"],
+      );
+
+  @override
+  BitcoinTransactionInner sharedTransactionAutoAccessorGetInner(
+      {required Transaction that}) {
+    return handler.executeSync(SyncTask(
+      callFfi: () {
+        var arg0 =
+            cst_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerTransaction(
+                that);
+        return wire.wire__shared__Transaction_auto_accessor_get_inner(arg0);
+      },
+      codec: DcoCodec(
+        decodeSuccessData:
+            dco_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerBitcoinTransactionInner,
+        decodeErrorData: null,
+      ),
+      constMeta: kSharedTransactionAutoAccessorGetInnerConstMeta,
+      argValues: [that],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta get kSharedTransactionAutoAccessorGetInnerConstMeta =>
+      const TaskConstMeta(
+        debugName: "Transaction_auto_accessor_get_inner",
+        argNames: ["that"],
+      );
+
+  @override
+  void sharedTransactionAutoAccessorSetInner(
+      {required Transaction that, required BitcoinTransactionInner inner}) {
+    return handler.executeSync(SyncTask(
+      callFfi: () {
+        var arg0 =
+            cst_encode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerTransaction(
+                that);
+        var arg1 =
+            cst_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerBitcoinTransactionInner(
+                inner);
+        return wire.wire__shared__Transaction_auto_accessor_set_inner(
+            arg0, arg1);
+      },
+      codec: DcoCodec(
+        decodeSuccessData: dco_decode_unit,
+        decodeErrorData: null,
+      ),
+      constMeta: kSharedTransactionAutoAccessorSetInnerConstMeta,
+      argValues: [that, inner],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta get kSharedTransactionAutoAccessorSetInnerConstMeta =>
+      const TaskConstMeta(
+        debugName: "Transaction_auto_accessor_set_inner",
+        argNames: ["that", "inner"],
+      );
+
+  @override
+  Future<Txid> sharedTransactionComputeTxid({required Transaction that}) {
+    return handler.executeNormal(NormalTask(
+      callFfi: (port_) {
+        var arg0 =
+            cst_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerTransaction(
+                that);
+        return wire.wire__shared__Transaction_compute_txid(port_, arg0);
+      },
+      codec: DcoCodec(
+        decodeSuccessData: dco_decode_txid,
+        decodeErrorData: null,
+      ),
+      constMeta: kSharedTransactionComputeTxidConstMeta,
+      argValues: [that],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta get kSharedTransactionComputeTxidConstMeta =>
+      const TaskConstMeta(
+        debugName: "Transaction_compute_txid",
+        argNames: ["that"],
+      );
+
+  @override
+  Future<WTxid> sharedTransactionComputeWtxid({required Transaction that}) {
+    return handler.executeNormal(NormalTask(
+      callFfi: (port_) {
+        var arg0 =
+            cst_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerTransaction(
+                that);
+        return wire.wire__shared__Transaction_compute_wtxid(port_, arg0);
+      },
+      codec: DcoCodec(
+        decodeSuccessData: dco_decode_w_txid,
+        decodeErrorData: null,
+      ),
+      constMeta: kSharedTransactionComputeWtxidConstMeta,
+      argValues: [that],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta get kSharedTransactionComputeWtxidConstMeta =>
+      const TaskConstMeta(
+        debugName: "Transaction_compute_wtxid",
+        argNames: ["that"],
+      );
+
+  @override
+  Future<List<TxIn>> sharedTransactionInput({required Transaction that}) {
+    return handler.executeNormal(NormalTask(
+      callFfi: (port_) {
+        var arg0 =
+            cst_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerTransaction(
+                that);
+        return wire.wire__shared__Transaction_input(port_, arg0);
+      },
+      codec: DcoCodec(
+        decodeSuccessData: dco_decode_list_tx_in,
+        decodeErrorData: null,
+      ),
+      constMeta: kSharedTransactionInputConstMeta,
+      argValues: [that],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta get kSharedTransactionInputConstMeta => const TaskConstMeta(
+        debugName: "Transaction_input",
+        argNames: ["that"],
+      );
+
+  @override
+  Future<bool> sharedTransactionIsCoinbase({required Transaction that}) {
+    return handler.executeNormal(NormalTask(
+      callFfi: (port_) {
+        var arg0 =
+            cst_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerTransaction(
+                that);
+        return wire.wire__shared__Transaction_is_coinbase(port_, arg0);
+      },
+      codec: DcoCodec(
+        decodeSuccessData: dco_decode_bool,
+        decodeErrorData: null,
+      ),
+      constMeta: kSharedTransactionIsCoinbaseConstMeta,
+      argValues: [that],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta get kSharedTransactionIsCoinbaseConstMeta =>
+      const TaskConstMeta(
+        debugName: "Transaction_is_coinbase",
+        argNames: ["that"],
+      );
+
+  @override
+  Future<bool> sharedTransactionIsExplicitlyRbf({required Transaction that}) {
+    return handler.executeNormal(NormalTask(
+      callFfi: (port_) {
+        var arg0 =
+            cst_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerTransaction(
+                that);
+        return wire.wire__shared__Transaction_is_explicitly_rbf(port_, arg0);
+      },
+      codec: DcoCodec(
+        decodeSuccessData: dco_decode_bool,
+        decodeErrorData: null,
+      ),
+      constMeta: kSharedTransactionIsExplicitlyRbfConstMeta,
+      argValues: [that],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta get kSharedTransactionIsExplicitlyRbfConstMeta =>
+      const TaskConstMeta(
+        debugName: "Transaction_is_explicitly_rbf",
+        argNames: ["that"],
+      );
+
+  @override
+  Future<bool> sharedTransactionIsLockTimeEnabled({required Transaction that}) {
+    return handler.executeNormal(NormalTask(
+      callFfi: (port_) {
+        var arg0 =
+            cst_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerTransaction(
+                that);
+        return wire.wire__shared__Transaction_is_lock_time_enabled(port_, arg0);
+      },
+      codec: DcoCodec(
+        decodeSuccessData: dco_decode_bool,
+        decodeErrorData: null,
+      ),
+      constMeta: kSharedTransactionIsLockTimeEnabledConstMeta,
+      argValues: [that],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta get kSharedTransactionIsLockTimeEnabledConstMeta =>
+      const TaskConstMeta(
+        debugName: "Transaction_is_lock_time_enabled",
+        argNames: ["that"],
+      );
+
+  @override
+  Future<int> sharedTransactionLockTime({required Transaction that}) {
+    return handler.executeNormal(NormalTask(
+      callFfi: (port_) {
+        var arg0 =
+            cst_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerTransaction(
+                that);
+        return wire.wire__shared__Transaction_lock_time(port_, arg0);
+      },
+      codec: DcoCodec(
+        decodeSuccessData: dco_decode_u_32,
+        decodeErrorData: null,
+      ),
+      constMeta: kSharedTransactionLockTimeConstMeta,
+      argValues: [that],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta get kSharedTransactionLockTimeConstMeta => const TaskConstMeta(
+        debugName: "Transaction_lock_time",
+        argNames: ["that"],
+      );
+
+  @override
+  Future<Transaction> sharedTransactionNew(
+      {required List<int> transactionBytes}) {
+    return handler.executeNormal(NormalTask(
+      callFfi: (port_) {
+        var arg0 = cst_encode_list_prim_u_8_loose(transactionBytes);
+        return wire.wire__shared__Transaction_new(port_, arg0);
+      },
+      codec: DcoCodec(
+        decodeSuccessData:
+            dco_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerTransaction,
+        decodeErrorData: dco_decode_AnyhowException,
+      ),
+      constMeta: kSharedTransactionNewConstMeta,
+      argValues: [transactionBytes],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta get kSharedTransactionNewConstMeta => const TaskConstMeta(
+        debugName: "Transaction_new",
+        argNames: ["transactionBytes"],
+      );
+
+  @override
+  Future<List<TxOut>> sharedTransactionOutput({required Transaction that}) {
+    return handler.executeNormal(NormalTask(
+      callFfi: (port_) {
+        var arg0 =
+            cst_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerTransaction(
+                that);
+        return wire.wire__shared__Transaction_output(port_, arg0);
+      },
+      codec: DcoCodec(
+        decodeSuccessData: dco_decode_list_tx_out,
+        decodeErrorData: null,
+      ),
+      constMeta: kSharedTransactionOutputConstMeta,
+      argValues: [that],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta get kSharedTransactionOutputConstMeta => const TaskConstMeta(
+        debugName: "Transaction_output",
+        argNames: ["that"],
+      );
+
+  @override
+  Future<BigInt> sharedTransactionTotalSize({required Transaction that}) {
+    return handler.executeNormal(NormalTask(
+      callFfi: (port_) {
+        var arg0 =
+            cst_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerTransaction(
+                that);
+        return wire.wire__shared__Transaction_total_size(port_, arg0);
+      },
+      codec: DcoCodec(
+        decodeSuccessData: dco_decode_u_64,
+        decodeErrorData: null,
+      ),
+      constMeta: kSharedTransactionTotalSizeConstMeta,
+      argValues: [that],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta get kSharedTransactionTotalSizeConstMeta => const TaskConstMeta(
+        debugName: "Transaction_total_size",
+        argNames: ["that"],
+      );
+
+  @override
+  Future<int> sharedTransactionVersion({required Transaction that}) {
+    return handler.executeNormal(NormalTask(
+      callFfi: (port_) {
+        var arg0 =
+            cst_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerTransaction(
+                that);
+        return wire.wire__shared__Transaction_version(port_, arg0);
+      },
+      codec: DcoCodec(
+        decodeSuccessData: dco_decode_i_32,
+        decodeErrorData: null,
+      ),
+      constMeta: kSharedTransactionVersionConstMeta,
+      argValues: [that],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta get kSharedTransactionVersionConstMeta => const TaskConstMeta(
+        debugName: "Transaction_version",
+        argNames: ["that"],
+      );
+
+  @override
+  Future<BigInt> sharedTransactionVsize({required Transaction that}) {
+    return handler.executeNormal(NormalTask(
+      callFfi: (port_) {
+        var arg0 =
+            cst_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerTransaction(
+                that);
+        return wire.wire__shared__Transaction_vsize(port_, arg0);
+      },
+      codec: DcoCodec(
+        decodeSuccessData: dco_decode_u_64,
+        decodeErrorData: null,
+      ),
+      constMeta: kSharedTransactionVsizeConstMeta,
+      argValues: [that],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta get kSharedTransactionVsizeConstMeta => const TaskConstMeta(
+        debugName: "Transaction_vsize",
+        argNames: ["that"],
+      );
+
+  @override
+  Future<BigInt> sharedTransactionWeight({required Transaction that}) {
+    return handler.executeNormal(NormalTask(
+      callFfi: (port_) {
+        var arg0 =
+            cst_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerTransaction(
+                that);
+        return wire.wire__shared__Transaction_weight(port_, arg0);
+      },
+      codec: DcoCodec(
+        decodeSuccessData: dco_decode_u_64,
+        decodeErrorData: null,
+      ),
+      constMeta: kSharedTransactionWeightConstMeta,
+      argValues: [that],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta get kSharedTransactionWeightConstMeta => const TaskConstMeta(
+        debugName: "Transaction_weight",
+        argNames: ["that"],
+      );
+
+  @override
+  Future<String> ldkAdapterUnifiedQrUnifiedQrPaymentReceive(
+      {required UnifiedQrPayment that,
       required BigInt amountSats,
       required String message,
       required int expirySec}) {
     return handler.executeNormal(NormalTask(
       callFfi: (port_) {
-        var arg0 = cst_encode_box_autoadd_ffi_unified_qr_payment(that);
+        var arg0 =
+            cst_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerUnifiedQrPayment(
+                that);
         var arg1 = cst_encode_u_64(amountSats);
         var arg2 = cst_encode_String(message);
         var arg3 = cst_encode_u_32(expirySec);
-        return wire
-            .wire__crate__api__unified_qr__ffi_unified_qr_payment_receive_unsafe(
-                port_, arg0, arg1, arg2, arg3);
+        return wire.wire__ldk_adapter__unified_qr__UnifiedQrPayment_receive(
+            port_, arg0, arg1, arg2, arg3);
       },
       codec: DcoCodec(
         decodeSuccessData: dco_decode_String,
-        decodeErrorData: dco_decode_ffi_node_error,
+        decodeErrorData: dco_decode_AnyhowException,
       ),
-      constMeta: kCrateApiUnifiedQrFfiUnifiedQrPaymentReceiveUnsafeConstMeta,
+      constMeta: kLdkAdapterUnifiedQrUnifiedQrPaymentReceiveConstMeta,
       argValues: [that, amountSats, message, expirySec],
       apiImpl: this,
     ));
   }
 
-  TaskConstMeta
-      get kCrateApiUnifiedQrFfiUnifiedQrPaymentReceiveUnsafeConstMeta =>
-          const TaskConstMeta(
-            debugName: "ffi_unified_qr_payment_receive_unsafe",
-            argNames: ["that", "amountSats", "message", "expirySec"],
-          );
+  TaskConstMeta get kLdkAdapterUnifiedQrUnifiedQrPaymentReceiveConstMeta =>
+      const TaskConstMeta(
+        debugName: "UnifiedQrPayment_receive",
+        argNames: ["that", "amountSats", "message", "expirySec"],
+      );
 
   @override
-  Future<QrPaymentResult> crateApiUnifiedQrFfiUnifiedQrPaymentSendUnsafe(
-      {required FfiUnifiedQrPayment that, required String uriStr}) {
+  Future<QrPaymentResult> ldkAdapterUnifiedQrUnifiedQrPaymentSend(
+      {required UnifiedQrPayment that, required String uriStr}) {
     return handler.executeNormal(NormalTask(
       callFfi: (port_) {
-        var arg0 = cst_encode_box_autoadd_ffi_unified_qr_payment(that);
+        var arg0 =
+            cst_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerUnifiedQrPayment(
+                that);
         var arg1 = cst_encode_String(uriStr);
-        return wire
-            .wire__crate__api__unified_qr__ffi_unified_qr_payment_send_unsafe(
-                port_, arg0, arg1);
+        return wire.wire__ldk_adapter__unified_qr__UnifiedQrPayment_send(
+            port_, arg0, arg1);
       },
       codec: DcoCodec(
-        decodeSuccessData: dco_decode_qr_payment_result,
-        decodeErrorData: dco_decode_ffi_node_error,
+        decodeSuccessData:
+            dco_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerQrPaymentResult,
+        decodeErrorData: dco_decode_AnyhowException,
       ),
-      constMeta: kCrateApiUnifiedQrFfiUnifiedQrPaymentSendUnsafeConstMeta,
+      constMeta: kLdkAdapterUnifiedQrUnifiedQrPaymentSendConstMeta,
       argValues: [that, uriStr],
       apiImpl: this,
     ));
   }
 
-  TaskConstMeta get kCrateApiUnifiedQrFfiUnifiedQrPaymentSendUnsafeConstMeta =>
+  TaskConstMeta get kLdkAdapterUnifiedQrUnifiedQrPaymentSendConstMeta =>
       const TaskConstMeta(
-        debugName: "ffi_unified_qr_payment_send_unsafe",
+        debugName: "UnifiedQrPayment_send",
         argNames: ["that", "uriStr"],
       );
 
+  @override
+  Future<AnchorChannelsConfig> ldkAdapterTypesAnchorChannelsConfigDefault() {
+    return handler.executeNormal(NormalTask(
+      callFfi: (port_) {
+        return wire
+            .wire__ldk_adapter__types__anchor_channels_config_default(port_);
+      },
+      codec: DcoCodec(
+        decodeSuccessData: dco_decode_anchor_channels_config,
+        decodeErrorData: null,
+      ),
+      constMeta: kLdkAdapterTypesAnchorChannelsConfigDefaultConstMeta,
+      argValues: [],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta get kLdkAdapterTypesAnchorChannelsConfigDefaultConstMeta =>
+      const TaskConstMeta(
+        debugName: "anchor_channels_config_default",
+        argNames: [],
+      );
+
+  @override
+  Future<Config> ldkAdapterTypesConfigDefault() {
+    return handler.executeNormal(NormalTask(
+      callFfi: (port_) {
+        return wire.wire__ldk_adapter__types__config_default(port_);
+      },
+      codec: DcoCodec(
+        decodeSuccessData: dco_decode_config,
+        decodeErrorData: null,
+      ),
+      constMeta: kLdkAdapterTypesConfigDefaultConstMeta,
+      argValues: [],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta get kLdkAdapterTypesConfigDefaultConstMeta =>
+      const TaskConstMeta(
+        debugName: "config_default",
+        argNames: [],
+      );
+
+  @override
+  Future<String> sharedMnemonicAsString({required Mnemonic that}) {
+    return handler.executeNormal(NormalTask(
+      callFfi: (port_) {
+        var arg0 = cst_encode_box_autoadd_mnemonic(that);
+        return wire.wire__shared__mnemonic_as_string(port_, arg0);
+      },
+      codec: DcoCodec(
+        decodeSuccessData: dco_decode_String,
+        decodeErrorData: null,
+      ),
+      constMeta: kSharedMnemonicAsStringConstMeta,
+      argValues: [that],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta get kSharedMnemonicAsStringConstMeta => const TaskConstMeta(
+        debugName: "mnemonic_as_string",
+        argNames: ["that"],
+      );
+
+  @override
+  Future<Mnemonic> sharedMnemonicFromEntropy({required List<int> entropy}) {
+    return handler.executeNormal(NormalTask(
+      callFfi: (port_) {
+        var arg0 = cst_encode_list_prim_u_8_loose(entropy);
+        return wire.wire__shared__mnemonic_from_entropy(port_, arg0);
+      },
+      codec: DcoCodec(
+        decodeSuccessData: dco_decode_mnemonic,
+        decodeErrorData: dco_decode_AnyhowException,
+      ),
+      constMeta: kSharedMnemonicFromEntropyConstMeta,
+      argValues: [entropy],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta get kSharedMnemonicFromEntropyConstMeta => const TaskConstMeta(
+        debugName: "mnemonic_from_entropy",
+        argNames: ["entropy"],
+      );
+
+  @override
+  Future<Mnemonic> sharedMnemonicGenerate() {
+    return handler.executeNormal(NormalTask(
+      callFfi: (port_) {
+        return wire.wire__shared__mnemonic_generate(port_);
+      },
+      codec: DcoCodec(
+        decodeSuccessData: dco_decode_mnemonic,
+        decodeErrorData: null,
+      ),
+      constMeta: kSharedMnemonicGenerateConstMeta,
+      argValues: [],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta get kSharedMnemonicGenerateConstMeta => const TaskConstMeta(
+        debugName: "mnemonic_generate",
+        argNames: [],
+      );
+
+  @override
+  Future<U8Array64> sharedMnemonicToSeed(
+      {required Mnemonic that, required String passphrase}) {
+    return handler.executeNormal(NormalTask(
+      callFfi: (port_) {
+        var arg0 = cst_encode_box_autoadd_mnemonic(that);
+        var arg1 = cst_encode_String(passphrase);
+        return wire.wire__shared__mnemonic_to_seed(port_, arg0, arg1);
+      },
+      codec: DcoCodec(
+        decodeSuccessData: dco_decode_u_8_array_64,
+        decodeErrorData: null,
+      ),
+      constMeta: kSharedMnemonicToSeedConstMeta,
+      argValues: [that, passphrase],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta get kSharedMnemonicToSeedConstMeta => const TaskConstMeta(
+        debugName: "mnemonic_to_seed",
+        argNames: ["that", "passphrase"],
+      );
+
+  @override
+  Future<Transaction> sharedPsbtExtractTx({required Psbt that}) {
+    return handler.executeNormal(NormalTask(
+      callFfi: (port_) {
+        var arg0 = cst_encode_box_autoadd_psbt(that);
+        return wire.wire__shared__psbt_extract_tx(port_, arg0);
+      },
+      codec: DcoCodec(
+        decodeSuccessData:
+            dco_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerTransaction,
+        decodeErrorData: dco_decode_AnyhowException,
+      ),
+      constMeta: kSharedPsbtExtractTxConstMeta,
+      argValues: [that],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta get kSharedPsbtExtractTxConstMeta => const TaskConstMeta(
+        debugName: "psbt_extract_tx",
+        argNames: ["that"],
+      );
+
+  @override
+  Future<BigInt> sharedPsbtFee({required Psbt that}) {
+    return handler.executeNormal(NormalTask(
+      callFfi: (port_) {
+        var arg0 = cst_encode_box_autoadd_psbt(that);
+        return wire.wire__shared__psbt_fee(port_, arg0);
+      },
+      codec: DcoCodec(
+        decodeSuccessData: dco_decode_u_64,
+        decodeErrorData: dco_decode_AnyhowException,
+      ),
+      constMeta: kSharedPsbtFeeConstMeta,
+      argValues: [that],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta get kSharedPsbtFeeConstMeta => const TaskConstMeta(
+        debugName: "psbt_fee",
+        argNames: ["that"],
+      );
+
+  @override
+  Future<Psbt> sharedPsbtFromBase64({required String base64}) {
+    return handler.executeNormal(NormalTask(
+      callFfi: (port_) {
+        var arg0 = cst_encode_String(base64);
+        return wire.wire__shared__psbt_from_base64(port_, arg0);
+      },
+      codec: DcoCodec(
+        decodeSuccessData: dco_decode_psbt,
+        decodeErrorData: dco_decode_AnyhowException,
+      ),
+      constMeta: kSharedPsbtFromBase64ConstMeta,
+      argValues: [base64],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta get kSharedPsbtFromBase64ConstMeta => const TaskConstMeta(
+        debugName: "psbt_from_base64",
+        argNames: ["base64"],
+      );
+
   RustArcIncrementStrongCountFnType
-      get rust_arc_increment_strong_count_ConfirmationStatus => wire
-          .rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerConfirmationStatus;
+      get rust_arc_increment_strong_count_AddressData => wire
+          .rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerAddressData;
 
   RustArcDecrementStrongCountFnType
-      get rust_arc_decrement_strong_count_ConfirmationStatus => wire
-          .rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerConfirmationStatus;
+      get rust_arc_decrement_strong_count_AddressData => wire
+          .rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerAddressData;
 
   RustArcIncrementStrongCountFnType
-      get rust_arc_increment_strong_count_FfiBuilder => wire
-          .rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerFfiBuilder;
+      get rust_arc_increment_strong_count_BitcoinAddress => wire
+          .rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerBitcoinAddress;
 
   RustArcDecrementStrongCountFnType
-      get rust_arc_decrement_strong_count_FfiBuilder => wire
-          .rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerFfiBuilder;
+      get rust_arc_decrement_strong_count_BitcoinAddress => wire
+          .rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerBitcoinAddress;
+
+  RustArcIncrementStrongCountFnType
+      get rust_arc_increment_strong_count_BitcoinAddressInner => wire
+          .rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerBitcoinAddressInner;
+
+  RustArcDecrementStrongCountFnType
+      get rust_arc_decrement_strong_count_BitcoinAddressInner => wire
+          .rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerBitcoinAddressInner;
+
+  RustArcIncrementStrongCountFnType
+      get rust_arc_increment_strong_count_BitcoinTransactionInner => wire
+          .rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerBitcoinTransactionInner;
+
+  RustArcDecrementStrongCountFnType
+      get rust_arc_decrement_strong_count_BitcoinTransactionInner => wire
+          .rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerBitcoinTransactionInner;
+
+  RustArcIncrementStrongCountFnType
+      get rust_arc_increment_strong_count_Bolt11Payment => wire
+          .rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerBolt11Payment;
+
+  RustArcDecrementStrongCountFnType
+      get rust_arc_decrement_strong_count_Bolt11Payment => wire
+          .rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerBolt11Payment;
+
+  RustArcIncrementStrongCountFnType
+      get rust_arc_increment_strong_count_Bolt12Payment => wire
+          .rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerBolt12Payment;
+
+  RustArcDecrementStrongCountFnType
+      get rust_arc_decrement_strong_count_Bolt12Payment => wire
+          .rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerBolt12Payment;
+
+  RustArcIncrementStrongCountFnType
+      get rust_arc_increment_strong_count_Builder => wire
+          .rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerBuilder;
+
+  RustArcDecrementStrongCountFnType
+      get rust_arc_decrement_strong_count_Builder => wire
+          .rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerBuilder;
+
+  RustArcIncrementStrongCountFnType
+      get rust_arc_increment_strong_count_ChainDataSourceConfig => wire
+          .rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerChainDataSourceConfig;
+
+  RustArcDecrementStrongCountFnType
+      get rust_arc_decrement_strong_count_ChainDataSourceConfig => wire
+          .rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerChainDataSourceConfig;
+
+  RustArcIncrementStrongCountFnType
+      get rust_arc_increment_strong_count_ChannelConfig => wire
+          .rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerChannelConfig;
+
+  RustArcDecrementStrongCountFnType
+      get rust_arc_decrement_strong_count_ChannelConfig => wire
+          .rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerChannelConfig;
+
+  RustArcIncrementStrongCountFnType
+      get rust_arc_increment_strong_count_ChannelDetails => wire
+          .rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerChannelDetails;
+
+  RustArcDecrementStrongCountFnType
+      get rust_arc_decrement_strong_count_ChannelDetails => wire
+          .rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerChannelDetails;
+
+  RustArcIncrementStrongCountFnType
+      get rust_arc_increment_strong_count_EntropySourceConfig => wire
+          .rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerEntropySourceConfig;
+
+  RustArcDecrementStrongCountFnType
+      get rust_arc_decrement_strong_count_EntropySourceConfig => wire
+          .rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerEntropySourceConfig;
+
+  RustArcIncrementStrongCountFnType get rust_arc_increment_strong_count_Event =>
+      wire.rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerEvent;
+
+  RustArcDecrementStrongCountFnType get rust_arc_decrement_strong_count_Event =>
+      wire.rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerEvent;
+
+  RustArcIncrementStrongCountFnType
+      get rust_arc_increment_strong_count_GossipSourceConfig => wire
+          .rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerGossipSourceConfig;
+
+  RustArcDecrementStrongCountFnType
+      get rust_arc_decrement_strong_count_GossipSourceConfig => wire
+          .rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerGossipSourceConfig;
+
+  RustArcIncrementStrongCountFnType
+      get rust_arc_increment_strong_count_LightningBalance => wire
+          .rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerLightningBalance;
+
+  RustArcDecrementStrongCountFnType
+      get rust_arc_decrement_strong_count_LightningBalance => wire
+          .rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerLightningBalance;
+
+  RustArcIncrementStrongCountFnType
+      get rust_arc_increment_strong_count_MaxDustHtlcExposure => wire
+          .rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerMaxDustHTLCExposure;
+
+  RustArcDecrementStrongCountFnType
+      get rust_arc_decrement_strong_count_MaxDustHtlcExposure => wire
+          .rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerMaxDustHTLCExposure;
+
+  RustArcIncrementStrongCountFnType
+      get rust_arc_increment_strong_count_NetworkGraph => wire
+          .rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerNetworkGraph;
+
+  RustArcDecrementStrongCountFnType
+      get rust_arc_decrement_strong_count_NetworkGraph => wire
+          .rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerNetworkGraph;
+
+  RustArcIncrementStrongCountFnType get rust_arc_increment_strong_count_Node =>
+      wire.rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerNode;
+
+  RustArcDecrementStrongCountFnType get rust_arc_decrement_strong_count_Node =>
+      wire.rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerNode;
+
+  RustArcIncrementStrongCountFnType
+      get rust_arc_increment_strong_count_OnChainPayment => wire
+          .rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerOnChainPayment;
+
+  RustArcDecrementStrongCountFnType
+      get rust_arc_decrement_strong_count_OnChainPayment => wire
+          .rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerOnChainPayment;
+
+  RustArcIncrementStrongCountFnType
+      get rust_arc_increment_strong_count_PaymentDetails => wire
+          .rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPaymentDetails;
+
+  RustArcDecrementStrongCountFnType
+      get rust_arc_decrement_strong_count_PaymentDetails => wire
+          .rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPaymentDetails;
 
   RustArcIncrementStrongCountFnType
       get rust_arc_increment_strong_count_PaymentKind => wire
@@ -2826,81 +6924,234 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
           .rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPaymentKind;
 
   RustArcIncrementStrongCountFnType
-      get rust_arc_increment_strong_count_Builder =>
-          wire.rust_arc_increment_strong_count_RustOpaque_ldk_nodeBuilder;
+      get rust_arc_increment_strong_count_PeerDetails => wire
+          .rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPeerDetails;
 
   RustArcDecrementStrongCountFnType
-      get rust_arc_decrement_strong_count_Builder =>
-          wire.rust_arc_decrement_strong_count_RustOpaque_ldk_nodeBuilder;
-
-  RustArcIncrementStrongCountFnType get rust_arc_increment_strong_count_Node =>
-      wire.rust_arc_increment_strong_count_RustOpaque_ldk_nodeNode;
-
-  RustArcDecrementStrongCountFnType get rust_arc_decrement_strong_count_Node =>
-      wire.rust_arc_decrement_strong_count_RustOpaque_ldk_nodeNode;
+      get rust_arc_decrement_strong_count_PeerDetails => wire
+          .rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPeerDetails;
 
   RustArcIncrementStrongCountFnType
-      get rust_arc_increment_strong_count_NetworkGraph => wire
-          .rust_arc_increment_strong_count_RustOpaque_ldk_nodegraphNetworkGraph;
+      get rust_arc_increment_strong_count_PendingSweepBalance => wire
+          .rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPendingSweepBalance;
 
   RustArcDecrementStrongCountFnType
-      get rust_arc_decrement_strong_count_NetworkGraph => wire
-          .rust_arc_decrement_strong_count_RustOpaque_ldk_nodegraphNetworkGraph;
+      get rust_arc_decrement_strong_count_PendingSweepBalance => wire
+          .rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPendingSweepBalance;
 
   RustArcIncrementStrongCountFnType
-      get rust_arc_increment_strong_count_Bolt11Payment => wire
-          .rust_arc_increment_strong_count_RustOpaque_ldk_nodepaymentBolt11Payment;
+      get rust_arc_increment_strong_count_QrPaymentResult => wire
+          .rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerQrPaymentResult;
 
   RustArcDecrementStrongCountFnType
-      get rust_arc_decrement_strong_count_Bolt11Payment => wire
-          .rust_arc_decrement_strong_count_RustOpaque_ldk_nodepaymentBolt11Payment;
+      get rust_arc_decrement_strong_count_QrPaymentResult => wire
+          .rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerQrPaymentResult;
 
   RustArcIncrementStrongCountFnType
-      get rust_arc_increment_strong_count_Bolt12Payment => wire
-          .rust_arc_increment_strong_count_RustOpaque_ldk_nodepaymentBolt12Payment;
+      get rust_arc_increment_strong_count_SocketAddress => wire
+          .rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSocketAddress;
 
   RustArcDecrementStrongCountFnType
-      get rust_arc_decrement_strong_count_Bolt12Payment => wire
-          .rust_arc_decrement_strong_count_RustOpaque_ldk_nodepaymentBolt12Payment;
-
-  RustArcIncrementStrongCountFnType
-      get rust_arc_increment_strong_count_OnchainPayment => wire
-          .rust_arc_increment_strong_count_RustOpaque_ldk_nodepaymentOnchainPayment;
-
-  RustArcDecrementStrongCountFnType
-      get rust_arc_decrement_strong_count_OnchainPayment => wire
-          .rust_arc_decrement_strong_count_RustOpaque_ldk_nodepaymentOnchainPayment;
+      get rust_arc_decrement_strong_count_SocketAddress => wire
+          .rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSocketAddress;
 
   RustArcIncrementStrongCountFnType
       get rust_arc_increment_strong_count_SpontaneousPayment => wire
-          .rust_arc_increment_strong_count_RustOpaque_ldk_nodepaymentSpontaneousPayment;
+          .rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSpontaneousPayment;
 
   RustArcDecrementStrongCountFnType
       get rust_arc_decrement_strong_count_SpontaneousPayment => wire
-          .rust_arc_decrement_strong_count_RustOpaque_ldk_nodepaymentSpontaneousPayment;
+          .rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSpontaneousPayment;
+
+  RustArcIncrementStrongCountFnType
+      get rust_arc_increment_strong_count_TaprootSpendInfo => wire
+          .rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerTaprootSpendInfo;
+
+  RustArcDecrementStrongCountFnType
+      get rust_arc_decrement_strong_count_TaprootSpendInfo => wire
+          .rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerTaprootSpendInfo;
+
+  RustArcIncrementStrongCountFnType
+      get rust_arc_increment_strong_count_TaprootSpendInfoInner => wire
+          .rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerTaprootSpendInfoInner;
+
+  RustArcDecrementStrongCountFnType
+      get rust_arc_decrement_strong_count_TaprootSpendInfoInner => wire
+          .rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerTaprootSpendInfoInner;
+
+  RustArcIncrementStrongCountFnType
+      get rust_arc_increment_strong_count_Transaction => wire
+          .rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerTransaction;
+
+  RustArcDecrementStrongCountFnType
+      get rust_arc_decrement_strong_count_Transaction => wire
+          .rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerTransaction;
 
   RustArcIncrementStrongCountFnType
       get rust_arc_increment_strong_count_UnifiedQrPayment => wire
-          .rust_arc_increment_strong_count_RustOpaque_ldk_nodepaymentUnifiedQrPayment;
+          .rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerUnifiedQrPayment;
 
   RustArcDecrementStrongCountFnType
       get rust_arc_decrement_strong_count_UnifiedQrPayment => wire
-          .rust_arc_decrement_strong_count_RustOpaque_ldk_nodepaymentUnifiedQrPayment;
+          .rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerUnifiedQrPayment;
 
   @protected
-  ConfirmationStatus
-      dco_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerConfirmationStatus(
-          dynamic raw) {
+  AnyhowException dco_decode_AnyhowException(dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
-    return ConfirmationStatusImpl.frbInternalDcoDecode(raw as List<dynamic>);
+    return AnyhowException(raw as String);
   }
 
   @protected
-  FfiBuilder
-      dco_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerFfiBuilder(
+  AddressData
+      dco_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerAddressData(
           dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
-    return FfiBuilderImpl.frbInternalDcoDecode(raw as List<dynamic>);
+    return AddressDataImpl.frbInternalDcoDecode(raw as List<dynamic>);
+  }
+
+  @protected
+  BitcoinAddress
+      dco_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerBitcoinAddress(
+          dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return BitcoinAddressImpl.frbInternalDcoDecode(raw as List<dynamic>);
+  }
+
+  @protected
+  BitcoinAddressInner
+      dco_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerBitcoinAddressInner(
+          dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return BitcoinAddressInnerImpl.frbInternalDcoDecode(raw as List<dynamic>);
+  }
+
+  @protected
+  BitcoinTransactionInner
+      dco_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerBitcoinTransactionInner(
+          dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return BitcoinTransactionInnerImpl.frbInternalDcoDecode(
+        raw as List<dynamic>);
+  }
+
+  @protected
+  Bolt11Payment
+      dco_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerBolt11Payment(
+          dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return Bolt11PaymentImpl.frbInternalDcoDecode(raw as List<dynamic>);
+  }
+
+  @protected
+  Bolt12Payment
+      dco_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerBolt12Payment(
+          dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return Bolt12PaymentImpl.frbInternalDcoDecode(raw as List<dynamic>);
+  }
+
+  @protected
+  Builder
+      dco_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerBuilder(
+          dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return BuilderImpl.frbInternalDcoDecode(raw as List<dynamic>);
+  }
+
+  @protected
+  ChainDataSourceConfig
+      dco_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerChainDataSourceConfig(
+          dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return ChainDataSourceConfigImpl.frbInternalDcoDecode(raw as List<dynamic>);
+  }
+
+  @protected
+  ChannelConfig
+      dco_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerChannelConfig(
+          dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return ChannelConfigImpl.frbInternalDcoDecode(raw as List<dynamic>);
+  }
+
+  @protected
+  ChannelDetails
+      dco_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerChannelDetails(
+          dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return ChannelDetailsImpl.frbInternalDcoDecode(raw as List<dynamic>);
+  }
+
+  @protected
+  EntropySourceConfig
+      dco_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerEntropySourceConfig(
+          dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return EntropySourceConfigImpl.frbInternalDcoDecode(raw as List<dynamic>);
+  }
+
+  @protected
+  Event
+      dco_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerEvent(
+          dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return EventImpl.frbInternalDcoDecode(raw as List<dynamic>);
+  }
+
+  @protected
+  GossipSourceConfig
+      dco_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerGossipSourceConfig(
+          dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return GossipSourceConfigImpl.frbInternalDcoDecode(raw as List<dynamic>);
+  }
+
+  @protected
+  LightningBalance
+      dco_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerLightningBalance(
+          dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return LightningBalanceImpl.frbInternalDcoDecode(raw as List<dynamic>);
+  }
+
+  @protected
+  MaxDustHtlcExposure
+      dco_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerMaxDustHTLCExposure(
+          dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return MaxDustHtlcExposureImpl.frbInternalDcoDecode(raw as List<dynamic>);
+  }
+
+  @protected
+  NetworkGraph
+      dco_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerNetworkGraph(
+          dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return NetworkGraphImpl.frbInternalDcoDecode(raw as List<dynamic>);
+  }
+
+  @protected
+  Node
+      dco_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerNode(
+          dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return NodeImpl.frbInternalDcoDecode(raw as List<dynamic>);
+  }
+
+  @protected
+  OnChainPayment
+      dco_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerOnChainPayment(
+          dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return OnChainPaymentImpl.frbInternalDcoDecode(raw as List<dynamic>);
+  }
+
+  @protected
+  PaymentDetails
+      dco_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPaymentDetails(
+          dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return PaymentDetailsImpl.frbInternalDcoDecode(raw as List<dynamic>);
   }
 
   @protected
@@ -2912,19 +7163,251 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
   }
 
   @protected
-  FfiBuilder
-      dco_decode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerFfiBuilder(
+  PeerDetails
+      dco_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPeerDetails(
           dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
-    return FfiBuilderImpl.frbInternalDcoDecode(raw as List<dynamic>);
+    return PeerDetailsImpl.frbInternalDcoDecode(raw as List<dynamic>);
   }
 
   @protected
-  FfiBuilder
-      dco_decode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerFfiBuilder(
+  PendingSweepBalance
+      dco_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPendingSweepBalance(
           dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
-    return FfiBuilderImpl.frbInternalDcoDecode(raw as List<dynamic>);
+    return PendingSweepBalanceImpl.frbInternalDcoDecode(raw as List<dynamic>);
+  }
+
+  @protected
+  QrPaymentResult
+      dco_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerQrPaymentResult(
+          dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return QrPaymentResultImpl.frbInternalDcoDecode(raw as List<dynamic>);
+  }
+
+  @protected
+  SocketAddress
+      dco_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSocketAddress(
+          dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return SocketAddressImpl.frbInternalDcoDecode(raw as List<dynamic>);
+  }
+
+  @protected
+  SpontaneousPayment
+      dco_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSpontaneousPayment(
+          dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return SpontaneousPaymentImpl.frbInternalDcoDecode(raw as List<dynamic>);
+  }
+
+  @protected
+  TaprootSpendInfo
+      dco_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerTaprootSpendInfo(
+          dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return TaprootSpendInfoImpl.frbInternalDcoDecode(raw as List<dynamic>);
+  }
+
+  @protected
+  TaprootSpendInfoInner
+      dco_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerTaprootSpendInfoInner(
+          dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return TaprootSpendInfoInnerImpl.frbInternalDcoDecode(raw as List<dynamic>);
+  }
+
+  @protected
+  Transaction
+      dco_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerTransaction(
+          dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return TransactionImpl.frbInternalDcoDecode(raw as List<dynamic>);
+  }
+
+  @protected
+  UnifiedQrPayment
+      dco_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerUnifiedQrPayment(
+          dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return UnifiedQrPaymentImpl.frbInternalDcoDecode(raw as List<dynamic>);
+  }
+
+  @protected
+  BitcoinAddress
+      dco_decode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerBitcoinAddress(
+          dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return BitcoinAddressImpl.frbInternalDcoDecode(raw as List<dynamic>);
+  }
+
+  @protected
+  ChannelConfig
+      dco_decode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerChannelConfig(
+          dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return ChannelConfigImpl.frbInternalDcoDecode(raw as List<dynamic>);
+  }
+
+  @protected
+  ChannelDetails
+      dco_decode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerChannelDetails(
+          dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return ChannelDetailsImpl.frbInternalDcoDecode(raw as List<dynamic>);
+  }
+
+  @protected
+  PaymentDetails
+      dco_decode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPaymentDetails(
+          dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return PaymentDetailsImpl.frbInternalDcoDecode(raw as List<dynamic>);
+  }
+
+  @protected
+  PeerDetails
+      dco_decode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPeerDetails(
+          dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return PeerDetailsImpl.frbInternalDcoDecode(raw as List<dynamic>);
+  }
+
+  @protected
+  TaprootSpendInfo
+      dco_decode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerTaprootSpendInfo(
+          dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return TaprootSpendInfoImpl.frbInternalDcoDecode(raw as List<dynamic>);
+  }
+
+  @protected
+  Transaction
+      dco_decode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerTransaction(
+          dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return TransactionImpl.frbInternalDcoDecode(raw as List<dynamic>);
+  }
+
+  @protected
+  BitcoinAddress
+      dco_decode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerBitcoinAddress(
+          dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return BitcoinAddressImpl.frbInternalDcoDecode(raw as List<dynamic>);
+  }
+
+  @protected
+  Bolt11Payment
+      dco_decode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerBolt11Payment(
+          dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return Bolt11PaymentImpl.frbInternalDcoDecode(raw as List<dynamic>);
+  }
+
+  @protected
+  Bolt12Payment
+      dco_decode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerBolt12Payment(
+          dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return Bolt12PaymentImpl.frbInternalDcoDecode(raw as List<dynamic>);
+  }
+
+  @protected
+  Builder
+      dco_decode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerBuilder(
+          dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return BuilderImpl.frbInternalDcoDecode(raw as List<dynamic>);
+  }
+
+  @protected
+  ChannelConfig
+      dco_decode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerChannelConfig(
+          dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return ChannelConfigImpl.frbInternalDcoDecode(raw as List<dynamic>);
+  }
+
+  @protected
+  ChannelDetails
+      dco_decode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerChannelDetails(
+          dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return ChannelDetailsImpl.frbInternalDcoDecode(raw as List<dynamic>);
+  }
+
+  @protected
+  NetworkGraph
+      dco_decode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerNetworkGraph(
+          dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return NetworkGraphImpl.frbInternalDcoDecode(raw as List<dynamic>);
+  }
+
+  @protected
+  Node
+      dco_decode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerNode(
+          dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return NodeImpl.frbInternalDcoDecode(raw as List<dynamic>);
+  }
+
+  @protected
+  OnChainPayment
+      dco_decode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerOnChainPayment(
+          dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return OnChainPaymentImpl.frbInternalDcoDecode(raw as List<dynamic>);
+  }
+
+  @protected
+  PaymentDetails
+      dco_decode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPaymentDetails(
+          dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return PaymentDetailsImpl.frbInternalDcoDecode(raw as List<dynamic>);
+  }
+
+  @protected
+  PeerDetails
+      dco_decode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPeerDetails(
+          dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return PeerDetailsImpl.frbInternalDcoDecode(raw as List<dynamic>);
+  }
+
+  @protected
+  SpontaneousPayment
+      dco_decode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSpontaneousPayment(
+          dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return SpontaneousPaymentImpl.frbInternalDcoDecode(raw as List<dynamic>);
+  }
+
+  @protected
+  TaprootSpendInfo
+      dco_decode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerTaprootSpendInfo(
+          dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return TaprootSpendInfoImpl.frbInternalDcoDecode(raw as List<dynamic>);
+  }
+
+  @protected
+  Transaction
+      dco_decode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerTransaction(
+          dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return TransactionImpl.frbInternalDcoDecode(raw as List<dynamic>);
+  }
+
+  @protected
+  UnifiedQrPayment
+      dco_decode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerUnifiedQrPayment(
+          dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return UnifiedQrPaymentImpl.frbInternalDcoDecode(raw as List<dynamic>);
   }
 
   @protected
@@ -2935,19 +7418,156 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
   }
 
   @protected
-  ConfirmationStatus
-      dco_decode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerConfirmationStatus(
+  AddressData
+      dco_decode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerAddressData(
           dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
-    return ConfirmationStatusImpl.frbInternalDcoDecode(raw as List<dynamic>);
+    return AddressDataImpl.frbInternalDcoDecode(raw as List<dynamic>);
   }
 
   @protected
-  FfiBuilder
-      dco_decode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerFfiBuilder(
+  BitcoinAddress
+      dco_decode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerBitcoinAddress(
           dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
-    return FfiBuilderImpl.frbInternalDcoDecode(raw as List<dynamic>);
+    return BitcoinAddressImpl.frbInternalDcoDecode(raw as List<dynamic>);
+  }
+
+  @protected
+  BitcoinAddressInner
+      dco_decode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerBitcoinAddressInner(
+          dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return BitcoinAddressInnerImpl.frbInternalDcoDecode(raw as List<dynamic>);
+  }
+
+  @protected
+  BitcoinTransactionInner
+      dco_decode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerBitcoinTransactionInner(
+          dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return BitcoinTransactionInnerImpl.frbInternalDcoDecode(
+        raw as List<dynamic>);
+  }
+
+  @protected
+  Bolt11Payment
+      dco_decode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerBolt11Payment(
+          dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return Bolt11PaymentImpl.frbInternalDcoDecode(raw as List<dynamic>);
+  }
+
+  @protected
+  Bolt12Payment
+      dco_decode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerBolt12Payment(
+          dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return Bolt12PaymentImpl.frbInternalDcoDecode(raw as List<dynamic>);
+  }
+
+  @protected
+  Builder
+      dco_decode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerBuilder(
+          dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return BuilderImpl.frbInternalDcoDecode(raw as List<dynamic>);
+  }
+
+  @protected
+  ChainDataSourceConfig
+      dco_decode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerChainDataSourceConfig(
+          dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return ChainDataSourceConfigImpl.frbInternalDcoDecode(raw as List<dynamic>);
+  }
+
+  @protected
+  ChannelConfig
+      dco_decode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerChannelConfig(
+          dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return ChannelConfigImpl.frbInternalDcoDecode(raw as List<dynamic>);
+  }
+
+  @protected
+  ChannelDetails
+      dco_decode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerChannelDetails(
+          dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return ChannelDetailsImpl.frbInternalDcoDecode(raw as List<dynamic>);
+  }
+
+  @protected
+  EntropySourceConfig
+      dco_decode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerEntropySourceConfig(
+          dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return EntropySourceConfigImpl.frbInternalDcoDecode(raw as List<dynamic>);
+  }
+
+  @protected
+  Event
+      dco_decode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerEvent(
+          dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return EventImpl.frbInternalDcoDecode(raw as List<dynamic>);
+  }
+
+  @protected
+  GossipSourceConfig
+      dco_decode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerGossipSourceConfig(
+          dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return GossipSourceConfigImpl.frbInternalDcoDecode(raw as List<dynamic>);
+  }
+
+  @protected
+  LightningBalance
+      dco_decode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerLightningBalance(
+          dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return LightningBalanceImpl.frbInternalDcoDecode(raw as List<dynamic>);
+  }
+
+  @protected
+  MaxDustHtlcExposure
+      dco_decode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerMaxDustHTLCExposure(
+          dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return MaxDustHtlcExposureImpl.frbInternalDcoDecode(raw as List<dynamic>);
+  }
+
+  @protected
+  NetworkGraph
+      dco_decode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerNetworkGraph(
+          dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return NetworkGraphImpl.frbInternalDcoDecode(raw as List<dynamic>);
+  }
+
+  @protected
+  Node
+      dco_decode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerNode(
+          dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return NodeImpl.frbInternalDcoDecode(raw as List<dynamic>);
+  }
+
+  @protected
+  OnChainPayment
+      dco_decode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerOnChainPayment(
+          dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return OnChainPaymentImpl.frbInternalDcoDecode(raw as List<dynamic>);
+  }
+
+  @protected
+  PaymentDetails
+      dco_decode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPaymentDetails(
+          dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return PaymentDetailsImpl.frbInternalDcoDecode(raw as List<dynamic>);
   }
 
   @protected
@@ -2959,54 +7579,73 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
   }
 
   @protected
-  Builder dco_decode_RustOpaque_ldk_nodeBuilder(dynamic raw) {
+  PeerDetails
+      dco_decode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPeerDetails(
+          dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
-    return BuilderImpl.frbInternalDcoDecode(raw as List<dynamic>);
+    return PeerDetailsImpl.frbInternalDcoDecode(raw as List<dynamic>);
   }
 
   @protected
-  Node dco_decode_RustOpaque_ldk_nodeNode(dynamic raw) {
+  PendingSweepBalance
+      dco_decode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPendingSweepBalance(
+          dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
-    return NodeImpl.frbInternalDcoDecode(raw as List<dynamic>);
+    return PendingSweepBalanceImpl.frbInternalDcoDecode(raw as List<dynamic>);
   }
 
   @protected
-  NetworkGraph dco_decode_RustOpaque_ldk_nodegraphNetworkGraph(dynamic raw) {
+  QrPaymentResult
+      dco_decode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerQrPaymentResult(
+          dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
-    return NetworkGraphImpl.frbInternalDcoDecode(raw as List<dynamic>);
+    return QrPaymentResultImpl.frbInternalDcoDecode(raw as List<dynamic>);
   }
 
   @protected
-  Bolt11Payment dco_decode_RustOpaque_ldk_nodepaymentBolt11Payment(
-      dynamic raw) {
+  SocketAddress
+      dco_decode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSocketAddress(
+          dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
-    return Bolt11PaymentImpl.frbInternalDcoDecode(raw as List<dynamic>);
+    return SocketAddressImpl.frbInternalDcoDecode(raw as List<dynamic>);
   }
 
   @protected
-  Bolt12Payment dco_decode_RustOpaque_ldk_nodepaymentBolt12Payment(
-      dynamic raw) {
-    // Codec=Dco (DartCObject based), see doc to use other codecs
-    return Bolt12PaymentImpl.frbInternalDcoDecode(raw as List<dynamic>);
-  }
-
-  @protected
-  OnchainPayment dco_decode_RustOpaque_ldk_nodepaymentOnchainPayment(
-      dynamic raw) {
-    // Codec=Dco (DartCObject based), see doc to use other codecs
-    return OnchainPaymentImpl.frbInternalDcoDecode(raw as List<dynamic>);
-  }
-
-  @protected
-  SpontaneousPayment dco_decode_RustOpaque_ldk_nodepaymentSpontaneousPayment(
-      dynamic raw) {
+  SpontaneousPayment
+      dco_decode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSpontaneousPayment(
+          dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     return SpontaneousPaymentImpl.frbInternalDcoDecode(raw as List<dynamic>);
   }
 
   @protected
-  UnifiedQrPayment dco_decode_RustOpaque_ldk_nodepaymentUnifiedQrPayment(
-      dynamic raw) {
+  TaprootSpendInfo
+      dco_decode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerTaprootSpendInfo(
+          dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return TaprootSpendInfoImpl.frbInternalDcoDecode(raw as List<dynamic>);
+  }
+
+  @protected
+  TaprootSpendInfoInner
+      dco_decode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerTaprootSpendInfoInner(
+          dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return TaprootSpendInfoInnerImpl.frbInternalDcoDecode(raw as List<dynamic>);
+  }
+
+  @protected
+  Transaction
+      dco_decode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerTransaction(
+          dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return TransactionImpl.frbInternalDcoDecode(raw as List<dynamic>);
+  }
+
+  @protected
+  UnifiedQrPayment
+      dco_decode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerUnifiedQrPayment(
+          dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     return UnifiedQrPaymentImpl.frbInternalDcoDecode(raw as List<dynamic>);
   }
@@ -3024,17 +7663,6 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
   }
 
   @protected
-  Address dco_decode_address(dynamic raw) {
-    // Codec=Dco (DartCObject based), see doc to use other codecs
-    final arr = raw as List<dynamic>;
-    if (arr.length != 1)
-      throw Exception('unexpected arr length: expect 1 but see ${arr.length}');
-    return Address(
-      s: dco_decode_String(arr[0]),
-    );
-  }
-
-  @protected
   AnchorChannelsConfig dco_decode_anchor_channels_config(dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     final arr = raw as List<dynamic>;
@@ -3043,19 +7671,6 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
     return AnchorChannelsConfig(
       trustedPeersNoReserve: dco_decode_list_public_key(arr[0]),
       perChannelReserveSats: dco_decode_u_64(arr[1]),
-    );
-  }
-
-  @protected
-  BackgroundSyncConfig dco_decode_background_sync_config(dynamic raw) {
-    // Codec=Dco (DartCObject based), see doc to use other codecs
-    final arr = raw as List<dynamic>;
-    if (arr.length != 3)
-      throw Exception('unexpected arr length: expect 3 but see ${arr.length}');
-    return BackgroundSyncConfig(
-      onchainWalletSyncIntervalSecs: dco_decode_u_64(arr[0]),
-      lightningWalletSyncIntervalSecs: dco_decode_u_64(arr[1]),
-      feeRateCacheUpdateIntervalSecs: dco_decode_u_64(arr[2]),
     );
   }
 
@@ -3069,16 +7684,13 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
       totalOnchainBalanceSats: dco_decode_u_64(arr[0]),
       spendableOnchainBalanceSats: dco_decode_u_64(arr[1]),
       totalLightningBalanceSats: dco_decode_u_64(arr[2]),
-      lightningBalances: dco_decode_list_lightning_balance(arr[3]),
+      lightningBalances:
+          dco_decode_list_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerLightningBalance(
+              arr[3]),
       pendingBalancesFromChannelClosures:
-          dco_decode_list_pending_sweep_balance(arr[4]),
+          dco_decode_list_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPendingSweepBalance(
+              arr[4]),
     );
-  }
-
-  @protected
-  BalanceSource dco_decode_balance_source(dynamic raw) {
-    // Codec=Dco (DartCObject based), see doc to use other codecs
-    return BalanceSource.values[raw as int];
   }
 
   @protected
@@ -3116,44 +7728,63 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
   }
 
   @protected
-  Bolt12ParseError dco_decode_bolt_12_parse_error(dynamic raw) {
-    // Codec=Dco (DartCObject based), see doc to use other codecs
-    switch (raw[0]) {
-      case 0:
-        return Bolt12ParseError_InvalidContinuation();
-      case 1:
-        return Bolt12ParseError_InvalidBech32Hrp();
-      case 2:
-        return Bolt12ParseError_Bech32(
-          dco_decode_String(raw[1]),
-        );
-      case 3:
-        return Bolt12ParseError_Decode(
-          dco_decode_box_autoadd_decode_error(raw[1]),
-        );
-      case 4:
-        return Bolt12ParseError_InvalidSemantics(
-          dco_decode_String(raw[1]),
-        );
-      case 5:
-        return Bolt12ParseError_InvalidSignature(
-          dco_decode_String(raw[1]),
-        );
-      default:
-        throw Exception("unreachable");
-    }
-  }
-
-  @protected
   bool dco_decode_bool(dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     return raw as bool;
   }
 
   @protected
-  Address dco_decode_box_autoadd_address(dynamic raw) {
+  ChainDataSourceConfig
+      dco_decode_box_autoadd_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerChainDataSourceConfig(
+          dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
-    return dco_decode_address(raw);
+    return dco_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerChainDataSourceConfig(
+        raw);
+  }
+
+  @protected
+  ChannelConfig
+      dco_decode_box_autoadd_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerChannelConfig(
+          dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return dco_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerChannelConfig(
+        raw);
+  }
+
+  @protected
+  EntropySourceConfig
+      dco_decode_box_autoadd_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerEntropySourceConfig(
+          dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return dco_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerEntropySourceConfig(
+        raw);
+  }
+
+  @protected
+  Event
+      dco_decode_box_autoadd_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerEvent(
+          dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return dco_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerEvent(
+        raw);
+  }
+
+  @protected
+  GossipSourceConfig
+      dco_decode_box_autoadd_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerGossipSourceConfig(
+          dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return dco_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerGossipSourceConfig(
+        raw);
+  }
+
+  @protected
+  PaymentDetails
+      dco_decode_box_autoadd_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPaymentDetails(
+          dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return dco_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPaymentDetails(
+        raw);
   }
 
   @protected
@@ -3164,47 +7795,9 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
   }
 
   @protected
-  BackgroundSyncConfig dco_decode_box_autoadd_background_sync_config(
-      dynamic raw) {
-    // Codec=Dco (DartCObject based), see doc to use other codecs
-    return dco_decode_background_sync_config(raw);
-  }
-
-  @protected
   Bolt11Invoice dco_decode_box_autoadd_bolt_11_invoice(dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     return dco_decode_bolt_11_invoice(raw);
-  }
-
-  @protected
-  Bolt12ParseError dco_decode_box_autoadd_bolt_12_parse_error(dynamic raw) {
-    // Codec=Dco (DartCObject based), see doc to use other codecs
-    return dco_decode_bolt_12_parse_error(raw);
-  }
-
-  @protected
-  bool dco_decode_box_autoadd_bool(dynamic raw) {
-    // Codec=Dco (DartCObject based), see doc to use other codecs
-    return raw as bool;
-  }
-
-  @protected
-  ChainDataSourceConfig dco_decode_box_autoadd_chain_data_source_config(
-      dynamic raw) {
-    // Codec=Dco (DartCObject based), see doc to use other codecs
-    return dco_decode_chain_data_source_config(raw);
-  }
-
-  @protected
-  ChannelConfig dco_decode_box_autoadd_channel_config(dynamic raw) {
-    // Codec=Dco (DartCObject based), see doc to use other codecs
-    return dco_decode_channel_config(raw);
-  }
-
-  @protected
-  ChannelId dco_decode_box_autoadd_channel_id(dynamic raw) {
-    // Codec=Dco (DartCObject based), see doc to use other codecs
-    return dco_decode_channel_id(raw);
   }
 
   @protected
@@ -3220,108 +7813,15 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
   }
 
   @protected
-  ClosureReason dco_decode_box_autoadd_closure_reason(dynamic raw) {
-    // Codec=Dco (DartCObject based), see doc to use other codecs
-    return dco_decode_closure_reason(raw);
-  }
-
-  @protected
   Config dco_decode_box_autoadd_config(dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     return dco_decode_config(raw);
   }
 
   @protected
-  DecodeError dco_decode_box_autoadd_decode_error(dynamic raw) {
-    // Codec=Dco (DartCObject based), see doc to use other codecs
-    return dco_decode_decode_error(raw);
-  }
-
-  @protected
-  ElectrumSyncConfig dco_decode_box_autoadd_electrum_sync_config(dynamic raw) {
-    // Codec=Dco (DartCObject based), see doc to use other codecs
-    return dco_decode_electrum_sync_config(raw);
-  }
-
-  @protected
-  EntropySourceConfig dco_decode_box_autoadd_entropy_source_config(
-      dynamic raw) {
-    // Codec=Dco (DartCObject based), see doc to use other codecs
-    return dco_decode_entropy_source_config(raw);
-  }
-
-  @protected
-  EsploraSyncConfig dco_decode_box_autoadd_esplora_sync_config(dynamic raw) {
-    // Codec=Dco (DartCObject based), see doc to use other codecs
-    return dco_decode_esplora_sync_config(raw);
-  }
-
-  @protected
-  Event dco_decode_box_autoadd_event(dynamic raw) {
-    // Codec=Dco (DartCObject based), see doc to use other codecs
-    return dco_decode_event(raw);
-  }
-
-  @protected
-  FfiBolt11Payment dco_decode_box_autoadd_ffi_bolt_11_payment(dynamic raw) {
-    // Codec=Dco (DartCObject based), see doc to use other codecs
-    return dco_decode_ffi_bolt_11_payment(raw);
-  }
-
-  @protected
-  FfiBolt12Payment dco_decode_box_autoadd_ffi_bolt_12_payment(dynamic raw) {
-    // Codec=Dco (DartCObject based), see doc to use other codecs
-    return dco_decode_ffi_bolt_12_payment(raw);
-  }
-
-  @protected
   FfiLogRecord dco_decode_box_autoadd_ffi_log_record(dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     return dco_decode_ffi_log_record(raw);
-  }
-
-  @protected
-  FfiMnemonic dco_decode_box_autoadd_ffi_mnemonic(dynamic raw) {
-    // Codec=Dco (DartCObject based), see doc to use other codecs
-    return dco_decode_ffi_mnemonic(raw);
-  }
-
-  @protected
-  FfiNetworkGraph dco_decode_box_autoadd_ffi_network_graph(dynamic raw) {
-    // Codec=Dco (DartCObject based), see doc to use other codecs
-    return dco_decode_ffi_network_graph(raw);
-  }
-
-  @protected
-  FfiNode dco_decode_box_autoadd_ffi_node(dynamic raw) {
-    // Codec=Dco (DartCObject based), see doc to use other codecs
-    return dco_decode_ffi_node(raw);
-  }
-
-  @protected
-  FfiOnChainPayment dco_decode_box_autoadd_ffi_on_chain_payment(dynamic raw) {
-    // Codec=Dco (DartCObject based), see doc to use other codecs
-    return dco_decode_ffi_on_chain_payment(raw);
-  }
-
-  @protected
-  FfiSpontaneousPayment dco_decode_box_autoadd_ffi_spontaneous_payment(
-      dynamic raw) {
-    // Codec=Dco (DartCObject based), see doc to use other codecs
-    return dco_decode_ffi_spontaneous_payment(raw);
-  }
-
-  @protected
-  FfiUnifiedQrPayment dco_decode_box_autoadd_ffi_unified_qr_payment(
-      dynamic raw) {
-    // Codec=Dco (DartCObject based), see doc to use other codecs
-    return dco_decode_ffi_unified_qr_payment(raw);
-  }
-
-  @protected
-  GossipSourceConfig dco_decode_box_autoadd_gossip_source_config(dynamic raw) {
-    // Codec=Dco (DartCObject based), see doc to use other codecs
-    return dco_decode_gossip_source_config(raw);
   }
 
   @protected
@@ -3338,10 +7838,9 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
   }
 
   @protected
-  MaxTotalRoutingFeeLimit dco_decode_box_autoadd_max_total_routing_fee_limit(
-      dynamic raw) {
+  Mnemonic dco_decode_box_autoadd_mnemonic(dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
-    return dco_decode_max_total_routing_fee_limit(raw);
+    return dco_decode_mnemonic(raw);
   }
 
   @protected
@@ -3382,19 +7881,6 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
   }
 
   @protected
-  PaymentDetails dco_decode_box_autoadd_payment_details(dynamic raw) {
-    // Codec=Dco (DartCObject based), see doc to use other codecs
-    return dco_decode_payment_details(raw);
-  }
-
-  @protected
-  PaymentFailureReason dco_decode_box_autoadd_payment_failure_reason(
-      dynamic raw) {
-    // Codec=Dco (DartCObject based), see doc to use other codecs
-    return dco_decode_payment_failure_reason(raw);
-  }
-
-  @protected
   PaymentHash dco_decode_box_autoadd_payment_hash(dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     return dco_decode_payment_hash(raw);
@@ -3413,6 +7899,12 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
   }
 
   @protected
+  Psbt dco_decode_box_autoadd_psbt(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return dco_decode_psbt(raw);
+  }
+
+  @protected
   PublicKey dco_decode_box_autoadd_public_key(dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     return dco_decode_public_key(raw);
@@ -3425,21 +7917,15 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
   }
 
   @protected
+  ScriptBuf dco_decode_box_autoadd_script_buf(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return dco_decode_script_buf(raw);
+  }
+
+  @protected
   SendingParameters dco_decode_box_autoadd_sending_parameters(dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     return dco_decode_sending_parameters(raw);
-  }
-
-  @protected
-  SocketAddress dco_decode_box_autoadd_socket_address(dynamic raw) {
-    // Codec=Dco (DartCObject based), see doc to use other codecs
-    return dco_decode_socket_address(raw);
-  }
-
-  @protected
-  Txid dco_decode_box_autoadd_txid(dynamic raw) {
-    // Codec=Dco (DartCObject based), see doc to use other codecs
-    return dco_decode_txid(raw);
   }
 
   @protected
@@ -3470,90 +7956,6 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
   UserChannelId dco_decode_box_autoadd_user_channel_id(dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     return dco_decode_user_channel_id(raw);
-  }
-
-  @protected
-  ChainDataSourceConfig dco_decode_chain_data_source_config(dynamic raw) {
-    // Codec=Dco (DartCObject based), see doc to use other codecs
-    switch (raw[0]) {
-      case 0:
-        return ChainDataSourceConfig_Esplora(
-          serverUrl: dco_decode_String(raw[1]),
-          syncConfig: dco_decode_opt_box_autoadd_esplora_sync_config(raw[2]),
-        );
-      case 1:
-        return ChainDataSourceConfig_Electrum(
-          serverUrl: dco_decode_String(raw[1]),
-          syncConfig: dco_decode_opt_box_autoadd_electrum_sync_config(raw[2]),
-        );
-      case 2:
-        return ChainDataSourceConfig_BitcoindRpc(
-          rpcHost: dco_decode_String(raw[1]),
-          rpcPort: dco_decode_u_16(raw[2]),
-          rpcUser: dco_decode_String(raw[3]),
-          rpcPassword: dco_decode_String(raw[4]),
-        );
-      default:
-        throw Exception("unreachable");
-    }
-  }
-
-  @protected
-  ChannelConfig dco_decode_channel_config(dynamic raw) {
-    // Codec=Dco (DartCObject based), see doc to use other codecs
-    final arr = raw as List<dynamic>;
-    if (arr.length != 6)
-      throw Exception('unexpected arr length: expect 6 but see ${arr.length}');
-    return ChannelConfig(
-      forwardingFeeProportionalMillionths: dco_decode_u_32(arr[0]),
-      forwardingFeeBaseMsat: dco_decode_u_32(arr[1]),
-      cltvExpiryDelta: dco_decode_u_16(arr[2]),
-      maxDustHtlcExposure: dco_decode_max_dust_htlc_exposure(arr[3]),
-      forceCloseAvoidanceMaxFeeSatoshis: dco_decode_u_64(arr[4]),
-      acceptUnderpayingHtlcs: dco_decode_bool(arr[5]),
-    );
-  }
-
-  @protected
-  ChannelDetails dco_decode_channel_details(dynamic raw) {
-    // Codec=Dco (DartCObject based), see doc to use other codecs
-    final arr = raw as List<dynamic>;
-    if (arr.length != 27)
-      throw Exception('unexpected arr length: expect 27 but see ${arr.length}');
-    return ChannelDetails(
-      channelId: dco_decode_channel_id(arr[0]),
-      counterpartyNodeId: dco_decode_public_key(arr[1]),
-      fundingTxo: dco_decode_opt_box_autoadd_out_point(arr[2]),
-      channelValueSats: dco_decode_u_64(arr[3]),
-      unspendablePunishmentReserve: dco_decode_opt_box_autoadd_u_64(arr[4]),
-      userChannelId: dco_decode_user_channel_id(arr[5]),
-      feerateSatPer1000Weight: dco_decode_u_32(arr[6]),
-      outboundCapacityMsat: dco_decode_u_64(arr[7]),
-      inboundCapacityMsat: dco_decode_u_64(arr[8]),
-      confirmationsRequired: dco_decode_opt_box_autoadd_u_32(arr[9]),
-      confirmations: dco_decode_opt_box_autoadd_u_32(arr[10]),
-      isOutbound: dco_decode_bool(arr[11]),
-      isChannelReady: dco_decode_bool(arr[12]),
-      isUsable: dco_decode_bool(arr[13]),
-      cltvExpiryDelta: dco_decode_opt_box_autoadd_u_16(arr[14]),
-      counterpartyUnspendablePunishmentReserve: dco_decode_u_64(arr[15]),
-      counterpartyOutboundHtlcMinimumMsat:
-          dco_decode_opt_box_autoadd_u_64(arr[16]),
-      counterpartyOutboundHtlcMaximumMsat:
-          dco_decode_opt_box_autoadd_u_64(arr[17]),
-      counterpartyForwardingInfoFeeBaseMsat:
-          dco_decode_opt_box_autoadd_u_32(arr[18]),
-      counterpartyForwardingInfoFeeProportionalMillionths:
-          dco_decode_opt_box_autoadd_u_32(arr[19]),
-      counterpartyForwardingInfoCltvExpiryDelta:
-          dco_decode_opt_box_autoadd_u_16(arr[20]),
-      nextOutboundHtlcLimitMsat: dco_decode_u_64(arr[21]),
-      nextOutboundHtlcMinimumMsat: dco_decode_u_64(arr[22]),
-      forceCloseSpendDelay: dco_decode_opt_box_autoadd_u_16(arr[23]),
-      inboundHtlcMinimumMsat: dco_decode_u_64(arr[24]),
-      inboundHtlcMaximumMsat: dco_decode_opt_box_autoadd_u_64(arr[25]),
-      config: dco_decode_channel_config(arr[26]),
-    );
   }
 
   @protected
@@ -3599,52 +8001,6 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
   }
 
   @protected
-  ClosureReason dco_decode_closure_reason(dynamic raw) {
-    // Codec=Dco (DartCObject based), see doc to use other codecs
-    switch (raw[0]) {
-      case 0:
-        return ClosureReason_PeerFeerateTooLow(
-          peerFeerateSatPerKw: dco_decode_u_32(raw[1]),
-          requiredFeerateSatPerKw: dco_decode_u_32(raw[2]),
-        );
-      case 1:
-        return ClosureReason_CounterpartyForceClosed(
-          peerMsg: dco_decode_String(raw[1]),
-        );
-      case 2:
-        return ClosureReason_HolderForceClosed(
-          broadcastedLatestTxn: dco_decode_opt_box_autoadd_bool(raw[1]),
-        );
-      case 3:
-        return ClosureReason_LegacyCooperativeClosure();
-      case 4:
-        return ClosureReason_CounterpartyInitiatedCooperativeClosure();
-      case 5:
-        return ClosureReason_LocallyInitiatedCooperativeClosure();
-      case 6:
-        return ClosureReason_CommitmentTxConfirmed();
-      case 7:
-        return ClosureReason_FundingTimedOut();
-      case 8:
-        return ClosureReason_ProcessingError(
-          err: dco_decode_String(raw[1]),
-        );
-      case 9:
-        return ClosureReason_DisconnectedPeer();
-      case 10:
-        return ClosureReason_OutdatedChannelManager();
-      case 11:
-        return ClosureReason_CounterpartyCoopClosedUnfundedChannel();
-      case 12:
-        return ClosureReason_FundingBatchClosure();
-      case 13:
-        return ClosureReason_HTLCsTimedOut();
-      default:
-        throw Exception("unreachable");
-    }
-  }
-
-  @protected
   Config dco_decode_config(dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     final arr = raw as List<dynamic>;
@@ -3653,8 +8009,12 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
     return Config(
       storageDirPath: dco_decode_String(arr[0]),
       network: dco_decode_network(arr[1]),
-      listeningAddresses: dco_decode_opt_list_socket_address(arr[2]),
-      announcementAddresses: dco_decode_opt_list_socket_address(arr[3]),
+      listeningAddresses:
+          dco_decode_opt_list_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSocketAddress(
+              arr[2]),
+      announcementAddresses:
+          dco_decode_opt_list_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSocketAddress(
+              arr[3]),
       nodeAlias: dco_decode_opt_box_autoadd_node_alias(arr[4]),
       trustedPeers0Conf: dco_decode_list_public_key(arr[5]),
       probingLiquidityLimitMultiplier: dco_decode_u_64(arr[6]),
@@ -3677,184 +8037,6 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
   }
 
   @protected
-  DecodeError dco_decode_decode_error(dynamic raw) {
-    // Codec=Dco (DartCObject based), see doc to use other codecs
-    switch (raw[0]) {
-      case 0:
-        return DecodeError_UnknownVersion();
-      case 1:
-        return DecodeError_UnknownRequiredFeature();
-      case 2:
-        return DecodeError_InvalidValue();
-      case 3:
-        return DecodeError_ShortRead();
-      case 4:
-        return DecodeError_BadLengthDescriptor();
-      case 5:
-        return DecodeError_Io(
-          dco_decode_String(raw[1]),
-        );
-      case 6:
-        return DecodeError_UnsupportedCompression();
-      case 7:
-        return DecodeError_DangerousValue();
-      default:
-        throw Exception("unreachable");
-    }
-  }
-
-  @protected
-  ElectrumSyncConfig dco_decode_electrum_sync_config(dynamic raw) {
-    // Codec=Dco (DartCObject based), see doc to use other codecs
-    final arr = raw as List<dynamic>;
-    if (arr.length != 1)
-      throw Exception('unexpected arr length: expect 1 but see ${arr.length}');
-    return ElectrumSyncConfig(
-      backgroundSyncConfig:
-          dco_decode_opt_box_autoadd_background_sync_config(arr[0]),
-    );
-  }
-
-  @protected
-  EntropySourceConfig dco_decode_entropy_source_config(dynamic raw) {
-    // Codec=Dco (DartCObject based), see doc to use other codecs
-    switch (raw[0]) {
-      case 0:
-        return EntropySourceConfig_SeedFile(
-          dco_decode_String(raw[1]),
-        );
-      case 1:
-        return EntropySourceConfig_SeedBytes(
-          dco_decode_u_8_array_64(raw[1]),
-        );
-      case 2:
-        return EntropySourceConfig_Bip39Mnemonic(
-          mnemonic: dco_decode_box_autoadd_ffi_mnemonic(raw[1]),
-          passphrase: dco_decode_opt_String(raw[2]),
-        );
-      default:
-        throw Exception("unreachable");
-    }
-  }
-
-  @protected
-  EsploraSyncConfig dco_decode_esplora_sync_config(dynamic raw) {
-    // Codec=Dco (DartCObject based), see doc to use other codecs
-    final arr = raw as List<dynamic>;
-    if (arr.length != 1)
-      throw Exception('unexpected arr length: expect 1 but see ${arr.length}');
-    return EsploraSyncConfig(
-      backgroundSyncConfig:
-          dco_decode_opt_box_autoadd_background_sync_config(arr[0]),
-    );
-  }
-
-  @protected
-  Event dco_decode_event(dynamic raw) {
-    // Codec=Dco (DartCObject based), see doc to use other codecs
-    switch (raw[0]) {
-      case 0:
-        return Event_PaymentClaimable(
-          paymentId: dco_decode_box_autoadd_payment_id(raw[1]),
-          paymentHash: dco_decode_box_autoadd_payment_hash(raw[2]),
-          claimableAmountMsat: dco_decode_u_64(raw[3]),
-          claimDeadline: dco_decode_opt_box_autoadd_u_32(raw[4]),
-          customRecords: dco_decode_list_custom_tlv_record(raw[5]),
-        );
-      case 1:
-        return Event_PaymentSuccessful(
-          paymentId: dco_decode_opt_box_autoadd_payment_id(raw[1]),
-          paymentHash: dco_decode_box_autoadd_payment_hash(raw[2]),
-          feePaidMsat: dco_decode_opt_box_autoadd_u_64(raw[3]),
-          preimage: dco_decode_opt_box_autoadd_payment_preimage(raw[4]),
-        );
-      case 2:
-        return Event_PaymentFailed(
-          paymentId: dco_decode_opt_box_autoadd_payment_id(raw[1]),
-          paymentHash: dco_decode_opt_box_autoadd_payment_hash(raw[2]),
-          reason: dco_decode_opt_box_autoadd_payment_failure_reason(raw[3]),
-        );
-      case 3:
-        return Event_PaymentReceived(
-          paymentId: dco_decode_opt_box_autoadd_payment_id(raw[1]),
-          paymentHash: dco_decode_box_autoadd_payment_hash(raw[2]),
-          amountMsat: dco_decode_u_64(raw[3]),
-          customRecords: dco_decode_list_custom_tlv_record(raw[4]),
-        );
-      case 4:
-        return Event_ChannelPending(
-          channelId: dco_decode_box_autoadd_channel_id(raw[1]),
-          userChannelId: dco_decode_box_autoadd_user_channel_id(raw[2]),
-          formerTemporaryChannelId: dco_decode_box_autoadd_channel_id(raw[3]),
-          counterpartyNodeId: dco_decode_box_autoadd_public_key(raw[4]),
-          fundingTxo: dco_decode_box_autoadd_out_point(raw[5]),
-        );
-      case 5:
-        return Event_ChannelReady(
-          channelId: dco_decode_box_autoadd_channel_id(raw[1]),
-          userChannelId: dco_decode_box_autoadd_user_channel_id(raw[2]),
-          counterpartyNodeId: dco_decode_opt_box_autoadd_public_key(raw[3]),
-        );
-      case 6:
-        return Event_ChannelClosed(
-          channelId: dco_decode_box_autoadd_channel_id(raw[1]),
-          userChannelId: dco_decode_box_autoadd_user_channel_id(raw[2]),
-          counterpartyNodeId: dco_decode_opt_box_autoadd_public_key(raw[3]),
-          reason: dco_decode_opt_box_autoadd_closure_reason(raw[4]),
-        );
-      case 7:
-        return Event_PaymentForwarded(
-          prevChannelId: dco_decode_box_autoadd_channel_id(raw[1]),
-          nextChannelId: dco_decode_box_autoadd_channel_id(raw[2]),
-          prevUserChannelId: dco_decode_opt_box_autoadd_user_channel_id(raw[3]),
-          nextUserChannelId: dco_decode_opt_box_autoadd_user_channel_id(raw[4]),
-          prevNodeId: dco_decode_opt_box_autoadd_public_key(raw[5]),
-          nextNodeId: dco_decode_opt_box_autoadd_public_key(raw[6]),
-          totalFeeEarnedMsat: dco_decode_opt_box_autoadd_u_64(raw[7]),
-          skimmedFeeMsat: dco_decode_opt_box_autoadd_u_64(raw[8]),
-          claimFromOnchainTx: dco_decode_bool(raw[9]),
-          outboundAmountForwardedMsat: dco_decode_opt_box_autoadd_u_64(raw[10]),
-        );
-      default:
-        throw Exception("unreachable");
-    }
-  }
-
-  @protected
-  FfiBolt11Payment dco_decode_ffi_bolt_11_payment(dynamic raw) {
-    // Codec=Dco (DartCObject based), see doc to use other codecs
-    final arr = raw as List<dynamic>;
-    if (arr.length != 1)
-      throw Exception('unexpected arr length: expect 1 but see ${arr.length}');
-    return FfiBolt11Payment(
-      opaque: dco_decode_RustOpaque_ldk_nodepaymentBolt11Payment(arr[0]),
-    );
-  }
-
-  @protected
-  FfiBolt12Payment dco_decode_ffi_bolt_12_payment(dynamic raw) {
-    // Codec=Dco (DartCObject based), see doc to use other codecs
-    final arr = raw as List<dynamic>;
-    if (arr.length != 1)
-      throw Exception('unexpected arr length: expect 1 but see ${arr.length}');
-    return FfiBolt12Payment(
-      opaque: dco_decode_RustOpaque_ldk_nodepaymentBolt12Payment(arr[0]),
-    );
-  }
-
-  @protected
-  FfiBuilderError dco_decode_ffi_builder_error(dynamic raw) {
-    // Codec=Dco (DartCObject based), see doc to use other codecs
-    return FfiBuilderError.values[raw as int];
-  }
-
-  @protected
-  FfiCreationError dco_decode_ffi_creation_error(dynamic raw) {
-    // Codec=Dco (DartCObject based), see doc to use other codecs
-    return FfiCreationError.values[raw as int];
-  }
-
-  @protected
   FfiLogRecord dco_decode_ffi_log_record(dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     final arr = raw as List<dynamic>;
@@ -3869,279 +8051,9 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
   }
 
   @protected
-  FfiMnemonic dco_decode_ffi_mnemonic(dynamic raw) {
-    // Codec=Dco (DartCObject based), see doc to use other codecs
-    final arr = raw as List<dynamic>;
-    if (arr.length != 1)
-      throw Exception('unexpected arr length: expect 1 but see ${arr.length}');
-    return FfiMnemonic(
-      seedPhrase: dco_decode_String(arr[0]),
-    );
-  }
-
-  @protected
-  FfiNetworkGraph dco_decode_ffi_network_graph(dynamic raw) {
-    // Codec=Dco (DartCObject based), see doc to use other codecs
-    final arr = raw as List<dynamic>;
-    if (arr.length != 1)
-      throw Exception('unexpected arr length: expect 1 but see ${arr.length}');
-    return FfiNetworkGraph(
-      opaque: dco_decode_RustOpaque_ldk_nodegraphNetworkGraph(arr[0]),
-    );
-  }
-
-  @protected
-  FfiNode dco_decode_ffi_node(dynamic raw) {
-    // Codec=Dco (DartCObject based), see doc to use other codecs
-    final arr = raw as List<dynamic>;
-    if (arr.length != 1)
-      throw Exception('unexpected arr length: expect 1 but see ${arr.length}');
-    return FfiNode(
-      opaque: dco_decode_RustOpaque_ldk_nodeNode(arr[0]),
-    );
-  }
-
-  @protected
-  FfiNodeError dco_decode_ffi_node_error(dynamic raw) {
-    // Codec=Dco (DartCObject based), see doc to use other codecs
-    switch (raw[0]) {
-      case 0:
-        return FfiNodeError_InvalidTxid();
-      case 1:
-        return FfiNodeError_AlreadyRunning();
-      case 2:
-        return FfiNodeError_NotRunning();
-      case 3:
-        return FfiNodeError_OnchainTxCreationFailed();
-      case 4:
-        return FfiNodeError_ConnectionFailed();
-      case 5:
-        return FfiNodeError_InvoiceCreationFailed();
-      case 6:
-        return FfiNodeError_PaymentSendingFailed();
-      case 7:
-        return FfiNodeError_ProbeSendingFailed();
-      case 8:
-        return FfiNodeError_ChannelCreationFailed();
-      case 9:
-        return FfiNodeError_ChannelClosingFailed();
-      case 10:
-        return FfiNodeError_ChannelConfigUpdateFailed();
-      case 11:
-        return FfiNodeError_PersistenceFailed();
-      case 12:
-        return FfiNodeError_WalletOperationFailed();
-      case 13:
-        return FfiNodeError_OnchainTxSigningFailed();
-      case 14:
-        return FfiNodeError_MessageSigningFailed();
-      case 15:
-        return FfiNodeError_TxSyncFailed();
-      case 16:
-        return FfiNodeError_GossipUpdateFailed();
-      case 17:
-        return FfiNodeError_InvalidAddress();
-      case 18:
-        return FfiNodeError_InvalidSocketAddress();
-      case 19:
-        return FfiNodeError_InvalidPublicKey();
-      case 20:
-        return FfiNodeError_InvalidSecretKey();
-      case 21:
-        return FfiNodeError_InvalidPaymentHash();
-      case 22:
-        return FfiNodeError_InvalidPaymentPreimage();
-      case 23:
-        return FfiNodeError_InvalidPaymentSecret();
-      case 24:
-        return FfiNodeError_InvalidAmount();
-      case 25:
-        return FfiNodeError_InvalidInvoice();
-      case 26:
-        return FfiNodeError_InvalidChannelId();
-      case 27:
-        return FfiNodeError_InvalidNetwork();
-      case 28:
-        return FfiNodeError_DuplicatePayment();
-      case 29:
-        return FfiNodeError_InsufficientFunds();
-      case 30:
-        return FfiNodeError_FeerateEstimationUpdateFailed();
-      case 31:
-        return FfiNodeError_LiquidityRequestFailed();
-      case 32:
-        return FfiNodeError_LiquiditySourceUnavailable();
-      case 33:
-        return FfiNodeError_LiquidityFeeTooHigh();
-      case 34:
-        return FfiNodeError_InvalidPaymentId();
-      case 35:
-        return FfiNodeError_Decode(
-          dco_decode_box_autoadd_decode_error(raw[1]),
-        );
-      case 36:
-        return FfiNodeError_Bolt12Parse(
-          dco_decode_box_autoadd_bolt_12_parse_error(raw[1]),
-        );
-      case 37:
-        return FfiNodeError_InvoiceRequestCreationFailed();
-      case 38:
-        return FfiNodeError_OfferCreationFailed();
-      case 39:
-        return FfiNodeError_RefundCreationFailed();
-      case 40:
-        return FfiNodeError_FeerateEstimationUpdateTimeout();
-      case 41:
-        return FfiNodeError_WalletOperationTimeout();
-      case 42:
-        return FfiNodeError_TxSyncTimeout();
-      case 43:
-        return FfiNodeError_GossipUpdateTimeout();
-      case 44:
-        return FfiNodeError_InvalidOfferId();
-      case 45:
-        return FfiNodeError_InvalidNodeId();
-      case 46:
-        return FfiNodeError_InvalidOffer();
-      case 47:
-        return FfiNodeError_InvalidRefund();
-      case 48:
-        return FfiNodeError_UnsupportedCurrency();
-      case 49:
-        return FfiNodeError_UriParameterParsingFailed();
-      case 50:
-        return FfiNodeError_InvalidUri();
-      case 51:
-        return FfiNodeError_InvalidQuantity();
-      case 52:
-        return FfiNodeError_InvalidNodeAlias();
-      case 53:
-        return FfiNodeError_InvalidCustomTlvs();
-      case 54:
-        return FfiNodeError_InvalidDateTime();
-      case 55:
-        return FfiNodeError_InvalidFeeRate();
-      case 56:
-        return FfiNodeError_CreationError(
-          dco_decode_ffi_creation_error(raw[1]),
-        );
-      default:
-        throw Exception("unreachable");
-    }
-  }
-
-  @protected
-  FfiOnChainPayment dco_decode_ffi_on_chain_payment(dynamic raw) {
-    // Codec=Dco (DartCObject based), see doc to use other codecs
-    final arr = raw as List<dynamic>;
-    if (arr.length != 1)
-      throw Exception('unexpected arr length: expect 1 but see ${arr.length}');
-    return FfiOnChainPayment(
-      opaque: dco_decode_RustOpaque_ldk_nodepaymentOnchainPayment(arr[0]),
-    );
-  }
-
-  @protected
-  FfiSpontaneousPayment dco_decode_ffi_spontaneous_payment(dynamic raw) {
-    // Codec=Dco (DartCObject based), see doc to use other codecs
-    final arr = raw as List<dynamic>;
-    if (arr.length != 1)
-      throw Exception('unexpected arr length: expect 1 but see ${arr.length}');
-    return FfiSpontaneousPayment(
-      opaque: dco_decode_RustOpaque_ldk_nodepaymentSpontaneousPayment(arr[0]),
-    );
-  }
-
-  @protected
-  FfiUnifiedQrPayment dco_decode_ffi_unified_qr_payment(dynamic raw) {
-    // Codec=Dco (DartCObject based), see doc to use other codecs
-    final arr = raw as List<dynamic>;
-    if (arr.length != 1)
-      throw Exception('unexpected arr length: expect 1 but see ${arr.length}');
-    return FfiUnifiedQrPayment(
-      opaque: dco_decode_RustOpaque_ldk_nodepaymentUnifiedQrPayment(arr[0]),
-    );
-  }
-
-  @protected
-  GossipSourceConfig dco_decode_gossip_source_config(dynamic raw) {
-    // Codec=Dco (DartCObject based), see doc to use other codecs
-    switch (raw[0]) {
-      case 0:
-        return GossipSourceConfig_P2PNetwork();
-      case 1:
-        return GossipSourceConfig_RapidGossipSync(
-          dco_decode_String(raw[1]),
-        );
-      default:
-        throw Exception("unreachable");
-    }
-  }
-
-  @protected
   int dco_decode_i_32(dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     return raw as int;
-  }
-
-  @protected
-  LightningBalance dco_decode_lightning_balance(dynamic raw) {
-    // Codec=Dco (DartCObject based), see doc to use other codecs
-    switch (raw[0]) {
-      case 0:
-        return LightningBalance_ClaimableOnChannelClose(
-          channelId: dco_decode_box_autoadd_channel_id(raw[1]),
-          counterpartyNodeId: dco_decode_box_autoadd_public_key(raw[2]),
-          amountSatoshis: dco_decode_u_64(raw[3]),
-          transactionFeeSatoshis: dco_decode_u_64(raw[4]),
-          outboundPaymentHtlcRoundedMsat: dco_decode_u_64(raw[5]),
-          outboundForwardedHtlcRoundedMsat: dco_decode_u_64(raw[6]),
-          inboundClaimingHtlcRoundedMsat: dco_decode_u_64(raw[7]),
-          inboundHtlcRoundedMsat: dco_decode_u_64(raw[8]),
-        );
-      case 1:
-        return LightningBalance_ClaimableAwaitingConfirmations(
-          channelId: dco_decode_box_autoadd_channel_id(raw[1]),
-          counterpartyNodeId: dco_decode_box_autoadd_public_key(raw[2]),
-          amountSatoshis: dco_decode_u_64(raw[3]),
-          confirmationHeight: dco_decode_u_32(raw[4]),
-          source: dco_decode_balance_source(raw[5]),
-        );
-      case 2:
-        return LightningBalance_ContentiousClaimable(
-          channelId: dco_decode_box_autoadd_channel_id(raw[1]),
-          counterpartyNodeId: dco_decode_box_autoadd_public_key(raw[2]),
-          amountSatoshis: dco_decode_u_64(raw[3]),
-          timeoutHeight: dco_decode_u_32(raw[4]),
-          paymentHash: dco_decode_box_autoadd_payment_hash(raw[5]),
-          paymentPreimage: dco_decode_box_autoadd_payment_preimage(raw[6]),
-        );
-      case 3:
-        return LightningBalance_MaybeTimeoutClaimableHTLC(
-          channelId: dco_decode_box_autoadd_channel_id(raw[1]),
-          counterpartyNodeId: dco_decode_box_autoadd_public_key(raw[2]),
-          amountSatoshis: dco_decode_u_64(raw[3]),
-          claimableHeight: dco_decode_u_32(raw[4]),
-          paymentHash: dco_decode_box_autoadd_payment_hash(raw[5]),
-          outboundPayment: dco_decode_bool(raw[6]),
-        );
-      case 4:
-        return LightningBalance_MaybePreimageClaimableHTLC(
-          channelId: dco_decode_box_autoadd_channel_id(raw[1]),
-          counterpartyNodeId: dco_decode_box_autoadd_public_key(raw[2]),
-          amountSatoshis: dco_decode_u_64(raw[3]),
-          expiryHeight: dco_decode_u_32(raw[4]),
-          paymentHash: dco_decode_box_autoadd_payment_hash(raw[5]),
-        );
-      case 5:
-        return LightningBalance_CounterpartyRevokedOutputClaimable(
-          channelId: dco_decode_box_autoadd_channel_id(raw[1]),
-          counterpartyNodeId: dco_decode_box_autoadd_public_key(raw[2]),
-          amountSatoshis: dco_decode_u_64(raw[3]),
-        );
-      default:
-        throw Exception("unreachable");
-    }
   }
 
   @protected
@@ -4152,14 +8064,81 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
       throw Exception('unexpected arr length: expect 1 but see ${arr.length}');
     return LiquiditySourceConfig(
       lsps2Service:
-          dco_decode_record_socket_address_public_key_opt_string(arr[0]),
+          dco_decode_record_auto_owned_rust_opaque_flutter_rust_bridgefor_generated_rust_auto_opaque_inner_socket_address_public_key_opt_string(
+              arr[0]),
     );
   }
 
   @protected
-  List<ChannelDetails> dco_decode_list_channel_details(dynamic raw) {
+  List<ChannelDetails>
+      dco_decode_list_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerChannelDetails(
+          dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
-    return (raw as List<dynamic>).map(dco_decode_channel_details).toList();
+    return (raw as List<dynamic>)
+        .map(
+            dco_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerChannelDetails)
+        .toList();
+  }
+
+  @protected
+  List<LightningBalance>
+      dco_decode_list_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerLightningBalance(
+          dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return (raw as List<dynamic>)
+        .map(
+            dco_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerLightningBalance)
+        .toList();
+  }
+
+  @protected
+  List<PaymentDetails>
+      dco_decode_list_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPaymentDetails(
+          dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return (raw as List<dynamic>)
+        .map(
+            dco_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPaymentDetails)
+        .toList();
+  }
+
+  @protected
+  List<PeerDetails>
+      dco_decode_list_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPeerDetails(
+          dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return (raw as List<dynamic>)
+        .map(
+            dco_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPeerDetails)
+        .toList();
+  }
+
+  @protected
+  List<PendingSweepBalance>
+      dco_decode_list_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPendingSweepBalance(
+          dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return (raw as List<dynamic>)
+        .map(
+            dco_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPendingSweepBalance)
+        .toList();
+  }
+
+  @protected
+  List<SocketAddress>
+      dco_decode_list_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSocketAddress(
+          dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return (raw as List<dynamic>)
+        .map(
+            dco_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSocketAddress)
+        .toList();
+  }
+
+  @protected
+  List<String> dco_decode_list_String(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return (raw as List<dynamic>).map(dco_decode_String).toList();
   }
 
   @protected
@@ -4169,35 +8148,15 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
   }
 
   @protected
-  List<LightningBalance> dco_decode_list_lightning_balance(dynamic raw) {
+  List<Uint8List> dco_decode_list_list_prim_u_8_strict(dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
-    return (raw as List<dynamic>).map(dco_decode_lightning_balance).toList();
+    return (raw as List<dynamic>).map(dco_decode_list_prim_u_8_strict).toList();
   }
 
   @protected
   List<NodeId> dco_decode_list_node_id(dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     return (raw as List<dynamic>).map(dco_decode_node_id).toList();
-  }
-
-  @protected
-  List<PaymentDetails> dco_decode_list_payment_details(dynamic raw) {
-    // Codec=Dco (DartCObject based), see doc to use other codecs
-    return (raw as List<dynamic>).map(dco_decode_payment_details).toList();
-  }
-
-  @protected
-  List<PeerDetails> dco_decode_list_peer_details(dynamic raw) {
-    // Codec=Dco (DartCObject based), see doc to use other codecs
-    return (raw as List<dynamic>).map(dco_decode_peer_details).toList();
-  }
-
-  @protected
-  List<PendingSweepBalance> dco_decode_list_pending_sweep_balance(dynamic raw) {
-    // Codec=Dco (DartCObject based), see doc to use other codecs
-    return (raw as List<dynamic>)
-        .map(dco_decode_pending_sweep_balance)
-        .toList();
   }
 
   @protected
@@ -4231,9 +8190,15 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
   }
 
   @protected
-  List<SocketAddress> dco_decode_list_socket_address(dynamic raw) {
+  List<TxIn> dco_decode_list_tx_in(dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
-    return (raw as List<dynamic>).map(dco_decode_socket_address).toList();
+    return (raw as List<dynamic>).map(dco_decode_tx_in).toList();
+  }
+
+  @protected
+  List<TxOut> dco_decode_list_tx_out(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return (raw as List<dynamic>).map(dco_decode_tx_out).toList();
   }
 
   @protected
@@ -4243,47 +8208,14 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
   }
 
   @protected
-  LSPFeeLimits dco_decode_lsp_fee_limits(dynamic raw) {
+  Mnemonic dco_decode_mnemonic(dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     final arr = raw as List<dynamic>;
-    if (arr.length != 2)
-      throw Exception('unexpected arr length: expect 2 but see ${arr.length}');
-    return LSPFeeLimits(
-      maxTotalOpeningFeeMsat: dco_decode_opt_box_autoadd_u_64(arr[0]),
-      maxProportionalOpeningFeePpmMsat: dco_decode_opt_box_autoadd_u_64(arr[1]),
+    if (arr.length != 1)
+      throw Exception('unexpected arr length: expect 1 but see ${arr.length}');
+    return Mnemonic(
+      words: dco_decode_list_String(arr[0]),
     );
-  }
-
-  @protected
-  MaxDustHTLCExposure dco_decode_max_dust_htlc_exposure(dynamic raw) {
-    // Codec=Dco (DartCObject based), see doc to use other codecs
-    switch (raw[0]) {
-      case 0:
-        return MaxDustHTLCExposure_FixedLimitMsat(
-          dco_decode_u_64(raw[1]),
-        );
-      case 1:
-        return MaxDustHTLCExposure_FeeRateMultiplier(
-          dco_decode_u_64(raw[1]),
-        );
-      default:
-        throw Exception("unreachable");
-    }
-  }
-
-  @protected
-  MaxTotalRoutingFeeLimit dco_decode_max_total_routing_fee_limit(dynamic raw) {
-    // Codec=Dco (DartCObject based), see doc to use other codecs
-    switch (raw[0]) {
-      case 0:
-        return MaxTotalRoutingFeeLimit_NoFeeCap();
-      case 1:
-        return MaxTotalRoutingFeeLimit_FeeCap(
-          amountMsat: dco_decode_u_64(raw[1]),
-        );
-      default:
-        throw Exception("unreachable");
-    }
   }
 
   @protected
@@ -4312,7 +8244,9 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
     return NodeAnnouncementInfo(
       lastUpdate: dco_decode_u_32(arr[0]),
       alias: dco_decode_String(arr[1]),
-      addresses: dco_decode_list_socket_address(arr[2]),
+      addresses:
+          dco_decode_list_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSocketAddress(
+              arr[2]),
     );
   }
 
@@ -4375,20 +8309,75 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
   }
 
   @protected
-  OfferId dco_decode_offer_id(dynamic raw) {
-    // Codec=Dco (DartCObject based), see doc to use other codecs
-    final arr = raw as List<dynamic>;
-    if (arr.length != 1)
-      throw Exception('unexpected arr length: expect 1 but see ${arr.length}');
-    return OfferId(
-      field0: dco_decode_u_8_array_32(arr[0]),
-    );
-  }
-
-  @protected
   String? dco_decode_opt_String(dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     return raw == null ? null : dco_decode_String(raw);
+  }
+
+  @protected
+  ChainDataSourceConfig?
+      dco_decode_opt_box_autoadd_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerChainDataSourceConfig(
+          dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return raw == null
+        ? null
+        : dco_decode_box_autoadd_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerChainDataSourceConfig(
+            raw);
+  }
+
+  @protected
+  ChannelConfig?
+      dco_decode_opt_box_autoadd_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerChannelConfig(
+          dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return raw == null
+        ? null
+        : dco_decode_box_autoadd_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerChannelConfig(
+            raw);
+  }
+
+  @protected
+  EntropySourceConfig?
+      dco_decode_opt_box_autoadd_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerEntropySourceConfig(
+          dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return raw == null
+        ? null
+        : dco_decode_box_autoadd_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerEntropySourceConfig(
+            raw);
+  }
+
+  @protected
+  Event?
+      dco_decode_opt_box_autoadd_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerEvent(
+          dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return raw == null
+        ? null
+        : dco_decode_box_autoadd_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerEvent(
+            raw);
+  }
+
+  @protected
+  GossipSourceConfig?
+      dco_decode_opt_box_autoadd_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerGossipSourceConfig(
+          dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return raw == null
+        ? null
+        : dco_decode_box_autoadd_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerGossipSourceConfig(
+            raw);
+  }
+
+  @protected
+  PaymentDetails?
+      dco_decode_opt_box_autoadd_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPaymentDetails(
+          dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return raw == null
+        ? null
+        : dco_decode_box_autoadd_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPaymentDetails(
+            raw);
   }
 
   @protected
@@ -4398,42 +8387,6 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
     return raw == null
         ? null
         : dco_decode_box_autoadd_anchor_channels_config(raw);
-  }
-
-  @protected
-  BackgroundSyncConfig? dco_decode_opt_box_autoadd_background_sync_config(
-      dynamic raw) {
-    // Codec=Dco (DartCObject based), see doc to use other codecs
-    return raw == null
-        ? null
-        : dco_decode_box_autoadd_background_sync_config(raw);
-  }
-
-  @protected
-  bool? dco_decode_opt_box_autoadd_bool(dynamic raw) {
-    // Codec=Dco (DartCObject based), see doc to use other codecs
-    return raw == null ? null : dco_decode_box_autoadd_bool(raw);
-  }
-
-  @protected
-  ChainDataSourceConfig? dco_decode_opt_box_autoadd_chain_data_source_config(
-      dynamic raw) {
-    // Codec=Dco (DartCObject based), see doc to use other codecs
-    return raw == null
-        ? null
-        : dco_decode_box_autoadd_chain_data_source_config(raw);
-  }
-
-  @protected
-  ChannelConfig? dco_decode_opt_box_autoadd_channel_config(dynamic raw) {
-    // Codec=Dco (DartCObject based), see doc to use other codecs
-    return raw == null ? null : dco_decode_box_autoadd_channel_config(raw);
-  }
-
-  @protected
-  ChannelId? dco_decode_opt_box_autoadd_channel_id(dynamic raw) {
-    // Codec=Dco (DartCObject based), see doc to use other codecs
-    return raw == null ? null : dco_decode_box_autoadd_channel_id(raw);
   }
 
   @protected
@@ -4450,52 +8403,6 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
   }
 
   @protected
-  ClosureReason? dco_decode_opt_box_autoadd_closure_reason(dynamic raw) {
-    // Codec=Dco (DartCObject based), see doc to use other codecs
-    return raw == null ? null : dco_decode_box_autoadd_closure_reason(raw);
-  }
-
-  @protected
-  ElectrumSyncConfig? dco_decode_opt_box_autoadd_electrum_sync_config(
-      dynamic raw) {
-    // Codec=Dco (DartCObject based), see doc to use other codecs
-    return raw == null
-        ? null
-        : dco_decode_box_autoadd_electrum_sync_config(raw);
-  }
-
-  @protected
-  EntropySourceConfig? dco_decode_opt_box_autoadd_entropy_source_config(
-      dynamic raw) {
-    // Codec=Dco (DartCObject based), see doc to use other codecs
-    return raw == null
-        ? null
-        : dco_decode_box_autoadd_entropy_source_config(raw);
-  }
-
-  @protected
-  EsploraSyncConfig? dco_decode_opt_box_autoadd_esplora_sync_config(
-      dynamic raw) {
-    // Codec=Dco (DartCObject based), see doc to use other codecs
-    return raw == null ? null : dco_decode_box_autoadd_esplora_sync_config(raw);
-  }
-
-  @protected
-  Event? dco_decode_opt_box_autoadd_event(dynamic raw) {
-    // Codec=Dco (DartCObject based), see doc to use other codecs
-    return raw == null ? null : dco_decode_box_autoadd_event(raw);
-  }
-
-  @protected
-  GossipSourceConfig? dco_decode_opt_box_autoadd_gossip_source_config(
-      dynamic raw) {
-    // Codec=Dco (DartCObject based), see doc to use other codecs
-    return raw == null
-        ? null
-        : dco_decode_box_autoadd_gossip_source_config(raw);
-  }
-
-  @protected
   LiquiditySourceConfig? dco_decode_opt_box_autoadd_liquidity_source_config(
       dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
@@ -4508,15 +8415,6 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
   LogLevel? dco_decode_opt_box_autoadd_log_level(dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     return raw == null ? null : dco_decode_box_autoadd_log_level(raw);
-  }
-
-  @protected
-  MaxTotalRoutingFeeLimit?
-      dco_decode_opt_box_autoadd_max_total_routing_fee_limit(dynamic raw) {
-    // Codec=Dco (DartCObject based), see doc to use other codecs
-    return raw == null
-        ? null
-        : dco_decode_box_autoadd_max_total_routing_fee_limit(raw);
   }
 
   @protected
@@ -4544,45 +8442,6 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
   OutPoint? dco_decode_opt_box_autoadd_out_point(dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     return raw == null ? null : dco_decode_box_autoadd_out_point(raw);
-  }
-
-  @protected
-  PaymentDetails? dco_decode_opt_box_autoadd_payment_details(dynamic raw) {
-    // Codec=Dco (DartCObject based), see doc to use other codecs
-    return raw == null ? null : dco_decode_box_autoadd_payment_details(raw);
-  }
-
-  @protected
-  PaymentFailureReason? dco_decode_opt_box_autoadd_payment_failure_reason(
-      dynamic raw) {
-    // Codec=Dco (DartCObject based), see doc to use other codecs
-    return raw == null
-        ? null
-        : dco_decode_box_autoadd_payment_failure_reason(raw);
-  }
-
-  @protected
-  PaymentHash? dco_decode_opt_box_autoadd_payment_hash(dynamic raw) {
-    // Codec=Dco (DartCObject based), see doc to use other codecs
-    return raw == null ? null : dco_decode_box_autoadd_payment_hash(raw);
-  }
-
-  @protected
-  PaymentId? dco_decode_opt_box_autoadd_payment_id(dynamic raw) {
-    // Codec=Dco (DartCObject based), see doc to use other codecs
-    return raw == null ? null : dco_decode_box_autoadd_payment_id(raw);
-  }
-
-  @protected
-  PaymentPreimage? dco_decode_opt_box_autoadd_payment_preimage(dynamic raw) {
-    // Codec=Dco (DartCObject based), see doc to use other codecs
-    return raw == null ? null : dco_decode_box_autoadd_payment_preimage(raw);
-  }
-
-  @protected
-  PublicKey? dco_decode_opt_box_autoadd_public_key(dynamic raw) {
-    // Codec=Dco (DartCObject based), see doc to use other codecs
-    return raw == null ? null : dco_decode_box_autoadd_public_key(raw);
   }
 
   @protected
@@ -4617,15 +8476,14 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
   }
 
   @protected
-  UserChannelId? dco_decode_opt_box_autoadd_user_channel_id(dynamic raw) {
+  List<SocketAddress>?
+      dco_decode_opt_list_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSocketAddress(
+          dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
-    return raw == null ? null : dco_decode_box_autoadd_user_channel_id(raw);
-  }
-
-  @protected
-  List<SocketAddress>? dco_decode_opt_list_socket_address(dynamic raw) {
-    // Codec=Dco (DartCObject based), see doc to use other codecs
-    return raw == null ? null : dco_decode_list_socket_address(raw);
+    return raw == null
+        ? null
+        : dco_decode_list_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSocketAddress(
+            raw);
   }
 
   @protected
@@ -4641,33 +8499,9 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
   }
 
   @protected
-  PaymentDetails dco_decode_payment_details(dynamic raw) {
-    // Codec=Dco (DartCObject based), see doc to use other codecs
-    final arr = raw as List<dynamic>;
-    if (arr.length != 6)
-      throw Exception('unexpected arr length: expect 6 but see ${arr.length}');
-    return PaymentDetails(
-      id: dco_decode_payment_id(arr[0]),
-      kind:
-          dco_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPaymentKind(
-              arr[1]),
-      amountMsat: dco_decode_opt_box_autoadd_u_64(arr[2]),
-      direction: dco_decode_payment_direction(arr[3]),
-      status: dco_decode_payment_status(arr[4]),
-      latestUpdateTimestamp: dco_decode_u_64(arr[5]),
-    );
-  }
-
-  @protected
   PaymentDirection dco_decode_payment_direction(dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     return PaymentDirection.values[raw as int];
-  }
-
-  @protected
-  PaymentFailureReason dco_decode_payment_failure_reason(dynamic raw) {
-    // Codec=Dco (DartCObject based), see doc to use other codecs
-    return PaymentFailureReason.values[raw as int];
   }
 
   @protected
@@ -4704,62 +8538,20 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
   }
 
   @protected
-  PaymentSecret dco_decode_payment_secret(dynamic raw) {
-    // Codec=Dco (DartCObject based), see doc to use other codecs
-    final arr = raw as List<dynamic>;
-    if (arr.length != 1)
-      throw Exception('unexpected arr length: expect 1 but see ${arr.length}');
-    return PaymentSecret(
-      data: dco_decode_u_8_array_32(arr[0]),
-    );
-  }
-
-  @protected
   PaymentStatus dco_decode_payment_status(dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     return PaymentStatus.values[raw as int];
   }
 
   @protected
-  PeerDetails dco_decode_peer_details(dynamic raw) {
+  Psbt dco_decode_psbt(dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     final arr = raw as List<dynamic>;
-    if (arr.length != 3)
-      throw Exception('unexpected arr length: expect 3 but see ${arr.length}');
-    return PeerDetails(
-      nodeId: dco_decode_public_key(arr[0]),
-      address: dco_decode_socket_address(arr[1]),
-      isConnected: dco_decode_bool(arr[2]),
+    if (arr.length != 1)
+      throw Exception('unexpected arr length: expect 1 but see ${arr.length}');
+    return Psbt(
+      inner: dco_decode_String(arr[0]),
     );
-  }
-
-  @protected
-  PendingSweepBalance dco_decode_pending_sweep_balance(dynamic raw) {
-    // Codec=Dco (DartCObject based), see doc to use other codecs
-    switch (raw[0]) {
-      case 0:
-        return PendingSweepBalance_PendingBroadcast(
-          channelId: dco_decode_opt_box_autoadd_channel_id(raw[1]),
-          amountSatoshis: dco_decode_u_64(raw[2]),
-        );
-      case 1:
-        return PendingSweepBalance_BroadcastAwaitingConfirmation(
-          channelId: dco_decode_opt_box_autoadd_channel_id(raw[1]),
-          latestBroadcastHeight: dco_decode_u_32(raw[2]),
-          latestSpendingTxid: dco_decode_box_autoadd_txid(raw[3]),
-          amountSatoshis: dco_decode_u_64(raw[4]),
-        );
-      case 2:
-        return PendingSweepBalance_AwaitingThresholdConfirmations(
-          channelId: dco_decode_opt_box_autoadd_channel_id(raw[1]),
-          latestSpendingTxid: dco_decode_box_autoadd_txid(raw[2]),
-          confirmationHash: dco_decode_String(raw[3]),
-          confirmationHeight: dco_decode_u_32(raw[4]),
-          amountSatoshis: dco_decode_u_64(raw[5]),
-        );
-      default:
-        throw Exception("unreachable");
-    }
   }
 
   @protected
@@ -4774,36 +8566,20 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
   }
 
   @protected
-  QrPaymentResult dco_decode_qr_payment_result(dynamic raw) {
-    // Codec=Dco (DartCObject based), see doc to use other codecs
-    switch (raw[0]) {
-      case 0:
-        return QrPaymentResult_Onchain(
-          txid: dco_decode_box_autoadd_txid(raw[1]),
-        );
-      case 1:
-        return QrPaymentResult_Bolt11(
-          paymentId: dco_decode_box_autoadd_payment_id(raw[1]),
-        );
-      case 2:
-        return QrPaymentResult_Bolt12(
-          paymentId: dco_decode_box_autoadd_payment_id(raw[1]),
-        );
-      default:
-        throw Exception("unreachable");
-    }
-  }
-
-  @protected
-  (SocketAddress, PublicKey, String?)
-      dco_decode_record_socket_address_public_key_opt_string(dynamic raw) {
+  (
+    SocketAddress,
+    PublicKey,
+    String?
+  ) dco_decode_record_auto_owned_rust_opaque_flutter_rust_bridgefor_generated_rust_auto_opaque_inner_socket_address_public_key_opt_string(
+      dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     final arr = raw as List<dynamic>;
     if (arr.length != 3) {
       throw Exception('Expected 3 elements, got ${arr.length}');
     }
     return (
-      dco_decode_socket_address(arr[0]),
+      dco_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSocketAddress(
+          arr[0]),
       dco_decode_public_key(arr[1]),
       dco_decode_opt_String(arr[2]),
     );
@@ -4846,14 +8622,24 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
   }
 
   @protected
+  ScriptBuf dco_decode_script_buf(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    final arr = raw as List<dynamic>;
+    if (arr.length != 1)
+      throw Exception('unexpected arr length: expect 1 but see ${arr.length}');
+    return ScriptBuf(
+      inner: dco_decode_list_prim_u_8_strict(arr[0]),
+    );
+  }
+
+  @protected
   SendingParameters dco_decode_sending_parameters(dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     final arr = raw as List<dynamic>;
     if (arr.length != 4)
       throw Exception('unexpected arr length: expect 4 but see ${arr.length}');
     return SendingParameters(
-      maxTotalRoutingFeeMsat:
-          dco_decode_opt_box_autoadd_max_total_routing_fee_limit(arr[0]),
+      maxTotalRoutingFeeMsat: dco_decode_opt_box_autoadd_u_64(arr[0]),
       maxTotalCltvExpiryDelta: dco_decode_opt_box_autoadd_u_32(arr[1]),
       maxPathCount: dco_decode_opt_box_autoadd_u_8(arr[2]),
       maxChannelSaturationPowerOfHalf: dco_decode_opt_box_autoadd_u_8(arr[3]),
@@ -4861,38 +8647,29 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
   }
 
   @protected
-  SocketAddress dco_decode_socket_address(dynamic raw) {
+  TxIn dco_decode_tx_in(dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
-    switch (raw[0]) {
-      case 0:
-        return SocketAddress_TcpIpV4(
-          addr: dco_decode_u_8_array_4(raw[1]),
-          port: dco_decode_u_16(raw[2]),
-        );
-      case 1:
-        return SocketAddress_TcpIpV6(
-          addr: dco_decode_u_8_array_16(raw[1]),
-          port: dco_decode_u_16(raw[2]),
-        );
-      case 2:
-        return SocketAddress_OnionV2(
-          dco_decode_u_8_array_12(raw[1]),
-        );
-      case 3:
-        return SocketAddress_OnionV3(
-          ed25519Pubkey: dco_decode_u_8_array_32(raw[1]),
-          checksum: dco_decode_u_16(raw[2]),
-          version: dco_decode_u_8(raw[3]),
-          port: dco_decode_u_16(raw[4]),
-        );
-      case 4:
-        return SocketAddress_Hostname(
-          addr: dco_decode_String(raw[1]),
-          port: dco_decode_u_16(raw[2]),
-        );
-      default:
-        throw Exception("unreachable");
-    }
+    final arr = raw as List<dynamic>;
+    if (arr.length != 4)
+      throw Exception('unexpected arr length: expect 4 but see ${arr.length}');
+    return TxIn(
+      previousOutput: dco_decode_out_point(arr[0]),
+      scriptSig: dco_decode_script_buf(arr[1]),
+      sequence: dco_decode_u_32(arr[2]),
+      witness: dco_decode_list_list_prim_u_8_strict(arr[3]),
+    );
+  }
+
+  @protected
+  TxOut dco_decode_tx_out(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    final arr = raw as List<dynamic>;
+    if (arr.length != 2)
+      throw Exception('unexpected arr length: expect 2 but see ${arr.length}');
+    return TxOut(
+      value: dco_decode_u_64(arr[0]),
+      scriptPubkey: dco_decode_script_buf(arr[1]),
+    );
   }
 
   @protected
@@ -4931,27 +8708,9 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
   }
 
   @protected
-  U8Array12 dco_decode_u_8_array_12(dynamic raw) {
-    // Codec=Dco (DartCObject based), see doc to use other codecs
-    return U8Array12(dco_decode_list_prim_u_8_strict(raw));
-  }
-
-  @protected
-  U8Array16 dco_decode_u_8_array_16(dynamic raw) {
-    // Codec=Dco (DartCObject based), see doc to use other codecs
-    return U8Array16(dco_decode_list_prim_u_8_strict(raw));
-  }
-
-  @protected
   U8Array32 dco_decode_u_8_array_32(dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     return U8Array32(dco_decode_list_prim_u_8_strict(raw));
-  }
-
-  @protected
-  U8Array4 dco_decode_u_8_array_4(dynamic raw) {
-    // Codec=Dco (DartCObject based), see doc to use other codecs
-    return U8Array4(dco_decode_list_prim_u_8_strict(raw));
   }
 
   @protected
@@ -4984,20 +8743,191 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
   }
 
   @protected
-  ConfirmationStatus
-      sse_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerConfirmationStatus(
+  WTxid dco_decode_w_txid(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    final arr = raw as List<dynamic>;
+    if (arr.length != 1)
+      throw Exception('unexpected arr length: expect 1 but see ${arr.length}');
+    return WTxid(
+      hash: dco_decode_String(arr[0]),
+    );
+  }
+
+  @protected
+  AnyhowException sse_decode_AnyhowException(SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    var inner = sse_decode_String(deserializer);
+    return AnyhowException(inner);
+  }
+
+  @protected
+  AddressData
+      sse_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerAddressData(
           SseDeserializer deserializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
-    return ConfirmationStatusImpl.frbInternalSseDecode(
+    return AddressDataImpl.frbInternalSseDecode(
         sse_decode_usize(deserializer), sse_decode_i_32(deserializer));
   }
 
   @protected
-  FfiBuilder
-      sse_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerFfiBuilder(
+  BitcoinAddress
+      sse_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerBitcoinAddress(
           SseDeserializer deserializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
-    return FfiBuilderImpl.frbInternalSseDecode(
+    return BitcoinAddressImpl.frbInternalSseDecode(
+        sse_decode_usize(deserializer), sse_decode_i_32(deserializer));
+  }
+
+  @protected
+  BitcoinAddressInner
+      sse_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerBitcoinAddressInner(
+          SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    return BitcoinAddressInnerImpl.frbInternalSseDecode(
+        sse_decode_usize(deserializer), sse_decode_i_32(deserializer));
+  }
+
+  @protected
+  BitcoinTransactionInner
+      sse_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerBitcoinTransactionInner(
+          SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    return BitcoinTransactionInnerImpl.frbInternalSseDecode(
+        sse_decode_usize(deserializer), sse_decode_i_32(deserializer));
+  }
+
+  @protected
+  Bolt11Payment
+      sse_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerBolt11Payment(
+          SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    return Bolt11PaymentImpl.frbInternalSseDecode(
+        sse_decode_usize(deserializer), sse_decode_i_32(deserializer));
+  }
+
+  @protected
+  Bolt12Payment
+      sse_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerBolt12Payment(
+          SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    return Bolt12PaymentImpl.frbInternalSseDecode(
+        sse_decode_usize(deserializer), sse_decode_i_32(deserializer));
+  }
+
+  @protected
+  Builder
+      sse_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerBuilder(
+          SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    return BuilderImpl.frbInternalSseDecode(
+        sse_decode_usize(deserializer), sse_decode_i_32(deserializer));
+  }
+
+  @protected
+  ChainDataSourceConfig
+      sse_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerChainDataSourceConfig(
+          SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    return ChainDataSourceConfigImpl.frbInternalSseDecode(
+        sse_decode_usize(deserializer), sse_decode_i_32(deserializer));
+  }
+
+  @protected
+  ChannelConfig
+      sse_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerChannelConfig(
+          SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    return ChannelConfigImpl.frbInternalSseDecode(
+        sse_decode_usize(deserializer), sse_decode_i_32(deserializer));
+  }
+
+  @protected
+  ChannelDetails
+      sse_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerChannelDetails(
+          SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    return ChannelDetailsImpl.frbInternalSseDecode(
+        sse_decode_usize(deserializer), sse_decode_i_32(deserializer));
+  }
+
+  @protected
+  EntropySourceConfig
+      sse_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerEntropySourceConfig(
+          SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    return EntropySourceConfigImpl.frbInternalSseDecode(
+        sse_decode_usize(deserializer), sse_decode_i_32(deserializer));
+  }
+
+  @protected
+  Event
+      sse_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerEvent(
+          SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    return EventImpl.frbInternalSseDecode(
+        sse_decode_usize(deserializer), sse_decode_i_32(deserializer));
+  }
+
+  @protected
+  GossipSourceConfig
+      sse_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerGossipSourceConfig(
+          SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    return GossipSourceConfigImpl.frbInternalSseDecode(
+        sse_decode_usize(deserializer), sse_decode_i_32(deserializer));
+  }
+
+  @protected
+  LightningBalance
+      sse_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerLightningBalance(
+          SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    return LightningBalanceImpl.frbInternalSseDecode(
+        sse_decode_usize(deserializer), sse_decode_i_32(deserializer));
+  }
+
+  @protected
+  MaxDustHtlcExposure
+      sse_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerMaxDustHTLCExposure(
+          SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    return MaxDustHtlcExposureImpl.frbInternalSseDecode(
+        sse_decode_usize(deserializer), sse_decode_i_32(deserializer));
+  }
+
+  @protected
+  NetworkGraph
+      sse_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerNetworkGraph(
+          SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    return NetworkGraphImpl.frbInternalSseDecode(
+        sse_decode_usize(deserializer), sse_decode_i_32(deserializer));
+  }
+
+  @protected
+  Node
+      sse_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerNode(
+          SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    return NodeImpl.frbInternalSseDecode(
+        sse_decode_usize(deserializer), sse_decode_i_32(deserializer));
+  }
+
+  @protected
+  OnChainPayment
+      sse_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerOnChainPayment(
+          SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    return OnChainPaymentImpl.frbInternalSseDecode(
+        sse_decode_usize(deserializer), sse_decode_i_32(deserializer));
+  }
+
+  @protected
+  PaymentDetails
+      sse_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPaymentDetails(
+          SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    return PaymentDetailsImpl.frbInternalSseDecode(
         sse_decode_usize(deserializer), sse_decode_i_32(deserializer));
   }
 
@@ -5011,20 +8941,281 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
   }
 
   @protected
-  FfiBuilder
-      sse_decode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerFfiBuilder(
+  PeerDetails
+      sse_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPeerDetails(
           SseDeserializer deserializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
-    return FfiBuilderImpl.frbInternalSseDecode(
+    return PeerDetailsImpl.frbInternalSseDecode(
         sse_decode_usize(deserializer), sse_decode_i_32(deserializer));
   }
 
   @protected
-  FfiBuilder
-      sse_decode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerFfiBuilder(
+  PendingSweepBalance
+      sse_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPendingSweepBalance(
           SseDeserializer deserializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
-    return FfiBuilderImpl.frbInternalSseDecode(
+    return PendingSweepBalanceImpl.frbInternalSseDecode(
+        sse_decode_usize(deserializer), sse_decode_i_32(deserializer));
+  }
+
+  @protected
+  QrPaymentResult
+      sse_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerQrPaymentResult(
+          SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    return QrPaymentResultImpl.frbInternalSseDecode(
+        sse_decode_usize(deserializer), sse_decode_i_32(deserializer));
+  }
+
+  @protected
+  SocketAddress
+      sse_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSocketAddress(
+          SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    return SocketAddressImpl.frbInternalSseDecode(
+        sse_decode_usize(deserializer), sse_decode_i_32(deserializer));
+  }
+
+  @protected
+  SpontaneousPayment
+      sse_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSpontaneousPayment(
+          SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    return SpontaneousPaymentImpl.frbInternalSseDecode(
+        sse_decode_usize(deserializer), sse_decode_i_32(deserializer));
+  }
+
+  @protected
+  TaprootSpendInfo
+      sse_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerTaprootSpendInfo(
+          SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    return TaprootSpendInfoImpl.frbInternalSseDecode(
+        sse_decode_usize(deserializer), sse_decode_i_32(deserializer));
+  }
+
+  @protected
+  TaprootSpendInfoInner
+      sse_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerTaprootSpendInfoInner(
+          SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    return TaprootSpendInfoInnerImpl.frbInternalSseDecode(
+        sse_decode_usize(deserializer), sse_decode_i_32(deserializer));
+  }
+
+  @protected
+  Transaction
+      sse_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerTransaction(
+          SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    return TransactionImpl.frbInternalSseDecode(
+        sse_decode_usize(deserializer), sse_decode_i_32(deserializer));
+  }
+
+  @protected
+  UnifiedQrPayment
+      sse_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerUnifiedQrPayment(
+          SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    return UnifiedQrPaymentImpl.frbInternalSseDecode(
+        sse_decode_usize(deserializer), sse_decode_i_32(deserializer));
+  }
+
+  @protected
+  BitcoinAddress
+      sse_decode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerBitcoinAddress(
+          SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    return BitcoinAddressImpl.frbInternalSseDecode(
+        sse_decode_usize(deserializer), sse_decode_i_32(deserializer));
+  }
+
+  @protected
+  ChannelConfig
+      sse_decode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerChannelConfig(
+          SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    return ChannelConfigImpl.frbInternalSseDecode(
+        sse_decode_usize(deserializer), sse_decode_i_32(deserializer));
+  }
+
+  @protected
+  ChannelDetails
+      sse_decode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerChannelDetails(
+          SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    return ChannelDetailsImpl.frbInternalSseDecode(
+        sse_decode_usize(deserializer), sse_decode_i_32(deserializer));
+  }
+
+  @protected
+  PaymentDetails
+      sse_decode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPaymentDetails(
+          SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    return PaymentDetailsImpl.frbInternalSseDecode(
+        sse_decode_usize(deserializer), sse_decode_i_32(deserializer));
+  }
+
+  @protected
+  PeerDetails
+      sse_decode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPeerDetails(
+          SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    return PeerDetailsImpl.frbInternalSseDecode(
+        sse_decode_usize(deserializer), sse_decode_i_32(deserializer));
+  }
+
+  @protected
+  TaprootSpendInfo
+      sse_decode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerTaprootSpendInfo(
+          SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    return TaprootSpendInfoImpl.frbInternalSseDecode(
+        sse_decode_usize(deserializer), sse_decode_i_32(deserializer));
+  }
+
+  @protected
+  Transaction
+      sse_decode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerTransaction(
+          SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    return TransactionImpl.frbInternalSseDecode(
+        sse_decode_usize(deserializer), sse_decode_i_32(deserializer));
+  }
+
+  @protected
+  BitcoinAddress
+      sse_decode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerBitcoinAddress(
+          SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    return BitcoinAddressImpl.frbInternalSseDecode(
+        sse_decode_usize(deserializer), sse_decode_i_32(deserializer));
+  }
+
+  @protected
+  Bolt11Payment
+      sse_decode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerBolt11Payment(
+          SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    return Bolt11PaymentImpl.frbInternalSseDecode(
+        sse_decode_usize(deserializer), sse_decode_i_32(deserializer));
+  }
+
+  @protected
+  Bolt12Payment
+      sse_decode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerBolt12Payment(
+          SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    return Bolt12PaymentImpl.frbInternalSseDecode(
+        sse_decode_usize(deserializer), sse_decode_i_32(deserializer));
+  }
+
+  @protected
+  Builder
+      sse_decode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerBuilder(
+          SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    return BuilderImpl.frbInternalSseDecode(
+        sse_decode_usize(deserializer), sse_decode_i_32(deserializer));
+  }
+
+  @protected
+  ChannelConfig
+      sse_decode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerChannelConfig(
+          SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    return ChannelConfigImpl.frbInternalSseDecode(
+        sse_decode_usize(deserializer), sse_decode_i_32(deserializer));
+  }
+
+  @protected
+  ChannelDetails
+      sse_decode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerChannelDetails(
+          SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    return ChannelDetailsImpl.frbInternalSseDecode(
+        sse_decode_usize(deserializer), sse_decode_i_32(deserializer));
+  }
+
+  @protected
+  NetworkGraph
+      sse_decode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerNetworkGraph(
+          SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    return NetworkGraphImpl.frbInternalSseDecode(
+        sse_decode_usize(deserializer), sse_decode_i_32(deserializer));
+  }
+
+  @protected
+  Node
+      sse_decode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerNode(
+          SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    return NodeImpl.frbInternalSseDecode(
+        sse_decode_usize(deserializer), sse_decode_i_32(deserializer));
+  }
+
+  @protected
+  OnChainPayment
+      sse_decode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerOnChainPayment(
+          SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    return OnChainPaymentImpl.frbInternalSseDecode(
+        sse_decode_usize(deserializer), sse_decode_i_32(deserializer));
+  }
+
+  @protected
+  PaymentDetails
+      sse_decode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPaymentDetails(
+          SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    return PaymentDetailsImpl.frbInternalSseDecode(
+        sse_decode_usize(deserializer), sse_decode_i_32(deserializer));
+  }
+
+  @protected
+  PeerDetails
+      sse_decode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPeerDetails(
+          SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    return PeerDetailsImpl.frbInternalSseDecode(
+        sse_decode_usize(deserializer), sse_decode_i_32(deserializer));
+  }
+
+  @protected
+  SpontaneousPayment
+      sse_decode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSpontaneousPayment(
+          SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    return SpontaneousPaymentImpl.frbInternalSseDecode(
+        sse_decode_usize(deserializer), sse_decode_i_32(deserializer));
+  }
+
+  @protected
+  TaprootSpendInfo
+      sse_decode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerTaprootSpendInfo(
+          SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    return TaprootSpendInfoImpl.frbInternalSseDecode(
+        sse_decode_usize(deserializer), sse_decode_i_32(deserializer));
+  }
+
+  @protected
+  Transaction
+      sse_decode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerTransaction(
+          SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    return TransactionImpl.frbInternalSseDecode(
+        sse_decode_usize(deserializer), sse_decode_i_32(deserializer));
+  }
+
+  @protected
+  UnifiedQrPayment
+      sse_decode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerUnifiedQrPayment(
+          SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    return UnifiedQrPaymentImpl.frbInternalSseDecode(
         sse_decode_usize(deserializer), sse_decode_i_32(deserializer));
   }
 
@@ -5037,20 +9228,173 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
   }
 
   @protected
-  ConfirmationStatus
-      sse_decode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerConfirmationStatus(
+  AddressData
+      sse_decode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerAddressData(
           SseDeserializer deserializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
-    return ConfirmationStatusImpl.frbInternalSseDecode(
+    return AddressDataImpl.frbInternalSseDecode(
         sse_decode_usize(deserializer), sse_decode_i_32(deserializer));
   }
 
   @protected
-  FfiBuilder
-      sse_decode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerFfiBuilder(
+  BitcoinAddress
+      sse_decode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerBitcoinAddress(
           SseDeserializer deserializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
-    return FfiBuilderImpl.frbInternalSseDecode(
+    return BitcoinAddressImpl.frbInternalSseDecode(
+        sse_decode_usize(deserializer), sse_decode_i_32(deserializer));
+  }
+
+  @protected
+  BitcoinAddressInner
+      sse_decode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerBitcoinAddressInner(
+          SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    return BitcoinAddressInnerImpl.frbInternalSseDecode(
+        sse_decode_usize(deserializer), sse_decode_i_32(deserializer));
+  }
+
+  @protected
+  BitcoinTransactionInner
+      sse_decode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerBitcoinTransactionInner(
+          SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    return BitcoinTransactionInnerImpl.frbInternalSseDecode(
+        sse_decode_usize(deserializer), sse_decode_i_32(deserializer));
+  }
+
+  @protected
+  Bolt11Payment
+      sse_decode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerBolt11Payment(
+          SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    return Bolt11PaymentImpl.frbInternalSseDecode(
+        sse_decode_usize(deserializer), sse_decode_i_32(deserializer));
+  }
+
+  @protected
+  Bolt12Payment
+      sse_decode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerBolt12Payment(
+          SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    return Bolt12PaymentImpl.frbInternalSseDecode(
+        sse_decode_usize(deserializer), sse_decode_i_32(deserializer));
+  }
+
+  @protected
+  Builder
+      sse_decode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerBuilder(
+          SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    return BuilderImpl.frbInternalSseDecode(
+        sse_decode_usize(deserializer), sse_decode_i_32(deserializer));
+  }
+
+  @protected
+  ChainDataSourceConfig
+      sse_decode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerChainDataSourceConfig(
+          SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    return ChainDataSourceConfigImpl.frbInternalSseDecode(
+        sse_decode_usize(deserializer), sse_decode_i_32(deserializer));
+  }
+
+  @protected
+  ChannelConfig
+      sse_decode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerChannelConfig(
+          SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    return ChannelConfigImpl.frbInternalSseDecode(
+        sse_decode_usize(deserializer), sse_decode_i_32(deserializer));
+  }
+
+  @protected
+  ChannelDetails
+      sse_decode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerChannelDetails(
+          SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    return ChannelDetailsImpl.frbInternalSseDecode(
+        sse_decode_usize(deserializer), sse_decode_i_32(deserializer));
+  }
+
+  @protected
+  EntropySourceConfig
+      sse_decode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerEntropySourceConfig(
+          SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    return EntropySourceConfigImpl.frbInternalSseDecode(
+        sse_decode_usize(deserializer), sse_decode_i_32(deserializer));
+  }
+
+  @protected
+  Event
+      sse_decode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerEvent(
+          SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    return EventImpl.frbInternalSseDecode(
+        sse_decode_usize(deserializer), sse_decode_i_32(deserializer));
+  }
+
+  @protected
+  GossipSourceConfig
+      sse_decode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerGossipSourceConfig(
+          SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    return GossipSourceConfigImpl.frbInternalSseDecode(
+        sse_decode_usize(deserializer), sse_decode_i_32(deserializer));
+  }
+
+  @protected
+  LightningBalance
+      sse_decode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerLightningBalance(
+          SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    return LightningBalanceImpl.frbInternalSseDecode(
+        sse_decode_usize(deserializer), sse_decode_i_32(deserializer));
+  }
+
+  @protected
+  MaxDustHtlcExposure
+      sse_decode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerMaxDustHTLCExposure(
+          SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    return MaxDustHtlcExposureImpl.frbInternalSseDecode(
+        sse_decode_usize(deserializer), sse_decode_i_32(deserializer));
+  }
+
+  @protected
+  NetworkGraph
+      sse_decode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerNetworkGraph(
+          SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    return NetworkGraphImpl.frbInternalSseDecode(
+        sse_decode_usize(deserializer), sse_decode_i_32(deserializer));
+  }
+
+  @protected
+  Node
+      sse_decode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerNode(
+          SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    return NodeImpl.frbInternalSseDecode(
+        sse_decode_usize(deserializer), sse_decode_i_32(deserializer));
+  }
+
+  @protected
+  OnChainPayment
+      sse_decode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerOnChainPayment(
+          SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    return OnChainPaymentImpl.frbInternalSseDecode(
+        sse_decode_usize(deserializer), sse_decode_i_32(deserializer));
+  }
+
+  @protected
+  PaymentDetails
+      sse_decode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPaymentDetails(
+          SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    return PaymentDetailsImpl.frbInternalSseDecode(
         sse_decode_usize(deserializer), sse_decode_i_32(deserializer));
   }
 
@@ -5064,62 +9408,81 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
   }
 
   @protected
-  Builder sse_decode_RustOpaque_ldk_nodeBuilder(SseDeserializer deserializer) {
+  PeerDetails
+      sse_decode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPeerDetails(
+          SseDeserializer deserializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
-    return BuilderImpl.frbInternalSseDecode(
+    return PeerDetailsImpl.frbInternalSseDecode(
         sse_decode_usize(deserializer), sse_decode_i_32(deserializer));
   }
 
   @protected
-  Node sse_decode_RustOpaque_ldk_nodeNode(SseDeserializer deserializer) {
+  PendingSweepBalance
+      sse_decode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPendingSweepBalance(
+          SseDeserializer deserializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
-    return NodeImpl.frbInternalSseDecode(
+    return PendingSweepBalanceImpl.frbInternalSseDecode(
         sse_decode_usize(deserializer), sse_decode_i_32(deserializer));
   }
 
   @protected
-  NetworkGraph sse_decode_RustOpaque_ldk_nodegraphNetworkGraph(
-      SseDeserializer deserializer) {
+  QrPaymentResult
+      sse_decode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerQrPaymentResult(
+          SseDeserializer deserializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
-    return NetworkGraphImpl.frbInternalSseDecode(
+    return QrPaymentResultImpl.frbInternalSseDecode(
         sse_decode_usize(deserializer), sse_decode_i_32(deserializer));
   }
 
   @protected
-  Bolt11Payment sse_decode_RustOpaque_ldk_nodepaymentBolt11Payment(
-      SseDeserializer deserializer) {
+  SocketAddress
+      sse_decode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSocketAddress(
+          SseDeserializer deserializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
-    return Bolt11PaymentImpl.frbInternalSseDecode(
+    return SocketAddressImpl.frbInternalSseDecode(
         sse_decode_usize(deserializer), sse_decode_i_32(deserializer));
   }
 
   @protected
-  Bolt12Payment sse_decode_RustOpaque_ldk_nodepaymentBolt12Payment(
-      SseDeserializer deserializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    return Bolt12PaymentImpl.frbInternalSseDecode(
-        sse_decode_usize(deserializer), sse_decode_i_32(deserializer));
-  }
-
-  @protected
-  OnchainPayment sse_decode_RustOpaque_ldk_nodepaymentOnchainPayment(
-      SseDeserializer deserializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    return OnchainPaymentImpl.frbInternalSseDecode(
-        sse_decode_usize(deserializer), sse_decode_i_32(deserializer));
-  }
-
-  @protected
-  SpontaneousPayment sse_decode_RustOpaque_ldk_nodepaymentSpontaneousPayment(
-      SseDeserializer deserializer) {
+  SpontaneousPayment
+      sse_decode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSpontaneousPayment(
+          SseDeserializer deserializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     return SpontaneousPaymentImpl.frbInternalSseDecode(
         sse_decode_usize(deserializer), sse_decode_i_32(deserializer));
   }
 
   @protected
-  UnifiedQrPayment sse_decode_RustOpaque_ldk_nodepaymentUnifiedQrPayment(
-      SseDeserializer deserializer) {
+  TaprootSpendInfo
+      sse_decode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerTaprootSpendInfo(
+          SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    return TaprootSpendInfoImpl.frbInternalSseDecode(
+        sse_decode_usize(deserializer), sse_decode_i_32(deserializer));
+  }
+
+  @protected
+  TaprootSpendInfoInner
+      sse_decode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerTaprootSpendInfoInner(
+          SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    return TaprootSpendInfoInnerImpl.frbInternalSseDecode(
+        sse_decode_usize(deserializer), sse_decode_i_32(deserializer));
+  }
+
+  @protected
+  Transaction
+      sse_decode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerTransaction(
+          SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    return TransactionImpl.frbInternalSseDecode(
+        sse_decode_usize(deserializer), sse_decode_i_32(deserializer));
+  }
+
+  @protected
+  UnifiedQrPayment
+      sse_decode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerUnifiedQrPayment(
+          SseDeserializer deserializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     return UnifiedQrPaymentImpl.frbInternalSseDecode(
         sse_decode_usize(deserializer), sse_decode_i_32(deserializer));
@@ -5130,13 +9493,6 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
     // Codec=Sse (Serialization based), see doc to use other codecs
     var inner = sse_decode_list_prim_u_8_strict(deserializer);
     return utf8.decoder.convert(inner);
-  }
-
-  @protected
-  Address sse_decode_address(SseDeserializer deserializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    var var_s = sse_decode_String(deserializer);
-    return Address(s: var_s);
   }
 
   @protected
@@ -5151,27 +9507,17 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
   }
 
   @protected
-  BackgroundSyncConfig sse_decode_background_sync_config(
-      SseDeserializer deserializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    var var_onchainWalletSyncIntervalSecs = sse_decode_u_64(deserializer);
-    var var_lightningWalletSyncIntervalSecs = sse_decode_u_64(deserializer);
-    var var_feeRateCacheUpdateIntervalSecs = sse_decode_u_64(deserializer);
-    return BackgroundSyncConfig(
-        onchainWalletSyncIntervalSecs: var_onchainWalletSyncIntervalSecs,
-        lightningWalletSyncIntervalSecs: var_lightningWalletSyncIntervalSecs,
-        feeRateCacheUpdateIntervalSecs: var_feeRateCacheUpdateIntervalSecs);
-  }
-
-  @protected
   BalanceDetails sse_decode_balance_details(SseDeserializer deserializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     var var_totalOnchainBalanceSats = sse_decode_u_64(deserializer);
     var var_spendableOnchainBalanceSats = sse_decode_u_64(deserializer);
     var var_totalLightningBalanceSats = sse_decode_u_64(deserializer);
-    var var_lightningBalances = sse_decode_list_lightning_balance(deserializer);
+    var var_lightningBalances =
+        sse_decode_list_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerLightningBalance(
+            deserializer);
     var var_pendingBalancesFromChannelClosures =
-        sse_decode_list_pending_sweep_balance(deserializer);
+        sse_decode_list_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPendingSweepBalance(
+            deserializer);
     return BalanceDetails(
         totalOnchainBalanceSats: var_totalOnchainBalanceSats,
         spendableOnchainBalanceSats: var_spendableOnchainBalanceSats,
@@ -5179,13 +9525,6 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
         lightningBalances: var_lightningBalances,
         pendingBalancesFromChannelClosures:
             var_pendingBalancesFromChannelClosures);
-  }
-
-  @protected
-  BalanceSource sse_decode_balance_source(SseDeserializer deserializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    var inner = sse_decode_i_32(deserializer);
-    return BalanceSource.values[inner];
   }
 
   @protected
@@ -5211,43 +9550,63 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
   }
 
   @protected
-  Bolt12ParseError sse_decode_bolt_12_parse_error(
-      SseDeserializer deserializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-
-    var tag_ = sse_decode_i_32(deserializer);
-    switch (tag_) {
-      case 0:
-        return Bolt12ParseError_InvalidContinuation();
-      case 1:
-        return Bolt12ParseError_InvalidBech32Hrp();
-      case 2:
-        var var_field0 = sse_decode_String(deserializer);
-        return Bolt12ParseError_Bech32(var_field0);
-      case 3:
-        var var_field0 = sse_decode_box_autoadd_decode_error(deserializer);
-        return Bolt12ParseError_Decode(var_field0);
-      case 4:
-        var var_field0 = sse_decode_String(deserializer);
-        return Bolt12ParseError_InvalidSemantics(var_field0);
-      case 5:
-        var var_field0 = sse_decode_String(deserializer);
-        return Bolt12ParseError_InvalidSignature(var_field0);
-      default:
-        throw UnimplementedError('');
-    }
-  }
-
-  @protected
   bool sse_decode_bool(SseDeserializer deserializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     return deserializer.buffer.getUint8() != 0;
   }
 
   @protected
-  Address sse_decode_box_autoadd_address(SseDeserializer deserializer) {
+  ChainDataSourceConfig
+      sse_decode_box_autoadd_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerChainDataSourceConfig(
+          SseDeserializer deserializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
-    return (sse_decode_address(deserializer));
+    return (sse_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerChainDataSourceConfig(
+        deserializer));
+  }
+
+  @protected
+  ChannelConfig
+      sse_decode_box_autoadd_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerChannelConfig(
+          SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    return (sse_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerChannelConfig(
+        deserializer));
+  }
+
+  @protected
+  EntropySourceConfig
+      sse_decode_box_autoadd_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerEntropySourceConfig(
+          SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    return (sse_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerEntropySourceConfig(
+        deserializer));
+  }
+
+  @protected
+  Event
+      sse_decode_box_autoadd_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerEvent(
+          SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    return (sse_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerEvent(
+        deserializer));
+  }
+
+  @protected
+  GossipSourceConfig
+      sse_decode_box_autoadd_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerGossipSourceConfig(
+          SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    return (sse_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerGossipSourceConfig(
+        deserializer));
+  }
+
+  @protected
+  PaymentDetails
+      sse_decode_box_autoadd_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPaymentDetails(
+          SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    return (sse_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPaymentDetails(
+        deserializer));
   }
 
   @protected
@@ -5258,50 +9617,10 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
   }
 
   @protected
-  BackgroundSyncConfig sse_decode_box_autoadd_background_sync_config(
-      SseDeserializer deserializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    return (sse_decode_background_sync_config(deserializer));
-  }
-
-  @protected
   Bolt11Invoice sse_decode_box_autoadd_bolt_11_invoice(
       SseDeserializer deserializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     return (sse_decode_bolt_11_invoice(deserializer));
-  }
-
-  @protected
-  Bolt12ParseError sse_decode_box_autoadd_bolt_12_parse_error(
-      SseDeserializer deserializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    return (sse_decode_bolt_12_parse_error(deserializer));
-  }
-
-  @protected
-  bool sse_decode_box_autoadd_bool(SseDeserializer deserializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    return (sse_decode_bool(deserializer));
-  }
-
-  @protected
-  ChainDataSourceConfig sse_decode_box_autoadd_chain_data_source_config(
-      SseDeserializer deserializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    return (sse_decode_chain_data_source_config(deserializer));
-  }
-
-  @protected
-  ChannelConfig sse_decode_box_autoadd_channel_config(
-      SseDeserializer deserializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    return (sse_decode_channel_config(deserializer));
-  }
-
-  @protected
-  ChannelId sse_decode_box_autoadd_channel_id(SseDeserializer deserializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    return (sse_decode_channel_id(deserializer));
   }
 
   @protected
@@ -5319,64 +9638,9 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
   }
 
   @protected
-  ClosureReason sse_decode_box_autoadd_closure_reason(
-      SseDeserializer deserializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    return (sse_decode_closure_reason(deserializer));
-  }
-
-  @protected
   Config sse_decode_box_autoadd_config(SseDeserializer deserializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     return (sse_decode_config(deserializer));
-  }
-
-  @protected
-  DecodeError sse_decode_box_autoadd_decode_error(
-      SseDeserializer deserializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    return (sse_decode_decode_error(deserializer));
-  }
-
-  @protected
-  ElectrumSyncConfig sse_decode_box_autoadd_electrum_sync_config(
-      SseDeserializer deserializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    return (sse_decode_electrum_sync_config(deserializer));
-  }
-
-  @protected
-  EntropySourceConfig sse_decode_box_autoadd_entropy_source_config(
-      SseDeserializer deserializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    return (sse_decode_entropy_source_config(deserializer));
-  }
-
-  @protected
-  EsploraSyncConfig sse_decode_box_autoadd_esplora_sync_config(
-      SseDeserializer deserializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    return (sse_decode_esplora_sync_config(deserializer));
-  }
-
-  @protected
-  Event sse_decode_box_autoadd_event(SseDeserializer deserializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    return (sse_decode_event(deserializer));
-  }
-
-  @protected
-  FfiBolt11Payment sse_decode_box_autoadd_ffi_bolt_11_payment(
-      SseDeserializer deserializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    return (sse_decode_ffi_bolt_11_payment(deserializer));
-  }
-
-  @protected
-  FfiBolt12Payment sse_decode_box_autoadd_ffi_bolt_12_payment(
-      SseDeserializer deserializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    return (sse_decode_ffi_bolt_12_payment(deserializer));
   }
 
   @protected
@@ -5384,54 +9648,6 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
       SseDeserializer deserializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     return (sse_decode_ffi_log_record(deserializer));
-  }
-
-  @protected
-  FfiMnemonic sse_decode_box_autoadd_ffi_mnemonic(
-      SseDeserializer deserializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    return (sse_decode_ffi_mnemonic(deserializer));
-  }
-
-  @protected
-  FfiNetworkGraph sse_decode_box_autoadd_ffi_network_graph(
-      SseDeserializer deserializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    return (sse_decode_ffi_network_graph(deserializer));
-  }
-
-  @protected
-  FfiNode sse_decode_box_autoadd_ffi_node(SseDeserializer deserializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    return (sse_decode_ffi_node(deserializer));
-  }
-
-  @protected
-  FfiOnChainPayment sse_decode_box_autoadd_ffi_on_chain_payment(
-      SseDeserializer deserializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    return (sse_decode_ffi_on_chain_payment(deserializer));
-  }
-
-  @protected
-  FfiSpontaneousPayment sse_decode_box_autoadd_ffi_spontaneous_payment(
-      SseDeserializer deserializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    return (sse_decode_ffi_spontaneous_payment(deserializer));
-  }
-
-  @protected
-  FfiUnifiedQrPayment sse_decode_box_autoadd_ffi_unified_qr_payment(
-      SseDeserializer deserializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    return (sse_decode_ffi_unified_qr_payment(deserializer));
-  }
-
-  @protected
-  GossipSourceConfig sse_decode_box_autoadd_gossip_source_config(
-      SseDeserializer deserializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    return (sse_decode_gossip_source_config(deserializer));
   }
 
   @protected
@@ -5448,10 +9664,9 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
   }
 
   @protected
-  MaxTotalRoutingFeeLimit sse_decode_box_autoadd_max_total_routing_fee_limit(
-      SseDeserializer deserializer) {
+  Mnemonic sse_decode_box_autoadd_mnemonic(SseDeserializer deserializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
-    return (sse_decode_max_total_routing_fee_limit(deserializer));
+    return (sse_decode_mnemonic(deserializer));
   }
 
   @protected
@@ -5492,20 +9707,6 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
   }
 
   @protected
-  PaymentDetails sse_decode_box_autoadd_payment_details(
-      SseDeserializer deserializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    return (sse_decode_payment_details(deserializer));
-  }
-
-  @protected
-  PaymentFailureReason sse_decode_box_autoadd_payment_failure_reason(
-      SseDeserializer deserializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    return (sse_decode_payment_failure_reason(deserializer));
-  }
-
-  @protected
   PaymentHash sse_decode_box_autoadd_payment_hash(
       SseDeserializer deserializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
@@ -5526,6 +9727,12 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
   }
 
   @protected
+  Psbt sse_decode_box_autoadd_psbt(SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    return (sse_decode_psbt(deserializer));
+  }
+
+  @protected
   PublicKey sse_decode_box_autoadd_public_key(SseDeserializer deserializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     return (sse_decode_public_key(deserializer));
@@ -5538,23 +9745,16 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
   }
 
   @protected
+  ScriptBuf sse_decode_box_autoadd_script_buf(SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    return (sse_decode_script_buf(deserializer));
+  }
+
+  @protected
   SendingParameters sse_decode_box_autoadd_sending_parameters(
       SseDeserializer deserializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     return (sse_decode_sending_parameters(deserializer));
-  }
-
-  @protected
-  SocketAddress sse_decode_box_autoadd_socket_address(
-      SseDeserializer deserializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    return (sse_decode_socket_address(deserializer));
-  }
-
-  @protected
-  Txid sse_decode_box_autoadd_txid(SseDeserializer deserializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    return (sse_decode_txid(deserializer));
   }
 
   @protected
@@ -5586,137 +9786,6 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
       SseDeserializer deserializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     return (sse_decode_user_channel_id(deserializer));
-  }
-
-  @protected
-  ChainDataSourceConfig sse_decode_chain_data_source_config(
-      SseDeserializer deserializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-
-    var tag_ = sse_decode_i_32(deserializer);
-    switch (tag_) {
-      case 0:
-        var var_serverUrl = sse_decode_String(deserializer);
-        var var_syncConfig =
-            sse_decode_opt_box_autoadd_esplora_sync_config(deserializer);
-        return ChainDataSourceConfig_Esplora(
-            serverUrl: var_serverUrl, syncConfig: var_syncConfig);
-      case 1:
-        var var_serverUrl = sse_decode_String(deserializer);
-        var var_syncConfig =
-            sse_decode_opt_box_autoadd_electrum_sync_config(deserializer);
-        return ChainDataSourceConfig_Electrum(
-            serverUrl: var_serverUrl, syncConfig: var_syncConfig);
-      case 2:
-        var var_rpcHost = sse_decode_String(deserializer);
-        var var_rpcPort = sse_decode_u_16(deserializer);
-        var var_rpcUser = sse_decode_String(deserializer);
-        var var_rpcPassword = sse_decode_String(deserializer);
-        return ChainDataSourceConfig_BitcoindRpc(
-            rpcHost: var_rpcHost,
-            rpcPort: var_rpcPort,
-            rpcUser: var_rpcUser,
-            rpcPassword: var_rpcPassword);
-      default:
-        throw UnimplementedError('');
-    }
-  }
-
-  @protected
-  ChannelConfig sse_decode_channel_config(SseDeserializer deserializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    var var_forwardingFeeProportionalMillionths = sse_decode_u_32(deserializer);
-    var var_forwardingFeeBaseMsat = sse_decode_u_32(deserializer);
-    var var_cltvExpiryDelta = sse_decode_u_16(deserializer);
-    var var_maxDustHtlcExposure =
-        sse_decode_max_dust_htlc_exposure(deserializer);
-    var var_forceCloseAvoidanceMaxFeeSatoshis = sse_decode_u_64(deserializer);
-    var var_acceptUnderpayingHtlcs = sse_decode_bool(deserializer);
-    return ChannelConfig(
-        forwardingFeeProportionalMillionths:
-            var_forwardingFeeProportionalMillionths,
-        forwardingFeeBaseMsat: var_forwardingFeeBaseMsat,
-        cltvExpiryDelta: var_cltvExpiryDelta,
-        maxDustHtlcExposure: var_maxDustHtlcExposure,
-        forceCloseAvoidanceMaxFeeSatoshis:
-            var_forceCloseAvoidanceMaxFeeSatoshis,
-        acceptUnderpayingHtlcs: var_acceptUnderpayingHtlcs);
-  }
-
-  @protected
-  ChannelDetails sse_decode_channel_details(SseDeserializer deserializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    var var_channelId = sse_decode_channel_id(deserializer);
-    var var_counterpartyNodeId = sse_decode_public_key(deserializer);
-    var var_fundingTxo = sse_decode_opt_box_autoadd_out_point(deserializer);
-    var var_channelValueSats = sse_decode_u_64(deserializer);
-    var var_unspendablePunishmentReserve =
-        sse_decode_opt_box_autoadd_u_64(deserializer);
-    var var_userChannelId = sse_decode_user_channel_id(deserializer);
-    var var_feerateSatPer1000Weight = sse_decode_u_32(deserializer);
-    var var_outboundCapacityMsat = sse_decode_u_64(deserializer);
-    var var_inboundCapacityMsat = sse_decode_u_64(deserializer);
-    var var_confirmationsRequired =
-        sse_decode_opt_box_autoadd_u_32(deserializer);
-    var var_confirmations = sse_decode_opt_box_autoadd_u_32(deserializer);
-    var var_isOutbound = sse_decode_bool(deserializer);
-    var var_isChannelReady = sse_decode_bool(deserializer);
-    var var_isUsable = sse_decode_bool(deserializer);
-    var var_cltvExpiryDelta = sse_decode_opt_box_autoadd_u_16(deserializer);
-    var var_counterpartyUnspendablePunishmentReserve =
-        sse_decode_u_64(deserializer);
-    var var_counterpartyOutboundHtlcMinimumMsat =
-        sse_decode_opt_box_autoadd_u_64(deserializer);
-    var var_counterpartyOutboundHtlcMaximumMsat =
-        sse_decode_opt_box_autoadd_u_64(deserializer);
-    var var_counterpartyForwardingInfoFeeBaseMsat =
-        sse_decode_opt_box_autoadd_u_32(deserializer);
-    var var_counterpartyForwardingInfoFeeProportionalMillionths =
-        sse_decode_opt_box_autoadd_u_32(deserializer);
-    var var_counterpartyForwardingInfoCltvExpiryDelta =
-        sse_decode_opt_box_autoadd_u_16(deserializer);
-    var var_nextOutboundHtlcLimitMsat = sse_decode_u_64(deserializer);
-    var var_nextOutboundHtlcMinimumMsat = sse_decode_u_64(deserializer);
-    var var_forceCloseSpendDelay =
-        sse_decode_opt_box_autoadd_u_16(deserializer);
-    var var_inboundHtlcMinimumMsat = sse_decode_u_64(deserializer);
-    var var_inboundHtlcMaximumMsat =
-        sse_decode_opt_box_autoadd_u_64(deserializer);
-    var var_config = sse_decode_channel_config(deserializer);
-    return ChannelDetails(
-        channelId: var_channelId,
-        counterpartyNodeId: var_counterpartyNodeId,
-        fundingTxo: var_fundingTxo,
-        channelValueSats: var_channelValueSats,
-        unspendablePunishmentReserve: var_unspendablePunishmentReserve,
-        userChannelId: var_userChannelId,
-        feerateSatPer1000Weight: var_feerateSatPer1000Weight,
-        outboundCapacityMsat: var_outboundCapacityMsat,
-        inboundCapacityMsat: var_inboundCapacityMsat,
-        confirmationsRequired: var_confirmationsRequired,
-        confirmations: var_confirmations,
-        isOutbound: var_isOutbound,
-        isChannelReady: var_isChannelReady,
-        isUsable: var_isUsable,
-        cltvExpiryDelta: var_cltvExpiryDelta,
-        counterpartyUnspendablePunishmentReserve:
-            var_counterpartyUnspendablePunishmentReserve,
-        counterpartyOutboundHtlcMinimumMsat:
-            var_counterpartyOutboundHtlcMinimumMsat,
-        counterpartyOutboundHtlcMaximumMsat:
-            var_counterpartyOutboundHtlcMaximumMsat,
-        counterpartyForwardingInfoFeeBaseMsat:
-            var_counterpartyForwardingInfoFeeBaseMsat,
-        counterpartyForwardingInfoFeeProportionalMillionths:
-            var_counterpartyForwardingInfoFeeProportionalMillionths,
-        counterpartyForwardingInfoCltvExpiryDelta:
-            var_counterpartyForwardingInfoCltvExpiryDelta,
-        nextOutboundHtlcLimitMsat: var_nextOutboundHtlcLimitMsat,
-        nextOutboundHtlcMinimumMsat: var_nextOutboundHtlcMinimumMsat,
-        forceCloseSpendDelay: var_forceCloseSpendDelay,
-        inboundHtlcMinimumMsat: var_inboundHtlcMinimumMsat,
-        inboundHtlcMaximumMsat: var_inboundHtlcMaximumMsat,
-        config: var_config);
   }
 
   @protected
@@ -5764,62 +9833,16 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
   }
 
   @protected
-  ClosureReason sse_decode_closure_reason(SseDeserializer deserializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-
-    var tag_ = sse_decode_i_32(deserializer);
-    switch (tag_) {
-      case 0:
-        var var_peerFeerateSatPerKw = sse_decode_u_32(deserializer);
-        var var_requiredFeerateSatPerKw = sse_decode_u_32(deserializer);
-        return ClosureReason_PeerFeerateTooLow(
-            peerFeerateSatPerKw: var_peerFeerateSatPerKw,
-            requiredFeerateSatPerKw: var_requiredFeerateSatPerKw);
-      case 1:
-        var var_peerMsg = sse_decode_String(deserializer);
-        return ClosureReason_CounterpartyForceClosed(peerMsg: var_peerMsg);
-      case 2:
-        var var_broadcastedLatestTxn =
-            sse_decode_opt_box_autoadd_bool(deserializer);
-        return ClosureReason_HolderForceClosed(
-            broadcastedLatestTxn: var_broadcastedLatestTxn);
-      case 3:
-        return ClosureReason_LegacyCooperativeClosure();
-      case 4:
-        return ClosureReason_CounterpartyInitiatedCooperativeClosure();
-      case 5:
-        return ClosureReason_LocallyInitiatedCooperativeClosure();
-      case 6:
-        return ClosureReason_CommitmentTxConfirmed();
-      case 7:
-        return ClosureReason_FundingTimedOut();
-      case 8:
-        var var_err = sse_decode_String(deserializer);
-        return ClosureReason_ProcessingError(err: var_err);
-      case 9:
-        return ClosureReason_DisconnectedPeer();
-      case 10:
-        return ClosureReason_OutdatedChannelManager();
-      case 11:
-        return ClosureReason_CounterpartyCoopClosedUnfundedChannel();
-      case 12:
-        return ClosureReason_FundingBatchClosure();
-      case 13:
-        return ClosureReason_HTLCsTimedOut();
-      default:
-        throw UnimplementedError('');
-    }
-  }
-
-  @protected
   Config sse_decode_config(SseDeserializer deserializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     var var_storageDirPath = sse_decode_String(deserializer);
     var var_network = sse_decode_network(deserializer);
     var var_listeningAddresses =
-        sse_decode_opt_list_socket_address(deserializer);
+        sse_decode_opt_list_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSocketAddress(
+            deserializer);
     var var_announcementAddresses =
-        sse_decode_opt_list_socket_address(deserializer);
+        sse_decode_opt_list_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSocketAddress(
+            deserializer);
     var var_nodeAlias = sse_decode_opt_box_autoadd_node_alias(deserializer);
     var var_trustedPeers0Conf = sse_decode_list_public_key(deserializer);
     var var_probingLiquidityLimitMultiplier = sse_decode_u_64(deserializer);
@@ -5848,227 +9871,6 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
   }
 
   @protected
-  DecodeError sse_decode_decode_error(SseDeserializer deserializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-
-    var tag_ = sse_decode_i_32(deserializer);
-    switch (tag_) {
-      case 0:
-        return DecodeError_UnknownVersion();
-      case 1:
-        return DecodeError_UnknownRequiredFeature();
-      case 2:
-        return DecodeError_InvalidValue();
-      case 3:
-        return DecodeError_ShortRead();
-      case 4:
-        return DecodeError_BadLengthDescriptor();
-      case 5:
-        var var_field0 = sse_decode_String(deserializer);
-        return DecodeError_Io(var_field0);
-      case 6:
-        return DecodeError_UnsupportedCompression();
-      case 7:
-        return DecodeError_DangerousValue();
-      default:
-        throw UnimplementedError('');
-    }
-  }
-
-  @protected
-  ElectrumSyncConfig sse_decode_electrum_sync_config(
-      SseDeserializer deserializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    var var_backgroundSyncConfig =
-        sse_decode_opt_box_autoadd_background_sync_config(deserializer);
-    return ElectrumSyncConfig(backgroundSyncConfig: var_backgroundSyncConfig);
-  }
-
-  @protected
-  EntropySourceConfig sse_decode_entropy_source_config(
-      SseDeserializer deserializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-
-    var tag_ = sse_decode_i_32(deserializer);
-    switch (tag_) {
-      case 0:
-        var var_field0 = sse_decode_String(deserializer);
-        return EntropySourceConfig_SeedFile(var_field0);
-      case 1:
-        var var_field0 = sse_decode_u_8_array_64(deserializer);
-        return EntropySourceConfig_SeedBytes(var_field0);
-      case 2:
-        var var_mnemonic = sse_decode_box_autoadd_ffi_mnemonic(deserializer);
-        var var_passphrase = sse_decode_opt_String(deserializer);
-        return EntropySourceConfig_Bip39Mnemonic(
-            mnemonic: var_mnemonic, passphrase: var_passphrase);
-      default:
-        throw UnimplementedError('');
-    }
-  }
-
-  @protected
-  EsploraSyncConfig sse_decode_esplora_sync_config(
-      SseDeserializer deserializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    var var_backgroundSyncConfig =
-        sse_decode_opt_box_autoadd_background_sync_config(deserializer);
-    return EsploraSyncConfig(backgroundSyncConfig: var_backgroundSyncConfig);
-  }
-
-  @protected
-  Event sse_decode_event(SseDeserializer deserializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-
-    var tag_ = sse_decode_i_32(deserializer);
-    switch (tag_) {
-      case 0:
-        var var_paymentId = sse_decode_box_autoadd_payment_id(deserializer);
-        var var_paymentHash = sse_decode_box_autoadd_payment_hash(deserializer);
-        var var_claimableAmountMsat = sse_decode_u_64(deserializer);
-        var var_claimDeadline = sse_decode_opt_box_autoadd_u_32(deserializer);
-        var var_customRecords = sse_decode_list_custom_tlv_record(deserializer);
-        return Event_PaymentClaimable(
-            paymentId: var_paymentId,
-            paymentHash: var_paymentHash,
-            claimableAmountMsat: var_claimableAmountMsat,
-            claimDeadline: var_claimDeadline,
-            customRecords: var_customRecords);
-      case 1:
-        var var_paymentId = sse_decode_opt_box_autoadd_payment_id(deserializer);
-        var var_paymentHash = sse_decode_box_autoadd_payment_hash(deserializer);
-        var var_feePaidMsat = sse_decode_opt_box_autoadd_u_64(deserializer);
-        var var_preimage =
-            sse_decode_opt_box_autoadd_payment_preimage(deserializer);
-        return Event_PaymentSuccessful(
-            paymentId: var_paymentId,
-            paymentHash: var_paymentHash,
-            feePaidMsat: var_feePaidMsat,
-            preimage: var_preimage);
-      case 2:
-        var var_paymentId = sse_decode_opt_box_autoadd_payment_id(deserializer);
-        var var_paymentHash =
-            sse_decode_opt_box_autoadd_payment_hash(deserializer);
-        var var_reason =
-            sse_decode_opt_box_autoadd_payment_failure_reason(deserializer);
-        return Event_PaymentFailed(
-            paymentId: var_paymentId,
-            paymentHash: var_paymentHash,
-            reason: var_reason);
-      case 3:
-        var var_paymentId = sse_decode_opt_box_autoadd_payment_id(deserializer);
-        var var_paymentHash = sse_decode_box_autoadd_payment_hash(deserializer);
-        var var_amountMsat = sse_decode_u_64(deserializer);
-        var var_customRecords = sse_decode_list_custom_tlv_record(deserializer);
-        return Event_PaymentReceived(
-            paymentId: var_paymentId,
-            paymentHash: var_paymentHash,
-            amountMsat: var_amountMsat,
-            customRecords: var_customRecords);
-      case 4:
-        var var_channelId = sse_decode_box_autoadd_channel_id(deserializer);
-        var var_userChannelId =
-            sse_decode_box_autoadd_user_channel_id(deserializer);
-        var var_formerTemporaryChannelId =
-            sse_decode_box_autoadd_channel_id(deserializer);
-        var var_counterpartyNodeId =
-            sse_decode_box_autoadd_public_key(deserializer);
-        var var_fundingTxo = sse_decode_box_autoadd_out_point(deserializer);
-        return Event_ChannelPending(
-            channelId: var_channelId,
-            userChannelId: var_userChannelId,
-            formerTemporaryChannelId: var_formerTemporaryChannelId,
-            counterpartyNodeId: var_counterpartyNodeId,
-            fundingTxo: var_fundingTxo);
-      case 5:
-        var var_channelId = sse_decode_box_autoadd_channel_id(deserializer);
-        var var_userChannelId =
-            sse_decode_box_autoadd_user_channel_id(deserializer);
-        var var_counterpartyNodeId =
-            sse_decode_opt_box_autoadd_public_key(deserializer);
-        return Event_ChannelReady(
-            channelId: var_channelId,
-            userChannelId: var_userChannelId,
-            counterpartyNodeId: var_counterpartyNodeId);
-      case 6:
-        var var_channelId = sse_decode_box_autoadd_channel_id(deserializer);
-        var var_userChannelId =
-            sse_decode_box_autoadd_user_channel_id(deserializer);
-        var var_counterpartyNodeId =
-            sse_decode_opt_box_autoadd_public_key(deserializer);
-        var var_reason =
-            sse_decode_opt_box_autoadd_closure_reason(deserializer);
-        return Event_ChannelClosed(
-            channelId: var_channelId,
-            userChannelId: var_userChannelId,
-            counterpartyNodeId: var_counterpartyNodeId,
-            reason: var_reason);
-      case 7:
-        var var_prevChannelId = sse_decode_box_autoadd_channel_id(deserializer);
-        var var_nextChannelId = sse_decode_box_autoadd_channel_id(deserializer);
-        var var_prevUserChannelId =
-            sse_decode_opt_box_autoadd_user_channel_id(deserializer);
-        var var_nextUserChannelId =
-            sse_decode_opt_box_autoadd_user_channel_id(deserializer);
-        var var_prevNodeId =
-            sse_decode_opt_box_autoadd_public_key(deserializer);
-        var var_nextNodeId =
-            sse_decode_opt_box_autoadd_public_key(deserializer);
-        var var_totalFeeEarnedMsat =
-            sse_decode_opt_box_autoadd_u_64(deserializer);
-        var var_skimmedFeeMsat = sse_decode_opt_box_autoadd_u_64(deserializer);
-        var var_claimFromOnchainTx = sse_decode_bool(deserializer);
-        var var_outboundAmountForwardedMsat =
-            sse_decode_opt_box_autoadd_u_64(deserializer);
-        return Event_PaymentForwarded(
-            prevChannelId: var_prevChannelId,
-            nextChannelId: var_nextChannelId,
-            prevUserChannelId: var_prevUserChannelId,
-            nextUserChannelId: var_nextUserChannelId,
-            prevNodeId: var_prevNodeId,
-            nextNodeId: var_nextNodeId,
-            totalFeeEarnedMsat: var_totalFeeEarnedMsat,
-            skimmedFeeMsat: var_skimmedFeeMsat,
-            claimFromOnchainTx: var_claimFromOnchainTx,
-            outboundAmountForwardedMsat: var_outboundAmountForwardedMsat);
-      default:
-        throw UnimplementedError('');
-    }
-  }
-
-  @protected
-  FfiBolt11Payment sse_decode_ffi_bolt_11_payment(
-      SseDeserializer deserializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    var var_opaque =
-        sse_decode_RustOpaque_ldk_nodepaymentBolt11Payment(deserializer);
-    return FfiBolt11Payment(opaque: var_opaque);
-  }
-
-  @protected
-  FfiBolt12Payment sse_decode_ffi_bolt_12_payment(
-      SseDeserializer deserializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    var var_opaque =
-        sse_decode_RustOpaque_ldk_nodepaymentBolt12Payment(deserializer);
-    return FfiBolt12Payment(opaque: var_opaque);
-  }
-
-  @protected
-  FfiBuilderError sse_decode_ffi_builder_error(SseDeserializer deserializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    var inner = sse_decode_i_32(deserializer);
-    return FfiBuilderError.values[inner];
-  }
-
-  @protected
-  FfiCreationError sse_decode_ffi_creation_error(SseDeserializer deserializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    var inner = sse_decode_i_32(deserializer);
-    return FfiCreationError.values[inner];
-  }
-
-  @protected
   FfiLogRecord sse_decode_ffi_log_record(SseDeserializer deserializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     var var_level = sse_decode_log_level(deserializer);
@@ -6083,302 +9885,9 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
   }
 
   @protected
-  FfiMnemonic sse_decode_ffi_mnemonic(SseDeserializer deserializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    var var_seedPhrase = sse_decode_String(deserializer);
-    return FfiMnemonic(seedPhrase: var_seedPhrase);
-  }
-
-  @protected
-  FfiNetworkGraph sse_decode_ffi_network_graph(SseDeserializer deserializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    var var_opaque =
-        sse_decode_RustOpaque_ldk_nodegraphNetworkGraph(deserializer);
-    return FfiNetworkGraph(opaque: var_opaque);
-  }
-
-  @protected
-  FfiNode sse_decode_ffi_node(SseDeserializer deserializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    var var_opaque = sse_decode_RustOpaque_ldk_nodeNode(deserializer);
-    return FfiNode(opaque: var_opaque);
-  }
-
-  @protected
-  FfiNodeError sse_decode_ffi_node_error(SseDeserializer deserializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-
-    var tag_ = sse_decode_i_32(deserializer);
-    switch (tag_) {
-      case 0:
-        return FfiNodeError_InvalidTxid();
-      case 1:
-        return FfiNodeError_AlreadyRunning();
-      case 2:
-        return FfiNodeError_NotRunning();
-      case 3:
-        return FfiNodeError_OnchainTxCreationFailed();
-      case 4:
-        return FfiNodeError_ConnectionFailed();
-      case 5:
-        return FfiNodeError_InvoiceCreationFailed();
-      case 6:
-        return FfiNodeError_PaymentSendingFailed();
-      case 7:
-        return FfiNodeError_ProbeSendingFailed();
-      case 8:
-        return FfiNodeError_ChannelCreationFailed();
-      case 9:
-        return FfiNodeError_ChannelClosingFailed();
-      case 10:
-        return FfiNodeError_ChannelConfigUpdateFailed();
-      case 11:
-        return FfiNodeError_PersistenceFailed();
-      case 12:
-        return FfiNodeError_WalletOperationFailed();
-      case 13:
-        return FfiNodeError_OnchainTxSigningFailed();
-      case 14:
-        return FfiNodeError_MessageSigningFailed();
-      case 15:
-        return FfiNodeError_TxSyncFailed();
-      case 16:
-        return FfiNodeError_GossipUpdateFailed();
-      case 17:
-        return FfiNodeError_InvalidAddress();
-      case 18:
-        return FfiNodeError_InvalidSocketAddress();
-      case 19:
-        return FfiNodeError_InvalidPublicKey();
-      case 20:
-        return FfiNodeError_InvalidSecretKey();
-      case 21:
-        return FfiNodeError_InvalidPaymentHash();
-      case 22:
-        return FfiNodeError_InvalidPaymentPreimage();
-      case 23:
-        return FfiNodeError_InvalidPaymentSecret();
-      case 24:
-        return FfiNodeError_InvalidAmount();
-      case 25:
-        return FfiNodeError_InvalidInvoice();
-      case 26:
-        return FfiNodeError_InvalidChannelId();
-      case 27:
-        return FfiNodeError_InvalidNetwork();
-      case 28:
-        return FfiNodeError_DuplicatePayment();
-      case 29:
-        return FfiNodeError_InsufficientFunds();
-      case 30:
-        return FfiNodeError_FeerateEstimationUpdateFailed();
-      case 31:
-        return FfiNodeError_LiquidityRequestFailed();
-      case 32:
-        return FfiNodeError_LiquiditySourceUnavailable();
-      case 33:
-        return FfiNodeError_LiquidityFeeTooHigh();
-      case 34:
-        return FfiNodeError_InvalidPaymentId();
-      case 35:
-        var var_field0 = sse_decode_box_autoadd_decode_error(deserializer);
-        return FfiNodeError_Decode(var_field0);
-      case 36:
-        var var_field0 =
-            sse_decode_box_autoadd_bolt_12_parse_error(deserializer);
-        return FfiNodeError_Bolt12Parse(var_field0);
-      case 37:
-        return FfiNodeError_InvoiceRequestCreationFailed();
-      case 38:
-        return FfiNodeError_OfferCreationFailed();
-      case 39:
-        return FfiNodeError_RefundCreationFailed();
-      case 40:
-        return FfiNodeError_FeerateEstimationUpdateTimeout();
-      case 41:
-        return FfiNodeError_WalletOperationTimeout();
-      case 42:
-        return FfiNodeError_TxSyncTimeout();
-      case 43:
-        return FfiNodeError_GossipUpdateTimeout();
-      case 44:
-        return FfiNodeError_InvalidOfferId();
-      case 45:
-        return FfiNodeError_InvalidNodeId();
-      case 46:
-        return FfiNodeError_InvalidOffer();
-      case 47:
-        return FfiNodeError_InvalidRefund();
-      case 48:
-        return FfiNodeError_UnsupportedCurrency();
-      case 49:
-        return FfiNodeError_UriParameterParsingFailed();
-      case 50:
-        return FfiNodeError_InvalidUri();
-      case 51:
-        return FfiNodeError_InvalidQuantity();
-      case 52:
-        return FfiNodeError_InvalidNodeAlias();
-      case 53:
-        return FfiNodeError_InvalidCustomTlvs();
-      case 54:
-        return FfiNodeError_InvalidDateTime();
-      case 55:
-        return FfiNodeError_InvalidFeeRate();
-      case 56:
-        var var_field0 = sse_decode_ffi_creation_error(deserializer);
-        return FfiNodeError_CreationError(var_field0);
-      default:
-        throw UnimplementedError('');
-    }
-  }
-
-  @protected
-  FfiOnChainPayment sse_decode_ffi_on_chain_payment(
-      SseDeserializer deserializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    var var_opaque =
-        sse_decode_RustOpaque_ldk_nodepaymentOnchainPayment(deserializer);
-    return FfiOnChainPayment(opaque: var_opaque);
-  }
-
-  @protected
-  FfiSpontaneousPayment sse_decode_ffi_spontaneous_payment(
-      SseDeserializer deserializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    var var_opaque =
-        sse_decode_RustOpaque_ldk_nodepaymentSpontaneousPayment(deserializer);
-    return FfiSpontaneousPayment(opaque: var_opaque);
-  }
-
-  @protected
-  FfiUnifiedQrPayment sse_decode_ffi_unified_qr_payment(
-      SseDeserializer deserializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    var var_opaque =
-        sse_decode_RustOpaque_ldk_nodepaymentUnifiedQrPayment(deserializer);
-    return FfiUnifiedQrPayment(opaque: var_opaque);
-  }
-
-  @protected
-  GossipSourceConfig sse_decode_gossip_source_config(
-      SseDeserializer deserializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-
-    var tag_ = sse_decode_i_32(deserializer);
-    switch (tag_) {
-      case 0:
-        return GossipSourceConfig_P2PNetwork();
-      case 1:
-        var var_field0 = sse_decode_String(deserializer);
-        return GossipSourceConfig_RapidGossipSync(var_field0);
-      default:
-        throw UnimplementedError('');
-    }
-  }
-
-  @protected
   int sse_decode_i_32(SseDeserializer deserializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     return deserializer.buffer.getInt32();
-  }
-
-  @protected
-  LightningBalance sse_decode_lightning_balance(SseDeserializer deserializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-
-    var tag_ = sse_decode_i_32(deserializer);
-    switch (tag_) {
-      case 0:
-        var var_channelId = sse_decode_box_autoadd_channel_id(deserializer);
-        var var_counterpartyNodeId =
-            sse_decode_box_autoadd_public_key(deserializer);
-        var var_amountSatoshis = sse_decode_u_64(deserializer);
-        var var_transactionFeeSatoshis = sse_decode_u_64(deserializer);
-        var var_outboundPaymentHtlcRoundedMsat = sse_decode_u_64(deserializer);
-        var var_outboundForwardedHtlcRoundedMsat =
-            sse_decode_u_64(deserializer);
-        var var_inboundClaimingHtlcRoundedMsat = sse_decode_u_64(deserializer);
-        var var_inboundHtlcRoundedMsat = sse_decode_u_64(deserializer);
-        return LightningBalance_ClaimableOnChannelClose(
-            channelId: var_channelId,
-            counterpartyNodeId: var_counterpartyNodeId,
-            amountSatoshis: var_amountSatoshis,
-            transactionFeeSatoshis: var_transactionFeeSatoshis,
-            outboundPaymentHtlcRoundedMsat: var_outboundPaymentHtlcRoundedMsat,
-            outboundForwardedHtlcRoundedMsat:
-                var_outboundForwardedHtlcRoundedMsat,
-            inboundClaimingHtlcRoundedMsat: var_inboundClaimingHtlcRoundedMsat,
-            inboundHtlcRoundedMsat: var_inboundHtlcRoundedMsat);
-      case 1:
-        var var_channelId = sse_decode_box_autoadd_channel_id(deserializer);
-        var var_counterpartyNodeId =
-            sse_decode_box_autoadd_public_key(deserializer);
-        var var_amountSatoshis = sse_decode_u_64(deserializer);
-        var var_confirmationHeight = sse_decode_u_32(deserializer);
-        var var_source = sse_decode_balance_source(deserializer);
-        return LightningBalance_ClaimableAwaitingConfirmations(
-            channelId: var_channelId,
-            counterpartyNodeId: var_counterpartyNodeId,
-            amountSatoshis: var_amountSatoshis,
-            confirmationHeight: var_confirmationHeight,
-            source: var_source);
-      case 2:
-        var var_channelId = sse_decode_box_autoadd_channel_id(deserializer);
-        var var_counterpartyNodeId =
-            sse_decode_box_autoadd_public_key(deserializer);
-        var var_amountSatoshis = sse_decode_u_64(deserializer);
-        var var_timeoutHeight = sse_decode_u_32(deserializer);
-        var var_paymentHash = sse_decode_box_autoadd_payment_hash(deserializer);
-        var var_paymentPreimage =
-            sse_decode_box_autoadd_payment_preimage(deserializer);
-        return LightningBalance_ContentiousClaimable(
-            channelId: var_channelId,
-            counterpartyNodeId: var_counterpartyNodeId,
-            amountSatoshis: var_amountSatoshis,
-            timeoutHeight: var_timeoutHeight,
-            paymentHash: var_paymentHash,
-            paymentPreimage: var_paymentPreimage);
-      case 3:
-        var var_channelId = sse_decode_box_autoadd_channel_id(deserializer);
-        var var_counterpartyNodeId =
-            sse_decode_box_autoadd_public_key(deserializer);
-        var var_amountSatoshis = sse_decode_u_64(deserializer);
-        var var_claimableHeight = sse_decode_u_32(deserializer);
-        var var_paymentHash = sse_decode_box_autoadd_payment_hash(deserializer);
-        var var_outboundPayment = sse_decode_bool(deserializer);
-        return LightningBalance_MaybeTimeoutClaimableHTLC(
-            channelId: var_channelId,
-            counterpartyNodeId: var_counterpartyNodeId,
-            amountSatoshis: var_amountSatoshis,
-            claimableHeight: var_claimableHeight,
-            paymentHash: var_paymentHash,
-            outboundPayment: var_outboundPayment);
-      case 4:
-        var var_channelId = sse_decode_box_autoadd_channel_id(deserializer);
-        var var_counterpartyNodeId =
-            sse_decode_box_autoadd_public_key(deserializer);
-        var var_amountSatoshis = sse_decode_u_64(deserializer);
-        var var_expiryHeight = sse_decode_u_32(deserializer);
-        var var_paymentHash = sse_decode_box_autoadd_payment_hash(deserializer);
-        return LightningBalance_MaybePreimageClaimableHTLC(
-            channelId: var_channelId,
-            counterpartyNodeId: var_counterpartyNodeId,
-            amountSatoshis: var_amountSatoshis,
-            expiryHeight: var_expiryHeight,
-            paymentHash: var_paymentHash);
-      case 5:
-        var var_channelId = sse_decode_box_autoadd_channel_id(deserializer);
-        var var_counterpartyNodeId =
-            sse_decode_box_autoadd_public_key(deserializer);
-        var var_amountSatoshis = sse_decode_u_64(deserializer);
-        return LightningBalance_CounterpartyRevokedOutputClaimable(
-            channelId: var_channelId,
-            counterpartyNodeId: var_counterpartyNodeId,
-            amountSatoshis: var_amountSatoshis);
-      default:
-        throw UnimplementedError('');
-    }
   }
 
   @protected
@@ -6386,19 +9895,115 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
       SseDeserializer deserializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     var var_lsps2Service =
-        sse_decode_record_socket_address_public_key_opt_string(deserializer);
+        sse_decode_record_auto_owned_rust_opaque_flutter_rust_bridgefor_generated_rust_auto_opaque_inner_socket_address_public_key_opt_string(
+            deserializer);
     return LiquiditySourceConfig(lsps2Service: var_lsps2Service);
   }
 
   @protected
-  List<ChannelDetails> sse_decode_list_channel_details(
-      SseDeserializer deserializer) {
+  List<ChannelDetails>
+      sse_decode_list_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerChannelDetails(
+          SseDeserializer deserializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
 
     var len_ = sse_decode_i_32(deserializer);
     var ans_ = <ChannelDetails>[];
     for (var idx_ = 0; idx_ < len_; ++idx_) {
-      ans_.add(sse_decode_channel_details(deserializer));
+      ans_.add(
+          sse_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerChannelDetails(
+              deserializer));
+    }
+    return ans_;
+  }
+
+  @protected
+  List<LightningBalance>
+      sse_decode_list_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerLightningBalance(
+          SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+
+    var len_ = sse_decode_i_32(deserializer);
+    var ans_ = <LightningBalance>[];
+    for (var idx_ = 0; idx_ < len_; ++idx_) {
+      ans_.add(
+          sse_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerLightningBalance(
+              deserializer));
+    }
+    return ans_;
+  }
+
+  @protected
+  List<PaymentDetails>
+      sse_decode_list_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPaymentDetails(
+          SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+
+    var len_ = sse_decode_i_32(deserializer);
+    var ans_ = <PaymentDetails>[];
+    for (var idx_ = 0; idx_ < len_; ++idx_) {
+      ans_.add(
+          sse_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPaymentDetails(
+              deserializer));
+    }
+    return ans_;
+  }
+
+  @protected
+  List<PeerDetails>
+      sse_decode_list_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPeerDetails(
+          SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+
+    var len_ = sse_decode_i_32(deserializer);
+    var ans_ = <PeerDetails>[];
+    for (var idx_ = 0; idx_ < len_; ++idx_) {
+      ans_.add(
+          sse_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPeerDetails(
+              deserializer));
+    }
+    return ans_;
+  }
+
+  @protected
+  List<PendingSweepBalance>
+      sse_decode_list_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPendingSweepBalance(
+          SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+
+    var len_ = sse_decode_i_32(deserializer);
+    var ans_ = <PendingSweepBalance>[];
+    for (var idx_ = 0; idx_ < len_; ++idx_) {
+      ans_.add(
+          sse_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPendingSweepBalance(
+              deserializer));
+    }
+    return ans_;
+  }
+
+  @protected
+  List<SocketAddress>
+      sse_decode_list_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSocketAddress(
+          SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+
+    var len_ = sse_decode_i_32(deserializer);
+    var ans_ = <SocketAddress>[];
+    for (var idx_ = 0; idx_ < len_; ++idx_) {
+      ans_.add(
+          sse_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSocketAddress(
+              deserializer));
+    }
+    return ans_;
+  }
+
+  @protected
+  List<String> sse_decode_list_String(SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+
+    var len_ = sse_decode_i_32(deserializer);
+    var ans_ = <String>[];
+    for (var idx_ = 0; idx_ < len_; ++idx_) {
+      ans_.add(sse_decode_String(deserializer));
     }
     return ans_;
   }
@@ -6417,14 +10022,14 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
   }
 
   @protected
-  List<LightningBalance> sse_decode_list_lightning_balance(
+  List<Uint8List> sse_decode_list_list_prim_u_8_strict(
       SseDeserializer deserializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
 
     var len_ = sse_decode_i_32(deserializer);
-    var ans_ = <LightningBalance>[];
+    var ans_ = <Uint8List>[];
     for (var idx_ = 0; idx_ < len_; ++idx_) {
-      ans_.add(sse_decode_lightning_balance(deserializer));
+      ans_.add(sse_decode_list_prim_u_8_strict(deserializer));
     }
     return ans_;
   }
@@ -6437,44 +10042,6 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
     var ans_ = <NodeId>[];
     for (var idx_ = 0; idx_ < len_; ++idx_) {
       ans_.add(sse_decode_node_id(deserializer));
-    }
-    return ans_;
-  }
-
-  @protected
-  List<PaymentDetails> sse_decode_list_payment_details(
-      SseDeserializer deserializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-
-    var len_ = sse_decode_i_32(deserializer);
-    var ans_ = <PaymentDetails>[];
-    for (var idx_ = 0; idx_ < len_; ++idx_) {
-      ans_.add(sse_decode_payment_details(deserializer));
-    }
-    return ans_;
-  }
-
-  @protected
-  List<PeerDetails> sse_decode_list_peer_details(SseDeserializer deserializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-
-    var len_ = sse_decode_i_32(deserializer);
-    var ans_ = <PeerDetails>[];
-    for (var idx_ = 0; idx_ < len_; ++idx_) {
-      ans_.add(sse_decode_peer_details(deserializer));
-    }
-    return ans_;
-  }
-
-  @protected
-  List<PendingSweepBalance> sse_decode_list_pending_sweep_balance(
-      SseDeserializer deserializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-
-    var len_ = sse_decode_i_32(deserializer);
-    var ans_ = <PendingSweepBalance>[];
-    for (var idx_ = 0; idx_ < len_; ++idx_) {
-      ans_.add(sse_decode_pending_sweep_balance(deserializer));
     }
     return ans_;
   }
@@ -6526,14 +10093,25 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
   }
 
   @protected
-  List<SocketAddress> sse_decode_list_socket_address(
-      SseDeserializer deserializer) {
+  List<TxIn> sse_decode_list_tx_in(SseDeserializer deserializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
 
     var len_ = sse_decode_i_32(deserializer);
-    var ans_ = <SocketAddress>[];
+    var ans_ = <TxIn>[];
     for (var idx_ = 0; idx_ < len_; ++idx_) {
-      ans_.add(sse_decode_socket_address(deserializer));
+      ans_.add(sse_decode_tx_in(deserializer));
+    }
+    return ans_;
+  }
+
+  @protected
+  List<TxOut> sse_decode_list_tx_out(SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+
+    var len_ = sse_decode_i_32(deserializer);
+    var ans_ = <TxOut>[];
+    for (var idx_ = 0; idx_ < len_; ++idx_) {
+      ans_.add(sse_decode_tx_out(deserializer));
     }
     return ans_;
   }
@@ -6546,50 +10124,10 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
   }
 
   @protected
-  LSPFeeLimits sse_decode_lsp_fee_limits(SseDeserializer deserializer) {
+  Mnemonic sse_decode_mnemonic(SseDeserializer deserializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
-    var var_maxTotalOpeningFeeMsat =
-        sse_decode_opt_box_autoadd_u_64(deserializer);
-    var var_maxProportionalOpeningFeePpmMsat =
-        sse_decode_opt_box_autoadd_u_64(deserializer);
-    return LSPFeeLimits(
-        maxTotalOpeningFeeMsat: var_maxTotalOpeningFeeMsat,
-        maxProportionalOpeningFeePpmMsat: var_maxProportionalOpeningFeePpmMsat);
-  }
-
-  @protected
-  MaxDustHTLCExposure sse_decode_max_dust_htlc_exposure(
-      SseDeserializer deserializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-
-    var tag_ = sse_decode_i_32(deserializer);
-    switch (tag_) {
-      case 0:
-        var var_field0 = sse_decode_u_64(deserializer);
-        return MaxDustHTLCExposure_FixedLimitMsat(var_field0);
-      case 1:
-        var var_field0 = sse_decode_u_64(deserializer);
-        return MaxDustHTLCExposure_FeeRateMultiplier(var_field0);
-      default:
-        throw UnimplementedError('');
-    }
-  }
-
-  @protected
-  MaxTotalRoutingFeeLimit sse_decode_max_total_routing_fee_limit(
-      SseDeserializer deserializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-
-    var tag_ = sse_decode_i_32(deserializer);
-    switch (tag_) {
-      case 0:
-        return MaxTotalRoutingFeeLimit_NoFeeCap();
-      case 1:
-        var var_amountMsat = sse_decode_u_64(deserializer);
-        return MaxTotalRoutingFeeLimit_FeeCap(amountMsat: var_amountMsat);
-      default:
-        throw UnimplementedError('');
-    }
+    var var_words = sse_decode_list_String(deserializer);
+    return Mnemonic(words: var_words);
   }
 
   @protected
@@ -6612,7 +10150,9 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
     // Codec=Sse (Serialization based), see doc to use other codecs
     var var_lastUpdate = sse_decode_u_32(deserializer);
     var var_alias = sse_decode_String(deserializer);
-    var var_addresses = sse_decode_list_socket_address(deserializer);
+    var var_addresses =
+        sse_decode_list_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSocketAddress(
+            deserializer);
     return NodeAnnouncementInfo(
         lastUpdate: var_lastUpdate, alias: var_alias, addresses: var_addresses);
   }
@@ -6676,18 +10216,95 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
   }
 
   @protected
-  OfferId sse_decode_offer_id(SseDeserializer deserializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    var var_field0 = sse_decode_u_8_array_32(deserializer);
-    return OfferId(field0: var_field0);
-  }
-
-  @protected
   String? sse_decode_opt_String(SseDeserializer deserializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
 
     if (sse_decode_bool(deserializer)) {
       return (sse_decode_String(deserializer));
+    } else {
+      return null;
+    }
+  }
+
+  @protected
+  ChainDataSourceConfig?
+      sse_decode_opt_box_autoadd_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerChainDataSourceConfig(
+          SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+
+    if (sse_decode_bool(deserializer)) {
+      return (sse_decode_box_autoadd_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerChainDataSourceConfig(
+          deserializer));
+    } else {
+      return null;
+    }
+  }
+
+  @protected
+  ChannelConfig?
+      sse_decode_opt_box_autoadd_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerChannelConfig(
+          SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+
+    if (sse_decode_bool(deserializer)) {
+      return (sse_decode_box_autoadd_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerChannelConfig(
+          deserializer));
+    } else {
+      return null;
+    }
+  }
+
+  @protected
+  EntropySourceConfig?
+      sse_decode_opt_box_autoadd_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerEntropySourceConfig(
+          SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+
+    if (sse_decode_bool(deserializer)) {
+      return (sse_decode_box_autoadd_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerEntropySourceConfig(
+          deserializer));
+    } else {
+      return null;
+    }
+  }
+
+  @protected
+  Event?
+      sse_decode_opt_box_autoadd_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerEvent(
+          SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+
+    if (sse_decode_bool(deserializer)) {
+      return (sse_decode_box_autoadd_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerEvent(
+          deserializer));
+    } else {
+      return null;
+    }
+  }
+
+  @protected
+  GossipSourceConfig?
+      sse_decode_opt_box_autoadd_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerGossipSourceConfig(
+          SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+
+    if (sse_decode_bool(deserializer)) {
+      return (sse_decode_box_autoadd_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerGossipSourceConfig(
+          deserializer));
+    } else {
+      return null;
+    }
+  }
+
+  @protected
+  PaymentDetails?
+      sse_decode_opt_box_autoadd_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPaymentDetails(
+          SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+
+    if (sse_decode_bool(deserializer)) {
+      return (sse_decode_box_autoadd_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPaymentDetails(
+          deserializer));
     } else {
       return null;
     }
@@ -6700,65 +10317,6 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
 
     if (sse_decode_bool(deserializer)) {
       return (sse_decode_box_autoadd_anchor_channels_config(deserializer));
-    } else {
-      return null;
-    }
-  }
-
-  @protected
-  BackgroundSyncConfig? sse_decode_opt_box_autoadd_background_sync_config(
-      SseDeserializer deserializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-
-    if (sse_decode_bool(deserializer)) {
-      return (sse_decode_box_autoadd_background_sync_config(deserializer));
-    } else {
-      return null;
-    }
-  }
-
-  @protected
-  bool? sse_decode_opt_box_autoadd_bool(SseDeserializer deserializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-
-    if (sse_decode_bool(deserializer)) {
-      return (sse_decode_box_autoadd_bool(deserializer));
-    } else {
-      return null;
-    }
-  }
-
-  @protected
-  ChainDataSourceConfig? sse_decode_opt_box_autoadd_chain_data_source_config(
-      SseDeserializer deserializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-
-    if (sse_decode_bool(deserializer)) {
-      return (sse_decode_box_autoadd_chain_data_source_config(deserializer));
-    } else {
-      return null;
-    }
-  }
-
-  @protected
-  ChannelConfig? sse_decode_opt_box_autoadd_channel_config(
-      SseDeserializer deserializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-
-    if (sse_decode_bool(deserializer)) {
-      return (sse_decode_box_autoadd_channel_config(deserializer));
-    } else {
-      return null;
-    }
-  }
-
-  @protected
-  ChannelId? sse_decode_opt_box_autoadd_channel_id(
-      SseDeserializer deserializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-
-    if (sse_decode_bool(deserializer)) {
-      return (sse_decode_box_autoadd_channel_id(deserializer));
     } else {
       return null;
     }
@@ -6789,77 +10347,6 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
   }
 
   @protected
-  ClosureReason? sse_decode_opt_box_autoadd_closure_reason(
-      SseDeserializer deserializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-
-    if (sse_decode_bool(deserializer)) {
-      return (sse_decode_box_autoadd_closure_reason(deserializer));
-    } else {
-      return null;
-    }
-  }
-
-  @protected
-  ElectrumSyncConfig? sse_decode_opt_box_autoadd_electrum_sync_config(
-      SseDeserializer deserializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-
-    if (sse_decode_bool(deserializer)) {
-      return (sse_decode_box_autoadd_electrum_sync_config(deserializer));
-    } else {
-      return null;
-    }
-  }
-
-  @protected
-  EntropySourceConfig? sse_decode_opt_box_autoadd_entropy_source_config(
-      SseDeserializer deserializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-
-    if (sse_decode_bool(deserializer)) {
-      return (sse_decode_box_autoadd_entropy_source_config(deserializer));
-    } else {
-      return null;
-    }
-  }
-
-  @protected
-  EsploraSyncConfig? sse_decode_opt_box_autoadd_esplora_sync_config(
-      SseDeserializer deserializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-
-    if (sse_decode_bool(deserializer)) {
-      return (sse_decode_box_autoadd_esplora_sync_config(deserializer));
-    } else {
-      return null;
-    }
-  }
-
-  @protected
-  Event? sse_decode_opt_box_autoadd_event(SseDeserializer deserializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-
-    if (sse_decode_bool(deserializer)) {
-      return (sse_decode_box_autoadd_event(deserializer));
-    } else {
-      return null;
-    }
-  }
-
-  @protected
-  GossipSourceConfig? sse_decode_opt_box_autoadd_gossip_source_config(
-      SseDeserializer deserializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-
-    if (sse_decode_bool(deserializer)) {
-      return (sse_decode_box_autoadd_gossip_source_config(deserializer));
-    } else {
-      return null;
-    }
-  }
-
-  @protected
   LiquiditySourceConfig? sse_decode_opt_box_autoadd_liquidity_source_config(
       SseDeserializer deserializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
@@ -6877,19 +10364,6 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
 
     if (sse_decode_bool(deserializer)) {
       return (sse_decode_box_autoadd_log_level(deserializer));
-    } else {
-      return null;
-    }
-  }
-
-  @protected
-  MaxTotalRoutingFeeLimit?
-      sse_decode_opt_box_autoadd_max_total_routing_fee_limit(
-          SseDeserializer deserializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-
-    if (sse_decode_bool(deserializer)) {
-      return (sse_decode_box_autoadd_max_total_routing_fee_limit(deserializer));
     } else {
       return null;
     }
@@ -6936,78 +10410,6 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
 
     if (sse_decode_bool(deserializer)) {
       return (sse_decode_box_autoadd_out_point(deserializer));
-    } else {
-      return null;
-    }
-  }
-
-  @protected
-  PaymentDetails? sse_decode_opt_box_autoadd_payment_details(
-      SseDeserializer deserializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-
-    if (sse_decode_bool(deserializer)) {
-      return (sse_decode_box_autoadd_payment_details(deserializer));
-    } else {
-      return null;
-    }
-  }
-
-  @protected
-  PaymentFailureReason? sse_decode_opt_box_autoadd_payment_failure_reason(
-      SseDeserializer deserializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-
-    if (sse_decode_bool(deserializer)) {
-      return (sse_decode_box_autoadd_payment_failure_reason(deserializer));
-    } else {
-      return null;
-    }
-  }
-
-  @protected
-  PaymentHash? sse_decode_opt_box_autoadd_payment_hash(
-      SseDeserializer deserializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-
-    if (sse_decode_bool(deserializer)) {
-      return (sse_decode_box_autoadd_payment_hash(deserializer));
-    } else {
-      return null;
-    }
-  }
-
-  @protected
-  PaymentId? sse_decode_opt_box_autoadd_payment_id(
-      SseDeserializer deserializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-
-    if (sse_decode_bool(deserializer)) {
-      return (sse_decode_box_autoadd_payment_id(deserializer));
-    } else {
-      return null;
-    }
-  }
-
-  @protected
-  PaymentPreimage? sse_decode_opt_box_autoadd_payment_preimage(
-      SseDeserializer deserializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-
-    if (sse_decode_bool(deserializer)) {
-      return (sse_decode_box_autoadd_payment_preimage(deserializer));
-    } else {
-      return null;
-    }
-  }
-
-  @protected
-  PublicKey? sse_decode_opt_box_autoadd_public_key(
-      SseDeserializer deserializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-
-    if (sse_decode_bool(deserializer)) {
-      return (sse_decode_box_autoadd_public_key(deserializer));
     } else {
       return null;
     }
@@ -7070,24 +10472,14 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
   }
 
   @protected
-  UserChannelId? sse_decode_opt_box_autoadd_user_channel_id(
-      SseDeserializer deserializer) {
+  List<SocketAddress>?
+      sse_decode_opt_list_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSocketAddress(
+          SseDeserializer deserializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
 
     if (sse_decode_bool(deserializer)) {
-      return (sse_decode_box_autoadd_user_channel_id(deserializer));
-    } else {
-      return null;
-    }
-  }
-
-  @protected
-  List<SocketAddress>? sse_decode_opt_list_socket_address(
-      SseDeserializer deserializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-
-    if (sse_decode_bool(deserializer)) {
-      return (sse_decode_list_socket_address(deserializer));
+      return (sse_decode_list_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSocketAddress(
+          deserializer));
     } else {
       return null;
     }
@@ -7102,38 +10494,10 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
   }
 
   @protected
-  PaymentDetails sse_decode_payment_details(SseDeserializer deserializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    var var_id = sse_decode_payment_id(deserializer);
-    var var_kind =
-        sse_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPaymentKind(
-            deserializer);
-    var var_amountMsat = sse_decode_opt_box_autoadd_u_64(deserializer);
-    var var_direction = sse_decode_payment_direction(deserializer);
-    var var_status = sse_decode_payment_status(deserializer);
-    var var_latestUpdateTimestamp = sse_decode_u_64(deserializer);
-    return PaymentDetails(
-        id: var_id,
-        kind: var_kind,
-        amountMsat: var_amountMsat,
-        direction: var_direction,
-        status: var_status,
-        latestUpdateTimestamp: var_latestUpdateTimestamp);
-  }
-
-  @protected
   PaymentDirection sse_decode_payment_direction(SseDeserializer deserializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     var inner = sse_decode_i_32(deserializer);
     return PaymentDirection.values[inner];
-  }
-
-  @protected
-  PaymentFailureReason sse_decode_payment_failure_reason(
-      SseDeserializer deserializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    var inner = sse_decode_i_32(deserializer);
-    return PaymentFailureReason.values[inner];
   }
 
   @protected
@@ -7158,13 +10522,6 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
   }
 
   @protected
-  PaymentSecret sse_decode_payment_secret(SseDeserializer deserializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    var var_data = sse_decode_u_8_array_32(deserializer);
-    return PaymentSecret(data: var_data);
-  }
-
-  @protected
   PaymentStatus sse_decode_payment_status(SseDeserializer deserializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     var inner = sse_decode_i_32(deserializer);
@@ -7172,52 +10529,10 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
   }
 
   @protected
-  PeerDetails sse_decode_peer_details(SseDeserializer deserializer) {
+  Psbt sse_decode_psbt(SseDeserializer deserializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
-    var var_nodeId = sse_decode_public_key(deserializer);
-    var var_address = sse_decode_socket_address(deserializer);
-    var var_isConnected = sse_decode_bool(deserializer);
-    return PeerDetails(
-        nodeId: var_nodeId, address: var_address, isConnected: var_isConnected);
-  }
-
-  @protected
-  PendingSweepBalance sse_decode_pending_sweep_balance(
-      SseDeserializer deserializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-
-    var tag_ = sse_decode_i_32(deserializer);
-    switch (tag_) {
-      case 0:
-        var var_channelId = sse_decode_opt_box_autoadd_channel_id(deserializer);
-        var var_amountSatoshis = sse_decode_u_64(deserializer);
-        return PendingSweepBalance_PendingBroadcast(
-            channelId: var_channelId, amountSatoshis: var_amountSatoshis);
-      case 1:
-        var var_channelId = sse_decode_opt_box_autoadd_channel_id(deserializer);
-        var var_latestBroadcastHeight = sse_decode_u_32(deserializer);
-        var var_latestSpendingTxid = sse_decode_box_autoadd_txid(deserializer);
-        var var_amountSatoshis = sse_decode_u_64(deserializer);
-        return PendingSweepBalance_BroadcastAwaitingConfirmation(
-            channelId: var_channelId,
-            latestBroadcastHeight: var_latestBroadcastHeight,
-            latestSpendingTxid: var_latestSpendingTxid,
-            amountSatoshis: var_amountSatoshis);
-      case 2:
-        var var_channelId = sse_decode_opt_box_autoadd_channel_id(deserializer);
-        var var_latestSpendingTxid = sse_decode_box_autoadd_txid(deserializer);
-        var var_confirmationHash = sse_decode_String(deserializer);
-        var var_confirmationHeight = sse_decode_u_32(deserializer);
-        var var_amountSatoshis = sse_decode_u_64(deserializer);
-        return PendingSweepBalance_AwaitingThresholdConfirmations(
-            channelId: var_channelId,
-            latestSpendingTxid: var_latestSpendingTxid,
-            confirmationHash: var_confirmationHash,
-            confirmationHeight: var_confirmationHeight,
-            amountSatoshis: var_amountSatoshis);
-      default:
-        throw UnimplementedError('');
-    }
+    var var_inner = sse_decode_String(deserializer);
+    return Psbt(inner: var_inner);
   }
 
   @protected
@@ -7228,31 +10543,16 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
   }
 
   @protected
-  QrPaymentResult sse_decode_qr_payment_result(SseDeserializer deserializer) {
+  (
+    SocketAddress,
+    PublicKey,
+    String?
+  ) sse_decode_record_auto_owned_rust_opaque_flutter_rust_bridgefor_generated_rust_auto_opaque_inner_socket_address_public_key_opt_string(
+      SseDeserializer deserializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
-
-    var tag_ = sse_decode_i_32(deserializer);
-    switch (tag_) {
-      case 0:
-        var var_txid = sse_decode_box_autoadd_txid(deserializer);
-        return QrPaymentResult_Onchain(txid: var_txid);
-      case 1:
-        var var_paymentId = sse_decode_box_autoadd_payment_id(deserializer);
-        return QrPaymentResult_Bolt11(paymentId: var_paymentId);
-      case 2:
-        var var_paymentId = sse_decode_box_autoadd_payment_id(deserializer);
-        return QrPaymentResult_Bolt12(paymentId: var_paymentId);
-      default:
-        throw UnimplementedError('');
-    }
-  }
-
-  @protected
-  (SocketAddress, PublicKey, String?)
-      sse_decode_record_socket_address_public_key_opt_string(
-          SseDeserializer deserializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    var var_field0 = sse_decode_socket_address(deserializer);
+    var var_field0 =
+        sse_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSocketAddress(
+            deserializer);
     var var_field1 = sse_decode_public_key(deserializer);
     var var_field2 = sse_decode_opt_String(deserializer);
     return (var_field0, var_field1, var_field2);
@@ -7285,11 +10585,18 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
   }
 
   @protected
+  ScriptBuf sse_decode_script_buf(SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    var var_inner = sse_decode_list_prim_u_8_strict(deserializer);
+    return ScriptBuf(inner: var_inner);
+  }
+
+  @protected
   SendingParameters sse_decode_sending_parameters(
       SseDeserializer deserializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     var var_maxTotalRoutingFeeMsat =
-        sse_decode_opt_box_autoadd_max_total_routing_fee_limit(deserializer);
+        sse_decode_opt_box_autoadd_u_64(deserializer);
     var var_maxTotalCltvExpiryDelta =
         sse_decode_opt_box_autoadd_u_32(deserializer);
     var var_maxPathCount = sse_decode_opt_box_autoadd_u_8(deserializer);
@@ -7303,39 +10610,25 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
   }
 
   @protected
-  SocketAddress sse_decode_socket_address(SseDeserializer deserializer) {
+  TxIn sse_decode_tx_in(SseDeserializer deserializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
+    var var_previousOutput = sse_decode_out_point(deserializer);
+    var var_scriptSig = sse_decode_script_buf(deserializer);
+    var var_sequence = sse_decode_u_32(deserializer);
+    var var_witness = sse_decode_list_list_prim_u_8_strict(deserializer);
+    return TxIn(
+        previousOutput: var_previousOutput,
+        scriptSig: var_scriptSig,
+        sequence: var_sequence,
+        witness: var_witness);
+  }
 
-    var tag_ = sse_decode_i_32(deserializer);
-    switch (tag_) {
-      case 0:
-        var var_addr = sse_decode_u_8_array_4(deserializer);
-        var var_port = sse_decode_u_16(deserializer);
-        return SocketAddress_TcpIpV4(addr: var_addr, port: var_port);
-      case 1:
-        var var_addr = sse_decode_u_8_array_16(deserializer);
-        var var_port = sse_decode_u_16(deserializer);
-        return SocketAddress_TcpIpV6(addr: var_addr, port: var_port);
-      case 2:
-        var var_field0 = sse_decode_u_8_array_12(deserializer);
-        return SocketAddress_OnionV2(var_field0);
-      case 3:
-        var var_ed25519Pubkey = sse_decode_u_8_array_32(deserializer);
-        var var_checksum = sse_decode_u_16(deserializer);
-        var var_version = sse_decode_u_8(deserializer);
-        var var_port = sse_decode_u_16(deserializer);
-        return SocketAddress_OnionV3(
-            ed25519Pubkey: var_ed25519Pubkey,
-            checksum: var_checksum,
-            version: var_version,
-            port: var_port);
-      case 4:
-        var var_addr = sse_decode_String(deserializer);
-        var var_port = sse_decode_u_16(deserializer);
-        return SocketAddress_Hostname(addr: var_addr, port: var_port);
-      default:
-        throw UnimplementedError('');
-    }
+  @protected
+  TxOut sse_decode_tx_out(SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    var var_value = sse_decode_u_64(deserializer);
+    var var_scriptPubkey = sse_decode_script_buf(deserializer);
+    return TxOut(value: var_value, scriptPubkey: var_scriptPubkey);
   }
 
   @protected
@@ -7370,31 +10663,10 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
   }
 
   @protected
-  U8Array12 sse_decode_u_8_array_12(SseDeserializer deserializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    var inner = sse_decode_list_prim_u_8_strict(deserializer);
-    return U8Array12(inner);
-  }
-
-  @protected
-  U8Array16 sse_decode_u_8_array_16(SseDeserializer deserializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    var inner = sse_decode_list_prim_u_8_strict(deserializer);
-    return U8Array16(inner);
-  }
-
-  @protected
   U8Array32 sse_decode_u_8_array_32(SseDeserializer deserializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     var inner = sse_decode_list_prim_u_8_strict(deserializer);
     return U8Array32(inner);
-  }
-
-  @protected
-  U8Array4 sse_decode_u_8_array_4(SseDeserializer deserializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    var inner = sse_decode_list_prim_u_8_strict(deserializer);
-    return U8Array4(inner);
   }
 
   @protected
@@ -7423,19 +10695,163 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
   }
 
   @protected
-  int cst_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerConfirmationStatus(
-      ConfirmationStatus raw) {
-    // Codec=Cst (C-struct based), see doc to use other codecs
-// ignore: invalid_use_of_internal_member
-    return (raw as ConfirmationStatusImpl).frbInternalCstEncode(move: true);
+  WTxid sse_decode_w_txid(SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    var var_hash = sse_decode_String(deserializer);
+    return WTxid(hash: var_hash);
   }
 
   @protected
-  int cst_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerFfiBuilder(
-      FfiBuilder raw) {
+  int cst_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerAddressData(
+      AddressData raw) {
     // Codec=Cst (C-struct based), see doc to use other codecs
 // ignore: invalid_use_of_internal_member
-    return (raw as FfiBuilderImpl).frbInternalCstEncode(move: true);
+    return (raw as AddressDataImpl).frbInternalCstEncode(move: true);
+  }
+
+  @protected
+  int cst_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerBitcoinAddress(
+      BitcoinAddress raw) {
+    // Codec=Cst (C-struct based), see doc to use other codecs
+// ignore: invalid_use_of_internal_member
+    return (raw as BitcoinAddressImpl).frbInternalCstEncode(move: true);
+  }
+
+  @protected
+  int cst_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerBitcoinAddressInner(
+      BitcoinAddressInner raw) {
+    // Codec=Cst (C-struct based), see doc to use other codecs
+// ignore: invalid_use_of_internal_member
+    return (raw as BitcoinAddressInnerImpl).frbInternalCstEncode(move: true);
+  }
+
+  @protected
+  int cst_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerBitcoinTransactionInner(
+      BitcoinTransactionInner raw) {
+    // Codec=Cst (C-struct based), see doc to use other codecs
+// ignore: invalid_use_of_internal_member
+    return (raw as BitcoinTransactionInnerImpl)
+        .frbInternalCstEncode(move: true);
+  }
+
+  @protected
+  int cst_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerBolt11Payment(
+      Bolt11Payment raw) {
+    // Codec=Cst (C-struct based), see doc to use other codecs
+// ignore: invalid_use_of_internal_member
+    return (raw as Bolt11PaymentImpl).frbInternalCstEncode(move: true);
+  }
+
+  @protected
+  int cst_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerBolt12Payment(
+      Bolt12Payment raw) {
+    // Codec=Cst (C-struct based), see doc to use other codecs
+// ignore: invalid_use_of_internal_member
+    return (raw as Bolt12PaymentImpl).frbInternalCstEncode(move: true);
+  }
+
+  @protected
+  int cst_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerBuilder(
+      Builder raw) {
+    // Codec=Cst (C-struct based), see doc to use other codecs
+// ignore: invalid_use_of_internal_member
+    return (raw as BuilderImpl).frbInternalCstEncode(move: true);
+  }
+
+  @protected
+  int cst_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerChainDataSourceConfig(
+      ChainDataSourceConfig raw) {
+    // Codec=Cst (C-struct based), see doc to use other codecs
+// ignore: invalid_use_of_internal_member
+    return (raw as ChainDataSourceConfigImpl).frbInternalCstEncode(move: true);
+  }
+
+  @protected
+  int cst_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerChannelConfig(
+      ChannelConfig raw) {
+    // Codec=Cst (C-struct based), see doc to use other codecs
+// ignore: invalid_use_of_internal_member
+    return (raw as ChannelConfigImpl).frbInternalCstEncode(move: true);
+  }
+
+  @protected
+  int cst_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerChannelDetails(
+      ChannelDetails raw) {
+    // Codec=Cst (C-struct based), see doc to use other codecs
+// ignore: invalid_use_of_internal_member
+    return (raw as ChannelDetailsImpl).frbInternalCstEncode(move: true);
+  }
+
+  @protected
+  int cst_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerEntropySourceConfig(
+      EntropySourceConfig raw) {
+    // Codec=Cst (C-struct based), see doc to use other codecs
+// ignore: invalid_use_of_internal_member
+    return (raw as EntropySourceConfigImpl).frbInternalCstEncode(move: true);
+  }
+
+  @protected
+  int cst_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerEvent(
+      Event raw) {
+    // Codec=Cst (C-struct based), see doc to use other codecs
+// ignore: invalid_use_of_internal_member
+    return (raw as EventImpl).frbInternalCstEncode(move: true);
+  }
+
+  @protected
+  int cst_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerGossipSourceConfig(
+      GossipSourceConfig raw) {
+    // Codec=Cst (C-struct based), see doc to use other codecs
+// ignore: invalid_use_of_internal_member
+    return (raw as GossipSourceConfigImpl).frbInternalCstEncode(move: true);
+  }
+
+  @protected
+  int cst_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerLightningBalance(
+      LightningBalance raw) {
+    // Codec=Cst (C-struct based), see doc to use other codecs
+// ignore: invalid_use_of_internal_member
+    return (raw as LightningBalanceImpl).frbInternalCstEncode(move: true);
+  }
+
+  @protected
+  int cst_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerMaxDustHTLCExposure(
+      MaxDustHtlcExposure raw) {
+    // Codec=Cst (C-struct based), see doc to use other codecs
+// ignore: invalid_use_of_internal_member
+    return (raw as MaxDustHtlcExposureImpl).frbInternalCstEncode(move: true);
+  }
+
+  @protected
+  int cst_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerNetworkGraph(
+      NetworkGraph raw) {
+    // Codec=Cst (C-struct based), see doc to use other codecs
+// ignore: invalid_use_of_internal_member
+    return (raw as NetworkGraphImpl).frbInternalCstEncode(move: true);
+  }
+
+  @protected
+  int cst_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerNode(
+      Node raw) {
+    // Codec=Cst (C-struct based), see doc to use other codecs
+// ignore: invalid_use_of_internal_member
+    return (raw as NodeImpl).frbInternalCstEncode(move: true);
+  }
+
+  @protected
+  int cst_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerOnChainPayment(
+      OnChainPayment raw) {
+    // Codec=Cst (C-struct based), see doc to use other codecs
+// ignore: invalid_use_of_internal_member
+    return (raw as OnChainPaymentImpl).frbInternalCstEncode(move: true);
+  }
+
+  @protected
+  int cst_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPaymentDetails(
+      PaymentDetails raw) {
+    // Codec=Cst (C-struct based), see doc to use other codecs
+// ignore: invalid_use_of_internal_member
+    return (raw as PaymentDetailsImpl).frbInternalCstEncode(move: true);
   }
 
   @protected
@@ -7447,35 +10863,403 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
   }
 
   @protected
-  int cst_encode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerFfiBuilder(
-      FfiBuilder raw) {
+  int cst_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPeerDetails(
+      PeerDetails raw) {
     // Codec=Cst (C-struct based), see doc to use other codecs
 // ignore: invalid_use_of_internal_member
-    return (raw as FfiBuilderImpl).frbInternalCstEncode(move: false);
+    return (raw as PeerDetailsImpl).frbInternalCstEncode(move: true);
   }
 
   @protected
-  int cst_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerFfiBuilder(
-      FfiBuilder raw) {
+  int cst_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPendingSweepBalance(
+      PendingSweepBalance raw) {
     // Codec=Cst (C-struct based), see doc to use other codecs
 // ignore: invalid_use_of_internal_member
-    return (raw as FfiBuilderImpl).frbInternalCstEncode(move: false);
+    return (raw as PendingSweepBalanceImpl).frbInternalCstEncode(move: true);
   }
 
   @protected
-  int cst_encode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerConfirmationStatus(
-      ConfirmationStatus raw) {
+  int cst_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerQrPaymentResult(
+      QrPaymentResult raw) {
     // Codec=Cst (C-struct based), see doc to use other codecs
 // ignore: invalid_use_of_internal_member
-    return (raw as ConfirmationStatusImpl).frbInternalCstEncode();
+    return (raw as QrPaymentResultImpl).frbInternalCstEncode(move: true);
   }
 
   @protected
-  int cst_encode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerFfiBuilder(
-      FfiBuilder raw) {
+  int cst_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSocketAddress(
+      SocketAddress raw) {
     // Codec=Cst (C-struct based), see doc to use other codecs
 // ignore: invalid_use_of_internal_member
-    return (raw as FfiBuilderImpl).frbInternalCstEncode();
+    return (raw as SocketAddressImpl).frbInternalCstEncode(move: true);
+  }
+
+  @protected
+  int cst_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSpontaneousPayment(
+      SpontaneousPayment raw) {
+    // Codec=Cst (C-struct based), see doc to use other codecs
+// ignore: invalid_use_of_internal_member
+    return (raw as SpontaneousPaymentImpl).frbInternalCstEncode(move: true);
+  }
+
+  @protected
+  int cst_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerTaprootSpendInfo(
+      TaprootSpendInfo raw) {
+    // Codec=Cst (C-struct based), see doc to use other codecs
+// ignore: invalid_use_of_internal_member
+    return (raw as TaprootSpendInfoImpl).frbInternalCstEncode(move: true);
+  }
+
+  @protected
+  int cst_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerTaprootSpendInfoInner(
+      TaprootSpendInfoInner raw) {
+    // Codec=Cst (C-struct based), see doc to use other codecs
+// ignore: invalid_use_of_internal_member
+    return (raw as TaprootSpendInfoInnerImpl).frbInternalCstEncode(move: true);
+  }
+
+  @protected
+  int cst_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerTransaction(
+      Transaction raw) {
+    // Codec=Cst (C-struct based), see doc to use other codecs
+// ignore: invalid_use_of_internal_member
+    return (raw as TransactionImpl).frbInternalCstEncode(move: true);
+  }
+
+  @protected
+  int cst_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerUnifiedQrPayment(
+      UnifiedQrPayment raw) {
+    // Codec=Cst (C-struct based), see doc to use other codecs
+// ignore: invalid_use_of_internal_member
+    return (raw as UnifiedQrPaymentImpl).frbInternalCstEncode(move: true);
+  }
+
+  @protected
+  int cst_encode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerBitcoinAddress(
+      BitcoinAddress raw) {
+    // Codec=Cst (C-struct based), see doc to use other codecs
+// ignore: invalid_use_of_internal_member
+    return (raw as BitcoinAddressImpl).frbInternalCstEncode(move: false);
+  }
+
+  @protected
+  int cst_encode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerChannelConfig(
+      ChannelConfig raw) {
+    // Codec=Cst (C-struct based), see doc to use other codecs
+// ignore: invalid_use_of_internal_member
+    return (raw as ChannelConfigImpl).frbInternalCstEncode(move: false);
+  }
+
+  @protected
+  int cst_encode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerChannelDetails(
+      ChannelDetails raw) {
+    // Codec=Cst (C-struct based), see doc to use other codecs
+// ignore: invalid_use_of_internal_member
+    return (raw as ChannelDetailsImpl).frbInternalCstEncode(move: false);
+  }
+
+  @protected
+  int cst_encode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPaymentDetails(
+      PaymentDetails raw) {
+    // Codec=Cst (C-struct based), see doc to use other codecs
+// ignore: invalid_use_of_internal_member
+    return (raw as PaymentDetailsImpl).frbInternalCstEncode(move: false);
+  }
+
+  @protected
+  int cst_encode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPeerDetails(
+      PeerDetails raw) {
+    // Codec=Cst (C-struct based), see doc to use other codecs
+// ignore: invalid_use_of_internal_member
+    return (raw as PeerDetailsImpl).frbInternalCstEncode(move: false);
+  }
+
+  @protected
+  int cst_encode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerTaprootSpendInfo(
+      TaprootSpendInfo raw) {
+    // Codec=Cst (C-struct based), see doc to use other codecs
+// ignore: invalid_use_of_internal_member
+    return (raw as TaprootSpendInfoImpl).frbInternalCstEncode(move: false);
+  }
+
+  @protected
+  int cst_encode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerTransaction(
+      Transaction raw) {
+    // Codec=Cst (C-struct based), see doc to use other codecs
+// ignore: invalid_use_of_internal_member
+    return (raw as TransactionImpl).frbInternalCstEncode(move: false);
+  }
+
+  @protected
+  int cst_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerBitcoinAddress(
+      BitcoinAddress raw) {
+    // Codec=Cst (C-struct based), see doc to use other codecs
+// ignore: invalid_use_of_internal_member
+    return (raw as BitcoinAddressImpl).frbInternalCstEncode(move: false);
+  }
+
+  @protected
+  int cst_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerBolt11Payment(
+      Bolt11Payment raw) {
+    // Codec=Cst (C-struct based), see doc to use other codecs
+// ignore: invalid_use_of_internal_member
+    return (raw as Bolt11PaymentImpl).frbInternalCstEncode(move: false);
+  }
+
+  @protected
+  int cst_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerBolt12Payment(
+      Bolt12Payment raw) {
+    // Codec=Cst (C-struct based), see doc to use other codecs
+// ignore: invalid_use_of_internal_member
+    return (raw as Bolt12PaymentImpl).frbInternalCstEncode(move: false);
+  }
+
+  @protected
+  int cst_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerBuilder(
+      Builder raw) {
+    // Codec=Cst (C-struct based), see doc to use other codecs
+// ignore: invalid_use_of_internal_member
+    return (raw as BuilderImpl).frbInternalCstEncode(move: false);
+  }
+
+  @protected
+  int cst_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerChannelConfig(
+      ChannelConfig raw) {
+    // Codec=Cst (C-struct based), see doc to use other codecs
+// ignore: invalid_use_of_internal_member
+    return (raw as ChannelConfigImpl).frbInternalCstEncode(move: false);
+  }
+
+  @protected
+  int cst_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerChannelDetails(
+      ChannelDetails raw) {
+    // Codec=Cst (C-struct based), see doc to use other codecs
+// ignore: invalid_use_of_internal_member
+    return (raw as ChannelDetailsImpl).frbInternalCstEncode(move: false);
+  }
+
+  @protected
+  int cst_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerNetworkGraph(
+      NetworkGraph raw) {
+    // Codec=Cst (C-struct based), see doc to use other codecs
+// ignore: invalid_use_of_internal_member
+    return (raw as NetworkGraphImpl).frbInternalCstEncode(move: false);
+  }
+
+  @protected
+  int cst_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerNode(
+      Node raw) {
+    // Codec=Cst (C-struct based), see doc to use other codecs
+// ignore: invalid_use_of_internal_member
+    return (raw as NodeImpl).frbInternalCstEncode(move: false);
+  }
+
+  @protected
+  int cst_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerOnChainPayment(
+      OnChainPayment raw) {
+    // Codec=Cst (C-struct based), see doc to use other codecs
+// ignore: invalid_use_of_internal_member
+    return (raw as OnChainPaymentImpl).frbInternalCstEncode(move: false);
+  }
+
+  @protected
+  int cst_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPaymentDetails(
+      PaymentDetails raw) {
+    // Codec=Cst (C-struct based), see doc to use other codecs
+// ignore: invalid_use_of_internal_member
+    return (raw as PaymentDetailsImpl).frbInternalCstEncode(move: false);
+  }
+
+  @protected
+  int cst_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPeerDetails(
+      PeerDetails raw) {
+    // Codec=Cst (C-struct based), see doc to use other codecs
+// ignore: invalid_use_of_internal_member
+    return (raw as PeerDetailsImpl).frbInternalCstEncode(move: false);
+  }
+
+  @protected
+  int cst_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSpontaneousPayment(
+      SpontaneousPayment raw) {
+    // Codec=Cst (C-struct based), see doc to use other codecs
+// ignore: invalid_use_of_internal_member
+    return (raw as SpontaneousPaymentImpl).frbInternalCstEncode(move: false);
+  }
+
+  @protected
+  int cst_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerTaprootSpendInfo(
+      TaprootSpendInfo raw) {
+    // Codec=Cst (C-struct based), see doc to use other codecs
+// ignore: invalid_use_of_internal_member
+    return (raw as TaprootSpendInfoImpl).frbInternalCstEncode(move: false);
+  }
+
+  @protected
+  int cst_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerTransaction(
+      Transaction raw) {
+    // Codec=Cst (C-struct based), see doc to use other codecs
+// ignore: invalid_use_of_internal_member
+    return (raw as TransactionImpl).frbInternalCstEncode(move: false);
+  }
+
+  @protected
+  int cst_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerUnifiedQrPayment(
+      UnifiedQrPayment raw) {
+    // Codec=Cst (C-struct based), see doc to use other codecs
+// ignore: invalid_use_of_internal_member
+    return (raw as UnifiedQrPaymentImpl).frbInternalCstEncode(move: false);
+  }
+
+  @protected
+  int cst_encode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerAddressData(
+      AddressData raw) {
+    // Codec=Cst (C-struct based), see doc to use other codecs
+// ignore: invalid_use_of_internal_member
+    return (raw as AddressDataImpl).frbInternalCstEncode();
+  }
+
+  @protected
+  int cst_encode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerBitcoinAddress(
+      BitcoinAddress raw) {
+    // Codec=Cst (C-struct based), see doc to use other codecs
+// ignore: invalid_use_of_internal_member
+    return (raw as BitcoinAddressImpl).frbInternalCstEncode();
+  }
+
+  @protected
+  int cst_encode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerBitcoinAddressInner(
+      BitcoinAddressInner raw) {
+    // Codec=Cst (C-struct based), see doc to use other codecs
+// ignore: invalid_use_of_internal_member
+    return (raw as BitcoinAddressInnerImpl).frbInternalCstEncode();
+  }
+
+  @protected
+  int cst_encode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerBitcoinTransactionInner(
+      BitcoinTransactionInner raw) {
+    // Codec=Cst (C-struct based), see doc to use other codecs
+// ignore: invalid_use_of_internal_member
+    return (raw as BitcoinTransactionInnerImpl).frbInternalCstEncode();
+  }
+
+  @protected
+  int cst_encode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerBolt11Payment(
+      Bolt11Payment raw) {
+    // Codec=Cst (C-struct based), see doc to use other codecs
+// ignore: invalid_use_of_internal_member
+    return (raw as Bolt11PaymentImpl).frbInternalCstEncode();
+  }
+
+  @protected
+  int cst_encode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerBolt12Payment(
+      Bolt12Payment raw) {
+    // Codec=Cst (C-struct based), see doc to use other codecs
+// ignore: invalid_use_of_internal_member
+    return (raw as Bolt12PaymentImpl).frbInternalCstEncode();
+  }
+
+  @protected
+  int cst_encode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerBuilder(
+      Builder raw) {
+    // Codec=Cst (C-struct based), see doc to use other codecs
+// ignore: invalid_use_of_internal_member
+    return (raw as BuilderImpl).frbInternalCstEncode();
+  }
+
+  @protected
+  int cst_encode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerChainDataSourceConfig(
+      ChainDataSourceConfig raw) {
+    // Codec=Cst (C-struct based), see doc to use other codecs
+// ignore: invalid_use_of_internal_member
+    return (raw as ChainDataSourceConfigImpl).frbInternalCstEncode();
+  }
+
+  @protected
+  int cst_encode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerChannelConfig(
+      ChannelConfig raw) {
+    // Codec=Cst (C-struct based), see doc to use other codecs
+// ignore: invalid_use_of_internal_member
+    return (raw as ChannelConfigImpl).frbInternalCstEncode();
+  }
+
+  @protected
+  int cst_encode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerChannelDetails(
+      ChannelDetails raw) {
+    // Codec=Cst (C-struct based), see doc to use other codecs
+// ignore: invalid_use_of_internal_member
+    return (raw as ChannelDetailsImpl).frbInternalCstEncode();
+  }
+
+  @protected
+  int cst_encode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerEntropySourceConfig(
+      EntropySourceConfig raw) {
+    // Codec=Cst (C-struct based), see doc to use other codecs
+// ignore: invalid_use_of_internal_member
+    return (raw as EntropySourceConfigImpl).frbInternalCstEncode();
+  }
+
+  @protected
+  int cst_encode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerEvent(
+      Event raw) {
+    // Codec=Cst (C-struct based), see doc to use other codecs
+// ignore: invalid_use_of_internal_member
+    return (raw as EventImpl).frbInternalCstEncode();
+  }
+
+  @protected
+  int cst_encode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerGossipSourceConfig(
+      GossipSourceConfig raw) {
+    // Codec=Cst (C-struct based), see doc to use other codecs
+// ignore: invalid_use_of_internal_member
+    return (raw as GossipSourceConfigImpl).frbInternalCstEncode();
+  }
+
+  @protected
+  int cst_encode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerLightningBalance(
+      LightningBalance raw) {
+    // Codec=Cst (C-struct based), see doc to use other codecs
+// ignore: invalid_use_of_internal_member
+    return (raw as LightningBalanceImpl).frbInternalCstEncode();
+  }
+
+  @protected
+  int cst_encode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerMaxDustHTLCExposure(
+      MaxDustHtlcExposure raw) {
+    // Codec=Cst (C-struct based), see doc to use other codecs
+// ignore: invalid_use_of_internal_member
+    return (raw as MaxDustHtlcExposureImpl).frbInternalCstEncode();
+  }
+
+  @protected
+  int cst_encode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerNetworkGraph(
+      NetworkGraph raw) {
+    // Codec=Cst (C-struct based), see doc to use other codecs
+// ignore: invalid_use_of_internal_member
+    return (raw as NetworkGraphImpl).frbInternalCstEncode();
+  }
+
+  @protected
+  int cst_encode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerNode(
+      Node raw) {
+    // Codec=Cst (C-struct based), see doc to use other codecs
+// ignore: invalid_use_of_internal_member
+    return (raw as NodeImpl).frbInternalCstEncode();
+  }
+
+  @protected
+  int cst_encode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerOnChainPayment(
+      OnChainPayment raw) {
+    // Codec=Cst (C-struct based), see doc to use other codecs
+// ignore: invalid_use_of_internal_member
+    return (raw as OnChainPaymentImpl).frbInternalCstEncode();
+  }
+
+  @protected
+  int cst_encode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPaymentDetails(
+      PaymentDetails raw) {
+    // Codec=Cst (C-struct based), see doc to use other codecs
+// ignore: invalid_use_of_internal_member
+    return (raw as PaymentDetailsImpl).frbInternalCstEncode();
   }
 
   @protected
@@ -7487,49 +11271,39 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
   }
 
   @protected
-  int cst_encode_RustOpaque_ldk_nodeBuilder(Builder raw) {
+  int cst_encode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPeerDetails(
+      PeerDetails raw) {
     // Codec=Cst (C-struct based), see doc to use other codecs
 // ignore: invalid_use_of_internal_member
-    return (raw as BuilderImpl).frbInternalCstEncode();
+    return (raw as PeerDetailsImpl).frbInternalCstEncode();
   }
 
   @protected
-  int cst_encode_RustOpaque_ldk_nodeNode(Node raw) {
+  int cst_encode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPendingSweepBalance(
+      PendingSweepBalance raw) {
     // Codec=Cst (C-struct based), see doc to use other codecs
 // ignore: invalid_use_of_internal_member
-    return (raw as NodeImpl).frbInternalCstEncode();
+    return (raw as PendingSweepBalanceImpl).frbInternalCstEncode();
   }
 
   @protected
-  int cst_encode_RustOpaque_ldk_nodegraphNetworkGraph(NetworkGraph raw) {
+  int cst_encode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerQrPaymentResult(
+      QrPaymentResult raw) {
     // Codec=Cst (C-struct based), see doc to use other codecs
 // ignore: invalid_use_of_internal_member
-    return (raw as NetworkGraphImpl).frbInternalCstEncode();
+    return (raw as QrPaymentResultImpl).frbInternalCstEncode();
   }
 
   @protected
-  int cst_encode_RustOpaque_ldk_nodepaymentBolt11Payment(Bolt11Payment raw) {
+  int cst_encode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSocketAddress(
+      SocketAddress raw) {
     // Codec=Cst (C-struct based), see doc to use other codecs
 // ignore: invalid_use_of_internal_member
-    return (raw as Bolt11PaymentImpl).frbInternalCstEncode();
+    return (raw as SocketAddressImpl).frbInternalCstEncode();
   }
 
   @protected
-  int cst_encode_RustOpaque_ldk_nodepaymentBolt12Payment(Bolt12Payment raw) {
-    // Codec=Cst (C-struct based), see doc to use other codecs
-// ignore: invalid_use_of_internal_member
-    return (raw as Bolt12PaymentImpl).frbInternalCstEncode();
-  }
-
-  @protected
-  int cst_encode_RustOpaque_ldk_nodepaymentOnchainPayment(OnchainPayment raw) {
-    // Codec=Cst (C-struct based), see doc to use other codecs
-// ignore: invalid_use_of_internal_member
-    return (raw as OnchainPaymentImpl).frbInternalCstEncode();
-  }
-
-  @protected
-  int cst_encode_RustOpaque_ldk_nodepaymentSpontaneousPayment(
+  int cst_encode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSpontaneousPayment(
       SpontaneousPayment raw) {
     // Codec=Cst (C-struct based), see doc to use other codecs
 // ignore: invalid_use_of_internal_member
@@ -7537,7 +11311,31 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
   }
 
   @protected
-  int cst_encode_RustOpaque_ldk_nodepaymentUnifiedQrPayment(
+  int cst_encode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerTaprootSpendInfo(
+      TaprootSpendInfo raw) {
+    // Codec=Cst (C-struct based), see doc to use other codecs
+// ignore: invalid_use_of_internal_member
+    return (raw as TaprootSpendInfoImpl).frbInternalCstEncode();
+  }
+
+  @protected
+  int cst_encode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerTaprootSpendInfoInner(
+      TaprootSpendInfoInner raw) {
+    // Codec=Cst (C-struct based), see doc to use other codecs
+// ignore: invalid_use_of_internal_member
+    return (raw as TaprootSpendInfoInnerImpl).frbInternalCstEncode();
+  }
+
+  @protected
+  int cst_encode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerTransaction(
+      Transaction raw) {
+    // Codec=Cst (C-struct based), see doc to use other codecs
+// ignore: invalid_use_of_internal_member
+    return (raw as TransactionImpl).frbInternalCstEncode();
+  }
+
+  @protected
+  int cst_encode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerUnifiedQrPayment(
       UnifiedQrPayment raw) {
     // Codec=Cst (C-struct based), see doc to use other codecs
 // ignore: invalid_use_of_internal_member
@@ -7545,27 +11343,9 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
   }
 
   @protected
-  int cst_encode_balance_source(BalanceSource raw) {
-    // Codec=Cst (C-struct based), see doc to use other codecs
-    return cst_encode_i_32(raw.index);
-  }
-
-  @protected
   bool cst_encode_bool(bool raw) {
     // Codec=Cst (C-struct based), see doc to use other codecs
     return raw;
-  }
-
-  @protected
-  int cst_encode_ffi_builder_error(FfiBuilderError raw) {
-    // Codec=Cst (C-struct based), see doc to use other codecs
-    return cst_encode_i_32(raw.index);
-  }
-
-  @protected
-  int cst_encode_ffi_creation_error(FfiCreationError raw) {
-    // Codec=Cst (C-struct based), see doc to use other codecs
-    return cst_encode_i_32(raw.index);
   }
 
   @protected
@@ -7588,12 +11368,6 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
 
   @protected
   int cst_encode_payment_direction(PaymentDirection raw) {
-    // Codec=Cst (C-struct based), see doc to use other codecs
-    return cst_encode_i_32(raw.index);
-  }
-
-  @protected
-  int cst_encode_payment_failure_reason(PaymentFailureReason raw) {
     // Codec=Cst (C-struct based), see doc to use other codecs
     return cst_encode_i_32(raw.index);
   }
@@ -7629,22 +11403,196 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
   }
 
   @protected
+  void sse_encode_AnyhowException(
+      AnyhowException self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_String(self.message, serializer);
+  }
+
+  @protected
   void
-      sse_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerConfirmationStatus(
-          ConfirmationStatus self, SseSerializer serializer) {
+      sse_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerAddressData(
+          AddressData self, SseSerializer serializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     sse_encode_usize(
-        (self as ConfirmationStatusImpl).frbInternalSseEncode(move: true),
+        (self as AddressDataImpl).frbInternalSseEncode(move: true), serializer);
+  }
+
+  @protected
+  void
+      sse_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerBitcoinAddress(
+          BitcoinAddress self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_usize(
+        (self as BitcoinAddressImpl).frbInternalSseEncode(move: true),
         serializer);
   }
 
   @protected
   void
-      sse_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerFfiBuilder(
-          FfiBuilder self, SseSerializer serializer) {
+      sse_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerBitcoinAddressInner(
+          BitcoinAddressInner self, SseSerializer serializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     sse_encode_usize(
-        (self as FfiBuilderImpl).frbInternalSseEncode(move: true), serializer);
+        (self as BitcoinAddressInnerImpl).frbInternalSseEncode(move: true),
+        serializer);
+  }
+
+  @protected
+  void
+      sse_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerBitcoinTransactionInner(
+          BitcoinTransactionInner self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_usize(
+        (self as BitcoinTransactionInnerImpl).frbInternalSseEncode(move: true),
+        serializer);
+  }
+
+  @protected
+  void
+      sse_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerBolt11Payment(
+          Bolt11Payment self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_usize(
+        (self as Bolt11PaymentImpl).frbInternalSseEncode(move: true),
+        serializer);
+  }
+
+  @protected
+  void
+      sse_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerBolt12Payment(
+          Bolt12Payment self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_usize(
+        (self as Bolt12PaymentImpl).frbInternalSseEncode(move: true),
+        serializer);
+  }
+
+  @protected
+  void
+      sse_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerBuilder(
+          Builder self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_usize(
+        (self as BuilderImpl).frbInternalSseEncode(move: true), serializer);
+  }
+
+  @protected
+  void
+      sse_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerChainDataSourceConfig(
+          ChainDataSourceConfig self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_usize(
+        (self as ChainDataSourceConfigImpl).frbInternalSseEncode(move: true),
+        serializer);
+  }
+
+  @protected
+  void
+      sse_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerChannelConfig(
+          ChannelConfig self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_usize(
+        (self as ChannelConfigImpl).frbInternalSseEncode(move: true),
+        serializer);
+  }
+
+  @protected
+  void
+      sse_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerChannelDetails(
+          ChannelDetails self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_usize(
+        (self as ChannelDetailsImpl).frbInternalSseEncode(move: true),
+        serializer);
+  }
+
+  @protected
+  void
+      sse_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerEntropySourceConfig(
+          EntropySourceConfig self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_usize(
+        (self as EntropySourceConfigImpl).frbInternalSseEncode(move: true),
+        serializer);
+  }
+
+  @protected
+  void
+      sse_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerEvent(
+          Event self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_usize(
+        (self as EventImpl).frbInternalSseEncode(move: true), serializer);
+  }
+
+  @protected
+  void
+      sse_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerGossipSourceConfig(
+          GossipSourceConfig self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_usize(
+        (self as GossipSourceConfigImpl).frbInternalSseEncode(move: true),
+        serializer);
+  }
+
+  @protected
+  void
+      sse_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerLightningBalance(
+          LightningBalance self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_usize(
+        (self as LightningBalanceImpl).frbInternalSseEncode(move: true),
+        serializer);
+  }
+
+  @protected
+  void
+      sse_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerMaxDustHTLCExposure(
+          MaxDustHtlcExposure self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_usize(
+        (self as MaxDustHtlcExposureImpl).frbInternalSseEncode(move: true),
+        serializer);
+  }
+
+  @protected
+  void
+      sse_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerNetworkGraph(
+          NetworkGraph self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_usize(
+        (self as NetworkGraphImpl).frbInternalSseEncode(move: true),
+        serializer);
+  }
+
+  @protected
+  void
+      sse_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerNode(
+          Node self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_usize(
+        (self as NodeImpl).frbInternalSseEncode(move: true), serializer);
+  }
+
+  @protected
+  void
+      sse_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerOnChainPayment(
+          OnChainPayment self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_usize(
+        (self as OnChainPaymentImpl).frbInternalSseEncode(move: true),
+        serializer);
+  }
+
+  @protected
+  void
+      sse_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPaymentDetails(
+          PaymentDetails self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_usize(
+        (self as PaymentDetailsImpl).frbInternalSseEncode(move: true),
+        serializer);
   }
 
   @protected
@@ -7658,20 +11606,308 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
 
   @protected
   void
-      sse_encode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerFfiBuilder(
-          FfiBuilder self, SseSerializer serializer) {
+      sse_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPeerDetails(
+          PeerDetails self, SseSerializer serializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     sse_encode_usize(
-        (self as FfiBuilderImpl).frbInternalSseEncode(move: false), serializer);
+        (self as PeerDetailsImpl).frbInternalSseEncode(move: true), serializer);
   }
 
   @protected
   void
-      sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerFfiBuilder(
-          FfiBuilder self, SseSerializer serializer) {
+      sse_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPendingSweepBalance(
+          PendingSweepBalance self, SseSerializer serializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     sse_encode_usize(
-        (self as FfiBuilderImpl).frbInternalSseEncode(move: false), serializer);
+        (self as PendingSweepBalanceImpl).frbInternalSseEncode(move: true),
+        serializer);
+  }
+
+  @protected
+  void
+      sse_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerQrPaymentResult(
+          QrPaymentResult self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_usize(
+        (self as QrPaymentResultImpl).frbInternalSseEncode(move: true),
+        serializer);
+  }
+
+  @protected
+  void
+      sse_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSocketAddress(
+          SocketAddress self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_usize(
+        (self as SocketAddressImpl).frbInternalSseEncode(move: true),
+        serializer);
+  }
+
+  @protected
+  void
+      sse_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSpontaneousPayment(
+          SpontaneousPayment self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_usize(
+        (self as SpontaneousPaymentImpl).frbInternalSseEncode(move: true),
+        serializer);
+  }
+
+  @protected
+  void
+      sse_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerTaprootSpendInfo(
+          TaprootSpendInfo self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_usize(
+        (self as TaprootSpendInfoImpl).frbInternalSseEncode(move: true),
+        serializer);
+  }
+
+  @protected
+  void
+      sse_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerTaprootSpendInfoInner(
+          TaprootSpendInfoInner self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_usize(
+        (self as TaprootSpendInfoInnerImpl).frbInternalSseEncode(move: true),
+        serializer);
+  }
+
+  @protected
+  void
+      sse_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerTransaction(
+          Transaction self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_usize(
+        (self as TransactionImpl).frbInternalSseEncode(move: true), serializer);
+  }
+
+  @protected
+  void
+      sse_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerUnifiedQrPayment(
+          UnifiedQrPayment self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_usize(
+        (self as UnifiedQrPaymentImpl).frbInternalSseEncode(move: true),
+        serializer);
+  }
+
+  @protected
+  void
+      sse_encode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerBitcoinAddress(
+          BitcoinAddress self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_usize(
+        (self as BitcoinAddressImpl).frbInternalSseEncode(move: false),
+        serializer);
+  }
+
+  @protected
+  void
+      sse_encode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerChannelConfig(
+          ChannelConfig self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_usize(
+        (self as ChannelConfigImpl).frbInternalSseEncode(move: false),
+        serializer);
+  }
+
+  @protected
+  void
+      sse_encode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerChannelDetails(
+          ChannelDetails self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_usize(
+        (self as ChannelDetailsImpl).frbInternalSseEncode(move: false),
+        serializer);
+  }
+
+  @protected
+  void
+      sse_encode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPaymentDetails(
+          PaymentDetails self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_usize(
+        (self as PaymentDetailsImpl).frbInternalSseEncode(move: false),
+        serializer);
+  }
+
+  @protected
+  void
+      sse_encode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPeerDetails(
+          PeerDetails self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_usize(
+        (self as PeerDetailsImpl).frbInternalSseEncode(move: false),
+        serializer);
+  }
+
+  @protected
+  void
+      sse_encode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerTaprootSpendInfo(
+          TaprootSpendInfo self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_usize(
+        (self as TaprootSpendInfoImpl).frbInternalSseEncode(move: false),
+        serializer);
+  }
+
+  @protected
+  void
+      sse_encode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerTransaction(
+          Transaction self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_usize(
+        (self as TransactionImpl).frbInternalSseEncode(move: false),
+        serializer);
+  }
+
+  @protected
+  void
+      sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerBitcoinAddress(
+          BitcoinAddress self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_usize(
+        (self as BitcoinAddressImpl).frbInternalSseEncode(move: false),
+        serializer);
+  }
+
+  @protected
+  void
+      sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerBolt11Payment(
+          Bolt11Payment self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_usize(
+        (self as Bolt11PaymentImpl).frbInternalSseEncode(move: false),
+        serializer);
+  }
+
+  @protected
+  void
+      sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerBolt12Payment(
+          Bolt12Payment self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_usize(
+        (self as Bolt12PaymentImpl).frbInternalSseEncode(move: false),
+        serializer);
+  }
+
+  @protected
+  void
+      sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerBuilder(
+          Builder self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_usize(
+        (self as BuilderImpl).frbInternalSseEncode(move: false), serializer);
+  }
+
+  @protected
+  void
+      sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerChannelConfig(
+          ChannelConfig self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_usize(
+        (self as ChannelConfigImpl).frbInternalSseEncode(move: false),
+        serializer);
+  }
+
+  @protected
+  void
+      sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerChannelDetails(
+          ChannelDetails self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_usize(
+        (self as ChannelDetailsImpl).frbInternalSseEncode(move: false),
+        serializer);
+  }
+
+  @protected
+  void
+      sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerNetworkGraph(
+          NetworkGraph self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_usize(
+        (self as NetworkGraphImpl).frbInternalSseEncode(move: false),
+        serializer);
+  }
+
+  @protected
+  void
+      sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerNode(
+          Node self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_usize(
+        (self as NodeImpl).frbInternalSseEncode(move: false), serializer);
+  }
+
+  @protected
+  void
+      sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerOnChainPayment(
+          OnChainPayment self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_usize(
+        (self as OnChainPaymentImpl).frbInternalSseEncode(move: false),
+        serializer);
+  }
+
+  @protected
+  void
+      sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPaymentDetails(
+          PaymentDetails self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_usize(
+        (self as PaymentDetailsImpl).frbInternalSseEncode(move: false),
+        serializer);
+  }
+
+  @protected
+  void
+      sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPeerDetails(
+          PeerDetails self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_usize(
+        (self as PeerDetailsImpl).frbInternalSseEncode(move: false),
+        serializer);
+  }
+
+  @protected
+  void
+      sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSpontaneousPayment(
+          SpontaneousPayment self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_usize(
+        (self as SpontaneousPaymentImpl).frbInternalSseEncode(move: false),
+        serializer);
+  }
+
+  @protected
+  void
+      sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerTaprootSpendInfo(
+          TaprootSpendInfo self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_usize(
+        (self as TaprootSpendInfoImpl).frbInternalSseEncode(move: false),
+        serializer);
+  }
+
+  @protected
+  void
+      sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerTransaction(
+          Transaction self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_usize(
+        (self as TransactionImpl).frbInternalSseEncode(move: false),
+        serializer);
+  }
+
+  @protected
+  void
+      sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerUnifiedQrPayment(
+          UnifiedQrPayment self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_usize(
+        (self as UnifiedQrPaymentImpl).frbInternalSseEncode(move: false),
+        serializer);
   }
 
   @protected
@@ -7684,21 +11920,188 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
 
   @protected
   void
-      sse_encode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerConfirmationStatus(
-          ConfirmationStatus self, SseSerializer serializer) {
+      sse_encode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerAddressData(
+          AddressData self, SseSerializer serializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     sse_encode_usize(
-        (self as ConfirmationStatusImpl).frbInternalSseEncode(move: null),
+        (self as AddressDataImpl).frbInternalSseEncode(move: null), serializer);
+  }
+
+  @protected
+  void
+      sse_encode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerBitcoinAddress(
+          BitcoinAddress self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_usize(
+        (self as BitcoinAddressImpl).frbInternalSseEncode(move: null),
         serializer);
   }
 
   @protected
   void
-      sse_encode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerFfiBuilder(
-          FfiBuilder self, SseSerializer serializer) {
+      sse_encode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerBitcoinAddressInner(
+          BitcoinAddressInner self, SseSerializer serializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     sse_encode_usize(
-        (self as FfiBuilderImpl).frbInternalSseEncode(move: null), serializer);
+        (self as BitcoinAddressInnerImpl).frbInternalSseEncode(move: null),
+        serializer);
+  }
+
+  @protected
+  void
+      sse_encode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerBitcoinTransactionInner(
+          BitcoinTransactionInner self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_usize(
+        (self as BitcoinTransactionInnerImpl).frbInternalSseEncode(move: null),
+        serializer);
+  }
+
+  @protected
+  void
+      sse_encode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerBolt11Payment(
+          Bolt11Payment self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_usize(
+        (self as Bolt11PaymentImpl).frbInternalSseEncode(move: null),
+        serializer);
+  }
+
+  @protected
+  void
+      sse_encode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerBolt12Payment(
+          Bolt12Payment self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_usize(
+        (self as Bolt12PaymentImpl).frbInternalSseEncode(move: null),
+        serializer);
+  }
+
+  @protected
+  void
+      sse_encode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerBuilder(
+          Builder self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_usize(
+        (self as BuilderImpl).frbInternalSseEncode(move: null), serializer);
+  }
+
+  @protected
+  void
+      sse_encode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerChainDataSourceConfig(
+          ChainDataSourceConfig self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_usize(
+        (self as ChainDataSourceConfigImpl).frbInternalSseEncode(move: null),
+        serializer);
+  }
+
+  @protected
+  void
+      sse_encode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerChannelConfig(
+          ChannelConfig self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_usize(
+        (self as ChannelConfigImpl).frbInternalSseEncode(move: null),
+        serializer);
+  }
+
+  @protected
+  void
+      sse_encode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerChannelDetails(
+          ChannelDetails self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_usize(
+        (self as ChannelDetailsImpl).frbInternalSseEncode(move: null),
+        serializer);
+  }
+
+  @protected
+  void
+      sse_encode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerEntropySourceConfig(
+          EntropySourceConfig self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_usize(
+        (self as EntropySourceConfigImpl).frbInternalSseEncode(move: null),
+        serializer);
+  }
+
+  @protected
+  void
+      sse_encode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerEvent(
+          Event self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_usize(
+        (self as EventImpl).frbInternalSseEncode(move: null), serializer);
+  }
+
+  @protected
+  void
+      sse_encode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerGossipSourceConfig(
+          GossipSourceConfig self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_usize(
+        (self as GossipSourceConfigImpl).frbInternalSseEncode(move: null),
+        serializer);
+  }
+
+  @protected
+  void
+      sse_encode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerLightningBalance(
+          LightningBalance self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_usize(
+        (self as LightningBalanceImpl).frbInternalSseEncode(move: null),
+        serializer);
+  }
+
+  @protected
+  void
+      sse_encode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerMaxDustHTLCExposure(
+          MaxDustHtlcExposure self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_usize(
+        (self as MaxDustHtlcExposureImpl).frbInternalSseEncode(move: null),
+        serializer);
+  }
+
+  @protected
+  void
+      sse_encode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerNetworkGraph(
+          NetworkGraph self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_usize(
+        (self as NetworkGraphImpl).frbInternalSseEncode(move: null),
+        serializer);
+  }
+
+  @protected
+  void
+      sse_encode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerNode(
+          Node self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_usize(
+        (self as NodeImpl).frbInternalSseEncode(move: null), serializer);
+  }
+
+  @protected
+  void
+      sse_encode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerOnChainPayment(
+          OnChainPayment self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_usize(
+        (self as OnChainPaymentImpl).frbInternalSseEncode(move: null),
+        serializer);
+  }
+
+  @protected
+  void
+      sse_encode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPaymentDetails(
+          PaymentDetails self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_usize(
+        (self as PaymentDetailsImpl).frbInternalSseEncode(move: null),
+        serializer);
   }
 
   @protected
@@ -7711,59 +12114,48 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
   }
 
   @protected
-  void sse_encode_RustOpaque_ldk_nodeBuilder(
-      Builder self, SseSerializer serializer) {
+  void
+      sse_encode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPeerDetails(
+          PeerDetails self, SseSerializer serializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     sse_encode_usize(
-        (self as BuilderImpl).frbInternalSseEncode(move: null), serializer);
+        (self as PeerDetailsImpl).frbInternalSseEncode(move: null), serializer);
   }
 
   @protected
-  void sse_encode_RustOpaque_ldk_nodeNode(Node self, SseSerializer serializer) {
+  void
+      sse_encode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPendingSweepBalance(
+          PendingSweepBalance self, SseSerializer serializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     sse_encode_usize(
-        (self as NodeImpl).frbInternalSseEncode(move: null), serializer);
-  }
-
-  @protected
-  void sse_encode_RustOpaque_ldk_nodegraphNetworkGraph(
-      NetworkGraph self, SseSerializer serializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    sse_encode_usize(
-        (self as NetworkGraphImpl).frbInternalSseEncode(move: null),
+        (self as PendingSweepBalanceImpl).frbInternalSseEncode(move: null),
         serializer);
   }
 
   @protected
-  void sse_encode_RustOpaque_ldk_nodepaymentBolt11Payment(
-      Bolt11Payment self, SseSerializer serializer) {
+  void
+      sse_encode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerQrPaymentResult(
+          QrPaymentResult self, SseSerializer serializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     sse_encode_usize(
-        (self as Bolt11PaymentImpl).frbInternalSseEncode(move: null),
+        (self as QrPaymentResultImpl).frbInternalSseEncode(move: null),
         serializer);
   }
 
   @protected
-  void sse_encode_RustOpaque_ldk_nodepaymentBolt12Payment(
-      Bolt12Payment self, SseSerializer serializer) {
+  void
+      sse_encode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSocketAddress(
+          SocketAddress self, SseSerializer serializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     sse_encode_usize(
-        (self as Bolt12PaymentImpl).frbInternalSseEncode(move: null),
+        (self as SocketAddressImpl).frbInternalSseEncode(move: null),
         serializer);
   }
 
   @protected
-  void sse_encode_RustOpaque_ldk_nodepaymentOnchainPayment(
-      OnchainPayment self, SseSerializer serializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    sse_encode_usize(
-        (self as OnchainPaymentImpl).frbInternalSseEncode(move: null),
-        serializer);
-  }
-
-  @protected
-  void sse_encode_RustOpaque_ldk_nodepaymentSpontaneousPayment(
-      SpontaneousPayment self, SseSerializer serializer) {
+  void
+      sse_encode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSpontaneousPayment(
+          SpontaneousPayment self, SseSerializer serializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     sse_encode_usize(
         (self as SpontaneousPaymentImpl).frbInternalSseEncode(move: null),
@@ -7771,8 +12163,38 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
   }
 
   @protected
-  void sse_encode_RustOpaque_ldk_nodepaymentUnifiedQrPayment(
-      UnifiedQrPayment self, SseSerializer serializer) {
+  void
+      sse_encode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerTaprootSpendInfo(
+          TaprootSpendInfo self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_usize(
+        (self as TaprootSpendInfoImpl).frbInternalSseEncode(move: null),
+        serializer);
+  }
+
+  @protected
+  void
+      sse_encode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerTaprootSpendInfoInner(
+          TaprootSpendInfoInner self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_usize(
+        (self as TaprootSpendInfoInnerImpl).frbInternalSseEncode(move: null),
+        serializer);
+  }
+
+  @protected
+  void
+      sse_encode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerTransaction(
+          Transaction self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_usize(
+        (self as TransactionImpl).frbInternalSseEncode(move: null), serializer);
+  }
+
+  @protected
+  void
+      sse_encode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerUnifiedQrPayment(
+          UnifiedQrPayment self, SseSerializer serializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     sse_encode_usize(
         (self as UnifiedQrPaymentImpl).frbInternalSseEncode(move: null),
@@ -7786,26 +12208,11 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
   }
 
   @protected
-  void sse_encode_address(Address self, SseSerializer serializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    sse_encode_String(self.s, serializer);
-  }
-
-  @protected
   void sse_encode_anchor_channels_config(
       AnchorChannelsConfig self, SseSerializer serializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     sse_encode_list_public_key(self.trustedPeersNoReserve, serializer);
     sse_encode_u_64(self.perChannelReserveSats, serializer);
-  }
-
-  @protected
-  void sse_encode_background_sync_config(
-      BackgroundSyncConfig self, SseSerializer serializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    sse_encode_u_64(self.onchainWalletSyncIntervalSecs, serializer);
-    sse_encode_u_64(self.lightningWalletSyncIntervalSecs, serializer);
-    sse_encode_u_64(self.feeRateCacheUpdateIntervalSecs, serializer);
   }
 
   @protected
@@ -7815,15 +12222,10 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
     sse_encode_u_64(self.totalOnchainBalanceSats, serializer);
     sse_encode_u_64(self.spendableOnchainBalanceSats, serializer);
     sse_encode_u_64(self.totalLightningBalanceSats, serializer);
-    sse_encode_list_lightning_balance(self.lightningBalances, serializer);
-    sse_encode_list_pending_sweep_balance(
+    sse_encode_list_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerLightningBalance(
+        self.lightningBalances, serializer);
+    sse_encode_list_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPendingSweepBalance(
         self.pendingBalancesFromChannelClosures, serializer);
-  }
-
-  @protected
-  void sse_encode_balance_source(BalanceSource self, SseSerializer serializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    sse_encode_i_32(self.index, serializer);
   }
 
   @protected
@@ -7848,39 +12250,63 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
   }
 
   @protected
-  void sse_encode_bolt_12_parse_error(
-      Bolt12ParseError self, SseSerializer serializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    switch (self) {
-      case Bolt12ParseError_InvalidContinuation():
-        sse_encode_i_32(0, serializer);
-      case Bolt12ParseError_InvalidBech32Hrp():
-        sse_encode_i_32(1, serializer);
-      case Bolt12ParseError_Bech32(field0: final field0):
-        sse_encode_i_32(2, serializer);
-        sse_encode_String(field0, serializer);
-      case Bolt12ParseError_Decode(field0: final field0):
-        sse_encode_i_32(3, serializer);
-        sse_encode_box_autoadd_decode_error(field0, serializer);
-      case Bolt12ParseError_InvalidSemantics(field0: final field0):
-        sse_encode_i_32(4, serializer);
-        sse_encode_String(field0, serializer);
-      case Bolt12ParseError_InvalidSignature(field0: final field0):
-        sse_encode_i_32(5, serializer);
-        sse_encode_String(field0, serializer);
-    }
-  }
-
-  @protected
   void sse_encode_bool(bool self, SseSerializer serializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     serializer.buffer.putUint8(self ? 1 : 0);
   }
 
   @protected
-  void sse_encode_box_autoadd_address(Address self, SseSerializer serializer) {
+  void
+      sse_encode_box_autoadd_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerChainDataSourceConfig(
+          ChainDataSourceConfig self, SseSerializer serializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
-    sse_encode_address(self, serializer);
+    sse_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerChainDataSourceConfig(
+        self, serializer);
+  }
+
+  @protected
+  void
+      sse_encode_box_autoadd_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerChannelConfig(
+          ChannelConfig self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerChannelConfig(
+        self, serializer);
+  }
+
+  @protected
+  void
+      sse_encode_box_autoadd_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerEntropySourceConfig(
+          EntropySourceConfig self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerEntropySourceConfig(
+        self, serializer);
+  }
+
+  @protected
+  void
+      sse_encode_box_autoadd_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerEvent(
+          Event self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerEvent(
+        self, serializer);
+  }
+
+  @protected
+  void
+      sse_encode_box_autoadd_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerGossipSourceConfig(
+          GossipSourceConfig self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerGossipSourceConfig(
+        self, serializer);
+  }
+
+  @protected
+  void
+      sse_encode_box_autoadd_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPaymentDetails(
+          PaymentDetails self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPaymentDetails(
+        self, serializer);
   }
 
   @protected
@@ -7891,51 +12317,10 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
   }
 
   @protected
-  void sse_encode_box_autoadd_background_sync_config(
-      BackgroundSyncConfig self, SseSerializer serializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    sse_encode_background_sync_config(self, serializer);
-  }
-
-  @protected
   void sse_encode_box_autoadd_bolt_11_invoice(
       Bolt11Invoice self, SseSerializer serializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     sse_encode_bolt_11_invoice(self, serializer);
-  }
-
-  @protected
-  void sse_encode_box_autoadd_bolt_12_parse_error(
-      Bolt12ParseError self, SseSerializer serializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    sse_encode_bolt_12_parse_error(self, serializer);
-  }
-
-  @protected
-  void sse_encode_box_autoadd_bool(bool self, SseSerializer serializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    sse_encode_bool(self, serializer);
-  }
-
-  @protected
-  void sse_encode_box_autoadd_chain_data_source_config(
-      ChainDataSourceConfig self, SseSerializer serializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    sse_encode_chain_data_source_config(self, serializer);
-  }
-
-  @protected
-  void sse_encode_box_autoadd_channel_config(
-      ChannelConfig self, SseSerializer serializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    sse_encode_channel_config(self, serializer);
-  }
-
-  @protected
-  void sse_encode_box_autoadd_channel_id(
-      ChannelId self, SseSerializer serializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    sse_encode_channel_id(self, serializer);
   }
 
   @protected
@@ -7953,64 +12338,9 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
   }
 
   @protected
-  void sse_encode_box_autoadd_closure_reason(
-      ClosureReason self, SseSerializer serializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    sse_encode_closure_reason(self, serializer);
-  }
-
-  @protected
   void sse_encode_box_autoadd_config(Config self, SseSerializer serializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     sse_encode_config(self, serializer);
-  }
-
-  @protected
-  void sse_encode_box_autoadd_decode_error(
-      DecodeError self, SseSerializer serializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    sse_encode_decode_error(self, serializer);
-  }
-
-  @protected
-  void sse_encode_box_autoadd_electrum_sync_config(
-      ElectrumSyncConfig self, SseSerializer serializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    sse_encode_electrum_sync_config(self, serializer);
-  }
-
-  @protected
-  void sse_encode_box_autoadd_entropy_source_config(
-      EntropySourceConfig self, SseSerializer serializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    sse_encode_entropy_source_config(self, serializer);
-  }
-
-  @protected
-  void sse_encode_box_autoadd_esplora_sync_config(
-      EsploraSyncConfig self, SseSerializer serializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    sse_encode_esplora_sync_config(self, serializer);
-  }
-
-  @protected
-  void sse_encode_box_autoadd_event(Event self, SseSerializer serializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    sse_encode_event(self, serializer);
-  }
-
-  @protected
-  void sse_encode_box_autoadd_ffi_bolt_11_payment(
-      FfiBolt11Payment self, SseSerializer serializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    sse_encode_ffi_bolt_11_payment(self, serializer);
-  }
-
-  @protected
-  void sse_encode_box_autoadd_ffi_bolt_12_payment(
-      FfiBolt12Payment self, SseSerializer serializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    sse_encode_ffi_bolt_12_payment(self, serializer);
   }
 
   @protected
@@ -8018,54 +12348,6 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
       FfiLogRecord self, SseSerializer serializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     sse_encode_ffi_log_record(self, serializer);
-  }
-
-  @protected
-  void sse_encode_box_autoadd_ffi_mnemonic(
-      FfiMnemonic self, SseSerializer serializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    sse_encode_ffi_mnemonic(self, serializer);
-  }
-
-  @protected
-  void sse_encode_box_autoadd_ffi_network_graph(
-      FfiNetworkGraph self, SseSerializer serializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    sse_encode_ffi_network_graph(self, serializer);
-  }
-
-  @protected
-  void sse_encode_box_autoadd_ffi_node(FfiNode self, SseSerializer serializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    sse_encode_ffi_node(self, serializer);
-  }
-
-  @protected
-  void sse_encode_box_autoadd_ffi_on_chain_payment(
-      FfiOnChainPayment self, SseSerializer serializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    sse_encode_ffi_on_chain_payment(self, serializer);
-  }
-
-  @protected
-  void sse_encode_box_autoadd_ffi_spontaneous_payment(
-      FfiSpontaneousPayment self, SseSerializer serializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    sse_encode_ffi_spontaneous_payment(self, serializer);
-  }
-
-  @protected
-  void sse_encode_box_autoadd_ffi_unified_qr_payment(
-      FfiUnifiedQrPayment self, SseSerializer serializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    sse_encode_ffi_unified_qr_payment(self, serializer);
-  }
-
-  @protected
-  void sse_encode_box_autoadd_gossip_source_config(
-      GossipSourceConfig self, SseSerializer serializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    sse_encode_gossip_source_config(self, serializer);
   }
 
   @protected
@@ -8083,10 +12365,10 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
   }
 
   @protected
-  void sse_encode_box_autoadd_max_total_routing_fee_limit(
-      MaxTotalRoutingFeeLimit self, SseSerializer serializer) {
+  void sse_encode_box_autoadd_mnemonic(
+      Mnemonic self, SseSerializer serializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
-    sse_encode_max_total_routing_fee_limit(self, serializer);
+    sse_encode_mnemonic(self, serializer);
   }
 
   @protected
@@ -8130,20 +12412,6 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
   }
 
   @protected
-  void sse_encode_box_autoadd_payment_details(
-      PaymentDetails self, SseSerializer serializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    sse_encode_payment_details(self, serializer);
-  }
-
-  @protected
-  void sse_encode_box_autoadd_payment_failure_reason(
-      PaymentFailureReason self, SseSerializer serializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    sse_encode_payment_failure_reason(self, serializer);
-  }
-
-  @protected
   void sse_encode_box_autoadd_payment_hash(
       PaymentHash self, SseSerializer serializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
@@ -8165,6 +12433,12 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
   }
 
   @protected
+  void sse_encode_box_autoadd_psbt(Psbt self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_psbt(self, serializer);
+  }
+
+  @protected
   void sse_encode_box_autoadd_public_key(
       PublicKey self, SseSerializer serializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
@@ -8178,23 +12452,17 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
   }
 
   @protected
+  void sse_encode_box_autoadd_script_buf(
+      ScriptBuf self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_script_buf(self, serializer);
+  }
+
+  @protected
   void sse_encode_box_autoadd_sending_parameters(
       SendingParameters self, SseSerializer serializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     sse_encode_sending_parameters(self, serializer);
-  }
-
-  @protected
-  void sse_encode_box_autoadd_socket_address(
-      SocketAddress self, SseSerializer serializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    sse_encode_socket_address(self, serializer);
-  }
-
-  @protected
-  void sse_encode_box_autoadd_txid(Txid self, SseSerializer serializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    sse_encode_txid(self, serializer);
   }
 
   @protected
@@ -8229,89 +12497,6 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
   }
 
   @protected
-  void sse_encode_chain_data_source_config(
-      ChainDataSourceConfig self, SseSerializer serializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    switch (self) {
-      case ChainDataSourceConfig_Esplora(
-          serverUrl: final serverUrl,
-          syncConfig: final syncConfig
-        ):
-        sse_encode_i_32(0, serializer);
-        sse_encode_String(serverUrl, serializer);
-        sse_encode_opt_box_autoadd_esplora_sync_config(syncConfig, serializer);
-      case ChainDataSourceConfig_Electrum(
-          serverUrl: final serverUrl,
-          syncConfig: final syncConfig
-        ):
-        sse_encode_i_32(1, serializer);
-        sse_encode_String(serverUrl, serializer);
-        sse_encode_opt_box_autoadd_electrum_sync_config(syncConfig, serializer);
-      case ChainDataSourceConfig_BitcoindRpc(
-          rpcHost: final rpcHost,
-          rpcPort: final rpcPort,
-          rpcUser: final rpcUser,
-          rpcPassword: final rpcPassword
-        ):
-        sse_encode_i_32(2, serializer);
-        sse_encode_String(rpcHost, serializer);
-        sse_encode_u_16(rpcPort, serializer);
-        sse_encode_String(rpcUser, serializer);
-        sse_encode_String(rpcPassword, serializer);
-    }
-  }
-
-  @protected
-  void sse_encode_channel_config(ChannelConfig self, SseSerializer serializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    sse_encode_u_32(self.forwardingFeeProportionalMillionths, serializer);
-    sse_encode_u_32(self.forwardingFeeBaseMsat, serializer);
-    sse_encode_u_16(self.cltvExpiryDelta, serializer);
-    sse_encode_max_dust_htlc_exposure(self.maxDustHtlcExposure, serializer);
-    sse_encode_u_64(self.forceCloseAvoidanceMaxFeeSatoshis, serializer);
-    sse_encode_bool(self.acceptUnderpayingHtlcs, serializer);
-  }
-
-  @protected
-  void sse_encode_channel_details(
-      ChannelDetails self, SseSerializer serializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    sse_encode_channel_id(self.channelId, serializer);
-    sse_encode_public_key(self.counterpartyNodeId, serializer);
-    sse_encode_opt_box_autoadd_out_point(self.fundingTxo, serializer);
-    sse_encode_u_64(self.channelValueSats, serializer);
-    sse_encode_opt_box_autoadd_u_64(
-        self.unspendablePunishmentReserve, serializer);
-    sse_encode_user_channel_id(self.userChannelId, serializer);
-    sse_encode_u_32(self.feerateSatPer1000Weight, serializer);
-    sse_encode_u_64(self.outboundCapacityMsat, serializer);
-    sse_encode_u_64(self.inboundCapacityMsat, serializer);
-    sse_encode_opt_box_autoadd_u_32(self.confirmationsRequired, serializer);
-    sse_encode_opt_box_autoadd_u_32(self.confirmations, serializer);
-    sse_encode_bool(self.isOutbound, serializer);
-    sse_encode_bool(self.isChannelReady, serializer);
-    sse_encode_bool(self.isUsable, serializer);
-    sse_encode_opt_box_autoadd_u_16(self.cltvExpiryDelta, serializer);
-    sse_encode_u_64(self.counterpartyUnspendablePunishmentReserve, serializer);
-    sse_encode_opt_box_autoadd_u_64(
-        self.counterpartyOutboundHtlcMinimumMsat, serializer);
-    sse_encode_opt_box_autoadd_u_64(
-        self.counterpartyOutboundHtlcMaximumMsat, serializer);
-    sse_encode_opt_box_autoadd_u_32(
-        self.counterpartyForwardingInfoFeeBaseMsat, serializer);
-    sse_encode_opt_box_autoadd_u_32(
-        self.counterpartyForwardingInfoFeeProportionalMillionths, serializer);
-    sse_encode_opt_box_autoadd_u_16(
-        self.counterpartyForwardingInfoCltvExpiryDelta, serializer);
-    sse_encode_u_64(self.nextOutboundHtlcLimitMsat, serializer);
-    sse_encode_u_64(self.nextOutboundHtlcMinimumMsat, serializer);
-    sse_encode_opt_box_autoadd_u_16(self.forceCloseSpendDelay, serializer);
-    sse_encode_u_64(self.inboundHtlcMinimumMsat, serializer);
-    sse_encode_opt_box_autoadd_u_64(self.inboundHtlcMaximumMsat, serializer);
-    sse_encode_channel_config(self.config, serializer);
-  }
-
-  @protected
   void sse_encode_channel_id(ChannelId self, SseSerializer serializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     sse_encode_u_8_array_32(self.data, serializer);
@@ -8340,57 +12525,14 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
   }
 
   @protected
-  void sse_encode_closure_reason(ClosureReason self, SseSerializer serializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    switch (self) {
-      case ClosureReason_PeerFeerateTooLow(
-          peerFeerateSatPerKw: final peerFeerateSatPerKw,
-          requiredFeerateSatPerKw: final requiredFeerateSatPerKw
-        ):
-        sse_encode_i_32(0, serializer);
-        sse_encode_u_32(peerFeerateSatPerKw, serializer);
-        sse_encode_u_32(requiredFeerateSatPerKw, serializer);
-      case ClosureReason_CounterpartyForceClosed(peerMsg: final peerMsg):
-        sse_encode_i_32(1, serializer);
-        sse_encode_String(peerMsg, serializer);
-      case ClosureReason_HolderForceClosed(
-          broadcastedLatestTxn: final broadcastedLatestTxn
-        ):
-        sse_encode_i_32(2, serializer);
-        sse_encode_opt_box_autoadd_bool(broadcastedLatestTxn, serializer);
-      case ClosureReason_LegacyCooperativeClosure():
-        sse_encode_i_32(3, serializer);
-      case ClosureReason_CounterpartyInitiatedCooperativeClosure():
-        sse_encode_i_32(4, serializer);
-      case ClosureReason_LocallyInitiatedCooperativeClosure():
-        sse_encode_i_32(5, serializer);
-      case ClosureReason_CommitmentTxConfirmed():
-        sse_encode_i_32(6, serializer);
-      case ClosureReason_FundingTimedOut():
-        sse_encode_i_32(7, serializer);
-      case ClosureReason_ProcessingError(err: final err):
-        sse_encode_i_32(8, serializer);
-        sse_encode_String(err, serializer);
-      case ClosureReason_DisconnectedPeer():
-        sse_encode_i_32(9, serializer);
-      case ClosureReason_OutdatedChannelManager():
-        sse_encode_i_32(10, serializer);
-      case ClosureReason_CounterpartyCoopClosedUnfundedChannel():
-        sse_encode_i_32(11, serializer);
-      case ClosureReason_FundingBatchClosure():
-        sse_encode_i_32(12, serializer);
-      case ClosureReason_HTLCsTimedOut():
-        sse_encode_i_32(13, serializer);
-    }
-  }
-
-  @protected
   void sse_encode_config(Config self, SseSerializer serializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     sse_encode_String(self.storageDirPath, serializer);
     sse_encode_network(self.network, serializer);
-    sse_encode_opt_list_socket_address(self.listeningAddresses, serializer);
-    sse_encode_opt_list_socket_address(self.announcementAddresses, serializer);
+    sse_encode_opt_list_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSocketAddress(
+        self.listeningAddresses, serializer);
+    sse_encode_opt_list_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSocketAddress(
+        self.announcementAddresses, serializer);
     sse_encode_opt_box_autoadd_node_alias(self.nodeAlias, serializer);
     sse_encode_list_public_key(self.trustedPeers0Conf, serializer);
     sse_encode_u_64(self.probingLiquidityLimitMultiplier, serializer);
@@ -8409,205 +12551,6 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
   }
 
   @protected
-  void sse_encode_decode_error(DecodeError self, SseSerializer serializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    switch (self) {
-      case DecodeError_UnknownVersion():
-        sse_encode_i_32(0, serializer);
-      case DecodeError_UnknownRequiredFeature():
-        sse_encode_i_32(1, serializer);
-      case DecodeError_InvalidValue():
-        sse_encode_i_32(2, serializer);
-      case DecodeError_ShortRead():
-        sse_encode_i_32(3, serializer);
-      case DecodeError_BadLengthDescriptor():
-        sse_encode_i_32(4, serializer);
-      case DecodeError_Io(field0: final field0):
-        sse_encode_i_32(5, serializer);
-        sse_encode_String(field0, serializer);
-      case DecodeError_UnsupportedCompression():
-        sse_encode_i_32(6, serializer);
-      case DecodeError_DangerousValue():
-        sse_encode_i_32(7, serializer);
-    }
-  }
-
-  @protected
-  void sse_encode_electrum_sync_config(
-      ElectrumSyncConfig self, SseSerializer serializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    sse_encode_opt_box_autoadd_background_sync_config(
-        self.backgroundSyncConfig, serializer);
-  }
-
-  @protected
-  void sse_encode_entropy_source_config(
-      EntropySourceConfig self, SseSerializer serializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    switch (self) {
-      case EntropySourceConfig_SeedFile(field0: final field0):
-        sse_encode_i_32(0, serializer);
-        sse_encode_String(field0, serializer);
-      case EntropySourceConfig_SeedBytes(field0: final field0):
-        sse_encode_i_32(1, serializer);
-        sse_encode_u_8_array_64(field0, serializer);
-      case EntropySourceConfig_Bip39Mnemonic(
-          mnemonic: final mnemonic,
-          passphrase: final passphrase
-        ):
-        sse_encode_i_32(2, serializer);
-        sse_encode_box_autoadd_ffi_mnemonic(mnemonic, serializer);
-        sse_encode_opt_String(passphrase, serializer);
-    }
-  }
-
-  @protected
-  void sse_encode_esplora_sync_config(
-      EsploraSyncConfig self, SseSerializer serializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    sse_encode_opt_box_autoadd_background_sync_config(
-        self.backgroundSyncConfig, serializer);
-  }
-
-  @protected
-  void sse_encode_event(Event self, SseSerializer serializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    switch (self) {
-      case Event_PaymentClaimable(
-          paymentId: final paymentId,
-          paymentHash: final paymentHash,
-          claimableAmountMsat: final claimableAmountMsat,
-          claimDeadline: final claimDeadline,
-          customRecords: final customRecords
-        ):
-        sse_encode_i_32(0, serializer);
-        sse_encode_box_autoadd_payment_id(paymentId, serializer);
-        sse_encode_box_autoadd_payment_hash(paymentHash, serializer);
-        sse_encode_u_64(claimableAmountMsat, serializer);
-        sse_encode_opt_box_autoadd_u_32(claimDeadline, serializer);
-        sse_encode_list_custom_tlv_record(customRecords, serializer);
-      case Event_PaymentSuccessful(
-          paymentId: final paymentId,
-          paymentHash: final paymentHash,
-          feePaidMsat: final feePaidMsat,
-          preimage: final preimage
-        ):
-        sse_encode_i_32(1, serializer);
-        sse_encode_opt_box_autoadd_payment_id(paymentId, serializer);
-        sse_encode_box_autoadd_payment_hash(paymentHash, serializer);
-        sse_encode_opt_box_autoadd_u_64(feePaidMsat, serializer);
-        sse_encode_opt_box_autoadd_payment_preimage(preimage, serializer);
-      case Event_PaymentFailed(
-          paymentId: final paymentId,
-          paymentHash: final paymentHash,
-          reason: final reason
-        ):
-        sse_encode_i_32(2, serializer);
-        sse_encode_opt_box_autoadd_payment_id(paymentId, serializer);
-        sse_encode_opt_box_autoadd_payment_hash(paymentHash, serializer);
-        sse_encode_opt_box_autoadd_payment_failure_reason(reason, serializer);
-      case Event_PaymentReceived(
-          paymentId: final paymentId,
-          paymentHash: final paymentHash,
-          amountMsat: final amountMsat,
-          customRecords: final customRecords
-        ):
-        sse_encode_i_32(3, serializer);
-        sse_encode_opt_box_autoadd_payment_id(paymentId, serializer);
-        sse_encode_box_autoadd_payment_hash(paymentHash, serializer);
-        sse_encode_u_64(amountMsat, serializer);
-        sse_encode_list_custom_tlv_record(customRecords, serializer);
-      case Event_ChannelPending(
-          channelId: final channelId,
-          userChannelId: final userChannelId,
-          formerTemporaryChannelId: final formerTemporaryChannelId,
-          counterpartyNodeId: final counterpartyNodeId,
-          fundingTxo: final fundingTxo
-        ):
-        sse_encode_i_32(4, serializer);
-        sse_encode_box_autoadd_channel_id(channelId, serializer);
-        sse_encode_box_autoadd_user_channel_id(userChannelId, serializer);
-        sse_encode_box_autoadd_channel_id(formerTemporaryChannelId, serializer);
-        sse_encode_box_autoadd_public_key(counterpartyNodeId, serializer);
-        sse_encode_box_autoadd_out_point(fundingTxo, serializer);
-      case Event_ChannelReady(
-          channelId: final channelId,
-          userChannelId: final userChannelId,
-          counterpartyNodeId: final counterpartyNodeId
-        ):
-        sse_encode_i_32(5, serializer);
-        sse_encode_box_autoadd_channel_id(channelId, serializer);
-        sse_encode_box_autoadd_user_channel_id(userChannelId, serializer);
-        sse_encode_opt_box_autoadd_public_key(counterpartyNodeId, serializer);
-      case Event_ChannelClosed(
-          channelId: final channelId,
-          userChannelId: final userChannelId,
-          counterpartyNodeId: final counterpartyNodeId,
-          reason: final reason
-        ):
-        sse_encode_i_32(6, serializer);
-        sse_encode_box_autoadd_channel_id(channelId, serializer);
-        sse_encode_box_autoadd_user_channel_id(userChannelId, serializer);
-        sse_encode_opt_box_autoadd_public_key(counterpartyNodeId, serializer);
-        sse_encode_opt_box_autoadd_closure_reason(reason, serializer);
-      case Event_PaymentForwarded(
-          prevChannelId: final prevChannelId,
-          nextChannelId: final nextChannelId,
-          prevUserChannelId: final prevUserChannelId,
-          nextUserChannelId: final nextUserChannelId,
-          prevNodeId: final prevNodeId,
-          nextNodeId: final nextNodeId,
-          totalFeeEarnedMsat: final totalFeeEarnedMsat,
-          skimmedFeeMsat: final skimmedFeeMsat,
-          claimFromOnchainTx: final claimFromOnchainTx,
-          outboundAmountForwardedMsat: final outboundAmountForwardedMsat
-        ):
-        sse_encode_i_32(7, serializer);
-        sse_encode_box_autoadd_channel_id(prevChannelId, serializer);
-        sse_encode_box_autoadd_channel_id(nextChannelId, serializer);
-        sse_encode_opt_box_autoadd_user_channel_id(
-            prevUserChannelId, serializer);
-        sse_encode_opt_box_autoadd_user_channel_id(
-            nextUserChannelId, serializer);
-        sse_encode_opt_box_autoadd_public_key(prevNodeId, serializer);
-        sse_encode_opt_box_autoadd_public_key(nextNodeId, serializer);
-        sse_encode_opt_box_autoadd_u_64(totalFeeEarnedMsat, serializer);
-        sse_encode_opt_box_autoadd_u_64(skimmedFeeMsat, serializer);
-        sse_encode_bool(claimFromOnchainTx, serializer);
-        sse_encode_opt_box_autoadd_u_64(
-            outboundAmountForwardedMsat, serializer);
-    }
-  }
-
-  @protected
-  void sse_encode_ffi_bolt_11_payment(
-      FfiBolt11Payment self, SseSerializer serializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    sse_encode_RustOpaque_ldk_nodepaymentBolt11Payment(self.opaque, serializer);
-  }
-
-  @protected
-  void sse_encode_ffi_bolt_12_payment(
-      FfiBolt12Payment self, SseSerializer serializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    sse_encode_RustOpaque_ldk_nodepaymentBolt12Payment(self.opaque, serializer);
-  }
-
-  @protected
-  void sse_encode_ffi_builder_error(
-      FfiBuilderError self, SseSerializer serializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    sse_encode_i_32(self.index, serializer);
-  }
-
-  @protected
-  void sse_encode_ffi_creation_error(
-      FfiCreationError self, SseSerializer serializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    sse_encode_i_32(self.index, serializer);
-  }
-
-  @protected
   void sse_encode_ffi_log_record(FfiLogRecord self, SseSerializer serializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     sse_encode_log_level(self.level, serializer);
@@ -8617,299 +12560,97 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
   }
 
   @protected
-  void sse_encode_ffi_mnemonic(FfiMnemonic self, SseSerializer serializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    sse_encode_String(self.seedPhrase, serializer);
-  }
-
-  @protected
-  void sse_encode_ffi_network_graph(
-      FfiNetworkGraph self, SseSerializer serializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    sse_encode_RustOpaque_ldk_nodegraphNetworkGraph(self.opaque, serializer);
-  }
-
-  @protected
-  void sse_encode_ffi_node(FfiNode self, SseSerializer serializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    sse_encode_RustOpaque_ldk_nodeNode(self.opaque, serializer);
-  }
-
-  @protected
-  void sse_encode_ffi_node_error(FfiNodeError self, SseSerializer serializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    switch (self) {
-      case FfiNodeError_InvalidTxid():
-        sse_encode_i_32(0, serializer);
-      case FfiNodeError_AlreadyRunning():
-        sse_encode_i_32(1, serializer);
-      case FfiNodeError_NotRunning():
-        sse_encode_i_32(2, serializer);
-      case FfiNodeError_OnchainTxCreationFailed():
-        sse_encode_i_32(3, serializer);
-      case FfiNodeError_ConnectionFailed():
-        sse_encode_i_32(4, serializer);
-      case FfiNodeError_InvoiceCreationFailed():
-        sse_encode_i_32(5, serializer);
-      case FfiNodeError_PaymentSendingFailed():
-        sse_encode_i_32(6, serializer);
-      case FfiNodeError_ProbeSendingFailed():
-        sse_encode_i_32(7, serializer);
-      case FfiNodeError_ChannelCreationFailed():
-        sse_encode_i_32(8, serializer);
-      case FfiNodeError_ChannelClosingFailed():
-        sse_encode_i_32(9, serializer);
-      case FfiNodeError_ChannelConfigUpdateFailed():
-        sse_encode_i_32(10, serializer);
-      case FfiNodeError_PersistenceFailed():
-        sse_encode_i_32(11, serializer);
-      case FfiNodeError_WalletOperationFailed():
-        sse_encode_i_32(12, serializer);
-      case FfiNodeError_OnchainTxSigningFailed():
-        sse_encode_i_32(13, serializer);
-      case FfiNodeError_MessageSigningFailed():
-        sse_encode_i_32(14, serializer);
-      case FfiNodeError_TxSyncFailed():
-        sse_encode_i_32(15, serializer);
-      case FfiNodeError_GossipUpdateFailed():
-        sse_encode_i_32(16, serializer);
-      case FfiNodeError_InvalidAddress():
-        sse_encode_i_32(17, serializer);
-      case FfiNodeError_InvalidSocketAddress():
-        sse_encode_i_32(18, serializer);
-      case FfiNodeError_InvalidPublicKey():
-        sse_encode_i_32(19, serializer);
-      case FfiNodeError_InvalidSecretKey():
-        sse_encode_i_32(20, serializer);
-      case FfiNodeError_InvalidPaymentHash():
-        sse_encode_i_32(21, serializer);
-      case FfiNodeError_InvalidPaymentPreimage():
-        sse_encode_i_32(22, serializer);
-      case FfiNodeError_InvalidPaymentSecret():
-        sse_encode_i_32(23, serializer);
-      case FfiNodeError_InvalidAmount():
-        sse_encode_i_32(24, serializer);
-      case FfiNodeError_InvalidInvoice():
-        sse_encode_i_32(25, serializer);
-      case FfiNodeError_InvalidChannelId():
-        sse_encode_i_32(26, serializer);
-      case FfiNodeError_InvalidNetwork():
-        sse_encode_i_32(27, serializer);
-      case FfiNodeError_DuplicatePayment():
-        sse_encode_i_32(28, serializer);
-      case FfiNodeError_InsufficientFunds():
-        sse_encode_i_32(29, serializer);
-      case FfiNodeError_FeerateEstimationUpdateFailed():
-        sse_encode_i_32(30, serializer);
-      case FfiNodeError_LiquidityRequestFailed():
-        sse_encode_i_32(31, serializer);
-      case FfiNodeError_LiquiditySourceUnavailable():
-        sse_encode_i_32(32, serializer);
-      case FfiNodeError_LiquidityFeeTooHigh():
-        sse_encode_i_32(33, serializer);
-      case FfiNodeError_InvalidPaymentId():
-        sse_encode_i_32(34, serializer);
-      case FfiNodeError_Decode(field0: final field0):
-        sse_encode_i_32(35, serializer);
-        sse_encode_box_autoadd_decode_error(field0, serializer);
-      case FfiNodeError_Bolt12Parse(field0: final field0):
-        sse_encode_i_32(36, serializer);
-        sse_encode_box_autoadd_bolt_12_parse_error(field0, serializer);
-      case FfiNodeError_InvoiceRequestCreationFailed():
-        sse_encode_i_32(37, serializer);
-      case FfiNodeError_OfferCreationFailed():
-        sse_encode_i_32(38, serializer);
-      case FfiNodeError_RefundCreationFailed():
-        sse_encode_i_32(39, serializer);
-      case FfiNodeError_FeerateEstimationUpdateTimeout():
-        sse_encode_i_32(40, serializer);
-      case FfiNodeError_WalletOperationTimeout():
-        sse_encode_i_32(41, serializer);
-      case FfiNodeError_TxSyncTimeout():
-        sse_encode_i_32(42, serializer);
-      case FfiNodeError_GossipUpdateTimeout():
-        sse_encode_i_32(43, serializer);
-      case FfiNodeError_InvalidOfferId():
-        sse_encode_i_32(44, serializer);
-      case FfiNodeError_InvalidNodeId():
-        sse_encode_i_32(45, serializer);
-      case FfiNodeError_InvalidOffer():
-        sse_encode_i_32(46, serializer);
-      case FfiNodeError_InvalidRefund():
-        sse_encode_i_32(47, serializer);
-      case FfiNodeError_UnsupportedCurrency():
-        sse_encode_i_32(48, serializer);
-      case FfiNodeError_UriParameterParsingFailed():
-        sse_encode_i_32(49, serializer);
-      case FfiNodeError_InvalidUri():
-        sse_encode_i_32(50, serializer);
-      case FfiNodeError_InvalidQuantity():
-        sse_encode_i_32(51, serializer);
-      case FfiNodeError_InvalidNodeAlias():
-        sse_encode_i_32(52, serializer);
-      case FfiNodeError_InvalidCustomTlvs():
-        sse_encode_i_32(53, serializer);
-      case FfiNodeError_InvalidDateTime():
-        sse_encode_i_32(54, serializer);
-      case FfiNodeError_InvalidFeeRate():
-        sse_encode_i_32(55, serializer);
-      case FfiNodeError_CreationError(field0: final field0):
-        sse_encode_i_32(56, serializer);
-        sse_encode_ffi_creation_error(field0, serializer);
-    }
-  }
-
-  @protected
-  void sse_encode_ffi_on_chain_payment(
-      FfiOnChainPayment self, SseSerializer serializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    sse_encode_RustOpaque_ldk_nodepaymentOnchainPayment(
-        self.opaque, serializer);
-  }
-
-  @protected
-  void sse_encode_ffi_spontaneous_payment(
-      FfiSpontaneousPayment self, SseSerializer serializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    sse_encode_RustOpaque_ldk_nodepaymentSpontaneousPayment(
-        self.opaque, serializer);
-  }
-
-  @protected
-  void sse_encode_ffi_unified_qr_payment(
-      FfiUnifiedQrPayment self, SseSerializer serializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    sse_encode_RustOpaque_ldk_nodepaymentUnifiedQrPayment(
-        self.opaque, serializer);
-  }
-
-  @protected
-  void sse_encode_gossip_source_config(
-      GossipSourceConfig self, SseSerializer serializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    switch (self) {
-      case GossipSourceConfig_P2PNetwork():
-        sse_encode_i_32(0, serializer);
-      case GossipSourceConfig_RapidGossipSync(field0: final field0):
-        sse_encode_i_32(1, serializer);
-        sse_encode_String(field0, serializer);
-    }
-  }
-
-  @protected
   void sse_encode_i_32(int self, SseSerializer serializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     serializer.buffer.putInt32(self);
   }
 
   @protected
-  void sse_encode_lightning_balance(
-      LightningBalance self, SseSerializer serializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    switch (self) {
-      case LightningBalance_ClaimableOnChannelClose(
-          channelId: final channelId,
-          counterpartyNodeId: final counterpartyNodeId,
-          amountSatoshis: final amountSatoshis,
-          transactionFeeSatoshis: final transactionFeeSatoshis,
-          outboundPaymentHtlcRoundedMsat: final outboundPaymentHtlcRoundedMsat,
-          outboundForwardedHtlcRoundedMsat:
-              final outboundForwardedHtlcRoundedMsat,
-          inboundClaimingHtlcRoundedMsat: final inboundClaimingHtlcRoundedMsat,
-          inboundHtlcRoundedMsat: final inboundHtlcRoundedMsat
-        ):
-        sse_encode_i_32(0, serializer);
-        sse_encode_box_autoadd_channel_id(channelId, serializer);
-        sse_encode_box_autoadd_public_key(counterpartyNodeId, serializer);
-        sse_encode_u_64(amountSatoshis, serializer);
-        sse_encode_u_64(transactionFeeSatoshis, serializer);
-        sse_encode_u_64(outboundPaymentHtlcRoundedMsat, serializer);
-        sse_encode_u_64(outboundForwardedHtlcRoundedMsat, serializer);
-        sse_encode_u_64(inboundClaimingHtlcRoundedMsat, serializer);
-        sse_encode_u_64(inboundHtlcRoundedMsat, serializer);
-      case LightningBalance_ClaimableAwaitingConfirmations(
-          channelId: final channelId,
-          counterpartyNodeId: final counterpartyNodeId,
-          amountSatoshis: final amountSatoshis,
-          confirmationHeight: final confirmationHeight,
-          source: final source
-        ):
-        sse_encode_i_32(1, serializer);
-        sse_encode_box_autoadd_channel_id(channelId, serializer);
-        sse_encode_box_autoadd_public_key(counterpartyNodeId, serializer);
-        sse_encode_u_64(amountSatoshis, serializer);
-        sse_encode_u_32(confirmationHeight, serializer);
-        sse_encode_balance_source(source, serializer);
-      case LightningBalance_ContentiousClaimable(
-          channelId: final channelId,
-          counterpartyNodeId: final counterpartyNodeId,
-          amountSatoshis: final amountSatoshis,
-          timeoutHeight: final timeoutHeight,
-          paymentHash: final paymentHash,
-          paymentPreimage: final paymentPreimage
-        ):
-        sse_encode_i_32(2, serializer);
-        sse_encode_box_autoadd_channel_id(channelId, serializer);
-        sse_encode_box_autoadd_public_key(counterpartyNodeId, serializer);
-        sse_encode_u_64(amountSatoshis, serializer);
-        sse_encode_u_32(timeoutHeight, serializer);
-        sse_encode_box_autoadd_payment_hash(paymentHash, serializer);
-        sse_encode_box_autoadd_payment_preimage(paymentPreimage, serializer);
-      case LightningBalance_MaybeTimeoutClaimableHTLC(
-          channelId: final channelId,
-          counterpartyNodeId: final counterpartyNodeId,
-          amountSatoshis: final amountSatoshis,
-          claimableHeight: final claimableHeight,
-          paymentHash: final paymentHash,
-          outboundPayment: final outboundPayment
-        ):
-        sse_encode_i_32(3, serializer);
-        sse_encode_box_autoadd_channel_id(channelId, serializer);
-        sse_encode_box_autoadd_public_key(counterpartyNodeId, serializer);
-        sse_encode_u_64(amountSatoshis, serializer);
-        sse_encode_u_32(claimableHeight, serializer);
-        sse_encode_box_autoadd_payment_hash(paymentHash, serializer);
-        sse_encode_bool(outboundPayment, serializer);
-      case LightningBalance_MaybePreimageClaimableHTLC(
-          channelId: final channelId,
-          counterpartyNodeId: final counterpartyNodeId,
-          amountSatoshis: final amountSatoshis,
-          expiryHeight: final expiryHeight,
-          paymentHash: final paymentHash
-        ):
-        sse_encode_i_32(4, serializer);
-        sse_encode_box_autoadd_channel_id(channelId, serializer);
-        sse_encode_box_autoadd_public_key(counterpartyNodeId, serializer);
-        sse_encode_u_64(amountSatoshis, serializer);
-        sse_encode_u_32(expiryHeight, serializer);
-        sse_encode_box_autoadd_payment_hash(paymentHash, serializer);
-      case LightningBalance_CounterpartyRevokedOutputClaimable(
-          channelId: final channelId,
-          counterpartyNodeId: final counterpartyNodeId,
-          amountSatoshis: final amountSatoshis
-        ):
-        sse_encode_i_32(5, serializer);
-        sse_encode_box_autoadd_channel_id(channelId, serializer);
-        sse_encode_box_autoadd_public_key(counterpartyNodeId, serializer);
-        sse_encode_u_64(amountSatoshis, serializer);
-    }
-  }
-
-  @protected
   void sse_encode_liquidity_source_config(
       LiquiditySourceConfig self, SseSerializer serializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
-    sse_encode_record_socket_address_public_key_opt_string(
+    sse_encode_record_auto_owned_rust_opaque_flutter_rust_bridgefor_generated_rust_auto_opaque_inner_socket_address_public_key_opt_string(
         self.lsps2Service, serializer);
   }
 
   @protected
-  void sse_encode_list_channel_details(
-      List<ChannelDetails> self, SseSerializer serializer) {
+  void
+      sse_encode_list_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerChannelDetails(
+          List<ChannelDetails> self, SseSerializer serializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     sse_encode_i_32(self.length, serializer);
     for (final item in self) {
-      sse_encode_channel_details(item, serializer);
+      sse_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerChannelDetails(
+          item, serializer);
+    }
+  }
+
+  @protected
+  void
+      sse_encode_list_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerLightningBalance(
+          List<LightningBalance> self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_i_32(self.length, serializer);
+    for (final item in self) {
+      sse_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerLightningBalance(
+          item, serializer);
+    }
+  }
+
+  @protected
+  void
+      sse_encode_list_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPaymentDetails(
+          List<PaymentDetails> self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_i_32(self.length, serializer);
+    for (final item in self) {
+      sse_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPaymentDetails(
+          item, serializer);
+    }
+  }
+
+  @protected
+  void
+      sse_encode_list_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPeerDetails(
+          List<PeerDetails> self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_i_32(self.length, serializer);
+    for (final item in self) {
+      sse_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPeerDetails(
+          item, serializer);
+    }
+  }
+
+  @protected
+  void
+      sse_encode_list_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPendingSweepBalance(
+          List<PendingSweepBalance> self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_i_32(self.length, serializer);
+    for (final item in self) {
+      sse_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPendingSweepBalance(
+          item, serializer);
+    }
+  }
+
+  @protected
+  void
+      sse_encode_list_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSocketAddress(
+          List<SocketAddress> self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_i_32(self.length, serializer);
+    for (final item in self) {
+      sse_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSocketAddress(
+          item, serializer);
+    }
+  }
+
+  @protected
+  void sse_encode_list_String(List<String> self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_i_32(self.length, serializer);
+    for (final item in self) {
+      sse_encode_String(item, serializer);
     }
   }
 
@@ -8924,12 +12665,12 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
   }
 
   @protected
-  void sse_encode_list_lightning_balance(
-      List<LightningBalance> self, SseSerializer serializer) {
+  void sse_encode_list_list_prim_u_8_strict(
+      List<Uint8List> self, SseSerializer serializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     sse_encode_i_32(self.length, serializer);
     for (final item in self) {
-      sse_encode_lightning_balance(item, serializer);
+      sse_encode_list_prim_u_8_strict(item, serializer);
     }
   }
 
@@ -8939,36 +12680,6 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
     sse_encode_i_32(self.length, serializer);
     for (final item in self) {
       sse_encode_node_id(item, serializer);
-    }
-  }
-
-  @protected
-  void sse_encode_list_payment_details(
-      List<PaymentDetails> self, SseSerializer serializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    sse_encode_i_32(self.length, serializer);
-    for (final item in self) {
-      sse_encode_payment_details(item, serializer);
-    }
-  }
-
-  @protected
-  void sse_encode_list_peer_details(
-      List<PeerDetails> self, SseSerializer serializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    sse_encode_i_32(self.length, serializer);
-    for (final item in self) {
-      sse_encode_peer_details(item, serializer);
-    }
-  }
-
-  @protected
-  void sse_encode_list_pending_sweep_balance(
-      List<PendingSweepBalance> self, SseSerializer serializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    sse_encode_i_32(self.length, serializer);
-    for (final item in self) {
-      sse_encode_pending_sweep_balance(item, serializer);
     }
   }
 
@@ -9018,12 +12729,20 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
   }
 
   @protected
-  void sse_encode_list_socket_address(
-      List<SocketAddress> self, SseSerializer serializer) {
+  void sse_encode_list_tx_in(List<TxIn> self, SseSerializer serializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     sse_encode_i_32(self.length, serializer);
     for (final item in self) {
-      sse_encode_socket_address(item, serializer);
+      sse_encode_tx_in(item, serializer);
+    }
+  }
+
+  @protected
+  void sse_encode_list_tx_out(List<TxOut> self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_i_32(self.length, serializer);
+    for (final item in self) {
+      sse_encode_tx_out(item, serializer);
     }
   }
 
@@ -9034,38 +12753,9 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
   }
 
   @protected
-  void sse_encode_lsp_fee_limits(LSPFeeLimits self, SseSerializer serializer) {
+  void sse_encode_mnemonic(Mnemonic self, SseSerializer serializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
-    sse_encode_opt_box_autoadd_u_64(self.maxTotalOpeningFeeMsat, serializer);
-    sse_encode_opt_box_autoadd_u_64(
-        self.maxProportionalOpeningFeePpmMsat, serializer);
-  }
-
-  @protected
-  void sse_encode_max_dust_htlc_exposure(
-      MaxDustHTLCExposure self, SseSerializer serializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    switch (self) {
-      case MaxDustHTLCExposure_FixedLimitMsat(field0: final field0):
-        sse_encode_i_32(0, serializer);
-        sse_encode_u_64(field0, serializer);
-      case MaxDustHTLCExposure_FeeRateMultiplier(field0: final field0):
-        sse_encode_i_32(1, serializer);
-        sse_encode_u_64(field0, serializer);
-    }
-  }
-
-  @protected
-  void sse_encode_max_total_routing_fee_limit(
-      MaxTotalRoutingFeeLimit self, SseSerializer serializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    switch (self) {
-      case MaxTotalRoutingFeeLimit_NoFeeCap():
-        sse_encode_i_32(0, serializer);
-      case MaxTotalRoutingFeeLimit_FeeCap(amountMsat: final amountMsat):
-        sse_encode_i_32(1, serializer);
-        sse_encode_u_64(amountMsat, serializer);
-    }
+    sse_encode_list_String(self.words, serializer);
   }
 
   @protected
@@ -9086,7 +12776,8 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
     // Codec=Sse (Serialization based), see doc to use other codecs
     sse_encode_u_32(self.lastUpdate, serializer);
     sse_encode_String(self.alias, serializer);
-    sse_encode_list_socket_address(self.addresses, serializer);
+    sse_encode_list_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSocketAddress(
+        self.addresses, serializer);
   }
 
   @protected
@@ -9130,18 +12821,90 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
   }
 
   @protected
-  void sse_encode_offer_id(OfferId self, SseSerializer serializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    sse_encode_u_8_array_32(self.field0, serializer);
-  }
-
-  @protected
   void sse_encode_opt_String(String? self, SseSerializer serializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
 
     sse_encode_bool(self != null, serializer);
     if (self != null) {
       sse_encode_String(self, serializer);
+    }
+  }
+
+  @protected
+  void
+      sse_encode_opt_box_autoadd_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerChainDataSourceConfig(
+          ChainDataSourceConfig? self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+
+    sse_encode_bool(self != null, serializer);
+    if (self != null) {
+      sse_encode_box_autoadd_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerChainDataSourceConfig(
+          self, serializer);
+    }
+  }
+
+  @protected
+  void
+      sse_encode_opt_box_autoadd_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerChannelConfig(
+          ChannelConfig? self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+
+    sse_encode_bool(self != null, serializer);
+    if (self != null) {
+      sse_encode_box_autoadd_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerChannelConfig(
+          self, serializer);
+    }
+  }
+
+  @protected
+  void
+      sse_encode_opt_box_autoadd_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerEntropySourceConfig(
+          EntropySourceConfig? self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+
+    sse_encode_bool(self != null, serializer);
+    if (self != null) {
+      sse_encode_box_autoadd_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerEntropySourceConfig(
+          self, serializer);
+    }
+  }
+
+  @protected
+  void
+      sse_encode_opt_box_autoadd_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerEvent(
+          Event? self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+
+    sse_encode_bool(self != null, serializer);
+    if (self != null) {
+      sse_encode_box_autoadd_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerEvent(
+          self, serializer);
+    }
+  }
+
+  @protected
+  void
+      sse_encode_opt_box_autoadd_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerGossipSourceConfig(
+          GossipSourceConfig? self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+
+    sse_encode_bool(self != null, serializer);
+    if (self != null) {
+      sse_encode_box_autoadd_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerGossipSourceConfig(
+          self, serializer);
+    }
+  }
+
+  @protected
+  void
+      sse_encode_opt_box_autoadd_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPaymentDetails(
+          PaymentDetails? self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+
+    sse_encode_bool(self != null, serializer);
+    if (self != null) {
+      sse_encode_box_autoadd_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPaymentDetails(
+          self, serializer);
     }
   }
 
@@ -9153,60 +12916,6 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
     sse_encode_bool(self != null, serializer);
     if (self != null) {
       sse_encode_box_autoadd_anchor_channels_config(self, serializer);
-    }
-  }
-
-  @protected
-  void sse_encode_opt_box_autoadd_background_sync_config(
-      BackgroundSyncConfig? self, SseSerializer serializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-
-    sse_encode_bool(self != null, serializer);
-    if (self != null) {
-      sse_encode_box_autoadd_background_sync_config(self, serializer);
-    }
-  }
-
-  @protected
-  void sse_encode_opt_box_autoadd_bool(bool? self, SseSerializer serializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-
-    sse_encode_bool(self != null, serializer);
-    if (self != null) {
-      sse_encode_box_autoadd_bool(self, serializer);
-    }
-  }
-
-  @protected
-  void sse_encode_opt_box_autoadd_chain_data_source_config(
-      ChainDataSourceConfig? self, SseSerializer serializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-
-    sse_encode_bool(self != null, serializer);
-    if (self != null) {
-      sse_encode_box_autoadd_chain_data_source_config(self, serializer);
-    }
-  }
-
-  @protected
-  void sse_encode_opt_box_autoadd_channel_config(
-      ChannelConfig? self, SseSerializer serializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-
-    sse_encode_bool(self != null, serializer);
-    if (self != null) {
-      sse_encode_box_autoadd_channel_config(self, serializer);
-    }
-  }
-
-  @protected
-  void sse_encode_opt_box_autoadd_channel_id(
-      ChannelId? self, SseSerializer serializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-
-    sse_encode_bool(self != null, serializer);
-    if (self != null) {
-      sse_encode_box_autoadd_channel_id(self, serializer);
     }
   }
 
@@ -9233,71 +12942,6 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
   }
 
   @protected
-  void sse_encode_opt_box_autoadd_closure_reason(
-      ClosureReason? self, SseSerializer serializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-
-    sse_encode_bool(self != null, serializer);
-    if (self != null) {
-      sse_encode_box_autoadd_closure_reason(self, serializer);
-    }
-  }
-
-  @protected
-  void sse_encode_opt_box_autoadd_electrum_sync_config(
-      ElectrumSyncConfig? self, SseSerializer serializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-
-    sse_encode_bool(self != null, serializer);
-    if (self != null) {
-      sse_encode_box_autoadd_electrum_sync_config(self, serializer);
-    }
-  }
-
-  @protected
-  void sse_encode_opt_box_autoadd_entropy_source_config(
-      EntropySourceConfig? self, SseSerializer serializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-
-    sse_encode_bool(self != null, serializer);
-    if (self != null) {
-      sse_encode_box_autoadd_entropy_source_config(self, serializer);
-    }
-  }
-
-  @protected
-  void sse_encode_opt_box_autoadd_esplora_sync_config(
-      EsploraSyncConfig? self, SseSerializer serializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-
-    sse_encode_bool(self != null, serializer);
-    if (self != null) {
-      sse_encode_box_autoadd_esplora_sync_config(self, serializer);
-    }
-  }
-
-  @protected
-  void sse_encode_opt_box_autoadd_event(Event? self, SseSerializer serializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-
-    sse_encode_bool(self != null, serializer);
-    if (self != null) {
-      sse_encode_box_autoadd_event(self, serializer);
-    }
-  }
-
-  @protected
-  void sse_encode_opt_box_autoadd_gossip_source_config(
-      GossipSourceConfig? self, SseSerializer serializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-
-    sse_encode_bool(self != null, serializer);
-    if (self != null) {
-      sse_encode_box_autoadd_gossip_source_config(self, serializer);
-    }
-  }
-
-  @protected
   void sse_encode_opt_box_autoadd_liquidity_source_config(
       LiquiditySourceConfig? self, SseSerializer serializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
@@ -9316,17 +12960,6 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
     sse_encode_bool(self != null, serializer);
     if (self != null) {
       sse_encode_box_autoadd_log_level(self, serializer);
-    }
-  }
-
-  @protected
-  void sse_encode_opt_box_autoadd_max_total_routing_fee_limit(
-      MaxTotalRoutingFeeLimit? self, SseSerializer serializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-
-    sse_encode_bool(self != null, serializer);
-    if (self != null) {
-      sse_encode_box_autoadd_max_total_routing_fee_limit(self, serializer);
     }
   }
 
@@ -9371,72 +13004,6 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
     sse_encode_bool(self != null, serializer);
     if (self != null) {
       sse_encode_box_autoadd_out_point(self, serializer);
-    }
-  }
-
-  @protected
-  void sse_encode_opt_box_autoadd_payment_details(
-      PaymentDetails? self, SseSerializer serializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-
-    sse_encode_bool(self != null, serializer);
-    if (self != null) {
-      sse_encode_box_autoadd_payment_details(self, serializer);
-    }
-  }
-
-  @protected
-  void sse_encode_opt_box_autoadd_payment_failure_reason(
-      PaymentFailureReason? self, SseSerializer serializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-
-    sse_encode_bool(self != null, serializer);
-    if (self != null) {
-      sse_encode_box_autoadd_payment_failure_reason(self, serializer);
-    }
-  }
-
-  @protected
-  void sse_encode_opt_box_autoadd_payment_hash(
-      PaymentHash? self, SseSerializer serializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-
-    sse_encode_bool(self != null, serializer);
-    if (self != null) {
-      sse_encode_box_autoadd_payment_hash(self, serializer);
-    }
-  }
-
-  @protected
-  void sse_encode_opt_box_autoadd_payment_id(
-      PaymentId? self, SseSerializer serializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-
-    sse_encode_bool(self != null, serializer);
-    if (self != null) {
-      sse_encode_box_autoadd_payment_id(self, serializer);
-    }
-  }
-
-  @protected
-  void sse_encode_opt_box_autoadd_payment_preimage(
-      PaymentPreimage? self, SseSerializer serializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-
-    sse_encode_bool(self != null, serializer);
-    if (self != null) {
-      sse_encode_box_autoadd_payment_preimage(self, serializer);
-    }
-  }
-
-  @protected
-  void sse_encode_opt_box_autoadd_public_key(
-      PublicKey? self, SseSerializer serializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-
-    sse_encode_bool(self != null, serializer);
-    if (self != null) {
-      sse_encode_box_autoadd_public_key(self, serializer);
     }
   }
 
@@ -9492,24 +13059,15 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
   }
 
   @protected
-  void sse_encode_opt_box_autoadd_user_channel_id(
-      UserChannelId? self, SseSerializer serializer) {
+  void
+      sse_encode_opt_list_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSocketAddress(
+          List<SocketAddress>? self, SseSerializer serializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
 
     sse_encode_bool(self != null, serializer);
     if (self != null) {
-      sse_encode_box_autoadd_user_channel_id(self, serializer);
-    }
-  }
-
-  @protected
-  void sse_encode_opt_list_socket_address(
-      List<SocketAddress>? self, SseSerializer serializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-
-    sse_encode_bool(self != null, serializer);
-    if (self != null) {
-      sse_encode_list_socket_address(self, serializer);
+      sse_encode_list_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSocketAddress(
+          self, serializer);
     }
   }
 
@@ -9521,28 +13079,8 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
   }
 
   @protected
-  void sse_encode_payment_details(
-      PaymentDetails self, SseSerializer serializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    sse_encode_payment_id(self.id, serializer);
-    sse_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPaymentKind(
-        self.kind, serializer);
-    sse_encode_opt_box_autoadd_u_64(self.amountMsat, serializer);
-    sse_encode_payment_direction(self.direction, serializer);
-    sse_encode_payment_status(self.status, serializer);
-    sse_encode_u_64(self.latestUpdateTimestamp, serializer);
-  }
-
-  @protected
   void sse_encode_payment_direction(
       PaymentDirection self, SseSerializer serializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    sse_encode_i_32(self.index, serializer);
-  }
-
-  @protected
-  void sse_encode_payment_failure_reason(
-      PaymentFailureReason self, SseSerializer serializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     sse_encode_i_32(self.index, serializer);
   }
@@ -9567,62 +13105,15 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
   }
 
   @protected
-  void sse_encode_payment_secret(PaymentSecret self, SseSerializer serializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    sse_encode_u_8_array_32(self.data, serializer);
-  }
-
-  @protected
   void sse_encode_payment_status(PaymentStatus self, SseSerializer serializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     sse_encode_i_32(self.index, serializer);
   }
 
   @protected
-  void sse_encode_peer_details(PeerDetails self, SseSerializer serializer) {
+  void sse_encode_psbt(Psbt self, SseSerializer serializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
-    sse_encode_public_key(self.nodeId, serializer);
-    sse_encode_socket_address(self.address, serializer);
-    sse_encode_bool(self.isConnected, serializer);
-  }
-
-  @protected
-  void sse_encode_pending_sweep_balance(
-      PendingSweepBalance self, SseSerializer serializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    switch (self) {
-      case PendingSweepBalance_PendingBroadcast(
-          channelId: final channelId,
-          amountSatoshis: final amountSatoshis
-        ):
-        sse_encode_i_32(0, serializer);
-        sse_encode_opt_box_autoadd_channel_id(channelId, serializer);
-        sse_encode_u_64(amountSatoshis, serializer);
-      case PendingSweepBalance_BroadcastAwaitingConfirmation(
-          channelId: final channelId,
-          latestBroadcastHeight: final latestBroadcastHeight,
-          latestSpendingTxid: final latestSpendingTxid,
-          amountSatoshis: final amountSatoshis
-        ):
-        sse_encode_i_32(1, serializer);
-        sse_encode_opt_box_autoadd_channel_id(channelId, serializer);
-        sse_encode_u_32(latestBroadcastHeight, serializer);
-        sse_encode_box_autoadd_txid(latestSpendingTxid, serializer);
-        sse_encode_u_64(amountSatoshis, serializer);
-      case PendingSweepBalance_AwaitingThresholdConfirmations(
-          channelId: final channelId,
-          latestSpendingTxid: final latestSpendingTxid,
-          confirmationHash: final confirmationHash,
-          confirmationHeight: final confirmationHeight,
-          amountSatoshis: final amountSatoshis
-        ):
-        sse_encode_i_32(2, serializer);
-        sse_encode_opt_box_autoadd_channel_id(channelId, serializer);
-        sse_encode_box_autoadd_txid(latestSpendingTxid, serializer);
-        sse_encode_String(confirmationHash, serializer);
-        sse_encode_u_32(confirmationHeight, serializer);
-        sse_encode_u_64(amountSatoshis, serializer);
-    }
+    sse_encode_String(self.inner, serializer);
   }
 
   @protected
@@ -9632,27 +13123,12 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
   }
 
   @protected
-  void sse_encode_qr_payment_result(
-      QrPaymentResult self, SseSerializer serializer) {
+  void
+      sse_encode_record_auto_owned_rust_opaque_flutter_rust_bridgefor_generated_rust_auto_opaque_inner_socket_address_public_key_opt_string(
+          (SocketAddress, PublicKey, String?) self, SseSerializer serializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
-    switch (self) {
-      case QrPaymentResult_Onchain(txid: final txid):
-        sse_encode_i_32(0, serializer);
-        sse_encode_box_autoadd_txid(txid, serializer);
-      case QrPaymentResult_Bolt11(paymentId: final paymentId):
-        sse_encode_i_32(1, serializer);
-        sse_encode_box_autoadd_payment_id(paymentId, serializer);
-      case QrPaymentResult_Bolt12(paymentId: final paymentId):
-        sse_encode_i_32(2, serializer);
-        sse_encode_box_autoadd_payment_id(paymentId, serializer);
-    }
-  }
-
-  @protected
-  void sse_encode_record_socket_address_public_key_opt_string(
-      (SocketAddress, PublicKey, String?) self, SseSerializer serializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    sse_encode_socket_address(self.$1, serializer);
+    sse_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSocketAddress(
+        self.$1, serializer);
     sse_encode_public_key(self.$2, serializer);
     sse_encode_opt_String(self.$3, serializer);
   }
@@ -9679,11 +13155,16 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
   }
 
   @protected
+  void sse_encode_script_buf(ScriptBuf self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_list_prim_u_8_strict(self.inner, serializer);
+  }
+
+  @protected
   void sse_encode_sending_parameters(
       SendingParameters self, SseSerializer serializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
-    sse_encode_opt_box_autoadd_max_total_routing_fee_limit(
-        self.maxTotalRoutingFeeMsat, serializer);
+    sse_encode_opt_box_autoadd_u_64(self.maxTotalRoutingFeeMsat, serializer);
     sse_encode_opt_box_autoadd_u_32(self.maxTotalCltvExpiryDelta, serializer);
     sse_encode_opt_box_autoadd_u_8(self.maxPathCount, serializer);
     sse_encode_opt_box_autoadd_u_8(
@@ -9691,36 +13172,19 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
   }
 
   @protected
-  void sse_encode_socket_address(SocketAddress self, SseSerializer serializer) {
+  void sse_encode_tx_in(TxIn self, SseSerializer serializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
-    switch (self) {
-      case SocketAddress_TcpIpV4(addr: final addr, port: final port):
-        sse_encode_i_32(0, serializer);
-        sse_encode_u_8_array_4(addr, serializer);
-        sse_encode_u_16(port, serializer);
-      case SocketAddress_TcpIpV6(addr: final addr, port: final port):
-        sse_encode_i_32(1, serializer);
-        sse_encode_u_8_array_16(addr, serializer);
-        sse_encode_u_16(port, serializer);
-      case SocketAddress_OnionV2(field0: final field0):
-        sse_encode_i_32(2, serializer);
-        sse_encode_u_8_array_12(field0, serializer);
-      case SocketAddress_OnionV3(
-          ed25519Pubkey: final ed25519Pubkey,
-          checksum: final checksum,
-          version: final version,
-          port: final port
-        ):
-        sse_encode_i_32(3, serializer);
-        sse_encode_u_8_array_32(ed25519Pubkey, serializer);
-        sse_encode_u_16(checksum, serializer);
-        sse_encode_u_8(version, serializer);
-        sse_encode_u_16(port, serializer);
-      case SocketAddress_Hostname(addr: final addr, port: final port):
-        sse_encode_i_32(4, serializer);
-        sse_encode_String(addr, serializer);
-        sse_encode_u_16(port, serializer);
-    }
+    sse_encode_out_point(self.previousOutput, serializer);
+    sse_encode_script_buf(self.scriptSig, serializer);
+    sse_encode_u_32(self.sequence, serializer);
+    sse_encode_list_list_prim_u_8_strict(self.witness, serializer);
+  }
+
+  @protected
+  void sse_encode_tx_out(TxOut self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_u_64(self.value, serializer);
+    sse_encode_script_buf(self.scriptPubkey, serializer);
   }
 
   @protected
@@ -9754,25 +13218,7 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
   }
 
   @protected
-  void sse_encode_u_8_array_12(U8Array12 self, SseSerializer serializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    sse_encode_list_prim_u_8_strict(self.inner, serializer);
-  }
-
-  @protected
-  void sse_encode_u_8_array_16(U8Array16 self, SseSerializer serializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    sse_encode_list_prim_u_8_strict(self.inner, serializer);
-  }
-
-  @protected
   void sse_encode_u_8_array_32(U8Array32 self, SseSerializer serializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    sse_encode_list_prim_u_8_strict(self.inner, serializer);
-  }
-
-  @protected
-  void sse_encode_u_8_array_4(U8Array4 self, SseSerializer serializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     sse_encode_list_prim_u_8_strict(self.inner, serializer);
   }
@@ -9800,6 +13246,126 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
     // Codec=Sse (Serialization based), see doc to use other codecs
     serializer.buffer.putBigUint64(self);
   }
+
+  @protected
+  void sse_encode_w_txid(WTxid self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_String(self.hash, serializer);
+  }
+}
+
+@sealed
+class AddressDataImpl extends RustOpaque implements AddressData {
+  // Not to be used by end users
+  AddressDataImpl.frbInternalDcoDecode(List<dynamic> wire)
+      : super.frbInternalDcoDecode(wire, _kStaticData);
+
+  // Not to be used by end users
+  AddressDataImpl.frbInternalSseDecode(BigInt ptr, int externalSizeOnNative)
+      : super.frbInternalSseDecode(ptr, externalSizeOnNative, _kStaticData);
+
+  static final _kStaticData = RustArcStaticData(
+    rustArcIncrementStrongCount:
+        core.instance.api.rust_arc_increment_strong_count_AddressData,
+    rustArcDecrementStrongCount:
+        core.instance.api.rust_arc_decrement_strong_count_AddressData,
+    rustArcDecrementStrongCountPtr:
+        core.instance.api.rust_arc_decrement_strong_count_AddressDataPtr,
+  );
+}
+
+@sealed
+class BitcoinAddressImpl extends RustOpaque implements BitcoinAddress {
+  // Not to be used by end users
+  BitcoinAddressImpl.frbInternalDcoDecode(List<dynamic> wire)
+      : super.frbInternalDcoDecode(wire, _kStaticData);
+
+  // Not to be used by end users
+  BitcoinAddressImpl.frbInternalSseDecode(BigInt ptr, int externalSizeOnNative)
+      : super.frbInternalSseDecode(ptr, externalSizeOnNative, _kStaticData);
+
+  static final _kStaticData = RustArcStaticData(
+    rustArcIncrementStrongCount:
+        core.instance.api.rust_arc_increment_strong_count_BitcoinAddress,
+    rustArcDecrementStrongCount:
+        core.instance.api.rust_arc_decrement_strong_count_BitcoinAddress,
+    rustArcDecrementStrongCountPtr:
+        core.instance.api.rust_arc_decrement_strong_count_BitcoinAddressPtr,
+  );
+
+  BitcoinAddressInner get inner =>
+      core.instance.api.sharedBitcoinAddressAutoAccessorGetInner(
+        that: this,
+      );
+
+  set inner(BitcoinAddressInner inner) => core.instance.api
+      .sharedBitcoinAddressAutoAccessorSetInner(that: this, inner: inner);
+
+  /// Is the address valid for the provided network
+  Future<bool> isValidForNetwork({required Network network}) =>
+      core.instance.api
+          .sharedBitcoinAddressIsValidForNetwork(that: this, network: network);
+
+  /// Return the `scriptPubKey` underlying an address.
+  Future<ScriptBuf> scriptPubkey() =>
+      core.instance.api.sharedBitcoinAddressScriptPubkey(
+        that: this,
+      );
+
+  /// Return the data for the address.
+  Future<AddressData> toAddressData() =>
+      core.instance.api.sharedBitcoinAddressToAddressData(
+        that: this,
+      );
+
+  /// Return a BIP-21 URI string for this address.
+  Future<String> toQrUri() => core.instance.api.sharedBitcoinAddressToQrUri(
+        that: this,
+      );
+}
+
+@sealed
+class BitcoinAddressInnerImpl extends RustOpaque
+    implements BitcoinAddressInner {
+  // Not to be used by end users
+  BitcoinAddressInnerImpl.frbInternalDcoDecode(List<dynamic> wire)
+      : super.frbInternalDcoDecode(wire, _kStaticData);
+
+  // Not to be used by end users
+  BitcoinAddressInnerImpl.frbInternalSseDecode(
+      BigInt ptr, int externalSizeOnNative)
+      : super.frbInternalSseDecode(ptr, externalSizeOnNative, _kStaticData);
+
+  static final _kStaticData = RustArcStaticData(
+    rustArcIncrementStrongCount:
+        core.instance.api.rust_arc_increment_strong_count_BitcoinAddressInner,
+    rustArcDecrementStrongCount:
+        core.instance.api.rust_arc_decrement_strong_count_BitcoinAddressInner,
+    rustArcDecrementStrongCountPtr: core
+        .instance.api.rust_arc_decrement_strong_count_BitcoinAddressInnerPtr,
+  );
+}
+
+@sealed
+class BitcoinTransactionInnerImpl extends RustOpaque
+    implements BitcoinTransactionInner {
+  // Not to be used by end users
+  BitcoinTransactionInnerImpl.frbInternalDcoDecode(List<dynamic> wire)
+      : super.frbInternalDcoDecode(wire, _kStaticData);
+
+  // Not to be used by end users
+  BitcoinTransactionInnerImpl.frbInternalSseDecode(
+      BigInt ptr, int externalSizeOnNative)
+      : super.frbInternalSseDecode(ptr, externalSizeOnNative, _kStaticData);
+
+  static final _kStaticData = RustArcStaticData(
+    rustArcIncrementStrongCount: core
+        .instance.api.rust_arc_increment_strong_count_BitcoinTransactionInner,
+    rustArcDecrementStrongCount: core
+        .instance.api.rust_arc_decrement_strong_count_BitcoinTransactionInner,
+    rustArcDecrementStrongCountPtr: core.instance.api
+        .rust_arc_decrement_strong_count_BitcoinTransactionInnerPtr,
+  );
 }
 
 @sealed
@@ -9820,6 +13386,106 @@ class Bolt11PaymentImpl extends RustOpaque implements Bolt11Payment {
     rustArcDecrementStrongCountPtr:
         core.instance.api.rust_arc_decrement_strong_count_Bolt11PaymentPtr,
   );
+
+  Future<void> claimForHash(
+          {required PaymentHash paymentHash,
+          required BigInt claimableAmountMsat,
+          required PaymentPreimage preimage}) =>
+      core.instance.api.ldkAdapterBolt11Bolt11PaymentClaimForHash(
+          that: this,
+          paymentHash: paymentHash,
+          claimableAmountMsat: claimableAmountMsat,
+          preimage: preimage);
+
+  Future<void> failForHash({required PaymentHash paymentHash}) =>
+      core.instance.api.ldkAdapterBolt11Bolt11PaymentFailForHash(
+          that: this, paymentHash: paymentHash);
+
+  Future<Bolt11Invoice> receive(
+          {required BigInt amountMsat,
+          required String description,
+          required int expirySecs}) =>
+      core.instance.api.ldkAdapterBolt11Bolt11PaymentReceive(
+          that: this,
+          amountMsat: amountMsat,
+          description: description,
+          expirySecs: expirySecs);
+
+  Future<Bolt11Invoice> receiveForHash(
+          {required PaymentHash paymentHash,
+          required BigInt amountMsat,
+          required String description,
+          required int expirySecs}) =>
+      core.instance.api.ldkAdapterBolt11Bolt11PaymentReceiveForHash(
+          that: this,
+          paymentHash: paymentHash,
+          amountMsat: amountMsat,
+          description: description,
+          expirySecs: expirySecs);
+
+  Future<Bolt11Invoice> receiveVariableAmount(
+          {required String description, required int expirySecs}) =>
+      core.instance.api.ldkAdapterBolt11Bolt11PaymentReceiveVariableAmount(
+          that: this, description: description, expirySecs: expirySecs);
+
+  Future<Bolt11Invoice> receiveVariableAmountForHash(
+          {required String description,
+          required int expirySecs,
+          required PaymentHash paymentHash}) =>
+      core.instance.api
+          .ldkAdapterBolt11Bolt11PaymentReceiveVariableAmountForHash(
+              that: this,
+              description: description,
+              expirySecs: expirySecs,
+              paymentHash: paymentHash);
+
+  Future<Bolt11Invoice> receiveVariableAmountViaJitChannel(
+          {required String description,
+          required int expirySecs,
+          BigInt? maxProportionalLspFeeLimitPpmMsat}) =>
+      core.instance.api
+          .ldkAdapterBolt11Bolt11PaymentReceiveVariableAmountViaJitChannel(
+              that: this,
+              description: description,
+              expirySecs: expirySecs,
+              maxProportionalLspFeeLimitPpmMsat:
+                  maxProportionalLspFeeLimitPpmMsat);
+
+  Future<Bolt11Invoice> receiveViaJitChannel(
+          {required BigInt amountMsat,
+          required String description,
+          required int expirySecs,
+          BigInt? maxTotalLspFeeLimitMsat}) =>
+      core.instance.api.ldkAdapterBolt11Bolt11PaymentReceiveViaJitChannel(
+          that: this,
+          amountMsat: amountMsat,
+          description: description,
+          expirySecs: expirySecs,
+          maxTotalLspFeeLimitMsat: maxTotalLspFeeLimitMsat);
+
+  Future<PaymentId> send(
+          {required Bolt11Invoice invoice,
+          SendingParameters? sendingParameters}) =>
+      core.instance.api.ldkAdapterBolt11Bolt11PaymentSend(
+          that: this, invoice: invoice, sendingParameters: sendingParameters);
+
+  Future<void> sendProbes({required Bolt11Invoice invoice}) => core.instance.api
+      .ldkAdapterBolt11Bolt11PaymentSendProbes(that: this, invoice: invoice);
+
+  Future<void> sendProbesUsingAmount(
+          {required Bolt11Invoice invoice, required BigInt amountMsat}) =>
+      core.instance.api.ldkAdapterBolt11Bolt11PaymentSendProbesUsingAmount(
+          that: this, invoice: invoice, amountMsat: amountMsat);
+
+  Future<PaymentId> sendUsingAmount(
+          {required Bolt11Invoice invoice,
+          required BigInt amountMsat,
+          SendingParameters? sendingParameters}) =>
+      core.instance.api.ldkAdapterBolt11Bolt11PaymentSendUsingAmount(
+          that: this,
+          invoice: invoice,
+          amountMsat: amountMsat,
+          sendingParameters: sendingParameters);
 }
 
 @sealed
@@ -9840,6 +13506,56 @@ class Bolt12PaymentImpl extends RustOpaque implements Bolt12Payment {
     rustArcDecrementStrongCountPtr:
         core.instance.api.rust_arc_decrement_strong_count_Bolt12PaymentPtr,
   );
+
+  Future<Refund> initiateRefund(
+          {required BigInt amountMsat,
+          required int expirySecs,
+          BigInt? quantity,
+          String? payerNote}) =>
+      core.instance.api.ldkAdapterBolt12Bolt12PaymentInitiateRefund(
+          that: this,
+          amountMsat: amountMsat,
+          expirySecs: expirySecs,
+          quantity: quantity,
+          payerNote: payerNote);
+
+  Future<Offer> receive(
+          {required BigInt amountMsat,
+          required String description,
+          int? expirySecs,
+          BigInt? quantity}) =>
+      core.instance.api.ldkAdapterBolt12Bolt12PaymentReceive(
+          that: this,
+          amountMsat: amountMsat,
+          description: description,
+          expirySecs: expirySecs,
+          quantity: quantity);
+
+  Future<Offer> receiveVariableAmount(
+          {required String description, int? expirySecs}) =>
+      core.instance.api.ldkAdapterBolt12Bolt12PaymentReceiveVariableAmount(
+          that: this, description: description, expirySecs: expirySecs);
+
+  Future<Bolt12Invoice> requestRefundPayment({required Refund refund}) =>
+      core.instance.api.ldkAdapterBolt12Bolt12PaymentRequestRefundPayment(
+          that: this, refund: refund);
+
+  Future<PaymentId> send(
+          {required Offer offer, BigInt? quantity, String? payerNote}) =>
+      core.instance.api.ldkAdapterBolt12Bolt12PaymentSend(
+          that: this, offer: offer, quantity: quantity, payerNote: payerNote);
+
+  Future<PaymentId> sendUsingAmount(
+          {required Offer offer,
+          required BigInt amountMsat,
+          BigInt? quantity,
+          String? payerNote}) =>
+      core.instance.api.ldkAdapterBolt12Bolt12PaymentSendUsingAmount(
+          that: this,
+          offer: offer,
+          amountMsat: amountMsat,
+          quantity: quantity,
+          payerNote: payerNote);
 }
 
 @sealed
@@ -9860,102 +13576,556 @@ class BuilderImpl extends RustOpaque implements Builder {
     rustArcDecrementStrongCountPtr:
         core.instance.api.rust_arc_decrement_strong_count_BuilderPtr,
   );
-}
 
-@sealed
-class ConfirmationStatusImpl extends RustOpaque implements ConfirmationStatus {
-  // Not to be used by end users
-  ConfirmationStatusImpl.frbInternalDcoDecode(List<dynamic> wire)
-      : super.frbInternalDcoDecode(wire, _kStaticData);
-
-  // Not to be used by end users
-  ConfirmationStatusImpl.frbInternalSseDecode(
-      BigInt ptr, int externalSizeOnNative)
-      : super.frbInternalSseDecode(ptr, externalSizeOnNative, _kStaticData);
-
-  static final _kStaticData = RustArcStaticData(
-    rustArcIncrementStrongCount:
-        core.instance.api.rust_arc_increment_strong_count_ConfirmationStatus,
-    rustArcDecrementStrongCount:
-        core.instance.api.rust_arc_decrement_strong_count_ConfirmationStatus,
-    rustArcDecrementStrongCountPtr:
-        core.instance.api.rust_arc_decrement_strong_count_ConfirmationStatusPtr,
-  );
-}
-
-@sealed
-class FfiBuilderImpl extends RustOpaque implements FfiBuilder {
-  // Not to be used by end users
-  FfiBuilderImpl.frbInternalDcoDecode(List<dynamic> wire)
-      : super.frbInternalDcoDecode(wire, _kStaticData);
-
-  // Not to be used by end users
-  FfiBuilderImpl.frbInternalSseDecode(BigInt ptr, int externalSizeOnNative)
-      : super.frbInternalSseDecode(ptr, externalSizeOnNative, _kStaticData);
-
-  static final _kStaticData = RustArcStaticData(
-    rustArcIncrementStrongCount:
-        core.instance.api.rust_arc_increment_strong_count_FfiBuilder,
-    rustArcDecrementStrongCount:
-        core.instance.api.rust_arc_decrement_strong_count_FfiBuilder,
-    rustArcDecrementStrongCountPtr:
-        core.instance.api.rust_arc_decrement_strong_count_FfiBuilderPtr,
-  );
-
-  Builder get opaque =>
-      core.instance.api.crateApiBuilderFfiBuilderAutoAccessorGetOpaque(
+  Future<Node> build() => core.instance.api.ldkAdapterBuilderBuilderBuild(
         that: this,
       );
 
-  set opaque(Builder opaque) =>
-      core.instance.api.crateApiBuilderFfiBuilderAutoAccessorSetOpaque(
-          that: this, opaque: opaque);
-
-  Future<FfiNode> build() => core.instance.api.crateApiBuilderFfiBuilderBuild(
+  Future<Node> buildWithFsStore() =>
+      core.instance.api.ldkAdapterBuilderBuilderBuildWithFsStore(
         that: this,
       );
 
-  Future<FfiNode> buildWithFsStore() =>
-      core.instance.api.crateApiBuilderFfiBuilderBuildWithFsStore(
-        that: this,
-      );
-
-  Future<FfiNode> buildWithVssStore(
+  Future<Node> buildWithVssStore(
           {required String vssUrl,
           required String storeId,
           required String lnurlAuthServerUrl,
           required Map<String, String> fixedHeaders}) =>
-      core.instance.api.crateApiBuilderFfiBuilderBuildWithVssStore(
+      core.instance.api.ldkAdapterBuilderBuilderBuildWithVssStore(
           that: this,
           vssUrl: vssUrl,
           storeId: storeId,
           lnurlAuthServerUrl: lnurlAuthServerUrl,
           fixedHeaders: fixedHeaders);
 
-  Future<FfiNode> buildWithVssStoreAndFixedHeaders(
+  Future<Node> buildWithVssStoreAndFixedHeaders(
           {required String vssUrl,
           required String storeId,
           required Map<String, String> fixedHeaders}) =>
       core.instance.api
-          .crateApiBuilderFfiBuilderBuildWithVssStoreAndFixedHeaders(
+          .ldkAdapterBuilderBuilderBuildWithVssStoreAndFixedHeaders(
               that: this,
               vssUrl: vssUrl,
               storeId: storeId,
               fixedHeaders: fixedHeaders);
 
-  FfiBuilder setEntropySeedBytes({required List<int> seedBytes}) =>
-      core.instance.api.crateApiBuilderFfiBuilderSetEntropySeedBytes(
+  Future<Builder> setEntropySeedBytes({required List<int> seedBytes}) =>
+      core.instance.api.ldkAdapterBuilderBuilderSetEntropySeedBytes(
           that: this, seedBytes: seedBytes);
 
-  FfiBuilder setFilesystemLogger(
+  Future<Builder> setFilesystemLogger(
           {String? logFilePath, LogLevel? maxLogLevel}) =>
-      core.instance.api.crateApiBuilderFfiBuilderSetFilesystemLogger(
+      core.instance.api.ldkAdapterBuilderBuilderSetFilesystemLogger(
           that: this, logFilePath: logFilePath, maxLogLevel: maxLogLevel);
 
-  FfiBuilder setLogFacadeLogger() =>
-      core.instance.api.crateApiBuilderFfiBuilderSetLogFacadeLogger(
+  Future<Builder> setLogFacadeLogger() =>
+      core.instance.api.ldkAdapterBuilderBuilderSetLogFacadeLogger(
         that: this,
       );
+}
+
+@sealed
+class ChainDataSourceConfigImpl extends RustOpaque
+    implements ChainDataSourceConfig {
+  // Not to be used by end users
+  ChainDataSourceConfigImpl.frbInternalDcoDecode(List<dynamic> wire)
+      : super.frbInternalDcoDecode(wire, _kStaticData);
+
+  // Not to be used by end users
+  ChainDataSourceConfigImpl.frbInternalSseDecode(
+      BigInt ptr, int externalSizeOnNative)
+      : super.frbInternalSseDecode(ptr, externalSizeOnNative, _kStaticData);
+
+  static final _kStaticData = RustArcStaticData(
+    rustArcIncrementStrongCount:
+        core.instance.api.rust_arc_increment_strong_count_ChainDataSourceConfig,
+    rustArcDecrementStrongCount:
+        core.instance.api.rust_arc_decrement_strong_count_ChainDataSourceConfig,
+    rustArcDecrementStrongCountPtr: core
+        .instance.api.rust_arc_decrement_strong_count_ChainDataSourceConfigPtr,
+  );
+}
+
+@sealed
+class ChannelConfigImpl extends RustOpaque implements ChannelConfig {
+  // Not to be used by end users
+  ChannelConfigImpl.frbInternalDcoDecode(List<dynamic> wire)
+      : super.frbInternalDcoDecode(wire, _kStaticData);
+
+  // Not to be used by end users
+  ChannelConfigImpl.frbInternalSseDecode(BigInt ptr, int externalSizeOnNative)
+      : super.frbInternalSseDecode(ptr, externalSizeOnNative, _kStaticData);
+
+  static final _kStaticData = RustArcStaticData(
+    rustArcIncrementStrongCount:
+        core.instance.api.rust_arc_increment_strong_count_ChannelConfig,
+    rustArcDecrementStrongCount:
+        core.instance.api.rust_arc_decrement_strong_count_ChannelConfig,
+    rustArcDecrementStrongCountPtr:
+        core.instance.api.rust_arc_decrement_strong_count_ChannelConfigPtr,
+  );
+
+  bool get acceptUnderpayingHtlcs => core.instance.api
+          .ldkAdapterTypesChannelConfigAutoAccessorGetAcceptUnderpayingHtlcs(
+        that: this,
+      );
+
+  int get cltvExpiryDelta => core.instance.api
+          .ldkAdapterTypesChannelConfigAutoAccessorGetCltvExpiryDelta(
+        that: this,
+      );
+
+  BigInt get forceCloseAvoidanceMaxFeeSatoshis => core.instance.api
+          .ldkAdapterTypesChannelConfigAutoAccessorGetForceCloseAvoidanceMaxFeeSatoshis(
+        that: this,
+      );
+
+  int get forwardingFeeBaseMsat => core.instance.api
+          .ldkAdapterTypesChannelConfigAutoAccessorGetForwardingFeeBaseMsat(
+        that: this,
+      );
+
+  int get forwardingFeeProportionalMillionths => core.instance.api
+          .ldkAdapterTypesChannelConfigAutoAccessorGetForwardingFeeProportionalMillionths(
+        that: this,
+      );
+
+  MaxDustHtlcExposure get maxDustHtlcExposure => core.instance.api
+          .ldkAdapterTypesChannelConfigAutoAccessorGetMaxDustHtlcExposure(
+        that: this,
+      );
+
+  set acceptUnderpayingHtlcs(bool acceptUnderpayingHtlcs) => core.instance.api
+      .ldkAdapterTypesChannelConfigAutoAccessorSetAcceptUnderpayingHtlcs(
+          that: this, acceptUnderpayingHtlcs: acceptUnderpayingHtlcs);
+
+  set cltvExpiryDelta(int cltvExpiryDelta) => core.instance.api
+      .ldkAdapterTypesChannelConfigAutoAccessorSetCltvExpiryDelta(
+          that: this, cltvExpiryDelta: cltvExpiryDelta);
+
+  set forceCloseAvoidanceMaxFeeSatoshis(
+          BigInt forceCloseAvoidanceMaxFeeSatoshis) =>
+      core.instance.api
+          .ldkAdapterTypesChannelConfigAutoAccessorSetForceCloseAvoidanceMaxFeeSatoshis(
+              that: this,
+              forceCloseAvoidanceMaxFeeSatoshis:
+                  forceCloseAvoidanceMaxFeeSatoshis);
+
+  set forwardingFeeBaseMsat(int forwardingFeeBaseMsat) => core.instance.api
+      .ldkAdapterTypesChannelConfigAutoAccessorSetForwardingFeeBaseMsat(
+          that: this, forwardingFeeBaseMsat: forwardingFeeBaseMsat);
+
+  set forwardingFeeProportionalMillionths(
+          int forwardingFeeProportionalMillionths) =>
+      core.instance.api
+          .ldkAdapterTypesChannelConfigAutoAccessorSetForwardingFeeProportionalMillionths(
+              that: this,
+              forwardingFeeProportionalMillionths:
+                  forwardingFeeProportionalMillionths);
+
+  set maxDustHtlcExposure(MaxDustHtlcExposure maxDustHtlcExposure) =>
+      core.instance.api
+          .ldkAdapterTypesChannelConfigAutoAccessorSetMaxDustHtlcExposure(
+              that: this, maxDustHtlcExposure: maxDustHtlcExposure);
+}
+
+@sealed
+class ChannelDetailsImpl extends RustOpaque implements ChannelDetails {
+  // Not to be used by end users
+  ChannelDetailsImpl.frbInternalDcoDecode(List<dynamic> wire)
+      : super.frbInternalDcoDecode(wire, _kStaticData);
+
+  // Not to be used by end users
+  ChannelDetailsImpl.frbInternalSseDecode(BigInt ptr, int externalSizeOnNative)
+      : super.frbInternalSseDecode(ptr, externalSizeOnNative, _kStaticData);
+
+  static final _kStaticData = RustArcStaticData(
+    rustArcIncrementStrongCount:
+        core.instance.api.rust_arc_increment_strong_count_ChannelDetails,
+    rustArcDecrementStrongCount:
+        core.instance.api.rust_arc_decrement_strong_count_ChannelDetails,
+    rustArcDecrementStrongCountPtr:
+        core.instance.api.rust_arc_decrement_strong_count_ChannelDetailsPtr,
+  );
+
+  ChannelId get channelId =>
+      core.instance.api.ldkAdapterTypesChannelDetailsAutoAccessorGetChannelId(
+        that: this,
+      );
+
+  BigInt get channelValueSats => core.instance.api
+          .ldkAdapterTypesChannelDetailsAutoAccessorGetChannelValueSats(
+        that: this,
+      );
+
+  int? get cltvExpiryDelta => core.instance.api
+          .ldkAdapterTypesChannelDetailsAutoAccessorGetCltvExpiryDelta(
+        that: this,
+      );
+
+  ChannelConfig get config =>
+      core.instance.api.ldkAdapterTypesChannelDetailsAutoAccessorGetConfig(
+        that: this,
+      );
+
+  int? get confirmations => core.instance.api
+          .ldkAdapterTypesChannelDetailsAutoAccessorGetConfirmations(
+        that: this,
+      );
+
+  int? get confirmationsRequired => core.instance.api
+          .ldkAdapterTypesChannelDetailsAutoAccessorGetConfirmationsRequired(
+        that: this,
+      );
+
+  int? get counterpartyForwardingInfoCltvExpiryDelta => core.instance.api
+          .ldkAdapterTypesChannelDetailsAutoAccessorGetCounterpartyForwardingInfoCltvExpiryDelta(
+        that: this,
+      );
+
+  int? get counterpartyForwardingInfoFeeBaseMsat => core.instance.api
+          .ldkAdapterTypesChannelDetailsAutoAccessorGetCounterpartyForwardingInfoFeeBaseMsat(
+        that: this,
+      );
+
+  int? get counterpartyForwardingInfoFeeProportionalMillionths =>
+      core.instance.api
+          .ldkAdapterTypesChannelDetailsAutoAccessorGetCounterpartyForwardingInfoFeeProportionalMillionths(
+        that: this,
+      );
+
+  PublicKey get counterpartyNodeId => core.instance.api
+          .ldkAdapterTypesChannelDetailsAutoAccessorGetCounterpartyNodeId(
+        that: this,
+      );
+
+  BigInt? get counterpartyOutboundHtlcMaximumMsat => core.instance.api
+          .ldkAdapterTypesChannelDetailsAutoAccessorGetCounterpartyOutboundHtlcMaximumMsat(
+        that: this,
+      );
+
+  BigInt? get counterpartyOutboundHtlcMinimumMsat => core.instance.api
+          .ldkAdapterTypesChannelDetailsAutoAccessorGetCounterpartyOutboundHtlcMinimumMsat(
+        that: this,
+      );
+
+  BigInt get counterpartyUnspendablePunishmentReserve => core.instance.api
+          .ldkAdapterTypesChannelDetailsAutoAccessorGetCounterpartyUnspendablePunishmentReserve(
+        that: this,
+      );
+
+  int get feerateSatPer1000Weight => core.instance.api
+          .ldkAdapterTypesChannelDetailsAutoAccessorGetFeerateSatPer1000Weight(
+        that: this,
+      );
+
+  int? get forceCloseSpendDelay => core.instance.api
+          .ldkAdapterTypesChannelDetailsAutoAccessorGetForceCloseSpendDelay(
+        that: this,
+      );
+
+  OutPoint? get fundingTxo =>
+      core.instance.api.ldkAdapterTypesChannelDetailsAutoAccessorGetFundingTxo(
+        that: this,
+      );
+
+  BigInt get inboundCapacityMsat => core.instance.api
+          .ldkAdapterTypesChannelDetailsAutoAccessorGetInboundCapacityMsat(
+        that: this,
+      );
+
+  BigInt? get inboundHtlcMaximumMsat => core.instance.api
+          .ldkAdapterTypesChannelDetailsAutoAccessorGetInboundHtlcMaximumMsat(
+        that: this,
+      );
+
+  BigInt get inboundHtlcMinimumMsat => core.instance.api
+          .ldkAdapterTypesChannelDetailsAutoAccessorGetInboundHtlcMinimumMsat(
+        that: this,
+      );
+
+  bool get isChannelReady => core.instance.api
+          .ldkAdapterTypesChannelDetailsAutoAccessorGetIsChannelReady(
+        that: this,
+      );
+
+  bool get isOutbound =>
+      core.instance.api.ldkAdapterTypesChannelDetailsAutoAccessorGetIsOutbound(
+        that: this,
+      );
+
+  bool get isUsable =>
+      core.instance.api.ldkAdapterTypesChannelDetailsAutoAccessorGetIsUsable(
+        that: this,
+      );
+
+  BigInt get nextOutboundHtlcLimitMsat => core.instance.api
+          .ldkAdapterTypesChannelDetailsAutoAccessorGetNextOutboundHtlcLimitMsat(
+        that: this,
+      );
+
+  BigInt get nextOutboundHtlcMinimumMsat => core.instance.api
+          .ldkAdapterTypesChannelDetailsAutoAccessorGetNextOutboundHtlcMinimumMsat(
+        that: this,
+      );
+
+  BigInt get outboundCapacityMsat => core.instance.api
+          .ldkAdapterTypesChannelDetailsAutoAccessorGetOutboundCapacityMsat(
+        that: this,
+      );
+
+  BigInt? get unspendablePunishmentReserve => core.instance.api
+          .ldkAdapterTypesChannelDetailsAutoAccessorGetUnspendablePunishmentReserve(
+        that: this,
+      );
+
+  UserChannelId get userChannelId => core.instance.api
+          .ldkAdapterTypesChannelDetailsAutoAccessorGetUserChannelId(
+        that: this,
+      );
+
+  set channelId(ChannelId channelId) =>
+      core.instance.api.ldkAdapterTypesChannelDetailsAutoAccessorSetChannelId(
+          that: this, channelId: channelId);
+
+  set channelValueSats(BigInt channelValueSats) => core.instance.api
+      .ldkAdapterTypesChannelDetailsAutoAccessorSetChannelValueSats(
+          that: this, channelValueSats: channelValueSats);
+
+  set cltvExpiryDelta(int? cltvExpiryDelta) => core.instance.api
+      .ldkAdapterTypesChannelDetailsAutoAccessorSetCltvExpiryDelta(
+          that: this, cltvExpiryDelta: cltvExpiryDelta);
+
+  set config(ChannelConfig config) =>
+      core.instance.api.ldkAdapterTypesChannelDetailsAutoAccessorSetConfig(
+          that: this, config: config);
+
+  set confirmations(int? confirmations) => core.instance.api
+      .ldkAdapterTypesChannelDetailsAutoAccessorSetConfirmations(
+          that: this, confirmations: confirmations);
+
+  set confirmationsRequired(int? confirmationsRequired) => core.instance.api
+      .ldkAdapterTypesChannelDetailsAutoAccessorSetConfirmationsRequired(
+          that: this, confirmationsRequired: confirmationsRequired);
+
+  set counterpartyForwardingInfoCltvExpiryDelta(
+          int? counterpartyForwardingInfoCltvExpiryDelta) =>
+      core.instance.api
+          .ldkAdapterTypesChannelDetailsAutoAccessorSetCounterpartyForwardingInfoCltvExpiryDelta(
+              that: this,
+              counterpartyForwardingInfoCltvExpiryDelta:
+                  counterpartyForwardingInfoCltvExpiryDelta);
+
+  set counterpartyForwardingInfoFeeBaseMsat(
+          int? counterpartyForwardingInfoFeeBaseMsat) =>
+      core.instance.api
+          .ldkAdapterTypesChannelDetailsAutoAccessorSetCounterpartyForwardingInfoFeeBaseMsat(
+              that: this,
+              counterpartyForwardingInfoFeeBaseMsat:
+                  counterpartyForwardingInfoFeeBaseMsat);
+
+  set counterpartyForwardingInfoFeeProportionalMillionths(
+          int? counterpartyForwardingInfoFeeProportionalMillionths) =>
+      core.instance.api
+          .ldkAdapterTypesChannelDetailsAutoAccessorSetCounterpartyForwardingInfoFeeProportionalMillionths(
+              that: this,
+              counterpartyForwardingInfoFeeProportionalMillionths:
+                  counterpartyForwardingInfoFeeProportionalMillionths);
+
+  set counterpartyNodeId(PublicKey counterpartyNodeId) => core.instance.api
+      .ldkAdapterTypesChannelDetailsAutoAccessorSetCounterpartyNodeId(
+          that: this, counterpartyNodeId: counterpartyNodeId);
+
+  set counterpartyOutboundHtlcMaximumMsat(
+          BigInt? counterpartyOutboundHtlcMaximumMsat) =>
+      core.instance.api
+          .ldkAdapterTypesChannelDetailsAutoAccessorSetCounterpartyOutboundHtlcMaximumMsat(
+              that: this,
+              counterpartyOutboundHtlcMaximumMsat:
+                  counterpartyOutboundHtlcMaximumMsat);
+
+  set counterpartyOutboundHtlcMinimumMsat(
+          BigInt? counterpartyOutboundHtlcMinimumMsat) =>
+      core.instance.api
+          .ldkAdapterTypesChannelDetailsAutoAccessorSetCounterpartyOutboundHtlcMinimumMsat(
+              that: this,
+              counterpartyOutboundHtlcMinimumMsat:
+                  counterpartyOutboundHtlcMinimumMsat);
+
+  set counterpartyUnspendablePunishmentReserve(
+          BigInt counterpartyUnspendablePunishmentReserve) =>
+      core.instance.api
+          .ldkAdapterTypesChannelDetailsAutoAccessorSetCounterpartyUnspendablePunishmentReserve(
+              that: this,
+              counterpartyUnspendablePunishmentReserve:
+                  counterpartyUnspendablePunishmentReserve);
+
+  set feerateSatPer1000Weight(int feerateSatPer1000Weight) => core.instance.api
+      .ldkAdapterTypesChannelDetailsAutoAccessorSetFeerateSatPer1000Weight(
+          that: this, feerateSatPer1000Weight: feerateSatPer1000Weight);
+
+  set forceCloseSpendDelay(int? forceCloseSpendDelay) => core.instance.api
+      .ldkAdapterTypesChannelDetailsAutoAccessorSetForceCloseSpendDelay(
+          that: this, forceCloseSpendDelay: forceCloseSpendDelay);
+
+  set fundingTxo(OutPoint? fundingTxo) =>
+      core.instance.api.ldkAdapterTypesChannelDetailsAutoAccessorSetFundingTxo(
+          that: this, fundingTxo: fundingTxo);
+
+  set inboundCapacityMsat(BigInt inboundCapacityMsat) => core.instance.api
+      .ldkAdapterTypesChannelDetailsAutoAccessorSetInboundCapacityMsat(
+          that: this, inboundCapacityMsat: inboundCapacityMsat);
+
+  set inboundHtlcMaximumMsat(BigInt? inboundHtlcMaximumMsat) =>
+      core.instance.api
+          .ldkAdapterTypesChannelDetailsAutoAccessorSetInboundHtlcMaximumMsat(
+              that: this, inboundHtlcMaximumMsat: inboundHtlcMaximumMsat);
+
+  set inboundHtlcMinimumMsat(BigInt inboundHtlcMinimumMsat) => core.instance.api
+      .ldkAdapterTypesChannelDetailsAutoAccessorSetInboundHtlcMinimumMsat(
+          that: this, inboundHtlcMinimumMsat: inboundHtlcMinimumMsat);
+
+  set isChannelReady(bool isChannelReady) => core.instance.api
+      .ldkAdapterTypesChannelDetailsAutoAccessorSetIsChannelReady(
+          that: this, isChannelReady: isChannelReady);
+
+  set isOutbound(bool isOutbound) =>
+      core.instance.api.ldkAdapterTypesChannelDetailsAutoAccessorSetIsOutbound(
+          that: this, isOutbound: isOutbound);
+
+  set isUsable(bool isUsable) =>
+      core.instance.api.ldkAdapterTypesChannelDetailsAutoAccessorSetIsUsable(
+          that: this, isUsable: isUsable);
+
+  set nextOutboundHtlcLimitMsat(BigInt nextOutboundHtlcLimitMsat) => core
+      .instance.api
+      .ldkAdapterTypesChannelDetailsAutoAccessorSetNextOutboundHtlcLimitMsat(
+          that: this, nextOutboundHtlcLimitMsat: nextOutboundHtlcLimitMsat);
+
+  set nextOutboundHtlcMinimumMsat(BigInt nextOutboundHtlcMinimumMsat) => core
+      .instance.api
+      .ldkAdapterTypesChannelDetailsAutoAccessorSetNextOutboundHtlcMinimumMsat(
+          that: this, nextOutboundHtlcMinimumMsat: nextOutboundHtlcMinimumMsat);
+
+  set outboundCapacityMsat(BigInt outboundCapacityMsat) => core.instance.api
+      .ldkAdapterTypesChannelDetailsAutoAccessorSetOutboundCapacityMsat(
+          that: this, outboundCapacityMsat: outboundCapacityMsat);
+
+  set unspendablePunishmentReserve(BigInt? unspendablePunishmentReserve) => core
+      .instance.api
+      .ldkAdapterTypesChannelDetailsAutoAccessorSetUnspendablePunishmentReserve(
+          that: this,
+          unspendablePunishmentReserve: unspendablePunishmentReserve);
+
+  set userChannelId(UserChannelId userChannelId) => core.instance.api
+      .ldkAdapterTypesChannelDetailsAutoAccessorSetUserChannelId(
+          that: this, userChannelId: userChannelId);
+}
+
+@sealed
+class EntropySourceConfigImpl extends RustOpaque
+    implements EntropySourceConfig {
+  // Not to be used by end users
+  EntropySourceConfigImpl.frbInternalDcoDecode(List<dynamic> wire)
+      : super.frbInternalDcoDecode(wire, _kStaticData);
+
+  // Not to be used by end users
+  EntropySourceConfigImpl.frbInternalSseDecode(
+      BigInt ptr, int externalSizeOnNative)
+      : super.frbInternalSseDecode(ptr, externalSizeOnNative, _kStaticData);
+
+  static final _kStaticData = RustArcStaticData(
+    rustArcIncrementStrongCount:
+        core.instance.api.rust_arc_increment_strong_count_EntropySourceConfig,
+    rustArcDecrementStrongCount:
+        core.instance.api.rust_arc_decrement_strong_count_EntropySourceConfig,
+    rustArcDecrementStrongCountPtr: core
+        .instance.api.rust_arc_decrement_strong_count_EntropySourceConfigPtr,
+  );
+}
+
+@sealed
+class EventImpl extends RustOpaque implements Event {
+  // Not to be used by end users
+  EventImpl.frbInternalDcoDecode(List<dynamic> wire)
+      : super.frbInternalDcoDecode(wire, _kStaticData);
+
+  // Not to be used by end users
+  EventImpl.frbInternalSseDecode(BigInt ptr, int externalSizeOnNative)
+      : super.frbInternalSseDecode(ptr, externalSizeOnNative, _kStaticData);
+
+  static final _kStaticData = RustArcStaticData(
+    rustArcIncrementStrongCount:
+        core.instance.api.rust_arc_increment_strong_count_Event,
+    rustArcDecrementStrongCount:
+        core.instance.api.rust_arc_decrement_strong_count_Event,
+    rustArcDecrementStrongCountPtr:
+        core.instance.api.rust_arc_decrement_strong_count_EventPtr,
+  );
+}
+
+@sealed
+class GossipSourceConfigImpl extends RustOpaque implements GossipSourceConfig {
+  // Not to be used by end users
+  GossipSourceConfigImpl.frbInternalDcoDecode(List<dynamic> wire)
+      : super.frbInternalDcoDecode(wire, _kStaticData);
+
+  // Not to be used by end users
+  GossipSourceConfigImpl.frbInternalSseDecode(
+      BigInt ptr, int externalSizeOnNative)
+      : super.frbInternalSseDecode(ptr, externalSizeOnNative, _kStaticData);
+
+  static final _kStaticData = RustArcStaticData(
+    rustArcIncrementStrongCount:
+        core.instance.api.rust_arc_increment_strong_count_GossipSourceConfig,
+    rustArcDecrementStrongCount:
+        core.instance.api.rust_arc_decrement_strong_count_GossipSourceConfig,
+    rustArcDecrementStrongCountPtr:
+        core.instance.api.rust_arc_decrement_strong_count_GossipSourceConfigPtr,
+  );
+}
+
+@sealed
+class LightningBalanceImpl extends RustOpaque implements LightningBalance {
+  // Not to be used by end users
+  LightningBalanceImpl.frbInternalDcoDecode(List<dynamic> wire)
+      : super.frbInternalDcoDecode(wire, _kStaticData);
+
+  // Not to be used by end users
+  LightningBalanceImpl.frbInternalSseDecode(
+      BigInt ptr, int externalSizeOnNative)
+      : super.frbInternalSseDecode(ptr, externalSizeOnNative, _kStaticData);
+
+  static final _kStaticData = RustArcStaticData(
+    rustArcIncrementStrongCount:
+        core.instance.api.rust_arc_increment_strong_count_LightningBalance,
+    rustArcDecrementStrongCount:
+        core.instance.api.rust_arc_decrement_strong_count_LightningBalance,
+    rustArcDecrementStrongCountPtr:
+        core.instance.api.rust_arc_decrement_strong_count_LightningBalancePtr,
+  );
+}
+
+@sealed
+class MaxDustHtlcExposureImpl extends RustOpaque
+    implements MaxDustHtlcExposure {
+  // Not to be used by end users
+  MaxDustHtlcExposureImpl.frbInternalDcoDecode(List<dynamic> wire)
+      : super.frbInternalDcoDecode(wire, _kStaticData);
+
+  // Not to be used by end users
+  MaxDustHtlcExposureImpl.frbInternalSseDecode(
+      BigInt ptr, int externalSizeOnNative)
+      : super.frbInternalSseDecode(ptr, externalSizeOnNative, _kStaticData);
+
+  static final _kStaticData = RustArcStaticData(
+    rustArcIncrementStrongCount:
+        core.instance.api.rust_arc_increment_strong_count_MaxDustHtlcExposure,
+    rustArcDecrementStrongCount:
+        core.instance.api.rust_arc_decrement_strong_count_MaxDustHtlcExposure,
+    rustArcDecrementStrongCountPtr: core
+        .instance.api.rust_arc_decrement_strong_count_MaxDustHtlcExposurePtr,
+  );
 }
 
 @sealed
@@ -9976,6 +14146,27 @@ class NetworkGraphImpl extends RustOpaque implements NetworkGraph {
     rustArcDecrementStrongCountPtr:
         core.instance.api.rust_arc_decrement_strong_count_NetworkGraphPtr,
   );
+
+  /// Returns information on a channel with the given id.
+  Future<ChannelInfo?> channel({required BigInt shortChannelId}) =>
+      core.instance.api.ldkAdapterGraphNetworkGraphChannel(
+          that: this, shortChannelId: shortChannelId);
+
+  /// Returns the list of channels in the graph
+  Future<Uint64List> listChannels() =>
+      core.instance.api.ldkAdapterGraphNetworkGraphListChannels(
+        that: this,
+      );
+
+  /// Returns the list of nodes in the graph
+  Future<List<NodeId>> listNodes() =>
+      core.instance.api.ldkAdapterGraphNetworkGraphListNodes(
+        that: this,
+      );
+
+  /// Returns information about a specific node
+  Future<NodeInfo?> node({required NodeId nodeId}) => core.instance.api
+      .ldkAdapterGraphNetworkGraphNode(that: this, nodeId: nodeId);
 }
 
 @sealed
@@ -9996,26 +14187,309 @@ class NodeImpl extends RustOpaque implements Node {
     rustArcDecrementStrongCountPtr:
         core.instance.api.rust_arc_decrement_strong_count_NodePtr,
   );
+
+  Future<void> closeChannel(
+          {required UserChannelId userChannelId,
+          required PublicKey counterpartyNodeId}) =>
+      core.instance.api.ldkAdapterNodeNodeCloseChannel(
+          that: this,
+          userChannelId: userChannelId,
+          counterpartyNodeId: counterpartyNodeId);
+
+  Future<Config> config() => core.instance.api.ldkAdapterNodeNodeConfig(
+        that: this,
+      );
+
+  Future<void> connect(
+          {required PublicKey nodeId,
+          required SocketAddress address,
+          required bool persist}) =>
+      core.instance.api.ldkAdapterNodeNodeConnect(
+          that: this, nodeId: nodeId, address: address, persist: persist);
+
+  Future<void> disconnect({required PublicKey counterpartyNodeId}) =>
+      core.instance.api.ldkAdapterNodeNodeDisconnect(
+          that: this, counterpartyNodeId: counterpartyNodeId);
+
+  Future<void> eventHandled() =>
+      core.instance.api.ldkAdapterNodeNodeEventHandled(
+        that: this,
+      );
+
+  Future<Uint8List> exportPathfindingScores() =>
+      core.instance.api.ldkAdapterNodeNodeExportPathfindingScores(
+        that: this,
+      );
+
+  Future<void> forceCloseChannel(
+          {required UserChannelId userChannelId,
+          required PublicKey counterpartyNodeId}) =>
+      core.instance.api.ldkAdapterNodeNodeForceCloseChannel(
+          that: this,
+          userChannelId: userChannelId,
+          counterpartyNodeId: counterpartyNodeId);
+
+  Future<BalanceDetails> listBalances() =>
+      core.instance.api.ldkAdapterNodeNodeListBalances(
+        that: this,
+      );
+
+  Future<List<ChannelDetails>> listChannels() =>
+      core.instance.api.ldkAdapterNodeNodeListChannels(
+        that: this,
+      );
+
+  Future<List<PaymentDetails>> listPayments() =>
+      core.instance.api.ldkAdapterNodeNodeListPayments(
+        that: this,
+      );
+
+  Future<List<PaymentDetails>> listPaymentsWithFilter(
+          {required PaymentDirection paymentDirection}) =>
+      core.instance.api.ldkAdapterNodeNodeListPaymentsWithFilter(
+          that: this, paymentDirection: paymentDirection);
+
+  Future<List<PeerDetails>> listPeers() =>
+      core.instance.api.ldkAdapterNodeNodeListPeers(
+        that: this,
+      );
+
+  Future<List<SocketAddress>?> listeningAddresses() =>
+      core.instance.api.ldkAdapterNodeNodeListeningAddresses(
+        that: this,
+      );
+
+  Future<Event?> nextEvent() => core.instance.api.ldkAdapterNodeNodeNextEvent(
+        that: this,
+      );
+
+  Future<Event> nextEventAsync() =>
+      core.instance.api.ldkAdapterNodeNodeNextEventAsync(
+        that: this,
+      );
+
+  Future<PublicKey> nodeId() => core.instance.api.ldkAdapterNodeNodeNodeId(
+        that: this,
+      );
+
+  Future<UserChannelId> openAnnouncedChannel(
+          {required SocketAddress socketAddress,
+          required PublicKey nodeId,
+          required BigInt channelAmountSats,
+          BigInt? pushToCounterpartyMsat,
+          ChannelConfig? channelConfig}) =>
+      core.instance.api.ldkAdapterNodeNodeOpenAnnouncedChannel(
+          that: this,
+          socketAddress: socketAddress,
+          nodeId: nodeId,
+          channelAmountSats: channelAmountSats,
+          pushToCounterpartyMsat: pushToCounterpartyMsat,
+          channelConfig: channelConfig);
+
+  Future<UserChannelId> openChannel(
+          {required SocketAddress socketAddress,
+          required PublicKey nodeId,
+          required BigInt channelAmountSats,
+          BigInt? pushToCounterpartyMsat,
+          ChannelConfig? channelConfig}) =>
+      core.instance.api.ldkAdapterNodeNodeOpenChannel(
+          that: this,
+          socketAddress: socketAddress,
+          nodeId: nodeId,
+          channelAmountSats: channelAmountSats,
+          pushToCounterpartyMsat: pushToCounterpartyMsat,
+          channelConfig: channelConfig);
+
+  Future<PaymentDetails?> payment({required PaymentId paymentId}) =>
+      core.instance.api
+          .ldkAdapterNodeNodePayment(that: this, paymentId: paymentId);
+
+  Future<void> removePayment({required PaymentId paymentId}) =>
+      core.instance.api
+          .ldkAdapterNodeNodeRemovePayment(that: this, paymentId: paymentId);
+
+  Future<String> signMessage({required List<int> msg}) =>
+      core.instance.api.ldkAdapterNodeNodeSignMessage(that: this, msg: msg);
+
+  Future<void> start() => core.instance.api.ldkAdapterNodeNodeStart(
+        that: this,
+      );
+
+  Future<NodeStatus> status() => core.instance.api.ldkAdapterNodeNodeStatus(
+        that: this,
+      );
+
+  Future<void> stop() => core.instance.api.ldkAdapterNodeNodeStop(
+        that: this,
+      );
+
+  /// When background sync is left as Null, you can use this to sync manually.
+  Future<void> syncWallets() => core.instance.api.ldkAdapterNodeNodeSyncWallets(
+        that: this,
+      );
+
+  Future<void> updateChannelConfig(
+          {required UserChannelId userChannelId,
+          required PublicKey counterpartyNodeId,
+          required ChannelConfig channelConfig}) =>
+      core.instance.api.ldkAdapterNodeNodeUpdateChannelConfig(
+          that: this,
+          userChannelId: userChannelId,
+          counterpartyNodeId: counterpartyNodeId,
+          channelConfig: channelConfig);
+
+  Future<bool> verifySignature(
+          {required List<int> msg,
+          required String sig,
+          required PublicKey publicKey}) =>
+      core.instance.api.ldkAdapterNodeNodeVerifySignature(
+          that: this, msg: msg, sig: sig, publicKey: publicKey);
+
+  Future<Event> waitNextEvent() =>
+      core.instance.api.ldkAdapterNodeNodeWaitNextEvent(
+        that: this,
+      );
 }
 
 @sealed
-class OnchainPaymentImpl extends RustOpaque implements OnchainPayment {
+class OnChainPaymentImpl extends RustOpaque implements OnChainPayment {
   // Not to be used by end users
-  OnchainPaymentImpl.frbInternalDcoDecode(List<dynamic> wire)
+  OnChainPaymentImpl.frbInternalDcoDecode(List<dynamic> wire)
       : super.frbInternalDcoDecode(wire, _kStaticData);
 
   // Not to be used by end users
-  OnchainPaymentImpl.frbInternalSseDecode(BigInt ptr, int externalSizeOnNative)
+  OnChainPaymentImpl.frbInternalSseDecode(BigInt ptr, int externalSizeOnNative)
       : super.frbInternalSseDecode(ptr, externalSizeOnNative, _kStaticData);
 
   static final _kStaticData = RustArcStaticData(
     rustArcIncrementStrongCount:
-        core.instance.api.rust_arc_increment_strong_count_OnchainPayment,
+        core.instance.api.rust_arc_increment_strong_count_OnChainPayment,
     rustArcDecrementStrongCount:
-        core.instance.api.rust_arc_decrement_strong_count_OnchainPayment,
+        core.instance.api.rust_arc_decrement_strong_count_OnChainPayment,
     rustArcDecrementStrongCountPtr:
-        core.instance.api.rust_arc_decrement_strong_count_OnchainPaymentPtr,
+        core.instance.api.rust_arc_decrement_strong_count_OnChainPaymentPtr,
   );
+
+  /// Generate a new on-chain/Bitcoin address.
+  ///
+  /// Returns a new address for receiving Bitcoin payments.
+  Future<BitcoinAddress> newAddress() =>
+      core.instance.api.ldkAdapterOnChainOnChainPaymentNewAddress(
+        that: this,
+      );
+
+  /// Send all available on-chain funds to the given address.
+  ///
+  /// # Parameters
+  /// - `address`: The Bitcoin address to send to
+  /// - `retain_reserves`: Whether to retain on-chain reserves for channel operations
+  /// - `fee_rate_sat_per_kwu`: Optional fee rate in satoshis per kilo-weight-unit
+  ///
+  /// Returns the transaction ID of the sent payment.
+  ///
+  /// **Warning:** If `retain_reserves` is set to `false`, this will **not** retain any on-chain
+  /// reserves, which might be potentially dangerous if you have open Anchor channels for which
+  /// you can't trust the counterparty to spend the Anchor output after channel closure.
+  /// If `retain_reserves` is set to `true`, this will try to send all spendable onchain funds.
+  Future<Txid> sendAllToAddress(
+          {required BitcoinAddress address,
+          required bool retainReserves,
+          BigInt? feeRateSatPerKwu}) =>
+      core.instance.api.ldkAdapterOnChainOnChainPaymentSendAllToAddress(
+          that: this,
+          address: address,
+          retainReserves: retainReserves,
+          feeRateSatPerKwu: feeRateSatPerKwu);
+
+  /// Send an on-chain payment to the given address.
+  ///
+  /// # Parameters
+  /// - `address`: The Bitcoin address to send to
+  /// - `amount_sats`: The amount to send in satoshis
+  /// - `fee_rate_sat_per_kwu`: Optional fee rate in satoshis per kilo-weight-unit
+  ///
+  /// Returns the transaction ID of the sent payment.
+  Future<Txid> sendToAddress(
+          {required BitcoinAddress address,
+          required BigInt amountSats,
+          BigInt? feeRateSatPerKwu}) =>
+      core.instance.api.ldkAdapterOnChainOnChainPaymentSendToAddress(
+          that: this,
+          address: address,
+          amountSats: amountSats,
+          feeRateSatPerKwu: feeRateSatPerKwu);
+}
+
+@sealed
+class PaymentDetailsImpl extends RustOpaque implements PaymentDetails {
+  // Not to be used by end users
+  PaymentDetailsImpl.frbInternalDcoDecode(List<dynamic> wire)
+      : super.frbInternalDcoDecode(wire, _kStaticData);
+
+  // Not to be used by end users
+  PaymentDetailsImpl.frbInternalSseDecode(BigInt ptr, int externalSizeOnNative)
+      : super.frbInternalSseDecode(ptr, externalSizeOnNative, _kStaticData);
+
+  static final _kStaticData = RustArcStaticData(
+    rustArcIncrementStrongCount:
+        core.instance.api.rust_arc_increment_strong_count_PaymentDetails,
+    rustArcDecrementStrongCount:
+        core.instance.api.rust_arc_decrement_strong_count_PaymentDetails,
+    rustArcDecrementStrongCountPtr:
+        core.instance.api.rust_arc_decrement_strong_count_PaymentDetailsPtr,
+  );
+
+  BigInt? get amountMsat =>
+      core.instance.api.ldkAdapterTypesPaymentDetailsAutoAccessorGetAmountMsat(
+        that: this,
+      );
+
+  PaymentDirection get direction =>
+      core.instance.api.ldkAdapterTypesPaymentDetailsAutoAccessorGetDirection(
+        that: this,
+      );
+
+  PaymentId get id =>
+      core.instance.api.ldkAdapterTypesPaymentDetailsAutoAccessorGetId(
+        that: this,
+      );
+
+  PaymentKind get kind =>
+      core.instance.api.ldkAdapterTypesPaymentDetailsAutoAccessorGetKind(
+        that: this,
+      );
+
+  BigInt get latestUpdateTimestamp => core.instance.api
+          .ldkAdapterTypesPaymentDetailsAutoAccessorGetLatestUpdateTimestamp(
+        that: this,
+      );
+
+  PaymentStatus get status =>
+      core.instance.api.ldkAdapterTypesPaymentDetailsAutoAccessorGetStatus(
+        that: this,
+      );
+
+  set amountMsat(BigInt? amountMsat) =>
+      core.instance.api.ldkAdapterTypesPaymentDetailsAutoAccessorSetAmountMsat(
+          that: this, amountMsat: amountMsat);
+
+  set direction(PaymentDirection direction) =>
+      core.instance.api.ldkAdapterTypesPaymentDetailsAutoAccessorSetDirection(
+          that: this, direction: direction);
+
+  set id(PaymentId id) => core.instance.api
+      .ldkAdapterTypesPaymentDetailsAutoAccessorSetId(that: this, id: id);
+
+  set kind(PaymentKind kind) => core.instance.api
+      .ldkAdapterTypesPaymentDetailsAutoAccessorSetKind(that: this, kind: kind);
+
+  set latestUpdateTimestamp(BigInt latestUpdateTimestamp) => core.instance.api
+      .ldkAdapterTypesPaymentDetailsAutoAccessorSetLatestUpdateTimestamp(
+          that: this, latestUpdateTimestamp: latestUpdateTimestamp);
+
+  set status(PaymentStatus status) =>
+      core.instance.api.ldkAdapterTypesPaymentDetailsAutoAccessorSetStatus(
+          that: this, status: status);
 }
 
 @sealed
@@ -10039,6 +14513,115 @@ class PaymentKindImpl extends RustOpaque implements PaymentKind {
 }
 
 @sealed
+class PeerDetailsImpl extends RustOpaque implements PeerDetails {
+  // Not to be used by end users
+  PeerDetailsImpl.frbInternalDcoDecode(List<dynamic> wire)
+      : super.frbInternalDcoDecode(wire, _kStaticData);
+
+  // Not to be used by end users
+  PeerDetailsImpl.frbInternalSseDecode(BigInt ptr, int externalSizeOnNative)
+      : super.frbInternalSseDecode(ptr, externalSizeOnNative, _kStaticData);
+
+  static final _kStaticData = RustArcStaticData(
+    rustArcIncrementStrongCount:
+        core.instance.api.rust_arc_increment_strong_count_PeerDetails,
+    rustArcDecrementStrongCount:
+        core.instance.api.rust_arc_decrement_strong_count_PeerDetails,
+    rustArcDecrementStrongCountPtr:
+        core.instance.api.rust_arc_decrement_strong_count_PeerDetailsPtr,
+  );
+
+  SocketAddress get address =>
+      core.instance.api.ldkAdapterTypesPeerDetailsAutoAccessorGetAddress(
+        that: this,
+      );
+
+  bool get isConnected =>
+      core.instance.api.ldkAdapterTypesPeerDetailsAutoAccessorGetIsConnected(
+        that: this,
+      );
+
+  PublicKey get nodeId =>
+      core.instance.api.ldkAdapterTypesPeerDetailsAutoAccessorGetNodeId(
+        that: this,
+      );
+
+  set address(SocketAddress address) =>
+      core.instance.api.ldkAdapterTypesPeerDetailsAutoAccessorSetAddress(
+          that: this, address: address);
+
+  set isConnected(bool isConnected) =>
+      core.instance.api.ldkAdapterTypesPeerDetailsAutoAccessorSetIsConnected(
+          that: this, isConnected: isConnected);
+
+  set nodeId(PublicKey nodeId) =>
+      core.instance.api.ldkAdapterTypesPeerDetailsAutoAccessorSetNodeId(
+          that: this, nodeId: nodeId);
+}
+
+@sealed
+class PendingSweepBalanceImpl extends RustOpaque
+    implements PendingSweepBalance {
+  // Not to be used by end users
+  PendingSweepBalanceImpl.frbInternalDcoDecode(List<dynamic> wire)
+      : super.frbInternalDcoDecode(wire, _kStaticData);
+
+  // Not to be used by end users
+  PendingSweepBalanceImpl.frbInternalSseDecode(
+      BigInt ptr, int externalSizeOnNative)
+      : super.frbInternalSseDecode(ptr, externalSizeOnNative, _kStaticData);
+
+  static final _kStaticData = RustArcStaticData(
+    rustArcIncrementStrongCount:
+        core.instance.api.rust_arc_increment_strong_count_PendingSweepBalance,
+    rustArcDecrementStrongCount:
+        core.instance.api.rust_arc_decrement_strong_count_PendingSweepBalance,
+    rustArcDecrementStrongCountPtr: core
+        .instance.api.rust_arc_decrement_strong_count_PendingSweepBalancePtr,
+  );
+}
+
+@sealed
+class QrPaymentResultImpl extends RustOpaque implements QrPaymentResult {
+  // Not to be used by end users
+  QrPaymentResultImpl.frbInternalDcoDecode(List<dynamic> wire)
+      : super.frbInternalDcoDecode(wire, _kStaticData);
+
+  // Not to be used by end users
+  QrPaymentResultImpl.frbInternalSseDecode(BigInt ptr, int externalSizeOnNative)
+      : super.frbInternalSseDecode(ptr, externalSizeOnNative, _kStaticData);
+
+  static final _kStaticData = RustArcStaticData(
+    rustArcIncrementStrongCount:
+        core.instance.api.rust_arc_increment_strong_count_QrPaymentResult,
+    rustArcDecrementStrongCount:
+        core.instance.api.rust_arc_decrement_strong_count_QrPaymentResult,
+    rustArcDecrementStrongCountPtr:
+        core.instance.api.rust_arc_decrement_strong_count_QrPaymentResultPtr,
+  );
+}
+
+@sealed
+class SocketAddressImpl extends RustOpaque implements SocketAddress {
+  // Not to be used by end users
+  SocketAddressImpl.frbInternalDcoDecode(List<dynamic> wire)
+      : super.frbInternalDcoDecode(wire, _kStaticData);
+
+  // Not to be used by end users
+  SocketAddressImpl.frbInternalSseDecode(BigInt ptr, int externalSizeOnNative)
+      : super.frbInternalSseDecode(ptr, externalSizeOnNative, _kStaticData);
+
+  static final _kStaticData = RustArcStaticData(
+    rustArcIncrementStrongCount:
+        core.instance.api.rust_arc_increment_strong_count_SocketAddress,
+    rustArcDecrementStrongCount:
+        core.instance.api.rust_arc_decrement_strong_count_SocketAddress,
+    rustArcDecrementStrongCountPtr:
+        core.instance.api.rust_arc_decrement_strong_count_SocketAddressPtr,
+  );
+}
+
+@sealed
 class SpontaneousPaymentImpl extends RustOpaque implements SpontaneousPayment {
   // Not to be used by end users
   SpontaneousPaymentImpl.frbInternalDcoDecode(List<dynamic> wire)
@@ -10057,6 +14640,221 @@ class SpontaneousPaymentImpl extends RustOpaque implements SpontaneousPayment {
     rustArcDecrementStrongCountPtr:
         core.instance.api.rust_arc_decrement_strong_count_SpontaneousPaymentPtr,
   );
+
+  Future<void> sendProbesUnsafe(
+          {required BigInt amountMsat, required PublicKey nodeId}) =>
+      core.instance.api.ldkAdapterSpontaneousSpontaneousPaymentSendProbesUnsafe(
+          that: this, amountMsat: amountMsat, nodeId: nodeId);
+
+  Future<PaymentId> sendUnsafe(
+          {required BigInt amountMsat,
+          required PublicKey nodeId,
+          SendingParameters? sendingParameters}) =>
+      core.instance.api.ldkAdapterSpontaneousSpontaneousPaymentSendUnsafe(
+          that: this,
+          amountMsat: amountMsat,
+          nodeId: nodeId,
+          sendingParameters: sendingParameters);
+
+  Future<PaymentId> sendWithCustomTlvsUnsafe(
+          {required BigInt amountMsat,
+          required PublicKey nodeId,
+          SendingParameters? sendingParameters,
+          required List<CustomTlvRecord> customTlvs}) =>
+      core.instance.api
+          .ldkAdapterSpontaneousSpontaneousPaymentSendWithCustomTlvsUnsafe(
+              that: this,
+              amountMsat: amountMsat,
+              nodeId: nodeId,
+              sendingParameters: sendingParameters,
+              customTlvs: customTlvs);
+}
+
+@sealed
+class TaprootSpendInfoImpl extends RustOpaque implements TaprootSpendInfo {
+  // Not to be used by end users
+  TaprootSpendInfoImpl.frbInternalDcoDecode(List<dynamic> wire)
+      : super.frbInternalDcoDecode(wire, _kStaticData);
+
+  // Not to be used by end users
+  TaprootSpendInfoImpl.frbInternalSseDecode(
+      BigInt ptr, int externalSizeOnNative)
+      : super.frbInternalSseDecode(ptr, externalSizeOnNative, _kStaticData);
+
+  static final _kStaticData = RustArcStaticData(
+    rustArcIncrementStrongCount:
+        core.instance.api.rust_arc_increment_strong_count_TaprootSpendInfo,
+    rustArcDecrementStrongCount:
+        core.instance.api.rust_arc_decrement_strong_count_TaprootSpendInfo,
+    rustArcDecrementStrongCountPtr:
+        core.instance.api.rust_arc_decrement_strong_count_TaprootSpendInfoPtr,
+  );
+
+  TaprootSpendInfoInner get inner =>
+      core.instance.api.sharedTaprootSpendInfoAutoAccessorGetInner(
+        that: this,
+      );
+
+  set inner(TaprootSpendInfoInner inner) => core.instance.api
+      .sharedTaprootSpendInfoAutoAccessorSetInner(that: this, inner: inner);
+}
+
+@sealed
+class TaprootSpendInfoInnerImpl extends RustOpaque
+    implements TaprootSpendInfoInner {
+  // Not to be used by end users
+  TaprootSpendInfoInnerImpl.frbInternalDcoDecode(List<dynamic> wire)
+      : super.frbInternalDcoDecode(wire, _kStaticData);
+
+  // Not to be used by end users
+  TaprootSpendInfoInnerImpl.frbInternalSseDecode(
+      BigInt ptr, int externalSizeOnNative)
+      : super.frbInternalSseDecode(ptr, externalSizeOnNative, _kStaticData);
+
+  static final _kStaticData = RustArcStaticData(
+    rustArcIncrementStrongCount:
+        core.instance.api.rust_arc_increment_strong_count_TaprootSpendInfoInner,
+    rustArcDecrementStrongCount:
+        core.instance.api.rust_arc_decrement_strong_count_TaprootSpendInfoInner,
+    rustArcDecrementStrongCountPtr: core
+        .instance.api.rust_arc_decrement_strong_count_TaprootSpendInfoInnerPtr,
+  );
+}
+
+@sealed
+class TransactionImpl extends RustOpaque implements Transaction {
+  // Not to be used by end users
+  TransactionImpl.frbInternalDcoDecode(List<dynamic> wire)
+      : super.frbInternalDcoDecode(wire, _kStaticData);
+
+  // Not to be used by end users
+  TransactionImpl.frbInternalSseDecode(BigInt ptr, int externalSizeOnNative)
+      : super.frbInternalSseDecode(ptr, externalSizeOnNative, _kStaticData);
+
+  static final _kStaticData = RustArcStaticData(
+    rustArcIncrementStrongCount:
+        core.instance.api.rust_arc_increment_strong_count_Transaction,
+    rustArcDecrementStrongCount:
+        core.instance.api.rust_arc_decrement_strong_count_Transaction,
+    rustArcDecrementStrongCountPtr:
+        core.instance.api.rust_arc_decrement_strong_count_TransactionPtr,
+  );
+
+  BitcoinTransactionInner get inner =>
+      core.instance.api.sharedTransactionAutoAccessorGetInner(
+        that: this,
+      );
+
+  set inner(BitcoinTransactionInner inner) => core.instance.api
+      .sharedTransactionAutoAccessorSetInner(that: this, inner: inner);
+
+  /// Computes the Txid.
+  /// Hashes the transaction excluding the segwit data (i.e. the marker, flag bytes, and the witness fields themselves).
+  Future<Txid> computeTxid() => core.instance.api.sharedTransactionComputeTxid(
+        that: this,
+      );
+
+  /// Compute the Wtxid, which includes the witness in the transaction hash.
+  Future<WTxid> computeWtxid() =>
+      core.instance.api.sharedTransactionComputeWtxid(
+        that: this,
+      );
+
+  /// List of transaction inputs.
+  Future<List<TxIn>> input() => core.instance.api.sharedTransactionInput(
+        that: this,
+      );
+
+  /// Checks if this is a coinbase transaction.
+  /// The first transaction in the block distributes the mining reward and is called the coinbase transaction.
+  /// It is impossible to check if the transaction is first in the block, so this function checks the structure
+  /// of the transaction instead - the previous output must be all-zeros (creates satoshis “out of thin air”).
+  Future<bool> isCoinbase() => core.instance.api.sharedTransactionIsCoinbase(
+        that: this,
+      );
+
+  /// Returns `true` if the transaction itself opted in to be BIP-125-replaceable (RBF).
+  ///
+  /// # Warning
+  ///
+  /// **Incorrectly relying on RBF may lead to monetary loss!**
+  ///
+  /// This **does not** cover the case where a transaction becomes replaceable due to ancestors
+  /// being RBF. Please note that transactions **may be replaced** even if they **do not** include
+  /// the RBF signal: <https://bitcoinops.org/en/newsletters/2022/10/19/#transaction-replacement-option>.
+  Future<bool> isExplicitlyRbf() =>
+      core.instance.api.sharedTransactionIsExplicitlyRbf(
+        that: this,
+      );
+
+  /// Returns `true` if this transactions nLockTime is enabled ([BIP-65]).
+  ///
+  /// [BIP-65]: https://github.com/bitcoin/bips/blob/master/bip-0065.mediawiki
+  Future<bool> isLockTimeEnabled() =>
+      core.instance.api.sharedTransactionIsLockTimeEnabled(
+        that: this,
+      );
+
+  /// Block height or timestamp. Transaction cannot be included in a block until this height/time.
+  ///
+  /// /// ### Relevant BIPs
+  ///
+  /// * [BIP-65 OP_CHECKLOCKTIMEVERIFY](https://github.com/bitcoin/bips/blob/master/bip-0065.mediawiki)
+  /// * [BIP-113 Median time-past as endpoint for lock-time calculations](https://github.com/bitcoin/bips/blob/master/bip-0113.mediawiki)
+  Future<int> lockTime() => core.instance.api.sharedTransactionLockTime(
+        that: this,
+      );
+
+  /// List of transaction outputs.
+  Future<List<TxOut>> output() => core.instance.api.sharedTransactionOutput(
+        that: this,
+      );
+
+  /// Returns the total transaction size
+  ///
+  /// Total transaction size is the transaction size in bytes serialized as described in BIP144,
+  /// including base data and witness data.
+  Future<BigInt> totalSize() => core.instance.api.sharedTransactionTotalSize(
+        that: this,
+      );
+
+  /// The protocol version, is currently expected to be 1 or 2 (BIP 68).
+  Future<int> version() => core.instance.api.sharedTransactionVersion(
+        that: this,
+      );
+
+  /// Returns the "virtual size" (vsize) of this transaction.
+  ///
+  /// Will be `ceil(weight / 4.0)`. Note this implements the virtual size as per [`BIP141`], which
+  /// is different to what is implemented in Bitcoin Core.
+  /// > Virtual transaction size is defined as Transaction weight / 4 (rounded up to the next integer).
+  ///
+  /// [`BIP141`]: https://github.com/bitcoin/bips/blob/master/bip-0141.mediawiki
+  Future<BigInt> vsize() => core.instance.api.sharedTransactionVsize(
+        that: this,
+      );
+
+  /// Returns the weight of this transaction, as defined by BIP-141.
+  ///
+  /// > Transaction weight is defined as Base transaction size * 3 + Total transaction size (ie.
+  /// > the same method as calculating Block weight from Base size and Total size).
+  ///
+  /// For transactions with an empty witness, this is simply the consensus-serialized size times
+  /// four. For transactions with a witness, this is the non-witness consensus-serialized size
+  /// multiplied by three plus the with-witness consensus-serialized size.
+  ///
+  /// For transactions with no inputs, this function will return a value 2 less than the actual
+  /// weight of the serialized transaction. The reason is that zero-input transactions, post-segwit,
+  /// cannot be unambiguously serialized; we make a choice that adds two extra bytes. For more
+  /// details see [BIP 141](https://github.com/bitcoin/bips/blob/master/bip-0141.mediawiki)
+  /// which uses a "input count" of `0x00` as a `marker` for a Segwit-encoded transaction.
+  ///
+  /// If you need to use 0-input transactions, we strongly recommend you do so using the PSBT
+  /// API. The unsigned transaction encoded within PSBT is always a non-segwit transaction
+  /// and can therefore avoid this ambiguity.
+  Future<BigInt> weight() => core.instance.api.sharedTransactionWeight(
+        that: this,
+      );
 }
 
 @sealed
@@ -10078,4 +14876,43 @@ class UnifiedQrPaymentImpl extends RustOpaque implements UnifiedQrPayment {
     rustArcDecrementStrongCountPtr:
         core.instance.api.rust_arc_decrement_strong_count_UnifiedQrPaymentPtr,
   );
+
+  /// Generate a payable QR code that can be used to request and receive a payment.
+  ///
+  /// Returns a URI that combines an on-chain address, a BOLT11 invoice, and/or a BOLT12 offer.
+  /// This allows maximum compatibility: older wallets can always pay using the provided on-chain
+  /// address, while newer wallets will typically opt to use the provided BOLT11 invoice or BOLT12 offer.
+  ///
+  /// # Parameters
+  /// - `amount_sats`: The amount to be received, specified in satoshis.
+  /// - `description`: A description or note associated with the payment.
+  ///   This message is visible to the payer and can provide context or details about the payment.
+  /// - `expiry_sec`: The expiration time for the payment, specified in seconds.
+  ///
+  /// Returns a payable URI that can be used to request and receive a payment of the amount
+  /// given. In case of an error, the function throws `WalletOperationFailed` for on-chain
+  /// address issues, `InvoiceCreationFailed` for BOLT11 invoice issues, or
+  /// `OfferCreationFailed` for BOLT12 offer issues.
+  ///
+  /// The generated URI can then be given to a QR code library.
+  ///
+  /// [BOLT 11]: https://github.com/lightning/bolts/blob/master/11-payment-encoding.md
+  /// [BOLT 12]: https://github.com/lightning/bolts/blob/master/12-offer-encoding.md
+  Future<String> receive(
+          {required BigInt amountSats,
+          required String message,
+          required int expirySec}) =>
+      core.instance.api.ldkAdapterUnifiedQrUnifiedQrPaymentReceive(
+          that: this,
+          amountSats: amountSats,
+          message: message,
+          expirySec: expirySec);
+
+  /// Sends a payment given a BIP 21 URI.
+  ///
+  /// This method parses the provided URI string and attempts to send the payment.
+  /// If the URI has an offer and/or invoice, it will try to pay the offer first
+  /// followed by the invoice. If they both fail, the on-chain payment will be paid.
+  Future<QrPaymentResult> send({required String uriStr}) => core.instance.api
+      .ldkAdapterUnifiedQrUnifiedQrPaymentSend(that: this, uriStr: uriStr);
 }

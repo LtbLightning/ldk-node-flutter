@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:ldk_node/src/generated/third_party/shared.dart';
 import '../providers/wallet_provider.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'invoice_display_screen.dart';
 import '../config/node_config.dart';
-import 'package:ldk_node/src/generated/api/types.dart' as ldk;
 
 class LightningScreen extends ConsumerStatefulWidget {
   const LightningScreen({super.key});
@@ -353,31 +353,31 @@ class _LightningScreenState extends ConsumerState<LightningScreen>
       final addresses = await walletState.node!.listeningAddresses();
       if (addresses != null && addresses.isNotEmpty) {
         final addr = addresses.first;
-        final addressInfo = addr.map(
-          tcpIpV4: (tcpV4) => {
-            'host': tcpV4.addr.join('.'),
-            'port': tcpV4.port.toString(),
-          },
-          tcpIpV6: (tcpV6) => {
-            'host': tcpV6.addr.join(':'),
-            'port': tcpV6.port.toString(),
-          },
-          onionV2: (onion) => {
-            'host': 'Onion V2',
-            'port': 'N/A',
-          },
-          onionV3: (onion) => {
-            'host': 'Onion V3',
-            'port': onion.port.toString(),
-          },
-          hostname: (hostAddr) => {
-            'host': hostAddr.addr,
-            'port': hostAddr.port.toString(),
-          },
-        );
-        host = addressInfo['host']!;
-        port = addressInfo['port']!;
-      }
+      //   final addressInfo = addr.map(
+      //     tcpIpV4: (tcpV4) => {
+      //       'host': tcpV4.addr.join('.'),
+      //       'port': tcpV4.port.toString(),
+      //     },
+      //     tcpIpV6: (tcpV6) => {
+      //       'host': tcpV6.addr.join(':'),
+      //       'port': tcpV6.port.toString(),
+      //     },
+      //     onionV2: (onion) => {
+      //       'host': 'Onion V2',
+      //       'port': 'N/A',
+      //     },
+      //     onionV3: (onion) => {
+      //       'host': 'Onion V3',
+      //       'port': onion.port.toString(),
+      //     },
+      //     hostname: (hostAddr) => {
+      //       'host': hostAddr.addr,
+      //       'port': hostAddr.port.toString(),
+      //     },
+      //   );
+      //   host = addressInfo['host']!;
+      //   port = addressInfo['port']!;
+      // }
     }
     showDialog(
       context: context,

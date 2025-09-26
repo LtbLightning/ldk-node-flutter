@@ -1,62 +1,29 @@
-export 'src/generated/api/bolt11.dart' show Bolt11Invoice;
-export 'src/generated/api/bolt12.dart' show Bolt12Invoice, Offer, Refund;
-export 'src/generated/api/unified_qr.dart' show QrPaymentResult;
-export 'src/generated/api/graph.dart'
-    show
-        ChannelInfo,
-        ChannelUpdateInfo,
-        NodeAnnouncementInfo,
-        NodeId,
-        NodeInfo,
-        RoutingFees;
-export 'src/generated/api/types.dart'
-    show
-        Address,
-        AnchorChannelsConfig,
-        BackgroundSyncConfig,
-        BalanceDetails,
-        BalanceSource,
-        LightningBalance,
-        BestBlock,
-        ChainDataSourceConfig,
-        ChannelConfig,
-        ChannelDetails,
-        ChannelId,
-        ClosureReason,
-        Config,
-        ConfirmationStatus,
-        EntropySourceConfig,
-        EsploraSyncConfig,
-        GossipSourceConfig,
-        LiquiditySourceConfig,
-        LSPFeeLimits,
-        MaxDustHTLCExposure,
-        MaxTotalRoutingFeeLimit,
-        OfferId,
-        Event,
-        LogLevel,
+// Generated API exports
+export 'src/generated/third_party/ldk_adapter/bolt11.dart' show Bolt11Payment;
+export 'src/generated/third_party/ldk_adapter/bolt12.dart' show Bolt12Payment;
+export 'src/generated/third_party/ldk_adapter/unified_qr.dart';
+export 'src/generated/third_party/ldk_adapter/graph.dart';
+export 'src/generated/third_party/ldk_adapter/types.dart';
+export 'src/generated/third_party/ldk_adapter/node.dart' show Node;
+export 'src/generated/third_party/ldk_adapter/builder.dart' show Builder;
+export 'src/generated/third_party/ldk_adapter/on_chain.dart';
+export 'src/generated/third_party/ldk_adapter/spontaneous.dart' show SpontaneousPayment;
+export 'src/generated/third_party/ldk_adapter/error.dart' show NodeError, BuilderError;
+
+// Shared types (Bitcoin, Network, etc.)
+export 'src/generated/third_party/shared.dart' 
+    show 
+        BitcoinAddress,
         Network,
-        NodeAlias,
-        NodeStatus,
         OutPoint,
-        PaymentDetails,
-        PaymentDirection,
-        PaymentFailureReason,
         PaymentHash,
         PaymentId,
-        PaymentKind,
         PaymentPreimage,
-        PaymentSecret,
-        PaymentStatus,
-        PeerDetails,
-        PendingSweepBalance,
         PublicKey,
+        ScriptBuf,
         SendingParameters,
         SocketAddress,
-        Txid,
-        UserChannelId;
-export 'src/root.dart';
-export 'src/generated/lib.dart' show U8Array4, U8Array12, U8Array64, U8Array32;
-export 'src/utils/default_services.dart';
-export 'src/utils/exceptions.dart' show NodeException, BuilderException;
-export 'src/utils/extensions.dart';
+        Txid;
+
+// Generated core types
+export 'src/generated/lib.dart';

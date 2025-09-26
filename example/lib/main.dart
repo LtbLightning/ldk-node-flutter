@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:ldk_node/ldk_node.dart' as ldk;
-import 'package:ldk_node/src/generated/api/types.dart';
 import 'package:ldk_node_example/screens/dashboard_screen.dart';
 import 'package:ldk_node_example/screens/onboarding_screen.dart';
 import 'package:ldk_node_example/screens/settings_screen.dart';
