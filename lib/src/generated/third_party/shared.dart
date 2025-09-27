@@ -6,8 +6,9 @@
 import '../frb_generated.dart';
 import '../lib.dart';
 import 'package:flutter_rust_bridge/flutter_rust_bridge_for_generated.dart';
+import 'package:freezed_annotation/freezed_annotation.dart' hide protected;
+part 'shared.freezed.dart';
 
-// These types are ignored because they are neither used by any `pub` functions nor (for structs and enums) marked `#[frb(unignore)]`: `WitnessProgram`
 // These function are ignored because they are on traits that is not defined in current crate (put an empty `#[frb]` on it to unignore): `assert_receiver_is_total_eq`, `assert_receiver_is_total_eq`, `assert_receiver_is_total_eq`, `assert_receiver_is_total_eq`, `assert_receiver_is_total_eq`, `assert_receiver_is_total_eq`, `assert_receiver_is_total_eq`, `assert_receiver_is_total_eq`, `assert_receiver_is_total_eq`, `assert_receiver_is_total_eq`, `assert_receiver_is_total_eq`, `assert_receiver_is_total_eq`, `assert_receiver_is_total_eq`, `assert_receiver_is_total_eq`, `assert_receiver_is_total_eq`, `assert_receiver_is_total_eq`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `eq`, `eq`, `eq`, `eq`, `eq`, `eq`, `eq`, `eq`, `eq`, `eq`, `eq`, `eq`, `eq`, `eq`, `eq`, `eq`, `eq`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `hash`, `try_from`, `try_from`, `try_from`, `try_from`, `try_from`, `try_from`, `try_from`, `try_from`, `try_from`, `try_from`, `try_from`, `try_from`
 
 // Rust type: RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<AddressData>>
@@ -47,25 +48,6 @@ abstract class BitcoinAddress implements RustOpaqueInterface {
 
 // Rust type: RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<BitcoinAddressInner>>
 abstract class BitcoinAddressInner implements RustOpaqueInterface {}
-
-// Rust type: RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<SocketAddress>>
-abstract class SocketAddress implements RustOpaqueInterface {
-  (String, int)? asHostname();
-
-  U8Array12? asOnionV2();
-
-  (U8Array32, int, int, int)? asOnionV3();
-
-  (U8Array4, int)? asTcpIpV4();
-
-  (U8Array16, int)? asTcpIpV6();
-
-  String host();
-
-  int port();
-
-  String strType();
-}
 
 // Rust type: RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<TaprootSpendInfo>>
 abstract class TaprootSpendInfo implements RustOpaqueInterface {
@@ -218,6 +200,9 @@ class Mnemonic {
 
   static Future<Mnemonic> fromEntropy({required List<int> entropy}) =>
       core.instance.api.sharedMnemonicFromEntropy(entropy: entropy);
+
+  static Future<Mnemonic> fromSeedPhrase({required String seedPhrase}) =>
+      core.instance.api.sharedMnemonicFromSeedPhrase(seedPhrase: seedPhrase);
 
   static Future<Mnemonic> generate() =>
       core.instance.api.sharedMnemonicGenerate();
@@ -457,6 +442,33 @@ class SendingParameters {
               other.maxChannelSaturationPowerOfHalf;
 }
 
+@freezed
+sealed class SocketAddress with _$SocketAddress {
+  const SocketAddress._();
+
+  const factory SocketAddress.tcpIpV4({
+    required U8Array4 addr,
+    required int port,
+  }) = SocketAddress_TcpIpV4;
+  const factory SocketAddress.tcpIpV6({
+    required U8Array16 addr,
+    required int port,
+  }) = SocketAddress_TcpIpV6;
+  const factory SocketAddress.onionV2(
+    U8Array12 field0,
+  ) = SocketAddress_OnionV2;
+  const factory SocketAddress.onionV3({
+    required U8Array32 ed25519Pubkey,
+    required int checksum,
+    required int version,
+    required int port,
+  }) = SocketAddress_OnionV3;
+  const factory SocketAddress.hostname({
+    required String addr,
+    required int port,
+  }) = SocketAddress_Hostname;
+}
+
 class TxIn {
   /// The reference to the previous output that is being used as an input.
   final OutPoint previousOutput;
@@ -560,4 +572,29 @@ class WTxid {
   bool operator ==(Object other) =>
       identical(this, other) ||
       other is WTxid && runtimeType == other.runtimeType && hash == other.hash;
+}
+
+/// The version and program of a Segwit address.
+class WitnessProgram {
+  /// Version. For example 1 for Taproot.
+  final int version;
+
+  /// The witness program.
+  final Uint8List program;
+
+  const WitnessProgram({
+    required this.version,
+    required this.program,
+  });
+
+  @override
+  int get hashCode => version.hashCode ^ program.hashCode;
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is WitnessProgram &&
+          runtimeType == other.runtimeType &&
+          version == other.version &&
+          program == other.program;
 }

@@ -15,104 +15,210 @@ import 'spontaneous.dart';
 import 'types.dart';
 import 'unified_qr.dart';
 
-// Rust type: RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<Node>>
-abstract class Node implements RustOpaqueInterface {
-  static Future<Bolt11Payment> bolt11Payment({required Node ptr}) =>
-      core.instance.api.ldkAdapterNodeNodeBolt11Payment(ptr: ptr);
+class Node {
+  final Node inner;
 
-  static Future<Bolt12Payment> bolt12Payment({required Node ptr}) =>
-      core.instance.api.ldkAdapterNodeNodeBolt12Payment(ptr: ptr);
+  const Node({
+    required this.inner,
+  });
+
+  Future<Bolt11Payment> bolt11Payment() =>
+      core.instance.api.ldkAdapterNodeNodeBolt11Payment(
+        that: this,
+      );
+
+  Future<Bolt12Payment> bolt12Payment() =>
+      core.instance.api.ldkAdapterNodeNodeBolt12Payment(
+        that: this,
+      );
 
   Future<void> closeChannel(
-      {required UserChannelId userChannelId,
-      required PublicKey counterpartyNodeId});
+          {required UserChannelId userChannelId,
+          required PublicKey counterpartyNodeId}) =>
+      core.instance.api.ldkAdapterNodeNodeCloseChannel(
+          that: this,
+          userChannelId: userChannelId,
+          counterpartyNodeId: counterpartyNodeId);
 
-  Future<Config> config();
+  Future<Config> config() => core.instance.api.ldkAdapterNodeNodeConfig(
+        that: this,
+      );
 
   Future<void> connect(
-      {required PublicKey nodeId,
-      required SocketAddress address,
-      required bool persist});
+          {required PublicKey nodeId,
+          required SocketAddress address,
+          required bool persist}) =>
+      core.instance.api.ldkAdapterNodeNodeConnect(
+          that: this, nodeId: nodeId, address: address, persist: persist);
 
-  Future<void> disconnect({required PublicKey counterpartyNodeId});
+  Future<void> disconnect({required PublicKey counterpartyNodeId}) =>
+      core.instance.api.ldkAdapterNodeNodeDisconnect(
+          that: this, counterpartyNodeId: counterpartyNodeId);
 
-  Future<void> eventHandled();
+  Future<void> eventHandled() =>
+      core.instance.api.ldkAdapterNodeNodeEventHandled(
+        that: this,
+      );
 
-  Future<Uint8List> exportPathfindingScores();
+  Future<Uint8List> exportPathfindingScores() =>
+      core.instance.api.ldkAdapterNodeNodeExportPathfindingScores(
+        that: this,
+      );
 
   Future<void> forceCloseChannel(
-      {required UserChannelId userChannelId,
-      required PublicKey counterpartyNodeId});
+          {required UserChannelId userChannelId,
+          required PublicKey counterpartyNodeId}) =>
+      core.instance.api.ldkAdapterNodeNodeForceCloseChannel(
+          that: this,
+          userChannelId: userChannelId,
+          counterpartyNodeId: counterpartyNodeId);
 
-  Future<BalanceDetails> listBalances();
+  Future<BalanceDetails> listBalances() =>
+      core.instance.api.ldkAdapterNodeNodeListBalances(
+        that: this,
+      );
 
-  Future<List<ChannelDetails>> listChannels();
+  Future<List<ChannelDetails>> listChannels() =>
+      core.instance.api.ldkAdapterNodeNodeListChannels(
+        that: this,
+      );
 
-  Future<List<PaymentDetails>> listPayments();
+  Future<List<PaymentDetails>> listPayments() =>
+      core.instance.api.ldkAdapterNodeNodeListPayments(
+        that: this,
+      );
 
   Future<List<PaymentDetails>> listPaymentsWithFilter(
-      {required PaymentDirection paymentDirection});
+          {required PaymentDirection paymentDirection}) =>
+      core.instance.api.ldkAdapterNodeNodeListPaymentsWithFilter(
+          that: this, paymentDirection: paymentDirection);
 
-  Future<List<PeerDetails>> listPeers();
+  Future<List<PeerDetails>> listPeers() =>
+      core.instance.api.ldkAdapterNodeNodeListPeers(
+        that: this,
+      );
 
-  Future<List<SocketAddress>?> listeningAddresses();
+  Future<List<SocketAddress>?> listeningAddresses() =>
+      core.instance.api.ldkAdapterNodeNodeListeningAddresses(
+        that: this,
+      );
 
-  static Future<NetworkGraph> networkGraph({required Node ptr}) =>
-      core.instance.api.ldkAdapterNodeNodeNetworkGraph(ptr: ptr);
+  Future<NetworkGraph> networkGraph() =>
+      core.instance.api.ldkAdapterNodeNodeNetworkGraph(
+        that: this,
+      );
 
-  Future<Event?> nextEvent();
+  Future<Event?> nextEvent() => core.instance.api.ldkAdapterNodeNodeNextEvent(
+        that: this,
+      );
 
-  Future<Event> nextEventAsync();
+  Future<Event> nextEventAsync() =>
+      core.instance.api.ldkAdapterNodeNodeNextEventAsync(
+        that: this,
+      );
 
-  Future<PublicKey> nodeId();
+  Future<PublicKey> nodeId() => core.instance.api.ldkAdapterNodeNodeNodeId(
+        that: this,
+      );
 
-  static Future<OnChainPayment> onChainPayment({required Node ptr}) =>
-      core.instance.api.ldkAdapterNodeNodeOnChainPayment(ptr: ptr);
+  Future<OnChainPayment> onChainPayment() =>
+      core.instance.api.ldkAdapterNodeNodeOnChainPayment(
+        that: this,
+      );
 
   Future<UserChannelId> openAnnouncedChannel(
-      {required SocketAddress socketAddress,
-      required PublicKey nodeId,
-      required BigInt channelAmountSats,
-      BigInt? pushToCounterpartyMsat,
-      ChannelConfig? channelConfig});
+          {required SocketAddress socketAddress,
+          required PublicKey nodeId,
+          required BigInt channelAmountSats,
+          BigInt? pushToCounterpartyMsat,
+          ChannelConfig? channelConfig}) =>
+      core.instance.api.ldkAdapterNodeNodeOpenAnnouncedChannel(
+          that: this,
+          socketAddress: socketAddress,
+          nodeId: nodeId,
+          channelAmountSats: channelAmountSats,
+          pushToCounterpartyMsat: pushToCounterpartyMsat,
+          channelConfig: channelConfig);
 
   Future<UserChannelId> openChannel(
-      {required SocketAddress socketAddress,
-      required PublicKey nodeId,
-      required BigInt channelAmountSats,
-      BigInt? pushToCounterpartyMsat,
-      ChannelConfig? channelConfig});
+          {required SocketAddress socketAddress,
+          required PublicKey nodeId,
+          required BigInt channelAmountSats,
+          BigInt? pushToCounterpartyMsat,
+          ChannelConfig? channelConfig}) =>
+      core.instance.api.ldkAdapterNodeNodeOpenChannel(
+          that: this,
+          socketAddress: socketAddress,
+          nodeId: nodeId,
+          channelAmountSats: channelAmountSats,
+          pushToCounterpartyMsat: pushToCounterpartyMsat,
+          channelConfig: channelConfig);
 
-  Future<PaymentDetails?> payment({required PaymentId paymentId});
+  Future<PaymentDetails?> payment({required PaymentId paymentId}) =>
+      core.instance.api
+          .ldkAdapterNodeNodePayment(that: this, paymentId: paymentId);
 
-  Future<void> removePayment({required PaymentId paymentId});
+  Future<void> removePayment({required PaymentId paymentId}) =>
+      core.instance.api
+          .ldkAdapterNodeNodeRemovePayment(that: this, paymentId: paymentId);
 
-  Future<String> signMessage({required List<int> msg});
+  Future<String> signMessage({required List<int> msg}) =>
+      core.instance.api.ldkAdapterNodeNodeSignMessage(that: this, msg: msg);
 
-  static Future<SpontaneousPayment> spontaneousPayment({required Node ptr}) =>
-      core.instance.api.ldkAdapterNodeNodeSpontaneousPayment(ptr: ptr);
+  Future<SpontaneousPayment> spontaneousPayment() =>
+      core.instance.api.ldkAdapterNodeNodeSpontaneousPayment(
+        that: this,
+      );
 
-  Future<void> start();
+  Future<void> start() => core.instance.api.ldkAdapterNodeNodeStart(
+        that: this,
+      );
 
-  Future<NodeStatus> status();
+  Future<NodeStatus> status() => core.instance.api.ldkAdapterNodeNodeStatus(
+        that: this,
+      );
 
-  Future<void> stop();
+  Future<void> stop() => core.instance.api.ldkAdapterNodeNodeStop(
+        that: this,
+      );
 
   /// When background sync is left as Null, you can use this to sync manually.
-  Future<void> syncWallets();
+  Future<void> syncWallets() => core.instance.api.ldkAdapterNodeNodeSyncWallets(
+        that: this,
+      );
 
-  static Future<UnifiedQrPayment> unifiedQrPayment({required Node ptr}) =>
-      core.instance.api.ldkAdapterNodeNodeUnifiedQrPayment(ptr: ptr);
+  Future<UnifiedQrPayment> unifiedQrPayment() =>
+      core.instance.api.ldkAdapterNodeNodeUnifiedQrPayment(
+        that: this,
+      );
 
   Future<void> updateChannelConfig(
-      {required UserChannelId userChannelId,
-      required PublicKey counterpartyNodeId,
-      required ChannelConfig channelConfig});
+          {required UserChannelId userChannelId,
+          required PublicKey counterpartyNodeId,
+          required ChannelConfig channelConfig}) =>
+      core.instance.api.ldkAdapterNodeNodeUpdateChannelConfig(
+          that: this,
+          userChannelId: userChannelId,
+          counterpartyNodeId: counterpartyNodeId,
+          channelConfig: channelConfig);
 
   Future<bool> verifySignature(
-      {required List<int> msg,
-      required String sig,
-      required PublicKey publicKey});
+          {required List<int> msg,
+          required String sig,
+          required PublicKey publicKey}) =>
+      core.instance.api.ldkAdapterNodeNodeVerifySignature(
+          that: this, msg: msg, sig: sig, publicKey: publicKey);
 
-  Future<Event> waitNextEvent();
+  Future<Event> waitNextEvent() =>
+      core.instance.api.ldkAdapterNodeNodeWaitNextEvent(
+        that: this,
+      );
+
+  @override
+  int get hashCode => inner.hashCode;
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is Node && runtimeType == other.runtimeType && inner == other.inner;
 }

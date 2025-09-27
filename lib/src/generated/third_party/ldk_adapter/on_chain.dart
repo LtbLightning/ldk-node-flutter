@@ -4,6 +4,7 @@
 // ignore_for_file: invalid_use_of_internal_member, unused_import, unnecessary_import
 
 import '../../frb_generated.dart';
+import '../../lib.dart';
 import '../shared.dart';
 import 'package:flutter_rust_bridge/flutter_rust_bridge_for_generated.dart';
 
@@ -11,6 +12,10 @@ import 'package:flutter_rust_bridge/flutter_rust_bridge_for_generated.dart';
 
 // Rust type: RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<OnChainPayment>>
 abstract class OnChainPayment implements RustOpaqueInterface {
+  OnchainPayment get inner;
+
+  set inner(OnchainPayment inner);
+
   /// Generate a new on-chain/Bitcoin address.
   ///
   /// Returns a new address for receiving Bitcoin payments.

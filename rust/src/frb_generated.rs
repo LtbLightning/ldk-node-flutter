@@ -29,13 +29,8 @@ use crate::*;
 use flutter_rust_bridge::for_generated::byteorder::{NativeEndian, ReadBytesExt, WriteBytesExt};
 use flutter_rust_bridge::for_generated::{transform_result_dco, Lifetimeable, Lockable};
 use flutter_rust_bridge::{Handler, IntoIntoDart};
-use ldk_adapter::bolt11::*;
-use ldk_adapter::bolt12::*;
 use ldk_adapter::builder::*;
-use ldk_adapter::graph::*;
-use ldk_adapter::node::*;
 use ldk_adapter::on_chain::*;
-use ldk_adapter::spontaneous::*;
 use ldk_adapter::types::*;
 use ldk_adapter::unified_qr::*;
 use shared::*;
@@ -48,7 +43,7 @@ flutter_rust_bridge::frb_generated_boilerplate!(
     default_rust_auto_opaque = RustAutoOpaqueNom,
 );
 pub(crate) const FLUTTER_RUST_BRIDGE_CODEGEN_VERSION: &str = "2.11.1";
-pub(crate) const FLUTTER_RUST_BRIDGE_CODEGEN_CONTENT_HASH: i32 = 1946521731;
+pub(crate) const FLUTTER_RUST_BRIDGE_CODEGEN_CONTENT_HASH: i32 = -1048910238;
 
 // Section: executor
 
@@ -787,870 +782,6 @@ fn wire__shared__BitcoinAddress_to_qr_uri_impl(
                         Result::<_, ()>::Ok(shared::BitcoinAddress::to_qr_uri(&*api_that_guard))?;
                     Ok(output_ok)
                 })())
-            }
-        },
-    )
-}
-fn wire__ldk_adapter__bolt11__Bolt11Payment_claim_for_hash_impl(
-    port_: flutter_rust_bridge::for_generated::MessagePort,
-    that: impl CstDecode<
-        RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<Bolt11Payment>>,
-    >,
-    payment_hash: impl CstDecode<shared::PaymentHash>,
-    claimable_amount_msat: impl CstDecode<u64>,
-    preimage: impl CstDecode<shared::PaymentPreimage>,
-) {
-    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
-        flutter_rust_bridge::for_generated::TaskInfo {
-            debug_name: "Bolt11Payment_claim_for_hash",
-            port: Some(port_),
-            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
-        },
-        move || {
-            let api_that = that.cst_decode();
-            let api_payment_hash = payment_hash.cst_decode();
-            let api_claimable_amount_msat = claimable_amount_msat.cst_decode();
-            let api_preimage = preimage.cst_decode();
-            move |context| {
-                transform_result_dco::<_, _, flutter_rust_bridge::for_generated::anyhow::Error>(
-                    (move || {
-                        let mut api_that_guard = None;
-                        let decode_indices_ =
-                            flutter_rust_bridge::for_generated::lockable_compute_decode_order(
-                                vec![flutter_rust_bridge::for_generated::LockableOrderInfo::new(
-                                    &api_that, 0, false,
-                                )],
-                            );
-                        for i in decode_indices_ {
-                            match i {
-                                0 => api_that_guard = Some(api_that.lockable_decode_sync_ref()),
-                                _ => unreachable!(),
-                            }
-                        }
-                        let api_that_guard = api_that_guard.unwrap();
-                        let output_ok = ldk_adapter::bolt11::Bolt11Payment::claim_for_hash(
-                            &*api_that_guard,
-                            api_payment_hash,
-                            api_claimable_amount_msat,
-                            api_preimage,
-                        )?;
-                        Ok(output_ok)
-                    })(),
-                )
-            }
-        },
-    )
-}
-fn wire__ldk_adapter__bolt11__Bolt11Payment_fail_for_hash_impl(
-    port_: flutter_rust_bridge::for_generated::MessagePort,
-    that: impl CstDecode<
-        RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<Bolt11Payment>>,
-    >,
-    payment_hash: impl CstDecode<shared::PaymentHash>,
-) {
-    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
-        flutter_rust_bridge::for_generated::TaskInfo {
-            debug_name: "Bolt11Payment_fail_for_hash",
-            port: Some(port_),
-            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
-        },
-        move || {
-            let api_that = that.cst_decode();
-            let api_payment_hash = payment_hash.cst_decode();
-            move |context| {
-                transform_result_dco::<_, _, flutter_rust_bridge::for_generated::anyhow::Error>(
-                    (move || {
-                        let mut api_that_guard = None;
-                        let decode_indices_ =
-                            flutter_rust_bridge::for_generated::lockable_compute_decode_order(
-                                vec![flutter_rust_bridge::for_generated::LockableOrderInfo::new(
-                                    &api_that, 0, false,
-                                )],
-                            );
-                        for i in decode_indices_ {
-                            match i {
-                                0 => api_that_guard = Some(api_that.lockable_decode_sync_ref()),
-                                _ => unreachable!(),
-                            }
-                        }
-                        let api_that_guard = api_that_guard.unwrap();
-                        let output_ok = ldk_adapter::bolt11::Bolt11Payment::fail_for_hash(
-                            &*api_that_guard,
-                            api_payment_hash,
-                        )?;
-                        Ok(output_ok)
-                    })(),
-                )
-            }
-        },
-    )
-}
-fn wire__ldk_adapter__bolt11__Bolt11Payment_receive_impl(
-    port_: flutter_rust_bridge::for_generated::MessagePort,
-    that: impl CstDecode<
-        RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<Bolt11Payment>>,
-    >,
-    amount_msat: impl CstDecode<u64>,
-    description: impl CstDecode<String>,
-    expiry_secs: impl CstDecode<u32>,
-) {
-    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
-        flutter_rust_bridge::for_generated::TaskInfo {
-            debug_name: "Bolt11Payment_receive",
-            port: Some(port_),
-            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
-        },
-        move || {
-            let api_that = that.cst_decode();
-            let api_amount_msat = amount_msat.cst_decode();
-            let api_description = description.cst_decode();
-            let api_expiry_secs = expiry_secs.cst_decode();
-            move |context| {
-                transform_result_dco::<_, _, flutter_rust_bridge::for_generated::anyhow::Error>(
-                    (move || {
-                        let mut api_that_guard = None;
-                        let decode_indices_ =
-                            flutter_rust_bridge::for_generated::lockable_compute_decode_order(
-                                vec![flutter_rust_bridge::for_generated::LockableOrderInfo::new(
-                                    &api_that, 0, false,
-                                )],
-                            );
-                        for i in decode_indices_ {
-                            match i {
-                                0 => api_that_guard = Some(api_that.lockable_decode_sync_ref()),
-                                _ => unreachable!(),
-                            }
-                        }
-                        let api_that_guard = api_that_guard.unwrap();
-                        let output_ok = ldk_adapter::bolt11::Bolt11Payment::receive(
-                            &*api_that_guard,
-                            api_amount_msat,
-                            api_description,
-                            api_expiry_secs,
-                        )?;
-                        Ok(output_ok)
-                    })(),
-                )
-            }
-        },
-    )
-}
-fn wire__ldk_adapter__bolt11__Bolt11Payment_receive_for_hash_impl(
-    port_: flutter_rust_bridge::for_generated::MessagePort,
-    that: impl CstDecode<
-        RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<Bolt11Payment>>,
-    >,
-    payment_hash: impl CstDecode<shared::PaymentHash>,
-    amount_msat: impl CstDecode<u64>,
-    description: impl CstDecode<String>,
-    expiry_secs: impl CstDecode<u32>,
-) {
-    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
-        flutter_rust_bridge::for_generated::TaskInfo {
-            debug_name: "Bolt11Payment_receive_for_hash",
-            port: Some(port_),
-            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
-        },
-        move || {
-            let api_that = that.cst_decode();
-            let api_payment_hash = payment_hash.cst_decode();
-            let api_amount_msat = amount_msat.cst_decode();
-            let api_description = description.cst_decode();
-            let api_expiry_secs = expiry_secs.cst_decode();
-            move |context| {
-                transform_result_dco::<_, _, flutter_rust_bridge::for_generated::anyhow::Error>(
-                    (move || {
-                        let mut api_that_guard = None;
-                        let decode_indices_ =
-                            flutter_rust_bridge::for_generated::lockable_compute_decode_order(
-                                vec![flutter_rust_bridge::for_generated::LockableOrderInfo::new(
-                                    &api_that, 0, false,
-                                )],
-                            );
-                        for i in decode_indices_ {
-                            match i {
-                                0 => api_that_guard = Some(api_that.lockable_decode_sync_ref()),
-                                _ => unreachable!(),
-                            }
-                        }
-                        let api_that_guard = api_that_guard.unwrap();
-                        let output_ok = ldk_adapter::bolt11::Bolt11Payment::receive_for_hash(
-                            &*api_that_guard,
-                            api_payment_hash,
-                            api_amount_msat,
-                            api_description,
-                            api_expiry_secs,
-                        )?;
-                        Ok(output_ok)
-                    })(),
-                )
-            }
-        },
-    )
-}
-fn wire__ldk_adapter__bolt11__Bolt11Payment_receive_variable_amount_impl(
-    port_: flutter_rust_bridge::for_generated::MessagePort,
-    that: impl CstDecode<
-        RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<Bolt11Payment>>,
-    >,
-    description: impl CstDecode<String>,
-    expiry_secs: impl CstDecode<u32>,
-) {
-    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
-        flutter_rust_bridge::for_generated::TaskInfo {
-            debug_name: "Bolt11Payment_receive_variable_amount",
-            port: Some(port_),
-            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
-        },
-        move || {
-            let api_that = that.cst_decode();
-            let api_description = description.cst_decode();
-            let api_expiry_secs = expiry_secs.cst_decode();
-            move |context| {
-                transform_result_dco::<_, _, flutter_rust_bridge::for_generated::anyhow::Error>(
-                    (move || {
-                        let mut api_that_guard = None;
-                        let decode_indices_ =
-                            flutter_rust_bridge::for_generated::lockable_compute_decode_order(
-                                vec![flutter_rust_bridge::for_generated::LockableOrderInfo::new(
-                                    &api_that, 0, false,
-                                )],
-                            );
-                        for i in decode_indices_ {
-                            match i {
-                                0 => api_that_guard = Some(api_that.lockable_decode_sync_ref()),
-                                _ => unreachable!(),
-                            }
-                        }
-                        let api_that_guard = api_that_guard.unwrap();
-                        let output_ok =
-                            ldk_adapter::bolt11::Bolt11Payment::receive_variable_amount(
-                                &*api_that_guard,
-                                api_description,
-                                api_expiry_secs,
-                            )?;
-                        Ok(output_ok)
-                    })(),
-                )
-            }
-        },
-    )
-}
-fn wire__ldk_adapter__bolt11__Bolt11Payment_receive_variable_amount_for_hash_impl(
-    port_: flutter_rust_bridge::for_generated::MessagePort,
-    that: impl CstDecode<
-        RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<Bolt11Payment>>,
-    >,
-    description: impl CstDecode<String>,
-    expiry_secs: impl CstDecode<u32>,
-    payment_hash: impl CstDecode<shared::PaymentHash>,
-) {
-    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
-        flutter_rust_bridge::for_generated::TaskInfo {
-            debug_name: "Bolt11Payment_receive_variable_amount_for_hash",
-            port: Some(port_),
-            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
-        },
-        move || {
-            let api_that = that.cst_decode();
-            let api_description = description.cst_decode();
-            let api_expiry_secs = expiry_secs.cst_decode();
-            let api_payment_hash = payment_hash.cst_decode();
-            move |context| {
-                transform_result_dco::<_, _, flutter_rust_bridge::for_generated::anyhow::Error>(
-                    (move || {
-                        let mut api_that_guard = None;
-                        let decode_indices_ =
-                            flutter_rust_bridge::for_generated::lockable_compute_decode_order(
-                                vec![flutter_rust_bridge::for_generated::LockableOrderInfo::new(
-                                    &api_that, 0, false,
-                                )],
-                            );
-                        for i in decode_indices_ {
-                            match i {
-                                0 => api_that_guard = Some(api_that.lockable_decode_sync_ref()),
-                                _ => unreachable!(),
-                            }
-                        }
-                        let api_that_guard = api_that_guard.unwrap();
-                        let output_ok =
-                            ldk_adapter::bolt11::Bolt11Payment::receive_variable_amount_for_hash(
-                                &*api_that_guard,
-                                api_description,
-                                api_expiry_secs,
-                                api_payment_hash,
-                            )?;
-                        Ok(output_ok)
-                    })(),
-                )
-            }
-        },
-    )
-}
-fn wire__ldk_adapter__bolt11__Bolt11Payment_receive_variable_amount_via_jit_channel_impl(
-    port_: flutter_rust_bridge::for_generated::MessagePort,
-    that: impl CstDecode<
-        RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<Bolt11Payment>>,
-    >,
-    description: impl CstDecode<String>,
-    expiry_secs: impl CstDecode<u32>,
-    max_proportional_lsp_fee_limit_ppm_msat: impl CstDecode<Option<u64>>,
-) {
-    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec,_,_>(flutter_rust_bridge::for_generated::TaskInfo{ debug_name: "Bolt11Payment_receive_variable_amount_via_jit_channel", port: Some(port_), mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal }, move || { let api_that = that.cst_decode();let api_description = description.cst_decode();let api_expiry_secs = expiry_secs.cst_decode();let api_max_proportional_lsp_fee_limit_ppm_msat = max_proportional_lsp_fee_limit_ppm_msat.cst_decode(); move |context|  {
-                    transform_result_dco::<_, _, flutter_rust_bridge::for_generated::anyhow::Error>((move ||  {
-                        let mut api_that_guard = None;
-let decode_indices_ = flutter_rust_bridge::for_generated::lockable_compute_decode_order(vec![flutter_rust_bridge::for_generated::LockableOrderInfo::new(&api_that, 0, false)]);
-        for i in decode_indices_ {
-            match i {
-                0 => api_that_guard = Some(api_that.lockable_decode_sync_ref()),
-                _ => unreachable!(),
-            }
-        }
-        let api_that_guard = api_that_guard.unwrap();
- let output_ok = ldk_adapter::bolt11::Bolt11Payment::receive_variable_amount_via_jit_channel(&*api_that_guard, api_description, api_expiry_secs, api_max_proportional_lsp_fee_limit_ppm_msat)?;   Ok(output_ok)
-                    })())
-                } })
-}
-fn wire__ldk_adapter__bolt11__Bolt11Payment_receive_via_jit_channel_impl(
-    port_: flutter_rust_bridge::for_generated::MessagePort,
-    that: impl CstDecode<
-        RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<Bolt11Payment>>,
-    >,
-    amount_msat: impl CstDecode<u64>,
-    description: impl CstDecode<String>,
-    expiry_secs: impl CstDecode<u32>,
-    max_total_lsp_fee_limit_msat: impl CstDecode<Option<u64>>,
-) {
-    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
-        flutter_rust_bridge::for_generated::TaskInfo {
-            debug_name: "Bolt11Payment_receive_via_jit_channel",
-            port: Some(port_),
-            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
-        },
-        move || {
-            let api_that = that.cst_decode();
-            let api_amount_msat = amount_msat.cst_decode();
-            let api_description = description.cst_decode();
-            let api_expiry_secs = expiry_secs.cst_decode();
-            let api_max_total_lsp_fee_limit_msat = max_total_lsp_fee_limit_msat.cst_decode();
-            move |context| {
-                transform_result_dco::<_, _, flutter_rust_bridge::for_generated::anyhow::Error>(
-                    (move || {
-                        let mut api_that_guard = None;
-                        let decode_indices_ =
-                            flutter_rust_bridge::for_generated::lockable_compute_decode_order(
-                                vec![flutter_rust_bridge::for_generated::LockableOrderInfo::new(
-                                    &api_that, 0, false,
-                                )],
-                            );
-                        for i in decode_indices_ {
-                            match i {
-                                0 => api_that_guard = Some(api_that.lockable_decode_sync_ref()),
-                                _ => unreachable!(),
-                            }
-                        }
-                        let api_that_guard = api_that_guard.unwrap();
-                        let output_ok =
-                            ldk_adapter::bolt11::Bolt11Payment::receive_via_jit_channel(
-                                &*api_that_guard,
-                                api_amount_msat,
-                                api_description,
-                                api_expiry_secs,
-                                api_max_total_lsp_fee_limit_msat,
-                            )?;
-                        Ok(output_ok)
-                    })(),
-                )
-            }
-        },
-    )
-}
-fn wire__ldk_adapter__bolt11__Bolt11Payment_send_impl(
-    port_: flutter_rust_bridge::for_generated::MessagePort,
-    that: impl CstDecode<
-        RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<Bolt11Payment>>,
-    >,
-    invoice: impl CstDecode<shared::Bolt11Invoice>,
-    sending_parameters: impl CstDecode<Option<shared::SendingParameters>>,
-) {
-    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
-        flutter_rust_bridge::for_generated::TaskInfo {
-            debug_name: "Bolt11Payment_send",
-            port: Some(port_),
-            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
-        },
-        move || {
-            let api_that = that.cst_decode();
-            let api_invoice = invoice.cst_decode();
-            let api_sending_parameters = sending_parameters.cst_decode();
-            move |context| {
-                transform_result_dco::<_, _, flutter_rust_bridge::for_generated::anyhow::Error>(
-                    (move || {
-                        let mut api_that_guard = None;
-                        let decode_indices_ =
-                            flutter_rust_bridge::for_generated::lockable_compute_decode_order(
-                                vec![flutter_rust_bridge::for_generated::LockableOrderInfo::new(
-                                    &api_that, 0, false,
-                                )],
-                            );
-                        for i in decode_indices_ {
-                            match i {
-                                0 => api_that_guard = Some(api_that.lockable_decode_sync_ref()),
-                                _ => unreachable!(),
-                            }
-                        }
-                        let api_that_guard = api_that_guard.unwrap();
-                        let output_ok = ldk_adapter::bolt11::Bolt11Payment::send(
-                            &*api_that_guard,
-                            api_invoice,
-                            api_sending_parameters,
-                        )?;
-                        Ok(output_ok)
-                    })(),
-                )
-            }
-        },
-    )
-}
-fn wire__ldk_adapter__bolt11__Bolt11Payment_send_probes_impl(
-    port_: flutter_rust_bridge::for_generated::MessagePort,
-    that: impl CstDecode<
-        RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<Bolt11Payment>>,
-    >,
-    invoice: impl CstDecode<shared::Bolt11Invoice>,
-) {
-    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
-        flutter_rust_bridge::for_generated::TaskInfo {
-            debug_name: "Bolt11Payment_send_probes",
-            port: Some(port_),
-            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
-        },
-        move || {
-            let api_that = that.cst_decode();
-            let api_invoice = invoice.cst_decode();
-            move |context| {
-                transform_result_dco::<_, _, flutter_rust_bridge::for_generated::anyhow::Error>(
-                    (move || {
-                        let mut api_that_guard = None;
-                        let decode_indices_ =
-                            flutter_rust_bridge::for_generated::lockable_compute_decode_order(
-                                vec![flutter_rust_bridge::for_generated::LockableOrderInfo::new(
-                                    &api_that, 0, false,
-                                )],
-                            );
-                        for i in decode_indices_ {
-                            match i {
-                                0 => api_that_guard = Some(api_that.lockable_decode_sync_ref()),
-                                _ => unreachable!(),
-                            }
-                        }
-                        let api_that_guard = api_that_guard.unwrap();
-                        let output_ok = ldk_adapter::bolt11::Bolt11Payment::send_probes(
-                            &*api_that_guard,
-                            api_invoice,
-                        )?;
-                        Ok(output_ok)
-                    })(),
-                )
-            }
-        },
-    )
-}
-fn wire__ldk_adapter__bolt11__Bolt11Payment_send_probes_using_amount_impl(
-    port_: flutter_rust_bridge::for_generated::MessagePort,
-    that: impl CstDecode<
-        RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<Bolt11Payment>>,
-    >,
-    invoice: impl CstDecode<shared::Bolt11Invoice>,
-    amount_msat: impl CstDecode<u64>,
-) {
-    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
-        flutter_rust_bridge::for_generated::TaskInfo {
-            debug_name: "Bolt11Payment_send_probes_using_amount",
-            port: Some(port_),
-            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
-        },
-        move || {
-            let api_that = that.cst_decode();
-            let api_invoice = invoice.cst_decode();
-            let api_amount_msat = amount_msat.cst_decode();
-            move |context| {
-                transform_result_dco::<_, _, flutter_rust_bridge::for_generated::anyhow::Error>(
-                    (move || {
-                        let mut api_that_guard = None;
-                        let decode_indices_ =
-                            flutter_rust_bridge::for_generated::lockable_compute_decode_order(
-                                vec![flutter_rust_bridge::for_generated::LockableOrderInfo::new(
-                                    &api_that, 0, false,
-                                )],
-                            );
-                        for i in decode_indices_ {
-                            match i {
-                                0 => api_that_guard = Some(api_that.lockable_decode_sync_ref()),
-                                _ => unreachable!(),
-                            }
-                        }
-                        let api_that_guard = api_that_guard.unwrap();
-                        let output_ok =
-                            ldk_adapter::bolt11::Bolt11Payment::send_probes_using_amount(
-                                &*api_that_guard,
-                                api_invoice,
-                                api_amount_msat,
-                            )?;
-                        Ok(output_ok)
-                    })(),
-                )
-            }
-        },
-    )
-}
-fn wire__ldk_adapter__bolt11__Bolt11Payment_send_using_amount_impl(
-    port_: flutter_rust_bridge::for_generated::MessagePort,
-    that: impl CstDecode<
-        RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<Bolt11Payment>>,
-    >,
-    invoice: impl CstDecode<shared::Bolt11Invoice>,
-    amount_msat: impl CstDecode<u64>,
-    sending_parameters: impl CstDecode<Option<shared::SendingParameters>>,
-) {
-    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
-        flutter_rust_bridge::for_generated::TaskInfo {
-            debug_name: "Bolt11Payment_send_using_amount",
-            port: Some(port_),
-            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
-        },
-        move || {
-            let api_that = that.cst_decode();
-            let api_invoice = invoice.cst_decode();
-            let api_amount_msat = amount_msat.cst_decode();
-            let api_sending_parameters = sending_parameters.cst_decode();
-            move |context| {
-                transform_result_dco::<_, _, flutter_rust_bridge::for_generated::anyhow::Error>(
-                    (move || {
-                        let mut api_that_guard = None;
-                        let decode_indices_ =
-                            flutter_rust_bridge::for_generated::lockable_compute_decode_order(
-                                vec![flutter_rust_bridge::for_generated::LockableOrderInfo::new(
-                                    &api_that, 0, false,
-                                )],
-                            );
-                        for i in decode_indices_ {
-                            match i {
-                                0 => api_that_guard = Some(api_that.lockable_decode_sync_ref()),
-                                _ => unreachable!(),
-                            }
-                        }
-                        let api_that_guard = api_that_guard.unwrap();
-                        let output_ok = ldk_adapter::bolt11::Bolt11Payment::send_using_amount(
-                            &*api_that_guard,
-                            api_invoice,
-                            api_amount_msat,
-                            api_sending_parameters,
-                        )?;
-                        Ok(output_ok)
-                    })(),
-                )
-            }
-        },
-    )
-}
-fn wire__ldk_adapter__bolt12__Bolt12Payment_initiate_refund_impl(
-    port_: flutter_rust_bridge::for_generated::MessagePort,
-    that: impl CstDecode<
-        RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<Bolt12Payment>>,
-    >,
-    amount_msat: impl CstDecode<u64>,
-    expiry_secs: impl CstDecode<u32>,
-    quantity: impl CstDecode<Option<u64>>,
-    payer_note: impl CstDecode<Option<String>>,
-) {
-    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
-        flutter_rust_bridge::for_generated::TaskInfo {
-            debug_name: "Bolt12Payment_initiate_refund",
-            port: Some(port_),
-            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
-        },
-        move || {
-            let api_that = that.cst_decode();
-            let api_amount_msat = amount_msat.cst_decode();
-            let api_expiry_secs = expiry_secs.cst_decode();
-            let api_quantity = quantity.cst_decode();
-            let api_payer_note = payer_note.cst_decode();
-            move |context| {
-                transform_result_dco::<_, _, flutter_rust_bridge::for_generated::anyhow::Error>(
-                    (move || {
-                        let mut api_that_guard = None;
-                        let decode_indices_ =
-                            flutter_rust_bridge::for_generated::lockable_compute_decode_order(
-                                vec![flutter_rust_bridge::for_generated::LockableOrderInfo::new(
-                                    &api_that, 0, false,
-                                )],
-                            );
-                        for i in decode_indices_ {
-                            match i {
-                                0 => api_that_guard = Some(api_that.lockable_decode_sync_ref()),
-                                _ => unreachable!(),
-                            }
-                        }
-                        let api_that_guard = api_that_guard.unwrap();
-                        let output_ok = ldk_adapter::bolt12::Bolt12Payment::initiate_refund(
-                            &*api_that_guard,
-                            api_amount_msat,
-                            api_expiry_secs,
-                            api_quantity,
-                            api_payer_note,
-                        )?;
-                        Ok(output_ok)
-                    })(),
-                )
-            }
-        },
-    )
-}
-fn wire__ldk_adapter__bolt12__Bolt12Payment_receive_impl(
-    port_: flutter_rust_bridge::for_generated::MessagePort,
-    that: impl CstDecode<
-        RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<Bolt12Payment>>,
-    >,
-    amount_msat: impl CstDecode<u64>,
-    description: impl CstDecode<String>,
-    expiry_secs: impl CstDecode<Option<u32>>,
-    quantity: impl CstDecode<Option<u64>>,
-) {
-    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
-        flutter_rust_bridge::for_generated::TaskInfo {
-            debug_name: "Bolt12Payment_receive",
-            port: Some(port_),
-            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
-        },
-        move || {
-            let api_that = that.cst_decode();
-            let api_amount_msat = amount_msat.cst_decode();
-            let api_description = description.cst_decode();
-            let api_expiry_secs = expiry_secs.cst_decode();
-            let api_quantity = quantity.cst_decode();
-            move |context| {
-                transform_result_dco::<_, _, flutter_rust_bridge::for_generated::anyhow::Error>(
-                    (move || {
-                        let mut api_that_guard = None;
-                        let decode_indices_ =
-                            flutter_rust_bridge::for_generated::lockable_compute_decode_order(
-                                vec![flutter_rust_bridge::for_generated::LockableOrderInfo::new(
-                                    &api_that, 0, false,
-                                )],
-                            );
-                        for i in decode_indices_ {
-                            match i {
-                                0 => api_that_guard = Some(api_that.lockable_decode_sync_ref()),
-                                _ => unreachable!(),
-                            }
-                        }
-                        let api_that_guard = api_that_guard.unwrap();
-                        let output_ok = ldk_adapter::bolt12::Bolt12Payment::receive(
-                            &*api_that_guard,
-                            api_amount_msat,
-                            api_description,
-                            api_expiry_secs,
-                            api_quantity,
-                        )?;
-                        Ok(output_ok)
-                    })(),
-                )
-            }
-        },
-    )
-}
-fn wire__ldk_adapter__bolt12__Bolt12Payment_receive_variable_amount_impl(
-    port_: flutter_rust_bridge::for_generated::MessagePort,
-    that: impl CstDecode<
-        RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<Bolt12Payment>>,
-    >,
-    description: impl CstDecode<String>,
-    expiry_secs: impl CstDecode<Option<u32>>,
-) {
-    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
-        flutter_rust_bridge::for_generated::TaskInfo {
-            debug_name: "Bolt12Payment_receive_variable_amount",
-            port: Some(port_),
-            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
-        },
-        move || {
-            let api_that = that.cst_decode();
-            let api_description = description.cst_decode();
-            let api_expiry_secs = expiry_secs.cst_decode();
-            move |context| {
-                transform_result_dco::<_, _, flutter_rust_bridge::for_generated::anyhow::Error>(
-                    (move || {
-                        let mut api_that_guard = None;
-                        let decode_indices_ =
-                            flutter_rust_bridge::for_generated::lockable_compute_decode_order(
-                                vec![flutter_rust_bridge::for_generated::LockableOrderInfo::new(
-                                    &api_that, 0, false,
-                                )],
-                            );
-                        for i in decode_indices_ {
-                            match i {
-                                0 => api_that_guard = Some(api_that.lockable_decode_sync_ref()),
-                                _ => unreachable!(),
-                            }
-                        }
-                        let api_that_guard = api_that_guard.unwrap();
-                        let output_ok =
-                            ldk_adapter::bolt12::Bolt12Payment::receive_variable_amount(
-                                &*api_that_guard,
-                                api_description,
-                                api_expiry_secs,
-                            )?;
-                        Ok(output_ok)
-                    })(),
-                )
-            }
-        },
-    )
-}
-fn wire__ldk_adapter__bolt12__Bolt12Payment_request_refund_payment_impl(
-    port_: flutter_rust_bridge::for_generated::MessagePort,
-    that: impl CstDecode<
-        RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<Bolt12Payment>>,
-    >,
-    refund: impl CstDecode<shared::Refund>,
-) {
-    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
-        flutter_rust_bridge::for_generated::TaskInfo {
-            debug_name: "Bolt12Payment_request_refund_payment",
-            port: Some(port_),
-            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
-        },
-        move || {
-            let api_that = that.cst_decode();
-            let api_refund = refund.cst_decode();
-            move |context| {
-                transform_result_dco::<_, _, flutter_rust_bridge::for_generated::anyhow::Error>(
-                    (move || {
-                        let mut api_that_guard = None;
-                        let decode_indices_ =
-                            flutter_rust_bridge::for_generated::lockable_compute_decode_order(
-                                vec![flutter_rust_bridge::for_generated::LockableOrderInfo::new(
-                                    &api_that, 0, false,
-                                )],
-                            );
-                        for i in decode_indices_ {
-                            match i {
-                                0 => api_that_guard = Some(api_that.lockable_decode_sync_ref()),
-                                _ => unreachable!(),
-                            }
-                        }
-                        let api_that_guard = api_that_guard.unwrap();
-                        let output_ok = ldk_adapter::bolt12::Bolt12Payment::request_refund_payment(
-                            &*api_that_guard,
-                            api_refund,
-                        )?;
-                        Ok(output_ok)
-                    })(),
-                )
-            }
-        },
-    )
-}
-fn wire__ldk_adapter__bolt12__Bolt12Payment_send_impl(
-    port_: flutter_rust_bridge::for_generated::MessagePort,
-    that: impl CstDecode<
-        RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<Bolt12Payment>>,
-    >,
-    offer: impl CstDecode<shared::Offer>,
-    quantity: impl CstDecode<Option<u64>>,
-    payer_note: impl CstDecode<Option<String>>,
-) {
-    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
-        flutter_rust_bridge::for_generated::TaskInfo {
-            debug_name: "Bolt12Payment_send",
-            port: Some(port_),
-            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
-        },
-        move || {
-            let api_that = that.cst_decode();
-            let api_offer = offer.cst_decode();
-            let api_quantity = quantity.cst_decode();
-            let api_payer_note = payer_note.cst_decode();
-            move |context| {
-                transform_result_dco::<_, _, flutter_rust_bridge::for_generated::anyhow::Error>(
-                    (move || {
-                        let mut api_that_guard = None;
-                        let decode_indices_ =
-                            flutter_rust_bridge::for_generated::lockable_compute_decode_order(
-                                vec![flutter_rust_bridge::for_generated::LockableOrderInfo::new(
-                                    &api_that, 0, false,
-                                )],
-                            );
-                        for i in decode_indices_ {
-                            match i {
-                                0 => api_that_guard = Some(api_that.lockable_decode_sync_ref()),
-                                _ => unreachable!(),
-                            }
-                        }
-                        let api_that_guard = api_that_guard.unwrap();
-                        let output_ok = ldk_adapter::bolt12::Bolt12Payment::send(
-                            &*api_that_guard,
-                            api_offer,
-                            api_quantity,
-                            api_payer_note,
-                        )?;
-                        Ok(output_ok)
-                    })(),
-                )
-            }
-        },
-    )
-}
-fn wire__ldk_adapter__bolt12__Bolt12Payment_send_using_amount_impl(
-    port_: flutter_rust_bridge::for_generated::MessagePort,
-    that: impl CstDecode<
-        RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<Bolt12Payment>>,
-    >,
-    offer: impl CstDecode<shared::Offer>,
-    amount_msat: impl CstDecode<u64>,
-    quantity: impl CstDecode<Option<u64>>,
-    payer_note: impl CstDecode<Option<String>>,
-) {
-    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
-        flutter_rust_bridge::for_generated::TaskInfo {
-            debug_name: "Bolt12Payment_send_using_amount",
-            port: Some(port_),
-            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
-        },
-        move || {
-            let api_that = that.cst_decode();
-            let api_offer = offer.cst_decode();
-            let api_amount_msat = amount_msat.cst_decode();
-            let api_quantity = quantity.cst_decode();
-            let api_payer_note = payer_note.cst_decode();
-            move |context| {
-                transform_result_dco::<_, _, flutter_rust_bridge::for_generated::anyhow::Error>(
-                    (move || {
-                        let mut api_that_guard = None;
-                        let decode_indices_ =
-                            flutter_rust_bridge::for_generated::lockable_compute_decode_order(
-                                vec![flutter_rust_bridge::for_generated::LockableOrderInfo::new(
-                                    &api_that, 0, false,
-                                )],
-                            );
-                        for i in decode_indices_ {
-                            match i {
-                                0 => api_that_guard = Some(api_that.lockable_decode_sync_ref()),
-                                _ => unreachable!(),
-                            }
-                        }
-                        let api_that_guard = api_that_guard.unwrap();
-                        let output_ok = ldk_adapter::bolt12::Bolt12Payment::send_using_amount(
-                            &*api_that_guard,
-                            api_offer,
-                            api_amount_msat,
-                            api_quantity,
-                            api_payer_note,
-                        )?;
-                        Ok(output_ok)
-                    })(),
-                )
             }
         },
     )
@@ -4509,55 +3640,122 @@ fn wire__ldk_adapter__types__ChannelDetails_total_liquidity_msat_impl(
         },
     )
 }
-fn wire__ldk_adapter__builder__LdkBuilder_build_impl(
-    port_: flutter_rust_bridge::for_generated::MessagePort,
-    that: impl CstDecode<LdkBuilder>,
-) {
-    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
+fn wire__ldk_adapter__builder__LdkBuilder_auto_accessor_get_inner_impl(
+    that: impl CstDecode<
+        RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<LdkBuilder>>,
+    >,
+) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync::<flutter_rust_bridge::for_generated::DcoCodec, _>(
         flutter_rust_bridge::for_generated::TaskInfo {
-            debug_name: "LdkBuilder_build",
-            port: Some(port_),
-            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
+            debug_name: "LdkBuilder_auto_accessor_get_inner",
+            port: None,
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Sync,
         },
         move || {
             let api_that = that.cst_decode();
-            move |context| {
-                transform_result_dco::<_, _, flutter_rust_bridge::for_generated::anyhow::Error>(
-                    (move || {
-                        let output_ok = ldk_adapter::builder::LdkBuilder::build(api_that)?;
-                        Ok(output_ok)
-                    })(),
-                )
-            }
+            transform_result_dco::<_, _, ()>((move || {
+                let mut api_that_guard = None;
+                let decode_indices_ =
+                    flutter_rust_bridge::for_generated::lockable_compute_decode_order(vec![
+                        flutter_rust_bridge::for_generated::LockableOrderInfo::new(
+                            &api_that, 0, false,
+                        ),
+                    ]);
+                for i in decode_indices_ {
+                    match i {
+                        0 => api_that_guard = Some(api_that.lockable_decode_sync_ref()),
+                        _ => unreachable!(),
+                    }
+                }
+                let api_that_guard = api_that_guard.unwrap();
+                let output_ok = Result::<_, ()>::Ok(api_that_guard.inner.clone())?;
+                Ok(output_ok)
+            })())
+        },
+    )
+}
+fn wire__ldk_adapter__builder__LdkBuilder_auto_accessor_set_inner_impl(
+    that: impl CstDecode<
+        RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<LdkBuilder>>,
+    >,
+    inner: impl CstDecode<Builder>,
+) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync::<flutter_rust_bridge::for_generated::DcoCodec, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "LdkBuilder_auto_accessor_set_inner",
+            port: None,
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Sync,
+        },
+        move || {
+            let api_that = that.cst_decode();
+            let api_inner = inner.cst_decode();
+            transform_result_dco::<_, _, ()>((move || {
+                let mut api_that_guard = None;
+                let decode_indices_ =
+                    flutter_rust_bridge::for_generated::lockable_compute_decode_order(vec![
+                        flutter_rust_bridge::for_generated::LockableOrderInfo::new(
+                            &api_that, 0, true,
+                        ),
+                    ]);
+                for i in decode_indices_ {
+                    match i {
+                        0 => api_that_guard = Some(api_that.lockable_decode_sync_ref_mut()),
+                        _ => unreachable!(),
+                    }
+                }
+                let mut api_that_guard = api_that_guard.unwrap();
+                let output_ok = Result::<_, ()>::Ok({
+                    {
+                        api_that_guard.inner = api_inner;
+                    };
+                })?;
+                Ok(output_ok)
+            })())
+        },
+    )
+}
+fn wire__ldk_adapter__builder__LdkBuilder_build_impl(
+    that: impl CstDecode<LdkBuilder>,
+) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync::<flutter_rust_bridge::for_generated::DcoCodec, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "LdkBuilder_build",
+            port: None,
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Sync,
+        },
+        move || {
+            let api_that = that.cst_decode();
+            transform_result_dco::<_, _, flutter_rust_bridge::for_generated::anyhow::Error>(
+                (move || {
+                    let output_ok = ldk_adapter::builder::LdkBuilder::build(api_that)?;
+                    Ok(output_ok)
+                })(),
+            )
         },
     )
 }
 fn wire__ldk_adapter__builder__LdkBuilder_build_with_fs_store_impl(
-    port_: flutter_rust_bridge::for_generated::MessagePort,
     that: impl CstDecode<LdkBuilder>,
-) {
-    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
+) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync::<flutter_rust_bridge::for_generated::DcoCodec, _>(
         flutter_rust_bridge::for_generated::TaskInfo {
             debug_name: "LdkBuilder_build_with_fs_store",
-            port: Some(port_),
-            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
+            port: None,
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Sync,
         },
         move || {
             let api_that = that.cst_decode();
-            move |context| {
-                transform_result_dco::<_, _, flutter_rust_bridge::for_generated::anyhow::Error>(
-                    (move || {
-                        let output_ok =
-                            ldk_adapter::builder::LdkBuilder::build_with_fs_store(api_that)?;
-                        Ok(output_ok)
-                    })(),
-                )
-            }
+            transform_result_dco::<_, _, flutter_rust_bridge::for_generated::anyhow::Error>(
+                (move || {
+                    let output_ok =
+                        ldk_adapter::builder::LdkBuilder::build_with_fs_store(api_that)?;
+                    Ok(output_ok)
+                })(),
+            )
         },
     )
 }
 fn wire__ldk_adapter__builder__LdkBuilder_build_with_vss_store_impl(
-    port_: flutter_rust_bridge::for_generated::MessagePort,
     that: impl CstDecode<
         RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<LdkBuilder>>,
     >,
@@ -4565,12 +3763,12 @@ fn wire__ldk_adapter__builder__LdkBuilder_build_with_vss_store_impl(
     store_id: impl CstDecode<String>,
     lnurl_auth_server_url: impl CstDecode<String>,
     fixed_headers: impl CstDecode<std::collections::HashMap<String, String>>,
-) {
-    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
+) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync::<flutter_rust_bridge::for_generated::DcoCodec, _>(
         flutter_rust_bridge::for_generated::TaskInfo {
             debug_name: "LdkBuilder_build_with_vss_store",
-            port: Some(port_),
-            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
+            port: None,
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Sync,
         },
         move || {
             let api_that = that.cst_decode();
@@ -4578,74 +3776,95 @@ fn wire__ldk_adapter__builder__LdkBuilder_build_with_vss_store_impl(
             let api_store_id = store_id.cst_decode();
             let api_lnurl_auth_server_url = lnurl_auth_server_url.cst_decode();
             let api_fixed_headers = fixed_headers.cst_decode();
-            move |context| {
-                transform_result_dco::<_, _, flutter_rust_bridge::for_generated::anyhow::Error>(
-                    (move || {
-                        let mut api_that_guard = None;
-                        let decode_indices_ =
-                            flutter_rust_bridge::for_generated::lockable_compute_decode_order(
-                                vec![flutter_rust_bridge::for_generated::LockableOrderInfo::new(
-                                    &api_that, 0, false,
-                                )],
-                            );
-                        for i in decode_indices_ {
-                            match i {
-                                0 => api_that_guard = Some(api_that.lockable_decode_sync_ref()),
-                                _ => unreachable!(),
-                            }
+            transform_result_dco::<_, _, flutter_rust_bridge::for_generated::anyhow::Error>(
+                (move || {
+                    let mut api_that_guard = None;
+                    let decode_indices_ =
+                        flutter_rust_bridge::for_generated::lockable_compute_decode_order(vec![
+                            flutter_rust_bridge::for_generated::LockableOrderInfo::new(
+                                &api_that, 0, false,
+                            ),
+                        ]);
+                    for i in decode_indices_ {
+                        match i {
+                            0 => api_that_guard = Some(api_that.lockable_decode_sync_ref()),
+                            _ => unreachable!(),
                         }
-                        let api_that_guard = api_that_guard.unwrap();
-                        let output_ok = ldk_adapter::builder::LdkBuilder::build_with_vss_store(
-                            &*api_that_guard,
-                            api_vss_url,
-                            api_store_id,
-                            api_lnurl_auth_server_url,
-                            api_fixed_headers,
-                        )?;
-                        Ok(output_ok)
-                    })(),
-                )
-            }
+                    }
+                    let api_that_guard = api_that_guard.unwrap();
+                    let output_ok = ldk_adapter::builder::LdkBuilder::build_with_vss_store(
+                        &*api_that_guard,
+                        api_vss_url,
+                        api_store_id,
+                        api_lnurl_auth_server_url,
+                        api_fixed_headers,
+                    )?;
+                    Ok(output_ok)
+                })(),
+            )
         },
     )
 }
 fn wire__ldk_adapter__builder__LdkBuilder_build_with_vss_store_and_fixed_headers_impl(
-    port_: flutter_rust_bridge::for_generated::MessagePort,
     that: impl CstDecode<
         RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<LdkBuilder>>,
     >,
     vss_url: impl CstDecode<String>,
     store_id: impl CstDecode<String>,
     fixed_headers: impl CstDecode<std::collections::HashMap<String, String>>,
-) {
-    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec,_,_>(flutter_rust_bridge::for_generated::TaskInfo{ debug_name: "LdkBuilder_build_with_vss_store_and_fixed_headers", port: Some(port_), mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal }, move || { let api_that = that.cst_decode();let api_vss_url = vss_url.cst_decode();let api_store_id = store_id.cst_decode();let api_fixed_headers = fixed_headers.cst_decode(); move |context|  {
-                    transform_result_dco::<_, _, flutter_rust_bridge::for_generated::anyhow::Error>((move ||  {
-                        let mut api_that_guard = None;
-let decode_indices_ = flutter_rust_bridge::for_generated::lockable_compute_decode_order(vec![flutter_rust_bridge::for_generated::LockableOrderInfo::new(&api_that, 0, false)]);
-        for i in decode_indices_ {
-            match i {
-                0 => api_that_guard = Some(api_that.lockable_decode_sync_ref()),
-                _ => unreachable!(),
-            }
-        }
-        let api_that_guard = api_that_guard.unwrap();
- let output_ok = ldk_adapter::builder::LdkBuilder::build_with_vss_store_and_fixed_headers(&*api_that_guard, api_vss_url, api_store_id, api_fixed_headers)?;   Ok(output_ok)
-                    })())
-                } })
+) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync::<flutter_rust_bridge::for_generated::DcoCodec, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "LdkBuilder_build_with_vss_store_and_fixed_headers",
+            port: None,
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Sync,
+        },
+        move || {
+            let api_that = that.cst_decode();
+            let api_vss_url = vss_url.cst_decode();
+            let api_store_id = store_id.cst_decode();
+            let api_fixed_headers = fixed_headers.cst_decode();
+            transform_result_dco::<_, _, flutter_rust_bridge::for_generated::anyhow::Error>(
+                (move || {
+                    let mut api_that_guard = None;
+                    let decode_indices_ =
+                        flutter_rust_bridge::for_generated::lockable_compute_decode_order(vec![
+                            flutter_rust_bridge::for_generated::LockableOrderInfo::new(
+                                &api_that, 0, false,
+                            ),
+                        ]);
+                    for i in decode_indices_ {
+                        match i {
+                            0 => api_that_guard = Some(api_that.lockable_decode_sync_ref()),
+                            _ => unreachable!(),
+                        }
+                    }
+                    let api_that_guard = api_that_guard.unwrap();
+                    let output_ok =
+                        ldk_adapter::builder::LdkBuilder::build_with_vss_store_and_fixed_headers(
+                            &*api_that_guard,
+                            api_vss_url,
+                            api_store_id,
+                            api_fixed_headers,
+                        )?;
+                    Ok(output_ok)
+                })(),
+            )
+        },
+    )
 }
 fn wire__ldk_adapter__builder__LdkBuilder_create_builder_impl(
-    port_: flutter_rust_bridge::for_generated::MessagePort,
     config: impl CstDecode<ldk_adapter::types::Config>,
-    chain_data_source_config: impl CstDecode<Option<ChainDataSourceConfig>>,
-    entropy_source_config: impl CstDecode<Option<EntropySourceConfig>>,
-    gossip_source_config: impl CstDecode<Option<GossipSourceConfig>>,
+    chain_data_source_config: impl CstDecode<Option<ldk_adapter::types::ChainDataSourceConfig>>,
+    entropy_source_config: impl CstDecode<Option<ldk_adapter::types::EntropySourceConfig>>,
+    gossip_source_config: impl CstDecode<Option<ldk_adapter::types::GossipSourceConfig>>,
     liquidity_source_config: impl CstDecode<Option<ldk_adapter::types::LiquiditySourceConfig>>,
-) {
-    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
+) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync::<flutter_rust_bridge::for_generated::DcoCodec, _>(
         flutter_rust_bridge::for_generated::TaskInfo {
             debug_name: "LdkBuilder_create_builder",
-            port: Some(port_),
-            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
+            port: None,
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Sync,
         },
         move || {
             let api_config = config.cst_decode();
@@ -4653,103 +3872,92 @@ fn wire__ldk_adapter__builder__LdkBuilder_create_builder_impl(
             let api_entropy_source_config = entropy_source_config.cst_decode();
             let api_gossip_source_config = gossip_source_config.cst_decode();
             let api_liquidity_source_config = liquidity_source_config.cst_decode();
-            move |context| {
-                transform_result_dco::<_, _, flutter_rust_bridge::for_generated::anyhow::Error>(
-                    (move || {
-                        let output_ok = ldk_adapter::builder::LdkBuilder::create_builder(
-                            api_config,
-                            api_chain_data_source_config,
-                            api_entropy_source_config,
-                            api_gossip_source_config,
-                            api_liquidity_source_config,
-                        )?;
-                        Ok(output_ok)
-                    })(),
-                )
-            }
+            transform_result_dco::<_, _, flutter_rust_bridge::for_generated::anyhow::Error>(
+                (move || {
+                    let output_ok = ldk_adapter::builder::LdkBuilder::create_builder(
+                        api_config,
+                        api_chain_data_source_config,
+                        api_entropy_source_config,
+                        api_gossip_source_config,
+                        api_liquidity_source_config,
+                    )?;
+                    Ok(output_ok)
+                })(),
+            )
         },
     )
 }
 fn wire__ldk_adapter__builder__LdkBuilder_set_entropy_seed_bytes_impl(
-    port_: flutter_rust_bridge::for_generated::MessagePort,
     that: impl CstDecode<LdkBuilder>,
     seed_bytes: impl CstDecode<Vec<u8>>,
-) {
-    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
+) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync::<flutter_rust_bridge::for_generated::DcoCodec, _>(
         flutter_rust_bridge::for_generated::TaskInfo {
             debug_name: "LdkBuilder_set_entropy_seed_bytes",
-            port: Some(port_),
-            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
+            port: None,
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Sync,
         },
         move || {
             let api_that = that.cst_decode();
             let api_seed_bytes = seed_bytes.cst_decode();
-            move |context| {
-                transform_result_dco::<_, _, flutter_rust_bridge::for_generated::anyhow::Error>(
-                    (move || {
-                        let output_ok = ldk_adapter::builder::LdkBuilder::set_entropy_seed_bytes(
-                            api_that,
-                            api_seed_bytes,
-                        )?;
-                        Ok(output_ok)
-                    })(),
-                )
-            }
+            transform_result_dco::<_, _, flutter_rust_bridge::for_generated::anyhow::Error>(
+                (move || {
+                    let output_ok = ldk_adapter::builder::LdkBuilder::set_entropy_seed_bytes(
+                        api_that,
+                        api_seed_bytes,
+                    )?;
+                    Ok(output_ok)
+                })(),
+            )
         },
     )
 }
 fn wire__ldk_adapter__builder__LdkBuilder_set_filesystem_logger_impl(
-    port_: flutter_rust_bridge::for_generated::MessagePort,
     that: impl CstDecode<LdkBuilder>,
     log_file_path: impl CstDecode<Option<String>>,
     max_log_level: impl CstDecode<Option<ldk_adapter::types::LogLevel>>,
-) {
-    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
+) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync::<flutter_rust_bridge::for_generated::DcoCodec, _>(
         flutter_rust_bridge::for_generated::TaskInfo {
             debug_name: "LdkBuilder_set_filesystem_logger",
-            port: Some(port_),
-            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
+            port: None,
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Sync,
         },
         move || {
             let api_that = that.cst_decode();
             let api_log_file_path = log_file_path.cst_decode();
             let api_max_log_level = max_log_level.cst_decode();
-            move |context| {
-                transform_result_dco::<_, _, flutter_rust_bridge::for_generated::anyhow::Error>(
-                    (move || {
-                        let output_ok = ldk_adapter::builder::LdkBuilder::set_filesystem_logger(
-                            api_that,
-                            api_log_file_path,
-                            api_max_log_level,
-                        )?;
-                        Ok(output_ok)
-                    })(),
-                )
-            }
+            transform_result_dco::<_, _, flutter_rust_bridge::for_generated::anyhow::Error>(
+                (move || {
+                    let output_ok = ldk_adapter::builder::LdkBuilder::set_filesystem_logger(
+                        api_that,
+                        api_log_file_path,
+                        api_max_log_level,
+                    )?;
+                    Ok(output_ok)
+                })(),
+            )
         },
     )
 }
 fn wire__ldk_adapter__builder__LdkBuilder_set_log_facade_logger_impl(
-    port_: flutter_rust_bridge::for_generated::MessagePort,
     that: impl CstDecode<LdkBuilder>,
-) {
-    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
+) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync::<flutter_rust_bridge::for_generated::DcoCodec, _>(
         flutter_rust_bridge::for_generated::TaskInfo {
             debug_name: "LdkBuilder_set_log_facade_logger",
-            port: Some(port_),
-            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
+            port: None,
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Sync,
         },
         move || {
             let api_that = that.cst_decode();
-            move |context| {
-                transform_result_dco::<_, _, flutter_rust_bridge::for_generated::anyhow::Error>(
-                    (move || {
-                        let output_ok =
-                            ldk_adapter::builder::LdkBuilder::set_log_facade_logger(api_that)?;
-                        Ok(output_ok)
-                    })(),
-                )
-            }
+            transform_result_dco::<_, _, flutter_rust_bridge::for_generated::anyhow::Error>(
+                (move || {
+                    let output_ok =
+                        ldk_adapter::builder::LdkBuilder::set_log_facade_logger(api_that)?;
+                    Ok(output_ok)
+                })(),
+            )
         },
     )
 }
@@ -4843,1439 +4051,77 @@ fn wire__ldk_adapter__types__MaxDustHtlcExposure_new_fixed_limit_impl(
         },
     )
 }
-fn wire__ldk_adapter__graph__NetworkGraph_channel_impl(
-    port_: flutter_rust_bridge::for_generated::MessagePort,
+fn wire__ldk_adapter__on_chain__OnChainPayment_auto_accessor_get_inner_impl(
     that: impl CstDecode<
-        RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<NetworkGraph>>,
+        RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<OnChainPayment>>,
     >,
-    short_channel_id: impl CstDecode<u64>,
-) {
-    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
+) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync::<flutter_rust_bridge::for_generated::DcoCodec, _>(
         flutter_rust_bridge::for_generated::TaskInfo {
-            debug_name: "NetworkGraph_channel",
-            port: Some(port_),
-            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
+            debug_name: "OnChainPayment_auto_accessor_get_inner",
+            port: None,
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Sync,
         },
         move || {
             let api_that = that.cst_decode();
-            let api_short_channel_id = short_channel_id.cst_decode();
-            move |context| {
-                transform_result_dco::<_, _, ()>((move || {
-                    let mut api_that_guard = None;
-                    let decode_indices_ =
-                        flutter_rust_bridge::for_generated::lockable_compute_decode_order(vec![
-                            flutter_rust_bridge::for_generated::LockableOrderInfo::new(
-                                &api_that, 0, false,
-                            ),
-                        ]);
-                    for i in decode_indices_ {
-                        match i {
-                            0 => api_that_guard = Some(api_that.lockable_decode_sync_ref()),
-                            _ => unreachable!(),
-                        }
+            transform_result_dco::<_, _, ()>((move || {
+                let mut api_that_guard = None;
+                let decode_indices_ =
+                    flutter_rust_bridge::for_generated::lockable_compute_decode_order(vec![
+                        flutter_rust_bridge::for_generated::LockableOrderInfo::new(
+                            &api_that, 0, false,
+                        ),
+                    ]);
+                for i in decode_indices_ {
+                    match i {
+                        0 => api_that_guard = Some(api_that.lockable_decode_sync_ref()),
+                        _ => unreachable!(),
                     }
-                    let api_that_guard = api_that_guard.unwrap();
-                    let output_ok =
-                        Result::<_, ()>::Ok(ldk_adapter::graph::NetworkGraph::channel(
-                            &*api_that_guard,
-                            api_short_channel_id,
-                        ))?;
-                    Ok(output_ok)
-                })())
-            }
+                }
+                let api_that_guard = api_that_guard.unwrap();
+                let output_ok = Result::<_, ()>::Ok(api_that_guard.inner.clone())?;
+                Ok(output_ok)
+            })())
         },
     )
 }
-fn wire__ldk_adapter__graph__NetworkGraph_list_channels_impl(
-    port_: flutter_rust_bridge::for_generated::MessagePort,
+fn wire__ldk_adapter__on_chain__OnChainPayment_auto_accessor_set_inner_impl(
     that: impl CstDecode<
-        RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<NetworkGraph>>,
+        RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<OnChainPayment>>,
     >,
-) {
-    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
+    inner: impl CstDecode<OnchainPayment>,
+) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync::<flutter_rust_bridge::for_generated::DcoCodec, _>(
         flutter_rust_bridge::for_generated::TaskInfo {
-            debug_name: "NetworkGraph_list_channels",
-            port: Some(port_),
-            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
+            debug_name: "OnChainPayment_auto_accessor_set_inner",
+            port: None,
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Sync,
         },
         move || {
             let api_that = that.cst_decode();
-            move |context| {
-                transform_result_dco::<_, _, ()>((move || {
-                    let mut api_that_guard = None;
-                    let decode_indices_ =
-                        flutter_rust_bridge::for_generated::lockable_compute_decode_order(vec![
-                            flutter_rust_bridge::for_generated::LockableOrderInfo::new(
-                                &api_that, 0, false,
-                            ),
-                        ]);
-                    for i in decode_indices_ {
-                        match i {
-                            0 => api_that_guard = Some(api_that.lockable_decode_sync_ref()),
-                            _ => unreachable!(),
-                        }
+            let api_inner = inner.cst_decode();
+            transform_result_dco::<_, _, ()>((move || {
+                let mut api_that_guard = None;
+                let decode_indices_ =
+                    flutter_rust_bridge::for_generated::lockable_compute_decode_order(vec![
+                        flutter_rust_bridge::for_generated::LockableOrderInfo::new(
+                            &api_that, 0, true,
+                        ),
+                    ]);
+                for i in decode_indices_ {
+                    match i {
+                        0 => api_that_guard = Some(api_that.lockable_decode_sync_ref_mut()),
+                        _ => unreachable!(),
                     }
-                    let api_that_guard = api_that_guard.unwrap();
-                    let output_ok = Result::<_, ()>::Ok(
-                        ldk_adapter::graph::NetworkGraph::list_channels(&*api_that_guard),
-                    )?;
-                    Ok(output_ok)
-                })())
-            }
-        },
-    )
-}
-fn wire__ldk_adapter__graph__NetworkGraph_list_nodes_impl(
-    port_: flutter_rust_bridge::for_generated::MessagePort,
-    that: impl CstDecode<
-        RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<NetworkGraph>>,
-    >,
-) {
-    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
-        flutter_rust_bridge::for_generated::TaskInfo {
-            debug_name: "NetworkGraph_list_nodes",
-            port: Some(port_),
-            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
-        },
-        move || {
-            let api_that = that.cst_decode();
-            move |context| {
-                transform_result_dco::<_, _, ()>((move || {
-                    let mut api_that_guard = None;
-                    let decode_indices_ =
-                        flutter_rust_bridge::for_generated::lockable_compute_decode_order(vec![
-                            flutter_rust_bridge::for_generated::LockableOrderInfo::new(
-                                &api_that, 0, false,
-                            ),
-                        ]);
-                    for i in decode_indices_ {
-                        match i {
-                            0 => api_that_guard = Some(api_that.lockable_decode_sync_ref()),
-                            _ => unreachable!(),
-                        }
-                    }
-                    let api_that_guard = api_that_guard.unwrap();
-                    let output_ok = Result::<_, ()>::Ok(
-                        ldk_adapter::graph::NetworkGraph::list_nodes(&*api_that_guard),
-                    )?;
-                    Ok(output_ok)
-                })())
-            }
-        },
-    )
-}
-fn wire__ldk_adapter__graph__NetworkGraph_node_impl(
-    port_: flutter_rust_bridge::for_generated::MessagePort,
-    that: impl CstDecode<
-        RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<NetworkGraph>>,
-    >,
-    node_id: impl CstDecode<ldk_adapter::graph::NodeId>,
-) {
-    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
-        flutter_rust_bridge::for_generated::TaskInfo {
-            debug_name: "NetworkGraph_node",
-            port: Some(port_),
-            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
-        },
-        move || {
-            let api_that = that.cst_decode();
-            let api_node_id = node_id.cst_decode();
-            move |context| {
-                transform_result_dco::<_, _, flutter_rust_bridge::for_generated::anyhow::Error>(
-                    (move || {
-                        let mut api_that_guard = None;
-                        let decode_indices_ =
-                            flutter_rust_bridge::for_generated::lockable_compute_decode_order(
-                                vec![flutter_rust_bridge::for_generated::LockableOrderInfo::new(
-                                    &api_that, 0, false,
-                                )],
-                            );
-                        for i in decode_indices_ {
-                            match i {
-                                0 => api_that_guard = Some(api_that.lockable_decode_sync_ref()),
-                                _ => unreachable!(),
-                            }
-                        }
-                        let api_that_guard = api_that_guard.unwrap();
-                        let output_ok =
-                            ldk_adapter::graph::NetworkGraph::node(&*api_that_guard, api_node_id)?;
-                        Ok(output_ok)
-                    })(),
-                )
-            }
-        },
-    )
-}
-fn wire__ldk_adapter__node__Node_bolt11_payment_impl(
-    port_: flutter_rust_bridge::for_generated::MessagePort,
-    ptr: impl CstDecode<Node>,
-) {
-    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
-        flutter_rust_bridge::for_generated::TaskInfo {
-            debug_name: "Node_bolt11_payment",
-            port: Some(port_),
-            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
-        },
-        move || {
-            let api_ptr = ptr.cst_decode();
-            move |context| {
-                transform_result_dco::<_, _, ()>((move || {
-                    let output_ok =
-                        Result::<_, ()>::Ok(ldk_adapter::node::Node::bolt11_payment(api_ptr))?;
-                    Ok(output_ok)
-                })())
-            }
-        },
-    )
-}
-fn wire__ldk_adapter__node__Node_bolt12_payment_impl(
-    port_: flutter_rust_bridge::for_generated::MessagePort,
-    ptr: impl CstDecode<Node>,
-) {
-    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
-        flutter_rust_bridge::for_generated::TaskInfo {
-            debug_name: "Node_bolt12_payment",
-            port: Some(port_),
-            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
-        },
-        move || {
-            let api_ptr = ptr.cst_decode();
-            move |context| {
-                transform_result_dco::<_, _, ()>((move || {
-                    let output_ok =
-                        Result::<_, ()>::Ok(ldk_adapter::node::Node::bolt12_payment(api_ptr))?;
-                    Ok(output_ok)
-                })())
-            }
-        },
-    )
-}
-fn wire__ldk_adapter__node__Node_close_channel_impl(
-    port_: flutter_rust_bridge::for_generated::MessagePort,
-    that: impl CstDecode<RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<Node>>>,
-    user_channel_id: impl CstDecode<ldk_adapter::types::UserChannelId>,
-    counterparty_node_id: impl CstDecode<shared::PublicKey>,
-) {
-    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
-        flutter_rust_bridge::for_generated::TaskInfo {
-            debug_name: "Node_close_channel",
-            port: Some(port_),
-            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
-        },
-        move || {
-            let api_that = that.cst_decode();
-            let api_user_channel_id = user_channel_id.cst_decode();
-            let api_counterparty_node_id = counterparty_node_id.cst_decode();
-            move |context| {
-                transform_result_dco::<_, _, flutter_rust_bridge::for_generated::anyhow::Error>(
-                    (move || {
-                        let mut api_that_guard = None;
-                        let decode_indices_ =
-                            flutter_rust_bridge::for_generated::lockable_compute_decode_order(
-                                vec![flutter_rust_bridge::for_generated::LockableOrderInfo::new(
-                                    &api_that, 0, false,
-                                )],
-                            );
-                        for i in decode_indices_ {
-                            match i {
-                                0 => api_that_guard = Some(api_that.lockable_decode_sync_ref()),
-                                _ => unreachable!(),
-                            }
-                        }
-                        let api_that_guard = api_that_guard.unwrap();
-                        let output_ok = ldk_adapter::node::Node::close_channel(
-                            &*api_that_guard,
-                            api_user_channel_id,
-                            api_counterparty_node_id,
-                        )?;
-                        Ok(output_ok)
-                    })(),
-                )
-            }
-        },
-    )
-}
-fn wire__ldk_adapter__node__Node_config_impl(
-    port_: flutter_rust_bridge::for_generated::MessagePort,
-    that: impl CstDecode<RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<Node>>>,
-) {
-    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
-        flutter_rust_bridge::for_generated::TaskInfo {
-            debug_name: "Node_config",
-            port: Some(port_),
-            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
-        },
-        move || {
-            let api_that = that.cst_decode();
-            move |context| {
-                transform_result_dco::<_, _, ()>((move || {
-                    let mut api_that_guard = None;
-                    let decode_indices_ =
-                        flutter_rust_bridge::for_generated::lockable_compute_decode_order(vec![
-                            flutter_rust_bridge::for_generated::LockableOrderInfo::new(
-                                &api_that, 0, false,
-                            ),
-                        ]);
-                    for i in decode_indices_ {
-                        match i {
-                            0 => api_that_guard = Some(api_that.lockable_decode_sync_ref()),
-                            _ => unreachable!(),
-                        }
-                    }
-                    let api_that_guard = api_that_guard.unwrap();
-                    let output_ok =
-                        Result::<_, ()>::Ok(ldk_adapter::node::Node::config(&*api_that_guard))?;
-                    Ok(output_ok)
-                })())
-            }
-        },
-    )
-}
-fn wire__ldk_adapter__node__Node_connect_impl(
-    port_: flutter_rust_bridge::for_generated::MessagePort,
-    that: impl CstDecode<RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<Node>>>,
-    node_id: impl CstDecode<shared::PublicKey>,
-    address: impl CstDecode<SocketAddress>,
-    persist: impl CstDecode<bool>,
-) {
-    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
-        flutter_rust_bridge::for_generated::TaskInfo {
-            debug_name: "Node_connect",
-            port: Some(port_),
-            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
-        },
-        move || {
-            let api_that = that.cst_decode();
-            let api_node_id = node_id.cst_decode();
-            let api_address = address.cst_decode();
-            let api_persist = persist.cst_decode();
-            move |context| {
-                transform_result_dco::<_, _, flutter_rust_bridge::for_generated::anyhow::Error>(
-                    (move || {
-                        let mut api_that_guard = None;
-                        let decode_indices_ =
-                            flutter_rust_bridge::for_generated::lockable_compute_decode_order(
-                                vec![flutter_rust_bridge::for_generated::LockableOrderInfo::new(
-                                    &api_that, 0, false,
-                                )],
-                            );
-                        for i in decode_indices_ {
-                            match i {
-                                0 => api_that_guard = Some(api_that.lockable_decode_sync_ref()),
-                                _ => unreachable!(),
-                            }
-                        }
-                        let api_that_guard = api_that_guard.unwrap();
-                        let output_ok = ldk_adapter::node::Node::connect(
-                            &*api_that_guard,
-                            api_node_id,
-                            api_address,
-                            api_persist,
-                        )?;
-                        Ok(output_ok)
-                    })(),
-                )
-            }
-        },
-    )
-}
-fn wire__ldk_adapter__node__Node_disconnect_impl(
-    port_: flutter_rust_bridge::for_generated::MessagePort,
-    that: impl CstDecode<RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<Node>>>,
-    counterparty_node_id: impl CstDecode<shared::PublicKey>,
-) {
-    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
-        flutter_rust_bridge::for_generated::TaskInfo {
-            debug_name: "Node_disconnect",
-            port: Some(port_),
-            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
-        },
-        move || {
-            let api_that = that.cst_decode();
-            let api_counterparty_node_id = counterparty_node_id.cst_decode();
-            move |context| {
-                transform_result_dco::<_, _, flutter_rust_bridge::for_generated::anyhow::Error>(
-                    (move || {
-                        let mut api_that_guard = None;
-                        let decode_indices_ =
-                            flutter_rust_bridge::for_generated::lockable_compute_decode_order(
-                                vec![flutter_rust_bridge::for_generated::LockableOrderInfo::new(
-                                    &api_that, 0, false,
-                                )],
-                            );
-                        for i in decode_indices_ {
-                            match i {
-                                0 => api_that_guard = Some(api_that.lockable_decode_sync_ref()),
-                                _ => unreachable!(),
-                            }
-                        }
-                        let api_that_guard = api_that_guard.unwrap();
-                        let output_ok = ldk_adapter::node::Node::disconnect(
-                            &*api_that_guard,
-                            api_counterparty_node_id,
-                        )?;
-                        Ok(output_ok)
-                    })(),
-                )
-            }
-        },
-    )
-}
-fn wire__ldk_adapter__node__Node_event_handled_impl(
-    port_: flutter_rust_bridge::for_generated::MessagePort,
-    that: impl CstDecode<RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<Node>>>,
-) {
-    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
-        flutter_rust_bridge::for_generated::TaskInfo {
-            debug_name: "Node_event_handled",
-            port: Some(port_),
-            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
-        },
-        move || {
-            let api_that = that.cst_decode();
-            move |context| {
-                transform_result_dco::<_, _, flutter_rust_bridge::for_generated::anyhow::Error>(
-                    (move || {
-                        let mut api_that_guard = None;
-                        let decode_indices_ =
-                            flutter_rust_bridge::for_generated::lockable_compute_decode_order(
-                                vec![flutter_rust_bridge::for_generated::LockableOrderInfo::new(
-                                    &api_that, 0, false,
-                                )],
-                            );
-                        for i in decode_indices_ {
-                            match i {
-                                0 => api_that_guard = Some(api_that.lockable_decode_sync_ref()),
-                                _ => unreachable!(),
-                            }
-                        }
-                        let api_that_guard = api_that_guard.unwrap();
-                        let output_ok = ldk_adapter::node::Node::event_handled(&*api_that_guard)?;
-                        Ok(output_ok)
-                    })(),
-                )
-            }
-        },
-    )
-}
-fn wire__ldk_adapter__node__Node_export_pathfinding_scores_impl(
-    port_: flutter_rust_bridge::for_generated::MessagePort,
-    that: impl CstDecode<RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<Node>>>,
-) {
-    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
-        flutter_rust_bridge::for_generated::TaskInfo {
-            debug_name: "Node_export_pathfinding_scores",
-            port: Some(port_),
-            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
-        },
-        move || {
-            let api_that = that.cst_decode();
-            move |context| {
-                transform_result_dco::<_, _, flutter_rust_bridge::for_generated::anyhow::Error>(
-                    (move || {
-                        let mut api_that_guard = None;
-                        let decode_indices_ =
-                            flutter_rust_bridge::for_generated::lockable_compute_decode_order(
-                                vec![flutter_rust_bridge::for_generated::LockableOrderInfo::new(
-                                    &api_that, 0, false,
-                                )],
-                            );
-                        for i in decode_indices_ {
-                            match i {
-                                0 => api_that_guard = Some(api_that.lockable_decode_sync_ref()),
-                                _ => unreachable!(),
-                            }
-                        }
-                        let api_that_guard = api_that_guard.unwrap();
-                        let output_ok =
-                            ldk_adapter::node::Node::export_pathfinding_scores(&*api_that_guard)?;
-                        Ok(output_ok)
-                    })(),
-                )
-            }
-        },
-    )
-}
-fn wire__ldk_adapter__node__Node_force_close_channel_impl(
-    port_: flutter_rust_bridge::for_generated::MessagePort,
-    that: impl CstDecode<RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<Node>>>,
-    user_channel_id: impl CstDecode<ldk_adapter::types::UserChannelId>,
-    counterparty_node_id: impl CstDecode<shared::PublicKey>,
-) {
-    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
-        flutter_rust_bridge::for_generated::TaskInfo {
-            debug_name: "Node_force_close_channel",
-            port: Some(port_),
-            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
-        },
-        move || {
-            let api_that = that.cst_decode();
-            let api_user_channel_id = user_channel_id.cst_decode();
-            let api_counterparty_node_id = counterparty_node_id.cst_decode();
-            move |context| {
-                transform_result_dco::<_, _, flutter_rust_bridge::for_generated::anyhow::Error>(
-                    (move || {
-                        let mut api_that_guard = None;
-                        let decode_indices_ =
-                            flutter_rust_bridge::for_generated::lockable_compute_decode_order(
-                                vec![flutter_rust_bridge::for_generated::LockableOrderInfo::new(
-                                    &api_that, 0, false,
-                                )],
-                            );
-                        for i in decode_indices_ {
-                            match i {
-                                0 => api_that_guard = Some(api_that.lockable_decode_sync_ref()),
-                                _ => unreachable!(),
-                            }
-                        }
-                        let api_that_guard = api_that_guard.unwrap();
-                        let output_ok = ldk_adapter::node::Node::force_close_channel(
-                            &*api_that_guard,
-                            api_user_channel_id,
-                            api_counterparty_node_id,
-                        )?;
-                        Ok(output_ok)
-                    })(),
-                )
-            }
-        },
-    )
-}
-fn wire__ldk_adapter__node__Node_list_balances_impl(
-    port_: flutter_rust_bridge::for_generated::MessagePort,
-    that: impl CstDecode<RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<Node>>>,
-) {
-    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
-        flutter_rust_bridge::for_generated::TaskInfo {
-            debug_name: "Node_list_balances",
-            port: Some(port_),
-            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
-        },
-        move || {
-            let api_that = that.cst_decode();
-            move |context| {
-                transform_result_dco::<_, _, flutter_rust_bridge::for_generated::anyhow::Error>(
-                    (move || {
-                        let mut api_that_guard = None;
-                        let decode_indices_ =
-                            flutter_rust_bridge::for_generated::lockable_compute_decode_order(
-                                vec![flutter_rust_bridge::for_generated::LockableOrderInfo::new(
-                                    &api_that, 0, false,
-                                )],
-                            );
-                        for i in decode_indices_ {
-                            match i {
-                                0 => api_that_guard = Some(api_that.lockable_decode_sync_ref()),
-                                _ => unreachable!(),
-                            }
-                        }
-                        let api_that_guard = api_that_guard.unwrap();
-                        let output_ok = ldk_adapter::node::Node::list_balances(&*api_that_guard)?;
-                        Ok(output_ok)
-                    })(),
-                )
-            }
-        },
-    )
-}
-fn wire__ldk_adapter__node__Node_list_channels_impl(
-    port_: flutter_rust_bridge::for_generated::MessagePort,
-    that: impl CstDecode<RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<Node>>>,
-) {
-    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
-        flutter_rust_bridge::for_generated::TaskInfo {
-            debug_name: "Node_list_channels",
-            port: Some(port_),
-            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
-        },
-        move || {
-            let api_that = that.cst_decode();
-            move |context| {
-                transform_result_dco::<_, _, ()>((move || {
-                    let mut api_that_guard = None;
-                    let decode_indices_ =
-                        flutter_rust_bridge::for_generated::lockable_compute_decode_order(vec![
-                            flutter_rust_bridge::for_generated::LockableOrderInfo::new(
-                                &api_that, 0, false,
-                            ),
-                        ]);
-                    for i in decode_indices_ {
-                        match i {
-                            0 => api_that_guard = Some(api_that.lockable_decode_sync_ref()),
-                            _ => unreachable!(),
-                        }
-                    }
-                    let api_that_guard = api_that_guard.unwrap();
-                    let output_ok = Result::<_, ()>::Ok(ldk_adapter::node::Node::list_channels(
-                        &*api_that_guard,
-                    ))?;
-                    Ok(output_ok)
-                })())
-            }
-        },
-    )
-}
-fn wire__ldk_adapter__node__Node_list_payments_impl(
-    port_: flutter_rust_bridge::for_generated::MessagePort,
-    that: impl CstDecode<RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<Node>>>,
-) {
-    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
-        flutter_rust_bridge::for_generated::TaskInfo {
-            debug_name: "Node_list_payments",
-            port: Some(port_),
-            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
-        },
-        move || {
-            let api_that = that.cst_decode();
-            move |context| {
-                transform_result_dco::<_, _, ()>((move || {
-                    let mut api_that_guard = None;
-                    let decode_indices_ =
-                        flutter_rust_bridge::for_generated::lockable_compute_decode_order(vec![
-                            flutter_rust_bridge::for_generated::LockableOrderInfo::new(
-                                &api_that, 0, false,
-                            ),
-                        ]);
-                    for i in decode_indices_ {
-                        match i {
-                            0 => api_that_guard = Some(api_that.lockable_decode_sync_ref()),
-                            _ => unreachable!(),
-                        }
-                    }
-                    let api_that_guard = api_that_guard.unwrap();
-                    let output_ok = Result::<_, ()>::Ok(ldk_adapter::node::Node::list_payments(
-                        &*api_that_guard,
-                    ))?;
-                    Ok(output_ok)
-                })())
-            }
-        },
-    )
-}
-fn wire__ldk_adapter__node__Node_list_payments_with_filter_impl(
-    port_: flutter_rust_bridge::for_generated::MessagePort,
-    that: impl CstDecode<RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<Node>>>,
-    payment_direction: impl CstDecode<ldk_adapter::types::PaymentDirection>,
-) {
-    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
-        flutter_rust_bridge::for_generated::TaskInfo {
-            debug_name: "Node_list_payments_with_filter",
-            port: Some(port_),
-            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
-        },
-        move || {
-            let api_that = that.cst_decode();
-            let api_payment_direction = payment_direction.cst_decode();
-            move |context| {
-                transform_result_dco::<_, _, ()>((move || {
-                    let mut api_that_guard = None;
-                    let decode_indices_ =
-                        flutter_rust_bridge::for_generated::lockable_compute_decode_order(vec![
-                            flutter_rust_bridge::for_generated::LockableOrderInfo::new(
-                                &api_that, 0, false,
-                            ),
-                        ]);
-                    for i in decode_indices_ {
-                        match i {
-                            0 => api_that_guard = Some(api_that.lockable_decode_sync_ref()),
-                            _ => unreachable!(),
-                        }
-                    }
-                    let api_that_guard = api_that_guard.unwrap();
-                    let output_ok =
-                        Result::<_, ()>::Ok(ldk_adapter::node::Node::list_payments_with_filter(
-                            &*api_that_guard,
-                            api_payment_direction,
-                        ))?;
-                    Ok(output_ok)
-                })())
-            }
-        },
-    )
-}
-fn wire__ldk_adapter__node__Node_list_peers_impl(
-    port_: flutter_rust_bridge::for_generated::MessagePort,
-    that: impl CstDecode<RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<Node>>>,
-) {
-    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
-        flutter_rust_bridge::for_generated::TaskInfo {
-            debug_name: "Node_list_peers",
-            port: Some(port_),
-            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
-        },
-        move || {
-            let api_that = that.cst_decode();
-            move |context| {
-                transform_result_dco::<_, _, ()>((move || {
-                    let mut api_that_guard = None;
-                    let decode_indices_ =
-                        flutter_rust_bridge::for_generated::lockable_compute_decode_order(vec![
-                            flutter_rust_bridge::for_generated::LockableOrderInfo::new(
-                                &api_that, 0, false,
-                            ),
-                        ]);
-                    for i in decode_indices_ {
-                        match i {
-                            0 => api_that_guard = Some(api_that.lockable_decode_sync_ref()),
-                            _ => unreachable!(),
-                        }
-                    }
-                    let api_that_guard = api_that_guard.unwrap();
-                    let output_ok =
-                        Result::<_, ()>::Ok(ldk_adapter::node::Node::list_peers(&*api_that_guard))?;
-                    Ok(output_ok)
-                })())
-            }
-        },
-    )
-}
-fn wire__ldk_adapter__node__Node_listening_addresses_impl(
-    port_: flutter_rust_bridge::for_generated::MessagePort,
-    that: impl CstDecode<RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<Node>>>,
-) {
-    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
-        flutter_rust_bridge::for_generated::TaskInfo {
-            debug_name: "Node_listening_addresses",
-            port: Some(port_),
-            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
-        },
-        move || {
-            let api_that = that.cst_decode();
-            move |context| {
-                transform_result_dco::<_, _, ()>((move || {
-                    let mut api_that_guard = None;
-                    let decode_indices_ =
-                        flutter_rust_bridge::for_generated::lockable_compute_decode_order(vec![
-                            flutter_rust_bridge::for_generated::LockableOrderInfo::new(
-                                &api_that, 0, false,
-                            ),
-                        ]);
-                    for i in decode_indices_ {
-                        match i {
-                            0 => api_that_guard = Some(api_that.lockable_decode_sync_ref()),
-                            _ => unreachable!(),
-                        }
-                    }
-                    let api_that_guard = api_that_guard.unwrap();
-                    let output_ok = Result::<_, ()>::Ok(
-                        ldk_adapter::node::Node::listening_addresses(&*api_that_guard),
-                    )?;
-                    Ok(output_ok)
-                })())
-            }
-        },
-    )
-}
-fn wire__ldk_adapter__node__Node_network_graph_impl(
-    port_: flutter_rust_bridge::for_generated::MessagePort,
-    ptr: impl CstDecode<Node>,
-) {
-    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
-        flutter_rust_bridge::for_generated::TaskInfo {
-            debug_name: "Node_network_graph",
-            port: Some(port_),
-            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
-        },
-        move || {
-            let api_ptr = ptr.cst_decode();
-            move |context| {
-                transform_result_dco::<_, _, ()>((move || {
-                    let output_ok =
-                        Result::<_, ()>::Ok(ldk_adapter::node::Node::network_graph(api_ptr))?;
-                    Ok(output_ok)
-                })())
-            }
-        },
-    )
-}
-fn wire__ldk_adapter__node__Node_next_event_impl(
-    port_: flutter_rust_bridge::for_generated::MessagePort,
-    that: impl CstDecode<RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<Node>>>,
-) {
-    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
-        flutter_rust_bridge::for_generated::TaskInfo {
-            debug_name: "Node_next_event",
-            port: Some(port_),
-            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
-        },
-        move || {
-            let api_that = that.cst_decode();
-            move |context| {
-                transform_result_dco::<_, _, ()>((move || {
-                    let mut api_that_guard = None;
-                    let decode_indices_ =
-                        flutter_rust_bridge::for_generated::lockable_compute_decode_order(vec![
-                            flutter_rust_bridge::for_generated::LockableOrderInfo::new(
-                                &api_that, 0, false,
-                            ),
-                        ]);
-                    for i in decode_indices_ {
-                        match i {
-                            0 => api_that_guard = Some(api_that.lockable_decode_sync_ref()),
-                            _ => unreachable!(),
-                        }
-                    }
-                    let api_that_guard = api_that_guard.unwrap();
-                    let output_ok =
-                        Result::<_, ()>::Ok(ldk_adapter::node::Node::next_event(&*api_that_guard))?;
-                    Ok(output_ok)
-                })())
-            }
-        },
-    )
-}
-fn wire__ldk_adapter__node__Node_next_event_async_impl(
-    port_: flutter_rust_bridge::for_generated::MessagePort,
-    that: impl CstDecode<RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<Node>>>,
-) {
-    FLUTTER_RUST_BRIDGE_HANDLER.wrap_async::<flutter_rust_bridge::for_generated::DcoCodec, _, _, _>(
-        flutter_rust_bridge::for_generated::TaskInfo {
-            debug_name: "Node_next_event_async",
-            port: Some(port_),
-            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
-        },
-        move || {
-            let api_that = that.cst_decode();
-            move |context| async move {
-                transform_result_dco::<_, _, ()>(
-                    (move || async move {
-                        let mut api_that_guard = None;
-                        let decode_indices_ =
-                            flutter_rust_bridge::for_generated::lockable_compute_decode_order(
-                                vec![flutter_rust_bridge::for_generated::LockableOrderInfo::new(
-                                    &api_that, 0, false,
-                                )],
-                            );
-                        for i in decode_indices_ {
-                            match i {
-                                0 => {
-                                    api_that_guard =
-                                        Some(api_that.lockable_decode_async_ref().await)
-                                }
-                                _ => unreachable!(),
-                            }
-                        }
-                        let api_that_guard = api_that_guard.unwrap();
-                        let output_ok = Result::<_, ()>::Ok(
-                            ldk_adapter::node::Node::next_event_async(&*api_that_guard).await,
-                        )?;
-                        Ok(output_ok)
-                    })()
-                    .await,
-                )
-            }
-        },
-    )
-}
-fn wire__ldk_adapter__node__Node_node_id_impl(
-    port_: flutter_rust_bridge::for_generated::MessagePort,
-    that: impl CstDecode<RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<Node>>>,
-) {
-    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
-        flutter_rust_bridge::for_generated::TaskInfo {
-            debug_name: "Node_node_id",
-            port: Some(port_),
-            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
-        },
-        move || {
-            let api_that = that.cst_decode();
-            move |context| {
-                transform_result_dco::<_, _, ()>((move || {
-                    let mut api_that_guard = None;
-                    let decode_indices_ =
-                        flutter_rust_bridge::for_generated::lockable_compute_decode_order(vec![
-                            flutter_rust_bridge::for_generated::LockableOrderInfo::new(
-                                &api_that, 0, false,
-                            ),
-                        ]);
-                    for i in decode_indices_ {
-                        match i {
-                            0 => api_that_guard = Some(api_that.lockable_decode_sync_ref()),
-                            _ => unreachable!(),
-                        }
-                    }
-                    let api_that_guard = api_that_guard.unwrap();
-                    let output_ok =
-                        Result::<_, ()>::Ok(ldk_adapter::node::Node::node_id(&*api_that_guard))?;
-                    Ok(output_ok)
-                })())
-            }
-        },
-    )
-}
-fn wire__ldk_adapter__node__Node_on_chain_payment_impl(
-    port_: flutter_rust_bridge::for_generated::MessagePort,
-    ptr: impl CstDecode<Node>,
-) {
-    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
-        flutter_rust_bridge::for_generated::TaskInfo {
-            debug_name: "Node_on_chain_payment",
-            port: Some(port_),
-            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
-        },
-        move || {
-            let api_ptr = ptr.cst_decode();
-            move |context| {
-                transform_result_dco::<_, _, ()>((move || {
-                    let output_ok =
-                        Result::<_, ()>::Ok(ldk_adapter::node::Node::on_chain_payment(api_ptr))?;
-                    Ok(output_ok)
-                })())
-            }
-        },
-    )
-}
-fn wire__ldk_adapter__node__Node_open_announced_channel_impl(
-    port_: flutter_rust_bridge::for_generated::MessagePort,
-    that: impl CstDecode<RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<Node>>>,
-    socket_address: impl CstDecode<SocketAddress>,
-    node_id: impl CstDecode<shared::PublicKey>,
-    channel_amount_sats: impl CstDecode<u64>,
-    push_to_counterparty_msat: impl CstDecode<Option<u64>>,
-    channel_config: impl CstDecode<Option<ChannelConfig>>,
-) {
-    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
-        flutter_rust_bridge::for_generated::TaskInfo {
-            debug_name: "Node_open_announced_channel",
-            port: Some(port_),
-            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
-        },
-        move || {
-            let api_that = that.cst_decode();
-            let api_socket_address = socket_address.cst_decode();
-            let api_node_id = node_id.cst_decode();
-            let api_channel_amount_sats = channel_amount_sats.cst_decode();
-            let api_push_to_counterparty_msat = push_to_counterparty_msat.cst_decode();
-            let api_channel_config = channel_config.cst_decode();
-            move |context| {
-                transform_result_dco::<_, _, flutter_rust_bridge::for_generated::anyhow::Error>(
-                    (move || {
-                        let mut api_that_guard = None;
-                        let decode_indices_ =
-                            flutter_rust_bridge::for_generated::lockable_compute_decode_order(
-                                vec![flutter_rust_bridge::for_generated::LockableOrderInfo::new(
-                                    &api_that, 0, false,
-                                )],
-                            );
-                        for i in decode_indices_ {
-                            match i {
-                                0 => api_that_guard = Some(api_that.lockable_decode_sync_ref()),
-                                _ => unreachable!(),
-                            }
-                        }
-                        let api_that_guard = api_that_guard.unwrap();
-                        let output_ok = ldk_adapter::node::Node::open_announced_channel(
-                            &*api_that_guard,
-                            api_socket_address,
-                            api_node_id,
-                            api_channel_amount_sats,
-                            api_push_to_counterparty_msat,
-                            api_channel_config,
-                        )?;
-                        Ok(output_ok)
-                    })(),
-                )
-            }
-        },
-    )
-}
-fn wire__ldk_adapter__node__Node_open_channel_impl(
-    port_: flutter_rust_bridge::for_generated::MessagePort,
-    that: impl CstDecode<RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<Node>>>,
-    socket_address: impl CstDecode<SocketAddress>,
-    node_id: impl CstDecode<shared::PublicKey>,
-    channel_amount_sats: impl CstDecode<u64>,
-    push_to_counterparty_msat: impl CstDecode<Option<u64>>,
-    channel_config: impl CstDecode<Option<ChannelConfig>>,
-) {
-    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
-        flutter_rust_bridge::for_generated::TaskInfo {
-            debug_name: "Node_open_channel",
-            port: Some(port_),
-            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
-        },
-        move || {
-            let api_that = that.cst_decode();
-            let api_socket_address = socket_address.cst_decode();
-            let api_node_id = node_id.cst_decode();
-            let api_channel_amount_sats = channel_amount_sats.cst_decode();
-            let api_push_to_counterparty_msat = push_to_counterparty_msat.cst_decode();
-            let api_channel_config = channel_config.cst_decode();
-            move |context| {
-                transform_result_dco::<_, _, flutter_rust_bridge::for_generated::anyhow::Error>(
-                    (move || {
-                        let mut api_that_guard = None;
-                        let decode_indices_ =
-                            flutter_rust_bridge::for_generated::lockable_compute_decode_order(
-                                vec![flutter_rust_bridge::for_generated::LockableOrderInfo::new(
-                                    &api_that, 0, false,
-                                )],
-                            );
-                        for i in decode_indices_ {
-                            match i {
-                                0 => api_that_guard = Some(api_that.lockable_decode_sync_ref()),
-                                _ => unreachable!(),
-                            }
-                        }
-                        let api_that_guard = api_that_guard.unwrap();
-                        let output_ok = ldk_adapter::node::Node::open_channel(
-                            &*api_that_guard,
-                            api_socket_address,
-                            api_node_id,
-                            api_channel_amount_sats,
-                            api_push_to_counterparty_msat,
-                            api_channel_config,
-                        )?;
-                        Ok(output_ok)
-                    })(),
-                )
-            }
-        },
-    )
-}
-fn wire__ldk_adapter__node__Node_payment_impl(
-    port_: flutter_rust_bridge::for_generated::MessagePort,
-    that: impl CstDecode<RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<Node>>>,
-    payment_id: impl CstDecode<shared::PaymentId>,
-) {
-    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
-        flutter_rust_bridge::for_generated::TaskInfo {
-            debug_name: "Node_payment",
-            port: Some(port_),
-            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
-        },
-        move || {
-            let api_that = that.cst_decode();
-            let api_payment_id = payment_id.cst_decode();
-            move |context| {
-                transform_result_dco::<_, _, ()>((move || {
-                    let mut api_that_guard = None;
-                    let decode_indices_ =
-                        flutter_rust_bridge::for_generated::lockable_compute_decode_order(vec![
-                            flutter_rust_bridge::for_generated::LockableOrderInfo::new(
-                                &api_that, 0, false,
-                            ),
-                        ]);
-                    for i in decode_indices_ {
-                        match i {
-                            0 => api_that_guard = Some(api_that.lockable_decode_sync_ref()),
-                            _ => unreachable!(),
-                        }
-                    }
-                    let api_that_guard = api_that_guard.unwrap();
-                    let output_ok = Result::<_, ()>::Ok(ldk_adapter::node::Node::payment(
-                        &*api_that_guard,
-                        api_payment_id,
-                    ))?;
-                    Ok(output_ok)
-                })())
-            }
-        },
-    )
-}
-fn wire__ldk_adapter__node__Node_remove_payment_impl(
-    port_: flutter_rust_bridge::for_generated::MessagePort,
-    that: impl CstDecode<RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<Node>>>,
-    payment_id: impl CstDecode<shared::PaymentId>,
-) {
-    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
-        flutter_rust_bridge::for_generated::TaskInfo {
-            debug_name: "Node_remove_payment",
-            port: Some(port_),
-            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
-        },
-        move || {
-            let api_that = that.cst_decode();
-            let api_payment_id = payment_id.cst_decode();
-            move |context| {
-                transform_result_dco::<_, _, flutter_rust_bridge::for_generated::anyhow::Error>(
-                    (move || {
-                        let mut api_that_guard = None;
-                        let decode_indices_ =
-                            flutter_rust_bridge::for_generated::lockable_compute_decode_order(
-                                vec![flutter_rust_bridge::for_generated::LockableOrderInfo::new(
-                                    &api_that, 0, false,
-                                )],
-                            );
-                        for i in decode_indices_ {
-                            match i {
-                                0 => api_that_guard = Some(api_that.lockable_decode_sync_ref()),
-                                _ => unreachable!(),
-                            }
-                        }
-                        let api_that_guard = api_that_guard.unwrap();
-                        let output_ok = ldk_adapter::node::Node::remove_payment(
-                            &*api_that_guard,
-                            api_payment_id,
-                        )?;
-                        Ok(output_ok)
-                    })(),
-                )
-            }
-        },
-    )
-}
-fn wire__ldk_adapter__node__Node_sign_message_impl(
-    port_: flutter_rust_bridge::for_generated::MessagePort,
-    that: impl CstDecode<RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<Node>>>,
-    msg: impl CstDecode<Vec<u8>>,
-) {
-    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
-        flutter_rust_bridge::for_generated::TaskInfo {
-            debug_name: "Node_sign_message",
-            port: Some(port_),
-            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
-        },
-        move || {
-            let api_that = that.cst_decode();
-            let api_msg = msg.cst_decode();
-            move |context| {
-                transform_result_dco::<_, _, ()>((move || {
-                    let mut api_that_guard = None;
-                    let decode_indices_ =
-                        flutter_rust_bridge::for_generated::lockable_compute_decode_order(vec![
-                            flutter_rust_bridge::for_generated::LockableOrderInfo::new(
-                                &api_that, 0, false,
-                            ),
-                        ]);
-                    for i in decode_indices_ {
-                        match i {
-                            0 => api_that_guard = Some(api_that.lockable_decode_sync_ref()),
-                            _ => unreachable!(),
-                        }
-                    }
-                    let api_that_guard = api_that_guard.unwrap();
-                    let output_ok = Result::<_, ()>::Ok(ldk_adapter::node::Node::sign_message(
-                        &*api_that_guard,
-                        api_msg,
-                    ))?;
-                    Ok(output_ok)
-                })())
-            }
-        },
-    )
-}
-fn wire__ldk_adapter__node__Node_spontaneous_payment_impl(
-    port_: flutter_rust_bridge::for_generated::MessagePort,
-    ptr: impl CstDecode<Node>,
-) {
-    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
-        flutter_rust_bridge::for_generated::TaskInfo {
-            debug_name: "Node_spontaneous_payment",
-            port: Some(port_),
-            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
-        },
-        move || {
-            let api_ptr = ptr.cst_decode();
-            move |context| {
-                transform_result_dco::<_, _, ()>((move || {
-                    let output_ok =
-                        Result::<_, ()>::Ok(ldk_adapter::node::Node::spontaneous_payment(api_ptr))?;
-                    Ok(output_ok)
-                })())
-            }
-        },
-    )
-}
-fn wire__ldk_adapter__node__Node_start_impl(
-    port_: flutter_rust_bridge::for_generated::MessagePort,
-    that: impl CstDecode<RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<Node>>>,
-) {
-    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
-        flutter_rust_bridge::for_generated::TaskInfo {
-            debug_name: "Node_start",
-            port: Some(port_),
-            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
-        },
-        move || {
-            let api_that = that.cst_decode();
-            move |context| {
-                transform_result_dco::<_, _, flutter_rust_bridge::for_generated::anyhow::Error>(
-                    (move || {
-                        let mut api_that_guard = None;
-                        let decode_indices_ =
-                            flutter_rust_bridge::for_generated::lockable_compute_decode_order(
-                                vec![flutter_rust_bridge::for_generated::LockableOrderInfo::new(
-                                    &api_that, 0, false,
-                                )],
-                            );
-                        for i in decode_indices_ {
-                            match i {
-                                0 => api_that_guard = Some(api_that.lockable_decode_sync_ref()),
-                                _ => unreachable!(),
-                            }
-                        }
-                        let api_that_guard = api_that_guard.unwrap();
-                        let output_ok = ldk_adapter::node::Node::start(&*api_that_guard)?;
-                        Ok(output_ok)
-                    })(),
-                )
-            }
-        },
-    )
-}
-fn wire__ldk_adapter__node__Node_status_impl(
-    port_: flutter_rust_bridge::for_generated::MessagePort,
-    that: impl CstDecode<RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<Node>>>,
-) {
-    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
-        flutter_rust_bridge::for_generated::TaskInfo {
-            debug_name: "Node_status",
-            port: Some(port_),
-            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
-        },
-        move || {
-            let api_that = that.cst_decode();
-            move |context| {
-                transform_result_dco::<_, _, ()>((move || {
-                    let mut api_that_guard = None;
-                    let decode_indices_ =
-                        flutter_rust_bridge::for_generated::lockable_compute_decode_order(vec![
-                            flutter_rust_bridge::for_generated::LockableOrderInfo::new(
-                                &api_that, 0, false,
-                            ),
-                        ]);
-                    for i in decode_indices_ {
-                        match i {
-                            0 => api_that_guard = Some(api_that.lockable_decode_sync_ref()),
-                            _ => unreachable!(),
-                        }
-                    }
-                    let api_that_guard = api_that_guard.unwrap();
-                    let output_ok =
-                        Result::<_, ()>::Ok(ldk_adapter::node::Node::status(&*api_that_guard))?;
-                    Ok(output_ok)
-                })())
-            }
-        },
-    )
-}
-fn wire__ldk_adapter__node__Node_stop_impl(
-    port_: flutter_rust_bridge::for_generated::MessagePort,
-    that: impl CstDecode<RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<Node>>>,
-) {
-    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
-        flutter_rust_bridge::for_generated::TaskInfo {
-            debug_name: "Node_stop",
-            port: Some(port_),
-            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
-        },
-        move || {
-            let api_that = that.cst_decode();
-            move |context| {
-                transform_result_dco::<_, _, flutter_rust_bridge::for_generated::anyhow::Error>(
-                    (move || {
-                        let mut api_that_guard = None;
-                        let decode_indices_ =
-                            flutter_rust_bridge::for_generated::lockable_compute_decode_order(
-                                vec![flutter_rust_bridge::for_generated::LockableOrderInfo::new(
-                                    &api_that, 0, false,
-                                )],
-                            );
-                        for i in decode_indices_ {
-                            match i {
-                                0 => api_that_guard = Some(api_that.lockable_decode_sync_ref()),
-                                _ => unreachable!(),
-                            }
-                        }
-                        let api_that_guard = api_that_guard.unwrap();
-                        let output_ok = ldk_adapter::node::Node::stop(&*api_that_guard)?;
-                        Ok(output_ok)
-                    })(),
-                )
-            }
-        },
-    )
-}
-fn wire__ldk_adapter__node__Node_sync_wallets_impl(
-    port_: flutter_rust_bridge::for_generated::MessagePort,
-    that: impl CstDecode<RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<Node>>>,
-) {
-    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
-        flutter_rust_bridge::for_generated::TaskInfo {
-            debug_name: "Node_sync_wallets",
-            port: Some(port_),
-            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
-        },
-        move || {
-            let api_that = that.cst_decode();
-            move |context| {
-                transform_result_dco::<_, _, flutter_rust_bridge::for_generated::anyhow::Error>(
-                    (move || {
-                        let mut api_that_guard = None;
-                        let decode_indices_ =
-                            flutter_rust_bridge::for_generated::lockable_compute_decode_order(
-                                vec![flutter_rust_bridge::for_generated::LockableOrderInfo::new(
-                                    &api_that, 0, false,
-                                )],
-                            );
-                        for i in decode_indices_ {
-                            match i {
-                                0 => api_that_guard = Some(api_that.lockable_decode_sync_ref()),
-                                _ => unreachable!(),
-                            }
-                        }
-                        let api_that_guard = api_that_guard.unwrap();
-                        let output_ok = ldk_adapter::node::Node::sync_wallets(&*api_that_guard)?;
-                        Ok(output_ok)
-                    })(),
-                )
-            }
-        },
-    )
-}
-fn wire__ldk_adapter__node__Node_unified_qr_payment_impl(
-    port_: flutter_rust_bridge::for_generated::MessagePort,
-    ptr: impl CstDecode<Node>,
-) {
-    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
-        flutter_rust_bridge::for_generated::TaskInfo {
-            debug_name: "Node_unified_qr_payment",
-            port: Some(port_),
-            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
-        },
-        move || {
-            let api_ptr = ptr.cst_decode();
-            move |context| {
-                transform_result_dco::<_, _, ()>((move || {
-                    let output_ok =
-                        Result::<_, ()>::Ok(ldk_adapter::node::Node::unified_qr_payment(api_ptr))?;
-                    Ok(output_ok)
-                })())
-            }
-        },
-    )
-}
-fn wire__ldk_adapter__node__Node_update_channel_config_impl(
-    port_: flutter_rust_bridge::for_generated::MessagePort,
-    that: impl CstDecode<RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<Node>>>,
-    user_channel_id: impl CstDecode<ldk_adapter::types::UserChannelId>,
-    counterparty_node_id: impl CstDecode<shared::PublicKey>,
-    channel_config: impl CstDecode<ChannelConfig>,
-) {
-    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
-        flutter_rust_bridge::for_generated::TaskInfo {
-            debug_name: "Node_update_channel_config",
-            port: Some(port_),
-            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
-        },
-        move || {
-            let api_that = that.cst_decode();
-            let api_user_channel_id = user_channel_id.cst_decode();
-            let api_counterparty_node_id = counterparty_node_id.cst_decode();
-            let api_channel_config = channel_config.cst_decode();
-            move |context| {
-                transform_result_dco::<_, _, flutter_rust_bridge::for_generated::anyhow::Error>(
-                    (move || {
-                        let mut api_that_guard = None;
-                        let decode_indices_ =
-                            flutter_rust_bridge::for_generated::lockable_compute_decode_order(
-                                vec![flutter_rust_bridge::for_generated::LockableOrderInfo::new(
-                                    &api_that, 0, false,
-                                )],
-                            );
-                        for i in decode_indices_ {
-                            match i {
-                                0 => api_that_guard = Some(api_that.lockable_decode_sync_ref()),
-                                _ => unreachable!(),
-                            }
-                        }
-                        let api_that_guard = api_that_guard.unwrap();
-                        let output_ok = ldk_adapter::node::Node::update_channel_config(
-                            &*api_that_guard,
-                            api_user_channel_id,
-                            api_counterparty_node_id,
-                            api_channel_config,
-                        )?;
-                        Ok(output_ok)
-                    })(),
-                )
-            }
-        },
-    )
-}
-fn wire__ldk_adapter__node__Node_verify_signature_impl(
-    port_: flutter_rust_bridge::for_generated::MessagePort,
-    that: impl CstDecode<RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<Node>>>,
-    msg: impl CstDecode<Vec<u8>>,
-    sig: impl CstDecode<String>,
-    public_key: impl CstDecode<shared::PublicKey>,
-) {
-    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
-        flutter_rust_bridge::for_generated::TaskInfo {
-            debug_name: "Node_verify_signature",
-            port: Some(port_),
-            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
-        },
-        move || {
-            let api_that = that.cst_decode();
-            let api_msg = msg.cst_decode();
-            let api_sig = sig.cst_decode();
-            let api_public_key = public_key.cst_decode();
-            move |context| {
-                transform_result_dco::<_, _, flutter_rust_bridge::for_generated::anyhow::Error>(
-                    (move || {
-                        let mut api_that_guard = None;
-                        let decode_indices_ =
-                            flutter_rust_bridge::for_generated::lockable_compute_decode_order(
-                                vec![flutter_rust_bridge::for_generated::LockableOrderInfo::new(
-                                    &api_that, 0, false,
-                                )],
-                            );
-                        for i in decode_indices_ {
-                            match i {
-                                0 => api_that_guard = Some(api_that.lockable_decode_sync_ref()),
-                                _ => unreachable!(),
-                            }
-                        }
-                        let api_that_guard = api_that_guard.unwrap();
-                        let output_ok = ldk_adapter::node::Node::verify_signature(
-                            &*api_that_guard,
-                            api_msg,
-                            api_sig,
-                            api_public_key,
-                        )?;
-                        Ok(output_ok)
-                    })(),
-                )
-            }
-        },
-    )
-}
-fn wire__ldk_adapter__node__Node_wait_next_event_impl(
-    port_: flutter_rust_bridge::for_generated::MessagePort,
-    that: impl CstDecode<RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<Node>>>,
-) {
-    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
-        flutter_rust_bridge::for_generated::TaskInfo {
-            debug_name: "Node_wait_next_event",
-            port: Some(port_),
-            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
-        },
-        move || {
-            let api_that = that.cst_decode();
-            move |context| {
-                transform_result_dco::<_, _, ()>((move || {
-                    let mut api_that_guard = None;
-                    let decode_indices_ =
-                        flutter_rust_bridge::for_generated::lockable_compute_decode_order(vec![
-                            flutter_rust_bridge::for_generated::LockableOrderInfo::new(
-                                &api_that, 0, false,
-                            ),
-                        ]);
-                    for i in decode_indices_ {
-                        match i {
-                            0 => api_that_guard = Some(api_that.lockable_decode_sync_ref()),
-                            _ => unreachable!(),
-                        }
-                    }
-                    let api_that_guard = api_that_guard.unwrap();
-                    let output_ok = Result::<_, ()>::Ok(ldk_adapter::node::Node::wait_next_event(
-                        &*api_that_guard,
-                    ))?;
-                    Ok(output_ok)
-                })())
-            }
+                }
+                let mut api_that_guard = api_that_guard.unwrap();
+                let output_ok = Result::<_, ()>::Ok({
+                    {
+                        api_that_guard.inner = api_inner;
+                    };
+                })?;
+                Ok(output_ok)
+            })())
         },
     )
 }
@@ -6418,1448 +4264,6 @@ fn wire__ldk_adapter__on_chain__OnChainPayment_send_to_address_impl(
             }
         },
     )
-}
-fn wire__ldk_adapter__types__PaymentDetails_auto_accessor_get_amount_msat_impl(
-    that: impl CstDecode<
-        RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<PaymentDetails>>,
-    >,
-) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
-    FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync::<flutter_rust_bridge::for_generated::DcoCodec, _>(
-        flutter_rust_bridge::for_generated::TaskInfo {
-            debug_name: "PaymentDetails_auto_accessor_get_amount_msat",
-            port: None,
-            mode: flutter_rust_bridge::for_generated::FfiCallMode::Sync,
-        },
-        move || {
-            let api_that = that.cst_decode();
-            transform_result_dco::<_, _, ()>((move || {
-                let mut api_that_guard = None;
-                let decode_indices_ =
-                    flutter_rust_bridge::for_generated::lockable_compute_decode_order(vec![
-                        flutter_rust_bridge::for_generated::LockableOrderInfo::new(
-                            &api_that, 0, false,
-                        ),
-                    ]);
-                for i in decode_indices_ {
-                    match i {
-                        0 => api_that_guard = Some(api_that.lockable_decode_sync_ref()),
-                        _ => unreachable!(),
-                    }
-                }
-                let api_that_guard = api_that_guard.unwrap();
-                let output_ok = Result::<_, ()>::Ok(api_that_guard.amount_msat.clone())?;
-                Ok(output_ok)
-            })())
-        },
-    )
-}
-fn wire__ldk_adapter__types__PaymentDetails_auto_accessor_get_direction_impl(
-    that: impl CstDecode<
-        RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<PaymentDetails>>,
-    >,
-) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
-    FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync::<flutter_rust_bridge::for_generated::DcoCodec, _>(
-        flutter_rust_bridge::for_generated::TaskInfo {
-            debug_name: "PaymentDetails_auto_accessor_get_direction",
-            port: None,
-            mode: flutter_rust_bridge::for_generated::FfiCallMode::Sync,
-        },
-        move || {
-            let api_that = that.cst_decode();
-            transform_result_dco::<_, _, ()>((move || {
-                let mut api_that_guard = None;
-                let decode_indices_ =
-                    flutter_rust_bridge::for_generated::lockable_compute_decode_order(vec![
-                        flutter_rust_bridge::for_generated::LockableOrderInfo::new(
-                            &api_that, 0, false,
-                        ),
-                    ]);
-                for i in decode_indices_ {
-                    match i {
-                        0 => api_that_guard = Some(api_that.lockable_decode_sync_ref()),
-                        _ => unreachable!(),
-                    }
-                }
-                let api_that_guard = api_that_guard.unwrap();
-                let output_ok = Result::<_, ()>::Ok(api_that_guard.direction.clone())?;
-                Ok(output_ok)
-            })())
-        },
-    )
-}
-fn wire__ldk_adapter__types__PaymentDetails_auto_accessor_get_id_impl(
-    that: impl CstDecode<
-        RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<PaymentDetails>>,
-    >,
-) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
-    FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync::<flutter_rust_bridge::for_generated::DcoCodec, _>(
-        flutter_rust_bridge::for_generated::TaskInfo {
-            debug_name: "PaymentDetails_auto_accessor_get_id",
-            port: None,
-            mode: flutter_rust_bridge::for_generated::FfiCallMode::Sync,
-        },
-        move || {
-            let api_that = that.cst_decode();
-            transform_result_dco::<_, _, ()>((move || {
-                let mut api_that_guard = None;
-                let decode_indices_ =
-                    flutter_rust_bridge::for_generated::lockable_compute_decode_order(vec![
-                        flutter_rust_bridge::for_generated::LockableOrderInfo::new(
-                            &api_that, 0, false,
-                        ),
-                    ]);
-                for i in decode_indices_ {
-                    match i {
-                        0 => api_that_guard = Some(api_that.lockable_decode_sync_ref()),
-                        _ => unreachable!(),
-                    }
-                }
-                let api_that_guard = api_that_guard.unwrap();
-                let output_ok = Result::<_, ()>::Ok(api_that_guard.id.clone())?;
-                Ok(output_ok)
-            })())
-        },
-    )
-}
-fn wire__ldk_adapter__types__PaymentDetails_auto_accessor_get_kind_impl(
-    that: impl CstDecode<
-        RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<PaymentDetails>>,
-    >,
-) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
-    FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync::<flutter_rust_bridge::for_generated::DcoCodec, _>(
-        flutter_rust_bridge::for_generated::TaskInfo {
-            debug_name: "PaymentDetails_auto_accessor_get_kind",
-            port: None,
-            mode: flutter_rust_bridge::for_generated::FfiCallMode::Sync,
-        },
-        move || {
-            let api_that = that.cst_decode();
-            transform_result_dco::<_, _, ()>((move || {
-                let mut api_that_guard = None;
-                let decode_indices_ =
-                    flutter_rust_bridge::for_generated::lockable_compute_decode_order(vec![
-                        flutter_rust_bridge::for_generated::LockableOrderInfo::new(
-                            &api_that, 0, false,
-                        ),
-                    ]);
-                for i in decode_indices_ {
-                    match i {
-                        0 => api_that_guard = Some(api_that.lockable_decode_sync_ref()),
-                        _ => unreachable!(),
-                    }
-                }
-                let api_that_guard = api_that_guard.unwrap();
-                let output_ok = Result::<_, ()>::Ok(api_that_guard.kind.clone())?;
-                Ok(output_ok)
-            })())
-        },
-    )
-}
-fn wire__ldk_adapter__types__PaymentDetails_auto_accessor_get_latest_update_timestamp_impl(
-    that: impl CstDecode<
-        RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<PaymentDetails>>,
-    >,
-) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
-    FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync::<flutter_rust_bridge::for_generated::DcoCodec, _>(
-        flutter_rust_bridge::for_generated::TaskInfo {
-            debug_name: "PaymentDetails_auto_accessor_get_latest_update_timestamp",
-            port: None,
-            mode: flutter_rust_bridge::for_generated::FfiCallMode::Sync,
-        },
-        move || {
-            let api_that = that.cst_decode();
-            transform_result_dco::<_, _, ()>((move || {
-                let mut api_that_guard = None;
-                let decode_indices_ =
-                    flutter_rust_bridge::for_generated::lockable_compute_decode_order(vec![
-                        flutter_rust_bridge::for_generated::LockableOrderInfo::new(
-                            &api_that, 0, false,
-                        ),
-                    ]);
-                for i in decode_indices_ {
-                    match i {
-                        0 => api_that_guard = Some(api_that.lockable_decode_sync_ref()),
-                        _ => unreachable!(),
-                    }
-                }
-                let api_that_guard = api_that_guard.unwrap();
-                let output_ok =
-                    Result::<_, ()>::Ok(api_that_guard.latest_update_timestamp.clone())?;
-                Ok(output_ok)
-            })())
-        },
-    )
-}
-fn wire__ldk_adapter__types__PaymentDetails_auto_accessor_get_status_impl(
-    that: impl CstDecode<
-        RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<PaymentDetails>>,
-    >,
-) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
-    FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync::<flutter_rust_bridge::for_generated::DcoCodec, _>(
-        flutter_rust_bridge::for_generated::TaskInfo {
-            debug_name: "PaymentDetails_auto_accessor_get_status",
-            port: None,
-            mode: flutter_rust_bridge::for_generated::FfiCallMode::Sync,
-        },
-        move || {
-            let api_that = that.cst_decode();
-            transform_result_dco::<_, _, ()>((move || {
-                let mut api_that_guard = None;
-                let decode_indices_ =
-                    flutter_rust_bridge::for_generated::lockable_compute_decode_order(vec![
-                        flutter_rust_bridge::for_generated::LockableOrderInfo::new(
-                            &api_that, 0, false,
-                        ),
-                    ]);
-                for i in decode_indices_ {
-                    match i {
-                        0 => api_that_guard = Some(api_that.lockable_decode_sync_ref()),
-                        _ => unreachable!(),
-                    }
-                }
-                let api_that_guard = api_that_guard.unwrap();
-                let output_ok = Result::<_, ()>::Ok(api_that_guard.status.clone())?;
-                Ok(output_ok)
-            })())
-        },
-    )
-}
-fn wire__ldk_adapter__types__PaymentDetails_auto_accessor_set_amount_msat_impl(
-    that: impl CstDecode<
-        RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<PaymentDetails>>,
-    >,
-    amount_msat: impl CstDecode<Option<u64>>,
-) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
-    FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync::<flutter_rust_bridge::for_generated::DcoCodec, _>(
-        flutter_rust_bridge::for_generated::TaskInfo {
-            debug_name: "PaymentDetails_auto_accessor_set_amount_msat",
-            port: None,
-            mode: flutter_rust_bridge::for_generated::FfiCallMode::Sync,
-        },
-        move || {
-            let api_that = that.cst_decode();
-            let api_amount_msat = amount_msat.cst_decode();
-            transform_result_dco::<_, _, ()>((move || {
-                let mut api_that_guard = None;
-                let decode_indices_ =
-                    flutter_rust_bridge::for_generated::lockable_compute_decode_order(vec![
-                        flutter_rust_bridge::for_generated::LockableOrderInfo::new(
-                            &api_that, 0, true,
-                        ),
-                    ]);
-                for i in decode_indices_ {
-                    match i {
-                        0 => api_that_guard = Some(api_that.lockable_decode_sync_ref_mut()),
-                        _ => unreachable!(),
-                    }
-                }
-                let mut api_that_guard = api_that_guard.unwrap();
-                let output_ok = Result::<_, ()>::Ok({
-                    {
-                        api_that_guard.amount_msat = api_amount_msat;
-                    };
-                })?;
-                Ok(output_ok)
-            })())
-        },
-    )
-}
-fn wire__ldk_adapter__types__PaymentDetails_auto_accessor_set_direction_impl(
-    that: impl CstDecode<
-        RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<PaymentDetails>>,
-    >,
-    direction: impl CstDecode<ldk_adapter::types::PaymentDirection>,
-) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
-    FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync::<flutter_rust_bridge::for_generated::DcoCodec, _>(
-        flutter_rust_bridge::for_generated::TaskInfo {
-            debug_name: "PaymentDetails_auto_accessor_set_direction",
-            port: None,
-            mode: flutter_rust_bridge::for_generated::FfiCallMode::Sync,
-        },
-        move || {
-            let api_that = that.cst_decode();
-            let api_direction = direction.cst_decode();
-            transform_result_dco::<_, _, ()>((move || {
-                let mut api_that_guard = None;
-                let decode_indices_ =
-                    flutter_rust_bridge::for_generated::lockable_compute_decode_order(vec![
-                        flutter_rust_bridge::for_generated::LockableOrderInfo::new(
-                            &api_that, 0, true,
-                        ),
-                    ]);
-                for i in decode_indices_ {
-                    match i {
-                        0 => api_that_guard = Some(api_that.lockable_decode_sync_ref_mut()),
-                        _ => unreachable!(),
-                    }
-                }
-                let mut api_that_guard = api_that_guard.unwrap();
-                let output_ok = Result::<_, ()>::Ok({
-                    {
-                        api_that_guard.direction = api_direction;
-                    };
-                })?;
-                Ok(output_ok)
-            })())
-        },
-    )
-}
-fn wire__ldk_adapter__types__PaymentDetails_auto_accessor_set_id_impl(
-    that: impl CstDecode<
-        RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<PaymentDetails>>,
-    >,
-    id: impl CstDecode<shared::PaymentId>,
-) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
-    FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync::<flutter_rust_bridge::for_generated::DcoCodec, _>(
-        flutter_rust_bridge::for_generated::TaskInfo {
-            debug_name: "PaymentDetails_auto_accessor_set_id",
-            port: None,
-            mode: flutter_rust_bridge::for_generated::FfiCallMode::Sync,
-        },
-        move || {
-            let api_that = that.cst_decode();
-            let api_id = id.cst_decode();
-            transform_result_dco::<_, _, ()>((move || {
-                let mut api_that_guard = None;
-                let decode_indices_ =
-                    flutter_rust_bridge::for_generated::lockable_compute_decode_order(vec![
-                        flutter_rust_bridge::for_generated::LockableOrderInfo::new(
-                            &api_that, 0, true,
-                        ),
-                    ]);
-                for i in decode_indices_ {
-                    match i {
-                        0 => api_that_guard = Some(api_that.lockable_decode_sync_ref_mut()),
-                        _ => unreachable!(),
-                    }
-                }
-                let mut api_that_guard = api_that_guard.unwrap();
-                let output_ok = Result::<_, ()>::Ok({
-                    {
-                        api_that_guard.id = api_id;
-                    };
-                })?;
-                Ok(output_ok)
-            })())
-        },
-    )
-}
-fn wire__ldk_adapter__types__PaymentDetails_auto_accessor_set_kind_impl(
-    that: impl CstDecode<
-        RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<PaymentDetails>>,
-    >,
-    kind: impl CstDecode<PaymentKind>,
-) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
-    FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync::<flutter_rust_bridge::for_generated::DcoCodec, _>(
-        flutter_rust_bridge::for_generated::TaskInfo {
-            debug_name: "PaymentDetails_auto_accessor_set_kind",
-            port: None,
-            mode: flutter_rust_bridge::for_generated::FfiCallMode::Sync,
-        },
-        move || {
-            let api_that = that.cst_decode();
-            let api_kind = kind.cst_decode();
-            transform_result_dco::<_, _, ()>((move || {
-                let mut api_that_guard = None;
-                let decode_indices_ =
-                    flutter_rust_bridge::for_generated::lockable_compute_decode_order(vec![
-                        flutter_rust_bridge::for_generated::LockableOrderInfo::new(
-                            &api_that, 0, true,
-                        ),
-                    ]);
-                for i in decode_indices_ {
-                    match i {
-                        0 => api_that_guard = Some(api_that.lockable_decode_sync_ref_mut()),
-                        _ => unreachable!(),
-                    }
-                }
-                let mut api_that_guard = api_that_guard.unwrap();
-                let output_ok = Result::<_, ()>::Ok({
-                    {
-                        api_that_guard.kind = api_kind;
-                    };
-                })?;
-                Ok(output_ok)
-            })())
-        },
-    )
-}
-fn wire__ldk_adapter__types__PaymentDetails_auto_accessor_set_latest_update_timestamp_impl(
-    that: impl CstDecode<
-        RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<PaymentDetails>>,
-    >,
-    latest_update_timestamp: impl CstDecode<u64>,
-) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
-    FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync::<flutter_rust_bridge::for_generated::DcoCodec, _>(
-        flutter_rust_bridge::for_generated::TaskInfo {
-            debug_name: "PaymentDetails_auto_accessor_set_latest_update_timestamp",
-            port: None,
-            mode: flutter_rust_bridge::for_generated::FfiCallMode::Sync,
-        },
-        move || {
-            let api_that = that.cst_decode();
-            let api_latest_update_timestamp = latest_update_timestamp.cst_decode();
-            transform_result_dco::<_, _, ()>((move || {
-                let mut api_that_guard = None;
-                let decode_indices_ =
-                    flutter_rust_bridge::for_generated::lockable_compute_decode_order(vec![
-                        flutter_rust_bridge::for_generated::LockableOrderInfo::new(
-                            &api_that, 0, true,
-                        ),
-                    ]);
-                for i in decode_indices_ {
-                    match i {
-                        0 => api_that_guard = Some(api_that.lockable_decode_sync_ref_mut()),
-                        _ => unreachable!(),
-                    }
-                }
-                let mut api_that_guard = api_that_guard.unwrap();
-                let output_ok = Result::<_, ()>::Ok({
-                    {
-                        api_that_guard.latest_update_timestamp = api_latest_update_timestamp;
-                    };
-                })?;
-                Ok(output_ok)
-            })())
-        },
-    )
-}
-fn wire__ldk_adapter__types__PaymentDetails_auto_accessor_set_status_impl(
-    that: impl CstDecode<
-        RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<PaymentDetails>>,
-    >,
-    status: impl CstDecode<ldk_adapter::types::PaymentStatus>,
-) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
-    FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync::<flutter_rust_bridge::for_generated::DcoCodec, _>(
-        flutter_rust_bridge::for_generated::TaskInfo {
-            debug_name: "PaymentDetails_auto_accessor_set_status",
-            port: None,
-            mode: flutter_rust_bridge::for_generated::FfiCallMode::Sync,
-        },
-        move || {
-            let api_that = that.cst_decode();
-            let api_status = status.cst_decode();
-            transform_result_dco::<_, _, ()>((move || {
-                let mut api_that_guard = None;
-                let decode_indices_ =
-                    flutter_rust_bridge::for_generated::lockable_compute_decode_order(vec![
-                        flutter_rust_bridge::for_generated::LockableOrderInfo::new(
-                            &api_that, 0, true,
-                        ),
-                    ]);
-                for i in decode_indices_ {
-                    match i {
-                        0 => api_that_guard = Some(api_that.lockable_decode_sync_ref_mut()),
-                        _ => unreachable!(),
-                    }
-                }
-                let mut api_that_guard = api_that_guard.unwrap();
-                let output_ok = Result::<_, ()>::Ok({
-                    {
-                        api_that_guard.status = api_status;
-                    };
-                })?;
-                Ok(output_ok)
-            })())
-        },
-    )
-}
-fn wire__ldk_adapter__types__PaymentDetails_is_failed_impl(
-    port_: flutter_rust_bridge::for_generated::MessagePort,
-    that: impl CstDecode<
-        RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<PaymentDetails>>,
-    >,
-) {
-    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
-        flutter_rust_bridge::for_generated::TaskInfo {
-            debug_name: "PaymentDetails_is_failed",
-            port: Some(port_),
-            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
-        },
-        move || {
-            let api_that = that.cst_decode();
-            move |context| {
-                transform_result_dco::<_, _, ()>((move || {
-                    let mut api_that_guard = None;
-                    let decode_indices_ =
-                        flutter_rust_bridge::for_generated::lockable_compute_decode_order(vec![
-                            flutter_rust_bridge::for_generated::LockableOrderInfo::new(
-                                &api_that, 0, false,
-                            ),
-                        ]);
-                    for i in decode_indices_ {
-                        match i {
-                            0 => api_that_guard = Some(api_that.lockable_decode_sync_ref()),
-                            _ => unreachable!(),
-                        }
-                    }
-                    let api_that_guard = api_that_guard.unwrap();
-                    let output_ok = Result::<_, ()>::Ok(
-                        ldk_adapter::types::PaymentDetails::is_failed(&*api_that_guard),
-                    )?;
-                    Ok(output_ok)
-                })())
-            }
-        },
-    )
-}
-fn wire__ldk_adapter__types__PaymentDetails_is_pending_impl(
-    port_: flutter_rust_bridge::for_generated::MessagePort,
-    that: impl CstDecode<
-        RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<PaymentDetails>>,
-    >,
-) {
-    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
-        flutter_rust_bridge::for_generated::TaskInfo {
-            debug_name: "PaymentDetails_is_pending",
-            port: Some(port_),
-            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
-        },
-        move || {
-            let api_that = that.cst_decode();
-            move |context| {
-                transform_result_dco::<_, _, ()>((move || {
-                    let mut api_that_guard = None;
-                    let decode_indices_ =
-                        flutter_rust_bridge::for_generated::lockable_compute_decode_order(vec![
-                            flutter_rust_bridge::for_generated::LockableOrderInfo::new(
-                                &api_that, 0, false,
-                            ),
-                        ]);
-                    for i in decode_indices_ {
-                        match i {
-                            0 => api_that_guard = Some(api_that.lockable_decode_sync_ref()),
-                            _ => unreachable!(),
-                        }
-                    }
-                    let api_that_guard = api_that_guard.unwrap();
-                    let output_ok = Result::<_, ()>::Ok(
-                        ldk_adapter::types::PaymentDetails::is_pending(&*api_that_guard),
-                    )?;
-                    Ok(output_ok)
-                })())
-            }
-        },
-    )
-}
-fn wire__ldk_adapter__types__PaymentDetails_is_succeeded_impl(
-    port_: flutter_rust_bridge::for_generated::MessagePort,
-    that: impl CstDecode<
-        RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<PaymentDetails>>,
-    >,
-) {
-    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
-        flutter_rust_bridge::for_generated::TaskInfo {
-            debug_name: "PaymentDetails_is_succeeded",
-            port: Some(port_),
-            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
-        },
-        move || {
-            let api_that = that.cst_decode();
-            move |context| {
-                transform_result_dco::<_, _, ()>((move || {
-                    let mut api_that_guard = None;
-                    let decode_indices_ =
-                        flutter_rust_bridge::for_generated::lockable_compute_decode_order(vec![
-                            flutter_rust_bridge::for_generated::LockableOrderInfo::new(
-                                &api_that, 0, false,
-                            ),
-                        ]);
-                    for i in decode_indices_ {
-                        match i {
-                            0 => api_that_guard = Some(api_that.lockable_decode_sync_ref()),
-                            _ => unreachable!(),
-                        }
-                    }
-                    let api_that_guard = api_that_guard.unwrap();
-                    let output_ok = Result::<_, ()>::Ok(
-                        ldk_adapter::types::PaymentDetails::is_succeeded(&*api_that_guard),
-                    )?;
-                    Ok(output_ok)
-                })())
-            }
-        },
-    )
-}
-fn wire__ldk_adapter__types__PaymentDetails_new_impl(
-    port_: flutter_rust_bridge::for_generated::MessagePort,
-    id: impl CstDecode<shared::PaymentId>,
-    kind: impl CstDecode<PaymentKind>,
-    amount_msat: impl CstDecode<Option<u64>>,
-    direction: impl CstDecode<ldk_adapter::types::PaymentDirection>,
-    status: impl CstDecode<ldk_adapter::types::PaymentStatus>,
-    latest_update_timestamp: impl CstDecode<u64>,
-) {
-    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
-        flutter_rust_bridge::for_generated::TaskInfo {
-            debug_name: "PaymentDetails_new",
-            port: Some(port_),
-            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
-        },
-        move || {
-            let api_id = id.cst_decode();
-            let api_kind = kind.cst_decode();
-            let api_amount_msat = amount_msat.cst_decode();
-            let api_direction = direction.cst_decode();
-            let api_status = status.cst_decode();
-            let api_latest_update_timestamp = latest_update_timestamp.cst_decode();
-            move |context| {
-                transform_result_dco::<_, _, ()>((move || {
-                    let output_ok = Result::<_, ()>::Ok(ldk_adapter::types::PaymentDetails::new(
-                        api_id,
-                        api_kind,
-                        api_amount_msat,
-                        api_direction,
-                        api_status,
-                        api_latest_update_timestamp,
-                    ))?;
-                    Ok(output_ok)
-                })())
-            }
-        },
-    )
-}
-fn wire__ldk_adapter__types__PaymentDetails_new_inbound_pending_impl(
-    port_: flutter_rust_bridge::for_generated::MessagePort,
-    id: impl CstDecode<shared::PaymentId>,
-    kind: impl CstDecode<PaymentKind>,
-    amount_msat: impl CstDecode<Option<u64>>,
-) {
-    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
-        flutter_rust_bridge::for_generated::TaskInfo {
-            debug_name: "PaymentDetails_new_inbound_pending",
-            port: Some(port_),
-            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
-        },
-        move || {
-            let api_id = id.cst_decode();
-            let api_kind = kind.cst_decode();
-            let api_amount_msat = amount_msat.cst_decode();
-            move |context| {
-                transform_result_dco::<_, _, ()>((move || {
-                    let output_ok = Result::<_, ()>::Ok(
-                        ldk_adapter::types::PaymentDetails::new_inbound_pending(
-                            api_id,
-                            api_kind,
-                            api_amount_msat,
-                        ),
-                    )?;
-                    Ok(output_ok)
-                })())
-            }
-        },
-    )
-}
-fn wire__ldk_adapter__types__PaymentDetails_new_outbound_pending_impl(
-    port_: flutter_rust_bridge::for_generated::MessagePort,
-    id: impl CstDecode<shared::PaymentId>,
-    kind: impl CstDecode<PaymentKind>,
-    amount_msat: impl CstDecode<Option<u64>>,
-) {
-    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
-        flutter_rust_bridge::for_generated::TaskInfo {
-            debug_name: "PaymentDetails_new_outbound_pending",
-            port: Some(port_),
-            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
-        },
-        move || {
-            let api_id = id.cst_decode();
-            let api_kind = kind.cst_decode();
-            let api_amount_msat = amount_msat.cst_decode();
-            move |context| {
-                transform_result_dco::<_, _, ()>((move || {
-                    let output_ok = Result::<_, ()>::Ok(
-                        ldk_adapter::types::PaymentDetails::new_outbound_pending(
-                            api_id,
-                            api_kind,
-                            api_amount_msat,
-                        ),
-                    )?;
-                    Ok(output_ok)
-                })())
-            }
-        },
-    )
-}
-fn wire__ldk_adapter__types__PeerDetails_auto_accessor_get_address_impl(
-    that: impl CstDecode<
-        RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<PeerDetails>>,
-    >,
-) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
-    FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync::<flutter_rust_bridge::for_generated::DcoCodec, _>(
-        flutter_rust_bridge::for_generated::TaskInfo {
-            debug_name: "PeerDetails_auto_accessor_get_address",
-            port: None,
-            mode: flutter_rust_bridge::for_generated::FfiCallMode::Sync,
-        },
-        move || {
-            let api_that = that.cst_decode();
-            transform_result_dco::<_, _, ()>((move || {
-                let mut api_that_guard = None;
-                let decode_indices_ =
-                    flutter_rust_bridge::for_generated::lockable_compute_decode_order(vec![
-                        flutter_rust_bridge::for_generated::LockableOrderInfo::new(
-                            &api_that, 0, false,
-                        ),
-                    ]);
-                for i in decode_indices_ {
-                    match i {
-                        0 => api_that_guard = Some(api_that.lockable_decode_sync_ref()),
-                        _ => unreachable!(),
-                    }
-                }
-                let api_that_guard = api_that_guard.unwrap();
-                let output_ok = Result::<_, ()>::Ok(api_that_guard.address.clone())?;
-                Ok(output_ok)
-            })())
-        },
-    )
-}
-fn wire__ldk_adapter__types__PeerDetails_auto_accessor_get_is_connected_impl(
-    that: impl CstDecode<
-        RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<PeerDetails>>,
-    >,
-) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
-    FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync::<flutter_rust_bridge::for_generated::DcoCodec, _>(
-        flutter_rust_bridge::for_generated::TaskInfo {
-            debug_name: "PeerDetails_auto_accessor_get_is_connected",
-            port: None,
-            mode: flutter_rust_bridge::for_generated::FfiCallMode::Sync,
-        },
-        move || {
-            let api_that = that.cst_decode();
-            transform_result_dco::<_, _, ()>((move || {
-                let mut api_that_guard = None;
-                let decode_indices_ =
-                    flutter_rust_bridge::for_generated::lockable_compute_decode_order(vec![
-                        flutter_rust_bridge::for_generated::LockableOrderInfo::new(
-                            &api_that, 0, false,
-                        ),
-                    ]);
-                for i in decode_indices_ {
-                    match i {
-                        0 => api_that_guard = Some(api_that.lockable_decode_sync_ref()),
-                        _ => unreachable!(),
-                    }
-                }
-                let api_that_guard = api_that_guard.unwrap();
-                let output_ok = Result::<_, ()>::Ok(api_that_guard.is_connected.clone())?;
-                Ok(output_ok)
-            })())
-        },
-    )
-}
-fn wire__ldk_adapter__types__PeerDetails_auto_accessor_get_node_id_impl(
-    that: impl CstDecode<
-        RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<PeerDetails>>,
-    >,
-) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
-    FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync::<flutter_rust_bridge::for_generated::DcoCodec, _>(
-        flutter_rust_bridge::for_generated::TaskInfo {
-            debug_name: "PeerDetails_auto_accessor_get_node_id",
-            port: None,
-            mode: flutter_rust_bridge::for_generated::FfiCallMode::Sync,
-        },
-        move || {
-            let api_that = that.cst_decode();
-            transform_result_dco::<_, _, ()>((move || {
-                let mut api_that_guard = None;
-                let decode_indices_ =
-                    flutter_rust_bridge::for_generated::lockable_compute_decode_order(vec![
-                        flutter_rust_bridge::for_generated::LockableOrderInfo::new(
-                            &api_that, 0, false,
-                        ),
-                    ]);
-                for i in decode_indices_ {
-                    match i {
-                        0 => api_that_guard = Some(api_that.lockable_decode_sync_ref()),
-                        _ => unreachable!(),
-                    }
-                }
-                let api_that_guard = api_that_guard.unwrap();
-                let output_ok = Result::<_, ()>::Ok(api_that_guard.node_id.clone())?;
-                Ok(output_ok)
-            })())
-        },
-    )
-}
-fn wire__ldk_adapter__types__PeerDetails_auto_accessor_set_address_impl(
-    that: impl CstDecode<
-        RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<PeerDetails>>,
-    >,
-    address: impl CstDecode<SocketAddress>,
-) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
-    FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync::<flutter_rust_bridge::for_generated::DcoCodec, _>(
-        flutter_rust_bridge::for_generated::TaskInfo {
-            debug_name: "PeerDetails_auto_accessor_set_address",
-            port: None,
-            mode: flutter_rust_bridge::for_generated::FfiCallMode::Sync,
-        },
-        move || {
-            let api_that = that.cst_decode();
-            let api_address = address.cst_decode();
-            transform_result_dco::<_, _, ()>((move || {
-                let mut api_that_guard = None;
-                let decode_indices_ =
-                    flutter_rust_bridge::for_generated::lockable_compute_decode_order(vec![
-                        flutter_rust_bridge::for_generated::LockableOrderInfo::new(
-                            &api_that, 0, true,
-                        ),
-                    ]);
-                for i in decode_indices_ {
-                    match i {
-                        0 => api_that_guard = Some(api_that.lockable_decode_sync_ref_mut()),
-                        _ => unreachable!(),
-                    }
-                }
-                let mut api_that_guard = api_that_guard.unwrap();
-                let output_ok = Result::<_, ()>::Ok({
-                    {
-                        api_that_guard.address = api_address;
-                    };
-                })?;
-                Ok(output_ok)
-            })())
-        },
-    )
-}
-fn wire__ldk_adapter__types__PeerDetails_auto_accessor_set_is_connected_impl(
-    that: impl CstDecode<
-        RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<PeerDetails>>,
-    >,
-    is_connected: impl CstDecode<bool>,
-) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
-    FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync::<flutter_rust_bridge::for_generated::DcoCodec, _>(
-        flutter_rust_bridge::for_generated::TaskInfo {
-            debug_name: "PeerDetails_auto_accessor_set_is_connected",
-            port: None,
-            mode: flutter_rust_bridge::for_generated::FfiCallMode::Sync,
-        },
-        move || {
-            let api_that = that.cst_decode();
-            let api_is_connected = is_connected.cst_decode();
-            transform_result_dco::<_, _, ()>((move || {
-                let mut api_that_guard = None;
-                let decode_indices_ =
-                    flutter_rust_bridge::for_generated::lockable_compute_decode_order(vec![
-                        flutter_rust_bridge::for_generated::LockableOrderInfo::new(
-                            &api_that, 0, true,
-                        ),
-                    ]);
-                for i in decode_indices_ {
-                    match i {
-                        0 => api_that_guard = Some(api_that.lockable_decode_sync_ref_mut()),
-                        _ => unreachable!(),
-                    }
-                }
-                let mut api_that_guard = api_that_guard.unwrap();
-                let output_ok = Result::<_, ()>::Ok({
-                    {
-                        api_that_guard.is_connected = api_is_connected;
-                    };
-                })?;
-                Ok(output_ok)
-            })())
-        },
-    )
-}
-fn wire__ldk_adapter__types__PeerDetails_auto_accessor_set_node_id_impl(
-    that: impl CstDecode<
-        RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<PeerDetails>>,
-    >,
-    node_id: impl CstDecode<shared::PublicKey>,
-) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
-    FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync::<flutter_rust_bridge::for_generated::DcoCodec, _>(
-        flutter_rust_bridge::for_generated::TaskInfo {
-            debug_name: "PeerDetails_auto_accessor_set_node_id",
-            port: None,
-            mode: flutter_rust_bridge::for_generated::FfiCallMode::Sync,
-        },
-        move || {
-            let api_that = that.cst_decode();
-            let api_node_id = node_id.cst_decode();
-            transform_result_dco::<_, _, ()>((move || {
-                let mut api_that_guard = None;
-                let decode_indices_ =
-                    flutter_rust_bridge::for_generated::lockable_compute_decode_order(vec![
-                        flutter_rust_bridge::for_generated::LockableOrderInfo::new(
-                            &api_that, 0, true,
-                        ),
-                    ]);
-                for i in decode_indices_ {
-                    match i {
-                        0 => api_that_guard = Some(api_that.lockable_decode_sync_ref_mut()),
-                        _ => unreachable!(),
-                    }
-                }
-                let mut api_that_guard = api_that_guard.unwrap();
-                let output_ok = Result::<_, ()>::Ok({
-                    {
-                        api_that_guard.node_id = api_node_id;
-                    };
-                })?;
-                Ok(output_ok)
-            })())
-        },
-    )
-}
-fn wire__ldk_adapter__types__PeerDetails_is_offline_impl(
-    port_: flutter_rust_bridge::for_generated::MessagePort,
-    that: impl CstDecode<
-        RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<PeerDetails>>,
-    >,
-) {
-    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
-        flutter_rust_bridge::for_generated::TaskInfo {
-            debug_name: "PeerDetails_is_offline",
-            port: Some(port_),
-            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
-        },
-        move || {
-            let api_that = that.cst_decode();
-            move |context| {
-                transform_result_dco::<_, _, ()>((move || {
-                    let mut api_that_guard = None;
-                    let decode_indices_ =
-                        flutter_rust_bridge::for_generated::lockable_compute_decode_order(vec![
-                            flutter_rust_bridge::for_generated::LockableOrderInfo::new(
-                                &api_that, 0, false,
-                            ),
-                        ]);
-                    for i in decode_indices_ {
-                        match i {
-                            0 => api_that_guard = Some(api_that.lockable_decode_sync_ref()),
-                            _ => unreachable!(),
-                        }
-                    }
-                    let api_that_guard = api_that_guard.unwrap();
-                    let output_ok = Result::<_, ()>::Ok(
-                        ldk_adapter::types::PeerDetails::is_offline(&*api_that_guard),
-                    )?;
-                    Ok(output_ok)
-                })())
-            }
-        },
-    )
-}
-fn wire__ldk_adapter__types__PeerDetails_is_online_impl(
-    port_: flutter_rust_bridge::for_generated::MessagePort,
-    that: impl CstDecode<
-        RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<PeerDetails>>,
-    >,
-) {
-    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
-        flutter_rust_bridge::for_generated::TaskInfo {
-            debug_name: "PeerDetails_is_online",
-            port: Some(port_),
-            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
-        },
-        move || {
-            let api_that = that.cst_decode();
-            move |context| {
-                transform_result_dco::<_, _, ()>((move || {
-                    let mut api_that_guard = None;
-                    let decode_indices_ =
-                        flutter_rust_bridge::for_generated::lockable_compute_decode_order(vec![
-                            flutter_rust_bridge::for_generated::LockableOrderInfo::new(
-                                &api_that, 0, false,
-                            ),
-                        ]);
-                    for i in decode_indices_ {
-                        match i {
-                            0 => api_that_guard = Some(api_that.lockable_decode_sync_ref()),
-                            _ => unreachable!(),
-                        }
-                    }
-                    let api_that_guard = api_that_guard.unwrap();
-                    let output_ok = Result::<_, ()>::Ok(
-                        ldk_adapter::types::PeerDetails::is_online(&*api_that_guard),
-                    )?;
-                    Ok(output_ok)
-                })())
-            }
-        },
-    )
-}
-fn wire__ldk_adapter__types__PeerDetails_new_impl(
-    port_: flutter_rust_bridge::for_generated::MessagePort,
-    node_id: impl CstDecode<shared::PublicKey>,
-    address: impl CstDecode<SocketAddress>,
-    is_connected: impl CstDecode<bool>,
-) {
-    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
-        flutter_rust_bridge::for_generated::TaskInfo {
-            debug_name: "PeerDetails_new",
-            port: Some(port_),
-            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
-        },
-        move || {
-            let api_node_id = node_id.cst_decode();
-            let api_address = address.cst_decode();
-            let api_is_connected = is_connected.cst_decode();
-            move |context| {
-                transform_result_dco::<_, _, ()>((move || {
-                    let output_ok = Result::<_, ()>::Ok(ldk_adapter::types::PeerDetails::new(
-                        api_node_id,
-                        api_address,
-                        api_is_connected,
-                    ))?;
-                    Ok(output_ok)
-                })())
-            }
-        },
-    )
-}
-fn wire__ldk_adapter__types__PeerDetails_new_connected_impl(
-    port_: flutter_rust_bridge::for_generated::MessagePort,
-    node_id: impl CstDecode<shared::PublicKey>,
-    address: impl CstDecode<SocketAddress>,
-) {
-    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
-        flutter_rust_bridge::for_generated::TaskInfo {
-            debug_name: "PeerDetails_new_connected",
-            port: Some(port_),
-            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
-        },
-        move || {
-            let api_node_id = node_id.cst_decode();
-            let api_address = address.cst_decode();
-            move |context| {
-                transform_result_dco::<_, _, ()>((move || {
-                    let output_ok = Result::<_, ()>::Ok(
-                        ldk_adapter::types::PeerDetails::new_connected(api_node_id, api_address),
-                    )?;
-                    Ok(output_ok)
-                })())
-            }
-        },
-    )
-}
-fn wire__ldk_adapter__types__PeerDetails_new_disconnected_impl(
-    port_: flutter_rust_bridge::for_generated::MessagePort,
-    node_id: impl CstDecode<shared::PublicKey>,
-    address: impl CstDecode<SocketAddress>,
-) {
-    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
-        flutter_rust_bridge::for_generated::TaskInfo {
-            debug_name: "PeerDetails_new_disconnected",
-            port: Some(port_),
-            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
-        },
-        move || {
-            let api_node_id = node_id.cst_decode();
-            let api_address = address.cst_decode();
-            move |context| {
-                transform_result_dco::<_, _, ()>((move || {
-                    let output_ok = Result::<_, ()>::Ok(
-                        ldk_adapter::types::PeerDetails::new_disconnected(api_node_id, api_address),
-                    )?;
-                    Ok(output_ok)
-                })())
-            }
-        },
-    )
-}
-fn wire__shared__SocketAddress_as_hostname_impl(
-    that: impl CstDecode<
-        RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<SocketAddress>>,
-    >,
-) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
-    FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync::<flutter_rust_bridge::for_generated::DcoCodec, _>(
-        flutter_rust_bridge::for_generated::TaskInfo {
-            debug_name: "SocketAddress_as_hostname",
-            port: None,
-            mode: flutter_rust_bridge::for_generated::FfiCallMode::Sync,
-        },
-        move || {
-            let api_that = that.cst_decode();
-            transform_result_dco::<_, _, ()>((move || {
-                let mut api_that_guard = None;
-                let decode_indices_ =
-                    flutter_rust_bridge::for_generated::lockable_compute_decode_order(vec![
-                        flutter_rust_bridge::for_generated::LockableOrderInfo::new(
-                            &api_that, 0, false,
-                        ),
-                    ]);
-                for i in decode_indices_ {
-                    match i {
-                        0 => api_that_guard = Some(api_that.lockable_decode_sync_ref()),
-                        _ => unreachable!(),
-                    }
-                }
-                let api_that_guard = api_that_guard.unwrap();
-                let output_ok =
-                    Result::<_, ()>::Ok(shared::SocketAddress::as_hostname(&*api_that_guard))?;
-                Ok(output_ok)
-            })())
-        },
-    )
-}
-fn wire__shared__SocketAddress_as_onion_v2_impl(
-    that: impl CstDecode<
-        RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<SocketAddress>>,
-    >,
-) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
-    FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync::<flutter_rust_bridge::for_generated::DcoCodec, _>(
-        flutter_rust_bridge::for_generated::TaskInfo {
-            debug_name: "SocketAddress_as_onion_v2",
-            port: None,
-            mode: flutter_rust_bridge::for_generated::FfiCallMode::Sync,
-        },
-        move || {
-            let api_that = that.cst_decode();
-            transform_result_dco::<_, _, ()>((move || {
-                let mut api_that_guard = None;
-                let decode_indices_ =
-                    flutter_rust_bridge::for_generated::lockable_compute_decode_order(vec![
-                        flutter_rust_bridge::for_generated::LockableOrderInfo::new(
-                            &api_that, 0, false,
-                        ),
-                    ]);
-                for i in decode_indices_ {
-                    match i {
-                        0 => api_that_guard = Some(api_that.lockable_decode_sync_ref()),
-                        _ => unreachable!(),
-                    }
-                }
-                let api_that_guard = api_that_guard.unwrap();
-                let output_ok =
-                    Result::<_, ()>::Ok(shared::SocketAddress::as_onion_v2(&*api_that_guard))?;
-                Ok(output_ok)
-            })())
-        },
-    )
-}
-fn wire__shared__SocketAddress_as_onion_v3_impl(
-    that: impl CstDecode<
-        RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<SocketAddress>>,
-    >,
-) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
-    FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync::<flutter_rust_bridge::for_generated::DcoCodec, _>(
-        flutter_rust_bridge::for_generated::TaskInfo {
-            debug_name: "SocketAddress_as_onion_v3",
-            port: None,
-            mode: flutter_rust_bridge::for_generated::FfiCallMode::Sync,
-        },
-        move || {
-            let api_that = that.cst_decode();
-            transform_result_dco::<_, _, ()>((move || {
-                let mut api_that_guard = None;
-                let decode_indices_ =
-                    flutter_rust_bridge::for_generated::lockable_compute_decode_order(vec![
-                        flutter_rust_bridge::for_generated::LockableOrderInfo::new(
-                            &api_that, 0, false,
-                        ),
-                    ]);
-                for i in decode_indices_ {
-                    match i {
-                        0 => api_that_guard = Some(api_that.lockable_decode_sync_ref()),
-                        _ => unreachable!(),
-                    }
-                }
-                let api_that_guard = api_that_guard.unwrap();
-                let output_ok =
-                    Result::<_, ()>::Ok(shared::SocketAddress::as_onion_v3(&*api_that_guard))?;
-                Ok(output_ok)
-            })())
-        },
-    )
-}
-fn wire__shared__SocketAddress_as_tcp_ip_v4_impl(
-    that: impl CstDecode<
-        RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<SocketAddress>>,
-    >,
-) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
-    FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync::<flutter_rust_bridge::for_generated::DcoCodec, _>(
-        flutter_rust_bridge::for_generated::TaskInfo {
-            debug_name: "SocketAddress_as_tcp_ip_v4",
-            port: None,
-            mode: flutter_rust_bridge::for_generated::FfiCallMode::Sync,
-        },
-        move || {
-            let api_that = that.cst_decode();
-            transform_result_dco::<_, _, ()>((move || {
-                let mut api_that_guard = None;
-                let decode_indices_ =
-                    flutter_rust_bridge::for_generated::lockable_compute_decode_order(vec![
-                        flutter_rust_bridge::for_generated::LockableOrderInfo::new(
-                            &api_that, 0, false,
-                        ),
-                    ]);
-                for i in decode_indices_ {
-                    match i {
-                        0 => api_that_guard = Some(api_that.lockable_decode_sync_ref()),
-                        _ => unreachable!(),
-                    }
-                }
-                let api_that_guard = api_that_guard.unwrap();
-                let output_ok =
-                    Result::<_, ()>::Ok(shared::SocketAddress::as_tcp_ip_v4(&*api_that_guard))?;
-                Ok(output_ok)
-            })())
-        },
-    )
-}
-fn wire__shared__SocketAddress_as_tcp_ip_v6_impl(
-    that: impl CstDecode<
-        RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<SocketAddress>>,
-    >,
-) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
-    FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync::<flutter_rust_bridge::for_generated::DcoCodec, _>(
-        flutter_rust_bridge::for_generated::TaskInfo {
-            debug_name: "SocketAddress_as_tcp_ip_v6",
-            port: None,
-            mode: flutter_rust_bridge::for_generated::FfiCallMode::Sync,
-        },
-        move || {
-            let api_that = that.cst_decode();
-            transform_result_dco::<_, _, ()>((move || {
-                let mut api_that_guard = None;
-                let decode_indices_ =
-                    flutter_rust_bridge::for_generated::lockable_compute_decode_order(vec![
-                        flutter_rust_bridge::for_generated::LockableOrderInfo::new(
-                            &api_that, 0, false,
-                        ),
-                    ]);
-                for i in decode_indices_ {
-                    match i {
-                        0 => api_that_guard = Some(api_that.lockable_decode_sync_ref()),
-                        _ => unreachable!(),
-                    }
-                }
-                let api_that_guard = api_that_guard.unwrap();
-                let output_ok =
-                    Result::<_, ()>::Ok(shared::SocketAddress::as_tcp_ip_v6(&*api_that_guard))?;
-                Ok(output_ok)
-            })())
-        },
-    )
-}
-fn wire__shared__SocketAddress_host_impl(
-    that: impl CstDecode<
-        RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<SocketAddress>>,
-    >,
-) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
-    FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync::<flutter_rust_bridge::for_generated::DcoCodec, _>(
-        flutter_rust_bridge::for_generated::TaskInfo {
-            debug_name: "SocketAddress_host",
-            port: None,
-            mode: flutter_rust_bridge::for_generated::FfiCallMode::Sync,
-        },
-        move || {
-            let api_that = that.cst_decode();
-            transform_result_dco::<_, _, ()>((move || {
-                let mut api_that_guard = None;
-                let decode_indices_ =
-                    flutter_rust_bridge::for_generated::lockable_compute_decode_order(vec![
-                        flutter_rust_bridge::for_generated::LockableOrderInfo::new(
-                            &api_that, 0, false,
-                        ),
-                    ]);
-                for i in decode_indices_ {
-                    match i {
-                        0 => api_that_guard = Some(api_that.lockable_decode_sync_ref()),
-                        _ => unreachable!(),
-                    }
-                }
-                let api_that_guard = api_that_guard.unwrap();
-                let output_ok = Result::<_, ()>::Ok(shared::SocketAddress::host(&*api_that_guard))?;
-                Ok(output_ok)
-            })())
-        },
-    )
-}
-fn wire__shared__SocketAddress_port_impl(
-    that: impl CstDecode<
-        RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<SocketAddress>>,
-    >,
-) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
-    FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync::<flutter_rust_bridge::for_generated::DcoCodec, _>(
-        flutter_rust_bridge::for_generated::TaskInfo {
-            debug_name: "SocketAddress_port",
-            port: None,
-            mode: flutter_rust_bridge::for_generated::FfiCallMode::Sync,
-        },
-        move || {
-            let api_that = that.cst_decode();
-            transform_result_dco::<_, _, ()>((move || {
-                let mut api_that_guard = None;
-                let decode_indices_ =
-                    flutter_rust_bridge::for_generated::lockable_compute_decode_order(vec![
-                        flutter_rust_bridge::for_generated::LockableOrderInfo::new(
-                            &api_that, 0, false,
-                        ),
-                    ]);
-                for i in decode_indices_ {
-                    match i {
-                        0 => api_that_guard = Some(api_that.lockable_decode_sync_ref()),
-                        _ => unreachable!(),
-                    }
-                }
-                let api_that_guard = api_that_guard.unwrap();
-                let output_ok = Result::<_, ()>::Ok(shared::SocketAddress::port(&*api_that_guard))?;
-                Ok(output_ok)
-            })())
-        },
-    )
-}
-fn wire__shared__SocketAddress_str_type_impl(
-    that: impl CstDecode<
-        RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<SocketAddress>>,
-    >,
-) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
-    FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync::<flutter_rust_bridge::for_generated::DcoCodec, _>(
-        flutter_rust_bridge::for_generated::TaskInfo {
-            debug_name: "SocketAddress_str_type",
-            port: None,
-            mode: flutter_rust_bridge::for_generated::FfiCallMode::Sync,
-        },
-        move || {
-            let api_that = that.cst_decode();
-            transform_result_dco::<_, _, ()>((move || {
-                let mut api_that_guard = None;
-                let decode_indices_ =
-                    flutter_rust_bridge::for_generated::lockable_compute_decode_order(vec![
-                        flutter_rust_bridge::for_generated::LockableOrderInfo::new(
-                            &api_that, 0, false,
-                        ),
-                    ]);
-                for i in decode_indices_ {
-                    match i {
-                        0 => api_that_guard = Some(api_that.lockable_decode_sync_ref()),
-                        _ => unreachable!(),
-                    }
-                }
-                let api_that_guard = api_that_guard.unwrap();
-                let output_ok =
-                    Result::<_, ()>::Ok(shared::SocketAddress::str_type(&*api_that_guard))?;
-                Ok(output_ok)
-            })())
-        },
-    )
-}
-fn wire__ldk_adapter__spontaneous__SpontaneousPayment_send_probes_unsafe_impl(
-    port_: flutter_rust_bridge::for_generated::MessagePort,
-    that: impl CstDecode<
-        RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<SpontaneousPayment>>,
-    >,
-    amount_msat: impl CstDecode<u64>,
-    node_id: impl CstDecode<shared::PublicKey>,
-) {
-    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
-        flutter_rust_bridge::for_generated::TaskInfo {
-            debug_name: "SpontaneousPayment_send_probes_unsafe",
-            port: Some(port_),
-            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
-        },
-        move || {
-            let api_that = that.cst_decode();
-            let api_amount_msat = amount_msat.cst_decode();
-            let api_node_id = node_id.cst_decode();
-            move |context| {
-                transform_result_dco::<_, _, flutter_rust_bridge::for_generated::anyhow::Error>(
-                    (move || {
-                        let mut api_that_guard = None;
-                        let decode_indices_ =
-                            flutter_rust_bridge::for_generated::lockable_compute_decode_order(
-                                vec![flutter_rust_bridge::for_generated::LockableOrderInfo::new(
-                                    &api_that, 0, false,
-                                )],
-                            );
-                        for i in decode_indices_ {
-                            match i {
-                                0 => api_that_guard = Some(api_that.lockable_decode_sync_ref()),
-                                _ => unreachable!(),
-                            }
-                        }
-                        let api_that_guard = api_that_guard.unwrap();
-                        let output_ok =
-                            ldk_adapter::spontaneous::SpontaneousPayment::send_probes_unsafe(
-                                &*api_that_guard,
-                                api_amount_msat,
-                                api_node_id,
-                            )?;
-                        Ok(output_ok)
-                    })(),
-                )
-            }
-        },
-    )
-}
-fn wire__ldk_adapter__spontaneous__SpontaneousPayment_send_unsafe_impl(
-    port_: flutter_rust_bridge::for_generated::MessagePort,
-    that: impl CstDecode<
-        RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<SpontaneousPayment>>,
-    >,
-    amount_msat: impl CstDecode<u64>,
-    node_id: impl CstDecode<shared::PublicKey>,
-    sending_parameters: impl CstDecode<Option<shared::SendingParameters>>,
-) {
-    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
-        flutter_rust_bridge::for_generated::TaskInfo {
-            debug_name: "SpontaneousPayment_send_unsafe",
-            port: Some(port_),
-            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
-        },
-        move || {
-            let api_that = that.cst_decode();
-            let api_amount_msat = amount_msat.cst_decode();
-            let api_node_id = node_id.cst_decode();
-            let api_sending_parameters = sending_parameters.cst_decode();
-            move |context| {
-                transform_result_dco::<_, _, flutter_rust_bridge::for_generated::anyhow::Error>(
-                    (move || {
-                        let mut api_that_guard = None;
-                        let decode_indices_ =
-                            flutter_rust_bridge::for_generated::lockable_compute_decode_order(
-                                vec![flutter_rust_bridge::for_generated::LockableOrderInfo::new(
-                                    &api_that, 0, false,
-                                )],
-                            );
-                        for i in decode_indices_ {
-                            match i {
-                                0 => api_that_guard = Some(api_that.lockable_decode_sync_ref()),
-                                _ => unreachable!(),
-                            }
-                        }
-                        let api_that_guard = api_that_guard.unwrap();
-                        let output_ok = ldk_adapter::spontaneous::SpontaneousPayment::send_unsafe(
-                            &*api_that_guard,
-                            api_amount_msat,
-                            api_node_id,
-                            api_sending_parameters,
-                        )?;
-                        Ok(output_ok)
-                    })(),
-                )
-            }
-        },
-    )
-}
-fn wire__ldk_adapter__spontaneous__SpontaneousPayment_send_with_custom_tlvs_unsafe_impl(
-    port_: flutter_rust_bridge::for_generated::MessagePort,
-    that: impl CstDecode<
-        RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<SpontaneousPayment>>,
-    >,
-    amount_msat: impl CstDecode<u64>,
-    node_id: impl CstDecode<shared::PublicKey>,
-    sending_parameters: impl CstDecode<Option<shared::SendingParameters>>,
-    custom_tlvs: impl CstDecode<Vec<ldk_adapter::types::CustomTlvRecord>>,
-) {
-    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec,_,_>(flutter_rust_bridge::for_generated::TaskInfo{ debug_name: "SpontaneousPayment_send_with_custom_tlvs_unsafe", port: Some(port_), mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal }, move || { let api_that = that.cst_decode();let api_amount_msat = amount_msat.cst_decode();let api_node_id = node_id.cst_decode();let api_sending_parameters = sending_parameters.cst_decode();let api_custom_tlvs = custom_tlvs.cst_decode(); move |context|  {
-                    transform_result_dco::<_, _, flutter_rust_bridge::for_generated::anyhow::Error>((move ||  {
-                        let mut api_that_guard = None;
-let decode_indices_ = flutter_rust_bridge::for_generated::lockable_compute_decode_order(vec![flutter_rust_bridge::for_generated::LockableOrderInfo::new(&api_that, 0, false)]);
-        for i in decode_indices_ {
-            match i {
-                0 => api_that_guard = Some(api_that.lockable_decode_sync_ref()),
-                _ => unreachable!(),
-            }
-        }
-        let api_that_guard = api_that_guard.unwrap();
- let output_ok = ldk_adapter::spontaneous::SpontaneousPayment::send_with_custom_tlvs_unsafe(&*api_that_guard, api_amount_msat, api_node_id, api_sending_parameters, api_custom_tlvs)?;   Ok(output_ok)
-                    })())
-                } })
 }
 fn wire__shared__TaprootSpendInfo_auto_accessor_get_inner_impl(
     that: impl CstDecode<
@@ -8490,48 +4894,32 @@ fn wire__shared__Transaction_weight_impl(
         },
     )
 }
-fn wire__ldk_adapter__unified_qr__UnifiedQrPayment_receive_impl(
+fn wire__ldk_adapter__bolt11__bolt_11_payment_claim_for_hash_impl(
     port_: flutter_rust_bridge::for_generated::MessagePort,
-    that: impl CstDecode<
-        RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<UnifiedQrPayment>>,
-    >,
-    amount_sats: impl CstDecode<u64>,
-    message: impl CstDecode<String>,
-    expiry_sec: impl CstDecode<u32>,
+    that: impl CstDecode<ldk_adapter::bolt11::Bolt11Payment>,
+    payment_hash: impl CstDecode<shared::PaymentHash>,
+    claimable_amount_msat: impl CstDecode<u64>,
+    preimage: impl CstDecode<shared::PaymentPreimage>,
 ) {
     FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
         flutter_rust_bridge::for_generated::TaskInfo {
-            debug_name: "UnifiedQrPayment_receive",
+            debug_name: "bolt_11_payment_claim_for_hash",
             port: Some(port_),
             mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
         },
         move || {
             let api_that = that.cst_decode();
-            let api_amount_sats = amount_sats.cst_decode();
-            let api_message = message.cst_decode();
-            let api_expiry_sec = expiry_sec.cst_decode();
+            let api_payment_hash = payment_hash.cst_decode();
+            let api_claimable_amount_msat = claimable_amount_msat.cst_decode();
+            let api_preimage = preimage.cst_decode();
             move |context| {
                 transform_result_dco::<_, _, flutter_rust_bridge::for_generated::anyhow::Error>(
                     (move || {
-                        let mut api_that_guard = None;
-                        let decode_indices_ =
-                            flutter_rust_bridge::for_generated::lockable_compute_decode_order(
-                                vec![flutter_rust_bridge::for_generated::LockableOrderInfo::new(
-                                    &api_that, 0, false,
-                                )],
-                            );
-                        for i in decode_indices_ {
-                            match i {
-                                0 => api_that_guard = Some(api_that.lockable_decode_sync_ref()),
-                                _ => unreachable!(),
-                            }
-                        }
-                        let api_that_guard = api_that_guard.unwrap();
-                        let output_ok = ldk_adapter::unified_qr::UnifiedQrPayment::receive(
-                            &*api_that_guard,
-                            api_amount_sats,
-                            api_message,
-                            api_expiry_sec,
+                        let output_ok = ldk_adapter::bolt11::Bolt11Payment::claim_for_hash(
+                            &api_that,
+                            api_payment_hash,
+                            api_claimable_amount_msat,
+                            api_preimage,
                         )?;
                         Ok(output_ok)
                     })(),
@@ -8540,42 +4928,544 @@ fn wire__ldk_adapter__unified_qr__UnifiedQrPayment_receive_impl(
         },
     )
 }
-fn wire__ldk_adapter__unified_qr__UnifiedQrPayment_send_impl(
+fn wire__ldk_adapter__bolt11__bolt_11_payment_fail_for_hash_impl(
     port_: flutter_rust_bridge::for_generated::MessagePort,
-    that: impl CstDecode<
-        RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<UnifiedQrPayment>>,
-    >,
-    uri_str: impl CstDecode<String>,
+    that: impl CstDecode<ldk_adapter::bolt11::Bolt11Payment>,
+    payment_hash: impl CstDecode<shared::PaymentHash>,
 ) {
     FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
         flutter_rust_bridge::for_generated::TaskInfo {
-            debug_name: "UnifiedQrPayment_send",
+            debug_name: "bolt_11_payment_fail_for_hash",
             port: Some(port_),
             mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
         },
         move || {
             let api_that = that.cst_decode();
-            let api_uri_str = uri_str.cst_decode();
+            let api_payment_hash = payment_hash.cst_decode();
             move |context| {
                 transform_result_dco::<_, _, flutter_rust_bridge::for_generated::anyhow::Error>(
                     (move || {
-                        let mut api_that_guard = None;
-                        let decode_indices_ =
-                            flutter_rust_bridge::for_generated::lockable_compute_decode_order(
-                                vec![flutter_rust_bridge::for_generated::LockableOrderInfo::new(
-                                    &api_that, 0, false,
-                                )],
-                            );
-                        for i in decode_indices_ {
-                            match i {
-                                0 => api_that_guard = Some(api_that.lockable_decode_sync_ref()),
-                                _ => unreachable!(),
-                            }
-                        }
-                        let api_that_guard = api_that_guard.unwrap();
-                        let output_ok = ldk_adapter::unified_qr::UnifiedQrPayment::send(
-                            &*api_that_guard,
-                            api_uri_str,
+                        let output_ok = ldk_adapter::bolt11::Bolt11Payment::fail_for_hash(
+                            &api_that,
+                            api_payment_hash,
+                        )?;
+                        Ok(output_ok)
+                    })(),
+                )
+            }
+        },
+    )
+}
+fn wire__ldk_adapter__bolt11__bolt_11_payment_receive_impl(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
+    that: impl CstDecode<ldk_adapter::bolt11::Bolt11Payment>,
+    amount_msat: impl CstDecode<u64>,
+    description: impl CstDecode<String>,
+    expiry_secs: impl CstDecode<u32>,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "bolt_11_payment_receive",
+            port: Some(port_),
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
+        },
+        move || {
+            let api_that = that.cst_decode();
+            let api_amount_msat = amount_msat.cst_decode();
+            let api_description = description.cst_decode();
+            let api_expiry_secs = expiry_secs.cst_decode();
+            move |context| {
+                transform_result_dco::<_, _, flutter_rust_bridge::for_generated::anyhow::Error>(
+                    (move || {
+                        let output_ok = ldk_adapter::bolt11::Bolt11Payment::receive(
+                            &api_that,
+                            api_amount_msat,
+                            api_description,
+                            api_expiry_secs,
+                        )?;
+                        Ok(output_ok)
+                    })(),
+                )
+            }
+        },
+    )
+}
+fn wire__ldk_adapter__bolt11__bolt_11_payment_receive_for_hash_impl(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
+    that: impl CstDecode<ldk_adapter::bolt11::Bolt11Payment>,
+    payment_hash: impl CstDecode<shared::PaymentHash>,
+    amount_msat: impl CstDecode<u64>,
+    description: impl CstDecode<String>,
+    expiry_secs: impl CstDecode<u32>,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "bolt_11_payment_receive_for_hash",
+            port: Some(port_),
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
+        },
+        move || {
+            let api_that = that.cst_decode();
+            let api_payment_hash = payment_hash.cst_decode();
+            let api_amount_msat = amount_msat.cst_decode();
+            let api_description = description.cst_decode();
+            let api_expiry_secs = expiry_secs.cst_decode();
+            move |context| {
+                transform_result_dco::<_, _, flutter_rust_bridge::for_generated::anyhow::Error>(
+                    (move || {
+                        let output_ok = ldk_adapter::bolt11::Bolt11Payment::receive_for_hash(
+                            &api_that,
+                            api_payment_hash,
+                            api_amount_msat,
+                            api_description,
+                            api_expiry_secs,
+                        )?;
+                        Ok(output_ok)
+                    })(),
+                )
+            }
+        },
+    )
+}
+fn wire__ldk_adapter__bolt11__bolt_11_payment_receive_variable_amount_impl(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
+    that: impl CstDecode<ldk_adapter::bolt11::Bolt11Payment>,
+    description: impl CstDecode<String>,
+    expiry_secs: impl CstDecode<u32>,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "bolt_11_payment_receive_variable_amount",
+            port: Some(port_),
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
+        },
+        move || {
+            let api_that = that.cst_decode();
+            let api_description = description.cst_decode();
+            let api_expiry_secs = expiry_secs.cst_decode();
+            move |context| {
+                transform_result_dco::<_, _, flutter_rust_bridge::for_generated::anyhow::Error>(
+                    (move || {
+                        let output_ok =
+                            ldk_adapter::bolt11::Bolt11Payment::receive_variable_amount(
+                                &api_that,
+                                api_description,
+                                api_expiry_secs,
+                            )?;
+                        Ok(output_ok)
+                    })(),
+                )
+            }
+        },
+    )
+}
+fn wire__ldk_adapter__bolt11__bolt_11_payment_receive_variable_amount_for_hash_impl(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
+    that: impl CstDecode<ldk_adapter::bolt11::Bolt11Payment>,
+    description: impl CstDecode<String>,
+    expiry_secs: impl CstDecode<u32>,
+    payment_hash: impl CstDecode<shared::PaymentHash>,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "bolt_11_payment_receive_variable_amount_for_hash",
+            port: Some(port_),
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
+        },
+        move || {
+            let api_that = that.cst_decode();
+            let api_description = description.cst_decode();
+            let api_expiry_secs = expiry_secs.cst_decode();
+            let api_payment_hash = payment_hash.cst_decode();
+            move |context| {
+                transform_result_dco::<_, _, flutter_rust_bridge::for_generated::anyhow::Error>(
+                    (move || {
+                        let output_ok =
+                            ldk_adapter::bolt11::Bolt11Payment::receive_variable_amount_for_hash(
+                                &api_that,
+                                api_description,
+                                api_expiry_secs,
+                                api_payment_hash,
+                            )?;
+                        Ok(output_ok)
+                    })(),
+                )
+            }
+        },
+    )
+}
+fn wire__ldk_adapter__bolt11__bolt_11_payment_receive_variable_amount_via_jit_channel_impl(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
+    that: impl CstDecode<ldk_adapter::bolt11::Bolt11Payment>,
+    description: impl CstDecode<String>,
+    expiry_secs: impl CstDecode<u32>,
+    max_proportional_lsp_fee_limit_ppm_msat: impl CstDecode<Option<u64>>,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec,_,_>(flutter_rust_bridge::for_generated::TaskInfo{ debug_name: "bolt_11_payment_receive_variable_amount_via_jit_channel", port: Some(port_), mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal }, move || { let api_that = that.cst_decode();let api_description = description.cst_decode();let api_expiry_secs = expiry_secs.cst_decode();let api_max_proportional_lsp_fee_limit_ppm_msat = max_proportional_lsp_fee_limit_ppm_msat.cst_decode(); move |context|  {
+                    transform_result_dco::<_, _, flutter_rust_bridge::for_generated::anyhow::Error>((move ||  {
+                         let output_ok = ldk_adapter::bolt11::Bolt11Payment::receive_variable_amount_via_jit_channel(&api_that, api_description, api_expiry_secs, api_max_proportional_lsp_fee_limit_ppm_msat)?;   Ok(output_ok)
+                    })())
+                } })
+}
+fn wire__ldk_adapter__bolt11__bolt_11_payment_receive_via_jit_channel_impl(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
+    that: impl CstDecode<ldk_adapter::bolt11::Bolt11Payment>,
+    amount_msat: impl CstDecode<u64>,
+    description: impl CstDecode<String>,
+    expiry_secs: impl CstDecode<u32>,
+    max_total_lsp_fee_limit_msat: impl CstDecode<Option<u64>>,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "bolt_11_payment_receive_via_jit_channel",
+            port: Some(port_),
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
+        },
+        move || {
+            let api_that = that.cst_decode();
+            let api_amount_msat = amount_msat.cst_decode();
+            let api_description = description.cst_decode();
+            let api_expiry_secs = expiry_secs.cst_decode();
+            let api_max_total_lsp_fee_limit_msat = max_total_lsp_fee_limit_msat.cst_decode();
+            move |context| {
+                transform_result_dco::<_, _, flutter_rust_bridge::for_generated::anyhow::Error>(
+                    (move || {
+                        let output_ok =
+                            ldk_adapter::bolt11::Bolt11Payment::receive_via_jit_channel(
+                                &api_that,
+                                api_amount_msat,
+                                api_description,
+                                api_expiry_secs,
+                                api_max_total_lsp_fee_limit_msat,
+                            )?;
+                        Ok(output_ok)
+                    })(),
+                )
+            }
+        },
+    )
+}
+fn wire__ldk_adapter__bolt11__bolt_11_payment_send_impl(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
+    that: impl CstDecode<ldk_adapter::bolt11::Bolt11Payment>,
+    invoice: impl CstDecode<shared::Bolt11Invoice>,
+    sending_parameters: impl CstDecode<Option<shared::SendingParameters>>,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "bolt_11_payment_send",
+            port: Some(port_),
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
+        },
+        move || {
+            let api_that = that.cst_decode();
+            let api_invoice = invoice.cst_decode();
+            let api_sending_parameters = sending_parameters.cst_decode();
+            move |context| {
+                transform_result_dco::<_, _, flutter_rust_bridge::for_generated::anyhow::Error>(
+                    (move || {
+                        let output_ok = ldk_adapter::bolt11::Bolt11Payment::send(
+                            &api_that,
+                            api_invoice,
+                            api_sending_parameters,
+                        )?;
+                        Ok(output_ok)
+                    })(),
+                )
+            }
+        },
+    )
+}
+fn wire__ldk_adapter__bolt11__bolt_11_payment_send_probes_impl(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
+    that: impl CstDecode<ldk_adapter::bolt11::Bolt11Payment>,
+    invoice: impl CstDecode<shared::Bolt11Invoice>,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "bolt_11_payment_send_probes",
+            port: Some(port_),
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
+        },
+        move || {
+            let api_that = that.cst_decode();
+            let api_invoice = invoice.cst_decode();
+            move |context| {
+                transform_result_dco::<_, _, flutter_rust_bridge::for_generated::anyhow::Error>(
+                    (move || {
+                        let output_ok = ldk_adapter::bolt11::Bolt11Payment::send_probes(
+                            &api_that,
+                            api_invoice,
+                        )?;
+                        Ok(output_ok)
+                    })(),
+                )
+            }
+        },
+    )
+}
+fn wire__ldk_adapter__bolt11__bolt_11_payment_send_probes_using_amount_impl(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
+    that: impl CstDecode<ldk_adapter::bolt11::Bolt11Payment>,
+    invoice: impl CstDecode<shared::Bolt11Invoice>,
+    amount_msat: impl CstDecode<u64>,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "bolt_11_payment_send_probes_using_amount",
+            port: Some(port_),
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
+        },
+        move || {
+            let api_that = that.cst_decode();
+            let api_invoice = invoice.cst_decode();
+            let api_amount_msat = amount_msat.cst_decode();
+            move |context| {
+                transform_result_dco::<_, _, flutter_rust_bridge::for_generated::anyhow::Error>(
+                    (move || {
+                        let output_ok =
+                            ldk_adapter::bolt11::Bolt11Payment::send_probes_using_amount(
+                                &api_that,
+                                api_invoice,
+                                api_amount_msat,
+                            )?;
+                        Ok(output_ok)
+                    })(),
+                )
+            }
+        },
+    )
+}
+fn wire__ldk_adapter__bolt11__bolt_11_payment_send_using_amount_impl(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
+    that: impl CstDecode<ldk_adapter::bolt11::Bolt11Payment>,
+    invoice: impl CstDecode<shared::Bolt11Invoice>,
+    amount_msat: impl CstDecode<u64>,
+    sending_parameters: impl CstDecode<Option<shared::SendingParameters>>,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "bolt_11_payment_send_using_amount",
+            port: Some(port_),
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
+        },
+        move || {
+            let api_that = that.cst_decode();
+            let api_invoice = invoice.cst_decode();
+            let api_amount_msat = amount_msat.cst_decode();
+            let api_sending_parameters = sending_parameters.cst_decode();
+            move |context| {
+                transform_result_dco::<_, _, flutter_rust_bridge::for_generated::anyhow::Error>(
+                    (move || {
+                        let output_ok = ldk_adapter::bolt11::Bolt11Payment::send_using_amount(
+                            &api_that,
+                            api_invoice,
+                            api_amount_msat,
+                            api_sending_parameters,
+                        )?;
+                        Ok(output_ok)
+                    })(),
+                )
+            }
+        },
+    )
+}
+fn wire__ldk_adapter__bolt12__bolt_12_payment_initiate_refund_impl(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
+    that: impl CstDecode<ldk_adapter::bolt12::Bolt12Payment>,
+    amount_msat: impl CstDecode<u64>,
+    expiry_secs: impl CstDecode<u32>,
+    quantity: impl CstDecode<Option<u64>>,
+    payer_note: impl CstDecode<Option<String>>,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "bolt_12_payment_initiate_refund",
+            port: Some(port_),
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
+        },
+        move || {
+            let api_that = that.cst_decode();
+            let api_amount_msat = amount_msat.cst_decode();
+            let api_expiry_secs = expiry_secs.cst_decode();
+            let api_quantity = quantity.cst_decode();
+            let api_payer_note = payer_note.cst_decode();
+            move |context| {
+                transform_result_dco::<_, _, flutter_rust_bridge::for_generated::anyhow::Error>(
+                    (move || {
+                        let output_ok = ldk_adapter::bolt12::Bolt12Payment::initiate_refund(
+                            &api_that,
+                            api_amount_msat,
+                            api_expiry_secs,
+                            api_quantity,
+                            api_payer_note,
+                        )?;
+                        Ok(output_ok)
+                    })(),
+                )
+            }
+        },
+    )
+}
+fn wire__ldk_adapter__bolt12__bolt_12_payment_receive_impl(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
+    that: impl CstDecode<ldk_adapter::bolt12::Bolt12Payment>,
+    amount_msat: impl CstDecode<u64>,
+    description: impl CstDecode<String>,
+    expiry_secs: impl CstDecode<Option<u32>>,
+    quantity: impl CstDecode<Option<u64>>,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "bolt_12_payment_receive",
+            port: Some(port_),
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
+        },
+        move || {
+            let api_that = that.cst_decode();
+            let api_amount_msat = amount_msat.cst_decode();
+            let api_description = description.cst_decode();
+            let api_expiry_secs = expiry_secs.cst_decode();
+            let api_quantity = quantity.cst_decode();
+            move |context| {
+                transform_result_dco::<_, _, flutter_rust_bridge::for_generated::anyhow::Error>(
+                    (move || {
+                        let output_ok = ldk_adapter::bolt12::Bolt12Payment::receive(
+                            &api_that,
+                            api_amount_msat,
+                            api_description,
+                            api_expiry_secs,
+                            api_quantity,
+                        )?;
+                        Ok(output_ok)
+                    })(),
+                )
+            }
+        },
+    )
+}
+fn wire__ldk_adapter__bolt12__bolt_12_payment_receive_variable_amount_impl(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
+    that: impl CstDecode<ldk_adapter::bolt12::Bolt12Payment>,
+    description: impl CstDecode<String>,
+    expiry_secs: impl CstDecode<Option<u32>>,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "bolt_12_payment_receive_variable_amount",
+            port: Some(port_),
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
+        },
+        move || {
+            let api_that = that.cst_decode();
+            let api_description = description.cst_decode();
+            let api_expiry_secs = expiry_secs.cst_decode();
+            move |context| {
+                transform_result_dco::<_, _, flutter_rust_bridge::for_generated::anyhow::Error>(
+                    (move || {
+                        let output_ok =
+                            ldk_adapter::bolt12::Bolt12Payment::receive_variable_amount(
+                                &api_that,
+                                api_description,
+                                api_expiry_secs,
+                            )?;
+                        Ok(output_ok)
+                    })(),
+                )
+            }
+        },
+    )
+}
+fn wire__ldk_adapter__bolt12__bolt_12_payment_request_refund_payment_impl(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
+    that: impl CstDecode<ldk_adapter::bolt12::Bolt12Payment>,
+    refund: impl CstDecode<shared::Refund>,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "bolt_12_payment_request_refund_payment",
+            port: Some(port_),
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
+        },
+        move || {
+            let api_that = that.cst_decode();
+            let api_refund = refund.cst_decode();
+            move |context| {
+                transform_result_dco::<_, _, flutter_rust_bridge::for_generated::anyhow::Error>(
+                    (move || {
+                        let output_ok = ldk_adapter::bolt12::Bolt12Payment::request_refund_payment(
+                            &api_that, api_refund,
+                        )?;
+                        Ok(output_ok)
+                    })(),
+                )
+            }
+        },
+    )
+}
+fn wire__ldk_adapter__bolt12__bolt_12_payment_send_impl(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
+    that: impl CstDecode<ldk_adapter::bolt12::Bolt12Payment>,
+    offer: impl CstDecode<shared::Offer>,
+    quantity: impl CstDecode<Option<u64>>,
+    payer_note: impl CstDecode<Option<String>>,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "bolt_12_payment_send",
+            port: Some(port_),
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
+        },
+        move || {
+            let api_that = that.cst_decode();
+            let api_offer = offer.cst_decode();
+            let api_quantity = quantity.cst_decode();
+            let api_payer_note = payer_note.cst_decode();
+            move |context| {
+                transform_result_dco::<_, _, flutter_rust_bridge::for_generated::anyhow::Error>(
+                    (move || {
+                        let output_ok = ldk_adapter::bolt12::Bolt12Payment::send(
+                            &api_that,
+                            api_offer,
+                            api_quantity,
+                            api_payer_note,
+                        )?;
+                        Ok(output_ok)
+                    })(),
+                )
+            }
+        },
+    )
+}
+fn wire__ldk_adapter__bolt12__bolt_12_payment_send_using_amount_impl(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
+    that: impl CstDecode<ldk_adapter::bolt12::Bolt12Payment>,
+    offer: impl CstDecode<shared::Offer>,
+    amount_msat: impl CstDecode<u64>,
+    quantity: impl CstDecode<Option<u64>>,
+    payer_note: impl CstDecode<Option<String>>,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "bolt_12_payment_send_using_amount",
+            port: Some(port_),
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
+        },
+        move || {
+            let api_that = that.cst_decode();
+            let api_offer = offer.cst_decode();
+            let api_amount_msat = amount_msat.cst_decode();
+            let api_quantity = quantity.cst_decode();
+            let api_payer_note = payer_note.cst_decode();
+            move |context| {
+                transform_result_dco::<_, _, flutter_rust_bridge::for_generated::anyhow::Error>(
+                    (move || {
+                        let output_ok = ldk_adapter::bolt12::Bolt12Payment::send_using_amount(
+                            &api_that,
+                            api_offer,
+                            api_amount_msat,
+                            api_quantity,
+                            api_payer_note,
                         )?;
                         Ok(output_ok)
                     })(),
@@ -9144,6 +6034,29 @@ fn wire__shared__mnemonic_from_entropy_impl(
         },
     )
 }
+fn wire__shared__mnemonic_from_seed_phrase_impl(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
+    seed_phrase: impl CstDecode<String>,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "mnemonic_from_seed_phrase",
+            port: Some(port_),
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
+        },
+        move || {
+            let api_seed_phrase = seed_phrase.cst_decode();
+            move |context| {
+                transform_result_dco::<_, _, flutter_rust_bridge::for_generated::anyhow::Error>(
+                    (move || {
+                        let output_ok = shared::Mnemonic::from_seed_phrase(&api_seed_phrase)?;
+                        Ok(output_ok)
+                    })(),
+                )
+            }
+        },
+    )
+}
 fn wire__shared__mnemonic_generate_impl(port_: flutter_rust_bridge::for_generated::MessagePort) {
     FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
         flutter_rust_bridge::for_generated::TaskInfo {
@@ -9179,6 +6092,977 @@ fn wire__shared__mnemonic_to_seed_impl(
                 transform_result_dco::<_, _, ()>((move || {
                     let output_ok =
                         Result::<_, ()>::Ok(shared::Mnemonic::to_seed(&api_that, &api_passphrase))?;
+                    Ok(output_ok)
+                })())
+            }
+        },
+    )
+}
+fn wire__ldk_adapter__graph__network_graph_channel_impl(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
+    that: impl CstDecode<ldk_adapter::graph::NetworkGraph>,
+    short_channel_id: impl CstDecode<u64>,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "network_graph_channel",
+            port: Some(port_),
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
+        },
+        move || {
+            let api_that = that.cst_decode();
+            let api_short_channel_id = short_channel_id.cst_decode();
+            move |context| {
+                transform_result_dco::<_, _, ()>((move || {
+                    let output_ok = Result::<_, ()>::Ok(
+                        ldk_adapter::graph::NetworkGraph::channel(&api_that, api_short_channel_id),
+                    )?;
+                    Ok(output_ok)
+                })())
+            }
+        },
+    )
+}
+fn wire__ldk_adapter__graph__network_graph_list_channels_impl(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
+    that: impl CstDecode<ldk_adapter::graph::NetworkGraph>,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "network_graph_list_channels",
+            port: Some(port_),
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
+        },
+        move || {
+            let api_that = that.cst_decode();
+            move |context| {
+                transform_result_dco::<_, _, ()>((move || {
+                    let output_ok = Result::<_, ()>::Ok(
+                        ldk_adapter::graph::NetworkGraph::list_channels(&api_that),
+                    )?;
+                    Ok(output_ok)
+                })())
+            }
+        },
+    )
+}
+fn wire__ldk_adapter__graph__network_graph_list_nodes_impl(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
+    that: impl CstDecode<ldk_adapter::graph::NetworkGraph>,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "network_graph_list_nodes",
+            port: Some(port_),
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
+        },
+        move || {
+            let api_that = that.cst_decode();
+            move |context| {
+                transform_result_dco::<_, _, ()>((move || {
+                    let output_ok = Result::<_, ()>::Ok(
+                        ldk_adapter::graph::NetworkGraph::list_nodes(&api_that),
+                    )?;
+                    Ok(output_ok)
+                })())
+            }
+        },
+    )
+}
+fn wire__ldk_adapter__graph__network_graph_node_impl(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
+    that: impl CstDecode<ldk_adapter::graph::NetworkGraph>,
+    node_id: impl CstDecode<ldk_adapter::graph::NodeId>,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "network_graph_node",
+            port: Some(port_),
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
+        },
+        move || {
+            let api_that = that.cst_decode();
+            let api_node_id = node_id.cst_decode();
+            move |context| {
+                transform_result_dco::<_, _, flutter_rust_bridge::for_generated::anyhow::Error>(
+                    (move || {
+                        let output_ok =
+                            ldk_adapter::graph::NetworkGraph::node(&api_that, api_node_id)?;
+                        Ok(output_ok)
+                    })(),
+                )
+            }
+        },
+    )
+}
+fn wire__ldk_adapter__node__node_bolt11_payment_impl(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
+    that: impl CstDecode<ldk_adapter::node::Node>,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "node_bolt11_payment",
+            port: Some(port_),
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
+        },
+        move || {
+            let api_that = that.cst_decode();
+            move |context| {
+                transform_result_dco::<_, _, ()>((move || {
+                    let output_ok =
+                        Result::<_, ()>::Ok(ldk_adapter::node::Node::bolt11_payment(&api_that))?;
+                    Ok(output_ok)
+                })())
+            }
+        },
+    )
+}
+fn wire__ldk_adapter__node__node_bolt12_payment_impl(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
+    that: impl CstDecode<ldk_adapter::node::Node>,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "node_bolt12_payment",
+            port: Some(port_),
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
+        },
+        move || {
+            let api_that = that.cst_decode();
+            move |context| {
+                transform_result_dco::<_, _, ()>((move || {
+                    let output_ok =
+                        Result::<_, ()>::Ok(ldk_adapter::node::Node::bolt12_payment(&api_that))?;
+                    Ok(output_ok)
+                })())
+            }
+        },
+    )
+}
+fn wire__ldk_adapter__node__node_close_channel_impl(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
+    that: impl CstDecode<ldk_adapter::node::Node>,
+    user_channel_id: impl CstDecode<ldk_adapter::types::UserChannelId>,
+    counterparty_node_id: impl CstDecode<shared::PublicKey>,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "node_close_channel",
+            port: Some(port_),
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
+        },
+        move || {
+            let api_that = that.cst_decode();
+            let api_user_channel_id = user_channel_id.cst_decode();
+            let api_counterparty_node_id = counterparty_node_id.cst_decode();
+            move |context| {
+                transform_result_dco::<_, _, flutter_rust_bridge::for_generated::anyhow::Error>(
+                    (move || {
+                        let output_ok = ldk_adapter::node::Node::close_channel(
+                            &api_that,
+                            api_user_channel_id,
+                            api_counterparty_node_id,
+                        )?;
+                        Ok(output_ok)
+                    })(),
+                )
+            }
+        },
+    )
+}
+fn wire__ldk_adapter__node__node_config_impl(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
+    that: impl CstDecode<ldk_adapter::node::Node>,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "node_config",
+            port: Some(port_),
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
+        },
+        move || {
+            let api_that = that.cst_decode();
+            move |context| {
+                transform_result_dco::<_, _, ()>((move || {
+                    let output_ok =
+                        Result::<_, ()>::Ok(ldk_adapter::node::Node::config(&api_that))?;
+                    Ok(output_ok)
+                })())
+            }
+        },
+    )
+}
+fn wire__ldk_adapter__node__node_connect_impl(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
+    that: impl CstDecode<ldk_adapter::node::Node>,
+    node_id: impl CstDecode<shared::PublicKey>,
+    address: impl CstDecode<shared::SocketAddress>,
+    persist: impl CstDecode<bool>,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "node_connect",
+            port: Some(port_),
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
+        },
+        move || {
+            let api_that = that.cst_decode();
+            let api_node_id = node_id.cst_decode();
+            let api_address = address.cst_decode();
+            let api_persist = persist.cst_decode();
+            move |context| {
+                transform_result_dco::<_, _, flutter_rust_bridge::for_generated::anyhow::Error>(
+                    (move || {
+                        let output_ok = ldk_adapter::node::Node::connect(
+                            &api_that,
+                            api_node_id,
+                            api_address,
+                            api_persist,
+                        )?;
+                        Ok(output_ok)
+                    })(),
+                )
+            }
+        },
+    )
+}
+fn wire__ldk_adapter__node__node_disconnect_impl(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
+    that: impl CstDecode<ldk_adapter::node::Node>,
+    counterparty_node_id: impl CstDecode<shared::PublicKey>,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "node_disconnect",
+            port: Some(port_),
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
+        },
+        move || {
+            let api_that = that.cst_decode();
+            let api_counterparty_node_id = counterparty_node_id.cst_decode();
+            move |context| {
+                transform_result_dco::<_, _, flutter_rust_bridge::for_generated::anyhow::Error>(
+                    (move || {
+                        let output_ok = ldk_adapter::node::Node::disconnect(
+                            &api_that,
+                            api_counterparty_node_id,
+                        )?;
+                        Ok(output_ok)
+                    })(),
+                )
+            }
+        },
+    )
+}
+fn wire__ldk_adapter__node__node_event_handled_impl(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
+    that: impl CstDecode<ldk_adapter::node::Node>,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "node_event_handled",
+            port: Some(port_),
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
+        },
+        move || {
+            let api_that = that.cst_decode();
+            move |context| {
+                transform_result_dco::<_, _, flutter_rust_bridge::for_generated::anyhow::Error>(
+                    (move || {
+                        let output_ok = ldk_adapter::node::Node::event_handled(&api_that)?;
+                        Ok(output_ok)
+                    })(),
+                )
+            }
+        },
+    )
+}
+fn wire__ldk_adapter__node__node_export_pathfinding_scores_impl(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
+    that: impl CstDecode<ldk_adapter::node::Node>,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "node_export_pathfinding_scores",
+            port: Some(port_),
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
+        },
+        move || {
+            let api_that = that.cst_decode();
+            move |context| {
+                transform_result_dco::<_, _, flutter_rust_bridge::for_generated::anyhow::Error>(
+                    (move || {
+                        let output_ok =
+                            ldk_adapter::node::Node::export_pathfinding_scores(&api_that)?;
+                        Ok(output_ok)
+                    })(),
+                )
+            }
+        },
+    )
+}
+fn wire__ldk_adapter__node__node_force_close_channel_impl(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
+    that: impl CstDecode<ldk_adapter::node::Node>,
+    user_channel_id: impl CstDecode<ldk_adapter::types::UserChannelId>,
+    counterparty_node_id: impl CstDecode<shared::PublicKey>,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "node_force_close_channel",
+            port: Some(port_),
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
+        },
+        move || {
+            let api_that = that.cst_decode();
+            let api_user_channel_id = user_channel_id.cst_decode();
+            let api_counterparty_node_id = counterparty_node_id.cst_decode();
+            move |context| {
+                transform_result_dco::<_, _, flutter_rust_bridge::for_generated::anyhow::Error>(
+                    (move || {
+                        let output_ok = ldk_adapter::node::Node::force_close_channel(
+                            &api_that,
+                            api_user_channel_id,
+                            api_counterparty_node_id,
+                        )?;
+                        Ok(output_ok)
+                    })(),
+                )
+            }
+        },
+    )
+}
+fn wire__ldk_adapter__node__node_list_balances_impl(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
+    that: impl CstDecode<ldk_adapter::node::Node>,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "node_list_balances",
+            port: Some(port_),
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
+        },
+        move || {
+            let api_that = that.cst_decode();
+            move |context| {
+                transform_result_dco::<_, _, flutter_rust_bridge::for_generated::anyhow::Error>(
+                    (move || {
+                        let output_ok = ldk_adapter::node::Node::list_balances(&api_that)?;
+                        Ok(output_ok)
+                    })(),
+                )
+            }
+        },
+    )
+}
+fn wire__ldk_adapter__node__node_list_channels_impl(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
+    that: impl CstDecode<ldk_adapter::node::Node>,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "node_list_channels",
+            port: Some(port_),
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
+        },
+        move || {
+            let api_that = that.cst_decode();
+            move |context| {
+                transform_result_dco::<_, _, ()>((move || {
+                    let output_ok =
+                        Result::<_, ()>::Ok(ldk_adapter::node::Node::list_channels(&api_that))?;
+                    Ok(output_ok)
+                })())
+            }
+        },
+    )
+}
+fn wire__ldk_adapter__node__node_list_payments_impl(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
+    that: impl CstDecode<ldk_adapter::node::Node>,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "node_list_payments",
+            port: Some(port_),
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
+        },
+        move || {
+            let api_that = that.cst_decode();
+            move |context| {
+                transform_result_dco::<_, _, ()>((move || {
+                    let output_ok =
+                        Result::<_, ()>::Ok(ldk_adapter::node::Node::list_payments(&api_that))?;
+                    Ok(output_ok)
+                })())
+            }
+        },
+    )
+}
+fn wire__ldk_adapter__node__node_list_payments_with_filter_impl(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
+    that: impl CstDecode<ldk_adapter::node::Node>,
+    payment_direction: impl CstDecode<ldk_adapter::types::PaymentDirection>,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "node_list_payments_with_filter",
+            port: Some(port_),
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
+        },
+        move || {
+            let api_that = that.cst_decode();
+            let api_payment_direction = payment_direction.cst_decode();
+            move |context| {
+                transform_result_dco::<_, _, ()>((move || {
+                    let output_ok =
+                        Result::<_, ()>::Ok(ldk_adapter::node::Node::list_payments_with_filter(
+                            &api_that,
+                            api_payment_direction,
+                        ))?;
+                    Ok(output_ok)
+                })())
+            }
+        },
+    )
+}
+fn wire__ldk_adapter__node__node_list_peers_impl(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
+    that: impl CstDecode<ldk_adapter::node::Node>,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "node_list_peers",
+            port: Some(port_),
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
+        },
+        move || {
+            let api_that = that.cst_decode();
+            move |context| {
+                transform_result_dco::<_, _, ()>((move || {
+                    let output_ok =
+                        Result::<_, ()>::Ok(ldk_adapter::node::Node::list_peers(&api_that))?;
+                    Ok(output_ok)
+                })())
+            }
+        },
+    )
+}
+fn wire__ldk_adapter__node__node_listening_addresses_impl(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
+    that: impl CstDecode<ldk_adapter::node::Node>,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "node_listening_addresses",
+            port: Some(port_),
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
+        },
+        move || {
+            let api_that = that.cst_decode();
+            move |context| {
+                transform_result_dco::<_, _, ()>((move || {
+                    let output_ok = Result::<_, ()>::Ok(
+                        ldk_adapter::node::Node::listening_addresses(&api_that),
+                    )?;
+                    Ok(output_ok)
+                })())
+            }
+        },
+    )
+}
+fn wire__ldk_adapter__node__node_network_graph_impl(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
+    that: impl CstDecode<ldk_adapter::node::Node>,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "node_network_graph",
+            port: Some(port_),
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
+        },
+        move || {
+            let api_that = that.cst_decode();
+            move |context| {
+                transform_result_dco::<_, _, ()>((move || {
+                    let output_ok =
+                        Result::<_, ()>::Ok(ldk_adapter::node::Node::network_graph(&api_that))?;
+                    Ok(output_ok)
+                })())
+            }
+        },
+    )
+}
+fn wire__ldk_adapter__node__node_next_event_impl(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
+    that: impl CstDecode<ldk_adapter::node::Node>,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "node_next_event",
+            port: Some(port_),
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
+        },
+        move || {
+            let api_that = that.cst_decode();
+            move |context| {
+                transform_result_dco::<_, _, ()>((move || {
+                    let output_ok =
+                        Result::<_, ()>::Ok(ldk_adapter::node::Node::next_event(&api_that))?;
+                    Ok(output_ok)
+                })())
+            }
+        },
+    )
+}
+fn wire__ldk_adapter__node__node_next_event_async_impl(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
+    that: impl CstDecode<ldk_adapter::node::Node>,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_async::<flutter_rust_bridge::for_generated::DcoCodec, _, _, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "node_next_event_async",
+            port: Some(port_),
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
+        },
+        move || {
+            let api_that = that.cst_decode();
+            move |context| async move {
+                transform_result_dco::<_, _, ()>(
+                    (move || async move {
+                        let output_ok = Result::<_, ()>::Ok(
+                            ldk_adapter::node::Node::next_event_async(&api_that).await,
+                        )?;
+                        Ok(output_ok)
+                    })()
+                    .await,
+                )
+            }
+        },
+    )
+}
+fn wire__ldk_adapter__node__node_node_id_impl(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
+    that: impl CstDecode<ldk_adapter::node::Node>,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "node_node_id",
+            port: Some(port_),
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
+        },
+        move || {
+            let api_that = that.cst_decode();
+            move |context| {
+                transform_result_dco::<_, _, ()>((move || {
+                    let output_ok =
+                        Result::<_, ()>::Ok(ldk_adapter::node::Node::node_id(&api_that))?;
+                    Ok(output_ok)
+                })())
+            }
+        },
+    )
+}
+fn wire__ldk_adapter__node__node_on_chain_payment_impl(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
+    that: impl CstDecode<ldk_adapter::node::Node>,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "node_on_chain_payment",
+            port: Some(port_),
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
+        },
+        move || {
+            let api_that = that.cst_decode();
+            move |context| {
+                transform_result_dco::<_, _, ()>((move || {
+                    let output_ok =
+                        Result::<_, ()>::Ok(ldk_adapter::node::Node::on_chain_payment(&api_that))?;
+                    Ok(output_ok)
+                })())
+            }
+        },
+    )
+}
+fn wire__ldk_adapter__node__node_open_announced_channel_impl(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
+    that: impl CstDecode<ldk_adapter::node::Node>,
+    socket_address: impl CstDecode<shared::SocketAddress>,
+    node_id: impl CstDecode<shared::PublicKey>,
+    channel_amount_sats: impl CstDecode<u64>,
+    push_to_counterparty_msat: impl CstDecode<Option<u64>>,
+    channel_config: impl CstDecode<Option<ChannelConfig>>,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "node_open_announced_channel",
+            port: Some(port_),
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
+        },
+        move || {
+            let api_that = that.cst_decode();
+            let api_socket_address = socket_address.cst_decode();
+            let api_node_id = node_id.cst_decode();
+            let api_channel_amount_sats = channel_amount_sats.cst_decode();
+            let api_push_to_counterparty_msat = push_to_counterparty_msat.cst_decode();
+            let api_channel_config = channel_config.cst_decode();
+            move |context| {
+                transform_result_dco::<_, _, flutter_rust_bridge::for_generated::anyhow::Error>(
+                    (move || {
+                        let output_ok = ldk_adapter::node::Node::open_announced_channel(
+                            &api_that,
+                            api_socket_address,
+                            api_node_id,
+                            api_channel_amount_sats,
+                            api_push_to_counterparty_msat,
+                            api_channel_config,
+                        )?;
+                        Ok(output_ok)
+                    })(),
+                )
+            }
+        },
+    )
+}
+fn wire__ldk_adapter__node__node_open_channel_impl(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
+    that: impl CstDecode<ldk_adapter::node::Node>,
+    socket_address: impl CstDecode<shared::SocketAddress>,
+    node_id: impl CstDecode<shared::PublicKey>,
+    channel_amount_sats: impl CstDecode<u64>,
+    push_to_counterparty_msat: impl CstDecode<Option<u64>>,
+    channel_config: impl CstDecode<Option<ChannelConfig>>,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "node_open_channel",
+            port: Some(port_),
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
+        },
+        move || {
+            let api_that = that.cst_decode();
+            let api_socket_address = socket_address.cst_decode();
+            let api_node_id = node_id.cst_decode();
+            let api_channel_amount_sats = channel_amount_sats.cst_decode();
+            let api_push_to_counterparty_msat = push_to_counterparty_msat.cst_decode();
+            let api_channel_config = channel_config.cst_decode();
+            move |context| {
+                transform_result_dco::<_, _, flutter_rust_bridge::for_generated::anyhow::Error>(
+                    (move || {
+                        let output_ok = ldk_adapter::node::Node::open_channel(
+                            &api_that,
+                            api_socket_address,
+                            api_node_id,
+                            api_channel_amount_sats,
+                            api_push_to_counterparty_msat,
+                            api_channel_config,
+                        )?;
+                        Ok(output_ok)
+                    })(),
+                )
+            }
+        },
+    )
+}
+fn wire__ldk_adapter__node__node_payment_impl(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
+    that: impl CstDecode<ldk_adapter::node::Node>,
+    payment_id: impl CstDecode<shared::PaymentId>,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "node_payment",
+            port: Some(port_),
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
+        },
+        move || {
+            let api_that = that.cst_decode();
+            let api_payment_id = payment_id.cst_decode();
+            move |context| {
+                transform_result_dco::<_, _, ()>((move || {
+                    let output_ok = Result::<_, ()>::Ok(ldk_adapter::node::Node::payment(
+                        &api_that,
+                        api_payment_id,
+                    ))?;
+                    Ok(output_ok)
+                })())
+            }
+        },
+    )
+}
+fn wire__ldk_adapter__node__node_remove_payment_impl(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
+    that: impl CstDecode<ldk_adapter::node::Node>,
+    payment_id: impl CstDecode<shared::PaymentId>,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "node_remove_payment",
+            port: Some(port_),
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
+        },
+        move || {
+            let api_that = that.cst_decode();
+            let api_payment_id = payment_id.cst_decode();
+            move |context| {
+                transform_result_dco::<_, _, flutter_rust_bridge::for_generated::anyhow::Error>(
+                    (move || {
+                        let output_ok =
+                            ldk_adapter::node::Node::remove_payment(&api_that, api_payment_id)?;
+                        Ok(output_ok)
+                    })(),
+                )
+            }
+        },
+    )
+}
+fn wire__ldk_adapter__node__node_sign_message_impl(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
+    that: impl CstDecode<ldk_adapter::node::Node>,
+    msg: impl CstDecode<Vec<u8>>,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "node_sign_message",
+            port: Some(port_),
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
+        },
+        move || {
+            let api_that = that.cst_decode();
+            let api_msg = msg.cst_decode();
+            move |context| {
+                transform_result_dco::<_, _, ()>((move || {
+                    let output_ok = Result::<_, ()>::Ok(ldk_adapter::node::Node::sign_message(
+                        &api_that, api_msg,
+                    ))?;
+                    Ok(output_ok)
+                })())
+            }
+        },
+    )
+}
+fn wire__ldk_adapter__node__node_spontaneous_payment_impl(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
+    that: impl CstDecode<ldk_adapter::node::Node>,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "node_spontaneous_payment",
+            port: Some(port_),
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
+        },
+        move || {
+            let api_that = that.cst_decode();
+            move |context| {
+                transform_result_dco::<_, _, ()>((move || {
+                    let output_ok = Result::<_, ()>::Ok(
+                        ldk_adapter::node::Node::spontaneous_payment(&api_that),
+                    )?;
+                    Ok(output_ok)
+                })())
+            }
+        },
+    )
+}
+fn wire__ldk_adapter__node__node_start_impl(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
+    that: impl CstDecode<ldk_adapter::node::Node>,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "node_start",
+            port: Some(port_),
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
+        },
+        move || {
+            let api_that = that.cst_decode();
+            move |context| {
+                transform_result_dco::<_, _, flutter_rust_bridge::for_generated::anyhow::Error>(
+                    (move || {
+                        let output_ok = ldk_adapter::node::Node::start(&api_that)?;
+                        Ok(output_ok)
+                    })(),
+                )
+            }
+        },
+    )
+}
+fn wire__ldk_adapter__node__node_status_impl(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
+    that: impl CstDecode<ldk_adapter::node::Node>,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "node_status",
+            port: Some(port_),
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
+        },
+        move || {
+            let api_that = that.cst_decode();
+            move |context| {
+                transform_result_dco::<_, _, ()>((move || {
+                    let output_ok =
+                        Result::<_, ()>::Ok(ldk_adapter::node::Node::status(&api_that))?;
+                    Ok(output_ok)
+                })())
+            }
+        },
+    )
+}
+fn wire__ldk_adapter__node__node_stop_impl(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
+    that: impl CstDecode<ldk_adapter::node::Node>,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "node_stop",
+            port: Some(port_),
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
+        },
+        move || {
+            let api_that = that.cst_decode();
+            move |context| {
+                transform_result_dco::<_, _, flutter_rust_bridge::for_generated::anyhow::Error>(
+                    (move || {
+                        let output_ok = ldk_adapter::node::Node::stop(&api_that)?;
+                        Ok(output_ok)
+                    })(),
+                )
+            }
+        },
+    )
+}
+fn wire__ldk_adapter__node__node_sync_wallets_impl(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
+    that: impl CstDecode<ldk_adapter::node::Node>,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "node_sync_wallets",
+            port: Some(port_),
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
+        },
+        move || {
+            let api_that = that.cst_decode();
+            move |context| {
+                transform_result_dco::<_, _, flutter_rust_bridge::for_generated::anyhow::Error>(
+                    (move || {
+                        let output_ok = ldk_adapter::node::Node::sync_wallets(&api_that)?;
+                        Ok(output_ok)
+                    })(),
+                )
+            }
+        },
+    )
+}
+fn wire__ldk_adapter__node__node_unified_qr_payment_impl(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
+    that: impl CstDecode<ldk_adapter::node::Node>,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "node_unified_qr_payment",
+            port: Some(port_),
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
+        },
+        move || {
+            let api_that = that.cst_decode();
+            move |context| {
+                transform_result_dco::<_, _, ()>((move || {
+                    let output_ok = Result::<_, ()>::Ok(
+                        ldk_adapter::node::Node::unified_qr_payment(&api_that),
+                    )?;
+                    Ok(output_ok)
+                })())
+            }
+        },
+    )
+}
+fn wire__ldk_adapter__node__node_update_channel_config_impl(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
+    that: impl CstDecode<ldk_adapter::node::Node>,
+    user_channel_id: impl CstDecode<ldk_adapter::types::UserChannelId>,
+    counterparty_node_id: impl CstDecode<shared::PublicKey>,
+    channel_config: impl CstDecode<ChannelConfig>,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "node_update_channel_config",
+            port: Some(port_),
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
+        },
+        move || {
+            let api_that = that.cst_decode();
+            let api_user_channel_id = user_channel_id.cst_decode();
+            let api_counterparty_node_id = counterparty_node_id.cst_decode();
+            let api_channel_config = channel_config.cst_decode();
+            move |context| {
+                transform_result_dco::<_, _, flutter_rust_bridge::for_generated::anyhow::Error>(
+                    (move || {
+                        let output_ok = ldk_adapter::node::Node::update_channel_config(
+                            &api_that,
+                            api_user_channel_id,
+                            api_counterparty_node_id,
+                            api_channel_config,
+                        )?;
+                        Ok(output_ok)
+                    })(),
+                )
+            }
+        },
+    )
+}
+fn wire__ldk_adapter__node__node_verify_signature_impl(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
+    that: impl CstDecode<ldk_adapter::node::Node>,
+    msg: impl CstDecode<Vec<u8>>,
+    sig: impl CstDecode<String>,
+    public_key: impl CstDecode<shared::PublicKey>,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "node_verify_signature",
+            port: Some(port_),
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
+        },
+        move || {
+            let api_that = that.cst_decode();
+            let api_msg = msg.cst_decode();
+            let api_sig = sig.cst_decode();
+            let api_public_key = public_key.cst_decode();
+            move |context| {
+                transform_result_dco::<_, _, flutter_rust_bridge::for_generated::anyhow::Error>(
+                    (move || {
+                        let output_ok = ldk_adapter::node::Node::verify_signature(
+                            &api_that,
+                            api_msg,
+                            api_sig,
+                            api_public_key,
+                        )?;
+                        Ok(output_ok)
+                    })(),
+                )
+            }
+        },
+    )
+}
+fn wire__ldk_adapter__node__node_wait_next_event_impl(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
+    that: impl CstDecode<ldk_adapter::node::Node>,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "node_wait_next_event",
+            port: Some(port_),
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
+        },
+        move || {
+            let api_that = that.cst_decode();
+            move |context| {
+                transform_result_dco::<_, _, ()>((move || {
+                    let output_ok =
+                        Result::<_, ()>::Ok(ldk_adapter::node::Node::wait_next_event(&api_that))?;
                     Ok(output_ok)
                 })())
             }
@@ -9246,6 +7130,175 @@ fn wire__ldk_adapter__types__offer_id_new_impl(
                 transform_result_dco::<_, _, ()>((move || {
                     let output_ok =
                         Result::<_, ()>::Ok(ldk_adapter::types::OfferId::new(api_data))?;
+                    Ok(output_ok)
+                })())
+            }
+        },
+    )
+}
+fn wire__ldk_adapter__types__payment_details_is_failed_impl(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
+    that: impl CstDecode<ldk_adapter::types::PaymentDetails>,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "payment_details_is_failed",
+            port: Some(port_),
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
+        },
+        move || {
+            let api_that = that.cst_decode();
+            move |context| {
+                transform_result_dco::<_, _, ()>((move || {
+                    let output_ok = Result::<_, ()>::Ok(
+                        ldk_adapter::types::PaymentDetails::is_failed(&api_that),
+                    )?;
+                    Ok(output_ok)
+                })())
+            }
+        },
+    )
+}
+fn wire__ldk_adapter__types__payment_details_is_pending_impl(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
+    that: impl CstDecode<ldk_adapter::types::PaymentDetails>,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "payment_details_is_pending",
+            port: Some(port_),
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
+        },
+        move || {
+            let api_that = that.cst_decode();
+            move |context| {
+                transform_result_dco::<_, _, ()>((move || {
+                    let output_ok = Result::<_, ()>::Ok(
+                        ldk_adapter::types::PaymentDetails::is_pending(&api_that),
+                    )?;
+                    Ok(output_ok)
+                })())
+            }
+        },
+    )
+}
+fn wire__ldk_adapter__types__payment_details_is_succeeded_impl(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
+    that: impl CstDecode<ldk_adapter::types::PaymentDetails>,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "payment_details_is_succeeded",
+            port: Some(port_),
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
+        },
+        move || {
+            let api_that = that.cst_decode();
+            move |context| {
+                transform_result_dco::<_, _, ()>((move || {
+                    let output_ok = Result::<_, ()>::Ok(
+                        ldk_adapter::types::PaymentDetails::is_succeeded(&api_that),
+                    )?;
+                    Ok(output_ok)
+                })())
+            }
+        },
+    )
+}
+fn wire__ldk_adapter__types__payment_details_new_impl(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
+    id: impl CstDecode<shared::PaymentId>,
+    kind: impl CstDecode<ldk_adapter::types::PaymentKind>,
+    amount_msat: impl CstDecode<Option<u64>>,
+    direction: impl CstDecode<ldk_adapter::types::PaymentDirection>,
+    status: impl CstDecode<ldk_adapter::types::PaymentStatus>,
+    latest_update_timestamp: impl CstDecode<u64>,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "payment_details_new",
+            port: Some(port_),
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
+        },
+        move || {
+            let api_id = id.cst_decode();
+            let api_kind = kind.cst_decode();
+            let api_amount_msat = amount_msat.cst_decode();
+            let api_direction = direction.cst_decode();
+            let api_status = status.cst_decode();
+            let api_latest_update_timestamp = latest_update_timestamp.cst_decode();
+            move |context| {
+                transform_result_dco::<_, _, ()>((move || {
+                    let output_ok = Result::<_, ()>::Ok(ldk_adapter::types::PaymentDetails::new(
+                        api_id,
+                        api_kind,
+                        api_amount_msat,
+                        api_direction,
+                        api_status,
+                        api_latest_update_timestamp,
+                    ))?;
+                    Ok(output_ok)
+                })())
+            }
+        },
+    )
+}
+fn wire__ldk_adapter__types__payment_details_new_inbound_pending_impl(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
+    id: impl CstDecode<shared::PaymentId>,
+    kind: impl CstDecode<ldk_adapter::types::PaymentKind>,
+    amount_msat: impl CstDecode<Option<u64>>,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "payment_details_new_inbound_pending",
+            port: Some(port_),
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
+        },
+        move || {
+            let api_id = id.cst_decode();
+            let api_kind = kind.cst_decode();
+            let api_amount_msat = amount_msat.cst_decode();
+            move |context| {
+                transform_result_dco::<_, _, ()>((move || {
+                    let output_ok = Result::<_, ()>::Ok(
+                        ldk_adapter::types::PaymentDetails::new_inbound_pending(
+                            api_id,
+                            api_kind,
+                            api_amount_msat,
+                        ),
+                    )?;
+                    Ok(output_ok)
+                })())
+            }
+        },
+    )
+}
+fn wire__ldk_adapter__types__payment_details_new_outbound_pending_impl(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
+    id: impl CstDecode<shared::PaymentId>,
+    kind: impl CstDecode<ldk_adapter::types::PaymentKind>,
+    amount_msat: impl CstDecode<Option<u64>>,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "payment_details_new_outbound_pending",
+            port: Some(port_),
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
+        },
+        move || {
+            let api_id = id.cst_decode();
+            let api_kind = kind.cst_decode();
+            let api_amount_msat = amount_msat.cst_decode();
+            move |context| {
+                transform_result_dco::<_, _, ()>((move || {
+                    let output_ok = Result::<_, ()>::Ok(
+                        ldk_adapter::types::PaymentDetails::new_outbound_pending(
+                            api_id,
+                            api_kind,
+                            api_amount_msat,
+                        ),
+                    )?;
                     Ok(output_ok)
                 })())
             }
@@ -9320,6 +7373,130 @@ fn wire__ldk_adapter__types__payment_secret_new_impl(
         },
     )
 }
+fn wire__ldk_adapter__types__peer_details_is_offline_impl(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
+    that: impl CstDecode<ldk_adapter::types::PeerDetails>,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "peer_details_is_offline",
+            port: Some(port_),
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
+        },
+        move || {
+            let api_that = that.cst_decode();
+            move |context| {
+                transform_result_dco::<_, _, ()>((move || {
+                    let output_ok = Result::<_, ()>::Ok(
+                        ldk_adapter::types::PeerDetails::is_offline(&api_that),
+                    )?;
+                    Ok(output_ok)
+                })())
+            }
+        },
+    )
+}
+fn wire__ldk_adapter__types__peer_details_is_online_impl(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
+    that: impl CstDecode<ldk_adapter::types::PeerDetails>,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "peer_details_is_online",
+            port: Some(port_),
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
+        },
+        move || {
+            let api_that = that.cst_decode();
+            move |context| {
+                transform_result_dco::<_, _, ()>((move || {
+                    let output_ok =
+                        Result::<_, ()>::Ok(ldk_adapter::types::PeerDetails::is_online(&api_that))?;
+                    Ok(output_ok)
+                })())
+            }
+        },
+    )
+}
+fn wire__ldk_adapter__types__peer_details_new_impl(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
+    node_id: impl CstDecode<shared::PublicKey>,
+    address: impl CstDecode<shared::SocketAddress>,
+    is_connected: impl CstDecode<bool>,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "peer_details_new",
+            port: Some(port_),
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
+        },
+        move || {
+            let api_node_id = node_id.cst_decode();
+            let api_address = address.cst_decode();
+            let api_is_connected = is_connected.cst_decode();
+            move |context| {
+                transform_result_dco::<_, _, ()>((move || {
+                    let output_ok = Result::<_, ()>::Ok(ldk_adapter::types::PeerDetails::new(
+                        api_node_id,
+                        api_address,
+                        api_is_connected,
+                    ))?;
+                    Ok(output_ok)
+                })())
+            }
+        },
+    )
+}
+fn wire__ldk_adapter__types__peer_details_new_connected_impl(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
+    node_id: impl CstDecode<shared::PublicKey>,
+    address: impl CstDecode<shared::SocketAddress>,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "peer_details_new_connected",
+            port: Some(port_),
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
+        },
+        move || {
+            let api_node_id = node_id.cst_decode();
+            let api_address = address.cst_decode();
+            move |context| {
+                transform_result_dco::<_, _, ()>((move || {
+                    let output_ok = Result::<_, ()>::Ok(
+                        ldk_adapter::types::PeerDetails::new_connected(api_node_id, api_address),
+                    )?;
+                    Ok(output_ok)
+                })())
+            }
+        },
+    )
+}
+fn wire__ldk_adapter__types__peer_details_new_disconnected_impl(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
+    node_id: impl CstDecode<shared::PublicKey>,
+    address: impl CstDecode<shared::SocketAddress>,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "peer_details_new_disconnected",
+            port: Some(port_),
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
+        },
+        move || {
+            let api_node_id = node_id.cst_decode();
+            let api_address = address.cst_decode();
+            move |context| {
+                transform_result_dco::<_, _, ()>((move || {
+                    let output_ok = Result::<_, ()>::Ok(
+                        ldk_adapter::types::PeerDetails::new_disconnected(api_node_id, api_address),
+                    )?;
+                    Ok(output_ok)
+                })())
+            }
+        },
+    )
+}
 fn wire__shared__psbt_extract_tx_impl(
     port_: flutter_rust_bridge::for_generated::MessagePort,
     that: impl CstDecode<shared::Psbt>,
@@ -9382,6 +7559,148 @@ fn wire__shared__psbt_from_base64_impl(
                 transform_result_dco::<_, _, flutter_rust_bridge::for_generated::anyhow::Error>(
                     (move || {
                         let output_ok = shared::Psbt::from_base64(api_base64)?;
+                        Ok(output_ok)
+                    })(),
+                )
+            }
+        },
+    )
+}
+fn wire__ldk_adapter__spontaneous__spontaneous_payment_send_probes_unsafe_impl(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
+    that: impl CstDecode<ldk_adapter::spontaneous::SpontaneousPayment>,
+    amount_msat: impl CstDecode<u64>,
+    node_id: impl CstDecode<shared::PublicKey>,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "spontaneous_payment_send_probes_unsafe",
+            port: Some(port_),
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
+        },
+        move || {
+            let api_that = that.cst_decode();
+            let api_amount_msat = amount_msat.cst_decode();
+            let api_node_id = node_id.cst_decode();
+            move |context| {
+                transform_result_dco::<_, _, flutter_rust_bridge::for_generated::anyhow::Error>(
+                    (move || {
+                        let output_ok =
+                            ldk_adapter::spontaneous::SpontaneousPayment::send_probes_unsafe(
+                                &api_that,
+                                api_amount_msat,
+                                api_node_id,
+                            )?;
+                        Ok(output_ok)
+                    })(),
+                )
+            }
+        },
+    )
+}
+fn wire__ldk_adapter__spontaneous__spontaneous_payment_send_unsafe_impl(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
+    that: impl CstDecode<ldk_adapter::spontaneous::SpontaneousPayment>,
+    amount_msat: impl CstDecode<u64>,
+    node_id: impl CstDecode<shared::PublicKey>,
+    sending_parameters: impl CstDecode<Option<shared::SendingParameters>>,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "spontaneous_payment_send_unsafe",
+            port: Some(port_),
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
+        },
+        move || {
+            let api_that = that.cst_decode();
+            let api_amount_msat = amount_msat.cst_decode();
+            let api_node_id = node_id.cst_decode();
+            let api_sending_parameters = sending_parameters.cst_decode();
+            move |context| {
+                transform_result_dco::<_, _, flutter_rust_bridge::for_generated::anyhow::Error>(
+                    (move || {
+                        let output_ok = ldk_adapter::spontaneous::SpontaneousPayment::send_unsafe(
+                            &api_that,
+                            api_amount_msat,
+                            api_node_id,
+                            api_sending_parameters,
+                        )?;
+                        Ok(output_ok)
+                    })(),
+                )
+            }
+        },
+    )
+}
+fn wire__ldk_adapter__spontaneous__spontaneous_payment_send_with_custom_tlvs_unsafe_impl(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
+    that: impl CstDecode<ldk_adapter::spontaneous::SpontaneousPayment>,
+    amount_msat: impl CstDecode<u64>,
+    node_id: impl CstDecode<shared::PublicKey>,
+    sending_parameters: impl CstDecode<Option<shared::SendingParameters>>,
+    custom_tlvs: impl CstDecode<Vec<ldk_adapter::types::CustomTlvRecord>>,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec,_,_>(flutter_rust_bridge::for_generated::TaskInfo{ debug_name: "spontaneous_payment_send_with_custom_tlvs_unsafe", port: Some(port_), mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal }, move || { let api_that = that.cst_decode();let api_amount_msat = amount_msat.cst_decode();let api_node_id = node_id.cst_decode();let api_sending_parameters = sending_parameters.cst_decode();let api_custom_tlvs = custom_tlvs.cst_decode(); move |context|  {
+                    transform_result_dco::<_, _, flutter_rust_bridge::for_generated::anyhow::Error>((move ||  {
+                         let output_ok = ldk_adapter::spontaneous::SpontaneousPayment::send_with_custom_tlvs_unsafe(&api_that, api_amount_msat, api_node_id, api_sending_parameters, api_custom_tlvs)?;   Ok(output_ok)
+                    })())
+                } })
+}
+fn wire__ldk_adapter__unified_qr__unified_qr_payment_receive_impl(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
+    that: impl CstDecode<ldk_adapter::unified_qr::UnifiedQrPayment>,
+    amount_sats: impl CstDecode<u64>,
+    message: impl CstDecode<String>,
+    expiry_sec: impl CstDecode<u32>,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "unified_qr_payment_receive",
+            port: Some(port_),
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
+        },
+        move || {
+            let api_that = that.cst_decode();
+            let api_amount_sats = amount_sats.cst_decode();
+            let api_message = message.cst_decode();
+            let api_expiry_sec = expiry_sec.cst_decode();
+            move |context| {
+                transform_result_dco::<_, _, flutter_rust_bridge::for_generated::anyhow::Error>(
+                    (move || {
+                        let output_ok = ldk_adapter::unified_qr::UnifiedQrPayment::receive(
+                            &api_that,
+                            api_amount_sats,
+                            api_message,
+                            api_expiry_sec,
+                        )?;
+                        Ok(output_ok)
+                    })(),
+                )
+            }
+        },
+    )
+}
+fn wire__ldk_adapter__unified_qr__unified_qr_payment_send_impl(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
+    that: impl CstDecode<ldk_adapter::unified_qr::UnifiedQrPayment>,
+    uri_str: impl CstDecode<String>,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "unified_qr_payment_send",
+            port: Some(port_),
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
+        },
+        move || {
+            let api_that = that.cst_decode();
+            let api_uri_str = uri_str.cst_decode();
+            move |context| {
+                transform_result_dco::<_, _, flutter_rust_bridge::for_generated::anyhow::Error>(
+                    (move || {
+                        let output_ok = ldk_adapter::unified_qr::UnifiedQrPayment::send(
+                            &api_that,
+                            api_uri_str,
+                        )?;
                         Ok(output_ok)
                     })(),
                 )
@@ -9485,12 +7804,19 @@ fn wire__ldk_adapter__types__user_channel_id_new_impl(
 #[allow(clippy::unnecessary_literal_unwrap)]
 const _: fn() = || {
     {
+        let BackgroundSyncConfig = None::<ldk_adapter::types::BackgroundSyncConfig>.unwrap();
+        let _: u64 = BackgroundSyncConfig.onchain_wallet_sync_interval_secs;
+        let _: u64 = BackgroundSyncConfig.lightning_wallet_sync_interval_secs;
+        let _: u64 = BackgroundSyncConfig.fee_rate_cache_update_interval_secs;
+    }
+    {
         let BalanceDetails = None::<ldk_adapter::types::BalanceDetails>.unwrap();
         let _: u64 = BalanceDetails.total_onchain_balance_sats;
         let _: u64 = BalanceDetails.spendable_onchain_balance_sats;
         let _: u64 = BalanceDetails.total_lightning_balance_sats;
-        let _: Vec<LightningBalance> = BalanceDetails.lightning_balances;
-        let _: Vec<PendingSweepBalance> = BalanceDetails.pending_balances_from_channel_closures;
+        let _: Vec<ldk_adapter::types::LightningBalance> = BalanceDetails.lightning_balances;
+        let _: Vec<ldk_adapter::types::PendingSweepBalance> =
+            BalanceDetails.pending_balances_from_channel_closures;
     }
     {
         let BestBlock = None::<ldk_adapter::types::BestBlock>.unwrap();
@@ -9502,8 +7828,43 @@ const _: fn() = || {
         let _: String = Bolt11Invoice.signed_raw_invoice;
     }
     {
+        let Bolt11Payment = None::<ldk_adapter::bolt11::Bolt11Payment>.unwrap();
+        let _: ldk_adapter::bolt11::Bolt11Payment = Bolt11Payment.inner;
+    }
+    {
         let Bolt12Invoice = None::<shared::Bolt12Invoice>.unwrap();
         let _: Vec<u8> = Bolt12Invoice.data;
+    }
+    {
+        let Bolt12Payment = None::<ldk_adapter::bolt12::Bolt12Payment>.unwrap();
+        let _: ldk_adapter::bolt12::Bolt12Payment = Bolt12Payment.inner;
+    }
+    match None::<ldk_adapter::types::ChainDataSourceConfig>.unwrap() {
+        ldk_adapter::types::ChainDataSourceConfig::Esplora {
+            server_url,
+            sync_config,
+        } => {
+            let _: String = server_url;
+            let _: Option<ldk_adapter::types::EsploraSyncConfig> = sync_config;
+        }
+        ldk_adapter::types::ChainDataSourceConfig::Electrum {
+            server_url,
+            sync_config,
+        } => {
+            let _: String = server_url;
+            let _: Option<ldk_adapter::types::ElectrumSyncConfig> = sync_config;
+        }
+        ldk_adapter::types::ChainDataSourceConfig::BitcoindRpc {
+            rpc_host,
+            rpc_port,
+            rpc_user,
+            rpc_password,
+        } => {
+            let _: String = rpc_host;
+            let _: u16 = rpc_port;
+            let _: String = rpc_user;
+            let _: String = rpc_password;
+        }
     }
     {
         let ChannelId = None::<ldk_adapter::types::ChannelId>.unwrap();
@@ -9526,12 +7887,42 @@ const _: fn() = || {
         let _: u64 = ChannelUpdateInfo.htlc_maximum_msat;
         let _: ldk_adapter::graph::RoutingFees = ChannelUpdateInfo.fees;
     }
+    match None::<ldk_adapter::types::ClosureReason>.unwrap() {
+        ldk_adapter::types::ClosureReason::PeerFeerateTooLow {
+            peer_feerate_sat_per_kw,
+            required_feerate_sat_per_kw,
+        } => {
+            let _: u32 = peer_feerate_sat_per_kw;
+            let _: u32 = required_feerate_sat_per_kw;
+        }
+        ldk_adapter::types::ClosureReason::CounterpartyForceClosed { peer_msg } => {
+            let _: String = peer_msg;
+        }
+        ldk_adapter::types::ClosureReason::HolderForceClosed {
+            broadcasted_latest_txn,
+        } => {
+            let _: Option<bool> = broadcasted_latest_txn;
+        }
+        ldk_adapter::types::ClosureReason::LegacyCooperativeClosure => {}
+        ldk_adapter::types::ClosureReason::CounterpartyInitiatedCooperativeClosure => {}
+        ldk_adapter::types::ClosureReason::LocallyInitiatedCooperativeClosure => {}
+        ldk_adapter::types::ClosureReason::CommitmentTxConfirmed => {}
+        ldk_adapter::types::ClosureReason::FundingTimedOut => {}
+        ldk_adapter::types::ClosureReason::ProcessingError { err } => {
+            let _: String = err;
+        }
+        ldk_adapter::types::ClosureReason::DisconnectedPeer => {}
+        ldk_adapter::types::ClosureReason::OutdatedChannelManager => {}
+        ldk_adapter::types::ClosureReason::CounterpartyCoopClosedUnfundedChannel => {}
+        ldk_adapter::types::ClosureReason::FundingBatchClosure => {}
+        ldk_adapter::types::ClosureReason::HTLCsTimedOut => {}
+    }
     {
         let Config = None::<ldk_adapter::types::Config>.unwrap();
         let _: String = Config.storage_dir_path;
         let _: shared::Network = Config.network;
-        let _: Option<Vec<SocketAddress>> = Config.listening_addresses;
-        let _: Option<Vec<SocketAddress>> = Config.announcement_addresses;
+        let _: Option<Vec<shared::SocketAddress>> = Config.listening_addresses;
+        let _: Option<Vec<shared::SocketAddress>> = Config.announcement_addresses;
         let _: Option<ldk_adapter::types::NodeAlias> = Config.node_alias;
         let _: Vec<shared::PublicKey> = Config.trusted_peers_0conf;
         let _: u64 = Config.probing_liquidity_limit_multiplier;
@@ -9544,15 +7935,234 @@ const _: fn() = || {
         let _: Vec<u8> = CustomTlvRecord.value;
     }
     {
+        let ElectrumSyncConfig = None::<ldk_adapter::types::ElectrumSyncConfig>.unwrap();
+        let _: Option<ldk_adapter::types::BackgroundSyncConfig> =
+            ElectrumSyncConfig.background_sync_config;
+    }
+    match None::<ldk_adapter::types::EntropySourceConfig>.unwrap() {
+        ldk_adapter::types::EntropySourceConfig::SeedFile(field0) => {
+            let _: String = field0;
+        }
+        ldk_adapter::types::EntropySourceConfig::SeedBytes(field0) => {
+            let _: [u8; 64] = field0;
+        }
+        ldk_adapter::types::EntropySourceConfig::Bip39Mnemonic {
+            mnemonic,
+            passphrase,
+        } => {
+            let _: shared::Mnemonic = mnemonic;
+            let _: Option<String> = passphrase;
+        }
+    }
+    {
+        let EsploraSyncConfig = None::<ldk_adapter::types::EsploraSyncConfig>.unwrap();
+        let _: Option<ldk_adapter::types::BackgroundSyncConfig> =
+            EsploraSyncConfig.background_sync_config;
+    }
+    match None::<ldk_adapter::types::Event>.unwrap() {
+        ldk_adapter::types::Event::PaymentClaimable {
+            payment_id,
+            payment_hash,
+            claimable_amount_msat,
+            claim_deadline,
+            custom_records,
+        } => {
+            let _: shared::PaymentId = payment_id;
+            let _: shared::PaymentHash = payment_hash;
+            let _: u64 = claimable_amount_msat;
+            let _: Option<u32> = claim_deadline;
+            let _: Vec<ldk_adapter::types::CustomTlvRecord> = custom_records;
+        }
+        ldk_adapter::types::Event::PaymentSuccessful {
+            payment_id,
+            payment_hash,
+            fee_paid_msat,
+            preimage,
+        } => {
+            let _: Option<shared::PaymentId> = payment_id;
+            let _: shared::PaymentHash = payment_hash;
+            let _: Option<u64> = fee_paid_msat;
+            let _: Option<shared::PaymentPreimage> = preimage;
+        }
+        ldk_adapter::types::Event::PaymentFailed {
+            payment_id,
+            payment_hash,
+            reason,
+        } => {
+            let _: Option<shared::PaymentId> = payment_id;
+            let _: Option<shared::PaymentHash> = payment_hash;
+            let _: Option<ldk_adapter::types::PaymentFailureReason> = reason;
+        }
+        ldk_adapter::types::Event::PaymentReceived {
+            payment_id,
+            payment_hash,
+            amount_msat,
+            custom_records,
+        } => {
+            let _: Option<shared::PaymentId> = payment_id;
+            let _: shared::PaymentHash = payment_hash;
+            let _: u64 = amount_msat;
+            let _: Vec<ldk_adapter::types::CustomTlvRecord> = custom_records;
+        }
+        ldk_adapter::types::Event::ChannelPending {
+            channel_id,
+            user_channel_id,
+            former_temporary_channel_id,
+            counterparty_node_id,
+            funding_txo,
+        } => {
+            let _: ldk_adapter::types::ChannelId = channel_id;
+            let _: ldk_adapter::types::UserChannelId = user_channel_id;
+            let _: ldk_adapter::types::ChannelId = former_temporary_channel_id;
+            let _: shared::PublicKey = counterparty_node_id;
+            let _: shared::OutPoint = funding_txo;
+        }
+        ldk_adapter::types::Event::ChannelReady {
+            channel_id,
+            user_channel_id,
+            counterparty_node_id,
+        } => {
+            let _: ldk_adapter::types::ChannelId = channel_id;
+            let _: ldk_adapter::types::UserChannelId = user_channel_id;
+            let _: Option<shared::PublicKey> = counterparty_node_id;
+        }
+        ldk_adapter::types::Event::ChannelClosed {
+            channel_id,
+            user_channel_id,
+            counterparty_node_id,
+            reason,
+        } => {
+            let _: ldk_adapter::types::ChannelId = channel_id;
+            let _: ldk_adapter::types::UserChannelId = user_channel_id;
+            let _: Option<shared::PublicKey> = counterparty_node_id;
+            let _: Option<ldk_adapter::types::ClosureReason> = reason;
+        }
+        ldk_adapter::types::Event::PaymentForwarded {
+            prev_channel_id,
+            next_channel_id,
+            prev_user_channel_id,
+            next_user_channel_id,
+            prev_node_id,
+            next_node_id,
+            total_fee_earned_msat,
+            skimmed_fee_msat,
+            claim_from_onchain_tx,
+            outbound_amount_forwarded_msat,
+        } => {
+            let _: ldk_adapter::types::ChannelId = prev_channel_id;
+            let _: ldk_adapter::types::ChannelId = next_channel_id;
+            let _: Option<ldk_adapter::types::UserChannelId> = prev_user_channel_id;
+            let _: Option<ldk_adapter::types::UserChannelId> = next_user_channel_id;
+            let _: Option<shared::PublicKey> = prev_node_id;
+            let _: Option<shared::PublicKey> = next_node_id;
+            let _: Option<u64> = total_fee_earned_msat;
+            let _: Option<u64> = skimmed_fee_msat;
+            let _: bool = claim_from_onchain_tx;
+            let _: Option<u64> = outbound_amount_forwarded_msat;
+        }
+    }
+    {
         let FfiLogRecord = None::<ldk_adapter::types::FfiLogRecord>.unwrap();
         let _: ldk_adapter::types::LogLevel = FfiLogRecord.level;
         let _: String = FfiLogRecord.args;
         let _: String = FfiLogRecord.module_path;
         let _: u32 = FfiLogRecord.line;
     }
+    match None::<ldk_adapter::types::GossipSourceConfig>.unwrap() {
+        ldk_adapter::types::GossipSourceConfig::P2PNetwork => {}
+        ldk_adapter::types::GossipSourceConfig::RapidGossipSync(field0) => {
+            let _: String = field0;
+        }
+    }
+    match None::<ldk_adapter::types::LightningBalance>.unwrap() {
+        ldk_adapter::types::LightningBalance::ClaimableOnChannelClose {
+            channel_id,
+            counterparty_node_id,
+            amount_satoshis,
+            transaction_fee_satoshis,
+            outbound_payment_htlc_rounded_msat,
+            outbound_forwarded_htlc_rounded_msat,
+            inbound_claiming_htlc_rounded_msat,
+            inbound_htlc_rounded_msat,
+        } => {
+            let _: ldk_adapter::types::ChannelId = channel_id;
+            let _: shared::PublicKey = counterparty_node_id;
+            let _: u64 = amount_satoshis;
+            let _: u64 = transaction_fee_satoshis;
+            let _: u64 = outbound_payment_htlc_rounded_msat;
+            let _: u64 = outbound_forwarded_htlc_rounded_msat;
+            let _: u64 = inbound_claiming_htlc_rounded_msat;
+            let _: u64 = inbound_htlc_rounded_msat;
+        }
+        ldk_adapter::types::LightningBalance::ClaimableAwaitingConfirmations {
+            channel_id,
+            counterparty_node_id,
+            amount_satoshis,
+            confirmation_height,
+            source,
+        } => {
+            let _: ldk_adapter::types::ChannelId = channel_id;
+            let _: shared::PublicKey = counterparty_node_id;
+            let _: u64 = amount_satoshis;
+            let _: u32 = confirmation_height;
+            let _: ldk_adapter::types::BalanceSource = source;
+        }
+        ldk_adapter::types::LightningBalance::ContentiousClaimable {
+            channel_id,
+            counterparty_node_id,
+            amount_satoshis,
+            timeout_height,
+            payment_hash,
+            payment_preimage,
+        } => {
+            let _: ldk_adapter::types::ChannelId = channel_id;
+            let _: shared::PublicKey = counterparty_node_id;
+            let _: u64 = amount_satoshis;
+            let _: u32 = timeout_height;
+            let _: shared::PaymentHash = payment_hash;
+            let _: shared::PaymentPreimage = payment_preimage;
+        }
+        ldk_adapter::types::LightningBalance::MaybeTimeoutClaimableHTLC {
+            channel_id,
+            counterparty_node_id,
+            amount_satoshis,
+            claimable_height,
+            payment_hash,
+            outbound_payment,
+        } => {
+            let _: ldk_adapter::types::ChannelId = channel_id;
+            let _: shared::PublicKey = counterparty_node_id;
+            let _: u64 = amount_satoshis;
+            let _: u32 = claimable_height;
+            let _: shared::PaymentHash = payment_hash;
+            let _: bool = outbound_payment;
+        }
+        ldk_adapter::types::LightningBalance::MaybePreimageClaimableHTLC {
+            channel_id,
+            counterparty_node_id,
+            amount_satoshis,
+            expiry_height,
+            payment_hash,
+        } => {
+            let _: ldk_adapter::types::ChannelId = channel_id;
+            let _: shared::PublicKey = counterparty_node_id;
+            let _: u64 = amount_satoshis;
+            let _: u32 = expiry_height;
+            let _: shared::PaymentHash = payment_hash;
+        }
+        ldk_adapter::types::LightningBalance::CounterpartyRevokedOutputClaimable {
+            channel_id,
+            counterparty_node_id,
+            amount_satoshis,
+        } => {
+            let _: ldk_adapter::types::ChannelId = channel_id;
+            let _: shared::PublicKey = counterparty_node_id;
+            let _: u64 = amount_satoshis;
+        }
+    }
     {
         let LiquiditySourceConfig = None::<ldk_adapter::types::LiquiditySourceConfig>.unwrap();
-        let _: (SocketAddress, shared::PublicKey, Option<String>) =
+        let _: (shared::SocketAddress, shared::PublicKey, Option<String>) =
             LiquiditySourceConfig.lsps2_service;
     }
     {
@@ -9565,6 +8175,14 @@ const _: fn() = || {
         let _: Vec<String> = Mnemonic.words;
     }
     {
+        let NetworkGraph = None::<ldk_adapter::graph::NetworkGraph>.unwrap();
+        let _: ldk_adapter::graph::NetworkGraph = NetworkGraph.inner;
+    }
+    {
+        let Node = None::<ldk_adapter::node::Node>.unwrap();
+        let _: ldk_adapter::node::Node = Node.inner;
+    }
+    {
         let NodeAlias_ = None::<ldk_adapter::types::NodeAlias>.unwrap();
         let _: [u8; 32] = NodeAlias_.0;
     }
@@ -9572,7 +8190,7 @@ const _: fn() = || {
         let NodeAnnouncementInfo = None::<ldk_adapter::graph::NodeAnnouncementInfo>.unwrap();
         let _: u32 = NodeAnnouncementInfo.last_update;
         let _: String = NodeAnnouncementInfo.alias;
-        let _: Vec<SocketAddress> = NodeAnnouncementInfo.addresses;
+        let _: Vec<shared::SocketAddress> = NodeAnnouncementInfo.addresses;
     }
     {
         let NodeId = None::<ldk_adapter::graph::NodeId>.unwrap();
@@ -9609,12 +8227,81 @@ const _: fn() = || {
         let _: u32 = OutPoint.vout;
     }
     {
+        let PaymentDetails = None::<ldk_adapter::types::PaymentDetails>.unwrap();
+        let _: shared::PaymentId = PaymentDetails.id;
+        let _: ldk_adapter::types::PaymentKind = PaymentDetails.kind;
+        let _: Option<u64> = PaymentDetails.amount_msat;
+        let _: ldk_adapter::types::PaymentDirection = PaymentDetails.direction;
+        let _: ldk_adapter::types::PaymentStatus = PaymentDetails.status;
+        let _: u64 = PaymentDetails.latest_update_timestamp;
+    }
+    {
         let PaymentHash = None::<shared::PaymentHash>.unwrap();
         let _: [u8; 32] = PaymentHash.data;
     }
     {
         let PaymentId = None::<shared::PaymentId>.unwrap();
         let _: Vec<u8> = PaymentId.data;
+    }
+    match None::<ldk_adapter::types::PaymentKind>.unwrap() {
+        ldk_adapter::types::PaymentKind::Onchain { txid, status } => {
+            let _: shared::Txid = txid;
+            let _: ConfirmationStatus = status;
+        }
+        ldk_adapter::types::PaymentKind::Bolt11 {
+            hash,
+            preimage,
+            secret,
+        } => {
+            let _: shared::PaymentHash = hash;
+            let _: Option<shared::PaymentPreimage> = preimage;
+            let _: Option<ldk_adapter::types::PaymentSecret> = secret;
+        }
+        ldk_adapter::types::PaymentKind::Bolt11Jit {
+            hash,
+            preimage,
+            secret,
+            lsp_fee_limits,
+            counterparty_skimmed_fee_msat,
+        } => {
+            let _: shared::PaymentHash = hash;
+            let _: Option<shared::PaymentPreimage> = preimage;
+            let _: Option<ldk_adapter::types::PaymentSecret> = secret;
+            let _: ldk_adapter::types::LSPFeeLimits = lsp_fee_limits;
+            let _: Option<u64> = counterparty_skimmed_fee_msat;
+        }
+        ldk_adapter::types::PaymentKind::Spontaneous { hash, preimage } => {
+            let _: shared::PaymentHash = hash;
+            let _: Option<shared::PaymentPreimage> = preimage;
+        }
+        ldk_adapter::types::PaymentKind::Bolt12Offer {
+            hash,
+            preimage,
+            secret,
+            offer_id,
+            payer_note,
+            quantity,
+        } => {
+            let _: Option<shared::PaymentHash> = hash;
+            let _: Option<shared::PaymentPreimage> = preimage;
+            let _: Option<ldk_adapter::types::PaymentSecret> = secret;
+            let _: ldk_adapter::types::OfferId = offer_id;
+            let _: Option<String> = payer_note;
+            let _: Option<u64> = quantity;
+        }
+        ldk_adapter::types::PaymentKind::Bolt12Refund {
+            hash,
+            preimage,
+            secret,
+            payer_note,
+            quantity,
+        } => {
+            let _: Option<shared::PaymentHash> = hash;
+            let _: Option<shared::PaymentPreimage> = preimage;
+            let _: Option<ldk_adapter::types::PaymentSecret> = secret;
+            let _: Option<String> = payer_note;
+            let _: Option<u64> = quantity;
+        }
     }
     {
         let PaymentPreimage = None::<shared::PaymentPreimage>.unwrap();
@@ -9623,6 +8310,45 @@ const _: fn() = || {
     {
         let PaymentSecret = None::<ldk_adapter::types::PaymentSecret>.unwrap();
         let _: [u8; 32] = PaymentSecret.data;
+    }
+    {
+        let PeerDetails = None::<ldk_adapter::types::PeerDetails>.unwrap();
+        let _: shared::PublicKey = PeerDetails.node_id;
+        let _: shared::SocketAddress = PeerDetails.address;
+        let _: bool = PeerDetails.is_connected;
+    }
+    match None::<ldk_adapter::types::PendingSweepBalance>.unwrap() {
+        ldk_adapter::types::PendingSweepBalance::PendingBroadcast {
+            channel_id,
+            amount_satoshis,
+        } => {
+            let _: Option<ldk_adapter::types::ChannelId> = channel_id;
+            let _: u64 = amount_satoshis;
+        }
+        ldk_adapter::types::PendingSweepBalance::BroadcastAwaitingConfirmation {
+            channel_id,
+            latest_broadcast_height,
+            latest_spending_txid,
+            amount_satoshis,
+        } => {
+            let _: Option<ldk_adapter::types::ChannelId> = channel_id;
+            let _: u32 = latest_broadcast_height;
+            let _: shared::Txid = latest_spending_txid;
+            let _: u64 = amount_satoshis;
+        }
+        ldk_adapter::types::PendingSweepBalance::AwaitingThresholdConfirmations {
+            channel_id,
+            latest_spending_txid,
+            confirmation_hash,
+            confirmation_height,
+            amount_satoshis,
+        } => {
+            let _: Option<ldk_adapter::types::ChannelId> = channel_id;
+            let _: shared::Txid = latest_spending_txid;
+            let _: String = confirmation_hash;
+            let _: u32 = confirmation_height;
+            let _: u64 = amount_satoshis;
+        }
     }
     {
         let Psbt = None::<shared::Psbt>.unwrap();
@@ -9652,6 +8378,38 @@ const _: fn() = || {
         let _: Option<u8> = SendingParameters.max_path_count;
         let _: Option<u8> = SendingParameters.max_channel_saturation_power_of_half;
     }
+    match None::<shared::SocketAddress>.unwrap() {
+        shared::SocketAddress::TcpIpV4 { addr, port } => {
+            let _: [u8; 4] = addr;
+            let _: u16 = port;
+        }
+        shared::SocketAddress::TcpIpV6 { addr, port } => {
+            let _: [u8; 16] = addr;
+            let _: u16 = port;
+        }
+        shared::SocketAddress::OnionV2(field0) => {
+            let _: [u8; 12] = field0;
+        }
+        shared::SocketAddress::OnionV3 {
+            ed25519_pubkey,
+            checksum,
+            version,
+            port,
+        } => {
+            let _: [u8; 32] = ed25519_pubkey;
+            let _: u16 = checksum;
+            let _: u8 = version;
+            let _: u16 = port;
+        }
+        shared::SocketAddress::Hostname { addr, port } => {
+            let _: String = addr;
+            let _: u16 = port;
+        }
+    }
+    {
+        let SpontaneousPayment = None::<ldk_adapter::spontaneous::SpontaneousPayment>.unwrap();
+        let _: ldk_adapter::spontaneous::SpontaneousPayment = SpontaneousPayment.inner;
+    }
     {
         let TxIn = None::<shared::TxIn>.unwrap();
         let _: shared::OutPoint = TxIn.previous_output;
@@ -9669,6 +8427,10 @@ const _: fn() = || {
         let _: String = Txid.hash;
     }
     {
+        let UnifiedQrPayment = None::<ldk_adapter::unified_qr::UnifiedQrPayment>.unwrap();
+        let _: ldk_adapter::unified_qr::UnifiedQrPayment = UnifiedQrPayment.inner;
+    }
+    {
         let UserChannelId = None::<ldk_adapter::types::UserChannelId>.unwrap();
         let _: Vec<u8> = UserChannelId.data;
     }
@@ -9676,10 +8438,27 @@ const _: fn() = || {
         let WTxid = None::<shared::WTxid>.unwrap();
         let _: String = WTxid.hash;
     }
+    {
+        let WitnessProgram = None::<shared::WitnessProgram>.unwrap();
+        let _: u8 = WitnessProgram.version;
+        let _: Vec<u8> = WitnessProgram.program;
+    }
 };
 
 // Section: dart2rust
 
+impl CstDecode<ldk_adapter::types::BalanceSource> for i32 {
+    // Codec=Cst (C-struct based), see doc to use other codecs
+    fn cst_decode(self) -> ldk_adapter::types::BalanceSource {
+        match self {
+            0 => ldk_adapter::types::BalanceSource::HolderForceClosed,
+            1 => ldk_adapter::types::BalanceSource::CounterpartyForceClosed,
+            2 => ldk_adapter::types::BalanceSource::CoopClose,
+            3 => ldk_adapter::types::BalanceSource::Htlc,
+            _ => unreachable!("Invalid variant for BalanceSource: {}", self),
+        }
+    }
+}
 impl CstDecode<bool> for bool {
     // Codec=Cst (C-struct based), see doc to use other codecs
     fn cst_decode(self) -> bool {
@@ -9732,6 +8511,24 @@ impl CstDecode<ldk_adapter::types::PaymentDirection> for i32 {
             0 => ldk_adapter::types::PaymentDirection::Inbound,
             1 => ldk_adapter::types::PaymentDirection::Outbound,
             _ => unreachable!("Invalid variant for PaymentDirection: {}", self),
+        }
+    }
+}
+impl CstDecode<ldk_adapter::types::PaymentFailureReason> for i32 {
+    // Codec=Cst (C-struct based), see doc to use other codecs
+    fn cst_decode(self) -> ldk_adapter::types::PaymentFailureReason {
+        match self {
+            0 => ldk_adapter::types::PaymentFailureReason::RecipientRejected,
+            1 => ldk_adapter::types::PaymentFailureReason::UserAbandoned,
+            2 => ldk_adapter::types::PaymentFailureReason::RetriesExhausted,
+            3 => ldk_adapter::types::PaymentFailureReason::PaymentExpired,
+            4 => ldk_adapter::types::PaymentFailureReason::RouteNotFound,
+            5 => ldk_adapter::types::PaymentFailureReason::UnexpectedError,
+            6 => ldk_adapter::types::PaymentFailureReason::UnknownRequiredFeatures,
+            7 => ldk_adapter::types::PaymentFailureReason::InvoiceRequestExpired,
+            8 => ldk_adapter::types::PaymentFailureReason::InvoiceRequestRejected,
+            9 => ldk_adapter::types::PaymentFailureReason::BlindedPathCreationFailed,
+            _ => unreachable!("Invalid variant for PaymentFailureReason: {}", self),
         }
     }
 }
@@ -9834,31 +8631,11 @@ impl SseDecode for BitcoinTransactionInner {
     }
 }
 
-impl SseDecode for Bolt11Payment {
+impl SseDecode for Builder {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
         let mut inner = <RustOpaqueNom<
-            flutter_rust_bridge::for_generated::RustAutoOpaqueInner<Bolt11Payment>,
-        >>::sse_decode(deserializer);
-        return flutter_rust_bridge::for_generated::rust_auto_opaque_decode_owned(inner);
-    }
-}
-
-impl SseDecode for Bolt12Payment {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
-        let mut inner = <RustOpaqueNom<
-            flutter_rust_bridge::for_generated::RustAutoOpaqueInner<Bolt12Payment>,
-        >>::sse_decode(deserializer);
-        return flutter_rust_bridge::for_generated::rust_auto_opaque_decode_owned(inner);
-    }
-}
-
-impl SseDecode for ChainDataSourceConfig {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
-        let mut inner = <RustOpaqueNom<
-            flutter_rust_bridge::for_generated::RustAutoOpaqueInner<ChainDataSourceConfig>,
+            flutter_rust_bridge::for_generated::RustAutoOpaqueInner<Builder>,
         >>::sse_decode(deserializer);
         return flutter_rust_bridge::for_generated::rust_auto_opaque_decode_owned(inner);
     }
@@ -9884,31 +8661,11 @@ impl SseDecode for ChannelDetails {
     }
 }
 
-impl SseDecode for EntropySourceConfig {
+impl SseDecode for ConfirmationStatus {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
         let mut inner = <RustOpaqueNom<
-            flutter_rust_bridge::for_generated::RustAutoOpaqueInner<EntropySourceConfig>,
-        >>::sse_decode(deserializer);
-        return flutter_rust_bridge::for_generated::rust_auto_opaque_decode_owned(inner);
-    }
-}
-
-impl SseDecode for Event {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
-        let mut inner = <RustOpaqueNom<
-            flutter_rust_bridge::for_generated::RustAutoOpaqueInner<Event>,
-        >>::sse_decode(deserializer);
-        return flutter_rust_bridge::for_generated::rust_auto_opaque_decode_owned(inner);
-    }
-}
-
-impl SseDecode for GossipSourceConfig {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
-        let mut inner = <RustOpaqueNom<
-            flutter_rust_bridge::for_generated::RustAutoOpaqueInner<GossipSourceConfig>,
+            flutter_rust_bridge::for_generated::RustAutoOpaqueInner<ConfirmationStatus>,
         >>::sse_decode(deserializer);
         return flutter_rust_bridge::for_generated::rust_auto_opaque_decode_owned(inner);
     }
@@ -9924,41 +8681,11 @@ impl SseDecode for LdkBuilder {
     }
 }
 
-impl SseDecode for LightningBalance {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
-        let mut inner = <RustOpaqueNom<
-            flutter_rust_bridge::for_generated::RustAutoOpaqueInner<LightningBalance>,
-        >>::sse_decode(deserializer);
-        return flutter_rust_bridge::for_generated::rust_auto_opaque_decode_owned(inner);
-    }
-}
-
 impl SseDecode for MaxDustHTLCExposure {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
         let mut inner = <RustOpaqueNom<
             flutter_rust_bridge::for_generated::RustAutoOpaqueInner<MaxDustHTLCExposure>,
-        >>::sse_decode(deserializer);
-        return flutter_rust_bridge::for_generated::rust_auto_opaque_decode_owned(inner);
-    }
-}
-
-impl SseDecode for NetworkGraph {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
-        let mut inner = <RustOpaqueNom<
-            flutter_rust_bridge::for_generated::RustAutoOpaqueInner<NetworkGraph>,
-        >>::sse_decode(deserializer);
-        return flutter_rust_bridge::for_generated::rust_auto_opaque_decode_owned(inner);
-    }
-}
-
-impl SseDecode for Node {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
-        let mut inner = <RustOpaqueNom<
-            flutter_rust_bridge::for_generated::RustAutoOpaqueInner<Node>,
         >>::sse_decode(deserializer);
         return flutter_rust_bridge::for_generated::rust_auto_opaque_decode_owned(inner);
     }
@@ -9974,41 +8701,11 @@ impl SseDecode for OnChainPayment {
     }
 }
 
-impl SseDecode for PaymentDetails {
+impl SseDecode for OnchainPayment {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
         let mut inner = <RustOpaqueNom<
-            flutter_rust_bridge::for_generated::RustAutoOpaqueInner<PaymentDetails>,
-        >>::sse_decode(deserializer);
-        return flutter_rust_bridge::for_generated::rust_auto_opaque_decode_owned(inner);
-    }
-}
-
-impl SseDecode for PaymentKind {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
-        let mut inner = <RustOpaqueNom<
-            flutter_rust_bridge::for_generated::RustAutoOpaqueInner<PaymentKind>,
-        >>::sse_decode(deserializer);
-        return flutter_rust_bridge::for_generated::rust_auto_opaque_decode_owned(inner);
-    }
-}
-
-impl SseDecode for PeerDetails {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
-        let mut inner = <RustOpaqueNom<
-            flutter_rust_bridge::for_generated::RustAutoOpaqueInner<PeerDetails>,
-        >>::sse_decode(deserializer);
-        return flutter_rust_bridge::for_generated::rust_auto_opaque_decode_owned(inner);
-    }
-}
-
-impl SseDecode for PendingSweepBalance {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
-        let mut inner = <RustOpaqueNom<
-            flutter_rust_bridge::for_generated::RustAutoOpaqueInner<PendingSweepBalance>,
+            flutter_rust_bridge::for_generated::RustAutoOpaqueInner<OnchainPayment>,
         >>::sse_decode(deserializer);
         return flutter_rust_bridge::for_generated::rust_auto_opaque_decode_owned(inner);
     }
@@ -10019,26 +8716,6 @@ impl SseDecode for QrPaymentResult {
     fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
         let mut inner = <RustOpaqueNom<
             flutter_rust_bridge::for_generated::RustAutoOpaqueInner<QrPaymentResult>,
-        >>::sse_decode(deserializer);
-        return flutter_rust_bridge::for_generated::rust_auto_opaque_decode_owned(inner);
-    }
-}
-
-impl SseDecode for SocketAddress {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
-        let mut inner = <RustOpaqueNom<
-            flutter_rust_bridge::for_generated::RustAutoOpaqueInner<SocketAddress>,
-        >>::sse_decode(deserializer);
-        return flutter_rust_bridge::for_generated::rust_auto_opaque_decode_owned(inner);
-    }
-}
-
-impl SseDecode for SpontaneousPayment {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
-        let mut inner = <RustOpaqueNom<
-            flutter_rust_bridge::for_generated::RustAutoOpaqueInner<SpontaneousPayment>,
         >>::sse_decode(deserializer);
         return flutter_rust_bridge::for_generated::rust_auto_opaque_decode_owned(inner);
     }
@@ -10069,16 +8746,6 @@ impl SseDecode for Transaction {
     fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
         let mut inner = <RustOpaqueNom<
             flutter_rust_bridge::for_generated::RustAutoOpaqueInner<Transaction>,
-        >>::sse_decode(deserializer);
-        return flutter_rust_bridge::for_generated::rust_auto_opaque_decode_owned(inner);
-    }
-}
-
-impl SseDecode for UnifiedQrPayment {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
-        let mut inner = <RustOpaqueNom<
-            flutter_rust_bridge::for_generated::RustAutoOpaqueInner<UnifiedQrPayment>,
         >>::sse_decode(deserializer);
         return flutter_rust_bridge::for_generated::rust_auto_opaque_decode_owned(inner);
     }
@@ -10144,31 +8811,7 @@ impl SseDecode
     }
 }
 
-impl SseDecode
-    for RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<Bolt11Payment>>
-{
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
-        let mut inner = <usize>::sse_decode(deserializer);
-        return unsafe { decode_rust_opaque_nom(inner) };
-    }
-}
-
-impl SseDecode
-    for RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<Bolt12Payment>>
-{
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
-        let mut inner = <usize>::sse_decode(deserializer);
-        return unsafe { decode_rust_opaque_nom(inner) };
-    }
-}
-
-impl SseDecode
-    for RustOpaqueNom<
-        flutter_rust_bridge::for_generated::RustAutoOpaqueInner<ChainDataSourceConfig>,
-    >
-{
+impl SseDecode for RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<Builder>> {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
         let mut inner = <usize>::sse_decode(deserializer);
@@ -10197,25 +8840,7 @@ impl SseDecode
 }
 
 impl SseDecode
-    for RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<EntropySourceConfig>>
-{
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
-        let mut inner = <usize>::sse_decode(deserializer);
-        return unsafe { decode_rust_opaque_nom(inner) };
-    }
-}
-
-impl SseDecode for RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<Event>> {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
-        let mut inner = <usize>::sse_decode(deserializer);
-        return unsafe { decode_rust_opaque_nom(inner) };
-    }
-}
-
-impl SseDecode
-    for RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<GossipSourceConfig>>
+    for RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<ConfirmationStatus>>
 {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
@@ -10235,36 +8860,8 @@ impl SseDecode
 }
 
 impl SseDecode
-    for RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<LightningBalance>>
-{
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
-        let mut inner = <usize>::sse_decode(deserializer);
-        return unsafe { decode_rust_opaque_nom(inner) };
-    }
-}
-
-impl SseDecode
     for RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<MaxDustHTLCExposure>>
 {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
-        let mut inner = <usize>::sse_decode(deserializer);
-        return unsafe { decode_rust_opaque_nom(inner) };
-    }
-}
-
-impl SseDecode
-    for RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<NetworkGraph>>
-{
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
-        let mut inner = <usize>::sse_decode(deserializer);
-        return unsafe { decode_rust_opaque_nom(inner) };
-    }
-}
-
-impl SseDecode for RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<Node>> {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
         let mut inner = <usize>::sse_decode(deserializer);
@@ -10283,37 +8880,7 @@ impl SseDecode
 }
 
 impl SseDecode
-    for RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<PaymentDetails>>
-{
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
-        let mut inner = <usize>::sse_decode(deserializer);
-        return unsafe { decode_rust_opaque_nom(inner) };
-    }
-}
-
-impl SseDecode
-    for RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<PaymentKind>>
-{
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
-        let mut inner = <usize>::sse_decode(deserializer);
-        return unsafe { decode_rust_opaque_nom(inner) };
-    }
-}
-
-impl SseDecode
-    for RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<PeerDetails>>
-{
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
-        let mut inner = <usize>::sse_decode(deserializer);
-        return unsafe { decode_rust_opaque_nom(inner) };
-    }
-}
-
-impl SseDecode
-    for RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<PendingSweepBalance>>
+    for RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<OnchainPayment>>
 {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
@@ -10324,26 +8891,6 @@ impl SseDecode
 
 impl SseDecode
     for RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<QrPaymentResult>>
-{
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
-        let mut inner = <usize>::sse_decode(deserializer);
-        return unsafe { decode_rust_opaque_nom(inner) };
-    }
-}
-
-impl SseDecode
-    for RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<SocketAddress>>
-{
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
-        let mut inner = <usize>::sse_decode(deserializer);
-        return unsafe { decode_rust_opaque_nom(inner) };
-    }
-}
-
-impl SseDecode
-    for RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<SpontaneousPayment>>
 {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
@@ -10384,21 +8931,25 @@ impl SseDecode
     }
 }
 
-impl SseDecode
-    for RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<UnifiedQrPayment>>
-{
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
-        let mut inner = <usize>::sse_decode(deserializer);
-        return unsafe { decode_rust_opaque_nom(inner) };
-    }
-}
-
 impl SseDecode for String {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
         let mut inner = <Vec<u8>>::sse_decode(deserializer);
         return String::from_utf8(inner).unwrap();
+    }
+}
+
+impl SseDecode for ldk_adapter::types::BackgroundSyncConfig {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        let mut var_onchainWalletSyncIntervalSecs = <u64>::sse_decode(deserializer);
+        let mut var_lightningWalletSyncIntervalSecs = <u64>::sse_decode(deserializer);
+        let mut var_feeRateCacheUpdateIntervalSecs = <u64>::sse_decode(deserializer);
+        return ldk_adapter::types::BackgroundSyncConfig {
+            onchain_wallet_sync_interval_secs: var_onchainWalletSyncIntervalSecs,
+            lightning_wallet_sync_interval_secs: var_lightningWalletSyncIntervalSecs,
+            fee_rate_cache_update_interval_secs: var_feeRateCacheUpdateIntervalSecs,
+        };
     }
 }
 
@@ -10408,15 +8959,30 @@ impl SseDecode for ldk_adapter::types::BalanceDetails {
         let mut var_totalOnchainBalanceSats = <u64>::sse_decode(deserializer);
         let mut var_spendableOnchainBalanceSats = <u64>::sse_decode(deserializer);
         let mut var_totalLightningBalanceSats = <u64>::sse_decode(deserializer);
-        let mut var_lightningBalances = <Vec<LightningBalance>>::sse_decode(deserializer);
+        let mut var_lightningBalances =
+            <Vec<ldk_adapter::types::LightningBalance>>::sse_decode(deserializer);
         let mut var_pendingBalancesFromChannelClosures =
-            <Vec<PendingSweepBalance>>::sse_decode(deserializer);
+            <Vec<ldk_adapter::types::PendingSweepBalance>>::sse_decode(deserializer);
         return ldk_adapter::types::BalanceDetails {
             total_onchain_balance_sats: var_totalOnchainBalanceSats,
             spendable_onchain_balance_sats: var_spendableOnchainBalanceSats,
             total_lightning_balance_sats: var_totalLightningBalanceSats,
             lightning_balances: var_lightningBalances,
             pending_balances_from_channel_closures: var_pendingBalancesFromChannelClosures,
+        };
+    }
+}
+
+impl SseDecode for ldk_adapter::types::BalanceSource {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        let mut inner = <i32>::sse_decode(deserializer);
+        return match inner {
+            0 => ldk_adapter::types::BalanceSource::HolderForceClosed,
+            1 => ldk_adapter::types::BalanceSource::CounterpartyForceClosed,
+            2 => ldk_adapter::types::BalanceSource::CoopClose,
+            3 => ldk_adapter::types::BalanceSource::Htlc,
+            _ => unreachable!("Invalid variant for BalanceSource: {}", inner),
         };
     }
 }
@@ -10443,6 +9009,14 @@ impl SseDecode for shared::Bolt11Invoice {
     }
 }
 
+impl SseDecode for ldk_adapter::bolt11::Bolt11Payment {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        let mut var_inner = <ldk_adapter::bolt11::Bolt11Payment>::sse_decode(deserializer);
+        return ldk_adapter::bolt11::Bolt11Payment { inner: var_inner };
+    }
+}
+
 impl SseDecode for shared::Bolt12Invoice {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
@@ -10451,10 +9025,60 @@ impl SseDecode for shared::Bolt12Invoice {
     }
 }
 
+impl SseDecode for ldk_adapter::bolt12::Bolt12Payment {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        let mut var_inner = <ldk_adapter::bolt12::Bolt12Payment>::sse_decode(deserializer);
+        return ldk_adapter::bolt12::Bolt12Payment { inner: var_inner };
+    }
+}
+
 impl SseDecode for bool {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
         deserializer.cursor.read_u8().unwrap() != 0
+    }
+}
+
+impl SseDecode for ldk_adapter::types::ChainDataSourceConfig {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        let mut tag_ = <i32>::sse_decode(deserializer);
+        match tag_ {
+            0 => {
+                let mut var_serverUrl = <String>::sse_decode(deserializer);
+                let mut var_syncConfig =
+                    <Option<ldk_adapter::types::EsploraSyncConfig>>::sse_decode(deserializer);
+                return ldk_adapter::types::ChainDataSourceConfig::Esplora {
+                    server_url: var_serverUrl,
+                    sync_config: var_syncConfig,
+                };
+            }
+            1 => {
+                let mut var_serverUrl = <String>::sse_decode(deserializer);
+                let mut var_syncConfig =
+                    <Option<ldk_adapter::types::ElectrumSyncConfig>>::sse_decode(deserializer);
+                return ldk_adapter::types::ChainDataSourceConfig::Electrum {
+                    server_url: var_serverUrl,
+                    sync_config: var_syncConfig,
+                };
+            }
+            2 => {
+                let mut var_rpcHost = <String>::sse_decode(deserializer);
+                let mut var_rpcPort = <u16>::sse_decode(deserializer);
+                let mut var_rpcUser = <String>::sse_decode(deserializer);
+                let mut var_rpcPassword = <String>::sse_decode(deserializer);
+                return ldk_adapter::types::ChainDataSourceConfig::BitcoindRpc {
+                    rpc_host: var_rpcHost,
+                    rpc_port: var_rpcPort,
+                    rpc_user: var_rpcUser,
+                    rpc_password: var_rpcPassword,
+                };
+            }
+            _ => {
+                unimplemented!("");
+            }
+        }
     }
 }
 
@@ -10506,13 +9130,81 @@ impl SseDecode for ldk_adapter::graph::ChannelUpdateInfo {
     }
 }
 
+impl SseDecode for ldk_adapter::types::ClosureReason {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        let mut tag_ = <i32>::sse_decode(deserializer);
+        match tag_ {
+            0 => {
+                let mut var_peerFeerateSatPerKw = <u32>::sse_decode(deserializer);
+                let mut var_requiredFeerateSatPerKw = <u32>::sse_decode(deserializer);
+                return ldk_adapter::types::ClosureReason::PeerFeerateTooLow {
+                    peer_feerate_sat_per_kw: var_peerFeerateSatPerKw,
+                    required_feerate_sat_per_kw: var_requiredFeerateSatPerKw,
+                };
+            }
+            1 => {
+                let mut var_peerMsg = <String>::sse_decode(deserializer);
+                return ldk_adapter::types::ClosureReason::CounterpartyForceClosed {
+                    peer_msg: var_peerMsg,
+                };
+            }
+            2 => {
+                let mut var_broadcastedLatestTxn = <Option<bool>>::sse_decode(deserializer);
+                return ldk_adapter::types::ClosureReason::HolderForceClosed {
+                    broadcasted_latest_txn: var_broadcastedLatestTxn,
+                };
+            }
+            3 => {
+                return ldk_adapter::types::ClosureReason::LegacyCooperativeClosure;
+            }
+            4 => {
+                return ldk_adapter::types::ClosureReason::CounterpartyInitiatedCooperativeClosure;
+            }
+            5 => {
+                return ldk_adapter::types::ClosureReason::LocallyInitiatedCooperativeClosure;
+            }
+            6 => {
+                return ldk_adapter::types::ClosureReason::CommitmentTxConfirmed;
+            }
+            7 => {
+                return ldk_adapter::types::ClosureReason::FundingTimedOut;
+            }
+            8 => {
+                let mut var_err = <String>::sse_decode(deserializer);
+                return ldk_adapter::types::ClosureReason::ProcessingError { err: var_err };
+            }
+            9 => {
+                return ldk_adapter::types::ClosureReason::DisconnectedPeer;
+            }
+            10 => {
+                return ldk_adapter::types::ClosureReason::OutdatedChannelManager;
+            }
+            11 => {
+                return ldk_adapter::types::ClosureReason::CounterpartyCoopClosedUnfundedChannel;
+            }
+            12 => {
+                return ldk_adapter::types::ClosureReason::FundingBatchClosure;
+            }
+            13 => {
+                return ldk_adapter::types::ClosureReason::HTLCsTimedOut;
+            }
+            _ => {
+                unimplemented!("");
+            }
+        }
+    }
+}
+
 impl SseDecode for ldk_adapter::types::Config {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
         let mut var_storageDirPath = <String>::sse_decode(deserializer);
         let mut var_network = <shared::Network>::sse_decode(deserializer);
-        let mut var_listeningAddresses = <Option<Vec<SocketAddress>>>::sse_decode(deserializer);
-        let mut var_announcementAddresses = <Option<Vec<SocketAddress>>>::sse_decode(deserializer);
+        let mut var_listeningAddresses =
+            <Option<Vec<shared::SocketAddress>>>::sse_decode(deserializer);
+        let mut var_announcementAddresses =
+            <Option<Vec<shared::SocketAddress>>>::sse_decode(deserializer);
         let mut var_nodeAlias = <Option<ldk_adapter::types::NodeAlias>>::sse_decode(deserializer);
         let mut var_trustedPeers0Conf = <Vec<shared::PublicKey>>::sse_decode(deserializer);
         let mut var_probingLiquidityLimitMultiplier = <u64>::sse_decode(deserializer);
@@ -10545,6 +9237,190 @@ impl SseDecode for ldk_adapter::types::CustomTlvRecord {
     }
 }
 
+impl SseDecode for ldk_adapter::types::ElectrumSyncConfig {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        let mut var_backgroundSyncConfig =
+            <Option<ldk_adapter::types::BackgroundSyncConfig>>::sse_decode(deserializer);
+        return ldk_adapter::types::ElectrumSyncConfig {
+            background_sync_config: var_backgroundSyncConfig,
+        };
+    }
+}
+
+impl SseDecode for ldk_adapter::types::EntropySourceConfig {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        let mut tag_ = <i32>::sse_decode(deserializer);
+        match tag_ {
+            0 => {
+                let mut var_field0 = <String>::sse_decode(deserializer);
+                return ldk_adapter::types::EntropySourceConfig::SeedFile(var_field0);
+            }
+            1 => {
+                let mut var_field0 = <[u8; 64]>::sse_decode(deserializer);
+                return ldk_adapter::types::EntropySourceConfig::SeedBytes(var_field0);
+            }
+            2 => {
+                let mut var_mnemonic = <shared::Mnemonic>::sse_decode(deserializer);
+                let mut var_passphrase = <Option<String>>::sse_decode(deserializer);
+                return ldk_adapter::types::EntropySourceConfig::Bip39Mnemonic {
+                    mnemonic: var_mnemonic,
+                    passphrase: var_passphrase,
+                };
+            }
+            _ => {
+                unimplemented!("");
+            }
+        }
+    }
+}
+
+impl SseDecode for ldk_adapter::types::EsploraSyncConfig {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        let mut var_backgroundSyncConfig =
+            <Option<ldk_adapter::types::BackgroundSyncConfig>>::sse_decode(deserializer);
+        return ldk_adapter::types::EsploraSyncConfig {
+            background_sync_config: var_backgroundSyncConfig,
+        };
+    }
+}
+
+impl SseDecode for ldk_adapter::types::Event {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        let mut tag_ = <i32>::sse_decode(deserializer);
+        match tag_ {
+            0 => {
+                let mut var_paymentId = <shared::PaymentId>::sse_decode(deserializer);
+                let mut var_paymentHash = <shared::PaymentHash>::sse_decode(deserializer);
+                let mut var_claimableAmountMsat = <u64>::sse_decode(deserializer);
+                let mut var_claimDeadline = <Option<u32>>::sse_decode(deserializer);
+                let mut var_customRecords =
+                    <Vec<ldk_adapter::types::CustomTlvRecord>>::sse_decode(deserializer);
+                return ldk_adapter::types::Event::PaymentClaimable {
+                    payment_id: var_paymentId,
+                    payment_hash: var_paymentHash,
+                    claimable_amount_msat: var_claimableAmountMsat,
+                    claim_deadline: var_claimDeadline,
+                    custom_records: var_customRecords,
+                };
+            }
+            1 => {
+                let mut var_paymentId = <Option<shared::PaymentId>>::sse_decode(deserializer);
+                let mut var_paymentHash = <shared::PaymentHash>::sse_decode(deserializer);
+                let mut var_feePaidMsat = <Option<u64>>::sse_decode(deserializer);
+                let mut var_preimage = <Option<shared::PaymentPreimage>>::sse_decode(deserializer);
+                return ldk_adapter::types::Event::PaymentSuccessful {
+                    payment_id: var_paymentId,
+                    payment_hash: var_paymentHash,
+                    fee_paid_msat: var_feePaidMsat,
+                    preimage: var_preimage,
+                };
+            }
+            2 => {
+                let mut var_paymentId = <Option<shared::PaymentId>>::sse_decode(deserializer);
+                let mut var_paymentHash = <Option<shared::PaymentHash>>::sse_decode(deserializer);
+                let mut var_reason =
+                    <Option<ldk_adapter::types::PaymentFailureReason>>::sse_decode(deserializer);
+                return ldk_adapter::types::Event::PaymentFailed {
+                    payment_id: var_paymentId,
+                    payment_hash: var_paymentHash,
+                    reason: var_reason,
+                };
+            }
+            3 => {
+                let mut var_paymentId = <Option<shared::PaymentId>>::sse_decode(deserializer);
+                let mut var_paymentHash = <shared::PaymentHash>::sse_decode(deserializer);
+                let mut var_amountMsat = <u64>::sse_decode(deserializer);
+                let mut var_customRecords =
+                    <Vec<ldk_adapter::types::CustomTlvRecord>>::sse_decode(deserializer);
+                return ldk_adapter::types::Event::PaymentReceived {
+                    payment_id: var_paymentId,
+                    payment_hash: var_paymentHash,
+                    amount_msat: var_amountMsat,
+                    custom_records: var_customRecords,
+                };
+            }
+            4 => {
+                let mut var_channelId = <ldk_adapter::types::ChannelId>::sse_decode(deserializer);
+                let mut var_userChannelId =
+                    <ldk_adapter::types::UserChannelId>::sse_decode(deserializer);
+                let mut var_formerTemporaryChannelId =
+                    <ldk_adapter::types::ChannelId>::sse_decode(deserializer);
+                let mut var_counterpartyNodeId = <shared::PublicKey>::sse_decode(deserializer);
+                let mut var_fundingTxo = <shared::OutPoint>::sse_decode(deserializer);
+                return ldk_adapter::types::Event::ChannelPending {
+                    channel_id: var_channelId,
+                    user_channel_id: var_userChannelId,
+                    former_temporary_channel_id: var_formerTemporaryChannelId,
+                    counterparty_node_id: var_counterpartyNodeId,
+                    funding_txo: var_fundingTxo,
+                };
+            }
+            5 => {
+                let mut var_channelId = <ldk_adapter::types::ChannelId>::sse_decode(deserializer);
+                let mut var_userChannelId =
+                    <ldk_adapter::types::UserChannelId>::sse_decode(deserializer);
+                let mut var_counterpartyNodeId =
+                    <Option<shared::PublicKey>>::sse_decode(deserializer);
+                return ldk_adapter::types::Event::ChannelReady {
+                    channel_id: var_channelId,
+                    user_channel_id: var_userChannelId,
+                    counterparty_node_id: var_counterpartyNodeId,
+                };
+            }
+            6 => {
+                let mut var_channelId = <ldk_adapter::types::ChannelId>::sse_decode(deserializer);
+                let mut var_userChannelId =
+                    <ldk_adapter::types::UserChannelId>::sse_decode(deserializer);
+                let mut var_counterpartyNodeId =
+                    <Option<shared::PublicKey>>::sse_decode(deserializer);
+                let mut var_reason =
+                    <Option<ldk_adapter::types::ClosureReason>>::sse_decode(deserializer);
+                return ldk_adapter::types::Event::ChannelClosed {
+                    channel_id: var_channelId,
+                    user_channel_id: var_userChannelId,
+                    counterparty_node_id: var_counterpartyNodeId,
+                    reason: var_reason,
+                };
+            }
+            7 => {
+                let mut var_prevChannelId =
+                    <ldk_adapter::types::ChannelId>::sse_decode(deserializer);
+                let mut var_nextChannelId =
+                    <ldk_adapter::types::ChannelId>::sse_decode(deserializer);
+                let mut var_prevUserChannelId =
+                    <Option<ldk_adapter::types::UserChannelId>>::sse_decode(deserializer);
+                let mut var_nextUserChannelId =
+                    <Option<ldk_adapter::types::UserChannelId>>::sse_decode(deserializer);
+                let mut var_prevNodeId = <Option<shared::PublicKey>>::sse_decode(deserializer);
+                let mut var_nextNodeId = <Option<shared::PublicKey>>::sse_decode(deserializer);
+                let mut var_totalFeeEarnedMsat = <Option<u64>>::sse_decode(deserializer);
+                let mut var_skimmedFeeMsat = <Option<u64>>::sse_decode(deserializer);
+                let mut var_claimFromOnchainTx = <bool>::sse_decode(deserializer);
+                let mut var_outboundAmountForwardedMsat = <Option<u64>>::sse_decode(deserializer);
+                return ldk_adapter::types::Event::PaymentForwarded {
+                    prev_channel_id: var_prevChannelId,
+                    next_channel_id: var_nextChannelId,
+                    prev_user_channel_id: var_prevUserChannelId,
+                    next_user_channel_id: var_nextUserChannelId,
+                    prev_node_id: var_prevNodeId,
+                    next_node_id: var_nextNodeId,
+                    total_fee_earned_msat: var_totalFeeEarnedMsat,
+                    skimmed_fee_msat: var_skimmedFeeMsat,
+                    claim_from_onchain_tx: var_claimFromOnchainTx,
+                    outbound_amount_forwarded_msat: var_outboundAmountForwardedMsat,
+                };
+            }
+            _ => {
+                unimplemented!("");
+            }
+        }
+    }
+}
+
 impl SseDecode for f64 {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
@@ -10568,6 +9444,25 @@ impl SseDecode for ldk_adapter::types::FfiLogRecord {
     }
 }
 
+impl SseDecode for ldk_adapter::types::GossipSourceConfig {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        let mut tag_ = <i32>::sse_decode(deserializer);
+        match tag_ {
+            0 => {
+                return ldk_adapter::types::GossipSourceConfig::P2PNetwork;
+            }
+            1 => {
+                let mut var_field0 = <String>::sse_decode(deserializer);
+                return ldk_adapter::types::GossipSourceConfig::RapidGossipSync(var_field0);
+            }
+            _ => {
+                unimplemented!("");
+            }
+        }
+    }
+}
+
 impl SseDecode for i32 {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
@@ -10575,11 +9470,113 @@ impl SseDecode for i32 {
     }
 }
 
+impl SseDecode for ldk_adapter::types::LightningBalance {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        let mut tag_ = <i32>::sse_decode(deserializer);
+        match tag_ {
+            0 => {
+                let mut var_channelId = <ldk_adapter::types::ChannelId>::sse_decode(deserializer);
+                let mut var_counterpartyNodeId = <shared::PublicKey>::sse_decode(deserializer);
+                let mut var_amountSatoshis = <u64>::sse_decode(deserializer);
+                let mut var_transactionFeeSatoshis = <u64>::sse_decode(deserializer);
+                let mut var_outboundPaymentHtlcRoundedMsat = <u64>::sse_decode(deserializer);
+                let mut var_outboundForwardedHtlcRoundedMsat = <u64>::sse_decode(deserializer);
+                let mut var_inboundClaimingHtlcRoundedMsat = <u64>::sse_decode(deserializer);
+                let mut var_inboundHtlcRoundedMsat = <u64>::sse_decode(deserializer);
+                return ldk_adapter::types::LightningBalance::ClaimableOnChannelClose {
+                    channel_id: var_channelId,
+                    counterparty_node_id: var_counterpartyNodeId,
+                    amount_satoshis: var_amountSatoshis,
+                    transaction_fee_satoshis: var_transactionFeeSatoshis,
+                    outbound_payment_htlc_rounded_msat: var_outboundPaymentHtlcRoundedMsat,
+                    outbound_forwarded_htlc_rounded_msat: var_outboundForwardedHtlcRoundedMsat,
+                    inbound_claiming_htlc_rounded_msat: var_inboundClaimingHtlcRoundedMsat,
+                    inbound_htlc_rounded_msat: var_inboundHtlcRoundedMsat,
+                };
+            }
+            1 => {
+                let mut var_channelId = <ldk_adapter::types::ChannelId>::sse_decode(deserializer);
+                let mut var_counterpartyNodeId = <shared::PublicKey>::sse_decode(deserializer);
+                let mut var_amountSatoshis = <u64>::sse_decode(deserializer);
+                let mut var_confirmationHeight = <u32>::sse_decode(deserializer);
+                let mut var_source = <ldk_adapter::types::BalanceSource>::sse_decode(deserializer);
+                return ldk_adapter::types::LightningBalance::ClaimableAwaitingConfirmations {
+                    channel_id: var_channelId,
+                    counterparty_node_id: var_counterpartyNodeId,
+                    amount_satoshis: var_amountSatoshis,
+                    confirmation_height: var_confirmationHeight,
+                    source: var_source,
+                };
+            }
+            2 => {
+                let mut var_channelId = <ldk_adapter::types::ChannelId>::sse_decode(deserializer);
+                let mut var_counterpartyNodeId = <shared::PublicKey>::sse_decode(deserializer);
+                let mut var_amountSatoshis = <u64>::sse_decode(deserializer);
+                let mut var_timeoutHeight = <u32>::sse_decode(deserializer);
+                let mut var_paymentHash = <shared::PaymentHash>::sse_decode(deserializer);
+                let mut var_paymentPreimage = <shared::PaymentPreimage>::sse_decode(deserializer);
+                return ldk_adapter::types::LightningBalance::ContentiousClaimable {
+                    channel_id: var_channelId,
+                    counterparty_node_id: var_counterpartyNodeId,
+                    amount_satoshis: var_amountSatoshis,
+                    timeout_height: var_timeoutHeight,
+                    payment_hash: var_paymentHash,
+                    payment_preimage: var_paymentPreimage,
+                };
+            }
+            3 => {
+                let mut var_channelId = <ldk_adapter::types::ChannelId>::sse_decode(deserializer);
+                let mut var_counterpartyNodeId = <shared::PublicKey>::sse_decode(deserializer);
+                let mut var_amountSatoshis = <u64>::sse_decode(deserializer);
+                let mut var_claimableHeight = <u32>::sse_decode(deserializer);
+                let mut var_paymentHash = <shared::PaymentHash>::sse_decode(deserializer);
+                let mut var_outboundPayment = <bool>::sse_decode(deserializer);
+                return ldk_adapter::types::LightningBalance::MaybeTimeoutClaimableHTLC {
+                    channel_id: var_channelId,
+                    counterparty_node_id: var_counterpartyNodeId,
+                    amount_satoshis: var_amountSatoshis,
+                    claimable_height: var_claimableHeight,
+                    payment_hash: var_paymentHash,
+                    outbound_payment: var_outboundPayment,
+                };
+            }
+            4 => {
+                let mut var_channelId = <ldk_adapter::types::ChannelId>::sse_decode(deserializer);
+                let mut var_counterpartyNodeId = <shared::PublicKey>::sse_decode(deserializer);
+                let mut var_amountSatoshis = <u64>::sse_decode(deserializer);
+                let mut var_expiryHeight = <u32>::sse_decode(deserializer);
+                let mut var_paymentHash = <shared::PaymentHash>::sse_decode(deserializer);
+                return ldk_adapter::types::LightningBalance::MaybePreimageClaimableHTLC {
+                    channel_id: var_channelId,
+                    counterparty_node_id: var_counterpartyNodeId,
+                    amount_satoshis: var_amountSatoshis,
+                    expiry_height: var_expiryHeight,
+                    payment_hash: var_paymentHash,
+                };
+            }
+            5 => {
+                let mut var_channelId = <ldk_adapter::types::ChannelId>::sse_decode(deserializer);
+                let mut var_counterpartyNodeId = <shared::PublicKey>::sse_decode(deserializer);
+                let mut var_amountSatoshis = <u64>::sse_decode(deserializer);
+                return ldk_adapter::types::LightningBalance::CounterpartyRevokedOutputClaimable {
+                    channel_id: var_channelId,
+                    counterparty_node_id: var_counterpartyNodeId,
+                    amount_satoshis: var_amountSatoshis,
+                };
+            }
+            _ => {
+                unimplemented!("");
+            }
+        }
+    }
+}
+
 impl SseDecode for ldk_adapter::types::LiquiditySourceConfig {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
         let mut var_lsps2Service =
-            <(SocketAddress, shared::PublicKey, Option<String>)>::sse_decode(deserializer);
+            <(shared::SocketAddress, shared::PublicKey, Option<String>)>::sse_decode(deserializer);
         return ldk_adapter::types::LiquiditySourceConfig {
             lsps2_service: var_lsps2Service,
         };
@@ -10593,66 +9590,6 @@ impl SseDecode for Vec<ChannelDetails> {
         let mut ans_ = vec![];
         for idx_ in 0..len_ {
             ans_.push(<ChannelDetails>::sse_decode(deserializer));
-        }
-        return ans_;
-    }
-}
-
-impl SseDecode for Vec<LightningBalance> {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
-        let mut len_ = <i32>::sse_decode(deserializer);
-        let mut ans_ = vec![];
-        for idx_ in 0..len_ {
-            ans_.push(<LightningBalance>::sse_decode(deserializer));
-        }
-        return ans_;
-    }
-}
-
-impl SseDecode for Vec<PaymentDetails> {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
-        let mut len_ = <i32>::sse_decode(deserializer);
-        let mut ans_ = vec![];
-        for idx_ in 0..len_ {
-            ans_.push(<PaymentDetails>::sse_decode(deserializer));
-        }
-        return ans_;
-    }
-}
-
-impl SseDecode for Vec<PeerDetails> {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
-        let mut len_ = <i32>::sse_decode(deserializer);
-        let mut ans_ = vec![];
-        for idx_ in 0..len_ {
-            ans_.push(<PeerDetails>::sse_decode(deserializer));
-        }
-        return ans_;
-    }
-}
-
-impl SseDecode for Vec<PendingSweepBalance> {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
-        let mut len_ = <i32>::sse_decode(deserializer);
-        let mut ans_ = vec![];
-        for idx_ in 0..len_ {
-            ans_.push(<PendingSweepBalance>::sse_decode(deserializer));
-        }
-        return ans_;
-    }
-}
-
-impl SseDecode for Vec<SocketAddress> {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
-        let mut len_ = <i32>::sse_decode(deserializer);
-        let mut ans_ = vec![];
-        for idx_ in 0..len_ {
-            ans_.push(<SocketAddress>::sse_decode(deserializer));
         }
         return ans_;
     }
@@ -10684,6 +9621,20 @@ impl SseDecode for Vec<ldk_adapter::types::CustomTlvRecord> {
     }
 }
 
+impl SseDecode for Vec<ldk_adapter::types::LightningBalance> {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        let mut len_ = <i32>::sse_decode(deserializer);
+        let mut ans_ = vec![];
+        for idx_ in 0..len_ {
+            ans_.push(<ldk_adapter::types::LightningBalance>::sse_decode(
+                deserializer,
+            ));
+        }
+        return ans_;
+    }
+}
+
 impl SseDecode for Vec<Vec<u8>> {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
@@ -10703,6 +9654,46 @@ impl SseDecode for Vec<ldk_adapter::graph::NodeId> {
         let mut ans_ = vec![];
         for idx_ in 0..len_ {
             ans_.push(<ldk_adapter::graph::NodeId>::sse_decode(deserializer));
+        }
+        return ans_;
+    }
+}
+
+impl SseDecode for Vec<ldk_adapter::types::PaymentDetails> {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        let mut len_ = <i32>::sse_decode(deserializer);
+        let mut ans_ = vec![];
+        for idx_ in 0..len_ {
+            ans_.push(<ldk_adapter::types::PaymentDetails>::sse_decode(
+                deserializer,
+            ));
+        }
+        return ans_;
+    }
+}
+
+impl SseDecode for Vec<ldk_adapter::types::PeerDetails> {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        let mut len_ = <i32>::sse_decode(deserializer);
+        let mut ans_ = vec![];
+        for idx_ in 0..len_ {
+            ans_.push(<ldk_adapter::types::PeerDetails>::sse_decode(deserializer));
+        }
+        return ans_;
+    }
+}
+
+impl SseDecode for Vec<ldk_adapter::types::PendingSweepBalance> {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        let mut len_ = <i32>::sse_decode(deserializer);
+        let mut ans_ = vec![];
+        for idx_ in 0..len_ {
+            ans_.push(<ldk_adapter::types::PendingSweepBalance>::sse_decode(
+                deserializer,
+            ));
         }
         return ans_;
     }
@@ -10751,6 +9742,18 @@ impl SseDecode for Vec<(String, String)> {
         let mut ans_ = vec![];
         for idx_ in 0..len_ {
             ans_.push(<(String, String)>::sse_decode(deserializer));
+        }
+        return ans_;
+    }
+}
+
+impl SseDecode for Vec<shared::SocketAddress> {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        let mut len_ = <i32>::sse_decode(deserializer);
+        let mut ans_ = vec![];
+        for idx_ in 0..len_ {
+            ans_.push(<shared::SocketAddress>::sse_decode(deserializer));
         }
         return ans_;
     }
@@ -10831,6 +9834,22 @@ impl SseDecode for shared::Network {
     }
 }
 
+impl SseDecode for ldk_adapter::graph::NetworkGraph {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        let mut var_inner = <ldk_adapter::graph::NetworkGraph>::sse_decode(deserializer);
+        return ldk_adapter::graph::NetworkGraph { inner: var_inner };
+    }
+}
+
+impl SseDecode for ldk_adapter::node::Node {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        let mut var_inner = <ldk_adapter::node::Node>::sse_decode(deserializer);
+        return ldk_adapter::node::Node { inner: var_inner };
+    }
+}
+
 impl SseDecode for ldk_adapter::types::NodeAlias {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
@@ -10844,7 +9863,7 @@ impl SseDecode for ldk_adapter::graph::NodeAnnouncementInfo {
     fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
         let mut var_lastUpdate = <u32>::sse_decode(deserializer);
         let mut var_alias = <String>::sse_decode(deserializer);
-        let mut var_addresses = <Vec<SocketAddress>>::sse_decode(deserializer);
+        let mut var_addresses = <Vec<shared::SocketAddress>>::sse_decode(deserializer);
         return ldk_adapter::graph::NodeAnnouncementInfo {
             last_update: var_lastUpdate,
             alias: var_alias,
@@ -10942,17 +9961,6 @@ impl SseDecode for Option<AnchorChannelsConfig> {
     }
 }
 
-impl SseDecode for Option<ChainDataSourceConfig> {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
-        if (<bool>::sse_decode(deserializer)) {
-            return Some(<ChainDataSourceConfig>::sse_decode(deserializer));
-        } else {
-            return None;
-        }
-    }
-}
-
 impl SseDecode for Option<ChannelConfig> {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
@@ -10964,44 +9972,37 @@ impl SseDecode for Option<ChannelConfig> {
     }
 }
 
-impl SseDecode for Option<EntropySourceConfig> {
+impl SseDecode for Option<ldk_adapter::types::BackgroundSyncConfig> {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
         if (<bool>::sse_decode(deserializer)) {
-            return Some(<EntropySourceConfig>::sse_decode(deserializer));
+            return Some(<ldk_adapter::types::BackgroundSyncConfig>::sse_decode(
+                deserializer,
+            ));
         } else {
             return None;
         }
     }
 }
 
-impl SseDecode for Option<Event> {
+impl SseDecode for Option<bool> {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
         if (<bool>::sse_decode(deserializer)) {
-            return Some(<Event>::sse_decode(deserializer));
+            return Some(<bool>::sse_decode(deserializer));
         } else {
             return None;
         }
     }
 }
 
-impl SseDecode for Option<GossipSourceConfig> {
+impl SseDecode for Option<ldk_adapter::types::ChainDataSourceConfig> {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
         if (<bool>::sse_decode(deserializer)) {
-            return Some(<GossipSourceConfig>::sse_decode(deserializer));
-        } else {
-            return None;
-        }
-    }
-}
-
-impl SseDecode for Option<PaymentDetails> {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
-        if (<bool>::sse_decode(deserializer)) {
-            return Some(<PaymentDetails>::sse_decode(deserializer));
+            return Some(<ldk_adapter::types::ChainDataSourceConfig>::sse_decode(
+                deserializer,
+            ));
         } else {
             return None;
         }
@@ -11035,6 +10036,82 @@ impl SseDecode for Option<ldk_adapter::graph::ChannelUpdateInfo> {
     fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
         if (<bool>::sse_decode(deserializer)) {
             return Some(<ldk_adapter::graph::ChannelUpdateInfo>::sse_decode(
+                deserializer,
+            ));
+        } else {
+            return None;
+        }
+    }
+}
+
+impl SseDecode for Option<ldk_adapter::types::ClosureReason> {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        if (<bool>::sse_decode(deserializer)) {
+            return Some(<ldk_adapter::types::ClosureReason>::sse_decode(
+                deserializer,
+            ));
+        } else {
+            return None;
+        }
+    }
+}
+
+impl SseDecode for Option<ldk_adapter::types::ElectrumSyncConfig> {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        if (<bool>::sse_decode(deserializer)) {
+            return Some(<ldk_adapter::types::ElectrumSyncConfig>::sse_decode(
+                deserializer,
+            ));
+        } else {
+            return None;
+        }
+    }
+}
+
+impl SseDecode for Option<ldk_adapter::types::EntropySourceConfig> {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        if (<bool>::sse_decode(deserializer)) {
+            return Some(<ldk_adapter::types::EntropySourceConfig>::sse_decode(
+                deserializer,
+            ));
+        } else {
+            return None;
+        }
+    }
+}
+
+impl SseDecode for Option<ldk_adapter::types::EsploraSyncConfig> {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        if (<bool>::sse_decode(deserializer)) {
+            return Some(<ldk_adapter::types::EsploraSyncConfig>::sse_decode(
+                deserializer,
+            ));
+        } else {
+            return None;
+        }
+    }
+}
+
+impl SseDecode for Option<ldk_adapter::types::Event> {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        if (<bool>::sse_decode(deserializer)) {
+            return Some(<ldk_adapter::types::Event>::sse_decode(deserializer));
+        } else {
+            return None;
+        }
+    }
+}
+
+impl SseDecode for Option<ldk_adapter::types::GossipSourceConfig> {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        if (<bool>::sse_decode(deserializer)) {
+            return Some(<ldk_adapter::types::GossipSourceConfig>::sse_decode(
                 deserializer,
             ));
         } else {
@@ -11124,6 +10201,65 @@ impl SseDecode for Option<shared::OutPoint> {
     }
 }
 
+impl SseDecode for Option<ldk_adapter::types::PaymentDetails> {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        if (<bool>::sse_decode(deserializer)) {
+            return Some(<ldk_adapter::types::PaymentDetails>::sse_decode(
+                deserializer,
+            ));
+        } else {
+            return None;
+        }
+    }
+}
+
+impl SseDecode for Option<ldk_adapter::types::PaymentFailureReason> {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        if (<bool>::sse_decode(deserializer)) {
+            return Some(<ldk_adapter::types::PaymentFailureReason>::sse_decode(
+                deserializer,
+            ));
+        } else {
+            return None;
+        }
+    }
+}
+
+impl SseDecode for Option<shared::PaymentHash> {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        if (<bool>::sse_decode(deserializer)) {
+            return Some(<shared::PaymentHash>::sse_decode(deserializer));
+        } else {
+            return None;
+        }
+    }
+}
+
+impl SseDecode for Option<shared::PaymentId> {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        if (<bool>::sse_decode(deserializer)) {
+            return Some(<shared::PaymentId>::sse_decode(deserializer));
+        } else {
+            return None;
+        }
+    }
+}
+
+impl SseDecode for Option<shared::PaymentPreimage> {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        if (<bool>::sse_decode(deserializer)) {
+            return Some(<shared::PaymentPreimage>::sse_decode(deserializer));
+        } else {
+            return None;
+        }
+    }
+}
+
 impl SseDecode for Option<ldk_adapter::types::PaymentSecret> {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
@@ -11137,44 +10273,11 @@ impl SseDecode for Option<ldk_adapter::types::PaymentSecret> {
     }
 }
 
-impl SseDecode for Option<(String, u16)> {
+impl SseDecode for Option<shared::PublicKey> {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
         if (<bool>::sse_decode(deserializer)) {
-            return Some(<(String, u16)>::sse_decode(deserializer));
-        } else {
-            return None;
-        }
-    }
-}
-
-impl SseDecode for Option<([u8; 16], u16)> {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
-        if (<bool>::sse_decode(deserializer)) {
-            return Some(<([u8; 16], u16)>::sse_decode(deserializer));
-        } else {
-            return None;
-        }
-    }
-}
-
-impl SseDecode for Option<([u8; 32], u16, u8, u16)> {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
-        if (<bool>::sse_decode(deserializer)) {
-            return Some(<([u8; 32], u16, u8, u16)>::sse_decode(deserializer));
-        } else {
-            return None;
-        }
-    }
-}
-
-impl SseDecode for Option<([u8; 4], u16)> {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
-        if (<bool>::sse_decode(deserializer)) {
-            return Some(<([u8; 4], u16)>::sse_decode(deserializer));
+            return Some(<shared::PublicKey>::sse_decode(deserializer));
         } else {
             return None;
         }
@@ -11236,22 +10339,24 @@ impl SseDecode for Option<u8> {
     }
 }
 
-impl SseDecode for Option<Vec<SocketAddress>> {
+impl SseDecode for Option<ldk_adapter::types::UserChannelId> {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
         if (<bool>::sse_decode(deserializer)) {
-            return Some(<Vec<SocketAddress>>::sse_decode(deserializer));
+            return Some(<ldk_adapter::types::UserChannelId>::sse_decode(
+                deserializer,
+            ));
         } else {
             return None;
         }
     }
 }
 
-impl SseDecode for Option<[u8; 12]> {
+impl SseDecode for Option<Vec<shared::SocketAddress>> {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
         if (<bool>::sse_decode(deserializer)) {
-            return Some(<[u8; 12]>::sse_decode(deserializer));
+            return Some(<Vec<shared::SocketAddress>>::sse_decode(deserializer));
         } else {
             return None;
         }
@@ -11270,6 +10375,26 @@ impl SseDecode for shared::OutPoint {
     }
 }
 
+impl SseDecode for ldk_adapter::types::PaymentDetails {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        let mut var_id = <shared::PaymentId>::sse_decode(deserializer);
+        let mut var_kind = <ldk_adapter::types::PaymentKind>::sse_decode(deserializer);
+        let mut var_amountMsat = <Option<u64>>::sse_decode(deserializer);
+        let mut var_direction = <ldk_adapter::types::PaymentDirection>::sse_decode(deserializer);
+        let mut var_status = <ldk_adapter::types::PaymentStatus>::sse_decode(deserializer);
+        let mut var_latestUpdateTimestamp = <u64>::sse_decode(deserializer);
+        return ldk_adapter::types::PaymentDetails {
+            id: var_id,
+            kind: var_kind,
+            amount_msat: var_amountMsat,
+            direction: var_direction,
+            status: var_status,
+            latest_update_timestamp: var_latestUpdateTimestamp,
+        };
+    }
+}
+
 impl SseDecode for ldk_adapter::types::PaymentDirection {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
@@ -11278,6 +10403,26 @@ impl SseDecode for ldk_adapter::types::PaymentDirection {
             0 => ldk_adapter::types::PaymentDirection::Inbound,
             1 => ldk_adapter::types::PaymentDirection::Outbound,
             _ => unreachable!("Invalid variant for PaymentDirection: {}", inner),
+        };
+    }
+}
+
+impl SseDecode for ldk_adapter::types::PaymentFailureReason {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        let mut inner = <i32>::sse_decode(deserializer);
+        return match inner {
+            0 => ldk_adapter::types::PaymentFailureReason::RecipientRejected,
+            1 => ldk_adapter::types::PaymentFailureReason::UserAbandoned,
+            2 => ldk_adapter::types::PaymentFailureReason::RetriesExhausted,
+            3 => ldk_adapter::types::PaymentFailureReason::PaymentExpired,
+            4 => ldk_adapter::types::PaymentFailureReason::RouteNotFound,
+            5 => ldk_adapter::types::PaymentFailureReason::UnexpectedError,
+            6 => ldk_adapter::types::PaymentFailureReason::UnknownRequiredFeatures,
+            7 => ldk_adapter::types::PaymentFailureReason::InvoiceRequestExpired,
+            8 => ldk_adapter::types::PaymentFailureReason::InvoiceRequestRejected,
+            9 => ldk_adapter::types::PaymentFailureReason::BlindedPathCreationFailed,
+            _ => unreachable!("Invalid variant for PaymentFailureReason: {}", inner),
         };
     }
 }
@@ -11295,6 +10440,93 @@ impl SseDecode for shared::PaymentId {
     fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
         let mut var_data = <Vec<u8>>::sse_decode(deserializer);
         return shared::PaymentId { data: var_data };
+    }
+}
+
+impl SseDecode for ldk_adapter::types::PaymentKind {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        let mut tag_ = <i32>::sse_decode(deserializer);
+        match tag_ {
+            0 => {
+                let mut var_txid = <shared::Txid>::sse_decode(deserializer);
+                let mut var_status = <ConfirmationStatus>::sse_decode(deserializer);
+                return ldk_adapter::types::PaymentKind::Onchain {
+                    txid: var_txid,
+                    status: var_status,
+                };
+            }
+            1 => {
+                let mut var_hash = <shared::PaymentHash>::sse_decode(deserializer);
+                let mut var_preimage = <Option<shared::PaymentPreimage>>::sse_decode(deserializer);
+                let mut var_secret =
+                    <Option<ldk_adapter::types::PaymentSecret>>::sse_decode(deserializer);
+                return ldk_adapter::types::PaymentKind::Bolt11 {
+                    hash: var_hash,
+                    preimage: var_preimage,
+                    secret: var_secret,
+                };
+            }
+            2 => {
+                let mut var_hash = <shared::PaymentHash>::sse_decode(deserializer);
+                let mut var_preimage = <Option<shared::PaymentPreimage>>::sse_decode(deserializer);
+                let mut var_secret =
+                    <Option<ldk_adapter::types::PaymentSecret>>::sse_decode(deserializer);
+                let mut var_lspFeeLimits =
+                    <ldk_adapter::types::LSPFeeLimits>::sse_decode(deserializer);
+                let mut var_counterpartySkimmedFeeMsat = <Option<u64>>::sse_decode(deserializer);
+                return ldk_adapter::types::PaymentKind::Bolt11Jit {
+                    hash: var_hash,
+                    preimage: var_preimage,
+                    secret: var_secret,
+                    lsp_fee_limits: var_lspFeeLimits,
+                    counterparty_skimmed_fee_msat: var_counterpartySkimmedFeeMsat,
+                };
+            }
+            3 => {
+                let mut var_hash = <shared::PaymentHash>::sse_decode(deserializer);
+                let mut var_preimage = <Option<shared::PaymentPreimage>>::sse_decode(deserializer);
+                return ldk_adapter::types::PaymentKind::Spontaneous {
+                    hash: var_hash,
+                    preimage: var_preimage,
+                };
+            }
+            4 => {
+                let mut var_hash = <Option<shared::PaymentHash>>::sse_decode(deserializer);
+                let mut var_preimage = <Option<shared::PaymentPreimage>>::sse_decode(deserializer);
+                let mut var_secret =
+                    <Option<ldk_adapter::types::PaymentSecret>>::sse_decode(deserializer);
+                let mut var_offerId = <ldk_adapter::types::OfferId>::sse_decode(deserializer);
+                let mut var_payerNote = <Option<String>>::sse_decode(deserializer);
+                let mut var_quantity = <Option<u64>>::sse_decode(deserializer);
+                return ldk_adapter::types::PaymentKind::Bolt12Offer {
+                    hash: var_hash,
+                    preimage: var_preimage,
+                    secret: var_secret,
+                    offer_id: var_offerId,
+                    payer_note: var_payerNote,
+                    quantity: var_quantity,
+                };
+            }
+            5 => {
+                let mut var_hash = <Option<shared::PaymentHash>>::sse_decode(deserializer);
+                let mut var_preimage = <Option<shared::PaymentPreimage>>::sse_decode(deserializer);
+                let mut var_secret =
+                    <Option<ldk_adapter::types::PaymentSecret>>::sse_decode(deserializer);
+                let mut var_payerNote = <Option<String>>::sse_decode(deserializer);
+                let mut var_quantity = <Option<u64>>::sse_decode(deserializer);
+                return ldk_adapter::types::PaymentKind::Bolt12Refund {
+                    hash: var_hash,
+                    preimage: var_preimage,
+                    secret: var_secret,
+                    payer_note: var_payerNote,
+                    quantity: var_quantity,
+                };
+            }
+            _ => {
+                unimplemented!("");
+            }
+        }
     }
 }
 
@@ -11327,6 +10559,69 @@ impl SseDecode for ldk_adapter::types::PaymentStatus {
     }
 }
 
+impl SseDecode for ldk_adapter::types::PeerDetails {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        let mut var_nodeId = <shared::PublicKey>::sse_decode(deserializer);
+        let mut var_address = <shared::SocketAddress>::sse_decode(deserializer);
+        let mut var_isConnected = <bool>::sse_decode(deserializer);
+        return ldk_adapter::types::PeerDetails {
+            node_id: var_nodeId,
+            address: var_address,
+            is_connected: var_isConnected,
+        };
+    }
+}
+
+impl SseDecode for ldk_adapter::types::PendingSweepBalance {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        let mut tag_ = <i32>::sse_decode(deserializer);
+        match tag_ {
+            0 => {
+                let mut var_channelId =
+                    <Option<ldk_adapter::types::ChannelId>>::sse_decode(deserializer);
+                let mut var_amountSatoshis = <u64>::sse_decode(deserializer);
+                return ldk_adapter::types::PendingSweepBalance::PendingBroadcast {
+                    channel_id: var_channelId,
+                    amount_satoshis: var_amountSatoshis,
+                };
+            }
+            1 => {
+                let mut var_channelId =
+                    <Option<ldk_adapter::types::ChannelId>>::sse_decode(deserializer);
+                let mut var_latestBroadcastHeight = <u32>::sse_decode(deserializer);
+                let mut var_latestSpendingTxid = <shared::Txid>::sse_decode(deserializer);
+                let mut var_amountSatoshis = <u64>::sse_decode(deserializer);
+                return ldk_adapter::types::PendingSweepBalance::BroadcastAwaitingConfirmation {
+                    channel_id: var_channelId,
+                    latest_broadcast_height: var_latestBroadcastHeight,
+                    latest_spending_txid: var_latestSpendingTxid,
+                    amount_satoshis: var_amountSatoshis,
+                };
+            }
+            2 => {
+                let mut var_channelId =
+                    <Option<ldk_adapter::types::ChannelId>>::sse_decode(deserializer);
+                let mut var_latestSpendingTxid = <shared::Txid>::sse_decode(deserializer);
+                let mut var_confirmationHash = <String>::sse_decode(deserializer);
+                let mut var_confirmationHeight = <u32>::sse_decode(deserializer);
+                let mut var_amountSatoshis = <u64>::sse_decode(deserializer);
+                return ldk_adapter::types::PendingSweepBalance::AwaitingThresholdConfirmations {
+                    channel_id: var_channelId,
+                    latest_spending_txid: var_latestSpendingTxid,
+                    confirmation_hash: var_confirmationHash,
+                    confirmation_height: var_confirmationHeight,
+                    amount_satoshis: var_amountSatoshis,
+                };
+            }
+            _ => {
+                unimplemented!("");
+            }
+        }
+    }
+}
+
 impl SseDecode for shared::Psbt {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
@@ -11343,10 +10638,10 @@ impl SseDecode for shared::PublicKey {
     }
 }
 
-impl SseDecode for (SocketAddress, shared::PublicKey, Option<String>) {
+impl SseDecode for (shared::SocketAddress, shared::PublicKey, Option<String>) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
-        let mut var_field0 = <SocketAddress>::sse_decode(deserializer);
+        let mut var_field0 = <shared::SocketAddress>::sse_decode(deserializer);
         let mut var_field1 = <shared::PublicKey>::sse_decode(deserializer);
         let mut var_field2 = <Option<String>>::sse_decode(deserializer);
         return (var_field0, var_field1, var_field2);
@@ -11358,44 +10653,6 @@ impl SseDecode for (String, String) {
     fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
         let mut var_field0 = <String>::sse_decode(deserializer);
         let mut var_field1 = <String>::sse_decode(deserializer);
-        return (var_field0, var_field1);
-    }
-}
-
-impl SseDecode for (String, u16) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
-        let mut var_field0 = <String>::sse_decode(deserializer);
-        let mut var_field1 = <u16>::sse_decode(deserializer);
-        return (var_field0, var_field1);
-    }
-}
-
-impl SseDecode for ([u8; 16], u16) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
-        let mut var_field0 = <[u8; 16]>::sse_decode(deserializer);
-        let mut var_field1 = <u16>::sse_decode(deserializer);
-        return (var_field0, var_field1);
-    }
-}
-
-impl SseDecode for ([u8; 32], u16, u8, u16) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
-        let mut var_field0 = <[u8; 32]>::sse_decode(deserializer);
-        let mut var_field1 = <u16>::sse_decode(deserializer);
-        let mut var_field2 = <u8>::sse_decode(deserializer);
-        let mut var_field3 = <u16>::sse_decode(deserializer);
-        return (var_field0, var_field1, var_field2, var_field3);
-    }
-}
-
-impl SseDecode for ([u8; 4], u16) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
-        let mut var_field0 = <[u8; 4]>::sse_decode(deserializer);
-        let mut var_field1 = <u16>::sse_decode(deserializer);
         return (var_field0, var_field1);
     }
 }
@@ -11441,6 +10698,67 @@ impl SseDecode for shared::SendingParameters {
             max_path_count: var_maxPathCount,
             max_channel_saturation_power_of_half: var_maxChannelSaturationPowerOfHalf,
         };
+    }
+}
+
+impl SseDecode for shared::SocketAddress {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        let mut tag_ = <i32>::sse_decode(deserializer);
+        match tag_ {
+            0 => {
+                let mut var_addr = <[u8; 4]>::sse_decode(deserializer);
+                let mut var_port = <u16>::sse_decode(deserializer);
+                return shared::SocketAddress::TcpIpV4 {
+                    addr: var_addr,
+                    port: var_port,
+                };
+            }
+            1 => {
+                let mut var_addr = <[u8; 16]>::sse_decode(deserializer);
+                let mut var_port = <u16>::sse_decode(deserializer);
+                return shared::SocketAddress::TcpIpV6 {
+                    addr: var_addr,
+                    port: var_port,
+                };
+            }
+            2 => {
+                let mut var_field0 = <[u8; 12]>::sse_decode(deserializer);
+                return shared::SocketAddress::OnionV2(var_field0);
+            }
+            3 => {
+                let mut var_ed25519Pubkey = <[u8; 32]>::sse_decode(deserializer);
+                let mut var_checksum = <u16>::sse_decode(deserializer);
+                let mut var_version = <u8>::sse_decode(deserializer);
+                let mut var_port = <u16>::sse_decode(deserializer);
+                return shared::SocketAddress::OnionV3 {
+                    ed25519_pubkey: var_ed25519Pubkey,
+                    checksum: var_checksum,
+                    version: var_version,
+                    port: var_port,
+                };
+            }
+            4 => {
+                let mut var_addr = <String>::sse_decode(deserializer);
+                let mut var_port = <u16>::sse_decode(deserializer);
+                return shared::SocketAddress::Hostname {
+                    addr: var_addr,
+                    port: var_port,
+                };
+            }
+            _ => {
+                unimplemented!("");
+            }
+        }
+    }
+}
+
+impl SseDecode for ldk_adapter::spontaneous::SpontaneousPayment {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        let mut var_inner =
+            <ldk_adapter::spontaneous::SpontaneousPayment>::sse_decode(deserializer);
+        return ldk_adapter::spontaneous::SpontaneousPayment { inner: var_inner };
     }
 }
 
@@ -11548,6 +10866,14 @@ impl SseDecode for [u8; 64] {
     }
 }
 
+impl SseDecode for ldk_adapter::unified_qr::UnifiedQrPayment {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        let mut var_inner = <ldk_adapter::unified_qr::UnifiedQrPayment>::sse_decode(deserializer);
+        return ldk_adapter::unified_qr::UnifiedQrPayment { inner: var_inner };
+    }
+}
+
 impl SseDecode for () {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {}
@@ -11573,6 +10899,18 @@ impl SseDecode for shared::WTxid {
     fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
         let mut var_hash = <String>::sse_decode(deserializer);
         return shared::WTxid { hash: var_hash };
+    }
+}
+
+impl SseDecode for shared::WitnessProgram {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        let mut var_version = <u8>::sse_decode(deserializer);
+        let mut var_program = <Vec<u8>>::sse_decode(deserializer);
+        return shared::WitnessProgram {
+            version: var_version,
+            program: var_program,
+        };
     }
 }
 
@@ -11690,51 +11028,16 @@ impl flutter_rust_bridge::IntoIntoDart<FrbWrapper<BitcoinTransactionInner>>
 }
 
 // Codec=Dco (DartCObject based), see doc to use other codecs
-impl flutter_rust_bridge::IntoDart for FrbWrapper<Bolt11Payment> {
+impl flutter_rust_bridge::IntoDart for FrbWrapper<Builder> {
     fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
         flutter_rust_bridge::for_generated::rust_auto_opaque_encode::<_, StdArc<_>>(self.0)
             .into_dart()
     }
 }
-impl flutter_rust_bridge::for_generated::IntoDartExceptPrimitive for FrbWrapper<Bolt11Payment> {}
+impl flutter_rust_bridge::for_generated::IntoDartExceptPrimitive for FrbWrapper<Builder> {}
 
-impl flutter_rust_bridge::IntoIntoDart<FrbWrapper<Bolt11Payment>> for Bolt11Payment {
-    fn into_into_dart(self) -> FrbWrapper<Bolt11Payment> {
-        self.into()
-    }
-}
-
-// Codec=Dco (DartCObject based), see doc to use other codecs
-impl flutter_rust_bridge::IntoDart for FrbWrapper<Bolt12Payment> {
-    fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
-        flutter_rust_bridge::for_generated::rust_auto_opaque_encode::<_, StdArc<_>>(self.0)
-            .into_dart()
-    }
-}
-impl flutter_rust_bridge::for_generated::IntoDartExceptPrimitive for FrbWrapper<Bolt12Payment> {}
-
-impl flutter_rust_bridge::IntoIntoDart<FrbWrapper<Bolt12Payment>> for Bolt12Payment {
-    fn into_into_dart(self) -> FrbWrapper<Bolt12Payment> {
-        self.into()
-    }
-}
-
-// Codec=Dco (DartCObject based), see doc to use other codecs
-impl flutter_rust_bridge::IntoDart for FrbWrapper<ChainDataSourceConfig> {
-    fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
-        flutter_rust_bridge::for_generated::rust_auto_opaque_encode::<_, StdArc<_>>(self.0)
-            .into_dart()
-    }
-}
-impl flutter_rust_bridge::for_generated::IntoDartExceptPrimitive
-    for FrbWrapper<ChainDataSourceConfig>
-{
-}
-
-impl flutter_rust_bridge::IntoIntoDart<FrbWrapper<ChainDataSourceConfig>>
-    for ChainDataSourceConfig
-{
-    fn into_into_dart(self) -> FrbWrapper<ChainDataSourceConfig> {
+impl flutter_rust_bridge::IntoIntoDart<FrbWrapper<Builder>> for Builder {
+    fn into_into_dart(self) -> FrbWrapper<Builder> {
         self.into()
     }
 }
@@ -11770,52 +11073,19 @@ impl flutter_rust_bridge::IntoIntoDart<FrbWrapper<ChannelDetails>> for ChannelDe
 }
 
 // Codec=Dco (DartCObject based), see doc to use other codecs
-impl flutter_rust_bridge::IntoDart for FrbWrapper<EntropySourceConfig> {
+impl flutter_rust_bridge::IntoDart for FrbWrapper<ConfirmationStatus> {
     fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
         flutter_rust_bridge::for_generated::rust_auto_opaque_encode::<_, StdArc<_>>(self.0)
             .into_dart()
     }
 }
 impl flutter_rust_bridge::for_generated::IntoDartExceptPrimitive
-    for FrbWrapper<EntropySourceConfig>
+    for FrbWrapper<ConfirmationStatus>
 {
 }
 
-impl flutter_rust_bridge::IntoIntoDart<FrbWrapper<EntropySourceConfig>> for EntropySourceConfig {
-    fn into_into_dart(self) -> FrbWrapper<EntropySourceConfig> {
-        self.into()
-    }
-}
-
-// Codec=Dco (DartCObject based), see doc to use other codecs
-impl flutter_rust_bridge::IntoDart for FrbWrapper<Event> {
-    fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
-        flutter_rust_bridge::for_generated::rust_auto_opaque_encode::<_, StdArc<_>>(self.0)
-            .into_dart()
-    }
-}
-impl flutter_rust_bridge::for_generated::IntoDartExceptPrimitive for FrbWrapper<Event> {}
-
-impl flutter_rust_bridge::IntoIntoDart<FrbWrapper<Event>> for Event {
-    fn into_into_dart(self) -> FrbWrapper<Event> {
-        self.into()
-    }
-}
-
-// Codec=Dco (DartCObject based), see doc to use other codecs
-impl flutter_rust_bridge::IntoDart for FrbWrapper<GossipSourceConfig> {
-    fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
-        flutter_rust_bridge::for_generated::rust_auto_opaque_encode::<_, StdArc<_>>(self.0)
-            .into_dart()
-    }
-}
-impl flutter_rust_bridge::for_generated::IntoDartExceptPrimitive
-    for FrbWrapper<GossipSourceConfig>
-{
-}
-
-impl flutter_rust_bridge::IntoIntoDart<FrbWrapper<GossipSourceConfig>> for GossipSourceConfig {
-    fn into_into_dart(self) -> FrbWrapper<GossipSourceConfig> {
+impl flutter_rust_bridge::IntoIntoDart<FrbWrapper<ConfirmationStatus>> for ConfirmationStatus {
+    fn into_into_dart(self) -> FrbWrapper<ConfirmationStatus> {
         self.into()
     }
 }
@@ -11831,21 +11101,6 @@ impl flutter_rust_bridge::for_generated::IntoDartExceptPrimitive for FrbWrapper<
 
 impl flutter_rust_bridge::IntoIntoDart<FrbWrapper<LdkBuilder>> for LdkBuilder {
     fn into_into_dart(self) -> FrbWrapper<LdkBuilder> {
-        self.into()
-    }
-}
-
-// Codec=Dco (DartCObject based), see doc to use other codecs
-impl flutter_rust_bridge::IntoDart for FrbWrapper<LightningBalance> {
-    fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
-        flutter_rust_bridge::for_generated::rust_auto_opaque_encode::<_, StdArc<_>>(self.0)
-            .into_dart()
-    }
-}
-impl flutter_rust_bridge::for_generated::IntoDartExceptPrimitive for FrbWrapper<LightningBalance> {}
-
-impl flutter_rust_bridge::IntoIntoDart<FrbWrapper<LightningBalance>> for LightningBalance {
-    fn into_into_dart(self) -> FrbWrapper<LightningBalance> {
         self.into()
     }
 }
@@ -11869,36 +11124,6 @@ impl flutter_rust_bridge::IntoIntoDart<FrbWrapper<MaxDustHTLCExposure>> for MaxD
 }
 
 // Codec=Dco (DartCObject based), see doc to use other codecs
-impl flutter_rust_bridge::IntoDart for FrbWrapper<NetworkGraph> {
-    fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
-        flutter_rust_bridge::for_generated::rust_auto_opaque_encode::<_, StdArc<_>>(self.0)
-            .into_dart()
-    }
-}
-impl flutter_rust_bridge::for_generated::IntoDartExceptPrimitive for FrbWrapper<NetworkGraph> {}
-
-impl flutter_rust_bridge::IntoIntoDart<FrbWrapper<NetworkGraph>> for NetworkGraph {
-    fn into_into_dart(self) -> FrbWrapper<NetworkGraph> {
-        self.into()
-    }
-}
-
-// Codec=Dco (DartCObject based), see doc to use other codecs
-impl flutter_rust_bridge::IntoDart for FrbWrapper<Node> {
-    fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
-        flutter_rust_bridge::for_generated::rust_auto_opaque_encode::<_, StdArc<_>>(self.0)
-            .into_dart()
-    }
-}
-impl flutter_rust_bridge::for_generated::IntoDartExceptPrimitive for FrbWrapper<Node> {}
-
-impl flutter_rust_bridge::IntoIntoDart<FrbWrapper<Node>> for Node {
-    fn into_into_dart(self) -> FrbWrapper<Node> {
-        self.into()
-    }
-}
-
-// Codec=Dco (DartCObject based), see doc to use other codecs
 impl flutter_rust_bridge::IntoDart for FrbWrapper<OnChainPayment> {
     fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
         flutter_rust_bridge::for_generated::rust_auto_opaque_encode::<_, StdArc<_>>(self.0)
@@ -11914,64 +11139,16 @@ impl flutter_rust_bridge::IntoIntoDart<FrbWrapper<OnChainPayment>> for OnChainPa
 }
 
 // Codec=Dco (DartCObject based), see doc to use other codecs
-impl flutter_rust_bridge::IntoDart for FrbWrapper<PaymentDetails> {
+impl flutter_rust_bridge::IntoDart for FrbWrapper<OnchainPayment> {
     fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
         flutter_rust_bridge::for_generated::rust_auto_opaque_encode::<_, StdArc<_>>(self.0)
             .into_dart()
     }
 }
-impl flutter_rust_bridge::for_generated::IntoDartExceptPrimitive for FrbWrapper<PaymentDetails> {}
+impl flutter_rust_bridge::for_generated::IntoDartExceptPrimitive for FrbWrapper<OnchainPayment> {}
 
-impl flutter_rust_bridge::IntoIntoDart<FrbWrapper<PaymentDetails>> for PaymentDetails {
-    fn into_into_dart(self) -> FrbWrapper<PaymentDetails> {
-        self.into()
-    }
-}
-
-// Codec=Dco (DartCObject based), see doc to use other codecs
-impl flutter_rust_bridge::IntoDart for FrbWrapper<PaymentKind> {
-    fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
-        flutter_rust_bridge::for_generated::rust_auto_opaque_encode::<_, StdArc<_>>(self.0)
-            .into_dart()
-    }
-}
-impl flutter_rust_bridge::for_generated::IntoDartExceptPrimitive for FrbWrapper<PaymentKind> {}
-
-impl flutter_rust_bridge::IntoIntoDart<FrbWrapper<PaymentKind>> for PaymentKind {
-    fn into_into_dart(self) -> FrbWrapper<PaymentKind> {
-        self.into()
-    }
-}
-
-// Codec=Dco (DartCObject based), see doc to use other codecs
-impl flutter_rust_bridge::IntoDart for FrbWrapper<PeerDetails> {
-    fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
-        flutter_rust_bridge::for_generated::rust_auto_opaque_encode::<_, StdArc<_>>(self.0)
-            .into_dart()
-    }
-}
-impl flutter_rust_bridge::for_generated::IntoDartExceptPrimitive for FrbWrapper<PeerDetails> {}
-
-impl flutter_rust_bridge::IntoIntoDart<FrbWrapper<PeerDetails>> for PeerDetails {
-    fn into_into_dart(self) -> FrbWrapper<PeerDetails> {
-        self.into()
-    }
-}
-
-// Codec=Dco (DartCObject based), see doc to use other codecs
-impl flutter_rust_bridge::IntoDart for FrbWrapper<PendingSweepBalance> {
-    fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
-        flutter_rust_bridge::for_generated::rust_auto_opaque_encode::<_, StdArc<_>>(self.0)
-            .into_dart()
-    }
-}
-impl flutter_rust_bridge::for_generated::IntoDartExceptPrimitive
-    for FrbWrapper<PendingSweepBalance>
-{
-}
-
-impl flutter_rust_bridge::IntoIntoDart<FrbWrapper<PendingSweepBalance>> for PendingSweepBalance {
-    fn into_into_dart(self) -> FrbWrapper<PendingSweepBalance> {
+impl flutter_rust_bridge::IntoIntoDart<FrbWrapper<OnchainPayment>> for OnchainPayment {
+    fn into_into_dart(self) -> FrbWrapper<OnchainPayment> {
         self.into()
     }
 }
@@ -11987,39 +11164,6 @@ impl flutter_rust_bridge::for_generated::IntoDartExceptPrimitive for FrbWrapper<
 
 impl flutter_rust_bridge::IntoIntoDart<FrbWrapper<QrPaymentResult>> for QrPaymentResult {
     fn into_into_dart(self) -> FrbWrapper<QrPaymentResult> {
-        self.into()
-    }
-}
-
-// Codec=Dco (DartCObject based), see doc to use other codecs
-impl flutter_rust_bridge::IntoDart for FrbWrapper<SocketAddress> {
-    fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
-        flutter_rust_bridge::for_generated::rust_auto_opaque_encode::<_, StdArc<_>>(self.0)
-            .into_dart()
-    }
-}
-impl flutter_rust_bridge::for_generated::IntoDartExceptPrimitive for FrbWrapper<SocketAddress> {}
-
-impl flutter_rust_bridge::IntoIntoDart<FrbWrapper<SocketAddress>> for SocketAddress {
-    fn into_into_dart(self) -> FrbWrapper<SocketAddress> {
-        self.into()
-    }
-}
-
-// Codec=Dco (DartCObject based), see doc to use other codecs
-impl flutter_rust_bridge::IntoDart for FrbWrapper<SpontaneousPayment> {
-    fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
-        flutter_rust_bridge::for_generated::rust_auto_opaque_encode::<_, StdArc<_>>(self.0)
-            .into_dart()
-    }
-}
-impl flutter_rust_bridge::for_generated::IntoDartExceptPrimitive
-    for FrbWrapper<SpontaneousPayment>
-{
-}
-
-impl flutter_rust_bridge::IntoIntoDart<FrbWrapper<SpontaneousPayment>> for SpontaneousPayment {
-    fn into_into_dart(self) -> FrbWrapper<SpontaneousPayment> {
         self.into()
     }
 }
@@ -12075,20 +11219,36 @@ impl flutter_rust_bridge::IntoIntoDart<FrbWrapper<Transaction>> for Transaction 
 }
 
 // Codec=Dco (DartCObject based), see doc to use other codecs
-impl flutter_rust_bridge::IntoDart for FrbWrapper<UnifiedQrPayment> {
+impl flutter_rust_bridge::IntoDart for FrbWrapper<ldk_adapter::types::BackgroundSyncConfig> {
     fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
-        flutter_rust_bridge::for_generated::rust_auto_opaque_encode::<_, StdArc<_>>(self.0)
-            .into_dart()
+        [
+            self.0
+                .onchain_wallet_sync_interval_secs
+                .into_into_dart()
+                .into_dart(),
+            self.0
+                .lightning_wallet_sync_interval_secs
+                .into_into_dart()
+                .into_dart(),
+            self.0
+                .fee_rate_cache_update_interval_secs
+                .into_into_dart()
+                .into_dart(),
+        ]
+        .into_dart()
     }
 }
-impl flutter_rust_bridge::for_generated::IntoDartExceptPrimitive for FrbWrapper<UnifiedQrPayment> {}
-
-impl flutter_rust_bridge::IntoIntoDart<FrbWrapper<UnifiedQrPayment>> for UnifiedQrPayment {
-    fn into_into_dart(self) -> FrbWrapper<UnifiedQrPayment> {
+impl flutter_rust_bridge::for_generated::IntoDartExceptPrimitive
+    for FrbWrapper<ldk_adapter::types::BackgroundSyncConfig>
+{
+}
+impl flutter_rust_bridge::IntoIntoDart<FrbWrapper<ldk_adapter::types::BackgroundSyncConfig>>
+    for ldk_adapter::types::BackgroundSyncConfig
+{
+    fn into_into_dart(self) -> FrbWrapper<ldk_adapter::types::BackgroundSyncConfig> {
         self.into()
     }
 }
-
 // Codec=Dco (DartCObject based), see doc to use other codecs
 impl flutter_rust_bridge::IntoDart for FrbWrapper<ldk_adapter::types::BalanceDetails> {
     fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
@@ -12122,6 +11282,29 @@ impl flutter_rust_bridge::IntoIntoDart<FrbWrapper<ldk_adapter::types::BalanceDet
     for ldk_adapter::types::BalanceDetails
 {
     fn into_into_dart(self) -> FrbWrapper<ldk_adapter::types::BalanceDetails> {
+        self.into()
+    }
+}
+// Codec=Dco (DartCObject based), see doc to use other codecs
+impl flutter_rust_bridge::IntoDart for FrbWrapper<ldk_adapter::types::BalanceSource> {
+    fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
+        match self.0 {
+            ldk_adapter::types::BalanceSource::HolderForceClosed => 0.into_dart(),
+            ldk_adapter::types::BalanceSource::CounterpartyForceClosed => 1.into_dart(),
+            ldk_adapter::types::BalanceSource::CoopClose => 2.into_dart(),
+            ldk_adapter::types::BalanceSource::Htlc => 3.into_dart(),
+            _ => unreachable!(),
+        }
+    }
+}
+impl flutter_rust_bridge::for_generated::IntoDartExceptPrimitive
+    for FrbWrapper<ldk_adapter::types::BalanceSource>
+{
+}
+impl flutter_rust_bridge::IntoIntoDart<FrbWrapper<ldk_adapter::types::BalanceSource>>
+    for ldk_adapter::types::BalanceSource
+{
+    fn into_into_dart(self) -> FrbWrapper<ldk_adapter::types::BalanceSource> {
         self.into()
     }
 }
@@ -12164,6 +11347,23 @@ impl flutter_rust_bridge::IntoIntoDart<FrbWrapper<shared::Bolt11Invoice>>
     }
 }
 // Codec=Dco (DartCObject based), see doc to use other codecs
+impl flutter_rust_bridge::IntoDart for FrbWrapper<ldk_adapter::bolt11::Bolt11Payment> {
+    fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
+        [self.0.inner.into_into_dart().into_dart()].into_dart()
+    }
+}
+impl flutter_rust_bridge::for_generated::IntoDartExceptPrimitive
+    for FrbWrapper<ldk_adapter::bolt11::Bolt11Payment>
+{
+}
+impl flutter_rust_bridge::IntoIntoDart<FrbWrapper<ldk_adapter::bolt11::Bolt11Payment>>
+    for ldk_adapter::bolt11::Bolt11Payment
+{
+    fn into_into_dart(self) -> FrbWrapper<ldk_adapter::bolt11::Bolt11Payment> {
+        self.into()
+    }
+}
+// Codec=Dco (DartCObject based), see doc to use other codecs
 impl flutter_rust_bridge::IntoDart for FrbWrapper<shared::Bolt12Invoice> {
     fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
         [self.0.data.into_into_dart().into_dart()].into_dart()
@@ -12177,6 +11377,75 @@ impl flutter_rust_bridge::IntoIntoDart<FrbWrapper<shared::Bolt12Invoice>>
     for shared::Bolt12Invoice
 {
     fn into_into_dart(self) -> FrbWrapper<shared::Bolt12Invoice> {
+        self.into()
+    }
+}
+// Codec=Dco (DartCObject based), see doc to use other codecs
+impl flutter_rust_bridge::IntoDart for FrbWrapper<ldk_adapter::bolt12::Bolt12Payment> {
+    fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
+        [self.0.inner.into_into_dart().into_dart()].into_dart()
+    }
+}
+impl flutter_rust_bridge::for_generated::IntoDartExceptPrimitive
+    for FrbWrapper<ldk_adapter::bolt12::Bolt12Payment>
+{
+}
+impl flutter_rust_bridge::IntoIntoDart<FrbWrapper<ldk_adapter::bolt12::Bolt12Payment>>
+    for ldk_adapter::bolt12::Bolt12Payment
+{
+    fn into_into_dart(self) -> FrbWrapper<ldk_adapter::bolt12::Bolt12Payment> {
+        self.into()
+    }
+}
+// Codec=Dco (DartCObject based), see doc to use other codecs
+impl flutter_rust_bridge::IntoDart for FrbWrapper<ldk_adapter::types::ChainDataSourceConfig> {
+    fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
+        match self.0 {
+            ldk_adapter::types::ChainDataSourceConfig::Esplora {
+                server_url,
+                sync_config,
+            } => [
+                0.into_dart(),
+                server_url.into_into_dart().into_dart(),
+                sync_config.into_into_dart().into_dart(),
+            ]
+            .into_dart(),
+            ldk_adapter::types::ChainDataSourceConfig::Electrum {
+                server_url,
+                sync_config,
+            } => [
+                1.into_dart(),
+                server_url.into_into_dart().into_dart(),
+                sync_config.into_into_dart().into_dart(),
+            ]
+            .into_dart(),
+            ldk_adapter::types::ChainDataSourceConfig::BitcoindRpc {
+                rpc_host,
+                rpc_port,
+                rpc_user,
+                rpc_password,
+            } => [
+                2.into_dart(),
+                rpc_host.into_into_dart().into_dart(),
+                rpc_port.into_into_dart().into_dart(),
+                rpc_user.into_into_dart().into_dart(),
+                rpc_password.into_into_dart().into_dart(),
+            ]
+            .into_dart(),
+            _ => {
+                unimplemented!("");
+            }
+        }
+    }
+}
+impl flutter_rust_bridge::for_generated::IntoDartExceptPrimitive
+    for FrbWrapper<ldk_adapter::types::ChainDataSourceConfig>
+{
+}
+impl flutter_rust_bridge::IntoIntoDart<FrbWrapper<ldk_adapter::types::ChainDataSourceConfig>>
+    for ldk_adapter::types::ChainDataSourceConfig
+{
+    fn into_into_dart(self) -> FrbWrapper<ldk_adapter::types::ChainDataSourceConfig> {
         self.into()
     }
 }
@@ -12247,6 +11516,69 @@ impl flutter_rust_bridge::IntoIntoDart<FrbWrapper<ldk_adapter::graph::ChannelUpd
     }
 }
 // Codec=Dco (DartCObject based), see doc to use other codecs
+impl flutter_rust_bridge::IntoDart for FrbWrapper<ldk_adapter::types::ClosureReason> {
+    fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
+        match self.0 {
+            ldk_adapter::types::ClosureReason::PeerFeerateTooLow {
+                peer_feerate_sat_per_kw,
+                required_feerate_sat_per_kw,
+            } => [
+                0.into_dart(),
+                peer_feerate_sat_per_kw.into_into_dart().into_dart(),
+                required_feerate_sat_per_kw.into_into_dart().into_dart(),
+            ]
+            .into_dart(),
+            ldk_adapter::types::ClosureReason::CounterpartyForceClosed { peer_msg } => {
+                [1.into_dart(), peer_msg.into_into_dart().into_dart()].into_dart()
+            }
+            ldk_adapter::types::ClosureReason::HolderForceClosed {
+                broadcasted_latest_txn,
+            } => [
+                2.into_dart(),
+                broadcasted_latest_txn.into_into_dart().into_dart(),
+            ]
+            .into_dart(),
+            ldk_adapter::types::ClosureReason::LegacyCooperativeClosure => {
+                [3.into_dart()].into_dart()
+            }
+            ldk_adapter::types::ClosureReason::CounterpartyInitiatedCooperativeClosure => {
+                [4.into_dart()].into_dart()
+            }
+            ldk_adapter::types::ClosureReason::LocallyInitiatedCooperativeClosure => {
+                [5.into_dart()].into_dart()
+            }
+            ldk_adapter::types::ClosureReason::CommitmentTxConfirmed => [6.into_dart()].into_dart(),
+            ldk_adapter::types::ClosureReason::FundingTimedOut => [7.into_dart()].into_dart(),
+            ldk_adapter::types::ClosureReason::ProcessingError { err } => {
+                [8.into_dart(), err.into_into_dart().into_dart()].into_dart()
+            }
+            ldk_adapter::types::ClosureReason::DisconnectedPeer => [9.into_dart()].into_dart(),
+            ldk_adapter::types::ClosureReason::OutdatedChannelManager => {
+                [10.into_dart()].into_dart()
+            }
+            ldk_adapter::types::ClosureReason::CounterpartyCoopClosedUnfundedChannel => {
+                [11.into_dart()].into_dart()
+            }
+            ldk_adapter::types::ClosureReason::FundingBatchClosure => [12.into_dart()].into_dart(),
+            ldk_adapter::types::ClosureReason::HTLCsTimedOut => [13.into_dart()].into_dart(),
+            _ => {
+                unimplemented!("");
+            }
+        }
+    }
+}
+impl flutter_rust_bridge::for_generated::IntoDartExceptPrimitive
+    for FrbWrapper<ldk_adapter::types::ClosureReason>
+{
+}
+impl flutter_rust_bridge::IntoIntoDart<FrbWrapper<ldk_adapter::types::ClosureReason>>
+    for ldk_adapter::types::ClosureReason
+{
+    fn into_into_dart(self) -> FrbWrapper<ldk_adapter::types::ClosureReason> {
+        self.into()
+    }
+}
+// Codec=Dco (DartCObject based), see doc to use other codecs
 impl flutter_rust_bridge::IntoDart for FrbWrapper<ldk_adapter::types::Config> {
     fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
         [
@@ -12299,6 +11631,213 @@ impl flutter_rust_bridge::IntoIntoDart<FrbWrapper<ldk_adapter::types::CustomTlvR
     }
 }
 // Codec=Dco (DartCObject based), see doc to use other codecs
+impl flutter_rust_bridge::IntoDart for FrbWrapper<ldk_adapter::types::ElectrumSyncConfig> {
+    fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
+        [self.0.background_sync_config.into_into_dart().into_dart()].into_dart()
+    }
+}
+impl flutter_rust_bridge::for_generated::IntoDartExceptPrimitive
+    for FrbWrapper<ldk_adapter::types::ElectrumSyncConfig>
+{
+}
+impl flutter_rust_bridge::IntoIntoDart<FrbWrapper<ldk_adapter::types::ElectrumSyncConfig>>
+    for ldk_adapter::types::ElectrumSyncConfig
+{
+    fn into_into_dart(self) -> FrbWrapper<ldk_adapter::types::ElectrumSyncConfig> {
+        self.into()
+    }
+}
+// Codec=Dco (DartCObject based), see doc to use other codecs
+impl flutter_rust_bridge::IntoDart for FrbWrapper<ldk_adapter::types::EntropySourceConfig> {
+    fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
+        match self.0 {
+            ldk_adapter::types::EntropySourceConfig::SeedFile(field0) => {
+                [0.into_dart(), field0.into_into_dart().into_dart()].into_dart()
+            }
+            ldk_adapter::types::EntropySourceConfig::SeedBytes(field0) => {
+                [1.into_dart(), field0.into_into_dart().into_dart()].into_dart()
+            }
+            ldk_adapter::types::EntropySourceConfig::Bip39Mnemonic {
+                mnemonic,
+                passphrase,
+            } => [
+                2.into_dart(),
+                mnemonic.into_into_dart().into_dart(),
+                passphrase.into_into_dart().into_dart(),
+            ]
+            .into_dart(),
+            _ => {
+                unimplemented!("");
+            }
+        }
+    }
+}
+impl flutter_rust_bridge::for_generated::IntoDartExceptPrimitive
+    for FrbWrapper<ldk_adapter::types::EntropySourceConfig>
+{
+}
+impl flutter_rust_bridge::IntoIntoDart<FrbWrapper<ldk_adapter::types::EntropySourceConfig>>
+    for ldk_adapter::types::EntropySourceConfig
+{
+    fn into_into_dart(self) -> FrbWrapper<ldk_adapter::types::EntropySourceConfig> {
+        self.into()
+    }
+}
+// Codec=Dco (DartCObject based), see doc to use other codecs
+impl flutter_rust_bridge::IntoDart for FrbWrapper<ldk_adapter::types::EsploraSyncConfig> {
+    fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
+        [self.0.background_sync_config.into_into_dart().into_dart()].into_dart()
+    }
+}
+impl flutter_rust_bridge::for_generated::IntoDartExceptPrimitive
+    for FrbWrapper<ldk_adapter::types::EsploraSyncConfig>
+{
+}
+impl flutter_rust_bridge::IntoIntoDart<FrbWrapper<ldk_adapter::types::EsploraSyncConfig>>
+    for ldk_adapter::types::EsploraSyncConfig
+{
+    fn into_into_dart(self) -> FrbWrapper<ldk_adapter::types::EsploraSyncConfig> {
+        self.into()
+    }
+}
+// Codec=Dco (DartCObject based), see doc to use other codecs
+impl flutter_rust_bridge::IntoDart for FrbWrapper<ldk_adapter::types::Event> {
+    fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
+        match self.0 {
+            ldk_adapter::types::Event::PaymentClaimable {
+                payment_id,
+                payment_hash,
+                claimable_amount_msat,
+                claim_deadline,
+                custom_records,
+            } => [
+                0.into_dart(),
+                payment_id.into_into_dart().into_dart(),
+                payment_hash.into_into_dart().into_dart(),
+                claimable_amount_msat.into_into_dart().into_dart(),
+                claim_deadline.into_into_dart().into_dart(),
+                custom_records.into_into_dart().into_dart(),
+            ]
+            .into_dart(),
+            ldk_adapter::types::Event::PaymentSuccessful {
+                payment_id,
+                payment_hash,
+                fee_paid_msat,
+                preimage,
+            } => [
+                1.into_dart(),
+                payment_id.into_into_dart().into_dart(),
+                payment_hash.into_into_dart().into_dart(),
+                fee_paid_msat.into_into_dart().into_dart(),
+                preimage.into_into_dart().into_dart(),
+            ]
+            .into_dart(),
+            ldk_adapter::types::Event::PaymentFailed {
+                payment_id,
+                payment_hash,
+                reason,
+            } => [
+                2.into_dart(),
+                payment_id.into_into_dart().into_dart(),
+                payment_hash.into_into_dart().into_dart(),
+                reason.into_into_dart().into_dart(),
+            ]
+            .into_dart(),
+            ldk_adapter::types::Event::PaymentReceived {
+                payment_id,
+                payment_hash,
+                amount_msat,
+                custom_records,
+            } => [
+                3.into_dart(),
+                payment_id.into_into_dart().into_dart(),
+                payment_hash.into_into_dart().into_dart(),
+                amount_msat.into_into_dart().into_dart(),
+                custom_records.into_into_dart().into_dart(),
+            ]
+            .into_dart(),
+            ldk_adapter::types::Event::ChannelPending {
+                channel_id,
+                user_channel_id,
+                former_temporary_channel_id,
+                counterparty_node_id,
+                funding_txo,
+            } => [
+                4.into_dart(),
+                channel_id.into_into_dart().into_dart(),
+                user_channel_id.into_into_dart().into_dart(),
+                former_temporary_channel_id.into_into_dart().into_dart(),
+                counterparty_node_id.into_into_dart().into_dart(),
+                funding_txo.into_into_dart().into_dart(),
+            ]
+            .into_dart(),
+            ldk_adapter::types::Event::ChannelReady {
+                channel_id,
+                user_channel_id,
+                counterparty_node_id,
+            } => [
+                5.into_dart(),
+                channel_id.into_into_dart().into_dart(),
+                user_channel_id.into_into_dart().into_dart(),
+                counterparty_node_id.into_into_dart().into_dart(),
+            ]
+            .into_dart(),
+            ldk_adapter::types::Event::ChannelClosed {
+                channel_id,
+                user_channel_id,
+                counterparty_node_id,
+                reason,
+            } => [
+                6.into_dart(),
+                channel_id.into_into_dart().into_dart(),
+                user_channel_id.into_into_dart().into_dart(),
+                counterparty_node_id.into_into_dart().into_dart(),
+                reason.into_into_dart().into_dart(),
+            ]
+            .into_dart(),
+            ldk_adapter::types::Event::PaymentForwarded {
+                prev_channel_id,
+                next_channel_id,
+                prev_user_channel_id,
+                next_user_channel_id,
+                prev_node_id,
+                next_node_id,
+                total_fee_earned_msat,
+                skimmed_fee_msat,
+                claim_from_onchain_tx,
+                outbound_amount_forwarded_msat,
+            } => [
+                7.into_dart(),
+                prev_channel_id.into_into_dart().into_dart(),
+                next_channel_id.into_into_dart().into_dart(),
+                prev_user_channel_id.into_into_dart().into_dart(),
+                next_user_channel_id.into_into_dart().into_dart(),
+                prev_node_id.into_into_dart().into_dart(),
+                next_node_id.into_into_dart().into_dart(),
+                total_fee_earned_msat.into_into_dart().into_dart(),
+                skimmed_fee_msat.into_into_dart().into_dart(),
+                claim_from_onchain_tx.into_into_dart().into_dart(),
+                outbound_amount_forwarded_msat.into_into_dart().into_dart(),
+            ]
+            .into_dart(),
+            _ => {
+                unimplemented!("");
+            }
+        }
+    }
+}
+impl flutter_rust_bridge::for_generated::IntoDartExceptPrimitive
+    for FrbWrapper<ldk_adapter::types::Event>
+{
+}
+impl flutter_rust_bridge::IntoIntoDart<FrbWrapper<ldk_adapter::types::Event>>
+    for ldk_adapter::types::Event
+{
+    fn into_into_dart(self) -> FrbWrapper<ldk_adapter::types::Event> {
+        self.into()
+    }
+}
+// Codec=Dco (DartCObject based), see doc to use other codecs
 impl flutter_rust_bridge::IntoDart for FrbWrapper<ldk_adapter::types::FfiLogRecord> {
     fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
         [
@@ -12318,6 +11857,154 @@ impl flutter_rust_bridge::IntoIntoDart<FrbWrapper<ldk_adapter::types::FfiLogReco
     for ldk_adapter::types::FfiLogRecord
 {
     fn into_into_dart(self) -> FrbWrapper<ldk_adapter::types::FfiLogRecord> {
+        self.into()
+    }
+}
+// Codec=Dco (DartCObject based), see doc to use other codecs
+impl flutter_rust_bridge::IntoDart for FrbWrapper<ldk_adapter::types::GossipSourceConfig> {
+    fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
+        match self.0 {
+            ldk_adapter::types::GossipSourceConfig::P2PNetwork => [0.into_dart()].into_dart(),
+            ldk_adapter::types::GossipSourceConfig::RapidGossipSync(field0) => {
+                [1.into_dart(), field0.into_into_dart().into_dart()].into_dart()
+            }
+            _ => {
+                unimplemented!("");
+            }
+        }
+    }
+}
+impl flutter_rust_bridge::for_generated::IntoDartExceptPrimitive
+    for FrbWrapper<ldk_adapter::types::GossipSourceConfig>
+{
+}
+impl flutter_rust_bridge::IntoIntoDart<FrbWrapper<ldk_adapter::types::GossipSourceConfig>>
+    for ldk_adapter::types::GossipSourceConfig
+{
+    fn into_into_dart(self) -> FrbWrapper<ldk_adapter::types::GossipSourceConfig> {
+        self.into()
+    }
+}
+// Codec=Dco (DartCObject based), see doc to use other codecs
+impl flutter_rust_bridge::IntoDart for FrbWrapper<ldk_adapter::types::LightningBalance> {
+    fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
+        match self.0 {
+            ldk_adapter::types::LightningBalance::ClaimableOnChannelClose {
+                channel_id,
+                counterparty_node_id,
+                amount_satoshis,
+                transaction_fee_satoshis,
+                outbound_payment_htlc_rounded_msat,
+                outbound_forwarded_htlc_rounded_msat,
+                inbound_claiming_htlc_rounded_msat,
+                inbound_htlc_rounded_msat,
+            } => [
+                0.into_dart(),
+                channel_id.into_into_dart().into_dart(),
+                counterparty_node_id.into_into_dart().into_dart(),
+                amount_satoshis.into_into_dart().into_dart(),
+                transaction_fee_satoshis.into_into_dart().into_dart(),
+                outbound_payment_htlc_rounded_msat
+                    .into_into_dart()
+                    .into_dart(),
+                outbound_forwarded_htlc_rounded_msat
+                    .into_into_dart()
+                    .into_dart(),
+                inbound_claiming_htlc_rounded_msat
+                    .into_into_dart()
+                    .into_dart(),
+                inbound_htlc_rounded_msat.into_into_dart().into_dart(),
+            ]
+            .into_dart(),
+            ldk_adapter::types::LightningBalance::ClaimableAwaitingConfirmations {
+                channel_id,
+                counterparty_node_id,
+                amount_satoshis,
+                confirmation_height,
+                source,
+            } => [
+                1.into_dart(),
+                channel_id.into_into_dart().into_dart(),
+                counterparty_node_id.into_into_dart().into_dart(),
+                amount_satoshis.into_into_dart().into_dart(),
+                confirmation_height.into_into_dart().into_dart(),
+                source.into_into_dart().into_dart(),
+            ]
+            .into_dart(),
+            ldk_adapter::types::LightningBalance::ContentiousClaimable {
+                channel_id,
+                counterparty_node_id,
+                amount_satoshis,
+                timeout_height,
+                payment_hash,
+                payment_preimage,
+            } => [
+                2.into_dart(),
+                channel_id.into_into_dart().into_dart(),
+                counterparty_node_id.into_into_dart().into_dart(),
+                amount_satoshis.into_into_dart().into_dart(),
+                timeout_height.into_into_dart().into_dart(),
+                payment_hash.into_into_dart().into_dart(),
+                payment_preimage.into_into_dart().into_dart(),
+            ]
+            .into_dart(),
+            ldk_adapter::types::LightningBalance::MaybeTimeoutClaimableHTLC {
+                channel_id,
+                counterparty_node_id,
+                amount_satoshis,
+                claimable_height,
+                payment_hash,
+                outbound_payment,
+            } => [
+                3.into_dart(),
+                channel_id.into_into_dart().into_dart(),
+                counterparty_node_id.into_into_dart().into_dart(),
+                amount_satoshis.into_into_dart().into_dart(),
+                claimable_height.into_into_dart().into_dart(),
+                payment_hash.into_into_dart().into_dart(),
+                outbound_payment.into_into_dart().into_dart(),
+            ]
+            .into_dart(),
+            ldk_adapter::types::LightningBalance::MaybePreimageClaimableHTLC {
+                channel_id,
+                counterparty_node_id,
+                amount_satoshis,
+                expiry_height,
+                payment_hash,
+            } => [
+                4.into_dart(),
+                channel_id.into_into_dart().into_dart(),
+                counterparty_node_id.into_into_dart().into_dart(),
+                amount_satoshis.into_into_dart().into_dart(),
+                expiry_height.into_into_dart().into_dart(),
+                payment_hash.into_into_dart().into_dart(),
+            ]
+            .into_dart(),
+            ldk_adapter::types::LightningBalance::CounterpartyRevokedOutputClaimable {
+                channel_id,
+                counterparty_node_id,
+                amount_satoshis,
+            } => [
+                5.into_dart(),
+                channel_id.into_into_dart().into_dart(),
+                counterparty_node_id.into_into_dart().into_dart(),
+                amount_satoshis.into_into_dart().into_dart(),
+            ]
+            .into_dart(),
+            _ => {
+                unimplemented!("");
+            }
+        }
+    }
+}
+impl flutter_rust_bridge::for_generated::IntoDartExceptPrimitive
+    for FrbWrapper<ldk_adapter::types::LightningBalance>
+{
+}
+impl flutter_rust_bridge::IntoIntoDart<FrbWrapper<ldk_adapter::types::LightningBalance>>
+    for ldk_adapter::types::LightningBalance
+{
+    fn into_into_dart(self) -> FrbWrapper<ldk_adapter::types::LightningBalance> {
         self.into()
     }
 }
@@ -12418,6 +12105,40 @@ impl flutter_rust_bridge::IntoDart for FrbWrapper<shared::Network> {
 impl flutter_rust_bridge::for_generated::IntoDartExceptPrimitive for FrbWrapper<shared::Network> {}
 impl flutter_rust_bridge::IntoIntoDart<FrbWrapper<shared::Network>> for shared::Network {
     fn into_into_dart(self) -> FrbWrapper<shared::Network> {
+        self.into()
+    }
+}
+// Codec=Dco (DartCObject based), see doc to use other codecs
+impl flutter_rust_bridge::IntoDart for FrbWrapper<ldk_adapter::graph::NetworkGraph> {
+    fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
+        [self.0.inner.into_into_dart().into_dart()].into_dart()
+    }
+}
+impl flutter_rust_bridge::for_generated::IntoDartExceptPrimitive
+    for FrbWrapper<ldk_adapter::graph::NetworkGraph>
+{
+}
+impl flutter_rust_bridge::IntoIntoDart<FrbWrapper<ldk_adapter::graph::NetworkGraph>>
+    for ldk_adapter::graph::NetworkGraph
+{
+    fn into_into_dart(self) -> FrbWrapper<ldk_adapter::graph::NetworkGraph> {
+        self.into()
+    }
+}
+// Codec=Dco (DartCObject based), see doc to use other codecs
+impl flutter_rust_bridge::IntoDart for FrbWrapper<ldk_adapter::node::Node> {
+    fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
+        [self.0.inner.into_into_dart().into_dart()].into_dart()
+    }
+}
+impl flutter_rust_bridge::for_generated::IntoDartExceptPrimitive
+    for FrbWrapper<ldk_adapter::node::Node>
+{
+}
+impl flutter_rust_bridge::IntoIntoDart<FrbWrapper<ldk_adapter::node::Node>>
+    for ldk_adapter::node::Node
+{
+    fn into_into_dart(self) -> FrbWrapper<ldk_adapter::node::Node> {
         self.into()
     }
 }
@@ -12590,6 +12311,31 @@ impl flutter_rust_bridge::IntoIntoDart<FrbWrapper<shared::OutPoint>> for shared:
     }
 }
 // Codec=Dco (DartCObject based), see doc to use other codecs
+impl flutter_rust_bridge::IntoDart for FrbWrapper<ldk_adapter::types::PaymentDetails> {
+    fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
+        [
+            self.0.id.into_into_dart().into_dart(),
+            self.0.kind.into_into_dart().into_dart(),
+            self.0.amount_msat.into_into_dart().into_dart(),
+            self.0.direction.into_into_dart().into_dart(),
+            self.0.status.into_into_dart().into_dart(),
+            self.0.latest_update_timestamp.into_into_dart().into_dart(),
+        ]
+        .into_dart()
+    }
+}
+impl flutter_rust_bridge::for_generated::IntoDartExceptPrimitive
+    for FrbWrapper<ldk_adapter::types::PaymentDetails>
+{
+}
+impl flutter_rust_bridge::IntoIntoDart<FrbWrapper<ldk_adapter::types::PaymentDetails>>
+    for ldk_adapter::types::PaymentDetails
+{
+    fn into_into_dart(self) -> FrbWrapper<ldk_adapter::types::PaymentDetails> {
+        self.into()
+    }
+}
+// Codec=Dco (DartCObject based), see doc to use other codecs
 impl flutter_rust_bridge::IntoDart for FrbWrapper<ldk_adapter::types::PaymentDirection> {
     fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
         match self.0 {
@@ -12607,6 +12353,35 @@ impl flutter_rust_bridge::IntoIntoDart<FrbWrapper<ldk_adapter::types::PaymentDir
     for ldk_adapter::types::PaymentDirection
 {
     fn into_into_dart(self) -> FrbWrapper<ldk_adapter::types::PaymentDirection> {
+        self.into()
+    }
+}
+// Codec=Dco (DartCObject based), see doc to use other codecs
+impl flutter_rust_bridge::IntoDart for FrbWrapper<ldk_adapter::types::PaymentFailureReason> {
+    fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
+        match self.0 {
+            ldk_adapter::types::PaymentFailureReason::RecipientRejected => 0.into_dart(),
+            ldk_adapter::types::PaymentFailureReason::UserAbandoned => 1.into_dart(),
+            ldk_adapter::types::PaymentFailureReason::RetriesExhausted => 2.into_dart(),
+            ldk_adapter::types::PaymentFailureReason::PaymentExpired => 3.into_dart(),
+            ldk_adapter::types::PaymentFailureReason::RouteNotFound => 4.into_dart(),
+            ldk_adapter::types::PaymentFailureReason::UnexpectedError => 5.into_dart(),
+            ldk_adapter::types::PaymentFailureReason::UnknownRequiredFeatures => 6.into_dart(),
+            ldk_adapter::types::PaymentFailureReason::InvoiceRequestExpired => 7.into_dart(),
+            ldk_adapter::types::PaymentFailureReason::InvoiceRequestRejected => 8.into_dart(),
+            ldk_adapter::types::PaymentFailureReason::BlindedPathCreationFailed => 9.into_dart(),
+            _ => unreachable!(),
+        }
+    }
+}
+impl flutter_rust_bridge::for_generated::IntoDartExceptPrimitive
+    for FrbWrapper<ldk_adapter::types::PaymentFailureReason>
+{
+}
+impl flutter_rust_bridge::IntoIntoDart<FrbWrapper<ldk_adapter::types::PaymentFailureReason>>
+    for ldk_adapter::types::PaymentFailureReason
+{
+    fn into_into_dart(self) -> FrbWrapper<ldk_adapter::types::PaymentFailureReason> {
         self.into()
     }
 }
@@ -12634,6 +12409,97 @@ impl flutter_rust_bridge::IntoDart for FrbWrapper<shared::PaymentId> {
 impl flutter_rust_bridge::for_generated::IntoDartExceptPrimitive for FrbWrapper<shared::PaymentId> {}
 impl flutter_rust_bridge::IntoIntoDart<FrbWrapper<shared::PaymentId>> for shared::PaymentId {
     fn into_into_dart(self) -> FrbWrapper<shared::PaymentId> {
+        self.into()
+    }
+}
+// Codec=Dco (DartCObject based), see doc to use other codecs
+impl flutter_rust_bridge::IntoDart for FrbWrapper<ldk_adapter::types::PaymentKind> {
+    fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
+        match self.0 {
+            ldk_adapter::types::PaymentKind::Onchain { txid, status } => [
+                0.into_dart(),
+                txid.into_into_dart().into_dart(),
+                status.into_into_dart().into_dart(),
+            ]
+            .into_dart(),
+            ldk_adapter::types::PaymentKind::Bolt11 {
+                hash,
+                preimage,
+                secret,
+            } => [
+                1.into_dart(),
+                hash.into_into_dart().into_dart(),
+                preimage.into_into_dart().into_dart(),
+                secret.into_into_dart().into_dart(),
+            ]
+            .into_dart(),
+            ldk_adapter::types::PaymentKind::Bolt11Jit {
+                hash,
+                preimage,
+                secret,
+                lsp_fee_limits,
+                counterparty_skimmed_fee_msat,
+            } => [
+                2.into_dart(),
+                hash.into_into_dart().into_dart(),
+                preimage.into_into_dart().into_dart(),
+                secret.into_into_dart().into_dart(),
+                lsp_fee_limits.into_into_dart().into_dart(),
+                counterparty_skimmed_fee_msat.into_into_dart().into_dart(),
+            ]
+            .into_dart(),
+            ldk_adapter::types::PaymentKind::Spontaneous { hash, preimage } => [
+                3.into_dart(),
+                hash.into_into_dart().into_dart(),
+                preimage.into_into_dart().into_dart(),
+            ]
+            .into_dart(),
+            ldk_adapter::types::PaymentKind::Bolt12Offer {
+                hash,
+                preimage,
+                secret,
+                offer_id,
+                payer_note,
+                quantity,
+            } => [
+                4.into_dart(),
+                hash.into_into_dart().into_dart(),
+                preimage.into_into_dart().into_dart(),
+                secret.into_into_dart().into_dart(),
+                offer_id.into_into_dart().into_dart(),
+                payer_note.into_into_dart().into_dart(),
+                quantity.into_into_dart().into_dart(),
+            ]
+            .into_dart(),
+            ldk_adapter::types::PaymentKind::Bolt12Refund {
+                hash,
+                preimage,
+                secret,
+                payer_note,
+                quantity,
+            } => [
+                5.into_dart(),
+                hash.into_into_dart().into_dart(),
+                preimage.into_into_dart().into_dart(),
+                secret.into_into_dart().into_dart(),
+                payer_note.into_into_dart().into_dart(),
+                quantity.into_into_dart().into_dart(),
+            ]
+            .into_dart(),
+            _ => {
+                unimplemented!("");
+            }
+        }
+    }
+}
+impl flutter_rust_bridge::for_generated::IntoDartExceptPrimitive
+    for FrbWrapper<ldk_adapter::types::PaymentKind>
+{
+}
+impl flutter_rust_bridge::IntoIntoDart<FrbWrapper<ldk_adapter::types::PaymentKind>>
+    for ldk_adapter::types::PaymentKind
+{
+    fn into_into_dart(self) -> FrbWrapper<ldk_adapter::types::PaymentKind> {
         self.into()
     }
 }
@@ -12690,6 +12556,86 @@ impl flutter_rust_bridge::IntoIntoDart<FrbWrapper<ldk_adapter::types::PaymentSta
     for ldk_adapter::types::PaymentStatus
 {
     fn into_into_dart(self) -> FrbWrapper<ldk_adapter::types::PaymentStatus> {
+        self.into()
+    }
+}
+// Codec=Dco (DartCObject based), see doc to use other codecs
+impl flutter_rust_bridge::IntoDart for FrbWrapper<ldk_adapter::types::PeerDetails> {
+    fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
+        [
+            self.0.node_id.into_into_dart().into_dart(),
+            self.0.address.into_into_dart().into_dart(),
+            self.0.is_connected.into_into_dart().into_dart(),
+        ]
+        .into_dart()
+    }
+}
+impl flutter_rust_bridge::for_generated::IntoDartExceptPrimitive
+    for FrbWrapper<ldk_adapter::types::PeerDetails>
+{
+}
+impl flutter_rust_bridge::IntoIntoDart<FrbWrapper<ldk_adapter::types::PeerDetails>>
+    for ldk_adapter::types::PeerDetails
+{
+    fn into_into_dart(self) -> FrbWrapper<ldk_adapter::types::PeerDetails> {
+        self.into()
+    }
+}
+// Codec=Dco (DartCObject based), see doc to use other codecs
+impl flutter_rust_bridge::IntoDart for FrbWrapper<ldk_adapter::types::PendingSweepBalance> {
+    fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
+        match self.0 {
+            ldk_adapter::types::PendingSweepBalance::PendingBroadcast {
+                channel_id,
+                amount_satoshis,
+            } => [
+                0.into_dart(),
+                channel_id.into_into_dart().into_dart(),
+                amount_satoshis.into_into_dart().into_dart(),
+            ]
+            .into_dart(),
+            ldk_adapter::types::PendingSweepBalance::BroadcastAwaitingConfirmation {
+                channel_id,
+                latest_broadcast_height,
+                latest_spending_txid,
+                amount_satoshis,
+            } => [
+                1.into_dart(),
+                channel_id.into_into_dart().into_dart(),
+                latest_broadcast_height.into_into_dart().into_dart(),
+                latest_spending_txid.into_into_dart().into_dart(),
+                amount_satoshis.into_into_dart().into_dart(),
+            ]
+            .into_dart(),
+            ldk_adapter::types::PendingSweepBalance::AwaitingThresholdConfirmations {
+                channel_id,
+                latest_spending_txid,
+                confirmation_hash,
+                confirmation_height,
+                amount_satoshis,
+            } => [
+                2.into_dart(),
+                channel_id.into_into_dart().into_dart(),
+                latest_spending_txid.into_into_dart().into_dart(),
+                confirmation_hash.into_into_dart().into_dart(),
+                confirmation_height.into_into_dart().into_dart(),
+                amount_satoshis.into_into_dart().into_dart(),
+            ]
+            .into_dart(),
+            _ => {
+                unimplemented!("");
+            }
+        }
+    }
+}
+impl flutter_rust_bridge::for_generated::IntoDartExceptPrimitive
+    for FrbWrapper<ldk_adapter::types::PendingSweepBalance>
+{
+}
+impl flutter_rust_bridge::IntoIntoDart<FrbWrapper<ldk_adapter::types::PendingSweepBalance>>
+    for ldk_adapter::types::PendingSweepBalance
+{
+    fn into_into_dart(self) -> FrbWrapper<ldk_adapter::types::PendingSweepBalance> {
         self.into()
     }
 }
@@ -12795,6 +12741,78 @@ impl flutter_rust_bridge::IntoIntoDart<FrbWrapper<shared::SendingParameters>>
     }
 }
 // Codec=Dco (DartCObject based), see doc to use other codecs
+impl flutter_rust_bridge::IntoDart for FrbWrapper<shared::SocketAddress> {
+    fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
+        match self.0 {
+            shared::SocketAddress::TcpIpV4 { addr, port } => [
+                0.into_dart(),
+                addr.into_into_dart().into_dart(),
+                port.into_into_dart().into_dart(),
+            ]
+            .into_dart(),
+            shared::SocketAddress::TcpIpV6 { addr, port } => [
+                1.into_dart(),
+                addr.into_into_dart().into_dart(),
+                port.into_into_dart().into_dart(),
+            ]
+            .into_dart(),
+            shared::SocketAddress::OnionV2(field0) => {
+                [2.into_dart(), field0.into_into_dart().into_dart()].into_dart()
+            }
+            shared::SocketAddress::OnionV3 {
+                ed25519_pubkey,
+                checksum,
+                version,
+                port,
+            } => [
+                3.into_dart(),
+                ed25519_pubkey.into_into_dart().into_dart(),
+                checksum.into_into_dart().into_dart(),
+                version.into_into_dart().into_dart(),
+                port.into_into_dart().into_dart(),
+            ]
+            .into_dart(),
+            shared::SocketAddress::Hostname { addr, port } => [
+                4.into_dart(),
+                addr.into_into_dart().into_dart(),
+                port.into_into_dart().into_dart(),
+            ]
+            .into_dart(),
+            _ => {
+                unimplemented!("");
+            }
+        }
+    }
+}
+impl flutter_rust_bridge::for_generated::IntoDartExceptPrimitive
+    for FrbWrapper<shared::SocketAddress>
+{
+}
+impl flutter_rust_bridge::IntoIntoDart<FrbWrapper<shared::SocketAddress>>
+    for shared::SocketAddress
+{
+    fn into_into_dart(self) -> FrbWrapper<shared::SocketAddress> {
+        self.into()
+    }
+}
+// Codec=Dco (DartCObject based), see doc to use other codecs
+impl flutter_rust_bridge::IntoDart for FrbWrapper<ldk_adapter::spontaneous::SpontaneousPayment> {
+    fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
+        [self.0.inner.into_into_dart().into_dart()].into_dart()
+    }
+}
+impl flutter_rust_bridge::for_generated::IntoDartExceptPrimitive
+    for FrbWrapper<ldk_adapter::spontaneous::SpontaneousPayment>
+{
+}
+impl flutter_rust_bridge::IntoIntoDart<FrbWrapper<ldk_adapter::spontaneous::SpontaneousPayment>>
+    for ldk_adapter::spontaneous::SpontaneousPayment
+{
+    fn into_into_dart(self) -> FrbWrapper<ldk_adapter::spontaneous::SpontaneousPayment> {
+        self.into()
+    }
+}
+// Codec=Dco (DartCObject based), see doc to use other codecs
 impl flutter_rust_bridge::IntoDart for FrbWrapper<shared::TxIn> {
     fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
         [
@@ -12841,6 +12859,23 @@ impl flutter_rust_bridge::IntoIntoDart<FrbWrapper<shared::Txid>> for shared::Txi
     }
 }
 // Codec=Dco (DartCObject based), see doc to use other codecs
+impl flutter_rust_bridge::IntoDart for FrbWrapper<ldk_adapter::unified_qr::UnifiedQrPayment> {
+    fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
+        [self.0.inner.into_into_dart().into_dart()].into_dart()
+    }
+}
+impl flutter_rust_bridge::for_generated::IntoDartExceptPrimitive
+    for FrbWrapper<ldk_adapter::unified_qr::UnifiedQrPayment>
+{
+}
+impl flutter_rust_bridge::IntoIntoDart<FrbWrapper<ldk_adapter::unified_qr::UnifiedQrPayment>>
+    for ldk_adapter::unified_qr::UnifiedQrPayment
+{
+    fn into_into_dart(self) -> FrbWrapper<ldk_adapter::unified_qr::UnifiedQrPayment> {
+        self.into()
+    }
+}
+// Codec=Dco (DartCObject based), see doc to use other codecs
 impl flutter_rust_bridge::IntoDart for FrbWrapper<ldk_adapter::types::UserChannelId> {
     fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
         [self.0.data.into_into_dart().into_dart()].into_dart()
@@ -12866,6 +12901,27 @@ impl flutter_rust_bridge::IntoDart for FrbWrapper<shared::WTxid> {
 impl flutter_rust_bridge::for_generated::IntoDartExceptPrimitive for FrbWrapper<shared::WTxid> {}
 impl flutter_rust_bridge::IntoIntoDart<FrbWrapper<shared::WTxid>> for shared::WTxid {
     fn into_into_dart(self) -> FrbWrapper<shared::WTxid> {
+        self.into()
+    }
+}
+// Codec=Dco (DartCObject based), see doc to use other codecs
+impl flutter_rust_bridge::IntoDart for FrbWrapper<shared::WitnessProgram> {
+    fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
+        [
+            self.0.version.into_into_dart().into_dart(),
+            self.0.program.into_into_dart().into_dart(),
+        ]
+        .into_dart()
+    }
+}
+impl flutter_rust_bridge::for_generated::IntoDartExceptPrimitive
+    for FrbWrapper<shared::WitnessProgram>
+{
+}
+impl flutter_rust_bridge::IntoIntoDart<FrbWrapper<shared::WitnessProgram>>
+    for shared::WitnessProgram
+{
+    fn into_into_dart(self) -> FrbWrapper<shared::WitnessProgram> {
         self.into()
     }
 }
@@ -12922,29 +12978,10 @@ impl SseEncode for BitcoinTransactionInner {
     }
 }
 
-impl SseEncode for Bolt11Payment {
+impl SseEncode for Builder {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
-        <RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<Bolt11Payment>>>::sse_encode(flutter_rust_bridge::for_generated::rust_auto_opaque_encode::<_, StdArc<_>>(self), serializer);
-    }
-}
-
-impl SseEncode for Bolt12Payment {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
-        <RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<Bolt12Payment>>>::sse_encode(flutter_rust_bridge::for_generated::rust_auto_opaque_encode::<_, StdArc<_>>(self), serializer);
-    }
-}
-
-impl SseEncode for ChainDataSourceConfig {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
-        <RustOpaqueNom<
-            flutter_rust_bridge::for_generated::RustAutoOpaqueInner<ChainDataSourceConfig>,
-        >>::sse_encode(
-            flutter_rust_bridge::for_generated::rust_auto_opaque_encode::<_, StdArc<_>>(self),
-            serializer,
-        );
+        <RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner< Builder>>>::sse_encode(flutter_rust_bridge::for_generated::rust_auto_opaque_encode::<_, StdArc<_>>(self), serializer);
     }
 }
 
@@ -12962,27 +12999,10 @@ impl SseEncode for ChannelDetails {
     }
 }
 
-impl SseEncode for EntropySourceConfig {
+impl SseEncode for ConfirmationStatus {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
-        <RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<EntropySourceConfig>>>::sse_encode(flutter_rust_bridge::for_generated::rust_auto_opaque_encode::<_, StdArc<_>>(self), serializer);
-    }
-}
-
-impl SseEncode for Event {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
-        <RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<Event>>>::sse_encode(
-            flutter_rust_bridge::for_generated::rust_auto_opaque_encode::<_, StdArc<_>>(self),
-            serializer,
-        );
-    }
-}
-
-impl SseEncode for GossipSourceConfig {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
-        <RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<GossipSourceConfig>>>::sse_encode(flutter_rust_bridge::for_generated::rust_auto_opaque_encode::<_, StdArc<_>>(self), serializer);
+        <RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<ConfirmationStatus>>>::sse_encode(flutter_rust_bridge::for_generated::rust_auto_opaque_encode::<_, StdArc<_>>(self), serializer);
     }
 }
 
@@ -12993,34 +13013,10 @@ impl SseEncode for LdkBuilder {
     }
 }
 
-impl SseEncode for LightningBalance {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
-        <RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<LightningBalance>>>::sse_encode(flutter_rust_bridge::for_generated::rust_auto_opaque_encode::<_, StdArc<_>>(self), serializer);
-    }
-}
-
 impl SseEncode for MaxDustHTLCExposure {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
         <RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<MaxDustHTLCExposure>>>::sse_encode(flutter_rust_bridge::for_generated::rust_auto_opaque_encode::<_, StdArc<_>>(self), serializer);
-    }
-}
-
-impl SseEncode for NetworkGraph {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
-        <RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<NetworkGraph>>>::sse_encode(flutter_rust_bridge::for_generated::rust_auto_opaque_encode::<_, StdArc<_>>(self), serializer);
-    }
-}
-
-impl SseEncode for Node {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
-        <RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<Node>>>::sse_encode(
-            flutter_rust_bridge::for_generated::rust_auto_opaque_encode::<_, StdArc<_>>(self),
-            serializer,
-        );
     }
 }
 
@@ -13031,31 +13027,10 @@ impl SseEncode for OnChainPayment {
     }
 }
 
-impl SseEncode for PaymentDetails {
+impl SseEncode for OnchainPayment {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
-        <RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<PaymentDetails>>>::sse_encode(flutter_rust_bridge::for_generated::rust_auto_opaque_encode::<_, StdArc<_>>(self), serializer);
-    }
-}
-
-impl SseEncode for PaymentKind {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
-        <RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<PaymentKind>>>::sse_encode(flutter_rust_bridge::for_generated::rust_auto_opaque_encode::<_, StdArc<_>>(self), serializer);
-    }
-}
-
-impl SseEncode for PeerDetails {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
-        <RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<PeerDetails>>>::sse_encode(flutter_rust_bridge::for_generated::rust_auto_opaque_encode::<_, StdArc<_>>(self), serializer);
-    }
-}
-
-impl SseEncode for PendingSweepBalance {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
-        <RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<PendingSweepBalance>>>::sse_encode(flutter_rust_bridge::for_generated::rust_auto_opaque_encode::<_, StdArc<_>>(self), serializer);
+        <RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner< OnchainPayment>>>::sse_encode(flutter_rust_bridge::for_generated::rust_auto_opaque_encode::<_, StdArc<_>>(self), serializer);
     }
 }
 
@@ -13063,20 +13038,6 @@ impl SseEncode for QrPaymentResult {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
         <RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<QrPaymentResult>>>::sse_encode(flutter_rust_bridge::for_generated::rust_auto_opaque_encode::<_, StdArc<_>>(self), serializer);
-    }
-}
-
-impl SseEncode for SocketAddress {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
-        <RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<SocketAddress>>>::sse_encode(flutter_rust_bridge::for_generated::rust_auto_opaque_encode::<_, StdArc<_>>(self), serializer);
-    }
-}
-
-impl SseEncode for SpontaneousPayment {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
-        <RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<SpontaneousPayment>>>::sse_encode(flutter_rust_bridge::for_generated::rust_auto_opaque_encode::<_, StdArc<_>>(self), serializer);
     }
 }
 
@@ -13103,13 +13064,6 @@ impl SseEncode for Transaction {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
         <RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<Transaction>>>::sse_encode(flutter_rust_bridge::for_generated::rust_auto_opaque_encode::<_, StdArc<_>>(self), serializer);
-    }
-}
-
-impl SseEncode for UnifiedQrPayment {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
-        <RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<UnifiedQrPayment>>>::sse_encode(flutter_rust_bridge::for_generated::rust_auto_opaque_encode::<_, StdArc<_>>(self), serializer);
     }
 }
 
@@ -13177,33 +13131,7 @@ impl SseEncode
     }
 }
 
-impl SseEncode
-    for RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<Bolt11Payment>>
-{
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
-        let (ptr, size) = self.sse_encode_raw();
-        <usize>::sse_encode(ptr, serializer);
-        <i32>::sse_encode(size, serializer);
-    }
-}
-
-impl SseEncode
-    for RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<Bolt12Payment>>
-{
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
-        let (ptr, size) = self.sse_encode_raw();
-        <usize>::sse_encode(ptr, serializer);
-        <i32>::sse_encode(size, serializer);
-    }
-}
-
-impl SseEncode
-    for RustOpaqueNom<
-        flutter_rust_bridge::for_generated::RustAutoOpaqueInner<ChainDataSourceConfig>,
-    >
-{
+impl SseEncode for RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<Builder>> {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
         let (ptr, size) = self.sse_encode_raw();
@@ -13235,27 +13163,7 @@ impl SseEncode
 }
 
 impl SseEncode
-    for RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<EntropySourceConfig>>
-{
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
-        let (ptr, size) = self.sse_encode_raw();
-        <usize>::sse_encode(ptr, serializer);
-        <i32>::sse_encode(size, serializer);
-    }
-}
-
-impl SseEncode for RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<Event>> {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
-        let (ptr, size) = self.sse_encode_raw();
-        <usize>::sse_encode(ptr, serializer);
-        <i32>::sse_encode(size, serializer);
-    }
-}
-
-impl SseEncode
-    for RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<GossipSourceConfig>>
+    for RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<ConfirmationStatus>>
 {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
@@ -13277,39 +13185,8 @@ impl SseEncode
 }
 
 impl SseEncode
-    for RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<LightningBalance>>
-{
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
-        let (ptr, size) = self.sse_encode_raw();
-        <usize>::sse_encode(ptr, serializer);
-        <i32>::sse_encode(size, serializer);
-    }
-}
-
-impl SseEncode
     for RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<MaxDustHTLCExposure>>
 {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
-        let (ptr, size) = self.sse_encode_raw();
-        <usize>::sse_encode(ptr, serializer);
-        <i32>::sse_encode(size, serializer);
-    }
-}
-
-impl SseEncode
-    for RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<NetworkGraph>>
-{
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
-        let (ptr, size) = self.sse_encode_raw();
-        <usize>::sse_encode(ptr, serializer);
-        <i32>::sse_encode(size, serializer);
-    }
-}
-
-impl SseEncode for RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<Node>> {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
         let (ptr, size) = self.sse_encode_raw();
@@ -13330,40 +13207,7 @@ impl SseEncode
 }
 
 impl SseEncode
-    for RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<PaymentDetails>>
-{
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
-        let (ptr, size) = self.sse_encode_raw();
-        <usize>::sse_encode(ptr, serializer);
-        <i32>::sse_encode(size, serializer);
-    }
-}
-
-impl SseEncode
-    for RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<PaymentKind>>
-{
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
-        let (ptr, size) = self.sse_encode_raw();
-        <usize>::sse_encode(ptr, serializer);
-        <i32>::sse_encode(size, serializer);
-    }
-}
-
-impl SseEncode
-    for RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<PeerDetails>>
-{
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
-        let (ptr, size) = self.sse_encode_raw();
-        <usize>::sse_encode(ptr, serializer);
-        <i32>::sse_encode(size, serializer);
-    }
-}
-
-impl SseEncode
-    for RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<PendingSweepBalance>>
+    for RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<OnchainPayment>>
 {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
@@ -13375,28 +13219,6 @@ impl SseEncode
 
 impl SseEncode
     for RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<QrPaymentResult>>
-{
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
-        let (ptr, size) = self.sse_encode_raw();
-        <usize>::sse_encode(ptr, serializer);
-        <i32>::sse_encode(size, serializer);
-    }
-}
-
-impl SseEncode
-    for RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<SocketAddress>>
-{
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
-        let (ptr, size) = self.sse_encode_raw();
-        <usize>::sse_encode(ptr, serializer);
-        <i32>::sse_encode(size, serializer);
-    }
-}
-
-impl SseEncode
-    for RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<SpontaneousPayment>>
 {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
@@ -13441,21 +13263,19 @@ impl SseEncode
     }
 }
 
-impl SseEncode
-    for RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<UnifiedQrPayment>>
-{
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
-        let (ptr, size) = self.sse_encode_raw();
-        <usize>::sse_encode(ptr, serializer);
-        <i32>::sse_encode(size, serializer);
-    }
-}
-
 impl SseEncode for String {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
         <Vec<u8>>::sse_encode(self.into_bytes(), serializer);
+    }
+}
+
+impl SseEncode for ldk_adapter::types::BackgroundSyncConfig {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        <u64>::sse_encode(self.onchain_wallet_sync_interval_secs, serializer);
+        <u64>::sse_encode(self.lightning_wallet_sync_interval_secs, serializer);
+        <u64>::sse_encode(self.fee_rate_cache_update_interval_secs, serializer);
     }
 }
 
@@ -13465,9 +13285,30 @@ impl SseEncode for ldk_adapter::types::BalanceDetails {
         <u64>::sse_encode(self.total_onchain_balance_sats, serializer);
         <u64>::sse_encode(self.spendable_onchain_balance_sats, serializer);
         <u64>::sse_encode(self.total_lightning_balance_sats, serializer);
-        <Vec<LightningBalance>>::sse_encode(self.lightning_balances, serializer);
-        <Vec<PendingSweepBalance>>::sse_encode(
+        <Vec<ldk_adapter::types::LightningBalance>>::sse_encode(
+            self.lightning_balances,
+            serializer,
+        );
+        <Vec<ldk_adapter::types::PendingSweepBalance>>::sse_encode(
             self.pending_balances_from_channel_closures,
+            serializer,
+        );
+    }
+}
+
+impl SseEncode for ldk_adapter::types::BalanceSource {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        <i32>::sse_encode(
+            match self {
+                ldk_adapter::types::BalanceSource::HolderForceClosed => 0,
+                ldk_adapter::types::BalanceSource::CounterpartyForceClosed => 1,
+                ldk_adapter::types::BalanceSource::CoopClose => 2,
+                ldk_adapter::types::BalanceSource::Htlc => 3,
+                _ => {
+                    unimplemented!("");
+                }
+            },
             serializer,
         );
     }
@@ -13488,6 +13329,13 @@ impl SseEncode for shared::Bolt11Invoice {
     }
 }
 
+impl SseEncode for ldk_adapter::bolt11::Bolt11Payment {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        <ldk_adapter::bolt11::Bolt11Payment>::sse_encode(self.inner, serializer);
+    }
+}
+
 impl SseEncode for shared::Bolt12Invoice {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
@@ -13495,10 +13343,62 @@ impl SseEncode for shared::Bolt12Invoice {
     }
 }
 
+impl SseEncode for ldk_adapter::bolt12::Bolt12Payment {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        <ldk_adapter::bolt12::Bolt12Payment>::sse_encode(self.inner, serializer);
+    }
+}
+
 impl SseEncode for bool {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
         serializer.cursor.write_u8(self as _).unwrap();
+    }
+}
+
+impl SseEncode for ldk_adapter::types::ChainDataSourceConfig {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        match self {
+            ldk_adapter::types::ChainDataSourceConfig::Esplora {
+                server_url,
+                sync_config,
+            } => {
+                <i32>::sse_encode(0, serializer);
+                <String>::sse_encode(server_url, serializer);
+                <Option<ldk_adapter::types::EsploraSyncConfig>>::sse_encode(
+                    sync_config,
+                    serializer,
+                );
+            }
+            ldk_adapter::types::ChainDataSourceConfig::Electrum {
+                server_url,
+                sync_config,
+            } => {
+                <i32>::sse_encode(1, serializer);
+                <String>::sse_encode(server_url, serializer);
+                <Option<ldk_adapter::types::ElectrumSyncConfig>>::sse_encode(
+                    sync_config,
+                    serializer,
+                );
+            }
+            ldk_adapter::types::ChainDataSourceConfig::BitcoindRpc {
+                rpc_host,
+                rpc_port,
+                rpc_user,
+                rpc_password,
+            } => {
+                <i32>::sse_encode(2, serializer);
+                <String>::sse_encode(rpc_host, serializer);
+                <u16>::sse_encode(rpc_port, serializer);
+                <String>::sse_encode(rpc_user, serializer);
+                <String>::sse_encode(rpc_password, serializer);
+            }
+            _ => {
+                unimplemented!("");
+            }
+        }
     }
 }
 
@@ -13532,13 +13432,76 @@ impl SseEncode for ldk_adapter::graph::ChannelUpdateInfo {
     }
 }
 
+impl SseEncode for ldk_adapter::types::ClosureReason {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        match self {
+            ldk_adapter::types::ClosureReason::PeerFeerateTooLow {
+                peer_feerate_sat_per_kw,
+                required_feerate_sat_per_kw,
+            } => {
+                <i32>::sse_encode(0, serializer);
+                <u32>::sse_encode(peer_feerate_sat_per_kw, serializer);
+                <u32>::sse_encode(required_feerate_sat_per_kw, serializer);
+            }
+            ldk_adapter::types::ClosureReason::CounterpartyForceClosed { peer_msg } => {
+                <i32>::sse_encode(1, serializer);
+                <String>::sse_encode(peer_msg, serializer);
+            }
+            ldk_adapter::types::ClosureReason::HolderForceClosed {
+                broadcasted_latest_txn,
+            } => {
+                <i32>::sse_encode(2, serializer);
+                <Option<bool>>::sse_encode(broadcasted_latest_txn, serializer);
+            }
+            ldk_adapter::types::ClosureReason::LegacyCooperativeClosure => {
+                <i32>::sse_encode(3, serializer);
+            }
+            ldk_adapter::types::ClosureReason::CounterpartyInitiatedCooperativeClosure => {
+                <i32>::sse_encode(4, serializer);
+            }
+            ldk_adapter::types::ClosureReason::LocallyInitiatedCooperativeClosure => {
+                <i32>::sse_encode(5, serializer);
+            }
+            ldk_adapter::types::ClosureReason::CommitmentTxConfirmed => {
+                <i32>::sse_encode(6, serializer);
+            }
+            ldk_adapter::types::ClosureReason::FundingTimedOut => {
+                <i32>::sse_encode(7, serializer);
+            }
+            ldk_adapter::types::ClosureReason::ProcessingError { err } => {
+                <i32>::sse_encode(8, serializer);
+                <String>::sse_encode(err, serializer);
+            }
+            ldk_adapter::types::ClosureReason::DisconnectedPeer => {
+                <i32>::sse_encode(9, serializer);
+            }
+            ldk_adapter::types::ClosureReason::OutdatedChannelManager => {
+                <i32>::sse_encode(10, serializer);
+            }
+            ldk_adapter::types::ClosureReason::CounterpartyCoopClosedUnfundedChannel => {
+                <i32>::sse_encode(11, serializer);
+            }
+            ldk_adapter::types::ClosureReason::FundingBatchClosure => {
+                <i32>::sse_encode(12, serializer);
+            }
+            ldk_adapter::types::ClosureReason::HTLCsTimedOut => {
+                <i32>::sse_encode(13, serializer);
+            }
+            _ => {
+                unimplemented!("");
+            }
+        }
+    }
+}
+
 impl SseEncode for ldk_adapter::types::Config {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
         <String>::sse_encode(self.storage_dir_path, serializer);
         <shared::Network>::sse_encode(self.network, serializer);
-        <Option<Vec<SocketAddress>>>::sse_encode(self.listening_addresses, serializer);
-        <Option<Vec<SocketAddress>>>::sse_encode(self.announcement_addresses, serializer);
+        <Option<Vec<shared::SocketAddress>>>::sse_encode(self.listening_addresses, serializer);
+        <Option<Vec<shared::SocketAddress>>>::sse_encode(self.announcement_addresses, serializer);
         <Option<ldk_adapter::types::NodeAlias>>::sse_encode(self.node_alias, serializer);
         <Vec<shared::PublicKey>>::sse_encode(self.trusted_peers_0conf, serializer);
         <u64>::sse_encode(self.probing_liquidity_limit_multiplier, serializer);
@@ -13552,6 +13515,181 @@ impl SseEncode for ldk_adapter::types::CustomTlvRecord {
     fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
         <u64>::sse_encode(self.type_num, serializer);
         <Vec<u8>>::sse_encode(self.value, serializer);
+    }
+}
+
+impl SseEncode for ldk_adapter::types::ElectrumSyncConfig {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        <Option<ldk_adapter::types::BackgroundSyncConfig>>::sse_encode(
+            self.background_sync_config,
+            serializer,
+        );
+    }
+}
+
+impl SseEncode for ldk_adapter::types::EntropySourceConfig {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        match self {
+            ldk_adapter::types::EntropySourceConfig::SeedFile(field0) => {
+                <i32>::sse_encode(0, serializer);
+                <String>::sse_encode(field0, serializer);
+            }
+            ldk_adapter::types::EntropySourceConfig::SeedBytes(field0) => {
+                <i32>::sse_encode(1, serializer);
+                <[u8; 64]>::sse_encode(field0, serializer);
+            }
+            ldk_adapter::types::EntropySourceConfig::Bip39Mnemonic {
+                mnemonic,
+                passphrase,
+            } => {
+                <i32>::sse_encode(2, serializer);
+                <shared::Mnemonic>::sse_encode(mnemonic, serializer);
+                <Option<String>>::sse_encode(passphrase, serializer);
+            }
+            _ => {
+                unimplemented!("");
+            }
+        }
+    }
+}
+
+impl SseEncode for ldk_adapter::types::EsploraSyncConfig {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        <Option<ldk_adapter::types::BackgroundSyncConfig>>::sse_encode(
+            self.background_sync_config,
+            serializer,
+        );
+    }
+}
+
+impl SseEncode for ldk_adapter::types::Event {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        match self {
+            ldk_adapter::types::Event::PaymentClaimable {
+                payment_id,
+                payment_hash,
+                claimable_amount_msat,
+                claim_deadline,
+                custom_records,
+            } => {
+                <i32>::sse_encode(0, serializer);
+                <shared::PaymentId>::sse_encode(payment_id, serializer);
+                <shared::PaymentHash>::sse_encode(payment_hash, serializer);
+                <u64>::sse_encode(claimable_amount_msat, serializer);
+                <Option<u32>>::sse_encode(claim_deadline, serializer);
+                <Vec<ldk_adapter::types::CustomTlvRecord>>::sse_encode(custom_records, serializer);
+            }
+            ldk_adapter::types::Event::PaymentSuccessful {
+                payment_id,
+                payment_hash,
+                fee_paid_msat,
+                preimage,
+            } => {
+                <i32>::sse_encode(1, serializer);
+                <Option<shared::PaymentId>>::sse_encode(payment_id, serializer);
+                <shared::PaymentHash>::sse_encode(payment_hash, serializer);
+                <Option<u64>>::sse_encode(fee_paid_msat, serializer);
+                <Option<shared::PaymentPreimage>>::sse_encode(preimage, serializer);
+            }
+            ldk_adapter::types::Event::PaymentFailed {
+                payment_id,
+                payment_hash,
+                reason,
+            } => {
+                <i32>::sse_encode(2, serializer);
+                <Option<shared::PaymentId>>::sse_encode(payment_id, serializer);
+                <Option<shared::PaymentHash>>::sse_encode(payment_hash, serializer);
+                <Option<ldk_adapter::types::PaymentFailureReason>>::sse_encode(reason, serializer);
+            }
+            ldk_adapter::types::Event::PaymentReceived {
+                payment_id,
+                payment_hash,
+                amount_msat,
+                custom_records,
+            } => {
+                <i32>::sse_encode(3, serializer);
+                <Option<shared::PaymentId>>::sse_encode(payment_id, serializer);
+                <shared::PaymentHash>::sse_encode(payment_hash, serializer);
+                <u64>::sse_encode(amount_msat, serializer);
+                <Vec<ldk_adapter::types::CustomTlvRecord>>::sse_encode(custom_records, serializer);
+            }
+            ldk_adapter::types::Event::ChannelPending {
+                channel_id,
+                user_channel_id,
+                former_temporary_channel_id,
+                counterparty_node_id,
+                funding_txo,
+            } => {
+                <i32>::sse_encode(4, serializer);
+                <ldk_adapter::types::ChannelId>::sse_encode(channel_id, serializer);
+                <ldk_adapter::types::UserChannelId>::sse_encode(user_channel_id, serializer);
+                <ldk_adapter::types::ChannelId>::sse_encode(
+                    former_temporary_channel_id,
+                    serializer,
+                );
+                <shared::PublicKey>::sse_encode(counterparty_node_id, serializer);
+                <shared::OutPoint>::sse_encode(funding_txo, serializer);
+            }
+            ldk_adapter::types::Event::ChannelReady {
+                channel_id,
+                user_channel_id,
+                counterparty_node_id,
+            } => {
+                <i32>::sse_encode(5, serializer);
+                <ldk_adapter::types::ChannelId>::sse_encode(channel_id, serializer);
+                <ldk_adapter::types::UserChannelId>::sse_encode(user_channel_id, serializer);
+                <Option<shared::PublicKey>>::sse_encode(counterparty_node_id, serializer);
+            }
+            ldk_adapter::types::Event::ChannelClosed {
+                channel_id,
+                user_channel_id,
+                counterparty_node_id,
+                reason,
+            } => {
+                <i32>::sse_encode(6, serializer);
+                <ldk_adapter::types::ChannelId>::sse_encode(channel_id, serializer);
+                <ldk_adapter::types::UserChannelId>::sse_encode(user_channel_id, serializer);
+                <Option<shared::PublicKey>>::sse_encode(counterparty_node_id, serializer);
+                <Option<ldk_adapter::types::ClosureReason>>::sse_encode(reason, serializer);
+            }
+            ldk_adapter::types::Event::PaymentForwarded {
+                prev_channel_id,
+                next_channel_id,
+                prev_user_channel_id,
+                next_user_channel_id,
+                prev_node_id,
+                next_node_id,
+                total_fee_earned_msat,
+                skimmed_fee_msat,
+                claim_from_onchain_tx,
+                outbound_amount_forwarded_msat,
+            } => {
+                <i32>::sse_encode(7, serializer);
+                <ldk_adapter::types::ChannelId>::sse_encode(prev_channel_id, serializer);
+                <ldk_adapter::types::ChannelId>::sse_encode(next_channel_id, serializer);
+                <Option<ldk_adapter::types::UserChannelId>>::sse_encode(
+                    prev_user_channel_id,
+                    serializer,
+                );
+                <Option<ldk_adapter::types::UserChannelId>>::sse_encode(
+                    next_user_channel_id,
+                    serializer,
+                );
+                <Option<shared::PublicKey>>::sse_encode(prev_node_id, serializer);
+                <Option<shared::PublicKey>>::sse_encode(next_node_id, serializer);
+                <Option<u64>>::sse_encode(total_fee_earned_msat, serializer);
+                <Option<u64>>::sse_encode(skimmed_fee_msat, serializer);
+                <bool>::sse_encode(claim_from_onchain_tx, serializer);
+                <Option<u64>>::sse_encode(outbound_amount_forwarded_msat, serializer);
+            }
+            _ => {
+                unimplemented!("");
+            }
+        }
     }
 }
 
@@ -13572,6 +13710,24 @@ impl SseEncode for ldk_adapter::types::FfiLogRecord {
     }
 }
 
+impl SseEncode for ldk_adapter::types::GossipSourceConfig {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        match self {
+            ldk_adapter::types::GossipSourceConfig::P2PNetwork => {
+                <i32>::sse_encode(0, serializer);
+            }
+            ldk_adapter::types::GossipSourceConfig::RapidGossipSync(field0) => {
+                <i32>::sse_encode(1, serializer);
+                <String>::sse_encode(field0, serializer);
+            }
+            _ => {
+                unimplemented!("");
+            }
+        }
+    }
+}
+
 impl SseEncode for i32 {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
@@ -13579,10 +13735,111 @@ impl SseEncode for i32 {
     }
 }
 
+impl SseEncode for ldk_adapter::types::LightningBalance {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        match self {
+            ldk_adapter::types::LightningBalance::ClaimableOnChannelClose {
+                channel_id,
+                counterparty_node_id,
+                amount_satoshis,
+                transaction_fee_satoshis,
+                outbound_payment_htlc_rounded_msat,
+                outbound_forwarded_htlc_rounded_msat,
+                inbound_claiming_htlc_rounded_msat,
+                inbound_htlc_rounded_msat,
+            } => {
+                <i32>::sse_encode(0, serializer);
+                <ldk_adapter::types::ChannelId>::sse_encode(channel_id, serializer);
+                <shared::PublicKey>::sse_encode(counterparty_node_id, serializer);
+                <u64>::sse_encode(amount_satoshis, serializer);
+                <u64>::sse_encode(transaction_fee_satoshis, serializer);
+                <u64>::sse_encode(outbound_payment_htlc_rounded_msat, serializer);
+                <u64>::sse_encode(outbound_forwarded_htlc_rounded_msat, serializer);
+                <u64>::sse_encode(inbound_claiming_htlc_rounded_msat, serializer);
+                <u64>::sse_encode(inbound_htlc_rounded_msat, serializer);
+            }
+            ldk_adapter::types::LightningBalance::ClaimableAwaitingConfirmations {
+                channel_id,
+                counterparty_node_id,
+                amount_satoshis,
+                confirmation_height,
+                source,
+            } => {
+                <i32>::sse_encode(1, serializer);
+                <ldk_adapter::types::ChannelId>::sse_encode(channel_id, serializer);
+                <shared::PublicKey>::sse_encode(counterparty_node_id, serializer);
+                <u64>::sse_encode(amount_satoshis, serializer);
+                <u32>::sse_encode(confirmation_height, serializer);
+                <ldk_adapter::types::BalanceSource>::sse_encode(source, serializer);
+            }
+            ldk_adapter::types::LightningBalance::ContentiousClaimable {
+                channel_id,
+                counterparty_node_id,
+                amount_satoshis,
+                timeout_height,
+                payment_hash,
+                payment_preimage,
+            } => {
+                <i32>::sse_encode(2, serializer);
+                <ldk_adapter::types::ChannelId>::sse_encode(channel_id, serializer);
+                <shared::PublicKey>::sse_encode(counterparty_node_id, serializer);
+                <u64>::sse_encode(amount_satoshis, serializer);
+                <u32>::sse_encode(timeout_height, serializer);
+                <shared::PaymentHash>::sse_encode(payment_hash, serializer);
+                <shared::PaymentPreimage>::sse_encode(payment_preimage, serializer);
+            }
+            ldk_adapter::types::LightningBalance::MaybeTimeoutClaimableHTLC {
+                channel_id,
+                counterparty_node_id,
+                amount_satoshis,
+                claimable_height,
+                payment_hash,
+                outbound_payment,
+            } => {
+                <i32>::sse_encode(3, serializer);
+                <ldk_adapter::types::ChannelId>::sse_encode(channel_id, serializer);
+                <shared::PublicKey>::sse_encode(counterparty_node_id, serializer);
+                <u64>::sse_encode(amount_satoshis, serializer);
+                <u32>::sse_encode(claimable_height, serializer);
+                <shared::PaymentHash>::sse_encode(payment_hash, serializer);
+                <bool>::sse_encode(outbound_payment, serializer);
+            }
+            ldk_adapter::types::LightningBalance::MaybePreimageClaimableHTLC {
+                channel_id,
+                counterparty_node_id,
+                amount_satoshis,
+                expiry_height,
+                payment_hash,
+            } => {
+                <i32>::sse_encode(4, serializer);
+                <ldk_adapter::types::ChannelId>::sse_encode(channel_id, serializer);
+                <shared::PublicKey>::sse_encode(counterparty_node_id, serializer);
+                <u64>::sse_encode(amount_satoshis, serializer);
+                <u32>::sse_encode(expiry_height, serializer);
+                <shared::PaymentHash>::sse_encode(payment_hash, serializer);
+            }
+            ldk_adapter::types::LightningBalance::CounterpartyRevokedOutputClaimable {
+                channel_id,
+                counterparty_node_id,
+                amount_satoshis,
+            } => {
+                <i32>::sse_encode(5, serializer);
+                <ldk_adapter::types::ChannelId>::sse_encode(channel_id, serializer);
+                <shared::PublicKey>::sse_encode(counterparty_node_id, serializer);
+                <u64>::sse_encode(amount_satoshis, serializer);
+            }
+            _ => {
+                unimplemented!("");
+            }
+        }
+    }
+}
+
 impl SseEncode for ldk_adapter::types::LiquiditySourceConfig {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
-        <(SocketAddress, shared::PublicKey, Option<String>)>::sse_encode(
+        <(shared::SocketAddress, shared::PublicKey, Option<String>)>::sse_encode(
             self.lsps2_service,
             serializer,
         );
@@ -13595,56 +13852,6 @@ impl SseEncode for Vec<ChannelDetails> {
         <i32>::sse_encode(self.len() as _, serializer);
         for item in self {
             <ChannelDetails>::sse_encode(item, serializer);
-        }
-    }
-}
-
-impl SseEncode for Vec<LightningBalance> {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
-        <i32>::sse_encode(self.len() as _, serializer);
-        for item in self {
-            <LightningBalance>::sse_encode(item, serializer);
-        }
-    }
-}
-
-impl SseEncode for Vec<PaymentDetails> {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
-        <i32>::sse_encode(self.len() as _, serializer);
-        for item in self {
-            <PaymentDetails>::sse_encode(item, serializer);
-        }
-    }
-}
-
-impl SseEncode for Vec<PeerDetails> {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
-        <i32>::sse_encode(self.len() as _, serializer);
-        for item in self {
-            <PeerDetails>::sse_encode(item, serializer);
-        }
-    }
-}
-
-impl SseEncode for Vec<PendingSweepBalance> {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
-        <i32>::sse_encode(self.len() as _, serializer);
-        for item in self {
-            <PendingSweepBalance>::sse_encode(item, serializer);
-        }
-    }
-}
-
-impl SseEncode for Vec<SocketAddress> {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
-        <i32>::sse_encode(self.len() as _, serializer);
-        for item in self {
-            <SocketAddress>::sse_encode(item, serializer);
         }
     }
 }
@@ -13669,6 +13876,16 @@ impl SseEncode for Vec<ldk_adapter::types::CustomTlvRecord> {
     }
 }
 
+impl SseEncode for Vec<ldk_adapter::types::LightningBalance> {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        <i32>::sse_encode(self.len() as _, serializer);
+        for item in self {
+            <ldk_adapter::types::LightningBalance>::sse_encode(item, serializer);
+        }
+    }
+}
+
 impl SseEncode for Vec<Vec<u8>> {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
@@ -13685,6 +13902,36 @@ impl SseEncode for Vec<ldk_adapter::graph::NodeId> {
         <i32>::sse_encode(self.len() as _, serializer);
         for item in self {
             <ldk_adapter::graph::NodeId>::sse_encode(item, serializer);
+        }
+    }
+}
+
+impl SseEncode for Vec<ldk_adapter::types::PaymentDetails> {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        <i32>::sse_encode(self.len() as _, serializer);
+        for item in self {
+            <ldk_adapter::types::PaymentDetails>::sse_encode(item, serializer);
+        }
+    }
+}
+
+impl SseEncode for Vec<ldk_adapter::types::PeerDetails> {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        <i32>::sse_encode(self.len() as _, serializer);
+        for item in self {
+            <ldk_adapter::types::PeerDetails>::sse_encode(item, serializer);
+        }
+    }
+}
+
+impl SseEncode for Vec<ldk_adapter::types::PendingSweepBalance> {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        <i32>::sse_encode(self.len() as _, serializer);
+        for item in self {
+            <ldk_adapter::types::PendingSweepBalance>::sse_encode(item, serializer);
         }
     }
 }
@@ -13725,6 +13972,16 @@ impl SseEncode for Vec<(String, String)> {
         <i32>::sse_encode(self.len() as _, serializer);
         for item in self {
             <(String, String)>::sse_encode(item, serializer);
+        }
+    }
+}
+
+impl SseEncode for Vec<shared::SocketAddress> {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        <i32>::sse_encode(self.len() as _, serializer);
+        for item in self {
+            <shared::SocketAddress>::sse_encode(item, serializer);
         }
     }
 }
@@ -13803,6 +14060,20 @@ impl SseEncode for shared::Network {
     }
 }
 
+impl SseEncode for ldk_adapter::graph::NetworkGraph {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        <ldk_adapter::graph::NetworkGraph>::sse_encode(self.inner, serializer);
+    }
+}
+
+impl SseEncode for ldk_adapter::node::Node {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        <ldk_adapter::node::Node>::sse_encode(self.inner, serializer);
+    }
+}
+
 impl SseEncode for ldk_adapter::types::NodeAlias {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
@@ -13815,7 +14086,7 @@ impl SseEncode for ldk_adapter::graph::NodeAnnouncementInfo {
     fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
         <u32>::sse_encode(self.last_update, serializer);
         <String>::sse_encode(self.alias, serializer);
-        <Vec<SocketAddress>>::sse_encode(self.addresses, serializer);
+        <Vec<shared::SocketAddress>>::sse_encode(self.addresses, serializer);
     }
 }
 
@@ -13889,16 +14160,6 @@ impl SseEncode for Option<AnchorChannelsConfig> {
     }
 }
 
-impl SseEncode for Option<ChainDataSourceConfig> {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
-        <bool>::sse_encode(self.is_some(), serializer);
-        if let Some(value) = self {
-            <ChainDataSourceConfig>::sse_encode(value, serializer);
-        }
-    }
-}
-
 impl SseEncode for Option<ChannelConfig> {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
@@ -13909,42 +14170,32 @@ impl SseEncode for Option<ChannelConfig> {
     }
 }
 
-impl SseEncode for Option<EntropySourceConfig> {
+impl SseEncode for Option<ldk_adapter::types::BackgroundSyncConfig> {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
         <bool>::sse_encode(self.is_some(), serializer);
         if let Some(value) = self {
-            <EntropySourceConfig>::sse_encode(value, serializer);
+            <ldk_adapter::types::BackgroundSyncConfig>::sse_encode(value, serializer);
         }
     }
 }
 
-impl SseEncode for Option<Event> {
+impl SseEncode for Option<bool> {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
         <bool>::sse_encode(self.is_some(), serializer);
         if let Some(value) = self {
-            <Event>::sse_encode(value, serializer);
+            <bool>::sse_encode(value, serializer);
         }
     }
 }
 
-impl SseEncode for Option<GossipSourceConfig> {
+impl SseEncode for Option<ldk_adapter::types::ChainDataSourceConfig> {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
         <bool>::sse_encode(self.is_some(), serializer);
         if let Some(value) = self {
-            <GossipSourceConfig>::sse_encode(value, serializer);
-        }
-    }
-}
-
-impl SseEncode for Option<PaymentDetails> {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
-        <bool>::sse_encode(self.is_some(), serializer);
-        if let Some(value) = self {
-            <PaymentDetails>::sse_encode(value, serializer);
+            <ldk_adapter::types::ChainDataSourceConfig>::sse_encode(value, serializer);
         }
     }
 }
@@ -13975,6 +14226,66 @@ impl SseEncode for Option<ldk_adapter::graph::ChannelUpdateInfo> {
         <bool>::sse_encode(self.is_some(), serializer);
         if let Some(value) = self {
             <ldk_adapter::graph::ChannelUpdateInfo>::sse_encode(value, serializer);
+        }
+    }
+}
+
+impl SseEncode for Option<ldk_adapter::types::ClosureReason> {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        <bool>::sse_encode(self.is_some(), serializer);
+        if let Some(value) = self {
+            <ldk_adapter::types::ClosureReason>::sse_encode(value, serializer);
+        }
+    }
+}
+
+impl SseEncode for Option<ldk_adapter::types::ElectrumSyncConfig> {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        <bool>::sse_encode(self.is_some(), serializer);
+        if let Some(value) = self {
+            <ldk_adapter::types::ElectrumSyncConfig>::sse_encode(value, serializer);
+        }
+    }
+}
+
+impl SseEncode for Option<ldk_adapter::types::EntropySourceConfig> {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        <bool>::sse_encode(self.is_some(), serializer);
+        if let Some(value) = self {
+            <ldk_adapter::types::EntropySourceConfig>::sse_encode(value, serializer);
+        }
+    }
+}
+
+impl SseEncode for Option<ldk_adapter::types::EsploraSyncConfig> {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        <bool>::sse_encode(self.is_some(), serializer);
+        if let Some(value) = self {
+            <ldk_adapter::types::EsploraSyncConfig>::sse_encode(value, serializer);
+        }
+    }
+}
+
+impl SseEncode for Option<ldk_adapter::types::Event> {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        <bool>::sse_encode(self.is_some(), serializer);
+        if let Some(value) = self {
+            <ldk_adapter::types::Event>::sse_encode(value, serializer);
+        }
+    }
+}
+
+impl SseEncode for Option<ldk_adapter::types::GossipSourceConfig> {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        <bool>::sse_encode(self.is_some(), serializer);
+        if let Some(value) = self {
+            <ldk_adapter::types::GossipSourceConfig>::sse_encode(value, serializer);
         }
     }
 }
@@ -14049,6 +14360,56 @@ impl SseEncode for Option<shared::OutPoint> {
     }
 }
 
+impl SseEncode for Option<ldk_adapter::types::PaymentDetails> {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        <bool>::sse_encode(self.is_some(), serializer);
+        if let Some(value) = self {
+            <ldk_adapter::types::PaymentDetails>::sse_encode(value, serializer);
+        }
+    }
+}
+
+impl SseEncode for Option<ldk_adapter::types::PaymentFailureReason> {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        <bool>::sse_encode(self.is_some(), serializer);
+        if let Some(value) = self {
+            <ldk_adapter::types::PaymentFailureReason>::sse_encode(value, serializer);
+        }
+    }
+}
+
+impl SseEncode for Option<shared::PaymentHash> {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        <bool>::sse_encode(self.is_some(), serializer);
+        if let Some(value) = self {
+            <shared::PaymentHash>::sse_encode(value, serializer);
+        }
+    }
+}
+
+impl SseEncode for Option<shared::PaymentId> {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        <bool>::sse_encode(self.is_some(), serializer);
+        if let Some(value) = self {
+            <shared::PaymentId>::sse_encode(value, serializer);
+        }
+    }
+}
+
+impl SseEncode for Option<shared::PaymentPreimage> {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        <bool>::sse_encode(self.is_some(), serializer);
+        if let Some(value) = self {
+            <shared::PaymentPreimage>::sse_encode(value, serializer);
+        }
+    }
+}
+
 impl SseEncode for Option<ldk_adapter::types::PaymentSecret> {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
@@ -14059,42 +14420,12 @@ impl SseEncode for Option<ldk_adapter::types::PaymentSecret> {
     }
 }
 
-impl SseEncode for Option<(String, u16)> {
+impl SseEncode for Option<shared::PublicKey> {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
         <bool>::sse_encode(self.is_some(), serializer);
         if let Some(value) = self {
-            <(String, u16)>::sse_encode(value, serializer);
-        }
-    }
-}
-
-impl SseEncode for Option<([u8; 16], u16)> {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
-        <bool>::sse_encode(self.is_some(), serializer);
-        if let Some(value) = self {
-            <([u8; 16], u16)>::sse_encode(value, serializer);
-        }
-    }
-}
-
-impl SseEncode for Option<([u8; 32], u16, u8, u16)> {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
-        <bool>::sse_encode(self.is_some(), serializer);
-        if let Some(value) = self {
-            <([u8; 32], u16, u8, u16)>::sse_encode(value, serializer);
-        }
-    }
-}
-
-impl SseEncode for Option<([u8; 4], u16)> {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
-        <bool>::sse_encode(self.is_some(), serializer);
-        if let Some(value) = self {
-            <([u8; 4], u16)>::sse_encode(value, serializer);
+            <shared::PublicKey>::sse_encode(value, serializer);
         }
     }
 }
@@ -14149,22 +14480,22 @@ impl SseEncode for Option<u8> {
     }
 }
 
-impl SseEncode for Option<Vec<SocketAddress>> {
+impl SseEncode for Option<ldk_adapter::types::UserChannelId> {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
         <bool>::sse_encode(self.is_some(), serializer);
         if let Some(value) = self {
-            <Vec<SocketAddress>>::sse_encode(value, serializer);
+            <ldk_adapter::types::UserChannelId>::sse_encode(value, serializer);
         }
     }
 }
 
-impl SseEncode for Option<[u8; 12]> {
+impl SseEncode for Option<Vec<shared::SocketAddress>> {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
         <bool>::sse_encode(self.is_some(), serializer);
         if let Some(value) = self {
-            <[u8; 12]>::sse_encode(value, serializer);
+            <Vec<shared::SocketAddress>>::sse_encode(value, serializer);
         }
     }
 }
@@ -14177,6 +14508,18 @@ impl SseEncode for shared::OutPoint {
     }
 }
 
+impl SseEncode for ldk_adapter::types::PaymentDetails {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        <shared::PaymentId>::sse_encode(self.id, serializer);
+        <ldk_adapter::types::PaymentKind>::sse_encode(self.kind, serializer);
+        <Option<u64>>::sse_encode(self.amount_msat, serializer);
+        <ldk_adapter::types::PaymentDirection>::sse_encode(self.direction, serializer);
+        <ldk_adapter::types::PaymentStatus>::sse_encode(self.status, serializer);
+        <u64>::sse_encode(self.latest_update_timestamp, serializer);
+    }
+}
+
 impl SseEncode for ldk_adapter::types::PaymentDirection {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
@@ -14184,6 +14527,30 @@ impl SseEncode for ldk_adapter::types::PaymentDirection {
             match self {
                 ldk_adapter::types::PaymentDirection::Inbound => 0,
                 ldk_adapter::types::PaymentDirection::Outbound => 1,
+                _ => {
+                    unimplemented!("");
+                }
+            },
+            serializer,
+        );
+    }
+}
+
+impl SseEncode for ldk_adapter::types::PaymentFailureReason {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        <i32>::sse_encode(
+            match self {
+                ldk_adapter::types::PaymentFailureReason::RecipientRejected => 0,
+                ldk_adapter::types::PaymentFailureReason::UserAbandoned => 1,
+                ldk_adapter::types::PaymentFailureReason::RetriesExhausted => 2,
+                ldk_adapter::types::PaymentFailureReason::PaymentExpired => 3,
+                ldk_adapter::types::PaymentFailureReason::RouteNotFound => 4,
+                ldk_adapter::types::PaymentFailureReason::UnexpectedError => 5,
+                ldk_adapter::types::PaymentFailureReason::UnknownRequiredFeatures => 6,
+                ldk_adapter::types::PaymentFailureReason::InvoiceRequestExpired => 7,
+                ldk_adapter::types::PaymentFailureReason::InvoiceRequestRejected => 8,
+                ldk_adapter::types::PaymentFailureReason::BlindedPathCreationFailed => 9,
                 _ => {
                     unimplemented!("");
                 }
@@ -14204,6 +14571,81 @@ impl SseEncode for shared::PaymentId {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
         <Vec<u8>>::sse_encode(self.data, serializer);
+    }
+}
+
+impl SseEncode for ldk_adapter::types::PaymentKind {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        match self {
+            ldk_adapter::types::PaymentKind::Onchain { txid, status } => {
+                <i32>::sse_encode(0, serializer);
+                <shared::Txid>::sse_encode(txid, serializer);
+                <ConfirmationStatus>::sse_encode(status, serializer);
+            }
+            ldk_adapter::types::PaymentKind::Bolt11 {
+                hash,
+                preimage,
+                secret,
+            } => {
+                <i32>::sse_encode(1, serializer);
+                <shared::PaymentHash>::sse_encode(hash, serializer);
+                <Option<shared::PaymentPreimage>>::sse_encode(preimage, serializer);
+                <Option<ldk_adapter::types::PaymentSecret>>::sse_encode(secret, serializer);
+            }
+            ldk_adapter::types::PaymentKind::Bolt11Jit {
+                hash,
+                preimage,
+                secret,
+                lsp_fee_limits,
+                counterparty_skimmed_fee_msat,
+            } => {
+                <i32>::sse_encode(2, serializer);
+                <shared::PaymentHash>::sse_encode(hash, serializer);
+                <Option<shared::PaymentPreimage>>::sse_encode(preimage, serializer);
+                <Option<ldk_adapter::types::PaymentSecret>>::sse_encode(secret, serializer);
+                <ldk_adapter::types::LSPFeeLimits>::sse_encode(lsp_fee_limits, serializer);
+                <Option<u64>>::sse_encode(counterparty_skimmed_fee_msat, serializer);
+            }
+            ldk_adapter::types::PaymentKind::Spontaneous { hash, preimage } => {
+                <i32>::sse_encode(3, serializer);
+                <shared::PaymentHash>::sse_encode(hash, serializer);
+                <Option<shared::PaymentPreimage>>::sse_encode(preimage, serializer);
+            }
+            ldk_adapter::types::PaymentKind::Bolt12Offer {
+                hash,
+                preimage,
+                secret,
+                offer_id,
+                payer_note,
+                quantity,
+            } => {
+                <i32>::sse_encode(4, serializer);
+                <Option<shared::PaymentHash>>::sse_encode(hash, serializer);
+                <Option<shared::PaymentPreimage>>::sse_encode(preimage, serializer);
+                <Option<ldk_adapter::types::PaymentSecret>>::sse_encode(secret, serializer);
+                <ldk_adapter::types::OfferId>::sse_encode(offer_id, serializer);
+                <Option<String>>::sse_encode(payer_note, serializer);
+                <Option<u64>>::sse_encode(quantity, serializer);
+            }
+            ldk_adapter::types::PaymentKind::Bolt12Refund {
+                hash,
+                preimage,
+                secret,
+                payer_note,
+                quantity,
+            } => {
+                <i32>::sse_encode(5, serializer);
+                <Option<shared::PaymentHash>>::sse_encode(hash, serializer);
+                <Option<shared::PaymentPreimage>>::sse_encode(preimage, serializer);
+                <Option<ldk_adapter::types::PaymentSecret>>::sse_encode(secret, serializer);
+                <Option<String>>::sse_encode(payer_note, serializer);
+                <Option<u64>>::sse_encode(quantity, serializer);
+            }
+            _ => {
+                unimplemented!("");
+            }
+        }
     }
 }
 
@@ -14238,6 +14680,60 @@ impl SseEncode for ldk_adapter::types::PaymentStatus {
     }
 }
 
+impl SseEncode for ldk_adapter::types::PeerDetails {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        <shared::PublicKey>::sse_encode(self.node_id, serializer);
+        <shared::SocketAddress>::sse_encode(self.address, serializer);
+        <bool>::sse_encode(self.is_connected, serializer);
+    }
+}
+
+impl SseEncode for ldk_adapter::types::PendingSweepBalance {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        match self {
+            ldk_adapter::types::PendingSweepBalance::PendingBroadcast {
+                channel_id,
+                amount_satoshis,
+            } => {
+                <i32>::sse_encode(0, serializer);
+                <Option<ldk_adapter::types::ChannelId>>::sse_encode(channel_id, serializer);
+                <u64>::sse_encode(amount_satoshis, serializer);
+            }
+            ldk_adapter::types::PendingSweepBalance::BroadcastAwaitingConfirmation {
+                channel_id,
+                latest_broadcast_height,
+                latest_spending_txid,
+                amount_satoshis,
+            } => {
+                <i32>::sse_encode(1, serializer);
+                <Option<ldk_adapter::types::ChannelId>>::sse_encode(channel_id, serializer);
+                <u32>::sse_encode(latest_broadcast_height, serializer);
+                <shared::Txid>::sse_encode(latest_spending_txid, serializer);
+                <u64>::sse_encode(amount_satoshis, serializer);
+            }
+            ldk_adapter::types::PendingSweepBalance::AwaitingThresholdConfirmations {
+                channel_id,
+                latest_spending_txid,
+                confirmation_hash,
+                confirmation_height,
+                amount_satoshis,
+            } => {
+                <i32>::sse_encode(2, serializer);
+                <Option<ldk_adapter::types::ChannelId>>::sse_encode(channel_id, serializer);
+                <shared::Txid>::sse_encode(latest_spending_txid, serializer);
+                <String>::sse_encode(confirmation_hash, serializer);
+                <u32>::sse_encode(confirmation_height, serializer);
+                <u64>::sse_encode(amount_satoshis, serializer);
+            }
+            _ => {
+                unimplemented!("");
+            }
+        }
+    }
+}
+
 impl SseEncode for shared::Psbt {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
@@ -14252,10 +14748,10 @@ impl SseEncode for shared::PublicKey {
     }
 }
 
-impl SseEncode for (SocketAddress, shared::PublicKey, Option<String>) {
+impl SseEncode for (shared::SocketAddress, shared::PublicKey, Option<String>) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
-        <SocketAddress>::sse_encode(self.0, serializer);
+        <shared::SocketAddress>::sse_encode(self.0, serializer);
         <shared::PublicKey>::sse_encode(self.1, serializer);
         <Option<String>>::sse_encode(self.2, serializer);
     }
@@ -14266,40 +14762,6 @@ impl SseEncode for (String, String) {
     fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
         <String>::sse_encode(self.0, serializer);
         <String>::sse_encode(self.1, serializer);
-    }
-}
-
-impl SseEncode for (String, u16) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
-        <String>::sse_encode(self.0, serializer);
-        <u16>::sse_encode(self.1, serializer);
-    }
-}
-
-impl SseEncode for ([u8; 16], u16) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
-        <[u8; 16]>::sse_encode(self.0, serializer);
-        <u16>::sse_encode(self.1, serializer);
-    }
-}
-
-impl SseEncode for ([u8; 32], u16, u8, u16) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
-        <[u8; 32]>::sse_encode(self.0, serializer);
-        <u16>::sse_encode(self.1, serializer);
-        <u8>::sse_encode(self.2, serializer);
-        <u16>::sse_encode(self.3, serializer);
-    }
-}
-
-impl SseEncode for ([u8; 4], u16) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
-        <[u8; 4]>::sse_encode(self.0, serializer);
-        <u16>::sse_encode(self.1, serializer);
     }
 }
 
@@ -14332,6 +14794,55 @@ impl SseEncode for shared::SendingParameters {
         <Option<u32>>::sse_encode(self.max_total_cltv_expiry_delta, serializer);
         <Option<u8>>::sse_encode(self.max_path_count, serializer);
         <Option<u8>>::sse_encode(self.max_channel_saturation_power_of_half, serializer);
+    }
+}
+
+impl SseEncode for shared::SocketAddress {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        match self {
+            shared::SocketAddress::TcpIpV4 { addr, port } => {
+                <i32>::sse_encode(0, serializer);
+                <[u8; 4]>::sse_encode(addr, serializer);
+                <u16>::sse_encode(port, serializer);
+            }
+            shared::SocketAddress::TcpIpV6 { addr, port } => {
+                <i32>::sse_encode(1, serializer);
+                <[u8; 16]>::sse_encode(addr, serializer);
+                <u16>::sse_encode(port, serializer);
+            }
+            shared::SocketAddress::OnionV2(field0) => {
+                <i32>::sse_encode(2, serializer);
+                <[u8; 12]>::sse_encode(field0, serializer);
+            }
+            shared::SocketAddress::OnionV3 {
+                ed25519_pubkey,
+                checksum,
+                version,
+                port,
+            } => {
+                <i32>::sse_encode(3, serializer);
+                <[u8; 32]>::sse_encode(ed25519_pubkey, serializer);
+                <u16>::sse_encode(checksum, serializer);
+                <u8>::sse_encode(version, serializer);
+                <u16>::sse_encode(port, serializer);
+            }
+            shared::SocketAddress::Hostname { addr, port } => {
+                <i32>::sse_encode(4, serializer);
+                <String>::sse_encode(addr, serializer);
+                <u16>::sse_encode(port, serializer);
+            }
+            _ => {
+                unimplemented!("");
+            }
+        }
+    }
+}
+
+impl SseEncode for ldk_adapter::spontaneous::SpontaneousPayment {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        <ldk_adapter::spontaneous::SpontaneousPayment>::sse_encode(self.inner, serializer);
     }
 }
 
@@ -14453,6 +14964,13 @@ impl SseEncode for [u8; 64] {
     }
 }
 
+impl SseEncode for ldk_adapter::unified_qr::UnifiedQrPayment {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        <ldk_adapter::unified_qr::UnifiedQrPayment>::sse_encode(self.inner, serializer);
+    }
+}
+
 impl SseEncode for () {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {}
@@ -14482,6 +15000,14 @@ impl SseEncode for shared::WTxid {
     }
 }
 
+impl SseEncode for shared::WitnessProgram {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        <u8>::sse_encode(self.version, serializer);
+        <Vec<u8>>::sse_encode(self.program, serializer);
+    }
+}
+
 #[cfg(not(target_family = "wasm"))]
 mod io {
     // This file is automatically generated, so please do not edit it.
@@ -14496,13 +15022,8 @@ mod io {
     };
     use flutter_rust_bridge::for_generated::{transform_result_dco, Lifetimeable, Lockable};
     use flutter_rust_bridge::{Handler, IntoIntoDart};
-    use ldk_adapter::bolt11::*;
-    use ldk_adapter::bolt12::*;
     use ldk_adapter::builder::*;
-    use ldk_adapter::graph::*;
-    use ldk_adapter::node::*;
     use ldk_adapter::on_chain::*;
-    use ldk_adapter::spontaneous::*;
     use ldk_adapter::types::*;
     use ldk_adapter::unified_qr::*;
     use shared::*;
@@ -14581,37 +15102,11 @@ mod io {
             ))
         }
     }
-    impl CstDecode<Bolt11Payment> for usize {
+    impl CstDecode<Builder> for usize {
         // Codec=Cst (C-struct based), see doc to use other codecs
-        fn cst_decode(self) -> Bolt11Payment {
+        fn cst_decode(self) -> Builder {
             flutter_rust_bridge::for_generated::rust_auto_opaque_decode_owned(CstDecode::<
-                RustOpaqueNom<
-                    flutter_rust_bridge::for_generated::RustAutoOpaqueInner<Bolt11Payment>,
-                >,
-            >::cst_decode(
-                self
-            ))
-        }
-    }
-    impl CstDecode<Bolt12Payment> for usize {
-        // Codec=Cst (C-struct based), see doc to use other codecs
-        fn cst_decode(self) -> Bolt12Payment {
-            flutter_rust_bridge::for_generated::rust_auto_opaque_decode_owned(CstDecode::<
-                RustOpaqueNom<
-                    flutter_rust_bridge::for_generated::RustAutoOpaqueInner<Bolt12Payment>,
-                >,
-            >::cst_decode(
-                self
-            ))
-        }
-    }
-    impl CstDecode<ChainDataSourceConfig> for usize {
-        // Codec=Cst (C-struct based), see doc to use other codecs
-        fn cst_decode(self) -> ChainDataSourceConfig {
-            flutter_rust_bridge::for_generated::rust_auto_opaque_decode_owned(CstDecode::<
-                RustOpaqueNom<
-                    flutter_rust_bridge::for_generated::RustAutoOpaqueInner<ChainDataSourceConfig>,
-                >,
+                RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<Builder>>,
             >::cst_decode(
                 self
             ))
@@ -14641,34 +15136,12 @@ mod io {
             ))
         }
     }
-    impl CstDecode<EntropySourceConfig> for usize {
+    impl CstDecode<ConfirmationStatus> for usize {
         // Codec=Cst (C-struct based), see doc to use other codecs
-        fn cst_decode(self) -> EntropySourceConfig {
+        fn cst_decode(self) -> ConfirmationStatus {
             flutter_rust_bridge::for_generated::rust_auto_opaque_decode_owned(CstDecode::<
                 RustOpaqueNom<
-                    flutter_rust_bridge::for_generated::RustAutoOpaqueInner<EntropySourceConfig>,
-                >,
-            >::cst_decode(
-                self
-            ))
-        }
-    }
-    impl CstDecode<Event> for usize {
-        // Codec=Cst (C-struct based), see doc to use other codecs
-        fn cst_decode(self) -> Event {
-            flutter_rust_bridge::for_generated::rust_auto_opaque_decode_owned(CstDecode::<
-                RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<Event>>,
-            >::cst_decode(
-                self
-            ))
-        }
-    }
-    impl CstDecode<GossipSourceConfig> for usize {
-        // Codec=Cst (C-struct based), see doc to use other codecs
-        fn cst_decode(self) -> GossipSourceConfig {
-            flutter_rust_bridge::for_generated::rust_auto_opaque_decode_owned(CstDecode::<
-                RustOpaqueNom<
-                    flutter_rust_bridge::for_generated::RustAutoOpaqueInner<GossipSourceConfig>,
+                    flutter_rust_bridge::for_generated::RustAutoOpaqueInner<ConfirmationStatus>,
                 >,
             >::cst_decode(
                 self
@@ -14680,18 +15153,6 @@ mod io {
         fn cst_decode(self) -> LdkBuilder {
             flutter_rust_bridge::for_generated::rust_auto_opaque_decode_owned(CstDecode::<
                 RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<LdkBuilder>>,
-            >::cst_decode(
-                self
-            ))
-        }
-    }
-    impl CstDecode<LightningBalance> for usize {
-        // Codec=Cst (C-struct based), see doc to use other codecs
-        fn cst_decode(self) -> LightningBalance {
-            flutter_rust_bridge::for_generated::rust_auto_opaque_decode_owned(CstDecode::<
-                RustOpaqueNom<
-                    flutter_rust_bridge::for_generated::RustAutoOpaqueInner<LightningBalance>,
-                >,
             >::cst_decode(
                 self
             ))
@@ -14709,28 +15170,6 @@ mod io {
             ))
         }
     }
-    impl CstDecode<NetworkGraph> for usize {
-        // Codec=Cst (C-struct based), see doc to use other codecs
-        fn cst_decode(self) -> NetworkGraph {
-            flutter_rust_bridge::for_generated::rust_auto_opaque_decode_owned(CstDecode::<
-                RustOpaqueNom<
-                    flutter_rust_bridge::for_generated::RustAutoOpaqueInner<NetworkGraph>,
-                >,
-            >::cst_decode(
-                self
-            ))
-        }
-    }
-    impl CstDecode<Node> for usize {
-        // Codec=Cst (C-struct based), see doc to use other codecs
-        fn cst_decode(self) -> Node {
-            flutter_rust_bridge::for_generated::rust_auto_opaque_decode_owned(CstDecode::<
-                RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<Node>>,
-            >::cst_decode(
-                self
-            ))
-        }
-    }
     impl CstDecode<OnChainPayment> for usize {
         // Codec=Cst (C-struct based), see doc to use other codecs
         fn cst_decode(self) -> OnChainPayment {
@@ -14743,44 +15182,12 @@ mod io {
             ))
         }
     }
-    impl CstDecode<PaymentDetails> for usize {
+    impl CstDecode<OnchainPayment> for usize {
         // Codec=Cst (C-struct based), see doc to use other codecs
-        fn cst_decode(self) -> PaymentDetails {
+        fn cst_decode(self) -> OnchainPayment {
             flutter_rust_bridge::for_generated::rust_auto_opaque_decode_owned(CstDecode::<
                 RustOpaqueNom<
-                    flutter_rust_bridge::for_generated::RustAutoOpaqueInner<PaymentDetails>,
-                >,
-            >::cst_decode(
-                self
-            ))
-        }
-    }
-    impl CstDecode<PaymentKind> for usize {
-        // Codec=Cst (C-struct based), see doc to use other codecs
-        fn cst_decode(self) -> PaymentKind {
-            flutter_rust_bridge::for_generated::rust_auto_opaque_decode_owned(CstDecode::<
-                RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<PaymentKind>>,
-            >::cst_decode(
-                self
-            ))
-        }
-    }
-    impl CstDecode<PeerDetails> for usize {
-        // Codec=Cst (C-struct based), see doc to use other codecs
-        fn cst_decode(self) -> PeerDetails {
-            flutter_rust_bridge::for_generated::rust_auto_opaque_decode_owned(CstDecode::<
-                RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<PeerDetails>>,
-            >::cst_decode(
-                self
-            ))
-        }
-    }
-    impl CstDecode<PendingSweepBalance> for usize {
-        // Codec=Cst (C-struct based), see doc to use other codecs
-        fn cst_decode(self) -> PendingSweepBalance {
-            flutter_rust_bridge::for_generated::rust_auto_opaque_decode_owned(CstDecode::<
-                RustOpaqueNom<
-                    flutter_rust_bridge::for_generated::RustAutoOpaqueInner<PendingSweepBalance>,
+                    flutter_rust_bridge::for_generated::RustAutoOpaqueInner<OnchainPayment>,
                 >,
             >::cst_decode(
                 self
@@ -14793,30 +15200,6 @@ mod io {
             flutter_rust_bridge::for_generated::rust_auto_opaque_decode_owned(CstDecode::<
                 RustOpaqueNom<
                     flutter_rust_bridge::for_generated::RustAutoOpaqueInner<QrPaymentResult>,
-                >,
-            >::cst_decode(
-                self
-            ))
-        }
-    }
-    impl CstDecode<SocketAddress> for usize {
-        // Codec=Cst (C-struct based), see doc to use other codecs
-        fn cst_decode(self) -> SocketAddress {
-            flutter_rust_bridge::for_generated::rust_auto_opaque_decode_owned(CstDecode::<
-                RustOpaqueNom<
-                    flutter_rust_bridge::for_generated::RustAutoOpaqueInner<SocketAddress>,
-                >,
-            >::cst_decode(
-                self
-            ))
-        }
-    }
-    impl CstDecode<SpontaneousPayment> for usize {
-        // Codec=Cst (C-struct based), see doc to use other codecs
-        fn cst_decode(self) -> SpontaneousPayment {
-            flutter_rust_bridge::for_generated::rust_auto_opaque_decode_owned(CstDecode::<
-                RustOpaqueNom<
-                    flutter_rust_bridge::for_generated::RustAutoOpaqueInner<SpontaneousPayment>,
                 >,
             >::cst_decode(
                 self
@@ -14852,18 +15235,6 @@ mod io {
         fn cst_decode(self) -> Transaction {
             flutter_rust_bridge::for_generated::rust_auto_opaque_decode_owned(CstDecode::<
                 RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<Transaction>>,
-            >::cst_decode(
-                self
-            ))
-        }
-    }
-    impl CstDecode<UnifiedQrPayment> for usize {
-        // Codec=Cst (C-struct based), see doc to use other codecs
-        fn cst_decode(self) -> UnifiedQrPayment {
-            flutter_rust_bridge::for_generated::rust_auto_opaque_decode_owned(CstDecode::<
-                RustOpaqueNom<
-                    flutter_rust_bridge::for_generated::RustAutoOpaqueInner<UnifiedQrPayment>,
-                >,
             >::cst_decode(
                 self
             ))
@@ -14952,45 +15323,14 @@ mod io {
             unsafe { decode_rust_opaque_nom(self as _) }
         }
     }
-    impl
-        CstDecode<
-            RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<Bolt11Payment>>,
-        > for usize
+    impl CstDecode<RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<Builder>>>
+        for usize
     {
         // Codec=Cst (C-struct based), see doc to use other codecs
         fn cst_decode(
             self,
-        ) -> RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<Bolt11Payment>>
+        ) -> RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<Builder>>
         {
-            unsafe { decode_rust_opaque_nom(self as _) }
-        }
-    }
-    impl
-        CstDecode<
-            RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<Bolt12Payment>>,
-        > for usize
-    {
-        // Codec=Cst (C-struct based), see doc to use other codecs
-        fn cst_decode(
-            self,
-        ) -> RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<Bolt12Payment>>
-        {
-            unsafe { decode_rust_opaque_nom(self as _) }
-        }
-    }
-    impl
-        CstDecode<
-            RustOpaqueNom<
-                flutter_rust_bridge::for_generated::RustAutoOpaqueInner<ChainDataSourceConfig>,
-            >,
-        > for usize
-    {
-        // Codec=Cst (C-struct based), see doc to use other codecs
-        fn cst_decode(
-            self,
-        ) -> RustOpaqueNom<
-            flutter_rust_bridge::for_generated::RustAutoOpaqueInner<ChainDataSourceConfig>,
-        > {
             unsafe { decode_rust_opaque_nom(self as _) }
         }
     }
@@ -15023,7 +15363,7 @@ mod io {
     impl
         CstDecode<
             RustOpaqueNom<
-                flutter_rust_bridge::for_generated::RustAutoOpaqueInner<EntropySourceConfig>,
+                flutter_rust_bridge::for_generated::RustAutoOpaqueInner<ConfirmationStatus>,
             >,
         > for usize
     {
@@ -15031,33 +15371,7 @@ mod io {
         fn cst_decode(
             self,
         ) -> RustOpaqueNom<
-            flutter_rust_bridge::for_generated::RustAutoOpaqueInner<EntropySourceConfig>,
-        > {
-            unsafe { decode_rust_opaque_nom(self as _) }
-        }
-    }
-    impl CstDecode<RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<Event>>>
-        for usize
-    {
-        // Codec=Cst (C-struct based), see doc to use other codecs
-        fn cst_decode(
-            self,
-        ) -> RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<Event>> {
-            unsafe { decode_rust_opaque_nom(self as _) }
-        }
-    }
-    impl
-        CstDecode<
-            RustOpaqueNom<
-                flutter_rust_bridge::for_generated::RustAutoOpaqueInner<GossipSourceConfig>,
-            >,
-        > for usize
-    {
-        // Codec=Cst (C-struct based), see doc to use other codecs
-        fn cst_decode(
-            self,
-        ) -> RustOpaqueNom<
-            flutter_rust_bridge::for_generated::RustAutoOpaqueInner<GossipSourceConfig>,
+            flutter_rust_bridge::for_generated::RustAutoOpaqueInner<ConfirmationStatus>,
         > {
             unsafe { decode_rust_opaque_nom(self as _) }
         }
@@ -15071,21 +15385,6 @@ mod io {
         fn cst_decode(
             self,
         ) -> RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<LdkBuilder>>
-        {
-            unsafe { decode_rust_opaque_nom(self as _) }
-        }
-    }
-    impl
-        CstDecode<
-            RustOpaqueNom<
-                flutter_rust_bridge::for_generated::RustAutoOpaqueInner<LightningBalance>,
-            >,
-        > for usize
-    {
-        // Codec=Cst (C-struct based), see doc to use other codecs
-        fn cst_decode(
-            self,
-        ) -> RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<LightningBalance>>
         {
             unsafe { decode_rust_opaque_nom(self as _) }
         }
@@ -15108,29 +15407,6 @@ mod io {
     }
     impl
         CstDecode<
-            RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<NetworkGraph>>,
-        > for usize
-    {
-        // Codec=Cst (C-struct based), see doc to use other codecs
-        fn cst_decode(
-            self,
-        ) -> RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<NetworkGraph>>
-        {
-            unsafe { decode_rust_opaque_nom(self as _) }
-        }
-    }
-    impl CstDecode<RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<Node>>>
-        for usize
-    {
-        // Codec=Cst (C-struct based), see doc to use other codecs
-        fn cst_decode(
-            self,
-        ) -> RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<Node>> {
-            unsafe { decode_rust_opaque_nom(self as _) }
-        }
-    }
-    impl
-        CstDecode<
             RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<OnChainPayment>>,
         > for usize
     {
@@ -15144,56 +15420,14 @@ mod io {
     }
     impl
         CstDecode<
-            RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<PaymentDetails>>,
+            RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<OnchainPayment>>,
         > for usize
     {
         // Codec=Cst (C-struct based), see doc to use other codecs
         fn cst_decode(
             self,
-        ) -> RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<PaymentDetails>>
+        ) -> RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<OnchainPayment>>
         {
-            unsafe { decode_rust_opaque_nom(self as _) }
-        }
-    }
-    impl
-        CstDecode<
-            RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<PaymentKind>>,
-        > for usize
-    {
-        // Codec=Cst (C-struct based), see doc to use other codecs
-        fn cst_decode(
-            self,
-        ) -> RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<PaymentKind>>
-        {
-            unsafe { decode_rust_opaque_nom(self as _) }
-        }
-    }
-    impl
-        CstDecode<
-            RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<PeerDetails>>,
-        > for usize
-    {
-        // Codec=Cst (C-struct based), see doc to use other codecs
-        fn cst_decode(
-            self,
-        ) -> RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<PeerDetails>>
-        {
-            unsafe { decode_rust_opaque_nom(self as _) }
-        }
-    }
-    impl
-        CstDecode<
-            RustOpaqueNom<
-                flutter_rust_bridge::for_generated::RustAutoOpaqueInner<PendingSweepBalance>,
-            >,
-        > for usize
-    {
-        // Codec=Cst (C-struct based), see doc to use other codecs
-        fn cst_decode(
-            self,
-        ) -> RustOpaqueNom<
-            flutter_rust_bridge::for_generated::RustAutoOpaqueInner<PendingSweepBalance>,
-        > {
             unsafe { decode_rust_opaque_nom(self as _) }
         }
     }
@@ -15207,35 +15441,6 @@ mod io {
             self,
         ) -> RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<QrPaymentResult>>
         {
-            unsafe { decode_rust_opaque_nom(self as _) }
-        }
-    }
-    impl
-        CstDecode<
-            RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<SocketAddress>>,
-        > for usize
-    {
-        // Codec=Cst (C-struct based), see doc to use other codecs
-        fn cst_decode(
-            self,
-        ) -> RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<SocketAddress>>
-        {
-            unsafe { decode_rust_opaque_nom(self as _) }
-        }
-    }
-    impl
-        CstDecode<
-            RustOpaqueNom<
-                flutter_rust_bridge::for_generated::RustAutoOpaqueInner<SpontaneousPayment>,
-            >,
-        > for usize
-    {
-        // Codec=Cst (C-struct based), see doc to use other codecs
-        fn cst_decode(
-            self,
-        ) -> RustOpaqueNom<
-            flutter_rust_bridge::for_generated::RustAutoOpaqueInner<SpontaneousPayment>,
-        > {
             unsafe { decode_rust_opaque_nom(self as _) }
         }
     }
@@ -15283,26 +15488,27 @@ mod io {
             unsafe { decode_rust_opaque_nom(self as _) }
         }
     }
-    impl
-        CstDecode<
-            RustOpaqueNom<
-                flutter_rust_bridge::for_generated::RustAutoOpaqueInner<UnifiedQrPayment>,
-            >,
-        > for usize
-    {
-        // Codec=Cst (C-struct based), see doc to use other codecs
-        fn cst_decode(
-            self,
-        ) -> RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<UnifiedQrPayment>>
-        {
-            unsafe { decode_rust_opaque_nom(self as _) }
-        }
-    }
     impl CstDecode<String> for *mut wire_cst_list_prim_u_8_strict {
         // Codec=Cst (C-struct based), see doc to use other codecs
         fn cst_decode(self) -> String {
             let vec: Vec<u8> = self.cst_decode();
             String::from_utf8(vec).unwrap()
+        }
+    }
+    impl CstDecode<ldk_adapter::types::BackgroundSyncConfig> for wire_cst_background_sync_config {
+        // Codec=Cst (C-struct based), see doc to use other codecs
+        fn cst_decode(self) -> ldk_adapter::types::BackgroundSyncConfig {
+            ldk_adapter::types::BackgroundSyncConfig {
+                onchain_wallet_sync_interval_secs: self
+                    .onchain_wallet_sync_interval_secs
+                    .cst_decode(),
+                lightning_wallet_sync_interval_secs: self
+                    .lightning_wallet_sync_interval_secs
+                    .cst_decode(),
+                fee_rate_cache_update_interval_secs: self
+                    .fee_rate_cache_update_interval_secs
+                    .cst_decode(),
+            }
         }
     }
     impl CstDecode<ldk_adapter::types::BalanceDetails> for wire_cst_balance_details {
@@ -15336,11 +15542,27 @@ mod io {
             }
         }
     }
+    impl CstDecode<ldk_adapter::bolt11::Bolt11Payment> for wire_cst_bolt_11_payment {
+        // Codec=Cst (C-struct based), see doc to use other codecs
+        fn cst_decode(self) -> ldk_adapter::bolt11::Bolt11Payment {
+            ldk_adapter::bolt11::Bolt11Payment {
+                inner: self.inner.cst_decode(),
+            }
+        }
+    }
     impl CstDecode<shared::Bolt12Invoice> for wire_cst_bolt_12_invoice {
         // Codec=Cst (C-struct based), see doc to use other codecs
         fn cst_decode(self) -> shared::Bolt12Invoice {
             shared::Bolt12Invoice {
                 data: self.data.cst_decode(),
+            }
+        }
+    }
+    impl CstDecode<ldk_adapter::bolt12::Bolt12Payment> for wire_cst_bolt_12_payment {
+        // Codec=Cst (C-struct based), see doc to use other codecs
+        fn cst_decode(self) -> ldk_adapter::bolt12::Bolt12Payment {
+            ldk_adapter::bolt12::Bolt12Payment {
+                inner: self.inner.cst_decode(),
             }
         }
     }
@@ -15351,13 +15573,6 @@ mod io {
             CstDecode::<AnchorChannelsConfig>::cst_decode(*wrap).into()
         }
     }
-    impl CstDecode<ChainDataSourceConfig> for *mut usize {
-        // Codec=Cst (C-struct based), see doc to use other codecs
-        fn cst_decode(self) -> ChainDataSourceConfig {
-            let wrap = unsafe { flutter_rust_bridge::for_generated::box_from_leak_ptr(self) };
-            CstDecode::<ChainDataSourceConfig>::cst_decode(*wrap).into()
-        }
-    }
     impl CstDecode<ChannelConfig> for *mut usize {
         // Codec=Cst (C-struct based), see doc to use other codecs
         fn cst_decode(self) -> ChannelConfig {
@@ -15365,32 +15580,11 @@ mod io {
             CstDecode::<ChannelConfig>::cst_decode(*wrap).into()
         }
     }
-    impl CstDecode<EntropySourceConfig> for *mut usize {
+    impl CstDecode<ldk_adapter::types::BackgroundSyncConfig> for *mut wire_cst_background_sync_config {
         // Codec=Cst (C-struct based), see doc to use other codecs
-        fn cst_decode(self) -> EntropySourceConfig {
+        fn cst_decode(self) -> ldk_adapter::types::BackgroundSyncConfig {
             let wrap = unsafe { flutter_rust_bridge::for_generated::box_from_leak_ptr(self) };
-            CstDecode::<EntropySourceConfig>::cst_decode(*wrap).into()
-        }
-    }
-    impl CstDecode<Event> for *mut usize {
-        // Codec=Cst (C-struct based), see doc to use other codecs
-        fn cst_decode(self) -> Event {
-            let wrap = unsafe { flutter_rust_bridge::for_generated::box_from_leak_ptr(self) };
-            CstDecode::<Event>::cst_decode(*wrap).into()
-        }
-    }
-    impl CstDecode<GossipSourceConfig> for *mut usize {
-        // Codec=Cst (C-struct based), see doc to use other codecs
-        fn cst_decode(self) -> GossipSourceConfig {
-            let wrap = unsafe { flutter_rust_bridge::for_generated::box_from_leak_ptr(self) };
-            CstDecode::<GossipSourceConfig>::cst_decode(*wrap).into()
-        }
-    }
-    impl CstDecode<PaymentDetails> for *mut usize {
-        // Codec=Cst (C-struct based), see doc to use other codecs
-        fn cst_decode(self) -> PaymentDetails {
-            let wrap = unsafe { flutter_rust_bridge::for_generated::box_from_leak_ptr(self) };
-            CstDecode::<PaymentDetails>::cst_decode(*wrap).into()
+            CstDecode::<ldk_adapter::types::BackgroundSyncConfig>::cst_decode(*wrap).into()
         }
     }
     impl CstDecode<shared::Bolt11Invoice> for *mut wire_cst_bolt_11_invoice {
@@ -15398,6 +15592,35 @@ mod io {
         fn cst_decode(self) -> shared::Bolt11Invoice {
             let wrap = unsafe { flutter_rust_bridge::for_generated::box_from_leak_ptr(self) };
             CstDecode::<shared::Bolt11Invoice>::cst_decode(*wrap).into()
+        }
+    }
+    impl CstDecode<ldk_adapter::bolt11::Bolt11Payment> for *mut wire_cst_bolt_11_payment {
+        // Codec=Cst (C-struct based), see doc to use other codecs
+        fn cst_decode(self) -> ldk_adapter::bolt11::Bolt11Payment {
+            let wrap = unsafe { flutter_rust_bridge::for_generated::box_from_leak_ptr(self) };
+            CstDecode::<ldk_adapter::bolt11::Bolt11Payment>::cst_decode(*wrap).into()
+        }
+    }
+    impl CstDecode<ldk_adapter::bolt12::Bolt12Payment> for *mut wire_cst_bolt_12_payment {
+        // Codec=Cst (C-struct based), see doc to use other codecs
+        fn cst_decode(self) -> ldk_adapter::bolt12::Bolt12Payment {
+            let wrap = unsafe { flutter_rust_bridge::for_generated::box_from_leak_ptr(self) };
+            CstDecode::<ldk_adapter::bolt12::Bolt12Payment>::cst_decode(*wrap).into()
+        }
+    }
+    impl CstDecode<bool> for *mut bool {
+        // Codec=Cst (C-struct based), see doc to use other codecs
+        fn cst_decode(self) -> bool {
+            unsafe { *flutter_rust_bridge::for_generated::box_from_leak_ptr(self) }
+        }
+    }
+    impl CstDecode<ldk_adapter::types::ChainDataSourceConfig>
+        for *mut wire_cst_chain_data_source_config
+    {
+        // Codec=Cst (C-struct based), see doc to use other codecs
+        fn cst_decode(self) -> ldk_adapter::types::ChainDataSourceConfig {
+            let wrap = unsafe { flutter_rust_bridge::for_generated::box_from_leak_ptr(self) };
+            CstDecode::<ldk_adapter::types::ChainDataSourceConfig>::cst_decode(*wrap).into()
         }
     }
     impl CstDecode<ldk_adapter::types::ChannelId> for *mut wire_cst_channel_id {
@@ -15421,6 +15644,13 @@ mod io {
             CstDecode::<ldk_adapter::graph::ChannelUpdateInfo>::cst_decode(*wrap).into()
         }
     }
+    impl CstDecode<ldk_adapter::types::ClosureReason> for *mut wire_cst_closure_reason {
+        // Codec=Cst (C-struct based), see doc to use other codecs
+        fn cst_decode(self) -> ldk_adapter::types::ClosureReason {
+            let wrap = unsafe { flutter_rust_bridge::for_generated::box_from_leak_ptr(self) };
+            CstDecode::<ldk_adapter::types::ClosureReason>::cst_decode(*wrap).into()
+        }
+    }
     impl CstDecode<ldk_adapter::types::Config> for *mut wire_cst_config {
         // Codec=Cst (C-struct based), see doc to use other codecs
         fn cst_decode(self) -> ldk_adapter::types::Config {
@@ -15435,11 +15665,46 @@ mod io {
             CstDecode::<ldk_adapter::types::CustomTlvRecord>::cst_decode(*wrap).into()
         }
     }
+    impl CstDecode<ldk_adapter::types::ElectrumSyncConfig> for *mut wire_cst_electrum_sync_config {
+        // Codec=Cst (C-struct based), see doc to use other codecs
+        fn cst_decode(self) -> ldk_adapter::types::ElectrumSyncConfig {
+            let wrap = unsafe { flutter_rust_bridge::for_generated::box_from_leak_ptr(self) };
+            CstDecode::<ldk_adapter::types::ElectrumSyncConfig>::cst_decode(*wrap).into()
+        }
+    }
+    impl CstDecode<ldk_adapter::types::EntropySourceConfig> for *mut wire_cst_entropy_source_config {
+        // Codec=Cst (C-struct based), see doc to use other codecs
+        fn cst_decode(self) -> ldk_adapter::types::EntropySourceConfig {
+            let wrap = unsafe { flutter_rust_bridge::for_generated::box_from_leak_ptr(self) };
+            CstDecode::<ldk_adapter::types::EntropySourceConfig>::cst_decode(*wrap).into()
+        }
+    }
+    impl CstDecode<ldk_adapter::types::EsploraSyncConfig> for *mut wire_cst_esplora_sync_config {
+        // Codec=Cst (C-struct based), see doc to use other codecs
+        fn cst_decode(self) -> ldk_adapter::types::EsploraSyncConfig {
+            let wrap = unsafe { flutter_rust_bridge::for_generated::box_from_leak_ptr(self) };
+            CstDecode::<ldk_adapter::types::EsploraSyncConfig>::cst_decode(*wrap).into()
+        }
+    }
+    impl CstDecode<ldk_adapter::types::Event> for *mut wire_cst_event {
+        // Codec=Cst (C-struct based), see doc to use other codecs
+        fn cst_decode(self) -> ldk_adapter::types::Event {
+            let wrap = unsafe { flutter_rust_bridge::for_generated::box_from_leak_ptr(self) };
+            CstDecode::<ldk_adapter::types::Event>::cst_decode(*wrap).into()
+        }
+    }
     impl CstDecode<ldk_adapter::types::FfiLogRecord> for *mut wire_cst_ffi_log_record {
         // Codec=Cst (C-struct based), see doc to use other codecs
         fn cst_decode(self) -> ldk_adapter::types::FfiLogRecord {
             let wrap = unsafe { flutter_rust_bridge::for_generated::box_from_leak_ptr(self) };
             CstDecode::<ldk_adapter::types::FfiLogRecord>::cst_decode(*wrap).into()
+        }
+    }
+    impl CstDecode<ldk_adapter::types::GossipSourceConfig> for *mut wire_cst_gossip_source_config {
+        // Codec=Cst (C-struct based), see doc to use other codecs
+        fn cst_decode(self) -> ldk_adapter::types::GossipSourceConfig {
+            let wrap = unsafe { flutter_rust_bridge::for_generated::box_from_leak_ptr(self) };
+            CstDecode::<ldk_adapter::types::GossipSourceConfig>::cst_decode(*wrap).into()
         }
     }
     impl CstDecode<ldk_adapter::types::LiquiditySourceConfig>
@@ -15458,11 +15723,32 @@ mod io {
             CstDecode::<ldk_adapter::types::LogLevel>::cst_decode(*wrap).into()
         }
     }
+    impl CstDecode<ldk_adapter::types::LSPFeeLimits> for *mut wire_cst_lsp_fee_limits {
+        // Codec=Cst (C-struct based), see doc to use other codecs
+        fn cst_decode(self) -> ldk_adapter::types::LSPFeeLimits {
+            let wrap = unsafe { flutter_rust_bridge::for_generated::box_from_leak_ptr(self) };
+            CstDecode::<ldk_adapter::types::LSPFeeLimits>::cst_decode(*wrap).into()
+        }
+    }
     impl CstDecode<shared::Mnemonic> for *mut wire_cst_mnemonic {
         // Codec=Cst (C-struct based), see doc to use other codecs
         fn cst_decode(self) -> shared::Mnemonic {
             let wrap = unsafe { flutter_rust_bridge::for_generated::box_from_leak_ptr(self) };
             CstDecode::<shared::Mnemonic>::cst_decode(*wrap).into()
+        }
+    }
+    impl CstDecode<ldk_adapter::graph::NetworkGraph> for *mut wire_cst_network_graph {
+        // Codec=Cst (C-struct based), see doc to use other codecs
+        fn cst_decode(self) -> ldk_adapter::graph::NetworkGraph {
+            let wrap = unsafe { flutter_rust_bridge::for_generated::box_from_leak_ptr(self) };
+            CstDecode::<ldk_adapter::graph::NetworkGraph>::cst_decode(*wrap).into()
+        }
+    }
+    impl CstDecode<ldk_adapter::node::Node> for *mut wire_cst_node {
+        // Codec=Cst (C-struct based), see doc to use other codecs
+        fn cst_decode(self) -> ldk_adapter::node::Node {
+            let wrap = unsafe { flutter_rust_bridge::for_generated::box_from_leak_ptr(self) };
+            CstDecode::<ldk_adapter::node::Node>::cst_decode(*wrap).into()
         }
     }
     impl CstDecode<ldk_adapter::types::NodeAlias> for *mut wire_cst_node_alias {
@@ -15514,6 +15800,20 @@ mod io {
             CstDecode::<shared::OutPoint>::cst_decode(*wrap).into()
         }
     }
+    impl CstDecode<ldk_adapter::types::PaymentDetails> for *mut wire_cst_payment_details {
+        // Codec=Cst (C-struct based), see doc to use other codecs
+        fn cst_decode(self) -> ldk_adapter::types::PaymentDetails {
+            let wrap = unsafe { flutter_rust_bridge::for_generated::box_from_leak_ptr(self) };
+            CstDecode::<ldk_adapter::types::PaymentDetails>::cst_decode(*wrap).into()
+        }
+    }
+    impl CstDecode<ldk_adapter::types::PaymentFailureReason> for *mut i32 {
+        // Codec=Cst (C-struct based), see doc to use other codecs
+        fn cst_decode(self) -> ldk_adapter::types::PaymentFailureReason {
+            let wrap = unsafe { flutter_rust_bridge::for_generated::box_from_leak_ptr(self) };
+            CstDecode::<ldk_adapter::types::PaymentFailureReason>::cst_decode(*wrap).into()
+        }
+    }
     impl CstDecode<shared::PaymentHash> for *mut wire_cst_payment_hash {
         // Codec=Cst (C-struct based), see doc to use other codecs
         fn cst_decode(self) -> shared::PaymentHash {
@@ -15526,6 +15826,13 @@ mod io {
         fn cst_decode(self) -> shared::PaymentId {
             let wrap = unsafe { flutter_rust_bridge::for_generated::box_from_leak_ptr(self) };
             CstDecode::<shared::PaymentId>::cst_decode(*wrap).into()
+        }
+    }
+    impl CstDecode<ldk_adapter::types::PaymentKind> for *mut wire_cst_payment_kind {
+        // Codec=Cst (C-struct based), see doc to use other codecs
+        fn cst_decode(self) -> ldk_adapter::types::PaymentKind {
+            let wrap = unsafe { flutter_rust_bridge::for_generated::box_from_leak_ptr(self) };
+            CstDecode::<ldk_adapter::types::PaymentKind>::cst_decode(*wrap).into()
         }
     }
     impl CstDecode<shared::PaymentPreimage> for *mut wire_cst_payment_preimage {
@@ -15542,6 +15849,13 @@ mod io {
             CstDecode::<ldk_adapter::types::PaymentSecret>::cst_decode(*wrap).into()
         }
     }
+    impl CstDecode<ldk_adapter::types::PeerDetails> for *mut wire_cst_peer_details {
+        // Codec=Cst (C-struct based), see doc to use other codecs
+        fn cst_decode(self) -> ldk_adapter::types::PeerDetails {
+            let wrap = unsafe { flutter_rust_bridge::for_generated::box_from_leak_ptr(self) };
+            CstDecode::<ldk_adapter::types::PeerDetails>::cst_decode(*wrap).into()
+        }
+    }
     impl CstDecode<shared::Psbt> for *mut wire_cst_psbt {
         // Codec=Cst (C-struct based), see doc to use other codecs
         fn cst_decode(self) -> shared::Psbt {
@@ -15554,34 +15868,6 @@ mod io {
         fn cst_decode(self) -> shared::PublicKey {
             let wrap = unsafe { flutter_rust_bridge::for_generated::box_from_leak_ptr(self) };
             CstDecode::<shared::PublicKey>::cst_decode(*wrap).into()
-        }
-    }
-    impl CstDecode<(String, u16)> for *mut wire_cst_record_string_u_16 {
-        // Codec=Cst (C-struct based), see doc to use other codecs
-        fn cst_decode(self) -> (String, u16) {
-            let wrap = unsafe { flutter_rust_bridge::for_generated::box_from_leak_ptr(self) };
-            CstDecode::<(String, u16)>::cst_decode(*wrap).into()
-        }
-    }
-    impl CstDecode<([u8; 16], u16)> for *mut wire_cst_record_u_8_array_16_u_16 {
-        // Codec=Cst (C-struct based), see doc to use other codecs
-        fn cst_decode(self) -> ([u8; 16], u16) {
-            let wrap = unsafe { flutter_rust_bridge::for_generated::box_from_leak_ptr(self) };
-            CstDecode::<([u8; 16], u16)>::cst_decode(*wrap).into()
-        }
-    }
-    impl CstDecode<([u8; 32], u16, u8, u16)> for *mut wire_cst_record_u_8_array_32_u_16_u_8_u_16 {
-        // Codec=Cst (C-struct based), see doc to use other codecs
-        fn cst_decode(self) -> ([u8; 32], u16, u8, u16) {
-            let wrap = unsafe { flutter_rust_bridge::for_generated::box_from_leak_ptr(self) };
-            CstDecode::<([u8; 32], u16, u8, u16)>::cst_decode(*wrap).into()
-        }
-    }
-    impl CstDecode<([u8; 4], u16)> for *mut wire_cst_record_u_8_array_4_u_16 {
-        // Codec=Cst (C-struct based), see doc to use other codecs
-        fn cst_decode(self) -> ([u8; 4], u16) {
-            let wrap = unsafe { flutter_rust_bridge::for_generated::box_from_leak_ptr(self) };
-            CstDecode::<([u8; 4], u16)>::cst_decode(*wrap).into()
         }
     }
     impl CstDecode<shared::Refund> for *mut wire_cst_refund {
@@ -15603,6 +15889,27 @@ mod io {
         fn cst_decode(self) -> shared::SendingParameters {
             let wrap = unsafe { flutter_rust_bridge::for_generated::box_from_leak_ptr(self) };
             CstDecode::<shared::SendingParameters>::cst_decode(*wrap).into()
+        }
+    }
+    impl CstDecode<shared::SocketAddress> for *mut wire_cst_socket_address {
+        // Codec=Cst (C-struct based), see doc to use other codecs
+        fn cst_decode(self) -> shared::SocketAddress {
+            let wrap = unsafe { flutter_rust_bridge::for_generated::box_from_leak_ptr(self) };
+            CstDecode::<shared::SocketAddress>::cst_decode(*wrap).into()
+        }
+    }
+    impl CstDecode<ldk_adapter::spontaneous::SpontaneousPayment> for *mut wire_cst_spontaneous_payment {
+        // Codec=Cst (C-struct based), see doc to use other codecs
+        fn cst_decode(self) -> ldk_adapter::spontaneous::SpontaneousPayment {
+            let wrap = unsafe { flutter_rust_bridge::for_generated::box_from_leak_ptr(self) };
+            CstDecode::<ldk_adapter::spontaneous::SpontaneousPayment>::cst_decode(*wrap).into()
+        }
+    }
+    impl CstDecode<shared::Txid> for *mut wire_cst_txid {
+        // Codec=Cst (C-struct based), see doc to use other codecs
+        fn cst_decode(self) -> shared::Txid {
+            let wrap = unsafe { flutter_rust_bridge::for_generated::box_from_leak_ptr(self) };
+            CstDecode::<shared::Txid>::cst_decode(*wrap).into()
         }
     }
     impl CstDecode<u16> for *mut u16 {
@@ -15629,11 +15936,49 @@ mod io {
             unsafe { *flutter_rust_bridge::for_generated::box_from_leak_ptr(self) }
         }
     }
+    impl CstDecode<ldk_adapter::unified_qr::UnifiedQrPayment> for *mut wire_cst_unified_qr_payment {
+        // Codec=Cst (C-struct based), see doc to use other codecs
+        fn cst_decode(self) -> ldk_adapter::unified_qr::UnifiedQrPayment {
+            let wrap = unsafe { flutter_rust_bridge::for_generated::box_from_leak_ptr(self) };
+            CstDecode::<ldk_adapter::unified_qr::UnifiedQrPayment>::cst_decode(*wrap).into()
+        }
+    }
     impl CstDecode<ldk_adapter::types::UserChannelId> for *mut wire_cst_user_channel_id {
         // Codec=Cst (C-struct based), see doc to use other codecs
         fn cst_decode(self) -> ldk_adapter::types::UserChannelId {
             let wrap = unsafe { flutter_rust_bridge::for_generated::box_from_leak_ptr(self) };
             CstDecode::<ldk_adapter::types::UserChannelId>::cst_decode(*wrap).into()
+        }
+    }
+    impl CstDecode<ldk_adapter::types::ChainDataSourceConfig> for wire_cst_chain_data_source_config {
+        // Codec=Cst (C-struct based), see doc to use other codecs
+        fn cst_decode(self) -> ldk_adapter::types::ChainDataSourceConfig {
+            match self.tag {
+                0 => {
+                    let ans = unsafe { self.kind.Esplora };
+                    ldk_adapter::types::ChainDataSourceConfig::Esplora {
+                        server_url: ans.server_url.cst_decode(),
+                        sync_config: ans.sync_config.cst_decode(),
+                    }
+                }
+                1 => {
+                    let ans = unsafe { self.kind.Electrum };
+                    ldk_adapter::types::ChainDataSourceConfig::Electrum {
+                        server_url: ans.server_url.cst_decode(),
+                        sync_config: ans.sync_config.cst_decode(),
+                    }
+                }
+                2 => {
+                    let ans = unsafe { self.kind.BitcoindRpc };
+                    ldk_adapter::types::ChainDataSourceConfig::BitcoindRpc {
+                        rpc_host: ans.rpc_host.cst_decode(),
+                        rpc_port: ans.rpc_port.cst_decode(),
+                        rpc_user: ans.rpc_user.cst_decode(),
+                        rpc_password: ans.rpc_password.cst_decode(),
+                    }
+                }
+                _ => unreachable!(),
+            }
         }
     }
     impl CstDecode<ldk_adapter::types::ChannelId> for wire_cst_channel_id {
@@ -15669,6 +16014,49 @@ mod io {
             }
         }
     }
+    impl CstDecode<ldk_adapter::types::ClosureReason> for wire_cst_closure_reason {
+        // Codec=Cst (C-struct based), see doc to use other codecs
+        fn cst_decode(self) -> ldk_adapter::types::ClosureReason {
+            match self.tag {
+                0 => {
+                    let ans = unsafe { self.kind.PeerFeerateTooLow };
+                    ldk_adapter::types::ClosureReason::PeerFeerateTooLow {
+                        peer_feerate_sat_per_kw: ans.peer_feerate_sat_per_kw.cst_decode(),
+                        required_feerate_sat_per_kw: ans.required_feerate_sat_per_kw.cst_decode(),
+                    }
+                }
+                1 => {
+                    let ans = unsafe { self.kind.CounterpartyForceClosed };
+                    ldk_adapter::types::ClosureReason::CounterpartyForceClosed {
+                        peer_msg: ans.peer_msg.cst_decode(),
+                    }
+                }
+                2 => {
+                    let ans = unsafe { self.kind.HolderForceClosed };
+                    ldk_adapter::types::ClosureReason::HolderForceClosed {
+                        broadcasted_latest_txn: ans.broadcasted_latest_txn.cst_decode(),
+                    }
+                }
+                3 => ldk_adapter::types::ClosureReason::LegacyCooperativeClosure,
+                4 => ldk_adapter::types::ClosureReason::CounterpartyInitiatedCooperativeClosure,
+                5 => ldk_adapter::types::ClosureReason::LocallyInitiatedCooperativeClosure,
+                6 => ldk_adapter::types::ClosureReason::CommitmentTxConfirmed,
+                7 => ldk_adapter::types::ClosureReason::FundingTimedOut,
+                8 => {
+                    let ans = unsafe { self.kind.ProcessingError };
+                    ldk_adapter::types::ClosureReason::ProcessingError {
+                        err: ans.err.cst_decode(),
+                    }
+                }
+                9 => ldk_adapter::types::ClosureReason::DisconnectedPeer,
+                10 => ldk_adapter::types::ClosureReason::OutdatedChannelManager,
+                11 => ldk_adapter::types::ClosureReason::CounterpartyCoopClosedUnfundedChannel,
+                12 => ldk_adapter::types::ClosureReason::FundingBatchClosure,
+                13 => ldk_adapter::types::ClosureReason::HTLCsTimedOut,
+                _ => unreachable!(),
+            }
+        }
+    }
     impl CstDecode<ldk_adapter::types::Config> for wire_cst_config {
         // Codec=Cst (C-struct based), see doc to use other codecs
         fn cst_decode(self) -> ldk_adapter::types::Config {
@@ -15696,6 +16084,133 @@ mod io {
             }
         }
     }
+    impl CstDecode<ldk_adapter::types::ElectrumSyncConfig> for wire_cst_electrum_sync_config {
+        // Codec=Cst (C-struct based), see doc to use other codecs
+        fn cst_decode(self) -> ldk_adapter::types::ElectrumSyncConfig {
+            ldk_adapter::types::ElectrumSyncConfig {
+                background_sync_config: self.background_sync_config.cst_decode(),
+            }
+        }
+    }
+    impl CstDecode<ldk_adapter::types::EntropySourceConfig> for wire_cst_entropy_source_config {
+        // Codec=Cst (C-struct based), see doc to use other codecs
+        fn cst_decode(self) -> ldk_adapter::types::EntropySourceConfig {
+            match self.tag {
+                0 => {
+                    let ans = unsafe { self.kind.SeedFile };
+                    ldk_adapter::types::EntropySourceConfig::SeedFile(ans.field0.cst_decode())
+                }
+                1 => {
+                    let ans = unsafe { self.kind.SeedBytes };
+                    ldk_adapter::types::EntropySourceConfig::SeedBytes(ans.field0.cst_decode())
+                }
+                2 => {
+                    let ans = unsafe { self.kind.Bip39Mnemonic };
+                    ldk_adapter::types::EntropySourceConfig::Bip39Mnemonic {
+                        mnemonic: ans.mnemonic.cst_decode(),
+                        passphrase: ans.passphrase.cst_decode(),
+                    }
+                }
+                _ => unreachable!(),
+            }
+        }
+    }
+    impl CstDecode<ldk_adapter::types::EsploraSyncConfig> for wire_cst_esplora_sync_config {
+        // Codec=Cst (C-struct based), see doc to use other codecs
+        fn cst_decode(self) -> ldk_adapter::types::EsploraSyncConfig {
+            ldk_adapter::types::EsploraSyncConfig {
+                background_sync_config: self.background_sync_config.cst_decode(),
+            }
+        }
+    }
+    impl CstDecode<ldk_adapter::types::Event> for wire_cst_event {
+        // Codec=Cst (C-struct based), see doc to use other codecs
+        fn cst_decode(self) -> ldk_adapter::types::Event {
+            match self.tag {
+                0 => {
+                    let ans = unsafe { self.kind.PaymentClaimable };
+                    ldk_adapter::types::Event::PaymentClaimable {
+                        payment_id: ans.payment_id.cst_decode(),
+                        payment_hash: ans.payment_hash.cst_decode(),
+                        claimable_amount_msat: ans.claimable_amount_msat.cst_decode(),
+                        claim_deadline: ans.claim_deadline.cst_decode(),
+                        custom_records: ans.custom_records.cst_decode(),
+                    }
+                }
+                1 => {
+                    let ans = unsafe { self.kind.PaymentSuccessful };
+                    ldk_adapter::types::Event::PaymentSuccessful {
+                        payment_id: ans.payment_id.cst_decode(),
+                        payment_hash: ans.payment_hash.cst_decode(),
+                        fee_paid_msat: ans.fee_paid_msat.cst_decode(),
+                        preimage: ans.preimage.cst_decode(),
+                    }
+                }
+                2 => {
+                    let ans = unsafe { self.kind.PaymentFailed };
+                    ldk_adapter::types::Event::PaymentFailed {
+                        payment_id: ans.payment_id.cst_decode(),
+                        payment_hash: ans.payment_hash.cst_decode(),
+                        reason: ans.reason.cst_decode(),
+                    }
+                }
+                3 => {
+                    let ans = unsafe { self.kind.PaymentReceived };
+                    ldk_adapter::types::Event::PaymentReceived {
+                        payment_id: ans.payment_id.cst_decode(),
+                        payment_hash: ans.payment_hash.cst_decode(),
+                        amount_msat: ans.amount_msat.cst_decode(),
+                        custom_records: ans.custom_records.cst_decode(),
+                    }
+                }
+                4 => {
+                    let ans = unsafe { self.kind.ChannelPending };
+                    ldk_adapter::types::Event::ChannelPending {
+                        channel_id: ans.channel_id.cst_decode(),
+                        user_channel_id: ans.user_channel_id.cst_decode(),
+                        former_temporary_channel_id: ans.former_temporary_channel_id.cst_decode(),
+                        counterparty_node_id: ans.counterparty_node_id.cst_decode(),
+                        funding_txo: ans.funding_txo.cst_decode(),
+                    }
+                }
+                5 => {
+                    let ans = unsafe { self.kind.ChannelReady };
+                    ldk_adapter::types::Event::ChannelReady {
+                        channel_id: ans.channel_id.cst_decode(),
+                        user_channel_id: ans.user_channel_id.cst_decode(),
+                        counterparty_node_id: ans.counterparty_node_id.cst_decode(),
+                    }
+                }
+                6 => {
+                    let ans = unsafe { self.kind.ChannelClosed };
+                    ldk_adapter::types::Event::ChannelClosed {
+                        channel_id: ans.channel_id.cst_decode(),
+                        user_channel_id: ans.user_channel_id.cst_decode(),
+                        counterparty_node_id: ans.counterparty_node_id.cst_decode(),
+                        reason: ans.reason.cst_decode(),
+                    }
+                }
+                7 => {
+                    let ans = unsafe { self.kind.PaymentForwarded };
+                    ldk_adapter::types::Event::PaymentForwarded {
+                        prev_channel_id: ans.prev_channel_id.cst_decode(),
+                        next_channel_id: ans.next_channel_id.cst_decode(),
+                        prev_user_channel_id: ans.prev_user_channel_id.cst_decode(),
+                        next_user_channel_id: ans.next_user_channel_id.cst_decode(),
+                        prev_node_id: ans.prev_node_id.cst_decode(),
+                        next_node_id: ans.next_node_id.cst_decode(),
+                        total_fee_earned_msat: ans.total_fee_earned_msat.cst_decode(),
+                        skimmed_fee_msat: ans.skimmed_fee_msat.cst_decode(),
+                        claim_from_onchain_tx: ans.claim_from_onchain_tx.cst_decode(),
+                        outbound_amount_forwarded_msat: ans
+                            .outbound_amount_forwarded_msat
+                            .cst_decode(),
+                    }
+                }
+                _ => unreachable!(),
+            }
+        }
+    }
     impl CstDecode<ldk_adapter::types::FfiLogRecord> for wire_cst_ffi_log_record {
         // Codec=Cst (C-struct based), see doc to use other codecs
         fn cst_decode(self) -> ldk_adapter::types::FfiLogRecord {
@@ -15704,6 +16219,96 @@ mod io {
                 args: self.args.cst_decode(),
                 module_path: self.module_path.cst_decode(),
                 line: self.line.cst_decode(),
+            }
+        }
+    }
+    impl CstDecode<ldk_adapter::types::GossipSourceConfig> for wire_cst_gossip_source_config {
+        // Codec=Cst (C-struct based), see doc to use other codecs
+        fn cst_decode(self) -> ldk_adapter::types::GossipSourceConfig {
+            match self.tag {
+                0 => ldk_adapter::types::GossipSourceConfig::P2PNetwork,
+                1 => {
+                    let ans = unsafe { self.kind.RapidGossipSync };
+                    ldk_adapter::types::GossipSourceConfig::RapidGossipSync(ans.field0.cst_decode())
+                }
+                _ => unreachable!(),
+            }
+        }
+    }
+    impl CstDecode<ldk_adapter::types::LightningBalance> for wire_cst_lightning_balance {
+        // Codec=Cst (C-struct based), see doc to use other codecs
+        fn cst_decode(self) -> ldk_adapter::types::LightningBalance {
+            match self.tag {
+                0 => {
+                    let ans = unsafe { self.kind.ClaimableOnChannelClose };
+                    ldk_adapter::types::LightningBalance::ClaimableOnChannelClose {
+                        channel_id: ans.channel_id.cst_decode(),
+                        counterparty_node_id: ans.counterparty_node_id.cst_decode(),
+                        amount_satoshis: ans.amount_satoshis.cst_decode(),
+                        transaction_fee_satoshis: ans.transaction_fee_satoshis.cst_decode(),
+                        outbound_payment_htlc_rounded_msat: ans
+                            .outbound_payment_htlc_rounded_msat
+                            .cst_decode(),
+                        outbound_forwarded_htlc_rounded_msat: ans
+                            .outbound_forwarded_htlc_rounded_msat
+                            .cst_decode(),
+                        inbound_claiming_htlc_rounded_msat: ans
+                            .inbound_claiming_htlc_rounded_msat
+                            .cst_decode(),
+                        inbound_htlc_rounded_msat: ans.inbound_htlc_rounded_msat.cst_decode(),
+                    }
+                }
+                1 => {
+                    let ans = unsafe { self.kind.ClaimableAwaitingConfirmations };
+                    ldk_adapter::types::LightningBalance::ClaimableAwaitingConfirmations {
+                        channel_id: ans.channel_id.cst_decode(),
+                        counterparty_node_id: ans.counterparty_node_id.cst_decode(),
+                        amount_satoshis: ans.amount_satoshis.cst_decode(),
+                        confirmation_height: ans.confirmation_height.cst_decode(),
+                        source: ans.source.cst_decode(),
+                    }
+                }
+                2 => {
+                    let ans = unsafe { self.kind.ContentiousClaimable };
+                    ldk_adapter::types::LightningBalance::ContentiousClaimable {
+                        channel_id: ans.channel_id.cst_decode(),
+                        counterparty_node_id: ans.counterparty_node_id.cst_decode(),
+                        amount_satoshis: ans.amount_satoshis.cst_decode(),
+                        timeout_height: ans.timeout_height.cst_decode(),
+                        payment_hash: ans.payment_hash.cst_decode(),
+                        payment_preimage: ans.payment_preimage.cst_decode(),
+                    }
+                }
+                3 => {
+                    let ans = unsafe { self.kind.MaybeTimeoutClaimableHTLC };
+                    ldk_adapter::types::LightningBalance::MaybeTimeoutClaimableHTLC {
+                        channel_id: ans.channel_id.cst_decode(),
+                        counterparty_node_id: ans.counterparty_node_id.cst_decode(),
+                        amount_satoshis: ans.amount_satoshis.cst_decode(),
+                        claimable_height: ans.claimable_height.cst_decode(),
+                        payment_hash: ans.payment_hash.cst_decode(),
+                        outbound_payment: ans.outbound_payment.cst_decode(),
+                    }
+                }
+                4 => {
+                    let ans = unsafe { self.kind.MaybePreimageClaimableHTLC };
+                    ldk_adapter::types::LightningBalance::MaybePreimageClaimableHTLC {
+                        channel_id: ans.channel_id.cst_decode(),
+                        counterparty_node_id: ans.counterparty_node_id.cst_decode(),
+                        amount_satoshis: ans.amount_satoshis.cst_decode(),
+                        expiry_height: ans.expiry_height.cst_decode(),
+                        payment_hash: ans.payment_hash.cst_decode(),
+                    }
+                }
+                5 => {
+                    let ans = unsafe { self.kind.CounterpartyRevokedOutputClaimable };
+                    ldk_adapter::types::LightningBalance::CounterpartyRevokedOutputClaimable {
+                        channel_id: ans.channel_id.cst_decode(),
+                        counterparty_node_id: ans.counterparty_node_id.cst_decode(),
+                        amount_satoshis: ans.amount_satoshis.cst_decode(),
+                    }
+                }
+                _ => unreachable!(),
             }
         }
     }
@@ -15718,56 +16323,6 @@ mod io {
     impl CstDecode<Vec<ChannelDetails>> for *mut wire_cst_list_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerChannelDetails {
             // Codec=Cst (C-struct based), see doc to use other codecs
             fn cst_decode(self) -> Vec<ChannelDetails> {
-                let vec = unsafe {
-        let wrap = flutter_rust_bridge::for_generated::box_from_leak_ptr(self);
-        flutter_rust_bridge::for_generated::vec_from_leak_ptr(wrap.ptr, wrap.len)
-    };
-    vec.into_iter().map(CstDecode::cst_decode).collect()
-            }
-        }
-    impl CstDecode<Vec<LightningBalance>> for *mut wire_cst_list_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerLightningBalance {
-            // Codec=Cst (C-struct based), see doc to use other codecs
-            fn cst_decode(self) -> Vec<LightningBalance> {
-                let vec = unsafe {
-        let wrap = flutter_rust_bridge::for_generated::box_from_leak_ptr(self);
-        flutter_rust_bridge::for_generated::vec_from_leak_ptr(wrap.ptr, wrap.len)
-    };
-    vec.into_iter().map(CstDecode::cst_decode).collect()
-            }
-        }
-    impl CstDecode<Vec<PaymentDetails>> for *mut wire_cst_list_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPaymentDetails {
-            // Codec=Cst (C-struct based), see doc to use other codecs
-            fn cst_decode(self) -> Vec<PaymentDetails> {
-                let vec = unsafe {
-        let wrap = flutter_rust_bridge::for_generated::box_from_leak_ptr(self);
-        flutter_rust_bridge::for_generated::vec_from_leak_ptr(wrap.ptr, wrap.len)
-    };
-    vec.into_iter().map(CstDecode::cst_decode).collect()
-            }
-        }
-    impl CstDecode<Vec<PeerDetails>> for *mut wire_cst_list_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPeerDetails {
-            // Codec=Cst (C-struct based), see doc to use other codecs
-            fn cst_decode(self) -> Vec<PeerDetails> {
-                let vec = unsafe {
-        let wrap = flutter_rust_bridge::for_generated::box_from_leak_ptr(self);
-        flutter_rust_bridge::for_generated::vec_from_leak_ptr(wrap.ptr, wrap.len)
-    };
-    vec.into_iter().map(CstDecode::cst_decode).collect()
-            }
-        }
-    impl CstDecode<Vec<PendingSweepBalance>> for *mut wire_cst_list_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPendingSweepBalance {
-            // Codec=Cst (C-struct based), see doc to use other codecs
-            fn cst_decode(self) -> Vec<PendingSweepBalance> {
-                let vec = unsafe {
-        let wrap = flutter_rust_bridge::for_generated::box_from_leak_ptr(self);
-        flutter_rust_bridge::for_generated::vec_from_leak_ptr(wrap.ptr, wrap.len)
-    };
-    vec.into_iter().map(CstDecode::cst_decode).collect()
-            }
-        }
-    impl CstDecode<Vec<SocketAddress>> for *mut wire_cst_list_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSocketAddress {
-            // Codec=Cst (C-struct based), see doc to use other codecs
-            fn cst_decode(self) -> Vec<SocketAddress> {
                 let vec = unsafe {
         let wrap = flutter_rust_bridge::for_generated::box_from_leak_ptr(self);
         flutter_rust_bridge::for_generated::vec_from_leak_ptr(wrap.ptr, wrap.len)
@@ -15795,6 +16350,16 @@ mod io {
             vec.into_iter().map(CstDecode::cst_decode).collect()
         }
     }
+    impl CstDecode<Vec<ldk_adapter::types::LightningBalance>> for *mut wire_cst_list_lightning_balance {
+        // Codec=Cst (C-struct based), see doc to use other codecs
+        fn cst_decode(self) -> Vec<ldk_adapter::types::LightningBalance> {
+            let vec = unsafe {
+                let wrap = flutter_rust_bridge::for_generated::box_from_leak_ptr(self);
+                flutter_rust_bridge::for_generated::vec_from_leak_ptr(wrap.ptr, wrap.len)
+            };
+            vec.into_iter().map(CstDecode::cst_decode).collect()
+        }
+    }
     impl CstDecode<Vec<Vec<u8>>> for *mut wire_cst_list_list_prim_u_8_strict {
         // Codec=Cst (C-struct based), see doc to use other codecs
         fn cst_decode(self) -> Vec<Vec<u8>> {
@@ -15808,6 +16373,38 @@ mod io {
     impl CstDecode<Vec<ldk_adapter::graph::NodeId>> for *mut wire_cst_list_node_id {
         // Codec=Cst (C-struct based), see doc to use other codecs
         fn cst_decode(self) -> Vec<ldk_adapter::graph::NodeId> {
+            let vec = unsafe {
+                let wrap = flutter_rust_bridge::for_generated::box_from_leak_ptr(self);
+                flutter_rust_bridge::for_generated::vec_from_leak_ptr(wrap.ptr, wrap.len)
+            };
+            vec.into_iter().map(CstDecode::cst_decode).collect()
+        }
+    }
+    impl CstDecode<Vec<ldk_adapter::types::PaymentDetails>> for *mut wire_cst_list_payment_details {
+        // Codec=Cst (C-struct based), see doc to use other codecs
+        fn cst_decode(self) -> Vec<ldk_adapter::types::PaymentDetails> {
+            let vec = unsafe {
+                let wrap = flutter_rust_bridge::for_generated::box_from_leak_ptr(self);
+                flutter_rust_bridge::for_generated::vec_from_leak_ptr(wrap.ptr, wrap.len)
+            };
+            vec.into_iter().map(CstDecode::cst_decode).collect()
+        }
+    }
+    impl CstDecode<Vec<ldk_adapter::types::PeerDetails>> for *mut wire_cst_list_peer_details {
+        // Codec=Cst (C-struct based), see doc to use other codecs
+        fn cst_decode(self) -> Vec<ldk_adapter::types::PeerDetails> {
+            let vec = unsafe {
+                let wrap = flutter_rust_bridge::for_generated::box_from_leak_ptr(self);
+                flutter_rust_bridge::for_generated::vec_from_leak_ptr(wrap.ptr, wrap.len)
+            };
+            vec.into_iter().map(CstDecode::cst_decode).collect()
+        }
+    }
+    impl CstDecode<Vec<ldk_adapter::types::PendingSweepBalance>>
+        for *mut wire_cst_list_pending_sweep_balance
+    {
+        // Codec=Cst (C-struct based), see doc to use other codecs
+        fn cst_decode(self) -> Vec<ldk_adapter::types::PendingSweepBalance> {
             let vec = unsafe {
                 let wrap = flutter_rust_bridge::for_generated::box_from_leak_ptr(self);
                 flutter_rust_bridge::for_generated::vec_from_leak_ptr(wrap.ptr, wrap.len)
@@ -15862,6 +16459,16 @@ mod io {
             vec.into_iter().map(CstDecode::cst_decode).collect()
         }
     }
+    impl CstDecode<Vec<shared::SocketAddress>> for *mut wire_cst_list_socket_address {
+        // Codec=Cst (C-struct based), see doc to use other codecs
+        fn cst_decode(self) -> Vec<shared::SocketAddress> {
+            let vec = unsafe {
+                let wrap = flutter_rust_bridge::for_generated::box_from_leak_ptr(self);
+                flutter_rust_bridge::for_generated::vec_from_leak_ptr(wrap.ptr, wrap.len)
+            };
+            vec.into_iter().map(CstDecode::cst_decode).collect()
+        }
+    }
     impl CstDecode<Vec<shared::TxIn>> for *mut wire_cst_list_tx_in {
         // Codec=Cst (C-struct based), see doc to use other codecs
         fn cst_decode(self) -> Vec<shared::TxIn> {
@@ -15898,6 +16505,22 @@ mod io {
         fn cst_decode(self) -> shared::Mnemonic {
             shared::Mnemonic {
                 words: self.words.cst_decode(),
+            }
+        }
+    }
+    impl CstDecode<ldk_adapter::graph::NetworkGraph> for wire_cst_network_graph {
+        // Codec=Cst (C-struct based), see doc to use other codecs
+        fn cst_decode(self) -> ldk_adapter::graph::NetworkGraph {
+            ldk_adapter::graph::NetworkGraph {
+                inner: self.inner.cst_decode(),
+            }
+        }
+    }
+    impl CstDecode<ldk_adapter::node::Node> for wire_cst_node {
+        // Codec=Cst (C-struct based), see doc to use other codecs
+        fn cst_decode(self) -> ldk_adapter::node::Node {
+            ldk_adapter::node::Node {
+                inner: self.inner.cst_decode(),
             }
         }
     }
@@ -15983,6 +16606,19 @@ mod io {
             }
         }
     }
+    impl CstDecode<ldk_adapter::types::PaymentDetails> for wire_cst_payment_details {
+        // Codec=Cst (C-struct based), see doc to use other codecs
+        fn cst_decode(self) -> ldk_adapter::types::PaymentDetails {
+            ldk_adapter::types::PaymentDetails {
+                id: self.id.cst_decode(),
+                kind: self.kind.cst_decode(),
+                amount_msat: self.amount_msat.cst_decode(),
+                direction: self.direction.cst_decode(),
+                status: self.status.cst_decode(),
+                latest_update_timestamp: self.latest_update_timestamp.cst_decode(),
+            }
+        }
+    }
     impl CstDecode<shared::PaymentHash> for wire_cst_payment_hash {
         // Codec=Cst (C-struct based), see doc to use other codecs
         fn cst_decode(self) -> shared::PaymentHash {
@@ -15996,6 +16632,69 @@ mod io {
         fn cst_decode(self) -> shared::PaymentId {
             shared::PaymentId {
                 data: self.data.cst_decode(),
+            }
+        }
+    }
+    impl CstDecode<ldk_adapter::types::PaymentKind> for wire_cst_payment_kind {
+        // Codec=Cst (C-struct based), see doc to use other codecs
+        fn cst_decode(self) -> ldk_adapter::types::PaymentKind {
+            match self.tag {
+                0 => {
+                    let ans = unsafe { self.kind.Onchain };
+                    ldk_adapter::types::PaymentKind::Onchain {
+                        txid: ans.txid.cst_decode(),
+                        status: ans.status.cst_decode(),
+                    }
+                }
+                1 => {
+                    let ans = unsafe { self.kind.Bolt11 };
+                    ldk_adapter::types::PaymentKind::Bolt11 {
+                        hash: ans.hash.cst_decode(),
+                        preimage: ans.preimage.cst_decode(),
+                        secret: ans.secret.cst_decode(),
+                    }
+                }
+                2 => {
+                    let ans = unsafe { self.kind.Bolt11Jit };
+                    ldk_adapter::types::PaymentKind::Bolt11Jit {
+                        hash: ans.hash.cst_decode(),
+                        preimage: ans.preimage.cst_decode(),
+                        secret: ans.secret.cst_decode(),
+                        lsp_fee_limits: ans.lsp_fee_limits.cst_decode(),
+                        counterparty_skimmed_fee_msat: ans
+                            .counterparty_skimmed_fee_msat
+                            .cst_decode(),
+                    }
+                }
+                3 => {
+                    let ans = unsafe { self.kind.Spontaneous };
+                    ldk_adapter::types::PaymentKind::Spontaneous {
+                        hash: ans.hash.cst_decode(),
+                        preimage: ans.preimage.cst_decode(),
+                    }
+                }
+                4 => {
+                    let ans = unsafe { self.kind.Bolt12Offer };
+                    ldk_adapter::types::PaymentKind::Bolt12Offer {
+                        hash: ans.hash.cst_decode(),
+                        preimage: ans.preimage.cst_decode(),
+                        secret: ans.secret.cst_decode(),
+                        offer_id: ans.offer_id.cst_decode(),
+                        payer_note: ans.payer_note.cst_decode(),
+                        quantity: ans.quantity.cst_decode(),
+                    }
+                }
+                5 => {
+                    let ans = unsafe { self.kind.Bolt12Refund };
+                    ldk_adapter::types::PaymentKind::Bolt12Refund {
+                        hash: ans.hash.cst_decode(),
+                        preimage: ans.preimage.cst_decode(),
+                        secret: ans.secret.cst_decode(),
+                        payer_note: ans.payer_note.cst_decode(),
+                        quantity: ans.quantity.cst_decode(),
+                    }
+                }
+                _ => unreachable!(),
             }
         }
     }
@@ -16015,6 +16714,50 @@ mod io {
             }
         }
     }
+    impl CstDecode<ldk_adapter::types::PeerDetails> for wire_cst_peer_details {
+        // Codec=Cst (C-struct based), see doc to use other codecs
+        fn cst_decode(self) -> ldk_adapter::types::PeerDetails {
+            ldk_adapter::types::PeerDetails {
+                node_id: self.node_id.cst_decode(),
+                address: self.address.cst_decode(),
+                is_connected: self.is_connected.cst_decode(),
+            }
+        }
+    }
+    impl CstDecode<ldk_adapter::types::PendingSweepBalance> for wire_cst_pending_sweep_balance {
+        // Codec=Cst (C-struct based), see doc to use other codecs
+        fn cst_decode(self) -> ldk_adapter::types::PendingSweepBalance {
+            match self.tag {
+                0 => {
+                    let ans = unsafe { self.kind.PendingBroadcast };
+                    ldk_adapter::types::PendingSweepBalance::PendingBroadcast {
+                        channel_id: ans.channel_id.cst_decode(),
+                        amount_satoshis: ans.amount_satoshis.cst_decode(),
+                    }
+                }
+                1 => {
+                    let ans = unsafe { self.kind.BroadcastAwaitingConfirmation };
+                    ldk_adapter::types::PendingSweepBalance::BroadcastAwaitingConfirmation {
+                        channel_id: ans.channel_id.cst_decode(),
+                        latest_broadcast_height: ans.latest_broadcast_height.cst_decode(),
+                        latest_spending_txid: ans.latest_spending_txid.cst_decode(),
+                        amount_satoshis: ans.amount_satoshis.cst_decode(),
+                    }
+                }
+                2 => {
+                    let ans = unsafe { self.kind.AwaitingThresholdConfirmations };
+                    ldk_adapter::types::PendingSweepBalance::AwaitingThresholdConfirmations {
+                        channel_id: ans.channel_id.cst_decode(),
+                        latest_spending_txid: ans.latest_spending_txid.cst_decode(),
+                        confirmation_hash: ans.confirmation_hash.cst_decode(),
+                        confirmation_height: ans.confirmation_height.cst_decode(),
+                        amount_satoshis: ans.amount_satoshis.cst_decode(),
+                    }
+                }
+                _ => unreachable!(),
+            }
+        }
+    }
     impl CstDecode<shared::Psbt> for wire_cst_psbt {
         // Codec=Cst (C-struct based), see doc to use other codecs
         fn cst_decode(self) -> shared::Psbt {
@@ -16031,44 +16774,21 @@ mod io {
             }
         }
     }
-    impl CstDecode<(SocketAddress,shared::PublicKey,Option<String>,)> for wire_cst_record_auto_owned_rust_opaque_flutter_rust_bridgefor_generated_rust_auto_opaque_inner_socket_address_public_key_opt_string {
-            // Codec=Cst (C-struct based), see doc to use other codecs
-            fn cst_decode(self) -> (SocketAddress,shared::PublicKey,Option<String>,) {
-                (self.field0.cst_decode(),self.field1.cst_decode(),self.field2.cst_decode(),)
-            }
-        }
-    impl CstDecode<(String, String)> for wire_cst_record_string_string {
+    impl CstDecode<(shared::SocketAddress, shared::PublicKey, Option<String>)>
+        for wire_cst_record_socket_address_public_key_opt_string
+    {
         // Codec=Cst (C-struct based), see doc to use other codecs
-        fn cst_decode(self) -> (String, String) {
-            (self.field0.cst_decode(), self.field1.cst_decode())
-        }
-    }
-    impl CstDecode<(String, u16)> for wire_cst_record_string_u_16 {
-        // Codec=Cst (C-struct based), see doc to use other codecs
-        fn cst_decode(self) -> (String, u16) {
-            (self.field0.cst_decode(), self.field1.cst_decode())
-        }
-    }
-    impl CstDecode<([u8; 16], u16)> for wire_cst_record_u_8_array_16_u_16 {
-        // Codec=Cst (C-struct based), see doc to use other codecs
-        fn cst_decode(self) -> ([u8; 16], u16) {
-            (self.field0.cst_decode(), self.field1.cst_decode())
-        }
-    }
-    impl CstDecode<([u8; 32], u16, u8, u16)> for wire_cst_record_u_8_array_32_u_16_u_8_u_16 {
-        // Codec=Cst (C-struct based), see doc to use other codecs
-        fn cst_decode(self) -> ([u8; 32], u16, u8, u16) {
+        fn cst_decode(self) -> (shared::SocketAddress, shared::PublicKey, Option<String>) {
             (
                 self.field0.cst_decode(),
                 self.field1.cst_decode(),
                 self.field2.cst_decode(),
-                self.field3.cst_decode(),
             )
         }
     }
-    impl CstDecode<([u8; 4], u16)> for wire_cst_record_u_8_array_4_u_16 {
+    impl CstDecode<(String, String)> for wire_cst_record_string_string {
         // Codec=Cst (C-struct based), see doc to use other codecs
-        fn cst_decode(self) -> ([u8; 4], u16) {
+        fn cst_decode(self) -> (String, String) {
             (self.field0.cst_decode(), self.field1.cst_decode())
         }
     }
@@ -16107,6 +16827,56 @@ mod io {
                 max_channel_saturation_power_of_half: self
                     .max_channel_saturation_power_of_half
                     .cst_decode(),
+            }
+        }
+    }
+    impl CstDecode<shared::SocketAddress> for wire_cst_socket_address {
+        // Codec=Cst (C-struct based), see doc to use other codecs
+        fn cst_decode(self) -> shared::SocketAddress {
+            match self.tag {
+                0 => {
+                    let ans = unsafe { self.kind.TcpIpV4 };
+                    shared::SocketAddress::TcpIpV4 {
+                        addr: ans.addr.cst_decode(),
+                        port: ans.port.cst_decode(),
+                    }
+                }
+                1 => {
+                    let ans = unsafe { self.kind.TcpIpV6 };
+                    shared::SocketAddress::TcpIpV6 {
+                        addr: ans.addr.cst_decode(),
+                        port: ans.port.cst_decode(),
+                    }
+                }
+                2 => {
+                    let ans = unsafe { self.kind.OnionV2 };
+                    shared::SocketAddress::OnionV2(ans.field0.cst_decode())
+                }
+                3 => {
+                    let ans = unsafe { self.kind.OnionV3 };
+                    shared::SocketAddress::OnionV3 {
+                        ed25519_pubkey: ans.ed25519_pubkey.cst_decode(),
+                        checksum: ans.checksum.cst_decode(),
+                        version: ans.version.cst_decode(),
+                        port: ans.port.cst_decode(),
+                    }
+                }
+                4 => {
+                    let ans = unsafe { self.kind.Hostname };
+                    shared::SocketAddress::Hostname {
+                        addr: ans.addr.cst_decode(),
+                        port: ans.port.cst_decode(),
+                    }
+                }
+                _ => unreachable!(),
+            }
+        }
+    }
+    impl CstDecode<ldk_adapter::spontaneous::SpontaneousPayment> for wire_cst_spontaneous_payment {
+        // Codec=Cst (C-struct based), see doc to use other codecs
+        fn cst_decode(self) -> ldk_adapter::spontaneous::SpontaneousPayment {
+            ldk_adapter::spontaneous::SpontaneousPayment {
+                inner: self.inner.cst_decode(),
             }
         }
     }
@@ -16173,6 +16943,14 @@ mod io {
             flutter_rust_bridge::for_generated::from_vec_to_array(vec)
         }
     }
+    impl CstDecode<ldk_adapter::unified_qr::UnifiedQrPayment> for wire_cst_unified_qr_payment {
+        // Codec=Cst (C-struct based), see doc to use other codecs
+        fn cst_decode(self) -> ldk_adapter::unified_qr::UnifiedQrPayment {
+            ldk_adapter::unified_qr::UnifiedQrPayment {
+                inner: self.inner.cst_decode(),
+            }
+        }
+    }
     impl CstDecode<ldk_adapter::types::UserChannelId> for wire_cst_user_channel_id {
         // Codec=Cst (C-struct based), see doc to use other codecs
         fn cst_decode(self) -> ldk_adapter::types::UserChannelId {
@@ -16187,6 +16965,29 @@ mod io {
             shared::WTxid {
                 hash: self.hash.cst_decode(),
             }
+        }
+    }
+    impl CstDecode<shared::WitnessProgram> for wire_cst_witness_program {
+        // Codec=Cst (C-struct based), see doc to use other codecs
+        fn cst_decode(self) -> shared::WitnessProgram {
+            shared::WitnessProgram {
+                version: self.version.cst_decode(),
+                program: self.program.cst_decode(),
+            }
+        }
+    }
+    impl NewWithNullPtr for wire_cst_background_sync_config {
+        fn new_with_null_ptr() -> Self {
+            Self {
+                onchain_wallet_sync_interval_secs: Default::default(),
+                lightning_wallet_sync_interval_secs: Default::default(),
+                fee_rate_cache_update_interval_secs: Default::default(),
+            }
+        }
+    }
+    impl Default for wire_cst_background_sync_config {
+        fn default() -> Self {
+            Self::new_with_null_ptr()
         }
     }
     impl NewWithNullPtr for wire_cst_balance_details {
@@ -16230,6 +17031,18 @@ mod io {
             Self::new_with_null_ptr()
         }
     }
+    impl NewWithNullPtr for wire_cst_bolt_11_payment {
+        fn new_with_null_ptr() -> Self {
+            Self {
+                inner: Default::default(),
+            }
+        }
+    }
+    impl Default for wire_cst_bolt_11_payment {
+        fn default() -> Self {
+            Self::new_with_null_ptr()
+        }
+    }
     impl NewWithNullPtr for wire_cst_bolt_12_invoice {
         fn new_with_null_ptr() -> Self {
             Self {
@@ -16238,6 +17051,31 @@ mod io {
         }
     }
     impl Default for wire_cst_bolt_12_invoice {
+        fn default() -> Self {
+            Self::new_with_null_ptr()
+        }
+    }
+    impl NewWithNullPtr for wire_cst_bolt_12_payment {
+        fn new_with_null_ptr() -> Self {
+            Self {
+                inner: Default::default(),
+            }
+        }
+    }
+    impl Default for wire_cst_bolt_12_payment {
+        fn default() -> Self {
+            Self::new_with_null_ptr()
+        }
+    }
+    impl NewWithNullPtr for wire_cst_chain_data_source_config {
+        fn new_with_null_ptr() -> Self {
+            Self {
+                tag: -1,
+                kind: ChainDataSourceConfigKind { nil__: () },
+            }
+        }
+    }
+    impl Default for wire_cst_chain_data_source_config {
         fn default() -> Self {
             Self::new_with_null_ptr()
         }
@@ -16287,6 +17125,19 @@ mod io {
             Self::new_with_null_ptr()
         }
     }
+    impl NewWithNullPtr for wire_cst_closure_reason {
+        fn new_with_null_ptr() -> Self {
+            Self {
+                tag: -1,
+                kind: ClosureReasonKind { nil__: () },
+            }
+        }
+    }
+    impl Default for wire_cst_closure_reason {
+        fn default() -> Self {
+            Self::new_with_null_ptr()
+        }
+    }
     impl NewWithNullPtr for wire_cst_config {
         fn new_with_null_ptr() -> Self {
             Self {
@@ -16320,6 +17171,56 @@ mod io {
             Self::new_with_null_ptr()
         }
     }
+    impl NewWithNullPtr for wire_cst_electrum_sync_config {
+        fn new_with_null_ptr() -> Self {
+            Self {
+                background_sync_config: core::ptr::null_mut(),
+            }
+        }
+    }
+    impl Default for wire_cst_electrum_sync_config {
+        fn default() -> Self {
+            Self::new_with_null_ptr()
+        }
+    }
+    impl NewWithNullPtr for wire_cst_entropy_source_config {
+        fn new_with_null_ptr() -> Self {
+            Self {
+                tag: -1,
+                kind: EntropySourceConfigKind { nil__: () },
+            }
+        }
+    }
+    impl Default for wire_cst_entropy_source_config {
+        fn default() -> Self {
+            Self::new_with_null_ptr()
+        }
+    }
+    impl NewWithNullPtr for wire_cst_esplora_sync_config {
+        fn new_with_null_ptr() -> Self {
+            Self {
+                background_sync_config: core::ptr::null_mut(),
+            }
+        }
+    }
+    impl Default for wire_cst_esplora_sync_config {
+        fn default() -> Self {
+            Self::new_with_null_ptr()
+        }
+    }
+    impl NewWithNullPtr for wire_cst_event {
+        fn new_with_null_ptr() -> Self {
+            Self {
+                tag: -1,
+                kind: EventKind { nil__: () },
+            }
+        }
+    }
+    impl Default for wire_cst_event {
+        fn default() -> Self {
+            Self::new_with_null_ptr()
+        }
+    }
     impl NewWithNullPtr for wire_cst_ffi_log_record {
         fn new_with_null_ptr() -> Self {
             Self {
@@ -16331,6 +17232,32 @@ mod io {
         }
     }
     impl Default for wire_cst_ffi_log_record {
+        fn default() -> Self {
+            Self::new_with_null_ptr()
+        }
+    }
+    impl NewWithNullPtr for wire_cst_gossip_source_config {
+        fn new_with_null_ptr() -> Self {
+            Self {
+                tag: -1,
+                kind: GossipSourceConfigKind { nil__: () },
+            }
+        }
+    }
+    impl Default for wire_cst_gossip_source_config {
+        fn default() -> Self {
+            Self::new_with_null_ptr()
+        }
+    }
+    impl NewWithNullPtr for wire_cst_lightning_balance {
+        fn new_with_null_ptr() -> Self {
+            Self {
+                tag: -1,
+                kind: LightningBalanceKind { nil__: () },
+            }
+        }
+    }
+    impl Default for wire_cst_lightning_balance {
         fn default() -> Self {
             Self::new_with_null_ptr()
         }
@@ -16368,6 +17295,30 @@ mod io {
         }
     }
     impl Default for wire_cst_mnemonic {
+        fn default() -> Self {
+            Self::new_with_null_ptr()
+        }
+    }
+    impl NewWithNullPtr for wire_cst_network_graph {
+        fn new_with_null_ptr() -> Self {
+            Self {
+                inner: Default::default(),
+            }
+        }
+    }
+    impl Default for wire_cst_network_graph {
+        fn default() -> Self {
+            Self::new_with_null_ptr()
+        }
+    }
+    impl NewWithNullPtr for wire_cst_node {
+        fn new_with_null_ptr() -> Self {
+            Self {
+                inner: Default::default(),
+            }
+        }
+    }
+    impl Default for wire_cst_node {
         fn default() -> Self {
             Self::new_with_null_ptr()
         }
@@ -16480,6 +17431,23 @@ mod io {
             Self::new_with_null_ptr()
         }
     }
+    impl NewWithNullPtr for wire_cst_payment_details {
+        fn new_with_null_ptr() -> Self {
+            Self {
+                id: Default::default(),
+                kind: Default::default(),
+                amount_msat: core::ptr::null_mut(),
+                direction: Default::default(),
+                status: Default::default(),
+                latest_update_timestamp: Default::default(),
+            }
+        }
+    }
+    impl Default for wire_cst_payment_details {
+        fn default() -> Self {
+            Self::new_with_null_ptr()
+        }
+    }
     impl NewWithNullPtr for wire_cst_payment_hash {
         fn new_with_null_ptr() -> Self {
             Self {
@@ -16500,6 +17468,19 @@ mod io {
         }
     }
     impl Default for wire_cst_payment_id {
+        fn default() -> Self {
+            Self::new_with_null_ptr()
+        }
+    }
+    impl NewWithNullPtr for wire_cst_payment_kind {
+        fn new_with_null_ptr() -> Self {
+            Self {
+                tag: -1,
+                kind: PaymentKindKind { nil__: () },
+            }
+        }
+    }
+    impl Default for wire_cst_payment_kind {
         fn default() -> Self {
             Self::new_with_null_ptr()
         }
@@ -16528,6 +17509,33 @@ mod io {
             Self::new_with_null_ptr()
         }
     }
+    impl NewWithNullPtr for wire_cst_peer_details {
+        fn new_with_null_ptr() -> Self {
+            Self {
+                node_id: Default::default(),
+                address: Default::default(),
+                is_connected: Default::default(),
+            }
+        }
+    }
+    impl Default for wire_cst_peer_details {
+        fn default() -> Self {
+            Self::new_with_null_ptr()
+        }
+    }
+    impl NewWithNullPtr for wire_cst_pending_sweep_balance {
+        fn new_with_null_ptr() -> Self {
+            Self {
+                tag: -1,
+                kind: PendingSweepBalanceKind { nil__: () },
+            }
+        }
+    }
+    impl Default for wire_cst_pending_sweep_balance {
+        fn default() -> Self {
+            Self::new_with_null_ptr()
+        }
+    }
     impl NewWithNullPtr for wire_cst_psbt {
         fn new_with_null_ptr() -> Self {
             Self {
@@ -16552,18 +17560,20 @@ mod io {
             Self::new_with_null_ptr()
         }
     }
-    impl NewWithNullPtr for wire_cst_record_auto_owned_rust_opaque_flutter_rust_bridgefor_generated_rust_auto_opaque_inner_socket_address_public_key_opt_string {
-            fn new_with_null_ptr() -> Self {
-                Self { field0: Default::default(),
-field1: Default::default(),
-field2: core::ptr::null_mut(), }
+    impl NewWithNullPtr for wire_cst_record_socket_address_public_key_opt_string {
+        fn new_with_null_ptr() -> Self {
+            Self {
+                field0: Default::default(),
+                field1: Default::default(),
+                field2: core::ptr::null_mut(),
             }
         }
-    impl Default for wire_cst_record_auto_owned_rust_opaque_flutter_rust_bridgefor_generated_rust_auto_opaque_inner_socket_address_public_key_opt_string {
-            fn default() -> Self {
-                Self::new_with_null_ptr()
-            }
+    }
+    impl Default for wire_cst_record_socket_address_public_key_opt_string {
+        fn default() -> Self {
+            Self::new_with_null_ptr()
         }
+    }
     impl NewWithNullPtr for wire_cst_record_string_string {
         fn new_with_null_ptr() -> Self {
             Self {
@@ -16573,60 +17583,6 @@ field2: core::ptr::null_mut(), }
         }
     }
     impl Default for wire_cst_record_string_string {
-        fn default() -> Self {
-            Self::new_with_null_ptr()
-        }
-    }
-    impl NewWithNullPtr for wire_cst_record_string_u_16 {
-        fn new_with_null_ptr() -> Self {
-            Self {
-                field0: core::ptr::null_mut(),
-                field1: Default::default(),
-            }
-        }
-    }
-    impl Default for wire_cst_record_string_u_16 {
-        fn default() -> Self {
-            Self::new_with_null_ptr()
-        }
-    }
-    impl NewWithNullPtr for wire_cst_record_u_8_array_16_u_16 {
-        fn new_with_null_ptr() -> Self {
-            Self {
-                field0: core::ptr::null_mut(),
-                field1: Default::default(),
-            }
-        }
-    }
-    impl Default for wire_cst_record_u_8_array_16_u_16 {
-        fn default() -> Self {
-            Self::new_with_null_ptr()
-        }
-    }
-    impl NewWithNullPtr for wire_cst_record_u_8_array_32_u_16_u_8_u_16 {
-        fn new_with_null_ptr() -> Self {
-            Self {
-                field0: core::ptr::null_mut(),
-                field1: Default::default(),
-                field2: Default::default(),
-                field3: Default::default(),
-            }
-        }
-    }
-    impl Default for wire_cst_record_u_8_array_32_u_16_u_8_u_16 {
-        fn default() -> Self {
-            Self::new_with_null_ptr()
-        }
-    }
-    impl NewWithNullPtr for wire_cst_record_u_8_array_4_u_16 {
-        fn new_with_null_ptr() -> Self {
-            Self {
-                field0: core::ptr::null_mut(),
-                field1: Default::default(),
-            }
-        }
-    }
-    impl Default for wire_cst_record_u_8_array_4_u_16 {
         fn default() -> Self {
             Self::new_with_null_ptr()
         }
@@ -16683,6 +17639,31 @@ field2: core::ptr::null_mut(), }
             Self::new_with_null_ptr()
         }
     }
+    impl NewWithNullPtr for wire_cst_socket_address {
+        fn new_with_null_ptr() -> Self {
+            Self {
+                tag: -1,
+                kind: SocketAddressKind { nil__: () },
+            }
+        }
+    }
+    impl Default for wire_cst_socket_address {
+        fn default() -> Self {
+            Self::new_with_null_ptr()
+        }
+    }
+    impl NewWithNullPtr for wire_cst_spontaneous_payment {
+        fn new_with_null_ptr() -> Self {
+            Self {
+                inner: Default::default(),
+            }
+        }
+    }
+    impl Default for wire_cst_spontaneous_payment {
+        fn default() -> Self {
+            Self::new_with_null_ptr()
+        }
+    }
     impl NewWithNullPtr for wire_cst_tx_in {
         fn new_with_null_ptr() -> Self {
             Self {
@@ -16723,6 +17704,18 @@ field2: core::ptr::null_mut(), }
             Self::new_with_null_ptr()
         }
     }
+    impl NewWithNullPtr for wire_cst_unified_qr_payment {
+        fn new_with_null_ptr() -> Self {
+            Self {
+                inner: Default::default(),
+            }
+        }
+    }
+    impl Default for wire_cst_unified_qr_payment {
+        fn default() -> Self {
+            Self::new_with_null_ptr()
+        }
+    }
     impl NewWithNullPtr for wire_cst_user_channel_id {
         fn new_with_null_ptr() -> Self {
             Self {
@@ -16743,6 +17736,19 @@ field2: core::ptr::null_mut(), }
         }
     }
     impl Default for wire_cst_w_txid {
+        fn default() -> Self {
+            Self::new_with_null_ptr()
+        }
+    }
+    impl NewWithNullPtr for wire_cst_witness_program {
+        fn new_with_null_ptr() -> Self {
+            Self {
+                version: Default::default(),
+                program: core::ptr::null_mut(),
+            }
+        }
+    }
+    impl Default for wire_cst_witness_program {
         fn default() -> Self {
             Self::new_with_null_ptr()
         }
@@ -16919,279 +17925,6 @@ field2: core::ptr::null_mut(), }
         that: usize,
     ) {
         wire__shared__BitcoinAddress_to_qr_uri_impl(port_, that)
-    }
-
-    #[unsafe(no_mangle)]
-    pub extern "C" fn frbgen_ldk_node_wire__ldk_adapter__bolt11__Bolt11Payment_claim_for_hash(
-        port_: i64,
-        that: usize,
-        payment_hash: *mut wire_cst_payment_hash,
-        claimable_amount_msat: u64,
-        preimage: *mut wire_cst_payment_preimage,
-    ) {
-        wire__ldk_adapter__bolt11__Bolt11Payment_claim_for_hash_impl(
-            port_,
-            that,
-            payment_hash,
-            claimable_amount_msat,
-            preimage,
-        )
-    }
-
-    #[unsafe(no_mangle)]
-    pub extern "C" fn frbgen_ldk_node_wire__ldk_adapter__bolt11__Bolt11Payment_fail_for_hash(
-        port_: i64,
-        that: usize,
-        payment_hash: *mut wire_cst_payment_hash,
-    ) {
-        wire__ldk_adapter__bolt11__Bolt11Payment_fail_for_hash_impl(port_, that, payment_hash)
-    }
-
-    #[unsafe(no_mangle)]
-    pub extern "C" fn frbgen_ldk_node_wire__ldk_adapter__bolt11__Bolt11Payment_receive(
-        port_: i64,
-        that: usize,
-        amount_msat: u64,
-        description: *mut wire_cst_list_prim_u_8_strict,
-        expiry_secs: u32,
-    ) {
-        wire__ldk_adapter__bolt11__Bolt11Payment_receive_impl(
-            port_,
-            that,
-            amount_msat,
-            description,
-            expiry_secs,
-        )
-    }
-
-    #[unsafe(no_mangle)]
-    pub extern "C" fn frbgen_ldk_node_wire__ldk_adapter__bolt11__Bolt11Payment_receive_for_hash(
-        port_: i64,
-        that: usize,
-        payment_hash: *mut wire_cst_payment_hash,
-        amount_msat: u64,
-        description: *mut wire_cst_list_prim_u_8_strict,
-        expiry_secs: u32,
-    ) {
-        wire__ldk_adapter__bolt11__Bolt11Payment_receive_for_hash_impl(
-            port_,
-            that,
-            payment_hash,
-            amount_msat,
-            description,
-            expiry_secs,
-        )
-    }
-
-    #[unsafe(no_mangle)]
-    pub extern "C" fn frbgen_ldk_node_wire__ldk_adapter__bolt11__Bolt11Payment_receive_variable_amount(
-        port_: i64,
-        that: usize,
-        description: *mut wire_cst_list_prim_u_8_strict,
-        expiry_secs: u32,
-    ) {
-        wire__ldk_adapter__bolt11__Bolt11Payment_receive_variable_amount_impl(
-            port_,
-            that,
-            description,
-            expiry_secs,
-        )
-    }
-
-    #[unsafe(no_mangle)]
-    pub extern "C" fn frbgen_ldk_node_wire__ldk_adapter__bolt11__Bolt11Payment_receive_variable_amount_for_hash(
-        port_: i64,
-        that: usize,
-        description: *mut wire_cst_list_prim_u_8_strict,
-        expiry_secs: u32,
-        payment_hash: *mut wire_cst_payment_hash,
-    ) {
-        wire__ldk_adapter__bolt11__Bolt11Payment_receive_variable_amount_for_hash_impl(
-            port_,
-            that,
-            description,
-            expiry_secs,
-            payment_hash,
-        )
-    }
-
-    #[unsafe(no_mangle)]
-    pub extern "C" fn frbgen_ldk_node_wire__ldk_adapter__bolt11__Bolt11Payment_receive_variable_amount_via_jit_channel(
-        port_: i64,
-        that: usize,
-        description: *mut wire_cst_list_prim_u_8_strict,
-        expiry_secs: u32,
-        max_proportional_lsp_fee_limit_ppm_msat: *mut u64,
-    ) {
-        wire__ldk_adapter__bolt11__Bolt11Payment_receive_variable_amount_via_jit_channel_impl(
-            port_,
-            that,
-            description,
-            expiry_secs,
-            max_proportional_lsp_fee_limit_ppm_msat,
-        )
-    }
-
-    #[unsafe(no_mangle)]
-    pub extern "C" fn frbgen_ldk_node_wire__ldk_adapter__bolt11__Bolt11Payment_receive_via_jit_channel(
-        port_: i64,
-        that: usize,
-        amount_msat: u64,
-        description: *mut wire_cst_list_prim_u_8_strict,
-        expiry_secs: u32,
-        max_total_lsp_fee_limit_msat: *mut u64,
-    ) {
-        wire__ldk_adapter__bolt11__Bolt11Payment_receive_via_jit_channel_impl(
-            port_,
-            that,
-            amount_msat,
-            description,
-            expiry_secs,
-            max_total_lsp_fee_limit_msat,
-        )
-    }
-
-    #[unsafe(no_mangle)]
-    pub extern "C" fn frbgen_ldk_node_wire__ldk_adapter__bolt11__Bolt11Payment_send(
-        port_: i64,
-        that: usize,
-        invoice: *mut wire_cst_bolt_11_invoice,
-        sending_parameters: *mut wire_cst_sending_parameters,
-    ) {
-        wire__ldk_adapter__bolt11__Bolt11Payment_send_impl(port_, that, invoice, sending_parameters)
-    }
-
-    #[unsafe(no_mangle)]
-    pub extern "C" fn frbgen_ldk_node_wire__ldk_adapter__bolt11__Bolt11Payment_send_probes(
-        port_: i64,
-        that: usize,
-        invoice: *mut wire_cst_bolt_11_invoice,
-    ) {
-        wire__ldk_adapter__bolt11__Bolt11Payment_send_probes_impl(port_, that, invoice)
-    }
-
-    #[unsafe(no_mangle)]
-    pub extern "C" fn frbgen_ldk_node_wire__ldk_adapter__bolt11__Bolt11Payment_send_probes_using_amount(
-        port_: i64,
-        that: usize,
-        invoice: *mut wire_cst_bolt_11_invoice,
-        amount_msat: u64,
-    ) {
-        wire__ldk_adapter__bolt11__Bolt11Payment_send_probes_using_amount_impl(
-            port_,
-            that,
-            invoice,
-            amount_msat,
-        )
-    }
-
-    #[unsafe(no_mangle)]
-    pub extern "C" fn frbgen_ldk_node_wire__ldk_adapter__bolt11__Bolt11Payment_send_using_amount(
-        port_: i64,
-        that: usize,
-        invoice: *mut wire_cst_bolt_11_invoice,
-        amount_msat: u64,
-        sending_parameters: *mut wire_cst_sending_parameters,
-    ) {
-        wire__ldk_adapter__bolt11__Bolt11Payment_send_using_amount_impl(
-            port_,
-            that,
-            invoice,
-            amount_msat,
-            sending_parameters,
-        )
-    }
-
-    #[unsafe(no_mangle)]
-    pub extern "C" fn frbgen_ldk_node_wire__ldk_adapter__bolt12__Bolt12Payment_initiate_refund(
-        port_: i64,
-        that: usize,
-        amount_msat: u64,
-        expiry_secs: u32,
-        quantity: *mut u64,
-        payer_note: *mut wire_cst_list_prim_u_8_strict,
-    ) {
-        wire__ldk_adapter__bolt12__Bolt12Payment_initiate_refund_impl(
-            port_,
-            that,
-            amount_msat,
-            expiry_secs,
-            quantity,
-            payer_note,
-        )
-    }
-
-    #[unsafe(no_mangle)]
-    pub extern "C" fn frbgen_ldk_node_wire__ldk_adapter__bolt12__Bolt12Payment_receive(
-        port_: i64,
-        that: usize,
-        amount_msat: u64,
-        description: *mut wire_cst_list_prim_u_8_strict,
-        expiry_secs: *mut u32,
-        quantity: *mut u64,
-    ) {
-        wire__ldk_adapter__bolt12__Bolt12Payment_receive_impl(
-            port_,
-            that,
-            amount_msat,
-            description,
-            expiry_secs,
-            quantity,
-        )
-    }
-
-    #[unsafe(no_mangle)]
-    pub extern "C" fn frbgen_ldk_node_wire__ldk_adapter__bolt12__Bolt12Payment_receive_variable_amount(
-        port_: i64,
-        that: usize,
-        description: *mut wire_cst_list_prim_u_8_strict,
-        expiry_secs: *mut u32,
-    ) {
-        wire__ldk_adapter__bolt12__Bolt12Payment_receive_variable_amount_impl(
-            port_,
-            that,
-            description,
-            expiry_secs,
-        )
-    }
-
-    #[unsafe(no_mangle)]
-    pub extern "C" fn frbgen_ldk_node_wire__ldk_adapter__bolt12__Bolt12Payment_request_refund_payment(
-        port_: i64,
-        that: usize,
-        refund: *mut wire_cst_refund,
-    ) {
-        wire__ldk_adapter__bolt12__Bolt12Payment_request_refund_payment_impl(port_, that, refund)
-    }
-
-    #[unsafe(no_mangle)]
-    pub extern "C" fn frbgen_ldk_node_wire__ldk_adapter__bolt12__Bolt12Payment_send(
-        port_: i64,
-        that: usize,
-        offer: *mut wire_cst_offer,
-        quantity: *mut u64,
-        payer_note: *mut wire_cst_list_prim_u_8_strict,
-    ) {
-        wire__ldk_adapter__bolt12__Bolt12Payment_send_impl(port_, that, offer, quantity, payer_note)
-    }
-
-    #[unsafe(no_mangle)]
-    pub extern "C" fn frbgen_ldk_node_wire__ldk_adapter__bolt12__Bolt12Payment_send_using_amount(
-        port_: i64,
-        that: usize,
-        offer: *mut wire_cst_offer,
-        amount_msat: u64,
-        quantity: *mut u64,
-        payer_note: *mut wire_cst_list_prim_u_8_strict,
-    ) {
-        wire__ldk_adapter__bolt12__Bolt12Payment_send_using_amount_impl(
-            port_,
-            that,
-            offer,
-            amount_msat,
-            quantity,
-            payer_note,
-        )
     }
 
     #[unsafe(no_mangle)]
@@ -17884,32 +18617,43 @@ field2: core::ptr::null_mut(), }
     }
 
     #[unsafe(no_mangle)]
-    pub extern "C" fn frbgen_ldk_node_wire__ldk_adapter__builder__LdkBuilder_build(
-        port_: i64,
+    pub extern "C" fn frbgen_ldk_node_wire__ldk_adapter__builder__LdkBuilder_auto_accessor_get_inner(
         that: usize,
-    ) {
-        wire__ldk_adapter__builder__LdkBuilder_build_impl(port_, that)
+    ) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
+        wire__ldk_adapter__builder__LdkBuilder_auto_accessor_get_inner_impl(that)
+    }
+
+    #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_ldk_node_wire__ldk_adapter__builder__LdkBuilder_auto_accessor_set_inner(
+        that: usize,
+        inner: usize,
+    ) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
+        wire__ldk_adapter__builder__LdkBuilder_auto_accessor_set_inner_impl(that, inner)
+    }
+
+    #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_ldk_node_wire__ldk_adapter__builder__LdkBuilder_build(
+        that: usize,
+    ) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
+        wire__ldk_adapter__builder__LdkBuilder_build_impl(that)
     }
 
     #[unsafe(no_mangle)]
     pub extern "C" fn frbgen_ldk_node_wire__ldk_adapter__builder__LdkBuilder_build_with_fs_store(
-        port_: i64,
         that: usize,
-    ) {
-        wire__ldk_adapter__builder__LdkBuilder_build_with_fs_store_impl(port_, that)
+    ) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
+        wire__ldk_adapter__builder__LdkBuilder_build_with_fs_store_impl(that)
     }
 
     #[unsafe(no_mangle)]
     pub extern "C" fn frbgen_ldk_node_wire__ldk_adapter__builder__LdkBuilder_build_with_vss_store(
-        port_: i64,
         that: usize,
         vss_url: *mut wire_cst_list_prim_u_8_strict,
         store_id: *mut wire_cst_list_prim_u_8_strict,
         lnurl_auth_server_url: *mut wire_cst_list_prim_u_8_strict,
         fixed_headers: *mut wire_cst_list_record_string_string,
-    ) {
+    ) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
         wire__ldk_adapter__builder__LdkBuilder_build_with_vss_store_impl(
-            port_,
             that,
             vss_url,
             store_id,
@@ -17920,14 +18664,12 @@ field2: core::ptr::null_mut(), }
 
     #[unsafe(no_mangle)]
     pub extern "C" fn frbgen_ldk_node_wire__ldk_adapter__builder__LdkBuilder_build_with_vss_store_and_fixed_headers(
-        port_: i64,
         that: usize,
         vss_url: *mut wire_cst_list_prim_u_8_strict,
         store_id: *mut wire_cst_list_prim_u_8_strict,
         fixed_headers: *mut wire_cst_list_record_string_string,
-    ) {
+    ) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
         wire__ldk_adapter__builder__LdkBuilder_build_with_vss_store_and_fixed_headers_impl(
-            port_,
             that,
             vss_url,
             store_id,
@@ -17937,15 +18679,13 @@ field2: core::ptr::null_mut(), }
 
     #[unsafe(no_mangle)]
     pub extern "C" fn frbgen_ldk_node_wire__ldk_adapter__builder__LdkBuilder_create_builder(
-        port_: i64,
         config: *mut wire_cst_config,
-        chain_data_source_config: *mut usize,
-        entropy_source_config: *mut usize,
-        gossip_source_config: *mut usize,
+        chain_data_source_config: *mut wire_cst_chain_data_source_config,
+        entropy_source_config: *mut wire_cst_entropy_source_config,
+        gossip_source_config: *mut wire_cst_gossip_source_config,
         liquidity_source_config: *mut wire_cst_liquidity_source_config,
-    ) {
+    ) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
         wire__ldk_adapter__builder__LdkBuilder_create_builder_impl(
-            port_,
             config,
             chain_data_source_config,
             entropy_source_config,
@@ -17956,22 +18696,19 @@ field2: core::ptr::null_mut(), }
 
     #[unsafe(no_mangle)]
     pub extern "C" fn frbgen_ldk_node_wire__ldk_adapter__builder__LdkBuilder_set_entropy_seed_bytes(
-        port_: i64,
         that: usize,
         seed_bytes: *mut wire_cst_list_prim_u_8_loose,
-    ) {
-        wire__ldk_adapter__builder__LdkBuilder_set_entropy_seed_bytes_impl(port_, that, seed_bytes)
+    ) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
+        wire__ldk_adapter__builder__LdkBuilder_set_entropy_seed_bytes_impl(that, seed_bytes)
     }
 
     #[unsafe(no_mangle)]
     pub extern "C" fn frbgen_ldk_node_wire__ldk_adapter__builder__LdkBuilder_set_filesystem_logger(
-        port_: i64,
         that: usize,
         log_file_path: *mut wire_cst_list_prim_u_8_strict,
         max_log_level: *mut i32,
-    ) {
+    ) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
         wire__ldk_adapter__builder__LdkBuilder_set_filesystem_logger_impl(
-            port_,
             that,
             log_file_path,
             max_log_level,
@@ -17980,10 +18717,9 @@ field2: core::ptr::null_mut(), }
 
     #[unsafe(no_mangle)]
     pub extern "C" fn frbgen_ldk_node_wire__ldk_adapter__builder__LdkBuilder_set_log_facade_logger(
-        port_: i64,
         that: usize,
-    ) {
-        wire__ldk_adapter__builder__LdkBuilder_set_log_facade_logger_impl(port_, that)
+    ) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
+        wire__ldk_adapter__builder__LdkBuilder_set_log_facade_logger_impl(that)
     }
 
     #[unsafe(no_mangle)]
@@ -18019,363 +18755,18 @@ field2: core::ptr::null_mut(), }
     }
 
     #[unsafe(no_mangle)]
-    pub extern "C" fn frbgen_ldk_node_wire__ldk_adapter__graph__NetworkGraph_channel(
-        port_: i64,
+    pub extern "C" fn frbgen_ldk_node_wire__ldk_adapter__on_chain__OnChainPayment_auto_accessor_get_inner(
         that: usize,
-        short_channel_id: u64,
-    ) {
-        wire__ldk_adapter__graph__NetworkGraph_channel_impl(port_, that, short_channel_id)
+    ) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
+        wire__ldk_adapter__on_chain__OnChainPayment_auto_accessor_get_inner_impl(that)
     }
 
     #[unsafe(no_mangle)]
-    pub extern "C" fn frbgen_ldk_node_wire__ldk_adapter__graph__NetworkGraph_list_channels(
-        port_: i64,
+    pub extern "C" fn frbgen_ldk_node_wire__ldk_adapter__on_chain__OnChainPayment_auto_accessor_set_inner(
         that: usize,
-    ) {
-        wire__ldk_adapter__graph__NetworkGraph_list_channels_impl(port_, that)
-    }
-
-    #[unsafe(no_mangle)]
-    pub extern "C" fn frbgen_ldk_node_wire__ldk_adapter__graph__NetworkGraph_list_nodes(
-        port_: i64,
-        that: usize,
-    ) {
-        wire__ldk_adapter__graph__NetworkGraph_list_nodes_impl(port_, that)
-    }
-
-    #[unsafe(no_mangle)]
-    pub extern "C" fn frbgen_ldk_node_wire__ldk_adapter__graph__NetworkGraph_node(
-        port_: i64,
-        that: usize,
-        node_id: *mut wire_cst_node_id,
-    ) {
-        wire__ldk_adapter__graph__NetworkGraph_node_impl(port_, that, node_id)
-    }
-
-    #[unsafe(no_mangle)]
-    pub extern "C" fn frbgen_ldk_node_wire__ldk_adapter__node__Node_bolt11_payment(
-        port_: i64,
-        ptr: usize,
-    ) {
-        wire__ldk_adapter__node__Node_bolt11_payment_impl(port_, ptr)
-    }
-
-    #[unsafe(no_mangle)]
-    pub extern "C" fn frbgen_ldk_node_wire__ldk_adapter__node__Node_bolt12_payment(
-        port_: i64,
-        ptr: usize,
-    ) {
-        wire__ldk_adapter__node__Node_bolt12_payment_impl(port_, ptr)
-    }
-
-    #[unsafe(no_mangle)]
-    pub extern "C" fn frbgen_ldk_node_wire__ldk_adapter__node__Node_close_channel(
-        port_: i64,
-        that: usize,
-        user_channel_id: *mut wire_cst_user_channel_id,
-        counterparty_node_id: *mut wire_cst_public_key,
-    ) {
-        wire__ldk_adapter__node__Node_close_channel_impl(
-            port_,
-            that,
-            user_channel_id,
-            counterparty_node_id,
-        )
-    }
-
-    #[unsafe(no_mangle)]
-    pub extern "C" fn frbgen_ldk_node_wire__ldk_adapter__node__Node_config(
-        port_: i64,
-        that: usize,
-    ) {
-        wire__ldk_adapter__node__Node_config_impl(port_, that)
-    }
-
-    #[unsafe(no_mangle)]
-    pub extern "C" fn frbgen_ldk_node_wire__ldk_adapter__node__Node_connect(
-        port_: i64,
-        that: usize,
-        node_id: *mut wire_cst_public_key,
-        address: usize,
-        persist: bool,
-    ) {
-        wire__ldk_adapter__node__Node_connect_impl(port_, that, node_id, address, persist)
-    }
-
-    #[unsafe(no_mangle)]
-    pub extern "C" fn frbgen_ldk_node_wire__ldk_adapter__node__Node_disconnect(
-        port_: i64,
-        that: usize,
-        counterparty_node_id: *mut wire_cst_public_key,
-    ) {
-        wire__ldk_adapter__node__Node_disconnect_impl(port_, that, counterparty_node_id)
-    }
-
-    #[unsafe(no_mangle)]
-    pub extern "C" fn frbgen_ldk_node_wire__ldk_adapter__node__Node_event_handled(
-        port_: i64,
-        that: usize,
-    ) {
-        wire__ldk_adapter__node__Node_event_handled_impl(port_, that)
-    }
-
-    #[unsafe(no_mangle)]
-    pub extern "C" fn frbgen_ldk_node_wire__ldk_adapter__node__Node_export_pathfinding_scores(
-        port_: i64,
-        that: usize,
-    ) {
-        wire__ldk_adapter__node__Node_export_pathfinding_scores_impl(port_, that)
-    }
-
-    #[unsafe(no_mangle)]
-    pub extern "C" fn frbgen_ldk_node_wire__ldk_adapter__node__Node_force_close_channel(
-        port_: i64,
-        that: usize,
-        user_channel_id: *mut wire_cst_user_channel_id,
-        counterparty_node_id: *mut wire_cst_public_key,
-    ) {
-        wire__ldk_adapter__node__Node_force_close_channel_impl(
-            port_,
-            that,
-            user_channel_id,
-            counterparty_node_id,
-        )
-    }
-
-    #[unsafe(no_mangle)]
-    pub extern "C" fn frbgen_ldk_node_wire__ldk_adapter__node__Node_list_balances(
-        port_: i64,
-        that: usize,
-    ) {
-        wire__ldk_adapter__node__Node_list_balances_impl(port_, that)
-    }
-
-    #[unsafe(no_mangle)]
-    pub extern "C" fn frbgen_ldk_node_wire__ldk_adapter__node__Node_list_channels(
-        port_: i64,
-        that: usize,
-    ) {
-        wire__ldk_adapter__node__Node_list_channels_impl(port_, that)
-    }
-
-    #[unsafe(no_mangle)]
-    pub extern "C" fn frbgen_ldk_node_wire__ldk_adapter__node__Node_list_payments(
-        port_: i64,
-        that: usize,
-    ) {
-        wire__ldk_adapter__node__Node_list_payments_impl(port_, that)
-    }
-
-    #[unsafe(no_mangle)]
-    pub extern "C" fn frbgen_ldk_node_wire__ldk_adapter__node__Node_list_payments_with_filter(
-        port_: i64,
-        that: usize,
-        payment_direction: i32,
-    ) {
-        wire__ldk_adapter__node__Node_list_payments_with_filter_impl(port_, that, payment_direction)
-    }
-
-    #[unsafe(no_mangle)]
-    pub extern "C" fn frbgen_ldk_node_wire__ldk_adapter__node__Node_list_peers(
-        port_: i64,
-        that: usize,
-    ) {
-        wire__ldk_adapter__node__Node_list_peers_impl(port_, that)
-    }
-
-    #[unsafe(no_mangle)]
-    pub extern "C" fn frbgen_ldk_node_wire__ldk_adapter__node__Node_listening_addresses(
-        port_: i64,
-        that: usize,
-    ) {
-        wire__ldk_adapter__node__Node_listening_addresses_impl(port_, that)
-    }
-
-    #[unsafe(no_mangle)]
-    pub extern "C" fn frbgen_ldk_node_wire__ldk_adapter__node__Node_network_graph(
-        port_: i64,
-        ptr: usize,
-    ) {
-        wire__ldk_adapter__node__Node_network_graph_impl(port_, ptr)
-    }
-
-    #[unsafe(no_mangle)]
-    pub extern "C" fn frbgen_ldk_node_wire__ldk_adapter__node__Node_next_event(
-        port_: i64,
-        that: usize,
-    ) {
-        wire__ldk_adapter__node__Node_next_event_impl(port_, that)
-    }
-
-    #[unsafe(no_mangle)]
-    pub extern "C" fn frbgen_ldk_node_wire__ldk_adapter__node__Node_next_event_async(
-        port_: i64,
-        that: usize,
-    ) {
-        wire__ldk_adapter__node__Node_next_event_async_impl(port_, that)
-    }
-
-    #[unsafe(no_mangle)]
-    pub extern "C" fn frbgen_ldk_node_wire__ldk_adapter__node__Node_node_id(
-        port_: i64,
-        that: usize,
-    ) {
-        wire__ldk_adapter__node__Node_node_id_impl(port_, that)
-    }
-
-    #[unsafe(no_mangle)]
-    pub extern "C" fn frbgen_ldk_node_wire__ldk_adapter__node__Node_on_chain_payment(
-        port_: i64,
-        ptr: usize,
-    ) {
-        wire__ldk_adapter__node__Node_on_chain_payment_impl(port_, ptr)
-    }
-
-    #[unsafe(no_mangle)]
-    pub extern "C" fn frbgen_ldk_node_wire__ldk_adapter__node__Node_open_announced_channel(
-        port_: i64,
-        that: usize,
-        socket_address: usize,
-        node_id: *mut wire_cst_public_key,
-        channel_amount_sats: u64,
-        push_to_counterparty_msat: *mut u64,
-        channel_config: *mut usize,
-    ) {
-        wire__ldk_adapter__node__Node_open_announced_channel_impl(
-            port_,
-            that,
-            socket_address,
-            node_id,
-            channel_amount_sats,
-            push_to_counterparty_msat,
-            channel_config,
-        )
-    }
-
-    #[unsafe(no_mangle)]
-    pub extern "C" fn frbgen_ldk_node_wire__ldk_adapter__node__Node_open_channel(
-        port_: i64,
-        that: usize,
-        socket_address: usize,
-        node_id: *mut wire_cst_public_key,
-        channel_amount_sats: u64,
-        push_to_counterparty_msat: *mut u64,
-        channel_config: *mut usize,
-    ) {
-        wire__ldk_adapter__node__Node_open_channel_impl(
-            port_,
-            that,
-            socket_address,
-            node_id,
-            channel_amount_sats,
-            push_to_counterparty_msat,
-            channel_config,
-        )
-    }
-
-    #[unsafe(no_mangle)]
-    pub extern "C" fn frbgen_ldk_node_wire__ldk_adapter__node__Node_payment(
-        port_: i64,
-        that: usize,
-        payment_id: *mut wire_cst_payment_id,
-    ) {
-        wire__ldk_adapter__node__Node_payment_impl(port_, that, payment_id)
-    }
-
-    #[unsafe(no_mangle)]
-    pub extern "C" fn frbgen_ldk_node_wire__ldk_adapter__node__Node_remove_payment(
-        port_: i64,
-        that: usize,
-        payment_id: *mut wire_cst_payment_id,
-    ) {
-        wire__ldk_adapter__node__Node_remove_payment_impl(port_, that, payment_id)
-    }
-
-    #[unsafe(no_mangle)]
-    pub extern "C" fn frbgen_ldk_node_wire__ldk_adapter__node__Node_sign_message(
-        port_: i64,
-        that: usize,
-        msg: *mut wire_cst_list_prim_u_8_loose,
-    ) {
-        wire__ldk_adapter__node__Node_sign_message_impl(port_, that, msg)
-    }
-
-    #[unsafe(no_mangle)]
-    pub extern "C" fn frbgen_ldk_node_wire__ldk_adapter__node__Node_spontaneous_payment(
-        port_: i64,
-        ptr: usize,
-    ) {
-        wire__ldk_adapter__node__Node_spontaneous_payment_impl(port_, ptr)
-    }
-
-    #[unsafe(no_mangle)]
-    pub extern "C" fn frbgen_ldk_node_wire__ldk_adapter__node__Node_start(port_: i64, that: usize) {
-        wire__ldk_adapter__node__Node_start_impl(port_, that)
-    }
-
-    #[unsafe(no_mangle)]
-    pub extern "C" fn frbgen_ldk_node_wire__ldk_adapter__node__Node_status(
-        port_: i64,
-        that: usize,
-    ) {
-        wire__ldk_adapter__node__Node_status_impl(port_, that)
-    }
-
-    #[unsafe(no_mangle)]
-    pub extern "C" fn frbgen_ldk_node_wire__ldk_adapter__node__Node_stop(port_: i64, that: usize) {
-        wire__ldk_adapter__node__Node_stop_impl(port_, that)
-    }
-
-    #[unsafe(no_mangle)]
-    pub extern "C" fn frbgen_ldk_node_wire__ldk_adapter__node__Node_sync_wallets(
-        port_: i64,
-        that: usize,
-    ) {
-        wire__ldk_adapter__node__Node_sync_wallets_impl(port_, that)
-    }
-
-    #[unsafe(no_mangle)]
-    pub extern "C" fn frbgen_ldk_node_wire__ldk_adapter__node__Node_unified_qr_payment(
-        port_: i64,
-        ptr: usize,
-    ) {
-        wire__ldk_adapter__node__Node_unified_qr_payment_impl(port_, ptr)
-    }
-
-    #[unsafe(no_mangle)]
-    pub extern "C" fn frbgen_ldk_node_wire__ldk_adapter__node__Node_update_channel_config(
-        port_: i64,
-        that: usize,
-        user_channel_id: *mut wire_cst_user_channel_id,
-        counterparty_node_id: *mut wire_cst_public_key,
-        channel_config: usize,
-    ) {
-        wire__ldk_adapter__node__Node_update_channel_config_impl(
-            port_,
-            that,
-            user_channel_id,
-            counterparty_node_id,
-            channel_config,
-        )
-    }
-
-    #[unsafe(no_mangle)]
-    pub extern "C" fn frbgen_ldk_node_wire__ldk_adapter__node__Node_verify_signature(
-        port_: i64,
-        that: usize,
-        msg: *mut wire_cst_list_prim_u_8_loose,
-        sig: *mut wire_cst_list_prim_u_8_strict,
-        public_key: *mut wire_cst_public_key,
-    ) {
-        wire__ldk_adapter__node__Node_verify_signature_impl(port_, that, msg, sig, public_key)
-    }
-
-    #[unsafe(no_mangle)]
-    pub extern "C" fn frbgen_ldk_node_wire__ldk_adapter__node__Node_wait_next_event(
-        port_: i64,
-        that: usize,
-    ) {
-        wire__ldk_adapter__node__Node_wait_next_event_impl(port_, that)
+        inner: usize,
+    ) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
+        wire__ldk_adapter__on_chain__OnChainPayment_auto_accessor_set_inner_impl(that, inner)
     }
 
     #[unsafe(no_mangle)]
@@ -18417,378 +18808,6 @@ field2: core::ptr::null_mut(), }
             address,
             amount_sats,
             fee_rate_sat_per_kwu,
-        )
-    }
-
-    #[unsafe(no_mangle)]
-    pub extern "C" fn frbgen_ldk_node_wire__ldk_adapter__types__PaymentDetails_auto_accessor_get_amount_msat(
-        that: usize,
-    ) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
-        wire__ldk_adapter__types__PaymentDetails_auto_accessor_get_amount_msat_impl(that)
-    }
-
-    #[unsafe(no_mangle)]
-    pub extern "C" fn frbgen_ldk_node_wire__ldk_adapter__types__PaymentDetails_auto_accessor_get_direction(
-        that: usize,
-    ) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
-        wire__ldk_adapter__types__PaymentDetails_auto_accessor_get_direction_impl(that)
-    }
-
-    #[unsafe(no_mangle)]
-    pub extern "C" fn frbgen_ldk_node_wire__ldk_adapter__types__PaymentDetails_auto_accessor_get_id(
-        that: usize,
-    ) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
-        wire__ldk_adapter__types__PaymentDetails_auto_accessor_get_id_impl(that)
-    }
-
-    #[unsafe(no_mangle)]
-    pub extern "C" fn frbgen_ldk_node_wire__ldk_adapter__types__PaymentDetails_auto_accessor_get_kind(
-        that: usize,
-    ) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
-        wire__ldk_adapter__types__PaymentDetails_auto_accessor_get_kind_impl(that)
-    }
-
-    #[unsafe(no_mangle)]
-    pub extern "C" fn frbgen_ldk_node_wire__ldk_adapter__types__PaymentDetails_auto_accessor_get_latest_update_timestamp(
-        that: usize,
-    ) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
-        wire__ldk_adapter__types__PaymentDetails_auto_accessor_get_latest_update_timestamp_impl(
-            that,
-        )
-    }
-
-    #[unsafe(no_mangle)]
-    pub extern "C" fn frbgen_ldk_node_wire__ldk_adapter__types__PaymentDetails_auto_accessor_get_status(
-        that: usize,
-    ) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
-        wire__ldk_adapter__types__PaymentDetails_auto_accessor_get_status_impl(that)
-    }
-
-    #[unsafe(no_mangle)]
-    pub extern "C" fn frbgen_ldk_node_wire__ldk_adapter__types__PaymentDetails_auto_accessor_set_amount_msat(
-        that: usize,
-        amount_msat: *mut u64,
-    ) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
-        wire__ldk_adapter__types__PaymentDetails_auto_accessor_set_amount_msat_impl(
-            that,
-            amount_msat,
-        )
-    }
-
-    #[unsafe(no_mangle)]
-    pub extern "C" fn frbgen_ldk_node_wire__ldk_adapter__types__PaymentDetails_auto_accessor_set_direction(
-        that: usize,
-        direction: i32,
-    ) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
-        wire__ldk_adapter__types__PaymentDetails_auto_accessor_set_direction_impl(that, direction)
-    }
-
-    #[unsafe(no_mangle)]
-    pub extern "C" fn frbgen_ldk_node_wire__ldk_adapter__types__PaymentDetails_auto_accessor_set_id(
-        that: usize,
-        id: wire_cst_payment_id,
-    ) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
-        wire__ldk_adapter__types__PaymentDetails_auto_accessor_set_id_impl(that, id)
-    }
-
-    #[unsafe(no_mangle)]
-    pub extern "C" fn frbgen_ldk_node_wire__ldk_adapter__types__PaymentDetails_auto_accessor_set_kind(
-        that: usize,
-        kind: usize,
-    ) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
-        wire__ldk_adapter__types__PaymentDetails_auto_accessor_set_kind_impl(that, kind)
-    }
-
-    #[unsafe(no_mangle)]
-    pub extern "C" fn frbgen_ldk_node_wire__ldk_adapter__types__PaymentDetails_auto_accessor_set_latest_update_timestamp(
-        that: usize,
-        latest_update_timestamp: u64,
-    ) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
-        wire__ldk_adapter__types__PaymentDetails_auto_accessor_set_latest_update_timestamp_impl(
-            that,
-            latest_update_timestamp,
-        )
-    }
-
-    #[unsafe(no_mangle)]
-    pub extern "C" fn frbgen_ldk_node_wire__ldk_adapter__types__PaymentDetails_auto_accessor_set_status(
-        that: usize,
-        status: i32,
-    ) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
-        wire__ldk_adapter__types__PaymentDetails_auto_accessor_set_status_impl(that, status)
-    }
-
-    #[unsafe(no_mangle)]
-    pub extern "C" fn frbgen_ldk_node_wire__ldk_adapter__types__PaymentDetails_is_failed(
-        port_: i64,
-        that: usize,
-    ) {
-        wire__ldk_adapter__types__PaymentDetails_is_failed_impl(port_, that)
-    }
-
-    #[unsafe(no_mangle)]
-    pub extern "C" fn frbgen_ldk_node_wire__ldk_adapter__types__PaymentDetails_is_pending(
-        port_: i64,
-        that: usize,
-    ) {
-        wire__ldk_adapter__types__PaymentDetails_is_pending_impl(port_, that)
-    }
-
-    #[unsafe(no_mangle)]
-    pub extern "C" fn frbgen_ldk_node_wire__ldk_adapter__types__PaymentDetails_is_succeeded(
-        port_: i64,
-        that: usize,
-    ) {
-        wire__ldk_adapter__types__PaymentDetails_is_succeeded_impl(port_, that)
-    }
-
-    #[unsafe(no_mangle)]
-    pub extern "C" fn frbgen_ldk_node_wire__ldk_adapter__types__PaymentDetails_new(
-        port_: i64,
-        id: *mut wire_cst_payment_id,
-        kind: usize,
-        amount_msat: *mut u64,
-        direction: i32,
-        status: i32,
-        latest_update_timestamp: u64,
-    ) {
-        wire__ldk_adapter__types__PaymentDetails_new_impl(
-            port_,
-            id,
-            kind,
-            amount_msat,
-            direction,
-            status,
-            latest_update_timestamp,
-        )
-    }
-
-    #[unsafe(no_mangle)]
-    pub extern "C" fn frbgen_ldk_node_wire__ldk_adapter__types__PaymentDetails_new_inbound_pending(
-        port_: i64,
-        id: *mut wire_cst_payment_id,
-        kind: usize,
-        amount_msat: *mut u64,
-    ) {
-        wire__ldk_adapter__types__PaymentDetails_new_inbound_pending_impl(
-            port_,
-            id,
-            kind,
-            amount_msat,
-        )
-    }
-
-    #[unsafe(no_mangle)]
-    pub extern "C" fn frbgen_ldk_node_wire__ldk_adapter__types__PaymentDetails_new_outbound_pending(
-        port_: i64,
-        id: *mut wire_cst_payment_id,
-        kind: usize,
-        amount_msat: *mut u64,
-    ) {
-        wire__ldk_adapter__types__PaymentDetails_new_outbound_pending_impl(
-            port_,
-            id,
-            kind,
-            amount_msat,
-        )
-    }
-
-    #[unsafe(no_mangle)]
-    pub extern "C" fn frbgen_ldk_node_wire__ldk_adapter__types__PeerDetails_auto_accessor_get_address(
-        that: usize,
-    ) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
-        wire__ldk_adapter__types__PeerDetails_auto_accessor_get_address_impl(that)
-    }
-
-    #[unsafe(no_mangle)]
-    pub extern "C" fn frbgen_ldk_node_wire__ldk_adapter__types__PeerDetails_auto_accessor_get_is_connected(
-        that: usize,
-    ) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
-        wire__ldk_adapter__types__PeerDetails_auto_accessor_get_is_connected_impl(that)
-    }
-
-    #[unsafe(no_mangle)]
-    pub extern "C" fn frbgen_ldk_node_wire__ldk_adapter__types__PeerDetails_auto_accessor_get_node_id(
-        that: usize,
-    ) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
-        wire__ldk_adapter__types__PeerDetails_auto_accessor_get_node_id_impl(that)
-    }
-
-    #[unsafe(no_mangle)]
-    pub extern "C" fn frbgen_ldk_node_wire__ldk_adapter__types__PeerDetails_auto_accessor_set_address(
-        that: usize,
-        address: usize,
-    ) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
-        wire__ldk_adapter__types__PeerDetails_auto_accessor_set_address_impl(that, address)
-    }
-
-    #[unsafe(no_mangle)]
-    pub extern "C" fn frbgen_ldk_node_wire__ldk_adapter__types__PeerDetails_auto_accessor_set_is_connected(
-        that: usize,
-        is_connected: bool,
-    ) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
-        wire__ldk_adapter__types__PeerDetails_auto_accessor_set_is_connected_impl(
-            that,
-            is_connected,
-        )
-    }
-
-    #[unsafe(no_mangle)]
-    pub extern "C" fn frbgen_ldk_node_wire__ldk_adapter__types__PeerDetails_auto_accessor_set_node_id(
-        that: usize,
-        node_id: wire_cst_public_key,
-    ) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
-        wire__ldk_adapter__types__PeerDetails_auto_accessor_set_node_id_impl(that, node_id)
-    }
-
-    #[unsafe(no_mangle)]
-    pub extern "C" fn frbgen_ldk_node_wire__ldk_adapter__types__PeerDetails_is_offline(
-        port_: i64,
-        that: usize,
-    ) {
-        wire__ldk_adapter__types__PeerDetails_is_offline_impl(port_, that)
-    }
-
-    #[unsafe(no_mangle)]
-    pub extern "C" fn frbgen_ldk_node_wire__ldk_adapter__types__PeerDetails_is_online(
-        port_: i64,
-        that: usize,
-    ) {
-        wire__ldk_adapter__types__PeerDetails_is_online_impl(port_, that)
-    }
-
-    #[unsafe(no_mangle)]
-    pub extern "C" fn frbgen_ldk_node_wire__ldk_adapter__types__PeerDetails_new(
-        port_: i64,
-        node_id: *mut wire_cst_public_key,
-        address: usize,
-        is_connected: bool,
-    ) {
-        wire__ldk_adapter__types__PeerDetails_new_impl(port_, node_id, address, is_connected)
-    }
-
-    #[unsafe(no_mangle)]
-    pub extern "C" fn frbgen_ldk_node_wire__ldk_adapter__types__PeerDetails_new_connected(
-        port_: i64,
-        node_id: *mut wire_cst_public_key,
-        address: usize,
-    ) {
-        wire__ldk_adapter__types__PeerDetails_new_connected_impl(port_, node_id, address)
-    }
-
-    #[unsafe(no_mangle)]
-    pub extern "C" fn frbgen_ldk_node_wire__ldk_adapter__types__PeerDetails_new_disconnected(
-        port_: i64,
-        node_id: *mut wire_cst_public_key,
-        address: usize,
-    ) {
-        wire__ldk_adapter__types__PeerDetails_new_disconnected_impl(port_, node_id, address)
-    }
-
-    #[unsafe(no_mangle)]
-    pub extern "C" fn frbgen_ldk_node_wire__shared__SocketAddress_as_hostname(
-        that: usize,
-    ) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
-        wire__shared__SocketAddress_as_hostname_impl(that)
-    }
-
-    #[unsafe(no_mangle)]
-    pub extern "C" fn frbgen_ldk_node_wire__shared__SocketAddress_as_onion_v2(
-        that: usize,
-    ) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
-        wire__shared__SocketAddress_as_onion_v2_impl(that)
-    }
-
-    #[unsafe(no_mangle)]
-    pub extern "C" fn frbgen_ldk_node_wire__shared__SocketAddress_as_onion_v3(
-        that: usize,
-    ) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
-        wire__shared__SocketAddress_as_onion_v3_impl(that)
-    }
-
-    #[unsafe(no_mangle)]
-    pub extern "C" fn frbgen_ldk_node_wire__shared__SocketAddress_as_tcp_ip_v4(
-        that: usize,
-    ) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
-        wire__shared__SocketAddress_as_tcp_ip_v4_impl(that)
-    }
-
-    #[unsafe(no_mangle)]
-    pub extern "C" fn frbgen_ldk_node_wire__shared__SocketAddress_as_tcp_ip_v6(
-        that: usize,
-    ) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
-        wire__shared__SocketAddress_as_tcp_ip_v6_impl(that)
-    }
-
-    #[unsafe(no_mangle)]
-    pub extern "C" fn frbgen_ldk_node_wire__shared__SocketAddress_host(
-        that: usize,
-    ) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
-        wire__shared__SocketAddress_host_impl(that)
-    }
-
-    #[unsafe(no_mangle)]
-    pub extern "C" fn frbgen_ldk_node_wire__shared__SocketAddress_port(
-        that: usize,
-    ) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
-        wire__shared__SocketAddress_port_impl(that)
-    }
-
-    #[unsafe(no_mangle)]
-    pub extern "C" fn frbgen_ldk_node_wire__shared__SocketAddress_str_type(
-        that: usize,
-    ) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
-        wire__shared__SocketAddress_str_type_impl(that)
-    }
-
-    #[unsafe(no_mangle)]
-    pub extern "C" fn frbgen_ldk_node_wire__ldk_adapter__spontaneous__SpontaneousPayment_send_probes_unsafe(
-        port_: i64,
-        that: usize,
-        amount_msat: u64,
-        node_id: *mut wire_cst_public_key,
-    ) {
-        wire__ldk_adapter__spontaneous__SpontaneousPayment_send_probes_unsafe_impl(
-            port_,
-            that,
-            amount_msat,
-            node_id,
-        )
-    }
-
-    #[unsafe(no_mangle)]
-    pub extern "C" fn frbgen_ldk_node_wire__ldk_adapter__spontaneous__SpontaneousPayment_send_unsafe(
-        port_: i64,
-        that: usize,
-        amount_msat: u64,
-        node_id: *mut wire_cst_public_key,
-        sending_parameters: *mut wire_cst_sending_parameters,
-    ) {
-        wire__ldk_adapter__spontaneous__SpontaneousPayment_send_unsafe_impl(
-            port_,
-            that,
-            amount_msat,
-            node_id,
-            sending_parameters,
-        )
-    }
-
-    #[unsafe(no_mangle)]
-    pub extern "C" fn frbgen_ldk_node_wire__ldk_adapter__spontaneous__SpontaneousPayment_send_with_custom_tlvs_unsafe(
-        port_: i64,
-        that: usize,
-        amount_msat: u64,
-        node_id: *mut wire_cst_public_key,
-        sending_parameters: *mut wire_cst_sending_parameters,
-        custom_tlvs: *mut wire_cst_list_custom_tlv_record,
-    ) {
-        wire__ldk_adapter__spontaneous__SpontaneousPayment_send_with_custom_tlvs_unsafe_impl(
-            port_,
-            that,
-            amount_msat,
-            node_id,
-            sending_parameters,
-            custom_tlvs,
         )
     }
 
@@ -18909,29 +18928,283 @@ field2: core::ptr::null_mut(), }
     }
 
     #[unsafe(no_mangle)]
-    pub extern "C" fn frbgen_ldk_node_wire__ldk_adapter__unified_qr__UnifiedQrPayment_receive(
+    pub extern "C" fn frbgen_ldk_node_wire__ldk_adapter__bolt11__bolt_11_payment_claim_for_hash(
         port_: i64,
-        that: usize,
-        amount_sats: u64,
-        message: *mut wire_cst_list_prim_u_8_strict,
-        expiry_sec: u32,
+        that: *mut wire_cst_bolt_11_payment,
+        payment_hash: *mut wire_cst_payment_hash,
+        claimable_amount_msat: u64,
+        preimage: *mut wire_cst_payment_preimage,
     ) {
-        wire__ldk_adapter__unified_qr__UnifiedQrPayment_receive_impl(
+        wire__ldk_adapter__bolt11__bolt_11_payment_claim_for_hash_impl(
             port_,
             that,
-            amount_sats,
-            message,
-            expiry_sec,
+            payment_hash,
+            claimable_amount_msat,
+            preimage,
         )
     }
 
     #[unsafe(no_mangle)]
-    pub extern "C" fn frbgen_ldk_node_wire__ldk_adapter__unified_qr__UnifiedQrPayment_send(
+    pub extern "C" fn frbgen_ldk_node_wire__ldk_adapter__bolt11__bolt_11_payment_fail_for_hash(
         port_: i64,
-        that: usize,
-        uri_str: *mut wire_cst_list_prim_u_8_strict,
+        that: *mut wire_cst_bolt_11_payment,
+        payment_hash: *mut wire_cst_payment_hash,
     ) {
-        wire__ldk_adapter__unified_qr__UnifiedQrPayment_send_impl(port_, that, uri_str)
+        wire__ldk_adapter__bolt11__bolt_11_payment_fail_for_hash_impl(port_, that, payment_hash)
+    }
+
+    #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_ldk_node_wire__ldk_adapter__bolt11__bolt_11_payment_receive(
+        port_: i64,
+        that: *mut wire_cst_bolt_11_payment,
+        amount_msat: u64,
+        description: *mut wire_cst_list_prim_u_8_strict,
+        expiry_secs: u32,
+    ) {
+        wire__ldk_adapter__bolt11__bolt_11_payment_receive_impl(
+            port_,
+            that,
+            amount_msat,
+            description,
+            expiry_secs,
+        )
+    }
+
+    #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_ldk_node_wire__ldk_adapter__bolt11__bolt_11_payment_receive_for_hash(
+        port_: i64,
+        that: *mut wire_cst_bolt_11_payment,
+        payment_hash: *mut wire_cst_payment_hash,
+        amount_msat: u64,
+        description: *mut wire_cst_list_prim_u_8_strict,
+        expiry_secs: u32,
+    ) {
+        wire__ldk_adapter__bolt11__bolt_11_payment_receive_for_hash_impl(
+            port_,
+            that,
+            payment_hash,
+            amount_msat,
+            description,
+            expiry_secs,
+        )
+    }
+
+    #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_ldk_node_wire__ldk_adapter__bolt11__bolt_11_payment_receive_variable_amount(
+        port_: i64,
+        that: *mut wire_cst_bolt_11_payment,
+        description: *mut wire_cst_list_prim_u_8_strict,
+        expiry_secs: u32,
+    ) {
+        wire__ldk_adapter__bolt11__bolt_11_payment_receive_variable_amount_impl(
+            port_,
+            that,
+            description,
+            expiry_secs,
+        )
+    }
+
+    #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_ldk_node_wire__ldk_adapter__bolt11__bolt_11_payment_receive_variable_amount_for_hash(
+        port_: i64,
+        that: *mut wire_cst_bolt_11_payment,
+        description: *mut wire_cst_list_prim_u_8_strict,
+        expiry_secs: u32,
+        payment_hash: *mut wire_cst_payment_hash,
+    ) {
+        wire__ldk_adapter__bolt11__bolt_11_payment_receive_variable_amount_for_hash_impl(
+            port_,
+            that,
+            description,
+            expiry_secs,
+            payment_hash,
+        )
+    }
+
+    #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_ldk_node_wire__ldk_adapter__bolt11__bolt_11_payment_receive_variable_amount_via_jit_channel(
+        port_: i64,
+        that: *mut wire_cst_bolt_11_payment,
+        description: *mut wire_cst_list_prim_u_8_strict,
+        expiry_secs: u32,
+        max_proportional_lsp_fee_limit_ppm_msat: *mut u64,
+    ) {
+        wire__ldk_adapter__bolt11__bolt_11_payment_receive_variable_amount_via_jit_channel_impl(
+            port_,
+            that,
+            description,
+            expiry_secs,
+            max_proportional_lsp_fee_limit_ppm_msat,
+        )
+    }
+
+    #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_ldk_node_wire__ldk_adapter__bolt11__bolt_11_payment_receive_via_jit_channel(
+        port_: i64,
+        that: *mut wire_cst_bolt_11_payment,
+        amount_msat: u64,
+        description: *mut wire_cst_list_prim_u_8_strict,
+        expiry_secs: u32,
+        max_total_lsp_fee_limit_msat: *mut u64,
+    ) {
+        wire__ldk_adapter__bolt11__bolt_11_payment_receive_via_jit_channel_impl(
+            port_,
+            that,
+            amount_msat,
+            description,
+            expiry_secs,
+            max_total_lsp_fee_limit_msat,
+        )
+    }
+
+    #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_ldk_node_wire__ldk_adapter__bolt11__bolt_11_payment_send(
+        port_: i64,
+        that: *mut wire_cst_bolt_11_payment,
+        invoice: *mut wire_cst_bolt_11_invoice,
+        sending_parameters: *mut wire_cst_sending_parameters,
+    ) {
+        wire__ldk_adapter__bolt11__bolt_11_payment_send_impl(
+            port_,
+            that,
+            invoice,
+            sending_parameters,
+        )
+    }
+
+    #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_ldk_node_wire__ldk_adapter__bolt11__bolt_11_payment_send_probes(
+        port_: i64,
+        that: *mut wire_cst_bolt_11_payment,
+        invoice: *mut wire_cst_bolt_11_invoice,
+    ) {
+        wire__ldk_adapter__bolt11__bolt_11_payment_send_probes_impl(port_, that, invoice)
+    }
+
+    #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_ldk_node_wire__ldk_adapter__bolt11__bolt_11_payment_send_probes_using_amount(
+        port_: i64,
+        that: *mut wire_cst_bolt_11_payment,
+        invoice: *mut wire_cst_bolt_11_invoice,
+        amount_msat: u64,
+    ) {
+        wire__ldk_adapter__bolt11__bolt_11_payment_send_probes_using_amount_impl(
+            port_,
+            that,
+            invoice,
+            amount_msat,
+        )
+    }
+
+    #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_ldk_node_wire__ldk_adapter__bolt11__bolt_11_payment_send_using_amount(
+        port_: i64,
+        that: *mut wire_cst_bolt_11_payment,
+        invoice: *mut wire_cst_bolt_11_invoice,
+        amount_msat: u64,
+        sending_parameters: *mut wire_cst_sending_parameters,
+    ) {
+        wire__ldk_adapter__bolt11__bolt_11_payment_send_using_amount_impl(
+            port_,
+            that,
+            invoice,
+            amount_msat,
+            sending_parameters,
+        )
+    }
+
+    #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_ldk_node_wire__ldk_adapter__bolt12__bolt_12_payment_initiate_refund(
+        port_: i64,
+        that: *mut wire_cst_bolt_12_payment,
+        amount_msat: u64,
+        expiry_secs: u32,
+        quantity: *mut u64,
+        payer_note: *mut wire_cst_list_prim_u_8_strict,
+    ) {
+        wire__ldk_adapter__bolt12__bolt_12_payment_initiate_refund_impl(
+            port_,
+            that,
+            amount_msat,
+            expiry_secs,
+            quantity,
+            payer_note,
+        )
+    }
+
+    #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_ldk_node_wire__ldk_adapter__bolt12__bolt_12_payment_receive(
+        port_: i64,
+        that: *mut wire_cst_bolt_12_payment,
+        amount_msat: u64,
+        description: *mut wire_cst_list_prim_u_8_strict,
+        expiry_secs: *mut u32,
+        quantity: *mut u64,
+    ) {
+        wire__ldk_adapter__bolt12__bolt_12_payment_receive_impl(
+            port_,
+            that,
+            amount_msat,
+            description,
+            expiry_secs,
+            quantity,
+        )
+    }
+
+    #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_ldk_node_wire__ldk_adapter__bolt12__bolt_12_payment_receive_variable_amount(
+        port_: i64,
+        that: *mut wire_cst_bolt_12_payment,
+        description: *mut wire_cst_list_prim_u_8_strict,
+        expiry_secs: *mut u32,
+    ) {
+        wire__ldk_adapter__bolt12__bolt_12_payment_receive_variable_amount_impl(
+            port_,
+            that,
+            description,
+            expiry_secs,
+        )
+    }
+
+    #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_ldk_node_wire__ldk_adapter__bolt12__bolt_12_payment_request_refund_payment(
+        port_: i64,
+        that: *mut wire_cst_bolt_12_payment,
+        refund: *mut wire_cst_refund,
+    ) {
+        wire__ldk_adapter__bolt12__bolt_12_payment_request_refund_payment_impl(port_, that, refund)
+    }
+
+    #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_ldk_node_wire__ldk_adapter__bolt12__bolt_12_payment_send(
+        port_: i64,
+        that: *mut wire_cst_bolt_12_payment,
+        offer: *mut wire_cst_offer,
+        quantity: *mut u64,
+        payer_note: *mut wire_cst_list_prim_u_8_strict,
+    ) {
+        wire__ldk_adapter__bolt12__bolt_12_payment_send_impl(
+            port_, that, offer, quantity, payer_note,
+        )
+    }
+
+    #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_ldk_node_wire__ldk_adapter__bolt12__bolt_12_payment_send_using_amount(
+        port_: i64,
+        that: *mut wire_cst_bolt_12_payment,
+        offer: *mut wire_cst_offer,
+        amount_msat: u64,
+        quantity: *mut u64,
+        payer_note: *mut wire_cst_list_prim_u_8_strict,
+    ) {
+        wire__ldk_adapter__bolt12__bolt_12_payment_send_using_amount_impl(
+            port_,
+            that,
+            offer,
+            amount_msat,
+            quantity,
+            payer_note,
+        )
     }
 
     #[unsafe(no_mangle)]
@@ -19134,6 +19407,14 @@ field2: core::ptr::null_mut(), }
     }
 
     #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_ldk_node_wire__shared__mnemonic_from_seed_phrase(
+        port_: i64,
+        seed_phrase: *mut wire_cst_list_prim_u_8_strict,
+    ) {
+        wire__shared__mnemonic_from_seed_phrase_impl(port_, seed_phrase)
+    }
+
+    #[unsafe(no_mangle)]
     pub extern "C" fn frbgen_ldk_node_wire__shared__mnemonic_generate(port_: i64) {
         wire__shared__mnemonic_generate_impl(port_)
     }
@@ -19145,6 +19426,372 @@ field2: core::ptr::null_mut(), }
         passphrase: *mut wire_cst_list_prim_u_8_strict,
     ) {
         wire__shared__mnemonic_to_seed_impl(port_, that, passphrase)
+    }
+
+    #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_ldk_node_wire__ldk_adapter__graph__network_graph_channel(
+        port_: i64,
+        that: *mut wire_cst_network_graph,
+        short_channel_id: u64,
+    ) {
+        wire__ldk_adapter__graph__network_graph_channel_impl(port_, that, short_channel_id)
+    }
+
+    #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_ldk_node_wire__ldk_adapter__graph__network_graph_list_channels(
+        port_: i64,
+        that: *mut wire_cst_network_graph,
+    ) {
+        wire__ldk_adapter__graph__network_graph_list_channels_impl(port_, that)
+    }
+
+    #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_ldk_node_wire__ldk_adapter__graph__network_graph_list_nodes(
+        port_: i64,
+        that: *mut wire_cst_network_graph,
+    ) {
+        wire__ldk_adapter__graph__network_graph_list_nodes_impl(port_, that)
+    }
+
+    #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_ldk_node_wire__ldk_adapter__graph__network_graph_node(
+        port_: i64,
+        that: *mut wire_cst_network_graph,
+        node_id: *mut wire_cst_node_id,
+    ) {
+        wire__ldk_adapter__graph__network_graph_node_impl(port_, that, node_id)
+    }
+
+    #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_ldk_node_wire__ldk_adapter__node__node_bolt11_payment(
+        port_: i64,
+        that: *mut wire_cst_node,
+    ) {
+        wire__ldk_adapter__node__node_bolt11_payment_impl(port_, that)
+    }
+
+    #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_ldk_node_wire__ldk_adapter__node__node_bolt12_payment(
+        port_: i64,
+        that: *mut wire_cst_node,
+    ) {
+        wire__ldk_adapter__node__node_bolt12_payment_impl(port_, that)
+    }
+
+    #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_ldk_node_wire__ldk_adapter__node__node_close_channel(
+        port_: i64,
+        that: *mut wire_cst_node,
+        user_channel_id: *mut wire_cst_user_channel_id,
+        counterparty_node_id: *mut wire_cst_public_key,
+    ) {
+        wire__ldk_adapter__node__node_close_channel_impl(
+            port_,
+            that,
+            user_channel_id,
+            counterparty_node_id,
+        )
+    }
+
+    #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_ldk_node_wire__ldk_adapter__node__node_config(
+        port_: i64,
+        that: *mut wire_cst_node,
+    ) {
+        wire__ldk_adapter__node__node_config_impl(port_, that)
+    }
+
+    #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_ldk_node_wire__ldk_adapter__node__node_connect(
+        port_: i64,
+        that: *mut wire_cst_node,
+        node_id: *mut wire_cst_public_key,
+        address: *mut wire_cst_socket_address,
+        persist: bool,
+    ) {
+        wire__ldk_adapter__node__node_connect_impl(port_, that, node_id, address, persist)
+    }
+
+    #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_ldk_node_wire__ldk_adapter__node__node_disconnect(
+        port_: i64,
+        that: *mut wire_cst_node,
+        counterparty_node_id: *mut wire_cst_public_key,
+    ) {
+        wire__ldk_adapter__node__node_disconnect_impl(port_, that, counterparty_node_id)
+    }
+
+    #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_ldk_node_wire__ldk_adapter__node__node_event_handled(
+        port_: i64,
+        that: *mut wire_cst_node,
+    ) {
+        wire__ldk_adapter__node__node_event_handled_impl(port_, that)
+    }
+
+    #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_ldk_node_wire__ldk_adapter__node__node_export_pathfinding_scores(
+        port_: i64,
+        that: *mut wire_cst_node,
+    ) {
+        wire__ldk_adapter__node__node_export_pathfinding_scores_impl(port_, that)
+    }
+
+    #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_ldk_node_wire__ldk_adapter__node__node_force_close_channel(
+        port_: i64,
+        that: *mut wire_cst_node,
+        user_channel_id: *mut wire_cst_user_channel_id,
+        counterparty_node_id: *mut wire_cst_public_key,
+    ) {
+        wire__ldk_adapter__node__node_force_close_channel_impl(
+            port_,
+            that,
+            user_channel_id,
+            counterparty_node_id,
+        )
+    }
+
+    #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_ldk_node_wire__ldk_adapter__node__node_list_balances(
+        port_: i64,
+        that: *mut wire_cst_node,
+    ) {
+        wire__ldk_adapter__node__node_list_balances_impl(port_, that)
+    }
+
+    #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_ldk_node_wire__ldk_adapter__node__node_list_channels(
+        port_: i64,
+        that: *mut wire_cst_node,
+    ) {
+        wire__ldk_adapter__node__node_list_channels_impl(port_, that)
+    }
+
+    #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_ldk_node_wire__ldk_adapter__node__node_list_payments(
+        port_: i64,
+        that: *mut wire_cst_node,
+    ) {
+        wire__ldk_adapter__node__node_list_payments_impl(port_, that)
+    }
+
+    #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_ldk_node_wire__ldk_adapter__node__node_list_payments_with_filter(
+        port_: i64,
+        that: *mut wire_cst_node,
+        payment_direction: i32,
+    ) {
+        wire__ldk_adapter__node__node_list_payments_with_filter_impl(port_, that, payment_direction)
+    }
+
+    #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_ldk_node_wire__ldk_adapter__node__node_list_peers(
+        port_: i64,
+        that: *mut wire_cst_node,
+    ) {
+        wire__ldk_adapter__node__node_list_peers_impl(port_, that)
+    }
+
+    #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_ldk_node_wire__ldk_adapter__node__node_listening_addresses(
+        port_: i64,
+        that: *mut wire_cst_node,
+    ) {
+        wire__ldk_adapter__node__node_listening_addresses_impl(port_, that)
+    }
+
+    #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_ldk_node_wire__ldk_adapter__node__node_network_graph(
+        port_: i64,
+        that: *mut wire_cst_node,
+    ) {
+        wire__ldk_adapter__node__node_network_graph_impl(port_, that)
+    }
+
+    #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_ldk_node_wire__ldk_adapter__node__node_next_event(
+        port_: i64,
+        that: *mut wire_cst_node,
+    ) {
+        wire__ldk_adapter__node__node_next_event_impl(port_, that)
+    }
+
+    #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_ldk_node_wire__ldk_adapter__node__node_next_event_async(
+        port_: i64,
+        that: *mut wire_cst_node,
+    ) {
+        wire__ldk_adapter__node__node_next_event_async_impl(port_, that)
+    }
+
+    #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_ldk_node_wire__ldk_adapter__node__node_node_id(
+        port_: i64,
+        that: *mut wire_cst_node,
+    ) {
+        wire__ldk_adapter__node__node_node_id_impl(port_, that)
+    }
+
+    #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_ldk_node_wire__ldk_adapter__node__node_on_chain_payment(
+        port_: i64,
+        that: *mut wire_cst_node,
+    ) {
+        wire__ldk_adapter__node__node_on_chain_payment_impl(port_, that)
+    }
+
+    #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_ldk_node_wire__ldk_adapter__node__node_open_announced_channel(
+        port_: i64,
+        that: *mut wire_cst_node,
+        socket_address: *mut wire_cst_socket_address,
+        node_id: *mut wire_cst_public_key,
+        channel_amount_sats: u64,
+        push_to_counterparty_msat: *mut u64,
+        channel_config: *mut usize,
+    ) {
+        wire__ldk_adapter__node__node_open_announced_channel_impl(
+            port_,
+            that,
+            socket_address,
+            node_id,
+            channel_amount_sats,
+            push_to_counterparty_msat,
+            channel_config,
+        )
+    }
+
+    #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_ldk_node_wire__ldk_adapter__node__node_open_channel(
+        port_: i64,
+        that: *mut wire_cst_node,
+        socket_address: *mut wire_cst_socket_address,
+        node_id: *mut wire_cst_public_key,
+        channel_amount_sats: u64,
+        push_to_counterparty_msat: *mut u64,
+        channel_config: *mut usize,
+    ) {
+        wire__ldk_adapter__node__node_open_channel_impl(
+            port_,
+            that,
+            socket_address,
+            node_id,
+            channel_amount_sats,
+            push_to_counterparty_msat,
+            channel_config,
+        )
+    }
+
+    #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_ldk_node_wire__ldk_adapter__node__node_payment(
+        port_: i64,
+        that: *mut wire_cst_node,
+        payment_id: *mut wire_cst_payment_id,
+    ) {
+        wire__ldk_adapter__node__node_payment_impl(port_, that, payment_id)
+    }
+
+    #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_ldk_node_wire__ldk_adapter__node__node_remove_payment(
+        port_: i64,
+        that: *mut wire_cst_node,
+        payment_id: *mut wire_cst_payment_id,
+    ) {
+        wire__ldk_adapter__node__node_remove_payment_impl(port_, that, payment_id)
+    }
+
+    #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_ldk_node_wire__ldk_adapter__node__node_sign_message(
+        port_: i64,
+        that: *mut wire_cst_node,
+        msg: *mut wire_cst_list_prim_u_8_loose,
+    ) {
+        wire__ldk_adapter__node__node_sign_message_impl(port_, that, msg)
+    }
+
+    #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_ldk_node_wire__ldk_adapter__node__node_spontaneous_payment(
+        port_: i64,
+        that: *mut wire_cst_node,
+    ) {
+        wire__ldk_adapter__node__node_spontaneous_payment_impl(port_, that)
+    }
+
+    #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_ldk_node_wire__ldk_adapter__node__node_start(
+        port_: i64,
+        that: *mut wire_cst_node,
+    ) {
+        wire__ldk_adapter__node__node_start_impl(port_, that)
+    }
+
+    #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_ldk_node_wire__ldk_adapter__node__node_status(
+        port_: i64,
+        that: *mut wire_cst_node,
+    ) {
+        wire__ldk_adapter__node__node_status_impl(port_, that)
+    }
+
+    #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_ldk_node_wire__ldk_adapter__node__node_stop(
+        port_: i64,
+        that: *mut wire_cst_node,
+    ) {
+        wire__ldk_adapter__node__node_stop_impl(port_, that)
+    }
+
+    #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_ldk_node_wire__ldk_adapter__node__node_sync_wallets(
+        port_: i64,
+        that: *mut wire_cst_node,
+    ) {
+        wire__ldk_adapter__node__node_sync_wallets_impl(port_, that)
+    }
+
+    #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_ldk_node_wire__ldk_adapter__node__node_unified_qr_payment(
+        port_: i64,
+        that: *mut wire_cst_node,
+    ) {
+        wire__ldk_adapter__node__node_unified_qr_payment_impl(port_, that)
+    }
+
+    #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_ldk_node_wire__ldk_adapter__node__node_update_channel_config(
+        port_: i64,
+        that: *mut wire_cst_node,
+        user_channel_id: *mut wire_cst_user_channel_id,
+        counterparty_node_id: *mut wire_cst_public_key,
+        channel_config: usize,
+    ) {
+        wire__ldk_adapter__node__node_update_channel_config_impl(
+            port_,
+            that,
+            user_channel_id,
+            counterparty_node_id,
+            channel_config,
+        )
+    }
+
+    #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_ldk_node_wire__ldk_adapter__node__node_verify_signature(
+        port_: i64,
+        that: *mut wire_cst_node,
+        msg: *mut wire_cst_list_prim_u_8_loose,
+        sig: *mut wire_cst_list_prim_u_8_strict,
+        public_key: *mut wire_cst_public_key,
+    ) {
+        wire__ldk_adapter__node__node_verify_signature_impl(port_, that, msg, sig, public_key)
+    }
+
+    #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_ldk_node_wire__ldk_adapter__node__node_wait_next_event(
+        port_: i64,
+        that: *mut wire_cst_node,
+    ) {
+        wire__ldk_adapter__node__node_wait_next_event_impl(port_, that)
     }
 
     #[unsafe(no_mangle)]
@@ -19172,6 +19819,81 @@ field2: core::ptr::null_mut(), }
     }
 
     #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_ldk_node_wire__ldk_adapter__types__payment_details_is_failed(
+        port_: i64,
+        that: *mut wire_cst_payment_details,
+    ) {
+        wire__ldk_adapter__types__payment_details_is_failed_impl(port_, that)
+    }
+
+    #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_ldk_node_wire__ldk_adapter__types__payment_details_is_pending(
+        port_: i64,
+        that: *mut wire_cst_payment_details,
+    ) {
+        wire__ldk_adapter__types__payment_details_is_pending_impl(port_, that)
+    }
+
+    #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_ldk_node_wire__ldk_adapter__types__payment_details_is_succeeded(
+        port_: i64,
+        that: *mut wire_cst_payment_details,
+    ) {
+        wire__ldk_adapter__types__payment_details_is_succeeded_impl(port_, that)
+    }
+
+    #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_ldk_node_wire__ldk_adapter__types__payment_details_new(
+        port_: i64,
+        id: *mut wire_cst_payment_id,
+        kind: *mut wire_cst_payment_kind,
+        amount_msat: *mut u64,
+        direction: i32,
+        status: i32,
+        latest_update_timestamp: u64,
+    ) {
+        wire__ldk_adapter__types__payment_details_new_impl(
+            port_,
+            id,
+            kind,
+            amount_msat,
+            direction,
+            status,
+            latest_update_timestamp,
+        )
+    }
+
+    #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_ldk_node_wire__ldk_adapter__types__payment_details_new_inbound_pending(
+        port_: i64,
+        id: *mut wire_cst_payment_id,
+        kind: *mut wire_cst_payment_kind,
+        amount_msat: *mut u64,
+    ) {
+        wire__ldk_adapter__types__payment_details_new_inbound_pending_impl(
+            port_,
+            id,
+            kind,
+            amount_msat,
+        )
+    }
+
+    #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_ldk_node_wire__ldk_adapter__types__payment_details_new_outbound_pending(
+        port_: i64,
+        id: *mut wire_cst_payment_id,
+        kind: *mut wire_cst_payment_kind,
+        amount_msat: *mut u64,
+    ) {
+        wire__ldk_adapter__types__payment_details_new_outbound_pending_impl(
+            port_,
+            id,
+            kind,
+            amount_msat,
+        )
+    }
+
+    #[unsafe(no_mangle)]
     pub extern "C" fn frbgen_ldk_node_wire__ldk_adapter__types__payment_secret_as_bytes(
         port_: i64,
         that: *mut wire_cst_payment_secret,
@@ -19196,6 +19918,50 @@ field2: core::ptr::null_mut(), }
     }
 
     #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_ldk_node_wire__ldk_adapter__types__peer_details_is_offline(
+        port_: i64,
+        that: *mut wire_cst_peer_details,
+    ) {
+        wire__ldk_adapter__types__peer_details_is_offline_impl(port_, that)
+    }
+
+    #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_ldk_node_wire__ldk_adapter__types__peer_details_is_online(
+        port_: i64,
+        that: *mut wire_cst_peer_details,
+    ) {
+        wire__ldk_adapter__types__peer_details_is_online_impl(port_, that)
+    }
+
+    #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_ldk_node_wire__ldk_adapter__types__peer_details_new(
+        port_: i64,
+        node_id: *mut wire_cst_public_key,
+        address: *mut wire_cst_socket_address,
+        is_connected: bool,
+    ) {
+        wire__ldk_adapter__types__peer_details_new_impl(port_, node_id, address, is_connected)
+    }
+
+    #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_ldk_node_wire__ldk_adapter__types__peer_details_new_connected(
+        port_: i64,
+        node_id: *mut wire_cst_public_key,
+        address: *mut wire_cst_socket_address,
+    ) {
+        wire__ldk_adapter__types__peer_details_new_connected_impl(port_, node_id, address)
+    }
+
+    #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_ldk_node_wire__ldk_adapter__types__peer_details_new_disconnected(
+        port_: i64,
+        node_id: *mut wire_cst_public_key,
+        address: *mut wire_cst_socket_address,
+    ) {
+        wire__ldk_adapter__types__peer_details_new_disconnected_impl(port_, node_id, address)
+    }
+
+    #[unsafe(no_mangle)]
     pub extern "C" fn frbgen_ldk_node_wire__shared__psbt_extract_tx(
         port_: i64,
         that: *mut wire_cst_psbt,
@@ -19214,6 +19980,83 @@ field2: core::ptr::null_mut(), }
         base64: *mut wire_cst_list_prim_u_8_strict,
     ) {
         wire__shared__psbt_from_base64_impl(port_, base64)
+    }
+
+    #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_ldk_node_wire__ldk_adapter__spontaneous__spontaneous_payment_send_probes_unsafe(
+        port_: i64,
+        that: *mut wire_cst_spontaneous_payment,
+        amount_msat: u64,
+        node_id: *mut wire_cst_public_key,
+    ) {
+        wire__ldk_adapter__spontaneous__spontaneous_payment_send_probes_unsafe_impl(
+            port_,
+            that,
+            amount_msat,
+            node_id,
+        )
+    }
+
+    #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_ldk_node_wire__ldk_adapter__spontaneous__spontaneous_payment_send_unsafe(
+        port_: i64,
+        that: *mut wire_cst_spontaneous_payment,
+        amount_msat: u64,
+        node_id: *mut wire_cst_public_key,
+        sending_parameters: *mut wire_cst_sending_parameters,
+    ) {
+        wire__ldk_adapter__spontaneous__spontaneous_payment_send_unsafe_impl(
+            port_,
+            that,
+            amount_msat,
+            node_id,
+            sending_parameters,
+        )
+    }
+
+    #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_ldk_node_wire__ldk_adapter__spontaneous__spontaneous_payment_send_with_custom_tlvs_unsafe(
+        port_: i64,
+        that: *mut wire_cst_spontaneous_payment,
+        amount_msat: u64,
+        node_id: *mut wire_cst_public_key,
+        sending_parameters: *mut wire_cst_sending_parameters,
+        custom_tlvs: *mut wire_cst_list_custom_tlv_record,
+    ) {
+        wire__ldk_adapter__spontaneous__spontaneous_payment_send_with_custom_tlvs_unsafe_impl(
+            port_,
+            that,
+            amount_msat,
+            node_id,
+            sending_parameters,
+            custom_tlvs,
+        )
+    }
+
+    #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_ldk_node_wire__ldk_adapter__unified_qr__unified_qr_payment_receive(
+        port_: i64,
+        that: *mut wire_cst_unified_qr_payment,
+        amount_sats: u64,
+        message: *mut wire_cst_list_prim_u_8_strict,
+        expiry_sec: u32,
+    ) {
+        wire__ldk_adapter__unified_qr__unified_qr_payment_receive_impl(
+            port_,
+            that,
+            amount_sats,
+            message,
+            expiry_sec,
+        )
+    }
+
+    #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_ldk_node_wire__ldk_adapter__unified_qr__unified_qr_payment_send(
+        port_: i64,
+        that: *mut wire_cst_unified_qr_payment,
+        uri_str: *mut wire_cst_list_prim_u_8_strict,
+    ) {
+        wire__ldk_adapter__unified_qr__unified_qr_payment_send_impl(port_, that, uri_str)
     }
 
     #[unsafe(no_mangle)]
@@ -19343,56 +20186,20 @@ field2: core::ptr::null_mut(), }
     }
 
     #[unsafe(no_mangle)]
-    pub extern "C" fn frbgen_ldk_node_rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerBolt11Payment(
+    pub extern "C" fn frbgen_ldk_node_rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerBuilder(
         ptr: *const std::ffi::c_void,
     ) {
         unsafe {
-            StdArc::<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<Bolt11Payment>>::increment_strong_count(ptr as _);
+            StdArc::<flutter_rust_bridge::for_generated::RustAutoOpaqueInner< Builder>>::increment_strong_count(ptr as _);
         }
     }
 
     #[unsafe(no_mangle)]
-    pub extern "C" fn frbgen_ldk_node_rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerBolt11Payment(
+    pub extern "C" fn frbgen_ldk_node_rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerBuilder(
         ptr: *const std::ffi::c_void,
     ) {
         unsafe {
-            StdArc::<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<Bolt11Payment>>::decrement_strong_count(ptr as _);
-        }
-    }
-
-    #[unsafe(no_mangle)]
-    pub extern "C" fn frbgen_ldk_node_rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerBolt12Payment(
-        ptr: *const std::ffi::c_void,
-    ) {
-        unsafe {
-            StdArc::<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<Bolt12Payment>>::increment_strong_count(ptr as _);
-        }
-    }
-
-    #[unsafe(no_mangle)]
-    pub extern "C" fn frbgen_ldk_node_rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerBolt12Payment(
-        ptr: *const std::ffi::c_void,
-    ) {
-        unsafe {
-            StdArc::<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<Bolt12Payment>>::decrement_strong_count(ptr as _);
-        }
-    }
-
-    #[unsafe(no_mangle)]
-    pub extern "C" fn frbgen_ldk_node_rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerChainDataSourceConfig(
-        ptr: *const std::ffi::c_void,
-    ) {
-        unsafe {
-            StdArc::<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<ChainDataSourceConfig>>::increment_strong_count(ptr as _);
-        }
-    }
-
-    #[unsafe(no_mangle)]
-    pub extern "C" fn frbgen_ldk_node_rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerChainDataSourceConfig(
-        ptr: *const std::ffi::c_void,
-    ) {
-        unsafe {
-            StdArc::<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<ChainDataSourceConfig>>::decrement_strong_count(ptr as _);
+            StdArc::<flutter_rust_bridge::for_generated::RustAutoOpaqueInner< Builder>>::decrement_strong_count(ptr as _);
         }
     }
 
@@ -19433,56 +20240,20 @@ field2: core::ptr::null_mut(), }
     }
 
     #[unsafe(no_mangle)]
-    pub extern "C" fn frbgen_ldk_node_rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerEntropySourceConfig(
+    pub extern "C" fn frbgen_ldk_node_rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerConfirmationStatus(
         ptr: *const std::ffi::c_void,
     ) {
         unsafe {
-            StdArc::<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<EntropySourceConfig>>::increment_strong_count(ptr as _);
+            StdArc::<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<ConfirmationStatus>>::increment_strong_count(ptr as _);
         }
     }
 
     #[unsafe(no_mangle)]
-    pub extern "C" fn frbgen_ldk_node_rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerEntropySourceConfig(
+    pub extern "C" fn frbgen_ldk_node_rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerConfirmationStatus(
         ptr: *const std::ffi::c_void,
     ) {
         unsafe {
-            StdArc::<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<EntropySourceConfig>>::decrement_strong_count(ptr as _);
-        }
-    }
-
-    #[unsafe(no_mangle)]
-    pub extern "C" fn frbgen_ldk_node_rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerEvent(
-        ptr: *const std::ffi::c_void,
-    ) {
-        unsafe {
-            StdArc::<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<Event>>::increment_strong_count(ptr as _);
-        }
-    }
-
-    #[unsafe(no_mangle)]
-    pub extern "C" fn frbgen_ldk_node_rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerEvent(
-        ptr: *const std::ffi::c_void,
-    ) {
-        unsafe {
-            StdArc::<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<Event>>::decrement_strong_count(ptr as _);
-        }
-    }
-
-    #[unsafe(no_mangle)]
-    pub extern "C" fn frbgen_ldk_node_rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerGossipSourceConfig(
-        ptr: *const std::ffi::c_void,
-    ) {
-        unsafe {
-            StdArc::<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<GossipSourceConfig>>::increment_strong_count(ptr as _);
-        }
-    }
-
-    #[unsafe(no_mangle)]
-    pub extern "C" fn frbgen_ldk_node_rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerGossipSourceConfig(
-        ptr: *const std::ffi::c_void,
-    ) {
-        unsafe {
-            StdArc::<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<GossipSourceConfig>>::decrement_strong_count(ptr as _);
+            StdArc::<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<ConfirmationStatus>>::decrement_strong_count(ptr as _);
         }
     }
 
@@ -19505,24 +20276,6 @@ field2: core::ptr::null_mut(), }
     }
 
     #[unsafe(no_mangle)]
-    pub extern "C" fn frbgen_ldk_node_rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerLightningBalance(
-        ptr: *const std::ffi::c_void,
-    ) {
-        unsafe {
-            StdArc::<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<LightningBalance>>::increment_strong_count(ptr as _);
-        }
-    }
-
-    #[unsafe(no_mangle)]
-    pub extern "C" fn frbgen_ldk_node_rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerLightningBalance(
-        ptr: *const std::ffi::c_void,
-    ) {
-        unsafe {
-            StdArc::<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<LightningBalance>>::decrement_strong_count(ptr as _);
-        }
-    }
-
-    #[unsafe(no_mangle)]
     pub extern "C" fn frbgen_ldk_node_rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerMaxDustHTLCExposure(
         ptr: *const std::ffi::c_void,
     ) {
@@ -19537,42 +20290,6 @@ field2: core::ptr::null_mut(), }
     ) {
         unsafe {
             StdArc::<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<MaxDustHTLCExposure>>::decrement_strong_count(ptr as _);
-        }
-    }
-
-    #[unsafe(no_mangle)]
-    pub extern "C" fn frbgen_ldk_node_rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerNetworkGraph(
-        ptr: *const std::ffi::c_void,
-    ) {
-        unsafe {
-            StdArc::<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<NetworkGraph>>::increment_strong_count(ptr as _);
-        }
-    }
-
-    #[unsafe(no_mangle)]
-    pub extern "C" fn frbgen_ldk_node_rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerNetworkGraph(
-        ptr: *const std::ffi::c_void,
-    ) {
-        unsafe {
-            StdArc::<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<NetworkGraph>>::decrement_strong_count(ptr as _);
-        }
-    }
-
-    #[unsafe(no_mangle)]
-    pub extern "C" fn frbgen_ldk_node_rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerNode(
-        ptr: *const std::ffi::c_void,
-    ) {
-        unsafe {
-            StdArc::<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<Node>>::increment_strong_count(ptr as _);
-        }
-    }
-
-    #[unsafe(no_mangle)]
-    pub extern "C" fn frbgen_ldk_node_rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerNode(
-        ptr: *const std::ffi::c_void,
-    ) {
-        unsafe {
-            StdArc::<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<Node>>::decrement_strong_count(ptr as _);
         }
     }
 
@@ -19595,74 +20312,20 @@ field2: core::ptr::null_mut(), }
     }
 
     #[unsafe(no_mangle)]
-    pub extern "C" fn frbgen_ldk_node_rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPaymentDetails(
+    pub extern "C" fn frbgen_ldk_node_rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerOnchainPayment(
         ptr: *const std::ffi::c_void,
     ) {
         unsafe {
-            StdArc::<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<PaymentDetails>>::increment_strong_count(ptr as _);
+            StdArc::<flutter_rust_bridge::for_generated::RustAutoOpaqueInner< OnchainPayment>>::increment_strong_count(ptr as _);
         }
     }
 
     #[unsafe(no_mangle)]
-    pub extern "C" fn frbgen_ldk_node_rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPaymentDetails(
+    pub extern "C" fn frbgen_ldk_node_rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerOnchainPayment(
         ptr: *const std::ffi::c_void,
     ) {
         unsafe {
-            StdArc::<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<PaymentDetails>>::decrement_strong_count(ptr as _);
-        }
-    }
-
-    #[unsafe(no_mangle)]
-    pub extern "C" fn frbgen_ldk_node_rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPaymentKind(
-        ptr: *const std::ffi::c_void,
-    ) {
-        unsafe {
-            StdArc::<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<PaymentKind>>::increment_strong_count(ptr as _);
-        }
-    }
-
-    #[unsafe(no_mangle)]
-    pub extern "C" fn frbgen_ldk_node_rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPaymentKind(
-        ptr: *const std::ffi::c_void,
-    ) {
-        unsafe {
-            StdArc::<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<PaymentKind>>::decrement_strong_count(ptr as _);
-        }
-    }
-
-    #[unsafe(no_mangle)]
-    pub extern "C" fn frbgen_ldk_node_rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPeerDetails(
-        ptr: *const std::ffi::c_void,
-    ) {
-        unsafe {
-            StdArc::<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<PeerDetails>>::increment_strong_count(ptr as _);
-        }
-    }
-
-    #[unsafe(no_mangle)]
-    pub extern "C" fn frbgen_ldk_node_rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPeerDetails(
-        ptr: *const std::ffi::c_void,
-    ) {
-        unsafe {
-            StdArc::<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<PeerDetails>>::decrement_strong_count(ptr as _);
-        }
-    }
-
-    #[unsafe(no_mangle)]
-    pub extern "C" fn frbgen_ldk_node_rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPendingSweepBalance(
-        ptr: *const std::ffi::c_void,
-    ) {
-        unsafe {
-            StdArc::<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<PendingSweepBalance>>::increment_strong_count(ptr as _);
-        }
-    }
-
-    #[unsafe(no_mangle)]
-    pub extern "C" fn frbgen_ldk_node_rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPendingSweepBalance(
-        ptr: *const std::ffi::c_void,
-    ) {
-        unsafe {
-            StdArc::<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<PendingSweepBalance>>::decrement_strong_count(ptr as _);
+            StdArc::<flutter_rust_bridge::for_generated::RustAutoOpaqueInner< OnchainPayment>>::decrement_strong_count(ptr as _);
         }
     }
 
@@ -19681,42 +20344,6 @@ field2: core::ptr::null_mut(), }
     ) {
         unsafe {
             StdArc::<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<QrPaymentResult>>::decrement_strong_count(ptr as _);
-        }
-    }
-
-    #[unsafe(no_mangle)]
-    pub extern "C" fn frbgen_ldk_node_rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSocketAddress(
-        ptr: *const std::ffi::c_void,
-    ) {
-        unsafe {
-            StdArc::<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<SocketAddress>>::increment_strong_count(ptr as _);
-        }
-    }
-
-    #[unsafe(no_mangle)]
-    pub extern "C" fn frbgen_ldk_node_rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSocketAddress(
-        ptr: *const std::ffi::c_void,
-    ) {
-        unsafe {
-            StdArc::<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<SocketAddress>>::decrement_strong_count(ptr as _);
-        }
-    }
-
-    #[unsafe(no_mangle)]
-    pub extern "C" fn frbgen_ldk_node_rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSpontaneousPayment(
-        ptr: *const std::ffi::c_void,
-    ) {
-        unsafe {
-            StdArc::<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<SpontaneousPayment>>::increment_strong_count(ptr as _);
-        }
-    }
-
-    #[unsafe(no_mangle)]
-    pub extern "C" fn frbgen_ldk_node_rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSpontaneousPayment(
-        ptr: *const std::ffi::c_void,
-    ) {
-        unsafe {
-            StdArc::<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<SpontaneousPayment>>::decrement_strong_count(ptr as _);
         }
     }
 
@@ -19775,32 +20402,7 @@ field2: core::ptr::null_mut(), }
     }
 
     #[unsafe(no_mangle)]
-    pub extern "C" fn frbgen_ldk_node_rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerUnifiedQrPayment(
-        ptr: *const std::ffi::c_void,
-    ) {
-        unsafe {
-            StdArc::<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<UnifiedQrPayment>>::increment_strong_count(ptr as _);
-        }
-    }
-
-    #[unsafe(no_mangle)]
-    pub extern "C" fn frbgen_ldk_node_rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerUnifiedQrPayment(
-        ptr: *const std::ffi::c_void,
-    ) {
-        unsafe {
-            StdArc::<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<UnifiedQrPayment>>::decrement_strong_count(ptr as _);
-        }
-    }
-
-    #[unsafe(no_mangle)]
     pub extern "C" fn frbgen_ldk_node_cst_new_box_autoadd_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerAnchorChannelsConfig(
-        value: usize,
-    ) -> *mut usize {
-        flutter_rust_bridge::for_generated::new_leak_box_ptr(value)
-    }
-
-    #[unsafe(no_mangle)]
-    pub extern "C" fn frbgen_ldk_node_cst_new_box_autoadd_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerChainDataSourceConfig(
         value: usize,
     ) -> *mut usize {
         flutter_rust_bridge::for_generated::new_leak_box_ptr(value)
@@ -19814,31 +20416,11 @@ field2: core::ptr::null_mut(), }
     }
 
     #[unsafe(no_mangle)]
-    pub extern "C" fn frbgen_ldk_node_cst_new_box_autoadd_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerEntropySourceConfig(
-        value: usize,
-    ) -> *mut usize {
-        flutter_rust_bridge::for_generated::new_leak_box_ptr(value)
-    }
-
-    #[unsafe(no_mangle)]
-    pub extern "C" fn frbgen_ldk_node_cst_new_box_autoadd_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerEvent(
-        value: usize,
-    ) -> *mut usize {
-        flutter_rust_bridge::for_generated::new_leak_box_ptr(value)
-    }
-
-    #[unsafe(no_mangle)]
-    pub extern "C" fn frbgen_ldk_node_cst_new_box_autoadd_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerGossipSourceConfig(
-        value: usize,
-    ) -> *mut usize {
-        flutter_rust_bridge::for_generated::new_leak_box_ptr(value)
-    }
-
-    #[unsafe(no_mangle)]
-    pub extern "C" fn frbgen_ldk_node_cst_new_box_autoadd_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPaymentDetails(
-        value: usize,
-    ) -> *mut usize {
-        flutter_rust_bridge::for_generated::new_leak_box_ptr(value)
+    pub extern "C" fn frbgen_ldk_node_cst_new_box_autoadd_background_sync_config(
+    ) -> *mut wire_cst_background_sync_config {
+        flutter_rust_bridge::for_generated::new_leak_box_ptr(
+            wire_cst_background_sync_config::new_with_null_ptr(),
+        )
     }
 
     #[unsafe(no_mangle)]
@@ -19846,6 +20428,35 @@ field2: core::ptr::null_mut(), }
     ) -> *mut wire_cst_bolt_11_invoice {
         flutter_rust_bridge::for_generated::new_leak_box_ptr(
             wire_cst_bolt_11_invoice::new_with_null_ptr(),
+        )
+    }
+
+    #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_ldk_node_cst_new_box_autoadd_bolt_11_payment(
+    ) -> *mut wire_cst_bolt_11_payment {
+        flutter_rust_bridge::for_generated::new_leak_box_ptr(
+            wire_cst_bolt_11_payment::new_with_null_ptr(),
+        )
+    }
+
+    #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_ldk_node_cst_new_box_autoadd_bolt_12_payment(
+    ) -> *mut wire_cst_bolt_12_payment {
+        flutter_rust_bridge::for_generated::new_leak_box_ptr(
+            wire_cst_bolt_12_payment::new_with_null_ptr(),
+        )
+    }
+
+    #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_ldk_node_cst_new_box_autoadd_bool(value: bool) -> *mut bool {
+        flutter_rust_bridge::for_generated::new_leak_box_ptr(value)
+    }
+
+    #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_ldk_node_cst_new_box_autoadd_chain_data_source_config(
+    ) -> *mut wire_cst_chain_data_source_config {
+        flutter_rust_bridge::for_generated::new_leak_box_ptr(
+            wire_cst_chain_data_source_config::new_with_null_ptr(),
         )
     }
 
@@ -19873,6 +20484,14 @@ field2: core::ptr::null_mut(), }
     }
 
     #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_ldk_node_cst_new_box_autoadd_closure_reason(
+    ) -> *mut wire_cst_closure_reason {
+        flutter_rust_bridge::for_generated::new_leak_box_ptr(
+            wire_cst_closure_reason::new_with_null_ptr(),
+        )
+    }
+
+    #[unsafe(no_mangle)]
     pub extern "C" fn frbgen_ldk_node_cst_new_box_autoadd_config() -> *mut wire_cst_config {
         flutter_rust_bridge::for_generated::new_leak_box_ptr(wire_cst_config::new_with_null_ptr())
     }
@@ -19886,10 +20505,47 @@ field2: core::ptr::null_mut(), }
     }
 
     #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_ldk_node_cst_new_box_autoadd_electrum_sync_config(
+    ) -> *mut wire_cst_electrum_sync_config {
+        flutter_rust_bridge::for_generated::new_leak_box_ptr(
+            wire_cst_electrum_sync_config::new_with_null_ptr(),
+        )
+    }
+
+    #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_ldk_node_cst_new_box_autoadd_entropy_source_config(
+    ) -> *mut wire_cst_entropy_source_config {
+        flutter_rust_bridge::for_generated::new_leak_box_ptr(
+            wire_cst_entropy_source_config::new_with_null_ptr(),
+        )
+    }
+
+    #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_ldk_node_cst_new_box_autoadd_esplora_sync_config(
+    ) -> *mut wire_cst_esplora_sync_config {
+        flutter_rust_bridge::for_generated::new_leak_box_ptr(
+            wire_cst_esplora_sync_config::new_with_null_ptr(),
+        )
+    }
+
+    #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_ldk_node_cst_new_box_autoadd_event() -> *mut wire_cst_event {
+        flutter_rust_bridge::for_generated::new_leak_box_ptr(wire_cst_event::new_with_null_ptr())
+    }
+
+    #[unsafe(no_mangle)]
     pub extern "C" fn frbgen_ldk_node_cst_new_box_autoadd_ffi_log_record(
     ) -> *mut wire_cst_ffi_log_record {
         flutter_rust_bridge::for_generated::new_leak_box_ptr(
             wire_cst_ffi_log_record::new_with_null_ptr(),
+        )
+    }
+
+    #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_ldk_node_cst_new_box_autoadd_gossip_source_config(
+    ) -> *mut wire_cst_gossip_source_config {
+        flutter_rust_bridge::for_generated::new_leak_box_ptr(
+            wire_cst_gossip_source_config::new_with_null_ptr(),
         )
     }
 
@@ -19907,8 +20563,29 @@ field2: core::ptr::null_mut(), }
     }
 
     #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_ldk_node_cst_new_box_autoadd_lsp_fee_limits(
+    ) -> *mut wire_cst_lsp_fee_limits {
+        flutter_rust_bridge::for_generated::new_leak_box_ptr(
+            wire_cst_lsp_fee_limits::new_with_null_ptr(),
+        )
+    }
+
+    #[unsafe(no_mangle)]
     pub extern "C" fn frbgen_ldk_node_cst_new_box_autoadd_mnemonic() -> *mut wire_cst_mnemonic {
         flutter_rust_bridge::for_generated::new_leak_box_ptr(wire_cst_mnemonic::new_with_null_ptr())
+    }
+
+    #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_ldk_node_cst_new_box_autoadd_network_graph(
+    ) -> *mut wire_cst_network_graph {
+        flutter_rust_bridge::for_generated::new_leak_box_ptr(
+            wire_cst_network_graph::new_with_null_ptr(),
+        )
+    }
+
+    #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_ldk_node_cst_new_box_autoadd_node() -> *mut wire_cst_node {
+        flutter_rust_bridge::for_generated::new_leak_box_ptr(wire_cst_node::new_with_null_ptr())
     }
 
     #[unsafe(no_mangle)]
@@ -19952,6 +20629,21 @@ field2: core::ptr::null_mut(), }
     }
 
     #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_ldk_node_cst_new_box_autoadd_payment_details(
+    ) -> *mut wire_cst_payment_details {
+        flutter_rust_bridge::for_generated::new_leak_box_ptr(
+            wire_cst_payment_details::new_with_null_ptr(),
+        )
+    }
+
+    #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_ldk_node_cst_new_box_autoadd_payment_failure_reason(
+        value: i32,
+    ) -> *mut i32 {
+        flutter_rust_bridge::for_generated::new_leak_box_ptr(value)
+    }
+
+    #[unsafe(no_mangle)]
     pub extern "C" fn frbgen_ldk_node_cst_new_box_autoadd_payment_hash(
     ) -> *mut wire_cst_payment_hash {
         flutter_rust_bridge::for_generated::new_leak_box_ptr(
@@ -19963,6 +20655,14 @@ field2: core::ptr::null_mut(), }
     pub extern "C" fn frbgen_ldk_node_cst_new_box_autoadd_payment_id() -> *mut wire_cst_payment_id {
         flutter_rust_bridge::for_generated::new_leak_box_ptr(
             wire_cst_payment_id::new_with_null_ptr(),
+        )
+    }
+
+    #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_ldk_node_cst_new_box_autoadd_payment_kind(
+    ) -> *mut wire_cst_payment_kind {
+        flutter_rust_bridge::for_generated::new_leak_box_ptr(
+            wire_cst_payment_kind::new_with_null_ptr(),
         )
     }
 
@@ -19983,6 +20683,14 @@ field2: core::ptr::null_mut(), }
     }
 
     #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_ldk_node_cst_new_box_autoadd_peer_details(
+    ) -> *mut wire_cst_peer_details {
+        flutter_rust_bridge::for_generated::new_leak_box_ptr(
+            wire_cst_peer_details::new_with_null_ptr(),
+        )
+    }
+
+    #[unsafe(no_mangle)]
     pub extern "C" fn frbgen_ldk_node_cst_new_box_autoadd_psbt() -> *mut wire_cst_psbt {
         flutter_rust_bridge::for_generated::new_leak_box_ptr(wire_cst_psbt::new_with_null_ptr())
     }
@@ -19991,38 +20699,6 @@ field2: core::ptr::null_mut(), }
     pub extern "C" fn frbgen_ldk_node_cst_new_box_autoadd_public_key() -> *mut wire_cst_public_key {
         flutter_rust_bridge::for_generated::new_leak_box_ptr(
             wire_cst_public_key::new_with_null_ptr(),
-        )
-    }
-
-    #[unsafe(no_mangle)]
-    pub extern "C" fn frbgen_ldk_node_cst_new_box_autoadd_record_string_u_16(
-    ) -> *mut wire_cst_record_string_u_16 {
-        flutter_rust_bridge::for_generated::new_leak_box_ptr(
-            wire_cst_record_string_u_16::new_with_null_ptr(),
-        )
-    }
-
-    #[unsafe(no_mangle)]
-    pub extern "C" fn frbgen_ldk_node_cst_new_box_autoadd_record_u_8_array_16_u_16(
-    ) -> *mut wire_cst_record_u_8_array_16_u_16 {
-        flutter_rust_bridge::for_generated::new_leak_box_ptr(
-            wire_cst_record_u_8_array_16_u_16::new_with_null_ptr(),
-        )
-    }
-
-    #[unsafe(no_mangle)]
-    pub extern "C" fn frbgen_ldk_node_cst_new_box_autoadd_record_u_8_array_32_u_16_u_8_u_16(
-    ) -> *mut wire_cst_record_u_8_array_32_u_16_u_8_u_16 {
-        flutter_rust_bridge::for_generated::new_leak_box_ptr(
-            wire_cst_record_u_8_array_32_u_16_u_8_u_16::new_with_null_ptr(),
-        )
-    }
-
-    #[unsafe(no_mangle)]
-    pub extern "C" fn frbgen_ldk_node_cst_new_box_autoadd_record_u_8_array_4_u_16(
-    ) -> *mut wire_cst_record_u_8_array_4_u_16 {
-        flutter_rust_bridge::for_generated::new_leak_box_ptr(
-            wire_cst_record_u_8_array_4_u_16::new_with_null_ptr(),
         )
     }
 
@@ -20047,6 +20723,27 @@ field2: core::ptr::null_mut(), }
     }
 
     #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_ldk_node_cst_new_box_autoadd_socket_address(
+    ) -> *mut wire_cst_socket_address {
+        flutter_rust_bridge::for_generated::new_leak_box_ptr(
+            wire_cst_socket_address::new_with_null_ptr(),
+        )
+    }
+
+    #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_ldk_node_cst_new_box_autoadd_spontaneous_payment(
+    ) -> *mut wire_cst_spontaneous_payment {
+        flutter_rust_bridge::for_generated::new_leak_box_ptr(
+            wire_cst_spontaneous_payment::new_with_null_ptr(),
+        )
+    }
+
+    #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_ldk_node_cst_new_box_autoadd_txid() -> *mut wire_cst_txid {
+        flutter_rust_bridge::for_generated::new_leak_box_ptr(wire_cst_txid::new_with_null_ptr())
+    }
+
+    #[unsafe(no_mangle)]
     pub extern "C" fn frbgen_ldk_node_cst_new_box_autoadd_u_16(value: u16) -> *mut u16 {
         flutter_rust_bridge::for_generated::new_leak_box_ptr(value)
     }
@@ -20067,6 +20764,14 @@ field2: core::ptr::null_mut(), }
     }
 
     #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_ldk_node_cst_new_box_autoadd_unified_qr_payment(
+    ) -> *mut wire_cst_unified_qr_payment {
+        flutter_rust_bridge::for_generated::new_leak_box_ptr(
+            wire_cst_unified_qr_payment::new_with_null_ptr(),
+        )
+    }
+
+    #[unsafe(no_mangle)]
     pub extern "C" fn frbgen_ldk_node_cst_new_box_autoadd_user_channel_id(
     ) -> *mut wire_cst_user_channel_id {
         flutter_rust_bridge::for_generated::new_leak_box_ptr(
@@ -20077,36 +20782,6 @@ field2: core::ptr::null_mut(), }
     #[unsafe(no_mangle)]
     pub extern "C" fn frbgen_ldk_node_cst_new_list_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerChannelDetails(len: i32) -> *mut wire_cst_list_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerChannelDetails{
         let wrap = wire_cst_list_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerChannelDetails { ptr: flutter_rust_bridge::for_generated::new_leak_vec_ptr(Default::default(), len), len };
-        flutter_rust_bridge::for_generated::new_leak_box_ptr(wrap)
-    }
-
-    #[unsafe(no_mangle)]
-    pub extern "C" fn frbgen_ldk_node_cst_new_list_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerLightningBalance(len: i32) -> *mut wire_cst_list_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerLightningBalance{
-        let wrap = wire_cst_list_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerLightningBalance { ptr: flutter_rust_bridge::for_generated::new_leak_vec_ptr(Default::default(), len), len };
-        flutter_rust_bridge::for_generated::new_leak_box_ptr(wrap)
-    }
-
-    #[unsafe(no_mangle)]
-    pub extern "C" fn frbgen_ldk_node_cst_new_list_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPaymentDetails(len: i32) -> *mut wire_cst_list_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPaymentDetails{
-        let wrap = wire_cst_list_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPaymentDetails { ptr: flutter_rust_bridge::for_generated::new_leak_vec_ptr(Default::default(), len), len };
-        flutter_rust_bridge::for_generated::new_leak_box_ptr(wrap)
-    }
-
-    #[unsafe(no_mangle)]
-    pub extern "C" fn frbgen_ldk_node_cst_new_list_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPeerDetails(len: i32) -> *mut wire_cst_list_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPeerDetails{
-        let wrap = wire_cst_list_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPeerDetails { ptr: flutter_rust_bridge::for_generated::new_leak_vec_ptr(Default::default(), len), len };
-        flutter_rust_bridge::for_generated::new_leak_box_ptr(wrap)
-    }
-
-    #[unsafe(no_mangle)]
-    pub extern "C" fn frbgen_ldk_node_cst_new_list_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPendingSweepBalance(len: i32) -> *mut wire_cst_list_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPendingSweepBalance{
-        let wrap = wire_cst_list_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPendingSweepBalance { ptr: flutter_rust_bridge::for_generated::new_leak_vec_ptr(Default::default(), len), len };
-        flutter_rust_bridge::for_generated::new_leak_box_ptr(wrap)
-    }
-
-    #[unsafe(no_mangle)]
-    pub extern "C" fn frbgen_ldk_node_cst_new_list_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSocketAddress(len: i32) -> *mut wire_cst_list_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSocketAddress{
-        let wrap = wire_cst_list_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSocketAddress { ptr: flutter_rust_bridge::for_generated::new_leak_vec_ptr(Default::default(), len), len };
         flutter_rust_bridge::for_generated::new_leak_box_ptr(wrap)
     }
 
@@ -20137,6 +20812,20 @@ field2: core::ptr::null_mut(), }
     }
 
     #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_ldk_node_cst_new_list_lightning_balance(
+        len: i32,
+    ) -> *mut wire_cst_list_lightning_balance {
+        let wrap = wire_cst_list_lightning_balance {
+            ptr: flutter_rust_bridge::for_generated::new_leak_vec_ptr(
+                <wire_cst_lightning_balance>::new_with_null_ptr(),
+                len,
+            ),
+            len,
+        };
+        flutter_rust_bridge::for_generated::new_leak_box_ptr(wrap)
+    }
+
+    #[unsafe(no_mangle)]
     pub extern "C" fn frbgen_ldk_node_cst_new_list_list_prim_u_8_strict(
         len: i32,
     ) -> *mut wire_cst_list_list_prim_u_8_strict {
@@ -20155,6 +20844,48 @@ field2: core::ptr::null_mut(), }
         let wrap = wire_cst_list_node_id {
             ptr: flutter_rust_bridge::for_generated::new_leak_vec_ptr(
                 <wire_cst_node_id>::new_with_null_ptr(),
+                len,
+            ),
+            len,
+        };
+        flutter_rust_bridge::for_generated::new_leak_box_ptr(wrap)
+    }
+
+    #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_ldk_node_cst_new_list_payment_details(
+        len: i32,
+    ) -> *mut wire_cst_list_payment_details {
+        let wrap = wire_cst_list_payment_details {
+            ptr: flutter_rust_bridge::for_generated::new_leak_vec_ptr(
+                <wire_cst_payment_details>::new_with_null_ptr(),
+                len,
+            ),
+            len,
+        };
+        flutter_rust_bridge::for_generated::new_leak_box_ptr(wrap)
+    }
+
+    #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_ldk_node_cst_new_list_peer_details(
+        len: i32,
+    ) -> *mut wire_cst_list_peer_details {
+        let wrap = wire_cst_list_peer_details {
+            ptr: flutter_rust_bridge::for_generated::new_leak_vec_ptr(
+                <wire_cst_peer_details>::new_with_null_ptr(),
+                len,
+            ),
+            len,
+        };
+        flutter_rust_bridge::for_generated::new_leak_box_ptr(wrap)
+    }
+
+    #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_ldk_node_cst_new_list_pending_sweep_balance(
+        len: i32,
+    ) -> *mut wire_cst_list_pending_sweep_balance {
+        let wrap = wire_cst_list_pending_sweep_balance {
+            ptr: flutter_rust_bridge::for_generated::new_leak_vec_ptr(
+                <wire_cst_pending_sweep_balance>::new_with_null_ptr(),
                 len,
             ),
             len,
@@ -20224,6 +20955,20 @@ field2: core::ptr::null_mut(), }
     }
 
     #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_ldk_node_cst_new_list_socket_address(
+        len: i32,
+    ) -> *mut wire_cst_list_socket_address {
+        let wrap = wire_cst_list_socket_address {
+            ptr: flutter_rust_bridge::for_generated::new_leak_vec_ptr(
+                <wire_cst_socket_address>::new_with_null_ptr(),
+                len,
+            ),
+            len,
+        };
+        flutter_rust_bridge::for_generated::new_leak_box_ptr(wrap)
+    }
+
+    #[unsafe(no_mangle)]
     pub extern "C" fn frbgen_ldk_node_cst_new_list_tx_in(len: i32) -> *mut wire_cst_list_tx_in {
         let wrap = wire_cst_list_tx_in {
             ptr: flutter_rust_bridge::for_generated::new_leak_vec_ptr(
@@ -20249,11 +20994,20 @@ field2: core::ptr::null_mut(), }
 
     #[repr(C)]
     #[derive(Clone, Copy)]
-    pub struct wire_cst_balance_details { total_onchain_balance_sats: u64,
-spendable_onchain_balance_sats: u64,
-total_lightning_balance_sats: u64,
-lightning_balances: *mut wire_cst_list_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerLightningBalance,
-pending_balances_from_channel_closures: *mut wire_cst_list_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPendingSweepBalance }
+    pub struct wire_cst_background_sync_config {
+        onchain_wallet_sync_interval_secs: u64,
+        lightning_wallet_sync_interval_secs: u64,
+        fee_rate_cache_update_interval_secs: u64,
+    }
+    #[repr(C)]
+    #[derive(Clone, Copy)]
+    pub struct wire_cst_balance_details {
+        total_onchain_balance_sats: u64,
+        spendable_onchain_balance_sats: u64,
+        total_lightning_balance_sats: u64,
+        lightning_balances: *mut wire_cst_list_lightning_balance,
+        pending_balances_from_channel_closures: *mut wire_cst_list_pending_sweep_balance,
+    }
     #[repr(C)]
     #[derive(Clone, Copy)]
     pub struct wire_cst_best_block {
@@ -20267,8 +21021,52 @@ pending_balances_from_channel_closures: *mut wire_cst_list_Auto_Owned_RustOpaque
     }
     #[repr(C)]
     #[derive(Clone, Copy)]
+    pub struct wire_cst_bolt_11_payment {
+        inner: wire_cst_bolt_11_payment,
+    }
+    #[repr(C)]
+    #[derive(Clone, Copy)]
     pub struct wire_cst_bolt_12_invoice {
         data: *mut wire_cst_list_prim_u_8_strict,
+    }
+    #[repr(C)]
+    #[derive(Clone, Copy)]
+    pub struct wire_cst_bolt_12_payment {
+        inner: wire_cst_bolt_12_payment,
+    }
+    #[repr(C)]
+    #[derive(Clone, Copy)]
+    pub struct wire_cst_chain_data_source_config {
+        tag: i32,
+        kind: ChainDataSourceConfigKind,
+    }
+    #[repr(C)]
+    #[derive(Clone, Copy)]
+    pub union ChainDataSourceConfigKind {
+        Esplora: wire_cst_ChainDataSourceConfig_Esplora,
+        Electrum: wire_cst_ChainDataSourceConfig_Electrum,
+        BitcoindRpc: wire_cst_ChainDataSourceConfig_BitcoindRpc,
+        nil__: (),
+    }
+    #[repr(C)]
+    #[derive(Clone, Copy)]
+    pub struct wire_cst_ChainDataSourceConfig_Esplora {
+        server_url: *mut wire_cst_list_prim_u_8_strict,
+        sync_config: *mut wire_cst_esplora_sync_config,
+    }
+    #[repr(C)]
+    #[derive(Clone, Copy)]
+    pub struct wire_cst_ChainDataSourceConfig_Electrum {
+        server_url: *mut wire_cst_list_prim_u_8_strict,
+        sync_config: *mut wire_cst_electrum_sync_config,
+    }
+    #[repr(C)]
+    #[derive(Clone, Copy)]
+    pub struct wire_cst_ChainDataSourceConfig_BitcoindRpc {
+        rpc_host: *mut wire_cst_list_prim_u_8_strict,
+        rpc_port: u16,
+        rpc_user: *mut wire_cst_list_prim_u_8_strict,
+        rpc_password: *mut wire_cst_list_prim_u_8_strict,
     }
     #[repr(C)]
     #[derive(Clone, Copy)]
@@ -20296,20 +21094,187 @@ pending_balances_from_channel_closures: *mut wire_cst_list_Auto_Owned_RustOpaque
     }
     #[repr(C)]
     #[derive(Clone, Copy)]
-    pub struct wire_cst_config { storage_dir_path: *mut wire_cst_list_prim_u_8_strict,
-network: i32,
-listening_addresses: *mut wire_cst_list_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSocketAddress,
-announcement_addresses: *mut wire_cst_list_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSocketAddress,
-node_alias: *mut wire_cst_node_alias,
-trusted_peers_0conf: *mut wire_cst_list_public_key,
-probing_liquidity_limit_multiplier: u64,
-anchor_channels_config: *mut usize,
-sending_parameters: *mut wire_cst_sending_parameters }
+    pub struct wire_cst_closure_reason {
+        tag: i32,
+        kind: ClosureReasonKind,
+    }
+    #[repr(C)]
+    #[derive(Clone, Copy)]
+    pub union ClosureReasonKind {
+        PeerFeerateTooLow: wire_cst_ClosureReason_PeerFeerateTooLow,
+        CounterpartyForceClosed: wire_cst_ClosureReason_CounterpartyForceClosed,
+        HolderForceClosed: wire_cst_ClosureReason_HolderForceClosed,
+        ProcessingError: wire_cst_ClosureReason_ProcessingError,
+        nil__: (),
+    }
+    #[repr(C)]
+    #[derive(Clone, Copy)]
+    pub struct wire_cst_ClosureReason_PeerFeerateTooLow {
+        peer_feerate_sat_per_kw: u32,
+        required_feerate_sat_per_kw: u32,
+    }
+    #[repr(C)]
+    #[derive(Clone, Copy)]
+    pub struct wire_cst_ClosureReason_CounterpartyForceClosed {
+        peer_msg: *mut wire_cst_list_prim_u_8_strict,
+    }
+    #[repr(C)]
+    #[derive(Clone, Copy)]
+    pub struct wire_cst_ClosureReason_HolderForceClosed {
+        broadcasted_latest_txn: *mut bool,
+    }
+    #[repr(C)]
+    #[derive(Clone, Copy)]
+    pub struct wire_cst_ClosureReason_ProcessingError {
+        err: *mut wire_cst_list_prim_u_8_strict,
+    }
+    #[repr(C)]
+    #[derive(Clone, Copy)]
+    pub struct wire_cst_config {
+        storage_dir_path: *mut wire_cst_list_prim_u_8_strict,
+        network: i32,
+        listening_addresses: *mut wire_cst_list_socket_address,
+        announcement_addresses: *mut wire_cst_list_socket_address,
+        node_alias: *mut wire_cst_node_alias,
+        trusted_peers_0conf: *mut wire_cst_list_public_key,
+        probing_liquidity_limit_multiplier: u64,
+        anchor_channels_config: *mut usize,
+        sending_parameters: *mut wire_cst_sending_parameters,
+    }
     #[repr(C)]
     #[derive(Clone, Copy)]
     pub struct wire_cst_custom_tlv_record {
         type_num: u64,
         value: *mut wire_cst_list_prim_u_8_strict,
+    }
+    #[repr(C)]
+    #[derive(Clone, Copy)]
+    pub struct wire_cst_electrum_sync_config {
+        background_sync_config: *mut wire_cst_background_sync_config,
+    }
+    #[repr(C)]
+    #[derive(Clone, Copy)]
+    pub struct wire_cst_entropy_source_config {
+        tag: i32,
+        kind: EntropySourceConfigKind,
+    }
+    #[repr(C)]
+    #[derive(Clone, Copy)]
+    pub union EntropySourceConfigKind {
+        SeedFile: wire_cst_EntropySourceConfig_SeedFile,
+        SeedBytes: wire_cst_EntropySourceConfig_SeedBytes,
+        Bip39Mnemonic: wire_cst_EntropySourceConfig_Bip39Mnemonic,
+        nil__: (),
+    }
+    #[repr(C)]
+    #[derive(Clone, Copy)]
+    pub struct wire_cst_EntropySourceConfig_SeedFile {
+        field0: *mut wire_cst_list_prim_u_8_strict,
+    }
+    #[repr(C)]
+    #[derive(Clone, Copy)]
+    pub struct wire_cst_EntropySourceConfig_SeedBytes {
+        field0: *mut wire_cst_list_prim_u_8_strict,
+    }
+    #[repr(C)]
+    #[derive(Clone, Copy)]
+    pub struct wire_cst_EntropySourceConfig_Bip39Mnemonic {
+        mnemonic: *mut wire_cst_mnemonic,
+        passphrase: *mut wire_cst_list_prim_u_8_strict,
+    }
+    #[repr(C)]
+    #[derive(Clone, Copy)]
+    pub struct wire_cst_esplora_sync_config {
+        background_sync_config: *mut wire_cst_background_sync_config,
+    }
+    #[repr(C)]
+    #[derive(Clone, Copy)]
+    pub struct wire_cst_event {
+        tag: i32,
+        kind: EventKind,
+    }
+    #[repr(C)]
+    #[derive(Clone, Copy)]
+    pub union EventKind {
+        PaymentClaimable: wire_cst_Event_PaymentClaimable,
+        PaymentSuccessful: wire_cst_Event_PaymentSuccessful,
+        PaymentFailed: wire_cst_Event_PaymentFailed,
+        PaymentReceived: wire_cst_Event_PaymentReceived,
+        ChannelPending: wire_cst_Event_ChannelPending,
+        ChannelReady: wire_cst_Event_ChannelReady,
+        ChannelClosed: wire_cst_Event_ChannelClosed,
+        PaymentForwarded: wire_cst_Event_PaymentForwarded,
+        nil__: (),
+    }
+    #[repr(C)]
+    #[derive(Clone, Copy)]
+    pub struct wire_cst_Event_PaymentClaimable {
+        payment_id: *mut wire_cst_payment_id,
+        payment_hash: *mut wire_cst_payment_hash,
+        claimable_amount_msat: u64,
+        claim_deadline: *mut u32,
+        custom_records: *mut wire_cst_list_custom_tlv_record,
+    }
+    #[repr(C)]
+    #[derive(Clone, Copy)]
+    pub struct wire_cst_Event_PaymentSuccessful {
+        payment_id: *mut wire_cst_payment_id,
+        payment_hash: *mut wire_cst_payment_hash,
+        fee_paid_msat: *mut u64,
+        preimage: *mut wire_cst_payment_preimage,
+    }
+    #[repr(C)]
+    #[derive(Clone, Copy)]
+    pub struct wire_cst_Event_PaymentFailed {
+        payment_id: *mut wire_cst_payment_id,
+        payment_hash: *mut wire_cst_payment_hash,
+        reason: *mut i32,
+    }
+    #[repr(C)]
+    #[derive(Clone, Copy)]
+    pub struct wire_cst_Event_PaymentReceived {
+        payment_id: *mut wire_cst_payment_id,
+        payment_hash: *mut wire_cst_payment_hash,
+        amount_msat: u64,
+        custom_records: *mut wire_cst_list_custom_tlv_record,
+    }
+    #[repr(C)]
+    #[derive(Clone, Copy)]
+    pub struct wire_cst_Event_ChannelPending {
+        channel_id: *mut wire_cst_channel_id,
+        user_channel_id: *mut wire_cst_user_channel_id,
+        former_temporary_channel_id: *mut wire_cst_channel_id,
+        counterparty_node_id: *mut wire_cst_public_key,
+        funding_txo: *mut wire_cst_out_point,
+    }
+    #[repr(C)]
+    #[derive(Clone, Copy)]
+    pub struct wire_cst_Event_ChannelReady {
+        channel_id: *mut wire_cst_channel_id,
+        user_channel_id: *mut wire_cst_user_channel_id,
+        counterparty_node_id: *mut wire_cst_public_key,
+    }
+    #[repr(C)]
+    #[derive(Clone, Copy)]
+    pub struct wire_cst_Event_ChannelClosed {
+        channel_id: *mut wire_cst_channel_id,
+        user_channel_id: *mut wire_cst_user_channel_id,
+        counterparty_node_id: *mut wire_cst_public_key,
+        reason: *mut wire_cst_closure_reason,
+    }
+    #[repr(C)]
+    #[derive(Clone, Copy)]
+    pub struct wire_cst_Event_PaymentForwarded {
+        prev_channel_id: *mut wire_cst_channel_id,
+        next_channel_id: *mut wire_cst_channel_id,
+        prev_user_channel_id: *mut wire_cst_user_channel_id,
+        next_user_channel_id: *mut wire_cst_user_channel_id,
+        prev_node_id: *mut wire_cst_public_key,
+        next_node_id: *mut wire_cst_public_key,
+        total_fee_earned_msat: *mut u64,
+        skimmed_fee_msat: *mut u64,
+        claim_from_onchain_tx: bool,
+        outbound_amount_forwarded_msat: *mut u64,
     }
     #[repr(C)]
     #[derive(Clone, Copy)]
@@ -20321,45 +21286,104 @@ sending_parameters: *mut wire_cst_sending_parameters }
     }
     #[repr(C)]
     #[derive(Clone, Copy)]
-    pub struct wire_cst_liquidity_source_config { lsps2_service: wire_cst_record_auto_owned_rust_opaque_flutter_rust_bridgefor_generated_rust_auto_opaque_inner_socket_address_public_key_opt_string }
+    pub struct wire_cst_gossip_source_config {
+        tag: i32,
+        kind: GossipSourceConfigKind,
+    }
+    #[repr(C)]
+    #[derive(Clone, Copy)]
+    pub union GossipSourceConfigKind {
+        RapidGossipSync: wire_cst_GossipSourceConfig_RapidGossipSync,
+        nil__: (),
+    }
+    #[repr(C)]
+    #[derive(Clone, Copy)]
+    pub struct wire_cst_GossipSourceConfig_RapidGossipSync {
+        field0: *mut wire_cst_list_prim_u_8_strict,
+    }
+    #[repr(C)]
+    #[derive(Clone, Copy)]
+    pub struct wire_cst_lightning_balance {
+        tag: i32,
+        kind: LightningBalanceKind,
+    }
+    #[repr(C)]
+    #[derive(Clone, Copy)]
+    pub union LightningBalanceKind {
+        ClaimableOnChannelClose: wire_cst_LightningBalance_ClaimableOnChannelClose,
+        ClaimableAwaitingConfirmations: wire_cst_LightningBalance_ClaimableAwaitingConfirmations,
+        ContentiousClaimable: wire_cst_LightningBalance_ContentiousClaimable,
+        MaybeTimeoutClaimableHTLC: wire_cst_LightningBalance_MaybeTimeoutClaimableHTLC,
+        MaybePreimageClaimableHTLC: wire_cst_LightningBalance_MaybePreimageClaimableHTLC,
+        CounterpartyRevokedOutputClaimable:
+            wire_cst_LightningBalance_CounterpartyRevokedOutputClaimable,
+        nil__: (),
+    }
+    #[repr(C)]
+    #[derive(Clone, Copy)]
+    pub struct wire_cst_LightningBalance_ClaimableOnChannelClose {
+        channel_id: *mut wire_cst_channel_id,
+        counterparty_node_id: *mut wire_cst_public_key,
+        amount_satoshis: u64,
+        transaction_fee_satoshis: u64,
+        outbound_payment_htlc_rounded_msat: u64,
+        outbound_forwarded_htlc_rounded_msat: u64,
+        inbound_claiming_htlc_rounded_msat: u64,
+        inbound_htlc_rounded_msat: u64,
+    }
+    #[repr(C)]
+    #[derive(Clone, Copy)]
+    pub struct wire_cst_LightningBalance_ClaimableAwaitingConfirmations {
+        channel_id: *mut wire_cst_channel_id,
+        counterparty_node_id: *mut wire_cst_public_key,
+        amount_satoshis: u64,
+        confirmation_height: u32,
+        source: i32,
+    }
+    #[repr(C)]
+    #[derive(Clone, Copy)]
+    pub struct wire_cst_LightningBalance_ContentiousClaimable {
+        channel_id: *mut wire_cst_channel_id,
+        counterparty_node_id: *mut wire_cst_public_key,
+        amount_satoshis: u64,
+        timeout_height: u32,
+        payment_hash: *mut wire_cst_payment_hash,
+        payment_preimage: *mut wire_cst_payment_preimage,
+    }
+    #[repr(C)]
+    #[derive(Clone, Copy)]
+    pub struct wire_cst_LightningBalance_MaybeTimeoutClaimableHTLC {
+        channel_id: *mut wire_cst_channel_id,
+        counterparty_node_id: *mut wire_cst_public_key,
+        amount_satoshis: u64,
+        claimable_height: u32,
+        payment_hash: *mut wire_cst_payment_hash,
+        outbound_payment: bool,
+    }
+    #[repr(C)]
+    #[derive(Clone, Copy)]
+    pub struct wire_cst_LightningBalance_MaybePreimageClaimableHTLC {
+        channel_id: *mut wire_cst_channel_id,
+        counterparty_node_id: *mut wire_cst_public_key,
+        amount_satoshis: u64,
+        expiry_height: u32,
+        payment_hash: *mut wire_cst_payment_hash,
+    }
+    #[repr(C)]
+    #[derive(Clone, Copy)]
+    pub struct wire_cst_LightningBalance_CounterpartyRevokedOutputClaimable {
+        channel_id: *mut wire_cst_channel_id,
+        counterparty_node_id: *mut wire_cst_public_key,
+        amount_satoshis: u64,
+    }
+    #[repr(C)]
+    #[derive(Clone, Copy)]
+    pub struct wire_cst_liquidity_source_config {
+        lsps2_service: wire_cst_record_socket_address_public_key_opt_string,
+    }
     #[repr(C)]
     #[derive(Clone, Copy)]
     pub struct wire_cst_list_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerChannelDetails
-    {
-        ptr: *mut usize,
-        len: i32,
-    }
-    #[repr(C)]
-    #[derive(Clone, Copy)]
-    pub struct wire_cst_list_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerLightningBalance
-    {
-        ptr: *mut usize,
-        len: i32,
-    }
-    #[repr(C)]
-    #[derive(Clone, Copy)]
-    pub struct wire_cst_list_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPaymentDetails
-    {
-        ptr: *mut usize,
-        len: i32,
-    }
-    #[repr(C)]
-    #[derive(Clone, Copy)]
-    pub struct wire_cst_list_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPeerDetails
-    {
-        ptr: *mut usize,
-        len: i32,
-    }
-    #[repr(C)]
-    #[derive(Clone, Copy)]
-    pub struct wire_cst_list_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPendingSweepBalance
-    {
-        ptr: *mut usize,
-        len: i32,
-    }
-    #[repr(C)]
-    #[derive(Clone, Copy)]
-    pub struct wire_cst_list_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSocketAddress
     {
         ptr: *mut usize,
         len: i32,
@@ -20378,6 +21402,12 @@ sending_parameters: *mut wire_cst_sending_parameters }
     }
     #[repr(C)]
     #[derive(Clone, Copy)]
+    pub struct wire_cst_list_lightning_balance {
+        ptr: *mut wire_cst_lightning_balance,
+        len: i32,
+    }
+    #[repr(C)]
+    #[derive(Clone, Copy)]
     pub struct wire_cst_list_list_prim_u_8_strict {
         ptr: *mut *mut wire_cst_list_prim_u_8_strict,
         len: i32,
@@ -20386,6 +21416,24 @@ sending_parameters: *mut wire_cst_sending_parameters }
     #[derive(Clone, Copy)]
     pub struct wire_cst_list_node_id {
         ptr: *mut wire_cst_node_id,
+        len: i32,
+    }
+    #[repr(C)]
+    #[derive(Clone, Copy)]
+    pub struct wire_cst_list_payment_details {
+        ptr: *mut wire_cst_payment_details,
+        len: i32,
+    }
+    #[repr(C)]
+    #[derive(Clone, Copy)]
+    pub struct wire_cst_list_peer_details {
+        ptr: *mut wire_cst_peer_details,
+        len: i32,
+    }
+    #[repr(C)]
+    #[derive(Clone, Copy)]
+    pub struct wire_cst_list_pending_sweep_balance {
+        ptr: *mut wire_cst_pending_sweep_balance,
         len: i32,
     }
     #[repr(C)]
@@ -20420,6 +21468,12 @@ sending_parameters: *mut wire_cst_sending_parameters }
     }
     #[repr(C)]
     #[derive(Clone, Copy)]
+    pub struct wire_cst_list_socket_address {
+        ptr: *mut wire_cst_socket_address,
+        len: i32,
+    }
+    #[repr(C)]
+    #[derive(Clone, Copy)]
     pub struct wire_cst_list_tx_in {
         ptr: *mut wire_cst_tx_in,
         len: i32,
@@ -20443,14 +21497,26 @@ sending_parameters: *mut wire_cst_sending_parameters }
     }
     #[repr(C)]
     #[derive(Clone, Copy)]
+    pub struct wire_cst_network_graph {
+        inner: wire_cst_network_graph,
+    }
+    #[repr(C)]
+    #[derive(Clone, Copy)]
+    pub struct wire_cst_node {
+        inner: wire_cst_node,
+    }
+    #[repr(C)]
+    #[derive(Clone, Copy)]
     pub struct wire_cst_node_alias {
         field0: *mut wire_cst_list_prim_u_8_strict,
     }
     #[repr(C)]
     #[derive(Clone, Copy)]
-    pub struct wire_cst_node_announcement_info { last_update: u32,
-alias: *mut wire_cst_list_prim_u_8_strict,
-addresses: *mut wire_cst_list_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSocketAddress }
+    pub struct wire_cst_node_announcement_info {
+        last_update: u32,
+        alias: *mut wire_cst_list_prim_u_8_strict,
+        addresses: *mut wire_cst_list_socket_address,
+    }
     #[repr(C)]
     #[derive(Clone, Copy)]
     pub struct wire_cst_node_id {
@@ -20493,6 +21559,16 @@ addresses: *mut wire_cst_list_Auto_Owned_RustOpaque_flutter_rust_bridgefor_gener
     }
     #[repr(C)]
     #[derive(Clone, Copy)]
+    pub struct wire_cst_payment_details {
+        id: wire_cst_payment_id,
+        kind: wire_cst_payment_kind,
+        amount_msat: *mut u64,
+        direction: i32,
+        status: i32,
+        latest_update_timestamp: u64,
+    }
+    #[repr(C)]
+    #[derive(Clone, Copy)]
     pub struct wire_cst_payment_hash {
         data: *mut wire_cst_list_prim_u_8_strict,
     }
@@ -20500,6 +21576,70 @@ addresses: *mut wire_cst_list_Auto_Owned_RustOpaque_flutter_rust_bridgefor_gener
     #[derive(Clone, Copy)]
     pub struct wire_cst_payment_id {
         data: *mut wire_cst_list_prim_u_8_strict,
+    }
+    #[repr(C)]
+    #[derive(Clone, Copy)]
+    pub struct wire_cst_payment_kind {
+        tag: i32,
+        kind: PaymentKindKind,
+    }
+    #[repr(C)]
+    #[derive(Clone, Copy)]
+    pub union PaymentKindKind {
+        Onchain: wire_cst_PaymentKind_Onchain,
+        Bolt11: wire_cst_PaymentKind_Bolt11,
+        Bolt11Jit: wire_cst_PaymentKind_Bolt11Jit,
+        Spontaneous: wire_cst_PaymentKind_Spontaneous,
+        Bolt12Offer: wire_cst_PaymentKind_Bolt12Offer,
+        Bolt12Refund: wire_cst_PaymentKind_Bolt12Refund,
+        nil__: (),
+    }
+    #[repr(C)]
+    #[derive(Clone, Copy)]
+    pub struct wire_cst_PaymentKind_Onchain {
+        txid: *mut wire_cst_txid,
+        status: usize,
+    }
+    #[repr(C)]
+    #[derive(Clone, Copy)]
+    pub struct wire_cst_PaymentKind_Bolt11 {
+        hash: *mut wire_cst_payment_hash,
+        preimage: *mut wire_cst_payment_preimage,
+        secret: *mut wire_cst_payment_secret,
+    }
+    #[repr(C)]
+    #[derive(Clone, Copy)]
+    pub struct wire_cst_PaymentKind_Bolt11Jit {
+        hash: *mut wire_cst_payment_hash,
+        preimage: *mut wire_cst_payment_preimage,
+        secret: *mut wire_cst_payment_secret,
+        lsp_fee_limits: *mut wire_cst_lsp_fee_limits,
+        counterparty_skimmed_fee_msat: *mut u64,
+    }
+    #[repr(C)]
+    #[derive(Clone, Copy)]
+    pub struct wire_cst_PaymentKind_Spontaneous {
+        hash: *mut wire_cst_payment_hash,
+        preimage: *mut wire_cst_payment_preimage,
+    }
+    #[repr(C)]
+    #[derive(Clone, Copy)]
+    pub struct wire_cst_PaymentKind_Bolt12Offer {
+        hash: *mut wire_cst_payment_hash,
+        preimage: *mut wire_cst_payment_preimage,
+        secret: *mut wire_cst_payment_secret,
+        offer_id: *mut wire_cst_offer_id,
+        payer_note: *mut wire_cst_list_prim_u_8_strict,
+        quantity: *mut u64,
+    }
+    #[repr(C)]
+    #[derive(Clone, Copy)]
+    pub struct wire_cst_PaymentKind_Bolt12Refund {
+        hash: *mut wire_cst_payment_hash,
+        preimage: *mut wire_cst_payment_preimage,
+        secret: *mut wire_cst_payment_secret,
+        payer_note: *mut wire_cst_list_prim_u_8_strict,
+        quantity: *mut u64,
     }
     #[repr(C)]
     #[derive(Clone, Copy)]
@@ -20513,6 +21653,50 @@ addresses: *mut wire_cst_list_Auto_Owned_RustOpaque_flutter_rust_bridgefor_gener
     }
     #[repr(C)]
     #[derive(Clone, Copy)]
+    pub struct wire_cst_peer_details {
+        node_id: wire_cst_public_key,
+        address: wire_cst_socket_address,
+        is_connected: bool,
+    }
+    #[repr(C)]
+    #[derive(Clone, Copy)]
+    pub struct wire_cst_pending_sweep_balance {
+        tag: i32,
+        kind: PendingSweepBalanceKind,
+    }
+    #[repr(C)]
+    #[derive(Clone, Copy)]
+    pub union PendingSweepBalanceKind {
+        PendingBroadcast: wire_cst_PendingSweepBalance_PendingBroadcast,
+        BroadcastAwaitingConfirmation: wire_cst_PendingSweepBalance_BroadcastAwaitingConfirmation,
+        AwaitingThresholdConfirmations: wire_cst_PendingSweepBalance_AwaitingThresholdConfirmations,
+        nil__: (),
+    }
+    #[repr(C)]
+    #[derive(Clone, Copy)]
+    pub struct wire_cst_PendingSweepBalance_PendingBroadcast {
+        channel_id: *mut wire_cst_channel_id,
+        amount_satoshis: u64,
+    }
+    #[repr(C)]
+    #[derive(Clone, Copy)]
+    pub struct wire_cst_PendingSweepBalance_BroadcastAwaitingConfirmation {
+        channel_id: *mut wire_cst_channel_id,
+        latest_broadcast_height: u32,
+        latest_spending_txid: *mut wire_cst_txid,
+        amount_satoshis: u64,
+    }
+    #[repr(C)]
+    #[derive(Clone, Copy)]
+    pub struct wire_cst_PendingSweepBalance_AwaitingThresholdConfirmations {
+        channel_id: *mut wire_cst_channel_id,
+        latest_spending_txid: *mut wire_cst_txid,
+        confirmation_hash: *mut wire_cst_list_prim_u_8_strict,
+        confirmation_height: u32,
+        amount_satoshis: u64,
+    }
+    #[repr(C)]
+    #[derive(Clone, Copy)]
     pub struct wire_cst_psbt {
         inner: *mut wire_cst_list_prim_u_8_strict,
     }
@@ -20523,9 +21707,8 @@ addresses: *mut wire_cst_list_Auto_Owned_RustOpaque_flutter_rust_bridgefor_gener
     }
     #[repr(C)]
     #[derive(Clone, Copy)]
-    pub struct wire_cst_record_auto_owned_rust_opaque_flutter_rust_bridgefor_generated_rust_auto_opaque_inner_socket_address_public_key_opt_string
-    {
-        field0: usize,
+    pub struct wire_cst_record_socket_address_public_key_opt_string {
+        field0: wire_cst_socket_address,
         field1: wire_cst_public_key,
         field2: *mut wire_cst_list_prim_u_8_strict,
     }
@@ -20534,32 +21717,6 @@ addresses: *mut wire_cst_list_Auto_Owned_RustOpaque_flutter_rust_bridgefor_gener
     pub struct wire_cst_record_string_string {
         field0: *mut wire_cst_list_prim_u_8_strict,
         field1: *mut wire_cst_list_prim_u_8_strict,
-    }
-    #[repr(C)]
-    #[derive(Clone, Copy)]
-    pub struct wire_cst_record_string_u_16 {
-        field0: *mut wire_cst_list_prim_u_8_strict,
-        field1: u16,
-    }
-    #[repr(C)]
-    #[derive(Clone, Copy)]
-    pub struct wire_cst_record_u_8_array_16_u_16 {
-        field0: *mut wire_cst_list_prim_u_8_strict,
-        field1: u16,
-    }
-    #[repr(C)]
-    #[derive(Clone, Copy)]
-    pub struct wire_cst_record_u_8_array_32_u_16_u_8_u_16 {
-        field0: *mut wire_cst_list_prim_u_8_strict,
-        field1: u16,
-        field2: u8,
-        field3: u16,
-    }
-    #[repr(C)]
-    #[derive(Clone, Copy)]
-    pub struct wire_cst_record_u_8_array_4_u_16 {
-        field0: *mut wire_cst_list_prim_u_8_strict,
-        field1: u16,
     }
     #[repr(C)]
     #[derive(Clone, Copy)]
@@ -20587,6 +21744,58 @@ addresses: *mut wire_cst_list_Auto_Owned_RustOpaque_flutter_rust_bridgefor_gener
     }
     #[repr(C)]
     #[derive(Clone, Copy)]
+    pub struct wire_cst_socket_address {
+        tag: i32,
+        kind: SocketAddressKind,
+    }
+    #[repr(C)]
+    #[derive(Clone, Copy)]
+    pub union SocketAddressKind {
+        TcpIpV4: wire_cst_SocketAddress_TcpIpV4,
+        TcpIpV6: wire_cst_SocketAddress_TcpIpV6,
+        OnionV2: wire_cst_SocketAddress_OnionV2,
+        OnionV3: wire_cst_SocketAddress_OnionV3,
+        Hostname: wire_cst_SocketAddress_Hostname,
+        nil__: (),
+    }
+    #[repr(C)]
+    #[derive(Clone, Copy)]
+    pub struct wire_cst_SocketAddress_TcpIpV4 {
+        addr: *mut wire_cst_list_prim_u_8_strict,
+        port: u16,
+    }
+    #[repr(C)]
+    #[derive(Clone, Copy)]
+    pub struct wire_cst_SocketAddress_TcpIpV6 {
+        addr: *mut wire_cst_list_prim_u_8_strict,
+        port: u16,
+    }
+    #[repr(C)]
+    #[derive(Clone, Copy)]
+    pub struct wire_cst_SocketAddress_OnionV2 {
+        field0: *mut wire_cst_list_prim_u_8_strict,
+    }
+    #[repr(C)]
+    #[derive(Clone, Copy)]
+    pub struct wire_cst_SocketAddress_OnionV3 {
+        ed25519_pubkey: *mut wire_cst_list_prim_u_8_strict,
+        checksum: u16,
+        version: u8,
+        port: u16,
+    }
+    #[repr(C)]
+    #[derive(Clone, Copy)]
+    pub struct wire_cst_SocketAddress_Hostname {
+        addr: *mut wire_cst_list_prim_u_8_strict,
+        port: u16,
+    }
+    #[repr(C)]
+    #[derive(Clone, Copy)]
+    pub struct wire_cst_spontaneous_payment {
+        inner: wire_cst_spontaneous_payment,
+    }
+    #[repr(C)]
+    #[derive(Clone, Copy)]
     pub struct wire_cst_tx_in {
         previous_output: wire_cst_out_point,
         script_sig: wire_cst_script_buf,
@@ -20606,6 +21815,11 @@ addresses: *mut wire_cst_list_Auto_Owned_RustOpaque_flutter_rust_bridgefor_gener
     }
     #[repr(C)]
     #[derive(Clone, Copy)]
+    pub struct wire_cst_unified_qr_payment {
+        inner: wire_cst_unified_qr_payment,
+    }
+    #[repr(C)]
+    #[derive(Clone, Copy)]
     pub struct wire_cst_user_channel_id {
         data: *mut wire_cst_list_prim_u_8_strict,
     }
@@ -20613,6 +21827,12 @@ addresses: *mut wire_cst_list_Auto_Owned_RustOpaque_flutter_rust_bridgefor_gener
     #[derive(Clone, Copy)]
     pub struct wire_cst_w_txid {
         hash: *mut wire_cst_list_prim_u_8_strict,
+    }
+    #[repr(C)]
+    #[derive(Clone, Copy)]
+    pub struct wire_cst_witness_program {
+        version: u8,
+        program: *mut wire_cst_list_prim_u_8_strict,
     }
 }
 #[cfg(not(target_family = "wasm"))]

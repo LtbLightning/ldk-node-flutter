@@ -9,31 +9,70 @@ import 'package:flutter_rust_bridge/flutter_rust_bridge_for_generated.dart';
 
 // These function are ignored because they are on traits that is not defined in current crate (put an empty `#[frb]` on it to unignore): `from`
 
-// Rust type: RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<Bolt12Payment>>
-abstract class Bolt12Payment implements RustOpaqueInterface {
+class Bolt12Payment {
+  final Bolt12Payment inner;
+
+  const Bolt12Payment({
+    required this.inner,
+  });
+
   Future<Refund> initiateRefund(
-      {required BigInt amountMsat,
-      required int expirySecs,
-      BigInt? quantity,
-      String? payerNote});
+          {required BigInt amountMsat,
+          required int expirySecs,
+          BigInt? quantity,
+          String? payerNote}) =>
+      core.instance.api.ldkAdapterBolt12Bolt12PaymentInitiateRefund(
+          that: this,
+          amountMsat: amountMsat,
+          expirySecs: expirySecs,
+          quantity: quantity,
+          payerNote: payerNote);
 
   Future<Offer> receive(
-      {required BigInt amountMsat,
-      required String description,
-      int? expirySecs,
-      BigInt? quantity});
+          {required BigInt amountMsat,
+          required String description,
+          int? expirySecs,
+          BigInt? quantity}) =>
+      core.instance.api.ldkAdapterBolt12Bolt12PaymentReceive(
+          that: this,
+          amountMsat: amountMsat,
+          description: description,
+          expirySecs: expirySecs,
+          quantity: quantity);
 
   Future<Offer> receiveVariableAmount(
-      {required String description, int? expirySecs});
+          {required String description, int? expirySecs}) =>
+      core.instance.api.ldkAdapterBolt12Bolt12PaymentReceiveVariableAmount(
+          that: this, description: description, expirySecs: expirySecs);
 
-  Future<Bolt12Invoice> requestRefundPayment({required Refund refund});
+  Future<Bolt12Invoice> requestRefundPayment({required Refund refund}) =>
+      core.instance.api.ldkAdapterBolt12Bolt12PaymentRequestRefundPayment(
+          that: this, refund: refund);
 
   Future<PaymentId> send(
-      {required Offer offer, BigInt? quantity, String? payerNote});
+          {required Offer offer, BigInt? quantity, String? payerNote}) =>
+      core.instance.api.ldkAdapterBolt12Bolt12PaymentSend(
+          that: this, offer: offer, quantity: quantity, payerNote: payerNote);
 
   Future<PaymentId> sendUsingAmount(
-      {required Offer offer,
-      required BigInt amountMsat,
-      BigInt? quantity,
-      String? payerNote});
+          {required Offer offer,
+          required BigInt amountMsat,
+          BigInt? quantity,
+          String? payerNote}) =>
+      core.instance.api.ldkAdapterBolt12Bolt12PaymentSendUsingAmount(
+          that: this,
+          offer: offer,
+          amountMsat: amountMsat,
+          quantity: quantity,
+          payerNote: payerNote);
+
+  @override
+  int get hashCode => inner.hashCode;
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is Bolt12Payment &&
+          runtimeType == other.runtimeType &&
+          inner == other.inner;
 }

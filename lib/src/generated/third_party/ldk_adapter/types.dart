@@ -7,8 +7,10 @@ import '../../frb_generated.dart';
 import '../../lib.dart';
 import '../shared.dart';
 import 'package:flutter_rust_bridge/flutter_rust_bridge_for_generated.dart';
+import 'package:freezed_annotation/freezed_annotation.dart' hide protected;
+part 'types.freezed.dart';
 
-// These types are ignored because they are neither used by any `pub` functions nor (for structs and enums) marked `#[frb(unignore)]`: `BackgroundSyncConfig`, `BalanceSource`, `ClosureReason`, `ConfirmationStatus`, `ElectrumSyncConfig`, `EsploraSyncConfig`, `MaxTotalRoutingFeeLimit`, `PaymentFailureReason`
+// These types are ignored because they are neither used by any `pub` functions nor (for structs and enums) marked `#[frb(unignore)]`: `MaxTotalRoutingFeeLimit`
 // These function are ignored because they are on traits that is not defined in current crate (put an empty `#[frb]` on it to unignore): `assert_receiver_is_total_eq`, `assert_receiver_is_total_eq`, `assert_receiver_is_total_eq`, `assert_receiver_is_total_eq`, `assert_receiver_is_total_eq`, `assert_receiver_is_total_eq`, `assert_receiver_is_total_eq`, `assert_receiver_is_total_eq`, `assert_receiver_is_total_eq`, `assert_receiver_is_total_eq`, `assert_receiver_is_total_eq`, `assert_receiver_is_total_eq`, `assert_receiver_is_total_eq`, `assert_receiver_is_total_eq`, `assert_receiver_is_total_eq`, `assert_receiver_is_total_eq`, `assert_receiver_is_total_eq`, `assert_receiver_is_total_eq`, `assert_receiver_is_total_eq`, `assert_receiver_is_total_eq`, `assert_receiver_is_total_eq`, `assert_receiver_is_total_eq`, `assert_receiver_is_total_eq`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `eq`, `eq`, `eq`, `eq`, `eq`, `eq`, `eq`, `eq`, `eq`, `eq`, `eq`, `eq`, `eq`, `eq`, `eq`, `eq`, `eq`, `eq`, `eq`, `eq`, `eq`, `eq`, `eq`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `hash`, `hash`, `hash`, `try_from`, `try_from`, `try_from`
 
 // Rust type: RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<AnchorChannelsConfig>>
@@ -59,9 +61,6 @@ abstract class AnchorChannelsConfig implements RustOpaqueInterface {
       core.instance.api.ldkAdapterTypesAnchorChannelsConfigWithTrustedPeers(
           trustedPeers: trustedPeers);
 }
-
-// Rust type: RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<ChainDataSourceConfig>>
-abstract class ChainDataSourceConfig implements RustOpaqueInterface {}
 
 // Rust type: RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<ChannelConfig>>
 abstract class ChannelConfig implements RustOpaqueInterface {
@@ -285,17 +284,8 @@ abstract class ChannelDetails implements RustOpaqueInterface {
   Future<BigInt> totalLiquidityMsat();
 }
 
-// Rust type: RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<EntropySourceConfig>>
-abstract class EntropySourceConfig implements RustOpaqueInterface {}
-
-// Rust type: RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<Event>>
-abstract class Event implements RustOpaqueInterface {}
-
-// Rust type: RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<GossipSourceConfig>>
-abstract class GossipSourceConfig implements RustOpaqueInterface {}
-
-// Rust type: RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<LightningBalance>>
-abstract class LightningBalance implements RustOpaqueInterface {}
+// Rust type: RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<ConfirmationStatus>>
+abstract class ConfirmationStatus implements RustOpaqueInterface {}
 
 // Rust type: RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<MaxDustHTLCExposure>>
 abstract class MaxDustHtlcExposure implements RustOpaqueInterface {
@@ -320,126 +310,59 @@ abstract class MaxDustHtlcExposure implements RustOpaqueInterface {
           limitMsat: limitMsat);
 }
 
-// Rust type: RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<PaymentDetails>>
-abstract class PaymentDetails implements RustOpaqueInterface {
-  BigInt? get amountMsat;
-
-  PaymentDirection get direction;
-
-  PaymentId get id;
-
-  PaymentKind get kind;
-
-  BigInt get latestUpdateTimestamp;
-
-  PaymentStatus get status;
-
-  set amountMsat(BigInt? amountMsat);
-
-  set direction(PaymentDirection direction);
-
-  set id(PaymentId id);
-
-  set kind(PaymentKind kind);
-
-  set latestUpdateTimestamp(BigInt latestUpdateTimestamp);
-
-  set status(PaymentStatus status);
-
-  /// Checks if the payment failed.
-  Future<bool> isFailed();
-
-  /// Checks if the payment is pending.
-  Future<bool> isPending();
-
-  /// Checks if the payment is successful.
-  Future<bool> isSucceeded();
-
-  // HINT: Make it `#[frb(sync)]` to let it become the default constructor of Dart class.
-  /// Creates a new PaymentDetails.
-  static Future<PaymentDetails> newInstance(
-          {required PaymentId id,
-          required PaymentKind kind,
-          BigInt? amountMsat,
-          required PaymentDirection direction,
-          required PaymentStatus status,
-          required BigInt latestUpdateTimestamp}) =>
-      core.instance.api.ldkAdapterTypesPaymentDetailsNew(
-          id: id,
-          kind: kind,
-          amountMsat: amountMsat,
-          direction: direction,
-          status: status,
-          latestUpdateTimestamp: latestUpdateTimestamp);
-
-  /// Creates a new pending inbound payment.
-  static Future<PaymentDetails> newInboundPending(
-          {required PaymentId id,
-          required PaymentKind kind,
-          BigInt? amountMsat}) =>
-      core.instance.api.ldkAdapterTypesPaymentDetailsNewInboundPending(
-          id: id, kind: kind, amountMsat: amountMsat);
-
-  /// Creates a new pending outbound payment.
-  static Future<PaymentDetails> newOutboundPending(
-          {required PaymentId id,
-          required PaymentKind kind,
-          BigInt? amountMsat}) =>
-      core.instance.api.ldkAdapterTypesPaymentDetailsNewOutboundPending(
-          id: id, kind: kind, amountMsat: amountMsat);
-}
-
-// Rust type: RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<PaymentKind>>
-abstract class PaymentKind implements RustOpaqueInterface {}
-
-// Rust type: RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<PeerDetails>>
-abstract class PeerDetails implements RustOpaqueInterface {
-  SocketAddress get address;
-
-  bool get isConnected;
-
-  PublicKey get nodeId;
-
-  set address(SocketAddress address);
-
-  set isConnected(bool isConnected);
-
-  set nodeId(PublicKey nodeId);
-
-  /// Checks if the peer is currently disconnected.
-  Future<bool> isOffline();
-
-  /// Checks if the peer is currently connected.
-  Future<bool> isOnline();
-
-  // HINT: Make it `#[frb(sync)]` to let it become the default constructor of Dart class.
-  /// Creates a new PeerDetails.
-  static Future<PeerDetails> newInstance(
-          {required PublicKey nodeId,
-          required SocketAddress address,
-          required bool isConnected}) =>
-      core.instance.api.ldkAdapterTypesPeerDetailsNew(
-          nodeId: nodeId, address: address, isConnected: isConnected);
-
-  /// Creates a new connected peer.
-  static Future<PeerDetails> newConnected(
-          {required PublicKey nodeId, required SocketAddress address}) =>
-      core.instance.api.ldkAdapterTypesPeerDetailsNewConnected(
-          nodeId: nodeId, address: address);
-
-  /// Creates a new disconnected peer.
-  static Future<PeerDetails> newDisconnected(
-          {required PublicKey nodeId, required SocketAddress address}) =>
-      core.instance.api.ldkAdapterTypesPeerDetailsNewDisconnected(
-          nodeId: nodeId, address: address);
-}
-
-// Rust type: RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<PendingSweepBalance>>
-abstract class PendingSweepBalance implements RustOpaqueInterface {}
-
 abstract class FfiLogWriter {
   /// Handle a log record.
   Future<void> log({required FfiLogRecord record});
+}
+
+/// Options related to background syncing the Lightning and on-chain wallets.
+///
+/// ### Defaults
+///
+/// | Parameter                              | Value              |
+/// |----------------------------------------|--------------------|
+/// | `onchain_wallet_sync_interval_secs`    | 80                 |
+/// | `lightning_wallet_sync_interval_secs`  | 30                 |
+/// | `fee_rate_cache_update_interval_secs`  | 600                |
+class BackgroundSyncConfig {
+  /// The time in-between background sync attempts of the onchain wallet, in seconds.
+  ///
+  /// **Note:** A minimum of 10 seconds is enforced when background syncing is enabled.
+  final BigInt onchainWalletSyncIntervalSecs;
+
+  /// The time in-between background sync attempts of the LDK wallet, in seconds.
+  ///
+  /// **Note:** A minimum of 10 seconds is enforced when background syncing is enabled.
+  final BigInt lightningWalletSyncIntervalSecs;
+
+  /// The time in-between background update attempts to our fee rate cache, in seconds.
+  ///
+  /// **Note:** A minimum of 10 seconds is enforced when background syncing is enabled.
+  final BigInt feeRateCacheUpdateIntervalSecs;
+
+  const BackgroundSyncConfig({
+    required this.onchainWalletSyncIntervalSecs,
+    required this.lightningWalletSyncIntervalSecs,
+    required this.feeRateCacheUpdateIntervalSecs,
+  });
+
+  @override
+  int get hashCode =>
+      onchainWalletSyncIntervalSecs.hashCode ^
+      lightningWalletSyncIntervalSecs.hashCode ^
+      feeRateCacheUpdateIntervalSecs.hashCode;
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is BackgroundSyncConfig &&
+          runtimeType == other.runtimeType &&
+          onchainWalletSyncIntervalSecs ==
+              other.onchainWalletSyncIntervalSecs &&
+          lightningWalletSyncIntervalSecs ==
+              other.lightningWalletSyncIntervalSecs &&
+          feeRateCacheUpdateIntervalSecs ==
+              other.feeRateCacheUpdateIntervalSecs;
 }
 
 /// Details of the known available balances returned by `node.listBalances`.
@@ -501,6 +424,23 @@ class BalanceDetails {
               other.pendingBalancesFromChannelClosures;
 }
 
+/// Indicates whether the balance is derived from a cooperative close, a force-close
+/// (for holder or counterparty), or whether it is for an HTLC.
+enum BalanceSource {
+  /// The channel was force closed by the holder.
+  holderForceClosed,
+
+  /// The channel was force closed by the counterparty.
+  counterpartyForceClosed,
+
+  /// The channel was cooperatively closed.
+  coopClose,
+
+  /// This balance is the result of an HTLC.
+  htlc,
+  ;
+}
+
 /// The best known block as identified by its hash and height.
 class BestBlock {
   /// The block's hash
@@ -524,6 +464,26 @@ class BestBlock {
           runtimeType == other.runtimeType &&
           blockHash == other.blockHash &&
           height == other.height;
+}
+
+@freezed
+sealed class ChainDataSourceConfig with _$ChainDataSourceConfig {
+  const ChainDataSourceConfig._();
+
+  const factory ChainDataSourceConfig.esplora({
+    required String serverUrl,
+    EsploraSyncConfig? syncConfig,
+  }) = ChainDataSourceConfig_Esplora;
+  const factory ChainDataSourceConfig.electrum({
+    required String serverUrl,
+    ElectrumSyncConfig? syncConfig,
+  }) = ChainDataSourceConfig_Electrum;
+  const factory ChainDataSourceConfig.bitcoindRpc({
+    required String rpcHost,
+    required int rpcPort,
+    required String rpcUser,
+    required String rpcPassword,
+  }) = ChainDataSourceConfig_BitcoindRpc;
 }
 
 /// The global identifier of a channel.
@@ -565,17 +525,122 @@ class ChannelId {
           data == other.data;
 }
 
+@freezed
+sealed class ClosureReason with _$ClosureReason {
+  const ClosureReason._();
+
+  /// Our peer provided a feerate which violated our required minimum (fetched from our
+  /// `FeeEstimator`
+  ///
+  const factory ClosureReason.peerFeerateTooLow({
+    required int peerFeerateSatPerKw,
+    required int requiredFeerateSatPerKw,
+  }) = ClosureReason_PeerFeerateTooLow;
+
+  /// Closure generated from receiving a peer error message.
+  ///
+  /// Our counterparty may have broadcasted their latest commitment state, and we have
+  /// as well.
+  const factory ClosureReason.counterpartyForceClosed({
+    /// The error which the peer sent us.
+    ///
+    /// Be careful about printing the peer_msg, a well-crafted message could exploit
+    /// a security vulnerability in the terminal emulator or the logging subsystem.
+    /// To be safe, use `Display` on `UntrustedString`
+    ///
+    /// [`UntrustedString`]: crate::util::string::UntrustedString
+    required String peerMsg,
+  }) = ClosureReason_CounterpartyForceClosed;
+
+  /// Closure generated from [`ChannelManager::force_close_channel`], called by the user.
+  ///
+  /// [`ChannelManager::force_close_channel`]: crate::ln::channelmanager::ChannelManager::force_close_channel.
+  const factory ClosureReason.holderForceClosed({
+    bool? broadcastedLatestTxn,
+  }) = ClosureReason_HolderForceClosed;
+
+  /// The channel was closed after negotiating a cooperative close and we've now broadcasted
+  /// the cooperative close transaction. Note the shutdown may have been initiated by us.
+  ///
+  /// This was only set in versions of LDK prior to 0.0.122.
+  const factory ClosureReason.legacyCooperativeClosure() =
+      ClosureReason_LegacyCooperativeClosure;
+
+  /// The channel was closed after negotiating a cooperative close and we've now broadcasted
+  /// the cooperative close transaction. This indicates that the shutdown was initiated by our
+  /// counterparty.
+  ///
+  /// In rare cases where we initiated closure immediately prior to shutting down without
+  /// persisting, this value may be provided for channels we initiated closure for.
+  const factory ClosureReason.counterpartyInitiatedCooperativeClosure() =
+      ClosureReason_CounterpartyInitiatedCooperativeClosure;
+
+  /// The channel was closed after negotiating a cooperative close and we've now broadcasted
+  /// the cooperative close transaction. This indicates that the shutdown was initiated by us.
+  const factory ClosureReason.locallyInitiatedCooperativeClosure() =
+      ClosureReason_LocallyInitiatedCooperativeClosure;
+
+  /// A commitment transaction was confirmed on chain, closing the channel. Most likely this
+  /// commitment transaction came from our counterparty, but it may also have come from
+  /// a copy of our own `ChannelMonitor`.
+  const factory ClosureReason.commitmentTxConfirmed() =
+      ClosureReason_CommitmentTxConfirmed;
+
+  /// The funding transaction failed to confirm in a timely manner on an inbound channel.
+  const factory ClosureReason.fundingTimedOut() = ClosureReason_FundingTimedOut;
+
+  /// Closure generated from processing an event, likely a HTLC forward/relay/reception.
+  const factory ClosureReason.processingError({
+    /// A developer-readable error message which we generated.
+    required String err,
+  }) = ClosureReason_ProcessingError;
+
+  /// The peer disconnected prior to funding completing. In this case the spec mandates that we
+  /// forget the channel entirely - we can attempt again if the peer reconnects.
+  ///
+  /// This includes cases where we restarted prior to funding completion, including prior to the
+  /// initial [`ChannelMonitor`] persistence completing.
+  ///
+  /// In LDK versions prior to 0.0.107 this could also occur if we were unable to connect to the
+  /// peer because of mutual incompatibility between us and our channel counterparty.
+  ///
+  /// [`ChannelMonitor`]: crate::chain::channelmonitor::ChannelMonitor
+  const factory ClosureReason.disconnectedPeer() =
+      ClosureReason_DisconnectedPeer;
+
+  /// Closure generated from `ChannelManager::read` if the [`ChannelMonitor`] is newer than
+  /// the [`ChannelManager`] deserialized.
+  ///
+  /// [`ChannelMonitor`]: crate::chain::channelmonitor::ChannelMonitor
+  /// [`ChannelManager`]: crate::ln::channelmanager::ChannelManager
+  const factory ClosureReason.outdatedChannelManager() =
+      ClosureReason_OutdatedChannelManager;
+
+  /// The counterparty requested a cooperative close of a channel that had not been funded yet.
+  /// The channel has been immediately closed.
+  const factory ClosureReason.counterpartyCoopClosedUnfundedChannel() =
+      ClosureReason_CounterpartyCoopClosedUnfundedChannel;
+
+  /// Another channel in the same funding batch closed before the funding transaction
+  /// was ready to be broadcast.
+  const factory ClosureReason.fundingBatchClosure() =
+      ClosureReason_FundingBatchClosure;
+
+  /// One of our HTLCs timed out in a channel, causing us to force close the channel.
+  const factory ClosureReason.htlCsTimedOut() = ClosureReason_HTLCsTimedOut;
+}
+
 /// Represents the configuration of an [Node] instance.
 ///
 class Config {
-  final String storageDirPath;
+  String storageDirPath;
 
   /// The used Bitcoin network.
   final Network network;
 
   /// The IP address and TCP port the node will listen on.
   ///
-  final List<SocketAddress>? listeningAddresses;
+  List<SocketAddress>? listeningAddresses;
 
   /// The addresses which the node will announce to the gossip network that it accepts connections on.
   final List<SocketAddress>? announcementAddresses;
@@ -586,7 +651,7 @@ class Config {
   ///
   /// **Note**: We will only allow opening and accepting public channels if the `nodeAlias` and the
   /// `listeningAddresses` are set.
-  final NodeAlias? nodeAlias;
+  NodeAlias? nodeAlias;
 
   ///A list of peers that we allow to establish zero confirmation channels to us.
   ///
@@ -608,7 +673,7 @@ class Config {
   /// parameters on a per-payment basis in the corresponding method calls.
   final SendingParameters? sendingParameters;
 
-  const Config({
+  Config({
     required this.storageDirPath,
     required this.network,
     this.listeningAddresses,
@@ -700,6 +765,233 @@ class CustomTlvRecord {
           runtimeType == other.runtimeType &&
           typeNum == other.typeNum &&
           value == other.value;
+}
+
+class ElectrumSyncConfig {
+  /// Background sync configuration.
+  ///
+  /// If set to `Null`, background syncing is disabled.
+  /// you must use `sync_wallets` to manually sync the wallets.
+  final BackgroundSyncConfig? backgroundSyncConfig;
+
+  const ElectrumSyncConfig({
+    this.backgroundSyncConfig,
+  });
+
+  @override
+  int get hashCode => backgroundSyncConfig.hashCode;
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is ElectrumSyncConfig &&
+          runtimeType == other.runtimeType &&
+          backgroundSyncConfig == other.backgroundSyncConfig;
+}
+
+@freezed
+sealed class EntropySourceConfig with _$EntropySourceConfig {
+  const EntropySourceConfig._();
+
+  const factory EntropySourceConfig.seedFile(
+    String field0,
+  ) = EntropySourceConfig_SeedFile;
+  const factory EntropySourceConfig.seedBytes(
+    U8Array64 field0,
+  ) = EntropySourceConfig_SeedBytes;
+  const factory EntropySourceConfig.bip39Mnemonic({
+    required Mnemonic mnemonic,
+    String? passphrase,
+  }) = EntropySourceConfig_Bip39Mnemonic;
+}
+
+class EsploraSyncConfig {
+  /// Background sync configuration.
+  ///
+  /// If set to `Null`, background syncing is disabled.
+  /// you must use `sync_wallets` to manually sync the wallets.
+  final BackgroundSyncConfig? backgroundSyncConfig;
+
+  const EsploraSyncConfig({
+    this.backgroundSyncConfig,
+  });
+
+  @override
+  int get hashCode => backgroundSyncConfig.hashCode;
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is EsploraSyncConfig &&
+          runtimeType == other.runtimeType &&
+          backgroundSyncConfig == other.backgroundSyncConfig;
+}
+
+@freezed
+sealed class Event with _$Event {
+  const Event._();
+
+  /// A payment for a previously-registered payment hash has been received.
+  ///
+  /// This needs to be manually claimed by supplying the correct preimage to `claimForHash`.
+  ///
+  /// If the the provided parameters don't match the expectations or the preimage can't be
+  /// retrieved in time, should be failed-back via [`failForHash`].
+  const factory Event.paymentClaimable({
+    /// A local identifier used to track the payment.
+    required PaymentId paymentId,
+
+    /// The hash of the payment.
+    required PaymentHash paymentHash,
+
+    /// The value, in thousandths of a satoshi, that is claimable.
+    required BigInt claimableAmountMsat,
+
+    /// The block height at which this payment will be failed back and will no longer be
+    /// eligible for claiming.
+    int? claimDeadline,
+
+    /// Custom TLV records attached to the payment
+    required List<CustomTlvRecord> customRecords,
+  }) = Event_PaymentClaimable;
+
+  /// A sent payment was successful.
+  const factory Event.paymentSuccessful({
+    /// A local identifier used to track the payment.
+    ///
+    /// Will only be `None` for events serialized with LDK Node v0.2.1 or prior.
+    PaymentId? paymentId,
+
+    /// The hash of the payment.
+    required PaymentHash paymentHash,
+
+    /// The total fee which was spent at intermediate hops in this payment.
+    BigInt? feePaidMsat,
+
+    /// The preimage of the payment hash, which can be used to claim the payment.
+    PaymentPreimage? preimage,
+  }) = Event_PaymentSuccessful;
+
+  /// A sent payment has failed.
+  const factory Event.paymentFailed({
+    /// A local identifier used to track the payment.
+    ///
+    /// Will only be `None` for events serialized with LDK Node v0.2.1 or prior.
+    PaymentId? paymentId,
+
+    /// The hash of the payment.
+    PaymentHash? paymentHash,
+
+    /// The reason why the payment failed.
+    ///
+    /// This will be `None` for events serialized by LDK Node v0.2.1 and prior.
+    PaymentFailureReason? reason,
+  }) = Event_PaymentFailed;
+
+  /// A payment has been received.
+  const factory Event.paymentReceived({
+    /// A local identifier used to track the payment.
+    ///
+    /// Will only be `None` for events serialized with LDK Node v0.2.1 or prior.
+    PaymentId? paymentId,
+
+    /// The hash of the payment.
+    required PaymentHash paymentHash,
+
+    /// The value, in thousandths of a satoshi, that has been received.
+    required BigInt amountMsat,
+
+    /// Custom TLV records received on the payment
+    required List<CustomTlvRecord> customRecords,
+  }) = Event_PaymentReceived;
+
+  /// A channel has been created and is pending confirmation on-chain.
+  const factory Event.channelPending({
+    /// The `channelId` of the channel.
+    required ChannelId channelId,
+
+    /// The `userChannelId` of the channel.
+    required UserChannelId userChannelId,
+
+    /// The `temporaryChannelId` this channel used to be known by during channel establishment.
+    required ChannelId formerTemporaryChannelId,
+
+    /// The `nodeId` of the channel counterparty.
+    required PublicKey counterpartyNodeId,
+
+    /// The outpoint of the channel's funding transaction.
+    required OutPoint fundingTxo,
+  }) = Event_ChannelPending;
+
+  /// A channel is ready to be used.
+  const factory Event.channelReady({
+    /// The `channelId` of the channel.
+    required ChannelId channelId,
+
+    /// The `userChannelId` of the channel.
+    required UserChannelId userChannelId,
+
+    /// The `nodeId` of the channel counterparty.
+    ///
+    /// This will be `None` for events serialized by LDK Node v0.1.0 and prior.
+    PublicKey? counterpartyNodeId,
+  }) = Event_ChannelReady;
+
+  /// A channel has been closed.
+  const factory Event.channelClosed({
+    /// The `channelId` of the channel.
+    required ChannelId channelId,
+
+    /// The `userChannelId` of the channel.
+    required UserChannelId userChannelId,
+
+    /// The `nodeId` of the channel counterparty.
+    ///
+    /// This will be `None` for events serialized by LDK Node v0.1.0 and prior.
+    PublicKey? counterpartyNodeId,
+
+    /// This will be `None` for events serialized by LDK Node v0.2.1 and prior.
+    ClosureReason? reason,
+  }) = Event_ChannelClosed;
+  const factory Event.paymentForwarded({
+    /// The channel id of the incoming channel between the previous node and us.
+    required ChannelId prevChannelId,
+
+    /// The channel id of the outgoing channel between the next node and us.
+    required ChannelId nextChannelId,
+
+    /// The `user_channel_id` of the incoming channel between the previous node and us.
+    UserChannelId? prevUserChannelId,
+
+    /// The `user_channel_id` of the outgoing channel between the next node and us.
+    UserChannelId? nextUserChannelId,
+
+    /// The node id of the previous node.
+    ///
+    /// This is only null for HTLCs received prior to LDK Node v0.5 or for events serialized by
+    /// versions prior to v0.5.
+    PublicKey? prevNodeId,
+
+    /// The node id of the next node.
+    ///
+    /// This is only null for HTLCs received prior to LDK Node v0.5 or for events serialized by
+    /// versions prior to v0.5.
+    PublicKey? nextNodeId,
+
+    /// The total fee, in milli-satoshis, which was earned as a result of the payment.
+    BigInt? totalFeeEarnedMsat,
+
+    /// The share of the total fee, in milli-satoshis, which was withheld in addition to the
+    /// forwarding fee.
+    BigInt? skimmedFeeMsat,
+
+    /// If this is `true`, the forwarded HTLC was claimed by our counterparty via an on-chain
+    /// transaction.
+    required bool claimFromOnchainTx,
+
+    /// The final amount forwarded, in milli-satoshis, after the fee is deducted.
+    BigInt? outboundAmountForwardedMsat,
+  }) = Event_PaymentForwarded;
 }
 
 /// A unit of logging output with metadata to enable filtering by module path and line number.
@@ -803,6 +1095,189 @@ class FfiLogRecord {
           args == other.args &&
           modulePath == other.modulePath &&
           line == other.line;
+}
+
+@freezed
+sealed class GossipSourceConfig with _$GossipSourceConfig {
+  const GossipSourceConfig._();
+
+  const factory GossipSourceConfig.p2PNetwork() = GossipSourceConfig_P2PNetwork;
+  const factory GossipSourceConfig.rapidGossipSync(
+    String field0,
+  ) = GossipSourceConfig_RapidGossipSync;
+}
+
+@freezed
+sealed class LightningBalance with _$LightningBalance {
+  const LightningBalance._();
+
+  /// The channel is not yet closed (or the commitment or closing transaction has not yet
+  /// appeared in a block). The given balance is claimable (less on-chain fees) if the channel is
+  /// force-closed now.
+  const factory LightningBalance.claimableOnChannelClose({
+    /// The identifier of the channel this balance belongs to.
+    required ChannelId channelId,
+
+    /// The identifier of our channel counterparty.
+    required PublicKey counterpartyNodeId,
+
+    /// The amount available to claim, in satoshis, excluding the on-chain fees which will be
+    /// required to do so.
+    required BigInt amountSatoshis,
+
+    /// The transaction fee we pay for the closing commitment transaction. This amount is not
+    /// included in the `amount_satoshis` value.
+    ///
+    /// Note that if this channel is inbound (and thus our counterparty pays the commitment
+    /// transaction fee) this value will be zero. For channels created prior to LDK Node 0.4
+    /// the channel is always treated as outbound (and thus this value is never zero).
+    required BigInt transactionFeeSatoshis,
+
+    /// The amount of millisatoshis which has been burned to fees from HTLCs which are outbound
+    /// from us and are related to a payment which was sent by us. This is the sum of the
+    /// millisatoshis part of all HTLCs which are otherwise represented by
+    /// This amount (rounded up to a whole satoshi value) will not be included in `amountSatoshis`.
+    required BigInt outboundPaymentHtlcRoundedMsat,
+
+    /// The amount of millisatoshis which has been burned to fees from HTLCs which are outbound
+    /// from us and are related to a forwarded HTLC. This is the sum of the millisatoshis part
+    /// of all HTLCs which are otherwise represented by
+    /// This amount (rounded up to a whole satoshi value) will not be included in `amountSatoshis`.
+    required BigInt outboundForwardedHtlcRoundedMsat,
+
+    /// The amount of millisatoshis which has been burned to fees from HTLCs which are inbound
+    /// to us and for which we know the preimage. This is the sum of the millisatoshis part of
+    /// all HTLCs which would be represented by `lightningBalance.ContentiousClaimable` on
+    /// channel close, but whose current value is included in `amountSatoshis`, as well as any
+    /// dust HTLCs which would otherwise be represented the same.
+    ///
+    /// This amount (rounded up to a whole satoshi value) will not be included in `amountSatoshis`.
+    required BigInt inboundClaimingHtlcRoundedMsat,
+
+    /// The amount of millisatoshis which has been burned to fees from HTLCs which are inbound
+    /// to us and for which we do not know the preimage. This is the sum of the millisatoshis
+    /// part of all HTLCs which would be represented by
+    /// `lightningBalance.MaybePreimageClaimableHTLC` on channel close, as well as any dust
+    /// HTLCs which would otherwise be represented the same.
+    ///
+    /// This amount (rounded up to a whole satoshi value) will not be included in the
+    /// counterparty's `amountSatoshis`.
+    required BigInt inboundHtlcRoundedMsat,
+  }) = LightningBalance_ClaimableOnChannelClose;
+
+  /// The channel has been closed, and the given balance is ours but awaiting confirmations until
+  /// we consider it spendable.
+  const factory LightningBalance.claimableAwaitingConfirmations({
+    /// The identifier of the channel this balance belongs to.
+    required ChannelId channelId,
+
+    /// The identifier of our channel counterparty.
+    required PublicKey counterpartyNodeId,
+
+    /// The amount available to claim, in satoshis, possibly excluding the on-chain fees which
+    /// were spent in broadcasting the transaction.
+    required BigInt amountSatoshis,
+
+    /// The height at which an `event.SpendableOutputs` event will be generated for this
+    /// amount.
+    ///
+    required int confirmationHeight,
+
+    /// Whether this balance is a result of cooperative close, a force-close, or an HTLC.
+    required BalanceSource source,
+  }) = LightningBalance_ClaimableAwaitingConfirmations;
+
+  /// The channel has been closed, and the given balance should be ours but awaiting spending
+  /// transaction confirmation. If the spending transaction does not confirm in time, it is
+  /// possible our counterparty can take the funds by broadcasting an HTLC timeout on-chain.
+  ///
+  /// Once the spending transaction confirms, before it has reached enough confirmations to be
+  /// considered safe from chain reorganizations, the balance will instead be provided via
+  /// `lightningBalance.claimableAwaitingConfirmations`.
+  const factory LightningBalance.contentiousClaimable({
+    /// The identifier of the channel this balance belongs to.
+    required ChannelId channelId,
+
+    /// The identifier of our channel counterparty.
+    required PublicKey counterpartyNodeId,
+
+    /// The amount available to claim, in satoshis, excluding the on-chain fees which will be
+    /// required to do so.
+    required BigInt amountSatoshis,
+
+    /// The height at which the counterparty may be able to claim the balance if we have not
+    /// done so.
+    required int timeoutHeight,
+
+    /// The payment hash that locks this HTLC.
+    required PaymentHash paymentHash,
+
+    /// The preimage that can be used to claim this HTLC.
+    required PaymentPreimage paymentPreimage,
+  }) = LightningBalance_ContentiousClaimable;
+
+  /// HTLCs which we sent to our counterparty which are claimable after a timeout (less on-chain
+  /// fees) if the counterparty does not know the preimage for the HTLCs. These are somewhat
+  /// likely to be claimed by our counterparty before we do.
+  const factory LightningBalance.maybeTimeoutClaimableHtlc({
+    /// The identifier of the channel this balance belongs to.
+    required ChannelId channelId,
+
+    /// The identifier of our channel counterparty.
+    required PublicKey counterpartyNodeId,
+
+    /// The amount potentially available to claim, in satoshis, excluding the on-chain fees
+    /// which will be required to do so.
+    required BigInt amountSatoshis,
+
+    /// The height at which we will be able to claim the balance if our counterparty has not
+    /// done so.
+    required int claimableHeight,
+
+    /// The payment hash whose preimage our counterparty needs to claim this HTLC.
+    required PaymentHash paymentHash,
+
+    ///
+    required bool outboundPayment,
+  }) = LightningBalance_MaybeTimeoutClaimableHTLC;
+
+  /// HTLCs which we received from our counterparty which are claimable with a preimage which we
+  /// do not currently have. This will only be claimable if we receive the preimage from the node
+  /// to which we forwarded this HTLC before the timeout.
+  const factory LightningBalance.maybePreimageClaimableHtlc({
+    /// The identifier of the channel this balance belongs to.
+    required ChannelId channelId,
+
+    /// The identifier of our channel counterparty.
+    required PublicKey counterpartyNodeId,
+
+    /// The amount potentially available to claim, in satoshis, excluding the on-chain fees
+    /// which will be required to do so.
+    required BigInt amountSatoshis,
+
+    /// The height at which our counterparty will be able to claim the balance if we have not
+    /// yet received the preimage and claimed it ourselves.
+    required int expiryHeight,
+
+    /// The payment hash whose preimage we need to claim this HTLC.
+    required PaymentHash paymentHash,
+  }) = LightningBalance_MaybePreimageClaimableHTLC;
+
+  /// The channel has been closed, and our counterparty broadcasted a revoked commitment
+  /// transaction.
+  ///
+  /// Thus, we're able to claim all outputs in the commitment transaction, one of which has the
+  /// following amount.
+  const factory LightningBalance.counterpartyRevokedOutputClaimable({
+    /// The identifier of the channel this balance belongs to.
+    required ChannelId channelId,
+
+    /// The identifier of our channel counterparty.
+    required PublicKey counterpartyNodeId,
+
+    /// The amount, in satoshis, of the output which we can claim.
+    required BigInt amountSatoshis,
+  }) = LightningBalance_CounterpartyRevokedOutputClaimable;
 }
 
 class LiquiditySourceConfig {
@@ -1049,6 +1524,108 @@ class OfferId {
           field0 == other.field0;
 }
 
+/// Represents a payment.
+class PaymentDetails {
+  /// The identifier of this payment.
+  final PaymentId id;
+
+  /// The kind of the payment.
+  final PaymentKind kind;
+
+  /// The amount transferred.
+  final BigInt? amountMsat;
+
+  /// The direction of the payment.
+  final PaymentDirection direction;
+
+  /// The status of the payment.
+  final PaymentStatus status;
+
+  /// The timestamp, in seconds since start of the UNIX epoch, when this entry was last updated.
+  final BigInt latestUpdateTimestamp;
+
+  const PaymentDetails({
+    required this.id,
+    required this.kind,
+    this.amountMsat,
+    required this.direction,
+    required this.status,
+    required this.latestUpdateTimestamp,
+  });
+
+  /// Checks if the payment failed.
+  Future<bool> isFailed() =>
+      core.instance.api.ldkAdapterTypesPaymentDetailsIsFailed(
+        that: this,
+      );
+
+  /// Checks if the payment is pending.
+  Future<bool> isPending() =>
+      core.instance.api.ldkAdapterTypesPaymentDetailsIsPending(
+        that: this,
+      );
+
+  /// Checks if the payment is successful.
+  Future<bool> isSucceeded() =>
+      core.instance.api.ldkAdapterTypesPaymentDetailsIsSucceeded(
+        that: this,
+      );
+
+  // HINT: Make it `#[frb(sync)]` to let it become the default constructor of Dart class.
+  /// Creates a new PaymentDetails.
+  static Future<PaymentDetails> newInstance(
+          {required PaymentId id,
+          required PaymentKind kind,
+          BigInt? amountMsat,
+          required PaymentDirection direction,
+          required PaymentStatus status,
+          required BigInt latestUpdateTimestamp}) =>
+      core.instance.api.ldkAdapterTypesPaymentDetailsNew(
+          id: id,
+          kind: kind,
+          amountMsat: amountMsat,
+          direction: direction,
+          status: status,
+          latestUpdateTimestamp: latestUpdateTimestamp);
+
+  /// Creates a new pending inbound payment.
+  static Future<PaymentDetails> newInboundPending(
+          {required PaymentId id,
+          required PaymentKind kind,
+          BigInt? amountMsat}) =>
+      core.instance.api.ldkAdapterTypesPaymentDetailsNewInboundPending(
+          id: id, kind: kind, amountMsat: amountMsat);
+
+  /// Creates a new pending outbound payment.
+  static Future<PaymentDetails> newOutboundPending(
+          {required PaymentId id,
+          required PaymentKind kind,
+          BigInt? amountMsat}) =>
+      core.instance.api.ldkAdapterTypesPaymentDetailsNewOutboundPending(
+          id: id, kind: kind, amountMsat: amountMsat);
+
+  @override
+  int get hashCode =>
+      id.hashCode ^
+      kind.hashCode ^
+      amountMsat.hashCode ^
+      direction.hashCode ^
+      status.hashCode ^
+      latestUpdateTimestamp.hashCode;
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is PaymentDetails &&
+          runtimeType == other.runtimeType &&
+          id == other.id &&
+          kind == other.kind &&
+          amountMsat == other.amountMsat &&
+          direction == other.direction &&
+          status == other.status &&
+          latestUpdateTimestamp == other.latestUpdateTimestamp;
+}
+
 /// Represents the direction of a payment.
 ///
 enum PaymentDirection {
@@ -1058,6 +1635,164 @@ enum PaymentDirection {
   /// The payment is outbound.
   outbound,
   ;
+}
+
+/// The reason the payment failed. Used in `Event.PaymentFailed`.
+enum PaymentFailureReason {
+  /// The intended recipient rejected our payment.
+  recipientRejected,
+
+  /// The user chose to abandon this payment by calling `channelManager.abandon_payment`.
+  ///
+  userAbandoned,
+
+  /// We exhausted all of our retry attempts while trying to send the payment, or we
+  /// exhausted the `Retry.Timeout` if the user set one. If at any point a retry
+  /// attempt failed while being forwarded along the path, an `Event::PaymentPathFailed` will
+  /// have come before this.
+  ///
+  retriesExhausted,
+
+  /// The payment expired while retrying, based on the provided
+  paymentExpired,
+
+  /// We failed to find a route while retrying the payment.
+  routeNotFound,
+
+  /// This error should generally never happen. This likely means that there is a problem with
+  /// your router.
+  unexpectedError,
+
+  ///An invoice was received that required unknown features.
+  unknownRequiredFeatures,
+
+  ///A Bolt12Invoice was not received in a reasonable amount of time.
+  invoiceRequestExpired,
+
+  ///An InvoiceRequest for the payment was rejected by the recipient.
+  invoiceRequestRejected,
+
+  ///A BlindedPath creation failed.
+  blindedPathCreationFailed,
+  ;
+}
+
+@freezed
+sealed class PaymentKind with _$PaymentKind {
+  const PaymentKind._();
+
+  /// An on-chain payment.
+  const factory PaymentKind.onchain({
+    /// The transaction ID of the on-chain payment.
+    required Txid txid,
+
+    /// The status of the on-chain payment.
+    required ConfirmationStatus status,
+  }) = PaymentKind_Onchain;
+
+  /// A [BOLT 11] payment.
+  ///
+  /// [BOLT 11]: https://github.com/lightning/bolts/blob/master/11-payment-encoding.md
+  const factory PaymentKind.bolt11({
+    /// The payment hash, i.e., the hash of the `preimage`.
+    required PaymentHash hash,
+
+    /// The pre-image used by the payment.
+    PaymentPreimage? preimage,
+
+    /// The secret used by the payment.
+    PaymentSecret? secret,
+  }) = PaymentKind_Bolt11;
+
+  /// A [BOLT 11] payment intended to open an [LSPS 2] just-in-time channel.
+  ///
+  /// [BOLT 11]: https://github.com/lightning/bolts/blob/master/11-payment-encoding.md
+  /// [LSPS 2]: https://github.com/BitcoinAndLightningLayerSpecs/lsp/blob/main/LSPS2/README.md
+  const factory PaymentKind.bolt11Jit({
+    /// The payment hash, i.e., the hash of the `preimage`.
+    required PaymentHash hash,
+
+    /// The pre-image used by the payment.
+    PaymentPreimage? preimage,
+
+    /// The secret used by the payment.
+    PaymentSecret? secret,
+
+    /// Limits applying to how much fee we allow an LSP to deduct from the payment amount.
+    ///
+    /// Allowing them to deduct this fee from the first inbound payment will pay for the LSP's
+    /// channel opening fees.
+    ///
+    required LSPFeeLimits lspFeeLimits,
+
+    /// The value, in thousands of a satoshi, that was deducted from this payment as an extra
+    /// fee taken by our channel counterparty.
+    ///
+    /// Will only be `Some` once we received the payment. Will always be `None` for LDK Node
+    /// v0.4 and prior.
+    BigInt? counterpartySkimmedFeeMsat,
+  }) = PaymentKind_Bolt11Jit;
+
+  /// A spontaneous ("keysend") payment.
+  const factory PaymentKind.spontaneous({
+    /// The payment hash, i.e., the hash of the `preimage`.
+    required PaymentHash hash,
+
+    /// The pre-image used by the payment.
+    PaymentPreimage? preimage,
+  }) = PaymentKind_Spontaneous;
+
+  /// A [BOLT 12] offer payment, i.e., a payment for an `Offer`.
+  ///
+  /// [BOLT 12]: https://github.com/lightning/bolts/blob/master/12-offer-encoding.md
+  const factory PaymentKind.bolt12Offer({
+    /// The payment hash, i.e., the hash of the `preimage`.
+    PaymentHash? hash,
+
+    /// The pre-image used by the payment.
+    PaymentPreimage? preimage,
+
+    /// The secret used by the payment.
+    PaymentSecret? secret,
+
+    /// The ID of the offer this payment is for.
+    required OfferId offerId,
+
+    /// The payer note for the payment.
+    ///
+    /// Truncated to `PAYER_NOTE_LIMIT` characters.
+    ///
+    /// This will always be `None` for payments serialized with version `v0.3.0`.
+    String? payerNote,
+
+    /// The quantity of an item requested in the offer.
+    ///
+    /// This will always be `None` for payments serialized with version `v0.3.0`.
+    BigInt? quantity,
+  }) = PaymentKind_Bolt12Offer;
+
+  /// A [BOLT 12] 'refund' payment, i.e., a payment for a `Refund`.
+  ///
+  /// [BOLT 12]: https://github.com/lightning/bolts/blob/master/12-offer-encoding.md
+  const factory PaymentKind.bolt12Refund({
+    /// The payment hash, i.e., the hash of the `preimage`.
+    PaymentHash? hash,
+
+    /// The pre-image used by the payment.
+    PaymentPreimage? preimage,
+
+    /// The secret used by the payment.
+    PaymentSecret? secret,
+
+    ///
+    /// This will always be `None` for payments serialized with version `v0.3.0`.
+    String? payerNote,
+
+    /// The quantity of an item that the refund is for.
+    ///
+    /// This will always be `None` for payments serialized with version `v0.3.0`.
+    BigInt? quantity,
+  }) = PaymentKind_Bolt12Refund;
 }
 
 /// payment_secret type, use to authenticate sender to the receiver and tie MPP HTLCs together
@@ -1108,6 +1843,128 @@ enum PaymentStatus {
   /// The payment failed.
   failed,
   ;
+}
+
+/// Bitcoin network enum
+///
+/// Details of a known Lightning peer as returned by `node.listPeers`.
+///
+class PeerDetails {
+  /// Our peer's node ID.
+  ///
+  final PublicKey nodeId;
+
+  /// The IP address and TCP port of the peer.
+  ///
+  final SocketAddress address;
+
+  /// Indicates whether or not the user is currently has an active connection with the peer.
+  ///
+  final bool isConnected;
+
+  const PeerDetails({
+    required this.nodeId,
+    required this.address,
+    required this.isConnected,
+  });
+
+  /// Checks if the peer is currently disconnected.
+  Future<bool> isOffline() =>
+      core.instance.api.ldkAdapterTypesPeerDetailsIsOffline(
+        that: this,
+      );
+
+  /// Checks if the peer is currently connected.
+  Future<bool> isOnline() =>
+      core.instance.api.ldkAdapterTypesPeerDetailsIsOnline(
+        that: this,
+      );
+
+  // HINT: Make it `#[frb(sync)]` to let it become the default constructor of Dart class.
+  /// Creates a new PeerDetails.
+  static Future<PeerDetails> newInstance(
+          {required PublicKey nodeId,
+          required SocketAddress address,
+          required bool isConnected}) =>
+      core.instance.api.ldkAdapterTypesPeerDetailsNew(
+          nodeId: nodeId, address: address, isConnected: isConnected);
+
+  /// Creates a new connected peer.
+  static Future<PeerDetails> newConnected(
+          {required PublicKey nodeId, required SocketAddress address}) =>
+      core.instance.api.ldkAdapterTypesPeerDetailsNewConnected(
+          nodeId: nodeId, address: address);
+
+  /// Creates a new disconnected peer.
+  static Future<PeerDetails> newDisconnected(
+          {required PublicKey nodeId, required SocketAddress address}) =>
+      core.instance.api.ldkAdapterTypesPeerDetailsNewDisconnected(
+          nodeId: nodeId, address: address);
+
+  @override
+  int get hashCode => nodeId.hashCode ^ address.hashCode ^ isConnected.hashCode;
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is PeerDetails &&
+          runtimeType == other.runtimeType &&
+          nodeId == other.nodeId &&
+          address == other.address &&
+          isConnected == other.isConnected;
+}
+
+@freezed
+sealed class PendingSweepBalance with _$PendingSweepBalance {
+  const PendingSweepBalance._();
+
+  /// The spendable output is about to be swept, but a spending transaction has yet to be generated and
+  /// broadcast.
+  const factory PendingSweepBalance.pendingBroadcast({
+    /// The identifier of the channel this balance belongs to.
+    ChannelId? channelId,
+
+    /// The amount, in satoshis, of the output being swept.
+    required BigInt amountSatoshis,
+  }) = PendingSweepBalance_PendingBroadcast;
+
+  /// A spending transaction has been generated and broadcast and is awaiting confirmation
+  /// on-chain.
+  const factory PendingSweepBalance.broadcastAwaitingConfirmation({
+    /// The identifier of the channel this balance belongs to.
+    ChannelId? channelId,
+
+    /// The best height when we last broadcast a transaction spending the output being swept.
+    required int latestBroadcastHeight,
+
+    /// The identifier of the transaction spending the swept output we last broadcast.
+    required Txid latestSpendingTxid,
+
+    /// The amount, in satoshis, of the output being swept.
+    required BigInt amountSatoshis,
+  }) = PendingSweepBalance_BroadcastAwaitingConfirmation;
+
+  /// A spending transaction has been confirmed on-chain and is awaiting threshold confirmations.
+  ///
+  /// It will be considered irrevocably confirmed after reaching [`ANTI_REORG_DELAY`].
+  ///
+  /// [`ANTI_REORG_DELAY`]: lightning::chain::channelmonitor::ANTI_REORG_DELAY
+  const factory PendingSweepBalance.awaitingThresholdConfirmations({
+    /// The identifier of the channel this balance belongs to.
+    ChannelId? channelId,
+
+    /// The identifier of the confirmed transaction spending the swept output.
+    required Txid latestSpendingTxid,
+
+    /// The hash of the block in which the spending transaction was confirmed.
+    required String confirmationHash,
+
+    /// The height at which the spending transaction was confirmed.
+    required int confirmationHeight,
+
+    /// The amount, in satoshis, of the output being swept.
+    required BigInt amountSatoshis,
+  }) = PendingSweepBalance_AwaitingThresholdConfirmations;
 }
 
 ///A local, potentially user-provided, identifier of a channel.

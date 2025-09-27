@@ -47,9 +47,7 @@ void main() {
       debugPrint("Creating Alice builder...");
       final aliceBuilder = ldk.Builder.fromConfig(config: aliceConfig)
           .setEntropyBip39Mnemonic(
-              mnemonic: ldk.Mnemonic(
-                  seedPhrase:
-                      "replace force spring cruise nothing select glass erupt medal raise consider pull"))
+              mnemonic: await ldk.Mnemonic.fromSeedPhrase(seedPhrase: "replace force spring cruise nothing select glass erupt medal raise consider pull"))
           .setChainSourceEsplora(
               esploraServerUrl: esploraUrl, syncConfig: esploraConfig)
           .setFilesystemLogger(
@@ -66,9 +64,7 @@ void main() {
       debugPrint("Creating Bob builder...");
       final bobBuilder = ldk.Builder.fromConfig(config: bobConfig)
           .setEntropyBip39Mnemonic(
-              mnemonic: ldk.Mnemonic(
-                  seedPhrase:
-                      "skin hospital fee risk health theory actor kiwi solution desert unhappy hello"))
+              mnemonic: await ldk.Mnemonic.fromSeedPhrase(seedPhrase: "skin hospital fee risk health theory actor kiwi solution desert unhappy hello"))
           .setChainSourceEsplora(
               esploraServerUrl: esploraUrl, syncConfig: esploraConfig);
       debugPrint("Building Bob node...");
@@ -94,9 +90,9 @@ void main() {
           await (await aliceNode.onChainPayment()).newAddress();
       final bobNodeAddress =
           await (await bobNode.onChainPayment()).newAddress();
-      debugPrint("Alice address: ${aliceNodeAddress.s}");
-      debugPrint("Bob address: ${bobNodeAddress.s}");
-      
+      debugPrint("Alice address: ${aliceNodeAddress.toAddressData()}");
+      debugPrint("Bob address: ${bobNodeAddress.toAddressData()}");
+
       // Use nigiri faucet to send funds instead of generating blocks
       await regTestClient.sendToAddress(aliceNodeAddress.s, 1); // Send 1 BTC to Alice
       await regTestClient.sendToAddress(bobNodeAddress.s, 1); // Send 1 BTC to Bob

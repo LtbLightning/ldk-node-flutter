@@ -10,55 +10,120 @@ import 'package:flutter_rust_bridge/flutter_rust_bridge_for_generated.dart';
 
 // These function are ignored because they are on traits that is not defined in current crate (put an empty `#[frb]` on it to unignore): `from`
 
-// Rust type: RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<Bolt11Payment>>
-abstract class Bolt11Payment implements RustOpaqueInterface {
-  Future<void> claimForHash(
-      {required PaymentHash paymentHash,
-      required BigInt claimableAmountMsat,
-      required PaymentPreimage preimage});
+class Bolt11Payment {
+  final Bolt11Payment inner;
 
-  Future<void> failForHash({required PaymentHash paymentHash});
+  const Bolt11Payment({
+    required this.inner,
+  });
+
+  Future<void> claimForHash(
+          {required PaymentHash paymentHash,
+          required BigInt claimableAmountMsat,
+          required PaymentPreimage preimage}) =>
+      core.instance.api.ldkAdapterBolt11Bolt11PaymentClaimForHash(
+          that: this,
+          paymentHash: paymentHash,
+          claimableAmountMsat: claimableAmountMsat,
+          preimage: preimage);
+
+  Future<void> failForHash({required PaymentHash paymentHash}) =>
+      core.instance.api.ldkAdapterBolt11Bolt11PaymentFailForHash(
+          that: this, paymentHash: paymentHash);
 
   Future<Bolt11Invoice> receive(
-      {required BigInt amountMsat,
-      required String description,
-      required int expirySecs});
+          {required BigInt amountMsat,
+          required String description,
+          required int expirySecs}) =>
+      core.instance.api.ldkAdapterBolt11Bolt11PaymentReceive(
+          that: this,
+          amountMsat: amountMsat,
+          description: description,
+          expirySecs: expirySecs);
 
   Future<Bolt11Invoice> receiveForHash(
-      {required PaymentHash paymentHash,
-      required BigInt amountMsat,
-      required String description,
-      required int expirySecs});
+          {required PaymentHash paymentHash,
+          required BigInt amountMsat,
+          required String description,
+          required int expirySecs}) =>
+      core.instance.api.ldkAdapterBolt11Bolt11PaymentReceiveForHash(
+          that: this,
+          paymentHash: paymentHash,
+          amountMsat: amountMsat,
+          description: description,
+          expirySecs: expirySecs);
 
   Future<Bolt11Invoice> receiveVariableAmount(
-      {required String description, required int expirySecs});
+          {required String description, required int expirySecs}) =>
+      core.instance.api.ldkAdapterBolt11Bolt11PaymentReceiveVariableAmount(
+          that: this, description: description, expirySecs: expirySecs);
 
   Future<Bolt11Invoice> receiveVariableAmountForHash(
-      {required String description,
-      required int expirySecs,
-      required PaymentHash paymentHash});
+          {required String description,
+          required int expirySecs,
+          required PaymentHash paymentHash}) =>
+      core.instance.api
+          .ldkAdapterBolt11Bolt11PaymentReceiveVariableAmountForHash(
+              that: this,
+              description: description,
+              expirySecs: expirySecs,
+              paymentHash: paymentHash);
 
   Future<Bolt11Invoice> receiveVariableAmountViaJitChannel(
-      {required String description,
-      required int expirySecs,
-      BigInt? maxProportionalLspFeeLimitPpmMsat});
+          {required String description,
+          required int expirySecs,
+          BigInt? maxProportionalLspFeeLimitPpmMsat}) =>
+      core.instance.api
+          .ldkAdapterBolt11Bolt11PaymentReceiveVariableAmountViaJitChannel(
+              that: this,
+              description: description,
+              expirySecs: expirySecs,
+              maxProportionalLspFeeLimitPpmMsat:
+                  maxProportionalLspFeeLimitPpmMsat);
 
   Future<Bolt11Invoice> receiveViaJitChannel(
-      {required BigInt amountMsat,
-      required String description,
-      required int expirySecs,
-      BigInt? maxTotalLspFeeLimitMsat});
+          {required BigInt amountMsat,
+          required String description,
+          required int expirySecs,
+          BigInt? maxTotalLspFeeLimitMsat}) =>
+      core.instance.api.ldkAdapterBolt11Bolt11PaymentReceiveViaJitChannel(
+          that: this,
+          amountMsat: amountMsat,
+          description: description,
+          expirySecs: expirySecs,
+          maxTotalLspFeeLimitMsat: maxTotalLspFeeLimitMsat);
 
   Future<PaymentId> send(
-      {required Bolt11Invoice invoice, SendingParameters? sendingParameters});
+          {required Bolt11Invoice invoice,
+          SendingParameters? sendingParameters}) =>
+      core.instance.api.ldkAdapterBolt11Bolt11PaymentSend(
+          that: this, invoice: invoice, sendingParameters: sendingParameters);
 
-  Future<void> sendProbes({required Bolt11Invoice invoice});
+  Future<void> sendProbes({required Bolt11Invoice invoice}) => core.instance.api
+      .ldkAdapterBolt11Bolt11PaymentSendProbes(that: this, invoice: invoice);
 
   Future<void> sendProbesUsingAmount(
-      {required Bolt11Invoice invoice, required BigInt amountMsat});
+          {required Bolt11Invoice invoice, required BigInt amountMsat}) =>
+      core.instance.api.ldkAdapterBolt11Bolt11PaymentSendProbesUsingAmount(
+          that: this, invoice: invoice, amountMsat: amountMsat);
 
   Future<PaymentId> sendUsingAmount(
-      {required Bolt11Invoice invoice,
-      required BigInt amountMsat,
-      SendingParameters? sendingParameters});
+          {required Bolt11Invoice invoice,
+          required BigInt amountMsat,
+          SendingParameters? sendingParameters}) =>
+      core.instance.api.ldkAdapterBolt11Bolt11PaymentSendUsingAmount(
+          that: this,
+          invoice: invoice,
+          amountMsat: amountMsat,
+          sendingParameters: sendingParameters);
+
+  @override
+  int get hashCode => inner.hashCode;
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is Bolt11Payment &&
+          runtimeType == other.runtimeType &&
+          inner == other.inner;
 }

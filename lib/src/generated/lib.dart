@@ -10,6 +10,9 @@ import 'package:flutter_rust_bridge/flutter_rust_bridge_for_generated.dart';
 // Rust type: RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<BitcoinTransactionInner>>
 abstract class BitcoinTransactionInner implements RustOpaqueInterface {}
 
+// Rust type: RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner< OnchainPayment>>
+abstract class OnchainPayment implements RustOpaqueInterface {}
+
 // Rust type: RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<TaprootSpendInfoInner>>
 abstract class TaprootSpendInfoInner implements RustOpaqueInterface {}
 
