@@ -29,6 +29,7 @@ codegen:
 	@if [ "$$(uname)" = "Linux" ]; then \
 		echo "Setting up environment for Linux..."; \
 		export CPATH="$$(clang -v 2>&1 | grep "Selected GCC installation" | rev | cut -d' ' -f1 | rev)/include" && \
+		export RUSTFLAGS="--cfg tokio_unstable" && \
 		echo "CPATH set to: $$CPATH" && \
 		flutter_rust_bridge_codegen generate; \
 	elif [ "$$(uname)" = "Darwin" ]; then \
@@ -37,10 +38,12 @@ codegen:
 		export LIBRARY_PATH="$$(xcrun --show-sdk-path)/usr/lib"; \
 		export LDFLAGS="-L/opt/homebrew/opt/llvm/lib"; \
 		export CPPFLAGS="-I/opt/homebrew/opt/llvm/include"; \
+		export RUSTFLAGS="--cfg tokio_unstable"; \
 		echo "SDK path: $$(xcrun --show-sdk-path)"; \
 		flutter_rust_bridge_codegen generate; \
 	else \
 		echo "Running on $$(uname)..."; \
+		export RUSTFLAGS="--cfg tokio_unstable" && \
 		flutter_rust_bridge_codegen generate; \
 	fi
 	@echo "[Done ✅]"

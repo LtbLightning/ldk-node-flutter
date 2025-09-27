@@ -1,5 +1,5 @@
-## [0.6.1]
-Updated `ldk-node` to `0.6.1`.
+## [0.6.2]
+Updated `ldk-node` to `0.6.2`.
 
 ### Notes
 - No breaking changes and no new functions exposed.
