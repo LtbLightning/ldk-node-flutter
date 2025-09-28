@@ -11,6 +11,10 @@ linter:
     non_constant_identifier_names: false
 
 analyzer:
+  language:
+    strict-casts: true
+    strict-inference: true
+    strict-raw-types: true
   exclude:
     - lib/src/generated/frb_generated.dart
     - lib/src/generated/frb_generated.io.dart

@@ -6,10 +6,9 @@
 import '../frb_generated.dart';
 import '../lib.dart';
 import 'package:flutter_rust_bridge/flutter_rust_bridge_for_generated.dart';
-import 'package:freezed_annotation/freezed_annotation.dart' hide protected;
-part 'shared.freezed.dart';
 
-// These function are ignored because they are on traits that is not defined in current crate (put an empty `#[frb]` on it to unignore): `assert_receiver_is_total_eq`, `assert_receiver_is_total_eq`, `assert_receiver_is_total_eq`, `assert_receiver_is_total_eq`, `assert_receiver_is_total_eq`, `assert_receiver_is_total_eq`, `assert_receiver_is_total_eq`, `assert_receiver_is_total_eq`, `assert_receiver_is_total_eq`, `assert_receiver_is_total_eq`, `assert_receiver_is_total_eq`, `assert_receiver_is_total_eq`, `assert_receiver_is_total_eq`, `assert_receiver_is_total_eq`, `assert_receiver_is_total_eq`, `assert_receiver_is_total_eq`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `eq`, `eq`, `eq`, `eq`, `eq`, `eq`, `eq`, `eq`, `eq`, `eq`, `eq`, `eq`, `eq`, `eq`, `eq`, `eq`, `eq`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `hash`, `try_from`, `try_from`, `try_from`, `try_from`, `try_from`, `try_from`, `try_from`, `try_from`, `try_from`, `try_from`, `try_from`, `try_from`
+// These types are ignored because they are neither used by any `pub` functions nor (for structs and enums) marked `#[frb(unignore)]`: `AddressOnionV2`, `AddressOnionV3`, `AddressTcpIpV4`, `AddressTcpIpV6`
+// These function are ignored because they are on traits that is not defined in current crate (put an empty `#[frb]` on it to unignore): `assert_receiver_is_total_eq`, `assert_receiver_is_total_eq`, `assert_receiver_is_total_eq`, `assert_receiver_is_total_eq`, `assert_receiver_is_total_eq`, `assert_receiver_is_total_eq`, `assert_receiver_is_total_eq`, `assert_receiver_is_total_eq`, `assert_receiver_is_total_eq`, `assert_receiver_is_total_eq`, `assert_receiver_is_total_eq`, `assert_receiver_is_total_eq`, `assert_receiver_is_total_eq`, `assert_receiver_is_total_eq`, `assert_receiver_is_total_eq`, `assert_receiver_is_total_eq`, `assert_receiver_is_total_eq`, `assert_receiver_is_total_eq`, `assert_receiver_is_total_eq`, `assert_receiver_is_total_eq`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `eq`, `eq`, `eq`, `eq`, `eq`, `eq`, `eq`, `eq`, `eq`, `eq`, `eq`, `eq`, `eq`, `eq`, `eq`, `eq`, `eq`, `eq`, `eq`, `eq`, `eq`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `hash`, `try_from`, `try_from`, `try_from`, `try_from`, `try_from`, `try_from`, `try_from`, `try_from`, `try_from`, `try_from`, `try_from`, `try_from`
 
 // Rust type: RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<AddressData>>
 abstract class AddressData implements RustOpaqueInterface {}
@@ -35,10 +34,8 @@ abstract class BitcoinAddress implements RustOpaqueInterface {
   /// Is the address valid for the provided network
   Future<bool> isValidForNetwork({required Network network});
 
-  // HINT: Make it `#[frb(sync)]` to let it become the default constructor of Dart class.
   /// Parse a string as an address for the given network.
-  static Future<BitcoinAddress> newInstance(
-          {required String address, required Network network}) =>
+  factory BitcoinAddress({required String address, required Network network}) =>
       core.instance.api
           .sharedBitcoinAddressNew(address: address, network: network);
 
@@ -54,6 +51,26 @@ abstract class BitcoinAddress implements RustOpaqueInterface {
 
 // Rust type: RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<BitcoinAddressInner>>
 abstract class BitcoinAddressInner implements RustOpaqueInterface {}
+
+// Rust type: RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<PublicKey>>
+abstract class PublicKey implements RustOpaqueInterface {
+  String get hex;
+
+  set hex(String hex);
+
+  factory PublicKey({required String hex}) =>
+      core.instance.api.sharedPublicKeyNew(hex: hex);
+}
+
+// Rust type: RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<SocketAddress>>
+abstract class SocketAddress implements RustOpaqueInterface {
+  Future<String> addr();
+
+  static SocketAddress hostname({required String addr, required int port}) =>
+      core.instance.api.sharedSocketAddressHostname(addr: addr, port: port);
+
+  Future<int> port();
+}
 
 // Rust type: RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<TaprootSpendInfo>>
 abstract class TaprootSpendInfo implements RustOpaqueInterface {
@@ -108,10 +125,8 @@ abstract class Transaction implements RustOpaqueInterface {
   /// * [BIP-113 Median time-past as endpoint for lock-time calculations](https://github.com/bitcoin/bips/blob/master/bip-0113.mediawiki)
   Future<int> lockTime();
 
-  // HINT: Make it `#[frb(sync)]` to let it become the default constructor of Dart class.
   /// Creates a new `Transaction` instance from serialized transaction bytes.
-  static Future<Transaction> newInstance(
-          {required List<int> transactionBytes}) =>
+  factory Transaction({required List<int> transactionBytes}) =>
       core.instance.api
           .sharedTransactionNew(transactionBytes: transactionBytes);
 
@@ -364,24 +379,6 @@ class Psbt {
       other is Psbt && runtimeType == other.runtimeType && inner == other.inner;
 }
 
-class PublicKey {
-  final String hex;
-
-  const PublicKey({
-    required this.hex,
-  });
-
-  @override
-  int get hashCode => hex.hashCode;
-
-  @override
-  bool operator ==(Object other) =>
-      identical(this, other) ||
-      other is PublicKey &&
-          runtimeType == other.runtimeType &&
-          hex == other.hex;
-}
-
 class Refund {
   final String s;
 
@@ -446,33 +443,6 @@ class SendingParameters {
           maxPathCount == other.maxPathCount &&
           maxChannelSaturationPowerOfHalf ==
               other.maxChannelSaturationPowerOfHalf;
-}
-
-@freezed
-sealed class SocketAddress with _$SocketAddress {
-  const SocketAddress._();
-
-  const factory SocketAddress.tcpIpV4({
-    required U8Array4 addr,
-    required int port,
-  }) = SocketAddress_TcpIpV4;
-  const factory SocketAddress.tcpIpV6({
-    required U8Array16 addr,
-    required int port,
-  }) = SocketAddress_TcpIpV6;
-  const factory SocketAddress.onionV2(
-    U8Array12 field0,
-  ) = SocketAddress_OnionV2;
-  const factory SocketAddress.onionV3({
-    required U8Array32 ed25519Pubkey,
-    required int checksum,
-    required int version,
-    required int port,
-  }) = SocketAddress_OnionV3;
-  const factory SocketAddress.hostname({
-    required String addr,
-    required int port,
-  }) = SocketAddress_Hostname;
 }
 
 class TxIn {

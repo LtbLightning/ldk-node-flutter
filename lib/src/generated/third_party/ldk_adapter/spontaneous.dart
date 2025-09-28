@@ -12,10 +12,6 @@ import 'types.dart';
 
 // Rust type: RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<SpontaneousPayment>>
 abstract class SpontaneousPayment implements RustOpaqueInterface {
-  SpontaneousPayment get inner;
-
-  set inner(SpontaneousPayment inner);
-
   Future<void> sendProbesUnsafe(
       {required BigInt amountMsat, required PublicKey nodeId});
 

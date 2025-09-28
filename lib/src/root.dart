@@ -1,6 +1,8 @@
 import 'dart:async';
 import 'dart:typed_data';
 
+import 'package:ldk_node/ldk_node.dart';
+
 import 'generated/lib.dart';
 import 'generated/third_party/ldk_adapter/builder.dart' as builder;
 import 'generated/third_party/ldk_adapter/node.dart';
@@ -30,7 +32,7 @@ class DefaultServicesMutinynet {
   static const int lsps2SourcePort = 39735;
   static const String lsps2SourcePublicKey = "0371d6fd7d75de2d0372d03ea00e8bacdacb50c27d0eaea0a76a0622eff1f5ef2b";
   static const String? lsps2SourceToken = null;
-  static const esploraServerConfig = null; // This would need proper configuration
+  static const EsploraSyncConfig? esploraServerConfig = null; // This would need proper configuration
 }
 
 typedef SpontaneousPayment = spontaneous.SpontaneousPayment;
@@ -423,8 +425,8 @@ class Builder {
   /// stored at the given location.
   ///
   Builder setEntropySeedPath(String seedPath) {
-    // Note: EntropySourceConfig.seedFile constructor missing from generated code
-    throw UnimplementedError('EntropySourceConfig.seedFile constructor not available in generated code');
+    _entropySource = types.EntropySourceConfig.seedFile(seedPath);
+    return this;
   }
 
   /// Configures the [LdkNode] instance to source its wallet entropy from the given 64 seed bytes.
@@ -432,27 +434,27 @@ class Builder {
   /// **Note:** Panics if the length of the given `seedBytes` differs from 64.
   ///
   Builder setEntropySeedBytes(U8Array64 seedBytes) {
-    // Note: EntropySourceConfig.seedBytes constructor missing from generated code
-    throw UnimplementedError('EntropySourceConfig.seedBytes constructor not available in generated code');
+    _entropySource = types.EntropySourceConfig.seedBytes(seedBytes);
+    return this;
   }
 
   /// Configures the [LdkNode] instance to source its chain data from the given Esplora server.
   ///
   Builder setEntropyBip39Mnemonic(
       {required Mnemonic mnemonic, String? passphrase}) {
-    // Note: EntropySourceConfig.bip39Mnemonic constructor missing from generated code
-    throw UnimplementedError('EntropySourceConfig.bip39Mnemonic constructor not available in generated code');
+    _entropySource = types.EntropySourceConfig.bip39Mnemonic(
+        mnemonic: mnemonic, passphrase: passphrase);
+
+    return this;
   }
 
   ///Configures the [LdkNode] instance to source its chain data from the given Esplora server.
   ///
   Builder setChainSourceEsplora(
-      {required String esploraServerUrl, dynamic syncConfig}) {
-    // Note: EsploraSyncConfig constructor missing from generated code
-    // _chainDataSourceConfig = types.ChainDataSourceConfig.esplora(
-    //     serverUrl: esploraServerUrl, syncConfig: syncConfig);
-    // For now, this method won't work until the constructor is added to Rust side
-    throw UnimplementedError('ChainDataSourceConfig.esplora constructor not available in generated code');
+      {required String esploraServerUrl, EsploraSyncConfig? syncConfig}) {
+    _chainDataSourceConfig = types.ChainDataSourceConfig.esplora(
+        serverUrl: esploraServerUrl, syncConfig: syncConfig);
+    return this;
   }
 
   Builder setChainSourceBitcoinRpc(
@@ -460,24 +462,29 @@ class Builder {
       required int rpcPort,
       required String rpcUser,
       required String rpcPassword}) {
-    // Note: ChainDataSourceConfig.bitcoindRpc constructor missing from generated code
-    throw UnimplementedError('ChainDataSourceConfig.bitcoindRpc constructor not available in generated code');
+    _chainDataSourceConfig = types.ChainDataSourceConfig.bitcoindRpc(
+        rpcHost: rpcHost,
+        rpcPort: rpcPort,
+        rpcUser: rpcUser,
+        rpcPassword: rpcPassword);
+    return this;
   }
 
   /// Configures the [LdkNode] instance to source its gossip data from the Lightning peer-to-peer
   /// network.
   ///
   Builder setGossipSourceP2p() {
-    // Note: GossipSourceConfig.p2PNetwork constructor missing from generated code
-    throw UnimplementedError('GossipSourceConfig.p2PNetwork constructor not available in generated code');
+    _gossipSourceConfig = types.GossipSourceConfig.p2PNetwork();
+    return this;
   }
 
   /// Configures the [LdkNode] instance to source its gossip data from the given RapidGossipSync
   /// server.
   ///
   Builder setGossipSourceRgs(String rgsServerUrl) {
-    // Note: GossipSourceConfig.rapidGossipSync constructor missing from generated code
-    throw UnimplementedError('GossipSourceConfig.rapidGossipSync constructor not available in generated code');
+    _gossipSourceConfig =
+        types.GossipSourceConfig.rapidGossipSync(rgsServerUrl);
+    return this;
   }
 
   /// Sets the used storage directory path.
@@ -491,9 +498,8 @@ class Builder {
   /// Sets the Bitcoin network used.
   ///
   Builder setNetwork(Network network) {
-    // Config fields are final, so this method needs to be implemented differently
-    // For now, this method won't work until the Config structure is mutable
-    throw UnimplementedError('Config fields are final - this needs to be reimplemented');
+    _config!.network = network;
+    return this;
   }
 
   /// Sets the IP address and TCP port on which [LdkNode] will listen for incoming network connections.
@@ -534,12 +540,12 @@ class Builder {
   ///   maxLogLevel: types.LogLevel.info,
   /// );
   /// ```
-  Builder setFilesystemLogger({
+  Future<Builder> setFilesystemLogger({
     String? logFilePath,
     types.LogLevel? maxLogLevel,
-  }) {
+  }) async {
     // Create or get the builder instance
-    _configuredBuilder ??= builder.LdkBuilder.createBuilder(
+    _configuredBuilder ??= await builder.LdkBuilder.createBuilder(
       config: _config ?? Builder()._config!,
       chainDataSourceConfig: _chainDataSourceConfig,
       entropySourceConfig: _entropySource,
@@ -548,7 +554,7 @@ class Builder {
     );
 
     // Configure filesystem logging
-    _configuredBuilder = _configuredBuilder!.setFilesystemLogger(
+    _configuredBuilder = await _configuredBuilder!.setFilesystemLogger(
       logFilePath: logFilePath,
       maxLogLevel: maxLogLevel,
     );
@@ -566,9 +572,9 @@ class Builder {
   /// ```dart
   /// builder.setLogFacadeLogger();
   /// ```
-  Builder setLogFacadeLogger() {
+  Future<Builder> setLogFacadeLogger() async {
     // Create or get the builder instance
-    _configuredBuilder ??= builder.LdkBuilder.createBuilder(
+    _configuredBuilder ??= await builder.LdkBuilder.createBuilder(
       config: _config ?? Builder()._config!,
       chainDataSourceConfig: _chainDataSourceConfig,
       entropySourceConfig: _entropySource,
@@ -577,7 +583,7 @@ class Builder {
     );
 
     // Configure log facade
-    _configuredBuilder = _configuredBuilder!.setLogFacadeLogger();
+    _configuredBuilder = await _configuredBuilder!.setLogFacadeLogger();
 
     return this;
   }
@@ -610,7 +616,7 @@ class Builder {
 
     // Use configured builder if available, otherwise create new one
     final builderInstance = _configuredBuilder ??
-        builder.LdkBuilder.createBuilder(
+        await builder.LdkBuilder.createBuilder(
           config: _config ?? Builder()._config!,
           chainDataSourceConfig: _chainDataSourceConfig,
           entropySourceConfig: _entropySource,
@@ -632,7 +638,7 @@ class Builder {
 
     // Use configured builder if available, otherwise create new one
     final builderInstance = _configuredBuilder ??
-        builder.LdkBuilder.createBuilder(
+        await builder.LdkBuilder.createBuilder(
           config: _config ?? Builder()._config!,
           chainDataSourceConfig: _chainDataSourceConfig,
           entropySourceConfig: _entropySource,
@@ -654,12 +660,12 @@ class Builder {
       final nodePath = "${directory.path}/ldk_cache/";
       _config!.storageDirPath = nodePath;
     }
-    final res = await builder.LdkBuilder.createBuilder(
+    final res = await (await builder.LdkBuilder.createBuilder(
             config: _config ?? Builder()._config!,
             chainDataSourceConfig: _chainDataSourceConfig,
             entropySourceConfig: _entropySource,
             liquiditySourceConfig: _liquiditySourceConfig,
-            gossipSourceConfig: _gossipSourceConfig)
+            gossipSourceConfig: _gossipSourceConfig))
         .buildWithVssStore(
             vssUrl: vssUrl,
             storeId: storeId,
@@ -778,5 +784,5 @@ class FeeRate {
   int get hashCode => _satPerKwu.hashCode;
 
   @override
-  String toString() => 'FeeRate(${_satPerKwu} sat/kwu)';
+  String toString() => 'FeeRate($_satPerKwu} sat/kwu)';
 }

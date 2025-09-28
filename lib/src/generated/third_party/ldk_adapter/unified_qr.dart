@@ -13,10 +13,6 @@ abstract class QrPaymentResult implements RustOpaqueInterface {}
 
 // Rust type: RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<UnifiedQrPayment>>
 abstract class UnifiedQrPayment implements RustOpaqueInterface {
-  UnifiedQrPayment get inner;
-
-  set inner(UnifiedQrPayment inner);
-
   /// Generate a payable QR code that can be used to request and receive a payment.
   ///
   /// Returns a URI that combines an on-chain address, a BOLT11 invoice, and/or a BOLT12 offer.

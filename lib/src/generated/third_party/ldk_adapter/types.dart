@@ -284,6 +284,26 @@ abstract class ChannelDetails implements RustOpaqueInterface {
   Future<BigInt> totalLiquidityMsat();
 }
 
+// Rust type: RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<ChannelId>>
+abstract class ChannelId implements RustOpaqueInterface {
+  /// Returns the channel ID as bytes.
+  Future<void> asBytes();
+
+  U8Array32 get data;
+
+  set data(U8Array32 data);
+
+  /// Creates a new ChannelId from a byte slice.
+  /// Returns None if the slice is not exactly 32 bytes.
+  static Future<ChannelId?> fromBytes({required List<int> bytes}) =>
+      core.instance.api.ldkAdapterTypesChannelIdFromBytes(bytes: bytes);
+
+  // HINT: Make it `#[frb(sync)]` to let it become the default constructor of Dart class.
+  /// Creates a new ChannelId from a 32-byte array.
+  static Future<ChannelId> newInstance({required U8Array32 data}) =>
+      core.instance.api.ldkAdapterTypesChannelIdNew(data: data);
+}
+
 // Rust type: RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<ConfirmationStatus>>
 abstract class ConfirmationStatus implements RustOpaqueInterface {}
 
@@ -308,6 +328,70 @@ abstract class MaxDustHtlcExposure implements RustOpaqueInterface {
           {required BigInt limitMsat}) =>
       core.instance.api.ldkAdapterTypesMaxDustHtlcExposureNewFixedLimit(
           limitMsat: limitMsat);
+}
+
+// Rust type: RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<PeerDetails>>
+abstract class PeerDetails implements RustOpaqueInterface {
+  SocketAddress get address;
+
+  bool get isConnected;
+
+  PublicKey get nodeId;
+
+  set address(SocketAddress address);
+
+  set isConnected(bool isConnected);
+
+  set nodeId(PublicKey nodeId);
+
+  /// Checks if the peer is currently disconnected.
+  Future<bool> isOffline();
+
+  /// Checks if the peer is currently connected.
+  Future<bool> isOnline();
+
+  // HINT: Make it `#[frb(sync)]` to let it become the default constructor of Dart class.
+  /// Creates a new PeerDetails.
+  static Future<PeerDetails> newInstance(
+          {required PublicKey nodeId,
+          required SocketAddress address,
+          required bool isConnected}) =>
+      core.instance.api.ldkAdapterTypesPeerDetailsNew(
+          nodeId: nodeId, address: address, isConnected: isConnected);
+
+  /// Creates a new connected peer.
+  static Future<PeerDetails> newConnected(
+          {required PublicKey nodeId, required SocketAddress address}) =>
+      core.instance.api.ldkAdapterTypesPeerDetailsNewConnected(
+          nodeId: nodeId, address: address);
+
+  /// Creates a new disconnected peer.
+  static Future<PeerDetails> newDisconnected(
+          {required PublicKey nodeId, required SocketAddress address}) =>
+      core.instance.api.ldkAdapterTypesPeerDetailsNewDisconnected(
+          nodeId: nodeId, address: address);
+}
+
+// Rust type: RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<UserChannelId>>
+abstract class UserChannelId implements RustOpaqueInterface {
+  /// Returns the data as a byte slice.
+  Future<void> asBytes();
+
+  Uint8List get data;
+
+  set data(Uint8List data);
+
+  /// Creates a new UserChannelId from a string.
+  static Future<UserChannelId> fromString({required String s}) =>
+      core.instance.api.ldkAdapterTypesUserChannelIdFromString(s: s);
+
+  /// Creates a new UserChannelId from a u64.
+  static Future<UserChannelId> fromU64({required BigInt id}) =>
+      core.instance.api.ldkAdapterTypesUserChannelIdFromU64(id: id);
+
+  /// Creates a new UserChannelId from a byte vector.
+  factory UserChannelId({required List<int> data}) =>
+      core.instance.api.ldkAdapterTypesUserChannelIdNew(data: data);
 }
 
 abstract class FfiLogWriter {
@@ -486,45 +570,6 @@ sealed class ChainDataSourceConfig with _$ChainDataSourceConfig {
   }) = ChainDataSourceConfig_BitcoindRpc;
 }
 
-/// The global identifier of a channel.
-///
-/// Note that this will start out to be a temporary ID until channel funding negotiation is
-/// finalized, at which point it will change to be a permanent global ID tied to the on-chain
-/// funding transaction.
-///
-class ChannelId {
-  final U8Array32 data;
-
-  const ChannelId({
-    required this.data,
-  });
-
-  /// Returns the channel ID as bytes.
-  Future<void> asBytes() => core.instance.api.ldkAdapterTypesChannelIdAsBytes(
-        that: this,
-      );
-
-  /// Creates a new ChannelId from a byte slice.
-  /// Returns None if the slice is not exactly 32 bytes.
-  static Future<ChannelId?> fromBytes({required List<int> bytes}) =>
-      core.instance.api.ldkAdapterTypesChannelIdFromBytes(bytes: bytes);
-
-  // HINT: Make it `#[frb(sync)]` to let it become the default constructor of Dart class.
-  /// Creates a new ChannelId from a 32-byte array.
-  static Future<ChannelId> newInstance({required U8Array32 data}) =>
-      core.instance.api.ldkAdapterTypesChannelIdNew(data: data);
-
-  @override
-  int get hashCode => data.hashCode;
-
-  @override
-  bool operator ==(Object other) =>
-      identical(this, other) ||
-      other is ChannelId &&
-          runtimeType == other.runtimeType &&
-          data == other.data;
-}
-
 @freezed
 sealed class ClosureReason with _$ClosureReason {
   const ClosureReason._();
@@ -636,7 +681,7 @@ class Config {
   String storageDirPath;
 
   /// The used Bitcoin network.
-  final Network network;
+  Network network;
 
   /// The IP address and TCP port the node will listen on.
   ///
@@ -1845,75 +1890,6 @@ enum PaymentStatus {
   ;
 }
 
-/// Bitcoin network enum
-///
-/// Details of a known Lightning peer as returned by `node.listPeers`.
-///
-class PeerDetails {
-  /// Our peer's node ID.
-  ///
-  final PublicKey nodeId;
-
-  /// The IP address and TCP port of the peer.
-  ///
-  final SocketAddress address;
-
-  /// Indicates whether or not the user is currently has an active connection with the peer.
-  ///
-  final bool isConnected;
-
-  const PeerDetails({
-    required this.nodeId,
-    required this.address,
-    required this.isConnected,
-  });
-
-  /// Checks if the peer is currently disconnected.
-  Future<bool> isOffline() =>
-      core.instance.api.ldkAdapterTypesPeerDetailsIsOffline(
-        that: this,
-      );
-
-  /// Checks if the peer is currently connected.
-  Future<bool> isOnline() =>
-      core.instance.api.ldkAdapterTypesPeerDetailsIsOnline(
-        that: this,
-      );
-
-  // HINT: Make it `#[frb(sync)]` to let it become the default constructor of Dart class.
-  /// Creates a new PeerDetails.
-  static Future<PeerDetails> newInstance(
-          {required PublicKey nodeId,
-          required SocketAddress address,
-          required bool isConnected}) =>
-      core.instance.api.ldkAdapterTypesPeerDetailsNew(
-          nodeId: nodeId, address: address, isConnected: isConnected);
-
-  /// Creates a new connected peer.
-  static Future<PeerDetails> newConnected(
-          {required PublicKey nodeId, required SocketAddress address}) =>
-      core.instance.api.ldkAdapterTypesPeerDetailsNewConnected(
-          nodeId: nodeId, address: address);
-
-  /// Creates a new disconnected peer.
-  static Future<PeerDetails> newDisconnected(
-          {required PublicKey nodeId, required SocketAddress address}) =>
-      core.instance.api.ldkAdapterTypesPeerDetailsNewDisconnected(
-          nodeId: nodeId, address: address);
-
-  @override
-  int get hashCode => nodeId.hashCode ^ address.hashCode ^ isConnected.hashCode;
-
-  @override
-  bool operator ==(Object other) =>
-      identical(this, other) ||
-      other is PeerDetails &&
-          runtimeType == other.runtimeType &&
-          nodeId == other.nodeId &&
-          address == other.address &&
-          isConnected == other.isConnected;
-}
-
 @freezed
 sealed class PendingSweepBalance with _$PendingSweepBalance {
   const PendingSweepBalance._();
@@ -1965,45 +1941,4 @@ sealed class PendingSweepBalance with _$PendingSweepBalance {
     /// The amount, in satoshis, of the output being swept.
     required BigInt amountSatoshis,
   }) = PendingSweepBalance_AwaitingThresholdConfirmations;
-}
-
-///A local, potentially user-provided, identifier of a channel.
-///
-/// By default, this will be randomly generated for the user to ensure local uniqueness.
-///
-class UserChannelId {
-  final Uint8List data;
-
-  const UserChannelId({
-    required this.data,
-  });
-
-  /// Returns the data as a byte slice.
-  Future<void> asBytes() =>
-      core.instance.api.ldkAdapterTypesUserChannelIdAsBytes(
-        that: this,
-      );
-
-  /// Creates a new UserChannelId from a string.
-  static Future<UserChannelId> fromString({required String s}) =>
-      core.instance.api.ldkAdapterTypesUserChannelIdFromString(s: s);
-
-  /// Creates a new UserChannelId from a u64.
-  static Future<UserChannelId> fromU64({required BigInt id}) =>
-      core.instance.api.ldkAdapterTypesUserChannelIdFromU64(id: id);
-
-  // HINT: Make it `#[frb(sync)]` to let it become the default constructor of Dart class.
-  /// Creates a new UserChannelId from a byte vector.
-  static Future<UserChannelId> newInstance({required List<int> data}) =>
-      core.instance.api.ldkAdapterTypesUserChannelIdNew(data: data);
-
-  @override
-  int get hashCode => data.hashCode;
-
-  @override
-  bool operator ==(Object other) =>
-      identical(this, other) ||
-      other is UserChannelId &&
-          runtimeType == other.runtimeType &&
-          data == other.data;
 }

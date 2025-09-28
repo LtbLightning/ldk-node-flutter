@@ -17,10 +17,6 @@ import 'unified_qr.dart';
 
 // Rust type: RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<Node>>
 abstract class Node implements RustOpaqueInterface {
-  Node get inner;
-
-  set inner(Node inner);
-
   Future<Bolt11Payment> bolt11Payment();
 
   Future<Bolt12Payment> bolt12Payment();

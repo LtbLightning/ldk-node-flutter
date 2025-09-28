@@ -47,9 +47,9 @@ void main() {
       await core.init();
       
       final aliceConfig = await initLdkConfig('alice',
-          const ldk.SocketAddress.hostname(addr: "0.0.0.0", port: 3003));
+         ldk.SocketAddress.hostname(addr: "0.0.0.0", port: 3003));
       debugPrint("Creating Alice builder...");
-      final aliceBuilder = ldk.Builder.fromConfig(config: aliceConfig)
+      final aliceBuilder = await ldk.Builder.fromConfig(config: aliceConfig)
           .setEntropyBip39Mnemonic(
               mnemonic: await ldk.Mnemonic.fromSeedPhrase(
                   seedPhrase:
@@ -65,7 +65,7 @@ void main() {
       await aliceNode.start();
       debugPrint("Alice node started successfully!");
       final bobConfig = await initLdkConfig(
-          'bob', const ldk.SocketAddress.hostname(addr: "0.0.0.0", port: 3004));
+          'bob', ldk.SocketAddress.hostname(addr: "0.0.0.0", port: 3004));
 
       debugPrint("Creating Bob builder...");
       final bobBuilder = ldk.Builder.fromConfig(config: bobConfig)

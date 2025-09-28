@@ -11,10 +11,6 @@ import 'package:flutter_rust_bridge/flutter_rust_bridge_for_generated.dart';
 
 // Rust type: RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<Bolt12Payment>>
 abstract class Bolt12Payment implements RustOpaqueInterface {
-  Bolt12Payment get inner;
-
-  set inner(Bolt12Payment inner);
-
   Future<Refund> initiateRefund(
       {required BigInt amountMsat,
       required int expirySecs,
