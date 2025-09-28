@@ -58,7 +58,7 @@ class WalletNotifier extends StateNotifier<WalletState> {
       try {
         final onChainPayment = await node.onChainPayment();
         final address = await onChainPayment.newAddress();
-        walletAddress = address.s;
+        walletAddress = await address.asString();
       } catch (e) {
         debugPrint('Error fetching wallet address: $e');
       }
@@ -176,7 +176,7 @@ class WalletNotifier extends StateNotifier<WalletState> {
     try {
       final onChainPayment = await state.node!.onChainPayment();
       final address = await onChainPayment.newAddress();
-      return address.s;
+      return await address.asString();
     } catch (e) {
       throw Exception('Failed to generate address: $e');
     }
@@ -335,7 +335,7 @@ class WalletNotifier extends StateNotifier<WalletState> {
     try {
       final onChainPayment = await state.node!.onChainPayment();
       final txid = await onChainPayment.sendToAddress(
-          address: ldk.Address(s: address), amountSats: amountSats);
+          address: await ldk.BitcoinAddress.fromString(address: address), amountSats: amountSats);
       return txid.hash;
     } catch (e) {
       throw Exception('Failed to send: $e');
@@ -347,7 +347,7 @@ class WalletNotifier extends StateNotifier<WalletState> {
     try {
       final onChainPayment = await state.node!.onChainPayment();
       final address = await onChainPayment.newAddress();
-      state = state.copyWith(walletAddress: address.s);
+      state = state.copyWith(walletAddress: await address.asString());
     } catch (e) {
       debugPrint('Error refreshing wallet address: $e');
     }

@@ -11,12 +11,11 @@ import 'package:flutter_rust_bridge/flutter_rust_bridge_for_generated.dart';
 // Rust type: RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<QrPaymentResult>>
 abstract class QrPaymentResult implements RustOpaqueInterface {}
 
-class UnifiedQrPayment {
-  final UnifiedQrPayment inner;
+// Rust type: RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<UnifiedQrPayment>>
+abstract class UnifiedQrPayment implements RustOpaqueInterface {
+  UnifiedQrPayment get inner;
 
-  const UnifiedQrPayment({
-    required this.inner,
-  });
+  set inner(UnifiedQrPayment inner);
 
   /// Generate a payable QR code that can be used to request and receive a payment.
   ///
@@ -40,30 +39,14 @@ class UnifiedQrPayment {
   /// [BOLT 11]: https://github.com/lightning/bolts/blob/master/11-payment-encoding.md
   /// [BOLT 12]: https://github.com/lightning/bolts/blob/master/12-offer-encoding.md
   Future<String> receive(
-          {required BigInt amountSats,
-          required String message,
-          required int expirySec}) =>
-      core.instance.api.ldkAdapterUnifiedQrUnifiedQrPaymentReceive(
-          that: this,
-          amountSats: amountSats,
-          message: message,
-          expirySec: expirySec);
+      {required BigInt amountSats,
+      required String message,
+      required int expirySec});
 
   /// Sends a payment given a BIP 21 URI.
   ///
   /// This method parses the provided URI string and attempts to send the payment.
   /// If the URI has an offer and/or invoice, it will try to pay the offer first
   /// followed by the invoice. If they both fail, the on-chain payment will be paid.
-  Future<QrPaymentResult> send({required String uriStr}) => core.instance.api
-      .ldkAdapterUnifiedQrUnifiedQrPaymentSend(that: this, uriStr: uriStr);
-
-  @override
-  int get hashCode => inner.hashCode;
-
-  @override
-  bool operator ==(Object other) =>
-      identical(this, other) ||
-      other is UnifiedQrPayment &&
-          runtimeType == other.runtimeType &&
-          inner == other.inner;
+  Future<QrPaymentResult> send({required String uriStr});
 }

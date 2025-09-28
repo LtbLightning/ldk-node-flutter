@@ -90,12 +90,12 @@ void main() {
           await (await aliceNode.onChainPayment()).newAddress();
       final bobNodeAddress =
           await (await bobNode.onChainPayment()).newAddress();
-      debugPrint("Alice address: ${aliceNodeAddress.toAddressData()}");
-      debugPrint("Bob address: ${bobNodeAddress.toAddressData()}");
+      debugPrint("Alice address: ${await aliceNodeAddress.asString()}");
+      debugPrint("Bob address: ${await bobNodeAddress.asString()}");
 
       // Use nigiri faucet to send funds instead of generating blocks
-      await regTestClient.sendToAddress(aliceNodeAddress.s, 1); // Send 1 BTC to Alice
-      await regTestClient.sendToAddress(bobNodeAddress.s, 1); // Send 1 BTC to Bob
+      await regTestClient.sendToAddress(await aliceNodeAddress.asString(), 1); // Send 1 BTC to Alice
+      await regTestClient.sendToAddress(await bobNodeAddress.asString(), 1); // Send 1 BTC to Bob
       debugPrint("Sent 1 BTC each to Alice and Bob via faucet");
       
       // Generate a few blocks to confirm the transactions
@@ -117,7 +117,7 @@ void main() {
       if (aliceBalance < BigInt.from(requiredAmount)) {
         debugPrint("Alice needs more funds. Current: $aliceBalance, Required: $requiredAmount");
         // Generate more blocks to Alice
-        await regTestClient.generate(50, aliceNodeAddress.s);
+        await regTestClient.generate(50, await aliceNodeAddress.asString());
         debugPrint("Generated 50 more blocks to Alice");
         await Future.wait([aliceNode.syncWallets()]);
         final newAliceBalance = (await aliceNode.listBalances()).spendableOnchainBalanceSats;
@@ -226,7 +226,7 @@ void main() {
           equals(true));
 
       // Generate more blocks to ensure channel is well-confirmed
-      await regTestClient.generate(5, aliceNodeAddress.s);
+      await regTestClient.generate(5, await aliceNodeAddress.asString());
       expect(
           (aliceChannels
                       .where((e) => e.counterpartyNodeId.hex == bobNodeId.hex))

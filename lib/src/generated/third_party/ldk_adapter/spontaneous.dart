@@ -10,48 +10,23 @@ import 'types.dart';
 
 // These function are ignored because they are on traits that is not defined in current crate (put an empty `#[frb]` on it to unignore): `from`, `from`
 
-class SpontaneousPayment {
-  final SpontaneousPayment inner;
+// Rust type: RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<SpontaneousPayment>>
+abstract class SpontaneousPayment implements RustOpaqueInterface {
+  SpontaneousPayment get inner;
 
-  const SpontaneousPayment({
-    required this.inner,
-  });
+  set inner(SpontaneousPayment inner);
 
   Future<void> sendProbesUnsafe(
-          {required BigInt amountMsat, required PublicKey nodeId}) =>
-      core.instance.api.ldkAdapterSpontaneousSpontaneousPaymentSendProbesUnsafe(
-          that: this, amountMsat: amountMsat, nodeId: nodeId);
+      {required BigInt amountMsat, required PublicKey nodeId});
 
   Future<PaymentId> sendUnsafe(
-          {required BigInt amountMsat,
-          required PublicKey nodeId,
-          SendingParameters? sendingParameters}) =>
-      core.instance.api.ldkAdapterSpontaneousSpontaneousPaymentSendUnsafe(
-          that: this,
-          amountMsat: amountMsat,
-          nodeId: nodeId,
-          sendingParameters: sendingParameters);
+      {required BigInt amountMsat,
+      required PublicKey nodeId,
+      SendingParameters? sendingParameters});
 
   Future<PaymentId> sendWithCustomTlvsUnsafe(
-          {required BigInt amountMsat,
-          required PublicKey nodeId,
-          SendingParameters? sendingParameters,
-          required List<CustomTlvRecord> customTlvs}) =>
-      core.instance.api
-          .ldkAdapterSpontaneousSpontaneousPaymentSendWithCustomTlvsUnsafe(
-              that: this,
-              amountMsat: amountMsat,
-              nodeId: nodeId,
-              sendingParameters: sendingParameters,
-              customTlvs: customTlvs);
-
-  @override
-  int get hashCode => inner.hashCode;
-
-  @override
-  bool operator ==(Object other) =>
-      identical(this, other) ||
-      other is SpontaneousPayment &&
-          runtimeType == other.runtimeType &&
-          inner == other.inner;
+      {required BigInt amountMsat,
+      required PublicKey nodeId,
+      SendingParameters? sendingParameters,
+      required List<CustomTlvRecord> customTlvs});
 }

@@ -10,6 +10,25 @@ import 'package:flutter_rust_bridge/flutter_rust_bridge_for_generated.dart';
 
 // These function are ignored because they are on traits that is not defined in current crate (put an empty `#[frb]` on it to unignore): `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `try_from`
 
+// Rust type: RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<NetworkGraph>>
+abstract class NetworkGraph implements RustOpaqueInterface {
+  NetworkGraph get inner;
+
+  set inner(NetworkGraph inner);
+
+  /// Returns information on a channel with the given id.
+  Future<ChannelInfo?> channel({required BigInt shortChannelId});
+
+  /// Returns the list of channels in the graph
+  Future<Uint64List> listChannels();
+
+  /// Returns the list of nodes in the graph
+  Future<List<NodeId>> listNodes();
+
+  /// Returns information about a specific node
+  Future<NodeInfo?> node({required NodeId nodeId});
+}
+
 /// Details about a channel (both directions). Received within a channel announcement.
 class ChannelInfo {
   /// Source node of the first direction of a channel
@@ -104,46 +123,6 @@ class ChannelUpdateInfo {
           htlcMinimumMsat == other.htlcMinimumMsat &&
           htlcMaximumMsat == other.htlcMaximumMsat &&
           fees == other.fees;
-}
-
-/// Lightning Network graph for routing and network information
-class NetworkGraph {
-  final NetworkGraph inner;
-
-  const NetworkGraph({
-    required this.inner,
-  });
-
-  /// Returns information on a channel with the given id.
-  Future<ChannelInfo?> channel({required BigInt shortChannelId}) =>
-      core.instance.api.ldkAdapterGraphNetworkGraphChannel(
-          that: this, shortChannelId: shortChannelId);
-
-  /// Returns the list of channels in the graph
-  Future<Uint64List> listChannels() =>
-      core.instance.api.ldkAdapterGraphNetworkGraphListChannels(
-        that: this,
-      );
-
-  /// Returns the list of nodes in the graph
-  Future<List<NodeId>> listNodes() =>
-      core.instance.api.ldkAdapterGraphNetworkGraphListNodes(
-        that: this,
-      );
-
-  /// Returns information about a specific node
-  Future<NodeInfo?> node({required NodeId nodeId}) => core.instance.api
-      .ldkAdapterGraphNetworkGraphNode(that: this, nodeId: nodeId);
-
-  @override
-  int get hashCode => inner.hashCode;
-
-  @override
-  bool operator ==(Object other) =>
-      identical(this, other) ||
-      other is NetworkGraph &&
-          runtimeType == other.runtimeType &&
-          inner == other.inner;
 }
 
 /// Node announcement information

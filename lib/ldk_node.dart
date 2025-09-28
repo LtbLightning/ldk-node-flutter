@@ -14,6 +14,8 @@ export 'src/generated/third_party/ldk_adapter/error.dart' show NodeError, Builde
 export 'src/generated/third_party/shared.dart' 
     show 
         BitcoinAddress,
+        Bolt11Invoice,
+        Bolt12Invoice,
         Network,
         OutPoint,
         PaymentHash,

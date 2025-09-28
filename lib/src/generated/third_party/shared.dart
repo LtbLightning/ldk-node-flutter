@@ -16,6 +16,9 @@ abstract class AddressData implements RustOpaqueInterface {}
 
 // Rust type: RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<BitcoinAddress>>
 abstract class BitcoinAddress implements RustOpaqueInterface {
+  /// Return the address as a string.
+  Future<String> asString();
+
   BitcoinAddressInner get inner;
 
   set inner(BitcoinAddressInner inner);
@@ -25,6 +28,9 @@ abstract class BitcoinAddress implements RustOpaqueInterface {
           {required ScriptBuf script, required Network network}) =>
       core.instance.api
           .sharedBitcoinAddressFromScript(script: script, network: network);
+
+  static Future<BitcoinAddress> fromString({required String address}) =>
+      core.instance.api.sharedBitcoinAddressFromString(address: address);
 
   /// Is the address valid for the provided network
   Future<bool> isValidForNetwork({required Network network});

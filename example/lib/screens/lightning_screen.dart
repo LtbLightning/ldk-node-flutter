@@ -353,8 +353,30 @@ class _LightningScreenState extends ConsumerState<LightningScreen>
       final addresses = await walletState.node!.listeningAddresses();
       if (addresses != null && addresses.isNotEmpty) {
         final addr = addresses.first;
-        host = addr.host();
-        port = addr.port().toString();
+        final addressInfo = addr.map(
+          tcpIpV4: (tcpV4) => {
+            'host': tcpV4.addr.join('.'),
+            'port': tcpV4.port.toString(),
+          },
+          tcpIpV6: (tcpV6) => {
+            'host': tcpV6.addr.join(':'),
+            'port': tcpV6.port.toString(),
+          },
+          onionV2: (onion) => {
+            'host': 'Onion V2',
+            'port': 'N/A',
+          },
+          onionV3: (onion) => {
+            'host': 'Onion V3',
+            'port': onion.port.toString(),
+          },
+          hostname: (hostAddr) => {
+            'host': hostAddr.addr,
+            'port': hostAddr.port.toString(),
+          },
+        );
+        host = addressInfo['host']!;
+        port = addressInfo['port']!;
       }
     }
     showDialog(

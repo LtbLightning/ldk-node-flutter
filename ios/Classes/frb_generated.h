@@ -32,6 +32,33 @@ typedef struct wire_cst_script_buf {
   struct wire_cst_list_prim_u_8_strict *inner;
 } wire_cst_script_buf;
 
+typedef struct wire_cst_payment_hash {
+  struct wire_cst_list_prim_u_8_strict *data;
+} wire_cst_payment_hash;
+
+typedef struct wire_cst_payment_preimage {
+  struct wire_cst_list_prim_u_8_strict *data;
+} wire_cst_payment_preimage;
+
+typedef struct wire_cst_bolt_11_invoice {
+  struct wire_cst_list_prim_u_8_strict *signed_raw_invoice;
+} wire_cst_bolt_11_invoice;
+
+typedef struct wire_cst_sending_parameters {
+  uint64_t *max_total_routing_fee_msat;
+  uint32_t *max_total_cltv_expiry_delta;
+  uint8_t *max_path_count;
+  uint8_t *max_channel_saturation_power_of_half;
+} wire_cst_sending_parameters;
+
+typedef struct wire_cst_refund {
+  struct wire_cst_list_prim_u_8_strict *s;
+} wire_cst_refund;
+
+typedef struct wire_cst_offer {
+  struct wire_cst_list_prim_u_8_strict *s;
+} wire_cst_offer;
+
 typedef struct wire_cst_channel_id {
   struct wire_cst_list_prim_u_8_strict *data;
 } wire_cst_channel_id;
@@ -106,13 +133,6 @@ typedef struct wire_cst_list_socket_address {
 typedef struct wire_cst_node_alias {
   struct wire_cst_list_prim_u_8_strict *field0;
 } wire_cst_node_alias;
-
-typedef struct wire_cst_sending_parameters {
-  uint64_t *max_total_routing_fee_msat;
-  uint32_t *max_total_cltv_expiry_delta;
-  uint8_t *max_path_count;
-  uint8_t *max_channel_saturation_power_of_half;
-} wire_cst_sending_parameters;
 
 typedef struct wire_cst_config {
   struct wire_cst_list_prim_u_8_strict *storage_dir_path;
@@ -229,38 +249,23 @@ typedef struct wire_cst_list_prim_u_8_loose {
   int32_t len;
 } wire_cst_list_prim_u_8_loose;
 
-typedef struct wire_cst_bolt_11_payment {
-  struct wire_cst_bolt_11_payment inner;
-} wire_cst_bolt_11_payment;
+typedef struct wire_cst_node_id {
+  struct wire_cst_list_prim_u_8_strict *compressed;
+} wire_cst_node_id;
 
-typedef struct wire_cst_payment_hash {
+typedef struct wire_cst_payment_id {
   struct wire_cst_list_prim_u_8_strict *data;
-} wire_cst_payment_hash;
-
-typedef struct wire_cst_payment_preimage {
-  struct wire_cst_list_prim_u_8_strict *data;
-} wire_cst_payment_preimage;
-
-typedef struct wire_cst_bolt_11_invoice {
-  struct wire_cst_list_prim_u_8_strict *signed_raw_invoice;
-} wire_cst_bolt_11_invoice;
-
-typedef struct wire_cst_bolt_12_payment {
-  struct wire_cst_bolt_12_payment inner;
-} wire_cst_bolt_12_payment;
-
-typedef struct wire_cst_refund {
-  struct wire_cst_list_prim_u_8_strict *s;
-} wire_cst_refund;
-
-typedef struct wire_cst_offer {
-  struct wire_cst_list_prim_u_8_strict *s;
-} wire_cst_offer;
+} wire_cst_payment_id;
 
 typedef struct wire_cst_custom_tlv_record {
   uint64_t type_num;
   struct wire_cst_list_prim_u_8_strict *value;
 } wire_cst_custom_tlv_record;
+
+typedef struct wire_cst_list_custom_tlv_record {
+  struct wire_cst_custom_tlv_record *ptr;
+  int32_t len;
+} wire_cst_list_custom_tlv_record;
 
 typedef struct wire_cst_ffi_log_record {
   int32_t level;
@@ -268,22 +273,6 @@ typedef struct wire_cst_ffi_log_record {
   struct wire_cst_list_prim_u_8_strict *module_path;
   uint32_t line;
 } wire_cst_ffi_log_record;
-
-typedef struct wire_cst_network_graph {
-  struct wire_cst_network_graph inner;
-} wire_cst_network_graph;
-
-typedef struct wire_cst_node_id {
-  struct wire_cst_list_prim_u_8_strict *compressed;
-} wire_cst_node_id;
-
-typedef struct wire_cst_node {
-  struct wire_cst_node inner;
-} wire_cst_node;
-
-typedef struct wire_cst_payment_id {
-  struct wire_cst_list_prim_u_8_strict *data;
-} wire_cst_payment_id;
 
 typedef struct wire_cst_offer_id {
   struct wire_cst_list_prim_u_8_strict *field0;
@@ -371,19 +360,6 @@ typedef struct wire_cst_peer_details {
 typedef struct wire_cst_psbt {
   struct wire_cst_list_prim_u_8_strict *inner;
 } wire_cst_psbt;
-
-typedef struct wire_cst_spontaneous_payment {
-  struct wire_cst_spontaneous_payment inner;
-} wire_cst_spontaneous_payment;
-
-typedef struct wire_cst_list_custom_tlv_record {
-  struct wire_cst_custom_tlv_record *ptr;
-  int32_t len;
-} wire_cst_list_custom_tlv_record;
-
-typedef struct wire_cst_unified_qr_payment {
-  struct wire_cst_unified_qr_payment inner;
-} wire_cst_unified_qr_payment;
 
 typedef struct wire_cst_routing_fees {
   uint32_t base_msat;
@@ -759,6 +735,8 @@ void frbgen_ldk_node_wire__ldk_adapter__types__AnchorChannelsConfig_trusted_peer
 void frbgen_ldk_node_wire__ldk_adapter__types__AnchorChannelsConfig_with_trusted_peers(int64_t port_,
                                                                                        struct wire_cst_list_public_key *trusted_peers);
 
+void frbgen_ldk_node_wire__shared__BitcoinAddress_as_string(int64_t port_, uintptr_t that);
+
 WireSyncRust2DartDco frbgen_ldk_node_wire__shared__BitcoinAddress_auto_accessor_get_inner(uintptr_t that);
 
 WireSyncRust2DartDco frbgen_ldk_node_wire__shared__BitcoinAddress_auto_accessor_set_inner(uintptr_t that,
@@ -767,6 +745,9 @@ WireSyncRust2DartDco frbgen_ldk_node_wire__shared__BitcoinAddress_auto_accessor_
 void frbgen_ldk_node_wire__shared__BitcoinAddress_from_script(int64_t port_,
                                                               struct wire_cst_script_buf *script,
                                                               int32_t network);
+
+void frbgen_ldk_node_wire__shared__BitcoinAddress_from_string(int64_t port_,
+                                                              struct wire_cst_list_prim_u_8_strict *address);
 
 void frbgen_ldk_node_wire__shared__BitcoinAddress_is_valid_for_network(int64_t port_,
                                                                        uintptr_t that,
@@ -781,6 +762,119 @@ void frbgen_ldk_node_wire__shared__BitcoinAddress_script_pubkey(int64_t port_, u
 void frbgen_ldk_node_wire__shared__BitcoinAddress_to_address_data(int64_t port_, uintptr_t that);
 
 void frbgen_ldk_node_wire__shared__BitcoinAddress_to_qr_uri(int64_t port_, uintptr_t that);
+
+WireSyncRust2DartDco frbgen_ldk_node_wire__ldk_adapter__bolt11__Bolt11Payment_auto_accessor_get_inner(uintptr_t that);
+
+WireSyncRust2DartDco frbgen_ldk_node_wire__ldk_adapter__bolt11__Bolt11Payment_auto_accessor_set_inner(uintptr_t that,
+                                                                                                      uintptr_t inner);
+
+void frbgen_ldk_node_wire__ldk_adapter__bolt11__Bolt11Payment_claim_for_hash(int64_t port_,
+                                                                             uintptr_t that,
+                                                                             struct wire_cst_payment_hash *payment_hash,
+                                                                             uint64_t claimable_amount_msat,
+                                                                             struct wire_cst_payment_preimage *preimage);
+
+void frbgen_ldk_node_wire__ldk_adapter__bolt11__Bolt11Payment_fail_for_hash(int64_t port_,
+                                                                            uintptr_t that,
+                                                                            struct wire_cst_payment_hash *payment_hash);
+
+void frbgen_ldk_node_wire__ldk_adapter__bolt11__Bolt11Payment_receive(int64_t port_,
+                                                                      uintptr_t that,
+                                                                      uint64_t amount_msat,
+                                                                      struct wire_cst_list_prim_u_8_strict *description,
+                                                                      uint32_t expiry_secs);
+
+void frbgen_ldk_node_wire__ldk_adapter__bolt11__Bolt11Payment_receive_for_hash(int64_t port_,
+                                                                               uintptr_t that,
+                                                                               struct wire_cst_payment_hash *payment_hash,
+                                                                               uint64_t amount_msat,
+                                                                               struct wire_cst_list_prim_u_8_strict *description,
+                                                                               uint32_t expiry_secs);
+
+void frbgen_ldk_node_wire__ldk_adapter__bolt11__Bolt11Payment_receive_variable_amount(int64_t port_,
+                                                                                      uintptr_t that,
+                                                                                      struct wire_cst_list_prim_u_8_strict *description,
+                                                                                      uint32_t expiry_secs);
+
+void frbgen_ldk_node_wire__ldk_adapter__bolt11__Bolt11Payment_receive_variable_amount_for_hash(int64_t port_,
+                                                                                               uintptr_t that,
+                                                                                               struct wire_cst_list_prim_u_8_strict *description,
+                                                                                               uint32_t expiry_secs,
+                                                                                               struct wire_cst_payment_hash *payment_hash);
+
+void frbgen_ldk_node_wire__ldk_adapter__bolt11__Bolt11Payment_receive_variable_amount_via_jit_channel(int64_t port_,
+                                                                                                      uintptr_t that,
+                                                                                                      struct wire_cst_list_prim_u_8_strict *description,
+                                                                                                      uint32_t expiry_secs,
+                                                                                                      uint64_t *max_proportional_lsp_fee_limit_ppm_msat);
+
+void frbgen_ldk_node_wire__ldk_adapter__bolt11__Bolt11Payment_receive_via_jit_channel(int64_t port_,
+                                                                                      uintptr_t that,
+                                                                                      uint64_t amount_msat,
+                                                                                      struct wire_cst_list_prim_u_8_strict *description,
+                                                                                      uint32_t expiry_secs,
+                                                                                      uint64_t *max_total_lsp_fee_limit_msat);
+
+void frbgen_ldk_node_wire__ldk_adapter__bolt11__Bolt11Payment_send(int64_t port_,
+                                                                   uintptr_t that,
+                                                                   struct wire_cst_bolt_11_invoice *invoice,
+                                                                   struct wire_cst_sending_parameters *sending_parameters);
+
+void frbgen_ldk_node_wire__ldk_adapter__bolt11__Bolt11Payment_send_probes(int64_t port_,
+                                                                          uintptr_t that,
+                                                                          struct wire_cst_bolt_11_invoice *invoice);
+
+void frbgen_ldk_node_wire__ldk_adapter__bolt11__Bolt11Payment_send_probes_using_amount(int64_t port_,
+                                                                                       uintptr_t that,
+                                                                                       struct wire_cst_bolt_11_invoice *invoice,
+                                                                                       uint64_t amount_msat);
+
+void frbgen_ldk_node_wire__ldk_adapter__bolt11__Bolt11Payment_send_using_amount(int64_t port_,
+                                                                                uintptr_t that,
+                                                                                struct wire_cst_bolt_11_invoice *invoice,
+                                                                                uint64_t amount_msat,
+                                                                                struct wire_cst_sending_parameters *sending_parameters);
+
+WireSyncRust2DartDco frbgen_ldk_node_wire__ldk_adapter__bolt12__Bolt12Payment_auto_accessor_get_inner(uintptr_t that);
+
+WireSyncRust2DartDco frbgen_ldk_node_wire__ldk_adapter__bolt12__Bolt12Payment_auto_accessor_set_inner(uintptr_t that,
+                                                                                                      uintptr_t inner);
+
+void frbgen_ldk_node_wire__ldk_adapter__bolt12__Bolt12Payment_initiate_refund(int64_t port_,
+                                                                              uintptr_t that,
+                                                                              uint64_t amount_msat,
+                                                                              uint32_t expiry_secs,
+                                                                              uint64_t *quantity,
+                                                                              struct wire_cst_list_prim_u_8_strict *payer_note);
+
+void frbgen_ldk_node_wire__ldk_adapter__bolt12__Bolt12Payment_receive(int64_t port_,
+                                                                      uintptr_t that,
+                                                                      uint64_t amount_msat,
+                                                                      struct wire_cst_list_prim_u_8_strict *description,
+                                                                      uint32_t *expiry_secs,
+                                                                      uint64_t *quantity);
+
+void frbgen_ldk_node_wire__ldk_adapter__bolt12__Bolt12Payment_receive_variable_amount(int64_t port_,
+                                                                                      uintptr_t that,
+                                                                                      struct wire_cst_list_prim_u_8_strict *description,
+                                                                                      uint32_t *expiry_secs);
+
+void frbgen_ldk_node_wire__ldk_adapter__bolt12__Bolt12Payment_request_refund_payment(int64_t port_,
+                                                                                     uintptr_t that,
+                                                                                     struct wire_cst_refund *refund);
+
+void frbgen_ldk_node_wire__ldk_adapter__bolt12__Bolt12Payment_send(int64_t port_,
+                                                                   uintptr_t that,
+                                                                   struct wire_cst_offer *offer,
+                                                                   uint64_t *quantity,
+                                                                   struct wire_cst_list_prim_u_8_strict *payer_note);
+
+void frbgen_ldk_node_wire__ldk_adapter__bolt12__Bolt12Payment_send_using_amount(int64_t port_,
+                                                                                uintptr_t that,
+                                                                                struct wire_cst_offer *offer,
+                                                                                uint64_t amount_msat,
+                                                                                uint64_t *quantity,
+                                                                                struct wire_cst_list_prim_u_8_strict *payer_note);
 
 WireSyncRust2DartDco frbgen_ldk_node_wire__ldk_adapter__types__ChannelConfig_auto_accessor_get_accept_underpaying_htlcs(uintptr_t that);
 
@@ -1040,6 +1134,142 @@ void frbgen_ldk_node_wire__ldk_adapter__types__MaxDustHtlcExposure_new_fee_rate_
 void frbgen_ldk_node_wire__ldk_adapter__types__MaxDustHtlcExposure_new_fixed_limit(int64_t port_,
                                                                                    uint64_t limit_msat);
 
+WireSyncRust2DartDco frbgen_ldk_node_wire__ldk_adapter__graph__NetworkGraph_auto_accessor_get_inner(uintptr_t that);
+
+WireSyncRust2DartDco frbgen_ldk_node_wire__ldk_adapter__graph__NetworkGraph_auto_accessor_set_inner(uintptr_t that,
+                                                                                                    uintptr_t inner);
+
+void frbgen_ldk_node_wire__ldk_adapter__graph__NetworkGraph_channel(int64_t port_,
+                                                                    uintptr_t that,
+                                                                    uint64_t short_channel_id);
+
+void frbgen_ldk_node_wire__ldk_adapter__graph__NetworkGraph_list_channels(int64_t port_,
+                                                                          uintptr_t that);
+
+void frbgen_ldk_node_wire__ldk_adapter__graph__NetworkGraph_list_nodes(int64_t port_,
+                                                                       uintptr_t that);
+
+void frbgen_ldk_node_wire__ldk_adapter__graph__NetworkGraph_node(int64_t port_,
+                                                                 uintptr_t that,
+                                                                 struct wire_cst_node_id *node_id);
+
+WireSyncRust2DartDco frbgen_ldk_node_wire__ldk_adapter__node__Node_auto_accessor_get_inner(uintptr_t that);
+
+WireSyncRust2DartDco frbgen_ldk_node_wire__ldk_adapter__node__Node_auto_accessor_set_inner(uintptr_t that,
+                                                                                           uintptr_t inner);
+
+void frbgen_ldk_node_wire__ldk_adapter__node__Node_bolt11_payment(int64_t port_, uintptr_t that);
+
+void frbgen_ldk_node_wire__ldk_adapter__node__Node_bolt12_payment(int64_t port_, uintptr_t that);
+
+void frbgen_ldk_node_wire__ldk_adapter__node__Node_close_channel(int64_t port_,
+                                                                 uintptr_t that,
+                                                                 struct wire_cst_user_channel_id *user_channel_id,
+                                                                 struct wire_cst_public_key *counterparty_node_id);
+
+void frbgen_ldk_node_wire__ldk_adapter__node__Node_config(int64_t port_, uintptr_t that);
+
+void frbgen_ldk_node_wire__ldk_adapter__node__Node_connect(int64_t port_,
+                                                           uintptr_t that,
+                                                           struct wire_cst_public_key *node_id,
+                                                           struct wire_cst_socket_address *address,
+                                                           bool persist);
+
+void frbgen_ldk_node_wire__ldk_adapter__node__Node_disconnect(int64_t port_,
+                                                              uintptr_t that,
+                                                              struct wire_cst_public_key *counterparty_node_id);
+
+void frbgen_ldk_node_wire__ldk_adapter__node__Node_event_handled(int64_t port_, uintptr_t that);
+
+void frbgen_ldk_node_wire__ldk_adapter__node__Node_export_pathfinding_scores(int64_t port_,
+                                                                             uintptr_t that);
+
+void frbgen_ldk_node_wire__ldk_adapter__node__Node_force_close_channel(int64_t port_,
+                                                                       uintptr_t that,
+                                                                       struct wire_cst_user_channel_id *user_channel_id,
+                                                                       struct wire_cst_public_key *counterparty_node_id);
+
+void frbgen_ldk_node_wire__ldk_adapter__node__Node_list_balances(int64_t port_, uintptr_t that);
+
+void frbgen_ldk_node_wire__ldk_adapter__node__Node_list_channels(int64_t port_, uintptr_t that);
+
+void frbgen_ldk_node_wire__ldk_adapter__node__Node_list_payments(int64_t port_, uintptr_t that);
+
+void frbgen_ldk_node_wire__ldk_adapter__node__Node_list_payments_with_filter(int64_t port_,
+                                                                             uintptr_t that,
+                                                                             int32_t payment_direction);
+
+void frbgen_ldk_node_wire__ldk_adapter__node__Node_list_peers(int64_t port_, uintptr_t that);
+
+void frbgen_ldk_node_wire__ldk_adapter__node__Node_listening_addresses(int64_t port_,
+                                                                       uintptr_t that);
+
+void frbgen_ldk_node_wire__ldk_adapter__node__Node_network_graph(int64_t port_, uintptr_t that);
+
+void frbgen_ldk_node_wire__ldk_adapter__node__Node_next_event(int64_t port_, uintptr_t that);
+
+void frbgen_ldk_node_wire__ldk_adapter__node__Node_next_event_async(int64_t port_, uintptr_t that);
+
+void frbgen_ldk_node_wire__ldk_adapter__node__Node_node_id(int64_t port_, uintptr_t that);
+
+void frbgen_ldk_node_wire__ldk_adapter__node__Node_on_chain_payment(int64_t port_, uintptr_t that);
+
+void frbgen_ldk_node_wire__ldk_adapter__node__Node_open_announced_channel(int64_t port_,
+                                                                          uintptr_t that,
+                                                                          struct wire_cst_socket_address *socket_address,
+                                                                          struct wire_cst_public_key *node_id,
+                                                                          uint64_t channel_amount_sats,
+                                                                          uint64_t *push_to_counterparty_msat,
+                                                                          uintptr_t *channel_config);
+
+void frbgen_ldk_node_wire__ldk_adapter__node__Node_open_channel(int64_t port_,
+                                                                uintptr_t that,
+                                                                struct wire_cst_socket_address *socket_address,
+                                                                struct wire_cst_public_key *node_id,
+                                                                uint64_t channel_amount_sats,
+                                                                uint64_t *push_to_counterparty_msat,
+                                                                uintptr_t *channel_config);
+
+void frbgen_ldk_node_wire__ldk_adapter__node__Node_payment(int64_t port_,
+                                                           uintptr_t that,
+                                                           struct wire_cst_payment_id *payment_id);
+
+void frbgen_ldk_node_wire__ldk_adapter__node__Node_remove_payment(int64_t port_,
+                                                                  uintptr_t that,
+                                                                  struct wire_cst_payment_id *payment_id);
+
+void frbgen_ldk_node_wire__ldk_adapter__node__Node_sign_message(int64_t port_,
+                                                                uintptr_t that,
+                                                                struct wire_cst_list_prim_u_8_loose *msg);
+
+void frbgen_ldk_node_wire__ldk_adapter__node__Node_spontaneous_payment(int64_t port_,
+                                                                       uintptr_t that);
+
+void frbgen_ldk_node_wire__ldk_adapter__node__Node_start(int64_t port_, uintptr_t that);
+
+void frbgen_ldk_node_wire__ldk_adapter__node__Node_status(int64_t port_, uintptr_t that);
+
+void frbgen_ldk_node_wire__ldk_adapter__node__Node_stop(int64_t port_, uintptr_t that);
+
+void frbgen_ldk_node_wire__ldk_adapter__node__Node_sync_wallets(int64_t port_, uintptr_t that);
+
+void frbgen_ldk_node_wire__ldk_adapter__node__Node_unified_qr_payment(int64_t port_,
+                                                                      uintptr_t that);
+
+void frbgen_ldk_node_wire__ldk_adapter__node__Node_update_channel_config(int64_t port_,
+                                                                         uintptr_t that,
+                                                                         struct wire_cst_user_channel_id *user_channel_id,
+                                                                         struct wire_cst_public_key *counterparty_node_id,
+                                                                         uintptr_t channel_config);
+
+void frbgen_ldk_node_wire__ldk_adapter__node__Node_verify_signature(int64_t port_,
+                                                                    uintptr_t that,
+                                                                    struct wire_cst_list_prim_u_8_loose *msg,
+                                                                    struct wire_cst_list_prim_u_8_strict *sig,
+                                                                    struct wire_cst_public_key *public_key);
+
+void frbgen_ldk_node_wire__ldk_adapter__node__Node_wait_next_event(int64_t port_, uintptr_t that);
+
 WireSyncRust2DartDco frbgen_ldk_node_wire__ldk_adapter__on_chain__OnChainPayment_auto_accessor_get_inner(uintptr_t that);
 
 WireSyncRust2DartDco frbgen_ldk_node_wire__ldk_adapter__on_chain__OnChainPayment_auto_accessor_set_inner(uintptr_t that,
@@ -1059,6 +1289,29 @@ void frbgen_ldk_node_wire__ldk_adapter__on_chain__OnChainPayment_send_to_address
                                                                                  uintptr_t address,
                                                                                  uint64_t amount_sats,
                                                                                  uint64_t *fee_rate_sat_per_kwu);
+
+WireSyncRust2DartDco frbgen_ldk_node_wire__ldk_adapter__spontaneous__SpontaneousPayment_auto_accessor_get_inner(uintptr_t that);
+
+WireSyncRust2DartDco frbgen_ldk_node_wire__ldk_adapter__spontaneous__SpontaneousPayment_auto_accessor_set_inner(uintptr_t that,
+                                                                                                                uintptr_t inner);
+
+void frbgen_ldk_node_wire__ldk_adapter__spontaneous__SpontaneousPayment_send_probes_unsafe(int64_t port_,
+                                                                                           uintptr_t that,
+                                                                                           uint64_t amount_msat,
+                                                                                           struct wire_cst_public_key *node_id);
+
+void frbgen_ldk_node_wire__ldk_adapter__spontaneous__SpontaneousPayment_send_unsafe(int64_t port_,
+                                                                                    uintptr_t that,
+                                                                                    uint64_t amount_msat,
+                                                                                    struct wire_cst_public_key *node_id,
+                                                                                    struct wire_cst_sending_parameters *sending_parameters);
+
+void frbgen_ldk_node_wire__ldk_adapter__spontaneous__SpontaneousPayment_send_with_custom_tlvs_unsafe(int64_t port_,
+                                                                                                     uintptr_t that,
+                                                                                                     uint64_t amount_msat,
+                                                                                                     struct wire_cst_public_key *node_id,
+                                                                                                     struct wire_cst_sending_parameters *sending_parameters,
+                                                                                                     struct wire_cst_list_custom_tlv_record *custom_tlvs);
 
 WireSyncRust2DartDco frbgen_ldk_node_wire__shared__TaprootSpendInfo_auto_accessor_get_inner(uintptr_t that);
 
@@ -1097,108 +1350,20 @@ void frbgen_ldk_node_wire__shared__Transaction_vsize(int64_t port_, uintptr_t th
 
 void frbgen_ldk_node_wire__shared__Transaction_weight(int64_t port_, uintptr_t that);
 
-void frbgen_ldk_node_wire__ldk_adapter__bolt11__bolt_11_payment_claim_for_hash(int64_t port_,
-                                                                               struct wire_cst_bolt_11_payment *that,
-                                                                               struct wire_cst_payment_hash *payment_hash,
-                                                                               uint64_t claimable_amount_msat,
-                                                                               struct wire_cst_payment_preimage *preimage);
+WireSyncRust2DartDco frbgen_ldk_node_wire__ldk_adapter__unified_qr__UnifiedQrPayment_auto_accessor_get_inner(uintptr_t that);
 
-void frbgen_ldk_node_wire__ldk_adapter__bolt11__bolt_11_payment_fail_for_hash(int64_t port_,
-                                                                              struct wire_cst_bolt_11_payment *that,
-                                                                              struct wire_cst_payment_hash *payment_hash);
+WireSyncRust2DartDco frbgen_ldk_node_wire__ldk_adapter__unified_qr__UnifiedQrPayment_auto_accessor_set_inner(uintptr_t that,
+                                                                                                             uintptr_t inner);
 
-void frbgen_ldk_node_wire__ldk_adapter__bolt11__bolt_11_payment_receive(int64_t port_,
-                                                                        struct wire_cst_bolt_11_payment *that,
-                                                                        uint64_t amount_msat,
-                                                                        struct wire_cst_list_prim_u_8_strict *description,
-                                                                        uint32_t expiry_secs);
+void frbgen_ldk_node_wire__ldk_adapter__unified_qr__UnifiedQrPayment_receive(int64_t port_,
+                                                                             uintptr_t that,
+                                                                             uint64_t amount_sats,
+                                                                             struct wire_cst_list_prim_u_8_strict *message,
+                                                                             uint32_t expiry_sec);
 
-void frbgen_ldk_node_wire__ldk_adapter__bolt11__bolt_11_payment_receive_for_hash(int64_t port_,
-                                                                                 struct wire_cst_bolt_11_payment *that,
-                                                                                 struct wire_cst_payment_hash *payment_hash,
-                                                                                 uint64_t amount_msat,
-                                                                                 struct wire_cst_list_prim_u_8_strict *description,
-                                                                                 uint32_t expiry_secs);
-
-void frbgen_ldk_node_wire__ldk_adapter__bolt11__bolt_11_payment_receive_variable_amount(int64_t port_,
-                                                                                        struct wire_cst_bolt_11_payment *that,
-                                                                                        struct wire_cst_list_prim_u_8_strict *description,
-                                                                                        uint32_t expiry_secs);
-
-void frbgen_ldk_node_wire__ldk_adapter__bolt11__bolt_11_payment_receive_variable_amount_for_hash(int64_t port_,
-                                                                                                 struct wire_cst_bolt_11_payment *that,
-                                                                                                 struct wire_cst_list_prim_u_8_strict *description,
-                                                                                                 uint32_t expiry_secs,
-                                                                                                 struct wire_cst_payment_hash *payment_hash);
-
-void frbgen_ldk_node_wire__ldk_adapter__bolt11__bolt_11_payment_receive_variable_amount_via_jit_channel(int64_t port_,
-                                                                                                        struct wire_cst_bolt_11_payment *that,
-                                                                                                        struct wire_cst_list_prim_u_8_strict *description,
-                                                                                                        uint32_t expiry_secs,
-                                                                                                        uint64_t *max_proportional_lsp_fee_limit_ppm_msat);
-
-void frbgen_ldk_node_wire__ldk_adapter__bolt11__bolt_11_payment_receive_via_jit_channel(int64_t port_,
-                                                                                        struct wire_cst_bolt_11_payment *that,
-                                                                                        uint64_t amount_msat,
-                                                                                        struct wire_cst_list_prim_u_8_strict *description,
-                                                                                        uint32_t expiry_secs,
-                                                                                        uint64_t *max_total_lsp_fee_limit_msat);
-
-void frbgen_ldk_node_wire__ldk_adapter__bolt11__bolt_11_payment_send(int64_t port_,
-                                                                     struct wire_cst_bolt_11_payment *that,
-                                                                     struct wire_cst_bolt_11_invoice *invoice,
-                                                                     struct wire_cst_sending_parameters *sending_parameters);
-
-void frbgen_ldk_node_wire__ldk_adapter__bolt11__bolt_11_payment_send_probes(int64_t port_,
-                                                                            struct wire_cst_bolt_11_payment *that,
-                                                                            struct wire_cst_bolt_11_invoice *invoice);
-
-void frbgen_ldk_node_wire__ldk_adapter__bolt11__bolt_11_payment_send_probes_using_amount(int64_t port_,
-                                                                                         struct wire_cst_bolt_11_payment *that,
-                                                                                         struct wire_cst_bolt_11_invoice *invoice,
-                                                                                         uint64_t amount_msat);
-
-void frbgen_ldk_node_wire__ldk_adapter__bolt11__bolt_11_payment_send_using_amount(int64_t port_,
-                                                                                  struct wire_cst_bolt_11_payment *that,
-                                                                                  struct wire_cst_bolt_11_invoice *invoice,
-                                                                                  uint64_t amount_msat,
-                                                                                  struct wire_cst_sending_parameters *sending_parameters);
-
-void frbgen_ldk_node_wire__ldk_adapter__bolt12__bolt_12_payment_initiate_refund(int64_t port_,
-                                                                                struct wire_cst_bolt_12_payment *that,
-                                                                                uint64_t amount_msat,
-                                                                                uint32_t expiry_secs,
-                                                                                uint64_t *quantity,
-                                                                                struct wire_cst_list_prim_u_8_strict *payer_note);
-
-void frbgen_ldk_node_wire__ldk_adapter__bolt12__bolt_12_payment_receive(int64_t port_,
-                                                                        struct wire_cst_bolt_12_payment *that,
-                                                                        uint64_t amount_msat,
-                                                                        struct wire_cst_list_prim_u_8_strict *description,
-                                                                        uint32_t *expiry_secs,
-                                                                        uint64_t *quantity);
-
-void frbgen_ldk_node_wire__ldk_adapter__bolt12__bolt_12_payment_receive_variable_amount(int64_t port_,
-                                                                                        struct wire_cst_bolt_12_payment *that,
-                                                                                        struct wire_cst_list_prim_u_8_strict *description,
-                                                                                        uint32_t *expiry_secs);
-
-void frbgen_ldk_node_wire__ldk_adapter__bolt12__bolt_12_payment_request_refund_payment(int64_t port_,
-                                                                                       struct wire_cst_bolt_12_payment *that,
-                                                                                       struct wire_cst_refund *refund);
-
-void frbgen_ldk_node_wire__ldk_adapter__bolt12__bolt_12_payment_send(int64_t port_,
-                                                                     struct wire_cst_bolt_12_payment *that,
-                                                                     struct wire_cst_offer *offer,
-                                                                     uint64_t *quantity,
-                                                                     struct wire_cst_list_prim_u_8_strict *payer_note);
-
-void frbgen_ldk_node_wire__ldk_adapter__bolt12__bolt_12_payment_send_using_amount(int64_t port_,
-                                                                                  struct wire_cst_bolt_12_payment *that,
-                                                                                  struct wire_cst_offer *offer,
-                                                                                  uint64_t amount_msat,
-                                                                                  uint64_t *quantity,
-                                                                                  struct wire_cst_list_prim_u_8_strict *payer_note);
+void frbgen_ldk_node_wire__ldk_adapter__unified_qr__UnifiedQrPayment_send(int64_t port_,
+                                                                          uintptr_t that,
+                                                                          struct wire_cst_list_prim_u_8_strict *uri_str);
 
 void frbgen_ldk_node_wire__ldk_adapter__types__channel_id_as_bytes(int64_t port_,
                                                                    struct wire_cst_channel_id *that);
@@ -1291,148 +1456,6 @@ void frbgen_ldk_node_wire__shared__mnemonic_to_seed(int64_t port_,
                                                     struct wire_cst_mnemonic *that,
                                                     struct wire_cst_list_prim_u_8_strict *passphrase);
 
-void frbgen_ldk_node_wire__ldk_adapter__graph__network_graph_channel(int64_t port_,
-                                                                     struct wire_cst_network_graph *that,
-                                                                     uint64_t short_channel_id);
-
-void frbgen_ldk_node_wire__ldk_adapter__graph__network_graph_list_channels(int64_t port_,
-                                                                           struct wire_cst_network_graph *that);
-
-void frbgen_ldk_node_wire__ldk_adapter__graph__network_graph_list_nodes(int64_t port_,
-                                                                        struct wire_cst_network_graph *that);
-
-void frbgen_ldk_node_wire__ldk_adapter__graph__network_graph_node(int64_t port_,
-                                                                  struct wire_cst_network_graph *that,
-                                                                  struct wire_cst_node_id *node_id);
-
-void frbgen_ldk_node_wire__ldk_adapter__node__node_bolt11_payment(int64_t port_,
-                                                                  struct wire_cst_node *that);
-
-void frbgen_ldk_node_wire__ldk_adapter__node__node_bolt12_payment(int64_t port_,
-                                                                  struct wire_cst_node *that);
-
-void frbgen_ldk_node_wire__ldk_adapter__node__node_close_channel(int64_t port_,
-                                                                 struct wire_cst_node *that,
-                                                                 struct wire_cst_user_channel_id *user_channel_id,
-                                                                 struct wire_cst_public_key *counterparty_node_id);
-
-void frbgen_ldk_node_wire__ldk_adapter__node__node_config(int64_t port_,
-                                                          struct wire_cst_node *that);
-
-void frbgen_ldk_node_wire__ldk_adapter__node__node_connect(int64_t port_,
-                                                           struct wire_cst_node *that,
-                                                           struct wire_cst_public_key *node_id,
-                                                           struct wire_cst_socket_address *address,
-                                                           bool persist);
-
-void frbgen_ldk_node_wire__ldk_adapter__node__node_disconnect(int64_t port_,
-                                                              struct wire_cst_node *that,
-                                                              struct wire_cst_public_key *counterparty_node_id);
-
-void frbgen_ldk_node_wire__ldk_adapter__node__node_event_handled(int64_t port_,
-                                                                 struct wire_cst_node *that);
-
-void frbgen_ldk_node_wire__ldk_adapter__node__node_export_pathfinding_scores(int64_t port_,
-                                                                             struct wire_cst_node *that);
-
-void frbgen_ldk_node_wire__ldk_adapter__node__node_force_close_channel(int64_t port_,
-                                                                       struct wire_cst_node *that,
-                                                                       struct wire_cst_user_channel_id *user_channel_id,
-                                                                       struct wire_cst_public_key *counterparty_node_id);
-
-void frbgen_ldk_node_wire__ldk_adapter__node__node_list_balances(int64_t port_,
-                                                                 struct wire_cst_node *that);
-
-void frbgen_ldk_node_wire__ldk_adapter__node__node_list_channels(int64_t port_,
-                                                                 struct wire_cst_node *that);
-
-void frbgen_ldk_node_wire__ldk_adapter__node__node_list_payments(int64_t port_,
-                                                                 struct wire_cst_node *that);
-
-void frbgen_ldk_node_wire__ldk_adapter__node__node_list_payments_with_filter(int64_t port_,
-                                                                             struct wire_cst_node *that,
-                                                                             int32_t payment_direction);
-
-void frbgen_ldk_node_wire__ldk_adapter__node__node_list_peers(int64_t port_,
-                                                              struct wire_cst_node *that);
-
-void frbgen_ldk_node_wire__ldk_adapter__node__node_listening_addresses(int64_t port_,
-                                                                       struct wire_cst_node *that);
-
-void frbgen_ldk_node_wire__ldk_adapter__node__node_network_graph(int64_t port_,
-                                                                 struct wire_cst_node *that);
-
-void frbgen_ldk_node_wire__ldk_adapter__node__node_next_event(int64_t port_,
-                                                              struct wire_cst_node *that);
-
-void frbgen_ldk_node_wire__ldk_adapter__node__node_next_event_async(int64_t port_,
-                                                                    struct wire_cst_node *that);
-
-void frbgen_ldk_node_wire__ldk_adapter__node__node_node_id(int64_t port_,
-                                                           struct wire_cst_node *that);
-
-void frbgen_ldk_node_wire__ldk_adapter__node__node_on_chain_payment(int64_t port_,
-                                                                    struct wire_cst_node *that);
-
-void frbgen_ldk_node_wire__ldk_adapter__node__node_open_announced_channel(int64_t port_,
-                                                                          struct wire_cst_node *that,
-                                                                          struct wire_cst_socket_address *socket_address,
-                                                                          struct wire_cst_public_key *node_id,
-                                                                          uint64_t channel_amount_sats,
-                                                                          uint64_t *push_to_counterparty_msat,
-                                                                          uintptr_t *channel_config);
-
-void frbgen_ldk_node_wire__ldk_adapter__node__node_open_channel(int64_t port_,
-                                                                struct wire_cst_node *that,
-                                                                struct wire_cst_socket_address *socket_address,
-                                                                struct wire_cst_public_key *node_id,
-                                                                uint64_t channel_amount_sats,
-                                                                uint64_t *push_to_counterparty_msat,
-                                                                uintptr_t *channel_config);
-
-void frbgen_ldk_node_wire__ldk_adapter__node__node_payment(int64_t port_,
-                                                           struct wire_cst_node *that,
-                                                           struct wire_cst_payment_id *payment_id);
-
-void frbgen_ldk_node_wire__ldk_adapter__node__node_remove_payment(int64_t port_,
-                                                                  struct wire_cst_node *that,
-                                                                  struct wire_cst_payment_id *payment_id);
-
-void frbgen_ldk_node_wire__ldk_adapter__node__node_sign_message(int64_t port_,
-                                                                struct wire_cst_node *that,
-                                                                struct wire_cst_list_prim_u_8_loose *msg);
-
-void frbgen_ldk_node_wire__ldk_adapter__node__node_spontaneous_payment(int64_t port_,
-                                                                       struct wire_cst_node *that);
-
-void frbgen_ldk_node_wire__ldk_adapter__node__node_start(int64_t port_, struct wire_cst_node *that);
-
-void frbgen_ldk_node_wire__ldk_adapter__node__node_status(int64_t port_,
-                                                          struct wire_cst_node *that);
-
-void frbgen_ldk_node_wire__ldk_adapter__node__node_stop(int64_t port_, struct wire_cst_node *that);
-
-void frbgen_ldk_node_wire__ldk_adapter__node__node_sync_wallets(int64_t port_,
-                                                                struct wire_cst_node *that);
-
-void frbgen_ldk_node_wire__ldk_adapter__node__node_unified_qr_payment(int64_t port_,
-                                                                      struct wire_cst_node *that);
-
-void frbgen_ldk_node_wire__ldk_adapter__node__node_update_channel_config(int64_t port_,
-                                                                         struct wire_cst_node *that,
-                                                                         struct wire_cst_user_channel_id *user_channel_id,
-                                                                         struct wire_cst_public_key *counterparty_node_id,
-                                                                         uintptr_t channel_config);
-
-void frbgen_ldk_node_wire__ldk_adapter__node__node_verify_signature(int64_t port_,
-                                                                    struct wire_cst_node *that,
-                                                                    struct wire_cst_list_prim_u_8_loose *msg,
-                                                                    struct wire_cst_list_prim_u_8_strict *sig,
-                                                                    struct wire_cst_public_key *public_key);
-
-void frbgen_ldk_node_wire__ldk_adapter__node__node_wait_next_event(int64_t port_,
-                                                                   struct wire_cst_node *that);
-
 void frbgen_ldk_node_wire__ldk_adapter__types__offer_id_as_bytes(int64_t port_,
                                                                  struct wire_cst_offer_id *that);
 
@@ -1504,34 +1527,6 @@ void frbgen_ldk_node_wire__shared__psbt_fee(int64_t port_, struct wire_cst_psbt 
 void frbgen_ldk_node_wire__shared__psbt_from_base64(int64_t port_,
                                                     struct wire_cst_list_prim_u_8_strict *base64);
 
-void frbgen_ldk_node_wire__ldk_adapter__spontaneous__spontaneous_payment_send_probes_unsafe(int64_t port_,
-                                                                                            struct wire_cst_spontaneous_payment *that,
-                                                                                            uint64_t amount_msat,
-                                                                                            struct wire_cst_public_key *node_id);
-
-void frbgen_ldk_node_wire__ldk_adapter__spontaneous__spontaneous_payment_send_unsafe(int64_t port_,
-                                                                                     struct wire_cst_spontaneous_payment *that,
-                                                                                     uint64_t amount_msat,
-                                                                                     struct wire_cst_public_key *node_id,
-                                                                                     struct wire_cst_sending_parameters *sending_parameters);
-
-void frbgen_ldk_node_wire__ldk_adapter__spontaneous__spontaneous_payment_send_with_custom_tlvs_unsafe(int64_t port_,
-                                                                                                      struct wire_cst_spontaneous_payment *that,
-                                                                                                      uint64_t amount_msat,
-                                                                                                      struct wire_cst_public_key *node_id,
-                                                                                                      struct wire_cst_sending_parameters *sending_parameters,
-                                                                                                      struct wire_cst_list_custom_tlv_record *custom_tlvs);
-
-void frbgen_ldk_node_wire__ldk_adapter__unified_qr__unified_qr_payment_receive(int64_t port_,
-                                                                               struct wire_cst_unified_qr_payment *that,
-                                                                               uint64_t amount_sats,
-                                                                               struct wire_cst_list_prim_u_8_strict *message,
-                                                                               uint32_t expiry_sec);
-
-void frbgen_ldk_node_wire__ldk_adapter__unified_qr__unified_qr_payment_send(int64_t port_,
-                                                                            struct wire_cst_unified_qr_payment *that,
-                                                                            struct wire_cst_list_prim_u_8_strict *uri_str);
-
 void frbgen_ldk_node_wire__ldk_adapter__types__user_channel_id_as_bytes(int64_t port_,
                                                                         struct wire_cst_user_channel_id *that);
 
@@ -1563,6 +1558,14 @@ void frbgen_ldk_node_rust_arc_increment_strong_count_RustOpaque_flutter_rust_bri
 
 void frbgen_ldk_node_rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerBitcoinTransactionInner(const void *ptr);
 
+void frbgen_ldk_node_rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerBolt11Payment(const void *ptr);
+
+void frbgen_ldk_node_rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerBolt11Payment(const void *ptr);
+
+void frbgen_ldk_node_rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerBolt12Payment(const void *ptr);
+
+void frbgen_ldk_node_rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerBolt12Payment(const void *ptr);
+
 void frbgen_ldk_node_rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerBuilder(const void *ptr);
 
 void frbgen_ldk_node_rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerBuilder(const void *ptr);
@@ -1587,6 +1590,14 @@ void frbgen_ldk_node_rust_arc_increment_strong_count_RustOpaque_flutter_rust_bri
 
 void frbgen_ldk_node_rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerMaxDustHTLCExposure(const void *ptr);
 
+void frbgen_ldk_node_rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerNetworkGraph(const void *ptr);
+
+void frbgen_ldk_node_rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerNetworkGraph(const void *ptr);
+
+void frbgen_ldk_node_rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerNode(const void *ptr);
+
+void frbgen_ldk_node_rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerNode(const void *ptr);
+
 void frbgen_ldk_node_rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerOnChainPayment(const void *ptr);
 
 void frbgen_ldk_node_rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerOnChainPayment(const void *ptr);
@@ -1598,6 +1609,10 @@ void frbgen_ldk_node_rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bri
 void frbgen_ldk_node_rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerQrPaymentResult(const void *ptr);
 
 void frbgen_ldk_node_rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerQrPaymentResult(const void *ptr);
+
+void frbgen_ldk_node_rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSpontaneousPayment(const void *ptr);
+
+void frbgen_ldk_node_rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSpontaneousPayment(const void *ptr);
 
 void frbgen_ldk_node_rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerTaprootSpendInfo(const void *ptr);
 
@@ -1611,6 +1626,10 @@ void frbgen_ldk_node_rust_arc_increment_strong_count_RustOpaque_flutter_rust_bri
 
 void frbgen_ldk_node_rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerTransaction(const void *ptr);
 
+void frbgen_ldk_node_rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerUnifiedQrPayment(const void *ptr);
+
+void frbgen_ldk_node_rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerUnifiedQrPayment(const void *ptr);
+
 uintptr_t *frbgen_ldk_node_cst_new_box_autoadd_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerAnchorChannelsConfig(uintptr_t value);
 
 uintptr_t *frbgen_ldk_node_cst_new_box_autoadd_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerChannelConfig(uintptr_t value);
@@ -1618,10 +1637,6 @@ uintptr_t *frbgen_ldk_node_cst_new_box_autoadd_Auto_Owned_RustOpaque_flutter_rus
 struct wire_cst_background_sync_config *frbgen_ldk_node_cst_new_box_autoadd_background_sync_config(void);
 
 struct wire_cst_bolt_11_invoice *frbgen_ldk_node_cst_new_box_autoadd_bolt_11_invoice(void);
-
-struct wire_cst_bolt_11_payment *frbgen_ldk_node_cst_new_box_autoadd_bolt_11_payment(void);
-
-struct wire_cst_bolt_12_payment *frbgen_ldk_node_cst_new_box_autoadd_bolt_12_payment(void);
 
 bool *frbgen_ldk_node_cst_new_box_autoadd_bool(bool value);
 
@@ -1658,10 +1673,6 @@ int32_t *frbgen_ldk_node_cst_new_box_autoadd_log_level(int32_t value);
 struct wire_cst_lsp_fee_limits *frbgen_ldk_node_cst_new_box_autoadd_lsp_fee_limits(void);
 
 struct wire_cst_mnemonic *frbgen_ldk_node_cst_new_box_autoadd_mnemonic(void);
-
-struct wire_cst_network_graph *frbgen_ldk_node_cst_new_box_autoadd_network_graph(void);
-
-struct wire_cst_node *frbgen_ldk_node_cst_new_box_autoadd_node(void);
 
 struct wire_cst_node_alias *frbgen_ldk_node_cst_new_box_autoadd_node_alias(void);
 
@@ -1705,8 +1716,6 @@ struct wire_cst_sending_parameters *frbgen_ldk_node_cst_new_box_autoadd_sending_
 
 struct wire_cst_socket_address *frbgen_ldk_node_cst_new_box_autoadd_socket_address(void);
 
-struct wire_cst_spontaneous_payment *frbgen_ldk_node_cst_new_box_autoadd_spontaneous_payment(void);
-
 struct wire_cst_txid *frbgen_ldk_node_cst_new_box_autoadd_txid(void);
 
 uint16_t *frbgen_ldk_node_cst_new_box_autoadd_u_16(uint16_t value);
@@ -1716,8 +1725,6 @@ uint32_t *frbgen_ldk_node_cst_new_box_autoadd_u_32(uint32_t value);
 uint64_t *frbgen_ldk_node_cst_new_box_autoadd_u_64(uint64_t value);
 
 uint8_t *frbgen_ldk_node_cst_new_box_autoadd_u_8(uint8_t value);
-
-struct wire_cst_unified_qr_payment *frbgen_ldk_node_cst_new_box_autoadd_unified_qr_payment(void);
 
 struct wire_cst_user_channel_id *frbgen_ldk_node_cst_new_box_autoadd_user_channel_id(void);
 
@@ -1760,8 +1767,6 @@ static int64_t dummy_method_to_enforce_bundling(void) {
     dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_cst_new_box_autoadd_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerChannelConfig);
     dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_cst_new_box_autoadd_background_sync_config);
     dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_cst_new_box_autoadd_bolt_11_invoice);
-    dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_cst_new_box_autoadd_bolt_11_payment);
-    dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_cst_new_box_autoadd_bolt_12_payment);
     dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_cst_new_box_autoadd_bool);
     dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_cst_new_box_autoadd_chain_data_source_config);
     dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_cst_new_box_autoadd_channel_id);
@@ -1780,8 +1785,6 @@ static int64_t dummy_method_to_enforce_bundling(void) {
     dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_cst_new_box_autoadd_log_level);
     dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_cst_new_box_autoadd_lsp_fee_limits);
     dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_cst_new_box_autoadd_mnemonic);
-    dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_cst_new_box_autoadd_network_graph);
-    dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_cst_new_box_autoadd_node);
     dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_cst_new_box_autoadd_node_alias);
     dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_cst_new_box_autoadd_node_announcement_info);
     dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_cst_new_box_autoadd_node_id);
@@ -1803,13 +1806,11 @@ static int64_t dummy_method_to_enforce_bundling(void) {
     dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_cst_new_box_autoadd_script_buf);
     dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_cst_new_box_autoadd_sending_parameters);
     dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_cst_new_box_autoadd_socket_address);
-    dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_cst_new_box_autoadd_spontaneous_payment);
     dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_cst_new_box_autoadd_txid);
     dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_cst_new_box_autoadd_u_16);
     dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_cst_new_box_autoadd_u_32);
     dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_cst_new_box_autoadd_u_64);
     dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_cst_new_box_autoadd_u_8);
-    dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_cst_new_box_autoadd_unified_qr_payment);
     dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_cst_new_box_autoadd_user_channel_id);
     dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_cst_new_list_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerChannelDetails);
     dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_cst_new_list_String);
@@ -1833,53 +1834,69 @@ static int64_t dummy_method_to_enforce_bundling(void) {
     dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerBitcoinAddress);
     dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerBitcoinAddressInner);
     dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerBitcoinTransactionInner);
+    dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerBolt11Payment);
+    dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerBolt12Payment);
     dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerBuilder);
     dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerChannelConfig);
     dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerChannelDetails);
     dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerConfirmationStatus);
     dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerLdkBuilder);
     dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerMaxDustHTLCExposure);
+    dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerNetworkGraph);
+    dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerNode);
     dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerOnChainPayment);
     dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerOnchainPayment);
     dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerQrPaymentResult);
+    dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSpontaneousPayment);
     dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerTaprootSpendInfo);
     dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerTaprootSpendInfoInner);
     dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerTransaction);
+    dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerUnifiedQrPayment);
     dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerAddressData);
     dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerAnchorChannelsConfig);
     dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerBitcoinAddress);
     dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerBitcoinAddressInner);
     dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerBitcoinTransactionInner);
+    dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerBolt11Payment);
+    dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerBolt12Payment);
     dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerBuilder);
     dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerChannelConfig);
     dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerChannelDetails);
     dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerConfirmationStatus);
     dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerLdkBuilder);
     dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerMaxDustHTLCExposure);
+    dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerNetworkGraph);
+    dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerNode);
     dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerOnChainPayment);
     dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerOnchainPayment);
     dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerQrPaymentResult);
+    dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSpontaneousPayment);
     dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerTaprootSpendInfo);
     dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerTaprootSpendInfoInner);
     dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerTransaction);
-    dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__ldk_adapter__bolt11__bolt_11_payment_claim_for_hash);
-    dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__ldk_adapter__bolt11__bolt_11_payment_fail_for_hash);
-    dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__ldk_adapter__bolt11__bolt_11_payment_receive);
-    dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__ldk_adapter__bolt11__bolt_11_payment_receive_for_hash);
-    dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__ldk_adapter__bolt11__bolt_11_payment_receive_variable_amount);
-    dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__ldk_adapter__bolt11__bolt_11_payment_receive_variable_amount_for_hash);
-    dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__ldk_adapter__bolt11__bolt_11_payment_receive_variable_amount_via_jit_channel);
-    dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__ldk_adapter__bolt11__bolt_11_payment_receive_via_jit_channel);
-    dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__ldk_adapter__bolt11__bolt_11_payment_send);
-    dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__ldk_adapter__bolt11__bolt_11_payment_send_probes);
-    dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__ldk_adapter__bolt11__bolt_11_payment_send_probes_using_amount);
-    dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__ldk_adapter__bolt11__bolt_11_payment_send_using_amount);
-    dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__ldk_adapter__bolt12__bolt_12_payment_initiate_refund);
-    dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__ldk_adapter__bolt12__bolt_12_payment_receive);
-    dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__ldk_adapter__bolt12__bolt_12_payment_receive_variable_amount);
-    dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__ldk_adapter__bolt12__bolt_12_payment_request_refund_payment);
-    dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__ldk_adapter__bolt12__bolt_12_payment_send);
-    dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__ldk_adapter__bolt12__bolt_12_payment_send_using_amount);
+    dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerUnifiedQrPayment);
+    dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__ldk_adapter__bolt11__Bolt11Payment_auto_accessor_get_inner);
+    dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__ldk_adapter__bolt11__Bolt11Payment_auto_accessor_set_inner);
+    dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__ldk_adapter__bolt11__Bolt11Payment_claim_for_hash);
+    dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__ldk_adapter__bolt11__Bolt11Payment_fail_for_hash);
+    dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__ldk_adapter__bolt11__Bolt11Payment_receive);
+    dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__ldk_adapter__bolt11__Bolt11Payment_receive_for_hash);
+    dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__ldk_adapter__bolt11__Bolt11Payment_receive_variable_amount);
+    dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__ldk_adapter__bolt11__Bolt11Payment_receive_variable_amount_for_hash);
+    dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__ldk_adapter__bolt11__Bolt11Payment_receive_variable_amount_via_jit_channel);
+    dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__ldk_adapter__bolt11__Bolt11Payment_receive_via_jit_channel);
+    dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__ldk_adapter__bolt11__Bolt11Payment_send);
+    dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__ldk_adapter__bolt11__Bolt11Payment_send_probes);
+    dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__ldk_adapter__bolt11__Bolt11Payment_send_probes_using_amount);
+    dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__ldk_adapter__bolt11__Bolt11Payment_send_using_amount);
+    dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__ldk_adapter__bolt12__Bolt12Payment_auto_accessor_get_inner);
+    dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__ldk_adapter__bolt12__Bolt12Payment_auto_accessor_set_inner);
+    dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__ldk_adapter__bolt12__Bolt12Payment_initiate_refund);
+    dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__ldk_adapter__bolt12__Bolt12Payment_receive);
+    dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__ldk_adapter__bolt12__Bolt12Payment_receive_variable_amount);
+    dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__ldk_adapter__bolt12__Bolt12Payment_request_refund_payment);
+    dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__ldk_adapter__bolt12__Bolt12Payment_send);
+    dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__ldk_adapter__bolt12__Bolt12Payment_send_using_amount);
     dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__ldk_adapter__builder__LdkBuilder_auto_accessor_get_inner);
     dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__ldk_adapter__builder__LdkBuilder_auto_accessor_set_inner);
     dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__ldk_adapter__builder__LdkBuilder_build);
@@ -1890,52 +1907,58 @@ static int64_t dummy_method_to_enforce_bundling(void) {
     dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__ldk_adapter__builder__LdkBuilder_set_entropy_seed_bytes);
     dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__ldk_adapter__builder__LdkBuilder_set_filesystem_logger);
     dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__ldk_adapter__builder__LdkBuilder_set_log_facade_logger);
-    dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__ldk_adapter__graph__network_graph_channel);
-    dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__ldk_adapter__graph__network_graph_list_channels);
-    dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__ldk_adapter__graph__network_graph_list_nodes);
-    dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__ldk_adapter__graph__network_graph_node);
-    dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__ldk_adapter__node__node_bolt11_payment);
-    dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__ldk_adapter__node__node_bolt12_payment);
-    dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__ldk_adapter__node__node_close_channel);
-    dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__ldk_adapter__node__node_config);
-    dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__ldk_adapter__node__node_connect);
-    dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__ldk_adapter__node__node_disconnect);
-    dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__ldk_adapter__node__node_event_handled);
-    dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__ldk_adapter__node__node_export_pathfinding_scores);
-    dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__ldk_adapter__node__node_force_close_channel);
-    dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__ldk_adapter__node__node_list_balances);
-    dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__ldk_adapter__node__node_list_channels);
-    dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__ldk_adapter__node__node_list_payments);
-    dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__ldk_adapter__node__node_list_payments_with_filter);
-    dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__ldk_adapter__node__node_list_peers);
-    dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__ldk_adapter__node__node_listening_addresses);
-    dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__ldk_adapter__node__node_network_graph);
-    dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__ldk_adapter__node__node_next_event);
-    dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__ldk_adapter__node__node_next_event_async);
-    dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__ldk_adapter__node__node_node_id);
-    dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__ldk_adapter__node__node_on_chain_payment);
-    dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__ldk_adapter__node__node_open_announced_channel);
-    dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__ldk_adapter__node__node_open_channel);
-    dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__ldk_adapter__node__node_payment);
-    dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__ldk_adapter__node__node_remove_payment);
-    dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__ldk_adapter__node__node_sign_message);
-    dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__ldk_adapter__node__node_spontaneous_payment);
-    dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__ldk_adapter__node__node_start);
-    dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__ldk_adapter__node__node_status);
-    dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__ldk_adapter__node__node_stop);
-    dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__ldk_adapter__node__node_sync_wallets);
-    dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__ldk_adapter__node__node_unified_qr_payment);
-    dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__ldk_adapter__node__node_update_channel_config);
-    dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__ldk_adapter__node__node_verify_signature);
-    dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__ldk_adapter__node__node_wait_next_event);
+    dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__ldk_adapter__graph__NetworkGraph_auto_accessor_get_inner);
+    dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__ldk_adapter__graph__NetworkGraph_auto_accessor_set_inner);
+    dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__ldk_adapter__graph__NetworkGraph_channel);
+    dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__ldk_adapter__graph__NetworkGraph_list_channels);
+    dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__ldk_adapter__graph__NetworkGraph_list_nodes);
+    dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__ldk_adapter__graph__NetworkGraph_node);
+    dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__ldk_adapter__node__Node_auto_accessor_get_inner);
+    dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__ldk_adapter__node__Node_auto_accessor_set_inner);
+    dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__ldk_adapter__node__Node_bolt11_payment);
+    dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__ldk_adapter__node__Node_bolt12_payment);
+    dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__ldk_adapter__node__Node_close_channel);
+    dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__ldk_adapter__node__Node_config);
+    dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__ldk_adapter__node__Node_connect);
+    dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__ldk_adapter__node__Node_disconnect);
+    dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__ldk_adapter__node__Node_event_handled);
+    dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__ldk_adapter__node__Node_export_pathfinding_scores);
+    dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__ldk_adapter__node__Node_force_close_channel);
+    dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__ldk_adapter__node__Node_list_balances);
+    dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__ldk_adapter__node__Node_list_channels);
+    dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__ldk_adapter__node__Node_list_payments);
+    dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__ldk_adapter__node__Node_list_payments_with_filter);
+    dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__ldk_adapter__node__Node_list_peers);
+    dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__ldk_adapter__node__Node_listening_addresses);
+    dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__ldk_adapter__node__Node_network_graph);
+    dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__ldk_adapter__node__Node_next_event);
+    dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__ldk_adapter__node__Node_next_event_async);
+    dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__ldk_adapter__node__Node_node_id);
+    dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__ldk_adapter__node__Node_on_chain_payment);
+    dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__ldk_adapter__node__Node_open_announced_channel);
+    dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__ldk_adapter__node__Node_open_channel);
+    dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__ldk_adapter__node__Node_payment);
+    dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__ldk_adapter__node__Node_remove_payment);
+    dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__ldk_adapter__node__Node_sign_message);
+    dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__ldk_adapter__node__Node_spontaneous_payment);
+    dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__ldk_adapter__node__Node_start);
+    dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__ldk_adapter__node__Node_status);
+    dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__ldk_adapter__node__Node_stop);
+    dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__ldk_adapter__node__Node_sync_wallets);
+    dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__ldk_adapter__node__Node_unified_qr_payment);
+    dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__ldk_adapter__node__Node_update_channel_config);
+    dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__ldk_adapter__node__Node_verify_signature);
+    dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__ldk_adapter__node__Node_wait_next_event);
     dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__ldk_adapter__on_chain__OnChainPayment_auto_accessor_get_inner);
     dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__ldk_adapter__on_chain__OnChainPayment_auto_accessor_set_inner);
     dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__ldk_adapter__on_chain__OnChainPayment_new_address);
     dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__ldk_adapter__on_chain__OnChainPayment_send_all_to_address);
     dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__ldk_adapter__on_chain__OnChainPayment_send_to_address);
-    dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__ldk_adapter__spontaneous__spontaneous_payment_send_probes_unsafe);
-    dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__ldk_adapter__spontaneous__spontaneous_payment_send_unsafe);
-    dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__ldk_adapter__spontaneous__spontaneous_payment_send_with_custom_tlvs_unsafe);
+    dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__ldk_adapter__spontaneous__SpontaneousPayment_auto_accessor_get_inner);
+    dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__ldk_adapter__spontaneous__SpontaneousPayment_auto_accessor_set_inner);
+    dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__ldk_adapter__spontaneous__SpontaneousPayment_send_probes_unsafe);
+    dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__ldk_adapter__spontaneous__SpontaneousPayment_send_unsafe);
+    dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__ldk_adapter__spontaneous__SpontaneousPayment_send_with_custom_tlvs_unsafe);
     dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__ldk_adapter__types__AnchorChannelsConfig_add_trusted_peer);
     dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__ldk_adapter__types__AnchorChannelsConfig_auto_accessor_get_per_channel_reserve_sats);
     dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__ldk_adapter__types__AnchorChannelsConfig_auto_accessor_get_trusted_peers_no_reserve);
@@ -2071,11 +2094,15 @@ static int64_t dummy_method_to_enforce_bundling(void) {
     dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__ldk_adapter__types__user_channel_id_from_string);
     dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__ldk_adapter__types__user_channel_id_from_u64);
     dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__ldk_adapter__types__user_channel_id_new);
-    dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__ldk_adapter__unified_qr__unified_qr_payment_receive);
-    dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__ldk_adapter__unified_qr__unified_qr_payment_send);
+    dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__ldk_adapter__unified_qr__UnifiedQrPayment_auto_accessor_get_inner);
+    dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__ldk_adapter__unified_qr__UnifiedQrPayment_auto_accessor_set_inner);
+    dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__ldk_adapter__unified_qr__UnifiedQrPayment_receive);
+    dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__ldk_adapter__unified_qr__UnifiedQrPayment_send);
+    dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__shared__BitcoinAddress_as_string);
     dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__shared__BitcoinAddress_auto_accessor_get_inner);
     dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__shared__BitcoinAddress_auto_accessor_set_inner);
     dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__shared__BitcoinAddress_from_script);
+    dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__shared__BitcoinAddress_from_string);
     dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__shared__BitcoinAddress_is_valid_for_network);
     dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__shared__BitcoinAddress_new);
     dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__shared__BitcoinAddress_script_pubkey);
