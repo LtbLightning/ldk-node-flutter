@@ -38,10 +38,12 @@ class WalletNotifier extends StateNotifier<WalletState> {
           .setChainSourceEsplora(
               esploraServerUrl: 'https://mutinynet.ltbl.io/api/')
           .setListeningAddresses(
-              [ldk.SocketAddress.hostname(addr: '0.0.0.0', port: port)])
+              [ldk.AddressHostname(addr: '0.0.0.0', port: port).asSocket()])
           .setLiquiditySourceLsps2(
-            address: ldk.SocketAddress.hostname(
-                addr: '192.243.215.101', port: 27110),
+            address: ldk.AddressHostname(
+                addr: '192.243.215.101',
+                port: 27110,
+            ).asSocket(),
             publicKey: ldk.PublicKey(
                 hex:
                     '02764a0e09f2e8ec67708f11d853191e8ba4a7f06db1330fd0250ab3de10590a8e'),
@@ -196,7 +198,7 @@ class WalletNotifier extends StateNotifier<WalletState> {
         description: description,
         expirySecs: expirySecs,
       );
-      return invoice.signedRawInvoice;
+      return invoice.toString();
     } catch (e) {
       throw Exception('Failed to create invoice: $e');
     }
@@ -230,7 +232,7 @@ class WalletNotifier extends StateNotifier<WalletState> {
 
     try {
       final socketAddress =
-          ldk.SocketAddress.hostname(addr: address, port: port);
+          ldk.AddressHostname(addr: address, port: port).asSocket();
       final publicKey = ldk.PublicKey(hex: nodeId);
 
       await state.node!.openChannel(

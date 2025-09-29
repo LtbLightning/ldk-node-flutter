@@ -284,7 +284,7 @@ class TransactionDetailScreen extends ConsumerWidget {
   }
 
   String _formatPaymentId() {
-    final bytes = payment.id.data;
+    final bytes = payment.id.toVec();
     return bytes
         .map((b) => b.toRadixString(16).padLeft(2, '0'))
         .join('')

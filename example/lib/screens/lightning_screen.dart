@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:ldk_node/src/generated/api/extensions.dart';
 import 'package:ldk_node/src/generated/third_party/shared.dart';
 import '../providers/wallet_provider.dart';
 import 'package:qr_flutter/qr_flutter.dart';
@@ -346,15 +347,40 @@ class _LightningScreenState extends ConsumerState<LightningScreen>
 
   void _showNodeInfoDialog() async {
     final walletState = ref.read(walletProvider);
-    final nodeId = walletState.nodeId?.hex ?? 'Unavailable';
+    final nodeId = walletState.nodeId?.toString() ?? 'Unavailable';
     String host = 'Unavailable';
     String port = 'Unavailable';
     if (walletState.node != null) {
       final addresses = await walletState.node!.listeningAddresses();
       if (addresses != null && addresses.isNotEmpty) {
         final addr = addresses.first;
-        host = await addr.addr();
-        port = await addr.port().toString();
+        switch (addr.addressType()) {
+          case SocketAddressType.tcpIpV4:
+            // Assuming addr has field0 (List<int>) and field1 (int) for tcpIpV4
+            final address_converted = addr.toTcpIpV4()!;
+            host = address_converted.addr.join('.');
+            port = address_converted.port.toString();
+            break;
+          case SocketAddressType.tcpIpV6:
+            final address_converted = addr.toTcpIpV6()!;
+            host = address_converted.addr.join(':');
+            port = address_converted.port.toString();
+            break;
+          case SocketAddressType.onionV2:
+            host = 'Onion V2';
+            port = 'N/A';
+            break;
+          case SocketAddressType.onionV3:
+            final address_converted = addr.toOnionV3()!;
+            host = 'Onion V3';
+            port = address_converted.port.toString();
+            break;
+          case SocketAddressType.hostname:
+            final address_converted = addr.toHostname()!;
+            host = address_converted.addr;
+            port = address_converted.port.toString();
+            break;
+        }
       }
     }
     showDialog(

@@ -43,7 +43,7 @@ void main() {
       await core.init();
       
       final aliceConfig = await initLdkConfig('alice',
-          ldk.SocketAddress.hostname(addr: "0.0.0.0", port: 3001));
+          ldk.AddressHostname(addr: "0.0.0.0", port: 3001).asSocket());
       debugPrint("Creating Alice builder...");
       final aliceBuilder = await ldk.Builder.fromConfig(config: aliceConfig)
           .setEntropyBip39Mnemonic(
@@ -59,7 +59,7 @@ void main() {
       await aliceNode.start();
       debugPrint("Alice node started successfully!");
       final bobConfig = await initLdkConfig(
-          'bob', ldk.SocketAddress.hostname(addr: "0.0.0.0", port: 3002));
+          'bob', ldk.AddressHostname(addr: "0.0.0.0", port: 3002).asSocket());
 
       debugPrint("Creating Bob builder...");
       final bobBuilder = ldk.Builder.fromConfig(config: bobConfig)
@@ -126,7 +126,7 @@ void main() {
 
       debugPrint("Opening channel from aliceNode to bobNode");
       final bobNodeId = await bobNode.nodeId();
-      debugPrint("Bob's node ID: ${bobNodeId.hex}");
+      debugPrint("Bob's node ID: ${bobNodeId.toString()}");
       
       // Check if nodes can see each other
       final bobListeningAddresses = await bobNode.listeningAddresses();
@@ -142,7 +142,7 @@ void main() {
         channelAmountSats: BigInt.from(fundingAmountSat),
         pushToCounterpartyMsat: BigInt.from(pushMsat),
       );
-      debugPrint("Channel created; id: ${userChannelId.data}");
+      debugPrint("Channel created; id: ${await userChannelId.asVec()}");
       
       // Wait a moment for the funding transaction to be broadcast
       await Future.delayed(const Duration(seconds: 2));
@@ -173,14 +173,16 @@ void main() {
         final channels = await aliceNode.listChannels();
         debugPrint("Alice has ${channels.length} channels");
         
-        final bobChannels = channels.where((e) => e.counterpartyNodeId.hex == bobNodeId.hex).toList();
+        final bobChannels = channels.where((e) => e.counterpartyNodeId.toString() == bobNodeId.toString()).toList();
+
+        debugPrint("Alice has ${bobChannels.length} channels with Bob");
         
         if (bobChannels.isNotEmpty) {
           final channel = bobChannels.first;
           debugPrint("Channel state: usable=${channel.isUsable}, ready=${channel.isChannelReady}, confirmations=${channel.confirmations}");
           debugPrint("Channel funding: ${channel.channelValueSats}sats, outbound capacity: ${channel.outboundCapacityMsat}msat");
-          debugPrint("Channel ID: ${channel.channelId.data}, User Channel ID: ${channel.userChannelId.data}");
-          
+          debugPrint("Channel ID: ${await channel.channelId.asBytes()}, User Channel ID: ${await channel.userChannelId.asVec()}");
+
           // If channel has 0 confirmations, generate more blocks
           if (channel.confirmations == 0 && channelAttempts % 10 == 0) {
             debugPrint("Channel still has 0 confirmations, generating more blocks...");
@@ -209,7 +211,7 @@ void main() {
         debugPrint("Channel not ready after timeout! Checking final state...");
         final finalChannels = await aliceNode.listChannels();
         for (final channel in finalChannels) {
-          debugPrint("Final channel state: counterparty=${channel.counterpartyNodeId.hex}, usable=${channel.isUsable}, ready=${channel.isChannelReady}");
+          debugPrint("Final channel state: counterparty=${channel.counterpartyNodeId.toString()}, usable=${channel.isUsable}, ready=${channel.isChannelReady}");
         }
       }
       
@@ -218,18 +220,18 @@ void main() {
       debugPrint("Alice has ${alicePeers.length} peers and ${aliceChannels.length} channels");
       
       for (final peer in alicePeers) {
-        debugPrint("Alice peer: ${peer.nodeId.hex}, connected: ${peer.isConnected}");
+        debugPrint("Alice peer: ${peer.nodeId.toString()}, connected: ${peer.isConnected}");
       }
       
       expect(
-          (alicePeers.where((e) => e.nodeId.hex == bobNodeId.hex)).toList().isNotEmpty,
+          (alicePeers.where((e) => e.nodeId.toString() == bobNodeId.toString())).toList().isNotEmpty,
           equals(true));
 
       // Generate more blocks to ensure channel is well-confirmed
       await regTestClient.generate(5, await aliceNodeAddress.asString());
       expect(
           (aliceChannels
-                      .where((e) => e.counterpartyNodeId.hex == bobNodeId.hex))
+                      .where((e) => e.counterpartyNodeId.toString() == bobNodeId.toString()))
                   .where((f) => f.isUsable && f.isChannelReady)
                   .toList() !=
               [],
@@ -250,11 +252,11 @@ void main() {
         description: "BOLT11 payment test 1",
         expirySecs: 3600,
       );
-      debugPrint("Invoice created: ${invoice1.signedRawInvoice}");
+      debugPrint("Invoice created: ${invoice1.toString()}");
       
       debugPrint("Alice sending payment to Bob's invoice...");
       final payment1Id = await aliceBolt11Handler.send(invoice: invoice1);
-      debugPrint("Payment 1 successful: ${payment1Id.data}");
+      debugPrint("Payment 1 successful: ${payment1Id.toVec()}");
       
       // Wait for payment to be recorded
       await Future.delayed(const Duration(milliseconds: 500));
@@ -285,11 +287,11 @@ void main() {
         description: "BOLT11 payment test 2",
         expirySecs: 3600,
       );
-      debugPrint("Second invoice created: ${invoice2.signedRawInvoice}");
+      debugPrint("Second invoice created: ${invoice2.toString()}");
       
       debugPrint("Alice sending second payment...");
       final payment2Id = await aliceBolt11Handler.send(invoice: invoice2);
-      debugPrint("Payment 2 successful: ${payment2Id.data}");
+      debugPrint("Payment 2 successful: ${payment2Id.toVec()}");
       
       // Wait for payment to be recorded
       await Future.delayed(const Duration(milliseconds: 500));
@@ -303,9 +305,9 @@ void main() {
       expect(finalAlicePayments.length >= 2, true);
       
       // Verify specific payments exist in Alice's list
-      final payment1Match = finalAlicePayments.where((p) => listEquals(p.id.data, payment1Id.data)).toList();
-      final payment2Match = finalAlicePayments.where((p) => listEquals(p.id.data, payment2Id.data)).toList();
-      
+      final payment1Match = finalAlicePayments.where((p) => listEquals(p.id.toVec(), payment1Id.toVec())).toList();
+      final payment2Match = finalAlicePayments.where((p) => listEquals(p.id.toVec(), payment2Id.toVec())).toList();
+
       debugPrint("Payment 1 found in Alice's list: ${payment1Match.length == 1}");
       debugPrint("Payment 2 found in Alice's list: ${payment2Match.length == 1}");
       

@@ -5,10 +5,11 @@
 
 import '../frb_generated.dart';
 import '../lib.dart';
+import 'package:collection/collection.dart';
 import 'package:flutter_rust_bridge/flutter_rust_bridge_for_generated.dart';
 
-// These types are ignored because they are neither used by any `pub` functions nor (for structs and enums) marked `#[frb(unignore)]`: `AddressOnionV2`, `AddressOnionV3`, `AddressTcpIpV4`, `AddressTcpIpV6`
-// These function are ignored because they are on traits that is not defined in current crate (put an empty `#[frb]` on it to unignore): `assert_receiver_is_total_eq`, `assert_receiver_is_total_eq`, `assert_receiver_is_total_eq`, `assert_receiver_is_total_eq`, `assert_receiver_is_total_eq`, `assert_receiver_is_total_eq`, `assert_receiver_is_total_eq`, `assert_receiver_is_total_eq`, `assert_receiver_is_total_eq`, `assert_receiver_is_total_eq`, `assert_receiver_is_total_eq`, `assert_receiver_is_total_eq`, `assert_receiver_is_total_eq`, `assert_receiver_is_total_eq`, `assert_receiver_is_total_eq`, `assert_receiver_is_total_eq`, `assert_receiver_is_total_eq`, `assert_receiver_is_total_eq`, `assert_receiver_is_total_eq`, `assert_receiver_is_total_eq`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `eq`, `eq`, `eq`, `eq`, `eq`, `eq`, `eq`, `eq`, `eq`, `eq`, `eq`, `eq`, `eq`, `eq`, `eq`, `eq`, `eq`, `eq`, `eq`, `eq`, `eq`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `hash`, `try_from`, `try_from`, `try_from`, `try_from`, `try_from`, `try_from`, `try_from`, `try_from`, `try_from`, `try_from`, `try_from`, `try_from`
+// These types are ignored because they are neither used by any `pub` functions nor (for structs and enums) marked `#[frb(unignore)]`: `WitnessProgram`
+// These function are ignored because they are on traits that is not defined in current crate (put an empty `#[frb]` on it to unignore): `assert_receiver_is_total_eq`, `assert_receiver_is_total_eq`, `assert_receiver_is_total_eq`, `assert_receiver_is_total_eq`, `assert_receiver_is_total_eq`, `assert_receiver_is_total_eq`, `assert_receiver_is_total_eq`, `assert_receiver_is_total_eq`, `assert_receiver_is_total_eq`, `assert_receiver_is_total_eq`, `assert_receiver_is_total_eq`, `assert_receiver_is_total_eq`, `assert_receiver_is_total_eq`, `assert_receiver_is_total_eq`, `assert_receiver_is_total_eq`, `assert_receiver_is_total_eq`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `eq`, `eq`, `eq`, `eq`, `eq`, `eq`, `eq`, `eq`, `eq`, `eq`, `eq`, `eq`, `eq`, `eq`, `eq`, `eq`, `eq`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `hash`, `try_from`, `try_from`, `try_from`, `try_from`, `try_from`, `try_from`, `try_from`, `try_from`, `try_from`, `try_from`, `try_from`, `try_from`
 
 // Rust type: RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<AddressData>>
 abstract class AddressData implements RustOpaqueInterface {}
@@ -34,8 +35,10 @@ abstract class BitcoinAddress implements RustOpaqueInterface {
   /// Is the address valid for the provided network
   Future<bool> isValidForNetwork({required Network network});
 
+  // HINT: Make it `#[frb(sync)]` to let it become the default constructor of Dart class.
   /// Parse a string as an address for the given network.
-  factory BitcoinAddress({required String address, required Network network}) =>
+  static Future<BitcoinAddress> newInstance(
+          {required String address, required Network network}) =>
       core.instance.api
           .sharedBitcoinAddressNew(address: address, network: network);
 
@@ -52,24 +55,66 @@ abstract class BitcoinAddress implements RustOpaqueInterface {
 // Rust type: RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<BitcoinAddressInner>>
 abstract class BitcoinAddressInner implements RustOpaqueInterface {}
 
-// Rust type: RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<PublicKey>>
-abstract class PublicKey implements RustOpaqueInterface {
-  String get hex;
+// Rust type: RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<Bolt11Invoice>>
+abstract class Bolt11Invoice implements RustOpaqueInterface {
+  /// DON'T REMOVE THE COMMENT BELOW
+  /// flutter_rust_bridge:sync
+  factory Bolt11Invoice({required String signedRawInvoice}) => core.instance.api
+      .sharedBolt11InvoiceNew(signedRawInvoice: signedRawInvoice);
 
-  set hex(String hex);
-
-  factory PublicKey({required String hex}) =>
-      core.instance.api.sharedPublicKeyNew(hex: hex);
+  /// DON'T REMOVE THE COMMENT BELOW
+  /// flutter_rust_bridge:sync
+  @override
+  String toString();
 }
 
-// Rust type: RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<SocketAddress>>
-abstract class SocketAddress implements RustOpaqueInterface {
-  Future<String> addr();
+// Rust type: RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<PaymentHash>>
+abstract class PaymentHash implements RustOpaqueInterface {
+  /// DON'T REMOVE THE COMMENT BELOW
+  /// flutter_rust_bridge:sync
+  factory PaymentHash({required U8Array32 data}) =>
+      core.instance.api.sharedPaymentHashNew(data: data);
 
-  static SocketAddress hostname({required String addr, required int port}) =>
-      core.instance.api.sharedSocketAddressHostname(addr: addr, port: port);
+  /// DON'T REMOVE THE COMMENT BELOW
+  /// flutter_rust_bridge:sync
+  Uint8List toVec();
+}
 
-  Future<int> port();
+// Rust type: RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<PaymentId>>
+abstract class PaymentId implements RustOpaqueInterface {
+  /// DON'T REMOVE THE COMMENT BELOW
+  /// flutter_rust_bridge:sync
+  factory PaymentId({required List<int> data}) =>
+      core.instance.api.sharedPaymentIdNew(data: data);
+
+  /// DON'T REMOVE THE COMMENT BELOW
+  /// flutter_rust_bridge:sync
+  Uint8List toVec();
+}
+
+// Rust type: RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<PaymentPreimage>>
+abstract class PaymentPreimage implements RustOpaqueInterface {
+  /// DON'T REMOVE THE COMMENT BELOW
+  /// flutter_rust_bridge:sync
+  factory PaymentPreimage({required U8Array32 data}) =>
+      core.instance.api.sharedPaymentPreimageNew(data: data);
+
+  /// DON'T REMOVE THE COMMENT BELOW
+  /// flutter_rust_bridge:sync
+  Uint8List toVec();
+}
+
+// Rust type: RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<PublicKey>>
+abstract class PublicKey implements RustOpaqueInterface {
+  /// DON'T REMOVE THE COMMENT BELOW
+  /// flutter_rust_bridge:sync
+  factory PublicKey({required String hex}) =>
+      core.instance.api.sharedPublicKeyNew(hex: hex);
+
+  /// DON'T REMOVE THE COMMENT BELOW
+  /// flutter_rust_bridge:sync
+  @override
+  String toString();
 }
 
 // Rust type: RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<TaprootSpendInfo>>
@@ -125,8 +170,10 @@ abstract class Transaction implements RustOpaqueInterface {
   /// * [BIP-113 Median time-past as endpoint for lock-time calculations](https://github.com/bitcoin/bips/blob/master/bip-0113.mediawiki)
   Future<int> lockTime();
 
+  // HINT: Make it `#[frb(sync)]` to let it become the default constructor of Dart class.
   /// Creates a new `Transaction` instance from serialized transaction bytes.
-  factory Transaction({required List<int> transactionBytes}) =>
+  static Future<Transaction> newInstance(
+          {required List<int> transactionBytes}) =>
       core.instance.api
           .sharedTransactionNew(transactionBytes: transactionBytes);
 
@@ -170,24 +217,6 @@ abstract class Transaction implements RustOpaqueInterface {
   /// API. The unsigned transaction encoded within PSBT is always a non-segwit transaction
   /// and can therefore avoid this ambiguity.
   Future<BigInt> weight();
-}
-
-class Bolt11Invoice {
-  final String signedRawInvoice;
-
-  const Bolt11Invoice({
-    required this.signedRawInvoice,
-  });
-
-  @override
-  int get hashCode => signedRawInvoice.hashCode;
-
-  @override
-  bool operator ==(Object other) =>
-      identical(this, other) ||
-      other is Bolt11Invoice &&
-          runtimeType == other.runtimeType &&
-          signedRawInvoice == other.signedRawInvoice;
 }
 
 class Bolt12Invoice {
@@ -286,60 +315,6 @@ class OutPoint {
           runtimeType == other.runtimeType &&
           txid == other.txid &&
           vout == other.vout;
-}
-
-class PaymentHash {
-  final U8Array32 data;
-
-  const PaymentHash({
-    required this.data,
-  });
-
-  @override
-  int get hashCode => data.hashCode;
-
-  @override
-  bool operator ==(Object other) =>
-      identical(this, other) ||
-      other is PaymentHash &&
-          runtimeType == other.runtimeType &&
-          data == other.data;
-}
-
-class PaymentId {
-  final Uint8List data;
-
-  const PaymentId({
-    required this.data,
-  });
-
-  @override
-  int get hashCode => data.hashCode;
-
-  @override
-  bool operator ==(Object other) =>
-      identical(this, other) ||
-      other is PaymentId &&
-          runtimeType == other.runtimeType &&
-          data == other.data;
-}
-
-class PaymentPreimage {
-  final U8Array32 data;
-
-  const PaymentPreimage({
-    required this.data,
-  });
-
-  @override
-  int get hashCode => data.hashCode;
-
-  @override
-  bool operator ==(Object other) =>
-      identical(this, other) ||
-      other is PaymentPreimage &&
-          runtimeType == other.runtimeType &&
-          data == other.data;
 }
 
 class Psbt {
@@ -534,6 +509,20 @@ class Txid {
       other is Txid && runtimeType == other.runtimeType && hash == other.hash;
 }
 
+class U8Array64 extends NonGrowableListView<int> {
+  static const arraySize = 64;
+
+  @internal
+  Uint8List get inner => _inner;
+  final Uint8List _inner;
+
+  U8Array64(this._inner)
+      : assert(_inner.length == arraySize),
+        super(_inner);
+
+  U8Array64.init() : this(Uint8List(arraySize));
+}
+
 class WTxid {
   final String hash;
 
@@ -548,29 +537,4 @@ class WTxid {
   bool operator ==(Object other) =>
       identical(this, other) ||
       other is WTxid && runtimeType == other.runtimeType && hash == other.hash;
-}
-
-/// The version and program of a Segwit address.
-class WitnessProgram {
-  /// Version. For example 1 for Taproot.
-  final int version;
-
-  /// The witness program.
-  final Uint8List program;
-
-  const WitnessProgram({
-    required this.version,
-    required this.program,
-  });
-
-  @override
-  int get hashCode => version.hashCode ^ program.hashCode;
-
-  @override
-  bool operator ==(Object other) =>
-      identical(this, other) ||
-      other is WitnessProgram &&
-          runtimeType == other.runtimeType &&
-          version == other.version &&
-          program == other.program;
 }

@@ -13,6 +13,34 @@ abstract class BitcoinTransactionInner implements RustOpaqueInterface {}
 // Rust type: RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<TaprootSpendInfoInner>>
 abstract class TaprootSpendInfoInner implements RustOpaqueInterface {}
 
+class U8Array12 extends NonGrowableListView<int> {
+  static const arraySize = 12;
+
+  @internal
+  Uint8List get inner => _inner;
+  final Uint8List _inner;
+
+  U8Array12(this._inner)
+      : assert(_inner.length == arraySize),
+        super(_inner);
+
+  U8Array12.init() : this(Uint8List(arraySize));
+}
+
+class U8Array16 extends NonGrowableListView<int> {
+  static const arraySize = 16;
+
+  @internal
+  Uint8List get inner => _inner;
+  final Uint8List _inner;
+
+  U8Array16(this._inner)
+      : assert(_inner.length == arraySize),
+        super(_inner);
+
+  U8Array16.init() : this(Uint8List(arraySize));
+}
+
 class U8Array32 extends NonGrowableListView<int> {
   static const arraySize = 32;
 
@@ -27,16 +55,16 @@ class U8Array32 extends NonGrowableListView<int> {
   U8Array32.init() : this(Uint8List(arraySize));
 }
 
-class U8Array64 extends NonGrowableListView<int> {
-  static const arraySize = 64;
+class U8Array4 extends NonGrowableListView<int> {
+  static const arraySize = 4;
 
   @internal
   Uint8List get inner => _inner;
   final Uint8List _inner;
 
-  U8Array64(this._inner)
+  U8Array4(this._inner)
       : assert(_inner.length == arraySize),
         super(_inner);
 
-  U8Array64.init() : this(Uint8List(arraySize));
+  U8Array4.init() : this(Uint8List(arraySize));
 }

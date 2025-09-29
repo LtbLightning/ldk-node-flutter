@@ -275,7 +275,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
               const Spacer(),
               if (walletState.nodeId != null)
                 Text(
-                  'ID: ${walletState.nodeId!.hex.substring(0, 8)}...',
+                  'ID: ${walletState.nodeId!.toString().substring(0, 8)}...',
                   style: GoogleFonts.nunito(
                     color: Colors.grey[600],
                     fontSize: 12,
