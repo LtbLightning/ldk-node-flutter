@@ -126,8 +126,9 @@ void main() {
 
       debugPrint("Opening channel from aliceNode to bobNode");
       final bobNodeId = await bobNode.nodeId();
-      debugPrint("Bob's node ID: ${bobNodeId.toString()}");
-      
+      final bobNodeIdString = bobNodeId.toString();
+      debugPrint("Bob's node ID: ${bobNodeIdString}");
+
       // Check if nodes can see each other
       final bobListeningAddresses = await bobNode.listeningAddresses();
       debugPrint("Bob's listening addresses: $bobListeningAddresses");
@@ -172,8 +173,8 @@ void main() {
       while (!channelReady && channelAttempts < maxChannelAttempts) {
         final channels = await aliceNode.listChannels();
         debugPrint("Alice has ${channels.length} channels");
-        
-        final bobChannels = channels.where((e) => e.counterpartyNodeId.toString() == bobNodeId.toString()).toList();
+
+        final bobChannels = channels.where((e) => e.counterpartyNodeId.toString() == bobNodeIdString).toList();
 
         debugPrint("Alice has ${bobChannels.length} channels with Bob");
         
@@ -224,17 +225,17 @@ void main() {
       }
       
       expect(
-          (alicePeers.where((e) => e.nodeId.toString() == bobNodeId.toString())).toList().isNotEmpty,
+          (alicePeers.where((e) => e.nodeId.toString() == bobNodeIdString).toList().isNotEmpty),
           equals(true));
 
       // Generate more blocks to ensure channel is well-confirmed
       await regTestClient.generate(5, await aliceNodeAddress.asString());
       expect(
           (aliceChannels
-                      .where((e) => e.counterpartyNodeId.toString() == bobNodeId.toString()))
+                      .where((e) => e.counterpartyNodeId.toString() == bobNodeIdString)
                   .where((f) => f.isUsable && f.isChannelReady)
                   .toList() !=
-              [],
+              []),
           true);
 
       // BOLT11 Payment Tests
@@ -318,7 +319,7 @@ void main() {
       // Cleanup
       debugPrint("Closing channel between Alice and Bob");
       await aliceNode.closeChannel(
-          counterpartyNodeId: bobNodeId, userChannelId: userChannelId);
+          counterpartyNodeId: await bobNode.nodeId(), userChannelId: userChannelId);
       
       // Stop nodes with timeout to prevent hanging
       try {

@@ -40,7 +40,7 @@ void main() {
   }
 
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
-  group('bolt11_integration', () {
+  group('bolt12_integration', () {
     setUp(() async {});
     testWidgets('full_cycle', (WidgetTester tester) async {
       // Initialize flutter_rust_bridge
@@ -133,6 +133,7 @@ void main() {
       debugPrint("Opening channel from aliceNode to bobNode");
       final bobNodeId = await bobNode.nodeId();
       debugPrint("Bob's node ID: ${bobNodeId.toString()}");
+      final bobNodeIdString = (await bobNode.nodeId()).toString();
       
       // Check if nodes can see each other
       final bobListeningAddresses = await bobNode.listeningAddresses();
@@ -179,7 +180,7 @@ void main() {
         final channels = await aliceNode.listChannels();
         debugPrint("Alice has ${channels.length} channels");
         
-        final bobChannels = channels.where((e) => e.counterpartyNodeId.toString() == bobNodeId.toString()).toList();
+        final bobChannels = channels.where((e) => e.counterpartyNodeId.toString() == bobNodeIdString).toList();
         
         if (bobChannels.isNotEmpty) {
           final channel = bobChannels.first;
@@ -228,14 +229,14 @@ void main() {
       }
       
       expect(
-          (alicePeers.where((e) => e.nodeId.toString() == bobNodeId.toString())).toList().isNotEmpty,
+          (alicePeers.where((e) => e.nodeId.toString() == bobNodeIdString).toList().isNotEmpty),
           equals(true));
 
       // Generate more blocks to ensure channel is well-confirmed
       await regTestClient.generate(5, await aliceNodeAddress.asString());
       expect(
           (aliceChannels
-                      .where((e) => e.counterpartyNodeId.toString() == bobNodeId.toString()))
+                      .where((e) => e.counterpartyNodeId.toString() == bobNodeIdString))
                   .where((f) => f.isUsable && f.isChannelReady)
                   .toList() !=
               [],
@@ -276,22 +277,26 @@ void main() {
       debugPrint("Offer2 created, now sending payment of ${payment2ExpectedAmountMsat}msat");
       final payment2Id = await aliceNodeBol12Handler.sendUsingAmount(
           offer: offer2, amountMsat: BigInt.from(payment2ExpectedAmountMsat));
-      debugPrint("payment_2 successful: ${payment2Id.toVec().toString()}");
-      
+      final payment2IdVec = await payment2Id.toVec();
+      debugPrint("payment_2 successful: ${payment2IdVec.toString()}");
+
       // Wait a moment for the payment to be recorded
       await Future.delayed(const Duration(milliseconds: 500));
       
       // Debug: List all payments from Alice
       final allAlicePayments = await aliceNode.listPayments();
       debugPrint("Alice now has ${allAlicePayments.length} total payments:");
-      for (int i = 0; i < allAlicePayments.length; i++) {
-        final payment = allAlicePayments[i];
-        debugPrint("  Payment $i: ID=${payment.id.toVec()}, amount=${payment.amountMsat}msat, status=${payment.status}");
-      }
+      // for (int i = 0; i < allAlicePayments.length; i++) {
+      //   final payment = allAlicePayments[i];
+      //   debugPrint("  Payment $i:");
+      //   debugPrint("    ID: ${payment.id.toVec()}");
+      //   debugPrint("    Amount: ${payment.amountMsat}msat");
+      //   debugPrint("    Status: ${payment.status}");
+      // }
       
       // Check if payment2Id exists in the list
-      final matchingPayments = allAlicePayments.where((e) => listEquals(e.id.toVec(), payment2Id.toVec())).toList();
-      debugPrint("Looking for payment with ID: ${payment2Id.toVec()}");
+      debugPrint("Looking for payment with ID: ${payment2IdVec}");
+      final matchingPayments = allAlicePayments.where((e) => listEquals(e.id.toVec(), payment2IdVec)).toList();
       debugPrint("Found ${matchingPayments.length} matching payments");
       
       if (matchingPayments.isEmpty) {
@@ -323,7 +328,7 @@ void main() {
           true);
       debugPrint("Bob's payment 3 found successfully");
       await aliceNode.closeChannel(
-          counterpartyNodeId: bobNodeId, userChannelId: userChannelId);
+          counterpartyNodeId: await bobNode.nodeId(), userChannelId: userChannelId);
       debugPrint("Closing channel between Alice and Bob");
       
       // Stop nodes with timeout to prevent hanging
