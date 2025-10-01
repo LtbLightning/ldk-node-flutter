@@ -2,11 +2,8 @@ import 'dart:async';
 import 'dart:typed_data';
 
 import 'package:ldk_node/ldk_node.dart';
-import 'package:ldk_node/src/generated/api/extensions.dart';
-
-import 'generated/lib.dart';
+import 'generated/frb_generated.dart';
 import 'generated/third_party/ldk_adapter/builder.dart' as builder;
-import 'generated/third_party/ldk_adapter/node.dart';
 import 'generated/third_party/ldk_adapter/graph.dart' as graph;
 import 'generated/third_party/ldk_adapter/bolt11.dart' as bolt11;
 import 'generated/third_party/ldk_adapter/bolt12.dart' as bolt12;
@@ -16,9 +13,6 @@ import 'generated/third_party/ldk_adapter/unified_qr.dart' as unified_qr;
 
 import 'generated/third_party/ldk_adapter/types.dart' as types;
 import 'generated/api/extensions.dart' as extensions;
-import 'generated/third_party/shared.dart';
-
-import 'package:flutter_rust_bridge/flutter_rust_bridge.dart';
 import 'package:path_provider/path_provider.dart';
 
 // Default service constants
@@ -482,4 +476,12 @@ class FeeRate {
 
   @override
   String toString() => 'FeeRate($_satPerKwu} sat/kwu)';
+}
+
+class Frb {
+  static Future<void> verifyInit() async {
+    if (!core.instance.initialized) {
+      await core.init();
+    }
+  }
 }

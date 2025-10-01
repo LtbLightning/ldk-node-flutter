@@ -5582,7 +5582,7 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
       },
       codec: DcoCodec(
         decodeSuccessData: dco_decode_balance_details,
-        decodeErrorData: dco_decode_AnyhowException,
+        decodeErrorData: null,
       ),
       constMeta: kLdkAdapterNodeNodeListBalancesConstMeta,
       argValues: [that],

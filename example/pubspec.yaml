@@ -40,9 +40,10 @@ dev_dependencies:
     sdk: flutter
   riverpod_generator: ^2.4.0
   build_runner: ^2.4.13
+  flutter_lints: ^3.0.0
 
 flutter:
   uses-material-design: true
-  assets:
-    - assets/images/
-    - assets/icons/
+  # assets:
+  #   - assets/images/
+  #   - assets/icons/

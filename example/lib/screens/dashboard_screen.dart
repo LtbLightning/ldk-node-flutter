@@ -1,15 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:intl/intl.dart';
 import '../providers/wallet_provider.dart';
 import '../models/wallet_state.dart';
 import '../widgets/balance_card.dart';
-import '../widgets/quick_actions.dart';
 import '../widgets/recent_transactions.dart';
-import 'package:path_provider/path_provider.dart';
-import 'package:ldk_node/ldk_node.dart' as ldk;
-import 'dart:io';
 import 'onchain_screen.dart';
 import 'lightning_screen.dart';
 import '../config/node_config.dart';
@@ -142,7 +137,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
                       icon: const Icon(Icons.account_balance_wallet),
                       label: const Text('On-chain'),
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: Color(0xFF1A73E8),
+                        backgroundColor: const Color(0xFF1A73E8),
                         foregroundColor: Colors.white,
                         minimumSize: const Size.fromHeight(48),
                         textStyle: GoogleFonts.montserrat(
@@ -164,7 +159,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
                       icon: const Icon(Icons.flash_on),
                       label: const Text('Lightning'),
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: Color(0xFFFFC107),
+                        backgroundColor: const Color(0xFFFFC107),
                         foregroundColor: Colors.black,
                         minimumSize: const Size.fromHeight(48),
                         textStyle: GoogleFonts.montserrat(

@@ -1,16 +1,14 @@
-import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:ldk_node/ldk_node.dart' as ldk;
 import 'package:ldk_node_example/screens/dashboard_screen.dart';
 import 'package:ldk_node_example/screens/onboarding_screen.dart';
 import 'package:ldk_node_example/screens/settings_screen.dart';
 import 'package:ldk_node_example/services/settings_service.dart';
-import 'package:path_provider/path_provider.dart';
 
-void main() {
+void main() async {
+  await ldk.Frb.verifyInit();
   // Handle Flutter framework errors gracefully
   FlutterError.onError = (FlutterErrorDetails details) {
     if (kDebugMode) {

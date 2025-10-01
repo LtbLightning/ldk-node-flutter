@@ -13,10 +13,10 @@ crate-type = ["staticlib", "cdylib"]
 
 [dependencies]
 flutter_rust_bridge = "=2.11.1"
-# ldk-adapter = { git = "https://github.com/LtbLightning/ltbl-ffi.git", rev = "1df304e9feca782d9047a91597165900f12960f8" }
-# shared = { git = "https://github.com/LtbLightning/ltbl-ffi.git", rev = "1df304e9feca782d9047a91597165900f12960f8" }
-ldk-adapter = { path = "../../ltbl-ffi/ldk-adapter" }
-shared = { path = "../../ltbl-ffi/shared" }
+ldk-adapter = { git = "https://github.com/LtbLightning/ltbl-ffi.git", rev = "911aee001d98bb711d3f32390716130562538edd" }
+shared = { git = "https://github.com/LtbLightning/ltbl-ffi.git", rev = "911aee001d98bb711d3f32390716130562538edd" }
+# ldk-adapter = { path = "../../ltbl-ffi/ldk-adapter" }
+# shared = { path = "../../ltbl-ffi/shared" }
 # ldk-node = {git = 'https://github.com/lightningdevkit/ldk-node.git', rev = "0b999773fa54a3c54f007bebccdceb1fa67247fe"}
 # Force lazy_static to use version 1.4.0 to resolve dependency conflict
 lazy_static = "=1.4.0"

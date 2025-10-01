@@ -45,4 +45,4 @@ export 'src/generated/third_party/shared.dart'
 
 // Generated core types
 export 'src/generated/lib.dart';
-export 'src/root.dart' show Builder;
+export 'src/root.dart' show Builder, Frb;

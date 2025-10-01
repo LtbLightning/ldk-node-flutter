@@ -85,8 +85,6 @@ class _OnChainScreenState extends ConsumerState<OnChainScreen>
         .watch(walletProvider)
         .payments
         .where((p) =>
-            p.status != null &&
-            p.status != null &&
             p.status.toString().contains('onchain'))
         .toList();
     return Scaffold(

@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:typed_data';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:ldk_node/ldk_node.dart' as ldk;
@@ -36,11 +35,11 @@ class WalletNotifier extends StateNotifier<WalletState> {
           .setStorageDirPath(nodeStorageDir)
           .setNetwork(ldk.Network.signet)
           .setChainSourceEsplora(
-              esploraServerUrl: 'https://mutinynet.ltbl.io/api/')
+              esploraServerUrl: 'https://mutinynet.com/api/')
           .setListeningAddresses(
               [ldk.AddressHostname(addr: '0.0.0.0', port: port).asSocket()])
           .setLiquiditySourceLsps2(
-            address: ldk.AddressHostname(
+            address: const ldk.AddressHostname(
                 addr: '192.243.215.101',
                 port: 27110,
             ).asSocket(),
@@ -49,7 +48,7 @@ class WalletNotifier extends StateNotifier<WalletState> {
                     '02764a0e09f2e8ec67708f11d853191e8ba4a7f06db1330fd0250ab3de10590a8e'),
             token: null,
           )
-          .setGossipSourceRgs('https://mutinynet.ltbl.io/snapshot');
+          .setGossipSourceRgs('https:/R/snapshot');
 
       final node = await builder.build();
       await node.start();

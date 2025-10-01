@@ -1486,6 +1486,7 @@ checksum = "830d08ce1d1d941e6b30645f1a0eb5643013d835ce3779a5fc208261dbe10f55"
 [[package]]
 name = "ldk-adapter"
 version = "0.1.0"
+source = "git+https://github.com/LtbLightning/ltbl-ffi.git?rev=911aee001d98bb711d3f32390716130562538edd#911aee001d98bb711d3f32390716130562538edd"
 dependencies = [
  "anyhow",
  "ldk-node",
@@ -2540,6 +2541,7 @@ dependencies = [
 [[package]]
 name = "shared"
 version = "0.1.0"
+source = "git+https://github.com/LtbLightning/ltbl-ffi.git?rev=911aee001d98bb711d3f32390716130562538edd#911aee001d98bb711d3f32390716130562538edd"
 dependencies = [
  "anyhow",
  "bark-bitcoin-ext",

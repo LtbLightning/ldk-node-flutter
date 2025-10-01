@@ -2,11 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:ldk_node/src/generated/api/extensions.dart';
-import 'package:ldk_node/src/generated/third_party/shared.dart';
 import '../providers/wallet_provider.dart';
-import 'package:qr_flutter/qr_flutter.dart';
-import 'package:flutter/rendering.dart';
-import 'package:flutter/services.dart';
 import 'invoice_display_screen.dart';
 import '../config/node_config.dart';
 
@@ -213,7 +209,7 @@ class _LightningScreenState extends ConsumerState<LightningScreen>
                                       BigInt.from(1000),
                                   description: descController.text.trim(),
                                 );
-                            debugPrint('Generated invoice: ' + inv);
+                            debugPrint('Generated invoice: $inv');
                             if (context.mounted) {
                               Navigator.of(context).pop();
                               Navigator.of(context).push(
@@ -287,7 +283,7 @@ class _LightningScreenState extends ConsumerState<LightningScreen>
                       child: Column(
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          Icon(Icons.check_circle,
+                          const Icon(Icons.check_circle,
                               color: Colors.green, size: 48),
                           const SizedBox(height: 16),
                           Text('Payment sent!',
@@ -357,28 +353,28 @@ class _LightningScreenState extends ConsumerState<LightningScreen>
         switch (addr.addressType()) {
           case SocketAddressType.tcpIpV4:
             // Assuming addr has field0 (List<int>) and field1 (int) for tcpIpV4
-            final address_converted = addr.toTcpIpV4()!;
-            host = address_converted.addr.join('.');
-            port = address_converted.port.toString();
+            final addressConverted = addr.toTcpIpV4()!;
+            host = addressConverted.addr.join('.');
+            port = addressConverted.port.toString();
             break;
           case SocketAddressType.tcpIpV6:
-            final address_converted = addr.toTcpIpV6()!;
-            host = address_converted.addr.join(':');
-            port = address_converted.port.toString();
+            final addressConverted = addr.toTcpIpV6()!;
+            host = addressConverted.addr.join(':');
+            port = addressConverted.port.toString();
             break;
           case SocketAddressType.onionV2:
             host = 'Onion V2';
             port = 'N/A';
             break;
           case SocketAddressType.onionV3:
-            final address_converted = addr.toOnionV3()!;
+            final addressConverted = addr.toOnionV3()!;
             host = 'Onion V3';
-            port = address_converted.port.toString();
+            port = addressConverted.port.toString();
             break;
           case SocketAddressType.hostname:
-            final address_converted = addr.toHostname()!;
-            host = address_converted.addr;
-            port = address_converted.port.toString();
+            final addressConverted = addr.toHostname()!;
+            host = addressConverted.addr;
+            port = addressConverted.port.toString();
             break;
         }
       }
@@ -438,7 +434,7 @@ class _LightningScreenState extends ConsumerState<LightningScreen>
                 icon: const Icon(Icons.info_outline),
                 label: const Text('Show My Node Info'),
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Color(0xFF1A73E8),
+                  backgroundColor: const Color(0xFF1A73E8),
                   foregroundColor: Colors.white,
                   textStyle:
                       GoogleFonts.montserrat(fontWeight: FontWeight.w600),
@@ -577,8 +573,9 @@ class _LightningScreenState extends ConsumerState<LightningScreen>
                                   final p = walletState.payments[idx];
                                   // Only show Lightning payments (not on-chain)
                                   if (p.description == null &&
-                                      p.invoice == null)
+                                      p.invoice == null) {
                                     return const SizedBox.shrink();
+                                  }
                                   return Card(
                                     margin: const EdgeInsets.only(bottom: 12),
                                     elevation: 2,
@@ -594,7 +591,7 @@ class _LightningScreenState extends ConsumerState<LightningScreen>
                                             ? Colors.green
                                             : Colors.red,
                                       ),
-                                      title: Text('${p.formattedAmount}',
+                                      title: Text(p.formattedAmount,
                                           style: GoogleFonts.nunito(
                                               fontWeight: FontWeight.w600)),
                                       subtitle: Text(
