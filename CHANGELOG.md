@@ -1,3 +1,71 @@
+## [0.6.2]
+Updated `ldk-node` to `0.6.2`.
+
+### Notes
+- No breaking changes and no new functions exposed.
+- Bug fixes.
+  - Fix node going into a unrecoverable state when previously generated transaction accepted first, fixed on `rust bdk_wallet 2.0.0`
+  - refer to [ldk-node rust](https://github.com/lightningdevkit/ldk-node/releases) for misc fixes (rust, uniffi, etc).
+
+
+## [0.5.0]
+
+Updated `flutter_rust_bridge` to `2.11.1`.
+Updated `ldk-node` to `0.5.0`.
+Updated `freezed` to `3.2.0`
+Updated `freezed-anotation` to `3.1.0`
+
+### APIs added
+
+- **FeeRate Class**: Added comprehensive Dart-native `FeeRate` class with utilities for fee rate conversion and common constants
+  - Constants: `zero`, `min`, `max`, `broadcastMin`, `dust`
+  - Constructors: `fromSatPerKwu()`, `fromSatPerVb()`, `fromSatPerVbUnchecked()`
+  - Converters: `toSatPerVbFloor()`, `toSatPerVbCeil()`, `toSatPerKwu()`
+  - Enhanced `OnChainPayment` methods to support `FeeRate` parameter
+
+- **Chain Data Sources**: Added Electrum backend support as alternative to Esplora for chain and fee rate data
+  - `ChainDataSourceConfig.electrum()` constructor with `ElectrumSyncConfig` support  
+  - Full FFI integration for Electrum chain data source configuration
+  - Background sync configuration options with customizable sync intervals
+
+- **Enhanced Payment Events**: 
+  - Added `payment_preimage` field to `PaymentSuccessful` events for better payment verification and tracking
+  - Added `PaymentForwarded` events for tracking payment forwarding through the node with detailed fee and routing information
+  - Custom TLV (Type-Length-Value) record support in payment events (`PaymentClaimable`, `PaymentReceived`) allowing additional metadata to be received with payments
+
+- **LSP Integration**: Enhanced Lightning Service Provider support
+  - LSPS2 service integration with `receiveViaJitChannel()` and `receiveVariableAmountViaJitChannel()` methods
+  - `Bolt11Jit` payment variant with LSP fee limits and counterparty skimmed fee tracking  
+  - Enhanced JIT channel support for improved liquidity management
+
+- **Payment Store Integration**: On-chain transactions now included in internal payment store and exposed via payment APIs
+
+### Breaking Changes
+
+- **flutter_rust_bridge**: Updated from `2.6.0` to `2.11.1` - this major update may require code changes in applications using low-level FFI bindings
+- **freezed**: Updated from previous version to `3.2.0` - may affect generated code and require regeneration of freezed classes
+- **ldk-node**: Updated to `0.5.0` with significant internal changes that may affect behavior in edge cases
+- **Event Structure Changes**: Payment events now include additional fields (`preimage`, `customRecords`) which may affect existing event handling code
+- **Chain Data Source Configuration**: Applications using manual chain source configuration may need to update to new `ChainDataSourceConfig.electrum()` syntax
+
+### API changed
+
+- Enhanced on-chain payment methods to optionally accept `FeeRate` parameters for custom fee control
+- `ChainDataSourceConfig` now supports Electrum as a chain data source option alongside Esplora and Bitcoin Core RPC via `ChainDataSourceConfig.electrum()`
+- Payment events enhanced with preimage information in `PaymentSuccessful` events for better payment tracking and verification
+- Payment events (`PaymentClaimable`, `PaymentReceived`) now include `customRecords` field for Custom TLV record support
+- Added `PaymentForwarded` event type for tracking payment forwarding through the node
+
+### Fixed
+
+- Resolved FeeRate FFI type conflicts by implementing native Dart solution  
+- Improved type safety and developer experience for fee rate handling
+- Enhanced payment tracking with better event handling and preimage support
+
+### Notes
+
+- Custom TLV support is available for receiving payments via event `customRecords`, but `sendWithCustomTlvs` for spontaneous payments is not yet exposed in the public API
+
 ## [0.4.3]
 
 Updated `flutter_rust_bridge` to `2.6.0`.

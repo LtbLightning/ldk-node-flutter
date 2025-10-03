@@ -8,7 +8,7 @@ plugins {
 
 android {
     compileSdk = flutter.compileSdkVersion
-    ndkVersion = "25.1.8937393"
+    ndkVersion = "26.3.11579264"
     namespace = "io.ldk.f.ldk_node_example"
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_17
@@ -28,6 +28,11 @@ android {
         targetSdk = flutter.targetSdkVersion
         versionCode = flutter.versionCode
         versionName = flutter.versionName
+        
+        ndk {
+            // Filter out 32-bit architectures to avoid lightning crate compilation issues
+            abiFilters 'arm64-v8a', 'x86_64'
+        }
     }
 
     buildTypes {

@@ -7,9 +7,12 @@ class DefaultServicesTestnet {
 
 class DefaultServicesMutinynet {
   static var esploraServerConfig = EsploraSyncConfig(
+    backgroundSyncConfig: BackgroundSyncConfig(
       onchainWalletSyncIntervalSecs: BigInt.from(60),
       lightningWalletSyncIntervalSecs: BigInt.from(60),
-      feeRateCacheUpdateIntervalSecs: BigInt.from(600));
+      feeRateCacheUpdateIntervalSecs: BigInt.from(600),
+    ),
+  );
   static const String esploraServerUrl = 'https://mutinynet.ltbl.io/api';
   static const String rgsServerUrl = 'https://mutinynet.ltbl.io/snapshot';
   static const String lsps2SourceAddress = '44.219.111.31';
