@@ -40,7 +40,7 @@ flutter_rust_bridge::frb_generated_boilerplate!(
     default_rust_auto_opaque = RustAutoOpaqueNom,
 );
 pub(crate) const FLUTTER_RUST_BRIDGE_CODEGEN_VERSION: &str = "2.11.1";
-pub(crate) const FLUTTER_RUST_BRIDGE_CODEGEN_CONTENT_HASH: i32 = -409041388;
+pub(crate) const FLUTTER_RUST_BRIDGE_CODEGEN_CONTENT_HASH: i32 = 354908666;
 
 // Section: executor
 
@@ -406,7 +406,7 @@ fn wire__crate__api__types__config_default_impl(
         },
     )
 }
-fn wire__crate__api__bolt11__ffi_bolt_11_payment_claim_for_hash_impl(
+fn wire__crate__api__bolt11__ffi_bolt_11_payment_claim_for_hash_unsafe_impl(
     port_: flutter_rust_bridge::for_generated::MessagePort,
     that: impl CstDecode<crate::api::bolt11::FfiBolt11Payment>,
     payment_hash: impl CstDecode<crate::api::types::PaymentHash>,
@@ -415,7 +415,7 @@ fn wire__crate__api__bolt11__ffi_bolt_11_payment_claim_for_hash_impl(
 ) {
     FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
         flutter_rust_bridge::for_generated::TaskInfo {
-            debug_name: "ffi_bolt_11_payment_claim_for_hash",
+            debug_name: "ffi_bolt_11_payment_claim_for_hash_unsafe",
             port: Some(port_),
             mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
         },
@@ -426,7 +426,7 @@ fn wire__crate__api__bolt11__ffi_bolt_11_payment_claim_for_hash_impl(
             let api_preimage = preimage.cst_decode();
             move |context| {
                 transform_result_dco::<_, _, crate::utils::error::FfiNodeError>((move || {
-                    let output_ok = crate::api::bolt11::FfiBolt11Payment::claim_for_hash(
+                    let output_ok = crate::api::bolt11::FfiBolt11Payment::claim_for_hash_unsafe(
                         &api_that,
                         api_payment_hash,
                         api_claimable_amount_msat,
@@ -439,14 +439,14 @@ fn wire__crate__api__bolt11__ffi_bolt_11_payment_claim_for_hash_impl(
         },
     )
 }
-fn wire__crate__api__bolt11__ffi_bolt_11_payment_fail_for_hash_impl(
+fn wire__crate__api__bolt11__ffi_bolt_11_payment_fail_for_hash_unsafe_impl(
     port_: flutter_rust_bridge::for_generated::MessagePort,
     that: impl CstDecode<crate::api::bolt11::FfiBolt11Payment>,
     payment_hash: impl CstDecode<crate::api::types::PaymentHash>,
 ) {
     FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
         flutter_rust_bridge::for_generated::TaskInfo {
-            debug_name: "ffi_bolt_11_payment_fail_for_hash",
+            debug_name: "ffi_bolt_11_payment_fail_for_hash_unsafe",
             port: Some(port_),
             mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
         },
@@ -455,7 +455,7 @@ fn wire__crate__api__bolt11__ffi_bolt_11_payment_fail_for_hash_impl(
             let api_payment_hash = payment_hash.cst_decode();
             move |context| {
                 transform_result_dco::<_, _, crate::utils::error::FfiNodeError>((move || {
-                    let output_ok = crate::api::bolt11::FfiBolt11Payment::fail_for_hash(
+                    let output_ok = crate::api::bolt11::FfiBolt11Payment::fail_for_hash_unsafe(
                         &api_that,
                         api_payment_hash,
                     )?;
@@ -466,40 +466,7 @@ fn wire__crate__api__bolt11__ffi_bolt_11_payment_fail_for_hash_impl(
         },
     )
 }
-fn wire__crate__api__bolt11__ffi_bolt_11_payment_receive_impl(
-    port_: flutter_rust_bridge::for_generated::MessagePort,
-    that: impl CstDecode<crate::api::bolt11::FfiBolt11Payment>,
-    amount_msat: impl CstDecode<u64>,
-    description: impl CstDecode<String>,
-    expiry_secs: impl CstDecode<u32>,
-) {
-    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
-        flutter_rust_bridge::for_generated::TaskInfo {
-            debug_name: "ffi_bolt_11_payment_receive",
-            port: Some(port_),
-            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
-        },
-        move || {
-            let api_that = that.cst_decode();
-            let api_amount_msat = amount_msat.cst_decode();
-            let api_description = description.cst_decode();
-            let api_expiry_secs = expiry_secs.cst_decode();
-            move |context| {
-                transform_result_dco::<_, _, crate::utils::error::FfiNodeError>((move || {
-                    let output_ok = crate::api::bolt11::FfiBolt11Payment::receive(
-                        &api_that,
-                        api_amount_msat,
-                        api_description,
-                        api_expiry_secs,
-                    )?;
-                    Ok(output_ok)
-                })(
-                ))
-            }
-        },
-    )
-}
-fn wire__crate__api__bolt11__ffi_bolt_11_payment_receive_for_hash_impl(
+fn wire__crate__api__bolt11__ffi_bolt_11_payment_receive_for_hash_unsafe_impl(
     port_: flutter_rust_bridge::for_generated::MessagePort,
     that: impl CstDecode<crate::api::bolt11::FfiBolt11Payment>,
     payment_hash: impl CstDecode<crate::api::types::PaymentHash>,
@@ -509,7 +476,7 @@ fn wire__crate__api__bolt11__ffi_bolt_11_payment_receive_for_hash_impl(
 ) {
     FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
         flutter_rust_bridge::for_generated::TaskInfo {
-            debug_name: "ffi_bolt_11_payment_receive_for_hash",
+            debug_name: "ffi_bolt_11_payment_receive_for_hash_unsafe",
             port: Some(port_),
             mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
         },
@@ -521,7 +488,7 @@ fn wire__crate__api__bolt11__ffi_bolt_11_payment_receive_for_hash_impl(
             let api_expiry_secs = expiry_secs.cst_decode();
             move |context| {
                 transform_result_dco::<_, _, crate::utils::error::FfiNodeError>((move || {
-                    let output_ok = crate::api::bolt11::FfiBolt11Payment::receive_for_hash(
+                    let output_ok = crate::api::bolt11::FfiBolt11Payment::receive_for_hash_unsafe(
                         &api_that,
                         api_payment_hash,
                         api_amount_msat,
@@ -535,26 +502,29 @@ fn wire__crate__api__bolt11__ffi_bolt_11_payment_receive_for_hash_impl(
         },
     )
 }
-fn wire__crate__api__bolt11__ffi_bolt_11_payment_receive_variable_amount_impl(
+fn wire__crate__api__bolt11__ffi_bolt_11_payment_receive_unsafe_impl(
     port_: flutter_rust_bridge::for_generated::MessagePort,
     that: impl CstDecode<crate::api::bolt11::FfiBolt11Payment>,
+    amount_msat: impl CstDecode<u64>,
     description: impl CstDecode<String>,
     expiry_secs: impl CstDecode<u32>,
 ) {
     FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
         flutter_rust_bridge::for_generated::TaskInfo {
-            debug_name: "ffi_bolt_11_payment_receive_variable_amount",
+            debug_name: "ffi_bolt_11_payment_receive_unsafe",
             port: Some(port_),
             mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
         },
         move || {
             let api_that = that.cst_decode();
+            let api_amount_msat = amount_msat.cst_decode();
             let api_description = description.cst_decode();
             let api_expiry_secs = expiry_secs.cst_decode();
             move |context| {
                 transform_result_dco::<_, _, crate::utils::error::FfiNodeError>((move || {
-                    let output_ok = crate::api::bolt11::FfiBolt11Payment::receive_variable_amount(
+                    let output_ok = crate::api::bolt11::FfiBolt11Payment::receive_unsafe(
                         &api_that,
+                        api_amount_msat,
                         api_description,
                         api_expiry_secs,
                     )?;
@@ -565,16 +535,28 @@ fn wire__crate__api__bolt11__ffi_bolt_11_payment_receive_variable_amount_impl(
         },
     )
 }
-fn wire__crate__api__bolt11__ffi_bolt_11_payment_receive_variable_amount_for_hash_impl(
+fn wire__crate__api__bolt11__ffi_bolt_11_payment_receive_variable_amount_for_hash_unsafe_impl(
     port_: flutter_rust_bridge::for_generated::MessagePort,
     that: impl CstDecode<crate::api::bolt11::FfiBolt11Payment>,
     description: impl CstDecode<String>,
     expiry_secs: impl CstDecode<u32>,
     payment_hash: impl CstDecode<crate::api::types::PaymentHash>,
 ) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec,_,_>(flutter_rust_bridge::for_generated::TaskInfo{ debug_name: "ffi_bolt_11_payment_receive_variable_amount_for_hash_unsafe", port: Some(port_), mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal }, move || { let api_that = that.cst_decode();let api_description = description.cst_decode();let api_expiry_secs = expiry_secs.cst_decode();let api_payment_hash = payment_hash.cst_decode(); move |context|  {
+                    transform_result_dco::<_, _, crate::utils::error::FfiNodeError>((move ||  {
+                         let output_ok = crate::api::bolt11::FfiBolt11Payment::receive_variable_amount_for_hash_unsafe(&api_that, api_description, api_expiry_secs, api_payment_hash)?;   Ok(output_ok)
+                    })())
+                } })
+}
+fn wire__crate__api__bolt11__ffi_bolt_11_payment_receive_variable_amount_unsafe_impl(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
+    that: impl CstDecode<crate::api::bolt11::FfiBolt11Payment>,
+    description: impl CstDecode<String>,
+    expiry_secs: impl CstDecode<u32>,
+) {
     FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
         flutter_rust_bridge::for_generated::TaskInfo {
-            debug_name: "ffi_bolt_11_payment_receive_variable_amount_for_hash",
+            debug_name: "ffi_bolt_11_payment_receive_variable_amount_unsafe",
             port: Some(port_),
             mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
         },
@@ -582,15 +564,13 @@ fn wire__crate__api__bolt11__ffi_bolt_11_payment_receive_variable_amount_for_has
             let api_that = that.cst_decode();
             let api_description = description.cst_decode();
             let api_expiry_secs = expiry_secs.cst_decode();
-            let api_payment_hash = payment_hash.cst_decode();
             move |context| {
                 transform_result_dco::<_, _, crate::utils::error::FfiNodeError>((move || {
                     let output_ok =
-                        crate::api::bolt11::FfiBolt11Payment::receive_variable_amount_for_hash(
+                        crate::api::bolt11::FfiBolt11Payment::receive_variable_amount_unsafe(
                             &api_that,
                             api_description,
                             api_expiry_secs,
-                            api_payment_hash,
                         )?;
                     Ok(output_ok)
                 })(
@@ -599,20 +579,20 @@ fn wire__crate__api__bolt11__ffi_bolt_11_payment_receive_variable_amount_for_has
         },
     )
 }
-fn wire__crate__api__bolt11__ffi_bolt_11_payment_receive_variable_amount_via_jit_channel_impl(
+fn wire__crate__api__bolt11__ffi_bolt_11_payment_receive_variable_amount_via_jit_channel_unsafe_impl(
     port_: flutter_rust_bridge::for_generated::MessagePort,
     that: impl CstDecode<crate::api::bolt11::FfiBolt11Payment>,
     description: impl CstDecode<String>,
     expiry_secs: impl CstDecode<u32>,
     max_proportional_lsp_fee_limit_ppm_msat: impl CstDecode<Option<u64>>,
 ) {
-    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec,_,_>(flutter_rust_bridge::for_generated::TaskInfo{ debug_name: "ffi_bolt_11_payment_receive_variable_amount_via_jit_channel", port: Some(port_), mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal }, move || { let api_that = that.cst_decode();let api_description = description.cst_decode();let api_expiry_secs = expiry_secs.cst_decode();let api_max_proportional_lsp_fee_limit_ppm_msat = max_proportional_lsp_fee_limit_ppm_msat.cst_decode(); move |context|  {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec,_,_>(flutter_rust_bridge::for_generated::TaskInfo{ debug_name: "ffi_bolt_11_payment_receive_variable_amount_via_jit_channel_unsafe", port: Some(port_), mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal }, move || { let api_that = that.cst_decode();let api_description = description.cst_decode();let api_expiry_secs = expiry_secs.cst_decode();let api_max_proportional_lsp_fee_limit_ppm_msat = max_proportional_lsp_fee_limit_ppm_msat.cst_decode(); move |context|  {
                     transform_result_dco::<_, _, crate::utils::error::FfiNodeError>((move ||  {
-                         let output_ok = crate::api::bolt11::FfiBolt11Payment::receive_variable_amount_via_jit_channel(&api_that, api_description, api_expiry_secs, api_max_proportional_lsp_fee_limit_ppm_msat)?;   Ok(output_ok)
+                         let output_ok = crate::api::bolt11::FfiBolt11Payment::receive_variable_amount_via_jit_channel_unsafe(&api_that, api_description, api_expiry_secs, api_max_proportional_lsp_fee_limit_ppm_msat)?;   Ok(output_ok)
                     })())
                 } })
 }
-fn wire__crate__api__bolt11__ffi_bolt_11_payment_receive_via_jit_channel_impl(
+fn wire__crate__api__bolt11__ffi_bolt_11_payment_receive_via_jit_channel_unsafe_impl(
     port_: flutter_rust_bridge::for_generated::MessagePort,
     that: impl CstDecode<crate::api::bolt11::FfiBolt11Payment>,
     amount_msat: impl CstDecode<u64>,
@@ -622,7 +602,7 @@ fn wire__crate__api__bolt11__ffi_bolt_11_payment_receive_via_jit_channel_impl(
 ) {
     FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
         flutter_rust_bridge::for_generated::TaskInfo {
-            debug_name: "ffi_bolt_11_payment_receive_via_jit_channel",
+            debug_name: "ffi_bolt_11_payment_receive_via_jit_channel_unsafe",
             port: Some(port_),
             mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
         },
@@ -634,13 +614,14 @@ fn wire__crate__api__bolt11__ffi_bolt_11_payment_receive_via_jit_channel_impl(
             let api_max_total_lsp_fee_limit_msat = max_total_lsp_fee_limit_msat.cst_decode();
             move |context| {
                 transform_result_dco::<_, _, crate::utils::error::FfiNodeError>((move || {
-                    let output_ok = crate::api::bolt11::FfiBolt11Payment::receive_via_jit_channel(
-                        &api_that,
-                        api_amount_msat,
-                        api_description,
-                        api_expiry_secs,
-                        api_max_total_lsp_fee_limit_msat,
-                    )?;
+                    let output_ok =
+                        crate::api::bolt11::FfiBolt11Payment::receive_via_jit_channel_unsafe(
+                            &api_that,
+                            api_amount_msat,
+                            api_description,
+                            api_expiry_secs,
+                            api_max_total_lsp_fee_limit_msat,
+                        )?;
                     Ok(output_ok)
                 })(
                 ))
@@ -648,28 +629,25 @@ fn wire__crate__api__bolt11__ffi_bolt_11_payment_receive_via_jit_channel_impl(
         },
     )
 }
-fn wire__crate__api__bolt11__ffi_bolt_11_payment_send_impl(
+fn wire__crate__api__bolt11__ffi_bolt_11_payment_send_probes_unsafe_impl(
     port_: flutter_rust_bridge::for_generated::MessagePort,
     that: impl CstDecode<crate::api::bolt11::FfiBolt11Payment>,
     invoice: impl CstDecode<crate::api::bolt11::Bolt11Invoice>,
-    sending_parameters: impl CstDecode<Option<crate::api::types::SendingParameters>>,
 ) {
     FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
         flutter_rust_bridge::for_generated::TaskInfo {
-            debug_name: "ffi_bolt_11_payment_send",
+            debug_name: "ffi_bolt_11_payment_send_probes_unsafe",
             port: Some(port_),
             mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
         },
         move || {
             let api_that = that.cst_decode();
             let api_invoice = invoice.cst_decode();
-            let api_sending_parameters = sending_parameters.cst_decode();
             move |context| {
                 transform_result_dco::<_, _, crate::utils::error::FfiNodeError>((move || {
-                    let output_ok = crate::api::bolt11::FfiBolt11Payment::send(
+                    let output_ok = crate::api::bolt11::FfiBolt11Payment::send_probes_unsafe(
                         &api_that,
                         api_invoice,
-                        api_sending_parameters,
                     )?;
                     Ok(output_ok)
                 })(
@@ -678,24 +656,30 @@ fn wire__crate__api__bolt11__ffi_bolt_11_payment_send_impl(
         },
     )
 }
-fn wire__crate__api__bolt11__ffi_bolt_11_payment_send_probes_impl(
+fn wire__crate__api__bolt11__ffi_bolt_11_payment_send_probes_using_amount_unsafe_impl(
     port_: flutter_rust_bridge::for_generated::MessagePort,
     that: impl CstDecode<crate::api::bolt11::FfiBolt11Payment>,
     invoice: impl CstDecode<crate::api::bolt11::Bolt11Invoice>,
+    amount_msat: impl CstDecode<u64>,
 ) {
     FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
         flutter_rust_bridge::for_generated::TaskInfo {
-            debug_name: "ffi_bolt_11_payment_send_probes",
+            debug_name: "ffi_bolt_11_payment_send_probes_using_amount_unsafe",
             port: Some(port_),
             mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
         },
         move || {
             let api_that = that.cst_decode();
             let api_invoice = invoice.cst_decode();
+            let api_amount_msat = amount_msat.cst_decode();
             move |context| {
                 transform_result_dco::<_, _, crate::utils::error::FfiNodeError>((move || {
                     let output_ok =
-                        crate::api::bolt11::FfiBolt11Payment::send_probes(&api_that, api_invoice)?;
+                        crate::api::bolt11::FfiBolt11Payment::send_probes_using_amount_unsafe(
+                            &api_that,
+                            api_invoice,
+                            api_amount_msat,
+                        )?;
                     Ok(output_ok)
                 })(
                 ))
@@ -703,28 +687,28 @@ fn wire__crate__api__bolt11__ffi_bolt_11_payment_send_probes_impl(
         },
     )
 }
-fn wire__crate__api__bolt11__ffi_bolt_11_payment_send_probes_using_amount_impl(
+fn wire__crate__api__bolt11__ffi_bolt_11_payment_send_unsafe_impl(
     port_: flutter_rust_bridge::for_generated::MessagePort,
     that: impl CstDecode<crate::api::bolt11::FfiBolt11Payment>,
     invoice: impl CstDecode<crate::api::bolt11::Bolt11Invoice>,
-    amount_msat: impl CstDecode<u64>,
+    sending_parameters: impl CstDecode<Option<crate::api::types::SendingParameters>>,
 ) {
     FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
         flutter_rust_bridge::for_generated::TaskInfo {
-            debug_name: "ffi_bolt_11_payment_send_probes_using_amount",
+            debug_name: "ffi_bolt_11_payment_send_unsafe",
             port: Some(port_),
             mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
         },
         move || {
             let api_that = that.cst_decode();
             let api_invoice = invoice.cst_decode();
-            let api_amount_msat = amount_msat.cst_decode();
+            let api_sending_parameters = sending_parameters.cst_decode();
             move |context| {
                 transform_result_dco::<_, _, crate::utils::error::FfiNodeError>((move || {
-                    let output_ok = crate::api::bolt11::FfiBolt11Payment::send_probes_using_amount(
+                    let output_ok = crate::api::bolt11::FfiBolt11Payment::send_unsafe(
                         &api_that,
                         api_invoice,
-                        api_amount_msat,
+                        api_sending_parameters,
                     )?;
                     Ok(output_ok)
                 })(
@@ -733,7 +717,7 @@ fn wire__crate__api__bolt11__ffi_bolt_11_payment_send_probes_using_amount_impl(
         },
     )
 }
-fn wire__crate__api__bolt11__ffi_bolt_11_payment_send_using_amount_impl(
+fn wire__crate__api__bolt11__ffi_bolt_11_payment_send_using_amount_unsafe_impl(
     port_: flutter_rust_bridge::for_generated::MessagePort,
     that: impl CstDecode<crate::api::bolt11::FfiBolt11Payment>,
     invoice: impl CstDecode<crate::api::bolt11::Bolt11Invoice>,
@@ -742,7 +726,7 @@ fn wire__crate__api__bolt11__ffi_bolt_11_payment_send_using_amount_impl(
 ) {
     FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
         flutter_rust_bridge::for_generated::TaskInfo {
-            debug_name: "ffi_bolt_11_payment_send_using_amount",
+            debug_name: "ffi_bolt_11_payment_send_using_amount_unsafe",
             port: Some(port_),
             mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
         },
@@ -753,7 +737,7 @@ fn wire__crate__api__bolt11__ffi_bolt_11_payment_send_using_amount_impl(
             let api_sending_parameters = sending_parameters.cst_decode();
             move |context| {
                 transform_result_dco::<_, _, crate::utils::error::FfiNodeError>((move || {
-                    let output_ok = crate::api::bolt11::FfiBolt11Payment::send_using_amount(
+                    let output_ok = crate::api::bolt11::FfiBolt11Payment::send_using_amount_unsafe(
                         &api_that,
                         api_invoice,
                         api_amount_msat,
@@ -766,7 +750,7 @@ fn wire__crate__api__bolt11__ffi_bolt_11_payment_send_using_amount_impl(
         },
     )
 }
-fn wire__crate__api__bolt12__ffi_bolt_12_payment_initiate_refund_impl(
+fn wire__crate__api__bolt12__ffi_bolt_12_payment_initiate_refund_unsafe_impl(
     port_: flutter_rust_bridge::for_generated::MessagePort,
     that: impl CstDecode<crate::api::bolt12::FfiBolt12Payment>,
     amount_msat: impl CstDecode<u64>,
@@ -776,7 +760,7 @@ fn wire__crate__api__bolt12__ffi_bolt_12_payment_initiate_refund_impl(
 ) {
     FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
         flutter_rust_bridge::for_generated::TaskInfo {
-            debug_name: "ffi_bolt_12_payment_initiate_refund",
+            debug_name: "ffi_bolt_12_payment_initiate_refund_unsafe",
             port: Some(port_),
             mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
         },
@@ -788,7 +772,7 @@ fn wire__crate__api__bolt12__ffi_bolt_12_payment_initiate_refund_impl(
             let api_payer_note = payer_note.cst_decode();
             move |context| {
                 transform_result_dco::<_, _, crate::utils::error::FfiNodeError>((move || {
-                    let output_ok = crate::api::bolt12::FfiBolt12Payment::initiate_refund(
+                    let output_ok = crate::api::bolt12::FfiBolt12Payment::initiate_refund_unsafe(
                         &api_that,
                         api_amount_msat,
                         api_expiry_secs,
@@ -802,7 +786,7 @@ fn wire__crate__api__bolt12__ffi_bolt_12_payment_initiate_refund_impl(
         },
     )
 }
-fn wire__crate__api__bolt12__ffi_bolt_12_payment_receive_impl(
+fn wire__crate__api__bolt12__ffi_bolt_12_payment_receive_unsafe_impl(
     port_: flutter_rust_bridge::for_generated::MessagePort,
     that: impl CstDecode<crate::api::bolt12::FfiBolt12Payment>,
     amount_msat: impl CstDecode<u64>,
@@ -812,7 +796,7 @@ fn wire__crate__api__bolt12__ffi_bolt_12_payment_receive_impl(
 ) {
     FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
         flutter_rust_bridge::for_generated::TaskInfo {
-            debug_name: "ffi_bolt_12_payment_receive",
+            debug_name: "ffi_bolt_12_payment_receive_unsafe",
             port: Some(port_),
             mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
         },
@@ -824,7 +808,7 @@ fn wire__crate__api__bolt12__ffi_bolt_12_payment_receive_impl(
             let api_quantity = quantity.cst_decode();
             move |context| {
                 transform_result_dco::<_, _, crate::utils::error::FfiNodeError>((move || {
-                    let output_ok = crate::api::bolt12::FfiBolt12Payment::receive(
+                    let output_ok = crate::api::bolt12::FfiBolt12Payment::receive_unsafe(
                         &api_that,
                         api_amount_msat,
                         api_description,
@@ -838,7 +822,7 @@ fn wire__crate__api__bolt12__ffi_bolt_12_payment_receive_impl(
         },
     )
 }
-fn wire__crate__api__bolt12__ffi_bolt_12_payment_receive_variable_amount_impl(
+fn wire__crate__api__bolt12__ffi_bolt_12_payment_receive_variable_amount_unsafe_impl(
     port_: flutter_rust_bridge::for_generated::MessagePort,
     that: impl CstDecode<crate::api::bolt12::FfiBolt12Payment>,
     description: impl CstDecode<String>,
@@ -846,7 +830,7 @@ fn wire__crate__api__bolt12__ffi_bolt_12_payment_receive_variable_amount_impl(
 ) {
     FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
         flutter_rust_bridge::for_generated::TaskInfo {
-            debug_name: "ffi_bolt_12_payment_receive_variable_amount",
+            debug_name: "ffi_bolt_12_payment_receive_variable_amount_unsafe",
             port: Some(port_),
             mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
         },
@@ -856,11 +840,12 @@ fn wire__crate__api__bolt12__ffi_bolt_12_payment_receive_variable_amount_impl(
             let api_expiry_secs = expiry_secs.cst_decode();
             move |context| {
                 transform_result_dco::<_, _, crate::utils::error::FfiNodeError>((move || {
-                    let output_ok = crate::api::bolt12::FfiBolt12Payment::receive_variable_amount(
-                        &api_that,
-                        api_description,
-                        api_expiry_secs,
-                    )?;
+                    let output_ok =
+                        crate::api::bolt12::FfiBolt12Payment::receive_variable_amount_unsafe(
+                            &api_that,
+                            api_description,
+                            api_expiry_secs,
+                        )?;
                     Ok(output_ok)
                 })(
                 ))
@@ -868,14 +853,14 @@ fn wire__crate__api__bolt12__ffi_bolt_12_payment_receive_variable_amount_impl(
         },
     )
 }
-fn wire__crate__api__bolt12__ffi_bolt_12_payment_request_refund_payment_impl(
+fn wire__crate__api__bolt12__ffi_bolt_12_payment_request_refund_payment_unsafe_impl(
     port_: flutter_rust_bridge::for_generated::MessagePort,
     that: impl CstDecode<crate::api::bolt12::FfiBolt12Payment>,
     refund: impl CstDecode<crate::api::bolt12::Refund>,
 ) {
     FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
         flutter_rust_bridge::for_generated::TaskInfo {
-            debug_name: "ffi_bolt_12_payment_request_refund_payment",
+            debug_name: "ffi_bolt_12_payment_request_refund_payment_unsafe",
             port: Some(port_),
             mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
         },
@@ -884,9 +869,10 @@ fn wire__crate__api__bolt12__ffi_bolt_12_payment_request_refund_payment_impl(
             let api_refund = refund.cst_decode();
             move |context| {
                 transform_result_dco::<_, _, crate::utils::error::FfiNodeError>((move || {
-                    let output_ok = crate::api::bolt12::FfiBolt12Payment::request_refund_payment(
-                        &api_that, api_refund,
-                    )?;
+                    let output_ok =
+                        crate::api::bolt12::FfiBolt12Payment::request_refund_payment_unsafe(
+                            &api_that, api_refund,
+                        )?;
                     Ok(output_ok)
                 })(
                 ))
@@ -894,7 +880,7 @@ fn wire__crate__api__bolt12__ffi_bolt_12_payment_request_refund_payment_impl(
         },
     )
 }
-fn wire__crate__api__bolt12__ffi_bolt_12_payment_send_impl(
+fn wire__crate__api__bolt12__ffi_bolt_12_payment_send_unsafe_impl(
     port_: flutter_rust_bridge::for_generated::MessagePort,
     that: impl CstDecode<crate::api::bolt12::FfiBolt12Payment>,
     offer: impl CstDecode<crate::api::bolt12::Offer>,
@@ -903,7 +889,7 @@ fn wire__crate__api__bolt12__ffi_bolt_12_payment_send_impl(
 ) {
     FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
         flutter_rust_bridge::for_generated::TaskInfo {
-            debug_name: "ffi_bolt_12_payment_send",
+            debug_name: "ffi_bolt_12_payment_send_unsafe",
             port: Some(port_),
             mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
         },
@@ -914,7 +900,7 @@ fn wire__crate__api__bolt12__ffi_bolt_12_payment_send_impl(
             let api_payer_note = payer_note.cst_decode();
             move |context| {
                 transform_result_dco::<_, _, crate::utils::error::FfiNodeError>((move || {
-                    let output_ok = crate::api::bolt12::FfiBolt12Payment::send(
+                    let output_ok = crate::api::bolt12::FfiBolt12Payment::send_unsafe(
                         &api_that,
                         api_offer,
                         api_quantity,
@@ -927,7 +913,7 @@ fn wire__crate__api__bolt12__ffi_bolt_12_payment_send_impl(
         },
     )
 }
-fn wire__crate__api__bolt12__ffi_bolt_12_payment_send_using_amount_impl(
+fn wire__crate__api__bolt12__ffi_bolt_12_payment_send_using_amount_unsafe_impl(
     port_: flutter_rust_bridge::for_generated::MessagePort,
     that: impl CstDecode<crate::api::bolt12::FfiBolt12Payment>,
     offer: impl CstDecode<crate::api::bolt12::Offer>,
@@ -937,7 +923,7 @@ fn wire__crate__api__bolt12__ffi_bolt_12_payment_send_using_amount_impl(
 ) {
     FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
         flutter_rust_bridge::for_generated::TaskInfo {
-            debug_name: "ffi_bolt_12_payment_send_using_amount",
+            debug_name: "ffi_bolt_12_payment_send_using_amount_unsafe",
             port: Some(port_),
             mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
         },
@@ -949,7 +935,7 @@ fn wire__crate__api__bolt12__ffi_bolt_12_payment_send_using_amount_impl(
             let api_payer_note = payer_note.cst_decode();
             move |context| {
                 transform_result_dco::<_, _, crate::utils::error::FfiNodeError>((move || {
-                    let output_ok = crate::api::bolt12::FfiBolt12Payment::send_using_amount(
+                    let output_ok = crate::api::bolt12::FfiBolt12Payment::send_using_amount_unsafe(
                         &api_that,
                         api_offer,
                         api_amount_msat,
@@ -983,14 +969,14 @@ fn wire__crate__api__builder__ffi_mnemonic_generate_impl(
         },
     )
 }
-fn wire__crate__api__graph__ffi_network_graph_channel_impl(
+fn wire__crate__api__graph__ffi_network_graph_channel_unsafe_impl(
     port_: flutter_rust_bridge::for_generated::MessagePort,
     that: impl CstDecode<crate::api::graph::FfiNetworkGraph>,
     short_channel_id: impl CstDecode<u64>,
 ) {
     FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
         flutter_rust_bridge::for_generated::TaskInfo {
-            debug_name: "ffi_network_graph_channel",
+            debug_name: "ffi_network_graph_channel_unsafe",
             port: Some(port_),
             mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
         },
@@ -1000,7 +986,7 @@ fn wire__crate__api__graph__ffi_network_graph_channel_impl(
             move |context| {
                 transform_result_dco::<_, _, ()>((move || {
                     let output_ok =
-                        Result::<_, ()>::Ok(crate::api::graph::FfiNetworkGraph::channel(
+                        Result::<_, ()>::Ok(crate::api::graph::FfiNetworkGraph::channel_unsafe(
                             &api_that,
                             api_short_channel_id,
                         ))?;
@@ -1010,13 +996,13 @@ fn wire__crate__api__graph__ffi_network_graph_channel_impl(
         },
     )
 }
-fn wire__crate__api__graph__ffi_network_graph_list_channels_impl(
+fn wire__crate__api__graph__ffi_network_graph_list_channels_unsafe_impl(
     port_: flutter_rust_bridge::for_generated::MessagePort,
     that: impl CstDecode<crate::api::graph::FfiNetworkGraph>,
 ) {
     FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
         flutter_rust_bridge::for_generated::TaskInfo {
-            debug_name: "ffi_network_graph_list_channels",
+            debug_name: "ffi_network_graph_list_channels_unsafe",
             port: Some(port_),
             mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
         },
@@ -1025,7 +1011,7 @@ fn wire__crate__api__graph__ffi_network_graph_list_channels_impl(
             move |context| {
                 transform_result_dco::<_, _, ()>((move || {
                     let output_ok = Result::<_, ()>::Ok(
-                        crate::api::graph::FfiNetworkGraph::list_channels(&api_that),
+                        crate::api::graph::FfiNetworkGraph::list_channels_unsafe(&api_that),
                     )?;
                     Ok(output_ok)
                 })())
@@ -1033,13 +1019,13 @@ fn wire__crate__api__graph__ffi_network_graph_list_channels_impl(
         },
     )
 }
-fn wire__crate__api__graph__ffi_network_graph_list_nodes_impl(
+fn wire__crate__api__graph__ffi_network_graph_list_nodes_unsafe_impl(
     port_: flutter_rust_bridge::for_generated::MessagePort,
     that: impl CstDecode<crate::api::graph::FfiNetworkGraph>,
 ) {
     FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
         flutter_rust_bridge::for_generated::TaskInfo {
-            debug_name: "ffi_network_graph_list_nodes",
+            debug_name: "ffi_network_graph_list_nodes_unsafe",
             port: Some(port_),
             mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
         },
@@ -1048,7 +1034,7 @@ fn wire__crate__api__graph__ffi_network_graph_list_nodes_impl(
             move |context| {
                 transform_result_dco::<_, _, ()>((move || {
                     let output_ok = Result::<_, ()>::Ok(
-                        crate::api::graph::FfiNetworkGraph::list_nodes(&api_that),
+                        crate::api::graph::FfiNetworkGraph::list_nodes_unsafe(&api_that),
                     )?;
                     Ok(output_ok)
                 })())
@@ -1056,14 +1042,14 @@ fn wire__crate__api__graph__ffi_network_graph_list_nodes_impl(
         },
     )
 }
-fn wire__crate__api__graph__ffi_network_graph_node_impl(
+fn wire__crate__api__graph__ffi_network_graph_node_unsafe_impl(
     port_: flutter_rust_bridge::for_generated::MessagePort,
     that: impl CstDecode<crate::api::graph::FfiNetworkGraph>,
     node_id: impl CstDecode<crate::api::graph::NodeId>,
 ) {
     FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
         flutter_rust_bridge::for_generated::TaskInfo {
-            debug_name: "ffi_network_graph_node",
+            debug_name: "ffi_network_graph_node_unsafe",
             port: Some(port_),
             mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
         },
@@ -1073,7 +1059,7 @@ fn wire__crate__api__graph__ffi_network_graph_node_impl(
             move |context| {
                 transform_result_dco::<_, _, crate::utils::error::FfiNodeError>((move || {
                     let output_ok =
-                        crate::api::graph::FfiNetworkGraph::node(&api_that, api_node_id)?;
+                        crate::api::graph::FfiNetworkGraph::node_unsafe(&api_that, api_node_id)?;
                     Ok(output_ok)
                 })(
                 ))
@@ -2027,7 +2013,38 @@ fn wire__crate__api__on_chain__ffi_on_chain_payment_send_to_address_impl(
         },
     )
 }
-fn wire__crate__api__spontaneous__ffi_spontaneous_payment_send_impl(
+fn wire__crate__api__spontaneous__ffi_spontaneous_payment_send_probes_unsafe_impl(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
+    that: impl CstDecode<crate::api::spontaneous::FfiSpontaneousPayment>,
+    amount_msat: impl CstDecode<u64>,
+    node_id: impl CstDecode<crate::api::types::PublicKey>,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "ffi_spontaneous_payment_send_probes_unsafe",
+            port: Some(port_),
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
+        },
+        move || {
+            let api_that = that.cst_decode();
+            let api_amount_msat = amount_msat.cst_decode();
+            let api_node_id = node_id.cst_decode();
+            move |context| {
+                transform_result_dco::<_, _, crate::utils::error::FfiNodeError>((move || {
+                    let output_ok =
+                        crate::api::spontaneous::FfiSpontaneousPayment::send_probes_unsafe(
+                            &api_that,
+                            api_amount_msat,
+                            api_node_id,
+                        )?;
+                    Ok(output_ok)
+                })(
+                ))
+            }
+        },
+    )
+}
+fn wire__crate__api__spontaneous__ffi_spontaneous_payment_send_unsafe_impl(
     port_: flutter_rust_bridge::for_generated::MessagePort,
     that: impl CstDecode<crate::api::spontaneous::FfiSpontaneousPayment>,
     amount_msat: impl CstDecode<u64>,
@@ -2036,7 +2053,7 @@ fn wire__crate__api__spontaneous__ffi_spontaneous_payment_send_impl(
 ) {
     FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
         flutter_rust_bridge::for_generated::TaskInfo {
-            debug_name: "ffi_spontaneous_payment_send",
+            debug_name: "ffi_spontaneous_payment_send_unsafe",
             port: Some(port_),
             mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
         },
@@ -2047,7 +2064,7 @@ fn wire__crate__api__spontaneous__ffi_spontaneous_payment_send_impl(
             let api_sending_parameters = sending_parameters.cst_decode();
             move |context| {
                 transform_result_dco::<_, _, crate::utils::error::FfiNodeError>((move || {
-                    let output_ok = crate::api::spontaneous::FfiSpontaneousPayment::send(
+                    let output_ok = crate::api::spontaneous::FfiSpontaneousPayment::send_unsafe(
                         &api_that,
                         api_amount_msat,
                         api_node_id,
@@ -2060,37 +2077,7 @@ fn wire__crate__api__spontaneous__ffi_spontaneous_payment_send_impl(
         },
     )
 }
-fn wire__crate__api__spontaneous__ffi_spontaneous_payment_send_probes_impl(
-    port_: flutter_rust_bridge::for_generated::MessagePort,
-    that: impl CstDecode<crate::api::spontaneous::FfiSpontaneousPayment>,
-    amount_msat: impl CstDecode<u64>,
-    node_id: impl CstDecode<crate::api::types::PublicKey>,
-) {
-    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
-        flutter_rust_bridge::for_generated::TaskInfo {
-            debug_name: "ffi_spontaneous_payment_send_probes",
-            port: Some(port_),
-            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
-        },
-        move || {
-            let api_that = that.cst_decode();
-            let api_amount_msat = amount_msat.cst_decode();
-            let api_node_id = node_id.cst_decode();
-            move |context| {
-                transform_result_dco::<_, _, crate::utils::error::FfiNodeError>((move || {
-                    let output_ok = crate::api::spontaneous::FfiSpontaneousPayment::send_probes(
-                        &api_that,
-                        api_amount_msat,
-                        api_node_id,
-                    )?;
-                    Ok(output_ok)
-                })(
-                ))
-            }
-        },
-    )
-}
-fn wire__crate__api__spontaneous__ffi_spontaneous_payment_send_with_custom_tlvs_impl(
+fn wire__crate__api__spontaneous__ffi_spontaneous_payment_send_with_custom_tlvs_unsafe_impl(
     port_: flutter_rust_bridge::for_generated::MessagePort,
     that: impl CstDecode<crate::api::spontaneous::FfiSpontaneousPayment>,
     amount_msat: impl CstDecode<u64>,
@@ -2098,36 +2085,13 @@ fn wire__crate__api__spontaneous__ffi_spontaneous_payment_send_with_custom_tlvs_
     sending_parameters: impl CstDecode<Option<crate::api::types::SendingParameters>>,
     custom_tlvs: impl CstDecode<Vec<crate::api::types::CustomTlvRecord>>,
 ) {
-    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
-        flutter_rust_bridge::for_generated::TaskInfo {
-            debug_name: "ffi_spontaneous_payment_send_with_custom_tlvs",
-            port: Some(port_),
-            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
-        },
-        move || {
-            let api_that = that.cst_decode();
-            let api_amount_msat = amount_msat.cst_decode();
-            let api_node_id = node_id.cst_decode();
-            let api_sending_parameters = sending_parameters.cst_decode();
-            let api_custom_tlvs = custom_tlvs.cst_decode();
-            move |context| {
-                transform_result_dco::<_, _, crate::utils::error::FfiNodeError>((move || {
-                    let output_ok =
-                        crate::api::spontaneous::FfiSpontaneousPayment::send_with_custom_tlvs(
-                            &api_that,
-                            api_amount_msat,
-                            api_node_id,
-                            api_sending_parameters,
-                            api_custom_tlvs,
-                        )?;
-                    Ok(output_ok)
-                })(
-                ))
-            }
-        },
-    )
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec,_,_>(flutter_rust_bridge::for_generated::TaskInfo{ debug_name: "ffi_spontaneous_payment_send_with_custom_tlvs_unsafe", port: Some(port_), mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal }, move || { let api_that = that.cst_decode();let api_amount_msat = amount_msat.cst_decode();let api_node_id = node_id.cst_decode();let api_sending_parameters = sending_parameters.cst_decode();let api_custom_tlvs = custom_tlvs.cst_decode(); move |context|  {
+                    transform_result_dco::<_, _, crate::utils::error::FfiNodeError>((move ||  {
+                         let output_ok = crate::api::spontaneous::FfiSpontaneousPayment::send_with_custom_tlvs_unsafe(&api_that, api_amount_msat, api_node_id, api_sending_parameters, api_custom_tlvs)?;   Ok(output_ok)
+                    })())
+                } })
 }
-fn wire__crate__api__unified_qr__ffi_unified_qr_payment_receive_impl(
+fn wire__crate__api__unified_qr__ffi_unified_qr_payment_receive_unsafe_impl(
     port_: flutter_rust_bridge::for_generated::MessagePort,
     that: impl CstDecode<crate::api::unified_qr::FfiUnifiedQrPayment>,
     amount_sats: impl CstDecode<u64>,
@@ -2136,7 +2100,7 @@ fn wire__crate__api__unified_qr__ffi_unified_qr_payment_receive_impl(
 ) {
     FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
         flutter_rust_bridge::for_generated::TaskInfo {
-            debug_name: "ffi_unified_qr_payment_receive",
+            debug_name: "ffi_unified_qr_payment_receive_unsafe",
             port: Some(port_),
             mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
         },
@@ -2147,7 +2111,7 @@ fn wire__crate__api__unified_qr__ffi_unified_qr_payment_receive_impl(
             let api_expiry_sec = expiry_sec.cst_decode();
             move |context| {
                 transform_result_dco::<_, _, crate::utils::error::FfiNodeError>((move || {
-                    let output_ok = crate::api::unified_qr::FfiUnifiedQrPayment::receive(
+                    let output_ok = crate::api::unified_qr::FfiUnifiedQrPayment::receive_unsafe(
                         &api_that,
                         api_amount_sats,
                         api_message,
@@ -2160,14 +2124,14 @@ fn wire__crate__api__unified_qr__ffi_unified_qr_payment_receive_impl(
         },
     )
 }
-fn wire__crate__api__unified_qr__ffi_unified_qr_payment_send_impl(
+fn wire__crate__api__unified_qr__ffi_unified_qr_payment_send_unsafe_impl(
     port_: flutter_rust_bridge::for_generated::MessagePort,
     that: impl CstDecode<crate::api::unified_qr::FfiUnifiedQrPayment>,
     uri_str: impl CstDecode<String>,
 ) {
     FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
         flutter_rust_bridge::for_generated::TaskInfo {
-            debug_name: "ffi_unified_qr_payment_send",
+            debug_name: "ffi_unified_qr_payment_send_unsafe",
             port: Some(port_),
             mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
         },
@@ -2176,8 +2140,10 @@ fn wire__crate__api__unified_qr__ffi_unified_qr_payment_send_impl(
             let api_uri_str = uri_str.cst_decode();
             move |context| {
                 transform_result_dco::<_, _, crate::utils::error::FfiNodeError>((move || {
-                    let output_ok =
-                        crate::api::unified_qr::FfiUnifiedQrPayment::send(&api_that, api_uri_str)?;
+                    let output_ok = crate::api::unified_qr::FfiUnifiedQrPayment::send_unsafe(
+                        &api_that,
+                        api_uri_str,
+                    )?;
                     Ok(output_ok)
                 })(
                 ))
@@ -11678,14 +11644,14 @@ mod io {
     }
 
     #[unsafe(no_mangle)]
-    pub extern "C" fn frbgen_ldk_node_wire__crate__api__bolt11__ffi_bolt_11_payment_claim_for_hash(
+    pub extern "C" fn frbgen_ldk_node_wire__crate__api__bolt11__ffi_bolt_11_payment_claim_for_hash_unsafe(
         port_: i64,
         that: *mut wire_cst_ffi_bolt_11_payment,
         payment_hash: *mut wire_cst_payment_hash,
         claimable_amount_msat: u64,
         preimage: *mut wire_cst_payment_preimage,
     ) {
-        wire__crate__api__bolt11__ffi_bolt_11_payment_claim_for_hash_impl(
+        wire__crate__api__bolt11__ffi_bolt_11_payment_claim_for_hash_unsafe_impl(
             port_,
             that,
             payment_hash,
@@ -11695,33 +11661,20 @@ mod io {
     }
 
     #[unsafe(no_mangle)]
-    pub extern "C" fn frbgen_ldk_node_wire__crate__api__bolt11__ffi_bolt_11_payment_fail_for_hash(
+    pub extern "C" fn frbgen_ldk_node_wire__crate__api__bolt11__ffi_bolt_11_payment_fail_for_hash_unsafe(
         port_: i64,
         that: *mut wire_cst_ffi_bolt_11_payment,
         payment_hash: *mut wire_cst_payment_hash,
     ) {
-        wire__crate__api__bolt11__ffi_bolt_11_payment_fail_for_hash_impl(port_, that, payment_hash)
-    }
-
-    #[unsafe(no_mangle)]
-    pub extern "C" fn frbgen_ldk_node_wire__crate__api__bolt11__ffi_bolt_11_payment_receive(
-        port_: i64,
-        that: *mut wire_cst_ffi_bolt_11_payment,
-        amount_msat: u64,
-        description: *mut wire_cst_list_prim_u_8_strict,
-        expiry_secs: u32,
-    ) {
-        wire__crate__api__bolt11__ffi_bolt_11_payment_receive_impl(
+        wire__crate__api__bolt11__ffi_bolt_11_payment_fail_for_hash_unsafe_impl(
             port_,
             that,
-            amount_msat,
-            description,
-            expiry_secs,
+            payment_hash,
         )
     }
 
     #[unsafe(no_mangle)]
-    pub extern "C" fn frbgen_ldk_node_wire__crate__api__bolt11__ffi_bolt_11_payment_receive_for_hash(
+    pub extern "C" fn frbgen_ldk_node_wire__crate__api__bolt11__ffi_bolt_11_payment_receive_for_hash_unsafe(
         port_: i64,
         that: *mut wire_cst_ffi_bolt_11_payment,
         payment_hash: *mut wire_cst_payment_hash,
@@ -11729,7 +11682,7 @@ mod io {
         description: *mut wire_cst_list_prim_u_8_strict,
         expiry_secs: u32,
     ) {
-        wire__crate__api__bolt11__ffi_bolt_11_payment_receive_for_hash_impl(
+        wire__crate__api__bolt11__ffi_bolt_11_payment_receive_for_hash_unsafe_impl(
             port_,
             that,
             payment_hash,
@@ -11740,29 +11693,31 @@ mod io {
     }
 
     #[unsafe(no_mangle)]
-    pub extern "C" fn frbgen_ldk_node_wire__crate__api__bolt11__ffi_bolt_11_payment_receive_variable_amount(
+    pub extern "C" fn frbgen_ldk_node_wire__crate__api__bolt11__ffi_bolt_11_payment_receive_unsafe(
         port_: i64,
         that: *mut wire_cst_ffi_bolt_11_payment,
+        amount_msat: u64,
         description: *mut wire_cst_list_prim_u_8_strict,
         expiry_secs: u32,
     ) {
-        wire__crate__api__bolt11__ffi_bolt_11_payment_receive_variable_amount_impl(
+        wire__crate__api__bolt11__ffi_bolt_11_payment_receive_unsafe_impl(
             port_,
             that,
+            amount_msat,
             description,
             expiry_secs,
         )
     }
 
     #[unsafe(no_mangle)]
-    pub extern "C" fn frbgen_ldk_node_wire__crate__api__bolt11__ffi_bolt_11_payment_receive_variable_amount_for_hash(
+    pub extern "C" fn frbgen_ldk_node_wire__crate__api__bolt11__ffi_bolt_11_payment_receive_variable_amount_for_hash_unsafe(
         port_: i64,
         that: *mut wire_cst_ffi_bolt_11_payment,
         description: *mut wire_cst_list_prim_u_8_strict,
         expiry_secs: u32,
         payment_hash: *mut wire_cst_payment_hash,
     ) {
-        wire__crate__api__bolt11__ffi_bolt_11_payment_receive_variable_amount_for_hash_impl(
+        wire__crate__api__bolt11__ffi_bolt_11_payment_receive_variable_amount_for_hash_unsafe_impl(
             port_,
             that,
             description,
@@ -11772,24 +11727,33 @@ mod io {
     }
 
     #[unsafe(no_mangle)]
-    pub extern "C" fn frbgen_ldk_node_wire__crate__api__bolt11__ffi_bolt_11_payment_receive_variable_amount_via_jit_channel(
+    pub extern "C" fn frbgen_ldk_node_wire__crate__api__bolt11__ffi_bolt_11_payment_receive_variable_amount_unsafe(
+        port_: i64,
+        that: *mut wire_cst_ffi_bolt_11_payment,
+        description: *mut wire_cst_list_prim_u_8_strict,
+        expiry_secs: u32,
+    ) {
+        wire__crate__api__bolt11__ffi_bolt_11_payment_receive_variable_amount_unsafe_impl(
+            port_,
+            that,
+            description,
+            expiry_secs,
+        )
+    }
+
+    #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_ldk_node_wire__crate__api__bolt11__ffi_bolt_11_payment_receive_variable_amount_via_jit_channel_unsafe(
         port_: i64,
         that: *mut wire_cst_ffi_bolt_11_payment,
         description: *mut wire_cst_list_prim_u_8_strict,
         expiry_secs: u32,
         max_proportional_lsp_fee_limit_ppm_msat: *mut u64,
     ) {
-        wire__crate__api__bolt11__ffi_bolt_11_payment_receive_variable_amount_via_jit_channel_impl(
-            port_,
-            that,
-            description,
-            expiry_secs,
-            max_proportional_lsp_fee_limit_ppm_msat,
-        )
+        wire__crate__api__bolt11__ffi_bolt_11_payment_receive_variable_amount_via_jit_channel_unsafe_impl(port_, that, description, expiry_secs, max_proportional_lsp_fee_limit_ppm_msat)
     }
 
     #[unsafe(no_mangle)]
-    pub extern "C" fn frbgen_ldk_node_wire__crate__api__bolt11__ffi_bolt_11_payment_receive_via_jit_channel(
+    pub extern "C" fn frbgen_ldk_node_wire__crate__api__bolt11__ffi_bolt_11_payment_receive_via_jit_channel_unsafe(
         port_: i64,
         that: *mut wire_cst_ffi_bolt_11_payment,
         amount_msat: u64,
@@ -11797,7 +11761,7 @@ mod io {
         expiry_secs: u32,
         max_total_lsp_fee_limit_msat: *mut u64,
     ) {
-        wire__crate__api__bolt11__ffi_bolt_11_payment_receive_via_jit_channel_impl(
+        wire__crate__api__bolt11__ffi_bolt_11_payment_receive_via_jit_channel_unsafe_impl(
             port_,
             that,
             amount_msat,
@@ -11808,37 +11772,22 @@ mod io {
     }
 
     #[unsafe(no_mangle)]
-    pub extern "C" fn frbgen_ldk_node_wire__crate__api__bolt11__ffi_bolt_11_payment_send(
-        port_: i64,
-        that: *mut wire_cst_ffi_bolt_11_payment,
-        invoice: *mut wire_cst_bolt_11_invoice,
-        sending_parameters: *mut wire_cst_sending_parameters,
-    ) {
-        wire__crate__api__bolt11__ffi_bolt_11_payment_send_impl(
-            port_,
-            that,
-            invoice,
-            sending_parameters,
-        )
-    }
-
-    #[unsafe(no_mangle)]
-    pub extern "C" fn frbgen_ldk_node_wire__crate__api__bolt11__ffi_bolt_11_payment_send_probes(
+    pub extern "C" fn frbgen_ldk_node_wire__crate__api__bolt11__ffi_bolt_11_payment_send_probes_unsafe(
         port_: i64,
         that: *mut wire_cst_ffi_bolt_11_payment,
         invoice: *mut wire_cst_bolt_11_invoice,
     ) {
-        wire__crate__api__bolt11__ffi_bolt_11_payment_send_probes_impl(port_, that, invoice)
+        wire__crate__api__bolt11__ffi_bolt_11_payment_send_probes_unsafe_impl(port_, that, invoice)
     }
 
     #[unsafe(no_mangle)]
-    pub extern "C" fn frbgen_ldk_node_wire__crate__api__bolt11__ffi_bolt_11_payment_send_probes_using_amount(
+    pub extern "C" fn frbgen_ldk_node_wire__crate__api__bolt11__ffi_bolt_11_payment_send_probes_using_amount_unsafe(
         port_: i64,
         that: *mut wire_cst_ffi_bolt_11_payment,
         invoice: *mut wire_cst_bolt_11_invoice,
         amount_msat: u64,
     ) {
-        wire__crate__api__bolt11__ffi_bolt_11_payment_send_probes_using_amount_impl(
+        wire__crate__api__bolt11__ffi_bolt_11_payment_send_probes_using_amount_unsafe_impl(
             port_,
             that,
             invoice,
@@ -11847,14 +11796,29 @@ mod io {
     }
 
     #[unsafe(no_mangle)]
-    pub extern "C" fn frbgen_ldk_node_wire__crate__api__bolt11__ffi_bolt_11_payment_send_using_amount(
+    pub extern "C" fn frbgen_ldk_node_wire__crate__api__bolt11__ffi_bolt_11_payment_send_unsafe(
+        port_: i64,
+        that: *mut wire_cst_ffi_bolt_11_payment,
+        invoice: *mut wire_cst_bolt_11_invoice,
+        sending_parameters: *mut wire_cst_sending_parameters,
+    ) {
+        wire__crate__api__bolt11__ffi_bolt_11_payment_send_unsafe_impl(
+            port_,
+            that,
+            invoice,
+            sending_parameters,
+        )
+    }
+
+    #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_ldk_node_wire__crate__api__bolt11__ffi_bolt_11_payment_send_using_amount_unsafe(
         port_: i64,
         that: *mut wire_cst_ffi_bolt_11_payment,
         invoice: *mut wire_cst_bolt_11_invoice,
         amount_msat: u64,
         sending_parameters: *mut wire_cst_sending_parameters,
     ) {
-        wire__crate__api__bolt11__ffi_bolt_11_payment_send_using_amount_impl(
+        wire__crate__api__bolt11__ffi_bolt_11_payment_send_using_amount_unsafe_impl(
             port_,
             that,
             invoice,
@@ -11864,7 +11828,7 @@ mod io {
     }
 
     #[unsafe(no_mangle)]
-    pub extern "C" fn frbgen_ldk_node_wire__crate__api__bolt12__ffi_bolt_12_payment_initiate_refund(
+    pub extern "C" fn frbgen_ldk_node_wire__crate__api__bolt12__ffi_bolt_12_payment_initiate_refund_unsafe(
         port_: i64,
         that: *mut wire_cst_ffi_bolt_12_payment,
         amount_msat: u64,
@@ -11872,7 +11836,7 @@ mod io {
         quantity: *mut u64,
         payer_note: *mut wire_cst_list_prim_u_8_strict,
     ) {
-        wire__crate__api__bolt12__ffi_bolt_12_payment_initiate_refund_impl(
+        wire__crate__api__bolt12__ffi_bolt_12_payment_initiate_refund_unsafe_impl(
             port_,
             that,
             amount_msat,
@@ -11883,7 +11847,7 @@ mod io {
     }
 
     #[unsafe(no_mangle)]
-    pub extern "C" fn frbgen_ldk_node_wire__crate__api__bolt12__ffi_bolt_12_payment_receive(
+    pub extern "C" fn frbgen_ldk_node_wire__crate__api__bolt12__ffi_bolt_12_payment_receive_unsafe(
         port_: i64,
         that: *mut wire_cst_ffi_bolt_12_payment,
         amount_msat: u64,
@@ -11891,7 +11855,7 @@ mod io {
         expiry_secs: *mut u32,
         quantity: *mut u64,
     ) {
-        wire__crate__api__bolt12__ffi_bolt_12_payment_receive_impl(
+        wire__crate__api__bolt12__ffi_bolt_12_payment_receive_unsafe_impl(
             port_,
             that,
             amount_msat,
@@ -11902,13 +11866,13 @@ mod io {
     }
 
     #[unsafe(no_mangle)]
-    pub extern "C" fn frbgen_ldk_node_wire__crate__api__bolt12__ffi_bolt_12_payment_receive_variable_amount(
+    pub extern "C" fn frbgen_ldk_node_wire__crate__api__bolt12__ffi_bolt_12_payment_receive_variable_amount_unsafe(
         port_: i64,
         that: *mut wire_cst_ffi_bolt_12_payment,
         description: *mut wire_cst_list_prim_u_8_strict,
         expiry_secs: *mut u32,
     ) {
-        wire__crate__api__bolt12__ffi_bolt_12_payment_receive_variable_amount_impl(
+        wire__crate__api__bolt12__ffi_bolt_12_payment_receive_variable_amount_unsafe_impl(
             port_,
             that,
             description,
@@ -11917,31 +11881,31 @@ mod io {
     }
 
     #[unsafe(no_mangle)]
-    pub extern "C" fn frbgen_ldk_node_wire__crate__api__bolt12__ffi_bolt_12_payment_request_refund_payment(
+    pub extern "C" fn frbgen_ldk_node_wire__crate__api__bolt12__ffi_bolt_12_payment_request_refund_payment_unsafe(
         port_: i64,
         that: *mut wire_cst_ffi_bolt_12_payment,
         refund: *mut wire_cst_refund,
     ) {
-        wire__crate__api__bolt12__ffi_bolt_12_payment_request_refund_payment_impl(
+        wire__crate__api__bolt12__ffi_bolt_12_payment_request_refund_payment_unsafe_impl(
             port_, that, refund,
         )
     }
 
     #[unsafe(no_mangle)]
-    pub extern "C" fn frbgen_ldk_node_wire__crate__api__bolt12__ffi_bolt_12_payment_send(
+    pub extern "C" fn frbgen_ldk_node_wire__crate__api__bolt12__ffi_bolt_12_payment_send_unsafe(
         port_: i64,
         that: *mut wire_cst_ffi_bolt_12_payment,
         offer: *mut wire_cst_offer,
         quantity: *mut u64,
         payer_note: *mut wire_cst_list_prim_u_8_strict,
     ) {
-        wire__crate__api__bolt12__ffi_bolt_12_payment_send_impl(
+        wire__crate__api__bolt12__ffi_bolt_12_payment_send_unsafe_impl(
             port_, that, offer, quantity, payer_note,
         )
     }
 
     #[unsafe(no_mangle)]
-    pub extern "C" fn frbgen_ldk_node_wire__crate__api__bolt12__ffi_bolt_12_payment_send_using_amount(
+    pub extern "C" fn frbgen_ldk_node_wire__crate__api__bolt12__ffi_bolt_12_payment_send_using_amount_unsafe(
         port_: i64,
         that: *mut wire_cst_ffi_bolt_12_payment,
         offer: *mut wire_cst_offer,
@@ -11949,7 +11913,7 @@ mod io {
         quantity: *mut u64,
         payer_note: *mut wire_cst_list_prim_u_8_strict,
     ) {
-        wire__crate__api__bolt12__ffi_bolt_12_payment_send_using_amount_impl(
+        wire__crate__api__bolt12__ffi_bolt_12_payment_send_using_amount_unsafe_impl(
             port_,
             that,
             offer,
@@ -11965,37 +11929,41 @@ mod io {
     }
 
     #[unsafe(no_mangle)]
-    pub extern "C" fn frbgen_ldk_node_wire__crate__api__graph__ffi_network_graph_channel(
+    pub extern "C" fn frbgen_ldk_node_wire__crate__api__graph__ffi_network_graph_channel_unsafe(
         port_: i64,
         that: *mut wire_cst_ffi_network_graph,
         short_channel_id: u64,
     ) {
-        wire__crate__api__graph__ffi_network_graph_channel_impl(port_, that, short_channel_id)
+        wire__crate__api__graph__ffi_network_graph_channel_unsafe_impl(
+            port_,
+            that,
+            short_channel_id,
+        )
     }
 
     #[unsafe(no_mangle)]
-    pub extern "C" fn frbgen_ldk_node_wire__crate__api__graph__ffi_network_graph_list_channels(
+    pub extern "C" fn frbgen_ldk_node_wire__crate__api__graph__ffi_network_graph_list_channels_unsafe(
         port_: i64,
         that: *mut wire_cst_ffi_network_graph,
     ) {
-        wire__crate__api__graph__ffi_network_graph_list_channels_impl(port_, that)
+        wire__crate__api__graph__ffi_network_graph_list_channels_unsafe_impl(port_, that)
     }
 
     #[unsafe(no_mangle)]
-    pub extern "C" fn frbgen_ldk_node_wire__crate__api__graph__ffi_network_graph_list_nodes(
+    pub extern "C" fn frbgen_ldk_node_wire__crate__api__graph__ffi_network_graph_list_nodes_unsafe(
         port_: i64,
         that: *mut wire_cst_ffi_network_graph,
     ) {
-        wire__crate__api__graph__ffi_network_graph_list_nodes_impl(port_, that)
+        wire__crate__api__graph__ffi_network_graph_list_nodes_unsafe_impl(port_, that)
     }
 
     #[unsafe(no_mangle)]
-    pub extern "C" fn frbgen_ldk_node_wire__crate__api__graph__ffi_network_graph_node(
+    pub extern "C" fn frbgen_ldk_node_wire__crate__api__graph__ffi_network_graph_node_unsafe(
         port_: i64,
         that: *mut wire_cst_ffi_network_graph,
         node_id: *mut wire_cst_node_id,
     ) {
-        wire__crate__api__graph__ffi_network_graph_node_impl(port_, that, node_id)
+        wire__crate__api__graph__ffi_network_graph_node_unsafe_impl(port_, that, node_id)
     }
 
     #[unsafe(no_mangle)]
@@ -12377,14 +12345,29 @@ mod io {
     }
 
     #[unsafe(no_mangle)]
-    pub extern "C" fn frbgen_ldk_node_wire__crate__api__spontaneous__ffi_spontaneous_payment_send(
+    pub extern "C" fn frbgen_ldk_node_wire__crate__api__spontaneous__ffi_spontaneous_payment_send_probes_unsafe(
+        port_: i64,
+        that: *mut wire_cst_ffi_spontaneous_payment,
+        amount_msat: u64,
+        node_id: *mut wire_cst_public_key,
+    ) {
+        wire__crate__api__spontaneous__ffi_spontaneous_payment_send_probes_unsafe_impl(
+            port_,
+            that,
+            amount_msat,
+            node_id,
+        )
+    }
+
+    #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_ldk_node_wire__crate__api__spontaneous__ffi_spontaneous_payment_send_unsafe(
         port_: i64,
         that: *mut wire_cst_ffi_spontaneous_payment,
         amount_msat: u64,
         node_id: *mut wire_cst_public_key,
         sending_parameters: *mut wire_cst_sending_parameters,
     ) {
-        wire__crate__api__spontaneous__ffi_spontaneous_payment_send_impl(
+        wire__crate__api__spontaneous__ffi_spontaneous_payment_send_unsafe_impl(
             port_,
             that,
             amount_msat,
@@ -12394,22 +12377,7 @@ mod io {
     }
 
     #[unsafe(no_mangle)]
-    pub extern "C" fn frbgen_ldk_node_wire__crate__api__spontaneous__ffi_spontaneous_payment_send_probes(
-        port_: i64,
-        that: *mut wire_cst_ffi_spontaneous_payment,
-        amount_msat: u64,
-        node_id: *mut wire_cst_public_key,
-    ) {
-        wire__crate__api__spontaneous__ffi_spontaneous_payment_send_probes_impl(
-            port_,
-            that,
-            amount_msat,
-            node_id,
-        )
-    }
-
-    #[unsafe(no_mangle)]
-    pub extern "C" fn frbgen_ldk_node_wire__crate__api__spontaneous__ffi_spontaneous_payment_send_with_custom_tlvs(
+    pub extern "C" fn frbgen_ldk_node_wire__crate__api__spontaneous__ffi_spontaneous_payment_send_with_custom_tlvs_unsafe(
         port_: i64,
         that: *mut wire_cst_ffi_spontaneous_payment,
         amount_msat: u64,
@@ -12417,7 +12385,7 @@ mod io {
         sending_parameters: *mut wire_cst_sending_parameters,
         custom_tlvs: *mut wire_cst_list_custom_tlv_record,
     ) {
-        wire__crate__api__spontaneous__ffi_spontaneous_payment_send_with_custom_tlvs_impl(
+        wire__crate__api__spontaneous__ffi_spontaneous_payment_send_with_custom_tlvs_unsafe_impl(
             port_,
             that,
             amount_msat,
@@ -12428,14 +12396,14 @@ mod io {
     }
 
     #[unsafe(no_mangle)]
-    pub extern "C" fn frbgen_ldk_node_wire__crate__api__unified_qr__ffi_unified_qr_payment_receive(
+    pub extern "C" fn frbgen_ldk_node_wire__crate__api__unified_qr__ffi_unified_qr_payment_receive_unsafe(
         port_: i64,
         that: *mut wire_cst_ffi_unified_qr_payment,
         amount_sats: u64,
         message: *mut wire_cst_list_prim_u_8_strict,
         expiry_sec: u32,
     ) {
-        wire__crate__api__unified_qr__ffi_unified_qr_payment_receive_impl(
+        wire__crate__api__unified_qr__ffi_unified_qr_payment_receive_unsafe_impl(
             port_,
             that,
             amount_sats,
@@ -12445,12 +12413,12 @@ mod io {
     }
 
     #[unsafe(no_mangle)]
-    pub extern "C" fn frbgen_ldk_node_wire__crate__api__unified_qr__ffi_unified_qr_payment_send(
+    pub extern "C" fn frbgen_ldk_node_wire__crate__api__unified_qr__ffi_unified_qr_payment_send_unsafe(
         port_: i64,
         that: *mut wire_cst_ffi_unified_qr_payment,
         uri_str: *mut wire_cst_list_prim_u_8_strict,
     ) {
-        wire__crate__api__unified_qr__ffi_unified_qr_payment_send_impl(port_, that, uri_str)
+        wire__crate__api__unified_qr__ffi_unified_qr_payment_send_unsafe_impl(port_, that, uri_str)
     }
 
     #[unsafe(no_mangle)]

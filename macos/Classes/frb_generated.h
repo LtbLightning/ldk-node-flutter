@@ -829,124 +829,124 @@ void frbgen_ldk_node_wire__crate__api__types__anchor_channels_config_default(int
 
 void frbgen_ldk_node_wire__crate__api__types__config_default(int64_t port_);
 
-void frbgen_ldk_node_wire__crate__api__bolt11__ffi_bolt_11_payment_claim_for_hash(int64_t port_,
-                                                                                  struct wire_cst_ffi_bolt_11_payment *that,
-                                                                                  struct wire_cst_payment_hash *payment_hash,
-                                                                                  uint64_t claimable_amount_msat,
-                                                                                  struct wire_cst_payment_preimage *preimage);
+void frbgen_ldk_node_wire__crate__api__bolt11__ffi_bolt_11_payment_claim_for_hash_unsafe(int64_t port_,
+                                                                                         struct wire_cst_ffi_bolt_11_payment *that,
+                                                                                         struct wire_cst_payment_hash *payment_hash,
+                                                                                         uint64_t claimable_amount_msat,
+                                                                                         struct wire_cst_payment_preimage *preimage);
 
-void frbgen_ldk_node_wire__crate__api__bolt11__ffi_bolt_11_payment_fail_for_hash(int64_t port_,
-                                                                                 struct wire_cst_ffi_bolt_11_payment *that,
-                                                                                 struct wire_cst_payment_hash *payment_hash);
+void frbgen_ldk_node_wire__crate__api__bolt11__ffi_bolt_11_payment_fail_for_hash_unsafe(int64_t port_,
+                                                                                        struct wire_cst_ffi_bolt_11_payment *that,
+                                                                                        struct wire_cst_payment_hash *payment_hash);
 
-void frbgen_ldk_node_wire__crate__api__bolt11__ffi_bolt_11_payment_receive(int64_t port_,
-                                                                           struct wire_cst_ffi_bolt_11_payment *that,
-                                                                           uint64_t amount_msat,
-                                                                           struct wire_cst_list_prim_u_8_strict *description,
-                                                                           uint32_t expiry_secs);
-
-void frbgen_ldk_node_wire__crate__api__bolt11__ffi_bolt_11_payment_receive_for_hash(int64_t port_,
-                                                                                    struct wire_cst_ffi_bolt_11_payment *that,
-                                                                                    struct wire_cst_payment_hash *payment_hash,
-                                                                                    uint64_t amount_msat,
-                                                                                    struct wire_cst_list_prim_u_8_strict *description,
-                                                                                    uint32_t expiry_secs);
-
-void frbgen_ldk_node_wire__crate__api__bolt11__ffi_bolt_11_payment_receive_variable_amount(int64_t port_,
+void frbgen_ldk_node_wire__crate__api__bolt11__ffi_bolt_11_payment_receive_for_hash_unsafe(int64_t port_,
                                                                                            struct wire_cst_ffi_bolt_11_payment *that,
+                                                                                           struct wire_cst_payment_hash *payment_hash,
+                                                                                           uint64_t amount_msat,
                                                                                            struct wire_cst_list_prim_u_8_strict *description,
                                                                                            uint32_t expiry_secs);
 
-void frbgen_ldk_node_wire__crate__api__bolt11__ffi_bolt_11_payment_receive_variable_amount_for_hash(int64_t port_,
-                                                                                                    struct wire_cst_ffi_bolt_11_payment *that,
-                                                                                                    struct wire_cst_list_prim_u_8_strict *description,
-                                                                                                    uint32_t expiry_secs,
-                                                                                                    struct wire_cst_payment_hash *payment_hash);
+void frbgen_ldk_node_wire__crate__api__bolt11__ffi_bolt_11_payment_receive_unsafe(int64_t port_,
+                                                                                  struct wire_cst_ffi_bolt_11_payment *that,
+                                                                                  uint64_t amount_msat,
+                                                                                  struct wire_cst_list_prim_u_8_strict *description,
+                                                                                  uint32_t expiry_secs);
 
-void frbgen_ldk_node_wire__crate__api__bolt11__ffi_bolt_11_payment_receive_variable_amount_via_jit_channel(int64_t port_,
+void frbgen_ldk_node_wire__crate__api__bolt11__ffi_bolt_11_payment_receive_variable_amount_for_hash_unsafe(int64_t port_,
                                                                                                            struct wire_cst_ffi_bolt_11_payment *that,
                                                                                                            struct wire_cst_list_prim_u_8_strict *description,
                                                                                                            uint32_t expiry_secs,
-                                                                                                           uint64_t *max_proportional_lsp_fee_limit_ppm_msat);
+                                                                                                           struct wire_cst_payment_hash *payment_hash);
 
-void frbgen_ldk_node_wire__crate__api__bolt11__ffi_bolt_11_payment_receive_via_jit_channel(int64_t port_,
-                                                                                           struct wire_cst_ffi_bolt_11_payment *that,
-                                                                                           uint64_t amount_msat,
-                                                                                           struct wire_cst_list_prim_u_8_strict *description,
-                                                                                           uint32_t expiry_secs,
-                                                                                           uint64_t *max_total_lsp_fee_limit_msat);
+void frbgen_ldk_node_wire__crate__api__bolt11__ffi_bolt_11_payment_receive_variable_amount_unsafe(int64_t port_,
+                                                                                                  struct wire_cst_ffi_bolt_11_payment *that,
+                                                                                                  struct wire_cst_list_prim_u_8_strict *description,
+                                                                                                  uint32_t expiry_secs);
 
-void frbgen_ldk_node_wire__crate__api__bolt11__ffi_bolt_11_payment_send(int64_t port_,
-                                                                        struct wire_cst_ffi_bolt_11_payment *that,
-                                                                        struct wire_cst_bolt_11_invoice *invoice,
-                                                                        struct wire_cst_sending_parameters *sending_parameters);
+void frbgen_ldk_node_wire__crate__api__bolt11__ffi_bolt_11_payment_receive_variable_amount_via_jit_channel_unsafe(int64_t port_,
+                                                                                                                  struct wire_cst_ffi_bolt_11_payment *that,
+                                                                                                                  struct wire_cst_list_prim_u_8_strict *description,
+                                                                                                                  uint32_t expiry_secs,
+                                                                                                                  uint64_t *max_proportional_lsp_fee_limit_ppm_msat);
 
-void frbgen_ldk_node_wire__crate__api__bolt11__ffi_bolt_11_payment_send_probes(int64_t port_,
+void frbgen_ldk_node_wire__crate__api__bolt11__ffi_bolt_11_payment_receive_via_jit_channel_unsafe(int64_t port_,
+                                                                                                  struct wire_cst_ffi_bolt_11_payment *that,
+                                                                                                  uint64_t amount_msat,
+                                                                                                  struct wire_cst_list_prim_u_8_strict *description,
+                                                                                                  uint32_t expiry_secs,
+                                                                                                  uint64_t *max_total_lsp_fee_limit_msat);
+
+void frbgen_ldk_node_wire__crate__api__bolt11__ffi_bolt_11_payment_send_probes_unsafe(int64_t port_,
+                                                                                      struct wire_cst_ffi_bolt_11_payment *that,
+                                                                                      struct wire_cst_bolt_11_invoice *invoice);
+
+void frbgen_ldk_node_wire__crate__api__bolt11__ffi_bolt_11_payment_send_probes_using_amount_unsafe(int64_t port_,
+                                                                                                   struct wire_cst_ffi_bolt_11_payment *that,
+                                                                                                   struct wire_cst_bolt_11_invoice *invoice,
+                                                                                                   uint64_t amount_msat);
+
+void frbgen_ldk_node_wire__crate__api__bolt11__ffi_bolt_11_payment_send_unsafe(int64_t port_,
                                                                                struct wire_cst_ffi_bolt_11_payment *that,
-                                                                               struct wire_cst_bolt_11_invoice *invoice);
+                                                                               struct wire_cst_bolt_11_invoice *invoice,
+                                                                               struct wire_cst_sending_parameters *sending_parameters);
 
-void frbgen_ldk_node_wire__crate__api__bolt11__ffi_bolt_11_payment_send_probes_using_amount(int64_t port_,
+void frbgen_ldk_node_wire__crate__api__bolt11__ffi_bolt_11_payment_send_using_amount_unsafe(int64_t port_,
                                                                                             struct wire_cst_ffi_bolt_11_payment *that,
                                                                                             struct wire_cst_bolt_11_invoice *invoice,
-                                                                                            uint64_t amount_msat);
+                                                                                            uint64_t amount_msat,
+                                                                                            struct wire_cst_sending_parameters *sending_parameters);
 
-void frbgen_ldk_node_wire__crate__api__bolt11__ffi_bolt_11_payment_send_using_amount(int64_t port_,
-                                                                                     struct wire_cst_ffi_bolt_11_payment *that,
-                                                                                     struct wire_cst_bolt_11_invoice *invoice,
-                                                                                     uint64_t amount_msat,
-                                                                                     struct wire_cst_sending_parameters *sending_parameters);
-
-void frbgen_ldk_node_wire__crate__api__bolt12__ffi_bolt_12_payment_initiate_refund(int64_t port_,
-                                                                                   struct wire_cst_ffi_bolt_12_payment *that,
-                                                                                   uint64_t amount_msat,
-                                                                                   uint32_t expiry_secs,
-                                                                                   uint64_t *quantity,
-                                                                                   struct wire_cst_list_prim_u_8_strict *payer_note);
-
-void frbgen_ldk_node_wire__crate__api__bolt12__ffi_bolt_12_payment_receive(int64_t port_,
-                                                                           struct wire_cst_ffi_bolt_12_payment *that,
-                                                                           uint64_t amount_msat,
-                                                                           struct wire_cst_list_prim_u_8_strict *description,
-                                                                           uint32_t *expiry_secs,
-                                                                           uint64_t *quantity);
-
-void frbgen_ldk_node_wire__crate__api__bolt12__ffi_bolt_12_payment_receive_variable_amount(int64_t port_,
-                                                                                           struct wire_cst_ffi_bolt_12_payment *that,
-                                                                                           struct wire_cst_list_prim_u_8_strict *description,
-                                                                                           uint32_t *expiry_secs);
-
-void frbgen_ldk_node_wire__crate__api__bolt12__ffi_bolt_12_payment_request_refund_payment(int64_t port_,
+void frbgen_ldk_node_wire__crate__api__bolt12__ffi_bolt_12_payment_initiate_refund_unsafe(int64_t port_,
                                                                                           struct wire_cst_ffi_bolt_12_payment *that,
-                                                                                          struct wire_cst_refund *refund);
+                                                                                          uint64_t amount_msat,
+                                                                                          uint32_t expiry_secs,
+                                                                                          uint64_t *quantity,
+                                                                                          struct wire_cst_list_prim_u_8_strict *payer_note);
 
-void frbgen_ldk_node_wire__crate__api__bolt12__ffi_bolt_12_payment_send(int64_t port_,
-                                                                        struct wire_cst_ffi_bolt_12_payment *that,
-                                                                        struct wire_cst_offer *offer,
-                                                                        uint64_t *quantity,
-                                                                        struct wire_cst_list_prim_u_8_strict *payer_note);
+void frbgen_ldk_node_wire__crate__api__bolt12__ffi_bolt_12_payment_receive_unsafe(int64_t port_,
+                                                                                  struct wire_cst_ffi_bolt_12_payment *that,
+                                                                                  uint64_t amount_msat,
+                                                                                  struct wire_cst_list_prim_u_8_strict *description,
+                                                                                  uint32_t *expiry_secs,
+                                                                                  uint64_t *quantity);
 
-void frbgen_ldk_node_wire__crate__api__bolt12__ffi_bolt_12_payment_send_using_amount(int64_t port_,
-                                                                                     struct wire_cst_ffi_bolt_12_payment *that,
-                                                                                     struct wire_cst_offer *offer,
-                                                                                     uint64_t amount_msat,
-                                                                                     uint64_t *quantity,
-                                                                                     struct wire_cst_list_prim_u_8_strict *payer_note);
+void frbgen_ldk_node_wire__crate__api__bolt12__ffi_bolt_12_payment_receive_variable_amount_unsafe(int64_t port_,
+                                                                                                  struct wire_cst_ffi_bolt_12_payment *that,
+                                                                                                  struct wire_cst_list_prim_u_8_strict *description,
+                                                                                                  uint32_t *expiry_secs);
+
+void frbgen_ldk_node_wire__crate__api__bolt12__ffi_bolt_12_payment_request_refund_payment_unsafe(int64_t port_,
+                                                                                                 struct wire_cst_ffi_bolt_12_payment *that,
+                                                                                                 struct wire_cst_refund *refund);
+
+void frbgen_ldk_node_wire__crate__api__bolt12__ffi_bolt_12_payment_send_unsafe(int64_t port_,
+                                                                               struct wire_cst_ffi_bolt_12_payment *that,
+                                                                               struct wire_cst_offer *offer,
+                                                                               uint64_t *quantity,
+                                                                               struct wire_cst_list_prim_u_8_strict *payer_note);
+
+void frbgen_ldk_node_wire__crate__api__bolt12__ffi_bolt_12_payment_send_using_amount_unsafe(int64_t port_,
+                                                                                            struct wire_cst_ffi_bolt_12_payment *that,
+                                                                                            struct wire_cst_offer *offer,
+                                                                                            uint64_t amount_msat,
+                                                                                            uint64_t *quantity,
+                                                                                            struct wire_cst_list_prim_u_8_strict *payer_note);
 
 void frbgen_ldk_node_wire__crate__api__builder__ffi_mnemonic_generate(int64_t port_);
 
-void frbgen_ldk_node_wire__crate__api__graph__ffi_network_graph_channel(int64_t port_,
-                                                                        struct wire_cst_ffi_network_graph *that,
-                                                                        uint64_t short_channel_id);
+void frbgen_ldk_node_wire__crate__api__graph__ffi_network_graph_channel_unsafe(int64_t port_,
+                                                                               struct wire_cst_ffi_network_graph *that,
+                                                                               uint64_t short_channel_id);
 
-void frbgen_ldk_node_wire__crate__api__graph__ffi_network_graph_list_channels(int64_t port_,
-                                                                              struct wire_cst_ffi_network_graph *that);
+void frbgen_ldk_node_wire__crate__api__graph__ffi_network_graph_list_channels_unsafe(int64_t port_,
+                                                                                     struct wire_cst_ffi_network_graph *that);
 
-void frbgen_ldk_node_wire__crate__api__graph__ffi_network_graph_list_nodes(int64_t port_,
-                                                                           struct wire_cst_ffi_network_graph *that);
+void frbgen_ldk_node_wire__crate__api__graph__ffi_network_graph_list_nodes_unsafe(int64_t port_,
+                                                                                  struct wire_cst_ffi_network_graph *that);
 
-void frbgen_ldk_node_wire__crate__api__graph__ffi_network_graph_node(int64_t port_,
-                                                                     struct wire_cst_ffi_network_graph *that,
-                                                                     struct wire_cst_node_id *node_id);
+void frbgen_ldk_node_wire__crate__api__graph__ffi_network_graph_node_unsafe(int64_t port_,
+                                                                            struct wire_cst_ffi_network_graph *that,
+                                                                            struct wire_cst_node_id *node_id);
 
 void frbgen_ldk_node_wire__crate__api__node__ffi_node_bolt11_payment(int64_t port_,
                                                                      struct wire_cst_ffi_node *ptr);
@@ -1093,33 +1093,33 @@ void frbgen_ldk_node_wire__crate__api__on_chain__ffi_on_chain_payment_send_to_ad
                                                                                       uint64_t amount_sats,
                                                                                       uint64_t *fee_rate_sat_per_kwu);
 
-void frbgen_ldk_node_wire__crate__api__spontaneous__ffi_spontaneous_payment_send(int64_t port_,
-                                                                                 struct wire_cst_ffi_spontaneous_payment *that,
-                                                                                 uint64_t amount_msat,
-                                                                                 struct wire_cst_public_key *node_id,
-                                                                                 struct wire_cst_sending_parameters *sending_parameters);
+void frbgen_ldk_node_wire__crate__api__spontaneous__ffi_spontaneous_payment_send_probes_unsafe(int64_t port_,
+                                                                                               struct wire_cst_ffi_spontaneous_payment *that,
+                                                                                               uint64_t amount_msat,
+                                                                                               struct wire_cst_public_key *node_id);
 
-void frbgen_ldk_node_wire__crate__api__spontaneous__ffi_spontaneous_payment_send_probes(int64_t port_,
+void frbgen_ldk_node_wire__crate__api__spontaneous__ffi_spontaneous_payment_send_unsafe(int64_t port_,
                                                                                         struct wire_cst_ffi_spontaneous_payment *that,
                                                                                         uint64_t amount_msat,
-                                                                                        struct wire_cst_public_key *node_id);
+                                                                                        struct wire_cst_public_key *node_id,
+                                                                                        struct wire_cst_sending_parameters *sending_parameters);
 
-void frbgen_ldk_node_wire__crate__api__spontaneous__ffi_spontaneous_payment_send_with_custom_tlvs(int64_t port_,
-                                                                                                  struct wire_cst_ffi_spontaneous_payment *that,
-                                                                                                  uint64_t amount_msat,
-                                                                                                  struct wire_cst_public_key *node_id,
-                                                                                                  struct wire_cst_sending_parameters *sending_parameters,
-                                                                                                  struct wire_cst_list_custom_tlv_record *custom_tlvs);
+void frbgen_ldk_node_wire__crate__api__spontaneous__ffi_spontaneous_payment_send_with_custom_tlvs_unsafe(int64_t port_,
+                                                                                                         struct wire_cst_ffi_spontaneous_payment *that,
+                                                                                                         uint64_t amount_msat,
+                                                                                                         struct wire_cst_public_key *node_id,
+                                                                                                         struct wire_cst_sending_parameters *sending_parameters,
+                                                                                                         struct wire_cst_list_custom_tlv_record *custom_tlvs);
 
-void frbgen_ldk_node_wire__crate__api__unified_qr__ffi_unified_qr_payment_receive(int64_t port_,
-                                                                                  struct wire_cst_ffi_unified_qr_payment *that,
-                                                                                  uint64_t amount_sats,
-                                                                                  struct wire_cst_list_prim_u_8_strict *message,
-                                                                                  uint32_t expiry_sec);
+void frbgen_ldk_node_wire__crate__api__unified_qr__ffi_unified_qr_payment_receive_unsafe(int64_t port_,
+                                                                                         struct wire_cst_ffi_unified_qr_payment *that,
+                                                                                         uint64_t amount_sats,
+                                                                                         struct wire_cst_list_prim_u_8_strict *message,
+                                                                                         uint32_t expiry_sec);
 
-void frbgen_ldk_node_wire__crate__api__unified_qr__ffi_unified_qr_payment_send(int64_t port_,
-                                                                               struct wire_cst_ffi_unified_qr_payment *that,
-                                                                               struct wire_cst_list_prim_u_8_strict *uri_str);
+void frbgen_ldk_node_wire__crate__api__unified_qr__ffi_unified_qr_payment_send_unsafe(int64_t port_,
+                                                                                      struct wire_cst_ffi_unified_qr_payment *that,
+                                                                                      struct wire_cst_list_prim_u_8_strict *uri_str);
 
 void frbgen_ldk_node_rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerConfirmationStatus(const void *ptr);
 
@@ -1383,24 +1383,24 @@ static int64_t dummy_method_to_enforce_bundling(void) {
     dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_rust_arc_increment_strong_count_RustOpaque_ldk_nodepaymentOnchainPayment);
     dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_rust_arc_increment_strong_count_RustOpaque_ldk_nodepaymentSpontaneousPayment);
     dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_rust_arc_increment_strong_count_RustOpaque_ldk_nodepaymentUnifiedQrPayment);
-    dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__crate__api__bolt11__ffi_bolt_11_payment_claim_for_hash);
-    dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__crate__api__bolt11__ffi_bolt_11_payment_fail_for_hash);
-    dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__crate__api__bolt11__ffi_bolt_11_payment_receive);
-    dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__crate__api__bolt11__ffi_bolt_11_payment_receive_for_hash);
-    dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__crate__api__bolt11__ffi_bolt_11_payment_receive_variable_amount);
-    dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__crate__api__bolt11__ffi_bolt_11_payment_receive_variable_amount_for_hash);
-    dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__crate__api__bolt11__ffi_bolt_11_payment_receive_variable_amount_via_jit_channel);
-    dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__crate__api__bolt11__ffi_bolt_11_payment_receive_via_jit_channel);
-    dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__crate__api__bolt11__ffi_bolt_11_payment_send);
-    dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__crate__api__bolt11__ffi_bolt_11_payment_send_probes);
-    dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__crate__api__bolt11__ffi_bolt_11_payment_send_probes_using_amount);
-    dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__crate__api__bolt11__ffi_bolt_11_payment_send_using_amount);
-    dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__crate__api__bolt12__ffi_bolt_12_payment_initiate_refund);
-    dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__crate__api__bolt12__ffi_bolt_12_payment_receive);
-    dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__crate__api__bolt12__ffi_bolt_12_payment_receive_variable_amount);
-    dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__crate__api__bolt12__ffi_bolt_12_payment_request_refund_payment);
-    dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__crate__api__bolt12__ffi_bolt_12_payment_send);
-    dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__crate__api__bolt12__ffi_bolt_12_payment_send_using_amount);
+    dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__crate__api__bolt11__ffi_bolt_11_payment_claim_for_hash_unsafe);
+    dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__crate__api__bolt11__ffi_bolt_11_payment_fail_for_hash_unsafe);
+    dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__crate__api__bolt11__ffi_bolt_11_payment_receive_for_hash_unsafe);
+    dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__crate__api__bolt11__ffi_bolt_11_payment_receive_unsafe);
+    dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__crate__api__bolt11__ffi_bolt_11_payment_receive_variable_amount_for_hash_unsafe);
+    dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__crate__api__bolt11__ffi_bolt_11_payment_receive_variable_amount_unsafe);
+    dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__crate__api__bolt11__ffi_bolt_11_payment_receive_variable_amount_via_jit_channel_unsafe);
+    dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__crate__api__bolt11__ffi_bolt_11_payment_receive_via_jit_channel_unsafe);
+    dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__crate__api__bolt11__ffi_bolt_11_payment_send_probes_unsafe);
+    dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__crate__api__bolt11__ffi_bolt_11_payment_send_probes_using_amount_unsafe);
+    dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__crate__api__bolt11__ffi_bolt_11_payment_send_unsafe);
+    dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__crate__api__bolt11__ffi_bolt_11_payment_send_using_amount_unsafe);
+    dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__crate__api__bolt12__ffi_bolt_12_payment_initiate_refund_unsafe);
+    dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__crate__api__bolt12__ffi_bolt_12_payment_receive_unsafe);
+    dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__crate__api__bolt12__ffi_bolt_12_payment_receive_variable_amount_unsafe);
+    dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__crate__api__bolt12__ffi_bolt_12_payment_request_refund_payment_unsafe);
+    dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__crate__api__bolt12__ffi_bolt_12_payment_send_unsafe);
+    dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__crate__api__bolt12__ffi_bolt_12_payment_send_using_amount_unsafe);
     dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__crate__api__builder__FfiBuilder_auto_accessor_get_opaque);
     dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__crate__api__builder__FfiBuilder_auto_accessor_set_opaque);
     dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__crate__api__builder__FfiBuilder_build);
@@ -1412,10 +1412,10 @@ static int64_t dummy_method_to_enforce_bundling(void) {
     dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__crate__api__builder__FfiBuilder_set_filesystem_logger);
     dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__crate__api__builder__FfiBuilder_set_log_facade_logger);
     dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__crate__api__builder__ffi_mnemonic_generate);
-    dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__crate__api__graph__ffi_network_graph_channel);
-    dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__crate__api__graph__ffi_network_graph_list_channels);
-    dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__crate__api__graph__ffi_network_graph_list_nodes);
-    dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__crate__api__graph__ffi_network_graph_node);
+    dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__crate__api__graph__ffi_network_graph_channel_unsafe);
+    dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__crate__api__graph__ffi_network_graph_list_channels_unsafe);
+    dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__crate__api__graph__ffi_network_graph_list_nodes_unsafe);
+    dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__crate__api__graph__ffi_network_graph_node_unsafe);
     dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__crate__api__node__ffi_node_bolt11_payment);
     dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__crate__api__node__ffi_node_bolt12_payment);
     dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__crate__api__node__ffi_node_close_channel);
@@ -1453,13 +1453,13 @@ static int64_t dummy_method_to_enforce_bundling(void) {
     dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__crate__api__on_chain__ffi_on_chain_payment_new_address);
     dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__crate__api__on_chain__ffi_on_chain_payment_send_all_to_address);
     dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__crate__api__on_chain__ffi_on_chain_payment_send_to_address);
-    dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__crate__api__spontaneous__ffi_spontaneous_payment_send);
-    dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__crate__api__spontaneous__ffi_spontaneous_payment_send_probes);
-    dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__crate__api__spontaneous__ffi_spontaneous_payment_send_with_custom_tlvs);
+    dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__crate__api__spontaneous__ffi_spontaneous_payment_send_probes_unsafe);
+    dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__crate__api__spontaneous__ffi_spontaneous_payment_send_unsafe);
+    dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__crate__api__spontaneous__ffi_spontaneous_payment_send_with_custom_tlvs_unsafe);
     dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__crate__api__types__anchor_channels_config_default);
     dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__crate__api__types__config_default);
-    dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__crate__api__unified_qr__ffi_unified_qr_payment_receive);
-    dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__crate__api__unified_qr__ffi_unified_qr_payment_send);
+    dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__crate__api__unified_qr__ffi_unified_qr_payment_receive_unsafe);
+    dummy_var ^= ((int64_t) (void*) frbgen_ldk_node_wire__crate__api__unified_qr__ffi_unified_qr_payment_send_unsafe);
     dummy_var ^= ((int64_t) (void*) store_dart_post_cobject);
     return dummy_var;
 }
