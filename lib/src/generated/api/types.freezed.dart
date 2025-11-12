@@ -4521,17 +4521,21 @@ abstract class EntropySourceConfig_Bip39Mnemonic extends EntropySourceConfig {
 mixin _$Event {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(PaymentId paymentId, PaymentHash paymentHash,
-            BigInt claimableAmountMsat, int? claimDeadline)
-        paymentClaimable,
     required TResult Function(
-            PaymentId? paymentId, PaymentHash paymentHash, BigInt? feePaidMsat)
+            PaymentId paymentId,
+            PaymentHash paymentHash,
+            BigInt claimableAmountMsat,
+            int? claimDeadline,
+            List<CustomTlvRecord> customRecords)
+        paymentClaimable,
+    required TResult Function(PaymentId? paymentId, PaymentHash paymentHash,
+            BigInt? feePaidMsat, PaymentPreimage? preimage)
         paymentSuccessful,
     required TResult Function(PaymentId? paymentId, PaymentHash? paymentHash,
             PaymentFailureReason? reason)
         paymentFailed,
-    required TResult Function(
-            PaymentId? paymentId, PaymentHash paymentHash, BigInt amountMsat)
+    required TResult Function(PaymentId? paymentId, PaymentHash paymentHash,
+            BigInt amountMsat, List<CustomTlvRecord> customRecords)
         paymentReceived,
     required TResult Function(
             ChannelId channelId,
@@ -4546,21 +4550,37 @@ mixin _$Event {
     required TResult Function(ChannelId channelId, UserChannelId userChannelId,
             PublicKey? counterpartyNodeId, ClosureReason? reason)
         channelClosed,
+    required TResult Function(
+            ChannelId prevChannelId,
+            ChannelId nextChannelId,
+            UserChannelId? prevUserChannelId,
+            UserChannelId? nextUserChannelId,
+            PublicKey? prevNodeId,
+            PublicKey? nextNodeId,
+            BigInt? totalFeeEarnedMsat,
+            BigInt? skimmedFeeMsat,
+            bool claimFromOnchainTx,
+            BigInt? outboundAmountForwardedMsat)
+        paymentForwarded,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(PaymentId paymentId, PaymentHash paymentHash,
-            BigInt claimableAmountMsat, int? claimDeadline)?
-        paymentClaimable,
     TResult? Function(
-            PaymentId? paymentId, PaymentHash paymentHash, BigInt? feePaidMsat)?
+            PaymentId paymentId,
+            PaymentHash paymentHash,
+            BigInt claimableAmountMsat,
+            int? claimDeadline,
+            List<CustomTlvRecord> customRecords)?
+        paymentClaimable,
+    TResult? Function(PaymentId? paymentId, PaymentHash paymentHash,
+            BigInt? feePaidMsat, PaymentPreimage? preimage)?
         paymentSuccessful,
     TResult? Function(PaymentId? paymentId, PaymentHash? paymentHash,
             PaymentFailureReason? reason)?
         paymentFailed,
-    TResult? Function(
-            PaymentId? paymentId, PaymentHash paymentHash, BigInt amountMsat)?
+    TResult? Function(PaymentId? paymentId, PaymentHash paymentHash,
+            BigInt amountMsat, List<CustomTlvRecord> customRecords)?
         paymentReceived,
     TResult? Function(
             ChannelId channelId,
@@ -4575,21 +4595,37 @@ mixin _$Event {
     TResult? Function(ChannelId channelId, UserChannelId userChannelId,
             PublicKey? counterpartyNodeId, ClosureReason? reason)?
         channelClosed,
+    TResult? Function(
+            ChannelId prevChannelId,
+            ChannelId nextChannelId,
+            UserChannelId? prevUserChannelId,
+            UserChannelId? nextUserChannelId,
+            PublicKey? prevNodeId,
+            PublicKey? nextNodeId,
+            BigInt? totalFeeEarnedMsat,
+            BigInt? skimmedFeeMsat,
+            bool claimFromOnchainTx,
+            BigInt? outboundAmountForwardedMsat)?
+        paymentForwarded,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(PaymentId paymentId, PaymentHash paymentHash,
-            BigInt claimableAmountMsat, int? claimDeadline)?
-        paymentClaimable,
     TResult Function(
-            PaymentId? paymentId, PaymentHash paymentHash, BigInt? feePaidMsat)?
+            PaymentId paymentId,
+            PaymentHash paymentHash,
+            BigInt claimableAmountMsat,
+            int? claimDeadline,
+            List<CustomTlvRecord> customRecords)?
+        paymentClaimable,
+    TResult Function(PaymentId? paymentId, PaymentHash paymentHash,
+            BigInt? feePaidMsat, PaymentPreimage? preimage)?
         paymentSuccessful,
     TResult Function(PaymentId? paymentId, PaymentHash? paymentHash,
             PaymentFailureReason? reason)?
         paymentFailed,
-    TResult Function(
-            PaymentId? paymentId, PaymentHash paymentHash, BigInt amountMsat)?
+    TResult Function(PaymentId? paymentId, PaymentHash paymentHash,
+            BigInt amountMsat, List<CustomTlvRecord> customRecords)?
         paymentReceived,
     TResult Function(
             ChannelId channelId,
@@ -4604,6 +4640,18 @@ mixin _$Event {
     TResult Function(ChannelId channelId, UserChannelId userChannelId,
             PublicKey? counterpartyNodeId, ClosureReason? reason)?
         channelClosed,
+    TResult Function(
+            ChannelId prevChannelId,
+            ChannelId nextChannelId,
+            UserChannelId? prevUserChannelId,
+            UserChannelId? nextUserChannelId,
+            PublicKey? prevNodeId,
+            PublicKey? nextNodeId,
+            BigInt? totalFeeEarnedMsat,
+            BigInt? skimmedFeeMsat,
+            bool claimFromOnchainTx,
+            BigInt? outboundAmountForwardedMsat)?
+        paymentForwarded,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -4616,6 +4664,7 @@ mixin _$Event {
     required TResult Function(Event_ChannelPending value) channelPending,
     required TResult Function(Event_ChannelReady value) channelReady,
     required TResult Function(Event_ChannelClosed value) channelClosed,
+    required TResult Function(Event_PaymentForwarded value) paymentForwarded,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -4627,6 +4676,7 @@ mixin _$Event {
     TResult? Function(Event_ChannelPending value)? channelPending,
     TResult? Function(Event_ChannelReady value)? channelReady,
     TResult? Function(Event_ChannelClosed value)? channelClosed,
+    TResult? Function(Event_PaymentForwarded value)? paymentForwarded,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -4638,6 +4688,7 @@ mixin _$Event {
     TResult Function(Event_ChannelPending value)? channelPending,
     TResult Function(Event_ChannelReady value)? channelReady,
     TResult Function(Event_ChannelClosed value)? channelClosed,
+    TResult Function(Event_PaymentForwarded value)? paymentForwarded,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -4674,7 +4725,8 @@ abstract class _$$Event_PaymentClaimableImplCopyWith<$Res> {
       {PaymentId paymentId,
       PaymentHash paymentHash,
       BigInt claimableAmountMsat,
-      int? claimDeadline});
+      int? claimDeadline,
+      List<CustomTlvRecord> customRecords});
 }
 
 /// @nodoc
@@ -4695,6 +4747,7 @@ class __$$Event_PaymentClaimableImplCopyWithImpl<$Res>
     Object? paymentHash = null,
     Object? claimableAmountMsat = null,
     Object? claimDeadline = freezed,
+    Object? customRecords = null,
   }) {
     return _then(_$Event_PaymentClaimableImpl(
       paymentId: null == paymentId
@@ -4713,6 +4766,10 @@ class __$$Event_PaymentClaimableImplCopyWithImpl<$Res>
           ? _value.claimDeadline
           : claimDeadline // ignore: cast_nullable_to_non_nullable
               as int?,
+      customRecords: null == customRecords
+          ? _value._customRecords
+          : customRecords // ignore: cast_nullable_to_non_nullable
+              as List<CustomTlvRecord>,
     ));
   }
 }
@@ -4724,8 +4781,10 @@ class _$Event_PaymentClaimableImpl extends Event_PaymentClaimable {
       {required this.paymentId,
       required this.paymentHash,
       required this.claimableAmountMsat,
-      this.claimDeadline})
-      : super._();
+      this.claimDeadline,
+      required final List<CustomTlvRecord> customRecords})
+      : _customRecords = customRecords,
+        super._();
 
   /// A local identifier used to track the payment.
   @override
@@ -4744,9 +4803,20 @@ class _$Event_PaymentClaimableImpl extends Event_PaymentClaimable {
   @override
   final int? claimDeadline;
 
+  /// Custom TLV records attached to the payment
+  final List<CustomTlvRecord> _customRecords;
+
+  /// Custom TLV records attached to the payment
+  @override
+  List<CustomTlvRecord> get customRecords {
+    if (_customRecords is EqualUnmodifiableListView) return _customRecords;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_customRecords);
+  }
+
   @override
   String toString() {
-    return 'Event.paymentClaimable(paymentId: $paymentId, paymentHash: $paymentHash, claimableAmountMsat: $claimableAmountMsat, claimDeadline: $claimDeadline)';
+    return 'Event.paymentClaimable(paymentId: $paymentId, paymentHash: $paymentHash, claimableAmountMsat: $claimableAmountMsat, claimDeadline: $claimDeadline, customRecords: $customRecords)';
   }
 
   @override
@@ -4761,12 +4831,19 @@ class _$Event_PaymentClaimableImpl extends Event_PaymentClaimable {
             (identical(other.claimableAmountMsat, claimableAmountMsat) ||
                 other.claimableAmountMsat == claimableAmountMsat) &&
             (identical(other.claimDeadline, claimDeadline) ||
-                other.claimDeadline == claimDeadline));
+                other.claimDeadline == claimDeadline) &&
+            const DeepCollectionEquality()
+                .equals(other._customRecords, _customRecords));
   }
 
   @override
   int get hashCode => Object.hash(
-      runtimeType, paymentId, paymentHash, claimableAmountMsat, claimDeadline);
+      runtimeType,
+      paymentId,
+      paymentHash,
+      claimableAmountMsat,
+      claimDeadline,
+      const DeepCollectionEquality().hash(_customRecords));
 
   /// Create a copy of Event
   /// with the given fields replaced by the non-null parameter values.
@@ -4780,17 +4857,21 @@ class _$Event_PaymentClaimableImpl extends Event_PaymentClaimable {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(PaymentId paymentId, PaymentHash paymentHash,
-            BigInt claimableAmountMsat, int? claimDeadline)
-        paymentClaimable,
     required TResult Function(
-            PaymentId? paymentId, PaymentHash paymentHash, BigInt? feePaidMsat)
+            PaymentId paymentId,
+            PaymentHash paymentHash,
+            BigInt claimableAmountMsat,
+            int? claimDeadline,
+            List<CustomTlvRecord> customRecords)
+        paymentClaimable,
+    required TResult Function(PaymentId? paymentId, PaymentHash paymentHash,
+            BigInt? feePaidMsat, PaymentPreimage? preimage)
         paymentSuccessful,
     required TResult Function(PaymentId? paymentId, PaymentHash? paymentHash,
             PaymentFailureReason? reason)
         paymentFailed,
-    required TResult Function(
-            PaymentId? paymentId, PaymentHash paymentHash, BigInt amountMsat)
+    required TResult Function(PaymentId? paymentId, PaymentHash paymentHash,
+            BigInt amountMsat, List<CustomTlvRecord> customRecords)
         paymentReceived,
     required TResult Function(
             ChannelId channelId,
@@ -4805,25 +4886,41 @@ class _$Event_PaymentClaimableImpl extends Event_PaymentClaimable {
     required TResult Function(ChannelId channelId, UserChannelId userChannelId,
             PublicKey? counterpartyNodeId, ClosureReason? reason)
         channelClosed,
+    required TResult Function(
+            ChannelId prevChannelId,
+            ChannelId nextChannelId,
+            UserChannelId? prevUserChannelId,
+            UserChannelId? nextUserChannelId,
+            PublicKey? prevNodeId,
+            PublicKey? nextNodeId,
+            BigInt? totalFeeEarnedMsat,
+            BigInt? skimmedFeeMsat,
+            bool claimFromOnchainTx,
+            BigInt? outboundAmountForwardedMsat)
+        paymentForwarded,
   }) {
-    return paymentClaimable(
-        paymentId, paymentHash, claimableAmountMsat, claimDeadline);
+    return paymentClaimable(paymentId, paymentHash, claimableAmountMsat,
+        claimDeadline, customRecords);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(PaymentId paymentId, PaymentHash paymentHash,
-            BigInt claimableAmountMsat, int? claimDeadline)?
-        paymentClaimable,
     TResult? Function(
-            PaymentId? paymentId, PaymentHash paymentHash, BigInt? feePaidMsat)?
+            PaymentId paymentId,
+            PaymentHash paymentHash,
+            BigInt claimableAmountMsat,
+            int? claimDeadline,
+            List<CustomTlvRecord> customRecords)?
+        paymentClaimable,
+    TResult? Function(PaymentId? paymentId, PaymentHash paymentHash,
+            BigInt? feePaidMsat, PaymentPreimage? preimage)?
         paymentSuccessful,
     TResult? Function(PaymentId? paymentId, PaymentHash? paymentHash,
             PaymentFailureReason? reason)?
         paymentFailed,
-    TResult? Function(
-            PaymentId? paymentId, PaymentHash paymentHash, BigInt amountMsat)?
+    TResult? Function(PaymentId? paymentId, PaymentHash paymentHash,
+            BigInt amountMsat, List<CustomTlvRecord> customRecords)?
         paymentReceived,
     TResult? Function(
             ChannelId channelId,
@@ -4838,25 +4935,41 @@ class _$Event_PaymentClaimableImpl extends Event_PaymentClaimable {
     TResult? Function(ChannelId channelId, UserChannelId userChannelId,
             PublicKey? counterpartyNodeId, ClosureReason? reason)?
         channelClosed,
+    TResult? Function(
+            ChannelId prevChannelId,
+            ChannelId nextChannelId,
+            UserChannelId? prevUserChannelId,
+            UserChannelId? nextUserChannelId,
+            PublicKey? prevNodeId,
+            PublicKey? nextNodeId,
+            BigInt? totalFeeEarnedMsat,
+            BigInt? skimmedFeeMsat,
+            bool claimFromOnchainTx,
+            BigInt? outboundAmountForwardedMsat)?
+        paymentForwarded,
   }) {
-    return paymentClaimable?.call(
-        paymentId, paymentHash, claimableAmountMsat, claimDeadline);
+    return paymentClaimable?.call(paymentId, paymentHash, claimableAmountMsat,
+        claimDeadline, customRecords);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(PaymentId paymentId, PaymentHash paymentHash,
-            BigInt claimableAmountMsat, int? claimDeadline)?
-        paymentClaimable,
     TResult Function(
-            PaymentId? paymentId, PaymentHash paymentHash, BigInt? feePaidMsat)?
+            PaymentId paymentId,
+            PaymentHash paymentHash,
+            BigInt claimableAmountMsat,
+            int? claimDeadline,
+            List<CustomTlvRecord> customRecords)?
+        paymentClaimable,
+    TResult Function(PaymentId? paymentId, PaymentHash paymentHash,
+            BigInt? feePaidMsat, PaymentPreimage? preimage)?
         paymentSuccessful,
     TResult Function(PaymentId? paymentId, PaymentHash? paymentHash,
             PaymentFailureReason? reason)?
         paymentFailed,
-    TResult Function(
-            PaymentId? paymentId, PaymentHash paymentHash, BigInt amountMsat)?
+    TResult Function(PaymentId? paymentId, PaymentHash paymentHash,
+            BigInt amountMsat, List<CustomTlvRecord> customRecords)?
         paymentReceived,
     TResult Function(
             ChannelId channelId,
@@ -4871,11 +4984,23 @@ class _$Event_PaymentClaimableImpl extends Event_PaymentClaimable {
     TResult Function(ChannelId channelId, UserChannelId userChannelId,
             PublicKey? counterpartyNodeId, ClosureReason? reason)?
         channelClosed,
+    TResult Function(
+            ChannelId prevChannelId,
+            ChannelId nextChannelId,
+            UserChannelId? prevUserChannelId,
+            UserChannelId? nextUserChannelId,
+            PublicKey? prevNodeId,
+            PublicKey? nextNodeId,
+            BigInt? totalFeeEarnedMsat,
+            BigInt? skimmedFeeMsat,
+            bool claimFromOnchainTx,
+            BigInt? outboundAmountForwardedMsat)?
+        paymentForwarded,
     required TResult orElse(),
   }) {
     if (paymentClaimable != null) {
-      return paymentClaimable(
-          paymentId, paymentHash, claimableAmountMsat, claimDeadline);
+      return paymentClaimable(paymentId, paymentHash, claimableAmountMsat,
+          claimDeadline, customRecords);
     }
     return orElse();
   }
@@ -4890,6 +5015,7 @@ class _$Event_PaymentClaimableImpl extends Event_PaymentClaimable {
     required TResult Function(Event_ChannelPending value) channelPending,
     required TResult Function(Event_ChannelReady value) channelReady,
     required TResult Function(Event_ChannelClosed value) channelClosed,
+    required TResult Function(Event_PaymentForwarded value) paymentForwarded,
   }) {
     return paymentClaimable(this);
   }
@@ -4904,6 +5030,7 @@ class _$Event_PaymentClaimableImpl extends Event_PaymentClaimable {
     TResult? Function(Event_ChannelPending value)? channelPending,
     TResult? Function(Event_ChannelReady value)? channelReady,
     TResult? Function(Event_ChannelClosed value)? channelClosed,
+    TResult? Function(Event_PaymentForwarded value)? paymentForwarded,
   }) {
     return paymentClaimable?.call(this);
   }
@@ -4918,6 +5045,7 @@ class _$Event_PaymentClaimableImpl extends Event_PaymentClaimable {
     TResult Function(Event_ChannelPending value)? channelPending,
     TResult Function(Event_ChannelReady value)? channelReady,
     TResult Function(Event_ChannelClosed value)? channelClosed,
+    TResult Function(Event_PaymentForwarded value)? paymentForwarded,
     required TResult orElse(),
   }) {
     if (paymentClaimable != null) {
@@ -4929,10 +5057,12 @@ class _$Event_PaymentClaimableImpl extends Event_PaymentClaimable {
 
 abstract class Event_PaymentClaimable extends Event {
   const factory Event_PaymentClaimable(
-      {required final PaymentId paymentId,
-      required final PaymentHash paymentHash,
-      required final BigInt claimableAmountMsat,
-      final int? claimDeadline}) = _$Event_PaymentClaimableImpl;
+          {required final PaymentId paymentId,
+          required final PaymentHash paymentHash,
+          required final BigInt claimableAmountMsat,
+          final int? claimDeadline,
+          required final List<CustomTlvRecord> customRecords}) =
+      _$Event_PaymentClaimableImpl;
   const Event_PaymentClaimable._() : super._();
 
   /// A local identifier used to track the payment.
@@ -4947,6 +5077,9 @@ abstract class Event_PaymentClaimable extends Event {
   /// The block height at which this payment will be failed back and will no longer be
   /// eligible for claiming.
   int? get claimDeadline;
+
+  /// Custom TLV records attached to the payment
+  List<CustomTlvRecord> get customRecords;
 
   /// Create a copy of Event
   /// with the given fields replaced by the non-null parameter values.
@@ -4963,7 +5096,10 @@ abstract class _$$Event_PaymentSuccessfulImplCopyWith<$Res> {
       __$$Event_PaymentSuccessfulImplCopyWithImpl<$Res>;
   @useResult
   $Res call(
-      {PaymentId? paymentId, PaymentHash paymentHash, BigInt? feePaidMsat});
+      {PaymentId? paymentId,
+      PaymentHash paymentHash,
+      BigInt? feePaidMsat,
+      PaymentPreimage? preimage});
 }
 
 /// @nodoc
@@ -4983,6 +5119,7 @@ class __$$Event_PaymentSuccessfulImplCopyWithImpl<$Res>
     Object? paymentId = freezed,
     Object? paymentHash = null,
     Object? feePaidMsat = freezed,
+    Object? preimage = freezed,
   }) {
     return _then(_$Event_PaymentSuccessfulImpl(
       paymentId: freezed == paymentId
@@ -4997,6 +5134,10 @@ class __$$Event_PaymentSuccessfulImplCopyWithImpl<$Res>
           ? _value.feePaidMsat
           : feePaidMsat // ignore: cast_nullable_to_non_nullable
               as BigInt?,
+      preimage: freezed == preimage
+          ? _value.preimage
+          : preimage // ignore: cast_nullable_to_non_nullable
+              as PaymentPreimage?,
     ));
   }
 }
@@ -5005,7 +5146,10 @@ class __$$Event_PaymentSuccessfulImplCopyWithImpl<$Res>
 
 class _$Event_PaymentSuccessfulImpl extends Event_PaymentSuccessful {
   const _$Event_PaymentSuccessfulImpl(
-      {this.paymentId, required this.paymentHash, this.feePaidMsat})
+      {this.paymentId,
+      required this.paymentHash,
+      this.feePaidMsat,
+      this.preimage})
       : super._();
 
   /// A local identifier used to track the payment.
@@ -5022,9 +5166,13 @@ class _$Event_PaymentSuccessfulImpl extends Event_PaymentSuccessful {
   @override
   final BigInt? feePaidMsat;
 
+  /// The preimage of the payment hash, which can be used to claim the payment.
+  @override
+  final PaymentPreimage? preimage;
+
   @override
   String toString() {
-    return 'Event.paymentSuccessful(paymentId: $paymentId, paymentHash: $paymentHash, feePaidMsat: $feePaidMsat)';
+    return 'Event.paymentSuccessful(paymentId: $paymentId, paymentHash: $paymentHash, feePaidMsat: $feePaidMsat, preimage: $preimage)';
   }
 
   @override
@@ -5037,12 +5185,14 @@ class _$Event_PaymentSuccessfulImpl extends Event_PaymentSuccessful {
             (identical(other.paymentHash, paymentHash) ||
                 other.paymentHash == paymentHash) &&
             (identical(other.feePaidMsat, feePaidMsat) ||
-                other.feePaidMsat == feePaidMsat));
+                other.feePaidMsat == feePaidMsat) &&
+            (identical(other.preimage, preimage) ||
+                other.preimage == preimage));
   }
 
   @override
   int get hashCode =>
-      Object.hash(runtimeType, paymentId, paymentHash, feePaidMsat);
+      Object.hash(runtimeType, paymentId, paymentHash, feePaidMsat, preimage);
 
   /// Create a copy of Event
   /// with the given fields replaced by the non-null parameter values.
@@ -5056,17 +5206,21 @@ class _$Event_PaymentSuccessfulImpl extends Event_PaymentSuccessful {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(PaymentId paymentId, PaymentHash paymentHash,
-            BigInt claimableAmountMsat, int? claimDeadline)
-        paymentClaimable,
     required TResult Function(
-            PaymentId? paymentId, PaymentHash paymentHash, BigInt? feePaidMsat)
+            PaymentId paymentId,
+            PaymentHash paymentHash,
+            BigInt claimableAmountMsat,
+            int? claimDeadline,
+            List<CustomTlvRecord> customRecords)
+        paymentClaimable,
+    required TResult Function(PaymentId? paymentId, PaymentHash paymentHash,
+            BigInt? feePaidMsat, PaymentPreimage? preimage)
         paymentSuccessful,
     required TResult Function(PaymentId? paymentId, PaymentHash? paymentHash,
             PaymentFailureReason? reason)
         paymentFailed,
-    required TResult Function(
-            PaymentId? paymentId, PaymentHash paymentHash, BigInt amountMsat)
+    required TResult Function(PaymentId? paymentId, PaymentHash paymentHash,
+            BigInt amountMsat, List<CustomTlvRecord> customRecords)
         paymentReceived,
     required TResult Function(
             ChannelId channelId,
@@ -5081,24 +5235,40 @@ class _$Event_PaymentSuccessfulImpl extends Event_PaymentSuccessful {
     required TResult Function(ChannelId channelId, UserChannelId userChannelId,
             PublicKey? counterpartyNodeId, ClosureReason? reason)
         channelClosed,
+    required TResult Function(
+            ChannelId prevChannelId,
+            ChannelId nextChannelId,
+            UserChannelId? prevUserChannelId,
+            UserChannelId? nextUserChannelId,
+            PublicKey? prevNodeId,
+            PublicKey? nextNodeId,
+            BigInt? totalFeeEarnedMsat,
+            BigInt? skimmedFeeMsat,
+            bool claimFromOnchainTx,
+            BigInt? outboundAmountForwardedMsat)
+        paymentForwarded,
   }) {
-    return paymentSuccessful(paymentId, paymentHash, feePaidMsat);
+    return paymentSuccessful(paymentId, paymentHash, feePaidMsat, preimage);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(PaymentId paymentId, PaymentHash paymentHash,
-            BigInt claimableAmountMsat, int? claimDeadline)?
-        paymentClaimable,
     TResult? Function(
-            PaymentId? paymentId, PaymentHash paymentHash, BigInt? feePaidMsat)?
+            PaymentId paymentId,
+            PaymentHash paymentHash,
+            BigInt claimableAmountMsat,
+            int? claimDeadline,
+            List<CustomTlvRecord> customRecords)?
+        paymentClaimable,
+    TResult? Function(PaymentId? paymentId, PaymentHash paymentHash,
+            BigInt? feePaidMsat, PaymentPreimage? preimage)?
         paymentSuccessful,
     TResult? Function(PaymentId? paymentId, PaymentHash? paymentHash,
             PaymentFailureReason? reason)?
         paymentFailed,
-    TResult? Function(
-            PaymentId? paymentId, PaymentHash paymentHash, BigInt amountMsat)?
+    TResult? Function(PaymentId? paymentId, PaymentHash paymentHash,
+            BigInt amountMsat, List<CustomTlvRecord> customRecords)?
         paymentReceived,
     TResult? Function(
             ChannelId channelId,
@@ -5113,24 +5283,41 @@ class _$Event_PaymentSuccessfulImpl extends Event_PaymentSuccessful {
     TResult? Function(ChannelId channelId, UserChannelId userChannelId,
             PublicKey? counterpartyNodeId, ClosureReason? reason)?
         channelClosed,
+    TResult? Function(
+            ChannelId prevChannelId,
+            ChannelId nextChannelId,
+            UserChannelId? prevUserChannelId,
+            UserChannelId? nextUserChannelId,
+            PublicKey? prevNodeId,
+            PublicKey? nextNodeId,
+            BigInt? totalFeeEarnedMsat,
+            BigInt? skimmedFeeMsat,
+            bool claimFromOnchainTx,
+            BigInt? outboundAmountForwardedMsat)?
+        paymentForwarded,
   }) {
-    return paymentSuccessful?.call(paymentId, paymentHash, feePaidMsat);
+    return paymentSuccessful?.call(
+        paymentId, paymentHash, feePaidMsat, preimage);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(PaymentId paymentId, PaymentHash paymentHash,
-            BigInt claimableAmountMsat, int? claimDeadline)?
-        paymentClaimable,
     TResult Function(
-            PaymentId? paymentId, PaymentHash paymentHash, BigInt? feePaidMsat)?
+            PaymentId paymentId,
+            PaymentHash paymentHash,
+            BigInt claimableAmountMsat,
+            int? claimDeadline,
+            List<CustomTlvRecord> customRecords)?
+        paymentClaimable,
+    TResult Function(PaymentId? paymentId, PaymentHash paymentHash,
+            BigInt? feePaidMsat, PaymentPreimage? preimage)?
         paymentSuccessful,
     TResult Function(PaymentId? paymentId, PaymentHash? paymentHash,
             PaymentFailureReason? reason)?
         paymentFailed,
-    TResult Function(
-            PaymentId? paymentId, PaymentHash paymentHash, BigInt amountMsat)?
+    TResult Function(PaymentId? paymentId, PaymentHash paymentHash,
+            BigInt amountMsat, List<CustomTlvRecord> customRecords)?
         paymentReceived,
     TResult Function(
             ChannelId channelId,
@@ -5145,10 +5332,22 @@ class _$Event_PaymentSuccessfulImpl extends Event_PaymentSuccessful {
     TResult Function(ChannelId channelId, UserChannelId userChannelId,
             PublicKey? counterpartyNodeId, ClosureReason? reason)?
         channelClosed,
+    TResult Function(
+            ChannelId prevChannelId,
+            ChannelId nextChannelId,
+            UserChannelId? prevUserChannelId,
+            UserChannelId? nextUserChannelId,
+            PublicKey? prevNodeId,
+            PublicKey? nextNodeId,
+            BigInt? totalFeeEarnedMsat,
+            BigInt? skimmedFeeMsat,
+            bool claimFromOnchainTx,
+            BigInt? outboundAmountForwardedMsat)?
+        paymentForwarded,
     required TResult orElse(),
   }) {
     if (paymentSuccessful != null) {
-      return paymentSuccessful(paymentId, paymentHash, feePaidMsat);
+      return paymentSuccessful(paymentId, paymentHash, feePaidMsat, preimage);
     }
     return orElse();
   }
@@ -5163,6 +5362,7 @@ class _$Event_PaymentSuccessfulImpl extends Event_PaymentSuccessful {
     required TResult Function(Event_ChannelPending value) channelPending,
     required TResult Function(Event_ChannelReady value) channelReady,
     required TResult Function(Event_ChannelClosed value) channelClosed,
+    required TResult Function(Event_PaymentForwarded value) paymentForwarded,
   }) {
     return paymentSuccessful(this);
   }
@@ -5177,6 +5377,7 @@ class _$Event_PaymentSuccessfulImpl extends Event_PaymentSuccessful {
     TResult? Function(Event_ChannelPending value)? channelPending,
     TResult? Function(Event_ChannelReady value)? channelReady,
     TResult? Function(Event_ChannelClosed value)? channelClosed,
+    TResult? Function(Event_PaymentForwarded value)? paymentForwarded,
   }) {
     return paymentSuccessful?.call(this);
   }
@@ -5191,6 +5392,7 @@ class _$Event_PaymentSuccessfulImpl extends Event_PaymentSuccessful {
     TResult Function(Event_ChannelPending value)? channelPending,
     TResult Function(Event_ChannelReady value)? channelReady,
     TResult Function(Event_ChannelClosed value)? channelClosed,
+    TResult Function(Event_PaymentForwarded value)? paymentForwarded,
     required TResult orElse(),
   }) {
     if (paymentSuccessful != null) {
@@ -5204,7 +5406,8 @@ abstract class Event_PaymentSuccessful extends Event {
   const factory Event_PaymentSuccessful(
       {final PaymentId? paymentId,
       required final PaymentHash paymentHash,
-      final BigInt? feePaidMsat}) = _$Event_PaymentSuccessfulImpl;
+      final BigInt? feePaidMsat,
+      final PaymentPreimage? preimage}) = _$Event_PaymentSuccessfulImpl;
   const Event_PaymentSuccessful._() : super._();
 
   /// A local identifier used to track the payment.
@@ -5217,6 +5420,9 @@ abstract class Event_PaymentSuccessful extends Event {
 
   /// The total fee which was spent at intermediate hops in this payment.
   BigInt? get feePaidMsat;
+
+  /// The preimage of the payment hash, which can be used to claim the payment.
+  PaymentPreimage? get preimage;
 
   /// Create a copy of Event
   /// with the given fields replaced by the non-null parameter values.
@@ -5326,17 +5532,21 @@ class _$Event_PaymentFailedImpl extends Event_PaymentFailed {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(PaymentId paymentId, PaymentHash paymentHash,
-            BigInt claimableAmountMsat, int? claimDeadline)
-        paymentClaimable,
     required TResult Function(
-            PaymentId? paymentId, PaymentHash paymentHash, BigInt? feePaidMsat)
+            PaymentId paymentId,
+            PaymentHash paymentHash,
+            BigInt claimableAmountMsat,
+            int? claimDeadline,
+            List<CustomTlvRecord> customRecords)
+        paymentClaimable,
+    required TResult Function(PaymentId? paymentId, PaymentHash paymentHash,
+            BigInt? feePaidMsat, PaymentPreimage? preimage)
         paymentSuccessful,
     required TResult Function(PaymentId? paymentId, PaymentHash? paymentHash,
             PaymentFailureReason? reason)
         paymentFailed,
-    required TResult Function(
-            PaymentId? paymentId, PaymentHash paymentHash, BigInt amountMsat)
+    required TResult Function(PaymentId? paymentId, PaymentHash paymentHash,
+            BigInt amountMsat, List<CustomTlvRecord> customRecords)
         paymentReceived,
     required TResult Function(
             ChannelId channelId,
@@ -5351,6 +5561,18 @@ class _$Event_PaymentFailedImpl extends Event_PaymentFailed {
     required TResult Function(ChannelId channelId, UserChannelId userChannelId,
             PublicKey? counterpartyNodeId, ClosureReason? reason)
         channelClosed,
+    required TResult Function(
+            ChannelId prevChannelId,
+            ChannelId nextChannelId,
+            UserChannelId? prevUserChannelId,
+            UserChannelId? nextUserChannelId,
+            PublicKey? prevNodeId,
+            PublicKey? nextNodeId,
+            BigInt? totalFeeEarnedMsat,
+            BigInt? skimmedFeeMsat,
+            bool claimFromOnchainTx,
+            BigInt? outboundAmountForwardedMsat)
+        paymentForwarded,
   }) {
     return paymentFailed(paymentId, paymentHash, reason);
   }
@@ -5358,17 +5580,21 @@ class _$Event_PaymentFailedImpl extends Event_PaymentFailed {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(PaymentId paymentId, PaymentHash paymentHash,
-            BigInt claimableAmountMsat, int? claimDeadline)?
-        paymentClaimable,
     TResult? Function(
-            PaymentId? paymentId, PaymentHash paymentHash, BigInt? feePaidMsat)?
+            PaymentId paymentId,
+            PaymentHash paymentHash,
+            BigInt claimableAmountMsat,
+            int? claimDeadline,
+            List<CustomTlvRecord> customRecords)?
+        paymentClaimable,
+    TResult? Function(PaymentId? paymentId, PaymentHash paymentHash,
+            BigInt? feePaidMsat, PaymentPreimage? preimage)?
         paymentSuccessful,
     TResult? Function(PaymentId? paymentId, PaymentHash? paymentHash,
             PaymentFailureReason? reason)?
         paymentFailed,
-    TResult? Function(
-            PaymentId? paymentId, PaymentHash paymentHash, BigInt amountMsat)?
+    TResult? Function(PaymentId? paymentId, PaymentHash paymentHash,
+            BigInt amountMsat, List<CustomTlvRecord> customRecords)?
         paymentReceived,
     TResult? Function(
             ChannelId channelId,
@@ -5383,6 +5609,18 @@ class _$Event_PaymentFailedImpl extends Event_PaymentFailed {
     TResult? Function(ChannelId channelId, UserChannelId userChannelId,
             PublicKey? counterpartyNodeId, ClosureReason? reason)?
         channelClosed,
+    TResult? Function(
+            ChannelId prevChannelId,
+            ChannelId nextChannelId,
+            UserChannelId? prevUserChannelId,
+            UserChannelId? nextUserChannelId,
+            PublicKey? prevNodeId,
+            PublicKey? nextNodeId,
+            BigInt? totalFeeEarnedMsat,
+            BigInt? skimmedFeeMsat,
+            bool claimFromOnchainTx,
+            BigInt? outboundAmountForwardedMsat)?
+        paymentForwarded,
   }) {
     return paymentFailed?.call(paymentId, paymentHash, reason);
   }
@@ -5390,17 +5628,21 @@ class _$Event_PaymentFailedImpl extends Event_PaymentFailed {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(PaymentId paymentId, PaymentHash paymentHash,
-            BigInt claimableAmountMsat, int? claimDeadline)?
-        paymentClaimable,
     TResult Function(
-            PaymentId? paymentId, PaymentHash paymentHash, BigInt? feePaidMsat)?
+            PaymentId paymentId,
+            PaymentHash paymentHash,
+            BigInt claimableAmountMsat,
+            int? claimDeadline,
+            List<CustomTlvRecord> customRecords)?
+        paymentClaimable,
+    TResult Function(PaymentId? paymentId, PaymentHash paymentHash,
+            BigInt? feePaidMsat, PaymentPreimage? preimage)?
         paymentSuccessful,
     TResult Function(PaymentId? paymentId, PaymentHash? paymentHash,
             PaymentFailureReason? reason)?
         paymentFailed,
-    TResult Function(
-            PaymentId? paymentId, PaymentHash paymentHash, BigInt amountMsat)?
+    TResult Function(PaymentId? paymentId, PaymentHash paymentHash,
+            BigInt amountMsat, List<CustomTlvRecord> customRecords)?
         paymentReceived,
     TResult Function(
             ChannelId channelId,
@@ -5415,6 +5657,18 @@ class _$Event_PaymentFailedImpl extends Event_PaymentFailed {
     TResult Function(ChannelId channelId, UserChannelId userChannelId,
             PublicKey? counterpartyNodeId, ClosureReason? reason)?
         channelClosed,
+    TResult Function(
+            ChannelId prevChannelId,
+            ChannelId nextChannelId,
+            UserChannelId? prevUserChannelId,
+            UserChannelId? nextUserChannelId,
+            PublicKey? prevNodeId,
+            PublicKey? nextNodeId,
+            BigInt? totalFeeEarnedMsat,
+            BigInt? skimmedFeeMsat,
+            bool claimFromOnchainTx,
+            BigInt? outboundAmountForwardedMsat)?
+        paymentForwarded,
     required TResult orElse(),
   }) {
     if (paymentFailed != null) {
@@ -5433,6 +5687,7 @@ class _$Event_PaymentFailedImpl extends Event_PaymentFailed {
     required TResult Function(Event_ChannelPending value) channelPending,
     required TResult Function(Event_ChannelReady value) channelReady,
     required TResult Function(Event_ChannelClosed value) channelClosed,
+    required TResult Function(Event_PaymentForwarded value) paymentForwarded,
   }) {
     return paymentFailed(this);
   }
@@ -5447,6 +5702,7 @@ class _$Event_PaymentFailedImpl extends Event_PaymentFailed {
     TResult? Function(Event_ChannelPending value)? channelPending,
     TResult? Function(Event_ChannelReady value)? channelReady,
     TResult? Function(Event_ChannelClosed value)? channelClosed,
+    TResult? Function(Event_PaymentForwarded value)? paymentForwarded,
   }) {
     return paymentFailed?.call(this);
   }
@@ -5461,6 +5717,7 @@ class _$Event_PaymentFailedImpl extends Event_PaymentFailed {
     TResult Function(Event_ChannelPending value)? channelPending,
     TResult Function(Event_ChannelReady value)? channelReady,
     TResult Function(Event_ChannelClosed value)? channelClosed,
+    TResult Function(Event_PaymentForwarded value)? paymentForwarded,
     required TResult orElse(),
   }) {
     if (paymentFailed != null) {
@@ -5504,7 +5761,11 @@ abstract class _$$Event_PaymentReceivedImplCopyWith<$Res> {
           $Res Function(_$Event_PaymentReceivedImpl) then) =
       __$$Event_PaymentReceivedImplCopyWithImpl<$Res>;
   @useResult
-  $Res call({PaymentId? paymentId, PaymentHash paymentHash, BigInt amountMsat});
+  $Res call(
+      {PaymentId? paymentId,
+      PaymentHash paymentHash,
+      BigInt amountMsat,
+      List<CustomTlvRecord> customRecords});
 }
 
 /// @nodoc
@@ -5523,6 +5784,7 @@ class __$$Event_PaymentReceivedImplCopyWithImpl<$Res>
     Object? paymentId = freezed,
     Object? paymentHash = null,
     Object? amountMsat = null,
+    Object? customRecords = null,
   }) {
     return _then(_$Event_PaymentReceivedImpl(
       paymentId: freezed == paymentId
@@ -5537,6 +5799,10 @@ class __$$Event_PaymentReceivedImplCopyWithImpl<$Res>
           ? _value.amountMsat
           : amountMsat // ignore: cast_nullable_to_non_nullable
               as BigInt,
+      customRecords: null == customRecords
+          ? _value._customRecords
+          : customRecords // ignore: cast_nullable_to_non_nullable
+              as List<CustomTlvRecord>,
     ));
   }
 }
@@ -5545,8 +5811,12 @@ class __$$Event_PaymentReceivedImplCopyWithImpl<$Res>
 
 class _$Event_PaymentReceivedImpl extends Event_PaymentReceived {
   const _$Event_PaymentReceivedImpl(
-      {this.paymentId, required this.paymentHash, required this.amountMsat})
-      : super._();
+      {this.paymentId,
+      required this.paymentHash,
+      required this.amountMsat,
+      required final List<CustomTlvRecord> customRecords})
+      : _customRecords = customRecords,
+        super._();
 
   /// A local identifier used to track the payment.
   ///
@@ -5562,9 +5832,20 @@ class _$Event_PaymentReceivedImpl extends Event_PaymentReceived {
   @override
   final BigInt amountMsat;
 
+  /// Custom TLV records received on the payment
+  final List<CustomTlvRecord> _customRecords;
+
+  /// Custom TLV records received on the payment
+  @override
+  List<CustomTlvRecord> get customRecords {
+    if (_customRecords is EqualUnmodifiableListView) return _customRecords;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_customRecords);
+  }
+
   @override
   String toString() {
-    return 'Event.paymentReceived(paymentId: $paymentId, paymentHash: $paymentHash, amountMsat: $amountMsat)';
+    return 'Event.paymentReceived(paymentId: $paymentId, paymentHash: $paymentHash, amountMsat: $amountMsat, customRecords: $customRecords)';
   }
 
   @override
@@ -5577,12 +5858,14 @@ class _$Event_PaymentReceivedImpl extends Event_PaymentReceived {
             (identical(other.paymentHash, paymentHash) ||
                 other.paymentHash == paymentHash) &&
             (identical(other.amountMsat, amountMsat) ||
-                other.amountMsat == amountMsat));
+                other.amountMsat == amountMsat) &&
+            const DeepCollectionEquality()
+                .equals(other._customRecords, _customRecords));
   }
 
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, paymentId, paymentHash, amountMsat);
+  int get hashCode => Object.hash(runtimeType, paymentId, paymentHash,
+      amountMsat, const DeepCollectionEquality().hash(_customRecords));
 
   /// Create a copy of Event
   /// with the given fields replaced by the non-null parameter values.
@@ -5596,17 +5879,21 @@ class _$Event_PaymentReceivedImpl extends Event_PaymentReceived {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(PaymentId paymentId, PaymentHash paymentHash,
-            BigInt claimableAmountMsat, int? claimDeadline)
-        paymentClaimable,
     required TResult Function(
-            PaymentId? paymentId, PaymentHash paymentHash, BigInt? feePaidMsat)
+            PaymentId paymentId,
+            PaymentHash paymentHash,
+            BigInt claimableAmountMsat,
+            int? claimDeadline,
+            List<CustomTlvRecord> customRecords)
+        paymentClaimable,
+    required TResult Function(PaymentId? paymentId, PaymentHash paymentHash,
+            BigInt? feePaidMsat, PaymentPreimage? preimage)
         paymentSuccessful,
     required TResult Function(PaymentId? paymentId, PaymentHash? paymentHash,
             PaymentFailureReason? reason)
         paymentFailed,
-    required TResult Function(
-            PaymentId? paymentId, PaymentHash paymentHash, BigInt amountMsat)
+    required TResult Function(PaymentId? paymentId, PaymentHash paymentHash,
+            BigInt amountMsat, List<CustomTlvRecord> customRecords)
         paymentReceived,
     required TResult Function(
             ChannelId channelId,
@@ -5621,24 +5908,40 @@ class _$Event_PaymentReceivedImpl extends Event_PaymentReceived {
     required TResult Function(ChannelId channelId, UserChannelId userChannelId,
             PublicKey? counterpartyNodeId, ClosureReason? reason)
         channelClosed,
+    required TResult Function(
+            ChannelId prevChannelId,
+            ChannelId nextChannelId,
+            UserChannelId? prevUserChannelId,
+            UserChannelId? nextUserChannelId,
+            PublicKey? prevNodeId,
+            PublicKey? nextNodeId,
+            BigInt? totalFeeEarnedMsat,
+            BigInt? skimmedFeeMsat,
+            bool claimFromOnchainTx,
+            BigInt? outboundAmountForwardedMsat)
+        paymentForwarded,
   }) {
-    return paymentReceived(paymentId, paymentHash, amountMsat);
+    return paymentReceived(paymentId, paymentHash, amountMsat, customRecords);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(PaymentId paymentId, PaymentHash paymentHash,
-            BigInt claimableAmountMsat, int? claimDeadline)?
-        paymentClaimable,
     TResult? Function(
-            PaymentId? paymentId, PaymentHash paymentHash, BigInt? feePaidMsat)?
+            PaymentId paymentId,
+            PaymentHash paymentHash,
+            BigInt claimableAmountMsat,
+            int? claimDeadline,
+            List<CustomTlvRecord> customRecords)?
+        paymentClaimable,
+    TResult? Function(PaymentId? paymentId, PaymentHash paymentHash,
+            BigInt? feePaidMsat, PaymentPreimage? preimage)?
         paymentSuccessful,
     TResult? Function(PaymentId? paymentId, PaymentHash? paymentHash,
             PaymentFailureReason? reason)?
         paymentFailed,
-    TResult? Function(
-            PaymentId? paymentId, PaymentHash paymentHash, BigInt amountMsat)?
+    TResult? Function(PaymentId? paymentId, PaymentHash paymentHash,
+            BigInt amountMsat, List<CustomTlvRecord> customRecords)?
         paymentReceived,
     TResult? Function(
             ChannelId channelId,
@@ -5653,24 +5956,41 @@ class _$Event_PaymentReceivedImpl extends Event_PaymentReceived {
     TResult? Function(ChannelId channelId, UserChannelId userChannelId,
             PublicKey? counterpartyNodeId, ClosureReason? reason)?
         channelClosed,
+    TResult? Function(
+            ChannelId prevChannelId,
+            ChannelId nextChannelId,
+            UserChannelId? prevUserChannelId,
+            UserChannelId? nextUserChannelId,
+            PublicKey? prevNodeId,
+            PublicKey? nextNodeId,
+            BigInt? totalFeeEarnedMsat,
+            BigInt? skimmedFeeMsat,
+            bool claimFromOnchainTx,
+            BigInt? outboundAmountForwardedMsat)?
+        paymentForwarded,
   }) {
-    return paymentReceived?.call(paymentId, paymentHash, amountMsat);
+    return paymentReceived?.call(
+        paymentId, paymentHash, amountMsat, customRecords);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(PaymentId paymentId, PaymentHash paymentHash,
-            BigInt claimableAmountMsat, int? claimDeadline)?
-        paymentClaimable,
     TResult Function(
-            PaymentId? paymentId, PaymentHash paymentHash, BigInt? feePaidMsat)?
+            PaymentId paymentId,
+            PaymentHash paymentHash,
+            BigInt claimableAmountMsat,
+            int? claimDeadline,
+            List<CustomTlvRecord> customRecords)?
+        paymentClaimable,
+    TResult Function(PaymentId? paymentId, PaymentHash paymentHash,
+            BigInt? feePaidMsat, PaymentPreimage? preimage)?
         paymentSuccessful,
     TResult Function(PaymentId? paymentId, PaymentHash? paymentHash,
             PaymentFailureReason? reason)?
         paymentFailed,
-    TResult Function(
-            PaymentId? paymentId, PaymentHash paymentHash, BigInt amountMsat)?
+    TResult Function(PaymentId? paymentId, PaymentHash paymentHash,
+            BigInt amountMsat, List<CustomTlvRecord> customRecords)?
         paymentReceived,
     TResult Function(
             ChannelId channelId,
@@ -5685,10 +6005,22 @@ class _$Event_PaymentReceivedImpl extends Event_PaymentReceived {
     TResult Function(ChannelId channelId, UserChannelId userChannelId,
             PublicKey? counterpartyNodeId, ClosureReason? reason)?
         channelClosed,
+    TResult Function(
+            ChannelId prevChannelId,
+            ChannelId nextChannelId,
+            UserChannelId? prevUserChannelId,
+            UserChannelId? nextUserChannelId,
+            PublicKey? prevNodeId,
+            PublicKey? nextNodeId,
+            BigInt? totalFeeEarnedMsat,
+            BigInt? skimmedFeeMsat,
+            bool claimFromOnchainTx,
+            BigInt? outboundAmountForwardedMsat)?
+        paymentForwarded,
     required TResult orElse(),
   }) {
     if (paymentReceived != null) {
-      return paymentReceived(paymentId, paymentHash, amountMsat);
+      return paymentReceived(paymentId, paymentHash, amountMsat, customRecords);
     }
     return orElse();
   }
@@ -5703,6 +6035,7 @@ class _$Event_PaymentReceivedImpl extends Event_PaymentReceived {
     required TResult Function(Event_ChannelPending value) channelPending,
     required TResult Function(Event_ChannelReady value) channelReady,
     required TResult Function(Event_ChannelClosed value) channelClosed,
+    required TResult Function(Event_PaymentForwarded value) paymentForwarded,
   }) {
     return paymentReceived(this);
   }
@@ -5717,6 +6050,7 @@ class _$Event_PaymentReceivedImpl extends Event_PaymentReceived {
     TResult? Function(Event_ChannelPending value)? channelPending,
     TResult? Function(Event_ChannelReady value)? channelReady,
     TResult? Function(Event_ChannelClosed value)? channelClosed,
+    TResult? Function(Event_PaymentForwarded value)? paymentForwarded,
   }) {
     return paymentReceived?.call(this);
   }
@@ -5731,6 +6065,7 @@ class _$Event_PaymentReceivedImpl extends Event_PaymentReceived {
     TResult Function(Event_ChannelPending value)? channelPending,
     TResult Function(Event_ChannelReady value)? channelReady,
     TResult Function(Event_ChannelClosed value)? channelClosed,
+    TResult Function(Event_PaymentForwarded value)? paymentForwarded,
     required TResult orElse(),
   }) {
     if (paymentReceived != null) {
@@ -5742,9 +6077,11 @@ class _$Event_PaymentReceivedImpl extends Event_PaymentReceived {
 
 abstract class Event_PaymentReceived extends Event {
   const factory Event_PaymentReceived(
-      {final PaymentId? paymentId,
-      required final PaymentHash paymentHash,
-      required final BigInt amountMsat}) = _$Event_PaymentReceivedImpl;
+          {final PaymentId? paymentId,
+          required final PaymentHash paymentHash,
+          required final BigInt amountMsat,
+          required final List<CustomTlvRecord> customRecords}) =
+      _$Event_PaymentReceivedImpl;
   const Event_PaymentReceived._() : super._();
 
   /// A local identifier used to track the payment.
@@ -5757,6 +6094,9 @@ abstract class Event_PaymentReceived extends Event {
 
   /// The value, in thousandths of a satoshi, that has been received.
   BigInt get amountMsat;
+
+  /// Custom TLV records received on the payment
+  List<CustomTlvRecord> get customRecords;
 
   /// Create a copy of Event
   /// with the given fields replaced by the non-null parameter values.
@@ -5894,17 +6234,21 @@ class _$Event_ChannelPendingImpl extends Event_ChannelPending {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(PaymentId paymentId, PaymentHash paymentHash,
-            BigInt claimableAmountMsat, int? claimDeadline)
-        paymentClaimable,
     required TResult Function(
-            PaymentId? paymentId, PaymentHash paymentHash, BigInt? feePaidMsat)
+            PaymentId paymentId,
+            PaymentHash paymentHash,
+            BigInt claimableAmountMsat,
+            int? claimDeadline,
+            List<CustomTlvRecord> customRecords)
+        paymentClaimable,
+    required TResult Function(PaymentId? paymentId, PaymentHash paymentHash,
+            BigInt? feePaidMsat, PaymentPreimage? preimage)
         paymentSuccessful,
     required TResult Function(PaymentId? paymentId, PaymentHash? paymentHash,
             PaymentFailureReason? reason)
         paymentFailed,
-    required TResult Function(
-            PaymentId? paymentId, PaymentHash paymentHash, BigInt amountMsat)
+    required TResult Function(PaymentId? paymentId, PaymentHash paymentHash,
+            BigInt amountMsat, List<CustomTlvRecord> customRecords)
         paymentReceived,
     required TResult Function(
             ChannelId channelId,
@@ -5919,6 +6263,18 @@ class _$Event_ChannelPendingImpl extends Event_ChannelPending {
     required TResult Function(ChannelId channelId, UserChannelId userChannelId,
             PublicKey? counterpartyNodeId, ClosureReason? reason)
         channelClosed,
+    required TResult Function(
+            ChannelId prevChannelId,
+            ChannelId nextChannelId,
+            UserChannelId? prevUserChannelId,
+            UserChannelId? nextUserChannelId,
+            PublicKey? prevNodeId,
+            PublicKey? nextNodeId,
+            BigInt? totalFeeEarnedMsat,
+            BigInt? skimmedFeeMsat,
+            bool claimFromOnchainTx,
+            BigInt? outboundAmountForwardedMsat)
+        paymentForwarded,
   }) {
     return channelPending(channelId, userChannelId, formerTemporaryChannelId,
         counterpartyNodeId, fundingTxo);
@@ -5927,17 +6283,21 @@ class _$Event_ChannelPendingImpl extends Event_ChannelPending {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(PaymentId paymentId, PaymentHash paymentHash,
-            BigInt claimableAmountMsat, int? claimDeadline)?
-        paymentClaimable,
     TResult? Function(
-            PaymentId? paymentId, PaymentHash paymentHash, BigInt? feePaidMsat)?
+            PaymentId paymentId,
+            PaymentHash paymentHash,
+            BigInt claimableAmountMsat,
+            int? claimDeadline,
+            List<CustomTlvRecord> customRecords)?
+        paymentClaimable,
+    TResult? Function(PaymentId? paymentId, PaymentHash paymentHash,
+            BigInt? feePaidMsat, PaymentPreimage? preimage)?
         paymentSuccessful,
     TResult? Function(PaymentId? paymentId, PaymentHash? paymentHash,
             PaymentFailureReason? reason)?
         paymentFailed,
-    TResult? Function(
-            PaymentId? paymentId, PaymentHash paymentHash, BigInt amountMsat)?
+    TResult? Function(PaymentId? paymentId, PaymentHash paymentHash,
+            BigInt amountMsat, List<CustomTlvRecord> customRecords)?
         paymentReceived,
     TResult? Function(
             ChannelId channelId,
@@ -5952,6 +6312,18 @@ class _$Event_ChannelPendingImpl extends Event_ChannelPending {
     TResult? Function(ChannelId channelId, UserChannelId userChannelId,
             PublicKey? counterpartyNodeId, ClosureReason? reason)?
         channelClosed,
+    TResult? Function(
+            ChannelId prevChannelId,
+            ChannelId nextChannelId,
+            UserChannelId? prevUserChannelId,
+            UserChannelId? nextUserChannelId,
+            PublicKey? prevNodeId,
+            PublicKey? nextNodeId,
+            BigInt? totalFeeEarnedMsat,
+            BigInt? skimmedFeeMsat,
+            bool claimFromOnchainTx,
+            BigInt? outboundAmountForwardedMsat)?
+        paymentForwarded,
   }) {
     return channelPending?.call(channelId, userChannelId,
         formerTemporaryChannelId, counterpartyNodeId, fundingTxo);
@@ -5960,17 +6332,21 @@ class _$Event_ChannelPendingImpl extends Event_ChannelPending {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(PaymentId paymentId, PaymentHash paymentHash,
-            BigInt claimableAmountMsat, int? claimDeadline)?
-        paymentClaimable,
     TResult Function(
-            PaymentId? paymentId, PaymentHash paymentHash, BigInt? feePaidMsat)?
+            PaymentId paymentId,
+            PaymentHash paymentHash,
+            BigInt claimableAmountMsat,
+            int? claimDeadline,
+            List<CustomTlvRecord> customRecords)?
+        paymentClaimable,
+    TResult Function(PaymentId? paymentId, PaymentHash paymentHash,
+            BigInt? feePaidMsat, PaymentPreimage? preimage)?
         paymentSuccessful,
     TResult Function(PaymentId? paymentId, PaymentHash? paymentHash,
             PaymentFailureReason? reason)?
         paymentFailed,
-    TResult Function(
-            PaymentId? paymentId, PaymentHash paymentHash, BigInt amountMsat)?
+    TResult Function(PaymentId? paymentId, PaymentHash paymentHash,
+            BigInt amountMsat, List<CustomTlvRecord> customRecords)?
         paymentReceived,
     TResult Function(
             ChannelId channelId,
@@ -5985,6 +6361,18 @@ class _$Event_ChannelPendingImpl extends Event_ChannelPending {
     TResult Function(ChannelId channelId, UserChannelId userChannelId,
             PublicKey? counterpartyNodeId, ClosureReason? reason)?
         channelClosed,
+    TResult Function(
+            ChannelId prevChannelId,
+            ChannelId nextChannelId,
+            UserChannelId? prevUserChannelId,
+            UserChannelId? nextUserChannelId,
+            PublicKey? prevNodeId,
+            PublicKey? nextNodeId,
+            BigInt? totalFeeEarnedMsat,
+            BigInt? skimmedFeeMsat,
+            bool claimFromOnchainTx,
+            BigInt? outboundAmountForwardedMsat)?
+        paymentForwarded,
     required TResult orElse(),
   }) {
     if (channelPending != null) {
@@ -6004,6 +6392,7 @@ class _$Event_ChannelPendingImpl extends Event_ChannelPending {
     required TResult Function(Event_ChannelPending value) channelPending,
     required TResult Function(Event_ChannelReady value) channelReady,
     required TResult Function(Event_ChannelClosed value) channelClosed,
+    required TResult Function(Event_PaymentForwarded value) paymentForwarded,
   }) {
     return channelPending(this);
   }
@@ -6018,6 +6407,7 @@ class _$Event_ChannelPendingImpl extends Event_ChannelPending {
     TResult? Function(Event_ChannelPending value)? channelPending,
     TResult? Function(Event_ChannelReady value)? channelReady,
     TResult? Function(Event_ChannelClosed value)? channelClosed,
+    TResult? Function(Event_PaymentForwarded value)? paymentForwarded,
   }) {
     return channelPending?.call(this);
   }
@@ -6032,6 +6422,7 @@ class _$Event_ChannelPendingImpl extends Event_ChannelPending {
     TResult Function(Event_ChannelPending value)? channelPending,
     TResult Function(Event_ChannelReady value)? channelReady,
     TResult Function(Event_ChannelClosed value)? channelClosed,
+    TResult Function(Event_PaymentForwarded value)? paymentForwarded,
     required TResult orElse(),
   }) {
     if (channelPending != null) {
@@ -6175,17 +6566,21 @@ class _$Event_ChannelReadyImpl extends Event_ChannelReady {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(PaymentId paymentId, PaymentHash paymentHash,
-            BigInt claimableAmountMsat, int? claimDeadline)
-        paymentClaimable,
     required TResult Function(
-            PaymentId? paymentId, PaymentHash paymentHash, BigInt? feePaidMsat)
+            PaymentId paymentId,
+            PaymentHash paymentHash,
+            BigInt claimableAmountMsat,
+            int? claimDeadline,
+            List<CustomTlvRecord> customRecords)
+        paymentClaimable,
+    required TResult Function(PaymentId? paymentId, PaymentHash paymentHash,
+            BigInt? feePaidMsat, PaymentPreimage? preimage)
         paymentSuccessful,
     required TResult Function(PaymentId? paymentId, PaymentHash? paymentHash,
             PaymentFailureReason? reason)
         paymentFailed,
-    required TResult Function(
-            PaymentId? paymentId, PaymentHash paymentHash, BigInt amountMsat)
+    required TResult Function(PaymentId? paymentId, PaymentHash paymentHash,
+            BigInt amountMsat, List<CustomTlvRecord> customRecords)
         paymentReceived,
     required TResult Function(
             ChannelId channelId,
@@ -6200,6 +6595,18 @@ class _$Event_ChannelReadyImpl extends Event_ChannelReady {
     required TResult Function(ChannelId channelId, UserChannelId userChannelId,
             PublicKey? counterpartyNodeId, ClosureReason? reason)
         channelClosed,
+    required TResult Function(
+            ChannelId prevChannelId,
+            ChannelId nextChannelId,
+            UserChannelId? prevUserChannelId,
+            UserChannelId? nextUserChannelId,
+            PublicKey? prevNodeId,
+            PublicKey? nextNodeId,
+            BigInt? totalFeeEarnedMsat,
+            BigInt? skimmedFeeMsat,
+            bool claimFromOnchainTx,
+            BigInt? outboundAmountForwardedMsat)
+        paymentForwarded,
   }) {
     return channelReady(channelId, userChannelId, counterpartyNodeId);
   }
@@ -6207,17 +6614,21 @@ class _$Event_ChannelReadyImpl extends Event_ChannelReady {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(PaymentId paymentId, PaymentHash paymentHash,
-            BigInt claimableAmountMsat, int? claimDeadline)?
-        paymentClaimable,
     TResult? Function(
-            PaymentId? paymentId, PaymentHash paymentHash, BigInt? feePaidMsat)?
+            PaymentId paymentId,
+            PaymentHash paymentHash,
+            BigInt claimableAmountMsat,
+            int? claimDeadline,
+            List<CustomTlvRecord> customRecords)?
+        paymentClaimable,
+    TResult? Function(PaymentId? paymentId, PaymentHash paymentHash,
+            BigInt? feePaidMsat, PaymentPreimage? preimage)?
         paymentSuccessful,
     TResult? Function(PaymentId? paymentId, PaymentHash? paymentHash,
             PaymentFailureReason? reason)?
         paymentFailed,
-    TResult? Function(
-            PaymentId? paymentId, PaymentHash paymentHash, BigInt amountMsat)?
+    TResult? Function(PaymentId? paymentId, PaymentHash paymentHash,
+            BigInt amountMsat, List<CustomTlvRecord> customRecords)?
         paymentReceived,
     TResult? Function(
             ChannelId channelId,
@@ -6232,6 +6643,18 @@ class _$Event_ChannelReadyImpl extends Event_ChannelReady {
     TResult? Function(ChannelId channelId, UserChannelId userChannelId,
             PublicKey? counterpartyNodeId, ClosureReason? reason)?
         channelClosed,
+    TResult? Function(
+            ChannelId prevChannelId,
+            ChannelId nextChannelId,
+            UserChannelId? prevUserChannelId,
+            UserChannelId? nextUserChannelId,
+            PublicKey? prevNodeId,
+            PublicKey? nextNodeId,
+            BigInt? totalFeeEarnedMsat,
+            BigInt? skimmedFeeMsat,
+            bool claimFromOnchainTx,
+            BigInt? outboundAmountForwardedMsat)?
+        paymentForwarded,
   }) {
     return channelReady?.call(channelId, userChannelId, counterpartyNodeId);
   }
@@ -6239,17 +6662,21 @@ class _$Event_ChannelReadyImpl extends Event_ChannelReady {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(PaymentId paymentId, PaymentHash paymentHash,
-            BigInt claimableAmountMsat, int? claimDeadline)?
-        paymentClaimable,
     TResult Function(
-            PaymentId? paymentId, PaymentHash paymentHash, BigInt? feePaidMsat)?
+            PaymentId paymentId,
+            PaymentHash paymentHash,
+            BigInt claimableAmountMsat,
+            int? claimDeadline,
+            List<CustomTlvRecord> customRecords)?
+        paymentClaimable,
+    TResult Function(PaymentId? paymentId, PaymentHash paymentHash,
+            BigInt? feePaidMsat, PaymentPreimage? preimage)?
         paymentSuccessful,
     TResult Function(PaymentId? paymentId, PaymentHash? paymentHash,
             PaymentFailureReason? reason)?
         paymentFailed,
-    TResult Function(
-            PaymentId? paymentId, PaymentHash paymentHash, BigInt amountMsat)?
+    TResult Function(PaymentId? paymentId, PaymentHash paymentHash,
+            BigInt amountMsat, List<CustomTlvRecord> customRecords)?
         paymentReceived,
     TResult Function(
             ChannelId channelId,
@@ -6264,6 +6691,18 @@ class _$Event_ChannelReadyImpl extends Event_ChannelReady {
     TResult Function(ChannelId channelId, UserChannelId userChannelId,
             PublicKey? counterpartyNodeId, ClosureReason? reason)?
         channelClosed,
+    TResult Function(
+            ChannelId prevChannelId,
+            ChannelId nextChannelId,
+            UserChannelId? prevUserChannelId,
+            UserChannelId? nextUserChannelId,
+            PublicKey? prevNodeId,
+            PublicKey? nextNodeId,
+            BigInt? totalFeeEarnedMsat,
+            BigInt? skimmedFeeMsat,
+            bool claimFromOnchainTx,
+            BigInt? outboundAmountForwardedMsat)?
+        paymentForwarded,
     required TResult orElse(),
   }) {
     if (channelReady != null) {
@@ -6282,6 +6721,7 @@ class _$Event_ChannelReadyImpl extends Event_ChannelReady {
     required TResult Function(Event_ChannelPending value) channelPending,
     required TResult Function(Event_ChannelReady value) channelReady,
     required TResult Function(Event_ChannelClosed value) channelClosed,
+    required TResult Function(Event_PaymentForwarded value) paymentForwarded,
   }) {
     return channelReady(this);
   }
@@ -6296,6 +6736,7 @@ class _$Event_ChannelReadyImpl extends Event_ChannelReady {
     TResult? Function(Event_ChannelPending value)? channelPending,
     TResult? Function(Event_ChannelReady value)? channelReady,
     TResult? Function(Event_ChannelClosed value)? channelClosed,
+    TResult? Function(Event_PaymentForwarded value)? paymentForwarded,
   }) {
     return channelReady?.call(this);
   }
@@ -6310,6 +6751,7 @@ class _$Event_ChannelReadyImpl extends Event_ChannelReady {
     TResult Function(Event_ChannelPending value)? channelPending,
     TResult Function(Event_ChannelReady value)? channelReady,
     TResult Function(Event_ChannelClosed value)? channelClosed,
+    TResult Function(Event_PaymentForwarded value)? paymentForwarded,
     required TResult orElse(),
   }) {
     if (channelReady != null) {
@@ -6475,17 +6917,21 @@ class _$Event_ChannelClosedImpl extends Event_ChannelClosed {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(PaymentId paymentId, PaymentHash paymentHash,
-            BigInt claimableAmountMsat, int? claimDeadline)
-        paymentClaimable,
     required TResult Function(
-            PaymentId? paymentId, PaymentHash paymentHash, BigInt? feePaidMsat)
+            PaymentId paymentId,
+            PaymentHash paymentHash,
+            BigInt claimableAmountMsat,
+            int? claimDeadline,
+            List<CustomTlvRecord> customRecords)
+        paymentClaimable,
+    required TResult Function(PaymentId? paymentId, PaymentHash paymentHash,
+            BigInt? feePaidMsat, PaymentPreimage? preimage)
         paymentSuccessful,
     required TResult Function(PaymentId? paymentId, PaymentHash? paymentHash,
             PaymentFailureReason? reason)
         paymentFailed,
-    required TResult Function(
-            PaymentId? paymentId, PaymentHash paymentHash, BigInt amountMsat)
+    required TResult Function(PaymentId? paymentId, PaymentHash paymentHash,
+            BigInt amountMsat, List<CustomTlvRecord> customRecords)
         paymentReceived,
     required TResult Function(
             ChannelId channelId,
@@ -6500,6 +6946,18 @@ class _$Event_ChannelClosedImpl extends Event_ChannelClosed {
     required TResult Function(ChannelId channelId, UserChannelId userChannelId,
             PublicKey? counterpartyNodeId, ClosureReason? reason)
         channelClosed,
+    required TResult Function(
+            ChannelId prevChannelId,
+            ChannelId nextChannelId,
+            UserChannelId? prevUserChannelId,
+            UserChannelId? nextUserChannelId,
+            PublicKey? prevNodeId,
+            PublicKey? nextNodeId,
+            BigInt? totalFeeEarnedMsat,
+            BigInt? skimmedFeeMsat,
+            bool claimFromOnchainTx,
+            BigInt? outboundAmountForwardedMsat)
+        paymentForwarded,
   }) {
     return channelClosed(channelId, userChannelId, counterpartyNodeId, reason);
   }
@@ -6507,17 +6965,21 @@ class _$Event_ChannelClosedImpl extends Event_ChannelClosed {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(PaymentId paymentId, PaymentHash paymentHash,
-            BigInt claimableAmountMsat, int? claimDeadline)?
-        paymentClaimable,
     TResult? Function(
-            PaymentId? paymentId, PaymentHash paymentHash, BigInt? feePaidMsat)?
+            PaymentId paymentId,
+            PaymentHash paymentHash,
+            BigInt claimableAmountMsat,
+            int? claimDeadline,
+            List<CustomTlvRecord> customRecords)?
+        paymentClaimable,
+    TResult? Function(PaymentId? paymentId, PaymentHash paymentHash,
+            BigInt? feePaidMsat, PaymentPreimage? preimage)?
         paymentSuccessful,
     TResult? Function(PaymentId? paymentId, PaymentHash? paymentHash,
             PaymentFailureReason? reason)?
         paymentFailed,
-    TResult? Function(
-            PaymentId? paymentId, PaymentHash paymentHash, BigInt amountMsat)?
+    TResult? Function(PaymentId? paymentId, PaymentHash paymentHash,
+            BigInt amountMsat, List<CustomTlvRecord> customRecords)?
         paymentReceived,
     TResult? Function(
             ChannelId channelId,
@@ -6532,6 +6994,18 @@ class _$Event_ChannelClosedImpl extends Event_ChannelClosed {
     TResult? Function(ChannelId channelId, UserChannelId userChannelId,
             PublicKey? counterpartyNodeId, ClosureReason? reason)?
         channelClosed,
+    TResult? Function(
+            ChannelId prevChannelId,
+            ChannelId nextChannelId,
+            UserChannelId? prevUserChannelId,
+            UserChannelId? nextUserChannelId,
+            PublicKey? prevNodeId,
+            PublicKey? nextNodeId,
+            BigInt? totalFeeEarnedMsat,
+            BigInt? skimmedFeeMsat,
+            bool claimFromOnchainTx,
+            BigInt? outboundAmountForwardedMsat)?
+        paymentForwarded,
   }) {
     return channelClosed?.call(
         channelId, userChannelId, counterpartyNodeId, reason);
@@ -6540,17 +7014,21 @@ class _$Event_ChannelClosedImpl extends Event_ChannelClosed {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(PaymentId paymentId, PaymentHash paymentHash,
-            BigInt claimableAmountMsat, int? claimDeadline)?
-        paymentClaimable,
     TResult Function(
-            PaymentId? paymentId, PaymentHash paymentHash, BigInt? feePaidMsat)?
+            PaymentId paymentId,
+            PaymentHash paymentHash,
+            BigInt claimableAmountMsat,
+            int? claimDeadline,
+            List<CustomTlvRecord> customRecords)?
+        paymentClaimable,
+    TResult Function(PaymentId? paymentId, PaymentHash paymentHash,
+            BigInt? feePaidMsat, PaymentPreimage? preimage)?
         paymentSuccessful,
     TResult Function(PaymentId? paymentId, PaymentHash? paymentHash,
             PaymentFailureReason? reason)?
         paymentFailed,
-    TResult Function(
-            PaymentId? paymentId, PaymentHash paymentHash, BigInt amountMsat)?
+    TResult Function(PaymentId? paymentId, PaymentHash paymentHash,
+            BigInt amountMsat, List<CustomTlvRecord> customRecords)?
         paymentReceived,
     TResult Function(
             ChannelId channelId,
@@ -6565,6 +7043,18 @@ class _$Event_ChannelClosedImpl extends Event_ChannelClosed {
     TResult Function(ChannelId channelId, UserChannelId userChannelId,
             PublicKey? counterpartyNodeId, ClosureReason? reason)?
         channelClosed,
+    TResult Function(
+            ChannelId prevChannelId,
+            ChannelId nextChannelId,
+            UserChannelId? prevUserChannelId,
+            UserChannelId? nextUserChannelId,
+            PublicKey? prevNodeId,
+            PublicKey? nextNodeId,
+            BigInt? totalFeeEarnedMsat,
+            BigInt? skimmedFeeMsat,
+            bool claimFromOnchainTx,
+            BigInt? outboundAmountForwardedMsat)?
+        paymentForwarded,
     required TResult orElse(),
   }) {
     if (channelClosed != null) {
@@ -6584,6 +7074,7 @@ class _$Event_ChannelClosedImpl extends Event_ChannelClosed {
     required TResult Function(Event_ChannelPending value) channelPending,
     required TResult Function(Event_ChannelReady value) channelReady,
     required TResult Function(Event_ChannelClosed value) channelClosed,
+    required TResult Function(Event_PaymentForwarded value) paymentForwarded,
   }) {
     return channelClosed(this);
   }
@@ -6598,6 +7089,7 @@ class _$Event_ChannelClosedImpl extends Event_ChannelClosed {
     TResult? Function(Event_ChannelPending value)? channelPending,
     TResult? Function(Event_ChannelReady value)? channelReady,
     TResult? Function(Event_ChannelClosed value)? channelClosed,
+    TResult? Function(Event_PaymentForwarded value)? paymentForwarded,
   }) {
     return channelClosed?.call(this);
   }
@@ -6612,6 +7104,7 @@ class _$Event_ChannelClosedImpl extends Event_ChannelClosed {
     TResult Function(Event_ChannelPending value)? channelPending,
     TResult Function(Event_ChannelReady value)? channelReady,
     TResult Function(Event_ChannelClosed value)? channelClosed,
+    TResult Function(Event_PaymentForwarded value)? paymentForwarded,
     required TResult orElse(),
   }) {
     if (channelClosed != null) {
@@ -6648,6 +7141,505 @@ abstract class Event_ChannelClosed extends Event {
   @JsonKey(includeFromJson: false, includeToJson: false)
   _$$Event_ChannelClosedImplCopyWith<_$Event_ChannelClosedImpl> get copyWith =>
       throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$Event_PaymentForwardedImplCopyWith<$Res> {
+  factory _$$Event_PaymentForwardedImplCopyWith(
+          _$Event_PaymentForwardedImpl value,
+          $Res Function(_$Event_PaymentForwardedImpl) then) =
+      __$$Event_PaymentForwardedImplCopyWithImpl<$Res>;
+  @useResult
+  $Res call(
+      {ChannelId prevChannelId,
+      ChannelId nextChannelId,
+      UserChannelId? prevUserChannelId,
+      UserChannelId? nextUserChannelId,
+      PublicKey? prevNodeId,
+      PublicKey? nextNodeId,
+      BigInt? totalFeeEarnedMsat,
+      BigInt? skimmedFeeMsat,
+      bool claimFromOnchainTx,
+      BigInt? outboundAmountForwardedMsat});
+}
+
+/// @nodoc
+class __$$Event_PaymentForwardedImplCopyWithImpl<$Res>
+    extends _$EventCopyWithImpl<$Res, _$Event_PaymentForwardedImpl>
+    implements _$$Event_PaymentForwardedImplCopyWith<$Res> {
+  __$$Event_PaymentForwardedImplCopyWithImpl(
+      _$Event_PaymentForwardedImpl _value,
+      $Res Function(_$Event_PaymentForwardedImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of Event
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? prevChannelId = null,
+    Object? nextChannelId = null,
+    Object? prevUserChannelId = freezed,
+    Object? nextUserChannelId = freezed,
+    Object? prevNodeId = freezed,
+    Object? nextNodeId = freezed,
+    Object? totalFeeEarnedMsat = freezed,
+    Object? skimmedFeeMsat = freezed,
+    Object? claimFromOnchainTx = null,
+    Object? outboundAmountForwardedMsat = freezed,
+  }) {
+    return _then(_$Event_PaymentForwardedImpl(
+      prevChannelId: null == prevChannelId
+          ? _value.prevChannelId
+          : prevChannelId // ignore: cast_nullable_to_non_nullable
+              as ChannelId,
+      nextChannelId: null == nextChannelId
+          ? _value.nextChannelId
+          : nextChannelId // ignore: cast_nullable_to_non_nullable
+              as ChannelId,
+      prevUserChannelId: freezed == prevUserChannelId
+          ? _value.prevUserChannelId
+          : prevUserChannelId // ignore: cast_nullable_to_non_nullable
+              as UserChannelId?,
+      nextUserChannelId: freezed == nextUserChannelId
+          ? _value.nextUserChannelId
+          : nextUserChannelId // ignore: cast_nullable_to_non_nullable
+              as UserChannelId?,
+      prevNodeId: freezed == prevNodeId
+          ? _value.prevNodeId
+          : prevNodeId // ignore: cast_nullable_to_non_nullable
+              as PublicKey?,
+      nextNodeId: freezed == nextNodeId
+          ? _value.nextNodeId
+          : nextNodeId // ignore: cast_nullable_to_non_nullable
+              as PublicKey?,
+      totalFeeEarnedMsat: freezed == totalFeeEarnedMsat
+          ? _value.totalFeeEarnedMsat
+          : totalFeeEarnedMsat // ignore: cast_nullable_to_non_nullable
+              as BigInt?,
+      skimmedFeeMsat: freezed == skimmedFeeMsat
+          ? _value.skimmedFeeMsat
+          : skimmedFeeMsat // ignore: cast_nullable_to_non_nullable
+              as BigInt?,
+      claimFromOnchainTx: null == claimFromOnchainTx
+          ? _value.claimFromOnchainTx
+          : claimFromOnchainTx // ignore: cast_nullable_to_non_nullable
+              as bool,
+      outboundAmountForwardedMsat: freezed == outboundAmountForwardedMsat
+          ? _value.outboundAmountForwardedMsat
+          : outboundAmountForwardedMsat // ignore: cast_nullable_to_non_nullable
+              as BigInt?,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$Event_PaymentForwardedImpl extends Event_PaymentForwarded {
+  const _$Event_PaymentForwardedImpl(
+      {required this.prevChannelId,
+      required this.nextChannelId,
+      this.prevUserChannelId,
+      this.nextUserChannelId,
+      this.prevNodeId,
+      this.nextNodeId,
+      this.totalFeeEarnedMsat,
+      this.skimmedFeeMsat,
+      required this.claimFromOnchainTx,
+      this.outboundAmountForwardedMsat})
+      : super._();
+
+  /// The channel id of the incoming channel between the previous node and us.
+  @override
+  final ChannelId prevChannelId;
+
+  /// The channel id of the outgoing channel between the next node and us.
+  @override
+  final ChannelId nextChannelId;
+
+  /// The `user_channel_id` of the incoming channel between the previous node and us.
+  @override
+  final UserChannelId? prevUserChannelId;
+
+  /// The `user_channel_id` of the outgoing channel between the next node and us.
+  @override
+  final UserChannelId? nextUserChannelId;
+
+  /// The node id of the previous node.
+  ///
+  /// This is only `None` for HTLCs received prior to LDK Node v0.5 or for events serialized by
+  /// versions prior to v0.5.
+  @override
+  final PublicKey? prevNodeId;
+
+  /// The node id of the next node.
+  ///
+  /// This is only `None` for HTLCs received prior to LDK Node v0.5 or for events serialized by
+  /// versions prior to v0.5.
+  @override
+  final PublicKey? nextNodeId;
+
+  /// The total fee, in milli-satoshis, which was earned as a result of the payment.
+  @override
+  final BigInt? totalFeeEarnedMsat;
+
+  /// The share of the total fee, in milli-satoshis, which was withheld in addition to the
+  /// forwarding fee.
+  @override
+  final BigInt? skimmedFeeMsat;
+
+  /// If this is `true`, the forwarded HTLC was claimed by our counterparty via an on-chain
+  /// transaction.
+  @override
+  final bool claimFromOnchainTx;
+
+  /// The final amount forwarded, in milli-satoshis, after the fee is deducted.
+  @override
+  final BigInt? outboundAmountForwardedMsat;
+
+  @override
+  String toString() {
+    return 'Event.paymentForwarded(prevChannelId: $prevChannelId, nextChannelId: $nextChannelId, prevUserChannelId: $prevUserChannelId, nextUserChannelId: $nextUserChannelId, prevNodeId: $prevNodeId, nextNodeId: $nextNodeId, totalFeeEarnedMsat: $totalFeeEarnedMsat, skimmedFeeMsat: $skimmedFeeMsat, claimFromOnchainTx: $claimFromOnchainTx, outboundAmountForwardedMsat: $outboundAmountForwardedMsat)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$Event_PaymentForwardedImpl &&
+            (identical(other.prevChannelId, prevChannelId) ||
+                other.prevChannelId == prevChannelId) &&
+            (identical(other.nextChannelId, nextChannelId) ||
+                other.nextChannelId == nextChannelId) &&
+            (identical(other.prevUserChannelId, prevUserChannelId) ||
+                other.prevUserChannelId == prevUserChannelId) &&
+            (identical(other.nextUserChannelId, nextUserChannelId) ||
+                other.nextUserChannelId == nextUserChannelId) &&
+            (identical(other.prevNodeId, prevNodeId) ||
+                other.prevNodeId == prevNodeId) &&
+            (identical(other.nextNodeId, nextNodeId) ||
+                other.nextNodeId == nextNodeId) &&
+            (identical(other.totalFeeEarnedMsat, totalFeeEarnedMsat) ||
+                other.totalFeeEarnedMsat == totalFeeEarnedMsat) &&
+            (identical(other.skimmedFeeMsat, skimmedFeeMsat) ||
+                other.skimmedFeeMsat == skimmedFeeMsat) &&
+            (identical(other.claimFromOnchainTx, claimFromOnchainTx) ||
+                other.claimFromOnchainTx == claimFromOnchainTx) &&
+            (identical(other.outboundAmountForwardedMsat,
+                    outboundAmountForwardedMsat) ||
+                other.outboundAmountForwardedMsat ==
+                    outboundAmountForwardedMsat));
+  }
+
+  @override
+  int get hashCode => Object.hash(
+      runtimeType,
+      prevChannelId,
+      nextChannelId,
+      prevUserChannelId,
+      nextUserChannelId,
+      prevNodeId,
+      nextNodeId,
+      totalFeeEarnedMsat,
+      skimmedFeeMsat,
+      claimFromOnchainTx,
+      outboundAmountForwardedMsat);
+
+  /// Create a copy of Event
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$Event_PaymentForwardedImplCopyWith<_$Event_PaymentForwardedImpl>
+      get copyWith => __$$Event_PaymentForwardedImplCopyWithImpl<
+          _$Event_PaymentForwardedImpl>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(
+            PaymentId paymentId,
+            PaymentHash paymentHash,
+            BigInt claimableAmountMsat,
+            int? claimDeadline,
+            List<CustomTlvRecord> customRecords)
+        paymentClaimable,
+    required TResult Function(PaymentId? paymentId, PaymentHash paymentHash,
+            BigInt? feePaidMsat, PaymentPreimage? preimage)
+        paymentSuccessful,
+    required TResult Function(PaymentId? paymentId, PaymentHash? paymentHash,
+            PaymentFailureReason? reason)
+        paymentFailed,
+    required TResult Function(PaymentId? paymentId, PaymentHash paymentHash,
+            BigInt amountMsat, List<CustomTlvRecord> customRecords)
+        paymentReceived,
+    required TResult Function(
+            ChannelId channelId,
+            UserChannelId userChannelId,
+            ChannelId formerTemporaryChannelId,
+            PublicKey counterpartyNodeId,
+            OutPoint fundingTxo)
+        channelPending,
+    required TResult Function(ChannelId channelId, UserChannelId userChannelId,
+            PublicKey? counterpartyNodeId)
+        channelReady,
+    required TResult Function(ChannelId channelId, UserChannelId userChannelId,
+            PublicKey? counterpartyNodeId, ClosureReason? reason)
+        channelClosed,
+    required TResult Function(
+            ChannelId prevChannelId,
+            ChannelId nextChannelId,
+            UserChannelId? prevUserChannelId,
+            UserChannelId? nextUserChannelId,
+            PublicKey? prevNodeId,
+            PublicKey? nextNodeId,
+            BigInt? totalFeeEarnedMsat,
+            BigInt? skimmedFeeMsat,
+            bool claimFromOnchainTx,
+            BigInt? outboundAmountForwardedMsat)
+        paymentForwarded,
+  }) {
+    return paymentForwarded(
+        prevChannelId,
+        nextChannelId,
+        prevUserChannelId,
+        nextUserChannelId,
+        prevNodeId,
+        nextNodeId,
+        totalFeeEarnedMsat,
+        skimmedFeeMsat,
+        claimFromOnchainTx,
+        outboundAmountForwardedMsat);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(
+            PaymentId paymentId,
+            PaymentHash paymentHash,
+            BigInt claimableAmountMsat,
+            int? claimDeadline,
+            List<CustomTlvRecord> customRecords)?
+        paymentClaimable,
+    TResult? Function(PaymentId? paymentId, PaymentHash paymentHash,
+            BigInt? feePaidMsat, PaymentPreimage? preimage)?
+        paymentSuccessful,
+    TResult? Function(PaymentId? paymentId, PaymentHash? paymentHash,
+            PaymentFailureReason? reason)?
+        paymentFailed,
+    TResult? Function(PaymentId? paymentId, PaymentHash paymentHash,
+            BigInt amountMsat, List<CustomTlvRecord> customRecords)?
+        paymentReceived,
+    TResult? Function(
+            ChannelId channelId,
+            UserChannelId userChannelId,
+            ChannelId formerTemporaryChannelId,
+            PublicKey counterpartyNodeId,
+            OutPoint fundingTxo)?
+        channelPending,
+    TResult? Function(ChannelId channelId, UserChannelId userChannelId,
+            PublicKey? counterpartyNodeId)?
+        channelReady,
+    TResult? Function(ChannelId channelId, UserChannelId userChannelId,
+            PublicKey? counterpartyNodeId, ClosureReason? reason)?
+        channelClosed,
+    TResult? Function(
+            ChannelId prevChannelId,
+            ChannelId nextChannelId,
+            UserChannelId? prevUserChannelId,
+            UserChannelId? nextUserChannelId,
+            PublicKey? prevNodeId,
+            PublicKey? nextNodeId,
+            BigInt? totalFeeEarnedMsat,
+            BigInt? skimmedFeeMsat,
+            bool claimFromOnchainTx,
+            BigInt? outboundAmountForwardedMsat)?
+        paymentForwarded,
+  }) {
+    return paymentForwarded?.call(
+        prevChannelId,
+        nextChannelId,
+        prevUserChannelId,
+        nextUserChannelId,
+        prevNodeId,
+        nextNodeId,
+        totalFeeEarnedMsat,
+        skimmedFeeMsat,
+        claimFromOnchainTx,
+        outboundAmountForwardedMsat);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(
+            PaymentId paymentId,
+            PaymentHash paymentHash,
+            BigInt claimableAmountMsat,
+            int? claimDeadline,
+            List<CustomTlvRecord> customRecords)?
+        paymentClaimable,
+    TResult Function(PaymentId? paymentId, PaymentHash paymentHash,
+            BigInt? feePaidMsat, PaymentPreimage? preimage)?
+        paymentSuccessful,
+    TResult Function(PaymentId? paymentId, PaymentHash? paymentHash,
+            PaymentFailureReason? reason)?
+        paymentFailed,
+    TResult Function(PaymentId? paymentId, PaymentHash paymentHash,
+            BigInt amountMsat, List<CustomTlvRecord> customRecords)?
+        paymentReceived,
+    TResult Function(
+            ChannelId channelId,
+            UserChannelId userChannelId,
+            ChannelId formerTemporaryChannelId,
+            PublicKey counterpartyNodeId,
+            OutPoint fundingTxo)?
+        channelPending,
+    TResult Function(ChannelId channelId, UserChannelId userChannelId,
+            PublicKey? counterpartyNodeId)?
+        channelReady,
+    TResult Function(ChannelId channelId, UserChannelId userChannelId,
+            PublicKey? counterpartyNodeId, ClosureReason? reason)?
+        channelClosed,
+    TResult Function(
+            ChannelId prevChannelId,
+            ChannelId nextChannelId,
+            UserChannelId? prevUserChannelId,
+            UserChannelId? nextUserChannelId,
+            PublicKey? prevNodeId,
+            PublicKey? nextNodeId,
+            BigInt? totalFeeEarnedMsat,
+            BigInt? skimmedFeeMsat,
+            bool claimFromOnchainTx,
+            BigInt? outboundAmountForwardedMsat)?
+        paymentForwarded,
+    required TResult orElse(),
+  }) {
+    if (paymentForwarded != null) {
+      return paymentForwarded(
+          prevChannelId,
+          nextChannelId,
+          prevUserChannelId,
+          nextUserChannelId,
+          prevNodeId,
+          nextNodeId,
+          totalFeeEarnedMsat,
+          skimmedFeeMsat,
+          claimFromOnchainTx,
+          outboundAmountForwardedMsat);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(Event_PaymentClaimable value) paymentClaimable,
+    required TResult Function(Event_PaymentSuccessful value) paymentSuccessful,
+    required TResult Function(Event_PaymentFailed value) paymentFailed,
+    required TResult Function(Event_PaymentReceived value) paymentReceived,
+    required TResult Function(Event_ChannelPending value) channelPending,
+    required TResult Function(Event_ChannelReady value) channelReady,
+    required TResult Function(Event_ChannelClosed value) channelClosed,
+    required TResult Function(Event_PaymentForwarded value) paymentForwarded,
+  }) {
+    return paymentForwarded(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(Event_PaymentClaimable value)? paymentClaimable,
+    TResult? Function(Event_PaymentSuccessful value)? paymentSuccessful,
+    TResult? Function(Event_PaymentFailed value)? paymentFailed,
+    TResult? Function(Event_PaymentReceived value)? paymentReceived,
+    TResult? Function(Event_ChannelPending value)? channelPending,
+    TResult? Function(Event_ChannelReady value)? channelReady,
+    TResult? Function(Event_ChannelClosed value)? channelClosed,
+    TResult? Function(Event_PaymentForwarded value)? paymentForwarded,
+  }) {
+    return paymentForwarded?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(Event_PaymentClaimable value)? paymentClaimable,
+    TResult Function(Event_PaymentSuccessful value)? paymentSuccessful,
+    TResult Function(Event_PaymentFailed value)? paymentFailed,
+    TResult Function(Event_PaymentReceived value)? paymentReceived,
+    TResult Function(Event_ChannelPending value)? channelPending,
+    TResult Function(Event_ChannelReady value)? channelReady,
+    TResult Function(Event_ChannelClosed value)? channelClosed,
+    TResult Function(Event_PaymentForwarded value)? paymentForwarded,
+    required TResult orElse(),
+  }) {
+    if (paymentForwarded != null) {
+      return paymentForwarded(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class Event_PaymentForwarded extends Event {
+  const factory Event_PaymentForwarded(
+          {required final ChannelId prevChannelId,
+          required final ChannelId nextChannelId,
+          final UserChannelId? prevUserChannelId,
+          final UserChannelId? nextUserChannelId,
+          final PublicKey? prevNodeId,
+          final PublicKey? nextNodeId,
+          final BigInt? totalFeeEarnedMsat,
+          final BigInt? skimmedFeeMsat,
+          required final bool claimFromOnchainTx,
+          final BigInt? outboundAmountForwardedMsat}) =
+      _$Event_PaymentForwardedImpl;
+  const Event_PaymentForwarded._() : super._();
+
+  /// The channel id of the incoming channel between the previous node and us.
+  ChannelId get prevChannelId;
+
+  /// The channel id of the outgoing channel between the next node and us.
+  ChannelId get nextChannelId;
+
+  /// The `user_channel_id` of the incoming channel between the previous node and us.
+  UserChannelId? get prevUserChannelId;
+
+  /// The `user_channel_id` of the outgoing channel between the next node and us.
+  UserChannelId? get nextUserChannelId;
+
+  /// The node id of the previous node.
+  ///
+  /// This is only `None` for HTLCs received prior to LDK Node v0.5 or for events serialized by
+  /// versions prior to v0.5.
+  PublicKey? get prevNodeId;
+
+  /// The node id of the next node.
+  ///
+  /// This is only `None` for HTLCs received prior to LDK Node v0.5 or for events serialized by
+  /// versions prior to v0.5.
+  PublicKey? get nextNodeId;
+
+  /// The total fee, in milli-satoshis, which was earned as a result of the payment.
+  BigInt? get totalFeeEarnedMsat;
+
+  /// The share of the total fee, in milli-satoshis, which was withheld in addition to the
+  /// forwarding fee.
+  BigInt? get skimmedFeeMsat;
+
+  /// If this is `true`, the forwarded HTLC was claimed by our counterparty via an on-chain
+  /// transaction.
+  bool get claimFromOnchainTx;
+
+  /// The final amount forwarded, in milli-satoshis, after the fee is deducted.
+  BigInt? get outboundAmountForwardedMsat;
+
+  /// Create a copy of Event
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$Event_PaymentForwardedImplCopyWith<_$Event_PaymentForwardedImpl>
+      get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
@@ -10379,1639 +11371,6 @@ abstract class MaxTotalRoutingFeeLimit_FeeCap extends MaxTotalRoutingFeeLimit {
   @JsonKey(includeFromJson: false, includeToJson: false)
   _$$MaxTotalRoutingFeeLimit_FeeCapImplCopyWith<
           _$MaxTotalRoutingFeeLimit_FeeCapImpl>
-      get copyWith => throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-mixin _$PaymentKind {
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function() onchain,
-    required TResult Function(
-            PaymentHash hash, PaymentPreimage? preimage, PaymentSecret? secret)
-        bolt11,
-    required TResult Function(PaymentHash hash, PaymentPreimage? preimage,
-            PaymentSecret? secret, LSPFeeLimits lspFeeLimits)
-        bolt11Jit,
-    required TResult Function(PaymentHash hash, PaymentPreimage? preimage)
-        spontaneous,
-    required TResult Function(
-            PaymentHash? hash,
-            PaymentPreimage? preimage,
-            PaymentSecret? secret,
-            OfferId offerId,
-            String? payerNote,
-            BigInt? quantity)
-        bolt12Offer,
-    required TResult Function(PaymentHash? hash, PaymentPreimage? preimage,
-            PaymentSecret? secret, String? payerNote, BigInt? quantity)
-        bolt12Refund,
-  }) =>
-      throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function()? onchain,
-    TResult? Function(
-            PaymentHash hash, PaymentPreimage? preimage, PaymentSecret? secret)?
-        bolt11,
-    TResult? Function(PaymentHash hash, PaymentPreimage? preimage,
-            PaymentSecret? secret, LSPFeeLimits lspFeeLimits)?
-        bolt11Jit,
-    TResult? Function(PaymentHash hash, PaymentPreimage? preimage)? spontaneous,
-    TResult? Function(
-            PaymentHash? hash,
-            PaymentPreimage? preimage,
-            PaymentSecret? secret,
-            OfferId offerId,
-            String? payerNote,
-            BigInt? quantity)?
-        bolt12Offer,
-    TResult? Function(PaymentHash? hash, PaymentPreimage? preimage,
-            PaymentSecret? secret, String? payerNote, BigInt? quantity)?
-        bolt12Refund,
-  }) =>
-      throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? onchain,
-    TResult Function(
-            PaymentHash hash, PaymentPreimage? preimage, PaymentSecret? secret)?
-        bolt11,
-    TResult Function(PaymentHash hash, PaymentPreimage? preimage,
-            PaymentSecret? secret, LSPFeeLimits lspFeeLimits)?
-        bolt11Jit,
-    TResult Function(PaymentHash hash, PaymentPreimage? preimage)? spontaneous,
-    TResult Function(
-            PaymentHash? hash,
-            PaymentPreimage? preimage,
-            PaymentSecret? secret,
-            OfferId offerId,
-            String? payerNote,
-            BigInt? quantity)?
-        bolt12Offer,
-    TResult Function(PaymentHash? hash, PaymentPreimage? preimage,
-            PaymentSecret? secret, String? payerNote, BigInt? quantity)?
-        bolt12Refund,
-    required TResult orElse(),
-  }) =>
-      throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(PaymentKind_Onchain value) onchain,
-    required TResult Function(PaymentKind_Bolt11 value) bolt11,
-    required TResult Function(PaymentKind_Bolt11Jit value) bolt11Jit,
-    required TResult Function(PaymentKind_Spontaneous value) spontaneous,
-    required TResult Function(PaymentKind_Bolt12Offer value) bolt12Offer,
-    required TResult Function(PaymentKind_Bolt12Refund value) bolt12Refund,
-  }) =>
-      throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(PaymentKind_Onchain value)? onchain,
-    TResult? Function(PaymentKind_Bolt11 value)? bolt11,
-    TResult? Function(PaymentKind_Bolt11Jit value)? bolt11Jit,
-    TResult? Function(PaymentKind_Spontaneous value)? spontaneous,
-    TResult? Function(PaymentKind_Bolt12Offer value)? bolt12Offer,
-    TResult? Function(PaymentKind_Bolt12Refund value)? bolt12Refund,
-  }) =>
-      throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(PaymentKind_Onchain value)? onchain,
-    TResult Function(PaymentKind_Bolt11 value)? bolt11,
-    TResult Function(PaymentKind_Bolt11Jit value)? bolt11Jit,
-    TResult Function(PaymentKind_Spontaneous value)? spontaneous,
-    TResult Function(PaymentKind_Bolt12Offer value)? bolt12Offer,
-    TResult Function(PaymentKind_Bolt12Refund value)? bolt12Refund,
-    required TResult orElse(),
-  }) =>
-      throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class $PaymentKindCopyWith<$Res> {
-  factory $PaymentKindCopyWith(
-          PaymentKind value, $Res Function(PaymentKind) then) =
-      _$PaymentKindCopyWithImpl<$Res, PaymentKind>;
-}
-
-/// @nodoc
-class _$PaymentKindCopyWithImpl<$Res, $Val extends PaymentKind>
-    implements $PaymentKindCopyWith<$Res> {
-  _$PaymentKindCopyWithImpl(this._value, this._then);
-
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
-
-  /// Create a copy of PaymentKind
-  /// with the given fields replaced by the non-null parameter values.
-}
-
-/// @nodoc
-abstract class _$$PaymentKind_OnchainImplCopyWith<$Res> {
-  factory _$$PaymentKind_OnchainImplCopyWith(_$PaymentKind_OnchainImpl value,
-          $Res Function(_$PaymentKind_OnchainImpl) then) =
-      __$$PaymentKind_OnchainImplCopyWithImpl<$Res>;
-}
-
-/// @nodoc
-class __$$PaymentKind_OnchainImplCopyWithImpl<$Res>
-    extends _$PaymentKindCopyWithImpl<$Res, _$PaymentKind_OnchainImpl>
-    implements _$$PaymentKind_OnchainImplCopyWith<$Res> {
-  __$$PaymentKind_OnchainImplCopyWithImpl(_$PaymentKind_OnchainImpl _value,
-      $Res Function(_$PaymentKind_OnchainImpl) _then)
-      : super(_value, _then);
-
-  /// Create a copy of PaymentKind
-  /// with the given fields replaced by the non-null parameter values.
-}
-
-/// @nodoc
-
-class _$PaymentKind_OnchainImpl extends PaymentKind_Onchain {
-  const _$PaymentKind_OnchainImpl() : super._();
-
-  @override
-  String toString() {
-    return 'PaymentKind.onchain()';
-  }
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$PaymentKind_OnchainImpl);
-  }
-
-  @override
-  int get hashCode => runtimeType.hashCode;
-
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function() onchain,
-    required TResult Function(
-            PaymentHash hash, PaymentPreimage? preimage, PaymentSecret? secret)
-        bolt11,
-    required TResult Function(PaymentHash hash, PaymentPreimage? preimage,
-            PaymentSecret? secret, LSPFeeLimits lspFeeLimits)
-        bolt11Jit,
-    required TResult Function(PaymentHash hash, PaymentPreimage? preimage)
-        spontaneous,
-    required TResult Function(
-            PaymentHash? hash,
-            PaymentPreimage? preimage,
-            PaymentSecret? secret,
-            OfferId offerId,
-            String? payerNote,
-            BigInt? quantity)
-        bolt12Offer,
-    required TResult Function(PaymentHash? hash, PaymentPreimage? preimage,
-            PaymentSecret? secret, String? payerNote, BigInt? quantity)
-        bolt12Refund,
-  }) {
-    return onchain();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function()? onchain,
-    TResult? Function(
-            PaymentHash hash, PaymentPreimage? preimage, PaymentSecret? secret)?
-        bolt11,
-    TResult? Function(PaymentHash hash, PaymentPreimage? preimage,
-            PaymentSecret? secret, LSPFeeLimits lspFeeLimits)?
-        bolt11Jit,
-    TResult? Function(PaymentHash hash, PaymentPreimage? preimage)? spontaneous,
-    TResult? Function(
-            PaymentHash? hash,
-            PaymentPreimage? preimage,
-            PaymentSecret? secret,
-            OfferId offerId,
-            String? payerNote,
-            BigInt? quantity)?
-        bolt12Offer,
-    TResult? Function(PaymentHash? hash, PaymentPreimage? preimage,
-            PaymentSecret? secret, String? payerNote, BigInt? quantity)?
-        bolt12Refund,
-  }) {
-    return onchain?.call();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? onchain,
-    TResult Function(
-            PaymentHash hash, PaymentPreimage? preimage, PaymentSecret? secret)?
-        bolt11,
-    TResult Function(PaymentHash hash, PaymentPreimage? preimage,
-            PaymentSecret? secret, LSPFeeLimits lspFeeLimits)?
-        bolt11Jit,
-    TResult Function(PaymentHash hash, PaymentPreimage? preimage)? spontaneous,
-    TResult Function(
-            PaymentHash? hash,
-            PaymentPreimage? preimage,
-            PaymentSecret? secret,
-            OfferId offerId,
-            String? payerNote,
-            BigInt? quantity)?
-        bolt12Offer,
-    TResult Function(PaymentHash? hash, PaymentPreimage? preimage,
-            PaymentSecret? secret, String? payerNote, BigInt? quantity)?
-        bolt12Refund,
-    required TResult orElse(),
-  }) {
-    if (onchain != null) {
-      return onchain();
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(PaymentKind_Onchain value) onchain,
-    required TResult Function(PaymentKind_Bolt11 value) bolt11,
-    required TResult Function(PaymentKind_Bolt11Jit value) bolt11Jit,
-    required TResult Function(PaymentKind_Spontaneous value) spontaneous,
-    required TResult Function(PaymentKind_Bolt12Offer value) bolt12Offer,
-    required TResult Function(PaymentKind_Bolt12Refund value) bolt12Refund,
-  }) {
-    return onchain(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(PaymentKind_Onchain value)? onchain,
-    TResult? Function(PaymentKind_Bolt11 value)? bolt11,
-    TResult? Function(PaymentKind_Bolt11Jit value)? bolt11Jit,
-    TResult? Function(PaymentKind_Spontaneous value)? spontaneous,
-    TResult? Function(PaymentKind_Bolt12Offer value)? bolt12Offer,
-    TResult? Function(PaymentKind_Bolt12Refund value)? bolt12Refund,
-  }) {
-    return onchain?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(PaymentKind_Onchain value)? onchain,
-    TResult Function(PaymentKind_Bolt11 value)? bolt11,
-    TResult Function(PaymentKind_Bolt11Jit value)? bolt11Jit,
-    TResult Function(PaymentKind_Spontaneous value)? spontaneous,
-    TResult Function(PaymentKind_Bolt12Offer value)? bolt12Offer,
-    TResult Function(PaymentKind_Bolt12Refund value)? bolt12Refund,
-    required TResult orElse(),
-  }) {
-    if (onchain != null) {
-      return onchain(this);
-    }
-    return orElse();
-  }
-}
-
-abstract class PaymentKind_Onchain extends PaymentKind {
-  const factory PaymentKind_Onchain() = _$PaymentKind_OnchainImpl;
-  const PaymentKind_Onchain._() : super._();
-}
-
-/// @nodoc
-abstract class _$$PaymentKind_Bolt11ImplCopyWith<$Res> {
-  factory _$$PaymentKind_Bolt11ImplCopyWith(_$PaymentKind_Bolt11Impl value,
-          $Res Function(_$PaymentKind_Bolt11Impl) then) =
-      __$$PaymentKind_Bolt11ImplCopyWithImpl<$Res>;
-  @useResult
-  $Res call(
-      {PaymentHash hash, PaymentPreimage? preimage, PaymentSecret? secret});
-}
-
-/// @nodoc
-class __$$PaymentKind_Bolt11ImplCopyWithImpl<$Res>
-    extends _$PaymentKindCopyWithImpl<$Res, _$PaymentKind_Bolt11Impl>
-    implements _$$PaymentKind_Bolt11ImplCopyWith<$Res> {
-  __$$PaymentKind_Bolt11ImplCopyWithImpl(_$PaymentKind_Bolt11Impl _value,
-      $Res Function(_$PaymentKind_Bolt11Impl) _then)
-      : super(_value, _then);
-
-  /// Create a copy of PaymentKind
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? hash = null,
-    Object? preimage = freezed,
-    Object? secret = freezed,
-  }) {
-    return _then(_$PaymentKind_Bolt11Impl(
-      hash: null == hash
-          ? _value.hash
-          : hash // ignore: cast_nullable_to_non_nullable
-              as PaymentHash,
-      preimage: freezed == preimage
-          ? _value.preimage
-          : preimage // ignore: cast_nullable_to_non_nullable
-              as PaymentPreimage?,
-      secret: freezed == secret
-          ? _value.secret
-          : secret // ignore: cast_nullable_to_non_nullable
-              as PaymentSecret?,
-    ));
-  }
-}
-
-/// @nodoc
-
-class _$PaymentKind_Bolt11Impl extends PaymentKind_Bolt11 {
-  const _$PaymentKind_Bolt11Impl(
-      {required this.hash, this.preimage, this.secret})
-      : super._();
-
-  /// The payment hash, i.e., the hash of the `preimage`.
-  @override
-  final PaymentHash hash;
-
-  /// The pre-image used by the payment.
-  @override
-  final PaymentPreimage? preimage;
-
-  /// The secret used by the payment.
-  @override
-  final PaymentSecret? secret;
-
-  @override
-  String toString() {
-    return 'PaymentKind.bolt11(hash: $hash, preimage: $preimage, secret: $secret)';
-  }
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$PaymentKind_Bolt11Impl &&
-            (identical(other.hash, hash) || other.hash == hash) &&
-            (identical(other.preimage, preimage) ||
-                other.preimage == preimage) &&
-            (identical(other.secret, secret) || other.secret == secret));
-  }
-
-  @override
-  int get hashCode => Object.hash(runtimeType, hash, preimage, secret);
-
-  /// Create a copy of PaymentKind
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$PaymentKind_Bolt11ImplCopyWith<_$PaymentKind_Bolt11Impl> get copyWith =>
-      __$$PaymentKind_Bolt11ImplCopyWithImpl<_$PaymentKind_Bolt11Impl>(
-          this, _$identity);
-
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function() onchain,
-    required TResult Function(
-            PaymentHash hash, PaymentPreimage? preimage, PaymentSecret? secret)
-        bolt11,
-    required TResult Function(PaymentHash hash, PaymentPreimage? preimage,
-            PaymentSecret? secret, LSPFeeLimits lspFeeLimits)
-        bolt11Jit,
-    required TResult Function(PaymentHash hash, PaymentPreimage? preimage)
-        spontaneous,
-    required TResult Function(
-            PaymentHash? hash,
-            PaymentPreimage? preimage,
-            PaymentSecret? secret,
-            OfferId offerId,
-            String? payerNote,
-            BigInt? quantity)
-        bolt12Offer,
-    required TResult Function(PaymentHash? hash, PaymentPreimage? preimage,
-            PaymentSecret? secret, String? payerNote, BigInt? quantity)
-        bolt12Refund,
-  }) {
-    return bolt11(hash, preimage, secret);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function()? onchain,
-    TResult? Function(
-            PaymentHash hash, PaymentPreimage? preimage, PaymentSecret? secret)?
-        bolt11,
-    TResult? Function(PaymentHash hash, PaymentPreimage? preimage,
-            PaymentSecret? secret, LSPFeeLimits lspFeeLimits)?
-        bolt11Jit,
-    TResult? Function(PaymentHash hash, PaymentPreimage? preimage)? spontaneous,
-    TResult? Function(
-            PaymentHash? hash,
-            PaymentPreimage? preimage,
-            PaymentSecret? secret,
-            OfferId offerId,
-            String? payerNote,
-            BigInt? quantity)?
-        bolt12Offer,
-    TResult? Function(PaymentHash? hash, PaymentPreimage? preimage,
-            PaymentSecret? secret, String? payerNote, BigInt? quantity)?
-        bolt12Refund,
-  }) {
-    return bolt11?.call(hash, preimage, secret);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? onchain,
-    TResult Function(
-            PaymentHash hash, PaymentPreimage? preimage, PaymentSecret? secret)?
-        bolt11,
-    TResult Function(PaymentHash hash, PaymentPreimage? preimage,
-            PaymentSecret? secret, LSPFeeLimits lspFeeLimits)?
-        bolt11Jit,
-    TResult Function(PaymentHash hash, PaymentPreimage? preimage)? spontaneous,
-    TResult Function(
-            PaymentHash? hash,
-            PaymentPreimage? preimage,
-            PaymentSecret? secret,
-            OfferId offerId,
-            String? payerNote,
-            BigInt? quantity)?
-        bolt12Offer,
-    TResult Function(PaymentHash? hash, PaymentPreimage? preimage,
-            PaymentSecret? secret, String? payerNote, BigInt? quantity)?
-        bolt12Refund,
-    required TResult orElse(),
-  }) {
-    if (bolt11 != null) {
-      return bolt11(hash, preimage, secret);
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(PaymentKind_Onchain value) onchain,
-    required TResult Function(PaymentKind_Bolt11 value) bolt11,
-    required TResult Function(PaymentKind_Bolt11Jit value) bolt11Jit,
-    required TResult Function(PaymentKind_Spontaneous value) spontaneous,
-    required TResult Function(PaymentKind_Bolt12Offer value) bolt12Offer,
-    required TResult Function(PaymentKind_Bolt12Refund value) bolt12Refund,
-  }) {
-    return bolt11(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(PaymentKind_Onchain value)? onchain,
-    TResult? Function(PaymentKind_Bolt11 value)? bolt11,
-    TResult? Function(PaymentKind_Bolt11Jit value)? bolt11Jit,
-    TResult? Function(PaymentKind_Spontaneous value)? spontaneous,
-    TResult? Function(PaymentKind_Bolt12Offer value)? bolt12Offer,
-    TResult? Function(PaymentKind_Bolt12Refund value)? bolt12Refund,
-  }) {
-    return bolt11?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(PaymentKind_Onchain value)? onchain,
-    TResult Function(PaymentKind_Bolt11 value)? bolt11,
-    TResult Function(PaymentKind_Bolt11Jit value)? bolt11Jit,
-    TResult Function(PaymentKind_Spontaneous value)? spontaneous,
-    TResult Function(PaymentKind_Bolt12Offer value)? bolt12Offer,
-    TResult Function(PaymentKind_Bolt12Refund value)? bolt12Refund,
-    required TResult orElse(),
-  }) {
-    if (bolt11 != null) {
-      return bolt11(this);
-    }
-    return orElse();
-  }
-}
-
-abstract class PaymentKind_Bolt11 extends PaymentKind {
-  const factory PaymentKind_Bolt11(
-      {required final PaymentHash hash,
-      final PaymentPreimage? preimage,
-      final PaymentSecret? secret}) = _$PaymentKind_Bolt11Impl;
-  const PaymentKind_Bolt11._() : super._();
-
-  /// The payment hash, i.e., the hash of the `preimage`.
-  PaymentHash get hash;
-
-  /// The pre-image used by the payment.
-  PaymentPreimage? get preimage;
-
-  /// The secret used by the payment.
-  PaymentSecret? get secret;
-
-  /// Create a copy of PaymentKind
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$PaymentKind_Bolt11ImplCopyWith<_$PaymentKind_Bolt11Impl> get copyWith =>
-      throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class _$$PaymentKind_Bolt11JitImplCopyWith<$Res> {
-  factory _$$PaymentKind_Bolt11JitImplCopyWith(
-          _$PaymentKind_Bolt11JitImpl value,
-          $Res Function(_$PaymentKind_Bolt11JitImpl) then) =
-      __$$PaymentKind_Bolt11JitImplCopyWithImpl<$Res>;
-  @useResult
-  $Res call(
-      {PaymentHash hash,
-      PaymentPreimage? preimage,
-      PaymentSecret? secret,
-      LSPFeeLimits lspFeeLimits});
-}
-
-/// @nodoc
-class __$$PaymentKind_Bolt11JitImplCopyWithImpl<$Res>
-    extends _$PaymentKindCopyWithImpl<$Res, _$PaymentKind_Bolt11JitImpl>
-    implements _$$PaymentKind_Bolt11JitImplCopyWith<$Res> {
-  __$$PaymentKind_Bolt11JitImplCopyWithImpl(_$PaymentKind_Bolt11JitImpl _value,
-      $Res Function(_$PaymentKind_Bolt11JitImpl) _then)
-      : super(_value, _then);
-
-  /// Create a copy of PaymentKind
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? hash = null,
-    Object? preimage = freezed,
-    Object? secret = freezed,
-    Object? lspFeeLimits = null,
-  }) {
-    return _then(_$PaymentKind_Bolt11JitImpl(
-      hash: null == hash
-          ? _value.hash
-          : hash // ignore: cast_nullable_to_non_nullable
-              as PaymentHash,
-      preimage: freezed == preimage
-          ? _value.preimage
-          : preimage // ignore: cast_nullable_to_non_nullable
-              as PaymentPreimage?,
-      secret: freezed == secret
-          ? _value.secret
-          : secret // ignore: cast_nullable_to_non_nullable
-              as PaymentSecret?,
-      lspFeeLimits: null == lspFeeLimits
-          ? _value.lspFeeLimits
-          : lspFeeLimits // ignore: cast_nullable_to_non_nullable
-              as LSPFeeLimits,
-    ));
-  }
-}
-
-/// @nodoc
-
-class _$PaymentKind_Bolt11JitImpl extends PaymentKind_Bolt11Jit {
-  const _$PaymentKind_Bolt11JitImpl(
-      {required this.hash,
-      this.preimage,
-      this.secret,
-      required this.lspFeeLimits})
-      : super._();
-
-  /// The payment hash, i.e., the hash of the `preimage`.
-  @override
-  final PaymentHash hash;
-
-  /// The pre-image used by the payment.
-  @override
-  final PaymentPreimage? preimage;
-
-  /// The secret used by the payment.
-  @override
-  final PaymentSecret? secret;
-
-  /// Limits applying to how much fee we allow an LSP to deduct from the payment amount.
-  ///
-  /// Allowing them to deduct this fee from the first inbound payment will pay for the LSP's
-  /// channel opening fees.
-  ///
-  @override
-  final LSPFeeLimits lspFeeLimits;
-
-  @override
-  String toString() {
-    return 'PaymentKind.bolt11Jit(hash: $hash, preimage: $preimage, secret: $secret, lspFeeLimits: $lspFeeLimits)';
-  }
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$PaymentKind_Bolt11JitImpl &&
-            (identical(other.hash, hash) || other.hash == hash) &&
-            (identical(other.preimage, preimage) ||
-                other.preimage == preimage) &&
-            (identical(other.secret, secret) || other.secret == secret) &&
-            (identical(other.lspFeeLimits, lspFeeLimits) ||
-                other.lspFeeLimits == lspFeeLimits));
-  }
-
-  @override
-  int get hashCode =>
-      Object.hash(runtimeType, hash, preimage, secret, lspFeeLimits);
-
-  /// Create a copy of PaymentKind
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$PaymentKind_Bolt11JitImplCopyWith<_$PaymentKind_Bolt11JitImpl>
-      get copyWith => __$$PaymentKind_Bolt11JitImplCopyWithImpl<
-          _$PaymentKind_Bolt11JitImpl>(this, _$identity);
-
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function() onchain,
-    required TResult Function(
-            PaymentHash hash, PaymentPreimage? preimage, PaymentSecret? secret)
-        bolt11,
-    required TResult Function(PaymentHash hash, PaymentPreimage? preimage,
-            PaymentSecret? secret, LSPFeeLimits lspFeeLimits)
-        bolt11Jit,
-    required TResult Function(PaymentHash hash, PaymentPreimage? preimage)
-        spontaneous,
-    required TResult Function(
-            PaymentHash? hash,
-            PaymentPreimage? preimage,
-            PaymentSecret? secret,
-            OfferId offerId,
-            String? payerNote,
-            BigInt? quantity)
-        bolt12Offer,
-    required TResult Function(PaymentHash? hash, PaymentPreimage? preimage,
-            PaymentSecret? secret, String? payerNote, BigInt? quantity)
-        bolt12Refund,
-  }) {
-    return bolt11Jit(hash, preimage, secret, lspFeeLimits);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function()? onchain,
-    TResult? Function(
-            PaymentHash hash, PaymentPreimage? preimage, PaymentSecret? secret)?
-        bolt11,
-    TResult? Function(PaymentHash hash, PaymentPreimage? preimage,
-            PaymentSecret? secret, LSPFeeLimits lspFeeLimits)?
-        bolt11Jit,
-    TResult? Function(PaymentHash hash, PaymentPreimage? preimage)? spontaneous,
-    TResult? Function(
-            PaymentHash? hash,
-            PaymentPreimage? preimage,
-            PaymentSecret? secret,
-            OfferId offerId,
-            String? payerNote,
-            BigInt? quantity)?
-        bolt12Offer,
-    TResult? Function(PaymentHash? hash, PaymentPreimage? preimage,
-            PaymentSecret? secret, String? payerNote, BigInt? quantity)?
-        bolt12Refund,
-  }) {
-    return bolt11Jit?.call(hash, preimage, secret, lspFeeLimits);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? onchain,
-    TResult Function(
-            PaymentHash hash, PaymentPreimage? preimage, PaymentSecret? secret)?
-        bolt11,
-    TResult Function(PaymentHash hash, PaymentPreimage? preimage,
-            PaymentSecret? secret, LSPFeeLimits lspFeeLimits)?
-        bolt11Jit,
-    TResult Function(PaymentHash hash, PaymentPreimage? preimage)? spontaneous,
-    TResult Function(
-            PaymentHash? hash,
-            PaymentPreimage? preimage,
-            PaymentSecret? secret,
-            OfferId offerId,
-            String? payerNote,
-            BigInt? quantity)?
-        bolt12Offer,
-    TResult Function(PaymentHash? hash, PaymentPreimage? preimage,
-            PaymentSecret? secret, String? payerNote, BigInt? quantity)?
-        bolt12Refund,
-    required TResult orElse(),
-  }) {
-    if (bolt11Jit != null) {
-      return bolt11Jit(hash, preimage, secret, lspFeeLimits);
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(PaymentKind_Onchain value) onchain,
-    required TResult Function(PaymentKind_Bolt11 value) bolt11,
-    required TResult Function(PaymentKind_Bolt11Jit value) bolt11Jit,
-    required TResult Function(PaymentKind_Spontaneous value) spontaneous,
-    required TResult Function(PaymentKind_Bolt12Offer value) bolt12Offer,
-    required TResult Function(PaymentKind_Bolt12Refund value) bolt12Refund,
-  }) {
-    return bolt11Jit(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(PaymentKind_Onchain value)? onchain,
-    TResult? Function(PaymentKind_Bolt11 value)? bolt11,
-    TResult? Function(PaymentKind_Bolt11Jit value)? bolt11Jit,
-    TResult? Function(PaymentKind_Spontaneous value)? spontaneous,
-    TResult? Function(PaymentKind_Bolt12Offer value)? bolt12Offer,
-    TResult? Function(PaymentKind_Bolt12Refund value)? bolt12Refund,
-  }) {
-    return bolt11Jit?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(PaymentKind_Onchain value)? onchain,
-    TResult Function(PaymentKind_Bolt11 value)? bolt11,
-    TResult Function(PaymentKind_Bolt11Jit value)? bolt11Jit,
-    TResult Function(PaymentKind_Spontaneous value)? spontaneous,
-    TResult Function(PaymentKind_Bolt12Offer value)? bolt12Offer,
-    TResult Function(PaymentKind_Bolt12Refund value)? bolt12Refund,
-    required TResult orElse(),
-  }) {
-    if (bolt11Jit != null) {
-      return bolt11Jit(this);
-    }
-    return orElse();
-  }
-}
-
-abstract class PaymentKind_Bolt11Jit extends PaymentKind {
-  const factory PaymentKind_Bolt11Jit(
-      {required final PaymentHash hash,
-      final PaymentPreimage? preimage,
-      final PaymentSecret? secret,
-      required final LSPFeeLimits lspFeeLimits}) = _$PaymentKind_Bolt11JitImpl;
-  const PaymentKind_Bolt11Jit._() : super._();
-
-  /// The payment hash, i.e., the hash of the `preimage`.
-  PaymentHash get hash;
-
-  /// The pre-image used by the payment.
-  PaymentPreimage? get preimage;
-
-  /// The secret used by the payment.
-  PaymentSecret? get secret;
-
-  /// Limits applying to how much fee we allow an LSP to deduct from the payment amount.
-  ///
-  /// Allowing them to deduct this fee from the first inbound payment will pay for the LSP's
-  /// channel opening fees.
-  ///
-  LSPFeeLimits get lspFeeLimits;
-
-  /// Create a copy of PaymentKind
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$PaymentKind_Bolt11JitImplCopyWith<_$PaymentKind_Bolt11JitImpl>
-      get copyWith => throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class _$$PaymentKind_SpontaneousImplCopyWith<$Res> {
-  factory _$$PaymentKind_SpontaneousImplCopyWith(
-          _$PaymentKind_SpontaneousImpl value,
-          $Res Function(_$PaymentKind_SpontaneousImpl) then) =
-      __$$PaymentKind_SpontaneousImplCopyWithImpl<$Res>;
-  @useResult
-  $Res call({PaymentHash hash, PaymentPreimage? preimage});
-}
-
-/// @nodoc
-class __$$PaymentKind_SpontaneousImplCopyWithImpl<$Res>
-    extends _$PaymentKindCopyWithImpl<$Res, _$PaymentKind_SpontaneousImpl>
-    implements _$$PaymentKind_SpontaneousImplCopyWith<$Res> {
-  __$$PaymentKind_SpontaneousImplCopyWithImpl(
-      _$PaymentKind_SpontaneousImpl _value,
-      $Res Function(_$PaymentKind_SpontaneousImpl) _then)
-      : super(_value, _then);
-
-  /// Create a copy of PaymentKind
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? hash = null,
-    Object? preimage = freezed,
-  }) {
-    return _then(_$PaymentKind_SpontaneousImpl(
-      hash: null == hash
-          ? _value.hash
-          : hash // ignore: cast_nullable_to_non_nullable
-              as PaymentHash,
-      preimage: freezed == preimage
-          ? _value.preimage
-          : preimage // ignore: cast_nullable_to_non_nullable
-              as PaymentPreimage?,
-    ));
-  }
-}
-
-/// @nodoc
-
-class _$PaymentKind_SpontaneousImpl extends PaymentKind_Spontaneous {
-  const _$PaymentKind_SpontaneousImpl({required this.hash, this.preimage})
-      : super._();
-
-  /// The payment hash, i.e., the hash of the `preimage`.
-  @override
-  final PaymentHash hash;
-
-  /// The pre-image used by the payment.
-  @override
-  final PaymentPreimage? preimage;
-
-  @override
-  String toString() {
-    return 'PaymentKind.spontaneous(hash: $hash, preimage: $preimage)';
-  }
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$PaymentKind_SpontaneousImpl &&
-            (identical(other.hash, hash) || other.hash == hash) &&
-            (identical(other.preimage, preimage) ||
-                other.preimage == preimage));
-  }
-
-  @override
-  int get hashCode => Object.hash(runtimeType, hash, preimage);
-
-  /// Create a copy of PaymentKind
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$PaymentKind_SpontaneousImplCopyWith<_$PaymentKind_SpontaneousImpl>
-      get copyWith => __$$PaymentKind_SpontaneousImplCopyWithImpl<
-          _$PaymentKind_SpontaneousImpl>(this, _$identity);
-
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function() onchain,
-    required TResult Function(
-            PaymentHash hash, PaymentPreimage? preimage, PaymentSecret? secret)
-        bolt11,
-    required TResult Function(PaymentHash hash, PaymentPreimage? preimage,
-            PaymentSecret? secret, LSPFeeLimits lspFeeLimits)
-        bolt11Jit,
-    required TResult Function(PaymentHash hash, PaymentPreimage? preimage)
-        spontaneous,
-    required TResult Function(
-            PaymentHash? hash,
-            PaymentPreimage? preimage,
-            PaymentSecret? secret,
-            OfferId offerId,
-            String? payerNote,
-            BigInt? quantity)
-        bolt12Offer,
-    required TResult Function(PaymentHash? hash, PaymentPreimage? preimage,
-            PaymentSecret? secret, String? payerNote, BigInt? quantity)
-        bolt12Refund,
-  }) {
-    return spontaneous(hash, preimage);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function()? onchain,
-    TResult? Function(
-            PaymentHash hash, PaymentPreimage? preimage, PaymentSecret? secret)?
-        bolt11,
-    TResult? Function(PaymentHash hash, PaymentPreimage? preimage,
-            PaymentSecret? secret, LSPFeeLimits lspFeeLimits)?
-        bolt11Jit,
-    TResult? Function(PaymentHash hash, PaymentPreimage? preimage)? spontaneous,
-    TResult? Function(
-            PaymentHash? hash,
-            PaymentPreimage? preimage,
-            PaymentSecret? secret,
-            OfferId offerId,
-            String? payerNote,
-            BigInt? quantity)?
-        bolt12Offer,
-    TResult? Function(PaymentHash? hash, PaymentPreimage? preimage,
-            PaymentSecret? secret, String? payerNote, BigInt? quantity)?
-        bolt12Refund,
-  }) {
-    return spontaneous?.call(hash, preimage);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? onchain,
-    TResult Function(
-            PaymentHash hash, PaymentPreimage? preimage, PaymentSecret? secret)?
-        bolt11,
-    TResult Function(PaymentHash hash, PaymentPreimage? preimage,
-            PaymentSecret? secret, LSPFeeLimits lspFeeLimits)?
-        bolt11Jit,
-    TResult Function(PaymentHash hash, PaymentPreimage? preimage)? spontaneous,
-    TResult Function(
-            PaymentHash? hash,
-            PaymentPreimage? preimage,
-            PaymentSecret? secret,
-            OfferId offerId,
-            String? payerNote,
-            BigInt? quantity)?
-        bolt12Offer,
-    TResult Function(PaymentHash? hash, PaymentPreimage? preimage,
-            PaymentSecret? secret, String? payerNote, BigInt? quantity)?
-        bolt12Refund,
-    required TResult orElse(),
-  }) {
-    if (spontaneous != null) {
-      return spontaneous(hash, preimage);
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(PaymentKind_Onchain value) onchain,
-    required TResult Function(PaymentKind_Bolt11 value) bolt11,
-    required TResult Function(PaymentKind_Bolt11Jit value) bolt11Jit,
-    required TResult Function(PaymentKind_Spontaneous value) spontaneous,
-    required TResult Function(PaymentKind_Bolt12Offer value) bolt12Offer,
-    required TResult Function(PaymentKind_Bolt12Refund value) bolt12Refund,
-  }) {
-    return spontaneous(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(PaymentKind_Onchain value)? onchain,
-    TResult? Function(PaymentKind_Bolt11 value)? bolt11,
-    TResult? Function(PaymentKind_Bolt11Jit value)? bolt11Jit,
-    TResult? Function(PaymentKind_Spontaneous value)? spontaneous,
-    TResult? Function(PaymentKind_Bolt12Offer value)? bolt12Offer,
-    TResult? Function(PaymentKind_Bolt12Refund value)? bolt12Refund,
-  }) {
-    return spontaneous?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(PaymentKind_Onchain value)? onchain,
-    TResult Function(PaymentKind_Bolt11 value)? bolt11,
-    TResult Function(PaymentKind_Bolt11Jit value)? bolt11Jit,
-    TResult Function(PaymentKind_Spontaneous value)? spontaneous,
-    TResult Function(PaymentKind_Bolt12Offer value)? bolt12Offer,
-    TResult Function(PaymentKind_Bolt12Refund value)? bolt12Refund,
-    required TResult orElse(),
-  }) {
-    if (spontaneous != null) {
-      return spontaneous(this);
-    }
-    return orElse();
-  }
-}
-
-abstract class PaymentKind_Spontaneous extends PaymentKind {
-  const factory PaymentKind_Spontaneous(
-      {required final PaymentHash hash,
-      final PaymentPreimage? preimage}) = _$PaymentKind_SpontaneousImpl;
-  const PaymentKind_Spontaneous._() : super._();
-
-  /// The payment hash, i.e., the hash of the `preimage`.
-  PaymentHash get hash;
-
-  /// The pre-image used by the payment.
-  PaymentPreimage? get preimage;
-
-  /// Create a copy of PaymentKind
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$PaymentKind_SpontaneousImplCopyWith<_$PaymentKind_SpontaneousImpl>
-      get copyWith => throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class _$$PaymentKind_Bolt12OfferImplCopyWith<$Res> {
-  factory _$$PaymentKind_Bolt12OfferImplCopyWith(
-          _$PaymentKind_Bolt12OfferImpl value,
-          $Res Function(_$PaymentKind_Bolt12OfferImpl) then) =
-      __$$PaymentKind_Bolt12OfferImplCopyWithImpl<$Res>;
-  @useResult
-  $Res call(
-      {PaymentHash? hash,
-      PaymentPreimage? preimage,
-      PaymentSecret? secret,
-      OfferId offerId,
-      String? payerNote,
-      BigInt? quantity});
-}
-
-/// @nodoc
-class __$$PaymentKind_Bolt12OfferImplCopyWithImpl<$Res>
-    extends _$PaymentKindCopyWithImpl<$Res, _$PaymentKind_Bolt12OfferImpl>
-    implements _$$PaymentKind_Bolt12OfferImplCopyWith<$Res> {
-  __$$PaymentKind_Bolt12OfferImplCopyWithImpl(
-      _$PaymentKind_Bolt12OfferImpl _value,
-      $Res Function(_$PaymentKind_Bolt12OfferImpl) _then)
-      : super(_value, _then);
-
-  /// Create a copy of PaymentKind
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? hash = freezed,
-    Object? preimage = freezed,
-    Object? secret = freezed,
-    Object? offerId = null,
-    Object? payerNote = freezed,
-    Object? quantity = freezed,
-  }) {
-    return _then(_$PaymentKind_Bolt12OfferImpl(
-      hash: freezed == hash
-          ? _value.hash
-          : hash // ignore: cast_nullable_to_non_nullable
-              as PaymentHash?,
-      preimage: freezed == preimage
-          ? _value.preimage
-          : preimage // ignore: cast_nullable_to_non_nullable
-              as PaymentPreimage?,
-      secret: freezed == secret
-          ? _value.secret
-          : secret // ignore: cast_nullable_to_non_nullable
-              as PaymentSecret?,
-      offerId: null == offerId
-          ? _value.offerId
-          : offerId // ignore: cast_nullable_to_non_nullable
-              as OfferId,
-      payerNote: freezed == payerNote
-          ? _value.payerNote
-          : payerNote // ignore: cast_nullable_to_non_nullable
-              as String?,
-      quantity: freezed == quantity
-          ? _value.quantity
-          : quantity // ignore: cast_nullable_to_non_nullable
-              as BigInt?,
-    ));
-  }
-}
-
-/// @nodoc
-
-class _$PaymentKind_Bolt12OfferImpl extends PaymentKind_Bolt12Offer {
-  const _$PaymentKind_Bolt12OfferImpl(
-      {this.hash,
-      this.preimage,
-      this.secret,
-      required this.offerId,
-      this.payerNote,
-      this.quantity})
-      : super._();
-
-  /// The payment hash, i.e., the hash of the `preimage`.
-  @override
-  final PaymentHash? hash;
-
-  /// The pre-image used by the payment.
-  @override
-  final PaymentPreimage? preimage;
-
-  /// The secret used by the payment.
-  @override
-  final PaymentSecret? secret;
-
-  /// The ID of the offer this payment is for.
-  @override
-  final OfferId offerId;
-
-  /// The payer note for the payment.
-  ///
-  /// Truncated to `PAYER_NOTE_LIMIT` characters.
-  ///
-  /// This will always be `None` for payments serialized with version `v0.3.0`.
-  @override
-  final String? payerNote;
-
-  /// The quantity of an item requested in the offer.
-  ///
-  /// This will always be `None` for payments serialized with version `v0.3.0`.
-  @override
-  final BigInt? quantity;
-
-  @override
-  String toString() {
-    return 'PaymentKind.bolt12Offer(hash: $hash, preimage: $preimage, secret: $secret, offerId: $offerId, payerNote: $payerNote, quantity: $quantity)';
-  }
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$PaymentKind_Bolt12OfferImpl &&
-            (identical(other.hash, hash) || other.hash == hash) &&
-            (identical(other.preimage, preimage) ||
-                other.preimage == preimage) &&
-            (identical(other.secret, secret) || other.secret == secret) &&
-            (identical(other.offerId, offerId) || other.offerId == offerId) &&
-            (identical(other.payerNote, payerNote) ||
-                other.payerNote == payerNote) &&
-            (identical(other.quantity, quantity) ||
-                other.quantity == quantity));
-  }
-
-  @override
-  int get hashCode => Object.hash(
-      runtimeType, hash, preimage, secret, offerId, payerNote, quantity);
-
-  /// Create a copy of PaymentKind
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$PaymentKind_Bolt12OfferImplCopyWith<_$PaymentKind_Bolt12OfferImpl>
-      get copyWith => __$$PaymentKind_Bolt12OfferImplCopyWithImpl<
-          _$PaymentKind_Bolt12OfferImpl>(this, _$identity);
-
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function() onchain,
-    required TResult Function(
-            PaymentHash hash, PaymentPreimage? preimage, PaymentSecret? secret)
-        bolt11,
-    required TResult Function(PaymentHash hash, PaymentPreimage? preimage,
-            PaymentSecret? secret, LSPFeeLimits lspFeeLimits)
-        bolt11Jit,
-    required TResult Function(PaymentHash hash, PaymentPreimage? preimage)
-        spontaneous,
-    required TResult Function(
-            PaymentHash? hash,
-            PaymentPreimage? preimage,
-            PaymentSecret? secret,
-            OfferId offerId,
-            String? payerNote,
-            BigInt? quantity)
-        bolt12Offer,
-    required TResult Function(PaymentHash? hash, PaymentPreimage? preimage,
-            PaymentSecret? secret, String? payerNote, BigInt? quantity)
-        bolt12Refund,
-  }) {
-    return bolt12Offer(hash, preimage, secret, offerId, payerNote, quantity);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function()? onchain,
-    TResult? Function(
-            PaymentHash hash, PaymentPreimage? preimage, PaymentSecret? secret)?
-        bolt11,
-    TResult? Function(PaymentHash hash, PaymentPreimage? preimage,
-            PaymentSecret? secret, LSPFeeLimits lspFeeLimits)?
-        bolt11Jit,
-    TResult? Function(PaymentHash hash, PaymentPreimage? preimage)? spontaneous,
-    TResult? Function(
-            PaymentHash? hash,
-            PaymentPreimage? preimage,
-            PaymentSecret? secret,
-            OfferId offerId,
-            String? payerNote,
-            BigInt? quantity)?
-        bolt12Offer,
-    TResult? Function(PaymentHash? hash, PaymentPreimage? preimage,
-            PaymentSecret? secret, String? payerNote, BigInt? quantity)?
-        bolt12Refund,
-  }) {
-    return bolt12Offer?.call(
-        hash, preimage, secret, offerId, payerNote, quantity);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? onchain,
-    TResult Function(
-            PaymentHash hash, PaymentPreimage? preimage, PaymentSecret? secret)?
-        bolt11,
-    TResult Function(PaymentHash hash, PaymentPreimage? preimage,
-            PaymentSecret? secret, LSPFeeLimits lspFeeLimits)?
-        bolt11Jit,
-    TResult Function(PaymentHash hash, PaymentPreimage? preimage)? spontaneous,
-    TResult Function(
-            PaymentHash? hash,
-            PaymentPreimage? preimage,
-            PaymentSecret? secret,
-            OfferId offerId,
-            String? payerNote,
-            BigInt? quantity)?
-        bolt12Offer,
-    TResult Function(PaymentHash? hash, PaymentPreimage? preimage,
-            PaymentSecret? secret, String? payerNote, BigInt? quantity)?
-        bolt12Refund,
-    required TResult orElse(),
-  }) {
-    if (bolt12Offer != null) {
-      return bolt12Offer(hash, preimage, secret, offerId, payerNote, quantity);
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(PaymentKind_Onchain value) onchain,
-    required TResult Function(PaymentKind_Bolt11 value) bolt11,
-    required TResult Function(PaymentKind_Bolt11Jit value) bolt11Jit,
-    required TResult Function(PaymentKind_Spontaneous value) spontaneous,
-    required TResult Function(PaymentKind_Bolt12Offer value) bolt12Offer,
-    required TResult Function(PaymentKind_Bolt12Refund value) bolt12Refund,
-  }) {
-    return bolt12Offer(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(PaymentKind_Onchain value)? onchain,
-    TResult? Function(PaymentKind_Bolt11 value)? bolt11,
-    TResult? Function(PaymentKind_Bolt11Jit value)? bolt11Jit,
-    TResult? Function(PaymentKind_Spontaneous value)? spontaneous,
-    TResult? Function(PaymentKind_Bolt12Offer value)? bolt12Offer,
-    TResult? Function(PaymentKind_Bolt12Refund value)? bolt12Refund,
-  }) {
-    return bolt12Offer?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(PaymentKind_Onchain value)? onchain,
-    TResult Function(PaymentKind_Bolt11 value)? bolt11,
-    TResult Function(PaymentKind_Bolt11Jit value)? bolt11Jit,
-    TResult Function(PaymentKind_Spontaneous value)? spontaneous,
-    TResult Function(PaymentKind_Bolt12Offer value)? bolt12Offer,
-    TResult Function(PaymentKind_Bolt12Refund value)? bolt12Refund,
-    required TResult orElse(),
-  }) {
-    if (bolt12Offer != null) {
-      return bolt12Offer(this);
-    }
-    return orElse();
-  }
-}
-
-abstract class PaymentKind_Bolt12Offer extends PaymentKind {
-  const factory PaymentKind_Bolt12Offer(
-      {final PaymentHash? hash,
-      final PaymentPreimage? preimage,
-      final PaymentSecret? secret,
-      required final OfferId offerId,
-      final String? payerNote,
-      final BigInt? quantity}) = _$PaymentKind_Bolt12OfferImpl;
-  const PaymentKind_Bolt12Offer._() : super._();
-
-  /// The payment hash, i.e., the hash of the `preimage`.
-  PaymentHash? get hash;
-
-  /// The pre-image used by the payment.
-  PaymentPreimage? get preimage;
-
-  /// The secret used by the payment.
-  PaymentSecret? get secret;
-
-  /// The ID of the offer this payment is for.
-  OfferId get offerId;
-
-  /// The payer note for the payment.
-  ///
-  /// Truncated to `PAYER_NOTE_LIMIT` characters.
-  ///
-  /// This will always be `None` for payments serialized with version `v0.3.0`.
-  String? get payerNote;
-
-  /// The quantity of an item requested in the offer.
-  ///
-  /// This will always be `None` for payments serialized with version `v0.3.0`.
-  BigInt? get quantity;
-
-  /// Create a copy of PaymentKind
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$PaymentKind_Bolt12OfferImplCopyWith<_$PaymentKind_Bolt12OfferImpl>
-      get copyWith => throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class _$$PaymentKind_Bolt12RefundImplCopyWith<$Res> {
-  factory _$$PaymentKind_Bolt12RefundImplCopyWith(
-          _$PaymentKind_Bolt12RefundImpl value,
-          $Res Function(_$PaymentKind_Bolt12RefundImpl) then) =
-      __$$PaymentKind_Bolt12RefundImplCopyWithImpl<$Res>;
-  @useResult
-  $Res call(
-      {PaymentHash? hash,
-      PaymentPreimage? preimage,
-      PaymentSecret? secret,
-      String? payerNote,
-      BigInt? quantity});
-}
-
-/// @nodoc
-class __$$PaymentKind_Bolt12RefundImplCopyWithImpl<$Res>
-    extends _$PaymentKindCopyWithImpl<$Res, _$PaymentKind_Bolt12RefundImpl>
-    implements _$$PaymentKind_Bolt12RefundImplCopyWith<$Res> {
-  __$$PaymentKind_Bolt12RefundImplCopyWithImpl(
-      _$PaymentKind_Bolt12RefundImpl _value,
-      $Res Function(_$PaymentKind_Bolt12RefundImpl) _then)
-      : super(_value, _then);
-
-  /// Create a copy of PaymentKind
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? hash = freezed,
-    Object? preimage = freezed,
-    Object? secret = freezed,
-    Object? payerNote = freezed,
-    Object? quantity = freezed,
-  }) {
-    return _then(_$PaymentKind_Bolt12RefundImpl(
-      hash: freezed == hash
-          ? _value.hash
-          : hash // ignore: cast_nullable_to_non_nullable
-              as PaymentHash?,
-      preimage: freezed == preimage
-          ? _value.preimage
-          : preimage // ignore: cast_nullable_to_non_nullable
-              as PaymentPreimage?,
-      secret: freezed == secret
-          ? _value.secret
-          : secret // ignore: cast_nullable_to_non_nullable
-              as PaymentSecret?,
-      payerNote: freezed == payerNote
-          ? _value.payerNote
-          : payerNote // ignore: cast_nullable_to_non_nullable
-              as String?,
-      quantity: freezed == quantity
-          ? _value.quantity
-          : quantity // ignore: cast_nullable_to_non_nullable
-              as BigInt?,
-    ));
-  }
-}
-
-/// @nodoc
-
-class _$PaymentKind_Bolt12RefundImpl extends PaymentKind_Bolt12Refund {
-  const _$PaymentKind_Bolt12RefundImpl(
-      {this.hash, this.preimage, this.secret, this.payerNote, this.quantity})
-      : super._();
-
-  /// The payment hash, i.e., the hash of the `preimage`.
-  @override
-  final PaymentHash? hash;
-
-  /// The pre-image used by the payment.
-  @override
-  final PaymentPreimage? preimage;
-
-  /// The secret used by the payment.
-  @override
-  final PaymentSecret? secret;
-
-  ///
-  /// This will always be `None` for payments serialized with version `v0.3.0`.
-  @override
-  final String? payerNote;
-
-  /// The quantity of an item that the refund is for.
-  ///
-  /// This will always be `None` for payments serialized with version `v0.3.0`.
-  @override
-  final BigInt? quantity;
-
-  @override
-  String toString() {
-    return 'PaymentKind.bolt12Refund(hash: $hash, preimage: $preimage, secret: $secret, payerNote: $payerNote, quantity: $quantity)';
-  }
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$PaymentKind_Bolt12RefundImpl &&
-            (identical(other.hash, hash) || other.hash == hash) &&
-            (identical(other.preimage, preimage) ||
-                other.preimage == preimage) &&
-            (identical(other.secret, secret) || other.secret == secret) &&
-            (identical(other.payerNote, payerNote) ||
-                other.payerNote == payerNote) &&
-            (identical(other.quantity, quantity) ||
-                other.quantity == quantity));
-  }
-
-  @override
-  int get hashCode =>
-      Object.hash(runtimeType, hash, preimage, secret, payerNote, quantity);
-
-  /// Create a copy of PaymentKind
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$PaymentKind_Bolt12RefundImplCopyWith<_$PaymentKind_Bolt12RefundImpl>
-      get copyWith => __$$PaymentKind_Bolt12RefundImplCopyWithImpl<
-          _$PaymentKind_Bolt12RefundImpl>(this, _$identity);
-
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function() onchain,
-    required TResult Function(
-            PaymentHash hash, PaymentPreimage? preimage, PaymentSecret? secret)
-        bolt11,
-    required TResult Function(PaymentHash hash, PaymentPreimage? preimage,
-            PaymentSecret? secret, LSPFeeLimits lspFeeLimits)
-        bolt11Jit,
-    required TResult Function(PaymentHash hash, PaymentPreimage? preimage)
-        spontaneous,
-    required TResult Function(
-            PaymentHash? hash,
-            PaymentPreimage? preimage,
-            PaymentSecret? secret,
-            OfferId offerId,
-            String? payerNote,
-            BigInt? quantity)
-        bolt12Offer,
-    required TResult Function(PaymentHash? hash, PaymentPreimage? preimage,
-            PaymentSecret? secret, String? payerNote, BigInt? quantity)
-        bolt12Refund,
-  }) {
-    return bolt12Refund(hash, preimage, secret, payerNote, quantity);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function()? onchain,
-    TResult? Function(
-            PaymentHash hash, PaymentPreimage? preimage, PaymentSecret? secret)?
-        bolt11,
-    TResult? Function(PaymentHash hash, PaymentPreimage? preimage,
-            PaymentSecret? secret, LSPFeeLimits lspFeeLimits)?
-        bolt11Jit,
-    TResult? Function(PaymentHash hash, PaymentPreimage? preimage)? spontaneous,
-    TResult? Function(
-            PaymentHash? hash,
-            PaymentPreimage? preimage,
-            PaymentSecret? secret,
-            OfferId offerId,
-            String? payerNote,
-            BigInt? quantity)?
-        bolt12Offer,
-    TResult? Function(PaymentHash? hash, PaymentPreimage? preimage,
-            PaymentSecret? secret, String? payerNote, BigInt? quantity)?
-        bolt12Refund,
-  }) {
-    return bolt12Refund?.call(hash, preimage, secret, payerNote, quantity);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? onchain,
-    TResult Function(
-            PaymentHash hash, PaymentPreimage? preimage, PaymentSecret? secret)?
-        bolt11,
-    TResult Function(PaymentHash hash, PaymentPreimage? preimage,
-            PaymentSecret? secret, LSPFeeLimits lspFeeLimits)?
-        bolt11Jit,
-    TResult Function(PaymentHash hash, PaymentPreimage? preimage)? spontaneous,
-    TResult Function(
-            PaymentHash? hash,
-            PaymentPreimage? preimage,
-            PaymentSecret? secret,
-            OfferId offerId,
-            String? payerNote,
-            BigInt? quantity)?
-        bolt12Offer,
-    TResult Function(PaymentHash? hash, PaymentPreimage? preimage,
-            PaymentSecret? secret, String? payerNote, BigInt? quantity)?
-        bolt12Refund,
-    required TResult orElse(),
-  }) {
-    if (bolt12Refund != null) {
-      return bolt12Refund(hash, preimage, secret, payerNote, quantity);
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(PaymentKind_Onchain value) onchain,
-    required TResult Function(PaymentKind_Bolt11 value) bolt11,
-    required TResult Function(PaymentKind_Bolt11Jit value) bolt11Jit,
-    required TResult Function(PaymentKind_Spontaneous value) spontaneous,
-    required TResult Function(PaymentKind_Bolt12Offer value) bolt12Offer,
-    required TResult Function(PaymentKind_Bolt12Refund value) bolt12Refund,
-  }) {
-    return bolt12Refund(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(PaymentKind_Onchain value)? onchain,
-    TResult? Function(PaymentKind_Bolt11 value)? bolt11,
-    TResult? Function(PaymentKind_Bolt11Jit value)? bolt11Jit,
-    TResult? Function(PaymentKind_Spontaneous value)? spontaneous,
-    TResult? Function(PaymentKind_Bolt12Offer value)? bolt12Offer,
-    TResult? Function(PaymentKind_Bolt12Refund value)? bolt12Refund,
-  }) {
-    return bolt12Refund?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(PaymentKind_Onchain value)? onchain,
-    TResult Function(PaymentKind_Bolt11 value)? bolt11,
-    TResult Function(PaymentKind_Bolt11Jit value)? bolt11Jit,
-    TResult Function(PaymentKind_Spontaneous value)? spontaneous,
-    TResult Function(PaymentKind_Bolt12Offer value)? bolt12Offer,
-    TResult Function(PaymentKind_Bolt12Refund value)? bolt12Refund,
-    required TResult orElse(),
-  }) {
-    if (bolt12Refund != null) {
-      return bolt12Refund(this);
-    }
-    return orElse();
-  }
-}
-
-abstract class PaymentKind_Bolt12Refund extends PaymentKind {
-  const factory PaymentKind_Bolt12Refund(
-      {final PaymentHash? hash,
-      final PaymentPreimage? preimage,
-      final PaymentSecret? secret,
-      final String? payerNote,
-      final BigInt? quantity}) = _$PaymentKind_Bolt12RefundImpl;
-  const PaymentKind_Bolt12Refund._() : super._();
-
-  /// The payment hash, i.e., the hash of the `preimage`.
-  PaymentHash? get hash;
-
-  /// The pre-image used by the payment.
-  PaymentPreimage? get preimage;
-
-  /// The secret used by the payment.
-  PaymentSecret? get secret;
-
-  ///
-  /// This will always be `None` for payments serialized with version `v0.3.0`.
-  String? get payerNote;
-
-  /// The quantity of an item that the refund is for.
-  ///
-  /// This will always be `None` for payments serialized with version `v0.3.0`.
-  BigInt? get quantity;
-
-  /// Create a copy of PaymentKind
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$PaymentKind_Bolt12RefundImplCopyWith<_$PaymentKind_Bolt12RefundImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
 

@@ -2570,6 +2570,10 @@ mixin _$FfiNodeError {
     required TResult Function() invalidUri,
     required TResult Function() invalidQuantity,
     required TResult Function() invalidNodeAlias,
+    required TResult Function() invalidCustomTlvs,
+    required TResult Function() invalidDateTime,
+    required TResult Function() invalidFeeRate,
+    required TResult Function(FfiCreationError field0) creationError,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -2627,6 +2631,10 @@ mixin _$FfiNodeError {
     TResult? Function()? invalidUri,
     TResult? Function()? invalidQuantity,
     TResult? Function()? invalidNodeAlias,
+    TResult? Function()? invalidCustomTlvs,
+    TResult? Function()? invalidDateTime,
+    TResult? Function()? invalidFeeRate,
+    TResult? Function(FfiCreationError field0)? creationError,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -2684,6 +2692,10 @@ mixin _$FfiNodeError {
     TResult Function()? invalidUri,
     TResult Function()? invalidQuantity,
     TResult Function()? invalidNodeAlias,
+    TResult Function()? invalidCustomTlvs,
+    TResult Function()? invalidDateTime,
+    TResult Function()? invalidFeeRate,
+    TResult Function(FfiCreationError field0)? creationError,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -2779,6 +2791,12 @@ mixin _$FfiNodeError {
         invalidQuantity,
     required TResult Function(FfiNodeError_InvalidNodeAlias value)
         invalidNodeAlias,
+    required TResult Function(FfiNodeError_InvalidCustomTlvs value)
+        invalidCustomTlvs,
+    required TResult Function(FfiNodeError_InvalidDateTime value)
+        invalidDateTime,
+    required TResult Function(FfiNodeError_InvalidFeeRate value) invalidFeeRate,
+    required TResult Function(FfiNodeError_CreationError value) creationError,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -2863,6 +2881,10 @@ mixin _$FfiNodeError {
     TResult? Function(FfiNodeError_InvalidUri value)? invalidUri,
     TResult? Function(FfiNodeError_InvalidQuantity value)? invalidQuantity,
     TResult? Function(FfiNodeError_InvalidNodeAlias value)? invalidNodeAlias,
+    TResult? Function(FfiNodeError_InvalidCustomTlvs value)? invalidCustomTlvs,
+    TResult? Function(FfiNodeError_InvalidDateTime value)? invalidDateTime,
+    TResult? Function(FfiNodeError_InvalidFeeRate value)? invalidFeeRate,
+    TResult? Function(FfiNodeError_CreationError value)? creationError,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -2944,6 +2966,10 @@ mixin _$FfiNodeError {
     TResult Function(FfiNodeError_InvalidUri value)? invalidUri,
     TResult Function(FfiNodeError_InvalidQuantity value)? invalidQuantity,
     TResult Function(FfiNodeError_InvalidNodeAlias value)? invalidNodeAlias,
+    TResult Function(FfiNodeError_InvalidCustomTlvs value)? invalidCustomTlvs,
+    TResult Function(FfiNodeError_InvalidDateTime value)? invalidDateTime,
+    TResult Function(FfiNodeError_InvalidFeeRate value)? invalidFeeRate,
+    TResult Function(FfiNodeError_CreationError value)? creationError,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -3067,6 +3093,10 @@ class _$FfiNodeError_InvalidTxidImpl extends FfiNodeError_InvalidTxid {
     required TResult Function() invalidUri,
     required TResult Function() invalidQuantity,
     required TResult Function() invalidNodeAlias,
+    required TResult Function() invalidCustomTlvs,
+    required TResult Function() invalidDateTime,
+    required TResult Function() invalidFeeRate,
+    required TResult Function(FfiCreationError field0) creationError,
   }) {
     return invalidTxid();
   }
@@ -3127,6 +3157,10 @@ class _$FfiNodeError_InvalidTxidImpl extends FfiNodeError_InvalidTxid {
     TResult? Function()? invalidUri,
     TResult? Function()? invalidQuantity,
     TResult? Function()? invalidNodeAlias,
+    TResult? Function()? invalidCustomTlvs,
+    TResult? Function()? invalidDateTime,
+    TResult? Function()? invalidFeeRate,
+    TResult? Function(FfiCreationError field0)? creationError,
   }) {
     return invalidTxid?.call();
   }
@@ -3187,6 +3221,10 @@ class _$FfiNodeError_InvalidTxidImpl extends FfiNodeError_InvalidTxid {
     TResult Function()? invalidUri,
     TResult Function()? invalidQuantity,
     TResult Function()? invalidNodeAlias,
+    TResult Function()? invalidCustomTlvs,
+    TResult Function()? invalidDateTime,
+    TResult Function()? invalidFeeRate,
+    TResult Function(FfiCreationError field0)? creationError,
     required TResult orElse(),
   }) {
     if (invalidTxid != null) {
@@ -3288,6 +3326,12 @@ class _$FfiNodeError_InvalidTxidImpl extends FfiNodeError_InvalidTxid {
         invalidQuantity,
     required TResult Function(FfiNodeError_InvalidNodeAlias value)
         invalidNodeAlias,
+    required TResult Function(FfiNodeError_InvalidCustomTlvs value)
+        invalidCustomTlvs,
+    required TResult Function(FfiNodeError_InvalidDateTime value)
+        invalidDateTime,
+    required TResult Function(FfiNodeError_InvalidFeeRate value) invalidFeeRate,
+    required TResult Function(FfiNodeError_CreationError value) creationError,
   }) {
     return invalidTxid(this);
   }
@@ -3375,6 +3419,10 @@ class _$FfiNodeError_InvalidTxidImpl extends FfiNodeError_InvalidTxid {
     TResult? Function(FfiNodeError_InvalidUri value)? invalidUri,
     TResult? Function(FfiNodeError_InvalidQuantity value)? invalidQuantity,
     TResult? Function(FfiNodeError_InvalidNodeAlias value)? invalidNodeAlias,
+    TResult? Function(FfiNodeError_InvalidCustomTlvs value)? invalidCustomTlvs,
+    TResult? Function(FfiNodeError_InvalidDateTime value)? invalidDateTime,
+    TResult? Function(FfiNodeError_InvalidFeeRate value)? invalidFeeRate,
+    TResult? Function(FfiNodeError_CreationError value)? creationError,
   }) {
     return invalidTxid?.call(this);
   }
@@ -3459,6 +3507,10 @@ class _$FfiNodeError_InvalidTxidImpl extends FfiNodeError_InvalidTxid {
     TResult Function(FfiNodeError_InvalidUri value)? invalidUri,
     TResult Function(FfiNodeError_InvalidQuantity value)? invalidQuantity,
     TResult Function(FfiNodeError_InvalidNodeAlias value)? invalidNodeAlias,
+    TResult Function(FfiNodeError_InvalidCustomTlvs value)? invalidCustomTlvs,
+    TResult Function(FfiNodeError_InvalidDateTime value)? invalidDateTime,
+    TResult Function(FfiNodeError_InvalidFeeRate value)? invalidFeeRate,
+    TResult Function(FfiNodeError_CreationError value)? creationError,
     required TResult orElse(),
   }) {
     if (invalidTxid != null) {
@@ -3570,6 +3622,10 @@ class _$FfiNodeError_AlreadyRunningImpl extends FfiNodeError_AlreadyRunning {
     required TResult Function() invalidUri,
     required TResult Function() invalidQuantity,
     required TResult Function() invalidNodeAlias,
+    required TResult Function() invalidCustomTlvs,
+    required TResult Function() invalidDateTime,
+    required TResult Function() invalidFeeRate,
+    required TResult Function(FfiCreationError field0) creationError,
   }) {
     return alreadyRunning();
   }
@@ -3630,6 +3686,10 @@ class _$FfiNodeError_AlreadyRunningImpl extends FfiNodeError_AlreadyRunning {
     TResult? Function()? invalidUri,
     TResult? Function()? invalidQuantity,
     TResult? Function()? invalidNodeAlias,
+    TResult? Function()? invalidCustomTlvs,
+    TResult? Function()? invalidDateTime,
+    TResult? Function()? invalidFeeRate,
+    TResult? Function(FfiCreationError field0)? creationError,
   }) {
     return alreadyRunning?.call();
   }
@@ -3690,6 +3750,10 @@ class _$FfiNodeError_AlreadyRunningImpl extends FfiNodeError_AlreadyRunning {
     TResult Function()? invalidUri,
     TResult Function()? invalidQuantity,
     TResult Function()? invalidNodeAlias,
+    TResult Function()? invalidCustomTlvs,
+    TResult Function()? invalidDateTime,
+    TResult Function()? invalidFeeRate,
+    TResult Function(FfiCreationError field0)? creationError,
     required TResult orElse(),
   }) {
     if (alreadyRunning != null) {
@@ -3791,6 +3855,12 @@ class _$FfiNodeError_AlreadyRunningImpl extends FfiNodeError_AlreadyRunning {
         invalidQuantity,
     required TResult Function(FfiNodeError_InvalidNodeAlias value)
         invalidNodeAlias,
+    required TResult Function(FfiNodeError_InvalidCustomTlvs value)
+        invalidCustomTlvs,
+    required TResult Function(FfiNodeError_InvalidDateTime value)
+        invalidDateTime,
+    required TResult Function(FfiNodeError_InvalidFeeRate value) invalidFeeRate,
+    required TResult Function(FfiNodeError_CreationError value) creationError,
   }) {
     return alreadyRunning(this);
   }
@@ -3878,6 +3948,10 @@ class _$FfiNodeError_AlreadyRunningImpl extends FfiNodeError_AlreadyRunning {
     TResult? Function(FfiNodeError_InvalidUri value)? invalidUri,
     TResult? Function(FfiNodeError_InvalidQuantity value)? invalidQuantity,
     TResult? Function(FfiNodeError_InvalidNodeAlias value)? invalidNodeAlias,
+    TResult? Function(FfiNodeError_InvalidCustomTlvs value)? invalidCustomTlvs,
+    TResult? Function(FfiNodeError_InvalidDateTime value)? invalidDateTime,
+    TResult? Function(FfiNodeError_InvalidFeeRate value)? invalidFeeRate,
+    TResult? Function(FfiNodeError_CreationError value)? creationError,
   }) {
     return alreadyRunning?.call(this);
   }
@@ -3962,6 +4036,10 @@ class _$FfiNodeError_AlreadyRunningImpl extends FfiNodeError_AlreadyRunning {
     TResult Function(FfiNodeError_InvalidUri value)? invalidUri,
     TResult Function(FfiNodeError_InvalidQuantity value)? invalidQuantity,
     TResult Function(FfiNodeError_InvalidNodeAlias value)? invalidNodeAlias,
+    TResult Function(FfiNodeError_InvalidCustomTlvs value)? invalidCustomTlvs,
+    TResult Function(FfiNodeError_InvalidDateTime value)? invalidDateTime,
+    TResult Function(FfiNodeError_InvalidFeeRate value)? invalidFeeRate,
+    TResult Function(FfiNodeError_CreationError value)? creationError,
     required TResult orElse(),
   }) {
     if (alreadyRunning != null) {
@@ -4074,6 +4152,10 @@ class _$FfiNodeError_NotRunningImpl extends FfiNodeError_NotRunning {
     required TResult Function() invalidUri,
     required TResult Function() invalidQuantity,
     required TResult Function() invalidNodeAlias,
+    required TResult Function() invalidCustomTlvs,
+    required TResult Function() invalidDateTime,
+    required TResult Function() invalidFeeRate,
+    required TResult Function(FfiCreationError field0) creationError,
   }) {
     return notRunning();
   }
@@ -4134,6 +4216,10 @@ class _$FfiNodeError_NotRunningImpl extends FfiNodeError_NotRunning {
     TResult? Function()? invalidUri,
     TResult? Function()? invalidQuantity,
     TResult? Function()? invalidNodeAlias,
+    TResult? Function()? invalidCustomTlvs,
+    TResult? Function()? invalidDateTime,
+    TResult? Function()? invalidFeeRate,
+    TResult? Function(FfiCreationError field0)? creationError,
   }) {
     return notRunning?.call();
   }
@@ -4194,6 +4280,10 @@ class _$FfiNodeError_NotRunningImpl extends FfiNodeError_NotRunning {
     TResult Function()? invalidUri,
     TResult Function()? invalidQuantity,
     TResult Function()? invalidNodeAlias,
+    TResult Function()? invalidCustomTlvs,
+    TResult Function()? invalidDateTime,
+    TResult Function()? invalidFeeRate,
+    TResult Function(FfiCreationError field0)? creationError,
     required TResult orElse(),
   }) {
     if (notRunning != null) {
@@ -4295,6 +4385,12 @@ class _$FfiNodeError_NotRunningImpl extends FfiNodeError_NotRunning {
         invalidQuantity,
     required TResult Function(FfiNodeError_InvalidNodeAlias value)
         invalidNodeAlias,
+    required TResult Function(FfiNodeError_InvalidCustomTlvs value)
+        invalidCustomTlvs,
+    required TResult Function(FfiNodeError_InvalidDateTime value)
+        invalidDateTime,
+    required TResult Function(FfiNodeError_InvalidFeeRate value) invalidFeeRate,
+    required TResult Function(FfiNodeError_CreationError value) creationError,
   }) {
     return notRunning(this);
   }
@@ -4382,6 +4478,10 @@ class _$FfiNodeError_NotRunningImpl extends FfiNodeError_NotRunning {
     TResult? Function(FfiNodeError_InvalidUri value)? invalidUri,
     TResult? Function(FfiNodeError_InvalidQuantity value)? invalidQuantity,
     TResult? Function(FfiNodeError_InvalidNodeAlias value)? invalidNodeAlias,
+    TResult? Function(FfiNodeError_InvalidCustomTlvs value)? invalidCustomTlvs,
+    TResult? Function(FfiNodeError_InvalidDateTime value)? invalidDateTime,
+    TResult? Function(FfiNodeError_InvalidFeeRate value)? invalidFeeRate,
+    TResult? Function(FfiNodeError_CreationError value)? creationError,
   }) {
     return notRunning?.call(this);
   }
@@ -4466,6 +4566,10 @@ class _$FfiNodeError_NotRunningImpl extends FfiNodeError_NotRunning {
     TResult Function(FfiNodeError_InvalidUri value)? invalidUri,
     TResult Function(FfiNodeError_InvalidQuantity value)? invalidQuantity,
     TResult Function(FfiNodeError_InvalidNodeAlias value)? invalidNodeAlias,
+    TResult Function(FfiNodeError_InvalidCustomTlvs value)? invalidCustomTlvs,
+    TResult Function(FfiNodeError_InvalidDateTime value)? invalidDateTime,
+    TResult Function(FfiNodeError_InvalidFeeRate value)? invalidFeeRate,
+    TResult Function(FfiNodeError_CreationError value)? creationError,
     required TResult orElse(),
   }) {
     if (notRunning != null) {
@@ -4579,6 +4683,10 @@ class _$FfiNodeError_OnchainTxCreationFailedImpl
     required TResult Function() invalidUri,
     required TResult Function() invalidQuantity,
     required TResult Function() invalidNodeAlias,
+    required TResult Function() invalidCustomTlvs,
+    required TResult Function() invalidDateTime,
+    required TResult Function() invalidFeeRate,
+    required TResult Function(FfiCreationError field0) creationError,
   }) {
     return onchainTxCreationFailed();
   }
@@ -4639,6 +4747,10 @@ class _$FfiNodeError_OnchainTxCreationFailedImpl
     TResult? Function()? invalidUri,
     TResult? Function()? invalidQuantity,
     TResult? Function()? invalidNodeAlias,
+    TResult? Function()? invalidCustomTlvs,
+    TResult? Function()? invalidDateTime,
+    TResult? Function()? invalidFeeRate,
+    TResult? Function(FfiCreationError field0)? creationError,
   }) {
     return onchainTxCreationFailed?.call();
   }
@@ -4699,6 +4811,10 @@ class _$FfiNodeError_OnchainTxCreationFailedImpl
     TResult Function()? invalidUri,
     TResult Function()? invalidQuantity,
     TResult Function()? invalidNodeAlias,
+    TResult Function()? invalidCustomTlvs,
+    TResult Function()? invalidDateTime,
+    TResult Function()? invalidFeeRate,
+    TResult Function(FfiCreationError field0)? creationError,
     required TResult orElse(),
   }) {
     if (onchainTxCreationFailed != null) {
@@ -4800,6 +4916,12 @@ class _$FfiNodeError_OnchainTxCreationFailedImpl
         invalidQuantity,
     required TResult Function(FfiNodeError_InvalidNodeAlias value)
         invalidNodeAlias,
+    required TResult Function(FfiNodeError_InvalidCustomTlvs value)
+        invalidCustomTlvs,
+    required TResult Function(FfiNodeError_InvalidDateTime value)
+        invalidDateTime,
+    required TResult Function(FfiNodeError_InvalidFeeRate value) invalidFeeRate,
+    required TResult Function(FfiNodeError_CreationError value) creationError,
   }) {
     return onchainTxCreationFailed(this);
   }
@@ -4887,6 +5009,10 @@ class _$FfiNodeError_OnchainTxCreationFailedImpl
     TResult? Function(FfiNodeError_InvalidUri value)? invalidUri,
     TResult? Function(FfiNodeError_InvalidQuantity value)? invalidQuantity,
     TResult? Function(FfiNodeError_InvalidNodeAlias value)? invalidNodeAlias,
+    TResult? Function(FfiNodeError_InvalidCustomTlvs value)? invalidCustomTlvs,
+    TResult? Function(FfiNodeError_InvalidDateTime value)? invalidDateTime,
+    TResult? Function(FfiNodeError_InvalidFeeRate value)? invalidFeeRate,
+    TResult? Function(FfiNodeError_CreationError value)? creationError,
   }) {
     return onchainTxCreationFailed?.call(this);
   }
@@ -4971,6 +5097,10 @@ class _$FfiNodeError_OnchainTxCreationFailedImpl
     TResult Function(FfiNodeError_InvalidUri value)? invalidUri,
     TResult Function(FfiNodeError_InvalidQuantity value)? invalidQuantity,
     TResult Function(FfiNodeError_InvalidNodeAlias value)? invalidNodeAlias,
+    TResult Function(FfiNodeError_InvalidCustomTlvs value)? invalidCustomTlvs,
+    TResult Function(FfiNodeError_InvalidDateTime value)? invalidDateTime,
+    TResult Function(FfiNodeError_InvalidFeeRate value)? invalidFeeRate,
+    TResult Function(FfiNodeError_CreationError value)? creationError,
     required TResult orElse(),
   }) {
     if (onchainTxCreationFailed != null) {
@@ -5085,6 +5215,10 @@ class _$FfiNodeError_ConnectionFailedImpl
     required TResult Function() invalidUri,
     required TResult Function() invalidQuantity,
     required TResult Function() invalidNodeAlias,
+    required TResult Function() invalidCustomTlvs,
+    required TResult Function() invalidDateTime,
+    required TResult Function() invalidFeeRate,
+    required TResult Function(FfiCreationError field0) creationError,
   }) {
     return connectionFailed();
   }
@@ -5145,6 +5279,10 @@ class _$FfiNodeError_ConnectionFailedImpl
     TResult? Function()? invalidUri,
     TResult? Function()? invalidQuantity,
     TResult? Function()? invalidNodeAlias,
+    TResult? Function()? invalidCustomTlvs,
+    TResult? Function()? invalidDateTime,
+    TResult? Function()? invalidFeeRate,
+    TResult? Function(FfiCreationError field0)? creationError,
   }) {
     return connectionFailed?.call();
   }
@@ -5205,6 +5343,10 @@ class _$FfiNodeError_ConnectionFailedImpl
     TResult Function()? invalidUri,
     TResult Function()? invalidQuantity,
     TResult Function()? invalidNodeAlias,
+    TResult Function()? invalidCustomTlvs,
+    TResult Function()? invalidDateTime,
+    TResult Function()? invalidFeeRate,
+    TResult Function(FfiCreationError field0)? creationError,
     required TResult orElse(),
   }) {
     if (connectionFailed != null) {
@@ -5306,6 +5448,12 @@ class _$FfiNodeError_ConnectionFailedImpl
         invalidQuantity,
     required TResult Function(FfiNodeError_InvalidNodeAlias value)
         invalidNodeAlias,
+    required TResult Function(FfiNodeError_InvalidCustomTlvs value)
+        invalidCustomTlvs,
+    required TResult Function(FfiNodeError_InvalidDateTime value)
+        invalidDateTime,
+    required TResult Function(FfiNodeError_InvalidFeeRate value) invalidFeeRate,
+    required TResult Function(FfiNodeError_CreationError value) creationError,
   }) {
     return connectionFailed(this);
   }
@@ -5393,6 +5541,10 @@ class _$FfiNodeError_ConnectionFailedImpl
     TResult? Function(FfiNodeError_InvalidUri value)? invalidUri,
     TResult? Function(FfiNodeError_InvalidQuantity value)? invalidQuantity,
     TResult? Function(FfiNodeError_InvalidNodeAlias value)? invalidNodeAlias,
+    TResult? Function(FfiNodeError_InvalidCustomTlvs value)? invalidCustomTlvs,
+    TResult? Function(FfiNodeError_InvalidDateTime value)? invalidDateTime,
+    TResult? Function(FfiNodeError_InvalidFeeRate value)? invalidFeeRate,
+    TResult? Function(FfiNodeError_CreationError value)? creationError,
   }) {
     return connectionFailed?.call(this);
   }
@@ -5477,6 +5629,10 @@ class _$FfiNodeError_ConnectionFailedImpl
     TResult Function(FfiNodeError_InvalidUri value)? invalidUri,
     TResult Function(FfiNodeError_InvalidQuantity value)? invalidQuantity,
     TResult Function(FfiNodeError_InvalidNodeAlias value)? invalidNodeAlias,
+    TResult Function(FfiNodeError_InvalidCustomTlvs value)? invalidCustomTlvs,
+    TResult Function(FfiNodeError_InvalidDateTime value)? invalidDateTime,
+    TResult Function(FfiNodeError_InvalidFeeRate value)? invalidFeeRate,
+    TResult Function(FfiNodeError_CreationError value)? creationError,
     required TResult orElse(),
   }) {
     if (connectionFailed != null) {
@@ -5591,6 +5747,10 @@ class _$FfiNodeError_InvoiceCreationFailedImpl
     required TResult Function() invalidUri,
     required TResult Function() invalidQuantity,
     required TResult Function() invalidNodeAlias,
+    required TResult Function() invalidCustomTlvs,
+    required TResult Function() invalidDateTime,
+    required TResult Function() invalidFeeRate,
+    required TResult Function(FfiCreationError field0) creationError,
   }) {
     return invoiceCreationFailed();
   }
@@ -5651,6 +5811,10 @@ class _$FfiNodeError_InvoiceCreationFailedImpl
     TResult? Function()? invalidUri,
     TResult? Function()? invalidQuantity,
     TResult? Function()? invalidNodeAlias,
+    TResult? Function()? invalidCustomTlvs,
+    TResult? Function()? invalidDateTime,
+    TResult? Function()? invalidFeeRate,
+    TResult? Function(FfiCreationError field0)? creationError,
   }) {
     return invoiceCreationFailed?.call();
   }
@@ -5711,6 +5875,10 @@ class _$FfiNodeError_InvoiceCreationFailedImpl
     TResult Function()? invalidUri,
     TResult Function()? invalidQuantity,
     TResult Function()? invalidNodeAlias,
+    TResult Function()? invalidCustomTlvs,
+    TResult Function()? invalidDateTime,
+    TResult Function()? invalidFeeRate,
+    TResult Function(FfiCreationError field0)? creationError,
     required TResult orElse(),
   }) {
     if (invoiceCreationFailed != null) {
@@ -5812,6 +5980,12 @@ class _$FfiNodeError_InvoiceCreationFailedImpl
         invalidQuantity,
     required TResult Function(FfiNodeError_InvalidNodeAlias value)
         invalidNodeAlias,
+    required TResult Function(FfiNodeError_InvalidCustomTlvs value)
+        invalidCustomTlvs,
+    required TResult Function(FfiNodeError_InvalidDateTime value)
+        invalidDateTime,
+    required TResult Function(FfiNodeError_InvalidFeeRate value) invalidFeeRate,
+    required TResult Function(FfiNodeError_CreationError value) creationError,
   }) {
     return invoiceCreationFailed(this);
   }
@@ -5899,6 +6073,10 @@ class _$FfiNodeError_InvoiceCreationFailedImpl
     TResult? Function(FfiNodeError_InvalidUri value)? invalidUri,
     TResult? Function(FfiNodeError_InvalidQuantity value)? invalidQuantity,
     TResult? Function(FfiNodeError_InvalidNodeAlias value)? invalidNodeAlias,
+    TResult? Function(FfiNodeError_InvalidCustomTlvs value)? invalidCustomTlvs,
+    TResult? Function(FfiNodeError_InvalidDateTime value)? invalidDateTime,
+    TResult? Function(FfiNodeError_InvalidFeeRate value)? invalidFeeRate,
+    TResult? Function(FfiNodeError_CreationError value)? creationError,
   }) {
     return invoiceCreationFailed?.call(this);
   }
@@ -5983,6 +6161,10 @@ class _$FfiNodeError_InvoiceCreationFailedImpl
     TResult Function(FfiNodeError_InvalidUri value)? invalidUri,
     TResult Function(FfiNodeError_InvalidQuantity value)? invalidQuantity,
     TResult Function(FfiNodeError_InvalidNodeAlias value)? invalidNodeAlias,
+    TResult Function(FfiNodeError_InvalidCustomTlvs value)? invalidCustomTlvs,
+    TResult Function(FfiNodeError_InvalidDateTime value)? invalidDateTime,
+    TResult Function(FfiNodeError_InvalidFeeRate value)? invalidFeeRate,
+    TResult Function(FfiNodeError_CreationError value)? creationError,
     required TResult orElse(),
   }) {
     if (invoiceCreationFailed != null) {
@@ -6097,6 +6279,10 @@ class _$FfiNodeError_PaymentSendingFailedImpl
     required TResult Function() invalidUri,
     required TResult Function() invalidQuantity,
     required TResult Function() invalidNodeAlias,
+    required TResult Function() invalidCustomTlvs,
+    required TResult Function() invalidDateTime,
+    required TResult Function() invalidFeeRate,
+    required TResult Function(FfiCreationError field0) creationError,
   }) {
     return paymentSendingFailed();
   }
@@ -6157,6 +6343,10 @@ class _$FfiNodeError_PaymentSendingFailedImpl
     TResult? Function()? invalidUri,
     TResult? Function()? invalidQuantity,
     TResult? Function()? invalidNodeAlias,
+    TResult? Function()? invalidCustomTlvs,
+    TResult? Function()? invalidDateTime,
+    TResult? Function()? invalidFeeRate,
+    TResult? Function(FfiCreationError field0)? creationError,
   }) {
     return paymentSendingFailed?.call();
   }
@@ -6217,6 +6407,10 @@ class _$FfiNodeError_PaymentSendingFailedImpl
     TResult Function()? invalidUri,
     TResult Function()? invalidQuantity,
     TResult Function()? invalidNodeAlias,
+    TResult Function()? invalidCustomTlvs,
+    TResult Function()? invalidDateTime,
+    TResult Function()? invalidFeeRate,
+    TResult Function(FfiCreationError field0)? creationError,
     required TResult orElse(),
   }) {
     if (paymentSendingFailed != null) {
@@ -6318,6 +6512,12 @@ class _$FfiNodeError_PaymentSendingFailedImpl
         invalidQuantity,
     required TResult Function(FfiNodeError_InvalidNodeAlias value)
         invalidNodeAlias,
+    required TResult Function(FfiNodeError_InvalidCustomTlvs value)
+        invalidCustomTlvs,
+    required TResult Function(FfiNodeError_InvalidDateTime value)
+        invalidDateTime,
+    required TResult Function(FfiNodeError_InvalidFeeRate value) invalidFeeRate,
+    required TResult Function(FfiNodeError_CreationError value) creationError,
   }) {
     return paymentSendingFailed(this);
   }
@@ -6405,6 +6605,10 @@ class _$FfiNodeError_PaymentSendingFailedImpl
     TResult? Function(FfiNodeError_InvalidUri value)? invalidUri,
     TResult? Function(FfiNodeError_InvalidQuantity value)? invalidQuantity,
     TResult? Function(FfiNodeError_InvalidNodeAlias value)? invalidNodeAlias,
+    TResult? Function(FfiNodeError_InvalidCustomTlvs value)? invalidCustomTlvs,
+    TResult? Function(FfiNodeError_InvalidDateTime value)? invalidDateTime,
+    TResult? Function(FfiNodeError_InvalidFeeRate value)? invalidFeeRate,
+    TResult? Function(FfiNodeError_CreationError value)? creationError,
   }) {
     return paymentSendingFailed?.call(this);
   }
@@ -6489,6 +6693,10 @@ class _$FfiNodeError_PaymentSendingFailedImpl
     TResult Function(FfiNodeError_InvalidUri value)? invalidUri,
     TResult Function(FfiNodeError_InvalidQuantity value)? invalidQuantity,
     TResult Function(FfiNodeError_InvalidNodeAlias value)? invalidNodeAlias,
+    TResult Function(FfiNodeError_InvalidCustomTlvs value)? invalidCustomTlvs,
+    TResult Function(FfiNodeError_InvalidDateTime value)? invalidDateTime,
+    TResult Function(FfiNodeError_InvalidFeeRate value)? invalidFeeRate,
+    TResult Function(FfiNodeError_CreationError value)? creationError,
     required TResult orElse(),
   }) {
     if (paymentSendingFailed != null) {
@@ -6603,6 +6811,10 @@ class _$FfiNodeError_ProbeSendingFailedImpl
     required TResult Function() invalidUri,
     required TResult Function() invalidQuantity,
     required TResult Function() invalidNodeAlias,
+    required TResult Function() invalidCustomTlvs,
+    required TResult Function() invalidDateTime,
+    required TResult Function() invalidFeeRate,
+    required TResult Function(FfiCreationError field0) creationError,
   }) {
     return probeSendingFailed();
   }
@@ -6663,6 +6875,10 @@ class _$FfiNodeError_ProbeSendingFailedImpl
     TResult? Function()? invalidUri,
     TResult? Function()? invalidQuantity,
     TResult? Function()? invalidNodeAlias,
+    TResult? Function()? invalidCustomTlvs,
+    TResult? Function()? invalidDateTime,
+    TResult? Function()? invalidFeeRate,
+    TResult? Function(FfiCreationError field0)? creationError,
   }) {
     return probeSendingFailed?.call();
   }
@@ -6723,6 +6939,10 @@ class _$FfiNodeError_ProbeSendingFailedImpl
     TResult Function()? invalidUri,
     TResult Function()? invalidQuantity,
     TResult Function()? invalidNodeAlias,
+    TResult Function()? invalidCustomTlvs,
+    TResult Function()? invalidDateTime,
+    TResult Function()? invalidFeeRate,
+    TResult Function(FfiCreationError field0)? creationError,
     required TResult orElse(),
   }) {
     if (probeSendingFailed != null) {
@@ -6824,6 +7044,12 @@ class _$FfiNodeError_ProbeSendingFailedImpl
         invalidQuantity,
     required TResult Function(FfiNodeError_InvalidNodeAlias value)
         invalidNodeAlias,
+    required TResult Function(FfiNodeError_InvalidCustomTlvs value)
+        invalidCustomTlvs,
+    required TResult Function(FfiNodeError_InvalidDateTime value)
+        invalidDateTime,
+    required TResult Function(FfiNodeError_InvalidFeeRate value) invalidFeeRate,
+    required TResult Function(FfiNodeError_CreationError value) creationError,
   }) {
     return probeSendingFailed(this);
   }
@@ -6911,6 +7137,10 @@ class _$FfiNodeError_ProbeSendingFailedImpl
     TResult? Function(FfiNodeError_InvalidUri value)? invalidUri,
     TResult? Function(FfiNodeError_InvalidQuantity value)? invalidQuantity,
     TResult? Function(FfiNodeError_InvalidNodeAlias value)? invalidNodeAlias,
+    TResult? Function(FfiNodeError_InvalidCustomTlvs value)? invalidCustomTlvs,
+    TResult? Function(FfiNodeError_InvalidDateTime value)? invalidDateTime,
+    TResult? Function(FfiNodeError_InvalidFeeRate value)? invalidFeeRate,
+    TResult? Function(FfiNodeError_CreationError value)? creationError,
   }) {
     return probeSendingFailed?.call(this);
   }
@@ -6995,6 +7225,10 @@ class _$FfiNodeError_ProbeSendingFailedImpl
     TResult Function(FfiNodeError_InvalidUri value)? invalidUri,
     TResult Function(FfiNodeError_InvalidQuantity value)? invalidQuantity,
     TResult Function(FfiNodeError_InvalidNodeAlias value)? invalidNodeAlias,
+    TResult Function(FfiNodeError_InvalidCustomTlvs value)? invalidCustomTlvs,
+    TResult Function(FfiNodeError_InvalidDateTime value)? invalidDateTime,
+    TResult Function(FfiNodeError_InvalidFeeRate value)? invalidFeeRate,
+    TResult Function(FfiNodeError_CreationError value)? creationError,
     required TResult orElse(),
   }) {
     if (probeSendingFailed != null) {
@@ -7109,6 +7343,10 @@ class _$FfiNodeError_ChannelCreationFailedImpl
     required TResult Function() invalidUri,
     required TResult Function() invalidQuantity,
     required TResult Function() invalidNodeAlias,
+    required TResult Function() invalidCustomTlvs,
+    required TResult Function() invalidDateTime,
+    required TResult Function() invalidFeeRate,
+    required TResult Function(FfiCreationError field0) creationError,
   }) {
     return channelCreationFailed();
   }
@@ -7169,6 +7407,10 @@ class _$FfiNodeError_ChannelCreationFailedImpl
     TResult? Function()? invalidUri,
     TResult? Function()? invalidQuantity,
     TResult? Function()? invalidNodeAlias,
+    TResult? Function()? invalidCustomTlvs,
+    TResult? Function()? invalidDateTime,
+    TResult? Function()? invalidFeeRate,
+    TResult? Function(FfiCreationError field0)? creationError,
   }) {
     return channelCreationFailed?.call();
   }
@@ -7229,6 +7471,10 @@ class _$FfiNodeError_ChannelCreationFailedImpl
     TResult Function()? invalidUri,
     TResult Function()? invalidQuantity,
     TResult Function()? invalidNodeAlias,
+    TResult Function()? invalidCustomTlvs,
+    TResult Function()? invalidDateTime,
+    TResult Function()? invalidFeeRate,
+    TResult Function(FfiCreationError field0)? creationError,
     required TResult orElse(),
   }) {
     if (channelCreationFailed != null) {
@@ -7330,6 +7576,12 @@ class _$FfiNodeError_ChannelCreationFailedImpl
         invalidQuantity,
     required TResult Function(FfiNodeError_InvalidNodeAlias value)
         invalidNodeAlias,
+    required TResult Function(FfiNodeError_InvalidCustomTlvs value)
+        invalidCustomTlvs,
+    required TResult Function(FfiNodeError_InvalidDateTime value)
+        invalidDateTime,
+    required TResult Function(FfiNodeError_InvalidFeeRate value) invalidFeeRate,
+    required TResult Function(FfiNodeError_CreationError value) creationError,
   }) {
     return channelCreationFailed(this);
   }
@@ -7417,6 +7669,10 @@ class _$FfiNodeError_ChannelCreationFailedImpl
     TResult? Function(FfiNodeError_InvalidUri value)? invalidUri,
     TResult? Function(FfiNodeError_InvalidQuantity value)? invalidQuantity,
     TResult? Function(FfiNodeError_InvalidNodeAlias value)? invalidNodeAlias,
+    TResult? Function(FfiNodeError_InvalidCustomTlvs value)? invalidCustomTlvs,
+    TResult? Function(FfiNodeError_InvalidDateTime value)? invalidDateTime,
+    TResult? Function(FfiNodeError_InvalidFeeRate value)? invalidFeeRate,
+    TResult? Function(FfiNodeError_CreationError value)? creationError,
   }) {
     return channelCreationFailed?.call(this);
   }
@@ -7501,6 +7757,10 @@ class _$FfiNodeError_ChannelCreationFailedImpl
     TResult Function(FfiNodeError_InvalidUri value)? invalidUri,
     TResult Function(FfiNodeError_InvalidQuantity value)? invalidQuantity,
     TResult Function(FfiNodeError_InvalidNodeAlias value)? invalidNodeAlias,
+    TResult Function(FfiNodeError_InvalidCustomTlvs value)? invalidCustomTlvs,
+    TResult Function(FfiNodeError_InvalidDateTime value)? invalidDateTime,
+    TResult Function(FfiNodeError_InvalidFeeRate value)? invalidFeeRate,
+    TResult Function(FfiNodeError_CreationError value)? creationError,
     required TResult orElse(),
   }) {
     if (channelCreationFailed != null) {
@@ -7615,6 +7875,10 @@ class _$FfiNodeError_ChannelClosingFailedImpl
     required TResult Function() invalidUri,
     required TResult Function() invalidQuantity,
     required TResult Function() invalidNodeAlias,
+    required TResult Function() invalidCustomTlvs,
+    required TResult Function() invalidDateTime,
+    required TResult Function() invalidFeeRate,
+    required TResult Function(FfiCreationError field0) creationError,
   }) {
     return channelClosingFailed();
   }
@@ -7675,6 +7939,10 @@ class _$FfiNodeError_ChannelClosingFailedImpl
     TResult? Function()? invalidUri,
     TResult? Function()? invalidQuantity,
     TResult? Function()? invalidNodeAlias,
+    TResult? Function()? invalidCustomTlvs,
+    TResult? Function()? invalidDateTime,
+    TResult? Function()? invalidFeeRate,
+    TResult? Function(FfiCreationError field0)? creationError,
   }) {
     return channelClosingFailed?.call();
   }
@@ -7735,6 +8003,10 @@ class _$FfiNodeError_ChannelClosingFailedImpl
     TResult Function()? invalidUri,
     TResult Function()? invalidQuantity,
     TResult Function()? invalidNodeAlias,
+    TResult Function()? invalidCustomTlvs,
+    TResult Function()? invalidDateTime,
+    TResult Function()? invalidFeeRate,
+    TResult Function(FfiCreationError field0)? creationError,
     required TResult orElse(),
   }) {
     if (channelClosingFailed != null) {
@@ -7836,6 +8108,12 @@ class _$FfiNodeError_ChannelClosingFailedImpl
         invalidQuantity,
     required TResult Function(FfiNodeError_InvalidNodeAlias value)
         invalidNodeAlias,
+    required TResult Function(FfiNodeError_InvalidCustomTlvs value)
+        invalidCustomTlvs,
+    required TResult Function(FfiNodeError_InvalidDateTime value)
+        invalidDateTime,
+    required TResult Function(FfiNodeError_InvalidFeeRate value) invalidFeeRate,
+    required TResult Function(FfiNodeError_CreationError value) creationError,
   }) {
     return channelClosingFailed(this);
   }
@@ -7923,6 +8201,10 @@ class _$FfiNodeError_ChannelClosingFailedImpl
     TResult? Function(FfiNodeError_InvalidUri value)? invalidUri,
     TResult? Function(FfiNodeError_InvalidQuantity value)? invalidQuantity,
     TResult? Function(FfiNodeError_InvalidNodeAlias value)? invalidNodeAlias,
+    TResult? Function(FfiNodeError_InvalidCustomTlvs value)? invalidCustomTlvs,
+    TResult? Function(FfiNodeError_InvalidDateTime value)? invalidDateTime,
+    TResult? Function(FfiNodeError_InvalidFeeRate value)? invalidFeeRate,
+    TResult? Function(FfiNodeError_CreationError value)? creationError,
   }) {
     return channelClosingFailed?.call(this);
   }
@@ -8007,6 +8289,10 @@ class _$FfiNodeError_ChannelClosingFailedImpl
     TResult Function(FfiNodeError_InvalidUri value)? invalidUri,
     TResult Function(FfiNodeError_InvalidQuantity value)? invalidQuantity,
     TResult Function(FfiNodeError_InvalidNodeAlias value)? invalidNodeAlias,
+    TResult Function(FfiNodeError_InvalidCustomTlvs value)? invalidCustomTlvs,
+    TResult Function(FfiNodeError_InvalidDateTime value)? invalidDateTime,
+    TResult Function(FfiNodeError_InvalidFeeRate value)? invalidFeeRate,
+    TResult Function(FfiNodeError_CreationError value)? creationError,
     required TResult orElse(),
   }) {
     if (channelClosingFailed != null) {
@@ -8121,6 +8407,10 @@ class _$FfiNodeError_ChannelConfigUpdateFailedImpl
     required TResult Function() invalidUri,
     required TResult Function() invalidQuantity,
     required TResult Function() invalidNodeAlias,
+    required TResult Function() invalidCustomTlvs,
+    required TResult Function() invalidDateTime,
+    required TResult Function() invalidFeeRate,
+    required TResult Function(FfiCreationError field0) creationError,
   }) {
     return channelConfigUpdateFailed();
   }
@@ -8181,6 +8471,10 @@ class _$FfiNodeError_ChannelConfigUpdateFailedImpl
     TResult? Function()? invalidUri,
     TResult? Function()? invalidQuantity,
     TResult? Function()? invalidNodeAlias,
+    TResult? Function()? invalidCustomTlvs,
+    TResult? Function()? invalidDateTime,
+    TResult? Function()? invalidFeeRate,
+    TResult? Function(FfiCreationError field0)? creationError,
   }) {
     return channelConfigUpdateFailed?.call();
   }
@@ -8241,6 +8535,10 @@ class _$FfiNodeError_ChannelConfigUpdateFailedImpl
     TResult Function()? invalidUri,
     TResult Function()? invalidQuantity,
     TResult Function()? invalidNodeAlias,
+    TResult Function()? invalidCustomTlvs,
+    TResult Function()? invalidDateTime,
+    TResult Function()? invalidFeeRate,
+    TResult Function(FfiCreationError field0)? creationError,
     required TResult orElse(),
   }) {
     if (channelConfigUpdateFailed != null) {
@@ -8342,6 +8640,12 @@ class _$FfiNodeError_ChannelConfigUpdateFailedImpl
         invalidQuantity,
     required TResult Function(FfiNodeError_InvalidNodeAlias value)
         invalidNodeAlias,
+    required TResult Function(FfiNodeError_InvalidCustomTlvs value)
+        invalidCustomTlvs,
+    required TResult Function(FfiNodeError_InvalidDateTime value)
+        invalidDateTime,
+    required TResult Function(FfiNodeError_InvalidFeeRate value) invalidFeeRate,
+    required TResult Function(FfiNodeError_CreationError value) creationError,
   }) {
     return channelConfigUpdateFailed(this);
   }
@@ -8429,6 +8733,10 @@ class _$FfiNodeError_ChannelConfigUpdateFailedImpl
     TResult? Function(FfiNodeError_InvalidUri value)? invalidUri,
     TResult? Function(FfiNodeError_InvalidQuantity value)? invalidQuantity,
     TResult? Function(FfiNodeError_InvalidNodeAlias value)? invalidNodeAlias,
+    TResult? Function(FfiNodeError_InvalidCustomTlvs value)? invalidCustomTlvs,
+    TResult? Function(FfiNodeError_InvalidDateTime value)? invalidDateTime,
+    TResult? Function(FfiNodeError_InvalidFeeRate value)? invalidFeeRate,
+    TResult? Function(FfiNodeError_CreationError value)? creationError,
   }) {
     return channelConfigUpdateFailed?.call(this);
   }
@@ -8513,6 +8821,10 @@ class _$FfiNodeError_ChannelConfigUpdateFailedImpl
     TResult Function(FfiNodeError_InvalidUri value)? invalidUri,
     TResult Function(FfiNodeError_InvalidQuantity value)? invalidQuantity,
     TResult Function(FfiNodeError_InvalidNodeAlias value)? invalidNodeAlias,
+    TResult Function(FfiNodeError_InvalidCustomTlvs value)? invalidCustomTlvs,
+    TResult Function(FfiNodeError_InvalidDateTime value)? invalidDateTime,
+    TResult Function(FfiNodeError_InvalidFeeRate value)? invalidFeeRate,
+    TResult Function(FfiNodeError_CreationError value)? creationError,
     required TResult orElse(),
   }) {
     if (channelConfigUpdateFailed != null) {
@@ -8627,6 +8939,10 @@ class _$FfiNodeError_PersistenceFailedImpl
     required TResult Function() invalidUri,
     required TResult Function() invalidQuantity,
     required TResult Function() invalidNodeAlias,
+    required TResult Function() invalidCustomTlvs,
+    required TResult Function() invalidDateTime,
+    required TResult Function() invalidFeeRate,
+    required TResult Function(FfiCreationError field0) creationError,
   }) {
     return persistenceFailed();
   }
@@ -8687,6 +9003,10 @@ class _$FfiNodeError_PersistenceFailedImpl
     TResult? Function()? invalidUri,
     TResult? Function()? invalidQuantity,
     TResult? Function()? invalidNodeAlias,
+    TResult? Function()? invalidCustomTlvs,
+    TResult? Function()? invalidDateTime,
+    TResult? Function()? invalidFeeRate,
+    TResult? Function(FfiCreationError field0)? creationError,
   }) {
     return persistenceFailed?.call();
   }
@@ -8747,6 +9067,10 @@ class _$FfiNodeError_PersistenceFailedImpl
     TResult Function()? invalidUri,
     TResult Function()? invalidQuantity,
     TResult Function()? invalidNodeAlias,
+    TResult Function()? invalidCustomTlvs,
+    TResult Function()? invalidDateTime,
+    TResult Function()? invalidFeeRate,
+    TResult Function(FfiCreationError field0)? creationError,
     required TResult orElse(),
   }) {
     if (persistenceFailed != null) {
@@ -8848,6 +9172,12 @@ class _$FfiNodeError_PersistenceFailedImpl
         invalidQuantity,
     required TResult Function(FfiNodeError_InvalidNodeAlias value)
         invalidNodeAlias,
+    required TResult Function(FfiNodeError_InvalidCustomTlvs value)
+        invalidCustomTlvs,
+    required TResult Function(FfiNodeError_InvalidDateTime value)
+        invalidDateTime,
+    required TResult Function(FfiNodeError_InvalidFeeRate value) invalidFeeRate,
+    required TResult Function(FfiNodeError_CreationError value) creationError,
   }) {
     return persistenceFailed(this);
   }
@@ -8935,6 +9265,10 @@ class _$FfiNodeError_PersistenceFailedImpl
     TResult? Function(FfiNodeError_InvalidUri value)? invalidUri,
     TResult? Function(FfiNodeError_InvalidQuantity value)? invalidQuantity,
     TResult? Function(FfiNodeError_InvalidNodeAlias value)? invalidNodeAlias,
+    TResult? Function(FfiNodeError_InvalidCustomTlvs value)? invalidCustomTlvs,
+    TResult? Function(FfiNodeError_InvalidDateTime value)? invalidDateTime,
+    TResult? Function(FfiNodeError_InvalidFeeRate value)? invalidFeeRate,
+    TResult? Function(FfiNodeError_CreationError value)? creationError,
   }) {
     return persistenceFailed?.call(this);
   }
@@ -9019,6 +9353,10 @@ class _$FfiNodeError_PersistenceFailedImpl
     TResult Function(FfiNodeError_InvalidUri value)? invalidUri,
     TResult Function(FfiNodeError_InvalidQuantity value)? invalidQuantity,
     TResult Function(FfiNodeError_InvalidNodeAlias value)? invalidNodeAlias,
+    TResult Function(FfiNodeError_InvalidCustomTlvs value)? invalidCustomTlvs,
+    TResult Function(FfiNodeError_InvalidDateTime value)? invalidDateTime,
+    TResult Function(FfiNodeError_InvalidFeeRate value)? invalidFeeRate,
+    TResult Function(FfiNodeError_CreationError value)? creationError,
     required TResult orElse(),
   }) {
     if (persistenceFailed != null) {
@@ -9133,6 +9471,10 @@ class _$FfiNodeError_WalletOperationFailedImpl
     required TResult Function() invalidUri,
     required TResult Function() invalidQuantity,
     required TResult Function() invalidNodeAlias,
+    required TResult Function() invalidCustomTlvs,
+    required TResult Function() invalidDateTime,
+    required TResult Function() invalidFeeRate,
+    required TResult Function(FfiCreationError field0) creationError,
   }) {
     return walletOperationFailed();
   }
@@ -9193,6 +9535,10 @@ class _$FfiNodeError_WalletOperationFailedImpl
     TResult? Function()? invalidUri,
     TResult? Function()? invalidQuantity,
     TResult? Function()? invalidNodeAlias,
+    TResult? Function()? invalidCustomTlvs,
+    TResult? Function()? invalidDateTime,
+    TResult? Function()? invalidFeeRate,
+    TResult? Function(FfiCreationError field0)? creationError,
   }) {
     return walletOperationFailed?.call();
   }
@@ -9253,6 +9599,10 @@ class _$FfiNodeError_WalletOperationFailedImpl
     TResult Function()? invalidUri,
     TResult Function()? invalidQuantity,
     TResult Function()? invalidNodeAlias,
+    TResult Function()? invalidCustomTlvs,
+    TResult Function()? invalidDateTime,
+    TResult Function()? invalidFeeRate,
+    TResult Function(FfiCreationError field0)? creationError,
     required TResult orElse(),
   }) {
     if (walletOperationFailed != null) {
@@ -9354,6 +9704,12 @@ class _$FfiNodeError_WalletOperationFailedImpl
         invalidQuantity,
     required TResult Function(FfiNodeError_InvalidNodeAlias value)
         invalidNodeAlias,
+    required TResult Function(FfiNodeError_InvalidCustomTlvs value)
+        invalidCustomTlvs,
+    required TResult Function(FfiNodeError_InvalidDateTime value)
+        invalidDateTime,
+    required TResult Function(FfiNodeError_InvalidFeeRate value) invalidFeeRate,
+    required TResult Function(FfiNodeError_CreationError value) creationError,
   }) {
     return walletOperationFailed(this);
   }
@@ -9441,6 +9797,10 @@ class _$FfiNodeError_WalletOperationFailedImpl
     TResult? Function(FfiNodeError_InvalidUri value)? invalidUri,
     TResult? Function(FfiNodeError_InvalidQuantity value)? invalidQuantity,
     TResult? Function(FfiNodeError_InvalidNodeAlias value)? invalidNodeAlias,
+    TResult? Function(FfiNodeError_InvalidCustomTlvs value)? invalidCustomTlvs,
+    TResult? Function(FfiNodeError_InvalidDateTime value)? invalidDateTime,
+    TResult? Function(FfiNodeError_InvalidFeeRate value)? invalidFeeRate,
+    TResult? Function(FfiNodeError_CreationError value)? creationError,
   }) {
     return walletOperationFailed?.call(this);
   }
@@ -9525,6 +9885,10 @@ class _$FfiNodeError_WalletOperationFailedImpl
     TResult Function(FfiNodeError_InvalidUri value)? invalidUri,
     TResult Function(FfiNodeError_InvalidQuantity value)? invalidQuantity,
     TResult Function(FfiNodeError_InvalidNodeAlias value)? invalidNodeAlias,
+    TResult Function(FfiNodeError_InvalidCustomTlvs value)? invalidCustomTlvs,
+    TResult Function(FfiNodeError_InvalidDateTime value)? invalidDateTime,
+    TResult Function(FfiNodeError_InvalidFeeRate value)? invalidFeeRate,
+    TResult Function(FfiNodeError_CreationError value)? creationError,
     required TResult orElse(),
   }) {
     if (walletOperationFailed != null) {
@@ -9639,6 +10003,10 @@ class _$FfiNodeError_OnchainTxSigningFailedImpl
     required TResult Function() invalidUri,
     required TResult Function() invalidQuantity,
     required TResult Function() invalidNodeAlias,
+    required TResult Function() invalidCustomTlvs,
+    required TResult Function() invalidDateTime,
+    required TResult Function() invalidFeeRate,
+    required TResult Function(FfiCreationError field0) creationError,
   }) {
     return onchainTxSigningFailed();
   }
@@ -9699,6 +10067,10 @@ class _$FfiNodeError_OnchainTxSigningFailedImpl
     TResult? Function()? invalidUri,
     TResult? Function()? invalidQuantity,
     TResult? Function()? invalidNodeAlias,
+    TResult? Function()? invalidCustomTlvs,
+    TResult? Function()? invalidDateTime,
+    TResult? Function()? invalidFeeRate,
+    TResult? Function(FfiCreationError field0)? creationError,
   }) {
     return onchainTxSigningFailed?.call();
   }
@@ -9759,6 +10131,10 @@ class _$FfiNodeError_OnchainTxSigningFailedImpl
     TResult Function()? invalidUri,
     TResult Function()? invalidQuantity,
     TResult Function()? invalidNodeAlias,
+    TResult Function()? invalidCustomTlvs,
+    TResult Function()? invalidDateTime,
+    TResult Function()? invalidFeeRate,
+    TResult Function(FfiCreationError field0)? creationError,
     required TResult orElse(),
   }) {
     if (onchainTxSigningFailed != null) {
@@ -9860,6 +10236,12 @@ class _$FfiNodeError_OnchainTxSigningFailedImpl
         invalidQuantity,
     required TResult Function(FfiNodeError_InvalidNodeAlias value)
         invalidNodeAlias,
+    required TResult Function(FfiNodeError_InvalidCustomTlvs value)
+        invalidCustomTlvs,
+    required TResult Function(FfiNodeError_InvalidDateTime value)
+        invalidDateTime,
+    required TResult Function(FfiNodeError_InvalidFeeRate value) invalidFeeRate,
+    required TResult Function(FfiNodeError_CreationError value) creationError,
   }) {
     return onchainTxSigningFailed(this);
   }
@@ -9947,6 +10329,10 @@ class _$FfiNodeError_OnchainTxSigningFailedImpl
     TResult? Function(FfiNodeError_InvalidUri value)? invalidUri,
     TResult? Function(FfiNodeError_InvalidQuantity value)? invalidQuantity,
     TResult? Function(FfiNodeError_InvalidNodeAlias value)? invalidNodeAlias,
+    TResult? Function(FfiNodeError_InvalidCustomTlvs value)? invalidCustomTlvs,
+    TResult? Function(FfiNodeError_InvalidDateTime value)? invalidDateTime,
+    TResult? Function(FfiNodeError_InvalidFeeRate value)? invalidFeeRate,
+    TResult? Function(FfiNodeError_CreationError value)? creationError,
   }) {
     return onchainTxSigningFailed?.call(this);
   }
@@ -10031,6 +10417,10 @@ class _$FfiNodeError_OnchainTxSigningFailedImpl
     TResult Function(FfiNodeError_InvalidUri value)? invalidUri,
     TResult Function(FfiNodeError_InvalidQuantity value)? invalidQuantity,
     TResult Function(FfiNodeError_InvalidNodeAlias value)? invalidNodeAlias,
+    TResult Function(FfiNodeError_InvalidCustomTlvs value)? invalidCustomTlvs,
+    TResult Function(FfiNodeError_InvalidDateTime value)? invalidDateTime,
+    TResult Function(FfiNodeError_InvalidFeeRate value)? invalidFeeRate,
+    TResult Function(FfiNodeError_CreationError value)? creationError,
     required TResult orElse(),
   }) {
     if (onchainTxSigningFailed != null) {
@@ -10145,6 +10535,10 @@ class _$FfiNodeError_MessageSigningFailedImpl
     required TResult Function() invalidUri,
     required TResult Function() invalidQuantity,
     required TResult Function() invalidNodeAlias,
+    required TResult Function() invalidCustomTlvs,
+    required TResult Function() invalidDateTime,
+    required TResult Function() invalidFeeRate,
+    required TResult Function(FfiCreationError field0) creationError,
   }) {
     return messageSigningFailed();
   }
@@ -10205,6 +10599,10 @@ class _$FfiNodeError_MessageSigningFailedImpl
     TResult? Function()? invalidUri,
     TResult? Function()? invalidQuantity,
     TResult? Function()? invalidNodeAlias,
+    TResult? Function()? invalidCustomTlvs,
+    TResult? Function()? invalidDateTime,
+    TResult? Function()? invalidFeeRate,
+    TResult? Function(FfiCreationError field0)? creationError,
   }) {
     return messageSigningFailed?.call();
   }
@@ -10265,6 +10663,10 @@ class _$FfiNodeError_MessageSigningFailedImpl
     TResult Function()? invalidUri,
     TResult Function()? invalidQuantity,
     TResult Function()? invalidNodeAlias,
+    TResult Function()? invalidCustomTlvs,
+    TResult Function()? invalidDateTime,
+    TResult Function()? invalidFeeRate,
+    TResult Function(FfiCreationError field0)? creationError,
     required TResult orElse(),
   }) {
     if (messageSigningFailed != null) {
@@ -10366,6 +10768,12 @@ class _$FfiNodeError_MessageSigningFailedImpl
         invalidQuantity,
     required TResult Function(FfiNodeError_InvalidNodeAlias value)
         invalidNodeAlias,
+    required TResult Function(FfiNodeError_InvalidCustomTlvs value)
+        invalidCustomTlvs,
+    required TResult Function(FfiNodeError_InvalidDateTime value)
+        invalidDateTime,
+    required TResult Function(FfiNodeError_InvalidFeeRate value) invalidFeeRate,
+    required TResult Function(FfiNodeError_CreationError value) creationError,
   }) {
     return messageSigningFailed(this);
   }
@@ -10453,6 +10861,10 @@ class _$FfiNodeError_MessageSigningFailedImpl
     TResult? Function(FfiNodeError_InvalidUri value)? invalidUri,
     TResult? Function(FfiNodeError_InvalidQuantity value)? invalidQuantity,
     TResult? Function(FfiNodeError_InvalidNodeAlias value)? invalidNodeAlias,
+    TResult? Function(FfiNodeError_InvalidCustomTlvs value)? invalidCustomTlvs,
+    TResult? Function(FfiNodeError_InvalidDateTime value)? invalidDateTime,
+    TResult? Function(FfiNodeError_InvalidFeeRate value)? invalidFeeRate,
+    TResult? Function(FfiNodeError_CreationError value)? creationError,
   }) {
     return messageSigningFailed?.call(this);
   }
@@ -10537,6 +10949,10 @@ class _$FfiNodeError_MessageSigningFailedImpl
     TResult Function(FfiNodeError_InvalidUri value)? invalidUri,
     TResult Function(FfiNodeError_InvalidQuantity value)? invalidQuantity,
     TResult Function(FfiNodeError_InvalidNodeAlias value)? invalidNodeAlias,
+    TResult Function(FfiNodeError_InvalidCustomTlvs value)? invalidCustomTlvs,
+    TResult Function(FfiNodeError_InvalidDateTime value)? invalidDateTime,
+    TResult Function(FfiNodeError_InvalidFeeRate value)? invalidFeeRate,
+    TResult Function(FfiNodeError_CreationError value)? creationError,
     required TResult orElse(),
   }) {
     if (messageSigningFailed != null) {
@@ -10649,6 +11065,10 @@ class _$FfiNodeError_TxSyncFailedImpl extends FfiNodeError_TxSyncFailed {
     required TResult Function() invalidUri,
     required TResult Function() invalidQuantity,
     required TResult Function() invalidNodeAlias,
+    required TResult Function() invalidCustomTlvs,
+    required TResult Function() invalidDateTime,
+    required TResult Function() invalidFeeRate,
+    required TResult Function(FfiCreationError field0) creationError,
   }) {
     return txSyncFailed();
   }
@@ -10709,6 +11129,10 @@ class _$FfiNodeError_TxSyncFailedImpl extends FfiNodeError_TxSyncFailed {
     TResult? Function()? invalidUri,
     TResult? Function()? invalidQuantity,
     TResult? Function()? invalidNodeAlias,
+    TResult? Function()? invalidCustomTlvs,
+    TResult? Function()? invalidDateTime,
+    TResult? Function()? invalidFeeRate,
+    TResult? Function(FfiCreationError field0)? creationError,
   }) {
     return txSyncFailed?.call();
   }
@@ -10769,6 +11193,10 @@ class _$FfiNodeError_TxSyncFailedImpl extends FfiNodeError_TxSyncFailed {
     TResult Function()? invalidUri,
     TResult Function()? invalidQuantity,
     TResult Function()? invalidNodeAlias,
+    TResult Function()? invalidCustomTlvs,
+    TResult Function()? invalidDateTime,
+    TResult Function()? invalidFeeRate,
+    TResult Function(FfiCreationError field0)? creationError,
     required TResult orElse(),
   }) {
     if (txSyncFailed != null) {
@@ -10870,6 +11298,12 @@ class _$FfiNodeError_TxSyncFailedImpl extends FfiNodeError_TxSyncFailed {
         invalidQuantity,
     required TResult Function(FfiNodeError_InvalidNodeAlias value)
         invalidNodeAlias,
+    required TResult Function(FfiNodeError_InvalidCustomTlvs value)
+        invalidCustomTlvs,
+    required TResult Function(FfiNodeError_InvalidDateTime value)
+        invalidDateTime,
+    required TResult Function(FfiNodeError_InvalidFeeRate value) invalidFeeRate,
+    required TResult Function(FfiNodeError_CreationError value) creationError,
   }) {
     return txSyncFailed(this);
   }
@@ -10957,6 +11391,10 @@ class _$FfiNodeError_TxSyncFailedImpl extends FfiNodeError_TxSyncFailed {
     TResult? Function(FfiNodeError_InvalidUri value)? invalidUri,
     TResult? Function(FfiNodeError_InvalidQuantity value)? invalidQuantity,
     TResult? Function(FfiNodeError_InvalidNodeAlias value)? invalidNodeAlias,
+    TResult? Function(FfiNodeError_InvalidCustomTlvs value)? invalidCustomTlvs,
+    TResult? Function(FfiNodeError_InvalidDateTime value)? invalidDateTime,
+    TResult? Function(FfiNodeError_InvalidFeeRate value)? invalidFeeRate,
+    TResult? Function(FfiNodeError_CreationError value)? creationError,
   }) {
     return txSyncFailed?.call(this);
   }
@@ -11041,6 +11479,10 @@ class _$FfiNodeError_TxSyncFailedImpl extends FfiNodeError_TxSyncFailed {
     TResult Function(FfiNodeError_InvalidUri value)? invalidUri,
     TResult Function(FfiNodeError_InvalidQuantity value)? invalidQuantity,
     TResult Function(FfiNodeError_InvalidNodeAlias value)? invalidNodeAlias,
+    TResult Function(FfiNodeError_InvalidCustomTlvs value)? invalidCustomTlvs,
+    TResult Function(FfiNodeError_InvalidDateTime value)? invalidDateTime,
+    TResult Function(FfiNodeError_InvalidFeeRate value)? invalidFeeRate,
+    TResult Function(FfiNodeError_CreationError value)? creationError,
     required TResult orElse(),
   }) {
     if (txSyncFailed != null) {
@@ -11154,6 +11596,10 @@ class _$FfiNodeError_GossipUpdateFailedImpl
     required TResult Function() invalidUri,
     required TResult Function() invalidQuantity,
     required TResult Function() invalidNodeAlias,
+    required TResult Function() invalidCustomTlvs,
+    required TResult Function() invalidDateTime,
+    required TResult Function() invalidFeeRate,
+    required TResult Function(FfiCreationError field0) creationError,
   }) {
     return gossipUpdateFailed();
   }
@@ -11214,6 +11660,10 @@ class _$FfiNodeError_GossipUpdateFailedImpl
     TResult? Function()? invalidUri,
     TResult? Function()? invalidQuantity,
     TResult? Function()? invalidNodeAlias,
+    TResult? Function()? invalidCustomTlvs,
+    TResult? Function()? invalidDateTime,
+    TResult? Function()? invalidFeeRate,
+    TResult? Function(FfiCreationError field0)? creationError,
   }) {
     return gossipUpdateFailed?.call();
   }
@@ -11274,6 +11724,10 @@ class _$FfiNodeError_GossipUpdateFailedImpl
     TResult Function()? invalidUri,
     TResult Function()? invalidQuantity,
     TResult Function()? invalidNodeAlias,
+    TResult Function()? invalidCustomTlvs,
+    TResult Function()? invalidDateTime,
+    TResult Function()? invalidFeeRate,
+    TResult Function(FfiCreationError field0)? creationError,
     required TResult orElse(),
   }) {
     if (gossipUpdateFailed != null) {
@@ -11375,6 +11829,12 @@ class _$FfiNodeError_GossipUpdateFailedImpl
         invalidQuantity,
     required TResult Function(FfiNodeError_InvalidNodeAlias value)
         invalidNodeAlias,
+    required TResult Function(FfiNodeError_InvalidCustomTlvs value)
+        invalidCustomTlvs,
+    required TResult Function(FfiNodeError_InvalidDateTime value)
+        invalidDateTime,
+    required TResult Function(FfiNodeError_InvalidFeeRate value) invalidFeeRate,
+    required TResult Function(FfiNodeError_CreationError value) creationError,
   }) {
     return gossipUpdateFailed(this);
   }
@@ -11462,6 +11922,10 @@ class _$FfiNodeError_GossipUpdateFailedImpl
     TResult? Function(FfiNodeError_InvalidUri value)? invalidUri,
     TResult? Function(FfiNodeError_InvalidQuantity value)? invalidQuantity,
     TResult? Function(FfiNodeError_InvalidNodeAlias value)? invalidNodeAlias,
+    TResult? Function(FfiNodeError_InvalidCustomTlvs value)? invalidCustomTlvs,
+    TResult? Function(FfiNodeError_InvalidDateTime value)? invalidDateTime,
+    TResult? Function(FfiNodeError_InvalidFeeRate value)? invalidFeeRate,
+    TResult? Function(FfiNodeError_CreationError value)? creationError,
   }) {
     return gossipUpdateFailed?.call(this);
   }
@@ -11546,6 +12010,10 @@ class _$FfiNodeError_GossipUpdateFailedImpl
     TResult Function(FfiNodeError_InvalidUri value)? invalidUri,
     TResult Function(FfiNodeError_InvalidQuantity value)? invalidQuantity,
     TResult Function(FfiNodeError_InvalidNodeAlias value)? invalidNodeAlias,
+    TResult Function(FfiNodeError_InvalidCustomTlvs value)? invalidCustomTlvs,
+    TResult Function(FfiNodeError_InvalidDateTime value)? invalidDateTime,
+    TResult Function(FfiNodeError_InvalidFeeRate value)? invalidFeeRate,
+    TResult Function(FfiNodeError_CreationError value)? creationError,
     required TResult orElse(),
   }) {
     if (gossipUpdateFailed != null) {
@@ -11658,6 +12126,10 @@ class _$FfiNodeError_InvalidAddressImpl extends FfiNodeError_InvalidAddress {
     required TResult Function() invalidUri,
     required TResult Function() invalidQuantity,
     required TResult Function() invalidNodeAlias,
+    required TResult Function() invalidCustomTlvs,
+    required TResult Function() invalidDateTime,
+    required TResult Function() invalidFeeRate,
+    required TResult Function(FfiCreationError field0) creationError,
   }) {
     return invalidAddress();
   }
@@ -11718,6 +12190,10 @@ class _$FfiNodeError_InvalidAddressImpl extends FfiNodeError_InvalidAddress {
     TResult? Function()? invalidUri,
     TResult? Function()? invalidQuantity,
     TResult? Function()? invalidNodeAlias,
+    TResult? Function()? invalidCustomTlvs,
+    TResult? Function()? invalidDateTime,
+    TResult? Function()? invalidFeeRate,
+    TResult? Function(FfiCreationError field0)? creationError,
   }) {
     return invalidAddress?.call();
   }
@@ -11778,6 +12254,10 @@ class _$FfiNodeError_InvalidAddressImpl extends FfiNodeError_InvalidAddress {
     TResult Function()? invalidUri,
     TResult Function()? invalidQuantity,
     TResult Function()? invalidNodeAlias,
+    TResult Function()? invalidCustomTlvs,
+    TResult Function()? invalidDateTime,
+    TResult Function()? invalidFeeRate,
+    TResult Function(FfiCreationError field0)? creationError,
     required TResult orElse(),
   }) {
     if (invalidAddress != null) {
@@ -11879,6 +12359,12 @@ class _$FfiNodeError_InvalidAddressImpl extends FfiNodeError_InvalidAddress {
         invalidQuantity,
     required TResult Function(FfiNodeError_InvalidNodeAlias value)
         invalidNodeAlias,
+    required TResult Function(FfiNodeError_InvalidCustomTlvs value)
+        invalidCustomTlvs,
+    required TResult Function(FfiNodeError_InvalidDateTime value)
+        invalidDateTime,
+    required TResult Function(FfiNodeError_InvalidFeeRate value) invalidFeeRate,
+    required TResult Function(FfiNodeError_CreationError value) creationError,
   }) {
     return invalidAddress(this);
   }
@@ -11966,6 +12452,10 @@ class _$FfiNodeError_InvalidAddressImpl extends FfiNodeError_InvalidAddress {
     TResult? Function(FfiNodeError_InvalidUri value)? invalidUri,
     TResult? Function(FfiNodeError_InvalidQuantity value)? invalidQuantity,
     TResult? Function(FfiNodeError_InvalidNodeAlias value)? invalidNodeAlias,
+    TResult? Function(FfiNodeError_InvalidCustomTlvs value)? invalidCustomTlvs,
+    TResult? Function(FfiNodeError_InvalidDateTime value)? invalidDateTime,
+    TResult? Function(FfiNodeError_InvalidFeeRate value)? invalidFeeRate,
+    TResult? Function(FfiNodeError_CreationError value)? creationError,
   }) {
     return invalidAddress?.call(this);
   }
@@ -12050,6 +12540,10 @@ class _$FfiNodeError_InvalidAddressImpl extends FfiNodeError_InvalidAddress {
     TResult Function(FfiNodeError_InvalidUri value)? invalidUri,
     TResult Function(FfiNodeError_InvalidQuantity value)? invalidQuantity,
     TResult Function(FfiNodeError_InvalidNodeAlias value)? invalidNodeAlias,
+    TResult Function(FfiNodeError_InvalidCustomTlvs value)? invalidCustomTlvs,
+    TResult Function(FfiNodeError_InvalidDateTime value)? invalidDateTime,
+    TResult Function(FfiNodeError_InvalidFeeRate value)? invalidFeeRate,
+    TResult Function(FfiNodeError_CreationError value)? creationError,
     required TResult orElse(),
   }) {
     if (invalidAddress != null) {
@@ -12164,6 +12658,10 @@ class _$FfiNodeError_InvalidSocketAddressImpl
     required TResult Function() invalidUri,
     required TResult Function() invalidQuantity,
     required TResult Function() invalidNodeAlias,
+    required TResult Function() invalidCustomTlvs,
+    required TResult Function() invalidDateTime,
+    required TResult Function() invalidFeeRate,
+    required TResult Function(FfiCreationError field0) creationError,
   }) {
     return invalidSocketAddress();
   }
@@ -12224,6 +12722,10 @@ class _$FfiNodeError_InvalidSocketAddressImpl
     TResult? Function()? invalidUri,
     TResult? Function()? invalidQuantity,
     TResult? Function()? invalidNodeAlias,
+    TResult? Function()? invalidCustomTlvs,
+    TResult? Function()? invalidDateTime,
+    TResult? Function()? invalidFeeRate,
+    TResult? Function(FfiCreationError field0)? creationError,
   }) {
     return invalidSocketAddress?.call();
   }
@@ -12284,6 +12786,10 @@ class _$FfiNodeError_InvalidSocketAddressImpl
     TResult Function()? invalidUri,
     TResult Function()? invalidQuantity,
     TResult Function()? invalidNodeAlias,
+    TResult Function()? invalidCustomTlvs,
+    TResult Function()? invalidDateTime,
+    TResult Function()? invalidFeeRate,
+    TResult Function(FfiCreationError field0)? creationError,
     required TResult orElse(),
   }) {
     if (invalidSocketAddress != null) {
@@ -12385,6 +12891,12 @@ class _$FfiNodeError_InvalidSocketAddressImpl
         invalidQuantity,
     required TResult Function(FfiNodeError_InvalidNodeAlias value)
         invalidNodeAlias,
+    required TResult Function(FfiNodeError_InvalidCustomTlvs value)
+        invalidCustomTlvs,
+    required TResult Function(FfiNodeError_InvalidDateTime value)
+        invalidDateTime,
+    required TResult Function(FfiNodeError_InvalidFeeRate value) invalidFeeRate,
+    required TResult Function(FfiNodeError_CreationError value) creationError,
   }) {
     return invalidSocketAddress(this);
   }
@@ -12472,6 +12984,10 @@ class _$FfiNodeError_InvalidSocketAddressImpl
     TResult? Function(FfiNodeError_InvalidUri value)? invalidUri,
     TResult? Function(FfiNodeError_InvalidQuantity value)? invalidQuantity,
     TResult? Function(FfiNodeError_InvalidNodeAlias value)? invalidNodeAlias,
+    TResult? Function(FfiNodeError_InvalidCustomTlvs value)? invalidCustomTlvs,
+    TResult? Function(FfiNodeError_InvalidDateTime value)? invalidDateTime,
+    TResult? Function(FfiNodeError_InvalidFeeRate value)? invalidFeeRate,
+    TResult? Function(FfiNodeError_CreationError value)? creationError,
   }) {
     return invalidSocketAddress?.call(this);
   }
@@ -12556,6 +13072,10 @@ class _$FfiNodeError_InvalidSocketAddressImpl
     TResult Function(FfiNodeError_InvalidUri value)? invalidUri,
     TResult Function(FfiNodeError_InvalidQuantity value)? invalidQuantity,
     TResult Function(FfiNodeError_InvalidNodeAlias value)? invalidNodeAlias,
+    TResult Function(FfiNodeError_InvalidCustomTlvs value)? invalidCustomTlvs,
+    TResult Function(FfiNodeError_InvalidDateTime value)? invalidDateTime,
+    TResult Function(FfiNodeError_InvalidFeeRate value)? invalidFeeRate,
+    TResult Function(FfiNodeError_CreationError value)? creationError,
     required TResult orElse(),
   }) {
     if (invalidSocketAddress != null) {
@@ -12670,6 +13190,10 @@ class _$FfiNodeError_InvalidPublicKeyImpl
     required TResult Function() invalidUri,
     required TResult Function() invalidQuantity,
     required TResult Function() invalidNodeAlias,
+    required TResult Function() invalidCustomTlvs,
+    required TResult Function() invalidDateTime,
+    required TResult Function() invalidFeeRate,
+    required TResult Function(FfiCreationError field0) creationError,
   }) {
     return invalidPublicKey();
   }
@@ -12730,6 +13254,10 @@ class _$FfiNodeError_InvalidPublicKeyImpl
     TResult? Function()? invalidUri,
     TResult? Function()? invalidQuantity,
     TResult? Function()? invalidNodeAlias,
+    TResult? Function()? invalidCustomTlvs,
+    TResult? Function()? invalidDateTime,
+    TResult? Function()? invalidFeeRate,
+    TResult? Function(FfiCreationError field0)? creationError,
   }) {
     return invalidPublicKey?.call();
   }
@@ -12790,6 +13318,10 @@ class _$FfiNodeError_InvalidPublicKeyImpl
     TResult Function()? invalidUri,
     TResult Function()? invalidQuantity,
     TResult Function()? invalidNodeAlias,
+    TResult Function()? invalidCustomTlvs,
+    TResult Function()? invalidDateTime,
+    TResult Function()? invalidFeeRate,
+    TResult Function(FfiCreationError field0)? creationError,
     required TResult orElse(),
   }) {
     if (invalidPublicKey != null) {
@@ -12891,6 +13423,12 @@ class _$FfiNodeError_InvalidPublicKeyImpl
         invalidQuantity,
     required TResult Function(FfiNodeError_InvalidNodeAlias value)
         invalidNodeAlias,
+    required TResult Function(FfiNodeError_InvalidCustomTlvs value)
+        invalidCustomTlvs,
+    required TResult Function(FfiNodeError_InvalidDateTime value)
+        invalidDateTime,
+    required TResult Function(FfiNodeError_InvalidFeeRate value) invalidFeeRate,
+    required TResult Function(FfiNodeError_CreationError value) creationError,
   }) {
     return invalidPublicKey(this);
   }
@@ -12978,6 +13516,10 @@ class _$FfiNodeError_InvalidPublicKeyImpl
     TResult? Function(FfiNodeError_InvalidUri value)? invalidUri,
     TResult? Function(FfiNodeError_InvalidQuantity value)? invalidQuantity,
     TResult? Function(FfiNodeError_InvalidNodeAlias value)? invalidNodeAlias,
+    TResult? Function(FfiNodeError_InvalidCustomTlvs value)? invalidCustomTlvs,
+    TResult? Function(FfiNodeError_InvalidDateTime value)? invalidDateTime,
+    TResult? Function(FfiNodeError_InvalidFeeRate value)? invalidFeeRate,
+    TResult? Function(FfiNodeError_CreationError value)? creationError,
   }) {
     return invalidPublicKey?.call(this);
   }
@@ -13062,6 +13604,10 @@ class _$FfiNodeError_InvalidPublicKeyImpl
     TResult Function(FfiNodeError_InvalidUri value)? invalidUri,
     TResult Function(FfiNodeError_InvalidQuantity value)? invalidQuantity,
     TResult Function(FfiNodeError_InvalidNodeAlias value)? invalidNodeAlias,
+    TResult Function(FfiNodeError_InvalidCustomTlvs value)? invalidCustomTlvs,
+    TResult Function(FfiNodeError_InvalidDateTime value)? invalidDateTime,
+    TResult Function(FfiNodeError_InvalidFeeRate value)? invalidFeeRate,
+    TResult Function(FfiNodeError_CreationError value)? creationError,
     required TResult orElse(),
   }) {
     if (invalidPublicKey != null) {
@@ -13176,6 +13722,10 @@ class _$FfiNodeError_InvalidSecretKeyImpl
     required TResult Function() invalidUri,
     required TResult Function() invalidQuantity,
     required TResult Function() invalidNodeAlias,
+    required TResult Function() invalidCustomTlvs,
+    required TResult Function() invalidDateTime,
+    required TResult Function() invalidFeeRate,
+    required TResult Function(FfiCreationError field0) creationError,
   }) {
     return invalidSecretKey();
   }
@@ -13236,6 +13786,10 @@ class _$FfiNodeError_InvalidSecretKeyImpl
     TResult? Function()? invalidUri,
     TResult? Function()? invalidQuantity,
     TResult? Function()? invalidNodeAlias,
+    TResult? Function()? invalidCustomTlvs,
+    TResult? Function()? invalidDateTime,
+    TResult? Function()? invalidFeeRate,
+    TResult? Function(FfiCreationError field0)? creationError,
   }) {
     return invalidSecretKey?.call();
   }
@@ -13296,6 +13850,10 @@ class _$FfiNodeError_InvalidSecretKeyImpl
     TResult Function()? invalidUri,
     TResult Function()? invalidQuantity,
     TResult Function()? invalidNodeAlias,
+    TResult Function()? invalidCustomTlvs,
+    TResult Function()? invalidDateTime,
+    TResult Function()? invalidFeeRate,
+    TResult Function(FfiCreationError field0)? creationError,
     required TResult orElse(),
   }) {
     if (invalidSecretKey != null) {
@@ -13397,6 +13955,12 @@ class _$FfiNodeError_InvalidSecretKeyImpl
         invalidQuantity,
     required TResult Function(FfiNodeError_InvalidNodeAlias value)
         invalidNodeAlias,
+    required TResult Function(FfiNodeError_InvalidCustomTlvs value)
+        invalidCustomTlvs,
+    required TResult Function(FfiNodeError_InvalidDateTime value)
+        invalidDateTime,
+    required TResult Function(FfiNodeError_InvalidFeeRate value) invalidFeeRate,
+    required TResult Function(FfiNodeError_CreationError value) creationError,
   }) {
     return invalidSecretKey(this);
   }
@@ -13484,6 +14048,10 @@ class _$FfiNodeError_InvalidSecretKeyImpl
     TResult? Function(FfiNodeError_InvalidUri value)? invalidUri,
     TResult? Function(FfiNodeError_InvalidQuantity value)? invalidQuantity,
     TResult? Function(FfiNodeError_InvalidNodeAlias value)? invalidNodeAlias,
+    TResult? Function(FfiNodeError_InvalidCustomTlvs value)? invalidCustomTlvs,
+    TResult? Function(FfiNodeError_InvalidDateTime value)? invalidDateTime,
+    TResult? Function(FfiNodeError_InvalidFeeRate value)? invalidFeeRate,
+    TResult? Function(FfiNodeError_CreationError value)? creationError,
   }) {
     return invalidSecretKey?.call(this);
   }
@@ -13568,6 +14136,10 @@ class _$FfiNodeError_InvalidSecretKeyImpl
     TResult Function(FfiNodeError_InvalidUri value)? invalidUri,
     TResult Function(FfiNodeError_InvalidQuantity value)? invalidQuantity,
     TResult Function(FfiNodeError_InvalidNodeAlias value)? invalidNodeAlias,
+    TResult Function(FfiNodeError_InvalidCustomTlvs value)? invalidCustomTlvs,
+    TResult Function(FfiNodeError_InvalidDateTime value)? invalidDateTime,
+    TResult Function(FfiNodeError_InvalidFeeRate value)? invalidFeeRate,
+    TResult Function(FfiNodeError_CreationError value)? creationError,
     required TResult orElse(),
   }) {
     if (invalidSecretKey != null) {
@@ -13682,6 +14254,10 @@ class _$FfiNodeError_InvalidPaymentHashImpl
     required TResult Function() invalidUri,
     required TResult Function() invalidQuantity,
     required TResult Function() invalidNodeAlias,
+    required TResult Function() invalidCustomTlvs,
+    required TResult Function() invalidDateTime,
+    required TResult Function() invalidFeeRate,
+    required TResult Function(FfiCreationError field0) creationError,
   }) {
     return invalidPaymentHash();
   }
@@ -13742,6 +14318,10 @@ class _$FfiNodeError_InvalidPaymentHashImpl
     TResult? Function()? invalidUri,
     TResult? Function()? invalidQuantity,
     TResult? Function()? invalidNodeAlias,
+    TResult? Function()? invalidCustomTlvs,
+    TResult? Function()? invalidDateTime,
+    TResult? Function()? invalidFeeRate,
+    TResult? Function(FfiCreationError field0)? creationError,
   }) {
     return invalidPaymentHash?.call();
   }
@@ -13802,6 +14382,10 @@ class _$FfiNodeError_InvalidPaymentHashImpl
     TResult Function()? invalidUri,
     TResult Function()? invalidQuantity,
     TResult Function()? invalidNodeAlias,
+    TResult Function()? invalidCustomTlvs,
+    TResult Function()? invalidDateTime,
+    TResult Function()? invalidFeeRate,
+    TResult Function(FfiCreationError field0)? creationError,
     required TResult orElse(),
   }) {
     if (invalidPaymentHash != null) {
@@ -13903,6 +14487,12 @@ class _$FfiNodeError_InvalidPaymentHashImpl
         invalidQuantity,
     required TResult Function(FfiNodeError_InvalidNodeAlias value)
         invalidNodeAlias,
+    required TResult Function(FfiNodeError_InvalidCustomTlvs value)
+        invalidCustomTlvs,
+    required TResult Function(FfiNodeError_InvalidDateTime value)
+        invalidDateTime,
+    required TResult Function(FfiNodeError_InvalidFeeRate value) invalidFeeRate,
+    required TResult Function(FfiNodeError_CreationError value) creationError,
   }) {
     return invalidPaymentHash(this);
   }
@@ -13990,6 +14580,10 @@ class _$FfiNodeError_InvalidPaymentHashImpl
     TResult? Function(FfiNodeError_InvalidUri value)? invalidUri,
     TResult? Function(FfiNodeError_InvalidQuantity value)? invalidQuantity,
     TResult? Function(FfiNodeError_InvalidNodeAlias value)? invalidNodeAlias,
+    TResult? Function(FfiNodeError_InvalidCustomTlvs value)? invalidCustomTlvs,
+    TResult? Function(FfiNodeError_InvalidDateTime value)? invalidDateTime,
+    TResult? Function(FfiNodeError_InvalidFeeRate value)? invalidFeeRate,
+    TResult? Function(FfiNodeError_CreationError value)? creationError,
   }) {
     return invalidPaymentHash?.call(this);
   }
@@ -14074,6 +14668,10 @@ class _$FfiNodeError_InvalidPaymentHashImpl
     TResult Function(FfiNodeError_InvalidUri value)? invalidUri,
     TResult Function(FfiNodeError_InvalidQuantity value)? invalidQuantity,
     TResult Function(FfiNodeError_InvalidNodeAlias value)? invalidNodeAlias,
+    TResult Function(FfiNodeError_InvalidCustomTlvs value)? invalidCustomTlvs,
+    TResult Function(FfiNodeError_InvalidDateTime value)? invalidDateTime,
+    TResult Function(FfiNodeError_InvalidFeeRate value)? invalidFeeRate,
+    TResult Function(FfiNodeError_CreationError value)? creationError,
     required TResult orElse(),
   }) {
     if (invalidPaymentHash != null) {
@@ -14188,6 +14786,10 @@ class _$FfiNodeError_InvalidPaymentPreimageImpl
     required TResult Function() invalidUri,
     required TResult Function() invalidQuantity,
     required TResult Function() invalidNodeAlias,
+    required TResult Function() invalidCustomTlvs,
+    required TResult Function() invalidDateTime,
+    required TResult Function() invalidFeeRate,
+    required TResult Function(FfiCreationError field0) creationError,
   }) {
     return invalidPaymentPreimage();
   }
@@ -14248,6 +14850,10 @@ class _$FfiNodeError_InvalidPaymentPreimageImpl
     TResult? Function()? invalidUri,
     TResult? Function()? invalidQuantity,
     TResult? Function()? invalidNodeAlias,
+    TResult? Function()? invalidCustomTlvs,
+    TResult? Function()? invalidDateTime,
+    TResult? Function()? invalidFeeRate,
+    TResult? Function(FfiCreationError field0)? creationError,
   }) {
     return invalidPaymentPreimage?.call();
   }
@@ -14308,6 +14914,10 @@ class _$FfiNodeError_InvalidPaymentPreimageImpl
     TResult Function()? invalidUri,
     TResult Function()? invalidQuantity,
     TResult Function()? invalidNodeAlias,
+    TResult Function()? invalidCustomTlvs,
+    TResult Function()? invalidDateTime,
+    TResult Function()? invalidFeeRate,
+    TResult Function(FfiCreationError field0)? creationError,
     required TResult orElse(),
   }) {
     if (invalidPaymentPreimage != null) {
@@ -14409,6 +15019,12 @@ class _$FfiNodeError_InvalidPaymentPreimageImpl
         invalidQuantity,
     required TResult Function(FfiNodeError_InvalidNodeAlias value)
         invalidNodeAlias,
+    required TResult Function(FfiNodeError_InvalidCustomTlvs value)
+        invalidCustomTlvs,
+    required TResult Function(FfiNodeError_InvalidDateTime value)
+        invalidDateTime,
+    required TResult Function(FfiNodeError_InvalidFeeRate value) invalidFeeRate,
+    required TResult Function(FfiNodeError_CreationError value) creationError,
   }) {
     return invalidPaymentPreimage(this);
   }
@@ -14496,6 +15112,10 @@ class _$FfiNodeError_InvalidPaymentPreimageImpl
     TResult? Function(FfiNodeError_InvalidUri value)? invalidUri,
     TResult? Function(FfiNodeError_InvalidQuantity value)? invalidQuantity,
     TResult? Function(FfiNodeError_InvalidNodeAlias value)? invalidNodeAlias,
+    TResult? Function(FfiNodeError_InvalidCustomTlvs value)? invalidCustomTlvs,
+    TResult? Function(FfiNodeError_InvalidDateTime value)? invalidDateTime,
+    TResult? Function(FfiNodeError_InvalidFeeRate value)? invalidFeeRate,
+    TResult? Function(FfiNodeError_CreationError value)? creationError,
   }) {
     return invalidPaymentPreimage?.call(this);
   }
@@ -14580,6 +15200,10 @@ class _$FfiNodeError_InvalidPaymentPreimageImpl
     TResult Function(FfiNodeError_InvalidUri value)? invalidUri,
     TResult Function(FfiNodeError_InvalidQuantity value)? invalidQuantity,
     TResult Function(FfiNodeError_InvalidNodeAlias value)? invalidNodeAlias,
+    TResult Function(FfiNodeError_InvalidCustomTlvs value)? invalidCustomTlvs,
+    TResult Function(FfiNodeError_InvalidDateTime value)? invalidDateTime,
+    TResult Function(FfiNodeError_InvalidFeeRate value)? invalidFeeRate,
+    TResult Function(FfiNodeError_CreationError value)? creationError,
     required TResult orElse(),
   }) {
     if (invalidPaymentPreimage != null) {
@@ -14694,6 +15318,10 @@ class _$FfiNodeError_InvalidPaymentSecretImpl
     required TResult Function() invalidUri,
     required TResult Function() invalidQuantity,
     required TResult Function() invalidNodeAlias,
+    required TResult Function() invalidCustomTlvs,
+    required TResult Function() invalidDateTime,
+    required TResult Function() invalidFeeRate,
+    required TResult Function(FfiCreationError field0) creationError,
   }) {
     return invalidPaymentSecret();
   }
@@ -14754,6 +15382,10 @@ class _$FfiNodeError_InvalidPaymentSecretImpl
     TResult? Function()? invalidUri,
     TResult? Function()? invalidQuantity,
     TResult? Function()? invalidNodeAlias,
+    TResult? Function()? invalidCustomTlvs,
+    TResult? Function()? invalidDateTime,
+    TResult? Function()? invalidFeeRate,
+    TResult? Function(FfiCreationError field0)? creationError,
   }) {
     return invalidPaymentSecret?.call();
   }
@@ -14814,6 +15446,10 @@ class _$FfiNodeError_InvalidPaymentSecretImpl
     TResult Function()? invalidUri,
     TResult Function()? invalidQuantity,
     TResult Function()? invalidNodeAlias,
+    TResult Function()? invalidCustomTlvs,
+    TResult Function()? invalidDateTime,
+    TResult Function()? invalidFeeRate,
+    TResult Function(FfiCreationError field0)? creationError,
     required TResult orElse(),
   }) {
     if (invalidPaymentSecret != null) {
@@ -14915,6 +15551,12 @@ class _$FfiNodeError_InvalidPaymentSecretImpl
         invalidQuantity,
     required TResult Function(FfiNodeError_InvalidNodeAlias value)
         invalidNodeAlias,
+    required TResult Function(FfiNodeError_InvalidCustomTlvs value)
+        invalidCustomTlvs,
+    required TResult Function(FfiNodeError_InvalidDateTime value)
+        invalidDateTime,
+    required TResult Function(FfiNodeError_InvalidFeeRate value) invalidFeeRate,
+    required TResult Function(FfiNodeError_CreationError value) creationError,
   }) {
     return invalidPaymentSecret(this);
   }
@@ -15002,6 +15644,10 @@ class _$FfiNodeError_InvalidPaymentSecretImpl
     TResult? Function(FfiNodeError_InvalidUri value)? invalidUri,
     TResult? Function(FfiNodeError_InvalidQuantity value)? invalidQuantity,
     TResult? Function(FfiNodeError_InvalidNodeAlias value)? invalidNodeAlias,
+    TResult? Function(FfiNodeError_InvalidCustomTlvs value)? invalidCustomTlvs,
+    TResult? Function(FfiNodeError_InvalidDateTime value)? invalidDateTime,
+    TResult? Function(FfiNodeError_InvalidFeeRate value)? invalidFeeRate,
+    TResult? Function(FfiNodeError_CreationError value)? creationError,
   }) {
     return invalidPaymentSecret?.call(this);
   }
@@ -15086,6 +15732,10 @@ class _$FfiNodeError_InvalidPaymentSecretImpl
     TResult Function(FfiNodeError_InvalidUri value)? invalidUri,
     TResult Function(FfiNodeError_InvalidQuantity value)? invalidQuantity,
     TResult Function(FfiNodeError_InvalidNodeAlias value)? invalidNodeAlias,
+    TResult Function(FfiNodeError_InvalidCustomTlvs value)? invalidCustomTlvs,
+    TResult Function(FfiNodeError_InvalidDateTime value)? invalidDateTime,
+    TResult Function(FfiNodeError_InvalidFeeRate value)? invalidFeeRate,
+    TResult Function(FfiNodeError_CreationError value)? creationError,
     required TResult orElse(),
   }) {
     if (invalidPaymentSecret != null) {
@@ -15198,6 +15848,10 @@ class _$FfiNodeError_InvalidAmountImpl extends FfiNodeError_InvalidAmount {
     required TResult Function() invalidUri,
     required TResult Function() invalidQuantity,
     required TResult Function() invalidNodeAlias,
+    required TResult Function() invalidCustomTlvs,
+    required TResult Function() invalidDateTime,
+    required TResult Function() invalidFeeRate,
+    required TResult Function(FfiCreationError field0) creationError,
   }) {
     return invalidAmount();
   }
@@ -15258,6 +15912,10 @@ class _$FfiNodeError_InvalidAmountImpl extends FfiNodeError_InvalidAmount {
     TResult? Function()? invalidUri,
     TResult? Function()? invalidQuantity,
     TResult? Function()? invalidNodeAlias,
+    TResult? Function()? invalidCustomTlvs,
+    TResult? Function()? invalidDateTime,
+    TResult? Function()? invalidFeeRate,
+    TResult? Function(FfiCreationError field0)? creationError,
   }) {
     return invalidAmount?.call();
   }
@@ -15318,6 +15976,10 @@ class _$FfiNodeError_InvalidAmountImpl extends FfiNodeError_InvalidAmount {
     TResult Function()? invalidUri,
     TResult Function()? invalidQuantity,
     TResult Function()? invalidNodeAlias,
+    TResult Function()? invalidCustomTlvs,
+    TResult Function()? invalidDateTime,
+    TResult Function()? invalidFeeRate,
+    TResult Function(FfiCreationError field0)? creationError,
     required TResult orElse(),
   }) {
     if (invalidAmount != null) {
@@ -15419,6 +16081,12 @@ class _$FfiNodeError_InvalidAmountImpl extends FfiNodeError_InvalidAmount {
         invalidQuantity,
     required TResult Function(FfiNodeError_InvalidNodeAlias value)
         invalidNodeAlias,
+    required TResult Function(FfiNodeError_InvalidCustomTlvs value)
+        invalidCustomTlvs,
+    required TResult Function(FfiNodeError_InvalidDateTime value)
+        invalidDateTime,
+    required TResult Function(FfiNodeError_InvalidFeeRate value) invalidFeeRate,
+    required TResult Function(FfiNodeError_CreationError value) creationError,
   }) {
     return invalidAmount(this);
   }
@@ -15506,6 +16174,10 @@ class _$FfiNodeError_InvalidAmountImpl extends FfiNodeError_InvalidAmount {
     TResult? Function(FfiNodeError_InvalidUri value)? invalidUri,
     TResult? Function(FfiNodeError_InvalidQuantity value)? invalidQuantity,
     TResult? Function(FfiNodeError_InvalidNodeAlias value)? invalidNodeAlias,
+    TResult? Function(FfiNodeError_InvalidCustomTlvs value)? invalidCustomTlvs,
+    TResult? Function(FfiNodeError_InvalidDateTime value)? invalidDateTime,
+    TResult? Function(FfiNodeError_InvalidFeeRate value)? invalidFeeRate,
+    TResult? Function(FfiNodeError_CreationError value)? creationError,
   }) {
     return invalidAmount?.call(this);
   }
@@ -15590,6 +16262,10 @@ class _$FfiNodeError_InvalidAmountImpl extends FfiNodeError_InvalidAmount {
     TResult Function(FfiNodeError_InvalidUri value)? invalidUri,
     TResult Function(FfiNodeError_InvalidQuantity value)? invalidQuantity,
     TResult Function(FfiNodeError_InvalidNodeAlias value)? invalidNodeAlias,
+    TResult Function(FfiNodeError_InvalidCustomTlvs value)? invalidCustomTlvs,
+    TResult Function(FfiNodeError_InvalidDateTime value)? invalidDateTime,
+    TResult Function(FfiNodeError_InvalidFeeRate value)? invalidFeeRate,
+    TResult Function(FfiNodeError_CreationError value)? creationError,
     required TResult orElse(),
   }) {
     if (invalidAmount != null) {
@@ -15701,6 +16377,10 @@ class _$FfiNodeError_InvalidInvoiceImpl extends FfiNodeError_InvalidInvoice {
     required TResult Function() invalidUri,
     required TResult Function() invalidQuantity,
     required TResult Function() invalidNodeAlias,
+    required TResult Function() invalidCustomTlvs,
+    required TResult Function() invalidDateTime,
+    required TResult Function() invalidFeeRate,
+    required TResult Function(FfiCreationError field0) creationError,
   }) {
     return invalidInvoice();
   }
@@ -15761,6 +16441,10 @@ class _$FfiNodeError_InvalidInvoiceImpl extends FfiNodeError_InvalidInvoice {
     TResult? Function()? invalidUri,
     TResult? Function()? invalidQuantity,
     TResult? Function()? invalidNodeAlias,
+    TResult? Function()? invalidCustomTlvs,
+    TResult? Function()? invalidDateTime,
+    TResult? Function()? invalidFeeRate,
+    TResult? Function(FfiCreationError field0)? creationError,
   }) {
     return invalidInvoice?.call();
   }
@@ -15821,6 +16505,10 @@ class _$FfiNodeError_InvalidInvoiceImpl extends FfiNodeError_InvalidInvoice {
     TResult Function()? invalidUri,
     TResult Function()? invalidQuantity,
     TResult Function()? invalidNodeAlias,
+    TResult Function()? invalidCustomTlvs,
+    TResult Function()? invalidDateTime,
+    TResult Function()? invalidFeeRate,
+    TResult Function(FfiCreationError field0)? creationError,
     required TResult orElse(),
   }) {
     if (invalidInvoice != null) {
@@ -15922,6 +16610,12 @@ class _$FfiNodeError_InvalidInvoiceImpl extends FfiNodeError_InvalidInvoice {
         invalidQuantity,
     required TResult Function(FfiNodeError_InvalidNodeAlias value)
         invalidNodeAlias,
+    required TResult Function(FfiNodeError_InvalidCustomTlvs value)
+        invalidCustomTlvs,
+    required TResult Function(FfiNodeError_InvalidDateTime value)
+        invalidDateTime,
+    required TResult Function(FfiNodeError_InvalidFeeRate value) invalidFeeRate,
+    required TResult Function(FfiNodeError_CreationError value) creationError,
   }) {
     return invalidInvoice(this);
   }
@@ -16009,6 +16703,10 @@ class _$FfiNodeError_InvalidInvoiceImpl extends FfiNodeError_InvalidInvoice {
     TResult? Function(FfiNodeError_InvalidUri value)? invalidUri,
     TResult? Function(FfiNodeError_InvalidQuantity value)? invalidQuantity,
     TResult? Function(FfiNodeError_InvalidNodeAlias value)? invalidNodeAlias,
+    TResult? Function(FfiNodeError_InvalidCustomTlvs value)? invalidCustomTlvs,
+    TResult? Function(FfiNodeError_InvalidDateTime value)? invalidDateTime,
+    TResult? Function(FfiNodeError_InvalidFeeRate value)? invalidFeeRate,
+    TResult? Function(FfiNodeError_CreationError value)? creationError,
   }) {
     return invalidInvoice?.call(this);
   }
@@ -16093,6 +16791,10 @@ class _$FfiNodeError_InvalidInvoiceImpl extends FfiNodeError_InvalidInvoice {
     TResult Function(FfiNodeError_InvalidUri value)? invalidUri,
     TResult Function(FfiNodeError_InvalidQuantity value)? invalidQuantity,
     TResult Function(FfiNodeError_InvalidNodeAlias value)? invalidNodeAlias,
+    TResult Function(FfiNodeError_InvalidCustomTlvs value)? invalidCustomTlvs,
+    TResult Function(FfiNodeError_InvalidDateTime value)? invalidDateTime,
+    TResult Function(FfiNodeError_InvalidFeeRate value)? invalidFeeRate,
+    TResult Function(FfiNodeError_CreationError value)? creationError,
     required TResult orElse(),
   }) {
     if (invalidInvoice != null) {
@@ -16207,6 +16909,10 @@ class _$FfiNodeError_InvalidChannelIdImpl
     required TResult Function() invalidUri,
     required TResult Function() invalidQuantity,
     required TResult Function() invalidNodeAlias,
+    required TResult Function() invalidCustomTlvs,
+    required TResult Function() invalidDateTime,
+    required TResult Function() invalidFeeRate,
+    required TResult Function(FfiCreationError field0) creationError,
   }) {
     return invalidChannelId();
   }
@@ -16267,6 +16973,10 @@ class _$FfiNodeError_InvalidChannelIdImpl
     TResult? Function()? invalidUri,
     TResult? Function()? invalidQuantity,
     TResult? Function()? invalidNodeAlias,
+    TResult? Function()? invalidCustomTlvs,
+    TResult? Function()? invalidDateTime,
+    TResult? Function()? invalidFeeRate,
+    TResult? Function(FfiCreationError field0)? creationError,
   }) {
     return invalidChannelId?.call();
   }
@@ -16327,6 +17037,10 @@ class _$FfiNodeError_InvalidChannelIdImpl
     TResult Function()? invalidUri,
     TResult Function()? invalidQuantity,
     TResult Function()? invalidNodeAlias,
+    TResult Function()? invalidCustomTlvs,
+    TResult Function()? invalidDateTime,
+    TResult Function()? invalidFeeRate,
+    TResult Function(FfiCreationError field0)? creationError,
     required TResult orElse(),
   }) {
     if (invalidChannelId != null) {
@@ -16428,6 +17142,12 @@ class _$FfiNodeError_InvalidChannelIdImpl
         invalidQuantity,
     required TResult Function(FfiNodeError_InvalidNodeAlias value)
         invalidNodeAlias,
+    required TResult Function(FfiNodeError_InvalidCustomTlvs value)
+        invalidCustomTlvs,
+    required TResult Function(FfiNodeError_InvalidDateTime value)
+        invalidDateTime,
+    required TResult Function(FfiNodeError_InvalidFeeRate value) invalidFeeRate,
+    required TResult Function(FfiNodeError_CreationError value) creationError,
   }) {
     return invalidChannelId(this);
   }
@@ -16515,6 +17235,10 @@ class _$FfiNodeError_InvalidChannelIdImpl
     TResult? Function(FfiNodeError_InvalidUri value)? invalidUri,
     TResult? Function(FfiNodeError_InvalidQuantity value)? invalidQuantity,
     TResult? Function(FfiNodeError_InvalidNodeAlias value)? invalidNodeAlias,
+    TResult? Function(FfiNodeError_InvalidCustomTlvs value)? invalidCustomTlvs,
+    TResult? Function(FfiNodeError_InvalidDateTime value)? invalidDateTime,
+    TResult? Function(FfiNodeError_InvalidFeeRate value)? invalidFeeRate,
+    TResult? Function(FfiNodeError_CreationError value)? creationError,
   }) {
     return invalidChannelId?.call(this);
   }
@@ -16599,6 +17323,10 @@ class _$FfiNodeError_InvalidChannelIdImpl
     TResult Function(FfiNodeError_InvalidUri value)? invalidUri,
     TResult Function(FfiNodeError_InvalidQuantity value)? invalidQuantity,
     TResult Function(FfiNodeError_InvalidNodeAlias value)? invalidNodeAlias,
+    TResult Function(FfiNodeError_InvalidCustomTlvs value)? invalidCustomTlvs,
+    TResult Function(FfiNodeError_InvalidDateTime value)? invalidDateTime,
+    TResult Function(FfiNodeError_InvalidFeeRate value)? invalidFeeRate,
+    TResult Function(FfiNodeError_CreationError value)? creationError,
     required TResult orElse(),
   }) {
     if (invalidChannelId != null) {
@@ -16711,6 +17439,10 @@ class _$FfiNodeError_InvalidNetworkImpl extends FfiNodeError_InvalidNetwork {
     required TResult Function() invalidUri,
     required TResult Function() invalidQuantity,
     required TResult Function() invalidNodeAlias,
+    required TResult Function() invalidCustomTlvs,
+    required TResult Function() invalidDateTime,
+    required TResult Function() invalidFeeRate,
+    required TResult Function(FfiCreationError field0) creationError,
   }) {
     return invalidNetwork();
   }
@@ -16771,6 +17503,10 @@ class _$FfiNodeError_InvalidNetworkImpl extends FfiNodeError_InvalidNetwork {
     TResult? Function()? invalidUri,
     TResult? Function()? invalidQuantity,
     TResult? Function()? invalidNodeAlias,
+    TResult? Function()? invalidCustomTlvs,
+    TResult? Function()? invalidDateTime,
+    TResult? Function()? invalidFeeRate,
+    TResult? Function(FfiCreationError field0)? creationError,
   }) {
     return invalidNetwork?.call();
   }
@@ -16831,6 +17567,10 @@ class _$FfiNodeError_InvalidNetworkImpl extends FfiNodeError_InvalidNetwork {
     TResult Function()? invalidUri,
     TResult Function()? invalidQuantity,
     TResult Function()? invalidNodeAlias,
+    TResult Function()? invalidCustomTlvs,
+    TResult Function()? invalidDateTime,
+    TResult Function()? invalidFeeRate,
+    TResult Function(FfiCreationError field0)? creationError,
     required TResult orElse(),
   }) {
     if (invalidNetwork != null) {
@@ -16932,6 +17672,12 @@ class _$FfiNodeError_InvalidNetworkImpl extends FfiNodeError_InvalidNetwork {
         invalidQuantity,
     required TResult Function(FfiNodeError_InvalidNodeAlias value)
         invalidNodeAlias,
+    required TResult Function(FfiNodeError_InvalidCustomTlvs value)
+        invalidCustomTlvs,
+    required TResult Function(FfiNodeError_InvalidDateTime value)
+        invalidDateTime,
+    required TResult Function(FfiNodeError_InvalidFeeRate value) invalidFeeRate,
+    required TResult Function(FfiNodeError_CreationError value) creationError,
   }) {
     return invalidNetwork(this);
   }
@@ -17019,6 +17765,10 @@ class _$FfiNodeError_InvalidNetworkImpl extends FfiNodeError_InvalidNetwork {
     TResult? Function(FfiNodeError_InvalidUri value)? invalidUri,
     TResult? Function(FfiNodeError_InvalidQuantity value)? invalidQuantity,
     TResult? Function(FfiNodeError_InvalidNodeAlias value)? invalidNodeAlias,
+    TResult? Function(FfiNodeError_InvalidCustomTlvs value)? invalidCustomTlvs,
+    TResult? Function(FfiNodeError_InvalidDateTime value)? invalidDateTime,
+    TResult? Function(FfiNodeError_InvalidFeeRate value)? invalidFeeRate,
+    TResult? Function(FfiNodeError_CreationError value)? creationError,
   }) {
     return invalidNetwork?.call(this);
   }
@@ -17103,6 +17853,10 @@ class _$FfiNodeError_InvalidNetworkImpl extends FfiNodeError_InvalidNetwork {
     TResult Function(FfiNodeError_InvalidUri value)? invalidUri,
     TResult Function(FfiNodeError_InvalidQuantity value)? invalidQuantity,
     TResult Function(FfiNodeError_InvalidNodeAlias value)? invalidNodeAlias,
+    TResult Function(FfiNodeError_InvalidCustomTlvs value)? invalidCustomTlvs,
+    TResult Function(FfiNodeError_InvalidDateTime value)? invalidDateTime,
+    TResult Function(FfiNodeError_InvalidFeeRate value)? invalidFeeRate,
+    TResult Function(FfiNodeError_CreationError value)? creationError,
     required TResult orElse(),
   }) {
     if (invalidNetwork != null) {
@@ -17217,6 +17971,10 @@ class _$FfiNodeError_DuplicatePaymentImpl
     required TResult Function() invalidUri,
     required TResult Function() invalidQuantity,
     required TResult Function() invalidNodeAlias,
+    required TResult Function() invalidCustomTlvs,
+    required TResult Function() invalidDateTime,
+    required TResult Function() invalidFeeRate,
+    required TResult Function(FfiCreationError field0) creationError,
   }) {
     return duplicatePayment();
   }
@@ -17277,6 +18035,10 @@ class _$FfiNodeError_DuplicatePaymentImpl
     TResult? Function()? invalidUri,
     TResult? Function()? invalidQuantity,
     TResult? Function()? invalidNodeAlias,
+    TResult? Function()? invalidCustomTlvs,
+    TResult? Function()? invalidDateTime,
+    TResult? Function()? invalidFeeRate,
+    TResult? Function(FfiCreationError field0)? creationError,
   }) {
     return duplicatePayment?.call();
   }
@@ -17337,6 +18099,10 @@ class _$FfiNodeError_DuplicatePaymentImpl
     TResult Function()? invalidUri,
     TResult Function()? invalidQuantity,
     TResult Function()? invalidNodeAlias,
+    TResult Function()? invalidCustomTlvs,
+    TResult Function()? invalidDateTime,
+    TResult Function()? invalidFeeRate,
+    TResult Function(FfiCreationError field0)? creationError,
     required TResult orElse(),
   }) {
     if (duplicatePayment != null) {
@@ -17438,6 +18204,12 @@ class _$FfiNodeError_DuplicatePaymentImpl
         invalidQuantity,
     required TResult Function(FfiNodeError_InvalidNodeAlias value)
         invalidNodeAlias,
+    required TResult Function(FfiNodeError_InvalidCustomTlvs value)
+        invalidCustomTlvs,
+    required TResult Function(FfiNodeError_InvalidDateTime value)
+        invalidDateTime,
+    required TResult Function(FfiNodeError_InvalidFeeRate value) invalidFeeRate,
+    required TResult Function(FfiNodeError_CreationError value) creationError,
   }) {
     return duplicatePayment(this);
   }
@@ -17525,6 +18297,10 @@ class _$FfiNodeError_DuplicatePaymentImpl
     TResult? Function(FfiNodeError_InvalidUri value)? invalidUri,
     TResult? Function(FfiNodeError_InvalidQuantity value)? invalidQuantity,
     TResult? Function(FfiNodeError_InvalidNodeAlias value)? invalidNodeAlias,
+    TResult? Function(FfiNodeError_InvalidCustomTlvs value)? invalidCustomTlvs,
+    TResult? Function(FfiNodeError_InvalidDateTime value)? invalidDateTime,
+    TResult? Function(FfiNodeError_InvalidFeeRate value)? invalidFeeRate,
+    TResult? Function(FfiNodeError_CreationError value)? creationError,
   }) {
     return duplicatePayment?.call(this);
   }
@@ -17609,6 +18385,10 @@ class _$FfiNodeError_DuplicatePaymentImpl
     TResult Function(FfiNodeError_InvalidUri value)? invalidUri,
     TResult Function(FfiNodeError_InvalidQuantity value)? invalidQuantity,
     TResult Function(FfiNodeError_InvalidNodeAlias value)? invalidNodeAlias,
+    TResult Function(FfiNodeError_InvalidCustomTlvs value)? invalidCustomTlvs,
+    TResult Function(FfiNodeError_InvalidDateTime value)? invalidDateTime,
+    TResult Function(FfiNodeError_InvalidFeeRate value)? invalidFeeRate,
+    TResult Function(FfiNodeError_CreationError value)? creationError,
     required TResult orElse(),
   }) {
     if (duplicatePayment != null) {
@@ -17723,6 +18503,10 @@ class _$FfiNodeError_InsufficientFundsImpl
     required TResult Function() invalidUri,
     required TResult Function() invalidQuantity,
     required TResult Function() invalidNodeAlias,
+    required TResult Function() invalidCustomTlvs,
+    required TResult Function() invalidDateTime,
+    required TResult Function() invalidFeeRate,
+    required TResult Function(FfiCreationError field0) creationError,
   }) {
     return insufficientFunds();
   }
@@ -17783,6 +18567,10 @@ class _$FfiNodeError_InsufficientFundsImpl
     TResult? Function()? invalidUri,
     TResult? Function()? invalidQuantity,
     TResult? Function()? invalidNodeAlias,
+    TResult? Function()? invalidCustomTlvs,
+    TResult? Function()? invalidDateTime,
+    TResult? Function()? invalidFeeRate,
+    TResult? Function(FfiCreationError field0)? creationError,
   }) {
     return insufficientFunds?.call();
   }
@@ -17843,6 +18631,10 @@ class _$FfiNodeError_InsufficientFundsImpl
     TResult Function()? invalidUri,
     TResult Function()? invalidQuantity,
     TResult Function()? invalidNodeAlias,
+    TResult Function()? invalidCustomTlvs,
+    TResult Function()? invalidDateTime,
+    TResult Function()? invalidFeeRate,
+    TResult Function(FfiCreationError field0)? creationError,
     required TResult orElse(),
   }) {
     if (insufficientFunds != null) {
@@ -17944,6 +18736,12 @@ class _$FfiNodeError_InsufficientFundsImpl
         invalidQuantity,
     required TResult Function(FfiNodeError_InvalidNodeAlias value)
         invalidNodeAlias,
+    required TResult Function(FfiNodeError_InvalidCustomTlvs value)
+        invalidCustomTlvs,
+    required TResult Function(FfiNodeError_InvalidDateTime value)
+        invalidDateTime,
+    required TResult Function(FfiNodeError_InvalidFeeRate value) invalidFeeRate,
+    required TResult Function(FfiNodeError_CreationError value) creationError,
   }) {
     return insufficientFunds(this);
   }
@@ -18031,6 +18829,10 @@ class _$FfiNodeError_InsufficientFundsImpl
     TResult? Function(FfiNodeError_InvalidUri value)? invalidUri,
     TResult? Function(FfiNodeError_InvalidQuantity value)? invalidQuantity,
     TResult? Function(FfiNodeError_InvalidNodeAlias value)? invalidNodeAlias,
+    TResult? Function(FfiNodeError_InvalidCustomTlvs value)? invalidCustomTlvs,
+    TResult? Function(FfiNodeError_InvalidDateTime value)? invalidDateTime,
+    TResult? Function(FfiNodeError_InvalidFeeRate value)? invalidFeeRate,
+    TResult? Function(FfiNodeError_CreationError value)? creationError,
   }) {
     return insufficientFunds?.call(this);
   }
@@ -18115,6 +18917,10 @@ class _$FfiNodeError_InsufficientFundsImpl
     TResult Function(FfiNodeError_InvalidUri value)? invalidUri,
     TResult Function(FfiNodeError_InvalidQuantity value)? invalidQuantity,
     TResult Function(FfiNodeError_InvalidNodeAlias value)? invalidNodeAlias,
+    TResult Function(FfiNodeError_InvalidCustomTlvs value)? invalidCustomTlvs,
+    TResult Function(FfiNodeError_InvalidDateTime value)? invalidDateTime,
+    TResult Function(FfiNodeError_InvalidFeeRate value)? invalidFeeRate,
+    TResult Function(FfiNodeError_CreationError value)? creationError,
     required TResult orElse(),
   }) {
     if (insufficientFunds != null) {
@@ -18230,6 +19036,10 @@ class _$FfiNodeError_FeerateEstimationUpdateFailedImpl
     required TResult Function() invalidUri,
     required TResult Function() invalidQuantity,
     required TResult Function() invalidNodeAlias,
+    required TResult Function() invalidCustomTlvs,
+    required TResult Function() invalidDateTime,
+    required TResult Function() invalidFeeRate,
+    required TResult Function(FfiCreationError field0) creationError,
   }) {
     return feerateEstimationUpdateFailed();
   }
@@ -18290,6 +19100,10 @@ class _$FfiNodeError_FeerateEstimationUpdateFailedImpl
     TResult? Function()? invalidUri,
     TResult? Function()? invalidQuantity,
     TResult? Function()? invalidNodeAlias,
+    TResult? Function()? invalidCustomTlvs,
+    TResult? Function()? invalidDateTime,
+    TResult? Function()? invalidFeeRate,
+    TResult? Function(FfiCreationError field0)? creationError,
   }) {
     return feerateEstimationUpdateFailed?.call();
   }
@@ -18350,6 +19164,10 @@ class _$FfiNodeError_FeerateEstimationUpdateFailedImpl
     TResult Function()? invalidUri,
     TResult Function()? invalidQuantity,
     TResult Function()? invalidNodeAlias,
+    TResult Function()? invalidCustomTlvs,
+    TResult Function()? invalidDateTime,
+    TResult Function()? invalidFeeRate,
+    TResult Function(FfiCreationError field0)? creationError,
     required TResult orElse(),
   }) {
     if (feerateEstimationUpdateFailed != null) {
@@ -18451,6 +19269,12 @@ class _$FfiNodeError_FeerateEstimationUpdateFailedImpl
         invalidQuantity,
     required TResult Function(FfiNodeError_InvalidNodeAlias value)
         invalidNodeAlias,
+    required TResult Function(FfiNodeError_InvalidCustomTlvs value)
+        invalidCustomTlvs,
+    required TResult Function(FfiNodeError_InvalidDateTime value)
+        invalidDateTime,
+    required TResult Function(FfiNodeError_InvalidFeeRate value) invalidFeeRate,
+    required TResult Function(FfiNodeError_CreationError value) creationError,
   }) {
     return feerateEstimationUpdateFailed(this);
   }
@@ -18538,6 +19362,10 @@ class _$FfiNodeError_FeerateEstimationUpdateFailedImpl
     TResult? Function(FfiNodeError_InvalidUri value)? invalidUri,
     TResult? Function(FfiNodeError_InvalidQuantity value)? invalidQuantity,
     TResult? Function(FfiNodeError_InvalidNodeAlias value)? invalidNodeAlias,
+    TResult? Function(FfiNodeError_InvalidCustomTlvs value)? invalidCustomTlvs,
+    TResult? Function(FfiNodeError_InvalidDateTime value)? invalidDateTime,
+    TResult? Function(FfiNodeError_InvalidFeeRate value)? invalidFeeRate,
+    TResult? Function(FfiNodeError_CreationError value)? creationError,
   }) {
     return feerateEstimationUpdateFailed?.call(this);
   }
@@ -18622,6 +19450,10 @@ class _$FfiNodeError_FeerateEstimationUpdateFailedImpl
     TResult Function(FfiNodeError_InvalidUri value)? invalidUri,
     TResult Function(FfiNodeError_InvalidQuantity value)? invalidQuantity,
     TResult Function(FfiNodeError_InvalidNodeAlias value)? invalidNodeAlias,
+    TResult Function(FfiNodeError_InvalidCustomTlvs value)? invalidCustomTlvs,
+    TResult Function(FfiNodeError_InvalidDateTime value)? invalidDateTime,
+    TResult Function(FfiNodeError_InvalidFeeRate value)? invalidFeeRate,
+    TResult Function(FfiNodeError_CreationError value)? creationError,
     required TResult orElse(),
   }) {
     if (feerateEstimationUpdateFailed != null) {
@@ -18736,6 +19568,10 @@ class _$FfiNodeError_LiquidityRequestFailedImpl
     required TResult Function() invalidUri,
     required TResult Function() invalidQuantity,
     required TResult Function() invalidNodeAlias,
+    required TResult Function() invalidCustomTlvs,
+    required TResult Function() invalidDateTime,
+    required TResult Function() invalidFeeRate,
+    required TResult Function(FfiCreationError field0) creationError,
   }) {
     return liquidityRequestFailed();
   }
@@ -18796,6 +19632,10 @@ class _$FfiNodeError_LiquidityRequestFailedImpl
     TResult? Function()? invalidUri,
     TResult? Function()? invalidQuantity,
     TResult? Function()? invalidNodeAlias,
+    TResult? Function()? invalidCustomTlvs,
+    TResult? Function()? invalidDateTime,
+    TResult? Function()? invalidFeeRate,
+    TResult? Function(FfiCreationError field0)? creationError,
   }) {
     return liquidityRequestFailed?.call();
   }
@@ -18856,6 +19696,10 @@ class _$FfiNodeError_LiquidityRequestFailedImpl
     TResult Function()? invalidUri,
     TResult Function()? invalidQuantity,
     TResult Function()? invalidNodeAlias,
+    TResult Function()? invalidCustomTlvs,
+    TResult Function()? invalidDateTime,
+    TResult Function()? invalidFeeRate,
+    TResult Function(FfiCreationError field0)? creationError,
     required TResult orElse(),
   }) {
     if (liquidityRequestFailed != null) {
@@ -18957,6 +19801,12 @@ class _$FfiNodeError_LiquidityRequestFailedImpl
         invalidQuantity,
     required TResult Function(FfiNodeError_InvalidNodeAlias value)
         invalidNodeAlias,
+    required TResult Function(FfiNodeError_InvalidCustomTlvs value)
+        invalidCustomTlvs,
+    required TResult Function(FfiNodeError_InvalidDateTime value)
+        invalidDateTime,
+    required TResult Function(FfiNodeError_InvalidFeeRate value) invalidFeeRate,
+    required TResult Function(FfiNodeError_CreationError value) creationError,
   }) {
     return liquidityRequestFailed(this);
   }
@@ -19044,6 +19894,10 @@ class _$FfiNodeError_LiquidityRequestFailedImpl
     TResult? Function(FfiNodeError_InvalidUri value)? invalidUri,
     TResult? Function(FfiNodeError_InvalidQuantity value)? invalidQuantity,
     TResult? Function(FfiNodeError_InvalidNodeAlias value)? invalidNodeAlias,
+    TResult? Function(FfiNodeError_InvalidCustomTlvs value)? invalidCustomTlvs,
+    TResult? Function(FfiNodeError_InvalidDateTime value)? invalidDateTime,
+    TResult? Function(FfiNodeError_InvalidFeeRate value)? invalidFeeRate,
+    TResult? Function(FfiNodeError_CreationError value)? creationError,
   }) {
     return liquidityRequestFailed?.call(this);
   }
@@ -19128,6 +19982,10 @@ class _$FfiNodeError_LiquidityRequestFailedImpl
     TResult Function(FfiNodeError_InvalidUri value)? invalidUri,
     TResult Function(FfiNodeError_InvalidQuantity value)? invalidQuantity,
     TResult Function(FfiNodeError_InvalidNodeAlias value)? invalidNodeAlias,
+    TResult Function(FfiNodeError_InvalidCustomTlvs value)? invalidCustomTlvs,
+    TResult Function(FfiNodeError_InvalidDateTime value)? invalidDateTime,
+    TResult Function(FfiNodeError_InvalidFeeRate value)? invalidFeeRate,
+    TResult Function(FfiNodeError_CreationError value)? creationError,
     required TResult orElse(),
   }) {
     if (liquidityRequestFailed != null) {
@@ -19242,6 +20100,10 @@ class _$FfiNodeError_LiquiditySourceUnavailableImpl
     required TResult Function() invalidUri,
     required TResult Function() invalidQuantity,
     required TResult Function() invalidNodeAlias,
+    required TResult Function() invalidCustomTlvs,
+    required TResult Function() invalidDateTime,
+    required TResult Function() invalidFeeRate,
+    required TResult Function(FfiCreationError field0) creationError,
   }) {
     return liquiditySourceUnavailable();
   }
@@ -19302,6 +20164,10 @@ class _$FfiNodeError_LiquiditySourceUnavailableImpl
     TResult? Function()? invalidUri,
     TResult? Function()? invalidQuantity,
     TResult? Function()? invalidNodeAlias,
+    TResult? Function()? invalidCustomTlvs,
+    TResult? Function()? invalidDateTime,
+    TResult? Function()? invalidFeeRate,
+    TResult? Function(FfiCreationError field0)? creationError,
   }) {
     return liquiditySourceUnavailable?.call();
   }
@@ -19362,6 +20228,10 @@ class _$FfiNodeError_LiquiditySourceUnavailableImpl
     TResult Function()? invalidUri,
     TResult Function()? invalidQuantity,
     TResult Function()? invalidNodeAlias,
+    TResult Function()? invalidCustomTlvs,
+    TResult Function()? invalidDateTime,
+    TResult Function()? invalidFeeRate,
+    TResult Function(FfiCreationError field0)? creationError,
     required TResult orElse(),
   }) {
     if (liquiditySourceUnavailable != null) {
@@ -19463,6 +20333,12 @@ class _$FfiNodeError_LiquiditySourceUnavailableImpl
         invalidQuantity,
     required TResult Function(FfiNodeError_InvalidNodeAlias value)
         invalidNodeAlias,
+    required TResult Function(FfiNodeError_InvalidCustomTlvs value)
+        invalidCustomTlvs,
+    required TResult Function(FfiNodeError_InvalidDateTime value)
+        invalidDateTime,
+    required TResult Function(FfiNodeError_InvalidFeeRate value) invalidFeeRate,
+    required TResult Function(FfiNodeError_CreationError value) creationError,
   }) {
     return liquiditySourceUnavailable(this);
   }
@@ -19550,6 +20426,10 @@ class _$FfiNodeError_LiquiditySourceUnavailableImpl
     TResult? Function(FfiNodeError_InvalidUri value)? invalidUri,
     TResult? Function(FfiNodeError_InvalidQuantity value)? invalidQuantity,
     TResult? Function(FfiNodeError_InvalidNodeAlias value)? invalidNodeAlias,
+    TResult? Function(FfiNodeError_InvalidCustomTlvs value)? invalidCustomTlvs,
+    TResult? Function(FfiNodeError_InvalidDateTime value)? invalidDateTime,
+    TResult? Function(FfiNodeError_InvalidFeeRate value)? invalidFeeRate,
+    TResult? Function(FfiNodeError_CreationError value)? creationError,
   }) {
     return liquiditySourceUnavailable?.call(this);
   }
@@ -19634,6 +20514,10 @@ class _$FfiNodeError_LiquiditySourceUnavailableImpl
     TResult Function(FfiNodeError_InvalidUri value)? invalidUri,
     TResult Function(FfiNodeError_InvalidQuantity value)? invalidQuantity,
     TResult Function(FfiNodeError_InvalidNodeAlias value)? invalidNodeAlias,
+    TResult Function(FfiNodeError_InvalidCustomTlvs value)? invalidCustomTlvs,
+    TResult Function(FfiNodeError_InvalidDateTime value)? invalidDateTime,
+    TResult Function(FfiNodeError_InvalidFeeRate value)? invalidFeeRate,
+    TResult Function(FfiNodeError_CreationError value)? creationError,
     required TResult orElse(),
   }) {
     if (liquiditySourceUnavailable != null) {
@@ -19748,6 +20632,10 @@ class _$FfiNodeError_LiquidityFeeTooHighImpl
     required TResult Function() invalidUri,
     required TResult Function() invalidQuantity,
     required TResult Function() invalidNodeAlias,
+    required TResult Function() invalidCustomTlvs,
+    required TResult Function() invalidDateTime,
+    required TResult Function() invalidFeeRate,
+    required TResult Function(FfiCreationError field0) creationError,
   }) {
     return liquidityFeeTooHigh();
   }
@@ -19808,6 +20696,10 @@ class _$FfiNodeError_LiquidityFeeTooHighImpl
     TResult? Function()? invalidUri,
     TResult? Function()? invalidQuantity,
     TResult? Function()? invalidNodeAlias,
+    TResult? Function()? invalidCustomTlvs,
+    TResult? Function()? invalidDateTime,
+    TResult? Function()? invalidFeeRate,
+    TResult? Function(FfiCreationError field0)? creationError,
   }) {
     return liquidityFeeTooHigh?.call();
   }
@@ -19868,6 +20760,10 @@ class _$FfiNodeError_LiquidityFeeTooHighImpl
     TResult Function()? invalidUri,
     TResult Function()? invalidQuantity,
     TResult Function()? invalidNodeAlias,
+    TResult Function()? invalidCustomTlvs,
+    TResult Function()? invalidDateTime,
+    TResult Function()? invalidFeeRate,
+    TResult Function(FfiCreationError field0)? creationError,
     required TResult orElse(),
   }) {
     if (liquidityFeeTooHigh != null) {
@@ -19969,6 +20865,12 @@ class _$FfiNodeError_LiquidityFeeTooHighImpl
         invalidQuantity,
     required TResult Function(FfiNodeError_InvalidNodeAlias value)
         invalidNodeAlias,
+    required TResult Function(FfiNodeError_InvalidCustomTlvs value)
+        invalidCustomTlvs,
+    required TResult Function(FfiNodeError_InvalidDateTime value)
+        invalidDateTime,
+    required TResult Function(FfiNodeError_InvalidFeeRate value) invalidFeeRate,
+    required TResult Function(FfiNodeError_CreationError value) creationError,
   }) {
     return liquidityFeeTooHigh(this);
   }
@@ -20056,6 +20958,10 @@ class _$FfiNodeError_LiquidityFeeTooHighImpl
     TResult? Function(FfiNodeError_InvalidUri value)? invalidUri,
     TResult? Function(FfiNodeError_InvalidQuantity value)? invalidQuantity,
     TResult? Function(FfiNodeError_InvalidNodeAlias value)? invalidNodeAlias,
+    TResult? Function(FfiNodeError_InvalidCustomTlvs value)? invalidCustomTlvs,
+    TResult? Function(FfiNodeError_InvalidDateTime value)? invalidDateTime,
+    TResult? Function(FfiNodeError_InvalidFeeRate value)? invalidFeeRate,
+    TResult? Function(FfiNodeError_CreationError value)? creationError,
   }) {
     return liquidityFeeTooHigh?.call(this);
   }
@@ -20140,6 +21046,10 @@ class _$FfiNodeError_LiquidityFeeTooHighImpl
     TResult Function(FfiNodeError_InvalidUri value)? invalidUri,
     TResult Function(FfiNodeError_InvalidQuantity value)? invalidQuantity,
     TResult Function(FfiNodeError_InvalidNodeAlias value)? invalidNodeAlias,
+    TResult Function(FfiNodeError_InvalidCustomTlvs value)? invalidCustomTlvs,
+    TResult Function(FfiNodeError_InvalidDateTime value)? invalidDateTime,
+    TResult Function(FfiNodeError_InvalidFeeRate value)? invalidFeeRate,
+    TResult Function(FfiNodeError_CreationError value)? creationError,
     required TResult orElse(),
   }) {
     if (liquidityFeeTooHigh != null) {
@@ -20254,6 +21164,10 @@ class _$FfiNodeError_InvalidPaymentIdImpl
     required TResult Function() invalidUri,
     required TResult Function() invalidQuantity,
     required TResult Function() invalidNodeAlias,
+    required TResult Function() invalidCustomTlvs,
+    required TResult Function() invalidDateTime,
+    required TResult Function() invalidFeeRate,
+    required TResult Function(FfiCreationError field0) creationError,
   }) {
     return invalidPaymentId();
   }
@@ -20314,6 +21228,10 @@ class _$FfiNodeError_InvalidPaymentIdImpl
     TResult? Function()? invalidUri,
     TResult? Function()? invalidQuantity,
     TResult? Function()? invalidNodeAlias,
+    TResult? Function()? invalidCustomTlvs,
+    TResult? Function()? invalidDateTime,
+    TResult? Function()? invalidFeeRate,
+    TResult? Function(FfiCreationError field0)? creationError,
   }) {
     return invalidPaymentId?.call();
   }
@@ -20374,6 +21292,10 @@ class _$FfiNodeError_InvalidPaymentIdImpl
     TResult Function()? invalidUri,
     TResult Function()? invalidQuantity,
     TResult Function()? invalidNodeAlias,
+    TResult Function()? invalidCustomTlvs,
+    TResult Function()? invalidDateTime,
+    TResult Function()? invalidFeeRate,
+    TResult Function(FfiCreationError field0)? creationError,
     required TResult orElse(),
   }) {
     if (invalidPaymentId != null) {
@@ -20475,6 +21397,12 @@ class _$FfiNodeError_InvalidPaymentIdImpl
         invalidQuantity,
     required TResult Function(FfiNodeError_InvalidNodeAlias value)
         invalidNodeAlias,
+    required TResult Function(FfiNodeError_InvalidCustomTlvs value)
+        invalidCustomTlvs,
+    required TResult Function(FfiNodeError_InvalidDateTime value)
+        invalidDateTime,
+    required TResult Function(FfiNodeError_InvalidFeeRate value) invalidFeeRate,
+    required TResult Function(FfiNodeError_CreationError value) creationError,
   }) {
     return invalidPaymentId(this);
   }
@@ -20562,6 +21490,10 @@ class _$FfiNodeError_InvalidPaymentIdImpl
     TResult? Function(FfiNodeError_InvalidUri value)? invalidUri,
     TResult? Function(FfiNodeError_InvalidQuantity value)? invalidQuantity,
     TResult? Function(FfiNodeError_InvalidNodeAlias value)? invalidNodeAlias,
+    TResult? Function(FfiNodeError_InvalidCustomTlvs value)? invalidCustomTlvs,
+    TResult? Function(FfiNodeError_InvalidDateTime value)? invalidDateTime,
+    TResult? Function(FfiNodeError_InvalidFeeRate value)? invalidFeeRate,
+    TResult? Function(FfiNodeError_CreationError value)? creationError,
   }) {
     return invalidPaymentId?.call(this);
   }
@@ -20646,6 +21578,10 @@ class _$FfiNodeError_InvalidPaymentIdImpl
     TResult Function(FfiNodeError_InvalidUri value)? invalidUri,
     TResult Function(FfiNodeError_InvalidQuantity value)? invalidQuantity,
     TResult Function(FfiNodeError_InvalidNodeAlias value)? invalidNodeAlias,
+    TResult Function(FfiNodeError_InvalidCustomTlvs value)? invalidCustomTlvs,
+    TResult Function(FfiNodeError_InvalidDateTime value)? invalidDateTime,
+    TResult Function(FfiNodeError_InvalidFeeRate value)? invalidFeeRate,
+    TResult Function(FfiNodeError_CreationError value)? creationError,
     required TResult orElse(),
   }) {
     if (invalidPaymentId != null) {
@@ -20795,6 +21731,10 @@ class _$FfiNodeError_DecodeImpl extends FfiNodeError_Decode {
     required TResult Function() invalidUri,
     required TResult Function() invalidQuantity,
     required TResult Function() invalidNodeAlias,
+    required TResult Function() invalidCustomTlvs,
+    required TResult Function() invalidDateTime,
+    required TResult Function() invalidFeeRate,
+    required TResult Function(FfiCreationError field0) creationError,
   }) {
     return decode(field0);
   }
@@ -20855,6 +21795,10 @@ class _$FfiNodeError_DecodeImpl extends FfiNodeError_Decode {
     TResult? Function()? invalidUri,
     TResult? Function()? invalidQuantity,
     TResult? Function()? invalidNodeAlias,
+    TResult? Function()? invalidCustomTlvs,
+    TResult? Function()? invalidDateTime,
+    TResult? Function()? invalidFeeRate,
+    TResult? Function(FfiCreationError field0)? creationError,
   }) {
     return decode?.call(field0);
   }
@@ -20915,6 +21859,10 @@ class _$FfiNodeError_DecodeImpl extends FfiNodeError_Decode {
     TResult Function()? invalidUri,
     TResult Function()? invalidQuantity,
     TResult Function()? invalidNodeAlias,
+    TResult Function()? invalidCustomTlvs,
+    TResult Function()? invalidDateTime,
+    TResult Function()? invalidFeeRate,
+    TResult Function(FfiCreationError field0)? creationError,
     required TResult orElse(),
   }) {
     if (decode != null) {
@@ -21016,6 +21964,12 @@ class _$FfiNodeError_DecodeImpl extends FfiNodeError_Decode {
         invalidQuantity,
     required TResult Function(FfiNodeError_InvalidNodeAlias value)
         invalidNodeAlias,
+    required TResult Function(FfiNodeError_InvalidCustomTlvs value)
+        invalidCustomTlvs,
+    required TResult Function(FfiNodeError_InvalidDateTime value)
+        invalidDateTime,
+    required TResult Function(FfiNodeError_InvalidFeeRate value) invalidFeeRate,
+    required TResult Function(FfiNodeError_CreationError value) creationError,
   }) {
     return decode(this);
   }
@@ -21103,6 +22057,10 @@ class _$FfiNodeError_DecodeImpl extends FfiNodeError_Decode {
     TResult? Function(FfiNodeError_InvalidUri value)? invalidUri,
     TResult? Function(FfiNodeError_InvalidQuantity value)? invalidQuantity,
     TResult? Function(FfiNodeError_InvalidNodeAlias value)? invalidNodeAlias,
+    TResult? Function(FfiNodeError_InvalidCustomTlvs value)? invalidCustomTlvs,
+    TResult? Function(FfiNodeError_InvalidDateTime value)? invalidDateTime,
+    TResult? Function(FfiNodeError_InvalidFeeRate value)? invalidFeeRate,
+    TResult? Function(FfiNodeError_CreationError value)? creationError,
   }) {
     return decode?.call(this);
   }
@@ -21187,6 +22145,10 @@ class _$FfiNodeError_DecodeImpl extends FfiNodeError_Decode {
     TResult Function(FfiNodeError_InvalidUri value)? invalidUri,
     TResult Function(FfiNodeError_InvalidQuantity value)? invalidQuantity,
     TResult Function(FfiNodeError_InvalidNodeAlias value)? invalidNodeAlias,
+    TResult Function(FfiNodeError_InvalidCustomTlvs value)? invalidCustomTlvs,
+    TResult Function(FfiNodeError_InvalidDateTime value)? invalidDateTime,
+    TResult Function(FfiNodeError_InvalidFeeRate value)? invalidFeeRate,
+    TResult Function(FfiNodeError_CreationError value)? creationError,
     required TResult orElse(),
   }) {
     if (decode != null) {
@@ -21346,6 +22308,10 @@ class _$FfiNodeError_Bolt12ParseImpl extends FfiNodeError_Bolt12Parse {
     required TResult Function() invalidUri,
     required TResult Function() invalidQuantity,
     required TResult Function() invalidNodeAlias,
+    required TResult Function() invalidCustomTlvs,
+    required TResult Function() invalidDateTime,
+    required TResult Function() invalidFeeRate,
+    required TResult Function(FfiCreationError field0) creationError,
   }) {
     return bolt12Parse(field0);
   }
@@ -21406,6 +22372,10 @@ class _$FfiNodeError_Bolt12ParseImpl extends FfiNodeError_Bolt12Parse {
     TResult? Function()? invalidUri,
     TResult? Function()? invalidQuantity,
     TResult? Function()? invalidNodeAlias,
+    TResult? Function()? invalidCustomTlvs,
+    TResult? Function()? invalidDateTime,
+    TResult? Function()? invalidFeeRate,
+    TResult? Function(FfiCreationError field0)? creationError,
   }) {
     return bolt12Parse?.call(field0);
   }
@@ -21466,6 +22436,10 @@ class _$FfiNodeError_Bolt12ParseImpl extends FfiNodeError_Bolt12Parse {
     TResult Function()? invalidUri,
     TResult Function()? invalidQuantity,
     TResult Function()? invalidNodeAlias,
+    TResult Function()? invalidCustomTlvs,
+    TResult Function()? invalidDateTime,
+    TResult Function()? invalidFeeRate,
+    TResult Function(FfiCreationError field0)? creationError,
     required TResult orElse(),
   }) {
     if (bolt12Parse != null) {
@@ -21567,6 +22541,12 @@ class _$FfiNodeError_Bolt12ParseImpl extends FfiNodeError_Bolt12Parse {
         invalidQuantity,
     required TResult Function(FfiNodeError_InvalidNodeAlias value)
         invalidNodeAlias,
+    required TResult Function(FfiNodeError_InvalidCustomTlvs value)
+        invalidCustomTlvs,
+    required TResult Function(FfiNodeError_InvalidDateTime value)
+        invalidDateTime,
+    required TResult Function(FfiNodeError_InvalidFeeRate value) invalidFeeRate,
+    required TResult Function(FfiNodeError_CreationError value) creationError,
   }) {
     return bolt12Parse(this);
   }
@@ -21654,6 +22634,10 @@ class _$FfiNodeError_Bolt12ParseImpl extends FfiNodeError_Bolt12Parse {
     TResult? Function(FfiNodeError_InvalidUri value)? invalidUri,
     TResult? Function(FfiNodeError_InvalidQuantity value)? invalidQuantity,
     TResult? Function(FfiNodeError_InvalidNodeAlias value)? invalidNodeAlias,
+    TResult? Function(FfiNodeError_InvalidCustomTlvs value)? invalidCustomTlvs,
+    TResult? Function(FfiNodeError_InvalidDateTime value)? invalidDateTime,
+    TResult? Function(FfiNodeError_InvalidFeeRate value)? invalidFeeRate,
+    TResult? Function(FfiNodeError_CreationError value)? creationError,
   }) {
     return bolt12Parse?.call(this);
   }
@@ -21738,6 +22722,10 @@ class _$FfiNodeError_Bolt12ParseImpl extends FfiNodeError_Bolt12Parse {
     TResult Function(FfiNodeError_InvalidUri value)? invalidUri,
     TResult Function(FfiNodeError_InvalidQuantity value)? invalidQuantity,
     TResult Function(FfiNodeError_InvalidNodeAlias value)? invalidNodeAlias,
+    TResult Function(FfiNodeError_InvalidCustomTlvs value)? invalidCustomTlvs,
+    TResult Function(FfiNodeError_InvalidDateTime value)? invalidDateTime,
+    TResult Function(FfiNodeError_InvalidFeeRate value)? invalidFeeRate,
+    TResult Function(FfiNodeError_CreationError value)? creationError,
     required TResult orElse(),
   }) {
     if (bolt12Parse != null) {
@@ -21860,6 +22848,10 @@ class _$FfiNodeError_InvoiceRequestCreationFailedImpl
     required TResult Function() invalidUri,
     required TResult Function() invalidQuantity,
     required TResult Function() invalidNodeAlias,
+    required TResult Function() invalidCustomTlvs,
+    required TResult Function() invalidDateTime,
+    required TResult Function() invalidFeeRate,
+    required TResult Function(FfiCreationError field0) creationError,
   }) {
     return invoiceRequestCreationFailed();
   }
@@ -21920,6 +22912,10 @@ class _$FfiNodeError_InvoiceRequestCreationFailedImpl
     TResult? Function()? invalidUri,
     TResult? Function()? invalidQuantity,
     TResult? Function()? invalidNodeAlias,
+    TResult? Function()? invalidCustomTlvs,
+    TResult? Function()? invalidDateTime,
+    TResult? Function()? invalidFeeRate,
+    TResult? Function(FfiCreationError field0)? creationError,
   }) {
     return invoiceRequestCreationFailed?.call();
   }
@@ -21980,6 +22976,10 @@ class _$FfiNodeError_InvoiceRequestCreationFailedImpl
     TResult Function()? invalidUri,
     TResult Function()? invalidQuantity,
     TResult Function()? invalidNodeAlias,
+    TResult Function()? invalidCustomTlvs,
+    TResult Function()? invalidDateTime,
+    TResult Function()? invalidFeeRate,
+    TResult Function(FfiCreationError field0)? creationError,
     required TResult orElse(),
   }) {
     if (invoiceRequestCreationFailed != null) {
@@ -22081,6 +23081,12 @@ class _$FfiNodeError_InvoiceRequestCreationFailedImpl
         invalidQuantity,
     required TResult Function(FfiNodeError_InvalidNodeAlias value)
         invalidNodeAlias,
+    required TResult Function(FfiNodeError_InvalidCustomTlvs value)
+        invalidCustomTlvs,
+    required TResult Function(FfiNodeError_InvalidDateTime value)
+        invalidDateTime,
+    required TResult Function(FfiNodeError_InvalidFeeRate value) invalidFeeRate,
+    required TResult Function(FfiNodeError_CreationError value) creationError,
   }) {
     return invoiceRequestCreationFailed(this);
   }
@@ -22168,6 +23174,10 @@ class _$FfiNodeError_InvoiceRequestCreationFailedImpl
     TResult? Function(FfiNodeError_InvalidUri value)? invalidUri,
     TResult? Function(FfiNodeError_InvalidQuantity value)? invalidQuantity,
     TResult? Function(FfiNodeError_InvalidNodeAlias value)? invalidNodeAlias,
+    TResult? Function(FfiNodeError_InvalidCustomTlvs value)? invalidCustomTlvs,
+    TResult? Function(FfiNodeError_InvalidDateTime value)? invalidDateTime,
+    TResult? Function(FfiNodeError_InvalidFeeRate value)? invalidFeeRate,
+    TResult? Function(FfiNodeError_CreationError value)? creationError,
   }) {
     return invoiceRequestCreationFailed?.call(this);
   }
@@ -22252,6 +23262,10 @@ class _$FfiNodeError_InvoiceRequestCreationFailedImpl
     TResult Function(FfiNodeError_InvalidUri value)? invalidUri,
     TResult Function(FfiNodeError_InvalidQuantity value)? invalidQuantity,
     TResult Function(FfiNodeError_InvalidNodeAlias value)? invalidNodeAlias,
+    TResult Function(FfiNodeError_InvalidCustomTlvs value)? invalidCustomTlvs,
+    TResult Function(FfiNodeError_InvalidDateTime value)? invalidDateTime,
+    TResult Function(FfiNodeError_InvalidFeeRate value)? invalidFeeRate,
+    TResult Function(FfiNodeError_CreationError value)? creationError,
     required TResult orElse(),
   }) {
     if (invoiceRequestCreationFailed != null) {
@@ -22366,6 +23380,10 @@ class _$FfiNodeError_OfferCreationFailedImpl
     required TResult Function() invalidUri,
     required TResult Function() invalidQuantity,
     required TResult Function() invalidNodeAlias,
+    required TResult Function() invalidCustomTlvs,
+    required TResult Function() invalidDateTime,
+    required TResult Function() invalidFeeRate,
+    required TResult Function(FfiCreationError field0) creationError,
   }) {
     return offerCreationFailed();
   }
@@ -22426,6 +23444,10 @@ class _$FfiNodeError_OfferCreationFailedImpl
     TResult? Function()? invalidUri,
     TResult? Function()? invalidQuantity,
     TResult? Function()? invalidNodeAlias,
+    TResult? Function()? invalidCustomTlvs,
+    TResult? Function()? invalidDateTime,
+    TResult? Function()? invalidFeeRate,
+    TResult? Function(FfiCreationError field0)? creationError,
   }) {
     return offerCreationFailed?.call();
   }
@@ -22486,6 +23508,10 @@ class _$FfiNodeError_OfferCreationFailedImpl
     TResult Function()? invalidUri,
     TResult Function()? invalidQuantity,
     TResult Function()? invalidNodeAlias,
+    TResult Function()? invalidCustomTlvs,
+    TResult Function()? invalidDateTime,
+    TResult Function()? invalidFeeRate,
+    TResult Function(FfiCreationError field0)? creationError,
     required TResult orElse(),
   }) {
     if (offerCreationFailed != null) {
@@ -22587,6 +23613,12 @@ class _$FfiNodeError_OfferCreationFailedImpl
         invalidQuantity,
     required TResult Function(FfiNodeError_InvalidNodeAlias value)
         invalidNodeAlias,
+    required TResult Function(FfiNodeError_InvalidCustomTlvs value)
+        invalidCustomTlvs,
+    required TResult Function(FfiNodeError_InvalidDateTime value)
+        invalidDateTime,
+    required TResult Function(FfiNodeError_InvalidFeeRate value) invalidFeeRate,
+    required TResult Function(FfiNodeError_CreationError value) creationError,
   }) {
     return offerCreationFailed(this);
   }
@@ -22674,6 +23706,10 @@ class _$FfiNodeError_OfferCreationFailedImpl
     TResult? Function(FfiNodeError_InvalidUri value)? invalidUri,
     TResult? Function(FfiNodeError_InvalidQuantity value)? invalidQuantity,
     TResult? Function(FfiNodeError_InvalidNodeAlias value)? invalidNodeAlias,
+    TResult? Function(FfiNodeError_InvalidCustomTlvs value)? invalidCustomTlvs,
+    TResult? Function(FfiNodeError_InvalidDateTime value)? invalidDateTime,
+    TResult? Function(FfiNodeError_InvalidFeeRate value)? invalidFeeRate,
+    TResult? Function(FfiNodeError_CreationError value)? creationError,
   }) {
     return offerCreationFailed?.call(this);
   }
@@ -22758,6 +23794,10 @@ class _$FfiNodeError_OfferCreationFailedImpl
     TResult Function(FfiNodeError_InvalidUri value)? invalidUri,
     TResult Function(FfiNodeError_InvalidQuantity value)? invalidQuantity,
     TResult Function(FfiNodeError_InvalidNodeAlias value)? invalidNodeAlias,
+    TResult Function(FfiNodeError_InvalidCustomTlvs value)? invalidCustomTlvs,
+    TResult Function(FfiNodeError_InvalidDateTime value)? invalidDateTime,
+    TResult Function(FfiNodeError_InvalidFeeRate value)? invalidFeeRate,
+    TResult Function(FfiNodeError_CreationError value)? creationError,
     required TResult orElse(),
   }) {
     if (offerCreationFailed != null) {
@@ -22872,6 +23912,10 @@ class _$FfiNodeError_RefundCreationFailedImpl
     required TResult Function() invalidUri,
     required TResult Function() invalidQuantity,
     required TResult Function() invalidNodeAlias,
+    required TResult Function() invalidCustomTlvs,
+    required TResult Function() invalidDateTime,
+    required TResult Function() invalidFeeRate,
+    required TResult Function(FfiCreationError field0) creationError,
   }) {
     return refundCreationFailed();
   }
@@ -22932,6 +23976,10 @@ class _$FfiNodeError_RefundCreationFailedImpl
     TResult? Function()? invalidUri,
     TResult? Function()? invalidQuantity,
     TResult? Function()? invalidNodeAlias,
+    TResult? Function()? invalidCustomTlvs,
+    TResult? Function()? invalidDateTime,
+    TResult? Function()? invalidFeeRate,
+    TResult? Function(FfiCreationError field0)? creationError,
   }) {
     return refundCreationFailed?.call();
   }
@@ -22992,6 +24040,10 @@ class _$FfiNodeError_RefundCreationFailedImpl
     TResult Function()? invalidUri,
     TResult Function()? invalidQuantity,
     TResult Function()? invalidNodeAlias,
+    TResult Function()? invalidCustomTlvs,
+    TResult Function()? invalidDateTime,
+    TResult Function()? invalidFeeRate,
+    TResult Function(FfiCreationError field0)? creationError,
     required TResult orElse(),
   }) {
     if (refundCreationFailed != null) {
@@ -23093,6 +24145,12 @@ class _$FfiNodeError_RefundCreationFailedImpl
         invalidQuantity,
     required TResult Function(FfiNodeError_InvalidNodeAlias value)
         invalidNodeAlias,
+    required TResult Function(FfiNodeError_InvalidCustomTlvs value)
+        invalidCustomTlvs,
+    required TResult Function(FfiNodeError_InvalidDateTime value)
+        invalidDateTime,
+    required TResult Function(FfiNodeError_InvalidFeeRate value) invalidFeeRate,
+    required TResult Function(FfiNodeError_CreationError value) creationError,
   }) {
     return refundCreationFailed(this);
   }
@@ -23180,6 +24238,10 @@ class _$FfiNodeError_RefundCreationFailedImpl
     TResult? Function(FfiNodeError_InvalidUri value)? invalidUri,
     TResult? Function(FfiNodeError_InvalidQuantity value)? invalidQuantity,
     TResult? Function(FfiNodeError_InvalidNodeAlias value)? invalidNodeAlias,
+    TResult? Function(FfiNodeError_InvalidCustomTlvs value)? invalidCustomTlvs,
+    TResult? Function(FfiNodeError_InvalidDateTime value)? invalidDateTime,
+    TResult? Function(FfiNodeError_InvalidFeeRate value)? invalidFeeRate,
+    TResult? Function(FfiNodeError_CreationError value)? creationError,
   }) {
     return refundCreationFailed?.call(this);
   }
@@ -23264,6 +24326,10 @@ class _$FfiNodeError_RefundCreationFailedImpl
     TResult Function(FfiNodeError_InvalidUri value)? invalidUri,
     TResult Function(FfiNodeError_InvalidQuantity value)? invalidQuantity,
     TResult Function(FfiNodeError_InvalidNodeAlias value)? invalidNodeAlias,
+    TResult Function(FfiNodeError_InvalidCustomTlvs value)? invalidCustomTlvs,
+    TResult Function(FfiNodeError_InvalidDateTime value)? invalidDateTime,
+    TResult Function(FfiNodeError_InvalidFeeRate value)? invalidFeeRate,
+    TResult Function(FfiNodeError_CreationError value)? creationError,
     required TResult orElse(),
   }) {
     if (refundCreationFailed != null) {
@@ -23381,6 +24447,10 @@ class _$FfiNodeError_FeerateEstimationUpdateTimeoutImpl
     required TResult Function() invalidUri,
     required TResult Function() invalidQuantity,
     required TResult Function() invalidNodeAlias,
+    required TResult Function() invalidCustomTlvs,
+    required TResult Function() invalidDateTime,
+    required TResult Function() invalidFeeRate,
+    required TResult Function(FfiCreationError field0) creationError,
   }) {
     return feerateEstimationUpdateTimeout();
   }
@@ -23441,6 +24511,10 @@ class _$FfiNodeError_FeerateEstimationUpdateTimeoutImpl
     TResult? Function()? invalidUri,
     TResult? Function()? invalidQuantity,
     TResult? Function()? invalidNodeAlias,
+    TResult? Function()? invalidCustomTlvs,
+    TResult? Function()? invalidDateTime,
+    TResult? Function()? invalidFeeRate,
+    TResult? Function(FfiCreationError field0)? creationError,
   }) {
     return feerateEstimationUpdateTimeout?.call();
   }
@@ -23501,6 +24575,10 @@ class _$FfiNodeError_FeerateEstimationUpdateTimeoutImpl
     TResult Function()? invalidUri,
     TResult Function()? invalidQuantity,
     TResult Function()? invalidNodeAlias,
+    TResult Function()? invalidCustomTlvs,
+    TResult Function()? invalidDateTime,
+    TResult Function()? invalidFeeRate,
+    TResult Function(FfiCreationError field0)? creationError,
     required TResult orElse(),
   }) {
     if (feerateEstimationUpdateTimeout != null) {
@@ -23602,6 +24680,12 @@ class _$FfiNodeError_FeerateEstimationUpdateTimeoutImpl
         invalidQuantity,
     required TResult Function(FfiNodeError_InvalidNodeAlias value)
         invalidNodeAlias,
+    required TResult Function(FfiNodeError_InvalidCustomTlvs value)
+        invalidCustomTlvs,
+    required TResult Function(FfiNodeError_InvalidDateTime value)
+        invalidDateTime,
+    required TResult Function(FfiNodeError_InvalidFeeRate value) invalidFeeRate,
+    required TResult Function(FfiNodeError_CreationError value) creationError,
   }) {
     return feerateEstimationUpdateTimeout(this);
   }
@@ -23689,6 +24773,10 @@ class _$FfiNodeError_FeerateEstimationUpdateTimeoutImpl
     TResult? Function(FfiNodeError_InvalidUri value)? invalidUri,
     TResult? Function(FfiNodeError_InvalidQuantity value)? invalidQuantity,
     TResult? Function(FfiNodeError_InvalidNodeAlias value)? invalidNodeAlias,
+    TResult? Function(FfiNodeError_InvalidCustomTlvs value)? invalidCustomTlvs,
+    TResult? Function(FfiNodeError_InvalidDateTime value)? invalidDateTime,
+    TResult? Function(FfiNodeError_InvalidFeeRate value)? invalidFeeRate,
+    TResult? Function(FfiNodeError_CreationError value)? creationError,
   }) {
     return feerateEstimationUpdateTimeout?.call(this);
   }
@@ -23773,6 +24861,10 @@ class _$FfiNodeError_FeerateEstimationUpdateTimeoutImpl
     TResult Function(FfiNodeError_InvalidUri value)? invalidUri,
     TResult Function(FfiNodeError_InvalidQuantity value)? invalidQuantity,
     TResult Function(FfiNodeError_InvalidNodeAlias value)? invalidNodeAlias,
+    TResult Function(FfiNodeError_InvalidCustomTlvs value)? invalidCustomTlvs,
+    TResult Function(FfiNodeError_InvalidDateTime value)? invalidDateTime,
+    TResult Function(FfiNodeError_InvalidFeeRate value)? invalidFeeRate,
+    TResult Function(FfiNodeError_CreationError value)? creationError,
     required TResult orElse(),
   }) {
     if (feerateEstimationUpdateTimeout != null) {
@@ -23888,6 +24980,10 @@ class _$FfiNodeError_WalletOperationTimeoutImpl
     required TResult Function() invalidUri,
     required TResult Function() invalidQuantity,
     required TResult Function() invalidNodeAlias,
+    required TResult Function() invalidCustomTlvs,
+    required TResult Function() invalidDateTime,
+    required TResult Function() invalidFeeRate,
+    required TResult Function(FfiCreationError field0) creationError,
   }) {
     return walletOperationTimeout();
   }
@@ -23948,6 +25044,10 @@ class _$FfiNodeError_WalletOperationTimeoutImpl
     TResult? Function()? invalidUri,
     TResult? Function()? invalidQuantity,
     TResult? Function()? invalidNodeAlias,
+    TResult? Function()? invalidCustomTlvs,
+    TResult? Function()? invalidDateTime,
+    TResult? Function()? invalidFeeRate,
+    TResult? Function(FfiCreationError field0)? creationError,
   }) {
     return walletOperationTimeout?.call();
   }
@@ -24008,6 +25108,10 @@ class _$FfiNodeError_WalletOperationTimeoutImpl
     TResult Function()? invalidUri,
     TResult Function()? invalidQuantity,
     TResult Function()? invalidNodeAlias,
+    TResult Function()? invalidCustomTlvs,
+    TResult Function()? invalidDateTime,
+    TResult Function()? invalidFeeRate,
+    TResult Function(FfiCreationError field0)? creationError,
     required TResult orElse(),
   }) {
     if (walletOperationTimeout != null) {
@@ -24109,6 +25213,12 @@ class _$FfiNodeError_WalletOperationTimeoutImpl
         invalidQuantity,
     required TResult Function(FfiNodeError_InvalidNodeAlias value)
         invalidNodeAlias,
+    required TResult Function(FfiNodeError_InvalidCustomTlvs value)
+        invalidCustomTlvs,
+    required TResult Function(FfiNodeError_InvalidDateTime value)
+        invalidDateTime,
+    required TResult Function(FfiNodeError_InvalidFeeRate value) invalidFeeRate,
+    required TResult Function(FfiNodeError_CreationError value) creationError,
   }) {
     return walletOperationTimeout(this);
   }
@@ -24196,6 +25306,10 @@ class _$FfiNodeError_WalletOperationTimeoutImpl
     TResult? Function(FfiNodeError_InvalidUri value)? invalidUri,
     TResult? Function(FfiNodeError_InvalidQuantity value)? invalidQuantity,
     TResult? Function(FfiNodeError_InvalidNodeAlias value)? invalidNodeAlias,
+    TResult? Function(FfiNodeError_InvalidCustomTlvs value)? invalidCustomTlvs,
+    TResult? Function(FfiNodeError_InvalidDateTime value)? invalidDateTime,
+    TResult? Function(FfiNodeError_InvalidFeeRate value)? invalidFeeRate,
+    TResult? Function(FfiNodeError_CreationError value)? creationError,
   }) {
     return walletOperationTimeout?.call(this);
   }
@@ -24280,6 +25394,10 @@ class _$FfiNodeError_WalletOperationTimeoutImpl
     TResult Function(FfiNodeError_InvalidUri value)? invalidUri,
     TResult Function(FfiNodeError_InvalidQuantity value)? invalidQuantity,
     TResult Function(FfiNodeError_InvalidNodeAlias value)? invalidNodeAlias,
+    TResult Function(FfiNodeError_InvalidCustomTlvs value)? invalidCustomTlvs,
+    TResult Function(FfiNodeError_InvalidDateTime value)? invalidDateTime,
+    TResult Function(FfiNodeError_InvalidFeeRate value)? invalidFeeRate,
+    TResult Function(FfiNodeError_CreationError value)? creationError,
     required TResult orElse(),
   }) {
     if (walletOperationTimeout != null) {
@@ -24392,6 +25510,10 @@ class _$FfiNodeError_TxSyncTimeoutImpl extends FfiNodeError_TxSyncTimeout {
     required TResult Function() invalidUri,
     required TResult Function() invalidQuantity,
     required TResult Function() invalidNodeAlias,
+    required TResult Function() invalidCustomTlvs,
+    required TResult Function() invalidDateTime,
+    required TResult Function() invalidFeeRate,
+    required TResult Function(FfiCreationError field0) creationError,
   }) {
     return txSyncTimeout();
   }
@@ -24452,6 +25574,10 @@ class _$FfiNodeError_TxSyncTimeoutImpl extends FfiNodeError_TxSyncTimeout {
     TResult? Function()? invalidUri,
     TResult? Function()? invalidQuantity,
     TResult? Function()? invalidNodeAlias,
+    TResult? Function()? invalidCustomTlvs,
+    TResult? Function()? invalidDateTime,
+    TResult? Function()? invalidFeeRate,
+    TResult? Function(FfiCreationError field0)? creationError,
   }) {
     return txSyncTimeout?.call();
   }
@@ -24512,6 +25638,10 @@ class _$FfiNodeError_TxSyncTimeoutImpl extends FfiNodeError_TxSyncTimeout {
     TResult Function()? invalidUri,
     TResult Function()? invalidQuantity,
     TResult Function()? invalidNodeAlias,
+    TResult Function()? invalidCustomTlvs,
+    TResult Function()? invalidDateTime,
+    TResult Function()? invalidFeeRate,
+    TResult Function(FfiCreationError field0)? creationError,
     required TResult orElse(),
   }) {
     if (txSyncTimeout != null) {
@@ -24613,6 +25743,12 @@ class _$FfiNodeError_TxSyncTimeoutImpl extends FfiNodeError_TxSyncTimeout {
         invalidQuantity,
     required TResult Function(FfiNodeError_InvalidNodeAlias value)
         invalidNodeAlias,
+    required TResult Function(FfiNodeError_InvalidCustomTlvs value)
+        invalidCustomTlvs,
+    required TResult Function(FfiNodeError_InvalidDateTime value)
+        invalidDateTime,
+    required TResult Function(FfiNodeError_InvalidFeeRate value) invalidFeeRate,
+    required TResult Function(FfiNodeError_CreationError value) creationError,
   }) {
     return txSyncTimeout(this);
   }
@@ -24700,6 +25836,10 @@ class _$FfiNodeError_TxSyncTimeoutImpl extends FfiNodeError_TxSyncTimeout {
     TResult? Function(FfiNodeError_InvalidUri value)? invalidUri,
     TResult? Function(FfiNodeError_InvalidQuantity value)? invalidQuantity,
     TResult? Function(FfiNodeError_InvalidNodeAlias value)? invalidNodeAlias,
+    TResult? Function(FfiNodeError_InvalidCustomTlvs value)? invalidCustomTlvs,
+    TResult? Function(FfiNodeError_InvalidDateTime value)? invalidDateTime,
+    TResult? Function(FfiNodeError_InvalidFeeRate value)? invalidFeeRate,
+    TResult? Function(FfiNodeError_CreationError value)? creationError,
   }) {
     return txSyncTimeout?.call(this);
   }
@@ -24784,6 +25924,10 @@ class _$FfiNodeError_TxSyncTimeoutImpl extends FfiNodeError_TxSyncTimeout {
     TResult Function(FfiNodeError_InvalidUri value)? invalidUri,
     TResult Function(FfiNodeError_InvalidQuantity value)? invalidQuantity,
     TResult Function(FfiNodeError_InvalidNodeAlias value)? invalidNodeAlias,
+    TResult Function(FfiNodeError_InvalidCustomTlvs value)? invalidCustomTlvs,
+    TResult Function(FfiNodeError_InvalidDateTime value)? invalidDateTime,
+    TResult Function(FfiNodeError_InvalidFeeRate value)? invalidFeeRate,
+    TResult Function(FfiNodeError_CreationError value)? creationError,
     required TResult orElse(),
   }) {
     if (txSyncTimeout != null) {
@@ -24897,6 +26041,10 @@ class _$FfiNodeError_GossipUpdateTimeoutImpl
     required TResult Function() invalidUri,
     required TResult Function() invalidQuantity,
     required TResult Function() invalidNodeAlias,
+    required TResult Function() invalidCustomTlvs,
+    required TResult Function() invalidDateTime,
+    required TResult Function() invalidFeeRate,
+    required TResult Function(FfiCreationError field0) creationError,
   }) {
     return gossipUpdateTimeout();
   }
@@ -24957,6 +26105,10 @@ class _$FfiNodeError_GossipUpdateTimeoutImpl
     TResult? Function()? invalidUri,
     TResult? Function()? invalidQuantity,
     TResult? Function()? invalidNodeAlias,
+    TResult? Function()? invalidCustomTlvs,
+    TResult? Function()? invalidDateTime,
+    TResult? Function()? invalidFeeRate,
+    TResult? Function(FfiCreationError field0)? creationError,
   }) {
     return gossipUpdateTimeout?.call();
   }
@@ -25017,6 +26169,10 @@ class _$FfiNodeError_GossipUpdateTimeoutImpl
     TResult Function()? invalidUri,
     TResult Function()? invalidQuantity,
     TResult Function()? invalidNodeAlias,
+    TResult Function()? invalidCustomTlvs,
+    TResult Function()? invalidDateTime,
+    TResult Function()? invalidFeeRate,
+    TResult Function(FfiCreationError field0)? creationError,
     required TResult orElse(),
   }) {
     if (gossipUpdateTimeout != null) {
@@ -25118,6 +26274,12 @@ class _$FfiNodeError_GossipUpdateTimeoutImpl
         invalidQuantity,
     required TResult Function(FfiNodeError_InvalidNodeAlias value)
         invalidNodeAlias,
+    required TResult Function(FfiNodeError_InvalidCustomTlvs value)
+        invalidCustomTlvs,
+    required TResult Function(FfiNodeError_InvalidDateTime value)
+        invalidDateTime,
+    required TResult Function(FfiNodeError_InvalidFeeRate value) invalidFeeRate,
+    required TResult Function(FfiNodeError_CreationError value) creationError,
   }) {
     return gossipUpdateTimeout(this);
   }
@@ -25205,6 +26367,10 @@ class _$FfiNodeError_GossipUpdateTimeoutImpl
     TResult? Function(FfiNodeError_InvalidUri value)? invalidUri,
     TResult? Function(FfiNodeError_InvalidQuantity value)? invalidQuantity,
     TResult? Function(FfiNodeError_InvalidNodeAlias value)? invalidNodeAlias,
+    TResult? Function(FfiNodeError_InvalidCustomTlvs value)? invalidCustomTlvs,
+    TResult? Function(FfiNodeError_InvalidDateTime value)? invalidDateTime,
+    TResult? Function(FfiNodeError_InvalidFeeRate value)? invalidFeeRate,
+    TResult? Function(FfiNodeError_CreationError value)? creationError,
   }) {
     return gossipUpdateTimeout?.call(this);
   }
@@ -25289,6 +26455,10 @@ class _$FfiNodeError_GossipUpdateTimeoutImpl
     TResult Function(FfiNodeError_InvalidUri value)? invalidUri,
     TResult Function(FfiNodeError_InvalidQuantity value)? invalidQuantity,
     TResult Function(FfiNodeError_InvalidNodeAlias value)? invalidNodeAlias,
+    TResult Function(FfiNodeError_InvalidCustomTlvs value)? invalidCustomTlvs,
+    TResult Function(FfiNodeError_InvalidDateTime value)? invalidDateTime,
+    TResult Function(FfiNodeError_InvalidFeeRate value)? invalidFeeRate,
+    TResult Function(FfiNodeError_CreationError value)? creationError,
     required TResult orElse(),
   }) {
     if (gossipUpdateTimeout != null) {
@@ -25401,6 +26571,10 @@ class _$FfiNodeError_InvalidOfferIdImpl extends FfiNodeError_InvalidOfferId {
     required TResult Function() invalidUri,
     required TResult Function() invalidQuantity,
     required TResult Function() invalidNodeAlias,
+    required TResult Function() invalidCustomTlvs,
+    required TResult Function() invalidDateTime,
+    required TResult Function() invalidFeeRate,
+    required TResult Function(FfiCreationError field0) creationError,
   }) {
     return invalidOfferId();
   }
@@ -25461,6 +26635,10 @@ class _$FfiNodeError_InvalidOfferIdImpl extends FfiNodeError_InvalidOfferId {
     TResult? Function()? invalidUri,
     TResult? Function()? invalidQuantity,
     TResult? Function()? invalidNodeAlias,
+    TResult? Function()? invalidCustomTlvs,
+    TResult? Function()? invalidDateTime,
+    TResult? Function()? invalidFeeRate,
+    TResult? Function(FfiCreationError field0)? creationError,
   }) {
     return invalidOfferId?.call();
   }
@@ -25521,6 +26699,10 @@ class _$FfiNodeError_InvalidOfferIdImpl extends FfiNodeError_InvalidOfferId {
     TResult Function()? invalidUri,
     TResult Function()? invalidQuantity,
     TResult Function()? invalidNodeAlias,
+    TResult Function()? invalidCustomTlvs,
+    TResult Function()? invalidDateTime,
+    TResult Function()? invalidFeeRate,
+    TResult Function(FfiCreationError field0)? creationError,
     required TResult orElse(),
   }) {
     if (invalidOfferId != null) {
@@ -25622,6 +26804,12 @@ class _$FfiNodeError_InvalidOfferIdImpl extends FfiNodeError_InvalidOfferId {
         invalidQuantity,
     required TResult Function(FfiNodeError_InvalidNodeAlias value)
         invalidNodeAlias,
+    required TResult Function(FfiNodeError_InvalidCustomTlvs value)
+        invalidCustomTlvs,
+    required TResult Function(FfiNodeError_InvalidDateTime value)
+        invalidDateTime,
+    required TResult Function(FfiNodeError_InvalidFeeRate value) invalidFeeRate,
+    required TResult Function(FfiNodeError_CreationError value) creationError,
   }) {
     return invalidOfferId(this);
   }
@@ -25709,6 +26897,10 @@ class _$FfiNodeError_InvalidOfferIdImpl extends FfiNodeError_InvalidOfferId {
     TResult? Function(FfiNodeError_InvalidUri value)? invalidUri,
     TResult? Function(FfiNodeError_InvalidQuantity value)? invalidQuantity,
     TResult? Function(FfiNodeError_InvalidNodeAlias value)? invalidNodeAlias,
+    TResult? Function(FfiNodeError_InvalidCustomTlvs value)? invalidCustomTlvs,
+    TResult? Function(FfiNodeError_InvalidDateTime value)? invalidDateTime,
+    TResult? Function(FfiNodeError_InvalidFeeRate value)? invalidFeeRate,
+    TResult? Function(FfiNodeError_CreationError value)? creationError,
   }) {
     return invalidOfferId?.call(this);
   }
@@ -25793,6 +26985,10 @@ class _$FfiNodeError_InvalidOfferIdImpl extends FfiNodeError_InvalidOfferId {
     TResult Function(FfiNodeError_InvalidUri value)? invalidUri,
     TResult Function(FfiNodeError_InvalidQuantity value)? invalidQuantity,
     TResult Function(FfiNodeError_InvalidNodeAlias value)? invalidNodeAlias,
+    TResult Function(FfiNodeError_InvalidCustomTlvs value)? invalidCustomTlvs,
+    TResult Function(FfiNodeError_InvalidDateTime value)? invalidDateTime,
+    TResult Function(FfiNodeError_InvalidFeeRate value)? invalidFeeRate,
+    TResult Function(FfiNodeError_CreationError value)? creationError,
     required TResult orElse(),
   }) {
     if (invalidOfferId != null) {
@@ -25905,6 +27101,10 @@ class _$FfiNodeError_InvalidNodeIdImpl extends FfiNodeError_InvalidNodeId {
     required TResult Function() invalidUri,
     required TResult Function() invalidQuantity,
     required TResult Function() invalidNodeAlias,
+    required TResult Function() invalidCustomTlvs,
+    required TResult Function() invalidDateTime,
+    required TResult Function() invalidFeeRate,
+    required TResult Function(FfiCreationError field0) creationError,
   }) {
     return invalidNodeId();
   }
@@ -25965,6 +27165,10 @@ class _$FfiNodeError_InvalidNodeIdImpl extends FfiNodeError_InvalidNodeId {
     TResult? Function()? invalidUri,
     TResult? Function()? invalidQuantity,
     TResult? Function()? invalidNodeAlias,
+    TResult? Function()? invalidCustomTlvs,
+    TResult? Function()? invalidDateTime,
+    TResult? Function()? invalidFeeRate,
+    TResult? Function(FfiCreationError field0)? creationError,
   }) {
     return invalidNodeId?.call();
   }
@@ -26025,6 +27229,10 @@ class _$FfiNodeError_InvalidNodeIdImpl extends FfiNodeError_InvalidNodeId {
     TResult Function()? invalidUri,
     TResult Function()? invalidQuantity,
     TResult Function()? invalidNodeAlias,
+    TResult Function()? invalidCustomTlvs,
+    TResult Function()? invalidDateTime,
+    TResult Function()? invalidFeeRate,
+    TResult Function(FfiCreationError field0)? creationError,
     required TResult orElse(),
   }) {
     if (invalidNodeId != null) {
@@ -26126,6 +27334,12 @@ class _$FfiNodeError_InvalidNodeIdImpl extends FfiNodeError_InvalidNodeId {
         invalidQuantity,
     required TResult Function(FfiNodeError_InvalidNodeAlias value)
         invalidNodeAlias,
+    required TResult Function(FfiNodeError_InvalidCustomTlvs value)
+        invalidCustomTlvs,
+    required TResult Function(FfiNodeError_InvalidDateTime value)
+        invalidDateTime,
+    required TResult Function(FfiNodeError_InvalidFeeRate value) invalidFeeRate,
+    required TResult Function(FfiNodeError_CreationError value) creationError,
   }) {
     return invalidNodeId(this);
   }
@@ -26213,6 +27427,10 @@ class _$FfiNodeError_InvalidNodeIdImpl extends FfiNodeError_InvalidNodeId {
     TResult? Function(FfiNodeError_InvalidUri value)? invalidUri,
     TResult? Function(FfiNodeError_InvalidQuantity value)? invalidQuantity,
     TResult? Function(FfiNodeError_InvalidNodeAlias value)? invalidNodeAlias,
+    TResult? Function(FfiNodeError_InvalidCustomTlvs value)? invalidCustomTlvs,
+    TResult? Function(FfiNodeError_InvalidDateTime value)? invalidDateTime,
+    TResult? Function(FfiNodeError_InvalidFeeRate value)? invalidFeeRate,
+    TResult? Function(FfiNodeError_CreationError value)? creationError,
   }) {
     return invalidNodeId?.call(this);
   }
@@ -26297,6 +27515,10 @@ class _$FfiNodeError_InvalidNodeIdImpl extends FfiNodeError_InvalidNodeId {
     TResult Function(FfiNodeError_InvalidUri value)? invalidUri,
     TResult Function(FfiNodeError_InvalidQuantity value)? invalidQuantity,
     TResult Function(FfiNodeError_InvalidNodeAlias value)? invalidNodeAlias,
+    TResult Function(FfiNodeError_InvalidCustomTlvs value)? invalidCustomTlvs,
+    TResult Function(FfiNodeError_InvalidDateTime value)? invalidDateTime,
+    TResult Function(FfiNodeError_InvalidFeeRate value)? invalidFeeRate,
+    TResult Function(FfiNodeError_CreationError value)? creationError,
     required TResult orElse(),
   }) {
     if (invalidNodeId != null) {
@@ -26408,6 +27630,10 @@ class _$FfiNodeError_InvalidOfferImpl extends FfiNodeError_InvalidOffer {
     required TResult Function() invalidUri,
     required TResult Function() invalidQuantity,
     required TResult Function() invalidNodeAlias,
+    required TResult Function() invalidCustomTlvs,
+    required TResult Function() invalidDateTime,
+    required TResult Function() invalidFeeRate,
+    required TResult Function(FfiCreationError field0) creationError,
   }) {
     return invalidOffer();
   }
@@ -26468,6 +27694,10 @@ class _$FfiNodeError_InvalidOfferImpl extends FfiNodeError_InvalidOffer {
     TResult? Function()? invalidUri,
     TResult? Function()? invalidQuantity,
     TResult? Function()? invalidNodeAlias,
+    TResult? Function()? invalidCustomTlvs,
+    TResult? Function()? invalidDateTime,
+    TResult? Function()? invalidFeeRate,
+    TResult? Function(FfiCreationError field0)? creationError,
   }) {
     return invalidOffer?.call();
   }
@@ -26528,6 +27758,10 @@ class _$FfiNodeError_InvalidOfferImpl extends FfiNodeError_InvalidOffer {
     TResult Function()? invalidUri,
     TResult Function()? invalidQuantity,
     TResult Function()? invalidNodeAlias,
+    TResult Function()? invalidCustomTlvs,
+    TResult Function()? invalidDateTime,
+    TResult Function()? invalidFeeRate,
+    TResult Function(FfiCreationError field0)? creationError,
     required TResult orElse(),
   }) {
     if (invalidOffer != null) {
@@ -26629,6 +27863,12 @@ class _$FfiNodeError_InvalidOfferImpl extends FfiNodeError_InvalidOffer {
         invalidQuantity,
     required TResult Function(FfiNodeError_InvalidNodeAlias value)
         invalidNodeAlias,
+    required TResult Function(FfiNodeError_InvalidCustomTlvs value)
+        invalidCustomTlvs,
+    required TResult Function(FfiNodeError_InvalidDateTime value)
+        invalidDateTime,
+    required TResult Function(FfiNodeError_InvalidFeeRate value) invalidFeeRate,
+    required TResult Function(FfiNodeError_CreationError value) creationError,
   }) {
     return invalidOffer(this);
   }
@@ -26716,6 +27956,10 @@ class _$FfiNodeError_InvalidOfferImpl extends FfiNodeError_InvalidOffer {
     TResult? Function(FfiNodeError_InvalidUri value)? invalidUri,
     TResult? Function(FfiNodeError_InvalidQuantity value)? invalidQuantity,
     TResult? Function(FfiNodeError_InvalidNodeAlias value)? invalidNodeAlias,
+    TResult? Function(FfiNodeError_InvalidCustomTlvs value)? invalidCustomTlvs,
+    TResult? Function(FfiNodeError_InvalidDateTime value)? invalidDateTime,
+    TResult? Function(FfiNodeError_InvalidFeeRate value)? invalidFeeRate,
+    TResult? Function(FfiNodeError_CreationError value)? creationError,
   }) {
     return invalidOffer?.call(this);
   }
@@ -26800,6 +28044,10 @@ class _$FfiNodeError_InvalidOfferImpl extends FfiNodeError_InvalidOffer {
     TResult Function(FfiNodeError_InvalidUri value)? invalidUri,
     TResult Function(FfiNodeError_InvalidQuantity value)? invalidQuantity,
     TResult Function(FfiNodeError_InvalidNodeAlias value)? invalidNodeAlias,
+    TResult Function(FfiNodeError_InvalidCustomTlvs value)? invalidCustomTlvs,
+    TResult Function(FfiNodeError_InvalidDateTime value)? invalidDateTime,
+    TResult Function(FfiNodeError_InvalidFeeRate value)? invalidFeeRate,
+    TResult Function(FfiNodeError_CreationError value)? creationError,
     required TResult orElse(),
   }) {
     if (invalidOffer != null) {
@@ -26911,6 +28159,10 @@ class _$FfiNodeError_InvalidRefundImpl extends FfiNodeError_InvalidRefund {
     required TResult Function() invalidUri,
     required TResult Function() invalidQuantity,
     required TResult Function() invalidNodeAlias,
+    required TResult Function() invalidCustomTlvs,
+    required TResult Function() invalidDateTime,
+    required TResult Function() invalidFeeRate,
+    required TResult Function(FfiCreationError field0) creationError,
   }) {
     return invalidRefund();
   }
@@ -26971,6 +28223,10 @@ class _$FfiNodeError_InvalidRefundImpl extends FfiNodeError_InvalidRefund {
     TResult? Function()? invalidUri,
     TResult? Function()? invalidQuantity,
     TResult? Function()? invalidNodeAlias,
+    TResult? Function()? invalidCustomTlvs,
+    TResult? Function()? invalidDateTime,
+    TResult? Function()? invalidFeeRate,
+    TResult? Function(FfiCreationError field0)? creationError,
   }) {
     return invalidRefund?.call();
   }
@@ -27031,6 +28287,10 @@ class _$FfiNodeError_InvalidRefundImpl extends FfiNodeError_InvalidRefund {
     TResult Function()? invalidUri,
     TResult Function()? invalidQuantity,
     TResult Function()? invalidNodeAlias,
+    TResult Function()? invalidCustomTlvs,
+    TResult Function()? invalidDateTime,
+    TResult Function()? invalidFeeRate,
+    TResult Function(FfiCreationError field0)? creationError,
     required TResult orElse(),
   }) {
     if (invalidRefund != null) {
@@ -27132,6 +28392,12 @@ class _$FfiNodeError_InvalidRefundImpl extends FfiNodeError_InvalidRefund {
         invalidQuantity,
     required TResult Function(FfiNodeError_InvalidNodeAlias value)
         invalidNodeAlias,
+    required TResult Function(FfiNodeError_InvalidCustomTlvs value)
+        invalidCustomTlvs,
+    required TResult Function(FfiNodeError_InvalidDateTime value)
+        invalidDateTime,
+    required TResult Function(FfiNodeError_InvalidFeeRate value) invalidFeeRate,
+    required TResult Function(FfiNodeError_CreationError value) creationError,
   }) {
     return invalidRefund(this);
   }
@@ -27219,6 +28485,10 @@ class _$FfiNodeError_InvalidRefundImpl extends FfiNodeError_InvalidRefund {
     TResult? Function(FfiNodeError_InvalidUri value)? invalidUri,
     TResult? Function(FfiNodeError_InvalidQuantity value)? invalidQuantity,
     TResult? Function(FfiNodeError_InvalidNodeAlias value)? invalidNodeAlias,
+    TResult? Function(FfiNodeError_InvalidCustomTlvs value)? invalidCustomTlvs,
+    TResult? Function(FfiNodeError_InvalidDateTime value)? invalidDateTime,
+    TResult? Function(FfiNodeError_InvalidFeeRate value)? invalidFeeRate,
+    TResult? Function(FfiNodeError_CreationError value)? creationError,
   }) {
     return invalidRefund?.call(this);
   }
@@ -27303,6 +28573,10 @@ class _$FfiNodeError_InvalidRefundImpl extends FfiNodeError_InvalidRefund {
     TResult Function(FfiNodeError_InvalidUri value)? invalidUri,
     TResult Function(FfiNodeError_InvalidQuantity value)? invalidQuantity,
     TResult Function(FfiNodeError_InvalidNodeAlias value)? invalidNodeAlias,
+    TResult Function(FfiNodeError_InvalidCustomTlvs value)? invalidCustomTlvs,
+    TResult Function(FfiNodeError_InvalidDateTime value)? invalidDateTime,
+    TResult Function(FfiNodeError_InvalidFeeRate value)? invalidFeeRate,
+    TResult Function(FfiNodeError_CreationError value)? creationError,
     required TResult orElse(),
   }) {
     if (invalidRefund != null) {
@@ -27416,6 +28690,10 @@ class _$FfiNodeError_UnsupportedCurrencyImpl
     required TResult Function() invalidUri,
     required TResult Function() invalidQuantity,
     required TResult Function() invalidNodeAlias,
+    required TResult Function() invalidCustomTlvs,
+    required TResult Function() invalidDateTime,
+    required TResult Function() invalidFeeRate,
+    required TResult Function(FfiCreationError field0) creationError,
   }) {
     return unsupportedCurrency();
   }
@@ -27476,6 +28754,10 @@ class _$FfiNodeError_UnsupportedCurrencyImpl
     TResult? Function()? invalidUri,
     TResult? Function()? invalidQuantity,
     TResult? Function()? invalidNodeAlias,
+    TResult? Function()? invalidCustomTlvs,
+    TResult? Function()? invalidDateTime,
+    TResult? Function()? invalidFeeRate,
+    TResult? Function(FfiCreationError field0)? creationError,
   }) {
     return unsupportedCurrency?.call();
   }
@@ -27536,6 +28818,10 @@ class _$FfiNodeError_UnsupportedCurrencyImpl
     TResult Function()? invalidUri,
     TResult Function()? invalidQuantity,
     TResult Function()? invalidNodeAlias,
+    TResult Function()? invalidCustomTlvs,
+    TResult Function()? invalidDateTime,
+    TResult Function()? invalidFeeRate,
+    TResult Function(FfiCreationError field0)? creationError,
     required TResult orElse(),
   }) {
     if (unsupportedCurrency != null) {
@@ -27637,6 +28923,12 @@ class _$FfiNodeError_UnsupportedCurrencyImpl
         invalidQuantity,
     required TResult Function(FfiNodeError_InvalidNodeAlias value)
         invalidNodeAlias,
+    required TResult Function(FfiNodeError_InvalidCustomTlvs value)
+        invalidCustomTlvs,
+    required TResult Function(FfiNodeError_InvalidDateTime value)
+        invalidDateTime,
+    required TResult Function(FfiNodeError_InvalidFeeRate value) invalidFeeRate,
+    required TResult Function(FfiNodeError_CreationError value) creationError,
   }) {
     return unsupportedCurrency(this);
   }
@@ -27724,6 +29016,10 @@ class _$FfiNodeError_UnsupportedCurrencyImpl
     TResult? Function(FfiNodeError_InvalidUri value)? invalidUri,
     TResult? Function(FfiNodeError_InvalidQuantity value)? invalidQuantity,
     TResult? Function(FfiNodeError_InvalidNodeAlias value)? invalidNodeAlias,
+    TResult? Function(FfiNodeError_InvalidCustomTlvs value)? invalidCustomTlvs,
+    TResult? Function(FfiNodeError_InvalidDateTime value)? invalidDateTime,
+    TResult? Function(FfiNodeError_InvalidFeeRate value)? invalidFeeRate,
+    TResult? Function(FfiNodeError_CreationError value)? creationError,
   }) {
     return unsupportedCurrency?.call(this);
   }
@@ -27808,6 +29104,10 @@ class _$FfiNodeError_UnsupportedCurrencyImpl
     TResult Function(FfiNodeError_InvalidUri value)? invalidUri,
     TResult Function(FfiNodeError_InvalidQuantity value)? invalidQuantity,
     TResult Function(FfiNodeError_InvalidNodeAlias value)? invalidNodeAlias,
+    TResult Function(FfiNodeError_InvalidCustomTlvs value)? invalidCustomTlvs,
+    TResult Function(FfiNodeError_InvalidDateTime value)? invalidDateTime,
+    TResult Function(FfiNodeError_InvalidFeeRate value)? invalidFeeRate,
+    TResult Function(FfiNodeError_CreationError value)? creationError,
     required TResult orElse(),
   }) {
     if (unsupportedCurrency != null) {
@@ -27922,6 +29222,10 @@ class _$FfiNodeError_UriParameterParsingFailedImpl
     required TResult Function() invalidUri,
     required TResult Function() invalidQuantity,
     required TResult Function() invalidNodeAlias,
+    required TResult Function() invalidCustomTlvs,
+    required TResult Function() invalidDateTime,
+    required TResult Function() invalidFeeRate,
+    required TResult Function(FfiCreationError field0) creationError,
   }) {
     return uriParameterParsingFailed();
   }
@@ -27982,6 +29286,10 @@ class _$FfiNodeError_UriParameterParsingFailedImpl
     TResult? Function()? invalidUri,
     TResult? Function()? invalidQuantity,
     TResult? Function()? invalidNodeAlias,
+    TResult? Function()? invalidCustomTlvs,
+    TResult? Function()? invalidDateTime,
+    TResult? Function()? invalidFeeRate,
+    TResult? Function(FfiCreationError field0)? creationError,
   }) {
     return uriParameterParsingFailed?.call();
   }
@@ -28042,6 +29350,10 @@ class _$FfiNodeError_UriParameterParsingFailedImpl
     TResult Function()? invalidUri,
     TResult Function()? invalidQuantity,
     TResult Function()? invalidNodeAlias,
+    TResult Function()? invalidCustomTlvs,
+    TResult Function()? invalidDateTime,
+    TResult Function()? invalidFeeRate,
+    TResult Function(FfiCreationError field0)? creationError,
     required TResult orElse(),
   }) {
     if (uriParameterParsingFailed != null) {
@@ -28143,6 +29455,12 @@ class _$FfiNodeError_UriParameterParsingFailedImpl
         invalidQuantity,
     required TResult Function(FfiNodeError_InvalidNodeAlias value)
         invalidNodeAlias,
+    required TResult Function(FfiNodeError_InvalidCustomTlvs value)
+        invalidCustomTlvs,
+    required TResult Function(FfiNodeError_InvalidDateTime value)
+        invalidDateTime,
+    required TResult Function(FfiNodeError_InvalidFeeRate value) invalidFeeRate,
+    required TResult Function(FfiNodeError_CreationError value) creationError,
   }) {
     return uriParameterParsingFailed(this);
   }
@@ -28230,6 +29548,10 @@ class _$FfiNodeError_UriParameterParsingFailedImpl
     TResult? Function(FfiNodeError_InvalidUri value)? invalidUri,
     TResult? Function(FfiNodeError_InvalidQuantity value)? invalidQuantity,
     TResult? Function(FfiNodeError_InvalidNodeAlias value)? invalidNodeAlias,
+    TResult? Function(FfiNodeError_InvalidCustomTlvs value)? invalidCustomTlvs,
+    TResult? Function(FfiNodeError_InvalidDateTime value)? invalidDateTime,
+    TResult? Function(FfiNodeError_InvalidFeeRate value)? invalidFeeRate,
+    TResult? Function(FfiNodeError_CreationError value)? creationError,
   }) {
     return uriParameterParsingFailed?.call(this);
   }
@@ -28314,6 +29636,10 @@ class _$FfiNodeError_UriParameterParsingFailedImpl
     TResult Function(FfiNodeError_InvalidUri value)? invalidUri,
     TResult Function(FfiNodeError_InvalidQuantity value)? invalidQuantity,
     TResult Function(FfiNodeError_InvalidNodeAlias value)? invalidNodeAlias,
+    TResult Function(FfiNodeError_InvalidCustomTlvs value)? invalidCustomTlvs,
+    TResult Function(FfiNodeError_InvalidDateTime value)? invalidDateTime,
+    TResult Function(FfiNodeError_InvalidFeeRate value)? invalidFeeRate,
+    TResult Function(FfiNodeError_CreationError value)? creationError,
     required TResult orElse(),
   }) {
     if (uriParameterParsingFailed != null) {
@@ -28426,6 +29752,10 @@ class _$FfiNodeError_InvalidUriImpl extends FfiNodeError_InvalidUri {
     required TResult Function() invalidUri,
     required TResult Function() invalidQuantity,
     required TResult Function() invalidNodeAlias,
+    required TResult Function() invalidCustomTlvs,
+    required TResult Function() invalidDateTime,
+    required TResult Function() invalidFeeRate,
+    required TResult Function(FfiCreationError field0) creationError,
   }) {
     return invalidUri();
   }
@@ -28486,6 +29816,10 @@ class _$FfiNodeError_InvalidUriImpl extends FfiNodeError_InvalidUri {
     TResult? Function()? invalidUri,
     TResult? Function()? invalidQuantity,
     TResult? Function()? invalidNodeAlias,
+    TResult? Function()? invalidCustomTlvs,
+    TResult? Function()? invalidDateTime,
+    TResult? Function()? invalidFeeRate,
+    TResult? Function(FfiCreationError field0)? creationError,
   }) {
     return invalidUri?.call();
   }
@@ -28546,6 +29880,10 @@ class _$FfiNodeError_InvalidUriImpl extends FfiNodeError_InvalidUri {
     TResult Function()? invalidUri,
     TResult Function()? invalidQuantity,
     TResult Function()? invalidNodeAlias,
+    TResult Function()? invalidCustomTlvs,
+    TResult Function()? invalidDateTime,
+    TResult Function()? invalidFeeRate,
+    TResult Function(FfiCreationError field0)? creationError,
     required TResult orElse(),
   }) {
     if (invalidUri != null) {
@@ -28647,6 +29985,12 @@ class _$FfiNodeError_InvalidUriImpl extends FfiNodeError_InvalidUri {
         invalidQuantity,
     required TResult Function(FfiNodeError_InvalidNodeAlias value)
         invalidNodeAlias,
+    required TResult Function(FfiNodeError_InvalidCustomTlvs value)
+        invalidCustomTlvs,
+    required TResult Function(FfiNodeError_InvalidDateTime value)
+        invalidDateTime,
+    required TResult Function(FfiNodeError_InvalidFeeRate value) invalidFeeRate,
+    required TResult Function(FfiNodeError_CreationError value) creationError,
   }) {
     return invalidUri(this);
   }
@@ -28734,6 +30078,10 @@ class _$FfiNodeError_InvalidUriImpl extends FfiNodeError_InvalidUri {
     TResult? Function(FfiNodeError_InvalidUri value)? invalidUri,
     TResult? Function(FfiNodeError_InvalidQuantity value)? invalidQuantity,
     TResult? Function(FfiNodeError_InvalidNodeAlias value)? invalidNodeAlias,
+    TResult? Function(FfiNodeError_InvalidCustomTlvs value)? invalidCustomTlvs,
+    TResult? Function(FfiNodeError_InvalidDateTime value)? invalidDateTime,
+    TResult? Function(FfiNodeError_InvalidFeeRate value)? invalidFeeRate,
+    TResult? Function(FfiNodeError_CreationError value)? creationError,
   }) {
     return invalidUri?.call(this);
   }
@@ -28818,6 +30166,10 @@ class _$FfiNodeError_InvalidUriImpl extends FfiNodeError_InvalidUri {
     TResult Function(FfiNodeError_InvalidUri value)? invalidUri,
     TResult Function(FfiNodeError_InvalidQuantity value)? invalidQuantity,
     TResult Function(FfiNodeError_InvalidNodeAlias value)? invalidNodeAlias,
+    TResult Function(FfiNodeError_InvalidCustomTlvs value)? invalidCustomTlvs,
+    TResult Function(FfiNodeError_InvalidDateTime value)? invalidDateTime,
+    TResult Function(FfiNodeError_InvalidFeeRate value)? invalidFeeRate,
+    TResult Function(FfiNodeError_CreationError value)? creationError,
     required TResult orElse(),
   }) {
     if (invalidUri != null) {
@@ -28929,6 +30281,10 @@ class _$FfiNodeError_InvalidQuantityImpl extends FfiNodeError_InvalidQuantity {
     required TResult Function() invalidUri,
     required TResult Function() invalidQuantity,
     required TResult Function() invalidNodeAlias,
+    required TResult Function() invalidCustomTlvs,
+    required TResult Function() invalidDateTime,
+    required TResult Function() invalidFeeRate,
+    required TResult Function(FfiCreationError field0) creationError,
   }) {
     return invalidQuantity();
   }
@@ -28989,6 +30345,10 @@ class _$FfiNodeError_InvalidQuantityImpl extends FfiNodeError_InvalidQuantity {
     TResult? Function()? invalidUri,
     TResult? Function()? invalidQuantity,
     TResult? Function()? invalidNodeAlias,
+    TResult? Function()? invalidCustomTlvs,
+    TResult? Function()? invalidDateTime,
+    TResult? Function()? invalidFeeRate,
+    TResult? Function(FfiCreationError field0)? creationError,
   }) {
     return invalidQuantity?.call();
   }
@@ -29049,6 +30409,10 @@ class _$FfiNodeError_InvalidQuantityImpl extends FfiNodeError_InvalidQuantity {
     TResult Function()? invalidUri,
     TResult Function()? invalidQuantity,
     TResult Function()? invalidNodeAlias,
+    TResult Function()? invalidCustomTlvs,
+    TResult Function()? invalidDateTime,
+    TResult Function()? invalidFeeRate,
+    TResult Function(FfiCreationError field0)? creationError,
     required TResult orElse(),
   }) {
     if (invalidQuantity != null) {
@@ -29150,6 +30514,12 @@ class _$FfiNodeError_InvalidQuantityImpl extends FfiNodeError_InvalidQuantity {
         invalidQuantity,
     required TResult Function(FfiNodeError_InvalidNodeAlias value)
         invalidNodeAlias,
+    required TResult Function(FfiNodeError_InvalidCustomTlvs value)
+        invalidCustomTlvs,
+    required TResult Function(FfiNodeError_InvalidDateTime value)
+        invalidDateTime,
+    required TResult Function(FfiNodeError_InvalidFeeRate value) invalidFeeRate,
+    required TResult Function(FfiNodeError_CreationError value) creationError,
   }) {
     return invalidQuantity(this);
   }
@@ -29237,6 +30607,10 @@ class _$FfiNodeError_InvalidQuantityImpl extends FfiNodeError_InvalidQuantity {
     TResult? Function(FfiNodeError_InvalidUri value)? invalidUri,
     TResult? Function(FfiNodeError_InvalidQuantity value)? invalidQuantity,
     TResult? Function(FfiNodeError_InvalidNodeAlias value)? invalidNodeAlias,
+    TResult? Function(FfiNodeError_InvalidCustomTlvs value)? invalidCustomTlvs,
+    TResult? Function(FfiNodeError_InvalidDateTime value)? invalidDateTime,
+    TResult? Function(FfiNodeError_InvalidFeeRate value)? invalidFeeRate,
+    TResult? Function(FfiNodeError_CreationError value)? creationError,
   }) {
     return invalidQuantity?.call(this);
   }
@@ -29321,6 +30695,10 @@ class _$FfiNodeError_InvalidQuantityImpl extends FfiNodeError_InvalidQuantity {
     TResult Function(FfiNodeError_InvalidUri value)? invalidUri,
     TResult Function(FfiNodeError_InvalidQuantity value)? invalidQuantity,
     TResult Function(FfiNodeError_InvalidNodeAlias value)? invalidNodeAlias,
+    TResult Function(FfiNodeError_InvalidCustomTlvs value)? invalidCustomTlvs,
+    TResult Function(FfiNodeError_InvalidDateTime value)? invalidDateTime,
+    TResult Function(FfiNodeError_InvalidFeeRate value)? invalidFeeRate,
+    TResult Function(FfiNodeError_CreationError value)? creationError,
     required TResult orElse(),
   }) {
     if (invalidQuantity != null) {
@@ -29435,6 +30813,10 @@ class _$FfiNodeError_InvalidNodeAliasImpl
     required TResult Function() invalidUri,
     required TResult Function() invalidQuantity,
     required TResult Function() invalidNodeAlias,
+    required TResult Function() invalidCustomTlvs,
+    required TResult Function() invalidDateTime,
+    required TResult Function() invalidFeeRate,
+    required TResult Function(FfiCreationError field0) creationError,
   }) {
     return invalidNodeAlias();
   }
@@ -29495,6 +30877,10 @@ class _$FfiNodeError_InvalidNodeAliasImpl
     TResult? Function()? invalidUri,
     TResult? Function()? invalidQuantity,
     TResult? Function()? invalidNodeAlias,
+    TResult? Function()? invalidCustomTlvs,
+    TResult? Function()? invalidDateTime,
+    TResult? Function()? invalidFeeRate,
+    TResult? Function(FfiCreationError field0)? creationError,
   }) {
     return invalidNodeAlias?.call();
   }
@@ -29555,6 +30941,10 @@ class _$FfiNodeError_InvalidNodeAliasImpl
     TResult Function()? invalidUri,
     TResult Function()? invalidQuantity,
     TResult Function()? invalidNodeAlias,
+    TResult Function()? invalidCustomTlvs,
+    TResult Function()? invalidDateTime,
+    TResult Function()? invalidFeeRate,
+    TResult Function(FfiCreationError field0)? creationError,
     required TResult orElse(),
   }) {
     if (invalidNodeAlias != null) {
@@ -29656,6 +31046,12 @@ class _$FfiNodeError_InvalidNodeAliasImpl
         invalidQuantity,
     required TResult Function(FfiNodeError_InvalidNodeAlias value)
         invalidNodeAlias,
+    required TResult Function(FfiNodeError_InvalidCustomTlvs value)
+        invalidCustomTlvs,
+    required TResult Function(FfiNodeError_InvalidDateTime value)
+        invalidDateTime,
+    required TResult Function(FfiNodeError_InvalidFeeRate value) invalidFeeRate,
+    required TResult Function(FfiNodeError_CreationError value) creationError,
   }) {
     return invalidNodeAlias(this);
   }
@@ -29743,6 +31139,10 @@ class _$FfiNodeError_InvalidNodeAliasImpl
     TResult? Function(FfiNodeError_InvalidUri value)? invalidUri,
     TResult? Function(FfiNodeError_InvalidQuantity value)? invalidQuantity,
     TResult? Function(FfiNodeError_InvalidNodeAlias value)? invalidNodeAlias,
+    TResult? Function(FfiNodeError_InvalidCustomTlvs value)? invalidCustomTlvs,
+    TResult? Function(FfiNodeError_InvalidDateTime value)? invalidDateTime,
+    TResult? Function(FfiNodeError_InvalidFeeRate value)? invalidFeeRate,
+    TResult? Function(FfiNodeError_CreationError value)? creationError,
   }) {
     return invalidNodeAlias?.call(this);
   }
@@ -29827,6 +31227,10 @@ class _$FfiNodeError_InvalidNodeAliasImpl
     TResult Function(FfiNodeError_InvalidUri value)? invalidUri,
     TResult Function(FfiNodeError_InvalidQuantity value)? invalidQuantity,
     TResult Function(FfiNodeError_InvalidNodeAlias value)? invalidNodeAlias,
+    TResult Function(FfiNodeError_InvalidCustomTlvs value)? invalidCustomTlvs,
+    TResult Function(FfiNodeError_InvalidDateTime value)? invalidDateTime,
+    TResult Function(FfiNodeError_InvalidFeeRate value)? invalidFeeRate,
+    TResult Function(FfiNodeError_CreationError value)? creationError,
     required TResult orElse(),
   }) {
     if (invalidNodeAlias != null) {
@@ -29840,4 +31244,2161 @@ abstract class FfiNodeError_InvalidNodeAlias extends FfiNodeError {
   const factory FfiNodeError_InvalidNodeAlias() =
       _$FfiNodeError_InvalidNodeAliasImpl;
   const FfiNodeError_InvalidNodeAlias._() : super._();
+}
+
+/// @nodoc
+abstract class _$$FfiNodeError_InvalidCustomTlvsImplCopyWith<$Res> {
+  factory _$$FfiNodeError_InvalidCustomTlvsImplCopyWith(
+          _$FfiNodeError_InvalidCustomTlvsImpl value,
+          $Res Function(_$FfiNodeError_InvalidCustomTlvsImpl) then) =
+      __$$FfiNodeError_InvalidCustomTlvsImplCopyWithImpl<$Res>;
+}
+
+/// @nodoc
+class __$$FfiNodeError_InvalidCustomTlvsImplCopyWithImpl<$Res>
+    extends _$FfiNodeErrorCopyWithImpl<$Res,
+        _$FfiNodeError_InvalidCustomTlvsImpl>
+    implements _$$FfiNodeError_InvalidCustomTlvsImplCopyWith<$Res> {
+  __$$FfiNodeError_InvalidCustomTlvsImplCopyWithImpl(
+      _$FfiNodeError_InvalidCustomTlvsImpl _value,
+      $Res Function(_$FfiNodeError_InvalidCustomTlvsImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of FfiNodeError
+  /// with the given fields replaced by the non-null parameter values.
+}
+
+/// @nodoc
+
+class _$FfiNodeError_InvalidCustomTlvsImpl
+    extends FfiNodeError_InvalidCustomTlvs {
+  const _$FfiNodeError_InvalidCustomTlvsImpl() : super._();
+
+  @override
+  String toString() {
+    return 'FfiNodeError.invalidCustomTlvs()';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$FfiNodeError_InvalidCustomTlvsImpl);
+  }
+
+  @override
+  int get hashCode => runtimeType.hashCode;
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() invalidTxid,
+    required TResult Function() alreadyRunning,
+    required TResult Function() notRunning,
+    required TResult Function() onchainTxCreationFailed,
+    required TResult Function() connectionFailed,
+    required TResult Function() invoiceCreationFailed,
+    required TResult Function() paymentSendingFailed,
+    required TResult Function() probeSendingFailed,
+    required TResult Function() channelCreationFailed,
+    required TResult Function() channelClosingFailed,
+    required TResult Function() channelConfigUpdateFailed,
+    required TResult Function() persistenceFailed,
+    required TResult Function() walletOperationFailed,
+    required TResult Function() onchainTxSigningFailed,
+    required TResult Function() messageSigningFailed,
+    required TResult Function() txSyncFailed,
+    required TResult Function() gossipUpdateFailed,
+    required TResult Function() invalidAddress,
+    required TResult Function() invalidSocketAddress,
+    required TResult Function() invalidPublicKey,
+    required TResult Function() invalidSecretKey,
+    required TResult Function() invalidPaymentHash,
+    required TResult Function() invalidPaymentPreimage,
+    required TResult Function() invalidPaymentSecret,
+    required TResult Function() invalidAmount,
+    required TResult Function() invalidInvoice,
+    required TResult Function() invalidChannelId,
+    required TResult Function() invalidNetwork,
+    required TResult Function() duplicatePayment,
+    required TResult Function() insufficientFunds,
+    required TResult Function() feerateEstimationUpdateFailed,
+    required TResult Function() liquidityRequestFailed,
+    required TResult Function() liquiditySourceUnavailable,
+    required TResult Function() liquidityFeeTooHigh,
+    required TResult Function() invalidPaymentId,
+    required TResult Function(DecodeError field0) decode,
+    required TResult Function(Bolt12ParseError field0) bolt12Parse,
+    required TResult Function() invoiceRequestCreationFailed,
+    required TResult Function() offerCreationFailed,
+    required TResult Function() refundCreationFailed,
+    required TResult Function() feerateEstimationUpdateTimeout,
+    required TResult Function() walletOperationTimeout,
+    required TResult Function() txSyncTimeout,
+    required TResult Function() gossipUpdateTimeout,
+    required TResult Function() invalidOfferId,
+    required TResult Function() invalidNodeId,
+    required TResult Function() invalidOffer,
+    required TResult Function() invalidRefund,
+    required TResult Function() unsupportedCurrency,
+    required TResult Function() uriParameterParsingFailed,
+    required TResult Function() invalidUri,
+    required TResult Function() invalidQuantity,
+    required TResult Function() invalidNodeAlias,
+    required TResult Function() invalidCustomTlvs,
+    required TResult Function() invalidDateTime,
+    required TResult Function() invalidFeeRate,
+    required TResult Function(FfiCreationError field0) creationError,
+  }) {
+    return invalidCustomTlvs();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? invalidTxid,
+    TResult? Function()? alreadyRunning,
+    TResult? Function()? notRunning,
+    TResult? Function()? onchainTxCreationFailed,
+    TResult? Function()? connectionFailed,
+    TResult? Function()? invoiceCreationFailed,
+    TResult? Function()? paymentSendingFailed,
+    TResult? Function()? probeSendingFailed,
+    TResult? Function()? channelCreationFailed,
+    TResult? Function()? channelClosingFailed,
+    TResult? Function()? channelConfigUpdateFailed,
+    TResult? Function()? persistenceFailed,
+    TResult? Function()? walletOperationFailed,
+    TResult? Function()? onchainTxSigningFailed,
+    TResult? Function()? messageSigningFailed,
+    TResult? Function()? txSyncFailed,
+    TResult? Function()? gossipUpdateFailed,
+    TResult? Function()? invalidAddress,
+    TResult? Function()? invalidSocketAddress,
+    TResult? Function()? invalidPublicKey,
+    TResult? Function()? invalidSecretKey,
+    TResult? Function()? invalidPaymentHash,
+    TResult? Function()? invalidPaymentPreimage,
+    TResult? Function()? invalidPaymentSecret,
+    TResult? Function()? invalidAmount,
+    TResult? Function()? invalidInvoice,
+    TResult? Function()? invalidChannelId,
+    TResult? Function()? invalidNetwork,
+    TResult? Function()? duplicatePayment,
+    TResult? Function()? insufficientFunds,
+    TResult? Function()? feerateEstimationUpdateFailed,
+    TResult? Function()? liquidityRequestFailed,
+    TResult? Function()? liquiditySourceUnavailable,
+    TResult? Function()? liquidityFeeTooHigh,
+    TResult? Function()? invalidPaymentId,
+    TResult? Function(DecodeError field0)? decode,
+    TResult? Function(Bolt12ParseError field0)? bolt12Parse,
+    TResult? Function()? invoiceRequestCreationFailed,
+    TResult? Function()? offerCreationFailed,
+    TResult? Function()? refundCreationFailed,
+    TResult? Function()? feerateEstimationUpdateTimeout,
+    TResult? Function()? walletOperationTimeout,
+    TResult? Function()? txSyncTimeout,
+    TResult? Function()? gossipUpdateTimeout,
+    TResult? Function()? invalidOfferId,
+    TResult? Function()? invalidNodeId,
+    TResult? Function()? invalidOffer,
+    TResult? Function()? invalidRefund,
+    TResult? Function()? unsupportedCurrency,
+    TResult? Function()? uriParameterParsingFailed,
+    TResult? Function()? invalidUri,
+    TResult? Function()? invalidQuantity,
+    TResult? Function()? invalidNodeAlias,
+    TResult? Function()? invalidCustomTlvs,
+    TResult? Function()? invalidDateTime,
+    TResult? Function()? invalidFeeRate,
+    TResult? Function(FfiCreationError field0)? creationError,
+  }) {
+    return invalidCustomTlvs?.call();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? invalidTxid,
+    TResult Function()? alreadyRunning,
+    TResult Function()? notRunning,
+    TResult Function()? onchainTxCreationFailed,
+    TResult Function()? connectionFailed,
+    TResult Function()? invoiceCreationFailed,
+    TResult Function()? paymentSendingFailed,
+    TResult Function()? probeSendingFailed,
+    TResult Function()? channelCreationFailed,
+    TResult Function()? channelClosingFailed,
+    TResult Function()? channelConfigUpdateFailed,
+    TResult Function()? persistenceFailed,
+    TResult Function()? walletOperationFailed,
+    TResult Function()? onchainTxSigningFailed,
+    TResult Function()? messageSigningFailed,
+    TResult Function()? txSyncFailed,
+    TResult Function()? gossipUpdateFailed,
+    TResult Function()? invalidAddress,
+    TResult Function()? invalidSocketAddress,
+    TResult Function()? invalidPublicKey,
+    TResult Function()? invalidSecretKey,
+    TResult Function()? invalidPaymentHash,
+    TResult Function()? invalidPaymentPreimage,
+    TResult Function()? invalidPaymentSecret,
+    TResult Function()? invalidAmount,
+    TResult Function()? invalidInvoice,
+    TResult Function()? invalidChannelId,
+    TResult Function()? invalidNetwork,
+    TResult Function()? duplicatePayment,
+    TResult Function()? insufficientFunds,
+    TResult Function()? feerateEstimationUpdateFailed,
+    TResult Function()? liquidityRequestFailed,
+    TResult Function()? liquiditySourceUnavailable,
+    TResult Function()? liquidityFeeTooHigh,
+    TResult Function()? invalidPaymentId,
+    TResult Function(DecodeError field0)? decode,
+    TResult Function(Bolt12ParseError field0)? bolt12Parse,
+    TResult Function()? invoiceRequestCreationFailed,
+    TResult Function()? offerCreationFailed,
+    TResult Function()? refundCreationFailed,
+    TResult Function()? feerateEstimationUpdateTimeout,
+    TResult Function()? walletOperationTimeout,
+    TResult Function()? txSyncTimeout,
+    TResult Function()? gossipUpdateTimeout,
+    TResult Function()? invalidOfferId,
+    TResult Function()? invalidNodeId,
+    TResult Function()? invalidOffer,
+    TResult Function()? invalidRefund,
+    TResult Function()? unsupportedCurrency,
+    TResult Function()? uriParameterParsingFailed,
+    TResult Function()? invalidUri,
+    TResult Function()? invalidQuantity,
+    TResult Function()? invalidNodeAlias,
+    TResult Function()? invalidCustomTlvs,
+    TResult Function()? invalidDateTime,
+    TResult Function()? invalidFeeRate,
+    TResult Function(FfiCreationError field0)? creationError,
+    required TResult orElse(),
+  }) {
+    if (invalidCustomTlvs != null) {
+      return invalidCustomTlvs();
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(FfiNodeError_InvalidTxid value) invalidTxid,
+    required TResult Function(FfiNodeError_AlreadyRunning value) alreadyRunning,
+    required TResult Function(FfiNodeError_NotRunning value) notRunning,
+    required TResult Function(FfiNodeError_OnchainTxCreationFailed value)
+        onchainTxCreationFailed,
+    required TResult Function(FfiNodeError_ConnectionFailed value)
+        connectionFailed,
+    required TResult Function(FfiNodeError_InvoiceCreationFailed value)
+        invoiceCreationFailed,
+    required TResult Function(FfiNodeError_PaymentSendingFailed value)
+        paymentSendingFailed,
+    required TResult Function(FfiNodeError_ProbeSendingFailed value)
+        probeSendingFailed,
+    required TResult Function(FfiNodeError_ChannelCreationFailed value)
+        channelCreationFailed,
+    required TResult Function(FfiNodeError_ChannelClosingFailed value)
+        channelClosingFailed,
+    required TResult Function(FfiNodeError_ChannelConfigUpdateFailed value)
+        channelConfigUpdateFailed,
+    required TResult Function(FfiNodeError_PersistenceFailed value)
+        persistenceFailed,
+    required TResult Function(FfiNodeError_WalletOperationFailed value)
+        walletOperationFailed,
+    required TResult Function(FfiNodeError_OnchainTxSigningFailed value)
+        onchainTxSigningFailed,
+    required TResult Function(FfiNodeError_MessageSigningFailed value)
+        messageSigningFailed,
+    required TResult Function(FfiNodeError_TxSyncFailed value) txSyncFailed,
+    required TResult Function(FfiNodeError_GossipUpdateFailed value)
+        gossipUpdateFailed,
+    required TResult Function(FfiNodeError_InvalidAddress value) invalidAddress,
+    required TResult Function(FfiNodeError_InvalidSocketAddress value)
+        invalidSocketAddress,
+    required TResult Function(FfiNodeError_InvalidPublicKey value)
+        invalidPublicKey,
+    required TResult Function(FfiNodeError_InvalidSecretKey value)
+        invalidSecretKey,
+    required TResult Function(FfiNodeError_InvalidPaymentHash value)
+        invalidPaymentHash,
+    required TResult Function(FfiNodeError_InvalidPaymentPreimage value)
+        invalidPaymentPreimage,
+    required TResult Function(FfiNodeError_InvalidPaymentSecret value)
+        invalidPaymentSecret,
+    required TResult Function(FfiNodeError_InvalidAmount value) invalidAmount,
+    required TResult Function(FfiNodeError_InvalidInvoice value) invalidInvoice,
+    required TResult Function(FfiNodeError_InvalidChannelId value)
+        invalidChannelId,
+    required TResult Function(FfiNodeError_InvalidNetwork value) invalidNetwork,
+    required TResult Function(FfiNodeError_DuplicatePayment value)
+        duplicatePayment,
+    required TResult Function(FfiNodeError_InsufficientFunds value)
+        insufficientFunds,
+    required TResult Function(FfiNodeError_FeerateEstimationUpdateFailed value)
+        feerateEstimationUpdateFailed,
+    required TResult Function(FfiNodeError_LiquidityRequestFailed value)
+        liquidityRequestFailed,
+    required TResult Function(FfiNodeError_LiquiditySourceUnavailable value)
+        liquiditySourceUnavailable,
+    required TResult Function(FfiNodeError_LiquidityFeeTooHigh value)
+        liquidityFeeTooHigh,
+    required TResult Function(FfiNodeError_InvalidPaymentId value)
+        invalidPaymentId,
+    required TResult Function(FfiNodeError_Decode value) decode,
+    required TResult Function(FfiNodeError_Bolt12Parse value) bolt12Parse,
+    required TResult Function(FfiNodeError_InvoiceRequestCreationFailed value)
+        invoiceRequestCreationFailed,
+    required TResult Function(FfiNodeError_OfferCreationFailed value)
+        offerCreationFailed,
+    required TResult Function(FfiNodeError_RefundCreationFailed value)
+        refundCreationFailed,
+    required TResult Function(FfiNodeError_FeerateEstimationUpdateTimeout value)
+        feerateEstimationUpdateTimeout,
+    required TResult Function(FfiNodeError_WalletOperationTimeout value)
+        walletOperationTimeout,
+    required TResult Function(FfiNodeError_TxSyncTimeout value) txSyncTimeout,
+    required TResult Function(FfiNodeError_GossipUpdateTimeout value)
+        gossipUpdateTimeout,
+    required TResult Function(FfiNodeError_InvalidOfferId value) invalidOfferId,
+    required TResult Function(FfiNodeError_InvalidNodeId value) invalidNodeId,
+    required TResult Function(FfiNodeError_InvalidOffer value) invalidOffer,
+    required TResult Function(FfiNodeError_InvalidRefund value) invalidRefund,
+    required TResult Function(FfiNodeError_UnsupportedCurrency value)
+        unsupportedCurrency,
+    required TResult Function(FfiNodeError_UriParameterParsingFailed value)
+        uriParameterParsingFailed,
+    required TResult Function(FfiNodeError_InvalidUri value) invalidUri,
+    required TResult Function(FfiNodeError_InvalidQuantity value)
+        invalidQuantity,
+    required TResult Function(FfiNodeError_InvalidNodeAlias value)
+        invalidNodeAlias,
+    required TResult Function(FfiNodeError_InvalidCustomTlvs value)
+        invalidCustomTlvs,
+    required TResult Function(FfiNodeError_InvalidDateTime value)
+        invalidDateTime,
+    required TResult Function(FfiNodeError_InvalidFeeRate value) invalidFeeRate,
+    required TResult Function(FfiNodeError_CreationError value) creationError,
+  }) {
+    return invalidCustomTlvs(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(FfiNodeError_InvalidTxid value)? invalidTxid,
+    TResult? Function(FfiNodeError_AlreadyRunning value)? alreadyRunning,
+    TResult? Function(FfiNodeError_NotRunning value)? notRunning,
+    TResult? Function(FfiNodeError_OnchainTxCreationFailed value)?
+        onchainTxCreationFailed,
+    TResult? Function(FfiNodeError_ConnectionFailed value)? connectionFailed,
+    TResult? Function(FfiNodeError_InvoiceCreationFailed value)?
+        invoiceCreationFailed,
+    TResult? Function(FfiNodeError_PaymentSendingFailed value)?
+        paymentSendingFailed,
+    TResult? Function(FfiNodeError_ProbeSendingFailed value)?
+        probeSendingFailed,
+    TResult? Function(FfiNodeError_ChannelCreationFailed value)?
+        channelCreationFailed,
+    TResult? Function(FfiNodeError_ChannelClosingFailed value)?
+        channelClosingFailed,
+    TResult? Function(FfiNodeError_ChannelConfigUpdateFailed value)?
+        channelConfigUpdateFailed,
+    TResult? Function(FfiNodeError_PersistenceFailed value)? persistenceFailed,
+    TResult? Function(FfiNodeError_WalletOperationFailed value)?
+        walletOperationFailed,
+    TResult? Function(FfiNodeError_OnchainTxSigningFailed value)?
+        onchainTxSigningFailed,
+    TResult? Function(FfiNodeError_MessageSigningFailed value)?
+        messageSigningFailed,
+    TResult? Function(FfiNodeError_TxSyncFailed value)? txSyncFailed,
+    TResult? Function(FfiNodeError_GossipUpdateFailed value)?
+        gossipUpdateFailed,
+    TResult? Function(FfiNodeError_InvalidAddress value)? invalidAddress,
+    TResult? Function(FfiNodeError_InvalidSocketAddress value)?
+        invalidSocketAddress,
+    TResult? Function(FfiNodeError_InvalidPublicKey value)? invalidPublicKey,
+    TResult? Function(FfiNodeError_InvalidSecretKey value)? invalidSecretKey,
+    TResult? Function(FfiNodeError_InvalidPaymentHash value)?
+        invalidPaymentHash,
+    TResult? Function(FfiNodeError_InvalidPaymentPreimage value)?
+        invalidPaymentPreimage,
+    TResult? Function(FfiNodeError_InvalidPaymentSecret value)?
+        invalidPaymentSecret,
+    TResult? Function(FfiNodeError_InvalidAmount value)? invalidAmount,
+    TResult? Function(FfiNodeError_InvalidInvoice value)? invalidInvoice,
+    TResult? Function(FfiNodeError_InvalidChannelId value)? invalidChannelId,
+    TResult? Function(FfiNodeError_InvalidNetwork value)? invalidNetwork,
+    TResult? Function(FfiNodeError_DuplicatePayment value)? duplicatePayment,
+    TResult? Function(FfiNodeError_InsufficientFunds value)? insufficientFunds,
+    TResult? Function(FfiNodeError_FeerateEstimationUpdateFailed value)?
+        feerateEstimationUpdateFailed,
+    TResult? Function(FfiNodeError_LiquidityRequestFailed value)?
+        liquidityRequestFailed,
+    TResult? Function(FfiNodeError_LiquiditySourceUnavailable value)?
+        liquiditySourceUnavailable,
+    TResult? Function(FfiNodeError_LiquidityFeeTooHigh value)?
+        liquidityFeeTooHigh,
+    TResult? Function(FfiNodeError_InvalidPaymentId value)? invalidPaymentId,
+    TResult? Function(FfiNodeError_Decode value)? decode,
+    TResult? Function(FfiNodeError_Bolt12Parse value)? bolt12Parse,
+    TResult? Function(FfiNodeError_InvoiceRequestCreationFailed value)?
+        invoiceRequestCreationFailed,
+    TResult? Function(FfiNodeError_OfferCreationFailed value)?
+        offerCreationFailed,
+    TResult? Function(FfiNodeError_RefundCreationFailed value)?
+        refundCreationFailed,
+    TResult? Function(FfiNodeError_FeerateEstimationUpdateTimeout value)?
+        feerateEstimationUpdateTimeout,
+    TResult? Function(FfiNodeError_WalletOperationTimeout value)?
+        walletOperationTimeout,
+    TResult? Function(FfiNodeError_TxSyncTimeout value)? txSyncTimeout,
+    TResult? Function(FfiNodeError_GossipUpdateTimeout value)?
+        gossipUpdateTimeout,
+    TResult? Function(FfiNodeError_InvalidOfferId value)? invalidOfferId,
+    TResult? Function(FfiNodeError_InvalidNodeId value)? invalidNodeId,
+    TResult? Function(FfiNodeError_InvalidOffer value)? invalidOffer,
+    TResult? Function(FfiNodeError_InvalidRefund value)? invalidRefund,
+    TResult? Function(FfiNodeError_UnsupportedCurrency value)?
+        unsupportedCurrency,
+    TResult? Function(FfiNodeError_UriParameterParsingFailed value)?
+        uriParameterParsingFailed,
+    TResult? Function(FfiNodeError_InvalidUri value)? invalidUri,
+    TResult? Function(FfiNodeError_InvalidQuantity value)? invalidQuantity,
+    TResult? Function(FfiNodeError_InvalidNodeAlias value)? invalidNodeAlias,
+    TResult? Function(FfiNodeError_InvalidCustomTlvs value)? invalidCustomTlvs,
+    TResult? Function(FfiNodeError_InvalidDateTime value)? invalidDateTime,
+    TResult? Function(FfiNodeError_InvalidFeeRate value)? invalidFeeRate,
+    TResult? Function(FfiNodeError_CreationError value)? creationError,
+  }) {
+    return invalidCustomTlvs?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(FfiNodeError_InvalidTxid value)? invalidTxid,
+    TResult Function(FfiNodeError_AlreadyRunning value)? alreadyRunning,
+    TResult Function(FfiNodeError_NotRunning value)? notRunning,
+    TResult Function(FfiNodeError_OnchainTxCreationFailed value)?
+        onchainTxCreationFailed,
+    TResult Function(FfiNodeError_ConnectionFailed value)? connectionFailed,
+    TResult Function(FfiNodeError_InvoiceCreationFailed value)?
+        invoiceCreationFailed,
+    TResult Function(FfiNodeError_PaymentSendingFailed value)?
+        paymentSendingFailed,
+    TResult Function(FfiNodeError_ProbeSendingFailed value)? probeSendingFailed,
+    TResult Function(FfiNodeError_ChannelCreationFailed value)?
+        channelCreationFailed,
+    TResult Function(FfiNodeError_ChannelClosingFailed value)?
+        channelClosingFailed,
+    TResult Function(FfiNodeError_ChannelConfigUpdateFailed value)?
+        channelConfigUpdateFailed,
+    TResult Function(FfiNodeError_PersistenceFailed value)? persistenceFailed,
+    TResult Function(FfiNodeError_WalletOperationFailed value)?
+        walletOperationFailed,
+    TResult Function(FfiNodeError_OnchainTxSigningFailed value)?
+        onchainTxSigningFailed,
+    TResult Function(FfiNodeError_MessageSigningFailed value)?
+        messageSigningFailed,
+    TResult Function(FfiNodeError_TxSyncFailed value)? txSyncFailed,
+    TResult Function(FfiNodeError_GossipUpdateFailed value)? gossipUpdateFailed,
+    TResult Function(FfiNodeError_InvalidAddress value)? invalidAddress,
+    TResult Function(FfiNodeError_InvalidSocketAddress value)?
+        invalidSocketAddress,
+    TResult Function(FfiNodeError_InvalidPublicKey value)? invalidPublicKey,
+    TResult Function(FfiNodeError_InvalidSecretKey value)? invalidSecretKey,
+    TResult Function(FfiNodeError_InvalidPaymentHash value)? invalidPaymentHash,
+    TResult Function(FfiNodeError_InvalidPaymentPreimage value)?
+        invalidPaymentPreimage,
+    TResult Function(FfiNodeError_InvalidPaymentSecret value)?
+        invalidPaymentSecret,
+    TResult Function(FfiNodeError_InvalidAmount value)? invalidAmount,
+    TResult Function(FfiNodeError_InvalidInvoice value)? invalidInvoice,
+    TResult Function(FfiNodeError_InvalidChannelId value)? invalidChannelId,
+    TResult Function(FfiNodeError_InvalidNetwork value)? invalidNetwork,
+    TResult Function(FfiNodeError_DuplicatePayment value)? duplicatePayment,
+    TResult Function(FfiNodeError_InsufficientFunds value)? insufficientFunds,
+    TResult Function(FfiNodeError_FeerateEstimationUpdateFailed value)?
+        feerateEstimationUpdateFailed,
+    TResult Function(FfiNodeError_LiquidityRequestFailed value)?
+        liquidityRequestFailed,
+    TResult Function(FfiNodeError_LiquiditySourceUnavailable value)?
+        liquiditySourceUnavailable,
+    TResult Function(FfiNodeError_LiquidityFeeTooHigh value)?
+        liquidityFeeTooHigh,
+    TResult Function(FfiNodeError_InvalidPaymentId value)? invalidPaymentId,
+    TResult Function(FfiNodeError_Decode value)? decode,
+    TResult Function(FfiNodeError_Bolt12Parse value)? bolt12Parse,
+    TResult Function(FfiNodeError_InvoiceRequestCreationFailed value)?
+        invoiceRequestCreationFailed,
+    TResult Function(FfiNodeError_OfferCreationFailed value)?
+        offerCreationFailed,
+    TResult Function(FfiNodeError_RefundCreationFailed value)?
+        refundCreationFailed,
+    TResult Function(FfiNodeError_FeerateEstimationUpdateTimeout value)?
+        feerateEstimationUpdateTimeout,
+    TResult Function(FfiNodeError_WalletOperationTimeout value)?
+        walletOperationTimeout,
+    TResult Function(FfiNodeError_TxSyncTimeout value)? txSyncTimeout,
+    TResult Function(FfiNodeError_GossipUpdateTimeout value)?
+        gossipUpdateTimeout,
+    TResult Function(FfiNodeError_InvalidOfferId value)? invalidOfferId,
+    TResult Function(FfiNodeError_InvalidNodeId value)? invalidNodeId,
+    TResult Function(FfiNodeError_InvalidOffer value)? invalidOffer,
+    TResult Function(FfiNodeError_InvalidRefund value)? invalidRefund,
+    TResult Function(FfiNodeError_UnsupportedCurrency value)?
+        unsupportedCurrency,
+    TResult Function(FfiNodeError_UriParameterParsingFailed value)?
+        uriParameterParsingFailed,
+    TResult Function(FfiNodeError_InvalidUri value)? invalidUri,
+    TResult Function(FfiNodeError_InvalidQuantity value)? invalidQuantity,
+    TResult Function(FfiNodeError_InvalidNodeAlias value)? invalidNodeAlias,
+    TResult Function(FfiNodeError_InvalidCustomTlvs value)? invalidCustomTlvs,
+    TResult Function(FfiNodeError_InvalidDateTime value)? invalidDateTime,
+    TResult Function(FfiNodeError_InvalidFeeRate value)? invalidFeeRate,
+    TResult Function(FfiNodeError_CreationError value)? creationError,
+    required TResult orElse(),
+  }) {
+    if (invalidCustomTlvs != null) {
+      return invalidCustomTlvs(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class FfiNodeError_InvalidCustomTlvs extends FfiNodeError {
+  const factory FfiNodeError_InvalidCustomTlvs() =
+      _$FfiNodeError_InvalidCustomTlvsImpl;
+  const FfiNodeError_InvalidCustomTlvs._() : super._();
+}
+
+/// @nodoc
+abstract class _$$FfiNodeError_InvalidDateTimeImplCopyWith<$Res> {
+  factory _$$FfiNodeError_InvalidDateTimeImplCopyWith(
+          _$FfiNodeError_InvalidDateTimeImpl value,
+          $Res Function(_$FfiNodeError_InvalidDateTimeImpl) then) =
+      __$$FfiNodeError_InvalidDateTimeImplCopyWithImpl<$Res>;
+}
+
+/// @nodoc
+class __$$FfiNodeError_InvalidDateTimeImplCopyWithImpl<$Res>
+    extends _$FfiNodeErrorCopyWithImpl<$Res, _$FfiNodeError_InvalidDateTimeImpl>
+    implements _$$FfiNodeError_InvalidDateTimeImplCopyWith<$Res> {
+  __$$FfiNodeError_InvalidDateTimeImplCopyWithImpl(
+      _$FfiNodeError_InvalidDateTimeImpl _value,
+      $Res Function(_$FfiNodeError_InvalidDateTimeImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of FfiNodeError
+  /// with the given fields replaced by the non-null parameter values.
+}
+
+/// @nodoc
+
+class _$FfiNodeError_InvalidDateTimeImpl extends FfiNodeError_InvalidDateTime {
+  const _$FfiNodeError_InvalidDateTimeImpl() : super._();
+
+  @override
+  String toString() {
+    return 'FfiNodeError.invalidDateTime()';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$FfiNodeError_InvalidDateTimeImpl);
+  }
+
+  @override
+  int get hashCode => runtimeType.hashCode;
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() invalidTxid,
+    required TResult Function() alreadyRunning,
+    required TResult Function() notRunning,
+    required TResult Function() onchainTxCreationFailed,
+    required TResult Function() connectionFailed,
+    required TResult Function() invoiceCreationFailed,
+    required TResult Function() paymentSendingFailed,
+    required TResult Function() probeSendingFailed,
+    required TResult Function() channelCreationFailed,
+    required TResult Function() channelClosingFailed,
+    required TResult Function() channelConfigUpdateFailed,
+    required TResult Function() persistenceFailed,
+    required TResult Function() walletOperationFailed,
+    required TResult Function() onchainTxSigningFailed,
+    required TResult Function() messageSigningFailed,
+    required TResult Function() txSyncFailed,
+    required TResult Function() gossipUpdateFailed,
+    required TResult Function() invalidAddress,
+    required TResult Function() invalidSocketAddress,
+    required TResult Function() invalidPublicKey,
+    required TResult Function() invalidSecretKey,
+    required TResult Function() invalidPaymentHash,
+    required TResult Function() invalidPaymentPreimage,
+    required TResult Function() invalidPaymentSecret,
+    required TResult Function() invalidAmount,
+    required TResult Function() invalidInvoice,
+    required TResult Function() invalidChannelId,
+    required TResult Function() invalidNetwork,
+    required TResult Function() duplicatePayment,
+    required TResult Function() insufficientFunds,
+    required TResult Function() feerateEstimationUpdateFailed,
+    required TResult Function() liquidityRequestFailed,
+    required TResult Function() liquiditySourceUnavailable,
+    required TResult Function() liquidityFeeTooHigh,
+    required TResult Function() invalidPaymentId,
+    required TResult Function(DecodeError field0) decode,
+    required TResult Function(Bolt12ParseError field0) bolt12Parse,
+    required TResult Function() invoiceRequestCreationFailed,
+    required TResult Function() offerCreationFailed,
+    required TResult Function() refundCreationFailed,
+    required TResult Function() feerateEstimationUpdateTimeout,
+    required TResult Function() walletOperationTimeout,
+    required TResult Function() txSyncTimeout,
+    required TResult Function() gossipUpdateTimeout,
+    required TResult Function() invalidOfferId,
+    required TResult Function() invalidNodeId,
+    required TResult Function() invalidOffer,
+    required TResult Function() invalidRefund,
+    required TResult Function() unsupportedCurrency,
+    required TResult Function() uriParameterParsingFailed,
+    required TResult Function() invalidUri,
+    required TResult Function() invalidQuantity,
+    required TResult Function() invalidNodeAlias,
+    required TResult Function() invalidCustomTlvs,
+    required TResult Function() invalidDateTime,
+    required TResult Function() invalidFeeRate,
+    required TResult Function(FfiCreationError field0) creationError,
+  }) {
+    return invalidDateTime();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? invalidTxid,
+    TResult? Function()? alreadyRunning,
+    TResult? Function()? notRunning,
+    TResult? Function()? onchainTxCreationFailed,
+    TResult? Function()? connectionFailed,
+    TResult? Function()? invoiceCreationFailed,
+    TResult? Function()? paymentSendingFailed,
+    TResult? Function()? probeSendingFailed,
+    TResult? Function()? channelCreationFailed,
+    TResult? Function()? channelClosingFailed,
+    TResult? Function()? channelConfigUpdateFailed,
+    TResult? Function()? persistenceFailed,
+    TResult? Function()? walletOperationFailed,
+    TResult? Function()? onchainTxSigningFailed,
+    TResult? Function()? messageSigningFailed,
+    TResult? Function()? txSyncFailed,
+    TResult? Function()? gossipUpdateFailed,
+    TResult? Function()? invalidAddress,
+    TResult? Function()? invalidSocketAddress,
+    TResult? Function()? invalidPublicKey,
+    TResult? Function()? invalidSecretKey,
+    TResult? Function()? invalidPaymentHash,
+    TResult? Function()? invalidPaymentPreimage,
+    TResult? Function()? invalidPaymentSecret,
+    TResult? Function()? invalidAmount,
+    TResult? Function()? invalidInvoice,
+    TResult? Function()? invalidChannelId,
+    TResult? Function()? invalidNetwork,
+    TResult? Function()? duplicatePayment,
+    TResult? Function()? insufficientFunds,
+    TResult? Function()? feerateEstimationUpdateFailed,
+    TResult? Function()? liquidityRequestFailed,
+    TResult? Function()? liquiditySourceUnavailable,
+    TResult? Function()? liquidityFeeTooHigh,
+    TResult? Function()? invalidPaymentId,
+    TResult? Function(DecodeError field0)? decode,
+    TResult? Function(Bolt12ParseError field0)? bolt12Parse,
+    TResult? Function()? invoiceRequestCreationFailed,
+    TResult? Function()? offerCreationFailed,
+    TResult? Function()? refundCreationFailed,
+    TResult? Function()? feerateEstimationUpdateTimeout,
+    TResult? Function()? walletOperationTimeout,
+    TResult? Function()? txSyncTimeout,
+    TResult? Function()? gossipUpdateTimeout,
+    TResult? Function()? invalidOfferId,
+    TResult? Function()? invalidNodeId,
+    TResult? Function()? invalidOffer,
+    TResult? Function()? invalidRefund,
+    TResult? Function()? unsupportedCurrency,
+    TResult? Function()? uriParameterParsingFailed,
+    TResult? Function()? invalidUri,
+    TResult? Function()? invalidQuantity,
+    TResult? Function()? invalidNodeAlias,
+    TResult? Function()? invalidCustomTlvs,
+    TResult? Function()? invalidDateTime,
+    TResult? Function()? invalidFeeRate,
+    TResult? Function(FfiCreationError field0)? creationError,
+  }) {
+    return invalidDateTime?.call();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? invalidTxid,
+    TResult Function()? alreadyRunning,
+    TResult Function()? notRunning,
+    TResult Function()? onchainTxCreationFailed,
+    TResult Function()? connectionFailed,
+    TResult Function()? invoiceCreationFailed,
+    TResult Function()? paymentSendingFailed,
+    TResult Function()? probeSendingFailed,
+    TResult Function()? channelCreationFailed,
+    TResult Function()? channelClosingFailed,
+    TResult Function()? channelConfigUpdateFailed,
+    TResult Function()? persistenceFailed,
+    TResult Function()? walletOperationFailed,
+    TResult Function()? onchainTxSigningFailed,
+    TResult Function()? messageSigningFailed,
+    TResult Function()? txSyncFailed,
+    TResult Function()? gossipUpdateFailed,
+    TResult Function()? invalidAddress,
+    TResult Function()? invalidSocketAddress,
+    TResult Function()? invalidPublicKey,
+    TResult Function()? invalidSecretKey,
+    TResult Function()? invalidPaymentHash,
+    TResult Function()? invalidPaymentPreimage,
+    TResult Function()? invalidPaymentSecret,
+    TResult Function()? invalidAmount,
+    TResult Function()? invalidInvoice,
+    TResult Function()? invalidChannelId,
+    TResult Function()? invalidNetwork,
+    TResult Function()? duplicatePayment,
+    TResult Function()? insufficientFunds,
+    TResult Function()? feerateEstimationUpdateFailed,
+    TResult Function()? liquidityRequestFailed,
+    TResult Function()? liquiditySourceUnavailable,
+    TResult Function()? liquidityFeeTooHigh,
+    TResult Function()? invalidPaymentId,
+    TResult Function(DecodeError field0)? decode,
+    TResult Function(Bolt12ParseError field0)? bolt12Parse,
+    TResult Function()? invoiceRequestCreationFailed,
+    TResult Function()? offerCreationFailed,
+    TResult Function()? refundCreationFailed,
+    TResult Function()? feerateEstimationUpdateTimeout,
+    TResult Function()? walletOperationTimeout,
+    TResult Function()? txSyncTimeout,
+    TResult Function()? gossipUpdateTimeout,
+    TResult Function()? invalidOfferId,
+    TResult Function()? invalidNodeId,
+    TResult Function()? invalidOffer,
+    TResult Function()? invalidRefund,
+    TResult Function()? unsupportedCurrency,
+    TResult Function()? uriParameterParsingFailed,
+    TResult Function()? invalidUri,
+    TResult Function()? invalidQuantity,
+    TResult Function()? invalidNodeAlias,
+    TResult Function()? invalidCustomTlvs,
+    TResult Function()? invalidDateTime,
+    TResult Function()? invalidFeeRate,
+    TResult Function(FfiCreationError field0)? creationError,
+    required TResult orElse(),
+  }) {
+    if (invalidDateTime != null) {
+      return invalidDateTime();
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(FfiNodeError_InvalidTxid value) invalidTxid,
+    required TResult Function(FfiNodeError_AlreadyRunning value) alreadyRunning,
+    required TResult Function(FfiNodeError_NotRunning value) notRunning,
+    required TResult Function(FfiNodeError_OnchainTxCreationFailed value)
+        onchainTxCreationFailed,
+    required TResult Function(FfiNodeError_ConnectionFailed value)
+        connectionFailed,
+    required TResult Function(FfiNodeError_InvoiceCreationFailed value)
+        invoiceCreationFailed,
+    required TResult Function(FfiNodeError_PaymentSendingFailed value)
+        paymentSendingFailed,
+    required TResult Function(FfiNodeError_ProbeSendingFailed value)
+        probeSendingFailed,
+    required TResult Function(FfiNodeError_ChannelCreationFailed value)
+        channelCreationFailed,
+    required TResult Function(FfiNodeError_ChannelClosingFailed value)
+        channelClosingFailed,
+    required TResult Function(FfiNodeError_ChannelConfigUpdateFailed value)
+        channelConfigUpdateFailed,
+    required TResult Function(FfiNodeError_PersistenceFailed value)
+        persistenceFailed,
+    required TResult Function(FfiNodeError_WalletOperationFailed value)
+        walletOperationFailed,
+    required TResult Function(FfiNodeError_OnchainTxSigningFailed value)
+        onchainTxSigningFailed,
+    required TResult Function(FfiNodeError_MessageSigningFailed value)
+        messageSigningFailed,
+    required TResult Function(FfiNodeError_TxSyncFailed value) txSyncFailed,
+    required TResult Function(FfiNodeError_GossipUpdateFailed value)
+        gossipUpdateFailed,
+    required TResult Function(FfiNodeError_InvalidAddress value) invalidAddress,
+    required TResult Function(FfiNodeError_InvalidSocketAddress value)
+        invalidSocketAddress,
+    required TResult Function(FfiNodeError_InvalidPublicKey value)
+        invalidPublicKey,
+    required TResult Function(FfiNodeError_InvalidSecretKey value)
+        invalidSecretKey,
+    required TResult Function(FfiNodeError_InvalidPaymentHash value)
+        invalidPaymentHash,
+    required TResult Function(FfiNodeError_InvalidPaymentPreimage value)
+        invalidPaymentPreimage,
+    required TResult Function(FfiNodeError_InvalidPaymentSecret value)
+        invalidPaymentSecret,
+    required TResult Function(FfiNodeError_InvalidAmount value) invalidAmount,
+    required TResult Function(FfiNodeError_InvalidInvoice value) invalidInvoice,
+    required TResult Function(FfiNodeError_InvalidChannelId value)
+        invalidChannelId,
+    required TResult Function(FfiNodeError_InvalidNetwork value) invalidNetwork,
+    required TResult Function(FfiNodeError_DuplicatePayment value)
+        duplicatePayment,
+    required TResult Function(FfiNodeError_InsufficientFunds value)
+        insufficientFunds,
+    required TResult Function(FfiNodeError_FeerateEstimationUpdateFailed value)
+        feerateEstimationUpdateFailed,
+    required TResult Function(FfiNodeError_LiquidityRequestFailed value)
+        liquidityRequestFailed,
+    required TResult Function(FfiNodeError_LiquiditySourceUnavailable value)
+        liquiditySourceUnavailable,
+    required TResult Function(FfiNodeError_LiquidityFeeTooHigh value)
+        liquidityFeeTooHigh,
+    required TResult Function(FfiNodeError_InvalidPaymentId value)
+        invalidPaymentId,
+    required TResult Function(FfiNodeError_Decode value) decode,
+    required TResult Function(FfiNodeError_Bolt12Parse value) bolt12Parse,
+    required TResult Function(FfiNodeError_InvoiceRequestCreationFailed value)
+        invoiceRequestCreationFailed,
+    required TResult Function(FfiNodeError_OfferCreationFailed value)
+        offerCreationFailed,
+    required TResult Function(FfiNodeError_RefundCreationFailed value)
+        refundCreationFailed,
+    required TResult Function(FfiNodeError_FeerateEstimationUpdateTimeout value)
+        feerateEstimationUpdateTimeout,
+    required TResult Function(FfiNodeError_WalletOperationTimeout value)
+        walletOperationTimeout,
+    required TResult Function(FfiNodeError_TxSyncTimeout value) txSyncTimeout,
+    required TResult Function(FfiNodeError_GossipUpdateTimeout value)
+        gossipUpdateTimeout,
+    required TResult Function(FfiNodeError_InvalidOfferId value) invalidOfferId,
+    required TResult Function(FfiNodeError_InvalidNodeId value) invalidNodeId,
+    required TResult Function(FfiNodeError_InvalidOffer value) invalidOffer,
+    required TResult Function(FfiNodeError_InvalidRefund value) invalidRefund,
+    required TResult Function(FfiNodeError_UnsupportedCurrency value)
+        unsupportedCurrency,
+    required TResult Function(FfiNodeError_UriParameterParsingFailed value)
+        uriParameterParsingFailed,
+    required TResult Function(FfiNodeError_InvalidUri value) invalidUri,
+    required TResult Function(FfiNodeError_InvalidQuantity value)
+        invalidQuantity,
+    required TResult Function(FfiNodeError_InvalidNodeAlias value)
+        invalidNodeAlias,
+    required TResult Function(FfiNodeError_InvalidCustomTlvs value)
+        invalidCustomTlvs,
+    required TResult Function(FfiNodeError_InvalidDateTime value)
+        invalidDateTime,
+    required TResult Function(FfiNodeError_InvalidFeeRate value) invalidFeeRate,
+    required TResult Function(FfiNodeError_CreationError value) creationError,
+  }) {
+    return invalidDateTime(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(FfiNodeError_InvalidTxid value)? invalidTxid,
+    TResult? Function(FfiNodeError_AlreadyRunning value)? alreadyRunning,
+    TResult? Function(FfiNodeError_NotRunning value)? notRunning,
+    TResult? Function(FfiNodeError_OnchainTxCreationFailed value)?
+        onchainTxCreationFailed,
+    TResult? Function(FfiNodeError_ConnectionFailed value)? connectionFailed,
+    TResult? Function(FfiNodeError_InvoiceCreationFailed value)?
+        invoiceCreationFailed,
+    TResult? Function(FfiNodeError_PaymentSendingFailed value)?
+        paymentSendingFailed,
+    TResult? Function(FfiNodeError_ProbeSendingFailed value)?
+        probeSendingFailed,
+    TResult? Function(FfiNodeError_ChannelCreationFailed value)?
+        channelCreationFailed,
+    TResult? Function(FfiNodeError_ChannelClosingFailed value)?
+        channelClosingFailed,
+    TResult? Function(FfiNodeError_ChannelConfigUpdateFailed value)?
+        channelConfigUpdateFailed,
+    TResult? Function(FfiNodeError_PersistenceFailed value)? persistenceFailed,
+    TResult? Function(FfiNodeError_WalletOperationFailed value)?
+        walletOperationFailed,
+    TResult? Function(FfiNodeError_OnchainTxSigningFailed value)?
+        onchainTxSigningFailed,
+    TResult? Function(FfiNodeError_MessageSigningFailed value)?
+        messageSigningFailed,
+    TResult? Function(FfiNodeError_TxSyncFailed value)? txSyncFailed,
+    TResult? Function(FfiNodeError_GossipUpdateFailed value)?
+        gossipUpdateFailed,
+    TResult? Function(FfiNodeError_InvalidAddress value)? invalidAddress,
+    TResult? Function(FfiNodeError_InvalidSocketAddress value)?
+        invalidSocketAddress,
+    TResult? Function(FfiNodeError_InvalidPublicKey value)? invalidPublicKey,
+    TResult? Function(FfiNodeError_InvalidSecretKey value)? invalidSecretKey,
+    TResult? Function(FfiNodeError_InvalidPaymentHash value)?
+        invalidPaymentHash,
+    TResult? Function(FfiNodeError_InvalidPaymentPreimage value)?
+        invalidPaymentPreimage,
+    TResult? Function(FfiNodeError_InvalidPaymentSecret value)?
+        invalidPaymentSecret,
+    TResult? Function(FfiNodeError_InvalidAmount value)? invalidAmount,
+    TResult? Function(FfiNodeError_InvalidInvoice value)? invalidInvoice,
+    TResult? Function(FfiNodeError_InvalidChannelId value)? invalidChannelId,
+    TResult? Function(FfiNodeError_InvalidNetwork value)? invalidNetwork,
+    TResult? Function(FfiNodeError_DuplicatePayment value)? duplicatePayment,
+    TResult? Function(FfiNodeError_InsufficientFunds value)? insufficientFunds,
+    TResult? Function(FfiNodeError_FeerateEstimationUpdateFailed value)?
+        feerateEstimationUpdateFailed,
+    TResult? Function(FfiNodeError_LiquidityRequestFailed value)?
+        liquidityRequestFailed,
+    TResult? Function(FfiNodeError_LiquiditySourceUnavailable value)?
+        liquiditySourceUnavailable,
+    TResult? Function(FfiNodeError_LiquidityFeeTooHigh value)?
+        liquidityFeeTooHigh,
+    TResult? Function(FfiNodeError_InvalidPaymentId value)? invalidPaymentId,
+    TResult? Function(FfiNodeError_Decode value)? decode,
+    TResult? Function(FfiNodeError_Bolt12Parse value)? bolt12Parse,
+    TResult? Function(FfiNodeError_InvoiceRequestCreationFailed value)?
+        invoiceRequestCreationFailed,
+    TResult? Function(FfiNodeError_OfferCreationFailed value)?
+        offerCreationFailed,
+    TResult? Function(FfiNodeError_RefundCreationFailed value)?
+        refundCreationFailed,
+    TResult? Function(FfiNodeError_FeerateEstimationUpdateTimeout value)?
+        feerateEstimationUpdateTimeout,
+    TResult? Function(FfiNodeError_WalletOperationTimeout value)?
+        walletOperationTimeout,
+    TResult? Function(FfiNodeError_TxSyncTimeout value)? txSyncTimeout,
+    TResult? Function(FfiNodeError_GossipUpdateTimeout value)?
+        gossipUpdateTimeout,
+    TResult? Function(FfiNodeError_InvalidOfferId value)? invalidOfferId,
+    TResult? Function(FfiNodeError_InvalidNodeId value)? invalidNodeId,
+    TResult? Function(FfiNodeError_InvalidOffer value)? invalidOffer,
+    TResult? Function(FfiNodeError_InvalidRefund value)? invalidRefund,
+    TResult? Function(FfiNodeError_UnsupportedCurrency value)?
+        unsupportedCurrency,
+    TResult? Function(FfiNodeError_UriParameterParsingFailed value)?
+        uriParameterParsingFailed,
+    TResult? Function(FfiNodeError_InvalidUri value)? invalidUri,
+    TResult? Function(FfiNodeError_InvalidQuantity value)? invalidQuantity,
+    TResult? Function(FfiNodeError_InvalidNodeAlias value)? invalidNodeAlias,
+    TResult? Function(FfiNodeError_InvalidCustomTlvs value)? invalidCustomTlvs,
+    TResult? Function(FfiNodeError_InvalidDateTime value)? invalidDateTime,
+    TResult? Function(FfiNodeError_InvalidFeeRate value)? invalidFeeRate,
+    TResult? Function(FfiNodeError_CreationError value)? creationError,
+  }) {
+    return invalidDateTime?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(FfiNodeError_InvalidTxid value)? invalidTxid,
+    TResult Function(FfiNodeError_AlreadyRunning value)? alreadyRunning,
+    TResult Function(FfiNodeError_NotRunning value)? notRunning,
+    TResult Function(FfiNodeError_OnchainTxCreationFailed value)?
+        onchainTxCreationFailed,
+    TResult Function(FfiNodeError_ConnectionFailed value)? connectionFailed,
+    TResult Function(FfiNodeError_InvoiceCreationFailed value)?
+        invoiceCreationFailed,
+    TResult Function(FfiNodeError_PaymentSendingFailed value)?
+        paymentSendingFailed,
+    TResult Function(FfiNodeError_ProbeSendingFailed value)? probeSendingFailed,
+    TResult Function(FfiNodeError_ChannelCreationFailed value)?
+        channelCreationFailed,
+    TResult Function(FfiNodeError_ChannelClosingFailed value)?
+        channelClosingFailed,
+    TResult Function(FfiNodeError_ChannelConfigUpdateFailed value)?
+        channelConfigUpdateFailed,
+    TResult Function(FfiNodeError_PersistenceFailed value)? persistenceFailed,
+    TResult Function(FfiNodeError_WalletOperationFailed value)?
+        walletOperationFailed,
+    TResult Function(FfiNodeError_OnchainTxSigningFailed value)?
+        onchainTxSigningFailed,
+    TResult Function(FfiNodeError_MessageSigningFailed value)?
+        messageSigningFailed,
+    TResult Function(FfiNodeError_TxSyncFailed value)? txSyncFailed,
+    TResult Function(FfiNodeError_GossipUpdateFailed value)? gossipUpdateFailed,
+    TResult Function(FfiNodeError_InvalidAddress value)? invalidAddress,
+    TResult Function(FfiNodeError_InvalidSocketAddress value)?
+        invalidSocketAddress,
+    TResult Function(FfiNodeError_InvalidPublicKey value)? invalidPublicKey,
+    TResult Function(FfiNodeError_InvalidSecretKey value)? invalidSecretKey,
+    TResult Function(FfiNodeError_InvalidPaymentHash value)? invalidPaymentHash,
+    TResult Function(FfiNodeError_InvalidPaymentPreimage value)?
+        invalidPaymentPreimage,
+    TResult Function(FfiNodeError_InvalidPaymentSecret value)?
+        invalidPaymentSecret,
+    TResult Function(FfiNodeError_InvalidAmount value)? invalidAmount,
+    TResult Function(FfiNodeError_InvalidInvoice value)? invalidInvoice,
+    TResult Function(FfiNodeError_InvalidChannelId value)? invalidChannelId,
+    TResult Function(FfiNodeError_InvalidNetwork value)? invalidNetwork,
+    TResult Function(FfiNodeError_DuplicatePayment value)? duplicatePayment,
+    TResult Function(FfiNodeError_InsufficientFunds value)? insufficientFunds,
+    TResult Function(FfiNodeError_FeerateEstimationUpdateFailed value)?
+        feerateEstimationUpdateFailed,
+    TResult Function(FfiNodeError_LiquidityRequestFailed value)?
+        liquidityRequestFailed,
+    TResult Function(FfiNodeError_LiquiditySourceUnavailable value)?
+        liquiditySourceUnavailable,
+    TResult Function(FfiNodeError_LiquidityFeeTooHigh value)?
+        liquidityFeeTooHigh,
+    TResult Function(FfiNodeError_InvalidPaymentId value)? invalidPaymentId,
+    TResult Function(FfiNodeError_Decode value)? decode,
+    TResult Function(FfiNodeError_Bolt12Parse value)? bolt12Parse,
+    TResult Function(FfiNodeError_InvoiceRequestCreationFailed value)?
+        invoiceRequestCreationFailed,
+    TResult Function(FfiNodeError_OfferCreationFailed value)?
+        offerCreationFailed,
+    TResult Function(FfiNodeError_RefundCreationFailed value)?
+        refundCreationFailed,
+    TResult Function(FfiNodeError_FeerateEstimationUpdateTimeout value)?
+        feerateEstimationUpdateTimeout,
+    TResult Function(FfiNodeError_WalletOperationTimeout value)?
+        walletOperationTimeout,
+    TResult Function(FfiNodeError_TxSyncTimeout value)? txSyncTimeout,
+    TResult Function(FfiNodeError_GossipUpdateTimeout value)?
+        gossipUpdateTimeout,
+    TResult Function(FfiNodeError_InvalidOfferId value)? invalidOfferId,
+    TResult Function(FfiNodeError_InvalidNodeId value)? invalidNodeId,
+    TResult Function(FfiNodeError_InvalidOffer value)? invalidOffer,
+    TResult Function(FfiNodeError_InvalidRefund value)? invalidRefund,
+    TResult Function(FfiNodeError_UnsupportedCurrency value)?
+        unsupportedCurrency,
+    TResult Function(FfiNodeError_UriParameterParsingFailed value)?
+        uriParameterParsingFailed,
+    TResult Function(FfiNodeError_InvalidUri value)? invalidUri,
+    TResult Function(FfiNodeError_InvalidQuantity value)? invalidQuantity,
+    TResult Function(FfiNodeError_InvalidNodeAlias value)? invalidNodeAlias,
+    TResult Function(FfiNodeError_InvalidCustomTlvs value)? invalidCustomTlvs,
+    TResult Function(FfiNodeError_InvalidDateTime value)? invalidDateTime,
+    TResult Function(FfiNodeError_InvalidFeeRate value)? invalidFeeRate,
+    TResult Function(FfiNodeError_CreationError value)? creationError,
+    required TResult orElse(),
+  }) {
+    if (invalidDateTime != null) {
+      return invalidDateTime(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class FfiNodeError_InvalidDateTime extends FfiNodeError {
+  const factory FfiNodeError_InvalidDateTime() =
+      _$FfiNodeError_InvalidDateTimeImpl;
+  const FfiNodeError_InvalidDateTime._() : super._();
+}
+
+/// @nodoc
+abstract class _$$FfiNodeError_InvalidFeeRateImplCopyWith<$Res> {
+  factory _$$FfiNodeError_InvalidFeeRateImplCopyWith(
+          _$FfiNodeError_InvalidFeeRateImpl value,
+          $Res Function(_$FfiNodeError_InvalidFeeRateImpl) then) =
+      __$$FfiNodeError_InvalidFeeRateImplCopyWithImpl<$Res>;
+}
+
+/// @nodoc
+class __$$FfiNodeError_InvalidFeeRateImplCopyWithImpl<$Res>
+    extends _$FfiNodeErrorCopyWithImpl<$Res, _$FfiNodeError_InvalidFeeRateImpl>
+    implements _$$FfiNodeError_InvalidFeeRateImplCopyWith<$Res> {
+  __$$FfiNodeError_InvalidFeeRateImplCopyWithImpl(
+      _$FfiNodeError_InvalidFeeRateImpl _value,
+      $Res Function(_$FfiNodeError_InvalidFeeRateImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of FfiNodeError
+  /// with the given fields replaced by the non-null parameter values.
+}
+
+/// @nodoc
+
+class _$FfiNodeError_InvalidFeeRateImpl extends FfiNodeError_InvalidFeeRate {
+  const _$FfiNodeError_InvalidFeeRateImpl() : super._();
+
+  @override
+  String toString() {
+    return 'FfiNodeError.invalidFeeRate()';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$FfiNodeError_InvalidFeeRateImpl);
+  }
+
+  @override
+  int get hashCode => runtimeType.hashCode;
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() invalidTxid,
+    required TResult Function() alreadyRunning,
+    required TResult Function() notRunning,
+    required TResult Function() onchainTxCreationFailed,
+    required TResult Function() connectionFailed,
+    required TResult Function() invoiceCreationFailed,
+    required TResult Function() paymentSendingFailed,
+    required TResult Function() probeSendingFailed,
+    required TResult Function() channelCreationFailed,
+    required TResult Function() channelClosingFailed,
+    required TResult Function() channelConfigUpdateFailed,
+    required TResult Function() persistenceFailed,
+    required TResult Function() walletOperationFailed,
+    required TResult Function() onchainTxSigningFailed,
+    required TResult Function() messageSigningFailed,
+    required TResult Function() txSyncFailed,
+    required TResult Function() gossipUpdateFailed,
+    required TResult Function() invalidAddress,
+    required TResult Function() invalidSocketAddress,
+    required TResult Function() invalidPublicKey,
+    required TResult Function() invalidSecretKey,
+    required TResult Function() invalidPaymentHash,
+    required TResult Function() invalidPaymentPreimage,
+    required TResult Function() invalidPaymentSecret,
+    required TResult Function() invalidAmount,
+    required TResult Function() invalidInvoice,
+    required TResult Function() invalidChannelId,
+    required TResult Function() invalidNetwork,
+    required TResult Function() duplicatePayment,
+    required TResult Function() insufficientFunds,
+    required TResult Function() feerateEstimationUpdateFailed,
+    required TResult Function() liquidityRequestFailed,
+    required TResult Function() liquiditySourceUnavailable,
+    required TResult Function() liquidityFeeTooHigh,
+    required TResult Function() invalidPaymentId,
+    required TResult Function(DecodeError field0) decode,
+    required TResult Function(Bolt12ParseError field0) bolt12Parse,
+    required TResult Function() invoiceRequestCreationFailed,
+    required TResult Function() offerCreationFailed,
+    required TResult Function() refundCreationFailed,
+    required TResult Function() feerateEstimationUpdateTimeout,
+    required TResult Function() walletOperationTimeout,
+    required TResult Function() txSyncTimeout,
+    required TResult Function() gossipUpdateTimeout,
+    required TResult Function() invalidOfferId,
+    required TResult Function() invalidNodeId,
+    required TResult Function() invalidOffer,
+    required TResult Function() invalidRefund,
+    required TResult Function() unsupportedCurrency,
+    required TResult Function() uriParameterParsingFailed,
+    required TResult Function() invalidUri,
+    required TResult Function() invalidQuantity,
+    required TResult Function() invalidNodeAlias,
+    required TResult Function() invalidCustomTlvs,
+    required TResult Function() invalidDateTime,
+    required TResult Function() invalidFeeRate,
+    required TResult Function(FfiCreationError field0) creationError,
+  }) {
+    return invalidFeeRate();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? invalidTxid,
+    TResult? Function()? alreadyRunning,
+    TResult? Function()? notRunning,
+    TResult? Function()? onchainTxCreationFailed,
+    TResult? Function()? connectionFailed,
+    TResult? Function()? invoiceCreationFailed,
+    TResult? Function()? paymentSendingFailed,
+    TResult? Function()? probeSendingFailed,
+    TResult? Function()? channelCreationFailed,
+    TResult? Function()? channelClosingFailed,
+    TResult? Function()? channelConfigUpdateFailed,
+    TResult? Function()? persistenceFailed,
+    TResult? Function()? walletOperationFailed,
+    TResult? Function()? onchainTxSigningFailed,
+    TResult? Function()? messageSigningFailed,
+    TResult? Function()? txSyncFailed,
+    TResult? Function()? gossipUpdateFailed,
+    TResult? Function()? invalidAddress,
+    TResult? Function()? invalidSocketAddress,
+    TResult? Function()? invalidPublicKey,
+    TResult? Function()? invalidSecretKey,
+    TResult? Function()? invalidPaymentHash,
+    TResult? Function()? invalidPaymentPreimage,
+    TResult? Function()? invalidPaymentSecret,
+    TResult? Function()? invalidAmount,
+    TResult? Function()? invalidInvoice,
+    TResult? Function()? invalidChannelId,
+    TResult? Function()? invalidNetwork,
+    TResult? Function()? duplicatePayment,
+    TResult? Function()? insufficientFunds,
+    TResult? Function()? feerateEstimationUpdateFailed,
+    TResult? Function()? liquidityRequestFailed,
+    TResult? Function()? liquiditySourceUnavailable,
+    TResult? Function()? liquidityFeeTooHigh,
+    TResult? Function()? invalidPaymentId,
+    TResult? Function(DecodeError field0)? decode,
+    TResult? Function(Bolt12ParseError field0)? bolt12Parse,
+    TResult? Function()? invoiceRequestCreationFailed,
+    TResult? Function()? offerCreationFailed,
+    TResult? Function()? refundCreationFailed,
+    TResult? Function()? feerateEstimationUpdateTimeout,
+    TResult? Function()? walletOperationTimeout,
+    TResult? Function()? txSyncTimeout,
+    TResult? Function()? gossipUpdateTimeout,
+    TResult? Function()? invalidOfferId,
+    TResult? Function()? invalidNodeId,
+    TResult? Function()? invalidOffer,
+    TResult? Function()? invalidRefund,
+    TResult? Function()? unsupportedCurrency,
+    TResult? Function()? uriParameterParsingFailed,
+    TResult? Function()? invalidUri,
+    TResult? Function()? invalidQuantity,
+    TResult? Function()? invalidNodeAlias,
+    TResult? Function()? invalidCustomTlvs,
+    TResult? Function()? invalidDateTime,
+    TResult? Function()? invalidFeeRate,
+    TResult? Function(FfiCreationError field0)? creationError,
+  }) {
+    return invalidFeeRate?.call();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? invalidTxid,
+    TResult Function()? alreadyRunning,
+    TResult Function()? notRunning,
+    TResult Function()? onchainTxCreationFailed,
+    TResult Function()? connectionFailed,
+    TResult Function()? invoiceCreationFailed,
+    TResult Function()? paymentSendingFailed,
+    TResult Function()? probeSendingFailed,
+    TResult Function()? channelCreationFailed,
+    TResult Function()? channelClosingFailed,
+    TResult Function()? channelConfigUpdateFailed,
+    TResult Function()? persistenceFailed,
+    TResult Function()? walletOperationFailed,
+    TResult Function()? onchainTxSigningFailed,
+    TResult Function()? messageSigningFailed,
+    TResult Function()? txSyncFailed,
+    TResult Function()? gossipUpdateFailed,
+    TResult Function()? invalidAddress,
+    TResult Function()? invalidSocketAddress,
+    TResult Function()? invalidPublicKey,
+    TResult Function()? invalidSecretKey,
+    TResult Function()? invalidPaymentHash,
+    TResult Function()? invalidPaymentPreimage,
+    TResult Function()? invalidPaymentSecret,
+    TResult Function()? invalidAmount,
+    TResult Function()? invalidInvoice,
+    TResult Function()? invalidChannelId,
+    TResult Function()? invalidNetwork,
+    TResult Function()? duplicatePayment,
+    TResult Function()? insufficientFunds,
+    TResult Function()? feerateEstimationUpdateFailed,
+    TResult Function()? liquidityRequestFailed,
+    TResult Function()? liquiditySourceUnavailable,
+    TResult Function()? liquidityFeeTooHigh,
+    TResult Function()? invalidPaymentId,
+    TResult Function(DecodeError field0)? decode,
+    TResult Function(Bolt12ParseError field0)? bolt12Parse,
+    TResult Function()? invoiceRequestCreationFailed,
+    TResult Function()? offerCreationFailed,
+    TResult Function()? refundCreationFailed,
+    TResult Function()? feerateEstimationUpdateTimeout,
+    TResult Function()? walletOperationTimeout,
+    TResult Function()? txSyncTimeout,
+    TResult Function()? gossipUpdateTimeout,
+    TResult Function()? invalidOfferId,
+    TResult Function()? invalidNodeId,
+    TResult Function()? invalidOffer,
+    TResult Function()? invalidRefund,
+    TResult Function()? unsupportedCurrency,
+    TResult Function()? uriParameterParsingFailed,
+    TResult Function()? invalidUri,
+    TResult Function()? invalidQuantity,
+    TResult Function()? invalidNodeAlias,
+    TResult Function()? invalidCustomTlvs,
+    TResult Function()? invalidDateTime,
+    TResult Function()? invalidFeeRate,
+    TResult Function(FfiCreationError field0)? creationError,
+    required TResult orElse(),
+  }) {
+    if (invalidFeeRate != null) {
+      return invalidFeeRate();
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(FfiNodeError_InvalidTxid value) invalidTxid,
+    required TResult Function(FfiNodeError_AlreadyRunning value) alreadyRunning,
+    required TResult Function(FfiNodeError_NotRunning value) notRunning,
+    required TResult Function(FfiNodeError_OnchainTxCreationFailed value)
+        onchainTxCreationFailed,
+    required TResult Function(FfiNodeError_ConnectionFailed value)
+        connectionFailed,
+    required TResult Function(FfiNodeError_InvoiceCreationFailed value)
+        invoiceCreationFailed,
+    required TResult Function(FfiNodeError_PaymentSendingFailed value)
+        paymentSendingFailed,
+    required TResult Function(FfiNodeError_ProbeSendingFailed value)
+        probeSendingFailed,
+    required TResult Function(FfiNodeError_ChannelCreationFailed value)
+        channelCreationFailed,
+    required TResult Function(FfiNodeError_ChannelClosingFailed value)
+        channelClosingFailed,
+    required TResult Function(FfiNodeError_ChannelConfigUpdateFailed value)
+        channelConfigUpdateFailed,
+    required TResult Function(FfiNodeError_PersistenceFailed value)
+        persistenceFailed,
+    required TResult Function(FfiNodeError_WalletOperationFailed value)
+        walletOperationFailed,
+    required TResult Function(FfiNodeError_OnchainTxSigningFailed value)
+        onchainTxSigningFailed,
+    required TResult Function(FfiNodeError_MessageSigningFailed value)
+        messageSigningFailed,
+    required TResult Function(FfiNodeError_TxSyncFailed value) txSyncFailed,
+    required TResult Function(FfiNodeError_GossipUpdateFailed value)
+        gossipUpdateFailed,
+    required TResult Function(FfiNodeError_InvalidAddress value) invalidAddress,
+    required TResult Function(FfiNodeError_InvalidSocketAddress value)
+        invalidSocketAddress,
+    required TResult Function(FfiNodeError_InvalidPublicKey value)
+        invalidPublicKey,
+    required TResult Function(FfiNodeError_InvalidSecretKey value)
+        invalidSecretKey,
+    required TResult Function(FfiNodeError_InvalidPaymentHash value)
+        invalidPaymentHash,
+    required TResult Function(FfiNodeError_InvalidPaymentPreimage value)
+        invalidPaymentPreimage,
+    required TResult Function(FfiNodeError_InvalidPaymentSecret value)
+        invalidPaymentSecret,
+    required TResult Function(FfiNodeError_InvalidAmount value) invalidAmount,
+    required TResult Function(FfiNodeError_InvalidInvoice value) invalidInvoice,
+    required TResult Function(FfiNodeError_InvalidChannelId value)
+        invalidChannelId,
+    required TResult Function(FfiNodeError_InvalidNetwork value) invalidNetwork,
+    required TResult Function(FfiNodeError_DuplicatePayment value)
+        duplicatePayment,
+    required TResult Function(FfiNodeError_InsufficientFunds value)
+        insufficientFunds,
+    required TResult Function(FfiNodeError_FeerateEstimationUpdateFailed value)
+        feerateEstimationUpdateFailed,
+    required TResult Function(FfiNodeError_LiquidityRequestFailed value)
+        liquidityRequestFailed,
+    required TResult Function(FfiNodeError_LiquiditySourceUnavailable value)
+        liquiditySourceUnavailable,
+    required TResult Function(FfiNodeError_LiquidityFeeTooHigh value)
+        liquidityFeeTooHigh,
+    required TResult Function(FfiNodeError_InvalidPaymentId value)
+        invalidPaymentId,
+    required TResult Function(FfiNodeError_Decode value) decode,
+    required TResult Function(FfiNodeError_Bolt12Parse value) bolt12Parse,
+    required TResult Function(FfiNodeError_InvoiceRequestCreationFailed value)
+        invoiceRequestCreationFailed,
+    required TResult Function(FfiNodeError_OfferCreationFailed value)
+        offerCreationFailed,
+    required TResult Function(FfiNodeError_RefundCreationFailed value)
+        refundCreationFailed,
+    required TResult Function(FfiNodeError_FeerateEstimationUpdateTimeout value)
+        feerateEstimationUpdateTimeout,
+    required TResult Function(FfiNodeError_WalletOperationTimeout value)
+        walletOperationTimeout,
+    required TResult Function(FfiNodeError_TxSyncTimeout value) txSyncTimeout,
+    required TResult Function(FfiNodeError_GossipUpdateTimeout value)
+        gossipUpdateTimeout,
+    required TResult Function(FfiNodeError_InvalidOfferId value) invalidOfferId,
+    required TResult Function(FfiNodeError_InvalidNodeId value) invalidNodeId,
+    required TResult Function(FfiNodeError_InvalidOffer value) invalidOffer,
+    required TResult Function(FfiNodeError_InvalidRefund value) invalidRefund,
+    required TResult Function(FfiNodeError_UnsupportedCurrency value)
+        unsupportedCurrency,
+    required TResult Function(FfiNodeError_UriParameterParsingFailed value)
+        uriParameterParsingFailed,
+    required TResult Function(FfiNodeError_InvalidUri value) invalidUri,
+    required TResult Function(FfiNodeError_InvalidQuantity value)
+        invalidQuantity,
+    required TResult Function(FfiNodeError_InvalidNodeAlias value)
+        invalidNodeAlias,
+    required TResult Function(FfiNodeError_InvalidCustomTlvs value)
+        invalidCustomTlvs,
+    required TResult Function(FfiNodeError_InvalidDateTime value)
+        invalidDateTime,
+    required TResult Function(FfiNodeError_InvalidFeeRate value) invalidFeeRate,
+    required TResult Function(FfiNodeError_CreationError value) creationError,
+  }) {
+    return invalidFeeRate(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(FfiNodeError_InvalidTxid value)? invalidTxid,
+    TResult? Function(FfiNodeError_AlreadyRunning value)? alreadyRunning,
+    TResult? Function(FfiNodeError_NotRunning value)? notRunning,
+    TResult? Function(FfiNodeError_OnchainTxCreationFailed value)?
+        onchainTxCreationFailed,
+    TResult? Function(FfiNodeError_ConnectionFailed value)? connectionFailed,
+    TResult? Function(FfiNodeError_InvoiceCreationFailed value)?
+        invoiceCreationFailed,
+    TResult? Function(FfiNodeError_PaymentSendingFailed value)?
+        paymentSendingFailed,
+    TResult? Function(FfiNodeError_ProbeSendingFailed value)?
+        probeSendingFailed,
+    TResult? Function(FfiNodeError_ChannelCreationFailed value)?
+        channelCreationFailed,
+    TResult? Function(FfiNodeError_ChannelClosingFailed value)?
+        channelClosingFailed,
+    TResult? Function(FfiNodeError_ChannelConfigUpdateFailed value)?
+        channelConfigUpdateFailed,
+    TResult? Function(FfiNodeError_PersistenceFailed value)? persistenceFailed,
+    TResult? Function(FfiNodeError_WalletOperationFailed value)?
+        walletOperationFailed,
+    TResult? Function(FfiNodeError_OnchainTxSigningFailed value)?
+        onchainTxSigningFailed,
+    TResult? Function(FfiNodeError_MessageSigningFailed value)?
+        messageSigningFailed,
+    TResult? Function(FfiNodeError_TxSyncFailed value)? txSyncFailed,
+    TResult? Function(FfiNodeError_GossipUpdateFailed value)?
+        gossipUpdateFailed,
+    TResult? Function(FfiNodeError_InvalidAddress value)? invalidAddress,
+    TResult? Function(FfiNodeError_InvalidSocketAddress value)?
+        invalidSocketAddress,
+    TResult? Function(FfiNodeError_InvalidPublicKey value)? invalidPublicKey,
+    TResult? Function(FfiNodeError_InvalidSecretKey value)? invalidSecretKey,
+    TResult? Function(FfiNodeError_InvalidPaymentHash value)?
+        invalidPaymentHash,
+    TResult? Function(FfiNodeError_InvalidPaymentPreimage value)?
+        invalidPaymentPreimage,
+    TResult? Function(FfiNodeError_InvalidPaymentSecret value)?
+        invalidPaymentSecret,
+    TResult? Function(FfiNodeError_InvalidAmount value)? invalidAmount,
+    TResult? Function(FfiNodeError_InvalidInvoice value)? invalidInvoice,
+    TResult? Function(FfiNodeError_InvalidChannelId value)? invalidChannelId,
+    TResult? Function(FfiNodeError_InvalidNetwork value)? invalidNetwork,
+    TResult? Function(FfiNodeError_DuplicatePayment value)? duplicatePayment,
+    TResult? Function(FfiNodeError_InsufficientFunds value)? insufficientFunds,
+    TResult? Function(FfiNodeError_FeerateEstimationUpdateFailed value)?
+        feerateEstimationUpdateFailed,
+    TResult? Function(FfiNodeError_LiquidityRequestFailed value)?
+        liquidityRequestFailed,
+    TResult? Function(FfiNodeError_LiquiditySourceUnavailable value)?
+        liquiditySourceUnavailable,
+    TResult? Function(FfiNodeError_LiquidityFeeTooHigh value)?
+        liquidityFeeTooHigh,
+    TResult? Function(FfiNodeError_InvalidPaymentId value)? invalidPaymentId,
+    TResult? Function(FfiNodeError_Decode value)? decode,
+    TResult? Function(FfiNodeError_Bolt12Parse value)? bolt12Parse,
+    TResult? Function(FfiNodeError_InvoiceRequestCreationFailed value)?
+        invoiceRequestCreationFailed,
+    TResult? Function(FfiNodeError_OfferCreationFailed value)?
+        offerCreationFailed,
+    TResult? Function(FfiNodeError_RefundCreationFailed value)?
+        refundCreationFailed,
+    TResult? Function(FfiNodeError_FeerateEstimationUpdateTimeout value)?
+        feerateEstimationUpdateTimeout,
+    TResult? Function(FfiNodeError_WalletOperationTimeout value)?
+        walletOperationTimeout,
+    TResult? Function(FfiNodeError_TxSyncTimeout value)? txSyncTimeout,
+    TResult? Function(FfiNodeError_GossipUpdateTimeout value)?
+        gossipUpdateTimeout,
+    TResult? Function(FfiNodeError_InvalidOfferId value)? invalidOfferId,
+    TResult? Function(FfiNodeError_InvalidNodeId value)? invalidNodeId,
+    TResult? Function(FfiNodeError_InvalidOffer value)? invalidOffer,
+    TResult? Function(FfiNodeError_InvalidRefund value)? invalidRefund,
+    TResult? Function(FfiNodeError_UnsupportedCurrency value)?
+        unsupportedCurrency,
+    TResult? Function(FfiNodeError_UriParameterParsingFailed value)?
+        uriParameterParsingFailed,
+    TResult? Function(FfiNodeError_InvalidUri value)? invalidUri,
+    TResult? Function(FfiNodeError_InvalidQuantity value)? invalidQuantity,
+    TResult? Function(FfiNodeError_InvalidNodeAlias value)? invalidNodeAlias,
+    TResult? Function(FfiNodeError_InvalidCustomTlvs value)? invalidCustomTlvs,
+    TResult? Function(FfiNodeError_InvalidDateTime value)? invalidDateTime,
+    TResult? Function(FfiNodeError_InvalidFeeRate value)? invalidFeeRate,
+    TResult? Function(FfiNodeError_CreationError value)? creationError,
+  }) {
+    return invalidFeeRate?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(FfiNodeError_InvalidTxid value)? invalidTxid,
+    TResult Function(FfiNodeError_AlreadyRunning value)? alreadyRunning,
+    TResult Function(FfiNodeError_NotRunning value)? notRunning,
+    TResult Function(FfiNodeError_OnchainTxCreationFailed value)?
+        onchainTxCreationFailed,
+    TResult Function(FfiNodeError_ConnectionFailed value)? connectionFailed,
+    TResult Function(FfiNodeError_InvoiceCreationFailed value)?
+        invoiceCreationFailed,
+    TResult Function(FfiNodeError_PaymentSendingFailed value)?
+        paymentSendingFailed,
+    TResult Function(FfiNodeError_ProbeSendingFailed value)? probeSendingFailed,
+    TResult Function(FfiNodeError_ChannelCreationFailed value)?
+        channelCreationFailed,
+    TResult Function(FfiNodeError_ChannelClosingFailed value)?
+        channelClosingFailed,
+    TResult Function(FfiNodeError_ChannelConfigUpdateFailed value)?
+        channelConfigUpdateFailed,
+    TResult Function(FfiNodeError_PersistenceFailed value)? persistenceFailed,
+    TResult Function(FfiNodeError_WalletOperationFailed value)?
+        walletOperationFailed,
+    TResult Function(FfiNodeError_OnchainTxSigningFailed value)?
+        onchainTxSigningFailed,
+    TResult Function(FfiNodeError_MessageSigningFailed value)?
+        messageSigningFailed,
+    TResult Function(FfiNodeError_TxSyncFailed value)? txSyncFailed,
+    TResult Function(FfiNodeError_GossipUpdateFailed value)? gossipUpdateFailed,
+    TResult Function(FfiNodeError_InvalidAddress value)? invalidAddress,
+    TResult Function(FfiNodeError_InvalidSocketAddress value)?
+        invalidSocketAddress,
+    TResult Function(FfiNodeError_InvalidPublicKey value)? invalidPublicKey,
+    TResult Function(FfiNodeError_InvalidSecretKey value)? invalidSecretKey,
+    TResult Function(FfiNodeError_InvalidPaymentHash value)? invalidPaymentHash,
+    TResult Function(FfiNodeError_InvalidPaymentPreimage value)?
+        invalidPaymentPreimage,
+    TResult Function(FfiNodeError_InvalidPaymentSecret value)?
+        invalidPaymentSecret,
+    TResult Function(FfiNodeError_InvalidAmount value)? invalidAmount,
+    TResult Function(FfiNodeError_InvalidInvoice value)? invalidInvoice,
+    TResult Function(FfiNodeError_InvalidChannelId value)? invalidChannelId,
+    TResult Function(FfiNodeError_InvalidNetwork value)? invalidNetwork,
+    TResult Function(FfiNodeError_DuplicatePayment value)? duplicatePayment,
+    TResult Function(FfiNodeError_InsufficientFunds value)? insufficientFunds,
+    TResult Function(FfiNodeError_FeerateEstimationUpdateFailed value)?
+        feerateEstimationUpdateFailed,
+    TResult Function(FfiNodeError_LiquidityRequestFailed value)?
+        liquidityRequestFailed,
+    TResult Function(FfiNodeError_LiquiditySourceUnavailable value)?
+        liquiditySourceUnavailable,
+    TResult Function(FfiNodeError_LiquidityFeeTooHigh value)?
+        liquidityFeeTooHigh,
+    TResult Function(FfiNodeError_InvalidPaymentId value)? invalidPaymentId,
+    TResult Function(FfiNodeError_Decode value)? decode,
+    TResult Function(FfiNodeError_Bolt12Parse value)? bolt12Parse,
+    TResult Function(FfiNodeError_InvoiceRequestCreationFailed value)?
+        invoiceRequestCreationFailed,
+    TResult Function(FfiNodeError_OfferCreationFailed value)?
+        offerCreationFailed,
+    TResult Function(FfiNodeError_RefundCreationFailed value)?
+        refundCreationFailed,
+    TResult Function(FfiNodeError_FeerateEstimationUpdateTimeout value)?
+        feerateEstimationUpdateTimeout,
+    TResult Function(FfiNodeError_WalletOperationTimeout value)?
+        walletOperationTimeout,
+    TResult Function(FfiNodeError_TxSyncTimeout value)? txSyncTimeout,
+    TResult Function(FfiNodeError_GossipUpdateTimeout value)?
+        gossipUpdateTimeout,
+    TResult Function(FfiNodeError_InvalidOfferId value)? invalidOfferId,
+    TResult Function(FfiNodeError_InvalidNodeId value)? invalidNodeId,
+    TResult Function(FfiNodeError_InvalidOffer value)? invalidOffer,
+    TResult Function(FfiNodeError_InvalidRefund value)? invalidRefund,
+    TResult Function(FfiNodeError_UnsupportedCurrency value)?
+        unsupportedCurrency,
+    TResult Function(FfiNodeError_UriParameterParsingFailed value)?
+        uriParameterParsingFailed,
+    TResult Function(FfiNodeError_InvalidUri value)? invalidUri,
+    TResult Function(FfiNodeError_InvalidQuantity value)? invalidQuantity,
+    TResult Function(FfiNodeError_InvalidNodeAlias value)? invalidNodeAlias,
+    TResult Function(FfiNodeError_InvalidCustomTlvs value)? invalidCustomTlvs,
+    TResult Function(FfiNodeError_InvalidDateTime value)? invalidDateTime,
+    TResult Function(FfiNodeError_InvalidFeeRate value)? invalidFeeRate,
+    TResult Function(FfiNodeError_CreationError value)? creationError,
+    required TResult orElse(),
+  }) {
+    if (invalidFeeRate != null) {
+      return invalidFeeRate(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class FfiNodeError_InvalidFeeRate extends FfiNodeError {
+  const factory FfiNodeError_InvalidFeeRate() =
+      _$FfiNodeError_InvalidFeeRateImpl;
+  const FfiNodeError_InvalidFeeRate._() : super._();
+}
+
+/// @nodoc
+abstract class _$$FfiNodeError_CreationErrorImplCopyWith<$Res> {
+  factory _$$FfiNodeError_CreationErrorImplCopyWith(
+          _$FfiNodeError_CreationErrorImpl value,
+          $Res Function(_$FfiNodeError_CreationErrorImpl) then) =
+      __$$FfiNodeError_CreationErrorImplCopyWithImpl<$Res>;
+  @useResult
+  $Res call({FfiCreationError field0});
+}
+
+/// @nodoc
+class __$$FfiNodeError_CreationErrorImplCopyWithImpl<$Res>
+    extends _$FfiNodeErrorCopyWithImpl<$Res, _$FfiNodeError_CreationErrorImpl>
+    implements _$$FfiNodeError_CreationErrorImplCopyWith<$Res> {
+  __$$FfiNodeError_CreationErrorImplCopyWithImpl(
+      _$FfiNodeError_CreationErrorImpl _value,
+      $Res Function(_$FfiNodeError_CreationErrorImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of FfiNodeError
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? field0 = null,
+  }) {
+    return _then(_$FfiNodeError_CreationErrorImpl(
+      null == field0
+          ? _value.field0
+          : field0 // ignore: cast_nullable_to_non_nullable
+              as FfiCreationError,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$FfiNodeError_CreationErrorImpl extends FfiNodeError_CreationError {
+  const _$FfiNodeError_CreationErrorImpl(this.field0) : super._();
+
+  @override
+  final FfiCreationError field0;
+
+  @override
+  String toString() {
+    return 'FfiNodeError.creationError(field0: $field0)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$FfiNodeError_CreationErrorImpl &&
+            (identical(other.field0, field0) || other.field0 == field0));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, field0);
+
+  /// Create a copy of FfiNodeError
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$FfiNodeError_CreationErrorImplCopyWith<_$FfiNodeError_CreationErrorImpl>
+      get copyWith => __$$FfiNodeError_CreationErrorImplCopyWithImpl<
+          _$FfiNodeError_CreationErrorImpl>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() invalidTxid,
+    required TResult Function() alreadyRunning,
+    required TResult Function() notRunning,
+    required TResult Function() onchainTxCreationFailed,
+    required TResult Function() connectionFailed,
+    required TResult Function() invoiceCreationFailed,
+    required TResult Function() paymentSendingFailed,
+    required TResult Function() probeSendingFailed,
+    required TResult Function() channelCreationFailed,
+    required TResult Function() channelClosingFailed,
+    required TResult Function() channelConfigUpdateFailed,
+    required TResult Function() persistenceFailed,
+    required TResult Function() walletOperationFailed,
+    required TResult Function() onchainTxSigningFailed,
+    required TResult Function() messageSigningFailed,
+    required TResult Function() txSyncFailed,
+    required TResult Function() gossipUpdateFailed,
+    required TResult Function() invalidAddress,
+    required TResult Function() invalidSocketAddress,
+    required TResult Function() invalidPublicKey,
+    required TResult Function() invalidSecretKey,
+    required TResult Function() invalidPaymentHash,
+    required TResult Function() invalidPaymentPreimage,
+    required TResult Function() invalidPaymentSecret,
+    required TResult Function() invalidAmount,
+    required TResult Function() invalidInvoice,
+    required TResult Function() invalidChannelId,
+    required TResult Function() invalidNetwork,
+    required TResult Function() duplicatePayment,
+    required TResult Function() insufficientFunds,
+    required TResult Function() feerateEstimationUpdateFailed,
+    required TResult Function() liquidityRequestFailed,
+    required TResult Function() liquiditySourceUnavailable,
+    required TResult Function() liquidityFeeTooHigh,
+    required TResult Function() invalidPaymentId,
+    required TResult Function(DecodeError field0) decode,
+    required TResult Function(Bolt12ParseError field0) bolt12Parse,
+    required TResult Function() invoiceRequestCreationFailed,
+    required TResult Function() offerCreationFailed,
+    required TResult Function() refundCreationFailed,
+    required TResult Function() feerateEstimationUpdateTimeout,
+    required TResult Function() walletOperationTimeout,
+    required TResult Function() txSyncTimeout,
+    required TResult Function() gossipUpdateTimeout,
+    required TResult Function() invalidOfferId,
+    required TResult Function() invalidNodeId,
+    required TResult Function() invalidOffer,
+    required TResult Function() invalidRefund,
+    required TResult Function() unsupportedCurrency,
+    required TResult Function() uriParameterParsingFailed,
+    required TResult Function() invalidUri,
+    required TResult Function() invalidQuantity,
+    required TResult Function() invalidNodeAlias,
+    required TResult Function() invalidCustomTlvs,
+    required TResult Function() invalidDateTime,
+    required TResult Function() invalidFeeRate,
+    required TResult Function(FfiCreationError field0) creationError,
+  }) {
+    return creationError(field0);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? invalidTxid,
+    TResult? Function()? alreadyRunning,
+    TResult? Function()? notRunning,
+    TResult? Function()? onchainTxCreationFailed,
+    TResult? Function()? connectionFailed,
+    TResult? Function()? invoiceCreationFailed,
+    TResult? Function()? paymentSendingFailed,
+    TResult? Function()? probeSendingFailed,
+    TResult? Function()? channelCreationFailed,
+    TResult? Function()? channelClosingFailed,
+    TResult? Function()? channelConfigUpdateFailed,
+    TResult? Function()? persistenceFailed,
+    TResult? Function()? walletOperationFailed,
+    TResult? Function()? onchainTxSigningFailed,
+    TResult? Function()? messageSigningFailed,
+    TResult? Function()? txSyncFailed,
+    TResult? Function()? gossipUpdateFailed,
+    TResult? Function()? invalidAddress,
+    TResult? Function()? invalidSocketAddress,
+    TResult? Function()? invalidPublicKey,
+    TResult? Function()? invalidSecretKey,
+    TResult? Function()? invalidPaymentHash,
+    TResult? Function()? invalidPaymentPreimage,
+    TResult? Function()? invalidPaymentSecret,
+    TResult? Function()? invalidAmount,
+    TResult? Function()? invalidInvoice,
+    TResult? Function()? invalidChannelId,
+    TResult? Function()? invalidNetwork,
+    TResult? Function()? duplicatePayment,
+    TResult? Function()? insufficientFunds,
+    TResult? Function()? feerateEstimationUpdateFailed,
+    TResult? Function()? liquidityRequestFailed,
+    TResult? Function()? liquiditySourceUnavailable,
+    TResult? Function()? liquidityFeeTooHigh,
+    TResult? Function()? invalidPaymentId,
+    TResult? Function(DecodeError field0)? decode,
+    TResult? Function(Bolt12ParseError field0)? bolt12Parse,
+    TResult? Function()? invoiceRequestCreationFailed,
+    TResult? Function()? offerCreationFailed,
+    TResult? Function()? refundCreationFailed,
+    TResult? Function()? feerateEstimationUpdateTimeout,
+    TResult? Function()? walletOperationTimeout,
+    TResult? Function()? txSyncTimeout,
+    TResult? Function()? gossipUpdateTimeout,
+    TResult? Function()? invalidOfferId,
+    TResult? Function()? invalidNodeId,
+    TResult? Function()? invalidOffer,
+    TResult? Function()? invalidRefund,
+    TResult? Function()? unsupportedCurrency,
+    TResult? Function()? uriParameterParsingFailed,
+    TResult? Function()? invalidUri,
+    TResult? Function()? invalidQuantity,
+    TResult? Function()? invalidNodeAlias,
+    TResult? Function()? invalidCustomTlvs,
+    TResult? Function()? invalidDateTime,
+    TResult? Function()? invalidFeeRate,
+    TResult? Function(FfiCreationError field0)? creationError,
+  }) {
+    return creationError?.call(field0);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? invalidTxid,
+    TResult Function()? alreadyRunning,
+    TResult Function()? notRunning,
+    TResult Function()? onchainTxCreationFailed,
+    TResult Function()? connectionFailed,
+    TResult Function()? invoiceCreationFailed,
+    TResult Function()? paymentSendingFailed,
+    TResult Function()? probeSendingFailed,
+    TResult Function()? channelCreationFailed,
+    TResult Function()? channelClosingFailed,
+    TResult Function()? channelConfigUpdateFailed,
+    TResult Function()? persistenceFailed,
+    TResult Function()? walletOperationFailed,
+    TResult Function()? onchainTxSigningFailed,
+    TResult Function()? messageSigningFailed,
+    TResult Function()? txSyncFailed,
+    TResult Function()? gossipUpdateFailed,
+    TResult Function()? invalidAddress,
+    TResult Function()? invalidSocketAddress,
+    TResult Function()? invalidPublicKey,
+    TResult Function()? invalidSecretKey,
+    TResult Function()? invalidPaymentHash,
+    TResult Function()? invalidPaymentPreimage,
+    TResult Function()? invalidPaymentSecret,
+    TResult Function()? invalidAmount,
+    TResult Function()? invalidInvoice,
+    TResult Function()? invalidChannelId,
+    TResult Function()? invalidNetwork,
+    TResult Function()? duplicatePayment,
+    TResult Function()? insufficientFunds,
+    TResult Function()? feerateEstimationUpdateFailed,
+    TResult Function()? liquidityRequestFailed,
+    TResult Function()? liquiditySourceUnavailable,
+    TResult Function()? liquidityFeeTooHigh,
+    TResult Function()? invalidPaymentId,
+    TResult Function(DecodeError field0)? decode,
+    TResult Function(Bolt12ParseError field0)? bolt12Parse,
+    TResult Function()? invoiceRequestCreationFailed,
+    TResult Function()? offerCreationFailed,
+    TResult Function()? refundCreationFailed,
+    TResult Function()? feerateEstimationUpdateTimeout,
+    TResult Function()? walletOperationTimeout,
+    TResult Function()? txSyncTimeout,
+    TResult Function()? gossipUpdateTimeout,
+    TResult Function()? invalidOfferId,
+    TResult Function()? invalidNodeId,
+    TResult Function()? invalidOffer,
+    TResult Function()? invalidRefund,
+    TResult Function()? unsupportedCurrency,
+    TResult Function()? uriParameterParsingFailed,
+    TResult Function()? invalidUri,
+    TResult Function()? invalidQuantity,
+    TResult Function()? invalidNodeAlias,
+    TResult Function()? invalidCustomTlvs,
+    TResult Function()? invalidDateTime,
+    TResult Function()? invalidFeeRate,
+    TResult Function(FfiCreationError field0)? creationError,
+    required TResult orElse(),
+  }) {
+    if (creationError != null) {
+      return creationError(field0);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(FfiNodeError_InvalidTxid value) invalidTxid,
+    required TResult Function(FfiNodeError_AlreadyRunning value) alreadyRunning,
+    required TResult Function(FfiNodeError_NotRunning value) notRunning,
+    required TResult Function(FfiNodeError_OnchainTxCreationFailed value)
+        onchainTxCreationFailed,
+    required TResult Function(FfiNodeError_ConnectionFailed value)
+        connectionFailed,
+    required TResult Function(FfiNodeError_InvoiceCreationFailed value)
+        invoiceCreationFailed,
+    required TResult Function(FfiNodeError_PaymentSendingFailed value)
+        paymentSendingFailed,
+    required TResult Function(FfiNodeError_ProbeSendingFailed value)
+        probeSendingFailed,
+    required TResult Function(FfiNodeError_ChannelCreationFailed value)
+        channelCreationFailed,
+    required TResult Function(FfiNodeError_ChannelClosingFailed value)
+        channelClosingFailed,
+    required TResult Function(FfiNodeError_ChannelConfigUpdateFailed value)
+        channelConfigUpdateFailed,
+    required TResult Function(FfiNodeError_PersistenceFailed value)
+        persistenceFailed,
+    required TResult Function(FfiNodeError_WalletOperationFailed value)
+        walletOperationFailed,
+    required TResult Function(FfiNodeError_OnchainTxSigningFailed value)
+        onchainTxSigningFailed,
+    required TResult Function(FfiNodeError_MessageSigningFailed value)
+        messageSigningFailed,
+    required TResult Function(FfiNodeError_TxSyncFailed value) txSyncFailed,
+    required TResult Function(FfiNodeError_GossipUpdateFailed value)
+        gossipUpdateFailed,
+    required TResult Function(FfiNodeError_InvalidAddress value) invalidAddress,
+    required TResult Function(FfiNodeError_InvalidSocketAddress value)
+        invalidSocketAddress,
+    required TResult Function(FfiNodeError_InvalidPublicKey value)
+        invalidPublicKey,
+    required TResult Function(FfiNodeError_InvalidSecretKey value)
+        invalidSecretKey,
+    required TResult Function(FfiNodeError_InvalidPaymentHash value)
+        invalidPaymentHash,
+    required TResult Function(FfiNodeError_InvalidPaymentPreimage value)
+        invalidPaymentPreimage,
+    required TResult Function(FfiNodeError_InvalidPaymentSecret value)
+        invalidPaymentSecret,
+    required TResult Function(FfiNodeError_InvalidAmount value) invalidAmount,
+    required TResult Function(FfiNodeError_InvalidInvoice value) invalidInvoice,
+    required TResult Function(FfiNodeError_InvalidChannelId value)
+        invalidChannelId,
+    required TResult Function(FfiNodeError_InvalidNetwork value) invalidNetwork,
+    required TResult Function(FfiNodeError_DuplicatePayment value)
+        duplicatePayment,
+    required TResult Function(FfiNodeError_InsufficientFunds value)
+        insufficientFunds,
+    required TResult Function(FfiNodeError_FeerateEstimationUpdateFailed value)
+        feerateEstimationUpdateFailed,
+    required TResult Function(FfiNodeError_LiquidityRequestFailed value)
+        liquidityRequestFailed,
+    required TResult Function(FfiNodeError_LiquiditySourceUnavailable value)
+        liquiditySourceUnavailable,
+    required TResult Function(FfiNodeError_LiquidityFeeTooHigh value)
+        liquidityFeeTooHigh,
+    required TResult Function(FfiNodeError_InvalidPaymentId value)
+        invalidPaymentId,
+    required TResult Function(FfiNodeError_Decode value) decode,
+    required TResult Function(FfiNodeError_Bolt12Parse value) bolt12Parse,
+    required TResult Function(FfiNodeError_InvoiceRequestCreationFailed value)
+        invoiceRequestCreationFailed,
+    required TResult Function(FfiNodeError_OfferCreationFailed value)
+        offerCreationFailed,
+    required TResult Function(FfiNodeError_RefundCreationFailed value)
+        refundCreationFailed,
+    required TResult Function(FfiNodeError_FeerateEstimationUpdateTimeout value)
+        feerateEstimationUpdateTimeout,
+    required TResult Function(FfiNodeError_WalletOperationTimeout value)
+        walletOperationTimeout,
+    required TResult Function(FfiNodeError_TxSyncTimeout value) txSyncTimeout,
+    required TResult Function(FfiNodeError_GossipUpdateTimeout value)
+        gossipUpdateTimeout,
+    required TResult Function(FfiNodeError_InvalidOfferId value) invalidOfferId,
+    required TResult Function(FfiNodeError_InvalidNodeId value) invalidNodeId,
+    required TResult Function(FfiNodeError_InvalidOffer value) invalidOffer,
+    required TResult Function(FfiNodeError_InvalidRefund value) invalidRefund,
+    required TResult Function(FfiNodeError_UnsupportedCurrency value)
+        unsupportedCurrency,
+    required TResult Function(FfiNodeError_UriParameterParsingFailed value)
+        uriParameterParsingFailed,
+    required TResult Function(FfiNodeError_InvalidUri value) invalidUri,
+    required TResult Function(FfiNodeError_InvalidQuantity value)
+        invalidQuantity,
+    required TResult Function(FfiNodeError_InvalidNodeAlias value)
+        invalidNodeAlias,
+    required TResult Function(FfiNodeError_InvalidCustomTlvs value)
+        invalidCustomTlvs,
+    required TResult Function(FfiNodeError_InvalidDateTime value)
+        invalidDateTime,
+    required TResult Function(FfiNodeError_InvalidFeeRate value) invalidFeeRate,
+    required TResult Function(FfiNodeError_CreationError value) creationError,
+  }) {
+    return creationError(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(FfiNodeError_InvalidTxid value)? invalidTxid,
+    TResult? Function(FfiNodeError_AlreadyRunning value)? alreadyRunning,
+    TResult? Function(FfiNodeError_NotRunning value)? notRunning,
+    TResult? Function(FfiNodeError_OnchainTxCreationFailed value)?
+        onchainTxCreationFailed,
+    TResult? Function(FfiNodeError_ConnectionFailed value)? connectionFailed,
+    TResult? Function(FfiNodeError_InvoiceCreationFailed value)?
+        invoiceCreationFailed,
+    TResult? Function(FfiNodeError_PaymentSendingFailed value)?
+        paymentSendingFailed,
+    TResult? Function(FfiNodeError_ProbeSendingFailed value)?
+        probeSendingFailed,
+    TResult? Function(FfiNodeError_ChannelCreationFailed value)?
+        channelCreationFailed,
+    TResult? Function(FfiNodeError_ChannelClosingFailed value)?
+        channelClosingFailed,
+    TResult? Function(FfiNodeError_ChannelConfigUpdateFailed value)?
+        channelConfigUpdateFailed,
+    TResult? Function(FfiNodeError_PersistenceFailed value)? persistenceFailed,
+    TResult? Function(FfiNodeError_WalletOperationFailed value)?
+        walletOperationFailed,
+    TResult? Function(FfiNodeError_OnchainTxSigningFailed value)?
+        onchainTxSigningFailed,
+    TResult? Function(FfiNodeError_MessageSigningFailed value)?
+        messageSigningFailed,
+    TResult? Function(FfiNodeError_TxSyncFailed value)? txSyncFailed,
+    TResult? Function(FfiNodeError_GossipUpdateFailed value)?
+        gossipUpdateFailed,
+    TResult? Function(FfiNodeError_InvalidAddress value)? invalidAddress,
+    TResult? Function(FfiNodeError_InvalidSocketAddress value)?
+        invalidSocketAddress,
+    TResult? Function(FfiNodeError_InvalidPublicKey value)? invalidPublicKey,
+    TResult? Function(FfiNodeError_InvalidSecretKey value)? invalidSecretKey,
+    TResult? Function(FfiNodeError_InvalidPaymentHash value)?
+        invalidPaymentHash,
+    TResult? Function(FfiNodeError_InvalidPaymentPreimage value)?
+        invalidPaymentPreimage,
+    TResult? Function(FfiNodeError_InvalidPaymentSecret value)?
+        invalidPaymentSecret,
+    TResult? Function(FfiNodeError_InvalidAmount value)? invalidAmount,
+    TResult? Function(FfiNodeError_InvalidInvoice value)? invalidInvoice,
+    TResult? Function(FfiNodeError_InvalidChannelId value)? invalidChannelId,
+    TResult? Function(FfiNodeError_InvalidNetwork value)? invalidNetwork,
+    TResult? Function(FfiNodeError_DuplicatePayment value)? duplicatePayment,
+    TResult? Function(FfiNodeError_InsufficientFunds value)? insufficientFunds,
+    TResult? Function(FfiNodeError_FeerateEstimationUpdateFailed value)?
+        feerateEstimationUpdateFailed,
+    TResult? Function(FfiNodeError_LiquidityRequestFailed value)?
+        liquidityRequestFailed,
+    TResult? Function(FfiNodeError_LiquiditySourceUnavailable value)?
+        liquiditySourceUnavailable,
+    TResult? Function(FfiNodeError_LiquidityFeeTooHigh value)?
+        liquidityFeeTooHigh,
+    TResult? Function(FfiNodeError_InvalidPaymentId value)? invalidPaymentId,
+    TResult? Function(FfiNodeError_Decode value)? decode,
+    TResult? Function(FfiNodeError_Bolt12Parse value)? bolt12Parse,
+    TResult? Function(FfiNodeError_InvoiceRequestCreationFailed value)?
+        invoiceRequestCreationFailed,
+    TResult? Function(FfiNodeError_OfferCreationFailed value)?
+        offerCreationFailed,
+    TResult? Function(FfiNodeError_RefundCreationFailed value)?
+        refundCreationFailed,
+    TResult? Function(FfiNodeError_FeerateEstimationUpdateTimeout value)?
+        feerateEstimationUpdateTimeout,
+    TResult? Function(FfiNodeError_WalletOperationTimeout value)?
+        walletOperationTimeout,
+    TResult? Function(FfiNodeError_TxSyncTimeout value)? txSyncTimeout,
+    TResult? Function(FfiNodeError_GossipUpdateTimeout value)?
+        gossipUpdateTimeout,
+    TResult? Function(FfiNodeError_InvalidOfferId value)? invalidOfferId,
+    TResult? Function(FfiNodeError_InvalidNodeId value)? invalidNodeId,
+    TResult? Function(FfiNodeError_InvalidOffer value)? invalidOffer,
+    TResult? Function(FfiNodeError_InvalidRefund value)? invalidRefund,
+    TResult? Function(FfiNodeError_UnsupportedCurrency value)?
+        unsupportedCurrency,
+    TResult? Function(FfiNodeError_UriParameterParsingFailed value)?
+        uriParameterParsingFailed,
+    TResult? Function(FfiNodeError_InvalidUri value)? invalidUri,
+    TResult? Function(FfiNodeError_InvalidQuantity value)? invalidQuantity,
+    TResult? Function(FfiNodeError_InvalidNodeAlias value)? invalidNodeAlias,
+    TResult? Function(FfiNodeError_InvalidCustomTlvs value)? invalidCustomTlvs,
+    TResult? Function(FfiNodeError_InvalidDateTime value)? invalidDateTime,
+    TResult? Function(FfiNodeError_InvalidFeeRate value)? invalidFeeRate,
+    TResult? Function(FfiNodeError_CreationError value)? creationError,
+  }) {
+    return creationError?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(FfiNodeError_InvalidTxid value)? invalidTxid,
+    TResult Function(FfiNodeError_AlreadyRunning value)? alreadyRunning,
+    TResult Function(FfiNodeError_NotRunning value)? notRunning,
+    TResult Function(FfiNodeError_OnchainTxCreationFailed value)?
+        onchainTxCreationFailed,
+    TResult Function(FfiNodeError_ConnectionFailed value)? connectionFailed,
+    TResult Function(FfiNodeError_InvoiceCreationFailed value)?
+        invoiceCreationFailed,
+    TResult Function(FfiNodeError_PaymentSendingFailed value)?
+        paymentSendingFailed,
+    TResult Function(FfiNodeError_ProbeSendingFailed value)? probeSendingFailed,
+    TResult Function(FfiNodeError_ChannelCreationFailed value)?
+        channelCreationFailed,
+    TResult Function(FfiNodeError_ChannelClosingFailed value)?
+        channelClosingFailed,
+    TResult Function(FfiNodeError_ChannelConfigUpdateFailed value)?
+        channelConfigUpdateFailed,
+    TResult Function(FfiNodeError_PersistenceFailed value)? persistenceFailed,
+    TResult Function(FfiNodeError_WalletOperationFailed value)?
+        walletOperationFailed,
+    TResult Function(FfiNodeError_OnchainTxSigningFailed value)?
+        onchainTxSigningFailed,
+    TResult Function(FfiNodeError_MessageSigningFailed value)?
+        messageSigningFailed,
+    TResult Function(FfiNodeError_TxSyncFailed value)? txSyncFailed,
+    TResult Function(FfiNodeError_GossipUpdateFailed value)? gossipUpdateFailed,
+    TResult Function(FfiNodeError_InvalidAddress value)? invalidAddress,
+    TResult Function(FfiNodeError_InvalidSocketAddress value)?
+        invalidSocketAddress,
+    TResult Function(FfiNodeError_InvalidPublicKey value)? invalidPublicKey,
+    TResult Function(FfiNodeError_InvalidSecretKey value)? invalidSecretKey,
+    TResult Function(FfiNodeError_InvalidPaymentHash value)? invalidPaymentHash,
+    TResult Function(FfiNodeError_InvalidPaymentPreimage value)?
+        invalidPaymentPreimage,
+    TResult Function(FfiNodeError_InvalidPaymentSecret value)?
+        invalidPaymentSecret,
+    TResult Function(FfiNodeError_InvalidAmount value)? invalidAmount,
+    TResult Function(FfiNodeError_InvalidInvoice value)? invalidInvoice,
+    TResult Function(FfiNodeError_InvalidChannelId value)? invalidChannelId,
+    TResult Function(FfiNodeError_InvalidNetwork value)? invalidNetwork,
+    TResult Function(FfiNodeError_DuplicatePayment value)? duplicatePayment,
+    TResult Function(FfiNodeError_InsufficientFunds value)? insufficientFunds,
+    TResult Function(FfiNodeError_FeerateEstimationUpdateFailed value)?
+        feerateEstimationUpdateFailed,
+    TResult Function(FfiNodeError_LiquidityRequestFailed value)?
+        liquidityRequestFailed,
+    TResult Function(FfiNodeError_LiquiditySourceUnavailable value)?
+        liquiditySourceUnavailable,
+    TResult Function(FfiNodeError_LiquidityFeeTooHigh value)?
+        liquidityFeeTooHigh,
+    TResult Function(FfiNodeError_InvalidPaymentId value)? invalidPaymentId,
+    TResult Function(FfiNodeError_Decode value)? decode,
+    TResult Function(FfiNodeError_Bolt12Parse value)? bolt12Parse,
+    TResult Function(FfiNodeError_InvoiceRequestCreationFailed value)?
+        invoiceRequestCreationFailed,
+    TResult Function(FfiNodeError_OfferCreationFailed value)?
+        offerCreationFailed,
+    TResult Function(FfiNodeError_RefundCreationFailed value)?
+        refundCreationFailed,
+    TResult Function(FfiNodeError_FeerateEstimationUpdateTimeout value)?
+        feerateEstimationUpdateTimeout,
+    TResult Function(FfiNodeError_WalletOperationTimeout value)?
+        walletOperationTimeout,
+    TResult Function(FfiNodeError_TxSyncTimeout value)? txSyncTimeout,
+    TResult Function(FfiNodeError_GossipUpdateTimeout value)?
+        gossipUpdateTimeout,
+    TResult Function(FfiNodeError_InvalidOfferId value)? invalidOfferId,
+    TResult Function(FfiNodeError_InvalidNodeId value)? invalidNodeId,
+    TResult Function(FfiNodeError_InvalidOffer value)? invalidOffer,
+    TResult Function(FfiNodeError_InvalidRefund value)? invalidRefund,
+    TResult Function(FfiNodeError_UnsupportedCurrency value)?
+        unsupportedCurrency,
+    TResult Function(FfiNodeError_UriParameterParsingFailed value)?
+        uriParameterParsingFailed,
+    TResult Function(FfiNodeError_InvalidUri value)? invalidUri,
+    TResult Function(FfiNodeError_InvalidQuantity value)? invalidQuantity,
+    TResult Function(FfiNodeError_InvalidNodeAlias value)? invalidNodeAlias,
+    TResult Function(FfiNodeError_InvalidCustomTlvs value)? invalidCustomTlvs,
+    TResult Function(FfiNodeError_InvalidDateTime value)? invalidDateTime,
+    TResult Function(FfiNodeError_InvalidFeeRate value)? invalidFeeRate,
+    TResult Function(FfiNodeError_CreationError value)? creationError,
+    required TResult orElse(),
+  }) {
+    if (creationError != null) {
+      return creationError(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class FfiNodeError_CreationError extends FfiNodeError {
+  const factory FfiNodeError_CreationError(final FfiCreationError field0) =
+      _$FfiNodeError_CreationErrorImpl;
+  const FfiNodeError_CreationError._() : super._();
+
+  FfiCreationError get field0;
+
+  /// Create a copy of FfiNodeError
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$FfiNodeError_CreationErrorImplCopyWith<_$FfiNodeError_CreationErrorImpl>
+      get copyWith => throw _privateConstructorUsedError;
 }

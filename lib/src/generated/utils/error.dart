@@ -86,6 +86,30 @@ enum FfiBuilderError {
   /// We failed to setup the logger.
   loggerSetupFailed,
   invalidPublicKey,
+  invalidAnnouncementAddresses,
+  networkMismatch,
+  ;
+}
+
+/// Errors that may occur when constructing a new [`RawBolt11Invoice`] or [`Bolt11Invoice`]
+enum FfiCreationError {
+  /// The supplied description string was longer than 639 __bytes__ (see [`Description::new`])
+  descriptionTooLong,
+
+  /// The specified route has too many hops and can't be encoded
+  routeTooLong,
+
+  /// The Unix timestamp of the supplied date is less than zero or greater than 35-bits
+  timestampOutOfBounds,
+
+  /// The supplied millisatoshi amount was greater than the total bitcoin supply.
+  invalidAmount,
+
+  /// Route hints were required for this invoice and were missing.
+  missingRouteHints,
+
+  /// The provided `min_final_cltv_expiry_delta` was less than rust-lightning's minimum.
+  minFinalCltvExpiryDeltaTooShort,
   ;
 }
 
@@ -275,4 +299,11 @@ sealed class FfiNodeError with _$FfiNodeError implements FrbException {
   const factory FfiNodeError.invalidUri() = FfiNodeError_InvalidUri;
   const factory FfiNodeError.invalidQuantity() = FfiNodeError_InvalidQuantity;
   const factory FfiNodeError.invalidNodeAlias() = FfiNodeError_InvalidNodeAlias;
+  const factory FfiNodeError.invalidCustomTlvs() =
+      FfiNodeError_InvalidCustomTlvs;
+  const factory FfiNodeError.invalidDateTime() = FfiNodeError_InvalidDateTime;
+  const factory FfiNodeError.invalidFeeRate() = FfiNodeError_InvalidFeeRate;
+  const factory FfiNodeError.creationError(
+    FfiCreationError field0,
+  ) = FfiNodeError_CreationError;
 }

@@ -23,14 +23,29 @@ class FfiOnChainPayment {
         that: this,
       );
 
-  Future<Txid> sendAllToAddress({required Address address}) =>
+  /// Please note that if `retain_reserves` is set to `false` this will **not** retain any on-chain reserves, which might be potentially
+  /// dangerous if you have open Anchor channels for which you can't trust the counterparty to
+  /// spend the Anchor output after channel closure. If `retain_reserves` is set to `true`, this
+  /// will try to send all spendable onchain funds, i.e.,
+  Future<Txid> sendAllToAddress(
+          {required Address address,
+          required bool retainReserves,
+          FeeRate? feeRate}) =>
       core.instance.api.crateApiOnChainFfiOnChainPaymentSendAllToAddress(
-          that: this, address: address);
+          that: this,
+          address: address,
+          retainReserves: retainReserves,
+          feeRate: feeRate);
 
   Future<Txid> sendToAddress(
-          {required Address address, required BigInt amountSats}) =>
+          {required Address address,
+          required BigInt amountSats,
+          FeeRate? feeRate}) =>
       core.instance.api.crateApiOnChainFfiOnChainPaymentSendToAddress(
-          that: this, address: address, amountSats: amountSats);
+          that: this,
+          address: address,
+          amountSats: amountSats,
+          feeRate: feeRate);
 
   @override
   int get hashCode => opaque.hashCode;

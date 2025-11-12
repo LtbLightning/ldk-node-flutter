@@ -26,6 +26,7 @@
 // Section: imports
 
 use crate::api::builder::*;
+use crate::api::types::*;
 use crate::*;
 use flutter_rust_bridge::for_generated::byteorder::{NativeEndian, ReadBytesExt, WriteBytesExt};
 use flutter_rust_bridge::for_generated::{transform_result_dco, Lifetimeable, Lockable};
@@ -39,7 +40,7 @@ flutter_rust_bridge::frb_generated_boilerplate!(
     default_rust_auto_opaque = RustAutoOpaqueNom,
 );
 pub(crate) const FLUTTER_RUST_BRIDGE_CODEGEN_VERSION: &str = "2.11.1";
-pub(crate) const FLUTTER_RUST_BRIDGE_CODEGEN_CONTENT_HASH: i32 = 968713453;
+pub(crate) const FLUTTER_RUST_BRIDGE_CODEGEN_CONTENT_HASH: i32 = 611976355;
 
 // Section: executor
 
@@ -299,6 +300,451 @@ fn wire__crate__api__builder__FfiBuilder_create_builder_impl(
         },
     )
 }
+fn wire__crate__api__types__PaymentDetails_auto_accessor_get_amount_msat_impl(
+    that: impl CstDecode<
+        RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<PaymentDetails>>,
+    >,
+) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync::<flutter_rust_bridge::for_generated::DcoCodec, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "PaymentDetails_auto_accessor_get_amount_msat",
+            port: None,
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Sync,
+        },
+        move || {
+            let api_that = that.cst_decode();
+            transform_result_dco::<_, _, ()>((move || {
+                let mut api_that_guard = None;
+                let decode_indices_ =
+                    flutter_rust_bridge::for_generated::lockable_compute_decode_order(vec![
+                        flutter_rust_bridge::for_generated::LockableOrderInfo::new(
+                            &api_that, 0, false,
+                        ),
+                    ]);
+                for i in decode_indices_ {
+                    match i {
+                        0 => api_that_guard = Some(api_that.lockable_decode_sync_ref()),
+                        _ => unreachable!(),
+                    }
+                }
+                let api_that_guard = api_that_guard.unwrap();
+                let output_ok = Result::<_, ()>::Ok(api_that_guard.amount_msat.clone())?;
+                Ok(output_ok)
+            })())
+        },
+    )
+}
+fn wire__crate__api__types__PaymentDetails_auto_accessor_get_direction_impl(
+    that: impl CstDecode<
+        RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<PaymentDetails>>,
+    >,
+) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync::<flutter_rust_bridge::for_generated::DcoCodec, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "PaymentDetails_auto_accessor_get_direction",
+            port: None,
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Sync,
+        },
+        move || {
+            let api_that = that.cst_decode();
+            transform_result_dco::<_, _, ()>((move || {
+                let mut api_that_guard = None;
+                let decode_indices_ =
+                    flutter_rust_bridge::for_generated::lockable_compute_decode_order(vec![
+                        flutter_rust_bridge::for_generated::LockableOrderInfo::new(
+                            &api_that, 0, false,
+                        ),
+                    ]);
+                for i in decode_indices_ {
+                    match i {
+                        0 => api_that_guard = Some(api_that.lockable_decode_sync_ref()),
+                        _ => unreachable!(),
+                    }
+                }
+                let api_that_guard = api_that_guard.unwrap();
+                let output_ok = Result::<_, ()>::Ok(api_that_guard.direction.clone())?;
+                Ok(output_ok)
+            })())
+        },
+    )
+}
+fn wire__crate__api__types__PaymentDetails_auto_accessor_get_id_impl(
+    that: impl CstDecode<
+        RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<PaymentDetails>>,
+    >,
+) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync::<flutter_rust_bridge::for_generated::DcoCodec, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "PaymentDetails_auto_accessor_get_id",
+            port: None,
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Sync,
+        },
+        move || {
+            let api_that = that.cst_decode();
+            transform_result_dco::<_, _, ()>((move || {
+                let mut api_that_guard = None;
+                let decode_indices_ =
+                    flutter_rust_bridge::for_generated::lockable_compute_decode_order(vec![
+                        flutter_rust_bridge::for_generated::LockableOrderInfo::new(
+                            &api_that, 0, false,
+                        ),
+                    ]);
+                for i in decode_indices_ {
+                    match i {
+                        0 => api_that_guard = Some(api_that.lockable_decode_sync_ref()),
+                        _ => unreachable!(),
+                    }
+                }
+                let api_that_guard = api_that_guard.unwrap();
+                let output_ok = Result::<_, ()>::Ok(api_that_guard.id.clone())?;
+                Ok(output_ok)
+            })())
+        },
+    )
+}
+fn wire__crate__api__types__PaymentDetails_auto_accessor_get_kind_impl(
+    that: impl CstDecode<
+        RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<PaymentDetails>>,
+    >,
+) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync::<flutter_rust_bridge::for_generated::DcoCodec, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "PaymentDetails_auto_accessor_get_kind",
+            port: None,
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Sync,
+        },
+        move || {
+            let api_that = that.cst_decode();
+            transform_result_dco::<_, _, ()>((move || {
+                let mut api_that_guard = None;
+                let decode_indices_ =
+                    flutter_rust_bridge::for_generated::lockable_compute_decode_order(vec![
+                        flutter_rust_bridge::for_generated::LockableOrderInfo::new(
+                            &api_that, 0, false,
+                        ),
+                    ]);
+                for i in decode_indices_ {
+                    match i {
+                        0 => api_that_guard = Some(api_that.lockable_decode_sync_ref()),
+                        _ => unreachable!(),
+                    }
+                }
+                let api_that_guard = api_that_guard.unwrap();
+                let output_ok = Result::<_, ()>::Ok(api_that_guard.kind.clone())?;
+                Ok(output_ok)
+            })())
+        },
+    )
+}
+fn wire__crate__api__types__PaymentDetails_auto_accessor_get_latest_update_timestamp_impl(
+    that: impl CstDecode<
+        RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<PaymentDetails>>,
+    >,
+) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync::<flutter_rust_bridge::for_generated::DcoCodec, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "PaymentDetails_auto_accessor_get_latest_update_timestamp",
+            port: None,
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Sync,
+        },
+        move || {
+            let api_that = that.cst_decode();
+            transform_result_dco::<_, _, ()>((move || {
+                let mut api_that_guard = None;
+                let decode_indices_ =
+                    flutter_rust_bridge::for_generated::lockable_compute_decode_order(vec![
+                        flutter_rust_bridge::for_generated::LockableOrderInfo::new(
+                            &api_that, 0, false,
+                        ),
+                    ]);
+                for i in decode_indices_ {
+                    match i {
+                        0 => api_that_guard = Some(api_that.lockable_decode_sync_ref()),
+                        _ => unreachable!(),
+                    }
+                }
+                let api_that_guard = api_that_guard.unwrap();
+                let output_ok =
+                    Result::<_, ()>::Ok(api_that_guard.latest_update_timestamp.clone())?;
+                Ok(output_ok)
+            })())
+        },
+    )
+}
+fn wire__crate__api__types__PaymentDetails_auto_accessor_get_status_impl(
+    that: impl CstDecode<
+        RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<PaymentDetails>>,
+    >,
+) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync::<flutter_rust_bridge::for_generated::DcoCodec, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "PaymentDetails_auto_accessor_get_status",
+            port: None,
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Sync,
+        },
+        move || {
+            let api_that = that.cst_decode();
+            transform_result_dco::<_, _, ()>((move || {
+                let mut api_that_guard = None;
+                let decode_indices_ =
+                    flutter_rust_bridge::for_generated::lockable_compute_decode_order(vec![
+                        flutter_rust_bridge::for_generated::LockableOrderInfo::new(
+                            &api_that, 0, false,
+                        ),
+                    ]);
+                for i in decode_indices_ {
+                    match i {
+                        0 => api_that_guard = Some(api_that.lockable_decode_sync_ref()),
+                        _ => unreachable!(),
+                    }
+                }
+                let api_that_guard = api_that_guard.unwrap();
+                let output_ok = Result::<_, ()>::Ok(api_that_guard.status.clone())?;
+                Ok(output_ok)
+            })())
+        },
+    )
+}
+fn wire__crate__api__types__PaymentDetails_auto_accessor_set_amount_msat_impl(
+    that: impl CstDecode<
+        RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<PaymentDetails>>,
+    >,
+    amount_msat: impl CstDecode<Option<u64>>,
+) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync::<flutter_rust_bridge::for_generated::DcoCodec, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "PaymentDetails_auto_accessor_set_amount_msat",
+            port: None,
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Sync,
+        },
+        move || {
+            let api_that = that.cst_decode();
+            let api_amount_msat = amount_msat.cst_decode();
+            transform_result_dco::<_, _, ()>((move || {
+                let mut api_that_guard = None;
+                let decode_indices_ =
+                    flutter_rust_bridge::for_generated::lockable_compute_decode_order(vec![
+                        flutter_rust_bridge::for_generated::LockableOrderInfo::new(
+                            &api_that, 0, true,
+                        ),
+                    ]);
+                for i in decode_indices_ {
+                    match i {
+                        0 => api_that_guard = Some(api_that.lockable_decode_sync_ref_mut()),
+                        _ => unreachable!(),
+                    }
+                }
+                let mut api_that_guard = api_that_guard.unwrap();
+                let output_ok = Result::<_, ()>::Ok({
+                    {
+                        api_that_guard.amount_msat = api_amount_msat;
+                    };
+                })?;
+                Ok(output_ok)
+            })())
+        },
+    )
+}
+fn wire__crate__api__types__PaymentDetails_auto_accessor_set_direction_impl(
+    that: impl CstDecode<
+        RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<PaymentDetails>>,
+    >,
+    direction: impl CstDecode<crate::api::types::PaymentDirection>,
+) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync::<flutter_rust_bridge::for_generated::DcoCodec, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "PaymentDetails_auto_accessor_set_direction",
+            port: None,
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Sync,
+        },
+        move || {
+            let api_that = that.cst_decode();
+            let api_direction = direction.cst_decode();
+            transform_result_dco::<_, _, ()>((move || {
+                let mut api_that_guard = None;
+                let decode_indices_ =
+                    flutter_rust_bridge::for_generated::lockable_compute_decode_order(vec![
+                        flutter_rust_bridge::for_generated::LockableOrderInfo::new(
+                            &api_that, 0, true,
+                        ),
+                    ]);
+                for i in decode_indices_ {
+                    match i {
+                        0 => api_that_guard = Some(api_that.lockable_decode_sync_ref_mut()),
+                        _ => unreachable!(),
+                    }
+                }
+                let mut api_that_guard = api_that_guard.unwrap();
+                let output_ok = Result::<_, ()>::Ok({
+                    {
+                        api_that_guard.direction = api_direction;
+                    };
+                })?;
+                Ok(output_ok)
+            })())
+        },
+    )
+}
+fn wire__crate__api__types__PaymentDetails_auto_accessor_set_id_impl(
+    that: impl CstDecode<
+        RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<PaymentDetails>>,
+    >,
+    id: impl CstDecode<crate::api::types::PaymentId>,
+) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync::<flutter_rust_bridge::for_generated::DcoCodec, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "PaymentDetails_auto_accessor_set_id",
+            port: None,
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Sync,
+        },
+        move || {
+            let api_that = that.cst_decode();
+            let api_id = id.cst_decode();
+            transform_result_dco::<_, _, ()>((move || {
+                let mut api_that_guard = None;
+                let decode_indices_ =
+                    flutter_rust_bridge::for_generated::lockable_compute_decode_order(vec![
+                        flutter_rust_bridge::for_generated::LockableOrderInfo::new(
+                            &api_that, 0, true,
+                        ),
+                    ]);
+                for i in decode_indices_ {
+                    match i {
+                        0 => api_that_guard = Some(api_that.lockable_decode_sync_ref_mut()),
+                        _ => unreachable!(),
+                    }
+                }
+                let mut api_that_guard = api_that_guard.unwrap();
+                let output_ok = Result::<_, ()>::Ok({
+                    {
+                        api_that_guard.id = api_id;
+                    };
+                })?;
+                Ok(output_ok)
+            })())
+        },
+    )
+}
+fn wire__crate__api__types__PaymentDetails_auto_accessor_set_kind_impl(
+    that: impl CstDecode<
+        RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<PaymentDetails>>,
+    >,
+    kind: impl CstDecode<PaymentKind>,
+) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync::<flutter_rust_bridge::for_generated::DcoCodec, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "PaymentDetails_auto_accessor_set_kind",
+            port: None,
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Sync,
+        },
+        move || {
+            let api_that = that.cst_decode();
+            let api_kind = kind.cst_decode();
+            transform_result_dco::<_, _, ()>((move || {
+                let mut api_that_guard = None;
+                let decode_indices_ =
+                    flutter_rust_bridge::for_generated::lockable_compute_decode_order(vec![
+                        flutter_rust_bridge::for_generated::LockableOrderInfo::new(
+                            &api_that, 0, true,
+                        ),
+                    ]);
+                for i in decode_indices_ {
+                    match i {
+                        0 => api_that_guard = Some(api_that.lockable_decode_sync_ref_mut()),
+                        _ => unreachable!(),
+                    }
+                }
+                let mut api_that_guard = api_that_guard.unwrap();
+                let output_ok = Result::<_, ()>::Ok({
+                    {
+                        api_that_guard.kind = api_kind;
+                    };
+                })?;
+                Ok(output_ok)
+            })())
+        },
+    )
+}
+fn wire__crate__api__types__PaymentDetails_auto_accessor_set_latest_update_timestamp_impl(
+    that: impl CstDecode<
+        RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<PaymentDetails>>,
+    >,
+    latest_update_timestamp: impl CstDecode<u64>,
+) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync::<flutter_rust_bridge::for_generated::DcoCodec, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "PaymentDetails_auto_accessor_set_latest_update_timestamp",
+            port: None,
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Sync,
+        },
+        move || {
+            let api_that = that.cst_decode();
+            let api_latest_update_timestamp = latest_update_timestamp.cst_decode();
+            transform_result_dco::<_, _, ()>((move || {
+                let mut api_that_guard = None;
+                let decode_indices_ =
+                    flutter_rust_bridge::for_generated::lockable_compute_decode_order(vec![
+                        flutter_rust_bridge::for_generated::LockableOrderInfo::new(
+                            &api_that, 0, true,
+                        ),
+                    ]);
+                for i in decode_indices_ {
+                    match i {
+                        0 => api_that_guard = Some(api_that.lockable_decode_sync_ref_mut()),
+                        _ => unreachable!(),
+                    }
+                }
+                let mut api_that_guard = api_that_guard.unwrap();
+                let output_ok = Result::<_, ()>::Ok({
+                    {
+                        api_that_guard.latest_update_timestamp = api_latest_update_timestamp;
+                    };
+                })?;
+                Ok(output_ok)
+            })())
+        },
+    )
+}
+fn wire__crate__api__types__PaymentDetails_auto_accessor_set_status_impl(
+    that: impl CstDecode<
+        RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<PaymentDetails>>,
+    >,
+    status: impl CstDecode<crate::api::types::PaymentStatus>,
+) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync::<flutter_rust_bridge::for_generated::DcoCodec, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "PaymentDetails_auto_accessor_set_status",
+            port: None,
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Sync,
+        },
+        move || {
+            let api_that = that.cst_decode();
+            let api_status = status.cst_decode();
+            transform_result_dco::<_, _, ()>((move || {
+                let mut api_that_guard = None;
+                let decode_indices_ =
+                    flutter_rust_bridge::for_generated::lockable_compute_decode_order(vec![
+                        flutter_rust_bridge::for_generated::LockableOrderInfo::new(
+                            &api_that, 0, true,
+                        ),
+                    ]);
+                for i in decode_indices_ {
+                    match i {
+                        0 => api_that_guard = Some(api_that.lockable_decode_sync_ref_mut()),
+                        _ => unreachable!(),
+                    }
+                }
+                let mut api_that_guard = api_that_guard.unwrap();
+                let output_ok = Result::<_, ()>::Ok({
+                    {
+                        api_that_guard.status = api_status;
+                    };
+                })?;
+                Ok(output_ok)
+            })())
+        },
+    )
+}
 fn wire__crate__api__types__anchor_channels_config_default_impl(
     port_: flutter_rust_bridge::for_generated::MessagePort,
 ) {
@@ -332,6 +778,132 @@ fn wire__crate__api__types__config_default_impl(
             move |context| {
                 transform_result_dco::<_, _, ()>((move || {
                     let output_ok = Result::<_, ()>::Ok(crate::api::types::Config::default())?;
+                    Ok(output_ok)
+                })())
+            }
+        },
+    )
+}
+fn wire__crate__api__types__fee_rate_from_sat_per_kwu_impl(
+    sat_kwu: impl CstDecode<u64>,
+) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync::<flutter_rust_bridge::for_generated::DcoCodec, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "fee_rate_from_sat_per_kwu",
+            port: None,
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Sync,
+        },
+        move || {
+            let api_sat_kwu = sat_kwu.cst_decode();
+            transform_result_dco::<_, _, ()>((move || {
+                let output_ok =
+                    Result::<_, ()>::Ok(crate::api::types::FeeRate::from_sat_per_kwu(api_sat_kwu))?;
+                Ok(output_ok)
+            })())
+        },
+    )
+}
+fn wire__crate__api__types__fee_rate_from_sat_per_vb_impl(
+    sat_vb: impl CstDecode<u64>,
+) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync::<flutter_rust_bridge::for_generated::DcoCodec, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "fee_rate_from_sat_per_vb",
+            port: None,
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Sync,
+        },
+        move || {
+            let api_sat_vb = sat_vb.cst_decode();
+            transform_result_dco::<_, _, ()>((move || {
+                let output_ok =
+                    Result::<_, ()>::Ok(crate::api::types::FeeRate::from_sat_per_vb(api_sat_vb))?;
+                Ok(output_ok)
+            })())
+        },
+    )
+}
+fn wire__crate__api__types__fee_rate_from_sat_per_vb_unchecked_impl(
+    sat_vb: impl CstDecode<u64>,
+) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync::<flutter_rust_bridge::for_generated::DcoCodec, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "fee_rate_from_sat_per_vb_unchecked",
+            port: None,
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Sync,
+        },
+        move || {
+            let api_sat_vb = sat_vb.cst_decode();
+            transform_result_dco::<_, _, ()>((move || {
+                let output_ok = Result::<_, ()>::Ok(
+                    crate::api::types::FeeRate::from_sat_per_vb_unchecked(api_sat_vb),
+                )?;
+                Ok(output_ok)
+            })())
+        },
+    )
+}
+fn wire__crate__api__types__fee_rate_to_sat_per_kwu_impl(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
+    that: impl CstDecode<crate::api::types::FeeRate>,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "fee_rate_to_sat_per_kwu",
+            port: Some(port_),
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
+        },
+        move || {
+            let api_that = that.cst_decode();
+            move |context| {
+                transform_result_dco::<_, _, ()>((move || {
+                    let output_ok =
+                        Result::<_, ()>::Ok(crate::api::types::FeeRate::to_sat_per_kwu(api_that))?;
+                    Ok(output_ok)
+                })())
+            }
+        },
+    )
+}
+fn wire__crate__api__types__fee_rate_to_sat_per_vb_ceil_impl(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
+    that: impl CstDecode<crate::api::types::FeeRate>,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "fee_rate_to_sat_per_vb_ceil",
+            port: Some(port_),
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
+        },
+        move || {
+            let api_that = that.cst_decode();
+            move |context| {
+                transform_result_dco::<_, _, ()>((move || {
+                    let output_ok = Result::<_, ()>::Ok(
+                        crate::api::types::FeeRate::to_sat_per_vb_ceil(api_that),
+                    )?;
+                    Ok(output_ok)
+                })())
+            }
+        },
+    )
+}
+fn wire__crate__api__types__fee_rate_to_sat_per_vb_floor_impl(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
+    that: impl CstDecode<crate::api::types::FeeRate>,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "fee_rate_to_sat_per_vb_floor",
+            port: Some(port_),
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
+        },
+        move || {
+            let api_that = that.cst_decode();
+            move |context| {
+                transform_result_dco::<_, _, ()>((move || {
+                    let output_ok = Result::<_, ()>::Ok(
+                        crate::api::types::FeeRate::to_sat_per_vb_floor(api_that),
+                    )?;
                     Ok(output_ok)
                 })())
             }
@@ -1180,12 +1752,11 @@ fn wire__crate__api__node__ffi_node_event_handled_impl(
         move || {
             let api_that = that.cst_decode();
             move |context| {
-                transform_result_dco::<_, _, ()>((move || {
-                    let output_ok = Result::<_, ()>::Ok({
-                        crate::api::node::FfiNode::event_handled(&api_that);
-                    })?;
+                transform_result_dco::<_, _, crate::utils::error::FfiNodeError>((move || {
+                    let output_ok = crate::api::node::FfiNode::event_handled(&api_that)?;
                     Ok(output_ok)
-                })())
+                })(
+                ))
             }
         },
     )
@@ -1875,6 +2446,8 @@ fn wire__crate__api__on_chain__ffi_on_chain_payment_send_all_to_address_impl(
     port_: flutter_rust_bridge::for_generated::MessagePort,
     that: impl CstDecode<crate::api::on_chain::FfiOnChainPayment>,
     address: impl CstDecode<crate::api::types::Address>,
+    retain_reserves: impl CstDecode<bool>,
+    fee_rate: impl CstDecode<Option<crate::api::types::FeeRate>>,
 ) {
     FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
         flutter_rust_bridge::for_generated::TaskInfo {
@@ -1885,11 +2458,15 @@ fn wire__crate__api__on_chain__ffi_on_chain_payment_send_all_to_address_impl(
         move || {
             let api_that = that.cst_decode();
             let api_address = address.cst_decode();
+            let api_retain_reserves = retain_reserves.cst_decode();
+            let api_fee_rate = fee_rate.cst_decode();
             move |context| {
                 transform_result_dco::<_, _, crate::utils::error::FfiNodeError>((move || {
                     let output_ok = crate::api::on_chain::FfiOnChainPayment::send_all_to_address(
                         &api_that,
                         api_address,
+                        api_retain_reserves,
+                        api_fee_rate,
                     )?;
                     Ok(output_ok)
                 })(
@@ -1903,6 +2480,7 @@ fn wire__crate__api__on_chain__ffi_on_chain_payment_send_to_address_impl(
     that: impl CstDecode<crate::api::on_chain::FfiOnChainPayment>,
     address: impl CstDecode<crate::api::types::Address>,
     amount_sats: impl CstDecode<u64>,
+    fee_rate: impl CstDecode<Option<crate::api::types::FeeRate>>,
 ) {
     FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
         flutter_rust_bridge::for_generated::TaskInfo {
@@ -1914,12 +2492,14 @@ fn wire__crate__api__on_chain__ffi_on_chain_payment_send_to_address_impl(
             let api_that = that.cst_decode();
             let api_address = address.cst_decode();
             let api_amount_sats = amount_sats.cst_decode();
+            let api_fee_rate = fee_rate.cst_decode();
             move |context| {
                 transform_result_dco::<_, _, crate::utils::error::FfiNodeError>((move || {
                     let output_ok = crate::api::on_chain::FfiOnChainPayment::send_to_address(
                         &api_that,
                         api_address,
                         api_amount_sats,
+                        api_fee_rate,
                     )?;
                     Ok(output_ok)
                 })(
@@ -2088,7 +2668,23 @@ impl CstDecode<crate::utils::error::FfiBuilderError> for i32 {
             11 => crate::utils::error::FfiBuilderError::WalletSetupFailed,
             12 => crate::utils::error::FfiBuilderError::LoggerSetupFailed,
             13 => crate::utils::error::FfiBuilderError::InvalidPublicKey,
+            14 => crate::utils::error::FfiBuilderError::InvalidAnnouncementAddresses,
+            15 => crate::utils::error::FfiBuilderError::NetworkMismatch,
             _ => unreachable!("Invalid variant for FfiBuilderError: {}", self),
+        }
+    }
+}
+impl CstDecode<crate::utils::error::FfiCreationError> for i32 {
+    // Codec=Cst (C-struct based), see doc to use other codecs
+    fn cst_decode(self) -> crate::utils::error::FfiCreationError {
+        match self {
+            0 => crate::utils::error::FfiCreationError::DescriptionTooLong,
+            1 => crate::utils::error::FfiCreationError::RouteTooLong,
+            2 => crate::utils::error::FfiCreationError::TimestampOutOfBounds,
+            3 => crate::utils::error::FfiCreationError::InvalidAmount,
+            4 => crate::utils::error::FfiCreationError::MissingRouteHints,
+            5 => crate::utils::error::FfiCreationError::MinFinalCltvExpiryDeltaTooShort,
+            _ => unreachable!("Invalid variant for FfiCreationError: {}", self),
         }
     }
 }
@@ -2096,20 +2692,6 @@ impl CstDecode<i32> for i32 {
     // Codec=Cst (C-struct based), see doc to use other codecs
     fn cst_decode(self) -> i32 {
         self
-    }
-}
-impl CstDecode<crate::api::types::LogLevel> for i32 {
-    // Codec=Cst (C-struct based), see doc to use other codecs
-    fn cst_decode(self) -> crate::api::types::LogLevel {
-        match self {
-            0 => crate::api::types::LogLevel::Gossip,
-            1 => crate::api::types::LogLevel::Trace,
-            2 => crate::api::types::LogLevel::Debug,
-            3 => crate::api::types::LogLevel::Info,
-            4 => crate::api::types::LogLevel::Warn,
-            5 => crate::api::types::LogLevel::Error,
-            _ => unreachable!("Invalid variant for LogLevel: {}", self),
-        }
     }
 }
 impl CstDecode<crate::api::types::Network> for i32 {
@@ -2147,6 +2729,7 @@ impl CstDecode<crate::api::types::PaymentFailureReason> for i32 {
             6 => crate::api::types::PaymentFailureReason::UnknownRequiredFeatures,
             7 => crate::api::types::PaymentFailureReason::InvoiceRequestExpired,
             8 => crate::api::types::PaymentFailureReason::InvoiceRequestRejected,
+            9 => crate::api::types::PaymentFailureReason::BlindedPathCreationFailed,
             _ => unreachable!("Invalid variant for PaymentFailureReason: {}", self),
         }
     }
@@ -2202,6 +2785,26 @@ impl SseDecode for FfiBuilder {
     }
 }
 
+impl SseDecode for PaymentDetails {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        let mut inner = <RustOpaqueNom<
+            flutter_rust_bridge::for_generated::RustAutoOpaqueInner<PaymentDetails>,
+        >>::sse_decode(deserializer);
+        return flutter_rust_bridge::for_generated::rust_auto_opaque_decode_owned(inner);
+    }
+}
+
+impl SseDecode for PaymentKind {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        let mut inner = <RustOpaqueNom<
+            flutter_rust_bridge::for_generated::RustAutoOpaqueInner<PaymentKind>,
+        >>::sse_decode(deserializer);
+        return flutter_rust_bridge::for_generated::rust_auto_opaque_decode_owned(inner);
+    }
+}
+
 impl SseDecode for std::collections::HashMap<String, String> {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
@@ -2212,6 +2815,26 @@ impl SseDecode for std::collections::HashMap<String, String> {
 
 impl SseDecode
     for RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<FfiBuilder>>
+{
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        let mut inner = <usize>::sse_decode(deserializer);
+        return unsafe { decode_rust_opaque_nom(inner) };
+    }
+}
+
+impl SseDecode
+    for RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<PaymentDetails>>
+{
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        let mut inner = <usize>::sse_decode(deserializer);
+        return unsafe { decode_rust_opaque_nom(inner) };
+    }
+}
+
+impl SseDecode
+    for RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<PaymentKind>>
 {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
@@ -2309,6 +2932,20 @@ impl SseDecode for crate::api::types::AnchorChannelsConfig {
         return crate::api::types::AnchorChannelsConfig {
             trusted_peers_no_reserve: var_trustedPeersNoReserve,
             per_channel_reserve_sats: var_perChannelReserveSats,
+        };
+    }
+}
+
+impl SseDecode for crate::api::types::BackgroundSyncConfig {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        let mut var_onchainWalletSyncIntervalSecs = <u64>::sse_decode(deserializer);
+        let mut var_lightningWalletSyncIntervalSecs = <u64>::sse_decode(deserializer);
+        let mut var_feeRateCacheUpdateIntervalSecs = <u64>::sse_decode(deserializer);
+        return crate::api::types::BackgroundSyncConfig {
+            onchain_wallet_sync_interval_secs: var_onchainWalletSyncIntervalSecs,
+            lightning_wallet_sync_interval_secs: var_lightningWalletSyncIntervalSecs,
+            fee_rate_cache_update_interval_secs: var_feeRateCacheUpdateIntervalSecs,
         };
     }
 }
@@ -2657,30 +3294,41 @@ impl SseDecode for crate::api::types::Config {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
         let mut var_storageDirPath = <String>::sse_decode(deserializer);
-        let mut var_logDirPath = <Option<String>>::sse_decode(deserializer);
         let mut var_network = <crate::api::types::Network>::sse_decode(deserializer);
         let mut var_listeningAddresses =
+            <Option<Vec<crate::api::types::SocketAddress>>>::sse_decode(deserializer);
+        let mut var_announcementAddresses =
             <Option<Vec<crate::api::types::SocketAddress>>>::sse_decode(deserializer);
         let mut var_nodeAlias = <Option<crate::api::types::NodeAlias>>::sse_decode(deserializer);
         let mut var_trustedPeers0Conf =
             <Vec<crate::api::types::PublicKey>>::sse_decode(deserializer);
         let mut var_probingLiquidityLimitMultiplier = <u64>::sse_decode(deserializer);
-        let mut var_logLevel = <crate::api::types::LogLevel>::sse_decode(deserializer);
         let mut var_anchorChannelsConfig =
             <Option<crate::api::types::AnchorChannelsConfig>>::sse_decode(deserializer);
         let mut var_sendingParameters =
             <Option<crate::api::types::SendingParameters>>::sse_decode(deserializer);
         return crate::api::types::Config {
             storage_dir_path: var_storageDirPath,
-            log_dir_path: var_logDirPath,
             network: var_network,
             listening_addresses: var_listeningAddresses,
+            announcement_addresses: var_announcementAddresses,
             node_alias: var_nodeAlias,
             trusted_peers_0conf: var_trustedPeers0Conf,
             probing_liquidity_limit_multiplier: var_probingLiquidityLimitMultiplier,
-            log_level: var_logLevel,
             anchor_channels_config: var_anchorChannelsConfig,
             sending_parameters: var_sendingParameters,
+        };
+    }
+}
+
+impl SseDecode for crate::api::types::CustomTlvRecord {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        let mut var_typeNum = <u64>::sse_decode(deserializer);
+        let mut var_value = <Vec<u8>>::sse_decode(deserializer);
+        return crate::api::types::CustomTlvRecord {
+            type_num: var_typeNum,
+            value: var_value,
         };
     }
 }
@@ -2753,13 +3401,10 @@ impl SseDecode for crate::api::types::EntropySourceConfig {
 impl SseDecode for crate::api::types::EsploraSyncConfig {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
-        let mut var_onchainWalletSyncIntervalSecs = <u64>::sse_decode(deserializer);
-        let mut var_lightningWalletSyncIntervalSecs = <u64>::sse_decode(deserializer);
-        let mut var_feeRateCacheUpdateIntervalSecs = <u64>::sse_decode(deserializer);
+        let mut var_backgroundSyncConfig =
+            <Option<crate::api::types::BackgroundSyncConfig>>::sse_decode(deserializer);
         return crate::api::types::EsploraSyncConfig {
-            onchain_wallet_sync_interval_secs: var_onchainWalletSyncIntervalSecs,
-            lightning_wallet_sync_interval_secs: var_lightningWalletSyncIntervalSecs,
-            fee_rate_cache_update_interval_secs: var_feeRateCacheUpdateIntervalSecs,
+            background_sync_config: var_backgroundSyncConfig,
         };
     }
 }
@@ -2775,11 +3420,14 @@ impl SseDecode for crate::api::types::Event {
                     <crate::api::types::PaymentHash>::sse_decode(deserializer);
                 let mut var_claimableAmountMsat = <u64>::sse_decode(deserializer);
                 let mut var_claimDeadline = <Option<u32>>::sse_decode(deserializer);
+                let mut var_customRecords =
+                    <Vec<crate::api::types::CustomTlvRecord>>::sse_decode(deserializer);
                 return crate::api::types::Event::PaymentClaimable {
                     payment_id: var_paymentId,
                     payment_hash: var_paymentHash,
                     claimable_amount_msat: var_claimableAmountMsat,
                     claim_deadline: var_claimDeadline,
+                    custom_records: var_customRecords,
                 };
             }
             1 => {
@@ -2788,10 +3436,13 @@ impl SseDecode for crate::api::types::Event {
                 let mut var_paymentHash =
                     <crate::api::types::PaymentHash>::sse_decode(deserializer);
                 let mut var_feePaidMsat = <Option<u64>>::sse_decode(deserializer);
+                let mut var_preimage =
+                    <Option<crate::api::types::PaymentPreimage>>::sse_decode(deserializer);
                 return crate::api::types::Event::PaymentSuccessful {
                     payment_id: var_paymentId,
                     payment_hash: var_paymentHash,
                     fee_paid_msat: var_feePaidMsat,
+                    preimage: var_preimage,
                 };
             }
             2 => {
@@ -2813,10 +3464,13 @@ impl SseDecode for crate::api::types::Event {
                 let mut var_paymentHash =
                     <crate::api::types::PaymentHash>::sse_decode(deserializer);
                 let mut var_amountMsat = <u64>::sse_decode(deserializer);
+                let mut var_customRecords =
+                    <Vec<crate::api::types::CustomTlvRecord>>::sse_decode(deserializer);
                 return crate::api::types::Event::PaymentReceived {
                     payment_id: var_paymentId,
                     payment_hash: var_paymentHash,
                     amount_msat: var_amountMsat,
+                    custom_records: var_customRecords,
                 };
             }
             4 => {
@@ -2863,10 +3517,48 @@ impl SseDecode for crate::api::types::Event {
                     reason: var_reason,
                 };
             }
+            7 => {
+                let mut var_prevChannelId =
+                    <crate::api::types::ChannelId>::sse_decode(deserializer);
+                let mut var_nextChannelId =
+                    <crate::api::types::ChannelId>::sse_decode(deserializer);
+                let mut var_prevUserChannelId =
+                    <Option<crate::api::types::UserChannelId>>::sse_decode(deserializer);
+                let mut var_nextUserChannelId =
+                    <Option<crate::api::types::UserChannelId>>::sse_decode(deserializer);
+                let mut var_prevNodeId =
+                    <Option<crate::api::types::PublicKey>>::sse_decode(deserializer);
+                let mut var_nextNodeId =
+                    <Option<crate::api::types::PublicKey>>::sse_decode(deserializer);
+                let mut var_totalFeeEarnedMsat = <Option<u64>>::sse_decode(deserializer);
+                let mut var_skimmedFeeMsat = <Option<u64>>::sse_decode(deserializer);
+                let mut var_claimFromOnchainTx = <bool>::sse_decode(deserializer);
+                let mut var_outboundAmountForwardedMsat = <Option<u64>>::sse_decode(deserializer);
+                return crate::api::types::Event::PaymentForwarded {
+                    prev_channel_id: var_prevChannelId,
+                    next_channel_id: var_nextChannelId,
+                    prev_user_channel_id: var_prevUserChannelId,
+                    next_user_channel_id: var_nextUserChannelId,
+                    prev_node_id: var_prevNodeId,
+                    next_node_id: var_nextNodeId,
+                    total_fee_earned_msat: var_totalFeeEarnedMsat,
+                    skimmed_fee_msat: var_skimmedFeeMsat,
+                    claim_from_onchain_tx: var_claimFromOnchainTx,
+                    outbound_amount_forwarded_msat: var_outboundAmountForwardedMsat,
+                };
+            }
             _ => {
                 unimplemented!("");
             }
         }
+    }
+}
+
+impl SseDecode for crate::api::types::FeeRate {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        let mut var_field0 = <u64>::sse_decode(deserializer);
+        return crate::api::types::FeeRate(var_field0);
     }
 }
 
@@ -2907,7 +3599,25 @@ impl SseDecode for crate::utils::error::FfiBuilderError {
             11 => crate::utils::error::FfiBuilderError::WalletSetupFailed,
             12 => crate::utils::error::FfiBuilderError::LoggerSetupFailed,
             13 => crate::utils::error::FfiBuilderError::InvalidPublicKey,
+            14 => crate::utils::error::FfiBuilderError::InvalidAnnouncementAddresses,
+            15 => crate::utils::error::FfiBuilderError::NetworkMismatch,
             _ => unreachable!("Invalid variant for FfiBuilderError: {}", inner),
+        };
+    }
+}
+
+impl SseDecode for crate::utils::error::FfiCreationError {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        let mut inner = <i32>::sse_decode(deserializer);
+        return match inner {
+            0 => crate::utils::error::FfiCreationError::DescriptionTooLong,
+            1 => crate::utils::error::FfiCreationError::RouteTooLong,
+            2 => crate::utils::error::FfiCreationError::TimestampOutOfBounds,
+            3 => crate::utils::error::FfiCreationError::InvalidAmount,
+            4 => crate::utils::error::FfiCreationError::MissingRouteHints,
+            5 => crate::utils::error::FfiCreationError::MinFinalCltvExpiryDeltaTooShort,
+            _ => unreachable!("Invalid variant for FfiCreationError: {}", inner),
         };
     }
 }
@@ -3106,6 +3816,20 @@ impl SseDecode for crate::utils::error::FfiNodeError {
             52 => {
                 return crate::utils::error::FfiNodeError::InvalidNodeAlias;
             }
+            53 => {
+                return crate::utils::error::FfiNodeError::InvalidCustomTlvs;
+            }
+            54 => {
+                return crate::utils::error::FfiNodeError::InvalidDateTime;
+            }
+            55 => {
+                return crate::utils::error::FfiNodeError::InvalidFeeRate;
+            }
+            56 => {
+                let mut var_field0 =
+                    <crate::utils::error::FfiCreationError>::sse_decode(deserializer);
+                return crate::utils::error::FfiNodeError::CreationError(var_field0);
+            }
             _ => {
                 unimplemented!("");
             }
@@ -3292,6 +4016,18 @@ impl SseDecode for crate::api::types::LiquiditySourceConfig {
     }
 }
 
+impl SseDecode for Vec<PaymentDetails> {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        let mut len_ = <i32>::sse_decode(deserializer);
+        let mut ans_ = vec![];
+        for idx_ in 0..len_ {
+            ans_.push(<PaymentDetails>::sse_decode(deserializer));
+        }
+        return ans_;
+    }
+}
+
 impl SseDecode for Vec<crate::api::types::ChannelDetails> {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
@@ -3299,6 +4035,20 @@ impl SseDecode for Vec<crate::api::types::ChannelDetails> {
         let mut ans_ = vec![];
         for idx_ in 0..len_ {
             ans_.push(<crate::api::types::ChannelDetails>::sse_decode(
+                deserializer,
+            ));
+        }
+        return ans_;
+    }
+}
+
+impl SseDecode for Vec<crate::api::types::CustomTlvRecord> {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        let mut len_ = <i32>::sse_decode(deserializer);
+        let mut ans_ = vec![];
+        for idx_ in 0..len_ {
+            ans_.push(<crate::api::types::CustomTlvRecord>::sse_decode(
                 deserializer,
             ));
         }
@@ -3327,20 +4077,6 @@ impl SseDecode for Vec<crate::api::graph::NodeId> {
         let mut ans_ = vec![];
         for idx_ in 0..len_ {
             ans_.push(<crate::api::graph::NodeId>::sse_decode(deserializer));
-        }
-        return ans_;
-    }
-}
-
-impl SseDecode for Vec<crate::api::types::PaymentDetails> {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
-        let mut len_ = <i32>::sse_decode(deserializer);
-        let mut ans_ = vec![];
-        for idx_ in 0..len_ {
-            ans_.push(<crate::api::types::PaymentDetails>::sse_decode(
-                deserializer,
-            ));
         }
         return ans_;
     }
@@ -3429,34 +4165,6 @@ impl SseDecode for Vec<crate::api::types::SocketAddress> {
             ans_.push(<crate::api::types::SocketAddress>::sse_decode(deserializer));
         }
         return ans_;
-    }
-}
-
-impl SseDecode for crate::api::types::LogLevel {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
-        let mut inner = <i32>::sse_decode(deserializer);
-        return match inner {
-            0 => crate::api::types::LogLevel::Gossip,
-            1 => crate::api::types::LogLevel::Trace,
-            2 => crate::api::types::LogLevel::Debug,
-            3 => crate::api::types::LogLevel::Info,
-            4 => crate::api::types::LogLevel::Warn,
-            5 => crate::api::types::LogLevel::Error,
-            _ => unreachable!("Invalid variant for LogLevel: {}", inner),
-        };
-    }
-}
-
-impl SseDecode for crate::api::types::LSPFeeLimits {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
-        let mut var_maxTotalOpeningFeeMsat = <Option<u64>>::sse_decode(deserializer);
-        let mut var_maxProportionalOpeningFeePpmMsat = <Option<u64>>::sse_decode(deserializer);
-        return crate::api::types::LSPFeeLimits {
-            max_total_opening_fee_msat: var_maxTotalOpeningFeeMsat,
-            max_proportional_opening_fee_ppm_msat: var_maxProportionalOpeningFeePpmMsat,
-        };
     }
 }
 
@@ -3596,14 +4304,6 @@ impl SseDecode for crate::api::bolt12::Offer {
     }
 }
 
-impl SseDecode for crate::api::types::OfferId {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
-        let mut var_field0 = <[u8; 32]>::sse_decode(deserializer);
-        return crate::api::types::OfferId(var_field0);
-    }
-}
-
 impl SseDecode for Option<String> {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
@@ -3615,11 +4315,35 @@ impl SseDecode for Option<String> {
     }
 }
 
+impl SseDecode for Option<PaymentDetails> {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        if (<bool>::sse_decode(deserializer)) {
+            return Some(<PaymentDetails>::sse_decode(deserializer));
+        } else {
+            return None;
+        }
+    }
+}
+
 impl SseDecode for Option<crate::api::types::AnchorChannelsConfig> {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
         if (<bool>::sse_decode(deserializer)) {
             return Some(<crate::api::types::AnchorChannelsConfig>::sse_decode(
+                deserializer,
+            ));
+        } else {
+            return None;
+        }
+    }
+}
+
+impl SseDecode for Option<crate::api::types::BackgroundSyncConfig> {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        if (<bool>::sse_decode(deserializer)) {
+            return Some(<crate::api::types::BackgroundSyncConfig>::sse_decode(
                 deserializer,
             ));
         } else {
@@ -3746,6 +4470,17 @@ impl SseDecode for Option<crate::api::types::Event> {
     }
 }
 
+impl SseDecode for Option<crate::api::types::FeeRate> {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        if (<bool>::sse_decode(deserializer)) {
+            return Some(<crate::api::types::FeeRate>::sse_decode(deserializer));
+        } else {
+            return None;
+        }
+    }
+}
+
 impl SseDecode for Option<crate::api::types::GossipSourceConfig> {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
@@ -3831,19 +4566,6 @@ impl SseDecode for Option<crate::api::types::OutPoint> {
     }
 }
 
-impl SseDecode for Option<crate::api::types::PaymentDetails> {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
-        if (<bool>::sse_decode(deserializer)) {
-            return Some(<crate::api::types::PaymentDetails>::sse_decode(
-                deserializer,
-            ));
-        } else {
-            return None;
-        }
-    }
-}
-
 impl SseDecode for Option<crate::api::types::PaymentFailureReason> {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
@@ -3886,17 +4608,6 @@ impl SseDecode for Option<crate::api::types::PaymentPreimage> {
             return Some(<crate::api::types::PaymentPreimage>::sse_decode(
                 deserializer,
             ));
-        } else {
-            return None;
-        }
-    }
-}
-
-impl SseDecode for Option<crate::api::types::PaymentSecret> {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
-        if (<bool>::sse_decode(deserializer)) {
-            return Some(<crate::api::types::PaymentSecret>::sse_decode(deserializer));
         } else {
             return None;
         }
@@ -3971,6 +4682,17 @@ impl SseDecode for Option<u8> {
     }
 }
 
+impl SseDecode for Option<crate::api::types::UserChannelId> {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        if (<bool>::sse_decode(deserializer)) {
+            return Some(<crate::api::types::UserChannelId>::sse_decode(deserializer));
+        } else {
+            return None;
+        }
+    }
+}
+
 impl SseDecode for Option<Vec<crate::api::types::SocketAddress>> {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
@@ -3992,26 +4714,6 @@ impl SseDecode for crate::api::types::OutPoint {
         return crate::api::types::OutPoint {
             txid: var_txid,
             vout: var_vout,
-        };
-    }
-}
-
-impl SseDecode for crate::api::types::PaymentDetails {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
-        let mut var_id = <crate::api::types::PaymentId>::sse_decode(deserializer);
-        let mut var_kind = <crate::api::types::PaymentKind>::sse_decode(deserializer);
-        let mut var_amountMsat = <Option<u64>>::sse_decode(deserializer);
-        let mut var_direction = <crate::api::types::PaymentDirection>::sse_decode(deserializer);
-        let mut var_status = <crate::api::types::PaymentStatus>::sse_decode(deserializer);
-        let mut var_latestUpdateTimestamp = <u64>::sse_decode(deserializer);
-        return crate::api::types::PaymentDetails {
-            id: var_id,
-            kind: var_kind,
-            amount_msat: var_amountMsat,
-            direction: var_direction,
-            status: var_status,
-            latest_update_timestamp: var_latestUpdateTimestamp,
         };
     }
 }
@@ -4042,6 +4744,7 @@ impl SseDecode for crate::api::types::PaymentFailureReason {
             6 => crate::api::types::PaymentFailureReason::UnknownRequiredFeatures,
             7 => crate::api::types::PaymentFailureReason::InvoiceRequestExpired,
             8 => crate::api::types::PaymentFailureReason::InvoiceRequestRejected,
+            9 => crate::api::types::PaymentFailureReason::BlindedPathCreationFailed,
             _ => unreachable!("Invalid variant for PaymentFailureReason: {}", inner),
         };
     }
@@ -4063,106 +4766,11 @@ impl SseDecode for crate::api::types::PaymentId {
     }
 }
 
-impl SseDecode for crate::api::types::PaymentKind {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
-        let mut tag_ = <i32>::sse_decode(deserializer);
-        match tag_ {
-            0 => {
-                return crate::api::types::PaymentKind::Onchain;
-            }
-            1 => {
-                let mut var_hash = <crate::api::types::PaymentHash>::sse_decode(deserializer);
-                let mut var_preimage =
-                    <Option<crate::api::types::PaymentPreimage>>::sse_decode(deserializer);
-                let mut var_secret =
-                    <Option<crate::api::types::PaymentSecret>>::sse_decode(deserializer);
-                return crate::api::types::PaymentKind::Bolt11 {
-                    hash: var_hash,
-                    preimage: var_preimage,
-                    secret: var_secret,
-                };
-            }
-            2 => {
-                let mut var_hash = <crate::api::types::PaymentHash>::sse_decode(deserializer);
-                let mut var_preimage =
-                    <Option<crate::api::types::PaymentPreimage>>::sse_decode(deserializer);
-                let mut var_secret =
-                    <Option<crate::api::types::PaymentSecret>>::sse_decode(deserializer);
-                let mut var_lspFeeLimits =
-                    <crate::api::types::LSPFeeLimits>::sse_decode(deserializer);
-                return crate::api::types::PaymentKind::Bolt11Jit {
-                    hash: var_hash,
-                    preimage: var_preimage,
-                    secret: var_secret,
-                    lsp_fee_limits: var_lspFeeLimits,
-                };
-            }
-            3 => {
-                let mut var_hash = <crate::api::types::PaymentHash>::sse_decode(deserializer);
-                let mut var_preimage =
-                    <Option<crate::api::types::PaymentPreimage>>::sse_decode(deserializer);
-                return crate::api::types::PaymentKind::Spontaneous {
-                    hash: var_hash,
-                    preimage: var_preimage,
-                };
-            }
-            4 => {
-                let mut var_hash =
-                    <Option<crate::api::types::PaymentHash>>::sse_decode(deserializer);
-                let mut var_preimage =
-                    <Option<crate::api::types::PaymentPreimage>>::sse_decode(deserializer);
-                let mut var_secret =
-                    <Option<crate::api::types::PaymentSecret>>::sse_decode(deserializer);
-                let mut var_offerId = <crate::api::types::OfferId>::sse_decode(deserializer);
-                let mut var_payerNote = <Option<String>>::sse_decode(deserializer);
-                let mut var_quantity = <Option<u64>>::sse_decode(deserializer);
-                return crate::api::types::PaymentKind::Bolt12Offer {
-                    hash: var_hash,
-                    preimage: var_preimage,
-                    secret: var_secret,
-                    offer_id: var_offerId,
-                    payer_note: var_payerNote,
-                    quantity: var_quantity,
-                };
-            }
-            5 => {
-                let mut var_hash =
-                    <Option<crate::api::types::PaymentHash>>::sse_decode(deserializer);
-                let mut var_preimage =
-                    <Option<crate::api::types::PaymentPreimage>>::sse_decode(deserializer);
-                let mut var_secret =
-                    <Option<crate::api::types::PaymentSecret>>::sse_decode(deserializer);
-                let mut var_payerNote = <Option<String>>::sse_decode(deserializer);
-                let mut var_quantity = <Option<u64>>::sse_decode(deserializer);
-                return crate::api::types::PaymentKind::Bolt12Refund {
-                    hash: var_hash,
-                    preimage: var_preimage,
-                    secret: var_secret,
-                    payer_note: var_payerNote,
-                    quantity: var_quantity,
-                };
-            }
-            _ => {
-                unimplemented!("");
-            }
-        }
-    }
-}
-
 impl SseDecode for crate::api::types::PaymentPreimage {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
         let mut var_data = <[u8; 32]>::sse_decode(deserializer);
         return crate::api::types::PaymentPreimage { data: var_data };
-    }
-}
-
-impl SseDecode for crate::api::types::PaymentSecret {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
-        let mut var_data = <[u8; 32]>::sse_decode(deserializer);
-        return crate::api::types::PaymentSecret { data: var_data };
     }
 }
 
@@ -4533,6 +5141,36 @@ impl flutter_rust_bridge::IntoIntoDart<FrbWrapper<FfiBuilder>> for FfiBuilder {
 }
 
 // Codec=Dco (DartCObject based), see doc to use other codecs
+impl flutter_rust_bridge::IntoDart for FrbWrapper<PaymentDetails> {
+    fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
+        flutter_rust_bridge::for_generated::rust_auto_opaque_encode::<_, StdArc<_>>(self.0)
+            .into_dart()
+    }
+}
+impl flutter_rust_bridge::for_generated::IntoDartExceptPrimitive for FrbWrapper<PaymentDetails> {}
+
+impl flutter_rust_bridge::IntoIntoDart<FrbWrapper<PaymentDetails>> for PaymentDetails {
+    fn into_into_dart(self) -> FrbWrapper<PaymentDetails> {
+        self.into()
+    }
+}
+
+// Codec=Dco (DartCObject based), see doc to use other codecs
+impl flutter_rust_bridge::IntoDart for FrbWrapper<PaymentKind> {
+    fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
+        flutter_rust_bridge::for_generated::rust_auto_opaque_encode::<_, StdArc<_>>(self.0)
+            .into_dart()
+    }
+}
+impl flutter_rust_bridge::for_generated::IntoDartExceptPrimitive for FrbWrapper<PaymentKind> {}
+
+impl flutter_rust_bridge::IntoIntoDart<FrbWrapper<PaymentKind>> for PaymentKind {
+    fn into_into_dart(self) -> FrbWrapper<PaymentKind> {
+        self.into()
+    }
+}
+
+// Codec=Dco (DartCObject based), see doc to use other codecs
 impl flutter_rust_bridge::IntoDart for crate::api::types::Address {
     fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
         [self.s.into_into_dart().into_dart()].into_dart()
@@ -4562,6 +5200,34 @@ impl flutter_rust_bridge::IntoIntoDart<crate::api::types::AnchorChannelsConfig>
     for crate::api::types::AnchorChannelsConfig
 {
     fn into_into_dart(self) -> crate::api::types::AnchorChannelsConfig {
+        self
+    }
+}
+// Codec=Dco (DartCObject based), see doc to use other codecs
+impl flutter_rust_bridge::IntoDart for crate::api::types::BackgroundSyncConfig {
+    fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
+        [
+            self.onchain_wallet_sync_interval_secs
+                .into_into_dart()
+                .into_dart(),
+            self.lightning_wallet_sync_interval_secs
+                .into_into_dart()
+                .into_dart(),
+            self.fee_rate_cache_update_interval_secs
+                .into_into_dart()
+                .into_dart(),
+        ]
+        .into_dart()
+    }
+}
+impl flutter_rust_bridge::for_generated::IntoDartExceptPrimitive
+    for crate::api::types::BackgroundSyncConfig
+{
+}
+impl flutter_rust_bridge::IntoIntoDart<crate::api::types::BackgroundSyncConfig>
+    for crate::api::types::BackgroundSyncConfig
+{
+    fn into_into_dart(self) -> crate::api::types::BackgroundSyncConfig {
         self
     }
 }
@@ -4976,15 +5642,14 @@ impl flutter_rust_bridge::IntoDart for crate::api::types::Config {
     fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
         [
             self.storage_dir_path.into_into_dart().into_dart(),
-            self.log_dir_path.into_into_dart().into_dart(),
             self.network.into_into_dart().into_dart(),
             self.listening_addresses.into_into_dart().into_dart(),
+            self.announcement_addresses.into_into_dart().into_dart(),
             self.node_alias.into_into_dart().into_dart(),
             self.trusted_peers_0conf.into_into_dart().into_dart(),
             self.probing_liquidity_limit_multiplier
                 .into_into_dart()
                 .into_dart(),
-            self.log_level.into_into_dart().into_dart(),
             self.anchor_channels_config.into_into_dart().into_dart(),
             self.sending_parameters.into_into_dart().into_dart(),
         ]
@@ -4994,6 +5659,27 @@ impl flutter_rust_bridge::IntoDart for crate::api::types::Config {
 impl flutter_rust_bridge::for_generated::IntoDartExceptPrimitive for crate::api::types::Config {}
 impl flutter_rust_bridge::IntoIntoDart<crate::api::types::Config> for crate::api::types::Config {
     fn into_into_dart(self) -> crate::api::types::Config {
+        self
+    }
+}
+// Codec=Dco (DartCObject based), see doc to use other codecs
+impl flutter_rust_bridge::IntoDart for crate::api::types::CustomTlvRecord {
+    fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
+        [
+            self.type_num.into_into_dart().into_dart(),
+            self.value.into_into_dart().into_dart(),
+        ]
+        .into_dart()
+    }
+}
+impl flutter_rust_bridge::for_generated::IntoDartExceptPrimitive
+    for crate::api::types::CustomTlvRecord
+{
+}
+impl flutter_rust_bridge::IntoIntoDart<crate::api::types::CustomTlvRecord>
+    for crate::api::types::CustomTlvRecord
+{
+    fn into_into_dart(self) -> crate::api::types::CustomTlvRecord {
         self
     }
 }
@@ -5067,18 +5753,7 @@ impl flutter_rust_bridge::IntoIntoDart<crate::api::types::EntropySourceConfig>
 // Codec=Dco (DartCObject based), see doc to use other codecs
 impl flutter_rust_bridge::IntoDart for crate::api::types::EsploraSyncConfig {
     fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
-        [
-            self.onchain_wallet_sync_interval_secs
-                .into_into_dart()
-                .into_dart(),
-            self.lightning_wallet_sync_interval_secs
-                .into_into_dart()
-                .into_dart(),
-            self.fee_rate_cache_update_interval_secs
-                .into_into_dart()
-                .into_dart(),
-        ]
-        .into_dart()
+        [self.background_sync_config.into_into_dart().into_dart()].into_dart()
     }
 }
 impl flutter_rust_bridge::for_generated::IntoDartExceptPrimitive
@@ -5101,23 +5776,27 @@ impl flutter_rust_bridge::IntoDart for crate::api::types::Event {
                 payment_hash,
                 claimable_amount_msat,
                 claim_deadline,
+                custom_records,
             } => [
                 0.into_dart(),
                 payment_id.into_into_dart().into_dart(),
                 payment_hash.into_into_dart().into_dart(),
                 claimable_amount_msat.into_into_dart().into_dart(),
                 claim_deadline.into_into_dart().into_dart(),
+                custom_records.into_into_dart().into_dart(),
             ]
             .into_dart(),
             crate::api::types::Event::PaymentSuccessful {
                 payment_id,
                 payment_hash,
                 fee_paid_msat,
+                preimage,
             } => [
                 1.into_dart(),
                 payment_id.into_into_dart().into_dart(),
                 payment_hash.into_into_dart().into_dart(),
                 fee_paid_msat.into_into_dart().into_dart(),
+                preimage.into_into_dart().into_dart(),
             ]
             .into_dart(),
             crate::api::types::Event::PaymentFailed {
@@ -5135,11 +5814,13 @@ impl flutter_rust_bridge::IntoDart for crate::api::types::Event {
                 payment_id,
                 payment_hash,
                 amount_msat,
+                custom_records,
             } => [
                 3.into_dart(),
                 payment_id.into_into_dart().into_dart(),
                 payment_hash.into_into_dart().into_dart(),
                 amount_msat.into_into_dart().into_dart(),
+                custom_records.into_into_dart().into_dart(),
             ]
             .into_dart(),
             crate::api::types::Event::ChannelPending {
@@ -5181,6 +5862,31 @@ impl flutter_rust_bridge::IntoDart for crate::api::types::Event {
                 reason.into_into_dart().into_dart(),
             ]
             .into_dart(),
+            crate::api::types::Event::PaymentForwarded {
+                prev_channel_id,
+                next_channel_id,
+                prev_user_channel_id,
+                next_user_channel_id,
+                prev_node_id,
+                next_node_id,
+                total_fee_earned_msat,
+                skimmed_fee_msat,
+                claim_from_onchain_tx,
+                outbound_amount_forwarded_msat,
+            } => [
+                7.into_dart(),
+                prev_channel_id.into_into_dart().into_dart(),
+                next_channel_id.into_into_dart().into_dart(),
+                prev_user_channel_id.into_into_dart().into_dart(),
+                next_user_channel_id.into_into_dart().into_dart(),
+                prev_node_id.into_into_dart().into_dart(),
+                next_node_id.into_into_dart().into_dart(),
+                total_fee_earned_msat.into_into_dart().into_dart(),
+                skimmed_fee_msat.into_into_dart().into_dart(),
+                claim_from_onchain_tx.into_into_dart().into_dart(),
+                outbound_amount_forwarded_msat.into_into_dart().into_dart(),
+            ]
+            .into_dart(),
             _ => {
                 unimplemented!("");
             }
@@ -5190,6 +5896,18 @@ impl flutter_rust_bridge::IntoDart for crate::api::types::Event {
 impl flutter_rust_bridge::for_generated::IntoDartExceptPrimitive for crate::api::types::Event {}
 impl flutter_rust_bridge::IntoIntoDart<crate::api::types::Event> for crate::api::types::Event {
     fn into_into_dart(self) -> crate::api::types::Event {
+        self
+    }
+}
+// Codec=Dco (DartCObject based), see doc to use other codecs
+impl flutter_rust_bridge::IntoDart for crate::api::types::FeeRate {
+    fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
+        [self.0.into_into_dart().into_dart()].into_dart()
+    }
+}
+impl flutter_rust_bridge::for_generated::IntoDartExceptPrimitive for crate::api::types::FeeRate {}
+impl flutter_rust_bridge::IntoIntoDart<crate::api::types::FeeRate> for crate::api::types::FeeRate {
+    fn into_into_dart(self) -> crate::api::types::FeeRate {
         self
     }
 }
@@ -5245,6 +5963,8 @@ impl flutter_rust_bridge::IntoDart for crate::utils::error::FfiBuilderError {
             Self::WalletSetupFailed => 11.into_dart(),
             Self::LoggerSetupFailed => 12.into_dart(),
             Self::InvalidPublicKey => 13.into_dart(),
+            Self::InvalidAnnouncementAddresses => 14.into_dart(),
+            Self::NetworkMismatch => 15.into_dart(),
             _ => unreachable!(),
         }
     }
@@ -5257,6 +5977,31 @@ impl flutter_rust_bridge::IntoIntoDart<crate::utils::error::FfiBuilderError>
     for crate::utils::error::FfiBuilderError
 {
     fn into_into_dart(self) -> crate::utils::error::FfiBuilderError {
+        self
+    }
+}
+// Codec=Dco (DartCObject based), see doc to use other codecs
+impl flutter_rust_bridge::IntoDart for crate::utils::error::FfiCreationError {
+    fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
+        match self {
+            Self::DescriptionTooLong => 0.into_dart(),
+            Self::RouteTooLong => 1.into_dart(),
+            Self::TimestampOutOfBounds => 2.into_dart(),
+            Self::InvalidAmount => 3.into_dart(),
+            Self::MissingRouteHints => 4.into_dart(),
+            Self::MinFinalCltvExpiryDeltaTooShort => 5.into_dart(),
+            _ => unreachable!(),
+        }
+    }
+}
+impl flutter_rust_bridge::for_generated::IntoDartExceptPrimitive
+    for crate::utils::error::FfiCreationError
+{
+}
+impl flutter_rust_bridge::IntoIntoDart<crate::utils::error::FfiCreationError>
+    for crate::utils::error::FfiCreationError
+{
+    fn into_into_dart(self) -> crate::utils::error::FfiCreationError {
         self
     }
 }
@@ -5391,6 +6136,12 @@ impl flutter_rust_bridge::IntoDart for crate::utils::error::FfiNodeError {
             crate::utils::error::FfiNodeError::InvalidUri => [50.into_dart()].into_dart(),
             crate::utils::error::FfiNodeError::InvalidQuantity => [51.into_dart()].into_dart(),
             crate::utils::error::FfiNodeError::InvalidNodeAlias => [52.into_dart()].into_dart(),
+            crate::utils::error::FfiNodeError::InvalidCustomTlvs => [53.into_dart()].into_dart(),
+            crate::utils::error::FfiNodeError::InvalidDateTime => [54.into_dart()].into_dart(),
+            crate::utils::error::FfiNodeError::InvalidFeeRate => [55.into_dart()].into_dart(),
+            crate::utils::error::FfiNodeError::CreationError(field0) => {
+                [56.into_dart(), field0.into_into_dart().into_dart()].into_dart()
+            }
             _ => {
                 unimplemented!("");
             }
@@ -5625,51 +6376,6 @@ impl flutter_rust_bridge::IntoIntoDart<crate::api::types::LiquiditySourceConfig>
     }
 }
 // Codec=Dco (DartCObject based), see doc to use other codecs
-impl flutter_rust_bridge::IntoDart for crate::api::types::LogLevel {
-    fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
-        match self {
-            Self::Gossip => 0.into_dart(),
-            Self::Trace => 1.into_dart(),
-            Self::Debug => 2.into_dart(),
-            Self::Info => 3.into_dart(),
-            Self::Warn => 4.into_dart(),
-            Self::Error => 5.into_dart(),
-            _ => unreachable!(),
-        }
-    }
-}
-impl flutter_rust_bridge::for_generated::IntoDartExceptPrimitive for crate::api::types::LogLevel {}
-impl flutter_rust_bridge::IntoIntoDart<crate::api::types::LogLevel>
-    for crate::api::types::LogLevel
-{
-    fn into_into_dart(self) -> crate::api::types::LogLevel {
-        self
-    }
-}
-// Codec=Dco (DartCObject based), see doc to use other codecs
-impl flutter_rust_bridge::IntoDart for crate::api::types::LSPFeeLimits {
-    fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
-        [
-            self.max_total_opening_fee_msat.into_into_dart().into_dart(),
-            self.max_proportional_opening_fee_ppm_msat
-                .into_into_dart()
-                .into_dart(),
-        ]
-        .into_dart()
-    }
-}
-impl flutter_rust_bridge::for_generated::IntoDartExceptPrimitive
-    for crate::api::types::LSPFeeLimits
-{
-}
-impl flutter_rust_bridge::IntoIntoDart<crate::api::types::LSPFeeLimits>
-    for crate::api::types::LSPFeeLimits
-{
-    fn into_into_dart(self) -> crate::api::types::LSPFeeLimits {
-        self
-    }
-}
-// Codec=Dco (DartCObject based), see doc to use other codecs
 impl flutter_rust_bridge::IntoDart for crate::api::types::MaxDustHTLCExposure {
     fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
         match self {
@@ -5855,18 +6561,6 @@ impl flutter_rust_bridge::IntoIntoDart<crate::api::bolt12::Offer> for crate::api
     }
 }
 // Codec=Dco (DartCObject based), see doc to use other codecs
-impl flutter_rust_bridge::IntoDart for crate::api::types::OfferId {
-    fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
-        [self.0.into_into_dart().into_dart()].into_dart()
-    }
-}
-impl flutter_rust_bridge::for_generated::IntoDartExceptPrimitive for crate::api::types::OfferId {}
-impl flutter_rust_bridge::IntoIntoDart<crate::api::types::OfferId> for crate::api::types::OfferId {
-    fn into_into_dart(self) -> crate::api::types::OfferId {
-        self
-    }
-}
-// Codec=Dco (DartCObject based), see doc to use other codecs
 impl flutter_rust_bridge::IntoDart for crate::api::types::OutPoint {
     fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
         [
@@ -5881,31 +6575,6 @@ impl flutter_rust_bridge::IntoIntoDart<crate::api::types::OutPoint>
     for crate::api::types::OutPoint
 {
     fn into_into_dart(self) -> crate::api::types::OutPoint {
-        self
-    }
-}
-// Codec=Dco (DartCObject based), see doc to use other codecs
-impl flutter_rust_bridge::IntoDart for crate::api::types::PaymentDetails {
-    fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
-        [
-            self.id.into_into_dart().into_dart(),
-            self.kind.into_into_dart().into_dart(),
-            self.amount_msat.into_into_dart().into_dart(),
-            self.direction.into_into_dart().into_dart(),
-            self.status.into_into_dart().into_dart(),
-            self.latest_update_timestamp.into_into_dart().into_dart(),
-        ]
-        .into_dart()
-    }
-}
-impl flutter_rust_bridge::for_generated::IntoDartExceptPrimitive
-    for crate::api::types::PaymentDetails
-{
-}
-impl flutter_rust_bridge::IntoIntoDart<crate::api::types::PaymentDetails>
-    for crate::api::types::PaymentDetails
-{
-    fn into_into_dart(self) -> crate::api::types::PaymentDetails {
         self
     }
 }
@@ -5943,6 +6612,7 @@ impl flutter_rust_bridge::IntoDart for crate::api::types::PaymentFailureReason {
             Self::UnknownRequiredFeatures => 6.into_dart(),
             Self::InvoiceRequestExpired => 7.into_dart(),
             Self::InvoiceRequestRejected => 8.into_dart(),
+            Self::BlindedPathCreationFailed => 9.into_dart(),
             _ => unreachable!(),
         }
     }
@@ -5990,90 +6660,6 @@ impl flutter_rust_bridge::IntoIntoDart<crate::api::types::PaymentId>
     }
 }
 // Codec=Dco (DartCObject based), see doc to use other codecs
-impl flutter_rust_bridge::IntoDart for crate::api::types::PaymentKind {
-    fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
-        match self {
-            crate::api::types::PaymentKind::Onchain => [0.into_dart()].into_dart(),
-            crate::api::types::PaymentKind::Bolt11 {
-                hash,
-                preimage,
-                secret,
-            } => [
-                1.into_dart(),
-                hash.into_into_dart().into_dart(),
-                preimage.into_into_dart().into_dart(),
-                secret.into_into_dart().into_dart(),
-            ]
-            .into_dart(),
-            crate::api::types::PaymentKind::Bolt11Jit {
-                hash,
-                preimage,
-                secret,
-                lsp_fee_limits,
-            } => [
-                2.into_dart(),
-                hash.into_into_dart().into_dart(),
-                preimage.into_into_dart().into_dart(),
-                secret.into_into_dart().into_dart(),
-                lsp_fee_limits.into_into_dart().into_dart(),
-            ]
-            .into_dart(),
-            crate::api::types::PaymentKind::Spontaneous { hash, preimage } => [
-                3.into_dart(),
-                hash.into_into_dart().into_dart(),
-                preimage.into_into_dart().into_dart(),
-            ]
-            .into_dart(),
-            crate::api::types::PaymentKind::Bolt12Offer {
-                hash,
-                preimage,
-                secret,
-                offer_id,
-                payer_note,
-                quantity,
-            } => [
-                4.into_dart(),
-                hash.into_into_dart().into_dart(),
-                preimage.into_into_dart().into_dart(),
-                secret.into_into_dart().into_dart(),
-                offer_id.into_into_dart().into_dart(),
-                payer_note.into_into_dart().into_dart(),
-                quantity.into_into_dart().into_dart(),
-            ]
-            .into_dart(),
-            crate::api::types::PaymentKind::Bolt12Refund {
-                hash,
-                preimage,
-                secret,
-                payer_note,
-                quantity,
-            } => [
-                5.into_dart(),
-                hash.into_into_dart().into_dart(),
-                preimage.into_into_dart().into_dart(),
-                secret.into_into_dart().into_dart(),
-                payer_note.into_into_dart().into_dart(),
-                quantity.into_into_dart().into_dart(),
-            ]
-            .into_dart(),
-            _ => {
-                unimplemented!("");
-            }
-        }
-    }
-}
-impl flutter_rust_bridge::for_generated::IntoDartExceptPrimitive
-    for crate::api::types::PaymentKind
-{
-}
-impl flutter_rust_bridge::IntoIntoDart<crate::api::types::PaymentKind>
-    for crate::api::types::PaymentKind
-{
-    fn into_into_dart(self) -> crate::api::types::PaymentKind {
-        self
-    }
-}
-// Codec=Dco (DartCObject based), see doc to use other codecs
 impl flutter_rust_bridge::IntoDart for crate::api::types::PaymentPreimage {
     fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
         [self.data.into_into_dart().into_dart()].into_dart()
@@ -6087,23 +6673,6 @@ impl flutter_rust_bridge::IntoIntoDart<crate::api::types::PaymentPreimage>
     for crate::api::types::PaymentPreimage
 {
     fn into_into_dart(self) -> crate::api::types::PaymentPreimage {
-        self
-    }
-}
-// Codec=Dco (DartCObject based), see doc to use other codecs
-impl flutter_rust_bridge::IntoDart for crate::api::types::PaymentSecret {
-    fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
-        [self.data.into_into_dart().into_dart()].into_dart()
-    }
-}
-impl flutter_rust_bridge::for_generated::IntoDartExceptPrimitive
-    for crate::api::types::PaymentSecret
-{
-}
-impl flutter_rust_bridge::IntoIntoDart<crate::api::types::PaymentSecret>
-    for crate::api::types::PaymentSecret
-{
-    fn into_into_dart(self) -> crate::api::types::PaymentSecret {
         self
     }
 }
@@ -6405,6 +6974,20 @@ impl SseEncode for FfiBuilder {
     }
 }
 
+impl SseEncode for PaymentDetails {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        <RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<PaymentDetails>>>::sse_encode(flutter_rust_bridge::for_generated::rust_auto_opaque_encode::<_, StdArc<_>>(self), serializer);
+    }
+}
+
+impl SseEncode for PaymentKind {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        <RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<PaymentKind>>>::sse_encode(flutter_rust_bridge::for_generated::rust_auto_opaque_encode::<_, StdArc<_>>(self), serializer);
+    }
+}
+
 impl SseEncode for std::collections::HashMap<String, String> {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
@@ -6414,6 +6997,28 @@ impl SseEncode for std::collections::HashMap<String, String> {
 
 impl SseEncode
     for RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<FfiBuilder>>
+{
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        let (ptr, size) = self.sse_encode_raw();
+        <usize>::sse_encode(ptr, serializer);
+        <i32>::sse_encode(size, serializer);
+    }
+}
+
+impl SseEncode
+    for RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<PaymentDetails>>
+{
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        let (ptr, size) = self.sse_encode_raw();
+        <usize>::sse_encode(ptr, serializer);
+        <i32>::sse_encode(size, serializer);
+    }
+}
+
+impl SseEncode
+    for RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<PaymentKind>>
 {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
@@ -6514,6 +7119,15 @@ impl SseEncode for crate::api::types::AnchorChannelsConfig {
     fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
         <Vec<crate::api::types::PublicKey>>::sse_encode(self.trusted_peers_no_reserve, serializer);
         <u64>::sse_encode(self.per_channel_reserve_sats, serializer);
+    }
+}
+
+impl SseEncode for crate::api::types::BackgroundSyncConfig {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        <u64>::sse_encode(self.onchain_wallet_sync_interval_secs, serializer);
+        <u64>::sse_encode(self.lightning_wallet_sync_interval_secs, serializer);
+        <u64>::sse_encode(self.fee_rate_cache_update_interval_secs, serializer);
     }
 }
 
@@ -6793,16 +7407,18 @@ impl SseEncode for crate::api::types::Config {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
         <String>::sse_encode(self.storage_dir_path, serializer);
-        <Option<String>>::sse_encode(self.log_dir_path, serializer);
         <crate::api::types::Network>::sse_encode(self.network, serializer);
         <Option<Vec<crate::api::types::SocketAddress>>>::sse_encode(
             self.listening_addresses,
             serializer,
         );
+        <Option<Vec<crate::api::types::SocketAddress>>>::sse_encode(
+            self.announcement_addresses,
+            serializer,
+        );
         <Option<crate::api::types::NodeAlias>>::sse_encode(self.node_alias, serializer);
         <Vec<crate::api::types::PublicKey>>::sse_encode(self.trusted_peers_0conf, serializer);
         <u64>::sse_encode(self.probing_liquidity_limit_multiplier, serializer);
-        <crate::api::types::LogLevel>::sse_encode(self.log_level, serializer);
         <Option<crate::api::types::AnchorChannelsConfig>>::sse_encode(
             self.anchor_channels_config,
             serializer,
@@ -6811,6 +7427,14 @@ impl SseEncode for crate::api::types::Config {
             self.sending_parameters,
             serializer,
         );
+    }
+}
+
+impl SseEncode for crate::api::types::CustomTlvRecord {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        <u64>::sse_encode(self.type_num, serializer);
+        <Vec<u8>>::sse_encode(self.value, serializer);
     }
 }
 
@@ -6880,9 +7504,10 @@ impl SseEncode for crate::api::types::EntropySourceConfig {
 impl SseEncode for crate::api::types::EsploraSyncConfig {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
-        <u64>::sse_encode(self.onchain_wallet_sync_interval_secs, serializer);
-        <u64>::sse_encode(self.lightning_wallet_sync_interval_secs, serializer);
-        <u64>::sse_encode(self.fee_rate_cache_update_interval_secs, serializer);
+        <Option<crate::api::types::BackgroundSyncConfig>>::sse_encode(
+            self.background_sync_config,
+            serializer,
+        );
     }
 }
 
@@ -6895,22 +7520,26 @@ impl SseEncode for crate::api::types::Event {
                 payment_hash,
                 claimable_amount_msat,
                 claim_deadline,
+                custom_records,
             } => {
                 <i32>::sse_encode(0, serializer);
                 <crate::api::types::PaymentId>::sse_encode(payment_id, serializer);
                 <crate::api::types::PaymentHash>::sse_encode(payment_hash, serializer);
                 <u64>::sse_encode(claimable_amount_msat, serializer);
                 <Option<u32>>::sse_encode(claim_deadline, serializer);
+                <Vec<crate::api::types::CustomTlvRecord>>::sse_encode(custom_records, serializer);
             }
             crate::api::types::Event::PaymentSuccessful {
                 payment_id,
                 payment_hash,
                 fee_paid_msat,
+                preimage,
             } => {
                 <i32>::sse_encode(1, serializer);
                 <Option<crate::api::types::PaymentId>>::sse_encode(payment_id, serializer);
                 <crate::api::types::PaymentHash>::sse_encode(payment_hash, serializer);
                 <Option<u64>>::sse_encode(fee_paid_msat, serializer);
+                <Option<crate::api::types::PaymentPreimage>>::sse_encode(preimage, serializer);
             }
             crate::api::types::Event::PaymentFailed {
                 payment_id,
@@ -6926,11 +7555,13 @@ impl SseEncode for crate::api::types::Event {
                 payment_id,
                 payment_hash,
                 amount_msat,
+                custom_records,
             } => {
                 <i32>::sse_encode(3, serializer);
                 <Option<crate::api::types::PaymentId>>::sse_encode(payment_id, serializer);
                 <crate::api::types::PaymentHash>::sse_encode(payment_hash, serializer);
                 <u64>::sse_encode(amount_msat, serializer);
+                <Vec<crate::api::types::CustomTlvRecord>>::sse_encode(custom_records, serializer);
             }
             crate::api::types::Event::ChannelPending {
                 channel_id,
@@ -6974,10 +7605,47 @@ impl SseEncode for crate::api::types::Event {
                 );
                 <Option<crate::api::types::ClosureReason>>::sse_encode(reason, serializer);
             }
+            crate::api::types::Event::PaymentForwarded {
+                prev_channel_id,
+                next_channel_id,
+                prev_user_channel_id,
+                next_user_channel_id,
+                prev_node_id,
+                next_node_id,
+                total_fee_earned_msat,
+                skimmed_fee_msat,
+                claim_from_onchain_tx,
+                outbound_amount_forwarded_msat,
+            } => {
+                <i32>::sse_encode(7, serializer);
+                <crate::api::types::ChannelId>::sse_encode(prev_channel_id, serializer);
+                <crate::api::types::ChannelId>::sse_encode(next_channel_id, serializer);
+                <Option<crate::api::types::UserChannelId>>::sse_encode(
+                    prev_user_channel_id,
+                    serializer,
+                );
+                <Option<crate::api::types::UserChannelId>>::sse_encode(
+                    next_user_channel_id,
+                    serializer,
+                );
+                <Option<crate::api::types::PublicKey>>::sse_encode(prev_node_id, serializer);
+                <Option<crate::api::types::PublicKey>>::sse_encode(next_node_id, serializer);
+                <Option<u64>>::sse_encode(total_fee_earned_msat, serializer);
+                <Option<u64>>::sse_encode(skimmed_fee_msat, serializer);
+                <bool>::sse_encode(claim_from_onchain_tx, serializer);
+                <Option<u64>>::sse_encode(outbound_amount_forwarded_msat, serializer);
+            }
             _ => {
                 unimplemented!("");
             }
         }
+    }
+}
+
+impl SseEncode for crate::api::types::FeeRate {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        <u64>::sse_encode(self.0, serializer);
     }
 }
 
@@ -7014,6 +7682,28 @@ impl SseEncode for crate::utils::error::FfiBuilderError {
                 crate::utils::error::FfiBuilderError::WalletSetupFailed => 11,
                 crate::utils::error::FfiBuilderError::LoggerSetupFailed => 12,
                 crate::utils::error::FfiBuilderError::InvalidPublicKey => 13,
+                crate::utils::error::FfiBuilderError::InvalidAnnouncementAddresses => 14,
+                crate::utils::error::FfiBuilderError::NetworkMismatch => 15,
+                _ => {
+                    unimplemented!("");
+                }
+            },
+            serializer,
+        );
+    }
+}
+
+impl SseEncode for crate::utils::error::FfiCreationError {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        <i32>::sse_encode(
+            match self {
+                crate::utils::error::FfiCreationError::DescriptionTooLong => 0,
+                crate::utils::error::FfiCreationError::RouteTooLong => 1,
+                crate::utils::error::FfiCreationError::TimestampOutOfBounds => 2,
+                crate::utils::error::FfiCreationError::InvalidAmount => 3,
+                crate::utils::error::FfiCreationError::MissingRouteHints => 4,
+                crate::utils::error::FfiCreationError::MinFinalCltvExpiryDeltaTooShort => 5,
                 _ => {
                     unimplemented!("");
                 }
@@ -7209,6 +7899,19 @@ impl SseEncode for crate::utils::error::FfiNodeError {
             crate::utils::error::FfiNodeError::InvalidNodeAlias => {
                 <i32>::sse_encode(52, serializer);
             }
+            crate::utils::error::FfiNodeError::InvalidCustomTlvs => {
+                <i32>::sse_encode(53, serializer);
+            }
+            crate::utils::error::FfiNodeError::InvalidDateTime => {
+                <i32>::sse_encode(54, serializer);
+            }
+            crate::utils::error::FfiNodeError::InvalidFeeRate => {
+                <i32>::sse_encode(55, serializer);
+            }
+            crate::utils::error::FfiNodeError::CreationError(field0) => {
+                <i32>::sse_encode(56, serializer);
+                <crate::utils::error::FfiCreationError>::sse_encode(field0, serializer);
+            }
             _ => {
                 unimplemented!("");
             }
@@ -7374,12 +8077,32 @@ impl SseEncode for crate::api::types::LiquiditySourceConfig {
     }
 }
 
+impl SseEncode for Vec<PaymentDetails> {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        <i32>::sse_encode(self.len() as _, serializer);
+        for item in self {
+            <PaymentDetails>::sse_encode(item, serializer);
+        }
+    }
+}
+
 impl SseEncode for Vec<crate::api::types::ChannelDetails> {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
         <i32>::sse_encode(self.len() as _, serializer);
         for item in self {
             <crate::api::types::ChannelDetails>::sse_encode(item, serializer);
+        }
+    }
+}
+
+impl SseEncode for Vec<crate::api::types::CustomTlvRecord> {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        <i32>::sse_encode(self.len() as _, serializer);
+        for item in self {
+            <crate::api::types::CustomTlvRecord>::sse_encode(item, serializer);
         }
     }
 }
@@ -7400,16 +8123,6 @@ impl SseEncode for Vec<crate::api::graph::NodeId> {
         <i32>::sse_encode(self.len() as _, serializer);
         for item in self {
             <crate::api::graph::NodeId>::sse_encode(item, serializer);
-        }
-    }
-}
-
-impl SseEncode for Vec<crate::api::types::PaymentDetails> {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
-        <i32>::sse_encode(self.len() as _, serializer);
-        for item in self {
-            <crate::api::types::PaymentDetails>::sse_encode(item, serializer);
         }
     }
 }
@@ -7481,34 +8194,6 @@ impl SseEncode for Vec<crate::api::types::SocketAddress> {
         for item in self {
             <crate::api::types::SocketAddress>::sse_encode(item, serializer);
         }
-    }
-}
-
-impl SseEncode for crate::api::types::LogLevel {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
-        <i32>::sse_encode(
-            match self {
-                crate::api::types::LogLevel::Gossip => 0,
-                crate::api::types::LogLevel::Trace => 1,
-                crate::api::types::LogLevel::Debug => 2,
-                crate::api::types::LogLevel::Info => 3,
-                crate::api::types::LogLevel::Warn => 4,
-                crate::api::types::LogLevel::Error => 5,
-                _ => {
-                    unimplemented!("");
-                }
-            },
-            serializer,
-        );
-    }
-}
-
-impl SseEncode for crate::api::types::LSPFeeLimits {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
-        <Option<u64>>::sse_encode(self.max_total_opening_fee_msat, serializer);
-        <Option<u64>>::sse_encode(self.max_proportional_opening_fee_ppm_msat, serializer);
     }
 }
 
@@ -7626,13 +8311,6 @@ impl SseEncode for crate::api::bolt12::Offer {
     }
 }
 
-impl SseEncode for crate::api::types::OfferId {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
-        <[u8; 32]>::sse_encode(self.0, serializer);
-    }
-}
-
 impl SseEncode for Option<String> {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
@@ -7643,12 +8321,32 @@ impl SseEncode for Option<String> {
     }
 }
 
+impl SseEncode for Option<PaymentDetails> {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        <bool>::sse_encode(self.is_some(), serializer);
+        if let Some(value) = self {
+            <PaymentDetails>::sse_encode(value, serializer);
+        }
+    }
+}
+
 impl SseEncode for Option<crate::api::types::AnchorChannelsConfig> {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
         <bool>::sse_encode(self.is_some(), serializer);
         if let Some(value) = self {
             <crate::api::types::AnchorChannelsConfig>::sse_encode(value, serializer);
+        }
+    }
+}
+
+impl SseEncode for Option<crate::api::types::BackgroundSyncConfig> {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        <bool>::sse_encode(self.is_some(), serializer);
+        if let Some(value) = self {
+            <crate::api::types::BackgroundSyncConfig>::sse_encode(value, serializer);
         }
     }
 }
@@ -7753,6 +8451,16 @@ impl SseEncode for Option<crate::api::types::Event> {
     }
 }
 
+impl SseEncode for Option<crate::api::types::FeeRate> {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        <bool>::sse_encode(self.is_some(), serializer);
+        if let Some(value) = self {
+            <crate::api::types::FeeRate>::sse_encode(value, serializer);
+        }
+    }
+}
+
 impl SseEncode for Option<crate::api::types::GossipSourceConfig> {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
@@ -7823,16 +8531,6 @@ impl SseEncode for Option<crate::api::types::OutPoint> {
     }
 }
 
-impl SseEncode for Option<crate::api::types::PaymentDetails> {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
-        <bool>::sse_encode(self.is_some(), serializer);
-        if let Some(value) = self {
-            <crate::api::types::PaymentDetails>::sse_encode(value, serializer);
-        }
-    }
-}
-
 impl SseEncode for Option<crate::api::types::PaymentFailureReason> {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
@@ -7869,16 +8567,6 @@ impl SseEncode for Option<crate::api::types::PaymentPreimage> {
         <bool>::sse_encode(self.is_some(), serializer);
         if let Some(value) = self {
             <crate::api::types::PaymentPreimage>::sse_encode(value, serializer);
-        }
-    }
-}
-
-impl SseEncode for Option<crate::api::types::PaymentSecret> {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
-        <bool>::sse_encode(self.is_some(), serializer);
-        if let Some(value) = self {
-            <crate::api::types::PaymentSecret>::sse_encode(value, serializer);
         }
     }
 }
@@ -7943,6 +8631,16 @@ impl SseEncode for Option<u8> {
     }
 }
 
+impl SseEncode for Option<crate::api::types::UserChannelId> {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        <bool>::sse_encode(self.is_some(), serializer);
+        if let Some(value) = self {
+            <crate::api::types::UserChannelId>::sse_encode(value, serializer);
+        }
+    }
+}
+
 impl SseEncode for Option<Vec<crate::api::types::SocketAddress>> {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
@@ -7958,18 +8656,6 @@ impl SseEncode for crate::api::types::OutPoint {
     fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
         <crate::api::types::Txid>::sse_encode(self.txid, serializer);
         <u32>::sse_encode(self.vout, serializer);
-    }
-}
-
-impl SseEncode for crate::api::types::PaymentDetails {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
-        <crate::api::types::PaymentId>::sse_encode(self.id, serializer);
-        <crate::api::types::PaymentKind>::sse_encode(self.kind, serializer);
-        <Option<u64>>::sse_encode(self.amount_msat, serializer);
-        <crate::api::types::PaymentDirection>::sse_encode(self.direction, serializer);
-        <crate::api::types::PaymentStatus>::sse_encode(self.status, serializer);
-        <u64>::sse_encode(self.latest_update_timestamp, serializer);
     }
 }
 
@@ -8003,6 +8689,7 @@ impl SseEncode for crate::api::types::PaymentFailureReason {
                 crate::api::types::PaymentFailureReason::UnknownRequiredFeatures => 6,
                 crate::api::types::PaymentFailureReason::InvoiceRequestExpired => 7,
                 crate::api::types::PaymentFailureReason::InvoiceRequestRejected => 8,
+                crate::api::types::PaymentFailureReason::BlindedPathCreationFailed => 9,
                 _ => {
                     unimplemented!("");
                 }
@@ -8026,85 +8713,7 @@ impl SseEncode for crate::api::types::PaymentId {
     }
 }
 
-impl SseEncode for crate::api::types::PaymentKind {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
-        match self {
-            crate::api::types::PaymentKind::Onchain => {
-                <i32>::sse_encode(0, serializer);
-            }
-            crate::api::types::PaymentKind::Bolt11 {
-                hash,
-                preimage,
-                secret,
-            } => {
-                <i32>::sse_encode(1, serializer);
-                <crate::api::types::PaymentHash>::sse_encode(hash, serializer);
-                <Option<crate::api::types::PaymentPreimage>>::sse_encode(preimage, serializer);
-                <Option<crate::api::types::PaymentSecret>>::sse_encode(secret, serializer);
-            }
-            crate::api::types::PaymentKind::Bolt11Jit {
-                hash,
-                preimage,
-                secret,
-                lsp_fee_limits,
-            } => {
-                <i32>::sse_encode(2, serializer);
-                <crate::api::types::PaymentHash>::sse_encode(hash, serializer);
-                <Option<crate::api::types::PaymentPreimage>>::sse_encode(preimage, serializer);
-                <Option<crate::api::types::PaymentSecret>>::sse_encode(secret, serializer);
-                <crate::api::types::LSPFeeLimits>::sse_encode(lsp_fee_limits, serializer);
-            }
-            crate::api::types::PaymentKind::Spontaneous { hash, preimage } => {
-                <i32>::sse_encode(3, serializer);
-                <crate::api::types::PaymentHash>::sse_encode(hash, serializer);
-                <Option<crate::api::types::PaymentPreimage>>::sse_encode(preimage, serializer);
-            }
-            crate::api::types::PaymentKind::Bolt12Offer {
-                hash,
-                preimage,
-                secret,
-                offer_id,
-                payer_note,
-                quantity,
-            } => {
-                <i32>::sse_encode(4, serializer);
-                <Option<crate::api::types::PaymentHash>>::sse_encode(hash, serializer);
-                <Option<crate::api::types::PaymentPreimage>>::sse_encode(preimage, serializer);
-                <Option<crate::api::types::PaymentSecret>>::sse_encode(secret, serializer);
-                <crate::api::types::OfferId>::sse_encode(offer_id, serializer);
-                <Option<String>>::sse_encode(payer_note, serializer);
-                <Option<u64>>::sse_encode(quantity, serializer);
-            }
-            crate::api::types::PaymentKind::Bolt12Refund {
-                hash,
-                preimage,
-                secret,
-                payer_note,
-                quantity,
-            } => {
-                <i32>::sse_encode(5, serializer);
-                <Option<crate::api::types::PaymentHash>>::sse_encode(hash, serializer);
-                <Option<crate::api::types::PaymentPreimage>>::sse_encode(preimage, serializer);
-                <Option<crate::api::types::PaymentSecret>>::sse_encode(secret, serializer);
-                <Option<String>>::sse_encode(payer_note, serializer);
-                <Option<u64>>::sse_encode(quantity, serializer);
-            }
-            _ => {
-                unimplemented!("");
-            }
-        }
-    }
-}
-
 impl SseEncode for crate::api::types::PaymentPreimage {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
-        <[u8; 32]>::sse_encode(self.data, serializer);
-    }
-}
-
-impl SseEncode for crate::api::types::PaymentSecret {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
         <[u8; 32]>::sse_encode(self.data, serializer);
@@ -8436,6 +9045,7 @@ mod io {
 
     use super::*;
     use crate::api::builder::*;
+    use crate::api::types::*;
     use crate::*;
     use flutter_rust_bridge::for_generated::byteorder::{
         NativeEndian, ReadBytesExt, WriteBytesExt,
@@ -8459,6 +9069,28 @@ mod io {
             ))
         }
     }
+    impl CstDecode<PaymentDetails> for usize {
+        // Codec=Cst (C-struct based), see doc to use other codecs
+        fn cst_decode(self) -> PaymentDetails {
+            flutter_rust_bridge::for_generated::rust_auto_opaque_decode_owned(CstDecode::<
+                RustOpaqueNom<
+                    flutter_rust_bridge::for_generated::RustAutoOpaqueInner<PaymentDetails>,
+                >,
+            >::cst_decode(
+                self
+            ))
+        }
+    }
+    impl CstDecode<PaymentKind> for usize {
+        // Codec=Cst (C-struct based), see doc to use other codecs
+        fn cst_decode(self) -> PaymentKind {
+            flutter_rust_bridge::for_generated::rust_auto_opaque_decode_owned(CstDecode::<
+                RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<PaymentKind>>,
+            >::cst_decode(
+                self
+            ))
+        }
+    }
     impl CstDecode<std::collections::HashMap<String, String>>
         for *mut wire_cst_list_record_string_string
     {
@@ -8477,6 +9109,32 @@ mod io {
         fn cst_decode(
             self,
         ) -> RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<FfiBuilder>>
+        {
+            unsafe { decode_rust_opaque_nom(self as _) }
+        }
+    }
+    impl
+        CstDecode<
+            RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<PaymentDetails>>,
+        > for usize
+    {
+        // Codec=Cst (C-struct based), see doc to use other codecs
+        fn cst_decode(
+            self,
+        ) -> RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<PaymentDetails>>
+        {
+            unsafe { decode_rust_opaque_nom(self as _) }
+        }
+    }
+    impl
+        CstDecode<
+            RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<PaymentKind>>,
+        > for usize
+    {
+        // Codec=Cst (C-struct based), see doc to use other codecs
+        fn cst_decode(
+            self,
+        ) -> RustOpaqueNom<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<PaymentKind>>
         {
             unsafe { decode_rust_opaque_nom(self as _) }
         }
@@ -8553,6 +9211,22 @@ mod io {
             }
         }
     }
+    impl CstDecode<crate::api::types::BackgroundSyncConfig> for wire_cst_background_sync_config {
+        // Codec=Cst (C-struct based), see doc to use other codecs
+        fn cst_decode(self) -> crate::api::types::BackgroundSyncConfig {
+            crate::api::types::BackgroundSyncConfig {
+                onchain_wallet_sync_interval_secs: self
+                    .onchain_wallet_sync_interval_secs
+                    .cst_decode(),
+                lightning_wallet_sync_interval_secs: self
+                    .lightning_wallet_sync_interval_secs
+                    .cst_decode(),
+                fee_rate_cache_update_interval_secs: self
+                    .fee_rate_cache_update_interval_secs
+                    .cst_decode(),
+            }
+        }
+    }
     impl CstDecode<crate::api::types::BalanceDetails> for wire_cst_balance_details {
         // Codec=Cst (C-struct based), see doc to use other codecs
         fn cst_decode(self) -> crate::api::types::BalanceDetails {
@@ -8618,6 +9292,13 @@ mod io {
             }
         }
     }
+    impl CstDecode<PaymentDetails> for *mut usize {
+        // Codec=Cst (C-struct based), see doc to use other codecs
+        fn cst_decode(self) -> PaymentDetails {
+            let wrap = unsafe { flutter_rust_bridge::for_generated::box_from_leak_ptr(self) };
+            CstDecode::<PaymentDetails>::cst_decode(*wrap).into()
+        }
+    }
     impl CstDecode<crate::api::types::Address> for *mut wire_cst_address {
         // Codec=Cst (C-struct based), see doc to use other codecs
         fn cst_decode(self) -> crate::api::types::Address {
@@ -8630,6 +9311,13 @@ mod io {
         fn cst_decode(self) -> crate::api::types::AnchorChannelsConfig {
             let wrap = unsafe { flutter_rust_bridge::for_generated::box_from_leak_ptr(self) };
             CstDecode::<crate::api::types::AnchorChannelsConfig>::cst_decode(*wrap).into()
+        }
+    }
+    impl CstDecode<crate::api::types::BackgroundSyncConfig> for *mut wire_cst_background_sync_config {
+        // Codec=Cst (C-struct based), see doc to use other codecs
+        fn cst_decode(self) -> crate::api::types::BackgroundSyncConfig {
+            let wrap = unsafe { flutter_rust_bridge::for_generated::box_from_leak_ptr(self) };
+            CstDecode::<crate::api::types::BackgroundSyncConfig>::cst_decode(*wrap).into()
         }
     }
     impl CstDecode<crate::api::bolt11::Bolt11Invoice> for *mut wire_cst_bolt_11_invoice {
@@ -8731,6 +9419,13 @@ mod io {
             CstDecode::<crate::api::types::Event>::cst_decode(*wrap).into()
         }
     }
+    impl CstDecode<crate::api::types::FeeRate> for *mut wire_cst_fee_rate {
+        // Codec=Cst (C-struct based), see doc to use other codecs
+        fn cst_decode(self) -> crate::api::types::FeeRate {
+            let wrap = unsafe { flutter_rust_bridge::for_generated::box_from_leak_ptr(self) };
+            CstDecode::<crate::api::types::FeeRate>::cst_decode(*wrap).into()
+        }
+    }
     impl CstDecode<crate::api::bolt11::FfiBolt11Payment> for *mut wire_cst_ffi_bolt_11_payment {
         // Codec=Cst (C-struct based), see doc to use other codecs
         fn cst_decode(self) -> crate::api::bolt11::FfiBolt11Payment {
@@ -8805,13 +9500,6 @@ mod io {
             CstDecode::<crate::api::types::LiquiditySourceConfig>::cst_decode(*wrap).into()
         }
     }
-    impl CstDecode<crate::api::types::LSPFeeLimits> for *mut wire_cst_lsp_fee_limits {
-        // Codec=Cst (C-struct based), see doc to use other codecs
-        fn cst_decode(self) -> crate::api::types::LSPFeeLimits {
-            let wrap = unsafe { flutter_rust_bridge::for_generated::box_from_leak_ptr(self) };
-            CstDecode::<crate::api::types::LSPFeeLimits>::cst_decode(*wrap).into()
-        }
-    }
     impl CstDecode<crate::api::types::MaxTotalRoutingFeeLimit>
         for *mut wire_cst_max_total_routing_fee_limit
     {
@@ -8856,25 +9544,11 @@ mod io {
             CstDecode::<crate::api::bolt12::Offer>::cst_decode(*wrap).into()
         }
     }
-    impl CstDecode<crate::api::types::OfferId> for *mut wire_cst_offer_id {
-        // Codec=Cst (C-struct based), see doc to use other codecs
-        fn cst_decode(self) -> crate::api::types::OfferId {
-            let wrap = unsafe { flutter_rust_bridge::for_generated::box_from_leak_ptr(self) };
-            CstDecode::<crate::api::types::OfferId>::cst_decode(*wrap).into()
-        }
-    }
     impl CstDecode<crate::api::types::OutPoint> for *mut wire_cst_out_point {
         // Codec=Cst (C-struct based), see doc to use other codecs
         fn cst_decode(self) -> crate::api::types::OutPoint {
             let wrap = unsafe { flutter_rust_bridge::for_generated::box_from_leak_ptr(self) };
             CstDecode::<crate::api::types::OutPoint>::cst_decode(*wrap).into()
-        }
-    }
-    impl CstDecode<crate::api::types::PaymentDetails> for *mut wire_cst_payment_details {
-        // Codec=Cst (C-struct based), see doc to use other codecs
-        fn cst_decode(self) -> crate::api::types::PaymentDetails {
-            let wrap = unsafe { flutter_rust_bridge::for_generated::box_from_leak_ptr(self) };
-            CstDecode::<crate::api::types::PaymentDetails>::cst_decode(*wrap).into()
         }
     }
     impl CstDecode<crate::api::types::PaymentFailureReason> for *mut i32 {
@@ -8903,13 +9577,6 @@ mod io {
         fn cst_decode(self) -> crate::api::types::PaymentPreimage {
             let wrap = unsafe { flutter_rust_bridge::for_generated::box_from_leak_ptr(self) };
             CstDecode::<crate::api::types::PaymentPreimage>::cst_decode(*wrap).into()
-        }
-    }
-    impl CstDecode<crate::api::types::PaymentSecret> for *mut wire_cst_payment_secret {
-        // Codec=Cst (C-struct based), see doc to use other codecs
-        fn cst_decode(self) -> crate::api::types::PaymentSecret {
-            let wrap = unsafe { flutter_rust_bridge::for_generated::box_from_leak_ptr(self) };
-            CstDecode::<crate::api::types::PaymentSecret>::cst_decode(*wrap).into()
         }
     }
     impl CstDecode<crate::api::types::PublicKey> for *mut wire_cst_public_key {
@@ -9146,17 +9813,25 @@ mod io {
         fn cst_decode(self) -> crate::api::types::Config {
             crate::api::types::Config {
                 storage_dir_path: self.storage_dir_path.cst_decode(),
-                log_dir_path: self.log_dir_path.cst_decode(),
                 network: self.network.cst_decode(),
                 listening_addresses: self.listening_addresses.cst_decode(),
+                announcement_addresses: self.announcement_addresses.cst_decode(),
                 node_alias: self.node_alias.cst_decode(),
                 trusted_peers_0conf: self.trusted_peers_0conf.cst_decode(),
                 probing_liquidity_limit_multiplier: self
                     .probing_liquidity_limit_multiplier
                     .cst_decode(),
-                log_level: self.log_level.cst_decode(),
                 anchor_channels_config: self.anchor_channels_config.cst_decode(),
                 sending_parameters: self.sending_parameters.cst_decode(),
+            }
+        }
+    }
+    impl CstDecode<crate::api::types::CustomTlvRecord> for wire_cst_custom_tlv_record {
+        // Codec=Cst (C-struct based), see doc to use other codecs
+        fn cst_decode(self) -> crate::api::types::CustomTlvRecord {
+            crate::api::types::CustomTlvRecord {
+                type_num: self.type_num.cst_decode(),
+                value: self.value.cst_decode(),
             }
         }
     }
@@ -9206,15 +9881,7 @@ mod io {
         // Codec=Cst (C-struct based), see doc to use other codecs
         fn cst_decode(self) -> crate::api::types::EsploraSyncConfig {
             crate::api::types::EsploraSyncConfig {
-                onchain_wallet_sync_interval_secs: self
-                    .onchain_wallet_sync_interval_secs
-                    .cst_decode(),
-                lightning_wallet_sync_interval_secs: self
-                    .lightning_wallet_sync_interval_secs
-                    .cst_decode(),
-                fee_rate_cache_update_interval_secs: self
-                    .fee_rate_cache_update_interval_secs
-                    .cst_decode(),
+                background_sync_config: self.background_sync_config.cst_decode(),
             }
         }
     }
@@ -9229,6 +9896,7 @@ mod io {
                         payment_hash: ans.payment_hash.cst_decode(),
                         claimable_amount_msat: ans.claimable_amount_msat.cst_decode(),
                         claim_deadline: ans.claim_deadline.cst_decode(),
+                        custom_records: ans.custom_records.cst_decode(),
                     }
                 }
                 1 => {
@@ -9237,6 +9905,7 @@ mod io {
                         payment_id: ans.payment_id.cst_decode(),
                         payment_hash: ans.payment_hash.cst_decode(),
                         fee_paid_msat: ans.fee_paid_msat.cst_decode(),
+                        preimage: ans.preimage.cst_decode(),
                     }
                 }
                 2 => {
@@ -9253,6 +9922,7 @@ mod io {
                         payment_id: ans.payment_id.cst_decode(),
                         payment_hash: ans.payment_hash.cst_decode(),
                         amount_msat: ans.amount_msat.cst_decode(),
+                        custom_records: ans.custom_records.cst_decode(),
                     }
                 }
                 4 => {
@@ -9282,8 +9952,31 @@ mod io {
                         reason: ans.reason.cst_decode(),
                     }
                 }
+                7 => {
+                    let ans = unsafe { self.kind.PaymentForwarded };
+                    crate::api::types::Event::PaymentForwarded {
+                        prev_channel_id: ans.prev_channel_id.cst_decode(),
+                        next_channel_id: ans.next_channel_id.cst_decode(),
+                        prev_user_channel_id: ans.prev_user_channel_id.cst_decode(),
+                        next_user_channel_id: ans.next_user_channel_id.cst_decode(),
+                        prev_node_id: ans.prev_node_id.cst_decode(),
+                        next_node_id: ans.next_node_id.cst_decode(),
+                        total_fee_earned_msat: ans.total_fee_earned_msat.cst_decode(),
+                        skimmed_fee_msat: ans.skimmed_fee_msat.cst_decode(),
+                        claim_from_onchain_tx: ans.claim_from_onchain_tx.cst_decode(),
+                        outbound_amount_forwarded_msat: ans
+                            .outbound_amount_forwarded_msat
+                            .cst_decode(),
+                    }
+                }
                 _ => unreachable!(),
             }
+        }
+    }
+    impl CstDecode<crate::api::types::FeeRate> for wire_cst_fee_rate {
+        // Codec=Cst (C-struct based), see doc to use other codecs
+        fn cst_decode(self) -> crate::api::types::FeeRate {
+            crate::api::types::FeeRate(self.field0.cst_decode())
         }
     }
     impl CstDecode<crate::api::bolt11::FfiBolt11Payment> for wire_cst_ffi_bolt_11_payment {
@@ -9389,6 +10082,13 @@ mod io {
                 50 => crate::utils::error::FfiNodeError::InvalidUri,
                 51 => crate::utils::error::FfiNodeError::InvalidQuantity,
                 52 => crate::utils::error::FfiNodeError::InvalidNodeAlias,
+                53 => crate::utils::error::FfiNodeError::InvalidCustomTlvs,
+                54 => crate::utils::error::FfiNodeError::InvalidDateTime,
+                55 => crate::utils::error::FfiNodeError::InvalidFeeRate,
+                56 => {
+                    let ans = unsafe { self.kind.CreationError };
+                    crate::utils::error::FfiNodeError::CreationError(ans.field0.cst_decode())
+                }
                 _ => unreachable!(),
             }
         }
@@ -9517,9 +10217,29 @@ mod io {
             }
         }
     }
+    impl CstDecode<Vec<PaymentDetails>> for *mut wire_cst_list_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPaymentDetails {
+            // Codec=Cst (C-struct based), see doc to use other codecs
+            fn cst_decode(self) -> Vec<PaymentDetails> {
+                let vec = unsafe {
+        let wrap = flutter_rust_bridge::for_generated::box_from_leak_ptr(self);
+        flutter_rust_bridge::for_generated::vec_from_leak_ptr(wrap.ptr, wrap.len)
+    };
+    vec.into_iter().map(CstDecode::cst_decode).collect()
+            }
+        }
     impl CstDecode<Vec<crate::api::types::ChannelDetails>> for *mut wire_cst_list_channel_details {
         // Codec=Cst (C-struct based), see doc to use other codecs
         fn cst_decode(self) -> Vec<crate::api::types::ChannelDetails> {
+            let vec = unsafe {
+                let wrap = flutter_rust_bridge::for_generated::box_from_leak_ptr(self);
+                flutter_rust_bridge::for_generated::vec_from_leak_ptr(wrap.ptr, wrap.len)
+            };
+            vec.into_iter().map(CstDecode::cst_decode).collect()
+        }
+    }
+    impl CstDecode<Vec<crate::api::types::CustomTlvRecord>> for *mut wire_cst_list_custom_tlv_record {
+        // Codec=Cst (C-struct based), see doc to use other codecs
+        fn cst_decode(self) -> Vec<crate::api::types::CustomTlvRecord> {
             let vec = unsafe {
                 let wrap = flutter_rust_bridge::for_generated::box_from_leak_ptr(self);
                 flutter_rust_bridge::for_generated::vec_from_leak_ptr(wrap.ptr, wrap.len)
@@ -9540,16 +10260,6 @@ mod io {
     impl CstDecode<Vec<crate::api::graph::NodeId>> for *mut wire_cst_list_node_id {
         // Codec=Cst (C-struct based), see doc to use other codecs
         fn cst_decode(self) -> Vec<crate::api::graph::NodeId> {
-            let vec = unsafe {
-                let wrap = flutter_rust_bridge::for_generated::box_from_leak_ptr(self);
-                flutter_rust_bridge::for_generated::vec_from_leak_ptr(wrap.ptr, wrap.len)
-            };
-            vec.into_iter().map(CstDecode::cst_decode).collect()
-        }
-    }
-    impl CstDecode<Vec<crate::api::types::PaymentDetails>> for *mut wire_cst_list_payment_details {
-        // Codec=Cst (C-struct based), see doc to use other codecs
-        fn cst_decode(self) -> Vec<crate::api::types::PaymentDetails> {
             let vec = unsafe {
                 let wrap = flutter_rust_bridge::for_generated::box_from_leak_ptr(self);
                 flutter_rust_bridge::for_generated::vec_from_leak_ptr(wrap.ptr, wrap.len)
@@ -9634,17 +10344,6 @@ mod io {
                 flutter_rust_bridge::for_generated::vec_from_leak_ptr(wrap.ptr, wrap.len)
             };
             vec.into_iter().map(CstDecode::cst_decode).collect()
-        }
-    }
-    impl CstDecode<crate::api::types::LSPFeeLimits> for wire_cst_lsp_fee_limits {
-        // Codec=Cst (C-struct based), see doc to use other codecs
-        fn cst_decode(self) -> crate::api::types::LSPFeeLimits {
-            crate::api::types::LSPFeeLimits {
-                max_total_opening_fee_msat: self.max_total_opening_fee_msat.cst_decode(),
-                max_proportional_opening_fee_ppm_msat: self
-                    .max_proportional_opening_fee_ppm_msat
-                    .cst_decode(),
-            }
         }
     }
     impl CstDecode<crate::api::types::MaxDustHTLCExposure> for wire_cst_max_dust_htlc_exposure {
@@ -9749,31 +10448,12 @@ mod io {
             }
         }
     }
-    impl CstDecode<crate::api::types::OfferId> for wire_cst_offer_id {
-        // Codec=Cst (C-struct based), see doc to use other codecs
-        fn cst_decode(self) -> crate::api::types::OfferId {
-            crate::api::types::OfferId(self.field0.cst_decode())
-        }
-    }
     impl CstDecode<crate::api::types::OutPoint> for wire_cst_out_point {
         // Codec=Cst (C-struct based), see doc to use other codecs
         fn cst_decode(self) -> crate::api::types::OutPoint {
             crate::api::types::OutPoint {
                 txid: self.txid.cst_decode(),
                 vout: self.vout.cst_decode(),
-            }
-        }
-    }
-    impl CstDecode<crate::api::types::PaymentDetails> for wire_cst_payment_details {
-        // Codec=Cst (C-struct based), see doc to use other codecs
-        fn cst_decode(self) -> crate::api::types::PaymentDetails {
-            crate::api::types::PaymentDetails {
-                id: self.id.cst_decode(),
-                kind: self.kind.cst_decode(),
-                amount_msat: self.amount_msat.cst_decode(),
-                direction: self.direction.cst_decode(),
-                status: self.status.cst_decode(),
-                latest_update_timestamp: self.latest_update_timestamp.cst_decode(),
             }
         }
     }
@@ -9791,72 +10471,10 @@ mod io {
             crate::api::types::PaymentId(self.field0.cst_decode())
         }
     }
-    impl CstDecode<crate::api::types::PaymentKind> for wire_cst_payment_kind {
-        // Codec=Cst (C-struct based), see doc to use other codecs
-        fn cst_decode(self) -> crate::api::types::PaymentKind {
-            match self.tag {
-                0 => crate::api::types::PaymentKind::Onchain,
-                1 => {
-                    let ans = unsafe { self.kind.Bolt11 };
-                    crate::api::types::PaymentKind::Bolt11 {
-                        hash: ans.hash.cst_decode(),
-                        preimage: ans.preimage.cst_decode(),
-                        secret: ans.secret.cst_decode(),
-                    }
-                }
-                2 => {
-                    let ans = unsafe { self.kind.Bolt11Jit };
-                    crate::api::types::PaymentKind::Bolt11Jit {
-                        hash: ans.hash.cst_decode(),
-                        preimage: ans.preimage.cst_decode(),
-                        secret: ans.secret.cst_decode(),
-                        lsp_fee_limits: ans.lsp_fee_limits.cst_decode(),
-                    }
-                }
-                3 => {
-                    let ans = unsafe { self.kind.Spontaneous };
-                    crate::api::types::PaymentKind::Spontaneous {
-                        hash: ans.hash.cst_decode(),
-                        preimage: ans.preimage.cst_decode(),
-                    }
-                }
-                4 => {
-                    let ans = unsafe { self.kind.Bolt12Offer };
-                    crate::api::types::PaymentKind::Bolt12Offer {
-                        hash: ans.hash.cst_decode(),
-                        preimage: ans.preimage.cst_decode(),
-                        secret: ans.secret.cst_decode(),
-                        offer_id: ans.offer_id.cst_decode(),
-                        payer_note: ans.payer_note.cst_decode(),
-                        quantity: ans.quantity.cst_decode(),
-                    }
-                }
-                5 => {
-                    let ans = unsafe { self.kind.Bolt12Refund };
-                    crate::api::types::PaymentKind::Bolt12Refund {
-                        hash: ans.hash.cst_decode(),
-                        preimage: ans.preimage.cst_decode(),
-                        secret: ans.secret.cst_decode(),
-                        payer_note: ans.payer_note.cst_decode(),
-                        quantity: ans.quantity.cst_decode(),
-                    }
-                }
-                _ => unreachable!(),
-            }
-        }
-    }
     impl CstDecode<crate::api::types::PaymentPreimage> for wire_cst_payment_preimage {
         // Codec=Cst (C-struct based), see doc to use other codecs
         fn cst_decode(self) -> crate::api::types::PaymentPreimage {
             crate::api::types::PaymentPreimage {
-                data: self.data.cst_decode(),
-            }
-        }
-    }
-    impl CstDecode<crate::api::types::PaymentSecret> for wire_cst_payment_secret {
-        // Codec=Cst (C-struct based), see doc to use other codecs
-        fn cst_decode(self) -> crate::api::types::PaymentSecret {
-            crate::api::types::PaymentSecret {
                 data: self.data.cst_decode(),
             }
         }
@@ -10115,6 +10733,20 @@ mod io {
             Self::new_with_null_ptr()
         }
     }
+    impl NewWithNullPtr for wire_cst_background_sync_config {
+        fn new_with_null_ptr() -> Self {
+            Self {
+                onchain_wallet_sync_interval_secs: Default::default(),
+                lightning_wallet_sync_interval_secs: Default::default(),
+                fee_rate_cache_update_interval_secs: Default::default(),
+            }
+        }
+    }
+    impl Default for wire_cst_background_sync_config {
+        fn default() -> Self {
+            Self::new_with_null_ptr()
+        }
+    }
     impl NewWithNullPtr for wire_cst_balance_details {
         fn new_with_null_ptr() -> Self {
             Self {
@@ -10311,19 +10943,31 @@ mod io {
         fn new_with_null_ptr() -> Self {
             Self {
                 storage_dir_path: core::ptr::null_mut(),
-                log_dir_path: core::ptr::null_mut(),
                 network: Default::default(),
                 listening_addresses: core::ptr::null_mut(),
+                announcement_addresses: core::ptr::null_mut(),
                 node_alias: core::ptr::null_mut(),
                 trusted_peers_0conf: core::ptr::null_mut(),
                 probing_liquidity_limit_multiplier: Default::default(),
-                log_level: Default::default(),
                 anchor_channels_config: core::ptr::null_mut(),
                 sending_parameters: core::ptr::null_mut(),
             }
         }
     }
     impl Default for wire_cst_config {
+        fn default() -> Self {
+            Self::new_with_null_ptr()
+        }
+    }
+    impl NewWithNullPtr for wire_cst_custom_tlv_record {
+        fn new_with_null_ptr() -> Self {
+            Self {
+                type_num: Default::default(),
+                value: core::ptr::null_mut(),
+            }
+        }
+    }
+    impl Default for wire_cst_custom_tlv_record {
         fn default() -> Self {
             Self::new_with_null_ptr()
         }
@@ -10357,9 +11001,7 @@ mod io {
     impl NewWithNullPtr for wire_cst_esplora_sync_config {
         fn new_with_null_ptr() -> Self {
             Self {
-                onchain_wallet_sync_interval_secs: Default::default(),
-                lightning_wallet_sync_interval_secs: Default::default(),
-                fee_rate_cache_update_interval_secs: Default::default(),
+                background_sync_config: core::ptr::null_mut(),
             }
         }
     }
@@ -10377,6 +11019,18 @@ mod io {
         }
     }
     impl Default for wire_cst_event {
+        fn default() -> Self {
+            Self::new_with_null_ptr()
+        }
+    }
+    impl NewWithNullPtr for wire_cst_fee_rate {
+        fn new_with_null_ptr() -> Self {
+            Self {
+                field0: Default::default(),
+            }
+        }
+    }
+    impl Default for wire_cst_fee_rate {
         fn default() -> Self {
             Self::new_with_null_ptr()
         }
@@ -10528,19 +11182,6 @@ mod io {
             Self::new_with_null_ptr()
         }
     }
-    impl NewWithNullPtr for wire_cst_lsp_fee_limits {
-        fn new_with_null_ptr() -> Self {
-            Self {
-                max_total_opening_fee_msat: core::ptr::null_mut(),
-                max_proportional_opening_fee_ppm_msat: core::ptr::null_mut(),
-            }
-        }
-    }
-    impl Default for wire_cst_lsp_fee_limits {
-        fn default() -> Self {
-            Self::new_with_null_ptr()
-        }
-    }
     impl NewWithNullPtr for wire_cst_max_dust_htlc_exposure {
         fn new_with_null_ptr() -> Self {
             Self {
@@ -10650,18 +11291,6 @@ mod io {
             Self::new_with_null_ptr()
         }
     }
-    impl NewWithNullPtr for wire_cst_offer_id {
-        fn new_with_null_ptr() -> Self {
-            Self {
-                field0: core::ptr::null_mut(),
-            }
-        }
-    }
-    impl Default for wire_cst_offer_id {
-        fn default() -> Self {
-            Self::new_with_null_ptr()
-        }
-    }
     impl NewWithNullPtr for wire_cst_out_point {
         fn new_with_null_ptr() -> Self {
             Self {
@@ -10671,23 +11300,6 @@ mod io {
         }
     }
     impl Default for wire_cst_out_point {
-        fn default() -> Self {
-            Self::new_with_null_ptr()
-        }
-    }
-    impl NewWithNullPtr for wire_cst_payment_details {
-        fn new_with_null_ptr() -> Self {
-            Self {
-                id: Default::default(),
-                kind: Default::default(),
-                amount_msat: core::ptr::null_mut(),
-                direction: Default::default(),
-                status: Default::default(),
-                latest_update_timestamp: Default::default(),
-            }
-        }
-    }
-    impl Default for wire_cst_payment_details {
         fn default() -> Self {
             Self::new_with_null_ptr()
         }
@@ -10716,19 +11328,6 @@ mod io {
             Self::new_with_null_ptr()
         }
     }
-    impl NewWithNullPtr for wire_cst_payment_kind {
-        fn new_with_null_ptr() -> Self {
-            Self {
-                tag: -1,
-                kind: PaymentKindKind { nil__: () },
-            }
-        }
-    }
-    impl Default for wire_cst_payment_kind {
-        fn default() -> Self {
-            Self::new_with_null_ptr()
-        }
-    }
     impl NewWithNullPtr for wire_cst_payment_preimage {
         fn new_with_null_ptr() -> Self {
             Self {
@@ -10737,18 +11336,6 @@ mod io {
         }
     }
     impl Default for wire_cst_payment_preimage {
-        fn default() -> Self {
-            Self::new_with_null_ptr()
-        }
-    }
-    impl NewWithNullPtr for wire_cst_payment_secret {
-        fn new_with_null_ptr() -> Self {
-            Self {
-                data: core::ptr::null_mut(),
-            }
-        }
-    }
-    impl Default for wire_cst_payment_secret {
         fn default() -> Self {
             Self::new_with_null_ptr()
         }
@@ -10995,6 +11582,102 @@ mod io {
     }
 
     #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_ldk_node_wire__crate__api__types__PaymentDetails_auto_accessor_get_amount_msat(
+        that: usize,
+    ) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
+        wire__crate__api__types__PaymentDetails_auto_accessor_get_amount_msat_impl(that)
+    }
+
+    #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_ldk_node_wire__crate__api__types__PaymentDetails_auto_accessor_get_direction(
+        that: usize,
+    ) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
+        wire__crate__api__types__PaymentDetails_auto_accessor_get_direction_impl(that)
+    }
+
+    #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_ldk_node_wire__crate__api__types__PaymentDetails_auto_accessor_get_id(
+        that: usize,
+    ) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
+        wire__crate__api__types__PaymentDetails_auto_accessor_get_id_impl(that)
+    }
+
+    #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_ldk_node_wire__crate__api__types__PaymentDetails_auto_accessor_get_kind(
+        that: usize,
+    ) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
+        wire__crate__api__types__PaymentDetails_auto_accessor_get_kind_impl(that)
+    }
+
+    #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_ldk_node_wire__crate__api__types__PaymentDetails_auto_accessor_get_latest_update_timestamp(
+        that: usize,
+    ) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
+        wire__crate__api__types__PaymentDetails_auto_accessor_get_latest_update_timestamp_impl(that)
+    }
+
+    #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_ldk_node_wire__crate__api__types__PaymentDetails_auto_accessor_get_status(
+        that: usize,
+    ) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
+        wire__crate__api__types__PaymentDetails_auto_accessor_get_status_impl(that)
+    }
+
+    #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_ldk_node_wire__crate__api__types__PaymentDetails_auto_accessor_set_amount_msat(
+        that: usize,
+        amount_msat: *mut u64,
+    ) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
+        wire__crate__api__types__PaymentDetails_auto_accessor_set_amount_msat_impl(
+            that,
+            amount_msat,
+        )
+    }
+
+    #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_ldk_node_wire__crate__api__types__PaymentDetails_auto_accessor_set_direction(
+        that: usize,
+        direction: i32,
+    ) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
+        wire__crate__api__types__PaymentDetails_auto_accessor_set_direction_impl(that, direction)
+    }
+
+    #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_ldk_node_wire__crate__api__types__PaymentDetails_auto_accessor_set_id(
+        that: usize,
+        id: wire_cst_payment_id,
+    ) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
+        wire__crate__api__types__PaymentDetails_auto_accessor_set_id_impl(that, id)
+    }
+
+    #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_ldk_node_wire__crate__api__types__PaymentDetails_auto_accessor_set_kind(
+        that: usize,
+        kind: usize,
+    ) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
+        wire__crate__api__types__PaymentDetails_auto_accessor_set_kind_impl(that, kind)
+    }
+
+    #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_ldk_node_wire__crate__api__types__PaymentDetails_auto_accessor_set_latest_update_timestamp(
+        that: usize,
+        latest_update_timestamp: u64,
+    ) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
+        wire__crate__api__types__PaymentDetails_auto_accessor_set_latest_update_timestamp_impl(
+            that,
+            latest_update_timestamp,
+        )
+    }
+
+    #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_ldk_node_wire__crate__api__types__PaymentDetails_auto_accessor_set_status(
+        that: usize,
+        status: i32,
+    ) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
+        wire__crate__api__types__PaymentDetails_auto_accessor_set_status_impl(that, status)
+    }
+
+    #[unsafe(no_mangle)]
     pub extern "C" fn frbgen_ldk_node_wire__crate__api__types__anchor_channels_config_default(
         port_: i64,
     ) {
@@ -11004,6 +11687,51 @@ mod io {
     #[unsafe(no_mangle)]
     pub extern "C" fn frbgen_ldk_node_wire__crate__api__types__config_default(port_: i64) {
         wire__crate__api__types__config_default_impl(port_)
+    }
+
+    #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_ldk_node_wire__crate__api__types__fee_rate_from_sat_per_kwu(
+        sat_kwu: u64,
+    ) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
+        wire__crate__api__types__fee_rate_from_sat_per_kwu_impl(sat_kwu)
+    }
+
+    #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_ldk_node_wire__crate__api__types__fee_rate_from_sat_per_vb(
+        sat_vb: u64,
+    ) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
+        wire__crate__api__types__fee_rate_from_sat_per_vb_impl(sat_vb)
+    }
+
+    #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_ldk_node_wire__crate__api__types__fee_rate_from_sat_per_vb_unchecked(
+        sat_vb: u64,
+    ) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
+        wire__crate__api__types__fee_rate_from_sat_per_vb_unchecked_impl(sat_vb)
+    }
+
+    #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_ldk_node_wire__crate__api__types__fee_rate_to_sat_per_kwu(
+        port_: i64,
+        that: *mut wire_cst_fee_rate,
+    ) {
+        wire__crate__api__types__fee_rate_to_sat_per_kwu_impl(port_, that)
+    }
+
+    #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_ldk_node_wire__crate__api__types__fee_rate_to_sat_per_vb_ceil(
+        port_: i64,
+        that: *mut wire_cst_fee_rate,
+    ) {
+        wire__crate__api__types__fee_rate_to_sat_per_vb_ceil_impl(port_, that)
+    }
+
+    #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_ldk_node_wire__crate__api__types__fee_rate_to_sat_per_vb_floor(
+        port_: i64,
+        that: *mut wire_cst_fee_rate,
+    ) {
+        wire__crate__api__types__fee_rate_to_sat_per_vb_floor_impl(port_, that)
     }
 
     #[unsafe(no_mangle)]
@@ -11668,9 +12396,15 @@ mod io {
         port_: i64,
         that: *mut wire_cst_ffi_on_chain_payment,
         address: *mut wire_cst_address,
+        retain_reserves: bool,
+        fee_rate: *mut wire_cst_fee_rate,
     ) {
         wire__crate__api__on_chain__ffi_on_chain_payment_send_all_to_address_impl(
-            port_, that, address,
+            port_,
+            that,
+            address,
+            retain_reserves,
+            fee_rate,
         )
     }
 
@@ -11680,12 +12414,14 @@ mod io {
         that: *mut wire_cst_ffi_on_chain_payment,
         address: *mut wire_cst_address,
         amount_sats: u64,
+        fee_rate: *mut wire_cst_fee_rate,
     ) {
         wire__crate__api__on_chain__ffi_on_chain_payment_send_to_address_impl(
             port_,
             that,
             address,
             amount_sats,
+            fee_rate,
         )
     }
 
@@ -11762,6 +12498,42 @@ mod io {
     ) {
         unsafe {
             StdArc::<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<FfiBuilder>>::decrement_strong_count(ptr as _);
+        }
+    }
+
+    #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_ldk_node_rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPaymentDetails(
+        ptr: *const std::ffi::c_void,
+    ) {
+        unsafe {
+            StdArc::<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<PaymentDetails>>::increment_strong_count(ptr as _);
+        }
+    }
+
+    #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_ldk_node_rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPaymentDetails(
+        ptr: *const std::ffi::c_void,
+    ) {
+        unsafe {
+            StdArc::<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<PaymentDetails>>::decrement_strong_count(ptr as _);
+        }
+    }
+
+    #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_ldk_node_rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPaymentKind(
+        ptr: *const std::ffi::c_void,
+    ) {
+        unsafe {
+            StdArc::<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<PaymentKind>>::increment_strong_count(ptr as _);
+        }
+    }
+
+    #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_ldk_node_rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPaymentKind(
+        ptr: *const std::ffi::c_void,
+    ) {
+        unsafe {
+            StdArc::<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<PaymentKind>>::decrement_strong_count(ptr as _);
         }
     }
 
@@ -11910,6 +12682,13 @@ mod io {
     }
 
     #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_ldk_node_cst_new_box_autoadd_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPaymentDetails(
+        value: usize,
+    ) -> *mut usize {
+        flutter_rust_bridge::for_generated::new_leak_box_ptr(value)
+    }
+
+    #[unsafe(no_mangle)]
     pub extern "C" fn frbgen_ldk_node_cst_new_box_autoadd_address() -> *mut wire_cst_address {
         flutter_rust_bridge::for_generated::new_leak_box_ptr(wire_cst_address::new_with_null_ptr())
     }
@@ -11919,6 +12698,14 @@ mod io {
     ) -> *mut wire_cst_anchor_channels_config {
         flutter_rust_bridge::for_generated::new_leak_box_ptr(
             wire_cst_anchor_channels_config::new_with_null_ptr(),
+        )
+    }
+
+    #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_ldk_node_cst_new_box_autoadd_background_sync_config(
+    ) -> *mut wire_cst_background_sync_config {
+        flutter_rust_bridge::for_generated::new_leak_box_ptr(
+            wire_cst_background_sync_config::new_with_null_ptr(),
         )
     }
 
@@ -12025,6 +12812,11 @@ mod io {
     }
 
     #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_ldk_node_cst_new_box_autoadd_fee_rate() -> *mut wire_cst_fee_rate {
+        flutter_rust_bridge::for_generated::new_leak_box_ptr(wire_cst_fee_rate::new_with_null_ptr())
+    }
+
+    #[unsafe(no_mangle)]
     pub extern "C" fn frbgen_ldk_node_cst_new_box_autoadd_ffi_bolt_11_payment(
     ) -> *mut wire_cst_ffi_bolt_11_payment {
         flutter_rust_bridge::for_generated::new_leak_box_ptr(
@@ -12102,14 +12894,6 @@ mod io {
     }
 
     #[unsafe(no_mangle)]
-    pub extern "C" fn frbgen_ldk_node_cst_new_box_autoadd_lsp_fee_limits(
-    ) -> *mut wire_cst_lsp_fee_limits {
-        flutter_rust_bridge::for_generated::new_leak_box_ptr(
-            wire_cst_lsp_fee_limits::new_with_null_ptr(),
-        )
-    }
-
-    #[unsafe(no_mangle)]
     pub extern "C" fn frbgen_ldk_node_cst_new_box_autoadd_max_total_routing_fee_limit(
     ) -> *mut wire_cst_max_total_routing_fee_limit {
         flutter_rust_bridge::for_generated::new_leak_box_ptr(
@@ -12148,21 +12932,8 @@ mod io {
     }
 
     #[unsafe(no_mangle)]
-    pub extern "C" fn frbgen_ldk_node_cst_new_box_autoadd_offer_id() -> *mut wire_cst_offer_id {
-        flutter_rust_bridge::for_generated::new_leak_box_ptr(wire_cst_offer_id::new_with_null_ptr())
-    }
-
-    #[unsafe(no_mangle)]
     pub extern "C" fn frbgen_ldk_node_cst_new_box_autoadd_out_point() -> *mut wire_cst_out_point {
         flutter_rust_bridge::for_generated::new_leak_box_ptr(wire_cst_out_point::new_with_null_ptr())
-    }
-
-    #[unsafe(no_mangle)]
-    pub extern "C" fn frbgen_ldk_node_cst_new_box_autoadd_payment_details(
-    ) -> *mut wire_cst_payment_details {
-        flutter_rust_bridge::for_generated::new_leak_box_ptr(
-            wire_cst_payment_details::new_with_null_ptr(),
-        )
     }
 
     #[unsafe(no_mangle)]
@@ -12192,14 +12963,6 @@ mod io {
     ) -> *mut wire_cst_payment_preimage {
         flutter_rust_bridge::for_generated::new_leak_box_ptr(
             wire_cst_payment_preimage::new_with_null_ptr(),
-        )
-    }
-
-    #[unsafe(no_mangle)]
-    pub extern "C" fn frbgen_ldk_node_cst_new_box_autoadd_payment_secret(
-    ) -> *mut wire_cst_payment_secret {
-        flutter_rust_bridge::for_generated::new_leak_box_ptr(
-            wire_cst_payment_secret::new_with_null_ptr(),
         )
     }
 
@@ -12265,12 +13028,32 @@ mod io {
     }
 
     #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_ldk_node_cst_new_list_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPaymentDetails(len: i32) -> *mut wire_cst_list_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPaymentDetails{
+        let wrap = wire_cst_list_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPaymentDetails { ptr: flutter_rust_bridge::for_generated::new_leak_vec_ptr(Default::default(), len), len };
+        flutter_rust_bridge::for_generated::new_leak_box_ptr(wrap)
+    }
+
+    #[unsafe(no_mangle)]
     pub extern "C" fn frbgen_ldk_node_cst_new_list_channel_details(
         len: i32,
     ) -> *mut wire_cst_list_channel_details {
         let wrap = wire_cst_list_channel_details {
             ptr: flutter_rust_bridge::for_generated::new_leak_vec_ptr(
                 <wire_cst_channel_details>::new_with_null_ptr(),
+                len,
+            ),
+            len,
+        };
+        flutter_rust_bridge::for_generated::new_leak_box_ptr(wrap)
+    }
+
+    #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_ldk_node_cst_new_list_custom_tlv_record(
+        len: i32,
+    ) -> *mut wire_cst_list_custom_tlv_record {
+        let wrap = wire_cst_list_custom_tlv_record {
+            ptr: flutter_rust_bridge::for_generated::new_leak_vec_ptr(
+                <wire_cst_custom_tlv_record>::new_with_null_ptr(),
                 len,
             ),
             len,
@@ -12297,20 +13080,6 @@ mod io {
         let wrap = wire_cst_list_node_id {
             ptr: flutter_rust_bridge::for_generated::new_leak_vec_ptr(
                 <wire_cst_node_id>::new_with_null_ptr(),
-                len,
-            ),
-            len,
-        };
-        flutter_rust_bridge::for_generated::new_leak_box_ptr(wrap)
-    }
-
-    #[unsafe(no_mangle)]
-    pub extern "C" fn frbgen_ldk_node_cst_new_list_payment_details(
-        len: i32,
-    ) -> *mut wire_cst_list_payment_details {
-        let wrap = wire_cst_list_payment_details {
-            ptr: flutter_rust_bridge::for_generated::new_leak_vec_ptr(
-                <wire_cst_payment_details>::new_with_null_ptr(),
                 len,
             ),
             len,
@@ -12431,6 +13200,13 @@ mod io {
     pub struct wire_cst_anchor_channels_config {
         trusted_peers_no_reserve: *mut wire_cst_list_public_key,
         per_channel_reserve_sats: u64,
+    }
+    #[repr(C)]
+    #[derive(Clone, Copy)]
+    pub struct wire_cst_background_sync_config {
+        onchain_wallet_sync_interval_secs: u64,
+        lightning_wallet_sync_interval_secs: u64,
+        fee_rate_cache_update_interval_secs: u64,
     }
     #[repr(C)]
     #[derive(Clone, Copy)]
@@ -12624,15 +13400,20 @@ mod io {
     #[derive(Clone, Copy)]
     pub struct wire_cst_config {
         storage_dir_path: *mut wire_cst_list_prim_u_8_strict,
-        log_dir_path: *mut wire_cst_list_prim_u_8_strict,
         network: i32,
         listening_addresses: *mut wire_cst_list_socket_address,
+        announcement_addresses: *mut wire_cst_list_socket_address,
         node_alias: *mut wire_cst_node_alias,
         trusted_peers_0conf: *mut wire_cst_list_public_key,
         probing_liquidity_limit_multiplier: u64,
-        log_level: i32,
         anchor_channels_config: *mut wire_cst_anchor_channels_config,
         sending_parameters: *mut wire_cst_sending_parameters,
+    }
+    #[repr(C)]
+    #[derive(Clone, Copy)]
+    pub struct wire_cst_custom_tlv_record {
+        type_num: u64,
+        value: *mut wire_cst_list_prim_u_8_strict,
     }
     #[repr(C)]
     #[derive(Clone, Copy)]
@@ -12684,9 +13465,7 @@ mod io {
     #[repr(C)]
     #[derive(Clone, Copy)]
     pub struct wire_cst_esplora_sync_config {
-        onchain_wallet_sync_interval_secs: u64,
-        lightning_wallet_sync_interval_secs: u64,
-        fee_rate_cache_update_interval_secs: u64,
+        background_sync_config: *mut wire_cst_background_sync_config,
     }
     #[repr(C)]
     #[derive(Clone, Copy)]
@@ -12704,6 +13483,7 @@ mod io {
         ChannelPending: wire_cst_Event_ChannelPending,
         ChannelReady: wire_cst_Event_ChannelReady,
         ChannelClosed: wire_cst_Event_ChannelClosed,
+        PaymentForwarded: wire_cst_Event_PaymentForwarded,
         nil__: (),
     }
     #[repr(C)]
@@ -12713,6 +13493,7 @@ mod io {
         payment_hash: *mut wire_cst_payment_hash,
         claimable_amount_msat: u64,
         claim_deadline: *mut u32,
+        custom_records: *mut wire_cst_list_custom_tlv_record,
     }
     #[repr(C)]
     #[derive(Clone, Copy)]
@@ -12720,6 +13501,7 @@ mod io {
         payment_id: *mut wire_cst_payment_id,
         payment_hash: *mut wire_cst_payment_hash,
         fee_paid_msat: *mut u64,
+        preimage: *mut wire_cst_payment_preimage,
     }
     #[repr(C)]
     #[derive(Clone, Copy)]
@@ -12734,6 +13516,7 @@ mod io {
         payment_id: *mut wire_cst_payment_id,
         payment_hash: *mut wire_cst_payment_hash,
         amount_msat: u64,
+        custom_records: *mut wire_cst_list_custom_tlv_record,
     }
     #[repr(C)]
     #[derive(Clone, Copy)]
@@ -12758,6 +13541,25 @@ mod io {
         user_channel_id: *mut wire_cst_user_channel_id,
         counterparty_node_id: *mut wire_cst_public_key,
         reason: *mut wire_cst_closure_reason,
+    }
+    #[repr(C)]
+    #[derive(Clone, Copy)]
+    pub struct wire_cst_Event_PaymentForwarded {
+        prev_channel_id: *mut wire_cst_channel_id,
+        next_channel_id: *mut wire_cst_channel_id,
+        prev_user_channel_id: *mut wire_cst_user_channel_id,
+        next_user_channel_id: *mut wire_cst_user_channel_id,
+        prev_node_id: *mut wire_cst_public_key,
+        next_node_id: *mut wire_cst_public_key,
+        total_fee_earned_msat: *mut u64,
+        skimmed_fee_msat: *mut u64,
+        claim_from_onchain_tx: bool,
+        outbound_amount_forwarded_msat: *mut u64,
+    }
+    #[repr(C)]
+    #[derive(Clone, Copy)]
+    pub struct wire_cst_fee_rate {
+        field0: u64,
     }
     #[repr(C)]
     #[derive(Clone, Copy)]
@@ -12795,6 +13597,7 @@ mod io {
     pub union FfiNodeErrorKind {
         Decode: wire_cst_FfiNodeError_Decode,
         Bolt12Parse: wire_cst_FfiNodeError_Bolt12Parse,
+        CreationError: wire_cst_FfiNodeError_CreationError,
         nil__: (),
     }
     #[repr(C)]
@@ -12806,6 +13609,11 @@ mod io {
     #[derive(Clone, Copy)]
     pub struct wire_cst_FfiNodeError_Bolt12Parse {
         field0: *mut wire_cst_bolt_12_parse_error,
+    }
+    #[repr(C)]
+    #[derive(Clone, Copy)]
+    pub struct wire_cst_FfiNodeError_CreationError {
+        field0: i32,
     }
     #[repr(C)]
     #[derive(Clone, Copy)]
@@ -12921,8 +13729,21 @@ mod io {
     }
     #[repr(C)]
     #[derive(Clone, Copy)]
+    pub struct wire_cst_list_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPaymentDetails
+    {
+        ptr: *mut usize,
+        len: i32,
+    }
+    #[repr(C)]
+    #[derive(Clone, Copy)]
     pub struct wire_cst_list_channel_details {
         ptr: *mut wire_cst_channel_details,
+        len: i32,
+    }
+    #[repr(C)]
+    #[derive(Clone, Copy)]
+    pub struct wire_cst_list_custom_tlv_record {
+        ptr: *mut wire_cst_custom_tlv_record,
         len: i32,
     }
     #[repr(C)]
@@ -12935,12 +13756,6 @@ mod io {
     #[derive(Clone, Copy)]
     pub struct wire_cst_list_node_id {
         ptr: *mut wire_cst_node_id,
-        len: i32,
-    }
-    #[repr(C)]
-    #[derive(Clone, Copy)]
-    pub struct wire_cst_list_payment_details {
-        ptr: *mut wire_cst_payment_details,
         len: i32,
     }
     #[repr(C)]
@@ -12990,12 +13805,6 @@ mod io {
     pub struct wire_cst_list_socket_address {
         ptr: *mut wire_cst_socket_address,
         len: i32,
-    }
-    #[repr(C)]
-    #[derive(Clone, Copy)]
-    pub struct wire_cst_lsp_fee_limits {
-        max_total_opening_fee_msat: *mut u64,
-        max_proportional_opening_fee_ppm_msat: *mut u64,
     }
     #[repr(C)]
     #[derive(Clone, Copy)]
@@ -13080,24 +13889,9 @@ mod io {
     }
     #[repr(C)]
     #[derive(Clone, Copy)]
-    pub struct wire_cst_offer_id {
-        field0: *mut wire_cst_list_prim_u_8_strict,
-    }
-    #[repr(C)]
-    #[derive(Clone, Copy)]
     pub struct wire_cst_out_point {
         txid: wire_cst_txid,
         vout: u32,
-    }
-    #[repr(C)]
-    #[derive(Clone, Copy)]
-    pub struct wire_cst_payment_details {
-        id: wire_cst_payment_id,
-        kind: wire_cst_payment_kind,
-        amount_msat: *mut u64,
-        direction: i32,
-        status: i32,
-        latest_update_timestamp: u64,
     }
     #[repr(C)]
     #[derive(Clone, Copy)]
@@ -13111,68 +13905,7 @@ mod io {
     }
     #[repr(C)]
     #[derive(Clone, Copy)]
-    pub struct wire_cst_payment_kind {
-        tag: i32,
-        kind: PaymentKindKind,
-    }
-    #[repr(C)]
-    #[derive(Clone, Copy)]
-    pub union PaymentKindKind {
-        Bolt11: wire_cst_PaymentKind_Bolt11,
-        Bolt11Jit: wire_cst_PaymentKind_Bolt11Jit,
-        Spontaneous: wire_cst_PaymentKind_Spontaneous,
-        Bolt12Offer: wire_cst_PaymentKind_Bolt12Offer,
-        Bolt12Refund: wire_cst_PaymentKind_Bolt12Refund,
-        nil__: (),
-    }
-    #[repr(C)]
-    #[derive(Clone, Copy)]
-    pub struct wire_cst_PaymentKind_Bolt11 {
-        hash: *mut wire_cst_payment_hash,
-        preimage: *mut wire_cst_payment_preimage,
-        secret: *mut wire_cst_payment_secret,
-    }
-    #[repr(C)]
-    #[derive(Clone, Copy)]
-    pub struct wire_cst_PaymentKind_Bolt11Jit {
-        hash: *mut wire_cst_payment_hash,
-        preimage: *mut wire_cst_payment_preimage,
-        secret: *mut wire_cst_payment_secret,
-        lsp_fee_limits: *mut wire_cst_lsp_fee_limits,
-    }
-    #[repr(C)]
-    #[derive(Clone, Copy)]
-    pub struct wire_cst_PaymentKind_Spontaneous {
-        hash: *mut wire_cst_payment_hash,
-        preimage: *mut wire_cst_payment_preimage,
-    }
-    #[repr(C)]
-    #[derive(Clone, Copy)]
-    pub struct wire_cst_PaymentKind_Bolt12Offer {
-        hash: *mut wire_cst_payment_hash,
-        preimage: *mut wire_cst_payment_preimage,
-        secret: *mut wire_cst_payment_secret,
-        offer_id: *mut wire_cst_offer_id,
-        payer_note: *mut wire_cst_list_prim_u_8_strict,
-        quantity: *mut u64,
-    }
-    #[repr(C)]
-    #[derive(Clone, Copy)]
-    pub struct wire_cst_PaymentKind_Bolt12Refund {
-        hash: *mut wire_cst_payment_hash,
-        preimage: *mut wire_cst_payment_preimage,
-        secret: *mut wire_cst_payment_secret,
-        payer_note: *mut wire_cst_list_prim_u_8_strict,
-        quantity: *mut u64,
-    }
-    #[repr(C)]
-    #[derive(Clone, Copy)]
     pub struct wire_cst_payment_preimage {
-        data: *mut wire_cst_list_prim_u_8_strict,
-    }
-    #[repr(C)]
-    #[derive(Clone, Copy)]
-    pub struct wire_cst_payment_secret {
         data: *mut wire_cst_list_prim_u_8_strict,
     }
     #[repr(C)]
