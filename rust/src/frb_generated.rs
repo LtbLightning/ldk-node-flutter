@@ -40,7 +40,7 @@ flutter_rust_bridge::frb_generated_boilerplate!(
     default_rust_auto_opaque = RustAutoOpaqueNom,
 );
 pub(crate) const FLUTTER_RUST_BRIDGE_CODEGEN_VERSION: &str = "2.11.1";
-pub(crate) const FLUTTER_RUST_BRIDGE_CODEGEN_CONTENT_HASH: i32 = -1548022217;
+pub(crate) const FLUTTER_RUST_BRIDGE_CODEGEN_CONTENT_HASH: i32 = 255394442;
 
 // Section: executor
 
@@ -297,6 +297,82 @@ fn wire__crate__api__builder__FfiBuilder_create_builder_impl(
                 )?;
                 Ok(output_ok)
             })())
+        },
+    )
+}
+fn wire__crate__api__builder__FfiBuilder_set_entropy_seed_bytes_impl(
+    that: impl CstDecode<FfiBuilder>,
+    seed_bytes: impl CstDecode<Vec<u8>>,
+) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync::<flutter_rust_bridge::for_generated::DcoCodec, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "FfiBuilder_set_entropy_seed_bytes",
+            port: None,
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Sync,
+        },
+        move || {
+            let api_that = that.cst_decode();
+            let api_seed_bytes = seed_bytes.cst_decode();
+            transform_result_dco::<_, _, crate::utils::error::FfiBuilderError>((move || {
+                let output_ok = crate::api::builder::FfiBuilder::set_entropy_seed_bytes(
+                    api_that,
+                    api_seed_bytes,
+                )?;
+                Ok(output_ok)
+            })())
+        },
+    )
+}
+fn wire__crate__api__builder__FfiBuilder_set_filesystem_logger_impl(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
+    that: impl CstDecode<FfiBuilder>,
+    log_file_path: impl CstDecode<Option<String>>,
+    max_log_level: impl CstDecode<Option<crate::api::types::LogLevel>>,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "FfiBuilder_set_filesystem_logger",
+            port: Some(port_),
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
+        },
+        move || {
+            let api_that = that.cst_decode();
+            let api_log_file_path = log_file_path.cst_decode();
+            let api_max_log_level = max_log_level.cst_decode();
+            move |context| {
+                transform_result_dco::<_, _, crate::utils::error::FfiBuilderError>((move || {
+                    let output_ok = crate::api::builder::FfiBuilder::set_filesystem_logger(
+                        api_that,
+                        api_log_file_path,
+                        api_max_log_level,
+                    )?;
+                    Ok(output_ok)
+                })(
+                ))
+            }
+        },
+    )
+}
+fn wire__crate__api__builder__FfiBuilder_set_log_facade_logger_impl(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
+    that: impl CstDecode<FfiBuilder>,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "FfiBuilder_set_log_facade_logger",
+            port: Some(port_),
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
+        },
+        move || {
+            let api_that = that.cst_decode();
+            move |context| {
+                transform_result_dco::<_, _, crate::utils::error::FfiBuilderError>((move || {
+                    let output_ok =
+                        crate::api::builder::FfiBuilder::set_log_facade_logger(api_that)?;
+                    Ok(output_ok)
+                })(
+                ))
+            }
         },
     )
 }
@@ -2755,6 +2831,20 @@ impl CstDecode<i32> for i32 {
         self
     }
 }
+impl CstDecode<crate::api::types::LogLevel> for i32 {
+    // Codec=Cst (C-struct based), see doc to use other codecs
+    fn cst_decode(self) -> crate::api::types::LogLevel {
+        match self {
+            0 => crate::api::types::LogLevel::Gossip,
+            1 => crate::api::types::LogLevel::Trace,
+            2 => crate::api::types::LogLevel::Debug,
+            3 => crate::api::types::LogLevel::Info,
+            4 => crate::api::types::LogLevel::Warn,
+            5 => crate::api::types::LogLevel::Error,
+            _ => unreachable!("Invalid variant for LogLevel: {}", self),
+        }
+    }
+}
 impl CstDecode<crate::api::types::Network> for i32 {
     // Codec=Cst (C-struct based), see doc to use other codecs
     fn cst_decode(self) -> crate::api::types::Network {
@@ -3704,6 +3794,22 @@ impl SseDecode for crate::utils::error::FfiCreationError {
     }
 }
 
+impl SseDecode for crate::api::types::FfiLogRecord {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        let mut var_level = <crate::api::types::LogLevel>::sse_decode(deserializer);
+        let mut var_args = <String>::sse_decode(deserializer);
+        let mut var_modulePath = <String>::sse_decode(deserializer);
+        let mut var_line = <u32>::sse_decode(deserializer);
+        return crate::api::types::FfiLogRecord {
+            level: var_level,
+            args: var_args,
+            module_path: var_modulePath,
+            line: var_line,
+        };
+    }
+}
+
 impl SseDecode for crate::api::builder::FfiMnemonic {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
@@ -4250,6 +4356,22 @@ impl SseDecode for Vec<crate::api::types::SocketAddress> {
     }
 }
 
+impl SseDecode for crate::api::types::LogLevel {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        let mut inner = <i32>::sse_decode(deserializer);
+        return match inner {
+            0 => crate::api::types::LogLevel::Gossip,
+            1 => crate::api::types::LogLevel::Trace,
+            2 => crate::api::types::LogLevel::Debug,
+            3 => crate::api::types::LogLevel::Info,
+            4 => crate::api::types::LogLevel::Warn,
+            5 => crate::api::types::LogLevel::Error,
+            _ => unreachable!("Invalid variant for LogLevel: {}", inner),
+        };
+    }
+}
+
 impl SseDecode for crate::api::types::MaxDustHTLCExposure {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
@@ -4596,6 +4718,17 @@ impl SseDecode for Option<crate::api::types::LiquiditySourceConfig> {
             return Some(<crate::api::types::LiquiditySourceConfig>::sse_decode(
                 deserializer,
             ));
+        } else {
+            return None;
+        }
+    }
+}
+
+impl SseDecode for Option<crate::api::types::LogLevel> {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        if (<bool>::sse_decode(deserializer)) {
+            return Some(<crate::api::types::LogLevel>::sse_decode(deserializer));
         } else {
             return None;
         }
@@ -6128,6 +6261,29 @@ impl flutter_rust_bridge::IntoIntoDart<crate::utils::error::FfiCreationError>
     }
 }
 // Codec=Dco (DartCObject based), see doc to use other codecs
+impl flutter_rust_bridge::IntoDart for crate::api::types::FfiLogRecord {
+    fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
+        [
+            self.level.into_into_dart().into_dart(),
+            self.args.into_into_dart().into_dart(),
+            self.module_path.into_into_dart().into_dart(),
+            self.line.into_into_dart().into_dart(),
+        ]
+        .into_dart()
+    }
+}
+impl flutter_rust_bridge::for_generated::IntoDartExceptPrimitive
+    for crate::api::types::FfiLogRecord
+{
+}
+impl flutter_rust_bridge::IntoIntoDart<crate::api::types::FfiLogRecord>
+    for crate::api::types::FfiLogRecord
+{
+    fn into_into_dart(self) -> crate::api::types::FfiLogRecord {
+        self
+    }
+}
+// Codec=Dco (DartCObject based), see doc to use other codecs
 impl flutter_rust_bridge::IntoDart for crate::api::builder::FfiMnemonic {
     fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
         [self.seed_phrase.into_into_dart().into_dart()].into_dart()
@@ -6494,6 +6650,28 @@ impl flutter_rust_bridge::IntoIntoDart<crate::api::types::LiquiditySourceConfig>
     for crate::api::types::LiquiditySourceConfig
 {
     fn into_into_dart(self) -> crate::api::types::LiquiditySourceConfig {
+        self
+    }
+}
+// Codec=Dco (DartCObject based), see doc to use other codecs
+impl flutter_rust_bridge::IntoDart for crate::api::types::LogLevel {
+    fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
+        match self {
+            Self::Gossip => 0.into_dart(),
+            Self::Trace => 1.into_dart(),
+            Self::Debug => 2.into_dart(),
+            Self::Info => 3.into_dart(),
+            Self::Warn => 4.into_dart(),
+            Self::Error => 5.into_dart(),
+            _ => unreachable!(),
+        }
+    }
+}
+impl flutter_rust_bridge::for_generated::IntoDartExceptPrimitive for crate::api::types::LogLevel {}
+impl flutter_rust_bridge::IntoIntoDart<crate::api::types::LogLevel>
+    for crate::api::types::LogLevel
+{
+    fn into_into_dart(self) -> crate::api::types::LogLevel {
         self
     }
 }
@@ -7857,6 +8035,16 @@ impl SseEncode for crate::utils::error::FfiCreationError {
     }
 }
 
+impl SseEncode for crate::api::types::FfiLogRecord {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        <crate::api::types::LogLevel>::sse_encode(self.level, serializer);
+        <String>::sse_encode(self.args, serializer);
+        <String>::sse_encode(self.module_path, serializer);
+        <u32>::sse_encode(self.line, serializer);
+    }
+}
+
 impl SseEncode for crate::api::builder::FfiMnemonic {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
@@ -8341,6 +8529,26 @@ impl SseEncode for Vec<crate::api::types::SocketAddress> {
     }
 }
 
+impl SseEncode for crate::api::types::LogLevel {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        <i32>::sse_encode(
+            match self {
+                crate::api::types::LogLevel::Gossip => 0,
+                crate::api::types::LogLevel::Trace => 1,
+                crate::api::types::LogLevel::Debug => 2,
+                crate::api::types::LogLevel::Info => 3,
+                crate::api::types::LogLevel::Warn => 4,
+                crate::api::types::LogLevel::Error => 5,
+                _ => {
+                    unimplemented!("");
+                }
+            },
+            serializer,
+        );
+    }
+}
+
 impl SseEncode for crate::api::types::MaxDustHTLCExposure {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
@@ -8631,6 +8839,16 @@ impl SseEncode for Option<crate::api::types::LiquiditySourceConfig> {
         <bool>::sse_encode(self.is_some(), serializer);
         if let Some(value) = self {
             <crate::api::types::LiquiditySourceConfig>::sse_encode(value, serializer);
+        }
+    }
+}
+
+impl SseEncode for Option<crate::api::types::LogLevel> {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        <bool>::sse_encode(self.is_some(), serializer);
+        if let Some(value) = self {
+            <crate::api::types::LogLevel>::sse_encode(value, serializer);
         }
     }
 }
@@ -9601,6 +9819,13 @@ mod io {
             CstDecode::<crate::api::bolt12::FfiBolt12Payment>::cst_decode(*wrap).into()
         }
     }
+    impl CstDecode<crate::api::types::FfiLogRecord> for *mut wire_cst_ffi_log_record {
+        // Codec=Cst (C-struct based), see doc to use other codecs
+        fn cst_decode(self) -> crate::api::types::FfiLogRecord {
+            let wrap = unsafe { flutter_rust_bridge::for_generated::box_from_leak_ptr(self) };
+            CstDecode::<crate::api::types::FfiLogRecord>::cst_decode(*wrap).into()
+        }
+    }
     impl CstDecode<crate::api::builder::FfiMnemonic> for *mut wire_cst_ffi_mnemonic {
         // Codec=Cst (C-struct based), see doc to use other codecs
         fn cst_decode(self) -> crate::api::builder::FfiMnemonic {
@@ -9659,6 +9884,13 @@ mod io {
         fn cst_decode(self) -> crate::api::types::LiquiditySourceConfig {
             let wrap = unsafe { flutter_rust_bridge::for_generated::box_from_leak_ptr(self) };
             CstDecode::<crate::api::types::LiquiditySourceConfig>::cst_decode(*wrap).into()
+        }
+    }
+    impl CstDecode<crate::api::types::LogLevel> for *mut i32 {
+        // Codec=Cst (C-struct based), see doc to use other codecs
+        fn cst_decode(self) -> crate::api::types::LogLevel {
+            let wrap = unsafe { flutter_rust_bridge::for_generated::box_from_leak_ptr(self) };
+            CstDecode::<crate::api::types::LogLevel>::cst_decode(*wrap).into()
         }
     }
     impl CstDecode<crate::api::types::MaxTotalRoutingFeeLimit>
@@ -10168,6 +10400,17 @@ mod io {
         fn cst_decode(self) -> crate::api::bolt12::FfiBolt12Payment {
             crate::api::bolt12::FfiBolt12Payment {
                 opaque: self.opaque.cst_decode(),
+            }
+        }
+    }
+    impl CstDecode<crate::api::types::FfiLogRecord> for wire_cst_ffi_log_record {
+        // Codec=Cst (C-struct based), see doc to use other codecs
+        fn cst_decode(self) -> crate::api::types::FfiLogRecord {
+            crate::api::types::FfiLogRecord {
+                level: self.level.cst_decode(),
+                args: self.args.cst_decode(),
+                module_path: self.module_path.cst_decode(),
+                line: self.line.cst_decode(),
             }
         }
     }
@@ -11247,6 +11490,21 @@ mod io {
             Self::new_with_null_ptr()
         }
     }
+    impl NewWithNullPtr for wire_cst_ffi_log_record {
+        fn new_with_null_ptr() -> Self {
+            Self {
+                level: Default::default(),
+                args: core::ptr::null_mut(),
+                module_path: core::ptr::null_mut(),
+                line: Default::default(),
+            }
+        }
+    }
+    impl Default for wire_cst_ffi_log_record {
+        fn default() -> Self {
+            Self::new_with_null_ptr()
+        }
+    }
     impl NewWithNullPtr for wire_cst_ffi_mnemonic {
         fn new_with_null_ptr() -> Self {
             Self {
@@ -11767,6 +12025,37 @@ mod io {
             gossip_source_config,
             liquidity_source_config,
         )
+    }
+
+    #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_ldk_node_wire__crate__api__builder__FfiBuilder_set_entropy_seed_bytes(
+        that: usize,
+        seed_bytes: *mut wire_cst_list_prim_u_8_loose,
+    ) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
+        wire__crate__api__builder__FfiBuilder_set_entropy_seed_bytes_impl(that, seed_bytes)
+    }
+
+    #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_ldk_node_wire__crate__api__builder__FfiBuilder_set_filesystem_logger(
+        port_: i64,
+        that: usize,
+        log_file_path: *mut wire_cst_list_prim_u_8_strict,
+        max_log_level: *mut i32,
+    ) {
+        wire__crate__api__builder__FfiBuilder_set_filesystem_logger_impl(
+            port_,
+            that,
+            log_file_path,
+            max_log_level,
+        )
+    }
+
+    #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_ldk_node_wire__crate__api__builder__FfiBuilder_set_log_facade_logger(
+        port_: i64,
+        that: usize,
+    ) {
+        wire__crate__api__builder__FfiBuilder_set_log_facade_logger_impl(port_, that)
     }
 
     #[unsafe(no_mangle)]
@@ -13056,6 +13345,14 @@ mod io {
     }
 
     #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_ldk_node_cst_new_box_autoadd_ffi_log_record(
+    ) -> *mut wire_cst_ffi_log_record {
+        flutter_rust_bridge::for_generated::new_leak_box_ptr(
+            wire_cst_ffi_log_record::new_with_null_ptr(),
+        )
+    }
+
+    #[unsafe(no_mangle)]
     pub extern "C" fn frbgen_ldk_node_cst_new_box_autoadd_ffi_mnemonic(
     ) -> *mut wire_cst_ffi_mnemonic {
         flutter_rust_bridge::for_generated::new_leak_box_ptr(
@@ -13114,6 +13411,11 @@ mod io {
         flutter_rust_bridge::for_generated::new_leak_box_ptr(
             wire_cst_liquidity_source_config::new_with_null_ptr(),
         )
+    }
+
+    #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_ldk_node_cst_new_box_autoadd_log_level(value: i32) -> *mut i32 {
+        flutter_rust_bridge::for_generated::new_leak_box_ptr(value)
     }
 
     #[unsafe(no_mangle)]
@@ -13805,6 +14107,14 @@ mod io {
     #[derive(Clone, Copy)]
     pub struct wire_cst_ffi_bolt_12_payment {
         opaque: usize,
+    }
+    #[repr(C)]
+    #[derive(Clone, Copy)]
+    pub struct wire_cst_ffi_log_record {
+        level: i32,
+        args: *mut wire_cst_list_prim_u_8_strict,
+        module_path: *mut wire_cst_list_prim_u_8_strict,
+        line: u32,
     }
     #[repr(C)]
     #[derive(Clone, Copy)]

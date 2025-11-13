@@ -77,7 +77,7 @@ class core extends BaseEntrypoint<coreApi, coreApiImpl, coreWire> {
   String get codegenVersion => '2.11.1';
 
   @override
-  int get rustContentHash => -1548022217;
+  int get rustContentHash => 255394442;
 
   static const kDefaultExternalLibraryLoaderConfig =
       ExternalLibraryLoaderConfig(
@@ -118,6 +118,15 @@ abstract class coreApi extends BaseApi {
       EntropySourceConfig? entropySourceConfig,
       GossipSourceConfig? gossipSourceConfig,
       LiquiditySourceConfig? liquiditySourceConfig});
+
+  FfiBuilder crateApiBuilderFfiBuilderSetEntropySeedBytes(
+      {required FfiBuilder that, required List<int> seedBytes});
+
+  Future<FfiBuilder> crateApiBuilderFfiBuilderSetFilesystemLogger(
+      {required FfiBuilder that, String? logFilePath, LogLevel? maxLogLevel});
+
+  Future<FfiBuilder> crateApiBuilderFfiBuilderSetLogFacadeLogger(
+      {required FfiBuilder that});
 
   BigInt? crateApiTypesPaymentDetailsAutoAccessorGetAmountMsat(
       {required PaymentDetails that});
@@ -777,6 +786,94 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
           "gossipSourceConfig",
           "liquiditySourceConfig"
         ],
+      );
+
+  @override
+  FfiBuilder crateApiBuilderFfiBuilderSetEntropySeedBytes(
+      {required FfiBuilder that, required List<int> seedBytes}) {
+    return handler.executeSync(SyncTask(
+      callFfi: () {
+        var arg0 =
+            cst_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerFfiBuilder(
+                that);
+        var arg1 = cst_encode_list_prim_u_8_loose(seedBytes);
+        return wire
+            .wire__crate__api__builder__FfiBuilder_set_entropy_seed_bytes(
+                arg0, arg1);
+      },
+      codec: DcoCodec(
+        decodeSuccessData:
+            dco_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerFfiBuilder,
+        decodeErrorData: dco_decode_ffi_builder_error,
+      ),
+      constMeta: kCrateApiBuilderFfiBuilderSetEntropySeedBytesConstMeta,
+      argValues: [that, seedBytes],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta get kCrateApiBuilderFfiBuilderSetEntropySeedBytesConstMeta =>
+      const TaskConstMeta(
+        debugName: "FfiBuilder_set_entropy_seed_bytes",
+        argNames: ["that", "seedBytes"],
+      );
+
+  @override
+  Future<FfiBuilder> crateApiBuilderFfiBuilderSetFilesystemLogger(
+      {required FfiBuilder that, String? logFilePath, LogLevel? maxLogLevel}) {
+    return handler.executeNormal(NormalTask(
+      callFfi: (port_) {
+        var arg0 =
+            cst_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerFfiBuilder(
+                that);
+        var arg1 = cst_encode_opt_String(logFilePath);
+        var arg2 = cst_encode_opt_box_autoadd_log_level(maxLogLevel);
+        return wire.wire__crate__api__builder__FfiBuilder_set_filesystem_logger(
+            port_, arg0, arg1, arg2);
+      },
+      codec: DcoCodec(
+        decodeSuccessData:
+            dco_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerFfiBuilder,
+        decodeErrorData: dco_decode_ffi_builder_error,
+      ),
+      constMeta: kCrateApiBuilderFfiBuilderSetFilesystemLoggerConstMeta,
+      argValues: [that, logFilePath, maxLogLevel],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta get kCrateApiBuilderFfiBuilderSetFilesystemLoggerConstMeta =>
+      const TaskConstMeta(
+        debugName: "FfiBuilder_set_filesystem_logger",
+        argNames: ["that", "logFilePath", "maxLogLevel"],
+      );
+
+  @override
+  Future<FfiBuilder> crateApiBuilderFfiBuilderSetLogFacadeLogger(
+      {required FfiBuilder that}) {
+    return handler.executeNormal(NormalTask(
+      callFfi: (port_) {
+        var arg0 =
+            cst_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerFfiBuilder(
+                that);
+        return wire.wire__crate__api__builder__FfiBuilder_set_log_facade_logger(
+            port_, arg0);
+      },
+      codec: DcoCodec(
+        decodeSuccessData:
+            dco_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerFfiBuilder,
+        decodeErrorData: dco_decode_ffi_builder_error,
+      ),
+      constMeta: kCrateApiBuilderFfiBuilderSetLogFacadeLoggerConstMeta,
+      argValues: [that],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta get kCrateApiBuilderFfiBuilderSetLogFacadeLoggerConstMeta =>
+      const TaskConstMeta(
+        debugName: "FfiBuilder_set_log_facade_logger",
+        argNames: ["that"],
       );
 
   @override
@@ -3445,6 +3542,12 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
   }
 
   @protected
+  FfiLogWriter dco_decode_TraitDef_FfiLogWriter(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    throw UnimplementedError();
+  }
+
+  @protected
   Address dco_decode_address(dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     final arr = raw as List<dynamic>;
@@ -3711,6 +3814,12 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
   }
 
   @protected
+  FfiLogRecord dco_decode_box_autoadd_ffi_log_record(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return dco_decode_ffi_log_record(raw);
+  }
+
+  @protected
   FfiMnemonic dco_decode_box_autoadd_ffi_mnemonic(dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     return dco_decode_ffi_mnemonic(raw);
@@ -3759,6 +3868,12 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
       dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     return dco_decode_liquidity_source_config(raw);
+  }
+
+  @protected
+  LogLevel dco_decode_box_autoadd_log_level(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return dco_decode_log_level(raw);
   }
 
   @protected
@@ -4284,6 +4399,20 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
   }
 
   @protected
+  FfiLogRecord dco_decode_ffi_log_record(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    final arr = raw as List<dynamic>;
+    if (arr.length != 4)
+      throw Exception('unexpected arr length: expect 4 but see ${arr.length}');
+    return FfiLogRecord(
+      level: dco_decode_log_level(arr[0]),
+      args: dco_decode_String(arr[1]),
+      modulePath: dco_decode_String(arr[2]),
+      line: dco_decode_u_32(arr[3]),
+    );
+  }
+
+  @protected
   FfiMnemonic dco_decode_ffi_mnemonic(dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     final arr = raw as List<dynamic>;
@@ -4657,6 +4786,12 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
   }
 
   @protected
+  LogLevel dco_decode_log_level(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return LogLevel.values[raw as int];
+  }
+
+  @protected
   MaxDustHTLCExposure dco_decode_max_dust_htlc_exposure(dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     switch (raw[0]) {
@@ -4910,6 +5045,12 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
     return raw == null
         ? null
         : dco_decode_box_autoadd_liquidity_source_config(raw);
+  }
+
+  @protected
+  LogLevel? dco_decode_opt_box_autoadd_log_level(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return raw == null ? null : dco_decode_box_autoadd_log_level(raw);
   }
 
   @protected
@@ -5780,6 +5921,13 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
   }
 
   @protected
+  FfiLogRecord sse_decode_box_autoadd_ffi_log_record(
+      SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    return (sse_decode_ffi_log_record(deserializer));
+  }
+
+  @protected
   FfiMnemonic sse_decode_box_autoadd_ffi_mnemonic(
       SseDeserializer deserializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
@@ -5832,6 +5980,12 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
       SseDeserializer deserializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     return (sse_decode_liquidity_source_config(deserializer));
+  }
+
+  @protected
+  LogLevel sse_decode_box_autoadd_log_level(SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    return (sse_decode_log_level(deserializer));
   }
 
   @protected
@@ -6456,6 +6610,20 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
   }
 
   @protected
+  FfiLogRecord sse_decode_ffi_log_record(SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    var var_level = sse_decode_log_level(deserializer);
+    var var_args = sse_decode_String(deserializer);
+    var var_modulePath = sse_decode_String(deserializer);
+    var var_line = sse_decode_u_32(deserializer);
+    return FfiLogRecord(
+        level: var_level,
+        args: var_args,
+        modulePath: var_modulePath,
+        line: var_line);
+  }
+
+  @protected
   FfiMnemonic sse_decode_ffi_mnemonic(SseDeserializer deserializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     var var_seedPhrase = sse_decode_String(deserializer);
@@ -6915,6 +7083,13 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
   }
 
   @protected
+  LogLevel sse_decode_log_level(SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    var inner = sse_decode_i_32(deserializer);
+    return LogLevel.values[inner];
+  }
+
+  @protected
   MaxDustHTLCExposure sse_decode_max_dust_htlc_exposure(
       SseDeserializer deserializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
@@ -7241,6 +7416,17 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
 
     if (sse_decode_bool(deserializer)) {
       return (sse_decode_box_autoadd_liquidity_source_config(deserializer));
+    } else {
+      return null;
+    }
+  }
+
+  @protected
+  LogLevel? sse_decode_opt_box_autoadd_log_level(SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+
+    if (sse_decode_bool(deserializer)) {
+      return (sse_decode_box_autoadd_log_level(deserializer));
     } else {
       return null;
     }
@@ -7916,6 +8102,12 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
   }
 
   @protected
+  int cst_encode_log_level(LogLevel raw) {
+    // Codec=Cst (C-struct based), see doc to use other codecs
+    return cst_encode_i_32(raw.index);
+  }
+
+  @protected
   int cst_encode_network(Network raw) {
     // Codec=Cst (C-struct based), see doc to use other codecs
     return cst_encode_i_32(raw.index);
@@ -8384,6 +8576,13 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
   }
 
   @protected
+  void sse_encode_box_autoadd_ffi_log_record(
+      FfiLogRecord self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_ffi_log_record(self, serializer);
+  }
+
+  @protected
   void sse_encode_box_autoadd_ffi_mnemonic(
       FfiMnemonic self, SseSerializer serializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
@@ -8436,6 +8635,13 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
       LiquiditySourceConfig self, SseSerializer serializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     sse_encode_liquidity_source_config(self, serializer);
+  }
+
+  @protected
+  void sse_encode_box_autoadd_log_level(
+      LogLevel self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_log_level(self, serializer);
   }
 
   @protected
@@ -8963,6 +9169,15 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
   }
 
   @protected
+  void sse_encode_ffi_log_record(FfiLogRecord self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_log_level(self.level, serializer);
+    sse_encode_String(self.args, serializer);
+    sse_encode_String(self.modulePath, serializer);
+    sse_encode_u_32(self.line, serializer);
+  }
+
+  @protected
   void sse_encode_ffi_mnemonic(FfiMnemonic self, SseSerializer serializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     sse_encode_String(self.seedPhrase, serializer);
@@ -9376,6 +9591,12 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
   }
 
   @protected
+  void sse_encode_log_level(LogLevel self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_i_32(self.index, serializer);
+  }
+
+  @protected
   void sse_encode_max_dust_htlc_exposure(
       MaxDustHTLCExposure self, SseSerializer serializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
@@ -9657,6 +9878,17 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
     sse_encode_bool(self != null, serializer);
     if (self != null) {
       sse_encode_box_autoadd_liquidity_source_config(self, serializer);
+    }
+  }
+
+  @protected
+  void sse_encode_opt_box_autoadd_log_level(
+      LogLevel? self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+
+    sse_encode_bool(self != null, serializer);
+    if (self != null) {
+      sse_encode_box_autoadd_log_level(self, serializer);
     }
   }
 
@@ -10232,6 +10464,20 @@ class FfiBuilderImpl extends RustOpaque implements FfiBuilder {
               vssUrl: vssUrl,
               storeId: storeId,
               fixedHeaders: fixedHeaders);
+
+  FfiBuilder setEntropySeedBytes({required List<int> seedBytes}) =>
+      core.instance.api.crateApiBuilderFfiBuilderSetEntropySeedBytes(
+          that: this, seedBytes: seedBytes);
+
+  Future<FfiBuilder> setFilesystemLogger(
+          {String? logFilePath, LogLevel? maxLogLevel}) =>
+      core.instance.api.crateApiBuilderFfiBuilderSetFilesystemLogger(
+          that: this, logFilePath: logFilePath, maxLogLevel: maxLogLevel);
+
+  Future<FfiBuilder> setLogFacadeLogger() =>
+      core.instance.api.crateApiBuilderFfiBuilderSetLogFacadeLogger(
+        that: this,
+      );
 }
 
 @sealed

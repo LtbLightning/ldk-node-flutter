@@ -1427,6 +1427,25 @@ impl From<ldk_node::PeerDetails> for PeerDetails {
     }
 }
 
+/// A unit of logging output with metadata to enable filtering by module path and line number.
+#[derive(Debug, Clone)]
+pub struct FfiLogRecord {
+    /// The verbosity level of the message.
+    pub level: LogLevel,
+    /// The message body.
+    pub args: String,
+    /// The module path of the message.
+    pub module_path: String,
+    /// The line containing the message.
+    pub line: u32,
+}
+
+/// Trait for custom log writers that can handle log records.
+pub trait FfiLogWriter: Send + Sync {
+    /// Handle a log record.
+    fn log(&self, record: FfiLogRecord);
+}
+
 /// An enum representing the available verbosity levels of the logger.
 ///
 #[derive(Copy, Clone, PartialEq, Eq, Debug, Hash)]

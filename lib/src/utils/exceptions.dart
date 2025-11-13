@@ -59,11 +59,16 @@ BuilderException mapFfiBuilderError(error.FfiBuilderError e) {
     case error.FfiBuilderError.invalidPublicKey:
       return BuilderException(message: "Invalid PublicKey.");
     case error.FfiBuilderError.invalidAnnouncementAddresses:
-      // TODO: Handle this case.
-      throw UnimplementedError();
+      return BuilderException(
+          message: "Invalid AnnouncementAddresses. e.g. too many were passed.");
     case error.FfiBuilderError.networkMismatch:
-      // TODO: Handle this case.
-      throw UnimplementedError();
+      return BuilderException(
+          message:
+              "The given network does not match the node's previously configured network.");
+    case error.FfiBuilderError.opaqueNotFound:
+      return BuilderException(
+          message:
+              "The given opaque data could not be found. This might be due to a previous operation failing.");
   }
 }
 
