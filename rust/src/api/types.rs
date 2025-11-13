@@ -487,7 +487,7 @@ pub enum Event {
         /// The block height at which this payment will be failed back and will no longer be
         /// eligible for claiming.
         claim_deadline: Option<u32>,
-		/// Custom TLV records attached to the payment
+        /// Custom TLV records attached to the payment
         custom_records: Vec<CustomTlvRecord>,
     },
     /// A sent payment was successful.
@@ -526,7 +526,7 @@ pub enum Event {
         payment_hash: PaymentHash,
         /// The value, in thousandths of a satoshi, that has been received.
         amount_msat: u64,
-		/// Custom TLV records received on the payment
+        /// Custom TLV records received on the payment
         custom_records: Vec<CustomTlvRecord>,
     },
     /// A channel has been created and is pending confirmation on-chain.
@@ -577,12 +577,12 @@ pub enum Event {
         next_user_channel_id: Option<UserChannelId>,
         /// The node id of the previous node.
         ///
-        /// This is only `None` for HTLCs received prior to LDK Node v0.5 or for events serialized by
+        /// This is only null for HTLCs received prior to LDK Node v0.5 or for events serialized by
         /// versions prior to v0.5.
         prev_node_id: Option<PublicKey>,
         /// The node id of the next node.
         ///
-        /// This is only `None` for HTLCs received prior to LDK Node v0.5 or for events serialized by
+        /// This is only null for HTLCs received prior to LDK Node v0.5 or for events serialized by
         /// versions prior to v0.5.
         next_node_id: Option<PublicKey>,
         /// The total fee, in milli-satoshis, which was earned as a result of the payment.
@@ -716,7 +716,6 @@ impl From<ldk_node::Event> for Event {
         }
     }
 }
-
 
 /// A Custom TLV entry.
 #[derive(Debug, Clone, PartialEq, Eq)]
@@ -951,19 +950,18 @@ impl From<OfferId> for ldk_node::lightning::offers::offer::OfferId {
 /// Represents the confirmation status of a transaction.
 #[derive(Copy, Clone, Debug, PartialEq, Eq)]
 pub enum ConfirmationStatus {
-	/// The transaction is confirmed in the best chain.
-	Confirmed {
-		/// The hash of the block in which the transaction was confirmed.
-		block_hash: bitcoin::BlockHash,
-		/// The height under which the block was confirmed.
-		height: u32,
-		/// The timestamp, in seconds since start of the UNIX epoch, when this entry was last updated.
-		timestamp: u64,
-	},
-	/// The transaction is unconfirmed.
-	Unconfirmed,
+    /// The transaction is confirmed in the best chain.
+    Confirmed {
+        /// The hash of the block in which the transaction was confirmed.
+        block_hash: bitcoin::BlockHash,
+        /// The height under which the block was confirmed.
+        height: u32,
+        /// The timestamp, in seconds since start of the UNIX epoch, when this entry was last updated.
+        timestamp: u64,
+    },
+    /// The transaction is unconfirmed.
+    Unconfirmed,
 }
-
 
 impl From<ldk_node::payment::ConfirmationStatus> for ConfirmationStatus {
     fn from(value: ldk_node::payment::ConfirmationStatus) -> Self {
@@ -1007,7 +1005,7 @@ pub enum PaymentKind {
         /// The transaction ID of the on-chain payment.
         txid: Txid,
         /// The status of the on-chain payment.
-        status: ConfirmationStatus
+        status: ConfirmationStatus,
     },
     /// A [BOLT 11] payment.
     ///
@@ -1039,11 +1037,11 @@ pub enum PaymentKind {
         ///
         lsp_fee_limits: LSPFeeLimits,
         /// The value, in thousands of a satoshi, that was deducted from this payment as an extra
-		/// fee taken by our channel counterparty.
-		///
-		/// Will only be `Some` once we received the payment. Will always be `None` for LDK Node
-		/// v0.4 and prior.
-		counterparty_skimmed_fee_msat: Option<u64>,
+        /// fee taken by our channel counterparty.
+        ///
+        /// Will only be `Some` once we received the payment. Will always be `None` for LDK Node
+        /// v0.4 and prior.
+        counterparty_skimmed_fee_msat: Option<u64>,
     },
     /// A spontaneous ("keysend") payment.
     Spontaneous {
@@ -1117,7 +1115,7 @@ impl From<ldk_node::payment::PaymentKind> for PaymentKind {
                 preimage,
                 secret,
                 lsp_fee_limits,
-                counterparty_skimmed_fee_msat
+                counterparty_skimmed_fee_msat,
             } => PaymentKind::Bolt11Jit {
                 hash: hash.into(),
                 preimage: preimage.map(|e| e.into()),
@@ -1701,7 +1699,7 @@ pub struct Config {
     pub listening_addresses: Option<Vec<SocketAddress>>,
     /// The addresses which the node will announce to the gossip network that it accepts connections on.
     #[frb(non_final)]
-	pub announcement_addresses: Option<Vec<SocketAddress>>,
+    pub announcement_addresses: Option<Vec<SocketAddress>>,
     #[frb(non_final)]
     /// The node alias that will be used when broadcasting announcements to the gossip network.
     ///
@@ -1845,6 +1843,10 @@ pub enum ChainDataSourceConfig {
     Esplora {
         server_url: String,
         sync_config: Option<EsploraSyncConfig>,
+    },
+    Electrum {
+        server_url: String,
+        sync_config: Option<ElectrumSyncConfig>,
     },
     BitcoindRpc {
         rpc_host: String,
@@ -2334,8 +2336,29 @@ impl From<ldk_node::NodeStatus> for NodeStatus {
     }
 }
 
+#[derive(Debug, Copy, Clone, PartialEq, Eq)]
+pub struct ElectrumSyncConfig {
+    /// Background sync configuration.
+    ///
+    /// If set to `Null`, background syncing is disabled.
+    /// you must use `sync_wallets` to manually sync the wallets.
+    pub background_sync_config: Option<BackgroundSyncConfig>,
+}
+
+impl From<ElectrumSyncConfig> for ldk_node::config::ElectrumSyncConfig {
+    fn from(value: ElectrumSyncConfig) -> Self {
+        ldk_node::config::ElectrumSyncConfig {
+            background_sync_config: value.background_sync_config.map(|e| e.into()),
+        }
+    }
+}
+
 #[derive(Debug, Clone)]
 pub struct EsploraSyncConfig {
+    /// Background sync configuration.
+    ///
+    /// If set to `Null`, background syncing is disabled.
+    /// you must use `sync_wallets` to manually sync the wallets.
     pub background_sync_config: Option<BackgroundSyncConfig>,
 }
 impl From<EsploraSyncConfig> for ldk_node::config::EsploraSyncConfig {
@@ -2425,7 +2448,9 @@ impl FeeRate {
 
     /// Constructs `FeeRate` from satoshis per 1000 weight units.
     #[frb(sync)]
-    pub fn from_sat_per_kwu(sat_kwu: u64) -> Self { FeeRate(sat_kwu) }
+    pub fn from_sat_per_kwu(sat_kwu: u64) -> Self {
+        FeeRate(sat_kwu)
+    }
 
     /// Constructs `FeeRate` from satoshis per virtual bytes.
     ///
@@ -2442,18 +2467,26 @@ impl FeeRate {
 
     /// Constructs `FeeRate` from satoshis per virtual bytes without overflow check.
     #[frb(sync)]
-    pub const fn from_sat_per_vb_unchecked(sat_vb: u64) -> Self { FeeRate(sat_vb * (1000 / 4)) }
+    pub const fn from_sat_per_vb_unchecked(sat_vb: u64) -> Self {
+        FeeRate(sat_vb * (1000 / 4))
+    }
 
     /// Returns raw fee rate.
     ///
     /// Can be used instead of `into()` to avoid inference issues.
-    pub fn to_sat_per_kwu(self) -> u64 { self.0 }
+    pub fn to_sat_per_kwu(self) -> u64 {
+        self.0
+    }
 
     /// Converts to sat/vB rounding down.
-    pub fn to_sat_per_vb_floor(self) -> u64 { self.0 / (1000 / 4) }
+    pub fn to_sat_per_vb_floor(self) -> u64 {
+        self.0 / (1000 / 4)
+    }
 
     /// Converts to sat/vB rounding up.
-    pub fn to_sat_per_vb_ceil(self) -> u64 { (self.0 + (1000 / 4 - 1)) / (1000 / 4) }
+    pub fn to_sat_per_vb_ceil(self) -> u64 {
+        (self.0 + (1000 / 4 - 1)) / (1000 / 4)
+    }
 }
 
 impl From<ldk_node::bitcoin::FeeRate> for FeeRate {

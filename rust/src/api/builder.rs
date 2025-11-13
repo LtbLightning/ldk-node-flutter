@@ -90,6 +90,12 @@ impl FfiBuilder {
                         rpc_password,
                     );
                 }
+                ChainDataSourceConfig::Electrum {
+                    server_url,
+                    sync_config,
+                } => {
+                    builder.set_chain_source_electrum(server_url, sync_config.map(|e| e.into()));
+                }
             }
         }
         if let Some(source) = gossip_source_config {
@@ -185,4 +191,12 @@ impl FfiBuilder {
     //         Err(e) => Err(e.into()),
     //     }
     // }
+
+    pub fn set_entropy_seed_bytes(mut self, seed_bytes: [u8; 64]) -> Result<Self, FfiBuilderError> {
+        // Extract the inner builder, modify it, and wrap it back
+        let mut builder = self.opaque.into_inner().ok_or(FfiBuilderError::OpaqueNotFound)?;
+        builder.set_entropy_seed_bytes(seed_bytes);
+        self.opaque = RustOpaque::new(builder);
+        Ok(self)
+    }
 }

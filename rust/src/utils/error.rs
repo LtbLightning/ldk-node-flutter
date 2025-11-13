@@ -140,6 +140,9 @@ pub enum FfiBuilderError {
     InvalidPublicKey,
     InvalidAnnouncementAddresses,
     NetworkMismatch,
+
+
+    OpaqueNotFound // The opaque builder was not found, likely due to a previous operation failing.
 }
 
 impl From<NodeError> for FfiNodeError {
@@ -377,7 +380,9 @@ impl From<ldk_node::lightning_invoice::CreationError> for FfiCreationError {
             ldk_node::lightning_invoice::CreationError::DescriptionTooLong => {
                 FfiCreationError::DescriptionTooLong
             }
-            ldk_node::lightning_invoice::CreationError::RouteTooLong => FfiCreationError::RouteTooLong,
+            ldk_node::lightning_invoice::CreationError::RouteTooLong => {
+                FfiCreationError::RouteTooLong
+            }
             ldk_node::lightning_invoice::CreationError::TimestampOutOfBounds => {
                 FfiCreationError::TimestampOutOfBounds
             }

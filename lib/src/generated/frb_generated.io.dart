@@ -233,6 +233,9 @@ abstract class coreApiImplPlatform extends BaseApiImpl<coreWire> {
   DecodeError dco_decode_box_autoadd_decode_error(dynamic raw);
 
   @protected
+  ElectrumSyncConfig dco_decode_box_autoadd_electrum_sync_config(dynamic raw);
+
+  @protected
   EntropySourceConfig dco_decode_box_autoadd_entropy_source_config(dynamic raw);
 
   @protected
@@ -372,6 +375,9 @@ abstract class coreApiImplPlatform extends BaseApiImpl<coreWire> {
 
   @protected
   DecodeError dco_decode_decode_error(dynamic raw);
+
+  @protected
+  ElectrumSyncConfig dco_decode_electrum_sync_config(dynamic raw);
 
   @protected
   EntropySourceConfig dco_decode_entropy_source_config(dynamic raw);
@@ -536,6 +542,10 @@ abstract class coreApiImplPlatform extends BaseApiImpl<coreWire> {
 
   @protected
   ClosureReason? dco_decode_opt_box_autoadd_closure_reason(dynamic raw);
+
+  @protected
+  ElectrumSyncConfig? dco_decode_opt_box_autoadd_electrum_sync_config(
+      dynamic raw);
 
   @protected
   EntropySourceConfig? dco_decode_opt_box_autoadd_entropy_source_config(
@@ -879,6 +889,10 @@ abstract class coreApiImplPlatform extends BaseApiImpl<coreWire> {
   DecodeError sse_decode_box_autoadd_decode_error(SseDeserializer deserializer);
 
   @protected
+  ElectrumSyncConfig sse_decode_box_autoadd_electrum_sync_config(
+      SseDeserializer deserializer);
+
+  @protected
   EntropySourceConfig sse_decode_box_autoadd_entropy_source_config(
       SseDeserializer deserializer);
 
@@ -1031,6 +1045,10 @@ abstract class coreApiImplPlatform extends BaseApiImpl<coreWire> {
 
   @protected
   DecodeError sse_decode_decode_error(SseDeserializer deserializer);
+
+  @protected
+  ElectrumSyncConfig sse_decode_electrum_sync_config(
+      SseDeserializer deserializer);
 
   @protected
   EntropySourceConfig sse_decode_entropy_source_config(
@@ -1214,6 +1232,10 @@ abstract class coreApiImplPlatform extends BaseApiImpl<coreWire> {
 
   @protected
   ClosureReason? sse_decode_opt_box_autoadd_closure_reason(
+      SseDeserializer deserializer);
+
+  @protected
+  ElectrumSyncConfig? sse_decode_opt_box_autoadd_electrum_sync_config(
       SseDeserializer deserializer);
 
   @protected
@@ -1540,6 +1562,15 @@ abstract class coreApiImplPlatform extends BaseApiImpl<coreWire> {
     // Codec=Cst (C-struct based), see doc to use other codecs
     final ptr = wire.cst_new_box_autoadd_decode_error();
     cst_api_fill_to_wire_decode_error(raw, ptr.ref);
+    return ptr;
+  }
+
+  @protected
+  ffi.Pointer<wire_cst_electrum_sync_config>
+      cst_encode_box_autoadd_electrum_sync_config(ElectrumSyncConfig raw) {
+    // Codec=Cst (C-struct based), see doc to use other codecs
+    final ptr = wire.cst_new_box_autoadd_electrum_sync_config();
+    cst_api_fill_to_wire_electrum_sync_config(raw, ptr.ref);
     return ptr;
   }
 
@@ -2079,6 +2110,15 @@ abstract class coreApiImplPlatform extends BaseApiImpl<coreWire> {
   }
 
   @protected
+  ffi.Pointer<wire_cst_electrum_sync_config>
+      cst_encode_opt_box_autoadd_electrum_sync_config(ElectrumSyncConfig? raw) {
+    // Codec=Cst (C-struct based), see doc to use other codecs
+    return raw == null
+        ? ffi.nullptr
+        : cst_encode_box_autoadd_electrum_sync_config(raw);
+  }
+
+  @protected
   ffi.Pointer<wire_cst_entropy_source_config>
       cst_encode_opt_box_autoadd_entropy_source_config(
           EntropySourceConfig? raw) {
@@ -2496,6 +2536,13 @@ abstract class coreApiImplPlatform extends BaseApiImpl<coreWire> {
   }
 
   @protected
+  void cst_api_fill_to_wire_box_autoadd_electrum_sync_config(
+      ElectrumSyncConfig apiObj,
+      ffi.Pointer<wire_cst_electrum_sync_config> wireObj) {
+    cst_api_fill_to_wire_electrum_sync_config(apiObj, wireObj.ref);
+  }
+
+  @protected
   void cst_api_fill_to_wire_box_autoadd_entropy_source_config(
       EntropySourceConfig apiObj,
       ffi.Pointer<wire_cst_entropy_source_config> wireObj) {
@@ -2699,12 +2746,21 @@ abstract class coreApiImplPlatform extends BaseApiImpl<coreWire> {
       wireObj.kind.Esplora.sync_config = pre_sync_config;
       return;
     }
+    if (apiObj is ChainDataSourceConfig_Electrum) {
+      var pre_server_url = cst_encode_String(apiObj.serverUrl);
+      var pre_sync_config =
+          cst_encode_opt_box_autoadd_electrum_sync_config(apiObj.syncConfig);
+      wireObj.tag = 1;
+      wireObj.kind.Electrum.server_url = pre_server_url;
+      wireObj.kind.Electrum.sync_config = pre_sync_config;
+      return;
+    }
     if (apiObj is ChainDataSourceConfig_BitcoindRpc) {
       var pre_rpc_host = cst_encode_String(apiObj.rpcHost);
       var pre_rpc_port = cst_encode_u_16(apiObj.rpcPort);
       var pre_rpc_user = cst_encode_String(apiObj.rpcUser);
       var pre_rpc_password = cst_encode_String(apiObj.rpcPassword);
-      wireObj.tag = 1;
+      wireObj.tag = 2;
       wireObj.kind.BitcoindRpc.rpc_host = pre_rpc_host;
       wireObj.kind.BitcoindRpc.rpc_port = pre_rpc_port;
       wireObj.kind.BitcoindRpc.rpc_user = pre_rpc_user;
@@ -2958,6 +3014,14 @@ abstract class coreApiImplPlatform extends BaseApiImpl<coreWire> {
       wireObj.tag = 7;
       return;
     }
+  }
+
+  @protected
+  void cst_api_fill_to_wire_electrum_sync_config(
+      ElectrumSyncConfig apiObj, wire_cst_electrum_sync_config wireObj) {
+    wireObj.background_sync_config =
+        cst_encode_opt_box_autoadd_background_sync_config(
+            apiObj.backgroundSyncConfig);
   }
 
   @protected
@@ -4191,6 +4255,10 @@ abstract class coreApiImplPlatform extends BaseApiImpl<coreWire> {
       DecodeError self, SseSerializer serializer);
 
   @protected
+  void sse_encode_box_autoadd_electrum_sync_config(
+      ElectrumSyncConfig self, SseSerializer serializer);
+
+  @protected
   void sse_encode_box_autoadd_entropy_source_config(
       EntropySourceConfig self, SseSerializer serializer);
 
@@ -4352,6 +4420,10 @@ abstract class coreApiImplPlatform extends BaseApiImpl<coreWire> {
 
   @protected
   void sse_encode_decode_error(DecodeError self, SseSerializer serializer);
+
+  @protected
+  void sse_encode_electrum_sync_config(
+      ElectrumSyncConfig self, SseSerializer serializer);
 
   @protected
   void sse_encode_entropy_source_config(
@@ -4546,6 +4618,10 @@ abstract class coreApiImplPlatform extends BaseApiImpl<coreWire> {
   @protected
   void sse_encode_opt_box_autoadd_closure_reason(
       ClosureReason? self, SseSerializer serializer);
+
+  @protected
+  void sse_encode_opt_box_autoadd_electrum_sync_config(
+      ElectrumSyncConfig? self, SseSerializer serializer);
 
   @protected
   void sse_encode_opt_box_autoadd_entropy_source_config(
@@ -6220,6 +6296,26 @@ class coreWire implements BaseWire {
       _wire__crate__api__node__ffi_node_event_handledPtr
           .asFunction<void Function(int, ffi.Pointer<wire_cst_ffi_node>)>();
 
+  void wire__crate__api__node__ffi_node_export_pathfinding_scores(
+    int port_,
+    ffi.Pointer<wire_cst_ffi_node> that,
+  ) {
+    return _wire__crate__api__node__ffi_node_export_pathfinding_scores(
+      port_,
+      that,
+    );
+  }
+
+  late final _wire__crate__api__node__ffi_node_export_pathfinding_scoresPtr =
+      _lookup<
+          ffi.NativeFunction<
+              ffi.Void Function(ffi.Int64, ffi.Pointer<wire_cst_ffi_node>)>>(
+    'frbgen_ldk_node_wire__crate__api__node__ffi_node_export_pathfinding_scores',
+  );
+  late final _wire__crate__api__node__ffi_node_export_pathfinding_scores =
+      _wire__crate__api__node__ffi_node_export_pathfinding_scoresPtr
+          .asFunction<void Function(int, ffi.Pointer<wire_cst_ffi_node>)>();
+
   void wire__crate__api__node__ffi_node_force_close_channel(
     int port_,
     ffi.Pointer<wire_cst_ffi_node> that,
@@ -6946,6 +7042,50 @@ class coreWire implements BaseWire {
                 ffi.Pointer<wire_cst_public_key>,
               )>();
 
+  void
+      wire__crate__api__spontaneous__ffi_spontaneous_payment_send_with_custom_tlvs(
+    int port_,
+    ffi.Pointer<wire_cst_ffi_spontaneous_payment> that,
+    int amount_msat,
+    ffi.Pointer<wire_cst_public_key> node_id,
+    ffi.Pointer<wire_cst_sending_parameters> sending_parameters,
+    ffi.Pointer<wire_cst_list_custom_tlv_record> custom_tlvs,
+  ) {
+    return _wire__crate__api__spontaneous__ffi_spontaneous_payment_send_with_custom_tlvs(
+      port_,
+      that,
+      amount_msat,
+      node_id,
+      sending_parameters,
+      custom_tlvs,
+    );
+  }
+
+  late final _wire__crate__api__spontaneous__ffi_spontaneous_payment_send_with_custom_tlvsPtr =
+      _lookup<
+          ffi.NativeFunction<
+              ffi.Void Function(
+                ffi.Int64,
+                ffi.Pointer<wire_cst_ffi_spontaneous_payment>,
+                ffi.Uint64,
+                ffi.Pointer<wire_cst_public_key>,
+                ffi.Pointer<wire_cst_sending_parameters>,
+                ffi.Pointer<wire_cst_list_custom_tlv_record>,
+              )>>(
+    'frbgen_ldk_node_wire__crate__api__spontaneous__ffi_spontaneous_payment_send_with_custom_tlvs',
+  );
+  late final _wire__crate__api__spontaneous__ffi_spontaneous_payment_send_with_custom_tlvs =
+      _wire__crate__api__spontaneous__ffi_spontaneous_payment_send_with_custom_tlvsPtr
+          .asFunction<
+              void Function(
+                int,
+                ffi.Pointer<wire_cst_ffi_spontaneous_payment>,
+                int,
+                ffi.Pointer<wire_cst_public_key>,
+                ffi.Pointer<wire_cst_sending_parameters>,
+                ffi.Pointer<wire_cst_list_custom_tlv_record>,
+              )>();
+
   void wire__crate__api__unified_qr__ffi_unified_qr_payment_receive(
     int port_,
     ffi.Pointer<wire_cst_ffi_unified_qr_payment> that,
@@ -7551,6 +7691,19 @@ class coreWire implements BaseWire {
   late final _cst_new_box_autoadd_decode_error =
       _cst_new_box_autoadd_decode_errorPtr
           .asFunction<ffi.Pointer<wire_cst_decode_error> Function()>();
+
+  ffi.Pointer<wire_cst_electrum_sync_config>
+      cst_new_box_autoadd_electrum_sync_config() {
+    return _cst_new_box_autoadd_electrum_sync_config();
+  }
+
+  late final _cst_new_box_autoadd_electrum_sync_configPtr = _lookup<
+          ffi.NativeFunction<
+              ffi.Pointer<wire_cst_electrum_sync_config> Function()>>(
+      'frbgen_ldk_node_cst_new_box_autoadd_electrum_sync_config');
+  late final _cst_new_box_autoadd_electrum_sync_config =
+      _cst_new_box_autoadd_electrum_sync_configPtr
+          .asFunction<ffi.Pointer<wire_cst_electrum_sync_config> Function()>();
 
   ffi.Pointer<wire_cst_entropy_source_config>
       cst_new_box_autoadd_entropy_source_config() {
@@ -8346,6 +8499,16 @@ final class wire_cst_ChainDataSourceConfig_Esplora extends ffi.Struct {
   external ffi.Pointer<wire_cst_esplora_sync_config> sync_config;
 }
 
+final class wire_cst_electrum_sync_config extends ffi.Struct {
+  external ffi.Pointer<wire_cst_background_sync_config> background_sync_config;
+}
+
+final class wire_cst_ChainDataSourceConfig_Electrum extends ffi.Struct {
+  external ffi.Pointer<wire_cst_list_prim_u_8_strict> server_url;
+
+  external ffi.Pointer<wire_cst_electrum_sync_config> sync_config;
+}
+
 final class wire_cst_ChainDataSourceConfig_BitcoindRpc extends ffi.Struct {
   external ffi.Pointer<wire_cst_list_prim_u_8_strict> rpc_host;
 
@@ -8359,6 +8522,8 @@ final class wire_cst_ChainDataSourceConfig_BitcoindRpc extends ffi.Struct {
 
 final class ChainDataSourceConfigKind extends ffi.Union {
   external wire_cst_ChainDataSourceConfig_Esplora Esplora;
+
+  external wire_cst_ChainDataSourceConfig_Electrum Electrum;
 
   external wire_cst_ChainDataSourceConfig_BitcoindRpc BitcoindRpc;
 }
@@ -8551,6 +8716,20 @@ final class wire_cst_ffi_spontaneous_payment extends ffi.Struct {
   external int opaque;
 }
 
+final class wire_cst_custom_tlv_record extends ffi.Struct {
+  @ffi.Uint64()
+  external int type_num;
+
+  external ffi.Pointer<wire_cst_list_prim_u_8_strict> value;
+}
+
+final class wire_cst_list_custom_tlv_record extends ffi.Struct {
+  external ffi.Pointer<wire_cst_custom_tlv_record> ptr;
+
+  @ffi.Int32()
+  external int len;
+}
+
 final class wire_cst_ffi_unified_qr_payment extends ffi.Struct {
   @ffi.UintPtr()
   external int opaque;
@@ -8683,20 +8862,6 @@ final class wire_cst_closure_reason extends ffi.Struct {
   external int tag;
 
   external ClosureReasonKind kind;
-}
-
-final class wire_cst_custom_tlv_record extends ffi.Struct {
-  @ffi.Uint64()
-  external int type_num;
-
-  external ffi.Pointer<wire_cst_list_prim_u_8_strict> value;
-}
-
-final class wire_cst_list_custom_tlv_record extends ffi.Struct {
-  external ffi.Pointer<wire_cst_custom_tlv_record> ptr;
-
-  @ffi.Int32()
-  external int len;
 }
 
 final class wire_cst_Event_PaymentClaimable extends ffi.Struct {

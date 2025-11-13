@@ -33,6 +33,19 @@ class FfiSpontaneousPayment {
       core.instance.api.crateApiSpontaneousFfiSpontaneousPaymentSendProbes(
           that: this, amountMsat: amountMsat, nodeId: nodeId);
 
+  Future<PaymentId> sendWithCustomTlvs(
+          {required BigInt amountMsat,
+          required PublicKey nodeId,
+          SendingParameters? sendingParameters,
+          required List<CustomTlvRecord> customTlvs}) =>
+      core.instance.api
+          .crateApiSpontaneousFfiSpontaneousPaymentSendWithCustomTlvs(
+              that: this,
+              amountMsat: amountMsat,
+              nodeId: nodeId,
+              sendingParameters: sendingParameters,
+              customTlvs: customTlvs);
+
   @override
   int get hashCode => opaque.hashCode;
 
