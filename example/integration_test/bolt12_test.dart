@@ -15,10 +15,15 @@ void main() {
       'http://10.0.2.2:30000'
       : 'http://127.0.0.1:30000';
   final regTestClient = BtcClient("");
+  // final esploraConfig = ldk.EsploraSyncConfig(
+  //     onchainWalletSyncIntervalSecs: BigInt.from(60),
+  //     lightningWalletSyncIntervalSecs: BigInt.from(60),
+  //     feeRateCacheUpdateIntervalSecs: BigInt.from(600));
   final esploraConfig = ldk.EsploraSyncConfig(
-      onchainWalletSyncIntervalSecs: BigInt.from(60),
-      lightningWalletSyncIntervalSecs: BigInt.from(60),
-      feeRateCacheUpdateIntervalSecs: BigInt.from(600));
+      backgroundSyncConfig: ldk.BackgroundSyncConfig(
+          onchainWalletSyncIntervalSecs: BigInt.from(60),
+          lightningWalletSyncIntervalSecs: BigInt.from(60),
+          feeRateCacheUpdateIntervalSecs: BigInt.from(600)));
   Future<ldk.Config> initLdkConfig(
       String path, ldk.SocketAddress address) async {
     final directory = await getApplicationDocumentsDirectory();
@@ -28,8 +33,7 @@ void main() {
       trustedPeers0Conf: [],
       storageDirPath: nodePath,
       network: ldk.Network.regtest,
-      listeningAddresses: [address],
-      logLevel: ldk.LogLevel.debug,
+      listeningAddresses: [address]
     );
     return config;
   }
@@ -46,7 +50,10 @@ void main() {
                   seedPhrase:
                       "replace force spring cruise nothing select glass erupt medal raise consider pull"))
           .setChainSourceEsplora(
-              esploraServerUrl: esploraUrl, syncConfig: esploraConfig);
+              esploraServerUrl: esploraUrl, syncConfig: esploraConfig)
+          .setFilesystemLogger(
+              logFilePath: "${aliceConfig.storageDirPath}/alice.log",
+              maxLogLevel: ldk.LogLevel.debug);
       final aliceNode = await aliceBuilder.build();
       await aliceNode.start();
       final bobConfig = await initLdkConfig(

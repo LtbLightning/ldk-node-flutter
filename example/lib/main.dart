@@ -299,6 +299,12 @@ class _MyAppState extends State<MyApp> {
         print(
             "paymentId: ${e.paymentId.field0.toString()}, claimableAmountMsat: ${e.claimableAmountMsat}, userChannelId: ${e.claimDeadline}");
       }
+    }, paymentForwarded: (value) {
+      if (kDebugMode) {
+        print("paymentForwarded: prevChannelId: ${value.prevChannelId.data}, "
+            "nextChannelId: ${value.nextChannelId.data}, "
+            "outboundAmountMsat: ${value.outboundAmountForwardedMsat}, ");
+      }
     });
     await node.eventHandled();
   }

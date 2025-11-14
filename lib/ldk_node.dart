@@ -13,6 +13,7 @@ export 'src/generated/api/types.dart'
     show
         Address,
         AnchorChannelsConfig,
+        BackgroundSyncConfig,
         BalanceDetails,
         BalanceSource,
         LightningBalance,
@@ -23,6 +24,7 @@ export 'src/generated/api/types.dart'
         ChannelId,
         ClosureReason,
         Config,
+        ConfirmationStatus,
         EntropySourceConfig,
         EsploraSyncConfig,
         GossipSourceConfig,
@@ -30,6 +32,7 @@ export 'src/generated/api/types.dart'
         LSPFeeLimits,
         MaxDustHTLCExposure,
         MaxTotalRoutingFeeLimit,
+        OfferId,
         Event,
         LogLevel,
         Network,

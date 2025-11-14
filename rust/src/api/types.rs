@@ -453,6 +453,7 @@ pub enum ClosureReason {
     HTLCsTimedOut,
 }
 ///A user-provided identifier in channelManager.sendPayment used to uniquely identify a payment and ensure idempotency in LDK.
+#[frb(non_opaque)]
 #[derive(Eq, PartialEq, Debug, Clone)]
 pub struct PaymentId(pub [u8; 32]);
 
@@ -876,6 +877,7 @@ impl From<ldk_node::lightning_types::payment::PaymentPreimage> for PaymentPreima
 /// payment_secret type, use to authenticate sender to the receiver and tie MPP HTLCs together
 ///
 #[derive(Hash, Copy, Clone, PartialEq, Eq, Debug)]
+#[frb(unignore)]
 pub struct PaymentSecret {
     pub data: [u8; 32],
 }
@@ -916,6 +918,7 @@ impl From<ldk_node::payment::PaymentDetails> for PaymentDetails {
 }
 /// Limits applying to how much fee we allow an LSP to deduct from the payment amount.
 #[derive(Copy, Clone, Debug, PartialEq, Eq)]
+#[frb(unignore)]
 pub struct LSPFeeLimits {
     /// The maximal total amount we allow any configured LSP withhold from us when forwarding the
     /// payment.
@@ -934,6 +937,7 @@ impl From<ldk_node::payment::LSPFeeLimits> for LSPFeeLimits {
 }
 
 #[derive(Clone, Copy, Debug, Eq, PartialEq)]
+#[frb(unignore)]
 pub struct OfferId(pub [u8; 32]);
 
 impl From<ldk_node::lightning::offers::offer::OfferId> for OfferId {
@@ -949,6 +953,7 @@ impl From<OfferId> for ldk_node::lightning::offers::offer::OfferId {
 
 /// Represents the confirmation status of a transaction.
 #[derive(Copy, Clone, Debug, PartialEq, Eq)]
+#[frb(unignore)]
 pub enum ConfirmationStatus {
     /// The transaction is confirmed in the best chain.
     Confirmed {
@@ -2440,8 +2445,9 @@ const DEFAULT_STORAGE_DIR_PATH: &str = "/tmp/ldk_node/";
 const DEFAULT_NETWORK: Network = Network::Testnet;
 const DEFAULT_LOG_LEVEL: LogLevel = LogLevel::Debug;
 
+#[frb(non_opaque)]
 #[derive(Debug, Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash)]
-pub struct FeeRate(pub(crate) u64);
+pub struct FeeRate(pub u64);
 
 impl FeeRate {
     /// 0 sat/kwu.

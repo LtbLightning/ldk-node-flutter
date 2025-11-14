@@ -122,10 +122,10 @@ abstract class coreApi extends BaseApi {
   FfiBuilder crateApiBuilderFfiBuilderSetEntropySeedBytes(
       {required FfiBuilder that, required List<int> seedBytes});
 
-  Future<FfiBuilder> crateApiBuilderFfiBuilderSetFilesystemLogger(
+  FfiBuilder crateApiBuilderFfiBuilderSetFilesystemLogger(
       {required FfiBuilder that, String? logFilePath, LogLevel? maxLogLevel});
 
-  Future<FfiBuilder> crateApiBuilderFfiBuilderSetLogFacadeLogger(
+  FfiBuilder crateApiBuilderFfiBuilderSetLogFacadeLogger(
       {required FfiBuilder that});
 
   BigInt? crateApiTypesPaymentDetailsAutoAccessorGetAmountMsat(
@@ -452,6 +452,15 @@ abstract class coreApi extends BaseApi {
 
   Future<QrPaymentResult> crateApiUnifiedQrFfiUnifiedQrPaymentSend(
       {required FfiUnifiedQrPayment that, required String uriStr});
+
+  RustArcIncrementStrongCountFnType
+      get rust_arc_increment_strong_count_ConfirmationStatus;
+
+  RustArcDecrementStrongCountFnType
+      get rust_arc_decrement_strong_count_ConfirmationStatus;
+
+  CrossPlatformFinalizerArg
+      get rust_arc_decrement_strong_count_ConfirmationStatusPtr;
 
   RustArcIncrementStrongCountFnType
       get rust_arc_increment_strong_count_FfiBuilder;
@@ -819,17 +828,17 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
       );
 
   @override
-  Future<FfiBuilder> crateApiBuilderFfiBuilderSetFilesystemLogger(
+  FfiBuilder crateApiBuilderFfiBuilderSetFilesystemLogger(
       {required FfiBuilder that, String? logFilePath, LogLevel? maxLogLevel}) {
-    return handler.executeNormal(NormalTask(
-      callFfi: (port_) {
+    return handler.executeSync(SyncTask(
+      callFfi: () {
         var arg0 =
             cst_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerFfiBuilder(
                 that);
         var arg1 = cst_encode_opt_String(logFilePath);
         var arg2 = cst_encode_opt_box_autoadd_log_level(maxLogLevel);
         return wire.wire__crate__api__builder__FfiBuilder_set_filesystem_logger(
-            port_, arg0, arg1, arg2);
+            arg0, arg1, arg2);
       },
       codec: DcoCodec(
         decodeSuccessData:
@@ -849,15 +858,15 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
       );
 
   @override
-  Future<FfiBuilder> crateApiBuilderFfiBuilderSetLogFacadeLogger(
+  FfiBuilder crateApiBuilderFfiBuilderSetLogFacadeLogger(
       {required FfiBuilder that}) {
-    return handler.executeNormal(NormalTask(
-      callFfi: (port_) {
+    return handler.executeSync(SyncTask(
+      callFfi: () {
         var arg0 =
             cst_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerFfiBuilder(
                 that);
-        return wire.wire__crate__api__builder__FfiBuilder_set_log_facade_logger(
-            port_, arg0);
+        return wire
+            .wire__crate__api__builder__FfiBuilder_set_log_facade_logger(arg0);
       },
       codec: DcoCodec(
         decodeSuccessData:
@@ -3310,6 +3319,14 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
       );
 
   RustArcIncrementStrongCountFnType
+      get rust_arc_increment_strong_count_ConfirmationStatus => wire
+          .rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerConfirmationStatus;
+
+  RustArcDecrementStrongCountFnType
+      get rust_arc_decrement_strong_count_ConfirmationStatus => wire
+          .rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerConfirmationStatus;
+
+  RustArcIncrementStrongCountFnType
       get rust_arc_increment_strong_count_FfiBuilder => wire
           .rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerFfiBuilder;
 
@@ -3396,6 +3413,14 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
           .rust_arc_decrement_strong_count_RustOpaque_ldk_nodepaymentUnifiedQrPayment;
 
   @protected
+  ConfirmationStatus
+      dco_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerConfirmationStatus(
+          dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return ConfirmationStatusImpl.frbInternalDcoDecode(raw as List<dynamic>);
+  }
+
+  @protected
   FfiBuilder
       dco_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerFfiBuilder(
           dynamic raw) {
@@ -3456,6 +3481,14 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     return Map.fromEntries(dco_decode_list_record_string_string(raw)
         .map((e) => MapEntry(e.$1, e.$2)));
+  }
+
+  @protected
+  ConfirmationStatus
+      dco_decode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerConfirmationStatus(
+          dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return ConfirmationStatusImpl.frbInternalDcoDecode(raw as List<dynamic>);
   }
 
   @protected
@@ -4792,6 +4825,18 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
   }
 
   @protected
+  LSPFeeLimits dco_decode_lsp_fee_limits(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    final arr = raw as List<dynamic>;
+    if (arr.length != 2)
+      throw Exception('unexpected arr length: expect 2 but see ${arr.length}');
+    return LSPFeeLimits(
+      maxTotalOpeningFeeMsat: dco_decode_opt_box_autoadd_u_64(arr[0]),
+      maxProportionalOpeningFeePpmMsat: dco_decode_opt_box_autoadd_u_64(arr[1]),
+    );
+  }
+
+  @protected
   MaxDustHTLCExposure dco_decode_max_dust_htlc_exposure(dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     switch (raw[0]) {
@@ -4908,6 +4953,17 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
       throw Exception('unexpected arr length: expect 1 but see ${arr.length}');
     return Offer(
       s: dco_decode_String(arr[0]),
+    );
+  }
+
+  @protected
+  OfferId dco_decode_offer_id(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    final arr = raw as List<dynamic>;
+    if (arr.length != 1)
+      throw Exception('unexpected arr length: expect 1 but see ${arr.length}');
+    return OfferId(
+      field0: dco_decode_u_8_array_32(arr[0]),
     );
   }
 
@@ -5223,6 +5279,17 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
   }
 
   @protected
+  PaymentSecret dco_decode_payment_secret(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    final arr = raw as List<dynamic>;
+    if (arr.length != 1)
+      throw Exception('unexpected arr length: expect 1 but see ${arr.length}');
+    return PaymentSecret(
+      data: dco_decode_u_8_array_32(arr[0]),
+    );
+  }
+
+  @protected
   PaymentStatus dco_decode_payment_status(dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     return PaymentStatus.values[raw as int];
@@ -5492,6 +5559,15 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
   }
 
   @protected
+  ConfirmationStatus
+      sse_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerConfirmationStatus(
+          SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    return ConfirmationStatusImpl.frbInternalSseDecode(
+        sse_decode_usize(deserializer), sse_decode_i_32(deserializer));
+  }
+
+  @protected
   FfiBuilder
       sse_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerFfiBuilder(
           SseDeserializer deserializer) {
@@ -5560,6 +5636,15 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
     // Codec=Sse (Serialization based), see doc to use other codecs
     var inner = sse_decode_list_record_string_string(deserializer);
     return Map.fromEntries(inner.map((e) => MapEntry(e.$1, e.$2)));
+  }
+
+  @protected
+  ConfirmationStatus
+      sse_decode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerConfirmationStatus(
+          SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    return ConfirmationStatusImpl.frbInternalSseDecode(
+        sse_decode_usize(deserializer), sse_decode_i_32(deserializer));
   }
 
   @protected
@@ -7090,6 +7175,18 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
   }
 
   @protected
+  LSPFeeLimits sse_decode_lsp_fee_limits(SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    var var_maxTotalOpeningFeeMsat =
+        sse_decode_opt_box_autoadd_u_64(deserializer);
+    var var_maxProportionalOpeningFeePpmMsat =
+        sse_decode_opt_box_autoadd_u_64(deserializer);
+    return LSPFeeLimits(
+        maxTotalOpeningFeeMsat: var_maxTotalOpeningFeeMsat,
+        maxProportionalOpeningFeePpmMsat: var_maxProportionalOpeningFeePpmMsat);
+  }
+
+  @protected
   MaxDustHTLCExposure sse_decode_max_dust_htlc_exposure(
       SseDeserializer deserializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
@@ -7205,6 +7302,13 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
     // Codec=Sse (Serialization based), see doc to use other codecs
     var var_s = sse_decode_String(deserializer);
     return Offer(s: var_s);
+  }
+
+  @protected
+  OfferId sse_decode_offer_id(SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    var var_field0 = sse_decode_u_8_array_32(deserializer);
+    return OfferId(field0: var_field0);
   }
 
   @protected
@@ -7676,6 +7780,13 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
   }
 
   @protected
+  PaymentSecret sse_decode_payment_secret(SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    var var_data = sse_decode_u_8_array_32(deserializer);
+    return PaymentSecret(data: var_data);
+  }
+
+  @protected
   PaymentStatus sse_decode_payment_status(SseDeserializer deserializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     var inner = sse_decode_i_32(deserializer);
@@ -7934,6 +8045,14 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
   }
 
   @protected
+  int cst_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerConfirmationStatus(
+      ConfirmationStatus raw) {
+    // Codec=Cst (C-struct based), see doc to use other codecs
+// ignore: invalid_use_of_internal_member
+    return (raw as ConfirmationStatusImpl).frbInternalCstEncode(move: true);
+  }
+
+  @protected
   int cst_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerFfiBuilder(
       FfiBuilder raw) {
     // Codec=Cst (C-struct based), see doc to use other codecs
@@ -7987,6 +8106,14 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
     // Codec=Cst (C-struct based), see doc to use other codecs
 // ignore: invalid_use_of_internal_member
     return (raw as PaymentDetailsImpl).frbInternalCstEncode(move: false);
+  }
+
+  @protected
+  int cst_encode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerConfirmationStatus(
+      ConfirmationStatus raw) {
+    // Codec=Cst (C-struct based), see doc to use other codecs
+// ignore: invalid_use_of_internal_member
+    return (raw as ConfirmationStatusImpl).frbInternalCstEncode();
   }
 
   @protected
@@ -8157,6 +8284,16 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
 
   @protected
   void
+      sse_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerConfirmationStatus(
+          ConfirmationStatus self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_usize(
+        (self as ConfirmationStatusImpl).frbInternalSseEncode(move: true),
+        serializer);
+  }
+
+  @protected
+  void
       sse_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerFfiBuilder(
           FfiBuilder self, SseSerializer serializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
@@ -8227,6 +8364,16 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
     // Codec=Sse (Serialization based), see doc to use other codecs
     sse_encode_list_record_string_string(
         self.entries.map((e) => (e.key, e.value)).toList(), serializer);
+  }
+
+  @protected
+  void
+      sse_encode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerConfirmationStatus(
+          ConfirmationStatus self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_usize(
+        (self as ConfirmationStatusImpl).frbInternalSseEncode(move: null),
+        serializer);
   }
 
   @protected
@@ -9597,6 +9744,14 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
   }
 
   @protected
+  void sse_encode_lsp_fee_limits(LSPFeeLimits self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_opt_box_autoadd_u_64(self.maxTotalOpeningFeeMsat, serializer);
+    sse_encode_opt_box_autoadd_u_64(
+        self.maxProportionalOpeningFeePpmMsat, serializer);
+  }
+
+  @protected
   void sse_encode_max_dust_htlc_exposure(
       MaxDustHTLCExposure self, SseSerializer serializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
@@ -9682,6 +9837,12 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
   void sse_encode_offer(Offer self, SseSerializer serializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     sse_encode_String(self.s, serializer);
+  }
+
+  @protected
+  void sse_encode_offer_id(OfferId self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_u_8_array_32(self.field0, serializer);
   }
 
   @protected
@@ -10116,6 +10277,12 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
   }
 
   @protected
+  void sse_encode_payment_secret(PaymentSecret self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_u_8_array_32(self.data, serializer);
+  }
+
+  @protected
   void sse_encode_payment_status(PaymentStatus self, SseSerializer serializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     sse_encode_i_32(self.index, serializer);
@@ -10406,6 +10573,27 @@ class BuilderImpl extends RustOpaque implements Builder {
 }
 
 @sealed
+class ConfirmationStatusImpl extends RustOpaque implements ConfirmationStatus {
+  // Not to be used by end users
+  ConfirmationStatusImpl.frbInternalDcoDecode(List<dynamic> wire)
+      : super.frbInternalDcoDecode(wire, _kStaticData);
+
+  // Not to be used by end users
+  ConfirmationStatusImpl.frbInternalSseDecode(
+      BigInt ptr, int externalSizeOnNative)
+      : super.frbInternalSseDecode(ptr, externalSizeOnNative, _kStaticData);
+
+  static final _kStaticData = RustArcStaticData(
+    rustArcIncrementStrongCount:
+        core.instance.api.rust_arc_increment_strong_count_ConfirmationStatus,
+    rustArcDecrementStrongCount:
+        core.instance.api.rust_arc_decrement_strong_count_ConfirmationStatus,
+    rustArcDecrementStrongCountPtr:
+        core.instance.api.rust_arc_decrement_strong_count_ConfirmationStatusPtr,
+  );
+}
+
+@sealed
 class FfiBuilderImpl extends RustOpaque implements FfiBuilder {
   // Not to be used by end users
   FfiBuilderImpl.frbInternalDcoDecode(List<dynamic> wire)
@@ -10469,12 +10657,12 @@ class FfiBuilderImpl extends RustOpaque implements FfiBuilder {
       core.instance.api.crateApiBuilderFfiBuilderSetEntropySeedBytes(
           that: this, seedBytes: seedBytes);
 
-  Future<FfiBuilder> setFilesystemLogger(
+  FfiBuilder setFilesystemLogger(
           {String? logFilePath, LogLevel? maxLogLevel}) =>
       core.instance.api.crateApiBuilderFfiBuilderSetFilesystemLogger(
           that: this, logFilePath: logFilePath, maxLogLevel: maxLogLevel);
 
-  Future<FfiBuilder> setLogFacadeLogger() =>
+  FfiBuilder setLogFacadeLogger() =>
       core.instance.api.crateApiBuilderFfiBuilderSetLogFacadeLogger(
         that: this,
       );

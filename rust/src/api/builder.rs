@@ -216,6 +216,7 @@ impl FfiBuilder {
     //
     // The `log_file_path` defaults to 'ldk_node.log' in the configured storage directory if set to `None`.
     // If set, the `max_log_level` sets the maximum log level. Otherwise, defaults to Debug level.
+    #[frb(sync)]
     pub fn set_filesystem_logger(
         self,
         log_file_path: Option<String>,
@@ -234,6 +235,7 @@ impl FfiBuilder {
     // Configures the Node instance to write logs to the Rust log facade.
     //
     // This allows integration with existing Rust logging frameworks.
+    #[frb(sync)]
     pub fn set_log_facade_logger(self) -> Result<Self, FfiBuilderError> {
         let mut builder = self.opaque.into_inner().ok_or(FfiBuilderError::OpaqueNotFound)?;
     
