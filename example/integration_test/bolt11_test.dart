@@ -70,7 +70,7 @@ void main() {
           expirySecs: 9000);
       final paymentId =
           await aliceBolt11PaymentHandler.send(invoice: bobInvoice);
-      debugPrint("Alice's payment id ${paymentId.field0}");
+      debugPrint("Alice's payment id ${paymentId.data.toString()}");
     });
   });
 }

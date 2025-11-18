@@ -159,7 +159,7 @@ class _MyAppState extends State<MyApp> {
           print("======Payments========");
           for (var e in res) {
             print("amountMsat: ${e.amountMsat}");
-            print("paymentId: ${e.id.field0}");
+            print("paymentId: ${e.id.data}");
             print("status: ${e.status.name}");
           }
         }
@@ -252,11 +252,11 @@ class _MyAppState extends State<MyApp> {
       displayText = bobInvoice.signedRawInvoice;
     });
     final paymentId = await aliceBolt11Handler.send(invoice: bobInvoice);
-    debugPrint("Alice's payment id ${paymentId.field0.toString()}");
+    debugPrint("Alice's payment id ${paymentId.data.toString()}");
     final res = await aliceNode.payment(paymentId: paymentId);
     setState(() {
       displayText =
-          "Payment status: ${res?.status.name}\n PaymentId: ${res?.id.field0}";
+          "Payment status: ${res?.status.name}\n PaymentId: ${res?.id.data}";
     });
   }
 
@@ -297,7 +297,7 @@ class _MyAppState extends State<MyApp> {
     }, paymentClaimable: (e) {
       if (kDebugMode) {
         print(
-            "paymentId: ${e.paymentId.field0.toString()}, claimableAmountMsat: ${e.claimableAmountMsat}, userChannelId: ${e.claimDeadline}");
+            "paymentId: ${e.paymentId.data.toString()}, claimableAmountMsat: ${e.claimableAmountMsat}, userChannelId: ${e.claimDeadline}");
       }
     }, paymentForwarded: (value) {
       if (kDebugMode) {
