@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:ldk_node/ldk_node.dart' as ldk;
+import 'package:ldk_node/src/generated/api/types.dart';
 import 'package:path_provider/path_provider.dart';
 
 void main() {
@@ -267,45 +268,85 @@ class _MyAppState extends State<MyApp> {
 
   Future handleEvent(ldk.Node node) async {
     final res = await node.nextEvent();
-    res?.map(paymentSuccessful: (e) {
-      if (kDebugMode) {
-        print("paymentSuccessful: ${e.paymentHash.data}");
+    // res?.map(paymentSuccessful: (e) {
+    //   if (kDebugMode) {
+    //     print("paymentSuccessful: ${e.paymentHash.data}");
+    //   }
+    // }, paymentFailed: (e) {
+    //   if (kDebugMode) {
+    //     print("paymentFailed: ${e.paymentHash?.data.toList()}");
+    //   }
+    // }, paymentReceived: (e) {
+    //   if (kDebugMode) {
+    //     print("paymentReceived: ${e.paymentHash.data}");
+    //   }
+    // }, channelReady: (e) {
+    //   if (kDebugMode) {
+    //     print(
+    //         "channelReady: ${e.channelId.data}, userChannelId: ${e.userChannelId.data}");
+    //   }
+    // }, channelClosed: (e) {
+    //   if (kDebugMode) {
+    //     print(
+    //         "channelClosed: ${e.channelId.data}, userChannelId: ${e.userChannelId.data}");
+    //   }
+    // }, channelPending: (e) {
+    //   if (kDebugMode) {
+    //     print(
+    //         "channelClosed: ${e.channelId.data}, userChannelId: ${e.userChannelId.data}");
+    //   }
+    // }, paymentClaimable: (e) {
+    //   if (kDebugMode) {
+    //     print(
+    //         "paymentId: ${e.paymentId.data.toString()}, claimableAmountMsat: ${e.claimableAmountMsat}, userChannelId: ${e.claimDeadline}");
+    //   }
+    // }, paymentForwarded: (value) {
+    //   if (kDebugMode) {
+    //     print("paymentForwarded: prevChannelId: ${value.prevChannelId.data}, "
+    //         "nextChannelId: ${value.nextChannelId.data}, "
+    //         "outboundAmountMsat: ${value.outboundAmountForwardedMsat}, ");
+    //   }
+    // });
+
+
+    if (res != null && kDebugMode) {
+      switch (res){
+        case Event_PaymentClaimable():
+          print("Payment claimable: "
+              "paymentId: ${res.paymentId.data.toString()}, "
+              "claimableAmountMsat: ${res.claimableAmountMsat}, "
+              "userChannelId: ${res.claimDeadline}");
+          break;
+        case Event_PaymentSuccessful():
+          print("Payment successful: ${res.paymentHash.data}");
+          break;
+        case Event_PaymentFailed():
+          print("Payment failed: ${res.paymentHash?.data.toList()}");
+          break;
+        case Event_PaymentReceived():
+          print("Payment received: ${res.paymentHash.data}");
+          break;
+        case Event_ChannelPending():
+          print("Channel pending: ${res.channelId.data}");
+          break;
+        case Event_ChannelReady():
+          print("Channel ready: "
+              "channelId: ${res.channelId.data}, "
+              "userChannelId: ${res.userChannelId.data}");
+          break;
+        case Event_ChannelClosed():
+          print("Channel closed: "
+              "channelId: ${res.channelId.data}, "
+              "userChannelId: ${res.userChannelId.data}");
+          break;
+        case Event_PaymentForwarded():
+          print("Payment forwarded: "
+              "prevChannelId: ${res.prevChannelId.data}, "
+              "nextChannelId: ${res.nextChannelId.data}, "
+              "outboundAmountMsat: ${res.outboundAmountForwardedMsat}");
+          break;
       }
-    }, paymentFailed: (e) {
-      if (kDebugMode) {
-        print("paymentFailed: ${e.paymentHash?.data.toList()}");
-      }
-    }, paymentReceived: (e) {
-      if (kDebugMode) {
-        print("paymentReceived: ${e.paymentHash.data}");
-      }
-    }, channelReady: (e) {
-      if (kDebugMode) {
-        print(
-            "channelReady: ${e.channelId.data}, userChannelId: ${e.userChannelId.data}");
-      }
-    }, channelClosed: (e) {
-      if (kDebugMode) {
-        print(
-            "channelClosed: ${e.channelId.data}, userChannelId: ${e.userChannelId.data}");
-      }
-    }, channelPending: (e) {
-      if (kDebugMode) {
-        print(
-            "channelClosed: ${e.channelId.data}, userChannelId: ${e.userChannelId.data}");
-      }
-    }, paymentClaimable: (e) {
-      if (kDebugMode) {
-        print(
-            "paymentId: ${e.paymentId.data.toString()}, claimableAmountMsat: ${e.claimableAmountMsat}, userChannelId: ${e.claimDeadline}");
-      }
-    }, paymentForwarded: (value) {
-      if (kDebugMode) {
-        print("paymentForwarded: prevChannelId: ${value.prevChannelId.data}, "
-            "nextChannelId: ${value.nextChannelId.data}, "
-            "outboundAmountMsat: ${value.outboundAmountForwardedMsat}, ");
-      }
-    });
+    }
     await node.eventHandled();
   }
 
