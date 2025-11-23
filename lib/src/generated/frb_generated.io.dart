@@ -36,10 +36,6 @@ abstract class coreApiImplPlatform extends BaseApiImpl<coreWire> {
       wire._rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerFfiBuilderPtr;
 
   CrossPlatformFinalizerArg
-      get rust_arc_decrement_strong_count_PaymentDetailsPtr => wire
-          ._rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPaymentDetailsPtr;
-
-  CrossPlatformFinalizerArg
       get rust_arc_decrement_strong_count_PaymentKindPtr => wire
           ._rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPaymentKindPtr;
 
@@ -84,11 +80,6 @@ abstract class coreApiImplPlatform extends BaseApiImpl<coreWire> {
           dynamic raw);
 
   @protected
-  PaymentDetails
-      dco_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPaymentDetails(
-          dynamic raw);
-
-  @protected
   PaymentKind
       dco_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPaymentKind(
           dynamic raw);
@@ -99,18 +90,8 @@ abstract class coreApiImplPlatform extends BaseApiImpl<coreWire> {
           dynamic raw);
 
   @protected
-  PaymentDetails
-      dco_decode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPaymentDetails(
-          dynamic raw);
-
-  @protected
   FfiBuilder
       dco_decode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerFfiBuilder(
-          dynamic raw);
-
-  @protected
-  PaymentDetails
-      dco_decode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPaymentDetails(
           dynamic raw);
 
   @protected
@@ -124,11 +105,6 @@ abstract class coreApiImplPlatform extends BaseApiImpl<coreWire> {
   @protected
   FfiBuilder
       dco_decode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerFfiBuilder(
-          dynamic raw);
-
-  @protected
-  PaymentDetails
-      dco_decode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPaymentDetails(
           dynamic raw);
 
   @protected
@@ -198,11 +174,6 @@ abstract class coreApiImplPlatform extends BaseApiImpl<coreWire> {
 
   @protected
   bool dco_decode_bool(dynamic raw);
-
-  @protected
-  PaymentDetails
-      dco_decode_box_autoadd_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPaymentDetails(
-          dynamic raw);
 
   @protected
   Address dco_decode_box_autoadd_address(dynamic raw);
@@ -322,6 +293,9 @@ abstract class coreApiImplPlatform extends BaseApiImpl<coreWire> {
 
   @protected
   OutPoint dco_decode_box_autoadd_out_point(dynamic raw);
+
+  @protected
+  PaymentDetails dco_decode_box_autoadd_payment_details(dynamic raw);
 
   @protected
   PaymentFailureReason dco_decode_box_autoadd_payment_failure_reason(
@@ -457,11 +431,6 @@ abstract class coreApiImplPlatform extends BaseApiImpl<coreWire> {
   LiquiditySourceConfig dco_decode_liquidity_source_config(dynamic raw);
 
   @protected
-  List<PaymentDetails>
-      dco_decode_list_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPaymentDetails(
-          dynamic raw);
-
-  @protected
   List<ChannelDetails> dco_decode_list_channel_details(dynamic raw);
 
   @protected
@@ -472,6 +441,9 @@ abstract class coreApiImplPlatform extends BaseApiImpl<coreWire> {
 
   @protected
   List<NodeId> dco_decode_list_node_id(dynamic raw);
+
+  @protected
+  List<PaymentDetails> dco_decode_list_payment_details(dynamic raw);
 
   @protected
   List<PeerDetails> dco_decode_list_peer_details(dynamic raw);
@@ -535,11 +507,6 @@ abstract class coreApiImplPlatform extends BaseApiImpl<coreWire> {
 
   @protected
   String? dco_decode_opt_String(dynamic raw);
-
-  @protected
-  PaymentDetails?
-      dco_decode_opt_box_autoadd_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPaymentDetails(
-          dynamic raw);
 
   @protected
   AnchorChannelsConfig? dco_decode_opt_box_autoadd_anchor_channels_config(
@@ -616,6 +583,9 @@ abstract class coreApiImplPlatform extends BaseApiImpl<coreWire> {
   OutPoint? dco_decode_opt_box_autoadd_out_point(dynamic raw);
 
   @protected
+  PaymentDetails? dco_decode_opt_box_autoadd_payment_details(dynamic raw);
+
+  @protected
   PaymentFailureReason? dco_decode_opt_box_autoadd_payment_failure_reason(
       dynamic raw);
 
@@ -654,6 +624,9 @@ abstract class coreApiImplPlatform extends BaseApiImpl<coreWire> {
 
   @protected
   OutPoint dco_decode_out_point(dynamic raw);
+
+  @protected
+  PaymentDetails dco_decode_payment_details(dynamic raw);
 
   @protected
   PaymentDirection dco_decode_payment_direction(dynamic raw);
@@ -757,11 +730,6 @@ abstract class coreApiImplPlatform extends BaseApiImpl<coreWire> {
           SseDeserializer deserializer);
 
   @protected
-  PaymentDetails
-      sse_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPaymentDetails(
-          SseDeserializer deserializer);
-
-  @protected
   PaymentKind
       sse_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPaymentKind(
           SseDeserializer deserializer);
@@ -772,18 +740,8 @@ abstract class coreApiImplPlatform extends BaseApiImpl<coreWire> {
           SseDeserializer deserializer);
 
   @protected
-  PaymentDetails
-      sse_decode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPaymentDetails(
-          SseDeserializer deserializer);
-
-  @protected
   FfiBuilder
       sse_decode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerFfiBuilder(
-          SseDeserializer deserializer);
-
-  @protected
-  PaymentDetails
-      sse_decode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPaymentDetails(
           SseDeserializer deserializer);
 
   @protected
@@ -798,11 +756,6 @@ abstract class coreApiImplPlatform extends BaseApiImpl<coreWire> {
   @protected
   FfiBuilder
       sse_decode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerFfiBuilder(
-          SseDeserializer deserializer);
-
-  @protected
-  PaymentDetails
-      sse_decode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPaymentDetails(
           SseDeserializer deserializer);
 
   @protected
@@ -874,11 +827,6 @@ abstract class coreApiImplPlatform extends BaseApiImpl<coreWire> {
 
   @protected
   bool sse_decode_bool(SseDeserializer deserializer);
-
-  @protected
-  PaymentDetails
-      sse_decode_box_autoadd_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPaymentDetails(
-          SseDeserializer deserializer);
 
   @protected
   Address sse_decode_box_autoadd_address(SseDeserializer deserializer);
@@ -1012,6 +960,10 @@ abstract class coreApiImplPlatform extends BaseApiImpl<coreWire> {
 
   @protected
   OutPoint sse_decode_box_autoadd_out_point(SseDeserializer deserializer);
+
+  @protected
+  PaymentDetails sse_decode_box_autoadd_payment_details(
+      SseDeserializer deserializer);
 
   @protected
   PaymentFailureReason sse_decode_box_autoadd_payment_failure_reason(
@@ -1161,11 +1113,6 @@ abstract class coreApiImplPlatform extends BaseApiImpl<coreWire> {
       SseDeserializer deserializer);
 
   @protected
-  List<PaymentDetails>
-      sse_decode_list_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPaymentDetails(
-          SseDeserializer deserializer);
-
-  @protected
   List<ChannelDetails> sse_decode_list_channel_details(
       SseDeserializer deserializer);
 
@@ -1179,6 +1126,10 @@ abstract class coreApiImplPlatform extends BaseApiImpl<coreWire> {
 
   @protected
   List<NodeId> sse_decode_list_node_id(SseDeserializer deserializer);
+
+  @protected
+  List<PaymentDetails> sse_decode_list_payment_details(
+      SseDeserializer deserializer);
 
   @protected
   List<PeerDetails> sse_decode_list_peer_details(SseDeserializer deserializer);
@@ -1248,11 +1199,6 @@ abstract class coreApiImplPlatform extends BaseApiImpl<coreWire> {
 
   @protected
   String? sse_decode_opt_String(SseDeserializer deserializer);
-
-  @protected
-  PaymentDetails?
-      sse_decode_opt_box_autoadd_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPaymentDetails(
-          SseDeserializer deserializer);
 
   @protected
   AnchorChannelsConfig? sse_decode_opt_box_autoadd_anchor_channels_config(
@@ -1335,6 +1281,10 @@ abstract class coreApiImplPlatform extends BaseApiImpl<coreWire> {
   OutPoint? sse_decode_opt_box_autoadd_out_point(SseDeserializer deserializer);
 
   @protected
+  PaymentDetails? sse_decode_opt_box_autoadd_payment_details(
+      SseDeserializer deserializer);
+
+  @protected
   PaymentFailureReason? sse_decode_opt_box_autoadd_payment_failure_reason(
       SseDeserializer deserializer);
 
@@ -1380,6 +1330,9 @@ abstract class coreApiImplPlatform extends BaseApiImpl<coreWire> {
 
   @protected
   OutPoint sse_decode_out_point(SseDeserializer deserializer);
+
+  @protected
+  PaymentDetails sse_decode_payment_details(SseDeserializer deserializer);
 
   @protected
   PaymentDirection sse_decode_payment_direction(SseDeserializer deserializer);
@@ -1488,17 +1441,6 @@ abstract class coreApiImplPlatform extends BaseApiImpl<coreWire> {
   ffi.Pointer<wire_cst_list_prim_u_8_strict> cst_encode_String(String raw) {
     // Codec=Cst (C-struct based), see doc to use other codecs
     return cst_encode_list_prim_u_8_strict(utf8.encoder.convert(raw));
-  }
-
-  @protected
-  ffi.Pointer<ffi.UintPtr>
-      cst_encode_box_autoadd_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPaymentDetails(
-          PaymentDetails raw) {
-    // Codec=Cst (C-struct based), see doc to use other codecs
-    return wire
-        .cst_new_box_autoadd_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPaymentDetails(
-            cst_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPaymentDetails(
-                raw));
   }
 
   @protected
@@ -1827,6 +1769,15 @@ abstract class coreApiImplPlatform extends BaseApiImpl<coreWire> {
   }
 
   @protected
+  ffi.Pointer<wire_cst_payment_details> cst_encode_box_autoadd_payment_details(
+      PaymentDetails raw) {
+    // Codec=Cst (C-struct based), see doc to use other codecs
+    final ptr = wire.cst_new_box_autoadd_payment_details();
+    cst_api_fill_to_wire_payment_details(raw, ptr.ref);
+    return ptr;
+  }
+
+  @protected
   ffi.Pointer<ffi.Int32> cst_encode_box_autoadd_payment_failure_reason(
       PaymentFailureReason raw) {
     // Codec=Cst (C-struct based), see doc to use other codecs
@@ -1938,23 +1889,6 @@ abstract class coreApiImplPlatform extends BaseApiImpl<coreWire> {
   }
 
   @protected
-  ffi.Pointer<
-          wire_cst_list_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPaymentDetails>
-      cst_encode_list_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPaymentDetails(
-          List<PaymentDetails> raw) {
-    // Codec=Cst (C-struct based), see doc to use other codecs
-    final ans = wire
-        .cst_new_list_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPaymentDetails(
-            raw.length);
-    for (var i = 0; i < raw.length; ++i) {
-      ans.ref.ptr[i] =
-          cst_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPaymentDetails(
-              raw[i]);
-    }
-    return ans;
-  }
-
-  @protected
   ffi.Pointer<wire_cst_list_channel_details> cst_encode_list_channel_details(
       List<ChannelDetails> raw) {
     // Codec=Cst (C-struct based), see doc to use other codecs
@@ -1993,6 +1927,17 @@ abstract class coreApiImplPlatform extends BaseApiImpl<coreWire> {
     final ans = wire.cst_new_list_node_id(raw.length);
     for (var i = 0; i < raw.length; ++i) {
       cst_api_fill_to_wire_node_id(raw[i], ans.ref.ptr[i]);
+    }
+    return ans;
+  }
+
+  @protected
+  ffi.Pointer<wire_cst_list_payment_details> cst_encode_list_payment_details(
+      List<PaymentDetails> raw) {
+    // Codec=Cst (C-struct based), see doc to use other codecs
+    final ans = wire.cst_new_list_payment_details(raw.length);
+    for (var i = 0; i < raw.length; ++i) {
+      cst_api_fill_to_wire_payment_details(raw[i], ans.ref.ptr[i]);
     }
     return ans;
   }
@@ -2084,17 +2029,6 @@ abstract class coreApiImplPlatform extends BaseApiImpl<coreWire> {
       String? raw) {
     // Codec=Cst (C-struct based), see doc to use other codecs
     return raw == null ? ffi.nullptr : cst_encode_String(raw);
-  }
-
-  @protected
-  ffi.Pointer<ffi.UintPtr>
-      cst_encode_opt_box_autoadd_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPaymentDetails(
-          PaymentDetails? raw) {
-    // Codec=Cst (C-struct based), see doc to use other codecs
-    return raw == null
-        ? ffi.nullptr
-        : cst_encode_box_autoadd_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPaymentDetails(
-            raw);
   }
 
   @protected
@@ -2272,6 +2206,15 @@ abstract class coreApiImplPlatform extends BaseApiImpl<coreWire> {
       OutPoint? raw) {
     // Codec=Cst (C-struct based), see doc to use other codecs
     return raw == null ? ffi.nullptr : cst_encode_box_autoadd_out_point(raw);
+  }
+
+  @protected
+  ffi.Pointer<wire_cst_payment_details>
+      cst_encode_opt_box_autoadd_payment_details(PaymentDetails? raw) {
+    // Codec=Cst (C-struct based), see doc to use other codecs
+    return raw == null
+        ? ffi.nullptr
+        : cst_encode_box_autoadd_payment_details(raw);
   }
 
   @protected
@@ -2741,6 +2684,12 @@ abstract class coreApiImplPlatform extends BaseApiImpl<coreWire> {
   void cst_api_fill_to_wire_box_autoadd_out_point(
       OutPoint apiObj, ffi.Pointer<wire_cst_out_point> wireObj) {
     cst_api_fill_to_wire_out_point(apiObj, wireObj.ref);
+  }
+
+  @protected
+  void cst_api_fill_to_wire_box_autoadd_payment_details(
+      PaymentDetails apiObj, ffi.Pointer<wire_cst_payment_details> wireObj) {
+    cst_api_fill_to_wire_payment_details(apiObj, wireObj.ref);
   }
 
   @protected
@@ -3845,6 +3794,20 @@ abstract class coreApiImplPlatform extends BaseApiImpl<coreWire> {
   }
 
   @protected
+  void cst_api_fill_to_wire_payment_details(
+      PaymentDetails apiObj, wire_cst_payment_details wireObj) {
+    cst_api_fill_to_wire_payment_id(apiObj.id, wireObj.id);
+    wireObj.kind =
+        cst_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPaymentKind(
+            apiObj.kind);
+    wireObj.amount_msat = cst_encode_opt_box_autoadd_u_64(apiObj.amountMsat);
+    wireObj.direction = cst_encode_payment_direction(apiObj.direction);
+    wireObj.status = cst_encode_payment_status(apiObj.status);
+    wireObj.latest_update_timestamp =
+        cst_encode_u_64(apiObj.latestUpdateTimestamp);
+  }
+
+  @protected
   void cst_api_fill_to_wire_payment_hash(
       PaymentHash apiObj, wire_cst_payment_hash wireObj) {
     wireObj.data = cst_encode_u_8_array_32(apiObj.data);
@@ -4067,10 +4030,6 @@ abstract class coreApiImplPlatform extends BaseApiImpl<coreWire> {
       FfiBuilder raw);
 
   @protected
-  int cst_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPaymentDetails(
-      PaymentDetails raw);
-
-  @protected
   int cst_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPaymentKind(
       PaymentKind raw);
 
@@ -4079,16 +4038,8 @@ abstract class coreApiImplPlatform extends BaseApiImpl<coreWire> {
       FfiBuilder raw);
 
   @protected
-  int cst_encode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPaymentDetails(
-      PaymentDetails raw);
-
-  @protected
   int cst_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerFfiBuilder(
       FfiBuilder raw);
-
-  @protected
-  int cst_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPaymentDetails(
-      PaymentDetails raw);
 
   @protected
   int cst_encode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerConfirmationStatus(
@@ -4097,10 +4048,6 @@ abstract class coreApiImplPlatform extends BaseApiImpl<coreWire> {
   @protected
   int cst_encode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerFfiBuilder(
       FfiBuilder raw);
-
-  @protected
-  int cst_encode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPaymentDetails(
-      PaymentDetails raw);
 
   @protected
   int cst_encode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPaymentKind(
@@ -4186,11 +4133,6 @@ abstract class coreApiImplPlatform extends BaseApiImpl<coreWire> {
 
   @protected
   void
-      sse_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPaymentDetails(
-          PaymentDetails self, SseSerializer serializer);
-
-  @protected
-  void
       sse_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPaymentKind(
           PaymentKind self, SseSerializer serializer);
 
@@ -4201,18 +4143,8 @@ abstract class coreApiImplPlatform extends BaseApiImpl<coreWire> {
 
   @protected
   void
-      sse_encode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPaymentDetails(
-          PaymentDetails self, SseSerializer serializer);
-
-  @protected
-  void
       sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerFfiBuilder(
           FfiBuilder self, SseSerializer serializer);
-
-  @protected
-  void
-      sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPaymentDetails(
-          PaymentDetails self, SseSerializer serializer);
 
   @protected
   void sse_encode_Map_String_String_None(
@@ -4227,11 +4159,6 @@ abstract class coreApiImplPlatform extends BaseApiImpl<coreWire> {
   void
       sse_encode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerFfiBuilder(
           FfiBuilder self, SseSerializer serializer);
-
-  @protected
-  void
-      sse_encode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPaymentDetails(
-          PaymentDetails self, SseSerializer serializer);
 
   @protected
   void
@@ -4305,11 +4232,6 @@ abstract class coreApiImplPlatform extends BaseApiImpl<coreWire> {
 
   @protected
   void sse_encode_bool(bool self, SseSerializer serializer);
-
-  @protected
-  void
-      sse_encode_box_autoadd_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPaymentDetails(
-          PaymentDetails self, SseSerializer serializer);
 
   @protected
   void sse_encode_box_autoadd_address(Address self, SseSerializer serializer);
@@ -4451,6 +4373,10 @@ abstract class coreApiImplPlatform extends BaseApiImpl<coreWire> {
   @protected
   void sse_encode_box_autoadd_out_point(
       OutPoint self, SseSerializer serializer);
+
+  @protected
+  void sse_encode_box_autoadd_payment_details(
+      PaymentDetails self, SseSerializer serializer);
 
   @protected
   void sse_encode_box_autoadd_payment_failure_reason(
@@ -4611,11 +4537,6 @@ abstract class coreApiImplPlatform extends BaseApiImpl<coreWire> {
       LiquiditySourceConfig self, SseSerializer serializer);
 
   @protected
-  void
-      sse_encode_list_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPaymentDetails(
-          List<PaymentDetails> self, SseSerializer serializer);
-
-  @protected
   void sse_encode_list_channel_details(
       List<ChannelDetails> self, SseSerializer serializer);
 
@@ -4629,6 +4550,10 @@ abstract class coreApiImplPlatform extends BaseApiImpl<coreWire> {
 
   @protected
   void sse_encode_list_node_id(List<NodeId> self, SseSerializer serializer);
+
+  @protected
+  void sse_encode_list_payment_details(
+      List<PaymentDetails> self, SseSerializer serializer);
 
   @protected
   void sse_encode_list_peer_details(
@@ -4702,11 +4627,6 @@ abstract class coreApiImplPlatform extends BaseApiImpl<coreWire> {
 
   @protected
   void sse_encode_opt_String(String? self, SseSerializer serializer);
-
-  @protected
-  void
-      sse_encode_opt_box_autoadd_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPaymentDetails(
-          PaymentDetails? self, SseSerializer serializer);
 
   @protected
   void sse_encode_opt_box_autoadd_anchor_channels_config(
@@ -4791,6 +4711,10 @@ abstract class coreApiImplPlatform extends BaseApiImpl<coreWire> {
       OutPoint? self, SseSerializer serializer);
 
   @protected
+  void sse_encode_opt_box_autoadd_payment_details(
+      PaymentDetails? self, SseSerializer serializer);
+
+  @protected
   void sse_encode_opt_box_autoadd_payment_failure_reason(
       PaymentFailureReason? self, SseSerializer serializer);
 
@@ -4836,6 +4760,10 @@ abstract class coreApiImplPlatform extends BaseApiImpl<coreWire> {
 
   @protected
   void sse_encode_out_point(OutPoint self, SseSerializer serializer);
+
+  @protected
+  void sse_encode_payment_details(
+      PaymentDetails self, SseSerializer serializer);
 
   @protected
   void sse_encode_payment_direction(
@@ -5228,230 +5156,6 @@ class coreWire implements BaseWire {
   late final _wire__crate__api__builder__FfiBuilder_set_log_facade_logger =
       _wire__crate__api__builder__FfiBuilder_set_log_facade_loggerPtr
           .asFunction<WireSyncRust2DartDco Function(int)>();
-
-  WireSyncRust2DartDco
-      wire__crate__api__types__PaymentDetails_auto_accessor_get_amount_msat(
-    int that,
-  ) {
-    return _wire__crate__api__types__PaymentDetails_auto_accessor_get_amount_msat(
-      that,
-    );
-  }
-
-  late final _wire__crate__api__types__PaymentDetails_auto_accessor_get_amount_msatPtr =
-      _lookup<ffi.NativeFunction<WireSyncRust2DartDco Function(ffi.UintPtr)>>(
-    'frbgen_ldk_node_wire__crate__api__types__PaymentDetails_auto_accessor_get_amount_msat',
-  );
-  late final _wire__crate__api__types__PaymentDetails_auto_accessor_get_amount_msat =
-      _wire__crate__api__types__PaymentDetails_auto_accessor_get_amount_msatPtr
-          .asFunction<WireSyncRust2DartDco Function(int)>();
-
-  WireSyncRust2DartDco
-      wire__crate__api__types__PaymentDetails_auto_accessor_get_direction(
-    int that,
-  ) {
-    return _wire__crate__api__types__PaymentDetails_auto_accessor_get_direction(
-      that,
-    );
-  }
-
-  late final _wire__crate__api__types__PaymentDetails_auto_accessor_get_directionPtr =
-      _lookup<ffi.NativeFunction<WireSyncRust2DartDco Function(ffi.UintPtr)>>(
-    'frbgen_ldk_node_wire__crate__api__types__PaymentDetails_auto_accessor_get_direction',
-  );
-  late final _wire__crate__api__types__PaymentDetails_auto_accessor_get_direction =
-      _wire__crate__api__types__PaymentDetails_auto_accessor_get_directionPtr
-          .asFunction<WireSyncRust2DartDco Function(int)>();
-
-  WireSyncRust2DartDco
-      wire__crate__api__types__PaymentDetails_auto_accessor_get_id(int that) {
-    return _wire__crate__api__types__PaymentDetails_auto_accessor_get_id(that);
-  }
-
-  late final _wire__crate__api__types__PaymentDetails_auto_accessor_get_idPtr =
-      _lookup<ffi.NativeFunction<WireSyncRust2DartDco Function(ffi.UintPtr)>>(
-    'frbgen_ldk_node_wire__crate__api__types__PaymentDetails_auto_accessor_get_id',
-  );
-  late final _wire__crate__api__types__PaymentDetails_auto_accessor_get_id =
-      _wire__crate__api__types__PaymentDetails_auto_accessor_get_idPtr
-          .asFunction<WireSyncRust2DartDco Function(int)>();
-
-  WireSyncRust2DartDco
-      wire__crate__api__types__PaymentDetails_auto_accessor_get_kind(int that) {
-    return _wire__crate__api__types__PaymentDetails_auto_accessor_get_kind(
-      that,
-    );
-  }
-
-  late final _wire__crate__api__types__PaymentDetails_auto_accessor_get_kindPtr =
-      _lookup<ffi.NativeFunction<WireSyncRust2DartDco Function(ffi.UintPtr)>>(
-    'frbgen_ldk_node_wire__crate__api__types__PaymentDetails_auto_accessor_get_kind',
-  );
-  late final _wire__crate__api__types__PaymentDetails_auto_accessor_get_kind =
-      _wire__crate__api__types__PaymentDetails_auto_accessor_get_kindPtr
-          .asFunction<WireSyncRust2DartDco Function(int)>();
-
-  WireSyncRust2DartDco
-      wire__crate__api__types__PaymentDetails_auto_accessor_get_latest_update_timestamp(
-    int that,
-  ) {
-    return _wire__crate__api__types__PaymentDetails_auto_accessor_get_latest_update_timestamp(
-      that,
-    );
-  }
-
-  late final _wire__crate__api__types__PaymentDetails_auto_accessor_get_latest_update_timestampPtr =
-      _lookup<ffi.NativeFunction<WireSyncRust2DartDco Function(ffi.UintPtr)>>(
-    'frbgen_ldk_node_wire__crate__api__types__PaymentDetails_auto_accessor_get_latest_update_timestamp',
-  );
-  late final _wire__crate__api__types__PaymentDetails_auto_accessor_get_latest_update_timestamp =
-      _wire__crate__api__types__PaymentDetails_auto_accessor_get_latest_update_timestampPtr
-          .asFunction<WireSyncRust2DartDco Function(int)>();
-
-  WireSyncRust2DartDco
-      wire__crate__api__types__PaymentDetails_auto_accessor_get_status(
-          int that) {
-    return _wire__crate__api__types__PaymentDetails_auto_accessor_get_status(
-      that,
-    );
-  }
-
-  late final _wire__crate__api__types__PaymentDetails_auto_accessor_get_statusPtr =
-      _lookup<ffi.NativeFunction<WireSyncRust2DartDco Function(ffi.UintPtr)>>(
-    'frbgen_ldk_node_wire__crate__api__types__PaymentDetails_auto_accessor_get_status',
-  );
-  late final _wire__crate__api__types__PaymentDetails_auto_accessor_get_status =
-      _wire__crate__api__types__PaymentDetails_auto_accessor_get_statusPtr
-          .asFunction<WireSyncRust2DartDco Function(int)>();
-
-  WireSyncRust2DartDco
-      wire__crate__api__types__PaymentDetails_auto_accessor_set_amount_msat(
-    int that,
-    ffi.Pointer<ffi.Uint64> amount_msat,
-  ) {
-    return _wire__crate__api__types__PaymentDetails_auto_accessor_set_amount_msat(
-      that,
-      amount_msat,
-    );
-  }
-
-  late final _wire__crate__api__types__PaymentDetails_auto_accessor_set_amount_msatPtr =
-      _lookup<
-          ffi.NativeFunction<
-              WireSyncRust2DartDco Function(
-                  ffi.UintPtr, ffi.Pointer<ffi.Uint64>)>>(
-    'frbgen_ldk_node_wire__crate__api__types__PaymentDetails_auto_accessor_set_amount_msat',
-  );
-  late final _wire__crate__api__types__PaymentDetails_auto_accessor_set_amount_msat =
-      _wire__crate__api__types__PaymentDetails_auto_accessor_set_amount_msatPtr
-          .asFunction<
-              WireSyncRust2DartDco Function(int, ffi.Pointer<ffi.Uint64>)>();
-
-  WireSyncRust2DartDco
-      wire__crate__api__types__PaymentDetails_auto_accessor_set_direction(
-    int that,
-    int direction,
-  ) {
-    return _wire__crate__api__types__PaymentDetails_auto_accessor_set_direction(
-      that,
-      direction,
-    );
-  }
-
-  late final _wire__crate__api__types__PaymentDetails_auto_accessor_set_directionPtr =
-      _lookup<
-          ffi.NativeFunction<
-              WireSyncRust2DartDco Function(ffi.UintPtr, ffi.Int32)>>(
-    'frbgen_ldk_node_wire__crate__api__types__PaymentDetails_auto_accessor_set_direction',
-  );
-  late final _wire__crate__api__types__PaymentDetails_auto_accessor_set_direction =
-      _wire__crate__api__types__PaymentDetails_auto_accessor_set_directionPtr
-          .asFunction<WireSyncRust2DartDco Function(int, int)>();
-
-  WireSyncRust2DartDco
-      wire__crate__api__types__PaymentDetails_auto_accessor_set_id(
-    int that,
-    wire_cst_payment_id id,
-  ) {
-    return _wire__crate__api__types__PaymentDetails_auto_accessor_set_id(
-      that,
-      id,
-    );
-  }
-
-  late final _wire__crate__api__types__PaymentDetails_auto_accessor_set_idPtr =
-      _lookup<
-          ffi.NativeFunction<
-              WireSyncRust2DartDco Function(ffi.UintPtr, wire_cst_payment_id)>>(
-    'frbgen_ldk_node_wire__crate__api__types__PaymentDetails_auto_accessor_set_id',
-  );
-  late final _wire__crate__api__types__PaymentDetails_auto_accessor_set_id =
-      _wire__crate__api__types__PaymentDetails_auto_accessor_set_idPtr
-          .asFunction<
-              WireSyncRust2DartDco Function(int, wire_cst_payment_id)>();
-
-  WireSyncRust2DartDco
-      wire__crate__api__types__PaymentDetails_auto_accessor_set_kind(
-    int that,
-    int kind,
-  ) {
-    return _wire__crate__api__types__PaymentDetails_auto_accessor_set_kind(
-      that,
-      kind,
-    );
-  }
-
-  late final _wire__crate__api__types__PaymentDetails_auto_accessor_set_kindPtr =
-      _lookup<
-          ffi.NativeFunction<
-              WireSyncRust2DartDco Function(ffi.UintPtr, ffi.UintPtr)>>(
-    'frbgen_ldk_node_wire__crate__api__types__PaymentDetails_auto_accessor_set_kind',
-  );
-  late final _wire__crate__api__types__PaymentDetails_auto_accessor_set_kind =
-      _wire__crate__api__types__PaymentDetails_auto_accessor_set_kindPtr
-          .asFunction<WireSyncRust2DartDco Function(int, int)>();
-
-  WireSyncRust2DartDco
-      wire__crate__api__types__PaymentDetails_auto_accessor_set_latest_update_timestamp(
-    int that,
-    int latest_update_timestamp,
-  ) {
-    return _wire__crate__api__types__PaymentDetails_auto_accessor_set_latest_update_timestamp(
-      that,
-      latest_update_timestamp,
-    );
-  }
-
-  late final _wire__crate__api__types__PaymentDetails_auto_accessor_set_latest_update_timestampPtr =
-      _lookup<
-          ffi.NativeFunction<
-              WireSyncRust2DartDco Function(ffi.UintPtr, ffi.Uint64)>>(
-    'frbgen_ldk_node_wire__crate__api__types__PaymentDetails_auto_accessor_set_latest_update_timestamp',
-  );
-  late final _wire__crate__api__types__PaymentDetails_auto_accessor_set_latest_update_timestamp =
-      _wire__crate__api__types__PaymentDetails_auto_accessor_set_latest_update_timestampPtr
-          .asFunction<WireSyncRust2DartDco Function(int, int)>();
-
-  WireSyncRust2DartDco
-      wire__crate__api__types__PaymentDetails_auto_accessor_set_status(
-    int that,
-    int status,
-  ) {
-    return _wire__crate__api__types__PaymentDetails_auto_accessor_set_status(
-      that,
-      status,
-    );
-  }
-
-  late final _wire__crate__api__types__PaymentDetails_auto_accessor_set_statusPtr =
-      _lookup<
-          ffi.NativeFunction<
-              WireSyncRust2DartDco Function(ffi.UintPtr, ffi.Int32)>>(
-    'frbgen_ldk_node_wire__crate__api__types__PaymentDetails_auto_accessor_set_status',
-  );
-  late final _wire__crate__api__types__PaymentDetails_auto_accessor_set_status =
-      _wire__crate__api__types__PaymentDetails_auto_accessor_set_statusPtr
-          .asFunction<WireSyncRust2DartDco Function(int, int)>();
 
   void wire__crate__api__types__anchor_channels_config_default(int port_) {
     return _wire__crate__api__types__anchor_channels_config_default(port_);
@@ -7336,40 +7040,6 @@ class coreWire implements BaseWire {
           .asFunction<void Function(ffi.Pointer<ffi.Void>)>();
 
   void
-      rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPaymentDetails(
-    ffi.Pointer<ffi.Void> ptr,
-  ) {
-    return _rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPaymentDetails(
-      ptr,
-    );
-  }
-
-  late final _rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPaymentDetailsPtr =
-      _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void>)>>(
-    'frbgen_ldk_node_rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPaymentDetails',
-  );
-  late final _rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPaymentDetails =
-      _rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPaymentDetailsPtr
-          .asFunction<void Function(ffi.Pointer<ffi.Void>)>();
-
-  void
-      rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPaymentDetails(
-    ffi.Pointer<ffi.Void> ptr,
-  ) {
-    return _rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPaymentDetails(
-      ptr,
-    );
-  }
-
-  late final _rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPaymentDetailsPtr =
-      _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void>)>>(
-    'frbgen_ldk_node_rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPaymentDetails',
-  );
-  late final _rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPaymentDetails =
-      _rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPaymentDetailsPtr
-          .asFunction<void Function(ffi.Pointer<ffi.Void>)>();
-
-  void
       rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPaymentKind(
     ffi.Pointer<ffi.Void> ptr,
   ) {
@@ -7654,24 +7324,6 @@ class coreWire implements BaseWire {
   late final _rust_arc_decrement_strong_count_RustOpaque_ldk_nodepaymentUnifiedQrPayment =
       _rust_arc_decrement_strong_count_RustOpaque_ldk_nodepaymentUnifiedQrPaymentPtr
           .asFunction<void Function(ffi.Pointer<ffi.Void>)>();
-
-  ffi.Pointer<ffi.UintPtr>
-      cst_new_box_autoadd_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPaymentDetails(
-    int value,
-  ) {
-    return _cst_new_box_autoadd_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPaymentDetails(
-      value,
-    );
-  }
-
-  late final _cst_new_box_autoadd_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPaymentDetailsPtr =
-      _lookup<
-          ffi.NativeFunction<ffi.Pointer<ffi.UintPtr> Function(ffi.UintPtr)>>(
-    'frbgen_ldk_node_cst_new_box_autoadd_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPaymentDetails',
-  );
-  late final _cst_new_box_autoadd_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPaymentDetails =
-      _cst_new_box_autoadd_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPaymentDetailsPtr
-          .asFunction<ffi.Pointer<ffi.UintPtr> Function(int)>();
 
   ffi.Pointer<wire_cst_address> cst_new_box_autoadd_address() {
     return _cst_new_box_autoadd_address();
@@ -8118,6 +7770,17 @@ class coreWire implements BaseWire {
   late final _cst_new_box_autoadd_out_point = _cst_new_box_autoadd_out_pointPtr
       .asFunction<ffi.Pointer<wire_cst_out_point> Function()>();
 
+  ffi.Pointer<wire_cst_payment_details> cst_new_box_autoadd_payment_details() {
+    return _cst_new_box_autoadd_payment_details();
+  }
+
+  late final _cst_new_box_autoadd_payment_detailsPtr = _lookup<
+          ffi.NativeFunction<ffi.Pointer<wire_cst_payment_details> Function()>>(
+      'frbgen_ldk_node_cst_new_box_autoadd_payment_details');
+  late final _cst_new_box_autoadd_payment_details =
+      _cst_new_box_autoadd_payment_detailsPtr
+          .asFunction<ffi.Pointer<wire_cst_payment_details> Function()>();
+
   ffi.Pointer<ffi.Int32> cst_new_box_autoadd_payment_failure_reason(int value) {
     return _cst_new_box_autoadd_payment_failure_reason(value);
   }
@@ -8279,31 +7942,6 @@ class coreWire implements BaseWire {
       _cst_new_box_autoadd_user_channel_idPtr
           .asFunction<ffi.Pointer<wire_cst_user_channel_id> Function()>();
 
-  ffi.Pointer<
-          wire_cst_list_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPaymentDetails>
-      cst_new_list_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPaymentDetails(
-    int len,
-  ) {
-    return _cst_new_list_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPaymentDetails(
-      len,
-    );
-  }
-
-  late final _cst_new_list_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPaymentDetailsPtr =
-      _lookup<
-          ffi.NativeFunction<
-              ffi.Pointer<
-                      wire_cst_list_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPaymentDetails>
-                  Function(ffi.Int32)>>(
-    'frbgen_ldk_node_cst_new_list_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPaymentDetails',
-  );
-  late final _cst_new_list_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPaymentDetails =
-      _cst_new_list_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPaymentDetailsPtr
-          .asFunction<
-              ffi.Pointer<
-                      wire_cst_list_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPaymentDetails>
-                  Function(int)>();
-
   ffi.Pointer<wire_cst_list_channel_details> cst_new_list_channel_details(
     int len,
   ) {
@@ -8355,6 +7993,19 @@ class coreWire implements BaseWire {
               ffi.Int32)>>('frbgen_ldk_node_cst_new_list_node_id');
   late final _cst_new_list_node_id = _cst_new_list_node_idPtr
       .asFunction<ffi.Pointer<wire_cst_list_node_id> Function(int)>();
+
+  ffi.Pointer<wire_cst_list_payment_details> cst_new_list_payment_details(
+    int len,
+  ) {
+    return _cst_new_list_payment_details(len);
+  }
+
+  late final _cst_new_list_payment_detailsPtr = _lookup<
+      ffi.NativeFunction<
+          ffi.Pointer<wire_cst_list_payment_details> Function(
+              ffi.Int32)>>('frbgen_ldk_node_cst_new_list_payment_details');
+  late final _cst_new_list_payment_details = _cst_new_list_payment_detailsPtr
+      .asFunction<ffi.Pointer<wire_cst_list_payment_details> Function(int)>();
 
   ffi.Pointer<wire_cst_list_peer_details> cst_new_list_peer_details(int len) {
     return _cst_new_list_peer_details(len);
@@ -8758,10 +8409,6 @@ final class wire_cst_list_prim_u_8_loose extends ffi.Struct {
   external int len;
 }
 
-final class wire_cst_payment_id extends ffi.Struct {
-  external ffi.Pointer<wire_cst_list_prim_u_8_strict> data;
-}
-
 final class wire_cst_ffi_bolt_11_payment extends ffi.Struct {
   @ffi.UintPtr()
   external int opaque;
@@ -8850,6 +8497,10 @@ final class wire_cst_channel_config extends ffi.Struct {
 
   @ffi.Bool()
   external bool accept_underpaying_htlcs;
+}
+
+final class wire_cst_payment_id extends ffi.Struct {
+  external ffi.Pointer<wire_cst_list_prim_u_8_strict> data;
 }
 
 final class wire_cst_ffi_on_chain_payment extends ffi.Struct {
@@ -9179,12 +8830,22 @@ final class wire_cst_node_info extends ffi.Struct {
   external ffi.Pointer<wire_cst_node_announcement_info> announcement_info;
 }
 
-final class wire_cst_list_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPaymentDetails
-    extends ffi.Struct {
-  external ffi.Pointer<ffi.UintPtr> ptr;
+final class wire_cst_payment_details extends ffi.Struct {
+  external wire_cst_payment_id id;
+
+  @ffi.UintPtr()
+  external int kind;
+
+  external ffi.Pointer<ffi.Uint64> amount_msat;
 
   @ffi.Int32()
-  external int len;
+  external int direction;
+
+  @ffi.Int32()
+  external int status;
+
+  @ffi.Uint64()
+  external int latest_update_timestamp;
 }
 
 final class wire_cst_channel_details extends ffi.Struct {
@@ -9398,6 +9059,13 @@ final class wire_cst_list_lightning_balance extends ffi.Struct {
 
 final class wire_cst_list_node_id extends ffi.Struct {
   external ffi.Pointer<wire_cst_node_id> ptr;
+
+  @ffi.Int32()
+  external int len;
+}
+
+final class wire_cst_list_payment_details extends ffi.Struct {
+  external ffi.Pointer<wire_cst_payment_details> ptr;
 
   @ffi.Int32()
   external int len;
