@@ -1,8 +1,6 @@
 use crate::api::types::{PaymentHash, PaymentId, PaymentPreimage};
 use crate::frb_generated::RustOpaque;
 use crate::utils::error::FfiNodeError;
-use ldk_node::bitcoin::hashes::{sha256, Hash};
-use ldk_node::lightning_invoice::{Bolt11InvoiceDescription, Description};
 use std::str::FromStr;
 
 use super::types::SendingParameters;
@@ -80,7 +78,7 @@ impl FfiBolt11Payment {
     ) -> Result<(), FfiNodeError> {
         self.opaque
             .send_probes_using_amount(&invoice.try_into()?, amount_msat)
-            .map_err(|e: ldk_node::NodeError| e.into())
+            .map_err(|e| e.into())
     }
     pub fn claim_for_hash(
         &self,
@@ -103,11 +101,8 @@ impl FfiBolt11Payment {
         description: String,
         expiry_secs: u32,
     ) -> anyhow::Result<Bolt11Invoice, FfiNodeError> {
-        let description = Bolt11InvoiceDescription::Direct(
-            Description::new(description).map_err(|e| FfiNodeError::from(e))?,
-        );
         self.opaque
-            .receive(amount_msat, &description, expiry_secs)
+            .receive(amount_msat, description.as_str(), expiry_secs)
             .map_err(|e| e.into())
             .map(|e| e.into())
     }
@@ -119,11 +114,13 @@ impl FfiBolt11Payment {
         description: String,
         expiry_secs: u32,
     ) -> anyhow::Result<Bolt11Invoice, FfiNodeError> {
-        let description = Bolt11InvoiceDescription::Direct(
-            Description::new(description).map_err(|e| FfiNodeError::from(e))?,
-        );
         self.opaque
-            .receive_for_hash(amount_msat, &description, expiry_secs, payment_hash.into())
+            .receive_for_hash(
+                amount_msat,
+                description.as_str(),
+                expiry_secs,
+                payment_hash.into(),
+            )
             .map_err(|e| e.into())
             .map(|e| e.into())
     }
@@ -132,11 +129,8 @@ impl FfiBolt11Payment {
         description: String,
         expiry_secs: u32,
     ) -> anyhow::Result<Bolt11Invoice, FfiNodeError> {
-        let description = Bolt11InvoiceDescription::Direct(
-            Description::new(description).map_err(|e| FfiNodeError::from(e))?,
-        );
         self.opaque
-            .receive_variable_amount(&description, expiry_secs)
+            .receive_variable_amount(description.as_str(), expiry_secs)
             .map_err(|e| e.into())
             .map(|e| e.into())
     }
@@ -146,11 +140,8 @@ impl FfiBolt11Payment {
         expiry_secs: u32,
         max_proportional_lsp_fee_limit_ppm_msat: Option<u64>,
     ) -> anyhow::Result<Bolt11Invoice, FfiNodeError> {
-        let description = Bolt11InvoiceDescription::Direct(
-            Description::new(description).map_err(|e| FfiNodeError::from(e))?,
-        );
         match self.opaque.receive_variable_amount_via_jit_channel(
-            &description,
+            description.as_str(),
             expiry_secs,
             max_proportional_lsp_fee_limit_ppm_msat,
         ) {
@@ -165,11 +156,8 @@ impl FfiBolt11Payment {
         expiry_secs: u32,
         payment_hash: PaymentHash,
     ) -> anyhow::Result<Bolt11Invoice, FfiNodeError> {
-        let description = Bolt11InvoiceDescription::Direct(
-            Description::new(description).map_err(|e| FfiNodeError::from(e))?,
-        );
         match self.opaque.receive_variable_amount_for_hash(
-            &description,
+            description.as_str(),
             expiry_secs,
             payment_hash.into(),
         ) {
@@ -185,12 +173,9 @@ impl FfiBolt11Payment {
         expiry_secs: u32,
         max_total_lsp_fee_limit_msat: Option<u64>,
     ) -> anyhow::Result<Bolt11Invoice, FfiNodeError> {
-        let description = Bolt11InvoiceDescription::Direct(
-            Description::new(description).map_err(|e| FfiNodeError::from(e))?,
-        );
         match self.opaque.receive_via_jit_channel(
             amount_msat,
-            &description,
+            description.as_str(),
             expiry_secs,
             max_total_lsp_fee_limit_msat,
         ) {

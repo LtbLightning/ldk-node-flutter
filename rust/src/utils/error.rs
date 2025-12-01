@@ -103,11 +103,6 @@ pub enum FfiNodeError {
     InvalidUri,
     InvalidQuantity,
     InvalidNodeAlias,
-    InvalidCustomTlvs,
-    InvalidDateTime,
-    InvalidFeeRate,
-
-    CreationError(FfiCreationError),
 }
 #[allow(dead_code)]
 #[derive(Debug)]
@@ -138,11 +133,6 @@ pub enum FfiBuilderError {
     LoggerSetupFailed,
 
     InvalidPublicKey,
-    InvalidAnnouncementAddresses,
-    NetworkMismatch,
-
-
-    OpaqueNotFound // The opaque builder was not found, likely due to a previous operation failing.
 }
 
 impl From<NodeError> for FfiNodeError {
@@ -199,9 +189,6 @@ impl From<NodeError> for FfiNodeError {
             NodeError::InvalidUri => FfiNodeError::InvalidUri,
             NodeError::InvalidQuantity => FfiNodeError::InvalidQuantity,
             NodeError::InvalidNodeAlias => FfiNodeError::InvalidNodeAlias,
-            NodeError::InvalidCustomTlvs => FfiNodeError::InvalidCustomTlvs,
-            NodeError::InvalidDateTime => FfiNodeError::InvalidDateTime,
-            NodeError::InvalidFeeRate => FfiNodeError::InvalidFeeRate,
         }
     }
 }
@@ -220,10 +207,6 @@ impl From<BuildError> for FfiBuilderError {
             BuildError::KVStoreSetupFailed => FfiBuilderError::KVStoreSetupFailed,
             BuildError::InvalidListeningAddresses => FfiBuilderError::InvalidListeningAddress,
             BuildError::InvalidNodeAlias => FfiBuilderError::InvalidNodeAlias,
-            BuildError::InvalidAnnouncementAddresses => {
-                FfiBuilderError::InvalidAnnouncementAddresses
-            }
-            BuildError::NetworkMismatch => FfiBuilderError::NetworkMismatch,
         }
     }
 }
@@ -349,64 +332,5 @@ impl From<ldk_node::lightning::offers::parse::Bolt12ParseError> for FfiNodeError
                 FfiNodeError::Bolt12Parse(Bolt12ParseError::InvalidSignature(e.to_string()))
             }
         }
-    }
-}
-
-/// Errors that may occur when constructing a new [`RawBolt11Invoice`] or [`Bolt11Invoice`]
-#[derive(Debug, PartialEq)]
-pub enum FfiCreationError {
-    /// The supplied description string was longer than 639 __bytes__ (see [`Description::new`])
-    DescriptionTooLong,
-
-    /// The specified route has too many hops and can't be encoded
-    RouteTooLong,
-
-    /// The Unix timestamp of the supplied date is less than zero or greater than 35-bits
-    TimestampOutOfBounds,
-
-    /// The supplied millisatoshi amount was greater than the total bitcoin supply.
-    InvalidAmount,
-
-    /// Route hints were required for this invoice and were missing.
-    MissingRouteHints,
-
-    /// The provided `min_final_cltv_expiry_delta` was less than rust-lightning's minimum.
-    MinFinalCltvExpiryDeltaTooShort,
-}
-
-impl From<ldk_node::lightning_invoice::CreationError> for FfiCreationError {
-    fn from(value: ldk_node::lightning_invoice::CreationError) -> Self {
-        match value {
-            ldk_node::lightning_invoice::CreationError::DescriptionTooLong => {
-                FfiCreationError::DescriptionTooLong
-            }
-            ldk_node::lightning_invoice::CreationError::RouteTooLong => {
-                FfiCreationError::RouteTooLong
-            }
-            ldk_node::lightning_invoice::CreationError::TimestampOutOfBounds => {
-                FfiCreationError::TimestampOutOfBounds
-            }
-            ldk_node::lightning_invoice::CreationError::InvalidAmount => {
-                FfiCreationError::InvalidAmount
-            }
-            ldk_node::lightning_invoice::CreationError::MissingRouteHints => {
-                FfiCreationError::MissingRouteHints
-            }
-            ldk_node::lightning_invoice::CreationError::MinFinalCltvExpiryDeltaTooShort => {
-                FfiCreationError::MinFinalCltvExpiryDeltaTooShort
-            }
-        }
-    }
-}
-
-impl From<FfiCreationError> for FfiNodeError {
-    fn from(value: FfiCreationError) -> Self {
-        FfiNodeError::CreationError(value)
-    }
-}
-
-impl From<ldk_node::lightning_invoice::CreationError> for FfiNodeError {
-    fn from(value: ldk_node::lightning_invoice::CreationError) -> Self {
-        FfiNodeError::CreationError(FfiCreationError::from(value))
     }
 }

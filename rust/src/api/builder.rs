@@ -1,10 +1,11 @@
 use crate::api::node::FfiNode;
 use crate::api::types::{
-    ChainDataSourceConfig, Config, EntropySourceConfig, GossipSourceConfig, LiquiditySourceConfig, LogLevel,
+    ChainDataSourceConfig, Config, EntropySourceConfig, GossipSourceConfig, LiquiditySourceConfig,
 };
 use crate::frb_generated::RustOpaque;
 use crate::utils::error::FfiBuilderError;
 use flutter_rust_bridge::frb;
+use ldk_node::lightning::util::ser::Writeable;
 use std::collections::HashMap;
 use std::str::FromStr;
 
@@ -54,7 +55,7 @@ impl FfiBuilder {
                     builder.set_entropy_seed_path(e);
                 }
                 EntropySourceConfig::SeedBytes(e) => {
-                    builder.set_entropy_seed_bytes(e);
+                    builder.set_entropy_seed_bytes(e.encode())?;
                 }
                 EntropySourceConfig::Bip39Mnemonic {
                     mnemonic,
@@ -89,12 +90,6 @@ impl FfiBuilder {
                         rpc_password,
                     );
                 }
-                ChainDataSourceConfig::Electrum {
-                    server_url,
-                    sync_config,
-                } => {
-                    builder.set_chain_source_electrum(server_url, sync_config.map(|e| e.into()));
-                }
             }
         }
         if let Some(source) = gossip_source_config {
@@ -109,12 +104,12 @@ impl FfiBuilder {
         }
         if let Some(liquidity) = liquidity_source_config {
             builder.set_liquidity_source_lsps2(
+                liquidity.lsps2_service.0.try_into()?,
                 liquidity
                     .lsps2_service
                     .1
                     .try_into()
                     .map_err(|_| FfiBuilderError::InvalidPublicKey)?,
-                liquidity.lsps2_service.0.try_into()?,
                 liquidity.lsps2_service.2,
             );
         }
@@ -190,59 +185,4 @@ impl FfiBuilder {
     //         Err(e) => Err(e.into()),
     //     }
     // }
-
-    #[frb(sync)]
-    pub fn set_entropy_seed_bytes(self, seed_bytes: Vec<u8>) -> Result<Self, FfiBuilderError> {
-        // Validate the length of the seed bytes
-        if seed_bytes.len() != 64 {
-            return Err(FfiBuilderError::InvalidSeedBytes);
-        }
-
-        // Convert the Vec<u8> into a fixed-size array
-        let mut seed_array = [0u8; 64];
-        seed_array.copy_from_slice(&seed_bytes);
-
-        // Extract the inner builder, modify it, and wrap it back
-        let mut builder = self.opaque.into_inner().ok_or(FfiBuilderError::OpaqueNotFound)?;
-        builder.set_entropy_seed_bytes(seed_array);
-        Ok(
-            FfiBuilder {
-                opaque: RustOpaque::new(builder),
-            }
-        )
-    }
-
-    // Configures the Node instance to write logs to the filesystem.
-    //
-    // The `log_file_path` defaults to 'ldk_node.log' in the configured storage directory if set to `None`.
-    // If set, the `max_log_level` sets the maximum log level. Otherwise, defaults to Debug level.
-    #[frb(sync)]
-    pub fn set_filesystem_logger(
-        self,
-        log_file_path: Option<String>,
-        max_log_level: Option<LogLevel>,
-    ) -> Result<Self, FfiBuilderError> {
-        let mut builder = self.opaque.into_inner().ok_or(FfiBuilderError::OpaqueNotFound)?;
-        
-        let ldk_max_log_level = max_log_level.map(|level| level.into());
-        builder.set_filesystem_logger(log_file_path, ldk_max_log_level);
-        
-        Ok(FfiBuilder {
-            opaque: RustOpaque::new(builder),
-        })
-    }
-
-    // Configures the Node instance to write logs to the Rust log facade.
-    //
-    // This allows integration with existing Rust logging frameworks.
-    #[frb(sync)]
-    pub fn set_log_facade_logger(self) -> Result<Self, FfiBuilderError> {
-        let mut builder = self.opaque.into_inner().ok_or(FfiBuilderError::OpaqueNotFound)?;
-    
-        builder.set_log_facade_logger();
-
-        Ok(FfiBuilder {
-            opaque: RustOpaque::new(builder),
-        })
-    }
 }
