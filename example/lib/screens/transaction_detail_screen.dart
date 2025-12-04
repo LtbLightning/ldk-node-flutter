@@ -242,17 +242,7 @@ class TransactionDetailScreen extends ConsumerWidget {
             _buildInfoRow('Payment ID', _formatPaymentId()),
             const SizedBox(height: 8),
             _buildInfoRow('Payment Hash', _formatPaymentHash()),
-            if (payment.kind.maybeMap(
-              bolt11: (bolt11) => bolt11.preimage != null,
-              bolt11Jit: (bolt11Jit) => bolt11Jit.preimage != null,
-              spontaneous: (spontaneous) => spontaneous.preimage != null,
-              bolt12Offer: (bolt12Offer) => bolt12Offer.preimage != null,
-              bolt12Refund: (bolt12Refund) => bolt12Refund.preimage != null,
-              orElse: () => false,
-            )) ...[
-              const SizedBox(height: 8),
-              _buildInfoRow('Preimage', _formatPreimage()),
-            ],
+            // PaymentKind is RustOpaque in LDK Node 0.5.0, can't check preimage existence
           ],
         ),
       ),
@@ -289,18 +279,12 @@ class TransactionDetailScreen extends ConsumerWidget {
   }
 
   String _getPaymentTypeText() {
-    return payment.kind.map(
-      onchain: (_) => 'On-chain',
-      bolt11: (_) => 'BOLT 11 Invoice',
-      bolt11Jit: (_) => 'BOLT 11 JIT Channel',
-      spontaneous: (_) => 'Spontaneous (Keysend)',
-      bolt12Offer: (_) => 'BOLT 12 Offer',
-      bolt12Refund: (_) => 'BOLT 12 Refund',
-    );
+    // PaymentKind is RustOpaque in LDK Node 0.5.0, can't determine exact type
+    return 'Lightning Payment';
   }
 
   String _formatPaymentId() {
-    final bytes = payment.id.field0;
+    final bytes = payment.id.data;
     return bytes
         .map((b) => b.toRadixString(16).padLeft(2, '0'))
         .join('')
@@ -308,44 +292,7 @@ class TransactionDetailScreen extends ConsumerWidget {
   }
 
   String _formatPaymentHash() {
-    return payment.kind.map(
-      onchain: (_) => 'N/A',
-      bolt11: (bolt11) => _formatHash(bolt11.hash.data),
-      bolt11Jit: (bolt11Jit) => _formatHash(bolt11Jit.hash.data),
-      spontaneous: (spontaneous) => _formatHash(spontaneous.hash.data),
-      bolt12Offer: (bolt12Offer) => bolt12Offer.hash != null
-          ? _formatHash(bolt12Offer.hash!.data)
-          : 'N/A',
-      bolt12Refund: (bolt12Refund) => bolt12Refund.hash != null
-          ? _formatHash(bolt12Refund.hash!.data)
-          : 'N/A',
-    );
-  }
-
-  String _formatPreimage() {
-    return payment.kind.map(
-      onchain: (_) => 'N/A',
-      bolt11: (bolt11) =>
-          bolt11.preimage != null ? _formatHash(bolt11.preimage!.data) : 'N/A',
-      bolt11Jit: (bolt11Jit) => bolt11Jit.preimage != null
-          ? _formatHash(bolt11Jit.preimage!.data)
-          : 'N/A',
-      spontaneous: (spontaneous) => spontaneous.preimage != null
-          ? _formatHash(spontaneous.preimage!.data)
-          : 'N/A',
-      bolt12Offer: (bolt12Offer) => bolt12Offer.preimage != null
-          ? _formatHash(bolt12Offer.preimage!.data)
-          : 'N/A',
-      bolt12Refund: (bolt12Refund) => bolt12Refund.preimage != null
-          ? _formatHash(bolt12Refund.preimage!.data)
-          : 'N/A',
-    );
-  }
-
-  String _formatHash(List<int> data) {
-    return data
-        .map((b) => b.toRadixString(16).padLeft(2, '0'))
-        .join('')
-        .toUpperCase();
+    // PaymentKind is RustOpaque in LDK Node 0.5.0, can't access hash
+    return 'N/A';
   }
 }
