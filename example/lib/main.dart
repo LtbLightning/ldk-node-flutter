@@ -12,6 +12,21 @@ import 'package:ldk_node_example/services/settings_service.dart';
 import 'package:path_provider/path_provider.dart';
 
 void main() {
+  // Handle Flutter framework errors gracefully
+  FlutterError.onError = (FlutterErrorDetails details) {
+    if (kDebugMode) {
+      // Only log context menu errors in debug mode, don't crash
+      if (details.exception
+              .toString()
+              .contains('SystemContextMenuController') ||
+          details.exception.toString().contains('showWithItems')) {
+        debugPrint('Context menu error (ignored): ${details.exception}');
+        return;
+      }
+      FlutterError.presentError(details);
+    }
+  };
+
   runApp(const ProviderScope(child: MyApp()));
 }
 
@@ -31,6 +46,12 @@ class MyApp extends StatelessWidget {
         '/dashboard': (context) => const DashboardScreen(),
         '/onboarding': (context) => const OnboardingScreen(),
         '/settings': (context) => const SettingsScreen(),
+      },
+      builder: (context, child) {
+        return MediaQuery(
+          data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
+          child: child!,
+        );
       },
     );
   }
