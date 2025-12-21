@@ -18,28 +18,29 @@ class FfiSpontaneousPayment {
     required this.opaque,
   });
 
-  Future<PaymentId> send(
+  Future<void> sendProbesUnsafe(
+          {required BigInt amountMsat, required PublicKey nodeId}) =>
+      core.instance.api
+          .crateApiSpontaneousFfiSpontaneousPaymentSendProbesUnsafe(
+              that: this, amountMsat: amountMsat, nodeId: nodeId);
+
+  Future<PaymentId> sendUnsafe(
           {required BigInt amountMsat,
           required PublicKey nodeId,
           SendingParameters? sendingParameters}) =>
-      core.instance.api.crateApiSpontaneousFfiSpontaneousPaymentSend(
+      core.instance.api.crateApiSpontaneousFfiSpontaneousPaymentSendUnsafe(
           that: this,
           amountMsat: amountMsat,
           nodeId: nodeId,
           sendingParameters: sendingParameters);
 
-  Future<void> sendProbes(
-          {required BigInt amountMsat, required PublicKey nodeId}) =>
-      core.instance.api.crateApiSpontaneousFfiSpontaneousPaymentSendProbes(
-          that: this, amountMsat: amountMsat, nodeId: nodeId);
-
-  Future<PaymentId> sendWithCustomTlvs(
+  Future<PaymentId> sendWithCustomTlvsUnsafe(
           {required BigInt amountMsat,
           required PublicKey nodeId,
           SendingParameters? sendingParameters,
           required List<CustomTlvRecord> customTlvs}) =>
       core.instance.api
-          .crateApiSpontaneousFfiSpontaneousPaymentSendWithCustomTlvs(
+          .crateApiSpontaneousFfiSpontaneousPaymentSendWithCustomTlvsUnsafe(
               that: this,
               amountMsat: amountMsat,
               nodeId: nodeId,

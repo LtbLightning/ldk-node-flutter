@@ -9,7 +9,7 @@ class Frb {
         await core.init();
       }
     } catch (e) {
-      throw BridgeException(message: e.toString());
+      throw BridgeException(errorMessage: e.toString(), code: "InitializationError");
     }
   }
 }
