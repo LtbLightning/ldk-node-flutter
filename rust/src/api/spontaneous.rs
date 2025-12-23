@@ -15,7 +15,7 @@ impl From<ldk_node::payment::SpontaneousPayment> for FfiSpontaneousPayment {
     }
 }
 impl FfiSpontaneousPayment {
-    pub fn send_unsafe(
+    pub fn send(
         &self,
         amount_msat: u64,
         node_id: PublicKey,
@@ -30,12 +30,12 @@ impl FfiSpontaneousPayment {
             .map_err(|e| e.into())
             .map(|e| e.into())
     }
-    pub fn send_probes_unsafe(&self, amount_msat: u64, node_id: PublicKey) -> Result<(), FfiNodeError> {
+    pub fn send_probes(&self, amount_msat: u64, node_id: PublicKey) -> Result<(), FfiNodeError> {
         self.opaque
             .send_probes(amount_msat, node_id.try_into()?)
             .map_err(|e| e.into())
     }
-    pub fn send_with_custom_tlvs_unsafe(
+    pub fn send_with_custom_tlvs(
         &self,
         amount_msat: u64,
         node_id: PublicKey,

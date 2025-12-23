@@ -59,4 +59,3 @@ export 'src/root.dart';
 export 'src/generated/lib.dart' show U8Array4, U8Array12, U8Array64, U8Array32;
 export 'src/utils/default_services.dart';
 export 'src/utils/exceptions.dart' show NodeException, BuilderException;
-export 'src/utils/extensions.dart';

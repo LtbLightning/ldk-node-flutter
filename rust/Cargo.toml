@@ -1,6 +1,6 @@
 [package]
 name = "ldk_node"
-version = "0.6.2"
+version = "0.4.2"
 edition = "2021"
 
 # This is needed to suppress the frb_expand cfg warning
@@ -16,8 +16,8 @@ anyhow = "1.0.68"
 [dependencies]
 flutter_rust_bridge = "=2.11.1"
 anyhow = { version = "1.0.71"}
-ldk-node = { version = "=0.6.2"  }
-# ldk-node = {git = 'https://github.com/lightningdevkit/ldk-node.git', rev = "0b999773fa54a3c54f007bebccdceb1fa67247fe"}
+ldk-node = { version = "= 0.5.0"  }
+# ldk-node = {git = 'https://github.com/lightningdevkit/ldk-node.git', rev = "246775d04dbb2e99528a6a1aa0bc04ad7378e900"}
 
 
 [profile.release]

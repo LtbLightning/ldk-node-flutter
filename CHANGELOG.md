@@ -1,13 +1,3 @@
-## [0.6.2]
-Updated `ldk-node` to `0.6.2`.
-
-### Notes
-- No breaking changes and no new functions exposed.
-- Bug fixes.
-  - Fix node going into a unrecoverable state when previously generated transaction accepted first, fixed on `rust bdk_wallet 2.0.0`
-  - refer to [ldk-node rust](https://github.com/lightningdevkit/ldk-node/releases) for misc fixes (rust, uniffi, etc).
-
-
 ## [0.5.0]
 
 Updated `flutter_rust_bridge` to `2.11.1`.

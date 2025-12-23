@@ -38,105 +38,101 @@ class FfiBolt11Payment {
     required this.opaque,
   });
 
-  Future<void> claimForHashUnsafe(
+  Future<void> claimForHash(
           {required PaymentHash paymentHash,
           required BigInt claimableAmountMsat,
           required PaymentPreimage preimage}) =>
-      core.instance.api.crateApiBolt11FfiBolt11PaymentClaimForHashUnsafe(
+      core.instance.api.crateApiBolt11FfiBolt11PaymentClaimForHash(
           that: this,
           paymentHash: paymentHash,
           claimableAmountMsat: claimableAmountMsat,
           preimage: preimage);
 
-  Future<void> failForHashUnsafe({required PaymentHash paymentHash}) =>
-      core.instance.api.crateApiBolt11FfiBolt11PaymentFailForHashUnsafe(
+  Future<void> failForHash({required PaymentHash paymentHash}) =>
+      core.instance.api.crateApiBolt11FfiBolt11PaymentFailForHash(
           that: this, paymentHash: paymentHash);
 
-  Future<Bolt11Invoice> receiveForHashUnsafe(
+  Future<Bolt11Invoice> receive(
+          {required BigInt amountMsat,
+          required String description,
+          required int expirySecs}) =>
+      core.instance.api.crateApiBolt11FfiBolt11PaymentReceive(
+          that: this,
+          amountMsat: amountMsat,
+          description: description,
+          expirySecs: expirySecs);
+
+  Future<Bolt11Invoice> receiveForHash(
           {required PaymentHash paymentHash,
           required BigInt amountMsat,
           required String description,
           required int expirySecs}) =>
-      core.instance.api.crateApiBolt11FfiBolt11PaymentReceiveForHashUnsafe(
+      core.instance.api.crateApiBolt11FfiBolt11PaymentReceiveForHash(
           that: this,
           paymentHash: paymentHash,
           amountMsat: amountMsat,
           description: description,
           expirySecs: expirySecs);
 
-  Future<Bolt11Invoice> receiveUnsafe(
-          {required BigInt amountMsat,
-          required String description,
-          required int expirySecs}) =>
-      core.instance.api.crateApiBolt11FfiBolt11PaymentReceiveUnsafe(
-          that: this,
-          amountMsat: amountMsat,
-          description: description,
-          expirySecs: expirySecs);
+  Future<Bolt11Invoice> receiveVariableAmount(
+          {required String description, required int expirySecs}) =>
+      core.instance.api.crateApiBolt11FfiBolt11PaymentReceiveVariableAmount(
+          that: this, description: description, expirySecs: expirySecs);
 
-  Future<Bolt11Invoice> receiveVariableAmountForHashUnsafe(
+  Future<Bolt11Invoice> receiveVariableAmountForHash(
           {required String description,
           required int expirySecs,
           required PaymentHash paymentHash}) =>
       core.instance.api
-          .crateApiBolt11FfiBolt11PaymentReceiveVariableAmountForHashUnsafe(
+          .crateApiBolt11FfiBolt11PaymentReceiveVariableAmountForHash(
               that: this,
               description: description,
               expirySecs: expirySecs,
               paymentHash: paymentHash);
 
-  Future<Bolt11Invoice> receiveVariableAmountUnsafe(
-          {required String description, required int expirySecs}) =>
-      core.instance.api
-          .crateApiBolt11FfiBolt11PaymentReceiveVariableAmountUnsafe(
-              that: this, description: description, expirySecs: expirySecs);
-
-  Future<Bolt11Invoice> receiveVariableAmountViaJitChannelUnsafe(
+  Future<Bolt11Invoice> receiveVariableAmountViaJitChannel(
           {required String description,
           required int expirySecs,
           BigInt? maxProportionalLspFeeLimitPpmMsat}) =>
       core.instance.api
-          .crateApiBolt11FfiBolt11PaymentReceiveVariableAmountViaJitChannelUnsafe(
+          .crateApiBolt11FfiBolt11PaymentReceiveVariableAmountViaJitChannel(
               that: this,
               description: description,
               expirySecs: expirySecs,
               maxProportionalLspFeeLimitPpmMsat:
                   maxProportionalLspFeeLimitPpmMsat);
 
-  Future<Bolt11Invoice> receiveViaJitChannelUnsafe(
+  Future<Bolt11Invoice> receiveViaJitChannel(
           {required BigInt amountMsat,
           required String description,
           required int expirySecs,
           BigInt? maxTotalLspFeeLimitMsat}) =>
-      core.instance.api
-          .crateApiBolt11FfiBolt11PaymentReceiveViaJitChannelUnsafe(
-              that: this,
-              amountMsat: amountMsat,
-              description: description,
-              expirySecs: expirySecs,
-              maxTotalLspFeeLimitMsat: maxTotalLspFeeLimitMsat);
+      core.instance.api.crateApiBolt11FfiBolt11PaymentReceiveViaJitChannel(
+          that: this,
+          amountMsat: amountMsat,
+          description: description,
+          expirySecs: expirySecs,
+          maxTotalLspFeeLimitMsat: maxTotalLspFeeLimitMsat);
 
-  Future<void> sendProbesUnsafe({required Bolt11Invoice invoice}) =>
-      core.instance.api.crateApiBolt11FfiBolt11PaymentSendProbesUnsafe(
-          that: this, invoice: invoice);
-
-  Future<void> sendProbesUsingAmountUnsafe(
-          {required Bolt11Invoice invoice, required BigInt amountMsat}) =>
-      core.instance.api
-          .crateApiBolt11FfiBolt11PaymentSendProbesUsingAmountUnsafe(
-              that: this, invoice: invoice, amountMsat: amountMsat);
-
-  Future<PaymentId> sendUnsafe(
+  Future<PaymentId> send(
           {required Bolt11Invoice invoice,
           SendingParameters? sendingParameters}) =>
-      core.instance.api.crateApiBolt11FfiBolt11PaymentSendUnsafe(
+      core.instance.api.crateApiBolt11FfiBolt11PaymentSend(
           that: this, invoice: invoice, sendingParameters: sendingParameters);
 
-  Future<PaymentId> sendUsingAmountUnsafe(
+  Future<void> sendProbes({required Bolt11Invoice invoice}) => core.instance.api
+      .crateApiBolt11FfiBolt11PaymentSendProbes(that: this, invoice: invoice);
+
+  Future<void> sendProbesUsingAmount(
+          {required Bolt11Invoice invoice, required BigInt amountMsat}) =>
+      core.instance.api.crateApiBolt11FfiBolt11PaymentSendProbesUsingAmount(
+          that: this, invoice: invoice, amountMsat: amountMsat);
+
+  Future<PaymentId> sendUsingAmount(
           {required Bolt11Invoice invoice,
           required BigInt amountMsat,
           SendingParameters? sendingParameters}) =>
-      core.instance.api.crateApiBolt11FfiBolt11PaymentSendUsingAmountUnsafe(
+      core.instance.api.crateApiBolt11FfiBolt11PaymentSendUsingAmount(
           that: this,
           invoice: invoice,
           amountMsat: amountMsat,

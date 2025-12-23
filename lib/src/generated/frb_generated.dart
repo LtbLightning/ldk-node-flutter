@@ -77,7 +77,7 @@ class core extends BaseEntrypoint<coreApi, coreApiImpl, coreWire> {
   String get codegenVersion => '2.11.1';
 
   @override
-  int get rustContentHash => 354908666;
+  int get rustContentHash => -409041388;
 
   static const kDefaultExternalLibraryLoaderConfig =
       ExternalLibraryLoaderConfig(
@@ -132,105 +132,102 @@ abstract class coreApi extends BaseApi {
 
   Future<Config> crateApiTypesConfigDefault();
 
-  Future<void> crateApiBolt11FfiBolt11PaymentClaimForHashUnsafe(
+  Future<void> crateApiBolt11FfiBolt11PaymentClaimForHash(
       {required FfiBolt11Payment that,
       required PaymentHash paymentHash,
       required BigInt claimableAmountMsat,
       required PaymentPreimage preimage});
 
-  Future<void> crateApiBolt11FfiBolt11PaymentFailForHashUnsafe(
+  Future<void> crateApiBolt11FfiBolt11PaymentFailForHash(
       {required FfiBolt11Payment that, required PaymentHash paymentHash});
 
-  Future<Bolt11Invoice> crateApiBolt11FfiBolt11PaymentReceiveForHashUnsafe(
+  Future<Bolt11Invoice> crateApiBolt11FfiBolt11PaymentReceive(
+      {required FfiBolt11Payment that,
+      required BigInt amountMsat,
+      required String description,
+      required int expirySecs});
+
+  Future<Bolt11Invoice> crateApiBolt11FfiBolt11PaymentReceiveForHash(
       {required FfiBolt11Payment that,
       required PaymentHash paymentHash,
       required BigInt amountMsat,
       required String description,
       required int expirySecs});
 
-  Future<Bolt11Invoice> crateApiBolt11FfiBolt11PaymentReceiveUnsafe(
+  Future<Bolt11Invoice> crateApiBolt11FfiBolt11PaymentReceiveVariableAmount(
       {required FfiBolt11Payment that,
-      required BigInt amountMsat,
       required String description,
       required int expirySecs});
 
   Future<Bolt11Invoice>
-      crateApiBolt11FfiBolt11PaymentReceiveVariableAmountForHashUnsafe(
+      crateApiBolt11FfiBolt11PaymentReceiveVariableAmountForHash(
           {required FfiBolt11Payment that,
           required String description,
           required int expirySecs,
           required PaymentHash paymentHash});
 
   Future<Bolt11Invoice>
-      crateApiBolt11FfiBolt11PaymentReceiveVariableAmountUnsafe(
-          {required FfiBolt11Payment that,
-          required String description,
-          required int expirySecs});
-
-  Future<Bolt11Invoice>
-      crateApiBolt11FfiBolt11PaymentReceiveVariableAmountViaJitChannelUnsafe(
+      crateApiBolt11FfiBolt11PaymentReceiveVariableAmountViaJitChannel(
           {required FfiBolt11Payment that,
           required String description,
           required int expirySecs,
           BigInt? maxProportionalLspFeeLimitPpmMsat});
 
-  Future<Bolt11Invoice>
-      crateApiBolt11FfiBolt11PaymentReceiveViaJitChannelUnsafe(
-          {required FfiBolt11Payment that,
-          required BigInt amountMsat,
-          required String description,
-          required int expirySecs,
-          BigInt? maxTotalLspFeeLimitMsat});
-
-  Future<void> crateApiBolt11FfiBolt11PaymentSendProbesUnsafe(
-      {required FfiBolt11Payment that, required Bolt11Invoice invoice});
-
-  Future<void> crateApiBolt11FfiBolt11PaymentSendProbesUsingAmountUnsafe(
+  Future<Bolt11Invoice> crateApiBolt11FfiBolt11PaymentReceiveViaJitChannel(
       {required FfiBolt11Payment that,
-      required Bolt11Invoice invoice,
-      required BigInt amountMsat});
+      required BigInt amountMsat,
+      required String description,
+      required int expirySecs,
+      BigInt? maxTotalLspFeeLimitMsat});
 
-  Future<PaymentId> crateApiBolt11FfiBolt11PaymentSendUnsafe(
+  Future<PaymentId> crateApiBolt11FfiBolt11PaymentSend(
       {required FfiBolt11Payment that,
       required Bolt11Invoice invoice,
       SendingParameters? sendingParameters});
 
-  Future<PaymentId> crateApiBolt11FfiBolt11PaymentSendUsingAmountUnsafe(
+  Future<void> crateApiBolt11FfiBolt11PaymentSendProbes(
+      {required FfiBolt11Payment that, required Bolt11Invoice invoice});
+
+  Future<void> crateApiBolt11FfiBolt11PaymentSendProbesUsingAmount(
+      {required FfiBolt11Payment that,
+      required Bolt11Invoice invoice,
+      required BigInt amountMsat});
+
+  Future<PaymentId> crateApiBolt11FfiBolt11PaymentSendUsingAmount(
       {required FfiBolt11Payment that,
       required Bolt11Invoice invoice,
       required BigInt amountMsat,
       SendingParameters? sendingParameters});
 
-  Future<Refund> crateApiBolt12FfiBolt12PaymentInitiateRefundUnsafe(
+  Future<Refund> crateApiBolt12FfiBolt12PaymentInitiateRefund(
       {required FfiBolt12Payment that,
       required BigInt amountMsat,
       required int expirySecs,
       BigInt? quantity,
       String? payerNote});
 
-  Future<Offer> crateApiBolt12FfiBolt12PaymentReceiveUnsafe(
+  Future<Offer> crateApiBolt12FfiBolt12PaymentReceive(
       {required FfiBolt12Payment that,
       required BigInt amountMsat,
       required String description,
       int? expirySecs,
       BigInt? quantity});
 
-  Future<Offer> crateApiBolt12FfiBolt12PaymentReceiveVariableAmountUnsafe(
+  Future<Offer> crateApiBolt12FfiBolt12PaymentReceiveVariableAmount(
       {required FfiBolt12Payment that,
       required String description,
       int? expirySecs});
 
-  Future<Bolt12Invoice>
-      crateApiBolt12FfiBolt12PaymentRequestRefundPaymentUnsafe(
-          {required FfiBolt12Payment that, required Refund refund});
+  Future<Bolt12Invoice> crateApiBolt12FfiBolt12PaymentRequestRefundPayment(
+      {required FfiBolt12Payment that, required Refund refund});
 
-  Future<PaymentId> crateApiBolt12FfiBolt12PaymentSendUnsafe(
+  Future<PaymentId> crateApiBolt12FfiBolt12PaymentSend(
       {required FfiBolt12Payment that,
       required Offer offer,
       BigInt? quantity,
       String? payerNote});
 
-  Future<PaymentId> crateApiBolt12FfiBolt12PaymentSendUsingAmountUnsafe(
+  Future<PaymentId> crateApiBolt12FfiBolt12PaymentSendUsingAmount(
       {required FfiBolt12Payment that,
       required Offer offer,
       required BigInt amountMsat,
@@ -239,16 +236,16 @@ abstract class coreApi extends BaseApi {
 
   Future<FfiMnemonic> crateApiBuilderFfiMnemonicGenerate();
 
-  Future<ChannelInfo?> crateApiGraphFfiNetworkGraphChannelUnsafe(
+  Future<ChannelInfo?> crateApiGraphFfiNetworkGraphChannel(
       {required FfiNetworkGraph that, required BigInt shortChannelId});
 
-  Future<Uint64List> crateApiGraphFfiNetworkGraphListChannelsUnsafe(
+  Future<Uint64List> crateApiGraphFfiNetworkGraphListChannels(
       {required FfiNetworkGraph that});
 
-  Future<List<NodeId>> crateApiGraphFfiNetworkGraphListNodesUnsafe(
+  Future<List<NodeId>> crateApiGraphFfiNetworkGraphListNodes(
       {required FfiNetworkGraph that});
 
-  Future<NodeInfo?> crateApiGraphFfiNetworkGraphNodeUnsafe(
+  Future<NodeInfo?> crateApiGraphFfiNetworkGraphNode(
       {required FfiNetworkGraph that, required NodeId nodeId});
 
   Future<FfiBolt11Payment> crateApiNodeFfiNodeBolt11Payment(
@@ -381,32 +378,31 @@ abstract class coreApi extends BaseApi {
       required BigInt amountSats,
       BigInt? feeRateSatPerKwu});
 
-  Future<void> crateApiSpontaneousFfiSpontaneousPaymentSendProbesUnsafe(
-      {required FfiSpontaneousPayment that,
-      required BigInt amountMsat,
-      required PublicKey nodeId});
-
-  Future<PaymentId> crateApiSpontaneousFfiSpontaneousPaymentSendUnsafe(
+  Future<PaymentId> crateApiSpontaneousFfiSpontaneousPaymentSend(
       {required FfiSpontaneousPayment that,
       required BigInt amountMsat,
       required PublicKey nodeId,
       SendingParameters? sendingParameters});
 
-  Future<PaymentId>
-      crateApiSpontaneousFfiSpontaneousPaymentSendWithCustomTlvsUnsafe(
-          {required FfiSpontaneousPayment that,
-          required BigInt amountMsat,
-          required PublicKey nodeId,
-          SendingParameters? sendingParameters,
-          required List<CustomTlvRecord> customTlvs});
+  Future<void> crateApiSpontaneousFfiSpontaneousPaymentSendProbes(
+      {required FfiSpontaneousPayment that,
+      required BigInt amountMsat,
+      required PublicKey nodeId});
 
-  Future<String> crateApiUnifiedQrFfiUnifiedQrPaymentReceiveUnsafe(
+  Future<PaymentId> crateApiSpontaneousFfiSpontaneousPaymentSendWithCustomTlvs(
+      {required FfiSpontaneousPayment that,
+      required BigInt amountMsat,
+      required PublicKey nodeId,
+      SendingParameters? sendingParameters,
+      required List<CustomTlvRecord> customTlvs});
+
+  Future<String> crateApiUnifiedQrFfiUnifiedQrPaymentReceive(
       {required FfiUnifiedQrPayment that,
       required BigInt amountSats,
       required String message,
       required int expirySec});
 
-  Future<QrPaymentResult> crateApiUnifiedQrFfiUnifiedQrPaymentSendUnsafe(
+  Future<QrPaymentResult> crateApiUnifiedQrFfiUnifiedQrPaymentSend(
       {required FfiUnifiedQrPayment that, required String uriStr});
 
   RustArcIncrementStrongCountFnType
@@ -877,7 +873,7 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
       );
 
   @override
-  Future<void> crateApiBolt11FfiBolt11PaymentClaimForHashUnsafe(
+  Future<void> crateApiBolt11FfiBolt11PaymentClaimForHash(
       {required FfiBolt11Payment that,
       required PaymentHash paymentHash,
       required BigInt claimableAmountMsat,
@@ -889,60 +885,84 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
         var arg2 = cst_encode_u_64(claimableAmountMsat);
         var arg3 = cst_encode_box_autoadd_payment_preimage(preimage);
         return wire
-            .wire__crate__api__bolt11__ffi_bolt_11_payment_claim_for_hash_unsafe(
+            .wire__crate__api__bolt11__ffi_bolt_11_payment_claim_for_hash(
                 port_, arg0, arg1, arg2, arg3);
       },
       codec: DcoCodec(
         decodeSuccessData: dco_decode_unit,
         decodeErrorData: dco_decode_ffi_node_error,
       ),
-      constMeta: kCrateApiBolt11FfiBolt11PaymentClaimForHashUnsafeConstMeta,
+      constMeta: kCrateApiBolt11FfiBolt11PaymentClaimForHashConstMeta,
       argValues: [that, paymentHash, claimableAmountMsat, preimage],
       apiImpl: this,
     ));
   }
 
-  TaskConstMeta
-      get kCrateApiBolt11FfiBolt11PaymentClaimForHashUnsafeConstMeta =>
-          const TaskConstMeta(
-            debugName: "ffi_bolt_11_payment_claim_for_hash_unsafe",
-            argNames: [
-              "that",
-              "paymentHash",
-              "claimableAmountMsat",
-              "preimage"
-            ],
-          );
+  TaskConstMeta get kCrateApiBolt11FfiBolt11PaymentClaimForHashConstMeta =>
+      const TaskConstMeta(
+        debugName: "ffi_bolt_11_payment_claim_for_hash",
+        argNames: ["that", "paymentHash", "claimableAmountMsat", "preimage"],
+      );
 
   @override
-  Future<void> crateApiBolt11FfiBolt11PaymentFailForHashUnsafe(
+  Future<void> crateApiBolt11FfiBolt11PaymentFailForHash(
       {required FfiBolt11Payment that, required PaymentHash paymentHash}) {
     return handler.executeNormal(NormalTask(
       callFfi: (port_) {
         var arg0 = cst_encode_box_autoadd_ffi_bolt_11_payment(that);
         var arg1 = cst_encode_box_autoadd_payment_hash(paymentHash);
-        return wire
-            .wire__crate__api__bolt11__ffi_bolt_11_payment_fail_for_hash_unsafe(
-                port_, arg0, arg1);
+        return wire.wire__crate__api__bolt11__ffi_bolt_11_payment_fail_for_hash(
+            port_, arg0, arg1);
       },
       codec: DcoCodec(
         decodeSuccessData: dco_decode_unit,
         decodeErrorData: dco_decode_ffi_node_error,
       ),
-      constMeta: kCrateApiBolt11FfiBolt11PaymentFailForHashUnsafeConstMeta,
+      constMeta: kCrateApiBolt11FfiBolt11PaymentFailForHashConstMeta,
       argValues: [that, paymentHash],
       apiImpl: this,
     ));
   }
 
-  TaskConstMeta get kCrateApiBolt11FfiBolt11PaymentFailForHashUnsafeConstMeta =>
+  TaskConstMeta get kCrateApiBolt11FfiBolt11PaymentFailForHashConstMeta =>
       const TaskConstMeta(
-        debugName: "ffi_bolt_11_payment_fail_for_hash_unsafe",
+        debugName: "ffi_bolt_11_payment_fail_for_hash",
         argNames: ["that", "paymentHash"],
       );
 
   @override
-  Future<Bolt11Invoice> crateApiBolt11FfiBolt11PaymentReceiveForHashUnsafe(
+  Future<Bolt11Invoice> crateApiBolt11FfiBolt11PaymentReceive(
+      {required FfiBolt11Payment that,
+      required BigInt amountMsat,
+      required String description,
+      required int expirySecs}) {
+    return handler.executeNormal(NormalTask(
+      callFfi: (port_) {
+        var arg0 = cst_encode_box_autoadd_ffi_bolt_11_payment(that);
+        var arg1 = cst_encode_u_64(amountMsat);
+        var arg2 = cst_encode_String(description);
+        var arg3 = cst_encode_u_32(expirySecs);
+        return wire.wire__crate__api__bolt11__ffi_bolt_11_payment_receive(
+            port_, arg0, arg1, arg2, arg3);
+      },
+      codec: DcoCodec(
+        decodeSuccessData: dco_decode_bolt_11_invoice,
+        decodeErrorData: dco_decode_ffi_node_error,
+      ),
+      constMeta: kCrateApiBolt11FfiBolt11PaymentReceiveConstMeta,
+      argValues: [that, amountMsat, description, expirySecs],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta get kCrateApiBolt11FfiBolt11PaymentReceiveConstMeta =>
+      const TaskConstMeta(
+        debugName: "ffi_bolt_11_payment_receive",
+        argNames: ["that", "amountMsat", "description", "expirySecs"],
+      );
+
+  @override
+  Future<Bolt11Invoice> crateApiBolt11FfiBolt11PaymentReceiveForHash(
       {required FfiBolt11Payment that,
       required PaymentHash paymentHash,
       required BigInt amountMsat,
@@ -956,67 +976,65 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
         var arg3 = cst_encode_String(description);
         var arg4 = cst_encode_u_32(expirySecs);
         return wire
-            .wire__crate__api__bolt11__ffi_bolt_11_payment_receive_for_hash_unsafe(
+            .wire__crate__api__bolt11__ffi_bolt_11_payment_receive_for_hash(
                 port_, arg0, arg1, arg2, arg3, arg4);
       },
       codec: DcoCodec(
         decodeSuccessData: dco_decode_bolt_11_invoice,
         decodeErrorData: dco_decode_ffi_node_error,
       ),
-      constMeta: kCrateApiBolt11FfiBolt11PaymentReceiveForHashUnsafeConstMeta,
+      constMeta: kCrateApiBolt11FfiBolt11PaymentReceiveForHashConstMeta,
       argValues: [that, paymentHash, amountMsat, description, expirySecs],
       apiImpl: this,
     ));
   }
 
-  TaskConstMeta
-      get kCrateApiBolt11FfiBolt11PaymentReceiveForHashUnsafeConstMeta =>
-          const TaskConstMeta(
-            debugName: "ffi_bolt_11_payment_receive_for_hash_unsafe",
-            argNames: [
-              "that",
-              "paymentHash",
-              "amountMsat",
-              "description",
-              "expirySecs"
-            ],
-          );
+  TaskConstMeta get kCrateApiBolt11FfiBolt11PaymentReceiveForHashConstMeta =>
+      const TaskConstMeta(
+        debugName: "ffi_bolt_11_payment_receive_for_hash",
+        argNames: [
+          "that",
+          "paymentHash",
+          "amountMsat",
+          "description",
+          "expirySecs"
+        ],
+      );
 
   @override
-  Future<Bolt11Invoice> crateApiBolt11FfiBolt11PaymentReceiveUnsafe(
+  Future<Bolt11Invoice> crateApiBolt11FfiBolt11PaymentReceiveVariableAmount(
       {required FfiBolt11Payment that,
-      required BigInt amountMsat,
       required String description,
       required int expirySecs}) {
     return handler.executeNormal(NormalTask(
       callFfi: (port_) {
         var arg0 = cst_encode_box_autoadd_ffi_bolt_11_payment(that);
-        var arg1 = cst_encode_u_64(amountMsat);
-        var arg2 = cst_encode_String(description);
-        var arg3 = cst_encode_u_32(expirySecs);
+        var arg1 = cst_encode_String(description);
+        var arg2 = cst_encode_u_32(expirySecs);
         return wire
-            .wire__crate__api__bolt11__ffi_bolt_11_payment_receive_unsafe(
-                port_, arg0, arg1, arg2, arg3);
+            .wire__crate__api__bolt11__ffi_bolt_11_payment_receive_variable_amount(
+                port_, arg0, arg1, arg2);
       },
       codec: DcoCodec(
         decodeSuccessData: dco_decode_bolt_11_invoice,
         decodeErrorData: dco_decode_ffi_node_error,
       ),
-      constMeta: kCrateApiBolt11FfiBolt11PaymentReceiveUnsafeConstMeta,
-      argValues: [that, amountMsat, description, expirySecs],
+      constMeta: kCrateApiBolt11FfiBolt11PaymentReceiveVariableAmountConstMeta,
+      argValues: [that, description, expirySecs],
       apiImpl: this,
     ));
   }
 
-  TaskConstMeta get kCrateApiBolt11FfiBolt11PaymentReceiveUnsafeConstMeta =>
-      const TaskConstMeta(
-        debugName: "ffi_bolt_11_payment_receive_unsafe",
-        argNames: ["that", "amountMsat", "description", "expirySecs"],
-      );
+  TaskConstMeta
+      get kCrateApiBolt11FfiBolt11PaymentReceiveVariableAmountConstMeta =>
+          const TaskConstMeta(
+            debugName: "ffi_bolt_11_payment_receive_variable_amount",
+            argNames: ["that", "description", "expirySecs"],
+          );
 
   @override
   Future<Bolt11Invoice>
-      crateApiBolt11FfiBolt11PaymentReceiveVariableAmountForHashUnsafe(
+      crateApiBolt11FfiBolt11PaymentReceiveVariableAmountForHash(
           {required FfiBolt11Payment that,
           required String description,
           required int expirySecs,
@@ -1028,7 +1046,7 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
         var arg2 = cst_encode_u_32(expirySecs);
         var arg3 = cst_encode_box_autoadd_payment_hash(paymentHash);
         return wire
-            .wire__crate__api__bolt11__ffi_bolt_11_payment_receive_variable_amount_for_hash_unsafe(
+            .wire__crate__api__bolt11__ffi_bolt_11_payment_receive_variable_amount_for_hash(
                 port_, arg0, arg1, arg2, arg3);
       },
       codec: DcoCodec(
@@ -1036,56 +1054,22 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
         decodeErrorData: dco_decode_ffi_node_error,
       ),
       constMeta:
-          kCrateApiBolt11FfiBolt11PaymentReceiveVariableAmountForHashUnsafeConstMeta,
+          kCrateApiBolt11FfiBolt11PaymentReceiveVariableAmountForHashConstMeta,
       argValues: [that, description, expirySecs, paymentHash],
       apiImpl: this,
     ));
   }
 
   TaskConstMeta
-      get kCrateApiBolt11FfiBolt11PaymentReceiveVariableAmountForHashUnsafeConstMeta =>
+      get kCrateApiBolt11FfiBolt11PaymentReceiveVariableAmountForHashConstMeta =>
           const TaskConstMeta(
-            debugName:
-                "ffi_bolt_11_payment_receive_variable_amount_for_hash_unsafe",
+            debugName: "ffi_bolt_11_payment_receive_variable_amount_for_hash",
             argNames: ["that", "description", "expirySecs", "paymentHash"],
           );
 
   @override
   Future<Bolt11Invoice>
-      crateApiBolt11FfiBolt11PaymentReceiveVariableAmountUnsafe(
-          {required FfiBolt11Payment that,
-          required String description,
-          required int expirySecs}) {
-    return handler.executeNormal(NormalTask(
-      callFfi: (port_) {
-        var arg0 = cst_encode_box_autoadd_ffi_bolt_11_payment(that);
-        var arg1 = cst_encode_String(description);
-        var arg2 = cst_encode_u_32(expirySecs);
-        return wire
-            .wire__crate__api__bolt11__ffi_bolt_11_payment_receive_variable_amount_unsafe(
-                port_, arg0, arg1, arg2);
-      },
-      codec: DcoCodec(
-        decodeSuccessData: dco_decode_bolt_11_invoice,
-        decodeErrorData: dco_decode_ffi_node_error,
-      ),
-      constMeta:
-          kCrateApiBolt11FfiBolt11PaymentReceiveVariableAmountUnsafeConstMeta,
-      argValues: [that, description, expirySecs],
-      apiImpl: this,
-    ));
-  }
-
-  TaskConstMeta
-      get kCrateApiBolt11FfiBolt11PaymentReceiveVariableAmountUnsafeConstMeta =>
-          const TaskConstMeta(
-            debugName: "ffi_bolt_11_payment_receive_variable_amount_unsafe",
-            argNames: ["that", "description", "expirySecs"],
-          );
-
-  @override
-  Future<Bolt11Invoice>
-      crateApiBolt11FfiBolt11PaymentReceiveVariableAmountViaJitChannelUnsafe(
+      crateApiBolt11FfiBolt11PaymentReceiveVariableAmountViaJitChannel(
           {required FfiBolt11Payment that,
           required String description,
           required int expirySecs,
@@ -1098,7 +1082,7 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
         var arg3 =
             cst_encode_opt_box_autoadd_u_64(maxProportionalLspFeeLimitPpmMsat);
         return wire
-            .wire__crate__api__bolt11__ffi_bolt_11_payment_receive_variable_amount_via_jit_channel_unsafe(
+            .wire__crate__api__bolt11__ffi_bolt_11_payment_receive_variable_amount_via_jit_channel(
                 port_, arg0, arg1, arg2, arg3);
       },
       codec: DcoCodec(
@@ -1106,7 +1090,7 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
         decodeErrorData: dco_decode_ffi_node_error,
       ),
       constMeta:
-          kCrateApiBolt11FfiBolt11PaymentReceiveVariableAmountViaJitChannelUnsafeConstMeta,
+          kCrateApiBolt11FfiBolt11PaymentReceiveVariableAmountViaJitChannelConstMeta,
       argValues: [
         that,
         description,
@@ -1118,10 +1102,10 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
   }
 
   TaskConstMeta
-      get kCrateApiBolt11FfiBolt11PaymentReceiveVariableAmountViaJitChannelUnsafeConstMeta =>
+      get kCrateApiBolt11FfiBolt11PaymentReceiveVariableAmountViaJitChannelConstMeta =>
           const TaskConstMeta(
             debugName:
-                "ffi_bolt_11_payment_receive_variable_amount_via_jit_channel_unsafe",
+                "ffi_bolt_11_payment_receive_variable_amount_via_jit_channel",
             argNames: [
               "that",
               "description",
@@ -1131,13 +1115,12 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
           );
 
   @override
-  Future<Bolt11Invoice>
-      crateApiBolt11FfiBolt11PaymentReceiveViaJitChannelUnsafe(
-          {required FfiBolt11Payment that,
-          required BigInt amountMsat,
-          required String description,
-          required int expirySecs,
-          BigInt? maxTotalLspFeeLimitMsat}) {
+  Future<Bolt11Invoice> crateApiBolt11FfiBolt11PaymentReceiveViaJitChannel(
+      {required FfiBolt11Payment that,
+      required BigInt amountMsat,
+      required String description,
+      required int expirySecs,
+      BigInt? maxTotalLspFeeLimitMsat}) {
     return handler.executeNormal(NormalTask(
       callFfi: (port_) {
         var arg0 = cst_encode_box_autoadd_ffi_bolt_11_payment(that);
@@ -1146,15 +1129,14 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
         var arg3 = cst_encode_u_32(expirySecs);
         var arg4 = cst_encode_opt_box_autoadd_u_64(maxTotalLspFeeLimitMsat);
         return wire
-            .wire__crate__api__bolt11__ffi_bolt_11_payment_receive_via_jit_channel_unsafe(
+            .wire__crate__api__bolt11__ffi_bolt_11_payment_receive_via_jit_channel(
                 port_, arg0, arg1, arg2, arg3, arg4);
       },
       codec: DcoCodec(
         decodeSuccessData: dco_decode_bolt_11_invoice,
         decodeErrorData: dco_decode_ffi_node_error,
       ),
-      constMeta:
-          kCrateApiBolt11FfiBolt11PaymentReceiveViaJitChannelUnsafeConstMeta,
+      constMeta: kCrateApiBolt11FfiBolt11PaymentReceiveViaJitChannelConstMeta,
       argValues: [
         that,
         amountMsat,
@@ -1167,9 +1149,9 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
   }
 
   TaskConstMeta
-      get kCrateApiBolt11FfiBolt11PaymentReceiveViaJitChannelUnsafeConstMeta =>
+      get kCrateApiBolt11FfiBolt11PaymentReceiveViaJitChannelConstMeta =>
           const TaskConstMeta(
-            debugName: "ffi_bolt_11_payment_receive_via_jit_channel_unsafe",
+            debugName: "ffi_bolt_11_payment_receive_via_jit_channel",
             argNames: [
               "that",
               "amountMsat",
@@ -1180,66 +1162,7 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
           );
 
   @override
-  Future<void> crateApiBolt11FfiBolt11PaymentSendProbesUnsafe(
-      {required FfiBolt11Payment that, required Bolt11Invoice invoice}) {
-    return handler.executeNormal(NormalTask(
-      callFfi: (port_) {
-        var arg0 = cst_encode_box_autoadd_ffi_bolt_11_payment(that);
-        var arg1 = cst_encode_box_autoadd_bolt_11_invoice(invoice);
-        return wire
-            .wire__crate__api__bolt11__ffi_bolt_11_payment_send_probes_unsafe(
-                port_, arg0, arg1);
-      },
-      codec: DcoCodec(
-        decodeSuccessData: dco_decode_unit,
-        decodeErrorData: dco_decode_ffi_node_error,
-      ),
-      constMeta: kCrateApiBolt11FfiBolt11PaymentSendProbesUnsafeConstMeta,
-      argValues: [that, invoice],
-      apiImpl: this,
-    ));
-  }
-
-  TaskConstMeta get kCrateApiBolt11FfiBolt11PaymentSendProbesUnsafeConstMeta =>
-      const TaskConstMeta(
-        debugName: "ffi_bolt_11_payment_send_probes_unsafe",
-        argNames: ["that", "invoice"],
-      );
-
-  @override
-  Future<void> crateApiBolt11FfiBolt11PaymentSendProbesUsingAmountUnsafe(
-      {required FfiBolt11Payment that,
-      required Bolt11Invoice invoice,
-      required BigInt amountMsat}) {
-    return handler.executeNormal(NormalTask(
-      callFfi: (port_) {
-        var arg0 = cst_encode_box_autoadd_ffi_bolt_11_payment(that);
-        var arg1 = cst_encode_box_autoadd_bolt_11_invoice(invoice);
-        var arg2 = cst_encode_u_64(amountMsat);
-        return wire
-            .wire__crate__api__bolt11__ffi_bolt_11_payment_send_probes_using_amount_unsafe(
-                port_, arg0, arg1, arg2);
-      },
-      codec: DcoCodec(
-        decodeSuccessData: dco_decode_unit,
-        decodeErrorData: dco_decode_ffi_node_error,
-      ),
-      constMeta:
-          kCrateApiBolt11FfiBolt11PaymentSendProbesUsingAmountUnsafeConstMeta,
-      argValues: [that, invoice, amountMsat],
-      apiImpl: this,
-    ));
-  }
-
-  TaskConstMeta
-      get kCrateApiBolt11FfiBolt11PaymentSendProbesUsingAmountUnsafeConstMeta =>
-          const TaskConstMeta(
-            debugName: "ffi_bolt_11_payment_send_probes_using_amount_unsafe",
-            argNames: ["that", "invoice", "amountMsat"],
-          );
-
-  @override
-  Future<PaymentId> crateApiBolt11FfiBolt11PaymentSendUnsafe(
+  Future<PaymentId> crateApiBolt11FfiBolt11PaymentSend(
       {required FfiBolt11Payment that,
       required Bolt11Invoice invoice,
       SendingParameters? sendingParameters}) {
@@ -1249,27 +1172,84 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
         var arg1 = cst_encode_box_autoadd_bolt_11_invoice(invoice);
         var arg2 =
             cst_encode_opt_box_autoadd_sending_parameters(sendingParameters);
-        return wire.wire__crate__api__bolt11__ffi_bolt_11_payment_send_unsafe(
+        return wire.wire__crate__api__bolt11__ffi_bolt_11_payment_send(
             port_, arg0, arg1, arg2);
       },
       codec: DcoCodec(
         decodeSuccessData: dco_decode_payment_id,
         decodeErrorData: dco_decode_ffi_node_error,
       ),
-      constMeta: kCrateApiBolt11FfiBolt11PaymentSendUnsafeConstMeta,
+      constMeta: kCrateApiBolt11FfiBolt11PaymentSendConstMeta,
       argValues: [that, invoice, sendingParameters],
       apiImpl: this,
     ));
   }
 
-  TaskConstMeta get kCrateApiBolt11FfiBolt11PaymentSendUnsafeConstMeta =>
+  TaskConstMeta get kCrateApiBolt11FfiBolt11PaymentSendConstMeta =>
       const TaskConstMeta(
-        debugName: "ffi_bolt_11_payment_send_unsafe",
+        debugName: "ffi_bolt_11_payment_send",
         argNames: ["that", "invoice", "sendingParameters"],
       );
 
   @override
-  Future<PaymentId> crateApiBolt11FfiBolt11PaymentSendUsingAmountUnsafe(
+  Future<void> crateApiBolt11FfiBolt11PaymentSendProbes(
+      {required FfiBolt11Payment that, required Bolt11Invoice invoice}) {
+    return handler.executeNormal(NormalTask(
+      callFfi: (port_) {
+        var arg0 = cst_encode_box_autoadd_ffi_bolt_11_payment(that);
+        var arg1 = cst_encode_box_autoadd_bolt_11_invoice(invoice);
+        return wire.wire__crate__api__bolt11__ffi_bolt_11_payment_send_probes(
+            port_, arg0, arg1);
+      },
+      codec: DcoCodec(
+        decodeSuccessData: dco_decode_unit,
+        decodeErrorData: dco_decode_ffi_node_error,
+      ),
+      constMeta: kCrateApiBolt11FfiBolt11PaymentSendProbesConstMeta,
+      argValues: [that, invoice],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta get kCrateApiBolt11FfiBolt11PaymentSendProbesConstMeta =>
+      const TaskConstMeta(
+        debugName: "ffi_bolt_11_payment_send_probes",
+        argNames: ["that", "invoice"],
+      );
+
+  @override
+  Future<void> crateApiBolt11FfiBolt11PaymentSendProbesUsingAmount(
+      {required FfiBolt11Payment that,
+      required Bolt11Invoice invoice,
+      required BigInt amountMsat}) {
+    return handler.executeNormal(NormalTask(
+      callFfi: (port_) {
+        var arg0 = cst_encode_box_autoadd_ffi_bolt_11_payment(that);
+        var arg1 = cst_encode_box_autoadd_bolt_11_invoice(invoice);
+        var arg2 = cst_encode_u_64(amountMsat);
+        return wire
+            .wire__crate__api__bolt11__ffi_bolt_11_payment_send_probes_using_amount(
+                port_, arg0, arg1, arg2);
+      },
+      codec: DcoCodec(
+        decodeSuccessData: dco_decode_unit,
+        decodeErrorData: dco_decode_ffi_node_error,
+      ),
+      constMeta: kCrateApiBolt11FfiBolt11PaymentSendProbesUsingAmountConstMeta,
+      argValues: [that, invoice, amountMsat],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta
+      get kCrateApiBolt11FfiBolt11PaymentSendProbesUsingAmountConstMeta =>
+          const TaskConstMeta(
+            debugName: "ffi_bolt_11_payment_send_probes_using_amount",
+            argNames: ["that", "invoice", "amountMsat"],
+          );
+
+  @override
+  Future<PaymentId> crateApiBolt11FfiBolt11PaymentSendUsingAmount(
       {required FfiBolt11Payment that,
       required Bolt11Invoice invoice,
       required BigInt amountMsat,
@@ -1282,28 +1262,27 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
         var arg3 =
             cst_encode_opt_box_autoadd_sending_parameters(sendingParameters);
         return wire
-            .wire__crate__api__bolt11__ffi_bolt_11_payment_send_using_amount_unsafe(
+            .wire__crate__api__bolt11__ffi_bolt_11_payment_send_using_amount(
                 port_, arg0, arg1, arg2, arg3);
       },
       codec: DcoCodec(
         decodeSuccessData: dco_decode_payment_id,
         decodeErrorData: dco_decode_ffi_node_error,
       ),
-      constMeta: kCrateApiBolt11FfiBolt11PaymentSendUsingAmountUnsafeConstMeta,
+      constMeta: kCrateApiBolt11FfiBolt11PaymentSendUsingAmountConstMeta,
       argValues: [that, invoice, amountMsat, sendingParameters],
       apiImpl: this,
     ));
   }
 
-  TaskConstMeta
-      get kCrateApiBolt11FfiBolt11PaymentSendUsingAmountUnsafeConstMeta =>
-          const TaskConstMeta(
-            debugName: "ffi_bolt_11_payment_send_using_amount_unsafe",
-            argNames: ["that", "invoice", "amountMsat", "sendingParameters"],
-          );
+  TaskConstMeta get kCrateApiBolt11FfiBolt11PaymentSendUsingAmountConstMeta =>
+      const TaskConstMeta(
+        debugName: "ffi_bolt_11_payment_send_using_amount",
+        argNames: ["that", "invoice", "amountMsat", "sendingParameters"],
+      );
 
   @override
-  Future<Refund> crateApiBolt12FfiBolt12PaymentInitiateRefundUnsafe(
+  Future<Refund> crateApiBolt12FfiBolt12PaymentInitiateRefund(
       {required FfiBolt12Payment that,
       required BigInt amountMsat,
       required int expirySecs,
@@ -1317,34 +1296,27 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
         var arg3 = cst_encode_opt_box_autoadd_u_64(quantity);
         var arg4 = cst_encode_opt_String(payerNote);
         return wire
-            .wire__crate__api__bolt12__ffi_bolt_12_payment_initiate_refund_unsafe(
+            .wire__crate__api__bolt12__ffi_bolt_12_payment_initiate_refund(
                 port_, arg0, arg1, arg2, arg3, arg4);
       },
       codec: DcoCodec(
         decodeSuccessData: dco_decode_refund,
         decodeErrorData: dco_decode_ffi_node_error,
       ),
-      constMeta: kCrateApiBolt12FfiBolt12PaymentInitiateRefundUnsafeConstMeta,
+      constMeta: kCrateApiBolt12FfiBolt12PaymentInitiateRefundConstMeta,
       argValues: [that, amountMsat, expirySecs, quantity, payerNote],
       apiImpl: this,
     ));
   }
 
-  TaskConstMeta
-      get kCrateApiBolt12FfiBolt12PaymentInitiateRefundUnsafeConstMeta =>
-          const TaskConstMeta(
-            debugName: "ffi_bolt_12_payment_initiate_refund_unsafe",
-            argNames: [
-              "that",
-              "amountMsat",
-              "expirySecs",
-              "quantity",
-              "payerNote"
-            ],
-          );
+  TaskConstMeta get kCrateApiBolt12FfiBolt12PaymentInitiateRefundConstMeta =>
+      const TaskConstMeta(
+        debugName: "ffi_bolt_12_payment_initiate_refund",
+        argNames: ["that", "amountMsat", "expirySecs", "quantity", "payerNote"],
+      );
 
   @override
-  Future<Offer> crateApiBolt12FfiBolt12PaymentReceiveUnsafe(
+  Future<Offer> crateApiBolt12FfiBolt12PaymentReceive(
       {required FfiBolt12Payment that,
       required BigInt amountMsat,
       required String description,
@@ -1357,23 +1329,22 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
         var arg2 = cst_encode_String(description);
         var arg3 = cst_encode_opt_box_autoadd_u_32(expirySecs);
         var arg4 = cst_encode_opt_box_autoadd_u_64(quantity);
-        return wire
-            .wire__crate__api__bolt12__ffi_bolt_12_payment_receive_unsafe(
-                port_, arg0, arg1, arg2, arg3, arg4);
+        return wire.wire__crate__api__bolt12__ffi_bolt_12_payment_receive(
+            port_, arg0, arg1, arg2, arg3, arg4);
       },
       codec: DcoCodec(
         decodeSuccessData: dco_decode_offer,
         decodeErrorData: dco_decode_ffi_node_error,
       ),
-      constMeta: kCrateApiBolt12FfiBolt12PaymentReceiveUnsafeConstMeta,
+      constMeta: kCrateApiBolt12FfiBolt12PaymentReceiveConstMeta,
       argValues: [that, amountMsat, description, expirySecs, quantity],
       apiImpl: this,
     ));
   }
 
-  TaskConstMeta get kCrateApiBolt12FfiBolt12PaymentReceiveUnsafeConstMeta =>
+  TaskConstMeta get kCrateApiBolt12FfiBolt12PaymentReceiveConstMeta =>
       const TaskConstMeta(
-        debugName: "ffi_bolt_12_payment_receive_unsafe",
+        debugName: "ffi_bolt_12_payment_receive",
         argNames: [
           "that",
           "amountMsat",
@@ -1384,7 +1355,7 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
       );
 
   @override
-  Future<Offer> crateApiBolt12FfiBolt12PaymentReceiveVariableAmountUnsafe(
+  Future<Offer> crateApiBolt12FfiBolt12PaymentReceiveVariableAmount(
       {required FfiBolt12Payment that,
       required String description,
       int? expirySecs}) {
@@ -1394,59 +1365,56 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
         var arg1 = cst_encode_String(description);
         var arg2 = cst_encode_opt_box_autoadd_u_32(expirySecs);
         return wire
-            .wire__crate__api__bolt12__ffi_bolt_12_payment_receive_variable_amount_unsafe(
+            .wire__crate__api__bolt12__ffi_bolt_12_payment_receive_variable_amount(
                 port_, arg0, arg1, arg2);
       },
       codec: DcoCodec(
         decodeSuccessData: dco_decode_offer,
         decodeErrorData: dco_decode_ffi_node_error,
       ),
-      constMeta:
-          kCrateApiBolt12FfiBolt12PaymentReceiveVariableAmountUnsafeConstMeta,
+      constMeta: kCrateApiBolt12FfiBolt12PaymentReceiveVariableAmountConstMeta,
       argValues: [that, description, expirySecs],
       apiImpl: this,
     ));
   }
 
   TaskConstMeta
-      get kCrateApiBolt12FfiBolt12PaymentReceiveVariableAmountUnsafeConstMeta =>
+      get kCrateApiBolt12FfiBolt12PaymentReceiveVariableAmountConstMeta =>
           const TaskConstMeta(
-            debugName: "ffi_bolt_12_payment_receive_variable_amount_unsafe",
+            debugName: "ffi_bolt_12_payment_receive_variable_amount",
             argNames: ["that", "description", "expirySecs"],
           );
 
   @override
-  Future<Bolt12Invoice>
-      crateApiBolt12FfiBolt12PaymentRequestRefundPaymentUnsafe(
-          {required FfiBolt12Payment that, required Refund refund}) {
+  Future<Bolt12Invoice> crateApiBolt12FfiBolt12PaymentRequestRefundPayment(
+      {required FfiBolt12Payment that, required Refund refund}) {
     return handler.executeNormal(NormalTask(
       callFfi: (port_) {
         var arg0 = cst_encode_box_autoadd_ffi_bolt_12_payment(that);
         var arg1 = cst_encode_box_autoadd_refund(refund);
         return wire
-            .wire__crate__api__bolt12__ffi_bolt_12_payment_request_refund_payment_unsafe(
+            .wire__crate__api__bolt12__ffi_bolt_12_payment_request_refund_payment(
                 port_, arg0, arg1);
       },
       codec: DcoCodec(
         decodeSuccessData: dco_decode_bolt_12_invoice,
         decodeErrorData: dco_decode_ffi_node_error,
       ),
-      constMeta:
-          kCrateApiBolt12FfiBolt12PaymentRequestRefundPaymentUnsafeConstMeta,
+      constMeta: kCrateApiBolt12FfiBolt12PaymentRequestRefundPaymentConstMeta,
       argValues: [that, refund],
       apiImpl: this,
     ));
   }
 
   TaskConstMeta
-      get kCrateApiBolt12FfiBolt12PaymentRequestRefundPaymentUnsafeConstMeta =>
+      get kCrateApiBolt12FfiBolt12PaymentRequestRefundPaymentConstMeta =>
           const TaskConstMeta(
-            debugName: "ffi_bolt_12_payment_request_refund_payment_unsafe",
+            debugName: "ffi_bolt_12_payment_request_refund_payment",
             argNames: ["that", "refund"],
           );
 
   @override
-  Future<PaymentId> crateApiBolt12FfiBolt12PaymentSendUnsafe(
+  Future<PaymentId> crateApiBolt12FfiBolt12PaymentSend(
       {required FfiBolt12Payment that,
       required Offer offer,
       BigInt? quantity,
@@ -1457,27 +1425,27 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
         var arg1 = cst_encode_box_autoadd_offer(offer);
         var arg2 = cst_encode_opt_box_autoadd_u_64(quantity);
         var arg3 = cst_encode_opt_String(payerNote);
-        return wire.wire__crate__api__bolt12__ffi_bolt_12_payment_send_unsafe(
+        return wire.wire__crate__api__bolt12__ffi_bolt_12_payment_send(
             port_, arg0, arg1, arg2, arg3);
       },
       codec: DcoCodec(
         decodeSuccessData: dco_decode_payment_id,
         decodeErrorData: dco_decode_ffi_node_error,
       ),
-      constMeta: kCrateApiBolt12FfiBolt12PaymentSendUnsafeConstMeta,
+      constMeta: kCrateApiBolt12FfiBolt12PaymentSendConstMeta,
       argValues: [that, offer, quantity, payerNote],
       apiImpl: this,
     ));
   }
 
-  TaskConstMeta get kCrateApiBolt12FfiBolt12PaymentSendUnsafeConstMeta =>
+  TaskConstMeta get kCrateApiBolt12FfiBolt12PaymentSendConstMeta =>
       const TaskConstMeta(
-        debugName: "ffi_bolt_12_payment_send_unsafe",
+        debugName: "ffi_bolt_12_payment_send",
         argNames: ["that", "offer", "quantity", "payerNote"],
       );
 
   @override
-  Future<PaymentId> crateApiBolt12FfiBolt12PaymentSendUsingAmountUnsafe(
+  Future<PaymentId> crateApiBolt12FfiBolt12PaymentSendUsingAmount(
       {required FfiBolt12Payment that,
       required Offer offer,
       required BigInt amountMsat,
@@ -1491,25 +1459,24 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
         var arg3 = cst_encode_opt_box_autoadd_u_64(quantity);
         var arg4 = cst_encode_opt_String(payerNote);
         return wire
-            .wire__crate__api__bolt12__ffi_bolt_12_payment_send_using_amount_unsafe(
+            .wire__crate__api__bolt12__ffi_bolt_12_payment_send_using_amount(
                 port_, arg0, arg1, arg2, arg3, arg4);
       },
       codec: DcoCodec(
         decodeSuccessData: dco_decode_payment_id,
         decodeErrorData: dco_decode_ffi_node_error,
       ),
-      constMeta: kCrateApiBolt12FfiBolt12PaymentSendUsingAmountUnsafeConstMeta,
+      constMeta: kCrateApiBolt12FfiBolt12PaymentSendUsingAmountConstMeta,
       argValues: [that, offer, amountMsat, quantity, payerNote],
       apiImpl: this,
     ));
   }
 
-  TaskConstMeta
-      get kCrateApiBolt12FfiBolt12PaymentSendUsingAmountUnsafeConstMeta =>
-          const TaskConstMeta(
-            debugName: "ffi_bolt_12_payment_send_using_amount_unsafe",
-            argNames: ["that", "offer", "amountMsat", "quantity", "payerNote"],
-          );
+  TaskConstMeta get kCrateApiBolt12FfiBolt12PaymentSendUsingAmountConstMeta =>
+      const TaskConstMeta(
+        debugName: "ffi_bolt_12_payment_send_using_amount",
+        argNames: ["that", "offer", "amountMsat", "quantity", "payerNote"],
+      );
 
   @override
   Future<FfiMnemonic> crateApiBuilderFfiMnemonicGenerate() {
@@ -1534,106 +1501,104 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
       );
 
   @override
-  Future<ChannelInfo?> crateApiGraphFfiNetworkGraphChannelUnsafe(
+  Future<ChannelInfo?> crateApiGraphFfiNetworkGraphChannel(
       {required FfiNetworkGraph that, required BigInt shortChannelId}) {
     return handler.executeNormal(NormalTask(
       callFfi: (port_) {
         var arg0 = cst_encode_box_autoadd_ffi_network_graph(that);
         var arg1 = cst_encode_u_64(shortChannelId);
-        return wire.wire__crate__api__graph__ffi_network_graph_channel_unsafe(
+        return wire.wire__crate__api__graph__ffi_network_graph_channel(
             port_, arg0, arg1);
       },
       codec: DcoCodec(
         decodeSuccessData: dco_decode_opt_box_autoadd_channel_info,
         decodeErrorData: null,
       ),
-      constMeta: kCrateApiGraphFfiNetworkGraphChannelUnsafeConstMeta,
+      constMeta: kCrateApiGraphFfiNetworkGraphChannelConstMeta,
       argValues: [that, shortChannelId],
       apiImpl: this,
     ));
   }
 
-  TaskConstMeta get kCrateApiGraphFfiNetworkGraphChannelUnsafeConstMeta =>
+  TaskConstMeta get kCrateApiGraphFfiNetworkGraphChannelConstMeta =>
       const TaskConstMeta(
-        debugName: "ffi_network_graph_channel_unsafe",
+        debugName: "ffi_network_graph_channel",
         argNames: ["that", "shortChannelId"],
       );
 
   @override
-  Future<Uint64List> crateApiGraphFfiNetworkGraphListChannelsUnsafe(
+  Future<Uint64List> crateApiGraphFfiNetworkGraphListChannels(
       {required FfiNetworkGraph that}) {
     return handler.executeNormal(NormalTask(
       callFfi: (port_) {
         var arg0 = cst_encode_box_autoadd_ffi_network_graph(that);
-        return wire
-            .wire__crate__api__graph__ffi_network_graph_list_channels_unsafe(
-                port_, arg0);
+        return wire.wire__crate__api__graph__ffi_network_graph_list_channels(
+            port_, arg0);
       },
       codec: DcoCodec(
         decodeSuccessData: dco_decode_list_prim_u_64_strict,
         decodeErrorData: null,
       ),
-      constMeta: kCrateApiGraphFfiNetworkGraphListChannelsUnsafeConstMeta,
+      constMeta: kCrateApiGraphFfiNetworkGraphListChannelsConstMeta,
       argValues: [that],
       apiImpl: this,
     ));
   }
 
-  TaskConstMeta get kCrateApiGraphFfiNetworkGraphListChannelsUnsafeConstMeta =>
+  TaskConstMeta get kCrateApiGraphFfiNetworkGraphListChannelsConstMeta =>
       const TaskConstMeta(
-        debugName: "ffi_network_graph_list_channels_unsafe",
+        debugName: "ffi_network_graph_list_channels",
         argNames: ["that"],
       );
 
   @override
-  Future<List<NodeId>> crateApiGraphFfiNetworkGraphListNodesUnsafe(
+  Future<List<NodeId>> crateApiGraphFfiNetworkGraphListNodes(
       {required FfiNetworkGraph that}) {
     return handler.executeNormal(NormalTask(
       callFfi: (port_) {
         var arg0 = cst_encode_box_autoadd_ffi_network_graph(that);
-        return wire
-            .wire__crate__api__graph__ffi_network_graph_list_nodes_unsafe(
-                port_, arg0);
+        return wire.wire__crate__api__graph__ffi_network_graph_list_nodes(
+            port_, arg0);
       },
       codec: DcoCodec(
         decodeSuccessData: dco_decode_list_node_id,
         decodeErrorData: null,
       ),
-      constMeta: kCrateApiGraphFfiNetworkGraphListNodesUnsafeConstMeta,
+      constMeta: kCrateApiGraphFfiNetworkGraphListNodesConstMeta,
       argValues: [that],
       apiImpl: this,
     ));
   }
 
-  TaskConstMeta get kCrateApiGraphFfiNetworkGraphListNodesUnsafeConstMeta =>
+  TaskConstMeta get kCrateApiGraphFfiNetworkGraphListNodesConstMeta =>
       const TaskConstMeta(
-        debugName: "ffi_network_graph_list_nodes_unsafe",
+        debugName: "ffi_network_graph_list_nodes",
         argNames: ["that"],
       );
 
   @override
-  Future<NodeInfo?> crateApiGraphFfiNetworkGraphNodeUnsafe(
+  Future<NodeInfo?> crateApiGraphFfiNetworkGraphNode(
       {required FfiNetworkGraph that, required NodeId nodeId}) {
     return handler.executeNormal(NormalTask(
       callFfi: (port_) {
         var arg0 = cst_encode_box_autoadd_ffi_network_graph(that);
         var arg1 = cst_encode_box_autoadd_node_id(nodeId);
-        return wire.wire__crate__api__graph__ffi_network_graph_node_unsafe(
+        return wire.wire__crate__api__graph__ffi_network_graph_node(
             port_, arg0, arg1);
       },
       codec: DcoCodec(
         decodeSuccessData: dco_decode_opt_box_autoadd_node_info,
         decodeErrorData: dco_decode_ffi_node_error,
       ),
-      constMeta: kCrateApiGraphFfiNetworkGraphNodeUnsafeConstMeta,
+      constMeta: kCrateApiGraphFfiNetworkGraphNodeConstMeta,
       argValues: [that, nodeId],
       apiImpl: this,
     ));
   }
 
-  TaskConstMeta get kCrateApiGraphFfiNetworkGraphNodeUnsafeConstMeta =>
+  TaskConstMeta get kCrateApiGraphFfiNetworkGraphNodeConstMeta =>
       const TaskConstMeta(
-        debugName: "ffi_network_graph_node_unsafe",
+        debugName: "ffi_network_graph_node",
         argNames: ["that", "nodeId"],
       );
 
@@ -2632,39 +2597,7 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
       );
 
   @override
-  Future<void> crateApiSpontaneousFfiSpontaneousPaymentSendProbesUnsafe(
-      {required FfiSpontaneousPayment that,
-      required BigInt amountMsat,
-      required PublicKey nodeId}) {
-    return handler.executeNormal(NormalTask(
-      callFfi: (port_) {
-        var arg0 = cst_encode_box_autoadd_ffi_spontaneous_payment(that);
-        var arg1 = cst_encode_u_64(amountMsat);
-        var arg2 = cst_encode_box_autoadd_public_key(nodeId);
-        return wire
-            .wire__crate__api__spontaneous__ffi_spontaneous_payment_send_probes_unsafe(
-                port_, arg0, arg1, arg2);
-      },
-      codec: DcoCodec(
-        decodeSuccessData: dco_decode_unit,
-        decodeErrorData: dco_decode_ffi_node_error,
-      ),
-      constMeta:
-          kCrateApiSpontaneousFfiSpontaneousPaymentSendProbesUnsafeConstMeta,
-      argValues: [that, amountMsat, nodeId],
-      apiImpl: this,
-    ));
-  }
-
-  TaskConstMeta
-      get kCrateApiSpontaneousFfiSpontaneousPaymentSendProbesUnsafeConstMeta =>
-          const TaskConstMeta(
-            debugName: "ffi_spontaneous_payment_send_probes_unsafe",
-            argNames: ["that", "amountMsat", "nodeId"],
-          );
-
-  @override
-  Future<PaymentId> crateApiSpontaneousFfiSpontaneousPaymentSendUnsafe(
+  Future<PaymentId> crateApiSpontaneousFfiSpontaneousPaymentSend(
       {required FfiSpontaneousPayment that,
       required BigInt amountMsat,
       required PublicKey nodeId,
@@ -2676,35 +2609,63 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
         var arg2 = cst_encode_box_autoadd_public_key(nodeId);
         var arg3 =
             cst_encode_opt_box_autoadd_sending_parameters(sendingParameters);
-        return wire
-            .wire__crate__api__spontaneous__ffi_spontaneous_payment_send_unsafe(
-                port_, arg0, arg1, arg2, arg3);
+        return wire.wire__crate__api__spontaneous__ffi_spontaneous_payment_send(
+            port_, arg0, arg1, arg2, arg3);
       },
       codec: DcoCodec(
         decodeSuccessData: dco_decode_payment_id,
         decodeErrorData: dco_decode_ffi_node_error,
       ),
-      constMeta: kCrateApiSpontaneousFfiSpontaneousPaymentSendUnsafeConstMeta,
+      constMeta: kCrateApiSpontaneousFfiSpontaneousPaymentSendConstMeta,
       argValues: [that, amountMsat, nodeId, sendingParameters],
       apiImpl: this,
     ));
   }
 
+  TaskConstMeta get kCrateApiSpontaneousFfiSpontaneousPaymentSendConstMeta =>
+      const TaskConstMeta(
+        debugName: "ffi_spontaneous_payment_send",
+        argNames: ["that", "amountMsat", "nodeId", "sendingParameters"],
+      );
+
+  @override
+  Future<void> crateApiSpontaneousFfiSpontaneousPaymentSendProbes(
+      {required FfiSpontaneousPayment that,
+      required BigInt amountMsat,
+      required PublicKey nodeId}) {
+    return handler.executeNormal(NormalTask(
+      callFfi: (port_) {
+        var arg0 = cst_encode_box_autoadd_ffi_spontaneous_payment(that);
+        var arg1 = cst_encode_u_64(amountMsat);
+        var arg2 = cst_encode_box_autoadd_public_key(nodeId);
+        return wire
+            .wire__crate__api__spontaneous__ffi_spontaneous_payment_send_probes(
+                port_, arg0, arg1, arg2);
+      },
+      codec: DcoCodec(
+        decodeSuccessData: dco_decode_unit,
+        decodeErrorData: dco_decode_ffi_node_error,
+      ),
+      constMeta: kCrateApiSpontaneousFfiSpontaneousPaymentSendProbesConstMeta,
+      argValues: [that, amountMsat, nodeId],
+      apiImpl: this,
+    ));
+  }
+
   TaskConstMeta
-      get kCrateApiSpontaneousFfiSpontaneousPaymentSendUnsafeConstMeta =>
+      get kCrateApiSpontaneousFfiSpontaneousPaymentSendProbesConstMeta =>
           const TaskConstMeta(
-            debugName: "ffi_spontaneous_payment_send_unsafe",
-            argNames: ["that", "amountMsat", "nodeId", "sendingParameters"],
+            debugName: "ffi_spontaneous_payment_send_probes",
+            argNames: ["that", "amountMsat", "nodeId"],
           );
 
   @override
-  Future<PaymentId>
-      crateApiSpontaneousFfiSpontaneousPaymentSendWithCustomTlvsUnsafe(
-          {required FfiSpontaneousPayment that,
-          required BigInt amountMsat,
-          required PublicKey nodeId,
-          SendingParameters? sendingParameters,
-          required List<CustomTlvRecord> customTlvs}) {
+  Future<PaymentId> crateApiSpontaneousFfiSpontaneousPaymentSendWithCustomTlvs(
+      {required FfiSpontaneousPayment that,
+      required BigInt amountMsat,
+      required PublicKey nodeId,
+      SendingParameters? sendingParameters,
+      required List<CustomTlvRecord> customTlvs}) {
     return handler.executeNormal(NormalTask(
       callFfi: (port_) {
         var arg0 = cst_encode_box_autoadd_ffi_spontaneous_payment(that);
@@ -2714,7 +2675,7 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
             cst_encode_opt_box_autoadd_sending_parameters(sendingParameters);
         var arg4 = cst_encode_list_custom_tlv_record(customTlvs);
         return wire
-            .wire__crate__api__spontaneous__ffi_spontaneous_payment_send_with_custom_tlvs_unsafe(
+            .wire__crate__api__spontaneous__ffi_spontaneous_payment_send_with_custom_tlvs(
                 port_, arg0, arg1, arg2, arg3, arg4);
       },
       codec: DcoCodec(
@@ -2722,16 +2683,16 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
         decodeErrorData: dco_decode_ffi_node_error,
       ),
       constMeta:
-          kCrateApiSpontaneousFfiSpontaneousPaymentSendWithCustomTlvsUnsafeConstMeta,
+          kCrateApiSpontaneousFfiSpontaneousPaymentSendWithCustomTlvsConstMeta,
       argValues: [that, amountMsat, nodeId, sendingParameters, customTlvs],
       apiImpl: this,
     ));
   }
 
   TaskConstMeta
-      get kCrateApiSpontaneousFfiSpontaneousPaymentSendWithCustomTlvsUnsafeConstMeta =>
+      get kCrateApiSpontaneousFfiSpontaneousPaymentSendWithCustomTlvsConstMeta =>
           const TaskConstMeta(
-            debugName: "ffi_spontaneous_payment_send_with_custom_tlvs_unsafe",
+            debugName: "ffi_spontaneous_payment_send_with_custom_tlvs",
             argNames: [
               "that",
               "amountMsat",
@@ -2742,7 +2703,7 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
           );
 
   @override
-  Future<String> crateApiUnifiedQrFfiUnifiedQrPaymentReceiveUnsafe(
+  Future<String> crateApiUnifiedQrFfiUnifiedQrPaymentReceive(
       {required FfiUnifiedQrPayment that,
       required BigInt amountSats,
       required String message,
@@ -2754,50 +2715,48 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
         var arg2 = cst_encode_String(message);
         var arg3 = cst_encode_u_32(expirySec);
         return wire
-            .wire__crate__api__unified_qr__ffi_unified_qr_payment_receive_unsafe(
+            .wire__crate__api__unified_qr__ffi_unified_qr_payment_receive(
                 port_, arg0, arg1, arg2, arg3);
       },
       codec: DcoCodec(
         decodeSuccessData: dco_decode_String,
         decodeErrorData: dco_decode_ffi_node_error,
       ),
-      constMeta: kCrateApiUnifiedQrFfiUnifiedQrPaymentReceiveUnsafeConstMeta,
+      constMeta: kCrateApiUnifiedQrFfiUnifiedQrPaymentReceiveConstMeta,
       argValues: [that, amountSats, message, expirySec],
       apiImpl: this,
     ));
   }
 
-  TaskConstMeta
-      get kCrateApiUnifiedQrFfiUnifiedQrPaymentReceiveUnsafeConstMeta =>
-          const TaskConstMeta(
-            debugName: "ffi_unified_qr_payment_receive_unsafe",
-            argNames: ["that", "amountSats", "message", "expirySec"],
-          );
+  TaskConstMeta get kCrateApiUnifiedQrFfiUnifiedQrPaymentReceiveConstMeta =>
+      const TaskConstMeta(
+        debugName: "ffi_unified_qr_payment_receive",
+        argNames: ["that", "amountSats", "message", "expirySec"],
+      );
 
   @override
-  Future<QrPaymentResult> crateApiUnifiedQrFfiUnifiedQrPaymentSendUnsafe(
+  Future<QrPaymentResult> crateApiUnifiedQrFfiUnifiedQrPaymentSend(
       {required FfiUnifiedQrPayment that, required String uriStr}) {
     return handler.executeNormal(NormalTask(
       callFfi: (port_) {
         var arg0 = cst_encode_box_autoadd_ffi_unified_qr_payment(that);
         var arg1 = cst_encode_String(uriStr);
-        return wire
-            .wire__crate__api__unified_qr__ffi_unified_qr_payment_send_unsafe(
-                port_, arg0, arg1);
+        return wire.wire__crate__api__unified_qr__ffi_unified_qr_payment_send(
+            port_, arg0, arg1);
       },
       codec: DcoCodec(
         decodeSuccessData: dco_decode_qr_payment_result,
         decodeErrorData: dco_decode_ffi_node_error,
       ),
-      constMeta: kCrateApiUnifiedQrFfiUnifiedQrPaymentSendUnsafeConstMeta,
+      constMeta: kCrateApiUnifiedQrFfiUnifiedQrPaymentSendConstMeta,
       argValues: [that, uriStr],
       apiImpl: this,
     ));
   }
 
-  TaskConstMeta get kCrateApiUnifiedQrFfiUnifiedQrPaymentSendUnsafeConstMeta =>
+  TaskConstMeta get kCrateApiUnifiedQrFfiUnifiedQrPaymentSendConstMeta =>
       const TaskConstMeta(
-        debugName: "ffi_unified_qr_payment_send_unsafe",
+        debugName: "ffi_unified_qr_payment_send",
         argNames: ["that", "uriStr"],
       );
 

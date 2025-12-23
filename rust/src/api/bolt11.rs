@@ -41,7 +41,7 @@ impl From<ldk_node::lightning_invoice::Bolt11Invoice> for Bolt11Invoice {
 }
 
 impl FfiBolt11Payment {
-    pub fn send_unsafe(
+    pub fn send(
         &self,
         invoice: Bolt11Invoice,
         sending_parameters: Option<SendingParameters>,
@@ -51,7 +51,7 @@ impl FfiBolt11Payment {
             .map_err(|e| e.into())
             .map(|e| e.into())
     }
-    pub fn send_using_amount_unsafe(
+    pub fn send_using_amount(
         &self,
         invoice: Bolt11Invoice,
         amount_msat: u64,
@@ -67,13 +67,13 @@ impl FfiBolt11Payment {
             .map(|e| e.into())
     }
 
-    pub fn send_probes_unsafe(&self, invoice: Bolt11Invoice) -> anyhow::Result<(), FfiNodeError> {
+    pub fn send_probes(&self, invoice: Bolt11Invoice) -> anyhow::Result<(), FfiNodeError> {
         self.opaque
             .send_probes(&invoice.try_into()?)
             .map_err(|e| e.into())
     }
 
-    pub fn send_probes_using_amount_unsafe(
+    pub fn send_probes_using_amount(
         &self,
         invoice: Bolt11Invoice,
         amount_msat: u64,
@@ -82,7 +82,7 @@ impl FfiBolt11Payment {
             .send_probes_using_amount(&invoice.try_into()?, amount_msat)
             .map_err(|e: ldk_node::NodeError| e.into())
     }
-    pub fn claim_for_hash_unsafe(
+    pub fn claim_for_hash(
         &self,
         payment_hash: PaymentHash,
         claimable_amount_msat: u64,
@@ -92,12 +92,12 @@ impl FfiBolt11Payment {
             .claim_for_hash(payment_hash.into(), claimable_amount_msat, preimage.into())
             .map_err(|e| e.into())
     }
-    pub fn fail_for_hash_unsafe(&self, payment_hash: PaymentHash) -> anyhow::Result<(), FfiNodeError> {
+    pub fn fail_for_hash(&self, payment_hash: PaymentHash) -> anyhow::Result<(), FfiNodeError> {
         self.opaque
             .fail_for_hash(payment_hash.into())
             .map_err(|e| e.into())
     }
-    pub fn receive_unsafe(
+    pub fn receive(
         &self,
         amount_msat: u64,
         description: String,
@@ -112,7 +112,7 @@ impl FfiBolt11Payment {
             .map(|e| e.into())
     }
 
-    pub fn receive_for_hash_unsafe(
+    pub fn receive_for_hash(
         &self,
         payment_hash: PaymentHash,
         amount_msat: u64,
@@ -127,7 +127,7 @@ impl FfiBolt11Payment {
             .map_err(|e| e.into())
             .map(|e| e.into())
     }
-    pub fn receive_variable_amount_unsafe(
+    pub fn receive_variable_amount(
         &self,
         description: String,
         expiry_secs: u32,
@@ -140,7 +140,7 @@ impl FfiBolt11Payment {
             .map_err(|e| e.into())
             .map(|e| e.into())
     }
-    pub fn receive_variable_amount_via_jit_channel_unsafe(
+    pub fn receive_variable_amount_via_jit_channel(
         &self,
         description: String,
         expiry_secs: u32,
@@ -159,7 +159,7 @@ impl FfiBolt11Payment {
         }
     }
 
-    pub fn receive_variable_amount_for_hash_unsafe(
+    pub fn receive_variable_amount_for_hash(
         &self,
         description: String,
         expiry_secs: u32,
@@ -178,7 +178,7 @@ impl FfiBolt11Payment {
         }
     }
 
-    pub fn receive_via_jit_channel_unsafe(
+    pub fn receive_via_jit_channel(
         &self,
         amount_msat: u64,
         description: String,

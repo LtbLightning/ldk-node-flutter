@@ -143,17 +143,17 @@ impl From<ldk_node::graph::NetworkGraph> for FfiNetworkGraph {
 
 impl FfiNetworkGraph {
     /// Returns the list of channels in the graph
-    pub fn list_channels_unsafe(&self) -> Vec<u64> {
+    pub fn list_channels(&self) -> Vec<u64> {
         self.opaque.list_channels()
     }
 
     /// Returns information on a channel with the given id.
-    pub fn channel_unsafe(&self, short_channel_id: u64) -> Option<ChannelInfo> {
+    pub fn channel(&self, short_channel_id: u64) -> Option<ChannelInfo> {
         self.opaque.channel(short_channel_id).map(|e| e.into())
     }
 
     /// Returns the list of nodes in the graph
-    pub fn list_nodes_unsafe(&self) -> Vec<NodeId> {
+    pub fn list_nodes(&self) -> Vec<NodeId> {
         self.opaque
             .list_nodes()
             .iter()
@@ -161,7 +161,7 @@ impl FfiNetworkGraph {
             .collect()
     }
 
-    pub fn node_unsafe(&self, node_id: NodeId) -> Result<Option<NodeInfo>, FfiNodeError> {
+    pub fn node(&self, node_id: NodeId) -> Result<Option<NodeInfo>, FfiNodeError> {
         Ok(self.opaque.node(&node_id.try_into()?).map(|e| e.into()))
     }
 }

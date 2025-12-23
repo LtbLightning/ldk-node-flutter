@@ -112,24 +112,24 @@ class FfiNetworkGraph {
   });
 
   /// Returns information on a channel with the given id.
-  Future<ChannelInfo?> channelUnsafe({required BigInt shortChannelId}) =>
-      core.instance.api.crateApiGraphFfiNetworkGraphChannelUnsafe(
+  Future<ChannelInfo?> channel({required BigInt shortChannelId}) =>
+      core.instance.api.crateApiGraphFfiNetworkGraphChannel(
           that: this, shortChannelId: shortChannelId);
 
   /// Returns the list of channels in the graph
-  Future<Uint64List> listChannelsUnsafe() =>
-      core.instance.api.crateApiGraphFfiNetworkGraphListChannelsUnsafe(
+  Future<Uint64List> listChannels() =>
+      core.instance.api.crateApiGraphFfiNetworkGraphListChannels(
         that: this,
       );
 
   /// Returns the list of nodes in the graph
-  Future<List<NodeId>> listNodesUnsafe() =>
-      core.instance.api.crateApiGraphFfiNetworkGraphListNodesUnsafe(
+  Future<List<NodeId>> listNodes() =>
+      core.instance.api.crateApiGraphFfiNetworkGraphListNodes(
         that: this,
       );
 
-  Future<NodeInfo?> nodeUnsafe({required NodeId nodeId}) => core.instance.api
-      .crateApiGraphFfiNetworkGraphNodeUnsafe(that: this, nodeId: nodeId);
+  Future<NodeInfo?> node({required NodeId nodeId}) => core.instance.api
+      .crateApiGraphFfiNetworkGraphNode(that: this, nodeId: nodeId);
 
   @override
   int get hashCode => opaque.hashCode;
