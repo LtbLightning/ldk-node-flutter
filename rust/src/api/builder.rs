@@ -29,7 +29,22 @@ impl From<ldk_node::bip39::Mnemonic> for FfiMnemonic {
 }
 impl FfiMnemonic {
     pub fn generate() -> FfiMnemonic {
-        ldk_node::generate_entropy_mnemonic().into()
+        ldk_node::generate_entropy_mnemonic(None).into()
+    }
+    
+    pub fn generate_with_word_count(word_count: u8) -> Result<FfiMnemonic, FfiBuilderError> {
+        // WordCount enum is not exported, but generate_entropy_mnemonic accepts it
+        // We need to use the bip39 crate directly to generate with specific word count
+        use ldk_node::bip39::Mnemonic;
+        let mnemonic = match word_count {
+            12 => Mnemonic::generate(12),
+            15 => Mnemonic::generate(15),
+            18 => Mnemonic::generate(18),
+            21 => Mnemonic::generate(21),
+            24 => Mnemonic::generate(24),
+            _ => return Err(FfiBuilderError::InvalidParameter),
+        };
+        Ok(FfiMnemonic { seed_phrase: mnemonic.expect("Failed to generate mnemonic").to_string() })
     }
 }
 
@@ -46,6 +61,7 @@ impl FfiBuilder {
         entropy_source_config: Option<EntropySourceConfig>,
         gossip_source_config: Option<GossipSourceConfig>,
         liquidity_source_config: Option<LiquiditySourceConfig>,
+        pathfinding_scores_source: Option<String>,
     ) -> Result<FfiBuilder, FfiBuilderError> {
         let mut builder = ldk_node::Builder::from_config(config.try_into()?);
         if let Some(source) = entropy_source_config {
@@ -76,6 +92,17 @@ impl FfiBuilder {
                 } => {
                     builder.set_chain_source_esplora(server_url, sync_config.map(|e| e.into()));
                 }
+                ChainDataSourceConfig::EsploraWithHeaders {
+                    server_url,
+                    sync_config,
+                    headers,
+                } => {
+                    builder.set_chain_source_esplora_with_headers(
+                        server_url,
+                        headers,
+                        sync_config.map(|e| e.into()),
+                    );
+                }
                 ChainDataSourceConfig::BitcoindRpc {
                     rpc_host,
                     rpc_port,
@@ -83,6 +110,23 @@ impl FfiBuilder {
                     rpc_password,
                 } => {
                     builder.set_chain_source_bitcoind_rpc(
+                        rpc_host,
+                        rpc_port,
+                        rpc_user,
+                        rpc_password,
+                    );
+                }
+                ChainDataSourceConfig::BitcoindRest {
+                    rest_host,
+                    rest_port,
+                    rpc_host,
+                    rpc_port,
+                    rpc_user,
+                    rpc_password,
+                } => {
+                    builder.set_chain_source_bitcoind_rest(
+                        rest_host,
+                        rest_port,
                         rpc_host,
                         rpc_port,
                         rpc_user,
@@ -118,10 +162,14 @@ impl FfiBuilder {
                 liquidity.lsps2_service.2,
             );
         }
+        if let Some(url) = pathfinding_scores_source {
+            builder.set_pathfinding_scores_source(url);
+        }
         Ok(FfiBuilder {
             opaque: RustOpaque::new(builder),
         })
     }
+    
     pub fn build(self) -> anyhow::Result<FfiNode, FfiBuilderError> {
         match self.opaque.build() {
             Ok(e) => Ok(FfiNode {
