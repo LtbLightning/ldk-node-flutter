@@ -1,4 +1,5 @@
 use crate::api::builder::FfiMnemonic;
+use crate::frb_generated::RustAutoOpaque;
 use crate::utils::error::{FfiBuilderError, FfiNodeError};
 use flutter_rust_bridge::*;
 use ldk_node::bitcoin;
@@ -256,6 +257,7 @@ impl From<ldk_node::lightning::events::ClosureReason> for ClosureReason {
             }
             ldk_node::lightning::events::ClosureReason::HolderForceClosed {
                 broadcasted_latest_txn,
+                message: _,
             } => ClosureReason::HolderForceClosed {
                 broadcasted_latest_txn,
             },
@@ -290,8 +292,11 @@ impl From<ldk_node::lightning::events::ClosureReason> for ClosureReason {
             ldk_node::lightning::events::ClosureReason::LocallyInitiatedCooperativeClosure => {
                 ClosureReason::LocallyInitiatedCooperativeClosure
             }
-            ldk_node::lightning::events::ClosureReason::HTLCsTimedOut => {
+            ldk_node::lightning::events::ClosureReason::HTLCsTimedOut { .. } => {
                 ClosureReason::HTLCsTimedOut
+            }
+            ldk_node::lightning::events::ClosureReason::LocallyCoopClosedUnfundedChannel => {
+                ClosureReason::LocallyInitiatedCooperativeClosure
             }
             ldk_node::lightning::events::ClosureReason::PeerFeerateTooLow {
                 peer_feerate_sat_per_kw,
@@ -555,6 +560,10 @@ pub enum Event {
         ///
         /// This will be `None` for events serialized by LDK Node v0.1.0 and prior.
         counterparty_node_id: Option<PublicKey>,
+        /// The outpoint of the channel's funding transaction.
+        ///
+        /// This will be `None` for events serialized by LDK Node v0.6.0 and prior.
+        funding_txo: Option<OutPoint>,
     },
     /// A channel has been closed.
     ChannelClosed {
@@ -598,6 +607,28 @@ pub enum Event {
         claim_from_onchain_tx: bool,
         /// The final amount forwarded, in milli-satoshis, after the fee is deducted.
         outbound_amount_forwarded_msat: Option<u64>,
+    },
+    /// A splice is pending confirmation on-chain.
+    SplicePending {
+        /// The channel id of the channel being spliced.
+        channel_id: ChannelId,
+        /// The user_channel_id of the channel being spliced.
+        user_channel_id: UserChannelId,
+        /// The node id of the channel counterparty.
+        counterparty_node_id: PublicKey,
+        /// The outpoint of the new funding transaction.
+        new_funding_txo: OutPoint,
+    },
+    /// A splice has failed.
+    SpliceFailed {
+        /// The channel id of the channel that failed to splice.
+        channel_id: ChannelId,
+        /// The user_channel_id of the channel that failed to splice.
+        user_channel_id: UserChannelId,
+        /// The node id of the channel counterparty.
+        counterparty_node_id: PublicKey,
+        /// The outpoint of the channel's splice funding transaction, if one was created.
+        abandoned_funding_txo: Option<OutPoint>,
     },
 }
 
@@ -646,10 +677,12 @@ impl From<ldk_node::Event> for Event {
                 channel_id,
                 user_channel_id,
                 counterparty_node_id,
+                funding_txo,
             } => Event::ChannelReady {
                 channel_id: channel_id.into(),
                 user_channel_id: user_channel_id.into(),
                 counterparty_node_id: counterparty_node_id.map(|x| x.into()),
+                funding_txo: funding_txo.map(|x| x.into()),
             },
             ldk_node::Event::ChannelClosed {
                 channel_id,
@@ -715,6 +748,28 @@ impl From<ldk_node::Event> for Event {
                 skimmed_fee_msat,
                 claim_from_onchain_tx,
                 outbound_amount_forwarded_msat,
+            },
+            ldk_node::Event::SplicePending {
+                channel_id,
+                user_channel_id,
+                counterparty_node_id,
+                new_funding_txo,
+            } => Event::SplicePending {
+                channel_id: channel_id.into(),
+                user_channel_id: user_channel_id.into(),
+                counterparty_node_id: counterparty_node_id.into(),
+                new_funding_txo: new_funding_txo.into(),
+            },
+            ldk_node::Event::SpliceFailed {
+                channel_id,
+                user_channel_id,
+                counterparty_node_id,
+                abandoned_funding_txo,
+            } => Event::SpliceFailed {
+                channel_id: channel_id.into(),
+                user_channel_id: user_channel_id.into(),
+                counterparty_node_id: counterparty_node_id.into(),
+                abandoned_funding_txo: abandoned_funding_txo.map(|e| e.into()),
             },
         }
     }
@@ -865,6 +920,12 @@ pub struct PaymentPreimage {
     pub data: [u8; 32],
 }
 
+impl PaymentPreimage {
+    pub fn new(data: [u8; 32]) -> Self {
+        Self { data }
+    }
+}
+
 impl From<PaymentPreimage> for ldk_node::lightning_types::payment::PaymentPreimage {
     fn from(value: PaymentPreimage) -> Self {
         ldk_node::lightning_types::payment::PaymentPreimage(value.data)
@@ -955,13 +1016,13 @@ impl From<OfferId> for ldk_node::lightning::offers::offer::OfferId {
 }
 
 /// Represents the confirmation status of a transaction.
-#[derive(Copy, Clone, Debug, PartialEq, Eq)]
+#[derive(Clone, Debug, PartialEq, Eq)]
 #[frb(unignore)]
 pub enum ConfirmationStatus {
     /// The transaction is confirmed in the best chain.
     Confirmed {
         /// The hash of the block in which the transaction was confirmed.
-        block_hash: bitcoin::BlockHash,
+        block_hash: String,
         /// The height under which the block was confirmed.
         height: u32,
         /// The timestamp, in seconds since start of the UNIX epoch, when this entry was last updated.
@@ -979,7 +1040,7 @@ impl From<ldk_node::payment::ConfirmationStatus> for ConfirmationStatus {
                 height,
                 timestamp,
             } => ConfirmationStatus::Confirmed {
-                block_hash,
+                block_hash: block_hash.to_string(),
                 height,
                 timestamp,
             },
@@ -988,19 +1049,22 @@ impl From<ldk_node::payment::ConfirmationStatus> for ConfirmationStatus {
     }
 }
 
-impl From<ConfirmationStatus> for ldk_node::payment::ConfirmationStatus {
-    fn from(value: ConfirmationStatus) -> Self {
+impl TryFrom<ConfirmationStatus> for ldk_node::payment::ConfirmationStatus {
+    type Error = FfiNodeError;
+
+    fn try_from(value: ConfirmationStatus) -> Result<Self, Self::Error> {
         match value {
             ConfirmationStatus::Confirmed {
                 block_hash,
                 height,
                 timestamp,
-            } => ldk_node::payment::ConfirmationStatus::Confirmed {
-                block_hash,
+            } => Ok(ldk_node::payment::ConfirmationStatus::Confirmed {
+                block_hash: bitcoin::BlockHash::from_str(&block_hash)
+                    .map_err(|_| FfiNodeError::InvalidBlockHash)?,
                 height,
                 timestamp,
-            },
-            ConfirmationStatus::Unconfirmed => ldk_node::payment::ConfirmationStatus::Unconfirmed,
+            }),
+            ConfirmationStatus::Unconfirmed => Ok(ldk_node::payment::ConfirmationStatus::Unconfirmed),
         }
     }
 }
@@ -1643,7 +1707,7 @@ impl TryFrom<Config> for ldk_node::config::Config {
             probing_liquidity_limit_multiplier: value.probing_liquidity_limit_multiplier,
             anchor_channels_config,
             node_alias: value.node_alias.map(|e| e.into()),
-            sending_parameters: value.sending_parameters.map(|e| e.into()),
+            route_parameters: value.route_parameters.map(|e| e.into()),
             announcement_addresses: if let Some(vec_socket_addr) = value.announcement_addresses {
                 let addr_vec: Result<
                     Vec<ldk_node::lightning::ln::msgs::SocketAddress>,
@@ -1679,7 +1743,7 @@ impl From<ldk_node::config::Config> for Config {
             // log_level: value.log_level.into(),
             probing_liquidity_limit_multiplier: value.probing_liquidity_limit_multiplier,
             anchor_channels_config: value.anchor_channels_config.map(|e| e.into()),
-            sending_parameters: value.sending_parameters.map(|e| e.into()),
+            route_parameters: value.route_parameters.map(|e| e.into()),
             node_alias: value.node_alias.map(|e| e.into()),
             announcement_addresses: value.announcement_addresses.map(|vec_socket_addr| {
                 vec_socket_addr
@@ -1751,12 +1815,12 @@ pub struct Config {
     #[frb(non_final)]
     /// Configuration options for payment routing and pathfinding.
     ///
-    /// Setting the `SendingParameters` provides flexibility to customize how payments are routed,
+    /// Setting the `RouteParametersConfig` provides flexibility to customize how payments are routed,
     /// including setting limits on routing fees, CLTV expiry, and channel utilization.
     ///
     /// **Note:** If unset, default parameters will be used, and you will be able to override the
     /// parameters on a per-payment basis in the corresponding method calls.
-    pub sending_parameters: Option<SendingParameters>,
+    pub route_parameters: Option<RouteParametersConfig>,
 }
 
 impl Default for AnchorChannelsConfig {
@@ -1781,7 +1845,7 @@ impl Default for Config {
             // log_level: DEFAULT_LOG_LEVEL,
             anchor_channels_config: Some(Default::default()),
             node_alias: None,
-            sending_parameters: None,
+            route_parameters: None,
         }
     }
 }
@@ -1842,40 +1906,89 @@ pub struct SendingParameters {
     pub max_channel_saturation_power_of_half: Option<u8>,
 }
 
-impl From<ldk_node::payment::SendingParameters> for SendingParameters {
-    fn from(value: ldk_node::payment::SendingParameters) -> Self {
-        SendingParameters {
-            max_total_routing_fee_msat: value.max_total_routing_fee_msat.map(|e| match e {
-                Some(e) => MaxTotalRoutingFeeLimit::FeeCap { amount_msat: e },
-                None => MaxTotalRoutingFeeLimit::NoFeeCap,
-            }),
-            max_total_cltv_expiry_delta: value.max_total_cltv_expiry_delta,
-            max_path_count: value.max_path_count,
-            max_channel_saturation_power_of_half: value.max_channel_saturation_power_of_half,
-        }
-    }
-}
-impl From<SendingParameters> for ldk_node::payment::SendingParameters {
+impl From<SendingParameters> for ldk_node::lightning::routing::router::RouteParametersConfig {
     fn from(value: SendingParameters) -> Self {
-        ldk_node::payment::SendingParameters {
-            max_total_routing_fee_msat: value.max_total_routing_fee_msat.map(|e| e.into()),
-            max_total_cltv_expiry_delta: value.max_total_cltv_expiry_delta,
-            max_path_count: value.max_path_count,
-            max_channel_saturation_power_of_half: value.max_channel_saturation_power_of_half,
+        ldk_node::lightning::routing::router::RouteParametersConfig {
+            max_total_routing_fee_msat: value.max_total_routing_fee_msat.map(|max_fee| match max_fee {
+                MaxTotalRoutingFeeLimit::FeeCap { amount_msat } => amount_msat,
+                MaxTotalRoutingFeeLimit::NoFeeCap => u64::MAX,
+            }),
+            max_total_cltv_expiry_delta: value.max_total_cltv_expiry_delta.unwrap_or(1008),
+            max_path_count: value.max_path_count.unwrap_or(10),
+            max_channel_saturation_power_of_half: value.max_channel_saturation_power_of_half.unwrap_or(2),
         }
     }
 }
+
+/// Route parameters for configuring payment routes
+#[derive(Clone, Debug, PartialEq)]
+pub struct RouteParametersConfig {
+    /// The maximum total fees, in millisatoshi, that may accrue during route finding.
+    pub max_total_routing_fee_msat: Option<MaxTotalRoutingFeeLimit>,
+    /// The maximum total CLTV delta we accept for the route.
+    pub max_total_cltv_expiry_delta: Option<u32>,
+    /// The maximum number of paths that may be used by (MPP) payments.
+    pub max_path_count: Option<u8>,
+    /// Selects the maximum share of a channel's total capacity which will be sent over a channel.
+    pub max_channel_saturation_power_of_half: Option<u8>,
+}
+
+impl From<RouteParametersConfig> for ldk_node::lightning::routing::router::RouteParametersConfig {
+    fn from(value: RouteParametersConfig) -> Self {
+        ldk_node::lightning::routing::router::RouteParametersConfig {
+            max_total_routing_fee_msat: value.max_total_routing_fee_msat.map(|max_fee| match max_fee {
+                MaxTotalRoutingFeeLimit::FeeCap { amount_msat } => amount_msat,
+                MaxTotalRoutingFeeLimit::NoFeeCap => u64::MAX,
+            }),
+            max_total_cltv_expiry_delta: value.max_total_cltv_expiry_delta.unwrap_or(1008),
+            max_path_count: value.max_path_count.unwrap_or(10),
+            max_channel_saturation_power_of_half: value.max_channel_saturation_power_of_half.unwrap_or(2),
+        }
+    }
+}
+
+impl From<ldk_node::lightning::routing::router::RouteParametersConfig> for RouteParametersConfig {
+    fn from(value: ldk_node::lightning::routing::router::RouteParametersConfig) -> Self {
+        RouteParametersConfig {
+            max_total_routing_fee_msat: Some(if value.max_total_routing_fee_msat == Some(u64::MAX) {
+                MaxTotalRoutingFeeLimit::NoFeeCap
+            } else {
+                MaxTotalRoutingFeeLimit::FeeCap {
+                    amount_msat: value.max_total_routing_fee_msat.unwrap_or(0),
+                }
+            }),
+            max_total_cltv_expiry_delta: Some(value.max_total_cltv_expiry_delta),
+            max_path_count: Some(value.max_path_count),
+            max_channel_saturation_power_of_half: Some(value.max_channel_saturation_power_of_half),
+        }
+    }
+}
+
+
 #[derive(Debug, Clone)]
 pub enum ChainDataSourceConfig {
     Esplora {
         server_url: String,
         sync_config: Option<EsploraSyncConfig>,
     },
+    EsploraWithHeaders {
+        server_url: String,
+        sync_config: Option<EsploraSyncConfig>,
+        headers: std::collections::HashMap<String, String>,
+    },
     Electrum {
         server_url: String,
         sync_config: Option<ElectrumSyncConfig>,
     },
     BitcoindRpc {
+        rpc_host: String,
+        rpc_port: u16,
+        rpc_user: String,
+        rpc_password: String,
+    },
+    BitcoindRest {
+        rest_host: String,
+        rest_port: u16,
         rpc_host: String,
         rpc_port: u16,
         rpc_user: String,
@@ -2312,8 +2425,6 @@ impl From<ldk_node::lightning::chain::channelmonitor::BalanceSource> for Balance
 pub struct NodeStatus {
     /// Indicates whether the `Node` is running.
     pub is_running: bool,
-    /// Indicates whether the `Node` is listening for incoming connections on the addresses
-    pub is_listening: bool,
     /// The best block to which our Lightning wallet is currently synced.
     pub current_best_block: BestBlock,
     /// The timestamp, in seconds since start of the UNIX epoch, when we last successfully synced
@@ -2350,7 +2461,6 @@ impl From<ldk_node::NodeStatus> for NodeStatus {
     fn from(value: ldk_node::NodeStatus) -> Self {
         Self {
             is_running: value.is_running,
-            is_listening: value.is_listening,
             current_best_block: value.current_best_block.into(),
             latest_onchain_wallet_sync_timestamp: value.latest_onchain_wallet_sync_timestamp,
             latest_fee_rate_cache_update_timestamp: value.latest_fee_rate_cache_update_timestamp,
