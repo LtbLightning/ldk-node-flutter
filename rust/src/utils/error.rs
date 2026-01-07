@@ -3,6 +3,8 @@ use ldk_node::{BuildError, NodeError};
 #[derive(Debug, PartialEq)]
 pub enum FfiNodeError {
     InvalidTxid,
+    /// The given block hash is invalid.
+    InvalidBlockHash,
     /// Returned when trying to start [Node] while it is already running.
     AlreadyRunning,
     /// Returned when trying to stop [Node] while it is not running.
@@ -106,6 +108,12 @@ pub enum FfiNodeError {
     InvalidCustomTlvs,
     InvalidDateTime,
     InvalidFeeRate,
+    /// A channel could not be spliced.
+    ChannelSplicingFailed,
+    /// The given blinded paths are invalid.
+    InvalidBlindedPaths,
+    /// Asynchronous payment services are disabled.
+    AsyncPaymentServicesDisabled,
 
     CreationError(FfiCreationError),
 }
@@ -140,7 +148,12 @@ pub enum FfiBuilderError {
     InvalidPublicKey,
     InvalidAnnouncementAddresses,
     NetworkMismatch,
-
+    /// Invalid parameter provided.
+    InvalidParameter,
+    /// Runtime setup failed.
+    RuntimeSetupFailed,
+    /// Async payments configuration mismatch.
+    AsyncPaymentsConfigMismatch,
 
     OpaqueNotFound // The opaque builder was not found, likely due to a previous operation failing.
 }
@@ -202,6 +215,9 @@ impl From<NodeError> for FfiNodeError {
             NodeError::InvalidCustomTlvs => FfiNodeError::InvalidCustomTlvs,
             NodeError::InvalidDateTime => FfiNodeError::InvalidDateTime,
             NodeError::InvalidFeeRate => FfiNodeError::InvalidFeeRate,
+            NodeError::ChannelSplicingFailed => FfiNodeError::ChannelSplicingFailed,
+            NodeError::InvalidBlindedPaths => FfiNodeError::InvalidBlindedPaths,
+            NodeError::AsyncPaymentServicesDisabled => FfiNodeError::AsyncPaymentServicesDisabled,
         }
     }
 }
@@ -224,6 +240,8 @@ impl From<BuildError> for FfiBuilderError {
                 FfiBuilderError::InvalidAnnouncementAddresses
             }
             BuildError::NetworkMismatch => FfiBuilderError::NetworkMismatch,
+            BuildError::RuntimeSetupFailed => FfiBuilderError::RuntimeSetupFailed,
+            BuildError::AsyncPaymentsConfigMismatch => FfiBuilderError::AsyncPaymentsConfigMismatch,
         }
     }
 }
@@ -326,6 +344,7 @@ pub enum Bolt12ParseError {
     Decode(DecodeError),
     InvalidSemantics(String),
     InvalidSignature(String),
+    InvalidLeadingWhitespace,
 }
 impl From<ldk_node::lightning::offers::parse::Bolt12ParseError> for FfiNodeError {
     fn from(value: ldk_node::lightning::offers::parse::Bolt12ParseError) -> Self {
@@ -347,6 +366,9 @@ impl From<ldk_node::lightning::offers::parse::Bolt12ParseError> for FfiNodeError
             }
             ldk_node::lightning::offers::parse::Bolt12ParseError::InvalidSignature(e) => {
                 FfiNodeError::Bolt12Parse(Bolt12ParseError::InvalidSignature(e.to_string()))
+            }
+            ldk_node::lightning::offers::parse::Bolt12ParseError::InvalidLeadingWhitespace => {
+                FfiNodeError::Bolt12Parse(Bolt12ParseError::InvalidLeadingWhitespace)
             }
         }
     }
