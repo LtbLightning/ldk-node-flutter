@@ -38,13 +38,15 @@ abstract class FfiBuilder implements RustOpaqueInterface {
           ChainDataSourceConfig? chainDataSourceConfig,
           EntropySourceConfig? entropySourceConfig,
           GossipSourceConfig? gossipSourceConfig,
-          LiquiditySourceConfig? liquiditySourceConfig}) =>
+          LiquiditySourceConfig? liquiditySourceConfig,
+          String? pathfindingScoresSource}) =>
       core.instance.api.crateApiBuilderFfiBuilderCreateBuilder(
           config: config,
           chainDataSourceConfig: chainDataSourceConfig,
           entropySourceConfig: entropySourceConfig,
           gossipSourceConfig: gossipSourceConfig,
-          liquiditySourceConfig: liquiditySourceConfig);
+          liquiditySourceConfig: liquiditySourceConfig,
+          pathfindingScoresSource: pathfindingScoresSource);
 
   FfiBuilder setEntropySeedBytes({required List<int> seedBytes});
 
@@ -68,6 +70,10 @@ class FfiMnemonic {
 
   static Future<FfiMnemonic> generate() =>
       core.instance.api.crateApiBuilderFfiMnemonicGenerate();
+
+  static Future<FfiMnemonic> generateWithWordCount({required int wordCount}) =>
+      core.instance.api.crateApiBuilderFfiMnemonicGenerateWithWordCount(
+          wordCount: wordCount);
 
   @override
   int get hashCode => seedPhrase.hashCode;
