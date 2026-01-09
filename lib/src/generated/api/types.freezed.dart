@@ -52,18 +52,26 @@ extension ChainDataSourceConfigPatterns on ChainDataSourceConfig {
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(ChainDataSourceConfig_Esplora value)? esplora,
+    TResult Function(ChainDataSourceConfig_EsploraWithHeaders value)?
+        esploraWithHeaders,
     TResult Function(ChainDataSourceConfig_Electrum value)? electrum,
     TResult Function(ChainDataSourceConfig_BitcoindRpc value)? bitcoindRpc,
+    TResult Function(ChainDataSourceConfig_BitcoindRest value)? bitcoindRest,
     required TResult orElse(),
   }) {
     final _that = this;
     switch (_that) {
       case ChainDataSourceConfig_Esplora() when esplora != null:
         return esplora(_that);
+      case ChainDataSourceConfig_EsploraWithHeaders()
+          when esploraWithHeaders != null:
+        return esploraWithHeaders(_that);
       case ChainDataSourceConfig_Electrum() when electrum != null:
         return electrum(_that);
       case ChainDataSourceConfig_BitcoindRpc() when bitcoindRpc != null:
         return bitcoindRpc(_that);
+      case ChainDataSourceConfig_BitcoindRest() when bitcoindRest != null:
+        return bitcoindRest(_that);
       case _:
         return orElse();
     }
@@ -85,18 +93,26 @@ extension ChainDataSourceConfigPatterns on ChainDataSourceConfig {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(ChainDataSourceConfig_Esplora value) esplora,
+    required TResult Function(ChainDataSourceConfig_EsploraWithHeaders value)
+        esploraWithHeaders,
     required TResult Function(ChainDataSourceConfig_Electrum value) electrum,
     required TResult Function(ChainDataSourceConfig_BitcoindRpc value)
         bitcoindRpc,
+    required TResult Function(ChainDataSourceConfig_BitcoindRest value)
+        bitcoindRest,
   }) {
     final _that = this;
     switch (_that) {
       case ChainDataSourceConfig_Esplora():
         return esplora(_that);
+      case ChainDataSourceConfig_EsploraWithHeaders():
+        return esploraWithHeaders(_that);
       case ChainDataSourceConfig_Electrum():
         return electrum(_that);
       case ChainDataSourceConfig_BitcoindRpc():
         return bitcoindRpc(_that);
+      case ChainDataSourceConfig_BitcoindRest():
+        return bitcoindRest(_that);
     }
   }
 
@@ -115,17 +131,25 @@ extension ChainDataSourceConfigPatterns on ChainDataSourceConfig {
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(ChainDataSourceConfig_Esplora value)? esplora,
+    TResult? Function(ChainDataSourceConfig_EsploraWithHeaders value)?
+        esploraWithHeaders,
     TResult? Function(ChainDataSourceConfig_Electrum value)? electrum,
     TResult? Function(ChainDataSourceConfig_BitcoindRpc value)? bitcoindRpc,
+    TResult? Function(ChainDataSourceConfig_BitcoindRest value)? bitcoindRest,
   }) {
     final _that = this;
     switch (_that) {
       case ChainDataSourceConfig_Esplora() when esplora != null:
         return esplora(_that);
+      case ChainDataSourceConfig_EsploraWithHeaders()
+          when esploraWithHeaders != null:
+        return esploraWithHeaders(_that);
       case ChainDataSourceConfig_Electrum() when electrum != null:
         return electrum(_that);
       case ChainDataSourceConfig_BitcoindRpc() when bitcoindRpc != null:
         return bitcoindRpc(_that);
+      case ChainDataSourceConfig_BitcoindRest() when bitcoindRest != null:
+        return bitcoindRest(_that);
       case _:
         return null;
     }
@@ -146,22 +170,35 @@ extension ChainDataSourceConfigPatterns on ChainDataSourceConfig {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(String serverUrl, EsploraSyncConfig? syncConfig)? esplora,
+    TResult Function(String serverUrl, EsploraSyncConfig? syncConfig,
+            Map<String, String> headers)?
+        esploraWithHeaders,
     TResult Function(String serverUrl, ElectrumSyncConfig? syncConfig)?
         electrum,
     TResult Function(
             String rpcHost, int rpcPort, String rpcUser, String rpcPassword)?
         bitcoindRpc,
+    TResult Function(String restHost, int restPort, String rpcHost, int rpcPort,
+            String rpcUser, String rpcPassword)?
+        bitcoindRest,
     required TResult orElse(),
   }) {
     final _that = this;
     switch (_that) {
       case ChainDataSourceConfig_Esplora() when esplora != null:
         return esplora(_that.serverUrl, _that.syncConfig);
+      case ChainDataSourceConfig_EsploraWithHeaders()
+          when esploraWithHeaders != null:
+        return esploraWithHeaders(
+            _that.serverUrl, _that.syncConfig, _that.headers);
       case ChainDataSourceConfig_Electrum() when electrum != null:
         return electrum(_that.serverUrl, _that.syncConfig);
       case ChainDataSourceConfig_BitcoindRpc() when bitcoindRpc != null:
         return bitcoindRpc(
             _that.rpcHost, _that.rpcPort, _that.rpcUser, _that.rpcPassword);
+      case ChainDataSourceConfig_BitcoindRest() when bitcoindRest != null:
+        return bitcoindRest(_that.restHost, _that.restPort, _that.rpcHost,
+            _that.rpcPort, _that.rpcUser, _that.rpcPassword);
       case _:
         return orElse();
     }
@@ -184,21 +221,33 @@ extension ChainDataSourceConfigPatterns on ChainDataSourceConfig {
   TResult when<TResult extends Object?>({
     required TResult Function(String serverUrl, EsploraSyncConfig? syncConfig)
         esplora,
+    required TResult Function(String serverUrl, EsploraSyncConfig? syncConfig,
+            Map<String, String> headers)
+        esploraWithHeaders,
     required TResult Function(String serverUrl, ElectrumSyncConfig? syncConfig)
         electrum,
     required TResult Function(
             String rpcHost, int rpcPort, String rpcUser, String rpcPassword)
         bitcoindRpc,
+    required TResult Function(String restHost, int restPort, String rpcHost,
+            int rpcPort, String rpcUser, String rpcPassword)
+        bitcoindRest,
   }) {
     final _that = this;
     switch (_that) {
       case ChainDataSourceConfig_Esplora():
         return esplora(_that.serverUrl, _that.syncConfig);
+      case ChainDataSourceConfig_EsploraWithHeaders():
+        return esploraWithHeaders(
+            _that.serverUrl, _that.syncConfig, _that.headers);
       case ChainDataSourceConfig_Electrum():
         return electrum(_that.serverUrl, _that.syncConfig);
       case ChainDataSourceConfig_BitcoindRpc():
         return bitcoindRpc(
             _that.rpcHost, _that.rpcPort, _that.rpcUser, _that.rpcPassword);
+      case ChainDataSourceConfig_BitcoindRest():
+        return bitcoindRest(_that.restHost, _that.restPort, _that.rpcHost,
+            _that.rpcPort, _that.rpcUser, _that.rpcPassword);
     }
   }
 
@@ -217,21 +266,34 @@ extension ChainDataSourceConfigPatterns on ChainDataSourceConfig {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(String serverUrl, EsploraSyncConfig? syncConfig)? esplora,
+    TResult? Function(String serverUrl, EsploraSyncConfig? syncConfig,
+            Map<String, String> headers)?
+        esploraWithHeaders,
     TResult? Function(String serverUrl, ElectrumSyncConfig? syncConfig)?
         electrum,
     TResult? Function(
             String rpcHost, int rpcPort, String rpcUser, String rpcPassword)?
         bitcoindRpc,
+    TResult? Function(String restHost, int restPort, String rpcHost,
+            int rpcPort, String rpcUser, String rpcPassword)?
+        bitcoindRest,
   }) {
     final _that = this;
     switch (_that) {
       case ChainDataSourceConfig_Esplora() when esplora != null:
         return esplora(_that.serverUrl, _that.syncConfig);
+      case ChainDataSourceConfig_EsploraWithHeaders()
+          when esploraWithHeaders != null:
+        return esploraWithHeaders(
+            _that.serverUrl, _that.syncConfig, _that.headers);
       case ChainDataSourceConfig_Electrum() when electrum != null:
         return electrum(_that.serverUrl, _that.syncConfig);
       case ChainDataSourceConfig_BitcoindRpc() when bitcoindRpc != null:
         return bitcoindRpc(
             _that.rpcHost, _that.rpcPort, _that.rpcUser, _that.rpcPassword);
+      case ChainDataSourceConfig_BitcoindRest() when bitcoindRest != null:
+        return bitcoindRest(_that.restHost, _that.restPort, _that.rpcHost,
+            _that.rpcPort, _that.rpcUser, _that.rpcPassword);
       case _:
         return null;
     }
@@ -311,6 +373,104 @@ class _$ChainDataSourceConfig_EsploraCopyWithImpl<$Res>
           ? _self.syncConfig
           : syncConfig // ignore: cast_nullable_to_non_nullable
               as EsploraSyncConfig?,
+    ));
+  }
+}
+
+/// @nodoc
+
+class ChainDataSourceConfig_EsploraWithHeaders extends ChainDataSourceConfig {
+  const ChainDataSourceConfig_EsploraWithHeaders(
+      {required this.serverUrl,
+      this.syncConfig,
+      required final Map<String, String> headers})
+      : _headers = headers,
+        super._();
+
+  final String serverUrl;
+  final EsploraSyncConfig? syncConfig;
+  final Map<String, String> _headers;
+  Map<String, String> get headers {
+    if (_headers is EqualUnmodifiableMapView) return _headers;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableMapView(_headers);
+  }
+
+  /// Create a copy of ChainDataSourceConfig
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  $ChainDataSourceConfig_EsploraWithHeadersCopyWith<
+          ChainDataSourceConfig_EsploraWithHeaders>
+      get copyWith => _$ChainDataSourceConfig_EsploraWithHeadersCopyWithImpl<
+          ChainDataSourceConfig_EsploraWithHeaders>(this, _$identity);
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is ChainDataSourceConfig_EsploraWithHeaders &&
+            (identical(other.serverUrl, serverUrl) ||
+                other.serverUrl == serverUrl) &&
+            (identical(other.syncConfig, syncConfig) ||
+                other.syncConfig == syncConfig) &&
+            const DeepCollectionEquality().equals(other._headers, _headers));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, serverUrl, syncConfig,
+      const DeepCollectionEquality().hash(_headers));
+
+  @override
+  String toString() {
+    return 'ChainDataSourceConfig.esploraWithHeaders(serverUrl: $serverUrl, syncConfig: $syncConfig, headers: $headers)';
+  }
+}
+
+/// @nodoc
+abstract mixin class $ChainDataSourceConfig_EsploraWithHeadersCopyWith<$Res>
+    implements $ChainDataSourceConfigCopyWith<$Res> {
+  factory $ChainDataSourceConfig_EsploraWithHeadersCopyWith(
+          ChainDataSourceConfig_EsploraWithHeaders value,
+          $Res Function(ChainDataSourceConfig_EsploraWithHeaders) _then) =
+      _$ChainDataSourceConfig_EsploraWithHeadersCopyWithImpl;
+  @useResult
+  $Res call(
+      {String serverUrl,
+      EsploraSyncConfig? syncConfig,
+      Map<String, String> headers});
+}
+
+/// @nodoc
+class _$ChainDataSourceConfig_EsploraWithHeadersCopyWithImpl<$Res>
+    implements $ChainDataSourceConfig_EsploraWithHeadersCopyWith<$Res> {
+  _$ChainDataSourceConfig_EsploraWithHeadersCopyWithImpl(
+      this._self, this._then);
+
+  final ChainDataSourceConfig_EsploraWithHeaders _self;
+  final $Res Function(ChainDataSourceConfig_EsploraWithHeaders) _then;
+
+  /// Create a copy of ChainDataSourceConfig
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  $Res call({
+    Object? serverUrl = null,
+    Object? syncConfig = freezed,
+    Object? headers = null,
+  }) {
+    return _then(ChainDataSourceConfig_EsploraWithHeaders(
+      serverUrl: null == serverUrl
+          ? _self.serverUrl
+          : serverUrl // ignore: cast_nullable_to_non_nullable
+              as String,
+      syncConfig: freezed == syncConfig
+          ? _self.syncConfig
+          : syncConfig // ignore: cast_nullable_to_non_nullable
+              as EsploraSyncConfig?,
+      headers: null == headers
+          ? _self._headers
+          : headers // ignore: cast_nullable_to_non_nullable
+              as Map<String, String>,
     ));
   }
 }
@@ -466,6 +626,125 @@ class _$ChainDataSourceConfig_BitcoindRpcCopyWithImpl<$Res>
     Object? rpcPassword = null,
   }) {
     return _then(ChainDataSourceConfig_BitcoindRpc(
+      rpcHost: null == rpcHost
+          ? _self.rpcHost
+          : rpcHost // ignore: cast_nullable_to_non_nullable
+              as String,
+      rpcPort: null == rpcPort
+          ? _self.rpcPort
+          : rpcPort // ignore: cast_nullable_to_non_nullable
+              as int,
+      rpcUser: null == rpcUser
+          ? _self.rpcUser
+          : rpcUser // ignore: cast_nullable_to_non_nullable
+              as String,
+      rpcPassword: null == rpcPassword
+          ? _self.rpcPassword
+          : rpcPassword // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
+}
+
+/// @nodoc
+
+class ChainDataSourceConfig_BitcoindRest extends ChainDataSourceConfig {
+  const ChainDataSourceConfig_BitcoindRest(
+      {required this.restHost,
+      required this.restPort,
+      required this.rpcHost,
+      required this.rpcPort,
+      required this.rpcUser,
+      required this.rpcPassword})
+      : super._();
+
+  final String restHost;
+  final int restPort;
+  final String rpcHost;
+  final int rpcPort;
+  final String rpcUser;
+  final String rpcPassword;
+
+  /// Create a copy of ChainDataSourceConfig
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  $ChainDataSourceConfig_BitcoindRestCopyWith<
+          ChainDataSourceConfig_BitcoindRest>
+      get copyWith => _$ChainDataSourceConfig_BitcoindRestCopyWithImpl<
+          ChainDataSourceConfig_BitcoindRest>(this, _$identity);
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is ChainDataSourceConfig_BitcoindRest &&
+            (identical(other.restHost, restHost) ||
+                other.restHost == restHost) &&
+            (identical(other.restPort, restPort) ||
+                other.restPort == restPort) &&
+            (identical(other.rpcHost, rpcHost) || other.rpcHost == rpcHost) &&
+            (identical(other.rpcPort, rpcPort) || other.rpcPort == rpcPort) &&
+            (identical(other.rpcUser, rpcUser) || other.rpcUser == rpcUser) &&
+            (identical(other.rpcPassword, rpcPassword) ||
+                other.rpcPassword == rpcPassword));
+  }
+
+  @override
+  int get hashCode => Object.hash(
+      runtimeType, restHost, restPort, rpcHost, rpcPort, rpcUser, rpcPassword);
+
+  @override
+  String toString() {
+    return 'ChainDataSourceConfig.bitcoindRest(restHost: $restHost, restPort: $restPort, rpcHost: $rpcHost, rpcPort: $rpcPort, rpcUser: $rpcUser, rpcPassword: $rpcPassword)';
+  }
+}
+
+/// @nodoc
+abstract mixin class $ChainDataSourceConfig_BitcoindRestCopyWith<$Res>
+    implements $ChainDataSourceConfigCopyWith<$Res> {
+  factory $ChainDataSourceConfig_BitcoindRestCopyWith(
+          ChainDataSourceConfig_BitcoindRest value,
+          $Res Function(ChainDataSourceConfig_BitcoindRest) _then) =
+      _$ChainDataSourceConfig_BitcoindRestCopyWithImpl;
+  @useResult
+  $Res call(
+      {String restHost,
+      int restPort,
+      String rpcHost,
+      int rpcPort,
+      String rpcUser,
+      String rpcPassword});
+}
+
+/// @nodoc
+class _$ChainDataSourceConfig_BitcoindRestCopyWithImpl<$Res>
+    implements $ChainDataSourceConfig_BitcoindRestCopyWith<$Res> {
+  _$ChainDataSourceConfig_BitcoindRestCopyWithImpl(this._self, this._then);
+
+  final ChainDataSourceConfig_BitcoindRest _self;
+  final $Res Function(ChainDataSourceConfig_BitcoindRest) _then;
+
+  /// Create a copy of ChainDataSourceConfig
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  $Res call({
+    Object? restHost = null,
+    Object? restPort = null,
+    Object? rpcHost = null,
+    Object? rpcPort = null,
+    Object? rpcUser = null,
+    Object? rpcPassword = null,
+  }) {
+    return _then(ChainDataSourceConfig_BitcoindRest(
+      restHost: null == restHost
+          ? _self.restHost
+          : restHost // ignore: cast_nullable_to_non_nullable
+              as String,
+      restPort: null == restPort
+          ? _self.restPort
+          : restPort // ignore: cast_nullable_to_non_nullable
+              as int,
       rpcHost: null == rpcHost
           ? _self.rpcHost
           : rpcHost // ignore: cast_nullable_to_non_nullable
@@ -1468,6 +1747,312 @@ class ClosureReason_HTLCsTimedOut extends ClosureReason {
 }
 
 /// @nodoc
+mixin _$ConfirmationStatus {
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType && other is ConfirmationStatus);
+  }
+
+  @override
+  int get hashCode => runtimeType.hashCode;
+
+  @override
+  String toString() {
+    return 'ConfirmationStatus()';
+  }
+}
+
+/// @nodoc
+class $ConfirmationStatusCopyWith<$Res> {
+  $ConfirmationStatusCopyWith(
+      ConfirmationStatus _, $Res Function(ConfirmationStatus) __);
+}
+
+/// Adds pattern-matching-related methods to [ConfirmationStatus].
+extension ConfirmationStatusPatterns on ConfirmationStatus {
+  /// A variant of `map` that fallback to returning `orElse`.
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case final Subclass value:
+  ///     return ...;
+  ///   case _:
+  ///     return orElse();
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(ConfirmationStatus_Confirmed value)? confirmed,
+    TResult Function(ConfirmationStatus_Unconfirmed value)? unconfirmed,
+    required TResult orElse(),
+  }) {
+    final _that = this;
+    switch (_that) {
+      case ConfirmationStatus_Confirmed() when confirmed != null:
+        return confirmed(_that);
+      case ConfirmationStatus_Unconfirmed() when unconfirmed != null:
+        return unconfirmed(_that);
+      case _:
+        return orElse();
+    }
+  }
+
+  /// A `switch`-like method, using callbacks.
+  ///
+  /// Callbacks receives the raw object, upcasted.
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case final Subclass value:
+  ///     return ...;
+  ///   case final Subclass2 value:
+  ///     return ...;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(ConfirmationStatus_Confirmed value) confirmed,
+    required TResult Function(ConfirmationStatus_Unconfirmed value) unconfirmed,
+  }) {
+    final _that = this;
+    switch (_that) {
+      case ConfirmationStatus_Confirmed():
+        return confirmed(_that);
+      case ConfirmationStatus_Unconfirmed():
+        return unconfirmed(_that);
+    }
+  }
+
+  /// A variant of `map` that fallback to returning `null`.
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case final Subclass value:
+  ///     return ...;
+  ///   case _:
+  ///     return null;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(ConfirmationStatus_Confirmed value)? confirmed,
+    TResult? Function(ConfirmationStatus_Unconfirmed value)? unconfirmed,
+  }) {
+    final _that = this;
+    switch (_that) {
+      case ConfirmationStatus_Confirmed() when confirmed != null:
+        return confirmed(_that);
+      case ConfirmationStatus_Unconfirmed() when unconfirmed != null:
+        return unconfirmed(_that);
+      case _:
+        return null;
+    }
+  }
+
+  /// A variant of `when` that fallback to an `orElse` callback.
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case Subclass(:final field):
+  ///     return ...;
+  ///   case _:
+  ///     return orElse();
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(String blockHash, int height, BigInt timestamp)? confirmed,
+    TResult Function()? unconfirmed,
+    required TResult orElse(),
+  }) {
+    final _that = this;
+    switch (_that) {
+      case ConfirmationStatus_Confirmed() when confirmed != null:
+        return confirmed(_that.blockHash, _that.height, _that.timestamp);
+      case ConfirmationStatus_Unconfirmed() when unconfirmed != null:
+        return unconfirmed();
+      case _:
+        return orElse();
+    }
+  }
+
+  /// A `switch`-like method, using callbacks.
+  ///
+  /// As opposed to `map`, this offers destructuring.
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case Subclass(:final field):
+  ///     return ...;
+  ///   case Subclass2(:final field2):
+  ///     return ...;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(String blockHash, int height, BigInt timestamp)
+        confirmed,
+    required TResult Function() unconfirmed,
+  }) {
+    final _that = this;
+    switch (_that) {
+      case ConfirmationStatus_Confirmed():
+        return confirmed(_that.blockHash, _that.height, _that.timestamp);
+      case ConfirmationStatus_Unconfirmed():
+        return unconfirmed();
+    }
+  }
+
+  /// A variant of `when` that fallback to returning `null`
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case Subclass(:final field):
+  ///     return ...;
+  ///   case _:
+  ///     return null;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(String blockHash, int height, BigInt timestamp)?
+        confirmed,
+    TResult? Function()? unconfirmed,
+  }) {
+    final _that = this;
+    switch (_that) {
+      case ConfirmationStatus_Confirmed() when confirmed != null:
+        return confirmed(_that.blockHash, _that.height, _that.timestamp);
+      case ConfirmationStatus_Unconfirmed() when unconfirmed != null:
+        return unconfirmed();
+      case _:
+        return null;
+    }
+  }
+}
+
+/// @nodoc
+
+class ConfirmationStatus_Confirmed extends ConfirmationStatus {
+  const ConfirmationStatus_Confirmed(
+      {required this.blockHash, required this.height, required this.timestamp})
+      : super._();
+
+  /// The hash of the block in which the transaction was confirmed.
+  final String blockHash;
+
+  /// The height under which the block was confirmed.
+  final int height;
+
+  /// The timestamp, in seconds since start of the UNIX epoch, when this entry was last updated.
+  final BigInt timestamp;
+
+  /// Create a copy of ConfirmationStatus
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  $ConfirmationStatus_ConfirmedCopyWith<ConfirmationStatus_Confirmed>
+      get copyWith => _$ConfirmationStatus_ConfirmedCopyWithImpl<
+          ConfirmationStatus_Confirmed>(this, _$identity);
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is ConfirmationStatus_Confirmed &&
+            (identical(other.blockHash, blockHash) ||
+                other.blockHash == blockHash) &&
+            (identical(other.height, height) || other.height == height) &&
+            (identical(other.timestamp, timestamp) ||
+                other.timestamp == timestamp));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, blockHash, height, timestamp);
+
+  @override
+  String toString() {
+    return 'ConfirmationStatus.confirmed(blockHash: $blockHash, height: $height, timestamp: $timestamp)';
+  }
+}
+
+/// @nodoc
+abstract mixin class $ConfirmationStatus_ConfirmedCopyWith<$Res>
+    implements $ConfirmationStatusCopyWith<$Res> {
+  factory $ConfirmationStatus_ConfirmedCopyWith(
+          ConfirmationStatus_Confirmed value,
+          $Res Function(ConfirmationStatus_Confirmed) _then) =
+      _$ConfirmationStatus_ConfirmedCopyWithImpl;
+  @useResult
+  $Res call({String blockHash, int height, BigInt timestamp});
+}
+
+/// @nodoc
+class _$ConfirmationStatus_ConfirmedCopyWithImpl<$Res>
+    implements $ConfirmationStatus_ConfirmedCopyWith<$Res> {
+  _$ConfirmationStatus_ConfirmedCopyWithImpl(this._self, this._then);
+
+  final ConfirmationStatus_Confirmed _self;
+  final $Res Function(ConfirmationStatus_Confirmed) _then;
+
+  /// Create a copy of ConfirmationStatus
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  $Res call({
+    Object? blockHash = null,
+    Object? height = null,
+    Object? timestamp = null,
+  }) {
+    return _then(ConfirmationStatus_Confirmed(
+      blockHash: null == blockHash
+          ? _self.blockHash
+          : blockHash // ignore: cast_nullable_to_non_nullable
+              as String,
+      height: null == height
+          ? _self.height
+          : height // ignore: cast_nullable_to_non_nullable
+              as int,
+      timestamp: null == timestamp
+          ? _self.timestamp
+          : timestamp // ignore: cast_nullable_to_non_nullable
+              as BigInt,
+    ));
+  }
+}
+
+/// @nodoc
+
+class ConfirmationStatus_Unconfirmed extends ConfirmationStatus {
+  const ConfirmationStatus_Unconfirmed() : super._();
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is ConfirmationStatus_Unconfirmed);
+  }
+
+  @override
+  int get hashCode => runtimeType.hashCode;
+
+  @override
+  String toString() {
+    return 'ConfirmationStatus.unconfirmed()';
+  }
+}
+
+/// @nodoc
 mixin _$EntropySourceConfig {
   @override
   bool operator ==(Object other) {
@@ -1937,6 +2522,8 @@ extension EventPatterns on Event {
     TResult Function(Event_ChannelReady value)? channelReady,
     TResult Function(Event_ChannelClosed value)? channelClosed,
     TResult Function(Event_PaymentForwarded value)? paymentForwarded,
+    TResult Function(Event_SplicePending value)? splicePending,
+    TResult Function(Event_SpliceFailed value)? spliceFailed,
     required TResult orElse(),
   }) {
     final _that = this;
@@ -1957,6 +2544,10 @@ extension EventPatterns on Event {
         return channelClosed(_that);
       case Event_PaymentForwarded() when paymentForwarded != null:
         return paymentForwarded(_that);
+      case Event_SplicePending() when splicePending != null:
+        return splicePending(_that);
+      case Event_SpliceFailed() when spliceFailed != null:
+        return spliceFailed(_that);
       case _:
         return orElse();
     }
@@ -1985,6 +2576,8 @@ extension EventPatterns on Event {
     required TResult Function(Event_ChannelReady value) channelReady,
     required TResult Function(Event_ChannelClosed value) channelClosed,
     required TResult Function(Event_PaymentForwarded value) paymentForwarded,
+    required TResult Function(Event_SplicePending value) splicePending,
+    required TResult Function(Event_SpliceFailed value) spliceFailed,
   }) {
     final _that = this;
     switch (_that) {
@@ -2004,6 +2597,10 @@ extension EventPatterns on Event {
         return channelClosed(_that);
       case Event_PaymentForwarded():
         return paymentForwarded(_that);
+      case Event_SplicePending():
+        return splicePending(_that);
+      case Event_SpliceFailed():
+        return spliceFailed(_that);
     }
   }
 
@@ -2029,6 +2626,8 @@ extension EventPatterns on Event {
     TResult? Function(Event_ChannelReady value)? channelReady,
     TResult? Function(Event_ChannelClosed value)? channelClosed,
     TResult? Function(Event_PaymentForwarded value)? paymentForwarded,
+    TResult? Function(Event_SplicePending value)? splicePending,
+    TResult? Function(Event_SpliceFailed value)? spliceFailed,
   }) {
     final _that = this;
     switch (_that) {
@@ -2048,6 +2647,10 @@ extension EventPatterns on Event {
         return channelClosed(_that);
       case Event_PaymentForwarded() when paymentForwarded != null:
         return paymentForwarded(_that);
+      case Event_SplicePending() when splicePending != null:
+        return splicePending(_that);
+      case Event_SpliceFailed() when spliceFailed != null:
+        return spliceFailed(_that);
       case _:
         return null;
     }
@@ -2091,7 +2694,7 @@ extension EventPatterns on Event {
             OutPoint fundingTxo)?
         channelPending,
     TResult Function(ChannelId channelId, UserChannelId userChannelId,
-            PublicKey? counterpartyNodeId)?
+            PublicKey? counterpartyNodeId, OutPoint? fundingTxo)?
         channelReady,
     TResult Function(ChannelId channelId, UserChannelId userChannelId,
             PublicKey? counterpartyNodeId, ClosureReason? reason)?
@@ -2108,6 +2711,12 @@ extension EventPatterns on Event {
             bool claimFromOnchainTx,
             BigInt? outboundAmountForwardedMsat)?
         paymentForwarded,
+    TResult Function(ChannelId channelId, UserChannelId userChannelId,
+            PublicKey counterpartyNodeId, OutPoint newFundingTxo)?
+        splicePending,
+    TResult Function(ChannelId channelId, UserChannelId userChannelId,
+            PublicKey counterpartyNodeId, OutPoint? abandonedFundingTxo)?
+        spliceFailed,
     required TResult orElse(),
   }) {
     final _that = this;
@@ -2135,8 +2744,8 @@ extension EventPatterns on Event {
             _that.counterpartyNodeId,
             _that.fundingTxo);
       case Event_ChannelReady() when channelReady != null:
-        return channelReady(
-            _that.channelId, _that.userChannelId, _that.counterpartyNodeId);
+        return channelReady(_that.channelId, _that.userChannelId,
+            _that.counterpartyNodeId, _that.fundingTxo);
       case Event_ChannelClosed() when channelClosed != null:
         return channelClosed(_that.channelId, _that.userChannelId,
             _that.counterpartyNodeId, _that.reason);
@@ -2152,6 +2761,12 @@ extension EventPatterns on Event {
             _that.skimmedFeeMsat,
             _that.claimFromOnchainTx,
             _that.outboundAmountForwardedMsat);
+      case Event_SplicePending() when splicePending != null:
+        return splicePending(_that.channelId, _that.userChannelId,
+            _that.counterpartyNodeId, _that.newFundingTxo);
+      case Event_SpliceFailed() when spliceFailed != null:
+        return spliceFailed(_that.channelId, _that.userChannelId,
+            _that.counterpartyNodeId, _that.abandonedFundingTxo);
       case _:
         return orElse();
     }
@@ -2196,7 +2811,7 @@ extension EventPatterns on Event {
             OutPoint fundingTxo)
         channelPending,
     required TResult Function(ChannelId channelId, UserChannelId userChannelId,
-            PublicKey? counterpartyNodeId)
+            PublicKey? counterpartyNodeId, OutPoint? fundingTxo)
         channelReady,
     required TResult Function(ChannelId channelId, UserChannelId userChannelId,
             PublicKey? counterpartyNodeId, ClosureReason? reason)
@@ -2213,6 +2828,12 @@ extension EventPatterns on Event {
             bool claimFromOnchainTx,
             BigInt? outboundAmountForwardedMsat)
         paymentForwarded,
+    required TResult Function(ChannelId channelId, UserChannelId userChannelId,
+            PublicKey counterpartyNodeId, OutPoint newFundingTxo)
+        splicePending,
+    required TResult Function(ChannelId channelId, UserChannelId userChannelId,
+            PublicKey counterpartyNodeId, OutPoint? abandonedFundingTxo)
+        spliceFailed,
   }) {
     final _that = this;
     switch (_that) {
@@ -2239,8 +2860,8 @@ extension EventPatterns on Event {
             _that.counterpartyNodeId,
             _that.fundingTxo);
       case Event_ChannelReady():
-        return channelReady(
-            _that.channelId, _that.userChannelId, _that.counterpartyNodeId);
+        return channelReady(_that.channelId, _that.userChannelId,
+            _that.counterpartyNodeId, _that.fundingTxo);
       case Event_ChannelClosed():
         return channelClosed(_that.channelId, _that.userChannelId,
             _that.counterpartyNodeId, _that.reason);
@@ -2256,6 +2877,12 @@ extension EventPatterns on Event {
             _that.skimmedFeeMsat,
             _that.claimFromOnchainTx,
             _that.outboundAmountForwardedMsat);
+      case Event_SplicePending():
+        return splicePending(_that.channelId, _that.userChannelId,
+            _that.counterpartyNodeId, _that.newFundingTxo);
+      case Event_SpliceFailed():
+        return spliceFailed(_that.channelId, _that.userChannelId,
+            _that.counterpartyNodeId, _that.abandonedFundingTxo);
     }
   }
 
@@ -2297,7 +2924,7 @@ extension EventPatterns on Event {
             OutPoint fundingTxo)?
         channelPending,
     TResult? Function(ChannelId channelId, UserChannelId userChannelId,
-            PublicKey? counterpartyNodeId)?
+            PublicKey? counterpartyNodeId, OutPoint? fundingTxo)?
         channelReady,
     TResult? Function(ChannelId channelId, UserChannelId userChannelId,
             PublicKey? counterpartyNodeId, ClosureReason? reason)?
@@ -2314,6 +2941,12 @@ extension EventPatterns on Event {
             bool claimFromOnchainTx,
             BigInt? outboundAmountForwardedMsat)?
         paymentForwarded,
+    TResult? Function(ChannelId channelId, UserChannelId userChannelId,
+            PublicKey counterpartyNodeId, OutPoint newFundingTxo)?
+        splicePending,
+    TResult? Function(ChannelId channelId, UserChannelId userChannelId,
+            PublicKey counterpartyNodeId, OutPoint? abandonedFundingTxo)?
+        spliceFailed,
   }) {
     final _that = this;
     switch (_that) {
@@ -2340,8 +2973,8 @@ extension EventPatterns on Event {
             _that.counterpartyNodeId,
             _that.fundingTxo);
       case Event_ChannelReady() when channelReady != null:
-        return channelReady(
-            _that.channelId, _that.userChannelId, _that.counterpartyNodeId);
+        return channelReady(_that.channelId, _that.userChannelId,
+            _that.counterpartyNodeId, _that.fundingTxo);
       case Event_ChannelClosed() when channelClosed != null:
         return channelClosed(_that.channelId, _that.userChannelId,
             _that.counterpartyNodeId, _that.reason);
@@ -2357,6 +2990,12 @@ extension EventPatterns on Event {
             _that.skimmedFeeMsat,
             _that.claimFromOnchainTx,
             _that.outboundAmountForwardedMsat);
+      case Event_SplicePending() when splicePending != null:
+        return splicePending(_that.channelId, _that.userChannelId,
+            _that.counterpartyNodeId, _that.newFundingTxo);
+      case Event_SpliceFailed() when spliceFailed != null:
+        return spliceFailed(_that.channelId, _that.userChannelId,
+            _that.counterpartyNodeId, _that.abandonedFundingTxo);
       case _:
         return null;
     }
@@ -2941,7 +3580,8 @@ class Event_ChannelReady extends Event {
   const Event_ChannelReady(
       {required this.channelId,
       required this.userChannelId,
-      this.counterpartyNodeId})
+      this.counterpartyNodeId,
+      this.fundingTxo})
       : super._();
 
   /// The `channelId` of the channel.
@@ -2954,6 +3594,11 @@ class Event_ChannelReady extends Event {
   ///
   /// This will be `None` for events serialized by LDK Node v0.1.0 and prior.
   final PublicKey? counterpartyNodeId;
+
+  /// The outpoint of the channel's funding transaction.
+  ///
+  /// This will be `None` for events serialized by LDK Node v0.6.0 and prior.
+  final OutPoint? fundingTxo;
 
   /// Create a copy of Event
   /// with the given fields replaced by the non-null parameter values.
@@ -2972,16 +3617,18 @@ class Event_ChannelReady extends Event {
             (identical(other.userChannelId, userChannelId) ||
                 other.userChannelId == userChannelId) &&
             (identical(other.counterpartyNodeId, counterpartyNodeId) ||
-                other.counterpartyNodeId == counterpartyNodeId));
+                other.counterpartyNodeId == counterpartyNodeId) &&
+            (identical(other.fundingTxo, fundingTxo) ||
+                other.fundingTxo == fundingTxo));
   }
 
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, channelId, userChannelId, counterpartyNodeId);
+  int get hashCode => Object.hash(
+      runtimeType, channelId, userChannelId, counterpartyNodeId, fundingTxo);
 
   @override
   String toString() {
-    return 'Event.channelReady(channelId: $channelId, userChannelId: $userChannelId, counterpartyNodeId: $counterpartyNodeId)';
+    return 'Event.channelReady(channelId: $channelId, userChannelId: $userChannelId, counterpartyNodeId: $counterpartyNodeId, fundingTxo: $fundingTxo)';
   }
 }
 
@@ -2995,7 +3642,8 @@ abstract mixin class $Event_ChannelReadyCopyWith<$Res>
   $Res call(
       {ChannelId channelId,
       UserChannelId userChannelId,
-      PublicKey? counterpartyNodeId});
+      PublicKey? counterpartyNodeId,
+      OutPoint? fundingTxo});
 }
 
 /// @nodoc
@@ -3013,6 +3661,7 @@ class _$Event_ChannelReadyCopyWithImpl<$Res>
     Object? channelId = null,
     Object? userChannelId = null,
     Object? counterpartyNodeId = freezed,
+    Object? fundingTxo = freezed,
   }) {
     return _then(Event_ChannelReady(
       channelId: null == channelId
@@ -3027,6 +3676,10 @@ class _$Event_ChannelReadyCopyWithImpl<$Res>
           ? _self.counterpartyNodeId
           : counterpartyNodeId // ignore: cast_nullable_to_non_nullable
               as PublicKey?,
+      fundingTxo: freezed == fundingTxo
+          ? _self.fundingTxo
+          : fundingTxo // ignore: cast_nullable_to_non_nullable
+              as OutPoint?,
     ));
   }
 }
@@ -3349,6 +4002,218 @@ class _$Event_PaymentForwardedCopyWithImpl<$Res>
           ? _self.outboundAmountForwardedMsat
           : outboundAmountForwardedMsat // ignore: cast_nullable_to_non_nullable
               as BigInt?,
+    ));
+  }
+}
+
+/// @nodoc
+
+class Event_SplicePending extends Event {
+  const Event_SplicePending(
+      {required this.channelId,
+      required this.userChannelId,
+      required this.counterpartyNodeId,
+      required this.newFundingTxo})
+      : super._();
+
+  /// The channel id of the channel being spliced.
+  final ChannelId channelId;
+
+  /// The user_channel_id of the channel being spliced.
+  final UserChannelId userChannelId;
+
+  /// The node id of the channel counterparty.
+  final PublicKey counterpartyNodeId;
+
+  /// The outpoint of the new funding transaction.
+  final OutPoint newFundingTxo;
+
+  /// Create a copy of Event
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  $Event_SplicePendingCopyWith<Event_SplicePending> get copyWith =>
+      _$Event_SplicePendingCopyWithImpl<Event_SplicePending>(this, _$identity);
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is Event_SplicePending &&
+            (identical(other.channelId, channelId) ||
+                other.channelId == channelId) &&
+            (identical(other.userChannelId, userChannelId) ||
+                other.userChannelId == userChannelId) &&
+            (identical(other.counterpartyNodeId, counterpartyNodeId) ||
+                other.counterpartyNodeId == counterpartyNodeId) &&
+            (identical(other.newFundingTxo, newFundingTxo) ||
+                other.newFundingTxo == newFundingTxo));
+  }
+
+  @override
+  int get hashCode => Object.hash(
+      runtimeType, channelId, userChannelId, counterpartyNodeId, newFundingTxo);
+
+  @override
+  String toString() {
+    return 'Event.splicePending(channelId: $channelId, userChannelId: $userChannelId, counterpartyNodeId: $counterpartyNodeId, newFundingTxo: $newFundingTxo)';
+  }
+}
+
+/// @nodoc
+abstract mixin class $Event_SplicePendingCopyWith<$Res>
+    implements $EventCopyWith<$Res> {
+  factory $Event_SplicePendingCopyWith(
+          Event_SplicePending value, $Res Function(Event_SplicePending) _then) =
+      _$Event_SplicePendingCopyWithImpl;
+  @useResult
+  $Res call(
+      {ChannelId channelId,
+      UserChannelId userChannelId,
+      PublicKey counterpartyNodeId,
+      OutPoint newFundingTxo});
+}
+
+/// @nodoc
+class _$Event_SplicePendingCopyWithImpl<$Res>
+    implements $Event_SplicePendingCopyWith<$Res> {
+  _$Event_SplicePendingCopyWithImpl(this._self, this._then);
+
+  final Event_SplicePending _self;
+  final $Res Function(Event_SplicePending) _then;
+
+  /// Create a copy of Event
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  $Res call({
+    Object? channelId = null,
+    Object? userChannelId = null,
+    Object? counterpartyNodeId = null,
+    Object? newFundingTxo = null,
+  }) {
+    return _then(Event_SplicePending(
+      channelId: null == channelId
+          ? _self.channelId
+          : channelId // ignore: cast_nullable_to_non_nullable
+              as ChannelId,
+      userChannelId: null == userChannelId
+          ? _self.userChannelId
+          : userChannelId // ignore: cast_nullable_to_non_nullable
+              as UserChannelId,
+      counterpartyNodeId: null == counterpartyNodeId
+          ? _self.counterpartyNodeId
+          : counterpartyNodeId // ignore: cast_nullable_to_non_nullable
+              as PublicKey,
+      newFundingTxo: null == newFundingTxo
+          ? _self.newFundingTxo
+          : newFundingTxo // ignore: cast_nullable_to_non_nullable
+              as OutPoint,
+    ));
+  }
+}
+
+/// @nodoc
+
+class Event_SpliceFailed extends Event {
+  const Event_SpliceFailed(
+      {required this.channelId,
+      required this.userChannelId,
+      required this.counterpartyNodeId,
+      this.abandonedFundingTxo})
+      : super._();
+
+  /// The channel id of the channel that failed to splice.
+  final ChannelId channelId;
+
+  /// The user_channel_id of the channel that failed to splice.
+  final UserChannelId userChannelId;
+
+  /// The node id of the channel counterparty.
+  final PublicKey counterpartyNodeId;
+
+  /// The outpoint of the channel's splice funding transaction, if one was created.
+  final OutPoint? abandonedFundingTxo;
+
+  /// Create a copy of Event
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  $Event_SpliceFailedCopyWith<Event_SpliceFailed> get copyWith =>
+      _$Event_SpliceFailedCopyWithImpl<Event_SpliceFailed>(this, _$identity);
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is Event_SpliceFailed &&
+            (identical(other.channelId, channelId) ||
+                other.channelId == channelId) &&
+            (identical(other.userChannelId, userChannelId) ||
+                other.userChannelId == userChannelId) &&
+            (identical(other.counterpartyNodeId, counterpartyNodeId) ||
+                other.counterpartyNodeId == counterpartyNodeId) &&
+            (identical(other.abandonedFundingTxo, abandonedFundingTxo) ||
+                other.abandonedFundingTxo == abandonedFundingTxo));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, channelId, userChannelId,
+      counterpartyNodeId, abandonedFundingTxo);
+
+  @override
+  String toString() {
+    return 'Event.spliceFailed(channelId: $channelId, userChannelId: $userChannelId, counterpartyNodeId: $counterpartyNodeId, abandonedFundingTxo: $abandonedFundingTxo)';
+  }
+}
+
+/// @nodoc
+abstract mixin class $Event_SpliceFailedCopyWith<$Res>
+    implements $EventCopyWith<$Res> {
+  factory $Event_SpliceFailedCopyWith(
+          Event_SpliceFailed value, $Res Function(Event_SpliceFailed) _then) =
+      _$Event_SpliceFailedCopyWithImpl;
+  @useResult
+  $Res call(
+      {ChannelId channelId,
+      UserChannelId userChannelId,
+      PublicKey counterpartyNodeId,
+      OutPoint? abandonedFundingTxo});
+}
+
+/// @nodoc
+class _$Event_SpliceFailedCopyWithImpl<$Res>
+    implements $Event_SpliceFailedCopyWith<$Res> {
+  _$Event_SpliceFailedCopyWithImpl(this._self, this._then);
+
+  final Event_SpliceFailed _self;
+  final $Res Function(Event_SpliceFailed) _then;
+
+  /// Create a copy of Event
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  $Res call({
+    Object? channelId = null,
+    Object? userChannelId = null,
+    Object? counterpartyNodeId = null,
+    Object? abandonedFundingTxo = freezed,
+  }) {
+    return _then(Event_SpliceFailed(
+      channelId: null == channelId
+          ? _self.channelId
+          : channelId // ignore: cast_nullable_to_non_nullable
+              as ChannelId,
+      userChannelId: null == userChannelId
+          ? _self.userChannelId
+          : userChannelId // ignore: cast_nullable_to_non_nullable
+              as UserChannelId,
+      counterpartyNodeId: null == counterpartyNodeId
+          ? _self.counterpartyNodeId
+          : counterpartyNodeId // ignore: cast_nullable_to_non_nullable
+              as PublicKey,
+      abandonedFundingTxo: freezed == abandonedFundingTxo
+          ? _self.abandonedFundingTxo
+          : abandonedFundingTxo // ignore: cast_nullable_to_non_nullable
+              as OutPoint?,
     ));
   }
 }
@@ -5722,6 +6587,959 @@ class _$MaxTotalRoutingFeeLimit_FeeCapCopyWithImpl<$Res>
           ? _self.amountMsat
           : amountMsat // ignore: cast_nullable_to_non_nullable
               as BigInt,
+    ));
+  }
+}
+
+/// @nodoc
+mixin _$PaymentKind {
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType && other is PaymentKind);
+  }
+
+  @override
+  int get hashCode => runtimeType.hashCode;
+
+  @override
+  String toString() {
+    return 'PaymentKind()';
+  }
+}
+
+/// @nodoc
+class $PaymentKindCopyWith<$Res> {
+  $PaymentKindCopyWith(PaymentKind _, $Res Function(PaymentKind) __);
+}
+
+/// Adds pattern-matching-related methods to [PaymentKind].
+extension PaymentKindPatterns on PaymentKind {
+  /// A variant of `map` that fallback to returning `orElse`.
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case final Subclass value:
+  ///     return ...;
+  ///   case _:
+  ///     return orElse();
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(PaymentKind_Onchain value)? onchain,
+    TResult Function(PaymentKind_Bolt11 value)? bolt11,
+    TResult Function(PaymentKind_Bolt11Jit value)? bolt11Jit,
+    TResult Function(PaymentKind_Spontaneous value)? spontaneous,
+    TResult Function(PaymentKind_Bolt12Offer value)? bolt12Offer,
+    TResult Function(PaymentKind_Bolt12Refund value)? bolt12Refund,
+    required TResult orElse(),
+  }) {
+    final _that = this;
+    switch (_that) {
+      case PaymentKind_Onchain() when onchain != null:
+        return onchain(_that);
+      case PaymentKind_Bolt11() when bolt11 != null:
+        return bolt11(_that);
+      case PaymentKind_Bolt11Jit() when bolt11Jit != null:
+        return bolt11Jit(_that);
+      case PaymentKind_Spontaneous() when spontaneous != null:
+        return spontaneous(_that);
+      case PaymentKind_Bolt12Offer() when bolt12Offer != null:
+        return bolt12Offer(_that);
+      case PaymentKind_Bolt12Refund() when bolt12Refund != null:
+        return bolt12Refund(_that);
+      case _:
+        return orElse();
+    }
+  }
+
+  /// A `switch`-like method, using callbacks.
+  ///
+  /// Callbacks receives the raw object, upcasted.
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case final Subclass value:
+  ///     return ...;
+  ///   case final Subclass2 value:
+  ///     return ...;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(PaymentKind_Onchain value) onchain,
+    required TResult Function(PaymentKind_Bolt11 value) bolt11,
+    required TResult Function(PaymentKind_Bolt11Jit value) bolt11Jit,
+    required TResult Function(PaymentKind_Spontaneous value) spontaneous,
+    required TResult Function(PaymentKind_Bolt12Offer value) bolt12Offer,
+    required TResult Function(PaymentKind_Bolt12Refund value) bolt12Refund,
+  }) {
+    final _that = this;
+    switch (_that) {
+      case PaymentKind_Onchain():
+        return onchain(_that);
+      case PaymentKind_Bolt11():
+        return bolt11(_that);
+      case PaymentKind_Bolt11Jit():
+        return bolt11Jit(_that);
+      case PaymentKind_Spontaneous():
+        return spontaneous(_that);
+      case PaymentKind_Bolt12Offer():
+        return bolt12Offer(_that);
+      case PaymentKind_Bolt12Refund():
+        return bolt12Refund(_that);
+    }
+  }
+
+  /// A variant of `map` that fallback to returning `null`.
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case final Subclass value:
+  ///     return ...;
+  ///   case _:
+  ///     return null;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(PaymentKind_Onchain value)? onchain,
+    TResult? Function(PaymentKind_Bolt11 value)? bolt11,
+    TResult? Function(PaymentKind_Bolt11Jit value)? bolt11Jit,
+    TResult? Function(PaymentKind_Spontaneous value)? spontaneous,
+    TResult? Function(PaymentKind_Bolt12Offer value)? bolt12Offer,
+    TResult? Function(PaymentKind_Bolt12Refund value)? bolt12Refund,
+  }) {
+    final _that = this;
+    switch (_that) {
+      case PaymentKind_Onchain() when onchain != null:
+        return onchain(_that);
+      case PaymentKind_Bolt11() when bolt11 != null:
+        return bolt11(_that);
+      case PaymentKind_Bolt11Jit() when bolt11Jit != null:
+        return bolt11Jit(_that);
+      case PaymentKind_Spontaneous() when spontaneous != null:
+        return spontaneous(_that);
+      case PaymentKind_Bolt12Offer() when bolt12Offer != null:
+        return bolt12Offer(_that);
+      case PaymentKind_Bolt12Refund() when bolt12Refund != null:
+        return bolt12Refund(_that);
+      case _:
+        return null;
+    }
+  }
+
+  /// A variant of `when` that fallback to an `orElse` callback.
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case Subclass(:final field):
+  ///     return ...;
+  ///   case _:
+  ///     return orElse();
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(Txid txid, ConfirmationStatus status)? onchain,
+    TResult Function(
+            PaymentHash hash, PaymentPreimage? preimage, PaymentSecret? secret)?
+        bolt11,
+    TResult Function(
+            PaymentHash hash,
+            PaymentPreimage? preimage,
+            PaymentSecret? secret,
+            LSPFeeLimits lspFeeLimits,
+            BigInt? counterpartySkimmedFeeMsat)?
+        bolt11Jit,
+    TResult Function(PaymentHash hash, PaymentPreimage? preimage)? spontaneous,
+    TResult Function(
+            PaymentHash? hash,
+            PaymentPreimage? preimage,
+            PaymentSecret? secret,
+            OfferId offerId,
+            String? payerNote,
+            BigInt? quantity)?
+        bolt12Offer,
+    TResult Function(PaymentHash? hash, PaymentPreimage? preimage,
+            PaymentSecret? secret, String? payerNote, BigInt? quantity)?
+        bolt12Refund,
+    required TResult orElse(),
+  }) {
+    final _that = this;
+    switch (_that) {
+      case PaymentKind_Onchain() when onchain != null:
+        return onchain(_that.txid, _that.status);
+      case PaymentKind_Bolt11() when bolt11 != null:
+        return bolt11(_that.hash, _that.preimage, _that.secret);
+      case PaymentKind_Bolt11Jit() when bolt11Jit != null:
+        return bolt11Jit(_that.hash, _that.preimage, _that.secret,
+            _that.lspFeeLimits, _that.counterpartySkimmedFeeMsat);
+      case PaymentKind_Spontaneous() when spontaneous != null:
+        return spontaneous(_that.hash, _that.preimage);
+      case PaymentKind_Bolt12Offer() when bolt12Offer != null:
+        return bolt12Offer(_that.hash, _that.preimage, _that.secret,
+            _that.offerId, _that.payerNote, _that.quantity);
+      case PaymentKind_Bolt12Refund() when bolt12Refund != null:
+        return bolt12Refund(_that.hash, _that.preimage, _that.secret,
+            _that.payerNote, _that.quantity);
+      case _:
+        return orElse();
+    }
+  }
+
+  /// A `switch`-like method, using callbacks.
+  ///
+  /// As opposed to `map`, this offers destructuring.
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case Subclass(:final field):
+  ///     return ...;
+  ///   case Subclass2(:final field2):
+  ///     return ...;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(Txid txid, ConfirmationStatus status) onchain,
+    required TResult Function(
+            PaymentHash hash, PaymentPreimage? preimage, PaymentSecret? secret)
+        bolt11,
+    required TResult Function(
+            PaymentHash hash,
+            PaymentPreimage? preimage,
+            PaymentSecret? secret,
+            LSPFeeLimits lspFeeLimits,
+            BigInt? counterpartySkimmedFeeMsat)
+        bolt11Jit,
+    required TResult Function(PaymentHash hash, PaymentPreimage? preimage)
+        spontaneous,
+    required TResult Function(
+            PaymentHash? hash,
+            PaymentPreimage? preimage,
+            PaymentSecret? secret,
+            OfferId offerId,
+            String? payerNote,
+            BigInt? quantity)
+        bolt12Offer,
+    required TResult Function(PaymentHash? hash, PaymentPreimage? preimage,
+            PaymentSecret? secret, String? payerNote, BigInt? quantity)
+        bolt12Refund,
+  }) {
+    final _that = this;
+    switch (_that) {
+      case PaymentKind_Onchain():
+        return onchain(_that.txid, _that.status);
+      case PaymentKind_Bolt11():
+        return bolt11(_that.hash, _that.preimage, _that.secret);
+      case PaymentKind_Bolt11Jit():
+        return bolt11Jit(_that.hash, _that.preimage, _that.secret,
+            _that.lspFeeLimits, _that.counterpartySkimmedFeeMsat);
+      case PaymentKind_Spontaneous():
+        return spontaneous(_that.hash, _that.preimage);
+      case PaymentKind_Bolt12Offer():
+        return bolt12Offer(_that.hash, _that.preimage, _that.secret,
+            _that.offerId, _that.payerNote, _that.quantity);
+      case PaymentKind_Bolt12Refund():
+        return bolt12Refund(_that.hash, _that.preimage, _that.secret,
+            _that.payerNote, _that.quantity);
+    }
+  }
+
+  /// A variant of `when` that fallback to returning `null`
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case Subclass(:final field):
+  ///     return ...;
+  ///   case _:
+  ///     return null;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(Txid txid, ConfirmationStatus status)? onchain,
+    TResult? Function(
+            PaymentHash hash, PaymentPreimage? preimage, PaymentSecret? secret)?
+        bolt11,
+    TResult? Function(
+            PaymentHash hash,
+            PaymentPreimage? preimage,
+            PaymentSecret? secret,
+            LSPFeeLimits lspFeeLimits,
+            BigInt? counterpartySkimmedFeeMsat)?
+        bolt11Jit,
+    TResult? Function(PaymentHash hash, PaymentPreimage? preimage)? spontaneous,
+    TResult? Function(
+            PaymentHash? hash,
+            PaymentPreimage? preimage,
+            PaymentSecret? secret,
+            OfferId offerId,
+            String? payerNote,
+            BigInt? quantity)?
+        bolt12Offer,
+    TResult? Function(PaymentHash? hash, PaymentPreimage? preimage,
+            PaymentSecret? secret, String? payerNote, BigInt? quantity)?
+        bolt12Refund,
+  }) {
+    final _that = this;
+    switch (_that) {
+      case PaymentKind_Onchain() when onchain != null:
+        return onchain(_that.txid, _that.status);
+      case PaymentKind_Bolt11() when bolt11 != null:
+        return bolt11(_that.hash, _that.preimage, _that.secret);
+      case PaymentKind_Bolt11Jit() when bolt11Jit != null:
+        return bolt11Jit(_that.hash, _that.preimage, _that.secret,
+            _that.lspFeeLimits, _that.counterpartySkimmedFeeMsat);
+      case PaymentKind_Spontaneous() when spontaneous != null:
+        return spontaneous(_that.hash, _that.preimage);
+      case PaymentKind_Bolt12Offer() when bolt12Offer != null:
+        return bolt12Offer(_that.hash, _that.preimage, _that.secret,
+            _that.offerId, _that.payerNote, _that.quantity);
+      case PaymentKind_Bolt12Refund() when bolt12Refund != null:
+        return bolt12Refund(_that.hash, _that.preimage, _that.secret,
+            _that.payerNote, _that.quantity);
+      case _:
+        return null;
+    }
+  }
+}
+
+/// @nodoc
+
+class PaymentKind_Onchain extends PaymentKind {
+  const PaymentKind_Onchain({required this.txid, required this.status})
+      : super._();
+
+  /// The transaction ID of the on-chain payment.
+  final Txid txid;
+
+  /// The status of the on-chain payment.
+  final ConfirmationStatus status;
+
+  /// Create a copy of PaymentKind
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  $PaymentKind_OnchainCopyWith<PaymentKind_Onchain> get copyWith =>
+      _$PaymentKind_OnchainCopyWithImpl<PaymentKind_Onchain>(this, _$identity);
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is PaymentKind_Onchain &&
+            (identical(other.txid, txid) || other.txid == txid) &&
+            (identical(other.status, status) || other.status == status));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, txid, status);
+
+  @override
+  String toString() {
+    return 'PaymentKind.onchain(txid: $txid, status: $status)';
+  }
+}
+
+/// @nodoc
+abstract mixin class $PaymentKind_OnchainCopyWith<$Res>
+    implements $PaymentKindCopyWith<$Res> {
+  factory $PaymentKind_OnchainCopyWith(
+          PaymentKind_Onchain value, $Res Function(PaymentKind_Onchain) _then) =
+      _$PaymentKind_OnchainCopyWithImpl;
+  @useResult
+  $Res call({Txid txid, ConfirmationStatus status});
+
+  $ConfirmationStatusCopyWith<$Res> get status;
+}
+
+/// @nodoc
+class _$PaymentKind_OnchainCopyWithImpl<$Res>
+    implements $PaymentKind_OnchainCopyWith<$Res> {
+  _$PaymentKind_OnchainCopyWithImpl(this._self, this._then);
+
+  final PaymentKind_Onchain _self;
+  final $Res Function(PaymentKind_Onchain) _then;
+
+  /// Create a copy of PaymentKind
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  $Res call({
+    Object? txid = null,
+    Object? status = null,
+  }) {
+    return _then(PaymentKind_Onchain(
+      txid: null == txid
+          ? _self.txid
+          : txid // ignore: cast_nullable_to_non_nullable
+              as Txid,
+      status: null == status
+          ? _self.status
+          : status // ignore: cast_nullable_to_non_nullable
+              as ConfirmationStatus,
+    ));
+  }
+
+  /// Create a copy of PaymentKind
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $ConfirmationStatusCopyWith<$Res> get status {
+    return $ConfirmationStatusCopyWith<$Res>(_self.status, (value) {
+      return _then(_self.copyWith(status: value));
+    });
+  }
+}
+
+/// @nodoc
+
+class PaymentKind_Bolt11 extends PaymentKind {
+  const PaymentKind_Bolt11({required this.hash, this.preimage, this.secret})
+      : super._();
+
+  /// The payment hash, i.e., the hash of the `preimage`.
+  final PaymentHash hash;
+
+  /// The pre-image used by the payment.
+  final PaymentPreimage? preimage;
+
+  /// The secret used by the payment.
+  final PaymentSecret? secret;
+
+  /// Create a copy of PaymentKind
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  $PaymentKind_Bolt11CopyWith<PaymentKind_Bolt11> get copyWith =>
+      _$PaymentKind_Bolt11CopyWithImpl<PaymentKind_Bolt11>(this, _$identity);
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is PaymentKind_Bolt11 &&
+            (identical(other.hash, hash) || other.hash == hash) &&
+            (identical(other.preimage, preimage) ||
+                other.preimage == preimage) &&
+            (identical(other.secret, secret) || other.secret == secret));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, hash, preimage, secret);
+
+  @override
+  String toString() {
+    return 'PaymentKind.bolt11(hash: $hash, preimage: $preimage, secret: $secret)';
+  }
+}
+
+/// @nodoc
+abstract mixin class $PaymentKind_Bolt11CopyWith<$Res>
+    implements $PaymentKindCopyWith<$Res> {
+  factory $PaymentKind_Bolt11CopyWith(
+          PaymentKind_Bolt11 value, $Res Function(PaymentKind_Bolt11) _then) =
+      _$PaymentKind_Bolt11CopyWithImpl;
+  @useResult
+  $Res call(
+      {PaymentHash hash, PaymentPreimage? preimage, PaymentSecret? secret});
+}
+
+/// @nodoc
+class _$PaymentKind_Bolt11CopyWithImpl<$Res>
+    implements $PaymentKind_Bolt11CopyWith<$Res> {
+  _$PaymentKind_Bolt11CopyWithImpl(this._self, this._then);
+
+  final PaymentKind_Bolt11 _self;
+  final $Res Function(PaymentKind_Bolt11) _then;
+
+  /// Create a copy of PaymentKind
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  $Res call({
+    Object? hash = null,
+    Object? preimage = freezed,
+    Object? secret = freezed,
+  }) {
+    return _then(PaymentKind_Bolt11(
+      hash: null == hash
+          ? _self.hash
+          : hash // ignore: cast_nullable_to_non_nullable
+              as PaymentHash,
+      preimage: freezed == preimage
+          ? _self.preimage
+          : preimage // ignore: cast_nullable_to_non_nullable
+              as PaymentPreimage?,
+      secret: freezed == secret
+          ? _self.secret
+          : secret // ignore: cast_nullable_to_non_nullable
+              as PaymentSecret?,
+    ));
+  }
+}
+
+/// @nodoc
+
+class PaymentKind_Bolt11Jit extends PaymentKind {
+  const PaymentKind_Bolt11Jit(
+      {required this.hash,
+      this.preimage,
+      this.secret,
+      required this.lspFeeLimits,
+      this.counterpartySkimmedFeeMsat})
+      : super._();
+
+  /// The payment hash, i.e., the hash of the `preimage`.
+  final PaymentHash hash;
+
+  /// The pre-image used by the payment.
+  final PaymentPreimage? preimage;
+
+  /// The secret used by the payment.
+  final PaymentSecret? secret;
+
+  /// Limits applying to how much fee we allow an LSP to deduct from the payment amount.
+  ///
+  /// Allowing them to deduct this fee from the first inbound payment will pay for the LSP's
+  /// channel opening fees.
+  ///
+  final LSPFeeLimits lspFeeLimits;
+
+  /// The value, in thousands of a satoshi, that was deducted from this payment as an extra
+  /// fee taken by our channel counterparty.
+  ///
+  /// Will only be `Some` once we received the payment. Will always be `None` for LDK Node
+  /// v0.4 and prior.
+  final BigInt? counterpartySkimmedFeeMsat;
+
+  /// Create a copy of PaymentKind
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  $PaymentKind_Bolt11JitCopyWith<PaymentKind_Bolt11Jit> get copyWith =>
+      _$PaymentKind_Bolt11JitCopyWithImpl<PaymentKind_Bolt11Jit>(
+          this, _$identity);
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is PaymentKind_Bolt11Jit &&
+            (identical(other.hash, hash) || other.hash == hash) &&
+            (identical(other.preimage, preimage) ||
+                other.preimage == preimage) &&
+            (identical(other.secret, secret) || other.secret == secret) &&
+            (identical(other.lspFeeLimits, lspFeeLimits) ||
+                other.lspFeeLimits == lspFeeLimits) &&
+            (identical(other.counterpartySkimmedFeeMsat,
+                    counterpartySkimmedFeeMsat) ||
+                other.counterpartySkimmedFeeMsat ==
+                    counterpartySkimmedFeeMsat));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, hash, preimage, secret,
+      lspFeeLimits, counterpartySkimmedFeeMsat);
+
+  @override
+  String toString() {
+    return 'PaymentKind.bolt11Jit(hash: $hash, preimage: $preimage, secret: $secret, lspFeeLimits: $lspFeeLimits, counterpartySkimmedFeeMsat: $counterpartySkimmedFeeMsat)';
+  }
+}
+
+/// @nodoc
+abstract mixin class $PaymentKind_Bolt11JitCopyWith<$Res>
+    implements $PaymentKindCopyWith<$Res> {
+  factory $PaymentKind_Bolt11JitCopyWith(PaymentKind_Bolt11Jit value,
+          $Res Function(PaymentKind_Bolt11Jit) _then) =
+      _$PaymentKind_Bolt11JitCopyWithImpl;
+  @useResult
+  $Res call(
+      {PaymentHash hash,
+      PaymentPreimage? preimage,
+      PaymentSecret? secret,
+      LSPFeeLimits lspFeeLimits,
+      BigInt? counterpartySkimmedFeeMsat});
+}
+
+/// @nodoc
+class _$PaymentKind_Bolt11JitCopyWithImpl<$Res>
+    implements $PaymentKind_Bolt11JitCopyWith<$Res> {
+  _$PaymentKind_Bolt11JitCopyWithImpl(this._self, this._then);
+
+  final PaymentKind_Bolt11Jit _self;
+  final $Res Function(PaymentKind_Bolt11Jit) _then;
+
+  /// Create a copy of PaymentKind
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  $Res call({
+    Object? hash = null,
+    Object? preimage = freezed,
+    Object? secret = freezed,
+    Object? lspFeeLimits = null,
+    Object? counterpartySkimmedFeeMsat = freezed,
+  }) {
+    return _then(PaymentKind_Bolt11Jit(
+      hash: null == hash
+          ? _self.hash
+          : hash // ignore: cast_nullable_to_non_nullable
+              as PaymentHash,
+      preimage: freezed == preimage
+          ? _self.preimage
+          : preimage // ignore: cast_nullable_to_non_nullable
+              as PaymentPreimage?,
+      secret: freezed == secret
+          ? _self.secret
+          : secret // ignore: cast_nullable_to_non_nullable
+              as PaymentSecret?,
+      lspFeeLimits: null == lspFeeLimits
+          ? _self.lspFeeLimits
+          : lspFeeLimits // ignore: cast_nullable_to_non_nullable
+              as LSPFeeLimits,
+      counterpartySkimmedFeeMsat: freezed == counterpartySkimmedFeeMsat
+          ? _self.counterpartySkimmedFeeMsat
+          : counterpartySkimmedFeeMsat // ignore: cast_nullable_to_non_nullable
+              as BigInt?,
+    ));
+  }
+}
+
+/// @nodoc
+
+class PaymentKind_Spontaneous extends PaymentKind {
+  const PaymentKind_Spontaneous({required this.hash, this.preimage})
+      : super._();
+
+  /// The payment hash, i.e., the hash of the `preimage`.
+  final PaymentHash hash;
+
+  /// The pre-image used by the payment.
+  final PaymentPreimage? preimage;
+
+  /// Create a copy of PaymentKind
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  $PaymentKind_SpontaneousCopyWith<PaymentKind_Spontaneous> get copyWith =>
+      _$PaymentKind_SpontaneousCopyWithImpl<PaymentKind_Spontaneous>(
+          this, _$identity);
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is PaymentKind_Spontaneous &&
+            (identical(other.hash, hash) || other.hash == hash) &&
+            (identical(other.preimage, preimage) ||
+                other.preimage == preimage));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, hash, preimage);
+
+  @override
+  String toString() {
+    return 'PaymentKind.spontaneous(hash: $hash, preimage: $preimage)';
+  }
+}
+
+/// @nodoc
+abstract mixin class $PaymentKind_SpontaneousCopyWith<$Res>
+    implements $PaymentKindCopyWith<$Res> {
+  factory $PaymentKind_SpontaneousCopyWith(PaymentKind_Spontaneous value,
+          $Res Function(PaymentKind_Spontaneous) _then) =
+      _$PaymentKind_SpontaneousCopyWithImpl;
+  @useResult
+  $Res call({PaymentHash hash, PaymentPreimage? preimage});
+}
+
+/// @nodoc
+class _$PaymentKind_SpontaneousCopyWithImpl<$Res>
+    implements $PaymentKind_SpontaneousCopyWith<$Res> {
+  _$PaymentKind_SpontaneousCopyWithImpl(this._self, this._then);
+
+  final PaymentKind_Spontaneous _self;
+  final $Res Function(PaymentKind_Spontaneous) _then;
+
+  /// Create a copy of PaymentKind
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  $Res call({
+    Object? hash = null,
+    Object? preimage = freezed,
+  }) {
+    return _then(PaymentKind_Spontaneous(
+      hash: null == hash
+          ? _self.hash
+          : hash // ignore: cast_nullable_to_non_nullable
+              as PaymentHash,
+      preimage: freezed == preimage
+          ? _self.preimage
+          : preimage // ignore: cast_nullable_to_non_nullable
+              as PaymentPreimage?,
+    ));
+  }
+}
+
+/// @nodoc
+
+class PaymentKind_Bolt12Offer extends PaymentKind {
+  const PaymentKind_Bolt12Offer(
+      {this.hash,
+      this.preimage,
+      this.secret,
+      required this.offerId,
+      this.payerNote,
+      this.quantity})
+      : super._();
+
+  /// The payment hash, i.e., the hash of the `preimage`.
+  final PaymentHash? hash;
+
+  /// The pre-image used by the payment.
+  final PaymentPreimage? preimage;
+
+  /// The secret used by the payment.
+  final PaymentSecret? secret;
+
+  /// The ID of the offer this payment is for.
+  final OfferId offerId;
+
+  /// The payer note for the payment.
+  ///
+  /// Truncated to `PAYER_NOTE_LIMIT` characters.
+  ///
+  /// This will always be `None` for payments serialized with version `v0.3.0`.
+  final String? payerNote;
+
+  /// The quantity of an item requested in the offer.
+  ///
+  /// This will always be `None` for payments serialized with version `v0.3.0`.
+  final BigInt? quantity;
+
+  /// Create a copy of PaymentKind
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  $PaymentKind_Bolt12OfferCopyWith<PaymentKind_Bolt12Offer> get copyWith =>
+      _$PaymentKind_Bolt12OfferCopyWithImpl<PaymentKind_Bolt12Offer>(
+          this, _$identity);
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is PaymentKind_Bolt12Offer &&
+            (identical(other.hash, hash) || other.hash == hash) &&
+            (identical(other.preimage, preimage) ||
+                other.preimage == preimage) &&
+            (identical(other.secret, secret) || other.secret == secret) &&
+            (identical(other.offerId, offerId) || other.offerId == offerId) &&
+            (identical(other.payerNote, payerNote) ||
+                other.payerNote == payerNote) &&
+            (identical(other.quantity, quantity) ||
+                other.quantity == quantity));
+  }
+
+  @override
+  int get hashCode => Object.hash(
+      runtimeType, hash, preimage, secret, offerId, payerNote, quantity);
+
+  @override
+  String toString() {
+    return 'PaymentKind.bolt12Offer(hash: $hash, preimage: $preimage, secret: $secret, offerId: $offerId, payerNote: $payerNote, quantity: $quantity)';
+  }
+}
+
+/// @nodoc
+abstract mixin class $PaymentKind_Bolt12OfferCopyWith<$Res>
+    implements $PaymentKindCopyWith<$Res> {
+  factory $PaymentKind_Bolt12OfferCopyWith(PaymentKind_Bolt12Offer value,
+          $Res Function(PaymentKind_Bolt12Offer) _then) =
+      _$PaymentKind_Bolt12OfferCopyWithImpl;
+  @useResult
+  $Res call(
+      {PaymentHash? hash,
+      PaymentPreimage? preimage,
+      PaymentSecret? secret,
+      OfferId offerId,
+      String? payerNote,
+      BigInt? quantity});
+}
+
+/// @nodoc
+class _$PaymentKind_Bolt12OfferCopyWithImpl<$Res>
+    implements $PaymentKind_Bolt12OfferCopyWith<$Res> {
+  _$PaymentKind_Bolt12OfferCopyWithImpl(this._self, this._then);
+
+  final PaymentKind_Bolt12Offer _self;
+  final $Res Function(PaymentKind_Bolt12Offer) _then;
+
+  /// Create a copy of PaymentKind
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  $Res call({
+    Object? hash = freezed,
+    Object? preimage = freezed,
+    Object? secret = freezed,
+    Object? offerId = null,
+    Object? payerNote = freezed,
+    Object? quantity = freezed,
+  }) {
+    return _then(PaymentKind_Bolt12Offer(
+      hash: freezed == hash
+          ? _self.hash
+          : hash // ignore: cast_nullable_to_non_nullable
+              as PaymentHash?,
+      preimage: freezed == preimage
+          ? _self.preimage
+          : preimage // ignore: cast_nullable_to_non_nullable
+              as PaymentPreimage?,
+      secret: freezed == secret
+          ? _self.secret
+          : secret // ignore: cast_nullable_to_non_nullable
+              as PaymentSecret?,
+      offerId: null == offerId
+          ? _self.offerId
+          : offerId // ignore: cast_nullable_to_non_nullable
+              as OfferId,
+      payerNote: freezed == payerNote
+          ? _self.payerNote
+          : payerNote // ignore: cast_nullable_to_non_nullable
+              as String?,
+      quantity: freezed == quantity
+          ? _self.quantity
+          : quantity // ignore: cast_nullable_to_non_nullable
+              as BigInt?,
+    ));
+  }
+}
+
+/// @nodoc
+
+class PaymentKind_Bolt12Refund extends PaymentKind {
+  const PaymentKind_Bolt12Refund(
+      {this.hash, this.preimage, this.secret, this.payerNote, this.quantity})
+      : super._();
+
+  /// The payment hash, i.e., the hash of the `preimage`.
+  final PaymentHash? hash;
+
+  /// The pre-image used by the payment.
+  final PaymentPreimage? preimage;
+
+  /// The secret used by the payment.
+  final PaymentSecret? secret;
+
+  ///
+  /// This will always be `None` for payments serialized with version `v0.3.0`.
+  final String? payerNote;
+
+  /// The quantity of an item that the refund is for.
+  ///
+  /// This will always be `None` for payments serialized with version `v0.3.0`.
+  final BigInt? quantity;
+
+  /// Create a copy of PaymentKind
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  $PaymentKind_Bolt12RefundCopyWith<PaymentKind_Bolt12Refund> get copyWith =>
+      _$PaymentKind_Bolt12RefundCopyWithImpl<PaymentKind_Bolt12Refund>(
+          this, _$identity);
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is PaymentKind_Bolt12Refund &&
+            (identical(other.hash, hash) || other.hash == hash) &&
+            (identical(other.preimage, preimage) ||
+                other.preimage == preimage) &&
+            (identical(other.secret, secret) || other.secret == secret) &&
+            (identical(other.payerNote, payerNote) ||
+                other.payerNote == payerNote) &&
+            (identical(other.quantity, quantity) ||
+                other.quantity == quantity));
+  }
+
+  @override
+  int get hashCode =>
+      Object.hash(runtimeType, hash, preimage, secret, payerNote, quantity);
+
+  @override
+  String toString() {
+    return 'PaymentKind.bolt12Refund(hash: $hash, preimage: $preimage, secret: $secret, payerNote: $payerNote, quantity: $quantity)';
+  }
+}
+
+/// @nodoc
+abstract mixin class $PaymentKind_Bolt12RefundCopyWith<$Res>
+    implements $PaymentKindCopyWith<$Res> {
+  factory $PaymentKind_Bolt12RefundCopyWith(PaymentKind_Bolt12Refund value,
+          $Res Function(PaymentKind_Bolt12Refund) _then) =
+      _$PaymentKind_Bolt12RefundCopyWithImpl;
+  @useResult
+  $Res call(
+      {PaymentHash? hash,
+      PaymentPreimage? preimage,
+      PaymentSecret? secret,
+      String? payerNote,
+      BigInt? quantity});
+}
+
+/// @nodoc
+class _$PaymentKind_Bolt12RefundCopyWithImpl<$Res>
+    implements $PaymentKind_Bolt12RefundCopyWith<$Res> {
+  _$PaymentKind_Bolt12RefundCopyWithImpl(this._self, this._then);
+
+  final PaymentKind_Bolt12Refund _self;
+  final $Res Function(PaymentKind_Bolt12Refund) _then;
+
+  /// Create a copy of PaymentKind
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  $Res call({
+    Object? hash = freezed,
+    Object? preimage = freezed,
+    Object? secret = freezed,
+    Object? payerNote = freezed,
+    Object? quantity = freezed,
+  }) {
+    return _then(PaymentKind_Bolt12Refund(
+      hash: freezed == hash
+          ? _self.hash
+          : hash // ignore: cast_nullable_to_non_nullable
+              as PaymentHash?,
+      preimage: freezed == preimage
+          ? _self.preimage
+          : preimage // ignore: cast_nullable_to_non_nullable
+              as PaymentPreimage?,
+      secret: freezed == secret
+          ? _self.secret
+          : secret // ignore: cast_nullable_to_non_nullable
+              as PaymentSecret?,
+      payerNote: freezed == payerNote
+          ? _self.payerNote
+          : payerNote // ignore: cast_nullable_to_non_nullable
+              as String?,
+      quantity: freezed == quantity
+          ? _self.quantity
+          : quantity // ignore: cast_nullable_to_non_nullable
+              as BigInt?,
     ));
   }
 }
