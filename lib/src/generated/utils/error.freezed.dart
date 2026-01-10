@@ -58,6 +58,8 @@ extension Bolt12ParseErrorPatterns on Bolt12ParseError {
     TResult Function(Bolt12ParseError_Decode value)? decode,
     TResult Function(Bolt12ParseError_InvalidSemantics value)? invalidSemantics,
     TResult Function(Bolt12ParseError_InvalidSignature value)? invalidSignature,
+    TResult Function(Bolt12ParseError_InvalidLeadingWhitespace value)?
+        invalidLeadingWhitespace,
     required TResult orElse(),
   }) {
     final _that = this;
@@ -75,6 +77,9 @@ extension Bolt12ParseErrorPatterns on Bolt12ParseError {
         return invalidSemantics(_that);
       case Bolt12ParseError_InvalidSignature() when invalidSignature != null:
         return invalidSignature(_that);
+      case Bolt12ParseError_InvalidLeadingWhitespace()
+          when invalidLeadingWhitespace != null:
+        return invalidLeadingWhitespace(_that);
       case _:
         return orElse();
     }
@@ -105,6 +110,8 @@ extension Bolt12ParseErrorPatterns on Bolt12ParseError {
         invalidSemantics,
     required TResult Function(Bolt12ParseError_InvalidSignature value)
         invalidSignature,
+    required TResult Function(Bolt12ParseError_InvalidLeadingWhitespace value)
+        invalidLeadingWhitespace,
   }) {
     final _that = this;
     switch (_that) {
@@ -120,6 +127,8 @@ extension Bolt12ParseErrorPatterns on Bolt12ParseError {
         return invalidSemantics(_that);
       case Bolt12ParseError_InvalidSignature():
         return invalidSignature(_that);
+      case Bolt12ParseError_InvalidLeadingWhitespace():
+        return invalidLeadingWhitespace(_that);
     }
   }
 
@@ -147,6 +156,8 @@ extension Bolt12ParseErrorPatterns on Bolt12ParseError {
         invalidSemantics,
     TResult? Function(Bolt12ParseError_InvalidSignature value)?
         invalidSignature,
+    TResult? Function(Bolt12ParseError_InvalidLeadingWhitespace value)?
+        invalidLeadingWhitespace,
   }) {
     final _that = this;
     switch (_that) {
@@ -163,6 +174,9 @@ extension Bolt12ParseErrorPatterns on Bolt12ParseError {
         return invalidSemantics(_that);
       case Bolt12ParseError_InvalidSignature() when invalidSignature != null:
         return invalidSignature(_that);
+      case Bolt12ParseError_InvalidLeadingWhitespace()
+          when invalidLeadingWhitespace != null:
+        return invalidLeadingWhitespace(_that);
       case _:
         return null;
     }
@@ -188,6 +202,7 @@ extension Bolt12ParseErrorPatterns on Bolt12ParseError {
     TResult Function(DecodeError field0)? decode,
     TResult Function(String field0)? invalidSemantics,
     TResult Function(String field0)? invalidSignature,
+    TResult Function()? invalidLeadingWhitespace,
     required TResult orElse(),
   }) {
     final _that = this;
@@ -205,6 +220,9 @@ extension Bolt12ParseErrorPatterns on Bolt12ParseError {
         return invalidSemantics(_that.field0);
       case Bolt12ParseError_InvalidSignature() when invalidSignature != null:
         return invalidSignature(_that.field0);
+      case Bolt12ParseError_InvalidLeadingWhitespace()
+          when invalidLeadingWhitespace != null:
+        return invalidLeadingWhitespace();
       case _:
         return orElse();
     }
@@ -231,6 +249,7 @@ extension Bolt12ParseErrorPatterns on Bolt12ParseError {
     required TResult Function(DecodeError field0) decode,
     required TResult Function(String field0) invalidSemantics,
     required TResult Function(String field0) invalidSignature,
+    required TResult Function() invalidLeadingWhitespace,
   }) {
     final _that = this;
     switch (_that) {
@@ -246,6 +265,8 @@ extension Bolt12ParseErrorPatterns on Bolt12ParseError {
         return invalidSemantics(_that.field0);
       case Bolt12ParseError_InvalidSignature():
         return invalidSignature(_that.field0);
+      case Bolt12ParseError_InvalidLeadingWhitespace():
+        return invalidLeadingWhitespace();
     }
   }
 
@@ -269,6 +290,7 @@ extension Bolt12ParseErrorPatterns on Bolt12ParseError {
     TResult? Function(DecodeError field0)? decode,
     TResult? Function(String field0)? invalidSemantics,
     TResult? Function(String field0)? invalidSignature,
+    TResult? Function()? invalidLeadingWhitespace,
   }) {
     final _that = this;
     switch (_that) {
@@ -285,6 +307,9 @@ extension Bolt12ParseErrorPatterns on Bolt12ParseError {
         return invalidSemantics(_that.field0);
       case Bolt12ParseError_InvalidSignature() when invalidSignature != null:
         return invalidSignature(_that.field0);
+      case Bolt12ParseError_InvalidLeadingWhitespace()
+          when invalidLeadingWhitespace != null:
+        return invalidLeadingWhitespace();
       case _:
         return null;
     }
@@ -604,6 +629,27 @@ class _$Bolt12ParseError_InvalidSignatureCopyWithImpl<$Res>
           : field0 // ignore: cast_nullable_to_non_nullable
               as String,
     ));
+  }
+}
+
+/// @nodoc
+
+class Bolt12ParseError_InvalidLeadingWhitespace extends Bolt12ParseError {
+  const Bolt12ParseError_InvalidLeadingWhitespace() : super._();
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is Bolt12ParseError_InvalidLeadingWhitespace);
+  }
+
+  @override
+  int get hashCode => runtimeType.hashCode;
+
+  @override
+  String toString() {
+    return 'Bolt12ParseError.invalidLeadingWhitespace()';
   }
 }
 
@@ -1173,6 +1219,7 @@ extension FfiNodeErrorPatterns on FfiNodeError {
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(FfiNodeError_InvalidTxid value)? invalidTxid,
+    TResult Function(FfiNodeError_InvalidBlockHash value)? invalidBlockHash,
     TResult Function(FfiNodeError_AlreadyRunning value)? alreadyRunning,
     TResult Function(FfiNodeError_NotRunning value)? notRunning,
     TResult Function(FfiNodeError_OnchainTxCreationFailed value)?
@@ -1252,6 +1299,12 @@ extension FfiNodeErrorPatterns on FfiNodeError {
     TResult Function(FfiNodeError_InvalidCustomTlvs value)? invalidCustomTlvs,
     TResult Function(FfiNodeError_InvalidDateTime value)? invalidDateTime,
     TResult Function(FfiNodeError_InvalidFeeRate value)? invalidFeeRate,
+    TResult Function(FfiNodeError_ChannelSplicingFailed value)?
+        channelSplicingFailed,
+    TResult Function(FfiNodeError_InvalidBlindedPaths value)?
+        invalidBlindedPaths,
+    TResult Function(FfiNodeError_AsyncPaymentServicesDisabled value)?
+        asyncPaymentServicesDisabled,
     TResult Function(FfiNodeError_CreationError value)? creationError,
     required TResult orElse(),
   }) {
@@ -1259,6 +1312,8 @@ extension FfiNodeErrorPatterns on FfiNodeError {
     switch (_that) {
       case FfiNodeError_InvalidTxid() when invalidTxid != null:
         return invalidTxid(_that);
+      case FfiNodeError_InvalidBlockHash() when invalidBlockHash != null:
+        return invalidBlockHash(_that);
       case FfiNodeError_AlreadyRunning() when alreadyRunning != null:
         return alreadyRunning(_that);
       case FfiNodeError_NotRunning() when notRunning != null:
@@ -1389,6 +1444,14 @@ extension FfiNodeErrorPatterns on FfiNodeError {
         return invalidDateTime(_that);
       case FfiNodeError_InvalidFeeRate() when invalidFeeRate != null:
         return invalidFeeRate(_that);
+      case FfiNodeError_ChannelSplicingFailed()
+          when channelSplicingFailed != null:
+        return channelSplicingFailed(_that);
+      case FfiNodeError_InvalidBlindedPaths() when invalidBlindedPaths != null:
+        return invalidBlindedPaths(_that);
+      case FfiNodeError_AsyncPaymentServicesDisabled()
+          when asyncPaymentServicesDisabled != null:
+        return asyncPaymentServicesDisabled(_that);
       case FfiNodeError_CreationError() when creationError != null:
         return creationError(_that);
       case _:
@@ -1412,6 +1475,8 @@ extension FfiNodeErrorPatterns on FfiNodeError {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(FfiNodeError_InvalidTxid value) invalidTxid,
+    required TResult Function(FfiNodeError_InvalidBlockHash value)
+        invalidBlockHash,
     required TResult Function(FfiNodeError_AlreadyRunning value) alreadyRunning,
     required TResult Function(FfiNodeError_NotRunning value) notRunning,
     required TResult Function(FfiNodeError_OnchainTxCreationFailed value)
@@ -1506,12 +1571,20 @@ extension FfiNodeErrorPatterns on FfiNodeError {
     required TResult Function(FfiNodeError_InvalidDateTime value)
         invalidDateTime,
     required TResult Function(FfiNodeError_InvalidFeeRate value) invalidFeeRate,
+    required TResult Function(FfiNodeError_ChannelSplicingFailed value)
+        channelSplicingFailed,
+    required TResult Function(FfiNodeError_InvalidBlindedPaths value)
+        invalidBlindedPaths,
+    required TResult Function(FfiNodeError_AsyncPaymentServicesDisabled value)
+        asyncPaymentServicesDisabled,
     required TResult Function(FfiNodeError_CreationError value) creationError,
   }) {
     final _that = this;
     switch (_that) {
       case FfiNodeError_InvalidTxid():
         return invalidTxid(_that);
+      case FfiNodeError_InvalidBlockHash():
+        return invalidBlockHash(_that);
       case FfiNodeError_AlreadyRunning():
         return alreadyRunning(_that);
       case FfiNodeError_NotRunning():
@@ -1622,6 +1695,12 @@ extension FfiNodeErrorPatterns on FfiNodeError {
         return invalidDateTime(_that);
       case FfiNodeError_InvalidFeeRate():
         return invalidFeeRate(_that);
+      case FfiNodeError_ChannelSplicingFailed():
+        return channelSplicingFailed(_that);
+      case FfiNodeError_InvalidBlindedPaths():
+        return invalidBlindedPaths(_that);
+      case FfiNodeError_AsyncPaymentServicesDisabled():
+        return asyncPaymentServicesDisabled(_that);
       case FfiNodeError_CreationError():
         return creationError(_that);
     }
@@ -1642,6 +1721,7 @@ extension FfiNodeErrorPatterns on FfiNodeError {
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(FfiNodeError_InvalidTxid value)? invalidTxid,
+    TResult? Function(FfiNodeError_InvalidBlockHash value)? invalidBlockHash,
     TResult? Function(FfiNodeError_AlreadyRunning value)? alreadyRunning,
     TResult? Function(FfiNodeError_NotRunning value)? notRunning,
     TResult? Function(FfiNodeError_OnchainTxCreationFailed value)?
@@ -1724,12 +1804,20 @@ extension FfiNodeErrorPatterns on FfiNodeError {
     TResult? Function(FfiNodeError_InvalidCustomTlvs value)? invalidCustomTlvs,
     TResult? Function(FfiNodeError_InvalidDateTime value)? invalidDateTime,
     TResult? Function(FfiNodeError_InvalidFeeRate value)? invalidFeeRate,
+    TResult? Function(FfiNodeError_ChannelSplicingFailed value)?
+        channelSplicingFailed,
+    TResult? Function(FfiNodeError_InvalidBlindedPaths value)?
+        invalidBlindedPaths,
+    TResult? Function(FfiNodeError_AsyncPaymentServicesDisabled value)?
+        asyncPaymentServicesDisabled,
     TResult? Function(FfiNodeError_CreationError value)? creationError,
   }) {
     final _that = this;
     switch (_that) {
       case FfiNodeError_InvalidTxid() when invalidTxid != null:
         return invalidTxid(_that);
+      case FfiNodeError_InvalidBlockHash() when invalidBlockHash != null:
+        return invalidBlockHash(_that);
       case FfiNodeError_AlreadyRunning() when alreadyRunning != null:
         return alreadyRunning(_that);
       case FfiNodeError_NotRunning() when notRunning != null:
@@ -1860,6 +1948,14 @@ extension FfiNodeErrorPatterns on FfiNodeError {
         return invalidDateTime(_that);
       case FfiNodeError_InvalidFeeRate() when invalidFeeRate != null:
         return invalidFeeRate(_that);
+      case FfiNodeError_ChannelSplicingFailed()
+          when channelSplicingFailed != null:
+        return channelSplicingFailed(_that);
+      case FfiNodeError_InvalidBlindedPaths() when invalidBlindedPaths != null:
+        return invalidBlindedPaths(_that);
+      case FfiNodeError_AsyncPaymentServicesDisabled()
+          when asyncPaymentServicesDisabled != null:
+        return asyncPaymentServicesDisabled(_that);
       case FfiNodeError_CreationError() when creationError != null:
         return creationError(_that);
       case _:
@@ -1882,6 +1978,7 @@ extension FfiNodeErrorPatterns on FfiNodeError {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? invalidTxid,
+    TResult Function()? invalidBlockHash,
     TResult Function()? alreadyRunning,
     TResult Function()? notRunning,
     TResult Function()? onchainTxCreationFailed,
@@ -1937,6 +2034,9 @@ extension FfiNodeErrorPatterns on FfiNodeError {
     TResult Function()? invalidCustomTlvs,
     TResult Function()? invalidDateTime,
     TResult Function()? invalidFeeRate,
+    TResult Function()? channelSplicingFailed,
+    TResult Function()? invalidBlindedPaths,
+    TResult Function()? asyncPaymentServicesDisabled,
     TResult Function(FfiCreationError field0)? creationError,
     required TResult orElse(),
   }) {
@@ -1944,6 +2044,8 @@ extension FfiNodeErrorPatterns on FfiNodeError {
     switch (_that) {
       case FfiNodeError_InvalidTxid() when invalidTxid != null:
         return invalidTxid();
+      case FfiNodeError_InvalidBlockHash() when invalidBlockHash != null:
+        return invalidBlockHash();
       case FfiNodeError_AlreadyRunning() when alreadyRunning != null:
         return alreadyRunning();
       case FfiNodeError_NotRunning() when notRunning != null:
@@ -2074,6 +2176,14 @@ extension FfiNodeErrorPatterns on FfiNodeError {
         return invalidDateTime();
       case FfiNodeError_InvalidFeeRate() when invalidFeeRate != null:
         return invalidFeeRate();
+      case FfiNodeError_ChannelSplicingFailed()
+          when channelSplicingFailed != null:
+        return channelSplicingFailed();
+      case FfiNodeError_InvalidBlindedPaths() when invalidBlindedPaths != null:
+        return invalidBlindedPaths();
+      case FfiNodeError_AsyncPaymentServicesDisabled()
+          when asyncPaymentServicesDisabled != null:
+        return asyncPaymentServicesDisabled();
       case FfiNodeError_CreationError() when creationError != null:
         return creationError(_that.field0);
       case _:
@@ -2097,6 +2207,7 @@ extension FfiNodeErrorPatterns on FfiNodeError {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() invalidTxid,
+    required TResult Function() invalidBlockHash,
     required TResult Function() alreadyRunning,
     required TResult Function() notRunning,
     required TResult Function() onchainTxCreationFailed,
@@ -2152,12 +2263,17 @@ extension FfiNodeErrorPatterns on FfiNodeError {
     required TResult Function() invalidCustomTlvs,
     required TResult Function() invalidDateTime,
     required TResult Function() invalidFeeRate,
+    required TResult Function() channelSplicingFailed,
+    required TResult Function() invalidBlindedPaths,
+    required TResult Function() asyncPaymentServicesDisabled,
     required TResult Function(FfiCreationError field0) creationError,
   }) {
     final _that = this;
     switch (_that) {
       case FfiNodeError_InvalidTxid():
         return invalidTxid();
+      case FfiNodeError_InvalidBlockHash():
+        return invalidBlockHash();
       case FfiNodeError_AlreadyRunning():
         return alreadyRunning();
       case FfiNodeError_NotRunning():
@@ -2268,6 +2384,12 @@ extension FfiNodeErrorPatterns on FfiNodeError {
         return invalidDateTime();
       case FfiNodeError_InvalidFeeRate():
         return invalidFeeRate();
+      case FfiNodeError_ChannelSplicingFailed():
+        return channelSplicingFailed();
+      case FfiNodeError_InvalidBlindedPaths():
+        return invalidBlindedPaths();
+      case FfiNodeError_AsyncPaymentServicesDisabled():
+        return asyncPaymentServicesDisabled();
       case FfiNodeError_CreationError():
         return creationError(_that.field0);
     }
@@ -2288,6 +2410,7 @@ extension FfiNodeErrorPatterns on FfiNodeError {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? invalidTxid,
+    TResult? Function()? invalidBlockHash,
     TResult? Function()? alreadyRunning,
     TResult? Function()? notRunning,
     TResult? Function()? onchainTxCreationFailed,
@@ -2343,12 +2466,17 @@ extension FfiNodeErrorPatterns on FfiNodeError {
     TResult? Function()? invalidCustomTlvs,
     TResult? Function()? invalidDateTime,
     TResult? Function()? invalidFeeRate,
+    TResult? Function()? channelSplicingFailed,
+    TResult? Function()? invalidBlindedPaths,
+    TResult? Function()? asyncPaymentServicesDisabled,
     TResult? Function(FfiCreationError field0)? creationError,
   }) {
     final _that = this;
     switch (_that) {
       case FfiNodeError_InvalidTxid() when invalidTxid != null:
         return invalidTxid();
+      case FfiNodeError_InvalidBlockHash() when invalidBlockHash != null:
+        return invalidBlockHash();
       case FfiNodeError_AlreadyRunning() when alreadyRunning != null:
         return alreadyRunning();
       case FfiNodeError_NotRunning() when notRunning != null:
@@ -2479,6 +2607,14 @@ extension FfiNodeErrorPatterns on FfiNodeError {
         return invalidDateTime();
       case FfiNodeError_InvalidFeeRate() when invalidFeeRate != null:
         return invalidFeeRate();
+      case FfiNodeError_ChannelSplicingFailed()
+          when channelSplicingFailed != null:
+        return channelSplicingFailed();
+      case FfiNodeError_InvalidBlindedPaths() when invalidBlindedPaths != null:
+        return invalidBlindedPaths();
+      case FfiNodeError_AsyncPaymentServicesDisabled()
+          when asyncPaymentServicesDisabled != null:
+        return asyncPaymentServicesDisabled();
       case FfiNodeError_CreationError() when creationError != null:
         return creationError(_that.field0);
       case _:
@@ -2504,6 +2640,27 @@ class FfiNodeError_InvalidTxid extends FfiNodeError {
   @override
   String toString() {
     return 'FfiNodeError.invalidTxid()';
+  }
+}
+
+/// @nodoc
+
+class FfiNodeError_InvalidBlockHash extends FfiNodeError {
+  const FfiNodeError_InvalidBlockHash() : super._();
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is FfiNodeError_InvalidBlockHash);
+  }
+
+  @override
+  int get hashCode => runtimeType.hashCode;
+
+  @override
+  String toString() {
+    return 'FfiNodeError.invalidBlockHash()';
   }
 }
 
@@ -3768,6 +3925,69 @@ class FfiNodeError_InvalidFeeRate extends FfiNodeError {
   @override
   String toString() {
     return 'FfiNodeError.invalidFeeRate()';
+  }
+}
+
+/// @nodoc
+
+class FfiNodeError_ChannelSplicingFailed extends FfiNodeError {
+  const FfiNodeError_ChannelSplicingFailed() : super._();
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is FfiNodeError_ChannelSplicingFailed);
+  }
+
+  @override
+  int get hashCode => runtimeType.hashCode;
+
+  @override
+  String toString() {
+    return 'FfiNodeError.channelSplicingFailed()';
+  }
+}
+
+/// @nodoc
+
+class FfiNodeError_InvalidBlindedPaths extends FfiNodeError {
+  const FfiNodeError_InvalidBlindedPaths() : super._();
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is FfiNodeError_InvalidBlindedPaths);
+  }
+
+  @override
+  int get hashCode => runtimeType.hashCode;
+
+  @override
+  String toString() {
+    return 'FfiNodeError.invalidBlindedPaths()';
+  }
+}
+
+/// @nodoc
+
+class FfiNodeError_AsyncPaymentServicesDisabled extends FfiNodeError {
+  const FfiNodeError_AsyncPaymentServicesDisabled() : super._();
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is FfiNodeError_AsyncPaymentServicesDisabled);
+  }
+
+  @override
+  int get hashCode => runtimeType.hashCode;
+
+  @override
+  String toString() {
+    return 'FfiNodeError.asyncPaymentServicesDisabled()';
   }
 }
 

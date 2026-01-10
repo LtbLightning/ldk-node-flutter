@@ -28,6 +28,8 @@ sealed class Bolt12ParseError with _$Bolt12ParseError {
   const factory Bolt12ParseError.invalidSignature(
     String field0,
   ) = Bolt12ParseError_InvalidSignature;
+  const factory Bolt12ParseError.invalidLeadingWhitespace() =
+      Bolt12ParseError_InvalidLeadingWhitespace;
 }
 
 @freezed
@@ -88,6 +90,15 @@ enum FfiBuilderError {
   invalidPublicKey,
   invalidAnnouncementAddresses,
   networkMismatch,
+
+  /// Invalid parameter provided.
+  invalidParameter,
+
+  /// Runtime setup failed.
+  runtimeSetupFailed,
+
+  /// Async payments configuration mismatch.
+  asyncPaymentsConfigMismatch,
   opaqueNotFound,
   ;
 }
@@ -119,6 +130,9 @@ sealed class FfiNodeError with _$FfiNodeError implements FrbException {
   const FfiNodeError._();
 
   const factory FfiNodeError.invalidTxid() = FfiNodeError_InvalidTxid;
+
+  /// The given block hash is invalid.
+  const factory FfiNodeError.invalidBlockHash() = FfiNodeError_InvalidBlockHash;
 
   /// Returned when trying to start [Node] while it is already running.
   const factory FfiNodeError.alreadyRunning() = FfiNodeError_AlreadyRunning;
@@ -304,6 +318,18 @@ sealed class FfiNodeError with _$FfiNodeError implements FrbException {
       FfiNodeError_InvalidCustomTlvs;
   const factory FfiNodeError.invalidDateTime() = FfiNodeError_InvalidDateTime;
   const factory FfiNodeError.invalidFeeRate() = FfiNodeError_InvalidFeeRate;
+
+  /// A channel could not be spliced.
+  const factory FfiNodeError.channelSplicingFailed() =
+      FfiNodeError_ChannelSplicingFailed;
+
+  /// The given blinded paths are invalid.
+  const factory FfiNodeError.invalidBlindedPaths() =
+      FfiNodeError_InvalidBlindedPaths;
+
+  /// Asynchronous payment services are disabled.
+  const factory FfiNodeError.asyncPaymentServicesDisabled() =
+      FfiNodeError_AsyncPaymentServicesDisabled;
   const factory FfiNodeError.creationError(
     FfiCreationError field0,
   ) = FfiNodeError_CreationError;

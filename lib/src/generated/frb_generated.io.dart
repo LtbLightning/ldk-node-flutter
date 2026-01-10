@@ -28,16 +28,8 @@ abstract class coreApiImplPlatform extends BaseApiImpl<coreWire> {
     required super.portManager,
   });
 
-  CrossPlatformFinalizerArg
-      get rust_arc_decrement_strong_count_ConfirmationStatusPtr => wire
-          ._rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerConfirmationStatusPtr;
-
   CrossPlatformFinalizerArg get rust_arc_decrement_strong_count_FfiBuilderPtr =>
       wire._rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerFfiBuilderPtr;
-
-  CrossPlatformFinalizerArg
-      get rust_arc_decrement_strong_count_PaymentKindPtr => wire
-          ._rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPaymentKindPtr;
 
   CrossPlatformFinalizerArg get rust_arc_decrement_strong_count_BuilderPtr =>
       wire._rust_arc_decrement_strong_count_RustOpaque_ldk_nodeBuilderPtr;
@@ -70,18 +62,8 @@ abstract class coreApiImplPlatform extends BaseApiImpl<coreWire> {
           ._rust_arc_decrement_strong_count_RustOpaque_ldk_nodepaymentUnifiedQrPaymentPtr;
 
   @protected
-  ConfirmationStatus
-      dco_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerConfirmationStatus(
-          dynamic raw);
-
-  @protected
   FfiBuilder
       dco_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerFfiBuilder(
-          dynamic raw);
-
-  @protected
-  PaymentKind
-      dco_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPaymentKind(
           dynamic raw);
 
   @protected
@@ -98,18 +80,8 @@ abstract class coreApiImplPlatform extends BaseApiImpl<coreWire> {
   Map<String, String> dco_decode_Map_String_String_None(dynamic raw);
 
   @protected
-  ConfirmationStatus
-      dco_decode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerConfirmationStatus(
-          dynamic raw);
-
-  @protected
   FfiBuilder
       dco_decode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerFfiBuilder(
-          dynamic raw);
-
-  @protected
-  PaymentKind
-      dco_decode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPaymentKind(
           dynamic raw);
 
   @protected
@@ -162,6 +134,9 @@ abstract class coreApiImplPlatform extends BaseApiImpl<coreWire> {
 
   @protected
   BestBlock dco_decode_best_block(dynamic raw);
+
+  @protected
+  BlindedMessagePath dco_decode_blinded_message_path(dynamic raw);
 
   @protected
   Bolt11Invoice dco_decode_bolt_11_invoice(dynamic raw);
@@ -218,6 +193,9 @@ abstract class coreApiImplPlatform extends BaseApiImpl<coreWire> {
   Config dco_decode_box_autoadd_config(dynamic raw);
 
   @protected
+  ConfirmationStatus dco_decode_box_autoadd_confirmation_status(dynamic raw);
+
+  @protected
   DecodeError dco_decode_box_autoadd_decode_error(dynamic raw);
 
   @protected
@@ -272,6 +250,9 @@ abstract class coreApiImplPlatform extends BaseApiImpl<coreWire> {
   LogLevel dco_decode_box_autoadd_log_level(dynamic raw);
 
   @protected
+  LSPFeeLimits dco_decode_box_autoadd_lsp_fee_limits(dynamic raw);
+
+  @protected
   MaxTotalRoutingFeeLimit dco_decode_box_autoadd_max_total_routing_fee_limit(
       dynamic raw);
 
@@ -290,6 +271,9 @@ abstract class coreApiImplPlatform extends BaseApiImpl<coreWire> {
 
   @protected
   Offer dco_decode_box_autoadd_offer(dynamic raw);
+
+  @protected
+  OfferId dco_decode_box_autoadd_offer_id(dynamic raw);
 
   @protected
   OutPoint dco_decode_box_autoadd_out_point(dynamic raw);
@@ -311,10 +295,17 @@ abstract class coreApiImplPlatform extends BaseApiImpl<coreWire> {
   PaymentPreimage dco_decode_box_autoadd_payment_preimage(dynamic raw);
 
   @protected
+  PaymentSecret dco_decode_box_autoadd_payment_secret(dynamic raw);
+
+  @protected
   PublicKey dco_decode_box_autoadd_public_key(dynamic raw);
 
   @protected
   Refund dco_decode_box_autoadd_refund(dynamic raw);
+
+  @protected
+  RouteParametersConfig dco_decode_box_autoadd_route_parameters_config(
+      dynamic raw);
 
   @protected
   SendingParameters dco_decode_box_autoadd_sending_parameters(dynamic raw);
@@ -363,6 +354,9 @@ abstract class coreApiImplPlatform extends BaseApiImpl<coreWire> {
 
   @protected
   Config dco_decode_config(dynamic raw);
+
+  @protected
+  ConfirmationStatus dco_decode_confirmation_status(dynamic raw);
 
   @protected
   CustomTlvRecord dco_decode_custom_tlv_record(dynamic raw);
@@ -429,6 +423,9 @@ abstract class coreApiImplPlatform extends BaseApiImpl<coreWire> {
 
   @protected
   LiquiditySourceConfig dco_decode_liquidity_source_config(dynamic raw);
+
+  @protected
+  List<BlindedMessagePath> dco_decode_list_blinded_message_path(dynamic raw);
 
   @protected
   List<ChannelDetails> dco_decode_list_channel_details(dynamic raw);
@@ -599,7 +596,14 @@ abstract class coreApiImplPlatform extends BaseApiImpl<coreWire> {
   PaymentPreimage? dco_decode_opt_box_autoadd_payment_preimage(dynamic raw);
 
   @protected
+  PaymentSecret? dco_decode_opt_box_autoadd_payment_secret(dynamic raw);
+
+  @protected
   PublicKey? dco_decode_opt_box_autoadd_public_key(dynamic raw);
+
+  @protected
+  RouteParametersConfig? dco_decode_opt_box_autoadd_route_parameters_config(
+      dynamic raw);
 
   @protected
   SendingParameters? dco_decode_opt_box_autoadd_sending_parameters(dynamic raw);
@@ -641,6 +645,9 @@ abstract class coreApiImplPlatform extends BaseApiImpl<coreWire> {
   PaymentId dco_decode_payment_id(dynamic raw);
 
   @protected
+  PaymentKind dco_decode_payment_kind(dynamic raw);
+
+  @protected
   PaymentPreimage dco_decode_payment_preimage(dynamic raw);
 
   @protected
@@ -670,6 +677,9 @@ abstract class coreApiImplPlatform extends BaseApiImpl<coreWire> {
 
   @protected
   Refund dco_decode_refund(dynamic raw);
+
+  @protected
+  RouteParametersConfig dco_decode_route_parameters_config(dynamic raw);
 
   @protected
   RoutingFees dco_decode_routing_fees(dynamic raw);
@@ -720,18 +730,8 @@ abstract class coreApiImplPlatform extends BaseApiImpl<coreWire> {
   BigInt dco_decode_usize(dynamic raw);
 
   @protected
-  ConfirmationStatus
-      sse_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerConfirmationStatus(
-          SseDeserializer deserializer);
-
-  @protected
   FfiBuilder
       sse_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerFfiBuilder(
-          SseDeserializer deserializer);
-
-  @protected
-  PaymentKind
-      sse_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPaymentKind(
           SseDeserializer deserializer);
 
   @protected
@@ -749,18 +749,8 @@ abstract class coreApiImplPlatform extends BaseApiImpl<coreWire> {
       SseDeserializer deserializer);
 
   @protected
-  ConfirmationStatus
-      sse_decode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerConfirmationStatus(
-          SseDeserializer deserializer);
-
-  @protected
   FfiBuilder
       sse_decode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerFfiBuilder(
-          SseDeserializer deserializer);
-
-  @protected
-  PaymentKind
-      sse_decode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPaymentKind(
           SseDeserializer deserializer);
 
   @protected
@@ -815,6 +805,10 @@ abstract class coreApiImplPlatform extends BaseApiImpl<coreWire> {
 
   @protected
   BestBlock sse_decode_best_block(SseDeserializer deserializer);
+
+  @protected
+  BlindedMessagePath sse_decode_blinded_message_path(
+      SseDeserializer deserializer);
 
   @protected
   Bolt11Invoice sse_decode_bolt_11_invoice(SseDeserializer deserializer);
@@ -874,6 +868,10 @@ abstract class coreApiImplPlatform extends BaseApiImpl<coreWire> {
 
   @protected
   Config sse_decode_box_autoadd_config(SseDeserializer deserializer);
+
+  @protected
+  ConfirmationStatus sse_decode_box_autoadd_confirmation_status(
+      SseDeserializer deserializer);
 
   @protected
   DecodeError sse_decode_box_autoadd_decode_error(SseDeserializer deserializer);
@@ -939,6 +937,10 @@ abstract class coreApiImplPlatform extends BaseApiImpl<coreWire> {
   LogLevel sse_decode_box_autoadd_log_level(SseDeserializer deserializer);
 
   @protected
+  LSPFeeLimits sse_decode_box_autoadd_lsp_fee_limits(
+      SseDeserializer deserializer);
+
+  @protected
   MaxTotalRoutingFeeLimit sse_decode_box_autoadd_max_total_routing_fee_limit(
       SseDeserializer deserializer);
 
@@ -957,6 +959,9 @@ abstract class coreApiImplPlatform extends BaseApiImpl<coreWire> {
 
   @protected
   Offer sse_decode_box_autoadd_offer(SseDeserializer deserializer);
+
+  @protected
+  OfferId sse_decode_box_autoadd_offer_id(SseDeserializer deserializer);
 
   @protected
   OutPoint sse_decode_box_autoadd_out_point(SseDeserializer deserializer);
@@ -980,10 +985,18 @@ abstract class coreApiImplPlatform extends BaseApiImpl<coreWire> {
       SseDeserializer deserializer);
 
   @protected
+  PaymentSecret sse_decode_box_autoadd_payment_secret(
+      SseDeserializer deserializer);
+
+  @protected
   PublicKey sse_decode_box_autoadd_public_key(SseDeserializer deserializer);
 
   @protected
   Refund sse_decode_box_autoadd_refund(SseDeserializer deserializer);
+
+  @protected
+  RouteParametersConfig sse_decode_box_autoadd_route_parameters_config(
+      SseDeserializer deserializer);
 
   @protected
   SendingParameters sse_decode_box_autoadd_sending_parameters(
@@ -1037,6 +1050,10 @@ abstract class coreApiImplPlatform extends BaseApiImpl<coreWire> {
 
   @protected
   Config sse_decode_config(SseDeserializer deserializer);
+
+  @protected
+  ConfirmationStatus sse_decode_confirmation_status(
+      SseDeserializer deserializer);
 
   @protected
   CustomTlvRecord sse_decode_custom_tlv_record(SseDeserializer deserializer);
@@ -1110,6 +1127,10 @@ abstract class coreApiImplPlatform extends BaseApiImpl<coreWire> {
 
   @protected
   LiquiditySourceConfig sse_decode_liquidity_source_config(
+      SseDeserializer deserializer);
+
+  @protected
+  List<BlindedMessagePath> sse_decode_list_blinded_message_path(
       SseDeserializer deserializer);
 
   @protected
@@ -1301,7 +1322,15 @@ abstract class coreApiImplPlatform extends BaseApiImpl<coreWire> {
       SseDeserializer deserializer);
 
   @protected
+  PaymentSecret? sse_decode_opt_box_autoadd_payment_secret(
+      SseDeserializer deserializer);
+
+  @protected
   PublicKey? sse_decode_opt_box_autoadd_public_key(
+      SseDeserializer deserializer);
+
+  @protected
+  RouteParametersConfig? sse_decode_opt_box_autoadd_route_parameters_config(
       SseDeserializer deserializer);
 
   @protected
@@ -1348,6 +1377,9 @@ abstract class coreApiImplPlatform extends BaseApiImpl<coreWire> {
   PaymentId sse_decode_payment_id(SseDeserializer deserializer);
 
   @protected
+  PaymentKind sse_decode_payment_kind(SseDeserializer deserializer);
+
+  @protected
   PaymentPreimage sse_decode_payment_preimage(SseDeserializer deserializer);
 
   @protected
@@ -1380,6 +1412,10 @@ abstract class coreApiImplPlatform extends BaseApiImpl<coreWire> {
 
   @protected
   Refund sse_decode_refund(SseDeserializer deserializer);
+
+  @protected
+  RouteParametersConfig sse_decode_route_parameters_config(
+      SseDeserializer deserializer);
 
   @protected
   RoutingFees sse_decode_routing_fees(SseDeserializer deserializer);
@@ -1557,6 +1593,15 @@ abstract class coreApiImplPlatform extends BaseApiImpl<coreWire> {
   }
 
   @protected
+  ffi.Pointer<wire_cst_confirmation_status>
+      cst_encode_box_autoadd_confirmation_status(ConfirmationStatus raw) {
+    // Codec=Cst (C-struct based), see doc to use other codecs
+    final ptr = wire.cst_new_box_autoadd_confirmation_status();
+    cst_api_fill_to_wire_confirmation_status(raw, ptr.ref);
+    return ptr;
+  }
+
+  @protected
   ffi.Pointer<wire_cst_decode_error> cst_encode_box_autoadd_decode_error(
       DecodeError raw) {
     // Codec=Cst (C-struct based), see doc to use other codecs
@@ -1707,6 +1752,15 @@ abstract class coreApiImplPlatform extends BaseApiImpl<coreWire> {
   }
 
   @protected
+  ffi.Pointer<wire_cst_lsp_fee_limits> cst_encode_box_autoadd_lsp_fee_limits(
+      LSPFeeLimits raw) {
+    // Codec=Cst (C-struct based), see doc to use other codecs
+    final ptr = wire.cst_new_box_autoadd_lsp_fee_limits();
+    cst_api_fill_to_wire_lsp_fee_limits(raw, ptr.ref);
+    return ptr;
+  }
+
+  @protected
   ffi.Pointer<wire_cst_max_total_routing_fee_limit>
       cst_encode_box_autoadd_max_total_routing_fee_limit(
           MaxTotalRoutingFeeLimit raw) {
@@ -1756,6 +1810,14 @@ abstract class coreApiImplPlatform extends BaseApiImpl<coreWire> {
     // Codec=Cst (C-struct based), see doc to use other codecs
     final ptr = wire.cst_new_box_autoadd_offer();
     cst_api_fill_to_wire_offer(raw, ptr.ref);
+    return ptr;
+  }
+
+  @protected
+  ffi.Pointer<wire_cst_offer_id> cst_encode_box_autoadd_offer_id(OfferId raw) {
+    // Codec=Cst (C-struct based), see doc to use other codecs
+    final ptr = wire.cst_new_box_autoadd_offer_id();
+    cst_api_fill_to_wire_offer_id(raw, ptr.ref);
     return ptr;
   }
 
@@ -1813,6 +1875,15 @@ abstract class coreApiImplPlatform extends BaseApiImpl<coreWire> {
   }
 
   @protected
+  ffi.Pointer<wire_cst_payment_secret> cst_encode_box_autoadd_payment_secret(
+      PaymentSecret raw) {
+    // Codec=Cst (C-struct based), see doc to use other codecs
+    final ptr = wire.cst_new_box_autoadd_payment_secret();
+    cst_api_fill_to_wire_payment_secret(raw, ptr.ref);
+    return ptr;
+  }
+
+  @protected
   ffi.Pointer<wire_cst_public_key> cst_encode_box_autoadd_public_key(
       PublicKey raw) {
     // Codec=Cst (C-struct based), see doc to use other codecs
@@ -1826,6 +1897,16 @@ abstract class coreApiImplPlatform extends BaseApiImpl<coreWire> {
     // Codec=Cst (C-struct based), see doc to use other codecs
     final ptr = wire.cst_new_box_autoadd_refund();
     cst_api_fill_to_wire_refund(raw, ptr.ref);
+    return ptr;
+  }
+
+  @protected
+  ffi.Pointer<wire_cst_route_parameters_config>
+      cst_encode_box_autoadd_route_parameters_config(
+          RouteParametersConfig raw) {
+    // Codec=Cst (C-struct based), see doc to use other codecs
+    final ptr = wire.cst_new_box_autoadd_route_parameters_config();
+    cst_api_fill_to_wire_route_parameters_config(raw, ptr.ref);
     return ptr;
   }
 
@@ -1886,6 +1967,17 @@ abstract class coreApiImplPlatform extends BaseApiImpl<coreWire> {
     final ptr = wire.cst_new_box_autoadd_user_channel_id();
     cst_api_fill_to_wire_user_channel_id(raw, ptr.ref);
     return ptr;
+  }
+
+  @protected
+  ffi.Pointer<wire_cst_list_blinded_message_path>
+      cst_encode_list_blinded_message_path(List<BlindedMessagePath> raw) {
+    // Codec=Cst (C-struct based), see doc to use other codecs
+    final ans = wire.cst_new_list_blinded_message_path(raw.length);
+    for (var i = 0; i < raw.length; ++i) {
+      cst_api_fill_to_wire_blinded_message_path(raw[i], ans.ref.ptr[i]);
+    }
+    return ans;
   }
 
   @protected
@@ -2250,10 +2342,29 @@ abstract class coreApiImplPlatform extends BaseApiImpl<coreWire> {
   }
 
   @protected
+  ffi.Pointer<wire_cst_payment_secret>
+      cst_encode_opt_box_autoadd_payment_secret(PaymentSecret? raw) {
+    // Codec=Cst (C-struct based), see doc to use other codecs
+    return raw == null
+        ? ffi.nullptr
+        : cst_encode_box_autoadd_payment_secret(raw);
+  }
+
+  @protected
   ffi.Pointer<wire_cst_public_key> cst_encode_opt_box_autoadd_public_key(
       PublicKey? raw) {
     // Codec=Cst (C-struct based), see doc to use other codecs
     return raw == null ? ffi.nullptr : cst_encode_box_autoadd_public_key(raw);
+  }
+
+  @protected
+  ffi.Pointer<wire_cst_route_parameters_config>
+      cst_encode_opt_box_autoadd_route_parameters_config(
+          RouteParametersConfig? raw) {
+    // Codec=Cst (C-struct based), see doc to use other codecs
+    return raw == null
+        ? ffi.nullptr
+        : cst_encode_box_autoadd_route_parameters_config(raw);
   }
 
   @protected
@@ -2411,6 +2522,12 @@ abstract class coreApiImplPlatform extends BaseApiImpl<coreWire> {
   }
 
   @protected
+  void cst_api_fill_to_wire_blinded_message_path(
+      BlindedMessagePath apiObj, wire_cst_blinded_message_path wireObj) {
+    wireObj.data = cst_encode_list_prim_u_8_strict(apiObj.data);
+  }
+
+  @protected
   void cst_api_fill_to_wire_bolt_11_invoice(
       Bolt11Invoice apiObj, wire_cst_bolt_11_invoice wireObj) {
     wireObj.signed_raw_invoice = cst_encode_String(apiObj.signedRawInvoice);
@@ -2455,6 +2572,10 @@ abstract class coreApiImplPlatform extends BaseApiImpl<coreWire> {
       var pre_field0 = cst_encode_String(apiObj.field0);
       wireObj.tag = 5;
       wireObj.kind.InvalidSignature.field0 = pre_field0;
+      return;
+    }
+    if (apiObj is Bolt12ParseError_InvalidLeadingWhitespace) {
+      wireObj.tag = 6;
       return;
     }
   }
@@ -2534,6 +2655,13 @@ abstract class coreApiImplPlatform extends BaseApiImpl<coreWire> {
   void cst_api_fill_to_wire_box_autoadd_config(
       Config apiObj, ffi.Pointer<wire_cst_config> wireObj) {
     cst_api_fill_to_wire_config(apiObj, wireObj.ref);
+  }
+
+  @protected
+  void cst_api_fill_to_wire_box_autoadd_confirmation_status(
+      ConfirmationStatus apiObj,
+      ffi.Pointer<wire_cst_confirmation_status> wireObj) {
+    cst_api_fill_to_wire_confirmation_status(apiObj, wireObj.ref);
   }
 
   @protected
@@ -2643,6 +2771,12 @@ abstract class coreApiImplPlatform extends BaseApiImpl<coreWire> {
   }
 
   @protected
+  void cst_api_fill_to_wire_box_autoadd_lsp_fee_limits(
+      LSPFeeLimits apiObj, ffi.Pointer<wire_cst_lsp_fee_limits> wireObj) {
+    cst_api_fill_to_wire_lsp_fee_limits(apiObj, wireObj.ref);
+  }
+
+  @protected
   void cst_api_fill_to_wire_box_autoadd_max_total_routing_fee_limit(
       MaxTotalRoutingFeeLimit apiObj,
       ffi.Pointer<wire_cst_max_total_routing_fee_limit> wireObj) {
@@ -2681,6 +2815,12 @@ abstract class coreApiImplPlatform extends BaseApiImpl<coreWire> {
   }
 
   @protected
+  void cst_api_fill_to_wire_box_autoadd_offer_id(
+      OfferId apiObj, ffi.Pointer<wire_cst_offer_id> wireObj) {
+    cst_api_fill_to_wire_offer_id(apiObj, wireObj.ref);
+  }
+
+  @protected
   void cst_api_fill_to_wire_box_autoadd_out_point(
       OutPoint apiObj, ffi.Pointer<wire_cst_out_point> wireObj) {
     cst_api_fill_to_wire_out_point(apiObj, wireObj.ref);
@@ -2711,6 +2851,12 @@ abstract class coreApiImplPlatform extends BaseApiImpl<coreWire> {
   }
 
   @protected
+  void cst_api_fill_to_wire_box_autoadd_payment_secret(
+      PaymentSecret apiObj, ffi.Pointer<wire_cst_payment_secret> wireObj) {
+    cst_api_fill_to_wire_payment_secret(apiObj, wireObj.ref);
+  }
+
+  @protected
   void cst_api_fill_to_wire_box_autoadd_public_key(
       PublicKey apiObj, ffi.Pointer<wire_cst_public_key> wireObj) {
     cst_api_fill_to_wire_public_key(apiObj, wireObj.ref);
@@ -2720,6 +2866,13 @@ abstract class coreApiImplPlatform extends BaseApiImpl<coreWire> {
   void cst_api_fill_to_wire_box_autoadd_refund(
       Refund apiObj, ffi.Pointer<wire_cst_refund> wireObj) {
     cst_api_fill_to_wire_refund(apiObj, wireObj.ref);
+  }
+
+  @protected
+  void cst_api_fill_to_wire_box_autoadd_route_parameters_config(
+      RouteParametersConfig apiObj,
+      ffi.Pointer<wire_cst_route_parameters_config> wireObj) {
+    cst_api_fill_to_wire_route_parameters_config(apiObj, wireObj.ref);
   }
 
   @protected
@@ -2759,11 +2912,22 @@ abstract class coreApiImplPlatform extends BaseApiImpl<coreWire> {
       wireObj.kind.Esplora.sync_config = pre_sync_config;
       return;
     }
+    if (apiObj is ChainDataSourceConfig_EsploraWithHeaders) {
+      var pre_server_url = cst_encode_String(apiObj.serverUrl);
+      var pre_sync_config =
+          cst_encode_opt_box_autoadd_esplora_sync_config(apiObj.syncConfig);
+      var pre_headers = cst_encode_Map_String_String_None(apiObj.headers);
+      wireObj.tag = 1;
+      wireObj.kind.EsploraWithHeaders.server_url = pre_server_url;
+      wireObj.kind.EsploraWithHeaders.sync_config = pre_sync_config;
+      wireObj.kind.EsploraWithHeaders.headers = pre_headers;
+      return;
+    }
     if (apiObj is ChainDataSourceConfig_Electrum) {
       var pre_server_url = cst_encode_String(apiObj.serverUrl);
       var pre_sync_config =
           cst_encode_opt_box_autoadd_electrum_sync_config(apiObj.syncConfig);
-      wireObj.tag = 1;
+      wireObj.tag = 2;
       wireObj.kind.Electrum.server_url = pre_server_url;
       wireObj.kind.Electrum.sync_config = pre_sync_config;
       return;
@@ -2773,11 +2937,27 @@ abstract class coreApiImplPlatform extends BaseApiImpl<coreWire> {
       var pre_rpc_port = cst_encode_u_16(apiObj.rpcPort);
       var pre_rpc_user = cst_encode_String(apiObj.rpcUser);
       var pre_rpc_password = cst_encode_String(apiObj.rpcPassword);
-      wireObj.tag = 2;
+      wireObj.tag = 3;
       wireObj.kind.BitcoindRpc.rpc_host = pre_rpc_host;
       wireObj.kind.BitcoindRpc.rpc_port = pre_rpc_port;
       wireObj.kind.BitcoindRpc.rpc_user = pre_rpc_user;
       wireObj.kind.BitcoindRpc.rpc_password = pre_rpc_password;
+      return;
+    }
+    if (apiObj is ChainDataSourceConfig_BitcoindRest) {
+      var pre_rest_host = cst_encode_String(apiObj.restHost);
+      var pre_rest_port = cst_encode_u_16(apiObj.restPort);
+      var pre_rpc_host = cst_encode_String(apiObj.rpcHost);
+      var pre_rpc_port = cst_encode_u_16(apiObj.rpcPort);
+      var pre_rpc_user = cst_encode_String(apiObj.rpcUser);
+      var pre_rpc_password = cst_encode_String(apiObj.rpcPassword);
+      wireObj.tag = 4;
+      wireObj.kind.BitcoindRest.rest_host = pre_rest_host;
+      wireObj.kind.BitcoindRest.rest_port = pre_rest_port;
+      wireObj.kind.BitcoindRest.rpc_host = pre_rpc_host;
+      wireObj.kind.BitcoindRest.rpc_port = pre_rpc_port;
+      wireObj.kind.BitcoindRest.rpc_user = pre_rpc_user;
+      wireObj.kind.BitcoindRest.rpc_password = pre_rpc_password;
       return;
     }
   }
@@ -2979,8 +3159,28 @@ abstract class coreApiImplPlatform extends BaseApiImpl<coreWire> {
     wireObj.anchor_channels_config =
         cst_encode_opt_box_autoadd_anchor_channels_config(
             apiObj.anchorChannelsConfig);
-    wireObj.sending_parameters =
-        cst_encode_opt_box_autoadd_sending_parameters(apiObj.sendingParameters);
+    wireObj.route_parameters =
+        cst_encode_opt_box_autoadd_route_parameters_config(
+            apiObj.routeParameters);
+  }
+
+  @protected
+  void cst_api_fill_to_wire_confirmation_status(
+      ConfirmationStatus apiObj, wire_cst_confirmation_status wireObj) {
+    if (apiObj is ConfirmationStatus_Confirmed) {
+      var pre_block_hash = cst_encode_String(apiObj.blockHash);
+      var pre_height = cst_encode_u_32(apiObj.height);
+      var pre_timestamp = cst_encode_u_64(apiObj.timestamp);
+      wireObj.tag = 0;
+      wireObj.kind.Confirmed.block_hash = pre_block_hash;
+      wireObj.kind.Confirmed.height = pre_height;
+      wireObj.kind.Confirmed.timestamp = pre_timestamp;
+      return;
+    }
+    if (apiObj is ConfirmationStatus_Unconfirmed) {
+      wireObj.tag = 1;
+      return;
+    }
   }
 
   @protected
@@ -3160,10 +3360,13 @@ abstract class coreApiImplPlatform extends BaseApiImpl<coreWire> {
           cst_encode_box_autoadd_user_channel_id(apiObj.userChannelId);
       var pre_counterparty_node_id =
           cst_encode_opt_box_autoadd_public_key(apiObj.counterpartyNodeId);
+      var pre_funding_txo =
+          cst_encode_opt_box_autoadd_out_point(apiObj.fundingTxo);
       wireObj.tag = 5;
       wireObj.kind.ChannelReady.channel_id = pre_channel_id;
       wireObj.kind.ChannelReady.user_channel_id = pre_user_channel_id;
       wireObj.kind.ChannelReady.counterparty_node_id = pre_counterparty_node_id;
+      wireObj.kind.ChannelReady.funding_txo = pre_funding_txo;
       return;
     }
     if (apiObj is Event_ChannelClosed) {
@@ -3220,6 +3423,38 @@ abstract class coreApiImplPlatform extends BaseApiImpl<coreWire> {
           pre_outbound_amount_forwarded_msat;
       return;
     }
+    if (apiObj is Event_SplicePending) {
+      var pre_channel_id = cst_encode_box_autoadd_channel_id(apiObj.channelId);
+      var pre_user_channel_id =
+          cst_encode_box_autoadd_user_channel_id(apiObj.userChannelId);
+      var pre_counterparty_node_id =
+          cst_encode_box_autoadd_public_key(apiObj.counterpartyNodeId);
+      var pre_new_funding_txo =
+          cst_encode_box_autoadd_out_point(apiObj.newFundingTxo);
+      wireObj.tag = 8;
+      wireObj.kind.SplicePending.channel_id = pre_channel_id;
+      wireObj.kind.SplicePending.user_channel_id = pre_user_channel_id;
+      wireObj.kind.SplicePending.counterparty_node_id =
+          pre_counterparty_node_id;
+      wireObj.kind.SplicePending.new_funding_txo = pre_new_funding_txo;
+      return;
+    }
+    if (apiObj is Event_SpliceFailed) {
+      var pre_channel_id = cst_encode_box_autoadd_channel_id(apiObj.channelId);
+      var pre_user_channel_id =
+          cst_encode_box_autoadd_user_channel_id(apiObj.userChannelId);
+      var pre_counterparty_node_id =
+          cst_encode_box_autoadd_public_key(apiObj.counterpartyNodeId);
+      var pre_abandoned_funding_txo =
+          cst_encode_opt_box_autoadd_out_point(apiObj.abandonedFundingTxo);
+      wireObj.tag = 9;
+      wireObj.kind.SpliceFailed.channel_id = pre_channel_id;
+      wireObj.kind.SpliceFailed.user_channel_id = pre_user_channel_id;
+      wireObj.kind.SpliceFailed.counterparty_node_id = pre_counterparty_node_id;
+      wireObj.kind.SpliceFailed.abandoned_funding_txo =
+          pre_abandoned_funding_txo;
+      return;
+    }
   }
 
   @protected
@@ -3271,234 +3506,250 @@ abstract class coreApiImplPlatform extends BaseApiImpl<coreWire> {
       wireObj.tag = 0;
       return;
     }
-    if (apiObj is FfiNodeError_AlreadyRunning) {
+    if (apiObj is FfiNodeError_InvalidBlockHash) {
       wireObj.tag = 1;
       return;
     }
-    if (apiObj is FfiNodeError_NotRunning) {
+    if (apiObj is FfiNodeError_AlreadyRunning) {
       wireObj.tag = 2;
       return;
     }
-    if (apiObj is FfiNodeError_OnchainTxCreationFailed) {
+    if (apiObj is FfiNodeError_NotRunning) {
       wireObj.tag = 3;
       return;
     }
-    if (apiObj is FfiNodeError_ConnectionFailed) {
+    if (apiObj is FfiNodeError_OnchainTxCreationFailed) {
       wireObj.tag = 4;
       return;
     }
-    if (apiObj is FfiNodeError_InvoiceCreationFailed) {
+    if (apiObj is FfiNodeError_ConnectionFailed) {
       wireObj.tag = 5;
       return;
     }
-    if (apiObj is FfiNodeError_PaymentSendingFailed) {
+    if (apiObj is FfiNodeError_InvoiceCreationFailed) {
       wireObj.tag = 6;
       return;
     }
-    if (apiObj is FfiNodeError_ProbeSendingFailed) {
+    if (apiObj is FfiNodeError_PaymentSendingFailed) {
       wireObj.tag = 7;
       return;
     }
-    if (apiObj is FfiNodeError_ChannelCreationFailed) {
+    if (apiObj is FfiNodeError_ProbeSendingFailed) {
       wireObj.tag = 8;
       return;
     }
-    if (apiObj is FfiNodeError_ChannelClosingFailed) {
+    if (apiObj is FfiNodeError_ChannelCreationFailed) {
       wireObj.tag = 9;
       return;
     }
-    if (apiObj is FfiNodeError_ChannelConfigUpdateFailed) {
+    if (apiObj is FfiNodeError_ChannelClosingFailed) {
       wireObj.tag = 10;
       return;
     }
-    if (apiObj is FfiNodeError_PersistenceFailed) {
+    if (apiObj is FfiNodeError_ChannelConfigUpdateFailed) {
       wireObj.tag = 11;
       return;
     }
-    if (apiObj is FfiNodeError_WalletOperationFailed) {
+    if (apiObj is FfiNodeError_PersistenceFailed) {
       wireObj.tag = 12;
       return;
     }
-    if (apiObj is FfiNodeError_OnchainTxSigningFailed) {
+    if (apiObj is FfiNodeError_WalletOperationFailed) {
       wireObj.tag = 13;
       return;
     }
-    if (apiObj is FfiNodeError_MessageSigningFailed) {
+    if (apiObj is FfiNodeError_OnchainTxSigningFailed) {
       wireObj.tag = 14;
       return;
     }
-    if (apiObj is FfiNodeError_TxSyncFailed) {
+    if (apiObj is FfiNodeError_MessageSigningFailed) {
       wireObj.tag = 15;
       return;
     }
-    if (apiObj is FfiNodeError_GossipUpdateFailed) {
+    if (apiObj is FfiNodeError_TxSyncFailed) {
       wireObj.tag = 16;
       return;
     }
-    if (apiObj is FfiNodeError_InvalidAddress) {
+    if (apiObj is FfiNodeError_GossipUpdateFailed) {
       wireObj.tag = 17;
       return;
     }
-    if (apiObj is FfiNodeError_InvalidSocketAddress) {
+    if (apiObj is FfiNodeError_InvalidAddress) {
       wireObj.tag = 18;
       return;
     }
-    if (apiObj is FfiNodeError_InvalidPublicKey) {
+    if (apiObj is FfiNodeError_InvalidSocketAddress) {
       wireObj.tag = 19;
       return;
     }
-    if (apiObj is FfiNodeError_InvalidSecretKey) {
+    if (apiObj is FfiNodeError_InvalidPublicKey) {
       wireObj.tag = 20;
       return;
     }
-    if (apiObj is FfiNodeError_InvalidPaymentHash) {
+    if (apiObj is FfiNodeError_InvalidSecretKey) {
       wireObj.tag = 21;
       return;
     }
-    if (apiObj is FfiNodeError_InvalidPaymentPreimage) {
+    if (apiObj is FfiNodeError_InvalidPaymentHash) {
       wireObj.tag = 22;
       return;
     }
-    if (apiObj is FfiNodeError_InvalidPaymentSecret) {
+    if (apiObj is FfiNodeError_InvalidPaymentPreimage) {
       wireObj.tag = 23;
       return;
     }
-    if (apiObj is FfiNodeError_InvalidAmount) {
+    if (apiObj is FfiNodeError_InvalidPaymentSecret) {
       wireObj.tag = 24;
       return;
     }
-    if (apiObj is FfiNodeError_InvalidInvoice) {
+    if (apiObj is FfiNodeError_InvalidAmount) {
       wireObj.tag = 25;
       return;
     }
-    if (apiObj is FfiNodeError_InvalidChannelId) {
+    if (apiObj is FfiNodeError_InvalidInvoice) {
       wireObj.tag = 26;
       return;
     }
-    if (apiObj is FfiNodeError_InvalidNetwork) {
+    if (apiObj is FfiNodeError_InvalidChannelId) {
       wireObj.tag = 27;
       return;
     }
-    if (apiObj is FfiNodeError_DuplicatePayment) {
+    if (apiObj is FfiNodeError_InvalidNetwork) {
       wireObj.tag = 28;
       return;
     }
-    if (apiObj is FfiNodeError_InsufficientFunds) {
+    if (apiObj is FfiNodeError_DuplicatePayment) {
       wireObj.tag = 29;
       return;
     }
-    if (apiObj is FfiNodeError_FeerateEstimationUpdateFailed) {
+    if (apiObj is FfiNodeError_InsufficientFunds) {
       wireObj.tag = 30;
       return;
     }
-    if (apiObj is FfiNodeError_LiquidityRequestFailed) {
+    if (apiObj is FfiNodeError_FeerateEstimationUpdateFailed) {
       wireObj.tag = 31;
       return;
     }
-    if (apiObj is FfiNodeError_LiquiditySourceUnavailable) {
+    if (apiObj is FfiNodeError_LiquidityRequestFailed) {
       wireObj.tag = 32;
       return;
     }
-    if (apiObj is FfiNodeError_LiquidityFeeTooHigh) {
+    if (apiObj is FfiNodeError_LiquiditySourceUnavailable) {
       wireObj.tag = 33;
       return;
     }
-    if (apiObj is FfiNodeError_InvalidPaymentId) {
+    if (apiObj is FfiNodeError_LiquidityFeeTooHigh) {
       wireObj.tag = 34;
+      return;
+    }
+    if (apiObj is FfiNodeError_InvalidPaymentId) {
+      wireObj.tag = 35;
       return;
     }
     if (apiObj is FfiNodeError_Decode) {
       var pre_field0 = cst_encode_box_autoadd_decode_error(apiObj.field0);
-      wireObj.tag = 35;
+      wireObj.tag = 36;
       wireObj.kind.Decode.field0 = pre_field0;
       return;
     }
     if (apiObj is FfiNodeError_Bolt12Parse) {
       var pre_field0 =
           cst_encode_box_autoadd_bolt_12_parse_error(apiObj.field0);
-      wireObj.tag = 36;
+      wireObj.tag = 37;
       wireObj.kind.Bolt12Parse.field0 = pre_field0;
       return;
     }
     if (apiObj is FfiNodeError_InvoiceRequestCreationFailed) {
-      wireObj.tag = 37;
-      return;
-    }
-    if (apiObj is FfiNodeError_OfferCreationFailed) {
       wireObj.tag = 38;
       return;
     }
-    if (apiObj is FfiNodeError_RefundCreationFailed) {
+    if (apiObj is FfiNodeError_OfferCreationFailed) {
       wireObj.tag = 39;
       return;
     }
-    if (apiObj is FfiNodeError_FeerateEstimationUpdateTimeout) {
+    if (apiObj is FfiNodeError_RefundCreationFailed) {
       wireObj.tag = 40;
       return;
     }
-    if (apiObj is FfiNodeError_WalletOperationTimeout) {
+    if (apiObj is FfiNodeError_FeerateEstimationUpdateTimeout) {
       wireObj.tag = 41;
       return;
     }
-    if (apiObj is FfiNodeError_TxSyncTimeout) {
+    if (apiObj is FfiNodeError_WalletOperationTimeout) {
       wireObj.tag = 42;
       return;
     }
-    if (apiObj is FfiNodeError_GossipUpdateTimeout) {
+    if (apiObj is FfiNodeError_TxSyncTimeout) {
       wireObj.tag = 43;
       return;
     }
-    if (apiObj is FfiNodeError_InvalidOfferId) {
+    if (apiObj is FfiNodeError_GossipUpdateTimeout) {
       wireObj.tag = 44;
       return;
     }
-    if (apiObj is FfiNodeError_InvalidNodeId) {
+    if (apiObj is FfiNodeError_InvalidOfferId) {
       wireObj.tag = 45;
       return;
     }
-    if (apiObj is FfiNodeError_InvalidOffer) {
+    if (apiObj is FfiNodeError_InvalidNodeId) {
       wireObj.tag = 46;
       return;
     }
-    if (apiObj is FfiNodeError_InvalidRefund) {
+    if (apiObj is FfiNodeError_InvalidOffer) {
       wireObj.tag = 47;
       return;
     }
-    if (apiObj is FfiNodeError_UnsupportedCurrency) {
+    if (apiObj is FfiNodeError_InvalidRefund) {
       wireObj.tag = 48;
       return;
     }
-    if (apiObj is FfiNodeError_UriParameterParsingFailed) {
+    if (apiObj is FfiNodeError_UnsupportedCurrency) {
       wireObj.tag = 49;
       return;
     }
-    if (apiObj is FfiNodeError_InvalidUri) {
+    if (apiObj is FfiNodeError_UriParameterParsingFailed) {
       wireObj.tag = 50;
       return;
     }
-    if (apiObj is FfiNodeError_InvalidQuantity) {
+    if (apiObj is FfiNodeError_InvalidUri) {
       wireObj.tag = 51;
       return;
     }
-    if (apiObj is FfiNodeError_InvalidNodeAlias) {
+    if (apiObj is FfiNodeError_InvalidQuantity) {
       wireObj.tag = 52;
       return;
     }
-    if (apiObj is FfiNodeError_InvalidCustomTlvs) {
+    if (apiObj is FfiNodeError_InvalidNodeAlias) {
       wireObj.tag = 53;
       return;
     }
-    if (apiObj is FfiNodeError_InvalidDateTime) {
+    if (apiObj is FfiNodeError_InvalidCustomTlvs) {
       wireObj.tag = 54;
       return;
     }
-    if (apiObj is FfiNodeError_InvalidFeeRate) {
+    if (apiObj is FfiNodeError_InvalidDateTime) {
       wireObj.tag = 55;
+      return;
+    }
+    if (apiObj is FfiNodeError_InvalidFeeRate) {
+      wireObj.tag = 56;
+      return;
+    }
+    if (apiObj is FfiNodeError_ChannelSplicingFailed) {
+      wireObj.tag = 57;
+      return;
+    }
+    if (apiObj is FfiNodeError_InvalidBlindedPaths) {
+      wireObj.tag = 58;
+      return;
+    }
+    if (apiObj is FfiNodeError_AsyncPaymentServicesDisabled) {
+      wireObj.tag = 59;
       return;
     }
     if (apiObj is FfiNodeError_CreationError) {
       var pre_field0 = cst_encode_ffi_creation_error(apiObj.field0);
-      wireObj.tag = 56;
+      wireObj.tag = 60;
       wireObj.kind.CreationError.field0 = pre_field0;
       return;
     }
@@ -3753,7 +4004,6 @@ abstract class coreApiImplPlatform extends BaseApiImpl<coreWire> {
   void cst_api_fill_to_wire_node_status(
       NodeStatus apiObj, wire_cst_node_status wireObj) {
     wireObj.is_running = cst_encode_bool(apiObj.isRunning);
-    wireObj.is_listening = cst_encode_bool(apiObj.isListening);
     cst_api_fill_to_wire_best_block(
         apiObj.currentBestBlock, wireObj.current_best_block);
     wireObj.latest_lightning_wallet_sync_timestamp =
@@ -3797,9 +4047,7 @@ abstract class coreApiImplPlatform extends BaseApiImpl<coreWire> {
   void cst_api_fill_to_wire_payment_details(
       PaymentDetails apiObj, wire_cst_payment_details wireObj) {
     cst_api_fill_to_wire_payment_id(apiObj.id, wireObj.id);
-    wireObj.kind =
-        cst_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPaymentKind(
-            apiObj.kind);
+    cst_api_fill_to_wire_payment_kind(apiObj.kind, wireObj.kind);
     wireObj.amount_msat = cst_encode_opt_box_autoadd_u_64(apiObj.amountMsat);
     wireObj.direction = cst_encode_payment_direction(apiObj.direction);
     wireObj.status = cst_encode_payment_status(apiObj.status);
@@ -3817,6 +4065,90 @@ abstract class coreApiImplPlatform extends BaseApiImpl<coreWire> {
   void cst_api_fill_to_wire_payment_id(
       PaymentId apiObj, wire_cst_payment_id wireObj) {
     wireObj.data = cst_encode_list_prim_u_8_strict(apiObj.data);
+  }
+
+  @protected
+  void cst_api_fill_to_wire_payment_kind(
+      PaymentKind apiObj, wire_cst_payment_kind wireObj) {
+    if (apiObj is PaymentKind_Onchain) {
+      var pre_txid = cst_encode_box_autoadd_txid(apiObj.txid);
+      var pre_status =
+          cst_encode_box_autoadd_confirmation_status(apiObj.status);
+      wireObj.tag = 0;
+      wireObj.kind.Onchain.txid = pre_txid;
+      wireObj.kind.Onchain.status = pre_status;
+      return;
+    }
+    if (apiObj is PaymentKind_Bolt11) {
+      var pre_hash = cst_encode_box_autoadd_payment_hash(apiObj.hash);
+      var pre_preimage =
+          cst_encode_opt_box_autoadd_payment_preimage(apiObj.preimage);
+      var pre_secret = cst_encode_opt_box_autoadd_payment_secret(apiObj.secret);
+      wireObj.tag = 1;
+      wireObj.kind.Bolt11.hash = pre_hash;
+      wireObj.kind.Bolt11.preimage = pre_preimage;
+      wireObj.kind.Bolt11.secret = pre_secret;
+      return;
+    }
+    if (apiObj is PaymentKind_Bolt11Jit) {
+      var pre_hash = cst_encode_box_autoadd_payment_hash(apiObj.hash);
+      var pre_preimage =
+          cst_encode_opt_box_autoadd_payment_preimage(apiObj.preimage);
+      var pre_secret = cst_encode_opt_box_autoadd_payment_secret(apiObj.secret);
+      var pre_lsp_fee_limits =
+          cst_encode_box_autoadd_lsp_fee_limits(apiObj.lspFeeLimits);
+      var pre_counterparty_skimmed_fee_msat =
+          cst_encode_opt_box_autoadd_u_64(apiObj.counterpartySkimmedFeeMsat);
+      wireObj.tag = 2;
+      wireObj.kind.Bolt11Jit.hash = pre_hash;
+      wireObj.kind.Bolt11Jit.preimage = pre_preimage;
+      wireObj.kind.Bolt11Jit.secret = pre_secret;
+      wireObj.kind.Bolt11Jit.lsp_fee_limits = pre_lsp_fee_limits;
+      wireObj.kind.Bolt11Jit.counterparty_skimmed_fee_msat =
+          pre_counterparty_skimmed_fee_msat;
+      return;
+    }
+    if (apiObj is PaymentKind_Spontaneous) {
+      var pre_hash = cst_encode_box_autoadd_payment_hash(apiObj.hash);
+      var pre_preimage =
+          cst_encode_opt_box_autoadd_payment_preimage(apiObj.preimage);
+      wireObj.tag = 3;
+      wireObj.kind.Spontaneous.hash = pre_hash;
+      wireObj.kind.Spontaneous.preimage = pre_preimage;
+      return;
+    }
+    if (apiObj is PaymentKind_Bolt12Offer) {
+      var pre_hash = cst_encode_opt_box_autoadd_payment_hash(apiObj.hash);
+      var pre_preimage =
+          cst_encode_opt_box_autoadd_payment_preimage(apiObj.preimage);
+      var pre_secret = cst_encode_opt_box_autoadd_payment_secret(apiObj.secret);
+      var pre_offer_id = cst_encode_box_autoadd_offer_id(apiObj.offerId);
+      var pre_payer_note = cst_encode_opt_String(apiObj.payerNote);
+      var pre_quantity = cst_encode_opt_box_autoadd_u_64(apiObj.quantity);
+      wireObj.tag = 4;
+      wireObj.kind.Bolt12Offer.hash = pre_hash;
+      wireObj.kind.Bolt12Offer.preimage = pre_preimage;
+      wireObj.kind.Bolt12Offer.secret = pre_secret;
+      wireObj.kind.Bolt12Offer.offer_id = pre_offer_id;
+      wireObj.kind.Bolt12Offer.payer_note = pre_payer_note;
+      wireObj.kind.Bolt12Offer.quantity = pre_quantity;
+      return;
+    }
+    if (apiObj is PaymentKind_Bolt12Refund) {
+      var pre_hash = cst_encode_opt_box_autoadd_payment_hash(apiObj.hash);
+      var pre_preimage =
+          cst_encode_opt_box_autoadd_payment_preimage(apiObj.preimage);
+      var pre_secret = cst_encode_opt_box_autoadd_payment_secret(apiObj.secret);
+      var pre_payer_note = cst_encode_opt_String(apiObj.payerNote);
+      var pre_quantity = cst_encode_opt_box_autoadd_u_64(apiObj.quantity);
+      wireObj.tag = 5;
+      wireObj.kind.Bolt12Refund.hash = pre_hash;
+      wireObj.kind.Bolt12Refund.preimage = pre_preimage;
+      wireObj.kind.Bolt12Refund.secret = pre_secret;
+      wireObj.kind.Bolt12Refund.payer_note = pre_payer_note;
+      wireObj.kind.Bolt12Refund.quantity = pre_quantity;
+      return;
+    }
   }
 
   @protected
@@ -3942,6 +4274,20 @@ abstract class coreApiImplPlatform extends BaseApiImpl<coreWire> {
   }
 
   @protected
+  void cst_api_fill_to_wire_route_parameters_config(
+      RouteParametersConfig apiObj, wire_cst_route_parameters_config wireObj) {
+    wireObj.max_total_routing_fee_msat =
+        cst_encode_opt_box_autoadd_max_total_routing_fee_limit(
+            apiObj.maxTotalRoutingFeeMsat);
+    wireObj.max_total_cltv_expiry_delta =
+        cst_encode_opt_box_autoadd_u_32(apiObj.maxTotalCltvExpiryDelta);
+    wireObj.max_path_count =
+        cst_encode_opt_box_autoadd_u_8(apiObj.maxPathCount);
+    wireObj.max_channel_saturation_power_of_half =
+        cst_encode_opt_box_autoadd_u_8(apiObj.maxChannelSaturationPowerOfHalf);
+  }
+
+  @protected
   void cst_api_fill_to_wire_routing_fees(
       RoutingFees apiObj, wire_cst_routing_fees wireObj) {
     wireObj.base_msat = cst_encode_u_32(apiObj.baseMsat);
@@ -4022,16 +4368,8 @@ abstract class coreApiImplPlatform extends BaseApiImpl<coreWire> {
   }
 
   @protected
-  int cst_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerConfirmationStatus(
-      ConfirmationStatus raw);
-
-  @protected
   int cst_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerFfiBuilder(
       FfiBuilder raw);
-
-  @protected
-  int cst_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPaymentKind(
-      PaymentKind raw);
 
   @protected
   int cst_encode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerFfiBuilder(
@@ -4042,16 +4380,8 @@ abstract class coreApiImplPlatform extends BaseApiImpl<coreWire> {
       FfiBuilder raw);
 
   @protected
-  int cst_encode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerConfirmationStatus(
-      ConfirmationStatus raw);
-
-  @protected
   int cst_encode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerFfiBuilder(
       FfiBuilder raw);
-
-  @protected
-  int cst_encode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPaymentKind(
-      PaymentKind raw);
 
   @protected
   int cst_encode_RustOpaque_ldk_nodeBuilder(Builder raw);
@@ -4123,18 +4453,8 @@ abstract class coreApiImplPlatform extends BaseApiImpl<coreWire> {
 
   @protected
   void
-      sse_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerConfirmationStatus(
-          ConfirmationStatus self, SseSerializer serializer);
-
-  @protected
-  void
       sse_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerFfiBuilder(
           FfiBuilder self, SseSerializer serializer);
-
-  @protected
-  void
-      sse_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPaymentKind(
-          PaymentKind self, SseSerializer serializer);
 
   @protected
   void
@@ -4152,18 +4472,8 @@ abstract class coreApiImplPlatform extends BaseApiImpl<coreWire> {
 
   @protected
   void
-      sse_encode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerConfirmationStatus(
-          ConfirmationStatus self, SseSerializer serializer);
-
-  @protected
-  void
       sse_encode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerFfiBuilder(
           FfiBuilder self, SseSerializer serializer);
-
-  @protected
-  void
-      sse_encode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPaymentKind(
-          PaymentKind self, SseSerializer serializer);
 
   @protected
   void sse_encode_RustOpaque_ldk_nodeBuilder(
@@ -4219,6 +4529,10 @@ abstract class coreApiImplPlatform extends BaseApiImpl<coreWire> {
 
   @protected
   void sse_encode_best_block(BestBlock self, SseSerializer serializer);
+
+  @protected
+  void sse_encode_blinded_message_path(
+      BlindedMessagePath self, SseSerializer serializer);
 
   @protected
   void sse_encode_bolt_11_invoice(Bolt11Invoice self, SseSerializer serializer);
@@ -4281,6 +4595,10 @@ abstract class coreApiImplPlatform extends BaseApiImpl<coreWire> {
 
   @protected
   void sse_encode_box_autoadd_config(Config self, SseSerializer serializer);
+
+  @protected
+  void sse_encode_box_autoadd_confirmation_status(
+      ConfirmationStatus self, SseSerializer serializer);
 
   @protected
   void sse_encode_box_autoadd_decode_error(
@@ -4349,6 +4667,10 @@ abstract class coreApiImplPlatform extends BaseApiImpl<coreWire> {
       LogLevel self, SseSerializer serializer);
 
   @protected
+  void sse_encode_box_autoadd_lsp_fee_limits(
+      LSPFeeLimits self, SseSerializer serializer);
+
+  @protected
   void sse_encode_box_autoadd_max_total_routing_fee_limit(
       MaxTotalRoutingFeeLimit self, SseSerializer serializer);
 
@@ -4369,6 +4691,9 @@ abstract class coreApiImplPlatform extends BaseApiImpl<coreWire> {
 
   @protected
   void sse_encode_box_autoadd_offer(Offer self, SseSerializer serializer);
+
+  @protected
+  void sse_encode_box_autoadd_offer_id(OfferId self, SseSerializer serializer);
 
   @protected
   void sse_encode_box_autoadd_out_point(
@@ -4395,11 +4720,19 @@ abstract class coreApiImplPlatform extends BaseApiImpl<coreWire> {
       PaymentPreimage self, SseSerializer serializer);
 
   @protected
+  void sse_encode_box_autoadd_payment_secret(
+      PaymentSecret self, SseSerializer serializer);
+
+  @protected
   void sse_encode_box_autoadd_public_key(
       PublicKey self, SseSerializer serializer);
 
   @protected
   void sse_encode_box_autoadd_refund(Refund self, SseSerializer serializer);
+
+  @protected
+  void sse_encode_box_autoadd_route_parameters_config(
+      RouteParametersConfig self, SseSerializer serializer);
 
   @protected
   void sse_encode_box_autoadd_sending_parameters(
@@ -4454,6 +4787,10 @@ abstract class coreApiImplPlatform extends BaseApiImpl<coreWire> {
 
   @protected
   void sse_encode_config(Config self, SseSerializer serializer);
+
+  @protected
+  void sse_encode_confirmation_status(
+      ConfirmationStatus self, SseSerializer serializer);
 
   @protected
   void sse_encode_custom_tlv_record(
@@ -4535,6 +4872,10 @@ abstract class coreApiImplPlatform extends BaseApiImpl<coreWire> {
   @protected
   void sse_encode_liquidity_source_config(
       LiquiditySourceConfig self, SseSerializer serializer);
+
+  @protected
+  void sse_encode_list_blinded_message_path(
+      List<BlindedMessagePath> self, SseSerializer serializer);
 
   @protected
   void sse_encode_list_channel_details(
@@ -4731,8 +5072,16 @@ abstract class coreApiImplPlatform extends BaseApiImpl<coreWire> {
       PaymentPreimage? self, SseSerializer serializer);
 
   @protected
+  void sse_encode_opt_box_autoadd_payment_secret(
+      PaymentSecret? self, SseSerializer serializer);
+
+  @protected
   void sse_encode_opt_box_autoadd_public_key(
       PublicKey? self, SseSerializer serializer);
+
+  @protected
+  void sse_encode_opt_box_autoadd_route_parameters_config(
+      RouteParametersConfig? self, SseSerializer serializer);
 
   @protected
   void sse_encode_opt_box_autoadd_sending_parameters(
@@ -4780,6 +5129,9 @@ abstract class coreApiImplPlatform extends BaseApiImpl<coreWire> {
   void sse_encode_payment_id(PaymentId self, SseSerializer serializer);
 
   @protected
+  void sse_encode_payment_kind(PaymentKind self, SseSerializer serializer);
+
+  @protected
   void sse_encode_payment_preimage(
       PaymentPreimage self, SseSerializer serializer);
 
@@ -4813,6 +5165,10 @@ abstract class coreApiImplPlatform extends BaseApiImpl<coreWire> {
 
   @protected
   void sse_encode_refund(Refund self, SseSerializer serializer);
+
+  @protected
+  void sse_encode_route_parameters_config(
+      RouteParametersConfig self, SseSerializer serializer);
 
   @protected
   void sse_encode_routing_fees(RoutingFees self, SseSerializer serializer);
@@ -5054,6 +5410,7 @@ class coreWire implements BaseWire {
     ffi.Pointer<wire_cst_entropy_source_config> entropy_source_config,
     ffi.Pointer<wire_cst_gossip_source_config> gossip_source_config,
     ffi.Pointer<wire_cst_liquidity_source_config> liquidity_source_config,
+    ffi.Pointer<wire_cst_list_prim_u_8_strict> pathfinding_scores_source,
   ) {
     return _wire__crate__api__builder__FfiBuilder_create_builder(
       config,
@@ -5061,6 +5418,7 @@ class coreWire implements BaseWire {
       entropy_source_config,
       gossip_source_config,
       liquidity_source_config,
+      pathfinding_scores_source,
     );
   }
 
@@ -5072,6 +5430,7 @@ class coreWire implements BaseWire {
                 ffi.Pointer<wire_cst_entropy_source_config>,
                 ffi.Pointer<wire_cst_gossip_source_config>,
                 ffi.Pointer<wire_cst_liquidity_source_config>,
+                ffi.Pointer<wire_cst_list_prim_u_8_strict>,
               )>>(
       'frbgen_ldk_node_wire__crate__api__builder__FfiBuilder_create_builder');
   late final _wire__crate__api__builder__FfiBuilder_create_builder =
@@ -5082,6 +5441,7 @@ class coreWire implements BaseWire {
             ffi.Pointer<wire_cst_entropy_source_config>,
             ffi.Pointer<wire_cst_gossip_source_config>,
             ffi.Pointer<wire_cst_liquidity_source_config>,
+            ffi.Pointer<wire_cst_list_prim_u_8_strict>,
           )>();
 
   WireSyncRust2DartDco
@@ -5181,14 +5541,14 @@ class coreWire implements BaseWire {
       _wire__crate__api__types__config_defaultPtr
           .asFunction<void Function(int)>();
 
-  void wire__crate__api__bolt11__ffi_bolt_11_payment_claim_for_hash(
+  void wire__crate__api__bolt11__ffi_bolt_11_payment_claim_for_hash_unsafe(
     int port_,
     ffi.Pointer<wire_cst_ffi_bolt_11_payment> that,
     ffi.Pointer<wire_cst_payment_hash> payment_hash,
     int claimable_amount_msat,
     ffi.Pointer<wire_cst_payment_preimage> preimage,
   ) {
-    return _wire__crate__api__bolt11__ffi_bolt_11_payment_claim_for_hash(
+    return _wire__crate__api__bolt11__ffi_bolt_11_payment_claim_for_hash_unsafe(
       port_,
       that,
       payment_hash,
@@ -5197,7 +5557,7 @@ class coreWire implements BaseWire {
     );
   }
 
-  late final _wire__crate__api__bolt11__ffi_bolt_11_payment_claim_for_hashPtr =
+  late final _wire__crate__api__bolt11__ffi_bolt_11_payment_claim_for_hash_unsafePtr =
       _lookup<
           ffi.NativeFunction<
               ffi.Void Function(
@@ -5207,10 +5567,10 @@ class coreWire implements BaseWire {
                 ffi.Uint64,
                 ffi.Pointer<wire_cst_payment_preimage>,
               )>>(
-    'frbgen_ldk_node_wire__crate__api__bolt11__ffi_bolt_11_payment_claim_for_hash',
+    'frbgen_ldk_node_wire__crate__api__bolt11__ffi_bolt_11_payment_claim_for_hash_unsafe',
   );
-  late final _wire__crate__api__bolt11__ffi_bolt_11_payment_claim_for_hash =
-      _wire__crate__api__bolt11__ffi_bolt_11_payment_claim_for_hashPtr
+  late final _wire__crate__api__bolt11__ffi_bolt_11_payment_claim_for_hash_unsafe =
+      _wire__crate__api__bolt11__ffi_bolt_11_payment_claim_for_hash_unsafePtr
           .asFunction<
               void Function(
                 int,
@@ -5220,19 +5580,19 @@ class coreWire implements BaseWire {
                 ffi.Pointer<wire_cst_payment_preimage>,
               )>();
 
-  void wire__crate__api__bolt11__ffi_bolt_11_payment_fail_for_hash(
+  void wire__crate__api__bolt11__ffi_bolt_11_payment_fail_for_hash_unsafe(
     int port_,
     ffi.Pointer<wire_cst_ffi_bolt_11_payment> that,
     ffi.Pointer<wire_cst_payment_hash> payment_hash,
   ) {
-    return _wire__crate__api__bolt11__ffi_bolt_11_payment_fail_for_hash(
+    return _wire__crate__api__bolt11__ffi_bolt_11_payment_fail_for_hash_unsafe(
       port_,
       that,
       payment_hash,
     );
   }
 
-  late final _wire__crate__api__bolt11__ffi_bolt_11_payment_fail_for_hashPtr =
+  late final _wire__crate__api__bolt11__ffi_bolt_11_payment_fail_for_hash_unsafePtr =
       _lookup<
           ffi.NativeFunction<
               ffi.Void Function(
@@ -5240,10 +5600,10 @@ class coreWire implements BaseWire {
                 ffi.Pointer<wire_cst_ffi_bolt_11_payment>,
                 ffi.Pointer<wire_cst_payment_hash>,
               )>>(
-    'frbgen_ldk_node_wire__crate__api__bolt11__ffi_bolt_11_payment_fail_for_hash',
+    'frbgen_ldk_node_wire__crate__api__bolt11__ffi_bolt_11_payment_fail_for_hash_unsafe',
   );
-  late final _wire__crate__api__bolt11__ffi_bolt_11_payment_fail_for_hash =
-      _wire__crate__api__bolt11__ffi_bolt_11_payment_fail_for_hashPtr
+  late final _wire__crate__api__bolt11__ffi_bolt_11_payment_fail_for_hash_unsafe =
+      _wire__crate__api__bolt11__ffi_bolt_11_payment_fail_for_hash_unsafePtr
           .asFunction<
               void Function(
                 int,
@@ -5251,45 +5611,7 @@ class coreWire implements BaseWire {
                 ffi.Pointer<wire_cst_payment_hash>,
               )>();
 
-  void wire__crate__api__bolt11__ffi_bolt_11_payment_receive(
-    int port_,
-    ffi.Pointer<wire_cst_ffi_bolt_11_payment> that,
-    int amount_msat,
-    ffi.Pointer<wire_cst_list_prim_u_8_strict> description,
-    int expiry_secs,
-  ) {
-    return _wire__crate__api__bolt11__ffi_bolt_11_payment_receive(
-      port_,
-      that,
-      amount_msat,
-      description,
-      expiry_secs,
-    );
-  }
-
-  late final _wire__crate__api__bolt11__ffi_bolt_11_payment_receivePtr =
-      _lookup<
-          ffi.NativeFunction<
-              ffi.Void Function(
-                ffi.Int64,
-                ffi.Pointer<wire_cst_ffi_bolt_11_payment>,
-                ffi.Uint64,
-                ffi.Pointer<wire_cst_list_prim_u_8_strict>,
-                ffi.Uint32,
-              )>>(
-    'frbgen_ldk_node_wire__crate__api__bolt11__ffi_bolt_11_payment_receive',
-  );
-  late final _wire__crate__api__bolt11__ffi_bolt_11_payment_receive =
-      _wire__crate__api__bolt11__ffi_bolt_11_payment_receivePtr.asFunction<
-          void Function(
-            int,
-            ffi.Pointer<wire_cst_ffi_bolt_11_payment>,
-            int,
-            ffi.Pointer<wire_cst_list_prim_u_8_strict>,
-            int,
-          )>();
-
-  void wire__crate__api__bolt11__ffi_bolt_11_payment_receive_for_hash(
+  void wire__crate__api__bolt11__ffi_bolt_11_payment_receive_for_hash_unsafe(
     int port_,
     ffi.Pointer<wire_cst_ffi_bolt_11_payment> that,
     ffi.Pointer<wire_cst_payment_hash> payment_hash,
@@ -5297,7 +5619,7 @@ class coreWire implements BaseWire {
     ffi.Pointer<wire_cst_list_prim_u_8_strict> description,
     int expiry_secs,
   ) {
-    return _wire__crate__api__bolt11__ffi_bolt_11_payment_receive_for_hash(
+    return _wire__crate__api__bolt11__ffi_bolt_11_payment_receive_for_hash_unsafe(
       port_,
       that,
       payment_hash,
@@ -5307,7 +5629,7 @@ class coreWire implements BaseWire {
     );
   }
 
-  late final _wire__crate__api__bolt11__ffi_bolt_11_payment_receive_for_hashPtr =
+  late final _wire__crate__api__bolt11__ffi_bolt_11_payment_receive_for_hash_unsafePtr =
       _lookup<
           ffi.NativeFunction<
               ffi.Void Function(
@@ -5318,10 +5640,10 @@ class coreWire implements BaseWire {
                 ffi.Pointer<wire_cst_list_prim_u_8_strict>,
                 ffi.Uint32,
               )>>(
-    'frbgen_ldk_node_wire__crate__api__bolt11__ffi_bolt_11_payment_receive_for_hash',
+    'frbgen_ldk_node_wire__crate__api__bolt11__ffi_bolt_11_payment_receive_for_hash_unsafe',
   );
-  late final _wire__crate__api__bolt11__ffi_bolt_11_payment_receive_for_hash =
-      _wire__crate__api__bolt11__ffi_bolt_11_payment_receive_for_hashPtr
+  late final _wire__crate__api__bolt11__ffi_bolt_11_payment_receive_for_hash_unsafe =
+      _wire__crate__api__bolt11__ffi_bolt_11_payment_receive_for_hash_unsafePtr
           .asFunction<
               void Function(
                 int,
@@ -5332,50 +5654,54 @@ class coreWire implements BaseWire {
                 int,
               )>();
 
-  void wire__crate__api__bolt11__ffi_bolt_11_payment_receive_variable_amount(
+  void wire__crate__api__bolt11__ffi_bolt_11_payment_receive_unsafe(
     int port_,
     ffi.Pointer<wire_cst_ffi_bolt_11_payment> that,
+    int amount_msat,
     ffi.Pointer<wire_cst_list_prim_u_8_strict> description,
     int expiry_secs,
   ) {
-    return _wire__crate__api__bolt11__ffi_bolt_11_payment_receive_variable_amount(
+    return _wire__crate__api__bolt11__ffi_bolt_11_payment_receive_unsafe(
       port_,
       that,
+      amount_msat,
       description,
       expiry_secs,
     );
   }
 
-  late final _wire__crate__api__bolt11__ffi_bolt_11_payment_receive_variable_amountPtr =
+  late final _wire__crate__api__bolt11__ffi_bolt_11_payment_receive_unsafePtr =
       _lookup<
           ffi.NativeFunction<
               ffi.Void Function(
                 ffi.Int64,
                 ffi.Pointer<wire_cst_ffi_bolt_11_payment>,
+                ffi.Uint64,
                 ffi.Pointer<wire_cst_list_prim_u_8_strict>,
                 ffi.Uint32,
               )>>(
-    'frbgen_ldk_node_wire__crate__api__bolt11__ffi_bolt_11_payment_receive_variable_amount',
+    'frbgen_ldk_node_wire__crate__api__bolt11__ffi_bolt_11_payment_receive_unsafe',
   );
-  late final _wire__crate__api__bolt11__ffi_bolt_11_payment_receive_variable_amount =
-      _wire__crate__api__bolt11__ffi_bolt_11_payment_receive_variable_amountPtr
+  late final _wire__crate__api__bolt11__ffi_bolt_11_payment_receive_unsafe =
+      _wire__crate__api__bolt11__ffi_bolt_11_payment_receive_unsafePtr
           .asFunction<
               void Function(
                 int,
                 ffi.Pointer<wire_cst_ffi_bolt_11_payment>,
+                int,
                 ffi.Pointer<wire_cst_list_prim_u_8_strict>,
                 int,
               )>();
 
   void
-      wire__crate__api__bolt11__ffi_bolt_11_payment_receive_variable_amount_for_hash(
+      wire__crate__api__bolt11__ffi_bolt_11_payment_receive_variable_amount_for_hash_unsafe(
     int port_,
     ffi.Pointer<wire_cst_ffi_bolt_11_payment> that,
     ffi.Pointer<wire_cst_list_prim_u_8_strict> description,
     int expiry_secs,
     ffi.Pointer<wire_cst_payment_hash> payment_hash,
   ) {
-    return _wire__crate__api__bolt11__ffi_bolt_11_payment_receive_variable_amount_for_hash(
+    return _wire__crate__api__bolt11__ffi_bolt_11_payment_receive_variable_amount_for_hash_unsafe(
       port_,
       that,
       description,
@@ -5384,7 +5710,7 @@ class coreWire implements BaseWire {
     );
   }
 
-  late final _wire__crate__api__bolt11__ffi_bolt_11_payment_receive_variable_amount_for_hashPtr =
+  late final _wire__crate__api__bolt11__ffi_bolt_11_payment_receive_variable_amount_for_hash_unsafePtr =
       _lookup<
           ffi.NativeFunction<
               ffi.Void Function(
@@ -5394,10 +5720,10 @@ class coreWire implements BaseWire {
                 ffi.Uint32,
                 ffi.Pointer<wire_cst_payment_hash>,
               )>>(
-    'frbgen_ldk_node_wire__crate__api__bolt11__ffi_bolt_11_payment_receive_variable_amount_for_hash',
+    'frbgen_ldk_node_wire__crate__api__bolt11__ffi_bolt_11_payment_receive_variable_amount_for_hash_unsafe',
   );
-  late final _wire__crate__api__bolt11__ffi_bolt_11_payment_receive_variable_amount_for_hash =
-      _wire__crate__api__bolt11__ffi_bolt_11_payment_receive_variable_amount_for_hashPtr
+  late final _wire__crate__api__bolt11__ffi_bolt_11_payment_receive_variable_amount_for_hash_unsafe =
+      _wire__crate__api__bolt11__ffi_bolt_11_payment_receive_variable_amount_for_hash_unsafePtr
           .asFunction<
               void Function(
                 int,
@@ -5408,14 +5734,50 @@ class coreWire implements BaseWire {
               )>();
 
   void
-      wire__crate__api__bolt11__ffi_bolt_11_payment_receive_variable_amount_via_jit_channel(
+      wire__crate__api__bolt11__ffi_bolt_11_payment_receive_variable_amount_unsafe(
+    int port_,
+    ffi.Pointer<wire_cst_ffi_bolt_11_payment> that,
+    ffi.Pointer<wire_cst_list_prim_u_8_strict> description,
+    int expiry_secs,
+  ) {
+    return _wire__crate__api__bolt11__ffi_bolt_11_payment_receive_variable_amount_unsafe(
+      port_,
+      that,
+      description,
+      expiry_secs,
+    );
+  }
+
+  late final _wire__crate__api__bolt11__ffi_bolt_11_payment_receive_variable_amount_unsafePtr =
+      _lookup<
+          ffi.NativeFunction<
+              ffi.Void Function(
+                ffi.Int64,
+                ffi.Pointer<wire_cst_ffi_bolt_11_payment>,
+                ffi.Pointer<wire_cst_list_prim_u_8_strict>,
+                ffi.Uint32,
+              )>>(
+    'frbgen_ldk_node_wire__crate__api__bolt11__ffi_bolt_11_payment_receive_variable_amount_unsafe',
+  );
+  late final _wire__crate__api__bolt11__ffi_bolt_11_payment_receive_variable_amount_unsafe =
+      _wire__crate__api__bolt11__ffi_bolt_11_payment_receive_variable_amount_unsafePtr
+          .asFunction<
+              void Function(
+                int,
+                ffi.Pointer<wire_cst_ffi_bolt_11_payment>,
+                ffi.Pointer<wire_cst_list_prim_u_8_strict>,
+                int,
+              )>();
+
+  void
+      wire__crate__api__bolt11__ffi_bolt_11_payment_receive_variable_amount_via_jit_channel_unsafe(
     int port_,
     ffi.Pointer<wire_cst_ffi_bolt_11_payment> that,
     ffi.Pointer<wire_cst_list_prim_u_8_strict> description,
     int expiry_secs,
     ffi.Pointer<ffi.Uint64> max_proportional_lsp_fee_limit_ppm_msat,
   ) {
-    return _wire__crate__api__bolt11__ffi_bolt_11_payment_receive_variable_amount_via_jit_channel(
+    return _wire__crate__api__bolt11__ffi_bolt_11_payment_receive_variable_amount_via_jit_channel_unsafe(
       port_,
       that,
       description,
@@ -5424,7 +5786,7 @@ class coreWire implements BaseWire {
     );
   }
 
-  late final _wire__crate__api__bolt11__ffi_bolt_11_payment_receive_variable_amount_via_jit_channelPtr =
+  late final _wire__crate__api__bolt11__ffi_bolt_11_payment_receive_variable_amount_via_jit_channel_unsafePtr =
       _lookup<
           ffi.NativeFunction<
               ffi.Void Function(
@@ -5434,10 +5796,10 @@ class coreWire implements BaseWire {
                 ffi.Uint32,
                 ffi.Pointer<ffi.Uint64>,
               )>>(
-    'frbgen_ldk_node_wire__crate__api__bolt11__ffi_bolt_11_payment_receive_variable_amount_via_jit_channel',
+    'frbgen_ldk_node_wire__crate__api__bolt11__ffi_bolt_11_payment_receive_variable_amount_via_jit_channel_unsafe',
   );
-  late final _wire__crate__api__bolt11__ffi_bolt_11_payment_receive_variable_amount_via_jit_channel =
-      _wire__crate__api__bolt11__ffi_bolt_11_payment_receive_variable_amount_via_jit_channelPtr
+  late final _wire__crate__api__bolt11__ffi_bolt_11_payment_receive_variable_amount_via_jit_channel_unsafe =
+      _wire__crate__api__bolt11__ffi_bolt_11_payment_receive_variable_amount_via_jit_channel_unsafePtr
           .asFunction<
               void Function(
                 int,
@@ -5447,7 +5809,8 @@ class coreWire implements BaseWire {
                 ffi.Pointer<ffi.Uint64>,
               )>();
 
-  void wire__crate__api__bolt11__ffi_bolt_11_payment_receive_via_jit_channel(
+  void
+      wire__crate__api__bolt11__ffi_bolt_11_payment_receive_via_jit_channel_unsafe(
     int port_,
     ffi.Pointer<wire_cst_ffi_bolt_11_payment> that,
     int amount_msat,
@@ -5455,7 +5818,7 @@ class coreWire implements BaseWire {
     int expiry_secs,
     ffi.Pointer<ffi.Uint64> max_total_lsp_fee_limit_msat,
   ) {
-    return _wire__crate__api__bolt11__ffi_bolt_11_payment_receive_via_jit_channel(
+    return _wire__crate__api__bolt11__ffi_bolt_11_payment_receive_via_jit_channel_unsafe(
       port_,
       that,
       amount_msat,
@@ -5465,7 +5828,7 @@ class coreWire implements BaseWire {
     );
   }
 
-  late final _wire__crate__api__bolt11__ffi_bolt_11_payment_receive_via_jit_channelPtr =
+  late final _wire__crate__api__bolt11__ffi_bolt_11_payment_receive_via_jit_channel_unsafePtr =
       _lookup<
           ffi.NativeFunction<
               ffi.Void Function(
@@ -5476,10 +5839,10 @@ class coreWire implements BaseWire {
                 ffi.Uint32,
                 ffi.Pointer<ffi.Uint64>,
               )>>(
-    'frbgen_ldk_node_wire__crate__api__bolt11__ffi_bolt_11_payment_receive_via_jit_channel',
+    'frbgen_ldk_node_wire__crate__api__bolt11__ffi_bolt_11_payment_receive_via_jit_channel_unsafe',
   );
-  late final _wire__crate__api__bolt11__ffi_bolt_11_payment_receive_via_jit_channel =
-      _wire__crate__api__bolt11__ffi_bolt_11_payment_receive_via_jit_channelPtr
+  late final _wire__crate__api__bolt11__ffi_bolt_11_payment_receive_via_jit_channel_unsafe =
+      _wire__crate__api__bolt11__ffi_bolt_11_payment_receive_via_jit_channel_unsafePtr
           .asFunction<
               void Function(
                 int,
@@ -5490,13 +5853,13 @@ class coreWire implements BaseWire {
                 ffi.Pointer<ffi.Uint64>,
               )>();
 
-  void wire__crate__api__bolt11__ffi_bolt_11_payment_send(
+  void wire__crate__api__bolt11__ffi_bolt_11_payment_send_probes_unsafe(
     int port_,
     ffi.Pointer<wire_cst_ffi_bolt_11_payment> that,
     ffi.Pointer<wire_cst_bolt_11_invoice> invoice,
     ffi.Pointer<wire_cst_sending_parameters> sending_parameters,
   ) {
-    return _wire__crate__api__bolt11__ffi_bolt_11_payment_send(
+    return _wire__crate__api__bolt11__ffi_bolt_11_payment_send_probes_unsafe(
       port_,
       that,
       invoice,
@@ -5504,7 +5867,8 @@ class coreWire implements BaseWire {
     );
   }
 
-  late final _wire__crate__api__bolt11__ffi_bolt_11_payment_sendPtr = _lookup<
+  late final _wire__crate__api__bolt11__ffi_bolt_11_payment_send_probes_unsafePtr =
+      _lookup<
           ffi.NativeFunction<
               ffi.Void Function(
                 ffi.Int64,
@@ -5512,9 +5876,85 @@ class coreWire implements BaseWire {
                 ffi.Pointer<wire_cst_bolt_11_invoice>,
                 ffi.Pointer<wire_cst_sending_parameters>,
               )>>(
-      'frbgen_ldk_node_wire__crate__api__bolt11__ffi_bolt_11_payment_send');
-  late final _wire__crate__api__bolt11__ffi_bolt_11_payment_send =
-      _wire__crate__api__bolt11__ffi_bolt_11_payment_sendPtr.asFunction<
+    'frbgen_ldk_node_wire__crate__api__bolt11__ffi_bolt_11_payment_send_probes_unsafe',
+  );
+  late final _wire__crate__api__bolt11__ffi_bolt_11_payment_send_probes_unsafe =
+      _wire__crate__api__bolt11__ffi_bolt_11_payment_send_probes_unsafePtr
+          .asFunction<
+              void Function(
+                int,
+                ffi.Pointer<wire_cst_ffi_bolt_11_payment>,
+                ffi.Pointer<wire_cst_bolt_11_invoice>,
+                ffi.Pointer<wire_cst_sending_parameters>,
+              )>();
+
+  void
+      wire__crate__api__bolt11__ffi_bolt_11_payment_send_probes_using_amount_unsafe(
+    int port_,
+    ffi.Pointer<wire_cst_ffi_bolt_11_payment> that,
+    ffi.Pointer<wire_cst_bolt_11_invoice> invoice,
+    int amount_msat,
+    ffi.Pointer<wire_cst_sending_parameters> sending_parameters,
+  ) {
+    return _wire__crate__api__bolt11__ffi_bolt_11_payment_send_probes_using_amount_unsafe(
+      port_,
+      that,
+      invoice,
+      amount_msat,
+      sending_parameters,
+    );
+  }
+
+  late final _wire__crate__api__bolt11__ffi_bolt_11_payment_send_probes_using_amount_unsafePtr =
+      _lookup<
+          ffi.NativeFunction<
+              ffi.Void Function(
+                ffi.Int64,
+                ffi.Pointer<wire_cst_ffi_bolt_11_payment>,
+                ffi.Pointer<wire_cst_bolt_11_invoice>,
+                ffi.Uint64,
+                ffi.Pointer<wire_cst_sending_parameters>,
+              )>>(
+    'frbgen_ldk_node_wire__crate__api__bolt11__ffi_bolt_11_payment_send_probes_using_amount_unsafe',
+  );
+  late final _wire__crate__api__bolt11__ffi_bolt_11_payment_send_probes_using_amount_unsafe =
+      _wire__crate__api__bolt11__ffi_bolt_11_payment_send_probes_using_amount_unsafePtr
+          .asFunction<
+              void Function(
+                int,
+                ffi.Pointer<wire_cst_ffi_bolt_11_payment>,
+                ffi.Pointer<wire_cst_bolt_11_invoice>,
+                int,
+                ffi.Pointer<wire_cst_sending_parameters>,
+              )>();
+
+  void wire__crate__api__bolt11__ffi_bolt_11_payment_send_unsafe(
+    int port_,
+    ffi.Pointer<wire_cst_ffi_bolt_11_payment> that,
+    ffi.Pointer<wire_cst_bolt_11_invoice> invoice,
+    ffi.Pointer<wire_cst_sending_parameters> sending_parameters,
+  ) {
+    return _wire__crate__api__bolt11__ffi_bolt_11_payment_send_unsafe(
+      port_,
+      that,
+      invoice,
+      sending_parameters,
+    );
+  }
+
+  late final _wire__crate__api__bolt11__ffi_bolt_11_payment_send_unsafePtr =
+      _lookup<
+          ffi.NativeFunction<
+              ffi.Void Function(
+                ffi.Int64,
+                ffi.Pointer<wire_cst_ffi_bolt_11_payment>,
+                ffi.Pointer<wire_cst_bolt_11_invoice>,
+                ffi.Pointer<wire_cst_sending_parameters>,
+              )>>(
+    'frbgen_ldk_node_wire__crate__api__bolt11__ffi_bolt_11_payment_send_unsafe',
+  );
+  late final _wire__crate__api__bolt11__ffi_bolt_11_payment_send_unsafe =
+      _wire__crate__api__bolt11__ffi_bolt_11_payment_send_unsafePtr.asFunction<
           void Function(
             int,
             ffi.Pointer<wire_cst_ffi_bolt_11_payment>,
@@ -5522,79 +5962,14 @@ class coreWire implements BaseWire {
             ffi.Pointer<wire_cst_sending_parameters>,
           )>();
 
-  void wire__crate__api__bolt11__ffi_bolt_11_payment_send_probes(
-    int port_,
-    ffi.Pointer<wire_cst_ffi_bolt_11_payment> that,
-    ffi.Pointer<wire_cst_bolt_11_invoice> invoice,
-  ) {
-    return _wire__crate__api__bolt11__ffi_bolt_11_payment_send_probes(
-      port_,
-      that,
-      invoice,
-    );
-  }
-
-  late final _wire__crate__api__bolt11__ffi_bolt_11_payment_send_probesPtr =
-      _lookup<
-          ffi.NativeFunction<
-              ffi.Void Function(
-                ffi.Int64,
-                ffi.Pointer<wire_cst_ffi_bolt_11_payment>,
-                ffi.Pointer<wire_cst_bolt_11_invoice>,
-              )>>(
-    'frbgen_ldk_node_wire__crate__api__bolt11__ffi_bolt_11_payment_send_probes',
-  );
-  late final _wire__crate__api__bolt11__ffi_bolt_11_payment_send_probes =
-      _wire__crate__api__bolt11__ffi_bolt_11_payment_send_probesPtr.asFunction<
-          void Function(
-            int,
-            ffi.Pointer<wire_cst_ffi_bolt_11_payment>,
-            ffi.Pointer<wire_cst_bolt_11_invoice>,
-          )>();
-
-  void wire__crate__api__bolt11__ffi_bolt_11_payment_send_probes_using_amount(
-    int port_,
-    ffi.Pointer<wire_cst_ffi_bolt_11_payment> that,
-    ffi.Pointer<wire_cst_bolt_11_invoice> invoice,
-    int amount_msat,
-  ) {
-    return _wire__crate__api__bolt11__ffi_bolt_11_payment_send_probes_using_amount(
-      port_,
-      that,
-      invoice,
-      amount_msat,
-    );
-  }
-
-  late final _wire__crate__api__bolt11__ffi_bolt_11_payment_send_probes_using_amountPtr =
-      _lookup<
-          ffi.NativeFunction<
-              ffi.Void Function(
-                ffi.Int64,
-                ffi.Pointer<wire_cst_ffi_bolt_11_payment>,
-                ffi.Pointer<wire_cst_bolt_11_invoice>,
-                ffi.Uint64,
-              )>>(
-    'frbgen_ldk_node_wire__crate__api__bolt11__ffi_bolt_11_payment_send_probes_using_amount',
-  );
-  late final _wire__crate__api__bolt11__ffi_bolt_11_payment_send_probes_using_amount =
-      _wire__crate__api__bolt11__ffi_bolt_11_payment_send_probes_using_amountPtr
-          .asFunction<
-              void Function(
-                int,
-                ffi.Pointer<wire_cst_ffi_bolt_11_payment>,
-                ffi.Pointer<wire_cst_bolt_11_invoice>,
-                int,
-              )>();
-
-  void wire__crate__api__bolt11__ffi_bolt_11_payment_send_using_amount(
+  void wire__crate__api__bolt11__ffi_bolt_11_payment_send_using_amount_unsafe(
     int port_,
     ffi.Pointer<wire_cst_ffi_bolt_11_payment> that,
     ffi.Pointer<wire_cst_bolt_11_invoice> invoice,
     int amount_msat,
     ffi.Pointer<wire_cst_sending_parameters> sending_parameters,
   ) {
-    return _wire__crate__api__bolt11__ffi_bolt_11_payment_send_using_amount(
+    return _wire__crate__api__bolt11__ffi_bolt_11_payment_send_using_amount_unsafe(
       port_,
       that,
       invoice,
@@ -5603,7 +5978,7 @@ class coreWire implements BaseWire {
     );
   }
 
-  late final _wire__crate__api__bolt11__ffi_bolt_11_payment_send_using_amountPtr =
+  late final _wire__crate__api__bolt11__ffi_bolt_11_payment_send_using_amount_unsafePtr =
       _lookup<
           ffi.NativeFunction<
               ffi.Void Function(
@@ -5613,10 +5988,10 @@ class coreWire implements BaseWire {
                 ffi.Uint64,
                 ffi.Pointer<wire_cst_sending_parameters>,
               )>>(
-    'frbgen_ldk_node_wire__crate__api__bolt11__ffi_bolt_11_payment_send_using_amount',
+    'frbgen_ldk_node_wire__crate__api__bolt11__ffi_bolt_11_payment_send_using_amount_unsafe',
   );
-  late final _wire__crate__api__bolt11__ffi_bolt_11_payment_send_using_amount =
-      _wire__crate__api__bolt11__ffi_bolt_11_payment_send_using_amountPtr
+  late final _wire__crate__api__bolt11__ffi_bolt_11_payment_send_using_amount_unsafe =
+      _wire__crate__api__bolt11__ffi_bolt_11_payment_send_using_amount_unsafePtr
           .asFunction<
               void Function(
                 int,
@@ -5626,25 +6001,59 @@ class coreWire implements BaseWire {
                 ffi.Pointer<wire_cst_sending_parameters>,
               )>();
 
-  void wire__crate__api__bolt12__ffi_bolt_12_payment_initiate_refund(
+  void
+      wire__crate__api__bolt12__ffi_bolt_12_payment_blinded_paths_for_async_recipient_unsafe(
+    int port_,
+    ffi.Pointer<wire_cst_ffi_bolt_12_payment> that,
+    ffi.Pointer<wire_cst_list_prim_u_8_loose> recipient_id,
+  ) {
+    return _wire__crate__api__bolt12__ffi_bolt_12_payment_blinded_paths_for_async_recipient_unsafe(
+      port_,
+      that,
+      recipient_id,
+    );
+  }
+
+  late final _wire__crate__api__bolt12__ffi_bolt_12_payment_blinded_paths_for_async_recipient_unsafePtr =
+      _lookup<
+          ffi.NativeFunction<
+              ffi.Void Function(
+                ffi.Int64,
+                ffi.Pointer<wire_cst_ffi_bolt_12_payment>,
+                ffi.Pointer<wire_cst_list_prim_u_8_loose>,
+              )>>(
+    'frbgen_ldk_node_wire__crate__api__bolt12__ffi_bolt_12_payment_blinded_paths_for_async_recipient_unsafe',
+  );
+  late final _wire__crate__api__bolt12__ffi_bolt_12_payment_blinded_paths_for_async_recipient_unsafe =
+      _wire__crate__api__bolt12__ffi_bolt_12_payment_blinded_paths_for_async_recipient_unsafePtr
+          .asFunction<
+              void Function(
+                int,
+                ffi.Pointer<wire_cst_ffi_bolt_12_payment>,
+                ffi.Pointer<wire_cst_list_prim_u_8_loose>,
+              )>();
+
+  void wire__crate__api__bolt12__ffi_bolt_12_payment_initiate_refund_unsafe(
     int port_,
     ffi.Pointer<wire_cst_ffi_bolt_12_payment> that,
     int amount_msat,
     int expiry_secs,
     ffi.Pointer<ffi.Uint64> quantity,
     ffi.Pointer<wire_cst_list_prim_u_8_strict> payer_note,
+    ffi.Pointer<wire_cst_route_parameters_config> route_params,
   ) {
-    return _wire__crate__api__bolt12__ffi_bolt_12_payment_initiate_refund(
+    return _wire__crate__api__bolt12__ffi_bolt_12_payment_initiate_refund_unsafe(
       port_,
       that,
       amount_msat,
       expiry_secs,
       quantity,
       payer_note,
+      route_params,
     );
   }
 
-  late final _wire__crate__api__bolt12__ffi_bolt_12_payment_initiate_refundPtr =
+  late final _wire__crate__api__bolt12__ffi_bolt_12_payment_initiate_refund_unsafePtr =
       _lookup<
           ffi.NativeFunction<
               ffi.Void Function(
@@ -5654,11 +6063,12 @@ class coreWire implements BaseWire {
                 ffi.Uint32,
                 ffi.Pointer<ffi.Uint64>,
                 ffi.Pointer<wire_cst_list_prim_u_8_strict>,
+                ffi.Pointer<wire_cst_route_parameters_config>,
               )>>(
-    'frbgen_ldk_node_wire__crate__api__bolt12__ffi_bolt_12_payment_initiate_refund',
+    'frbgen_ldk_node_wire__crate__api__bolt12__ffi_bolt_12_payment_initiate_refund_unsafe',
   );
-  late final _wire__crate__api__bolt12__ffi_bolt_12_payment_initiate_refund =
-      _wire__crate__api__bolt12__ffi_bolt_12_payment_initiate_refundPtr
+  late final _wire__crate__api__bolt12__ffi_bolt_12_payment_initiate_refund_unsafe =
+      _wire__crate__api__bolt12__ffi_bolt_12_payment_initiate_refund_unsafePtr
           .asFunction<
               void Function(
                 int,
@@ -5667,9 +6077,34 @@ class coreWire implements BaseWire {
                 int,
                 ffi.Pointer<ffi.Uint64>,
                 ffi.Pointer<wire_cst_list_prim_u_8_strict>,
+                ffi.Pointer<wire_cst_route_parameters_config>,
               )>();
 
-  void wire__crate__api__bolt12__ffi_bolt_12_payment_receive(
+  void wire__crate__api__bolt12__ffi_bolt_12_payment_receive_async_unsafe(
+    int port_,
+    ffi.Pointer<wire_cst_ffi_bolt_12_payment> that,
+  ) {
+    return _wire__crate__api__bolt12__ffi_bolt_12_payment_receive_async_unsafe(
+      port_,
+      that,
+    );
+  }
+
+  late final _wire__crate__api__bolt12__ffi_bolt_12_payment_receive_async_unsafePtr =
+      _lookup<
+          ffi.NativeFunction<
+              ffi.Void Function(
+                ffi.Int64,
+                ffi.Pointer<wire_cst_ffi_bolt_12_payment>,
+              )>>(
+    'frbgen_ldk_node_wire__crate__api__bolt12__ffi_bolt_12_payment_receive_async_unsafe',
+  );
+  late final _wire__crate__api__bolt12__ffi_bolt_12_payment_receive_async_unsafe =
+      _wire__crate__api__bolt12__ffi_bolt_12_payment_receive_async_unsafePtr
+          .asFunction<
+              void Function(int, ffi.Pointer<wire_cst_ffi_bolt_12_payment>)>();
+
+  void wire__crate__api__bolt12__ffi_bolt_12_payment_receive_unsafe(
     int port_,
     ffi.Pointer<wire_cst_ffi_bolt_12_payment> that,
     int amount_msat,
@@ -5677,7 +6112,7 @@ class coreWire implements BaseWire {
     ffi.Pointer<ffi.Uint32> expiry_secs,
     ffi.Pointer<ffi.Uint64> quantity,
   ) {
-    return _wire__crate__api__bolt12__ffi_bolt_12_payment_receive(
+    return _wire__crate__api__bolt12__ffi_bolt_12_payment_receive_unsafe(
       port_,
       that,
       amount_msat,
@@ -5687,7 +6122,7 @@ class coreWire implements BaseWire {
     );
   }
 
-  late final _wire__crate__api__bolt12__ffi_bolt_12_payment_receivePtr =
+  late final _wire__crate__api__bolt12__ffi_bolt_12_payment_receive_unsafePtr =
       _lookup<
           ffi.NativeFunction<
               ffi.Void Function(
@@ -5698,26 +6133,28 @@ class coreWire implements BaseWire {
                 ffi.Pointer<ffi.Uint32>,
                 ffi.Pointer<ffi.Uint64>,
               )>>(
-    'frbgen_ldk_node_wire__crate__api__bolt12__ffi_bolt_12_payment_receive',
+    'frbgen_ldk_node_wire__crate__api__bolt12__ffi_bolt_12_payment_receive_unsafe',
   );
-  late final _wire__crate__api__bolt12__ffi_bolt_12_payment_receive =
-      _wire__crate__api__bolt12__ffi_bolt_12_payment_receivePtr.asFunction<
-          void Function(
-            int,
-            ffi.Pointer<wire_cst_ffi_bolt_12_payment>,
-            int,
-            ffi.Pointer<wire_cst_list_prim_u_8_strict>,
-            ffi.Pointer<ffi.Uint32>,
-            ffi.Pointer<ffi.Uint64>,
-          )>();
+  late final _wire__crate__api__bolt12__ffi_bolt_12_payment_receive_unsafe =
+      _wire__crate__api__bolt12__ffi_bolt_12_payment_receive_unsafePtr
+          .asFunction<
+              void Function(
+                int,
+                ffi.Pointer<wire_cst_ffi_bolt_12_payment>,
+                int,
+                ffi.Pointer<wire_cst_list_prim_u_8_strict>,
+                ffi.Pointer<ffi.Uint32>,
+                ffi.Pointer<ffi.Uint64>,
+              )>();
 
-  void wire__crate__api__bolt12__ffi_bolt_12_payment_receive_variable_amount(
+  void
+      wire__crate__api__bolt12__ffi_bolt_12_payment_receive_variable_amount_unsafe(
     int port_,
     ffi.Pointer<wire_cst_ffi_bolt_12_payment> that,
     ffi.Pointer<wire_cst_list_prim_u_8_strict> description,
     ffi.Pointer<ffi.Uint32> expiry_secs,
   ) {
-    return _wire__crate__api__bolt12__ffi_bolt_12_payment_receive_variable_amount(
+    return _wire__crate__api__bolt12__ffi_bolt_12_payment_receive_variable_amount_unsafe(
       port_,
       that,
       description,
@@ -5725,7 +6162,7 @@ class coreWire implements BaseWire {
     );
   }
 
-  late final _wire__crate__api__bolt12__ffi_bolt_12_payment_receive_variable_amountPtr =
+  late final _wire__crate__api__bolt12__ffi_bolt_12_payment_receive_variable_amount_unsafePtr =
       _lookup<
           ffi.NativeFunction<
               ffi.Void Function(
@@ -5734,10 +6171,10 @@ class coreWire implements BaseWire {
                 ffi.Pointer<wire_cst_list_prim_u_8_strict>,
                 ffi.Pointer<ffi.Uint32>,
               )>>(
-    'frbgen_ldk_node_wire__crate__api__bolt12__ffi_bolt_12_payment_receive_variable_amount',
+    'frbgen_ldk_node_wire__crate__api__bolt12__ffi_bolt_12_payment_receive_variable_amount_unsafe',
   );
-  late final _wire__crate__api__bolt12__ffi_bolt_12_payment_receive_variable_amount =
-      _wire__crate__api__bolt12__ffi_bolt_12_payment_receive_variable_amountPtr
+  late final _wire__crate__api__bolt12__ffi_bolt_12_payment_receive_variable_amount_unsafe =
+      _wire__crate__api__bolt12__ffi_bolt_12_payment_receive_variable_amount_unsafePtr
           .asFunction<
               void Function(
                 int,
@@ -5746,19 +6183,20 @@ class coreWire implements BaseWire {
                 ffi.Pointer<ffi.Uint32>,
               )>();
 
-  void wire__crate__api__bolt12__ffi_bolt_12_payment_request_refund_payment(
+  void
+      wire__crate__api__bolt12__ffi_bolt_12_payment_request_refund_payment_unsafe(
     int port_,
     ffi.Pointer<wire_cst_ffi_bolt_12_payment> that,
     ffi.Pointer<wire_cst_refund> refund,
   ) {
-    return _wire__crate__api__bolt12__ffi_bolt_12_payment_request_refund_payment(
+    return _wire__crate__api__bolt12__ffi_bolt_12_payment_request_refund_payment_unsafe(
       port_,
       that,
       refund,
     );
   }
 
-  late final _wire__crate__api__bolt12__ffi_bolt_12_payment_request_refund_paymentPtr =
+  late final _wire__crate__api__bolt12__ffi_bolt_12_payment_request_refund_payment_unsafePtr =
       _lookup<
           ffi.NativeFunction<
               ffi.Void Function(
@@ -5766,10 +6204,10 @@ class coreWire implements BaseWire {
                 ffi.Pointer<wire_cst_ffi_bolt_12_payment>,
                 ffi.Pointer<wire_cst_refund>,
               )>>(
-    'frbgen_ldk_node_wire__crate__api__bolt12__ffi_bolt_12_payment_request_refund_payment',
+    'frbgen_ldk_node_wire__crate__api__bolt12__ffi_bolt_12_payment_request_refund_payment_unsafe',
   );
-  late final _wire__crate__api__bolt12__ffi_bolt_12_payment_request_refund_payment =
-      _wire__crate__api__bolt12__ffi_bolt_12_payment_request_refund_paymentPtr
+  late final _wire__crate__api__bolt12__ffi_bolt_12_payment_request_refund_payment_unsafe =
+      _wire__crate__api__bolt12__ffi_bolt_12_payment_request_refund_payment_unsafePtr
           .asFunction<
               void Function(
                 int,
@@ -5777,23 +6215,26 @@ class coreWire implements BaseWire {
                 ffi.Pointer<wire_cst_refund>,
               )>();
 
-  void wire__crate__api__bolt12__ffi_bolt_12_payment_send(
+  void wire__crate__api__bolt12__ffi_bolt_12_payment_send_unsafe(
     int port_,
     ffi.Pointer<wire_cst_ffi_bolt_12_payment> that,
     ffi.Pointer<wire_cst_offer> offer,
     ffi.Pointer<ffi.Uint64> quantity,
     ffi.Pointer<wire_cst_list_prim_u_8_strict> payer_note,
+    ffi.Pointer<wire_cst_route_parameters_config> route_params,
   ) {
-    return _wire__crate__api__bolt12__ffi_bolt_12_payment_send(
+    return _wire__crate__api__bolt12__ffi_bolt_12_payment_send_unsafe(
       port_,
       that,
       offer,
       quantity,
       payer_note,
+      route_params,
     );
   }
 
-  late final _wire__crate__api__bolt12__ffi_bolt_12_payment_sendPtr = _lookup<
+  late final _wire__crate__api__bolt12__ffi_bolt_12_payment_send_unsafePtr =
+      _lookup<
           ffi.NativeFunction<
               ffi.Void Function(
                 ffi.Int64,
@@ -5801,37 +6242,42 @@ class coreWire implements BaseWire {
                 ffi.Pointer<wire_cst_offer>,
                 ffi.Pointer<ffi.Uint64>,
                 ffi.Pointer<wire_cst_list_prim_u_8_strict>,
+                ffi.Pointer<wire_cst_route_parameters_config>,
               )>>(
-      'frbgen_ldk_node_wire__crate__api__bolt12__ffi_bolt_12_payment_send');
-  late final _wire__crate__api__bolt12__ffi_bolt_12_payment_send =
-      _wire__crate__api__bolt12__ffi_bolt_12_payment_sendPtr.asFunction<
+    'frbgen_ldk_node_wire__crate__api__bolt12__ffi_bolt_12_payment_send_unsafe',
+  );
+  late final _wire__crate__api__bolt12__ffi_bolt_12_payment_send_unsafe =
+      _wire__crate__api__bolt12__ffi_bolt_12_payment_send_unsafePtr.asFunction<
           void Function(
             int,
             ffi.Pointer<wire_cst_ffi_bolt_12_payment>,
             ffi.Pointer<wire_cst_offer>,
             ffi.Pointer<ffi.Uint64>,
             ffi.Pointer<wire_cst_list_prim_u_8_strict>,
+            ffi.Pointer<wire_cst_route_parameters_config>,
           )>();
 
-  void wire__crate__api__bolt12__ffi_bolt_12_payment_send_using_amount(
+  void wire__crate__api__bolt12__ffi_bolt_12_payment_send_using_amount_unsafe(
     int port_,
     ffi.Pointer<wire_cst_ffi_bolt_12_payment> that,
     ffi.Pointer<wire_cst_offer> offer,
     int amount_msat,
     ffi.Pointer<ffi.Uint64> quantity,
     ffi.Pointer<wire_cst_list_prim_u_8_strict> payer_note,
+    ffi.Pointer<wire_cst_route_parameters_config> route_params,
   ) {
-    return _wire__crate__api__bolt12__ffi_bolt_12_payment_send_using_amount(
+    return _wire__crate__api__bolt12__ffi_bolt_12_payment_send_using_amount_unsafe(
       port_,
       that,
       offer,
       amount_msat,
       quantity,
       payer_note,
+      route_params,
     );
   }
 
-  late final _wire__crate__api__bolt12__ffi_bolt_12_payment_send_using_amountPtr =
+  late final _wire__crate__api__bolt12__ffi_bolt_12_payment_send_using_amount_unsafePtr =
       _lookup<
           ffi.NativeFunction<
               ffi.Void Function(
@@ -5841,11 +6287,12 @@ class coreWire implements BaseWire {
                 ffi.Uint64,
                 ffi.Pointer<ffi.Uint64>,
                 ffi.Pointer<wire_cst_list_prim_u_8_strict>,
+                ffi.Pointer<wire_cst_route_parameters_config>,
               )>>(
-    'frbgen_ldk_node_wire__crate__api__bolt12__ffi_bolt_12_payment_send_using_amount',
+    'frbgen_ldk_node_wire__crate__api__bolt12__ffi_bolt_12_payment_send_using_amount_unsafe',
   );
-  late final _wire__crate__api__bolt12__ffi_bolt_12_payment_send_using_amount =
-      _wire__crate__api__bolt12__ffi_bolt_12_payment_send_using_amountPtr
+  late final _wire__crate__api__bolt12__ffi_bolt_12_payment_send_using_amount_unsafe =
+      _wire__crate__api__bolt12__ffi_bolt_12_payment_send_using_amount_unsafePtr
           .asFunction<
               void Function(
                 int,
@@ -5854,6 +6301,39 @@ class coreWire implements BaseWire {
                 int,
                 ffi.Pointer<ffi.Uint64>,
                 ffi.Pointer<wire_cst_list_prim_u_8_strict>,
+                ffi.Pointer<wire_cst_route_parameters_config>,
+              )>();
+
+  void
+      wire__crate__api__bolt12__ffi_bolt_12_payment_set_paths_to_static_invoice_server_unsafe(
+    int port_,
+    ffi.Pointer<wire_cst_ffi_bolt_12_payment> that,
+    ffi.Pointer<wire_cst_list_blinded_message_path> paths,
+  ) {
+    return _wire__crate__api__bolt12__ffi_bolt_12_payment_set_paths_to_static_invoice_server_unsafe(
+      port_,
+      that,
+      paths,
+    );
+  }
+
+  late final _wire__crate__api__bolt12__ffi_bolt_12_payment_set_paths_to_static_invoice_server_unsafePtr =
+      _lookup<
+          ffi.NativeFunction<
+              ffi.Void Function(
+                ffi.Int64,
+                ffi.Pointer<wire_cst_ffi_bolt_12_payment>,
+                ffi.Pointer<wire_cst_list_blinded_message_path>,
+              )>>(
+    'frbgen_ldk_node_wire__crate__api__bolt12__ffi_bolt_12_payment_set_paths_to_static_invoice_server_unsafe',
+  );
+  late final _wire__crate__api__bolt12__ffi_bolt_12_payment_set_paths_to_static_invoice_server_unsafe =
+      _wire__crate__api__bolt12__ffi_bolt_12_payment_set_paths_to_static_invoice_server_unsafePtr
+          .asFunction<
+              void Function(
+                int,
+                ffi.Pointer<wire_cst_ffi_bolt_12_payment>,
+                ffi.Pointer<wire_cst_list_blinded_message_path>,
               )>();
 
   void wire__crate__api__builder__ffi_mnemonic_generate(int port_) {
@@ -5868,91 +6348,118 @@ class coreWire implements BaseWire {
       _wire__crate__api__builder__ffi_mnemonic_generatePtr
           .asFunction<void Function(int)>();
 
-  void wire__crate__api__graph__ffi_network_graph_channel(
+  void wire__crate__api__builder__ffi_mnemonic_generate_with_word_count(
+    int port_,
+    int word_count,
+  ) {
+    return _wire__crate__api__builder__ffi_mnemonic_generate_with_word_count(
+      port_,
+      word_count,
+    );
+  }
+
+  late final _wire__crate__api__builder__ffi_mnemonic_generate_with_word_countPtr =
+      _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Int64, ffi.Uint8)>>(
+    'frbgen_ldk_node_wire__crate__api__builder__ffi_mnemonic_generate_with_word_count',
+  );
+  late final _wire__crate__api__builder__ffi_mnemonic_generate_with_word_count =
+      _wire__crate__api__builder__ffi_mnemonic_generate_with_word_countPtr
+          .asFunction<void Function(int, int)>();
+
+  void wire__crate__api__graph__ffi_network_graph_channel_unsafe(
     int port_,
     ffi.Pointer<wire_cst_ffi_network_graph> that,
     int short_channel_id,
   ) {
-    return _wire__crate__api__graph__ffi_network_graph_channel(
+    return _wire__crate__api__graph__ffi_network_graph_channel_unsafe(
       port_,
       that,
       short_channel_id,
     );
   }
 
-  late final _wire__crate__api__graph__ffi_network_graph_channelPtr = _lookup<
+  late final _wire__crate__api__graph__ffi_network_graph_channel_unsafePtr =
+      _lookup<
           ffi.NativeFunction<
               ffi.Void Function(
                 ffi.Int64,
                 ffi.Pointer<wire_cst_ffi_network_graph>,
                 ffi.Uint64,
               )>>(
-      'frbgen_ldk_node_wire__crate__api__graph__ffi_network_graph_channel');
-  late final _wire__crate__api__graph__ffi_network_graph_channel =
-      _wire__crate__api__graph__ffi_network_graph_channelPtr.asFunction<
+    'frbgen_ldk_node_wire__crate__api__graph__ffi_network_graph_channel_unsafe',
+  );
+  late final _wire__crate__api__graph__ffi_network_graph_channel_unsafe =
+      _wire__crate__api__graph__ffi_network_graph_channel_unsafePtr.asFunction<
           void Function(int, ffi.Pointer<wire_cst_ffi_network_graph>, int)>();
 
-  void wire__crate__api__graph__ffi_network_graph_list_channels(
+  void wire__crate__api__graph__ffi_network_graph_list_channels_unsafe(
     int port_,
     ffi.Pointer<wire_cst_ffi_network_graph> that,
   ) {
-    return _wire__crate__api__graph__ffi_network_graph_list_channels(
+    return _wire__crate__api__graph__ffi_network_graph_list_channels_unsafe(
       port_,
       that,
     );
   }
 
-  late final _wire__crate__api__graph__ffi_network_graph_list_channelsPtr =
+  late final _wire__crate__api__graph__ffi_network_graph_list_channels_unsafePtr =
       _lookup<
           ffi.NativeFunction<
               ffi.Void Function(
                   ffi.Int64, ffi.Pointer<wire_cst_ffi_network_graph>)>>(
-    'frbgen_ldk_node_wire__crate__api__graph__ffi_network_graph_list_channels',
+    'frbgen_ldk_node_wire__crate__api__graph__ffi_network_graph_list_channels_unsafe',
   );
-  late final _wire__crate__api__graph__ffi_network_graph_list_channels =
-      _wire__crate__api__graph__ffi_network_graph_list_channelsPtr.asFunction<
-          void Function(int, ffi.Pointer<wire_cst_ffi_network_graph>)>();
+  late final _wire__crate__api__graph__ffi_network_graph_list_channels_unsafe =
+      _wire__crate__api__graph__ffi_network_graph_list_channels_unsafePtr
+          .asFunction<
+              void Function(int, ffi.Pointer<wire_cst_ffi_network_graph>)>();
 
-  void wire__crate__api__graph__ffi_network_graph_list_nodes(
+  void wire__crate__api__graph__ffi_network_graph_list_nodes_unsafe(
     int port_,
     ffi.Pointer<wire_cst_ffi_network_graph> that,
   ) {
-    return _wire__crate__api__graph__ffi_network_graph_list_nodes(port_, that);
+    return _wire__crate__api__graph__ffi_network_graph_list_nodes_unsafe(
+      port_,
+      that,
+    );
   }
 
-  late final _wire__crate__api__graph__ffi_network_graph_list_nodesPtr =
+  late final _wire__crate__api__graph__ffi_network_graph_list_nodes_unsafePtr =
       _lookup<
           ffi.NativeFunction<
               ffi.Void Function(
                   ffi.Int64, ffi.Pointer<wire_cst_ffi_network_graph>)>>(
-    'frbgen_ldk_node_wire__crate__api__graph__ffi_network_graph_list_nodes',
+    'frbgen_ldk_node_wire__crate__api__graph__ffi_network_graph_list_nodes_unsafe',
   );
-  late final _wire__crate__api__graph__ffi_network_graph_list_nodes =
-      _wire__crate__api__graph__ffi_network_graph_list_nodesPtr.asFunction<
-          void Function(int, ffi.Pointer<wire_cst_ffi_network_graph>)>();
+  late final _wire__crate__api__graph__ffi_network_graph_list_nodes_unsafe =
+      _wire__crate__api__graph__ffi_network_graph_list_nodes_unsafePtr
+          .asFunction<
+              void Function(int, ffi.Pointer<wire_cst_ffi_network_graph>)>();
 
-  void wire__crate__api__graph__ffi_network_graph_node(
+  void wire__crate__api__graph__ffi_network_graph_node_unsafe(
     int port_,
     ffi.Pointer<wire_cst_ffi_network_graph> that,
     ffi.Pointer<wire_cst_node_id> node_id,
   ) {
-    return _wire__crate__api__graph__ffi_network_graph_node(
+    return _wire__crate__api__graph__ffi_network_graph_node_unsafe(
       port_,
       that,
       node_id,
     );
   }
 
-  late final _wire__crate__api__graph__ffi_network_graph_nodePtr = _lookup<
+  late final _wire__crate__api__graph__ffi_network_graph_node_unsafePtr =
+      _lookup<
           ffi.NativeFunction<
               ffi.Void Function(
                 ffi.Int64,
                 ffi.Pointer<wire_cst_ffi_network_graph>,
                 ffi.Pointer<wire_cst_node_id>,
               )>>(
-      'frbgen_ldk_node_wire__crate__api__graph__ffi_network_graph_node');
-  late final _wire__crate__api__graph__ffi_network_graph_node =
-      _wire__crate__api__graph__ffi_network_graph_nodePtr.asFunction<
+    'frbgen_ldk_node_wire__crate__api__graph__ffi_network_graph_node_unsafe',
+  );
+  late final _wire__crate__api__graph__ffi_network_graph_node_unsafe =
+      _wire__crate__api__graph__ffi_network_graph_node_unsafePtr.asFunction<
           void Function(
             int,
             ffi.Pointer<wire_cst_ffi_network_graph>,
@@ -6784,14 +7291,50 @@ class coreWire implements BaseWire {
                 ffi.Pointer<ffi.Uint64>,
               )>();
 
-  void wire__crate__api__spontaneous__ffi_spontaneous_payment_send(
+  void
+      wire__crate__api__spontaneous__ffi_spontaneous_payment_send_probes_unsafe(
+    int port_,
+    ffi.Pointer<wire_cst_ffi_spontaneous_payment> that,
+    int amount_msat,
+    ffi.Pointer<wire_cst_public_key> node_id,
+  ) {
+    return _wire__crate__api__spontaneous__ffi_spontaneous_payment_send_probes_unsafe(
+      port_,
+      that,
+      amount_msat,
+      node_id,
+    );
+  }
+
+  late final _wire__crate__api__spontaneous__ffi_spontaneous_payment_send_probes_unsafePtr =
+      _lookup<
+          ffi.NativeFunction<
+              ffi.Void Function(
+                ffi.Int64,
+                ffi.Pointer<wire_cst_ffi_spontaneous_payment>,
+                ffi.Uint64,
+                ffi.Pointer<wire_cst_public_key>,
+              )>>(
+    'frbgen_ldk_node_wire__crate__api__spontaneous__ffi_spontaneous_payment_send_probes_unsafe',
+  );
+  late final _wire__crate__api__spontaneous__ffi_spontaneous_payment_send_probes_unsafe =
+      _wire__crate__api__spontaneous__ffi_spontaneous_payment_send_probes_unsafePtr
+          .asFunction<
+              void Function(
+                int,
+                ffi.Pointer<wire_cst_ffi_spontaneous_payment>,
+                int,
+                ffi.Pointer<wire_cst_public_key>,
+              )>();
+
+  void wire__crate__api__spontaneous__ffi_spontaneous_payment_send_unsafe(
     int port_,
     ffi.Pointer<wire_cst_ffi_spontaneous_payment> that,
     int amount_msat,
     ffi.Pointer<wire_cst_public_key> node_id,
     ffi.Pointer<wire_cst_sending_parameters> sending_parameters,
   ) {
-    return _wire__crate__api__spontaneous__ffi_spontaneous_payment_send(
+    return _wire__crate__api__spontaneous__ffi_spontaneous_payment_send_unsafe(
       port_,
       that,
       amount_msat,
@@ -6800,7 +7343,7 @@ class coreWire implements BaseWire {
     );
   }
 
-  late final _wire__crate__api__spontaneous__ffi_spontaneous_payment_sendPtr =
+  late final _wire__crate__api__spontaneous__ffi_spontaneous_payment_send_unsafePtr =
       _lookup<
           ffi.NativeFunction<
               ffi.Void Function(
@@ -6810,10 +7353,10 @@ class coreWire implements BaseWire {
                 ffi.Pointer<wire_cst_public_key>,
                 ffi.Pointer<wire_cst_sending_parameters>,
               )>>(
-    'frbgen_ldk_node_wire__crate__api__spontaneous__ffi_spontaneous_payment_send',
+    'frbgen_ldk_node_wire__crate__api__spontaneous__ffi_spontaneous_payment_send_unsafe',
   );
-  late final _wire__crate__api__spontaneous__ffi_spontaneous_payment_send =
-      _wire__crate__api__spontaneous__ffi_spontaneous_payment_sendPtr
+  late final _wire__crate__api__spontaneous__ffi_spontaneous_payment_send_unsafe =
+      _wire__crate__api__spontaneous__ffi_spontaneous_payment_send_unsafePtr
           .asFunction<
               void Function(
                 int,
@@ -6821,45 +7364,10 @@ class coreWire implements BaseWire {
                 int,
                 ffi.Pointer<wire_cst_public_key>,
                 ffi.Pointer<wire_cst_sending_parameters>,
-              )>();
-
-  void wire__crate__api__spontaneous__ffi_spontaneous_payment_send_probes(
-    int port_,
-    ffi.Pointer<wire_cst_ffi_spontaneous_payment> that,
-    int amount_msat,
-    ffi.Pointer<wire_cst_public_key> node_id,
-  ) {
-    return _wire__crate__api__spontaneous__ffi_spontaneous_payment_send_probes(
-      port_,
-      that,
-      amount_msat,
-      node_id,
-    );
-  }
-
-  late final _wire__crate__api__spontaneous__ffi_spontaneous_payment_send_probesPtr =
-      _lookup<
-          ffi.NativeFunction<
-              ffi.Void Function(
-                ffi.Int64,
-                ffi.Pointer<wire_cst_ffi_spontaneous_payment>,
-                ffi.Uint64,
-                ffi.Pointer<wire_cst_public_key>,
-              )>>(
-    'frbgen_ldk_node_wire__crate__api__spontaneous__ffi_spontaneous_payment_send_probes',
-  );
-  late final _wire__crate__api__spontaneous__ffi_spontaneous_payment_send_probes =
-      _wire__crate__api__spontaneous__ffi_spontaneous_payment_send_probesPtr
-          .asFunction<
-              void Function(
-                int,
-                ffi.Pointer<wire_cst_ffi_spontaneous_payment>,
-                int,
-                ffi.Pointer<wire_cst_public_key>,
               )>();
 
   void
-      wire__crate__api__spontaneous__ffi_spontaneous_payment_send_with_custom_tlvs(
+      wire__crate__api__spontaneous__ffi_spontaneous_payment_send_with_custom_tlvs_unsafe(
     int port_,
     ffi.Pointer<wire_cst_ffi_spontaneous_payment> that,
     int amount_msat,
@@ -6867,7 +7375,7 @@ class coreWire implements BaseWire {
     ffi.Pointer<wire_cst_sending_parameters> sending_parameters,
     ffi.Pointer<wire_cst_list_custom_tlv_record> custom_tlvs,
   ) {
-    return _wire__crate__api__spontaneous__ffi_spontaneous_payment_send_with_custom_tlvs(
+    return _wire__crate__api__spontaneous__ffi_spontaneous_payment_send_with_custom_tlvs_unsafe(
       port_,
       that,
       amount_msat,
@@ -6877,7 +7385,7 @@ class coreWire implements BaseWire {
     );
   }
 
-  late final _wire__crate__api__spontaneous__ffi_spontaneous_payment_send_with_custom_tlvsPtr =
+  late final _wire__crate__api__spontaneous__ffi_spontaneous_payment_send_with_custom_tlvs_unsafePtr =
       _lookup<
           ffi.NativeFunction<
               ffi.Void Function(
@@ -6888,10 +7396,10 @@ class coreWire implements BaseWire {
                 ffi.Pointer<wire_cst_sending_parameters>,
                 ffi.Pointer<wire_cst_list_custom_tlv_record>,
               )>>(
-    'frbgen_ldk_node_wire__crate__api__spontaneous__ffi_spontaneous_payment_send_with_custom_tlvs',
+    'frbgen_ldk_node_wire__crate__api__spontaneous__ffi_spontaneous_payment_send_with_custom_tlvs_unsafe',
   );
-  late final _wire__crate__api__spontaneous__ffi_spontaneous_payment_send_with_custom_tlvs =
-      _wire__crate__api__spontaneous__ffi_spontaneous_payment_send_with_custom_tlvsPtr
+  late final _wire__crate__api__spontaneous__ffi_spontaneous_payment_send_with_custom_tlvs_unsafe =
+      _wire__crate__api__spontaneous__ffi_spontaneous_payment_send_with_custom_tlvs_unsafePtr
           .asFunction<
               void Function(
                 int,
@@ -6902,14 +7410,58 @@ class coreWire implements BaseWire {
                 ffi.Pointer<wire_cst_list_custom_tlv_record>,
               )>();
 
-  void wire__crate__api__unified_qr__ffi_unified_qr_payment_receive(
+  void
+      wire__crate__api__spontaneous__ffi_spontaneous_payment_send_with_preimage_unsafe(
+    int port_,
+    ffi.Pointer<wire_cst_ffi_spontaneous_payment> that,
+    int amount_msat,
+    ffi.Pointer<wire_cst_public_key> node_id,
+    ffi.Pointer<wire_cst_payment_preimage> preimage,
+    ffi.Pointer<wire_cst_sending_parameters> sending_parameters,
+  ) {
+    return _wire__crate__api__spontaneous__ffi_spontaneous_payment_send_with_preimage_unsafe(
+      port_,
+      that,
+      amount_msat,
+      node_id,
+      preimage,
+      sending_parameters,
+    );
+  }
+
+  late final _wire__crate__api__spontaneous__ffi_spontaneous_payment_send_with_preimage_unsafePtr =
+      _lookup<
+          ffi.NativeFunction<
+              ffi.Void Function(
+                ffi.Int64,
+                ffi.Pointer<wire_cst_ffi_spontaneous_payment>,
+                ffi.Uint64,
+                ffi.Pointer<wire_cst_public_key>,
+                ffi.Pointer<wire_cst_payment_preimage>,
+                ffi.Pointer<wire_cst_sending_parameters>,
+              )>>(
+    'frbgen_ldk_node_wire__crate__api__spontaneous__ffi_spontaneous_payment_send_with_preimage_unsafe',
+  );
+  late final _wire__crate__api__spontaneous__ffi_spontaneous_payment_send_with_preimage_unsafe =
+      _wire__crate__api__spontaneous__ffi_spontaneous_payment_send_with_preimage_unsafePtr
+          .asFunction<
+              void Function(
+                int,
+                ffi.Pointer<wire_cst_ffi_spontaneous_payment>,
+                int,
+                ffi.Pointer<wire_cst_public_key>,
+                ffi.Pointer<wire_cst_payment_preimage>,
+                ffi.Pointer<wire_cst_sending_parameters>,
+              )>();
+
+  void wire__crate__api__unified_qr__ffi_unified_qr_payment_receive_unsafe(
     int port_,
     ffi.Pointer<wire_cst_ffi_unified_qr_payment> that,
     int amount_sats,
     ffi.Pointer<wire_cst_list_prim_u_8_strict> message,
     int expiry_sec,
   ) {
-    return _wire__crate__api__unified_qr__ffi_unified_qr_payment_receive(
+    return _wire__crate__api__unified_qr__ffi_unified_qr_payment_receive_unsafe(
       port_,
       that,
       amount_sats,
@@ -6918,7 +7470,7 @@ class coreWire implements BaseWire {
     );
   }
 
-  late final _wire__crate__api__unified_qr__ffi_unified_qr_payment_receivePtr =
+  late final _wire__crate__api__unified_qr__ffi_unified_qr_payment_receive_unsafePtr =
       _lookup<
           ffi.NativeFunction<
               ffi.Void Function(
@@ -6928,10 +7480,10 @@ class coreWire implements BaseWire {
                 ffi.Pointer<wire_cst_list_prim_u_8_strict>,
                 ffi.Uint32,
               )>>(
-    'frbgen_ldk_node_wire__crate__api__unified_qr__ffi_unified_qr_payment_receive',
+    'frbgen_ldk_node_wire__crate__api__unified_qr__ffi_unified_qr_payment_receive_unsafe',
   );
-  late final _wire__crate__api__unified_qr__ffi_unified_qr_payment_receive =
-      _wire__crate__api__unified_qr__ffi_unified_qr_payment_receivePtr
+  late final _wire__crate__api__unified_qr__ffi_unified_qr_payment_receive_unsafe =
+      _wire__crate__api__unified_qr__ffi_unified_qr_payment_receive_unsafePtr
           .asFunction<
               void Function(
                 int,
@@ -6941,69 +7493,57 @@ class coreWire implements BaseWire {
                 int,
               )>();
 
-  void wire__crate__api__unified_qr__ffi_unified_qr_payment_send(
+  void wire__crate__api__unified_qr__ffi_unified_qr_payment_send_unsafe(
     int port_,
     ffi.Pointer<wire_cst_ffi_unified_qr_payment> that,
     ffi.Pointer<wire_cst_list_prim_u_8_strict> uri_str,
+    ffi.Pointer<wire_cst_route_parameters_config> route_parameters,
   ) {
-    return _wire__crate__api__unified_qr__ffi_unified_qr_payment_send(
+    return _wire__crate__api__unified_qr__ffi_unified_qr_payment_send_unsafe(
       port_,
       that,
       uri_str,
+      route_parameters,
     );
   }
 
-  late final _wire__crate__api__unified_qr__ffi_unified_qr_payment_sendPtr =
+  late final _wire__crate__api__unified_qr__ffi_unified_qr_payment_send_unsafePtr =
       _lookup<
           ffi.NativeFunction<
               ffi.Void Function(
                 ffi.Int64,
                 ffi.Pointer<wire_cst_ffi_unified_qr_payment>,
                 ffi.Pointer<wire_cst_list_prim_u_8_strict>,
+                ffi.Pointer<wire_cst_route_parameters_config>,
               )>>(
-    'frbgen_ldk_node_wire__crate__api__unified_qr__ffi_unified_qr_payment_send',
+    'frbgen_ldk_node_wire__crate__api__unified_qr__ffi_unified_qr_payment_send_unsafe',
   );
-  late final _wire__crate__api__unified_qr__ffi_unified_qr_payment_send =
-      _wire__crate__api__unified_qr__ffi_unified_qr_payment_sendPtr.asFunction<
-          void Function(
-            int,
-            ffi.Pointer<wire_cst_ffi_unified_qr_payment>,
+  late final _wire__crate__api__unified_qr__ffi_unified_qr_payment_send_unsafe =
+      _wire__crate__api__unified_qr__ffi_unified_qr_payment_send_unsafePtr
+          .asFunction<
+              void Function(
+                int,
+                ffi.Pointer<wire_cst_ffi_unified_qr_payment>,
+                ffi.Pointer<wire_cst_list_prim_u_8_strict>,
+                ffi.Pointer<wire_cst_route_parameters_config>,
+              )>();
+
+  void wire__crate__api__types__payment_preimage_new(
+    int port_,
+    ffi.Pointer<wire_cst_list_prim_u_8_strict> data,
+  ) {
+    return _wire__crate__api__types__payment_preimage_new(port_, data);
+  }
+
+  late final _wire__crate__api__types__payment_preimage_newPtr = _lookup<
+      ffi.NativeFunction<
+          ffi.Void Function(
+            ffi.Int64,
             ffi.Pointer<wire_cst_list_prim_u_8_strict>,
-          )>();
-
-  void
-      rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerConfirmationStatus(
-    ffi.Pointer<ffi.Void> ptr,
-  ) {
-    return _rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerConfirmationStatus(
-      ptr,
-    );
-  }
-
-  late final _rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerConfirmationStatusPtr =
-      _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void>)>>(
-    'frbgen_ldk_node_rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerConfirmationStatus',
-  );
-  late final _rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerConfirmationStatus =
-      _rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerConfirmationStatusPtr
-          .asFunction<void Function(ffi.Pointer<ffi.Void>)>();
-
-  void
-      rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerConfirmationStatus(
-    ffi.Pointer<ffi.Void> ptr,
-  ) {
-    return _rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerConfirmationStatus(
-      ptr,
-    );
-  }
-
-  late final _rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerConfirmationStatusPtr =
-      _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void>)>>(
-    'frbgen_ldk_node_rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerConfirmationStatus',
-  );
-  late final _rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerConfirmationStatus =
-      _rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerConfirmationStatusPtr
-          .asFunction<void Function(ffi.Pointer<ffi.Void>)>();
+          )>>('frbgen_ldk_node_wire__crate__api__types__payment_preimage_new');
+  late final _wire__crate__api__types__payment_preimage_new =
+      _wire__crate__api__types__payment_preimage_newPtr.asFunction<
+          void Function(int, ffi.Pointer<wire_cst_list_prim_u_8_strict>)>();
 
   void
       rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerFfiBuilder(
@@ -7037,40 +7577,6 @@ class coreWire implements BaseWire {
   );
   late final _rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerFfiBuilder =
       _rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerFfiBuilderPtr
-          .asFunction<void Function(ffi.Pointer<ffi.Void>)>();
-
-  void
-      rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPaymentKind(
-    ffi.Pointer<ffi.Void> ptr,
-  ) {
-    return _rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPaymentKind(
-      ptr,
-    );
-  }
-
-  late final _rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPaymentKindPtr =
-      _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void>)>>(
-    'frbgen_ldk_node_rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPaymentKind',
-  );
-  late final _rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPaymentKind =
-      _rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPaymentKindPtr
-          .asFunction<void Function(ffi.Pointer<ffi.Void>)>();
-
-  void
-      rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPaymentKind(
-    ffi.Pointer<ffi.Void> ptr,
-  ) {
-    return _rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPaymentKind(
-      ptr,
-    );
-  }
-
-  late final _rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPaymentKindPtr =
-      _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void>)>>(
-    'frbgen_ldk_node_rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPaymentKind',
-  );
-  late final _rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPaymentKind =
-      _rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPaymentKindPtr
           .asFunction<void Function(ffi.Pointer<ffi.Void>)>();
 
   void rust_arc_increment_strong_count_RustOpaque_ldk_nodeBuilder(
@@ -7479,6 +7985,19 @@ class coreWire implements BaseWire {
   late final _cst_new_box_autoadd_config = _cst_new_box_autoadd_configPtr
       .asFunction<ffi.Pointer<wire_cst_config> Function()>();
 
+  ffi.Pointer<wire_cst_confirmation_status>
+      cst_new_box_autoadd_confirmation_status() {
+    return _cst_new_box_autoadd_confirmation_status();
+  }
+
+  late final _cst_new_box_autoadd_confirmation_statusPtr = _lookup<
+          ffi.NativeFunction<
+              ffi.Pointer<wire_cst_confirmation_status> Function()>>(
+      'frbgen_ldk_node_cst_new_box_autoadd_confirmation_status');
+  late final _cst_new_box_autoadd_confirmation_status =
+      _cst_new_box_autoadd_confirmation_statusPtr
+          .asFunction<ffi.Pointer<wire_cst_confirmation_status> Function()>();
+
   ffi.Pointer<wire_cst_decode_error> cst_new_box_autoadd_decode_error() {
     return _cst_new_box_autoadd_decode_error();
   }
@@ -7688,6 +8207,17 @@ class coreWire implements BaseWire {
   late final _cst_new_box_autoadd_log_level = _cst_new_box_autoadd_log_levelPtr
       .asFunction<ffi.Pointer<ffi.Int32> Function(int)>();
 
+  ffi.Pointer<wire_cst_lsp_fee_limits> cst_new_box_autoadd_lsp_fee_limits() {
+    return _cst_new_box_autoadd_lsp_fee_limits();
+  }
+
+  late final _cst_new_box_autoadd_lsp_fee_limitsPtr = _lookup<
+          ffi.NativeFunction<ffi.Pointer<wire_cst_lsp_fee_limits> Function()>>(
+      'frbgen_ldk_node_cst_new_box_autoadd_lsp_fee_limits');
+  late final _cst_new_box_autoadd_lsp_fee_limits =
+      _cst_new_box_autoadd_lsp_fee_limitsPtr
+          .asFunction<ffi.Pointer<wire_cst_lsp_fee_limits> Function()>();
+
   ffi.Pointer<wire_cst_max_total_routing_fee_limit>
       cst_new_box_autoadd_max_total_routing_fee_limit() {
     return _cst_new_box_autoadd_max_total_routing_fee_limit();
@@ -7759,6 +8289,17 @@ class coreWire implements BaseWire {
   late final _cst_new_box_autoadd_offer = _cst_new_box_autoadd_offerPtr
       .asFunction<ffi.Pointer<wire_cst_offer> Function()>();
 
+  ffi.Pointer<wire_cst_offer_id> cst_new_box_autoadd_offer_id() {
+    return _cst_new_box_autoadd_offer_id();
+  }
+
+  late final _cst_new_box_autoadd_offer_idPtr =
+      _lookup<ffi.NativeFunction<ffi.Pointer<wire_cst_offer_id> Function()>>(
+    'frbgen_ldk_node_cst_new_box_autoadd_offer_id',
+  );
+  late final _cst_new_box_autoadd_offer_id = _cst_new_box_autoadd_offer_idPtr
+      .asFunction<ffi.Pointer<wire_cst_offer_id> Function()>();
+
   ffi.Pointer<wire_cst_out_point> cst_new_box_autoadd_out_point() {
     return _cst_new_box_autoadd_out_point();
   }
@@ -7829,6 +8370,17 @@ class coreWire implements BaseWire {
       _cst_new_box_autoadd_payment_preimagePtr
           .asFunction<ffi.Pointer<wire_cst_payment_preimage> Function()>();
 
+  ffi.Pointer<wire_cst_payment_secret> cst_new_box_autoadd_payment_secret() {
+    return _cst_new_box_autoadd_payment_secret();
+  }
+
+  late final _cst_new_box_autoadd_payment_secretPtr = _lookup<
+          ffi.NativeFunction<ffi.Pointer<wire_cst_payment_secret> Function()>>(
+      'frbgen_ldk_node_cst_new_box_autoadd_payment_secret');
+  late final _cst_new_box_autoadd_payment_secret =
+      _cst_new_box_autoadd_payment_secretPtr
+          .asFunction<ffi.Pointer<wire_cst_payment_secret> Function()>();
+
   ffi.Pointer<wire_cst_public_key> cst_new_box_autoadd_public_key() {
     return _cst_new_box_autoadd_public_key();
   }
@@ -7851,6 +8403,19 @@ class coreWire implements BaseWire {
   );
   late final _cst_new_box_autoadd_refund = _cst_new_box_autoadd_refundPtr
       .asFunction<ffi.Pointer<wire_cst_refund> Function()>();
+
+  ffi.Pointer<wire_cst_route_parameters_config>
+      cst_new_box_autoadd_route_parameters_config() {
+    return _cst_new_box_autoadd_route_parameters_config();
+  }
+
+  late final _cst_new_box_autoadd_route_parameters_configPtr = _lookup<
+          ffi.NativeFunction<
+              ffi.Pointer<wire_cst_route_parameters_config> Function()>>(
+      'frbgen_ldk_node_cst_new_box_autoadd_route_parameters_config');
+  late final _cst_new_box_autoadd_route_parameters_config =
+      _cst_new_box_autoadd_route_parameters_configPtr.asFunction<
+          ffi.Pointer<wire_cst_route_parameters_config> Function()>();
 
   ffi.Pointer<wire_cst_sending_parameters>
       cst_new_box_autoadd_sending_parameters() {
@@ -7941,6 +8506,19 @@ class coreWire implements BaseWire {
   late final _cst_new_box_autoadd_user_channel_id =
       _cst_new_box_autoadd_user_channel_idPtr
           .asFunction<ffi.Pointer<wire_cst_user_channel_id> Function()>();
+
+  ffi.Pointer<wire_cst_list_blinded_message_path>
+      cst_new_list_blinded_message_path(int len) {
+    return _cst_new_list_blinded_message_path(len);
+  }
+
+  late final _cst_new_list_blinded_message_pathPtr = _lookup<
+      ffi.NativeFunction<
+          ffi.Pointer<wire_cst_list_blinded_message_path> Function(
+              ffi.Int32)>>('frbgen_ldk_node_cst_new_list_blinded_message_path');
+  late final _cst_new_list_blinded_message_path =
+      _cst_new_list_blinded_message_pathPtr.asFunction<
+          ffi.Pointer<wire_cst_list_blinded_message_path> Function(int)>();
 
   ffi.Pointer<wire_cst_list_channel_details> cst_new_list_channel_details(
     int len,
@@ -8251,7 +8829,7 @@ final class wire_cst_max_total_routing_fee_limit extends ffi.Struct {
   external MaxTotalRoutingFeeLimitKind kind;
 }
 
-final class wire_cst_sending_parameters extends ffi.Struct {
+final class wire_cst_route_parameters_config extends ffi.Struct {
   external ffi.Pointer<wire_cst_max_total_routing_fee_limit>
       max_total_routing_fee_msat;
 
@@ -8281,7 +8859,7 @@ final class wire_cst_config extends ffi.Struct {
 
   external ffi.Pointer<wire_cst_anchor_channels_config> anchor_channels_config;
 
-  external ffi.Pointer<wire_cst_sending_parameters> sending_parameters;
+  external ffi.Pointer<wire_cst_route_parameters_config> route_parameters;
 }
 
 final class wire_cst_background_sync_config extends ffi.Struct {
@@ -8305,6 +8883,15 @@ final class wire_cst_ChainDataSourceConfig_Esplora extends ffi.Struct {
   external ffi.Pointer<wire_cst_esplora_sync_config> sync_config;
 }
 
+final class wire_cst_ChainDataSourceConfig_EsploraWithHeaders
+    extends ffi.Struct {
+  external ffi.Pointer<wire_cst_list_prim_u_8_strict> server_url;
+
+  external ffi.Pointer<wire_cst_esplora_sync_config> sync_config;
+
+  external ffi.Pointer<wire_cst_list_record_string_string> headers;
+}
+
 final class wire_cst_electrum_sync_config extends ffi.Struct {
   external ffi.Pointer<wire_cst_background_sync_config> background_sync_config;
 }
@@ -8326,12 +8913,32 @@ final class wire_cst_ChainDataSourceConfig_BitcoindRpc extends ffi.Struct {
   external ffi.Pointer<wire_cst_list_prim_u_8_strict> rpc_password;
 }
 
+final class wire_cst_ChainDataSourceConfig_BitcoindRest extends ffi.Struct {
+  external ffi.Pointer<wire_cst_list_prim_u_8_strict> rest_host;
+
+  @ffi.Uint16()
+  external int rest_port;
+
+  external ffi.Pointer<wire_cst_list_prim_u_8_strict> rpc_host;
+
+  @ffi.Uint16()
+  external int rpc_port;
+
+  external ffi.Pointer<wire_cst_list_prim_u_8_strict> rpc_user;
+
+  external ffi.Pointer<wire_cst_list_prim_u_8_strict> rpc_password;
+}
+
 final class ChainDataSourceConfigKind extends ffi.Union {
   external wire_cst_ChainDataSourceConfig_Esplora Esplora;
+
+  external wire_cst_ChainDataSourceConfig_EsploraWithHeaders EsploraWithHeaders;
 
   external wire_cst_ChainDataSourceConfig_Electrum Electrum;
 
   external wire_cst_ChainDataSourceConfig_BitcoindRpc BitcoindRpc;
+
+  external wire_cst_ChainDataSourceConfig_BitcoindRest BitcoindRest;
 }
 
 final class wire_cst_chain_data_source_config extends ffi.Struct {
@@ -8426,6 +9033,17 @@ final class wire_cst_bolt_11_invoice extends ffi.Struct {
   external ffi.Pointer<wire_cst_list_prim_u_8_strict> signed_raw_invoice;
 }
 
+final class wire_cst_sending_parameters extends ffi.Struct {
+  external ffi.Pointer<wire_cst_max_total_routing_fee_limit>
+      max_total_routing_fee_msat;
+
+  external ffi.Pointer<ffi.Uint32> max_total_cltv_expiry_delta;
+
+  external ffi.Pointer<ffi.Uint8> max_path_count;
+
+  external ffi.Pointer<ffi.Uint8> max_channel_saturation_power_of_half;
+}
+
 final class wire_cst_ffi_bolt_12_payment extends ffi.Struct {
   @ffi.UintPtr()
   external int opaque;
@@ -8437,6 +9055,17 @@ final class wire_cst_refund extends ffi.Struct {
 
 final class wire_cst_offer extends ffi.Struct {
   external ffi.Pointer<wire_cst_list_prim_u_8_strict> s;
+}
+
+final class wire_cst_blinded_message_path extends ffi.Struct {
+  external ffi.Pointer<wire_cst_list_prim_u_8_strict> data;
+}
+
+final class wire_cst_list_blinded_message_path extends ffi.Struct {
+  external ffi.Pointer<wire_cst_blinded_message_path> ptr;
+
+  @ffi.Int32()
+  external int len;
 }
 
 final class wire_cst_ffi_network_graph extends ffi.Struct {
@@ -8665,6 +9294,27 @@ final class wire_cst_closure_reason extends ffi.Struct {
   external ClosureReasonKind kind;
 }
 
+final class wire_cst_ConfirmationStatus_Confirmed extends ffi.Struct {
+  external ffi.Pointer<wire_cst_list_prim_u_8_strict> block_hash;
+
+  @ffi.Uint32()
+  external int height;
+
+  @ffi.Uint64()
+  external int timestamp;
+}
+
+final class ConfirmationStatusKind extends ffi.Union {
+  external wire_cst_ConfirmationStatus_Confirmed Confirmed;
+}
+
+final class wire_cst_confirmation_status extends ffi.Struct {
+  @ffi.Int32()
+  external int tag;
+
+  external ConfirmationStatusKind kind;
+}
+
 final class wire_cst_Event_PaymentClaimable extends ffi.Struct {
   external ffi.Pointer<wire_cst_payment_id> payment_id;
 
@@ -8736,6 +9386,8 @@ final class wire_cst_Event_ChannelReady extends ffi.Struct {
   external ffi.Pointer<wire_cst_user_channel_id> user_channel_id;
 
   external ffi.Pointer<wire_cst_public_key> counterparty_node_id;
+
+  external ffi.Pointer<wire_cst_out_point> funding_txo;
 }
 
 final class wire_cst_Event_ChannelClosed extends ffi.Struct {
@@ -8771,6 +9423,26 @@ final class wire_cst_Event_PaymentForwarded extends ffi.Struct {
   external ffi.Pointer<ffi.Uint64> outbound_amount_forwarded_msat;
 }
 
+final class wire_cst_Event_SplicePending extends ffi.Struct {
+  external ffi.Pointer<wire_cst_channel_id> channel_id;
+
+  external ffi.Pointer<wire_cst_user_channel_id> user_channel_id;
+
+  external ffi.Pointer<wire_cst_public_key> counterparty_node_id;
+
+  external ffi.Pointer<wire_cst_out_point> new_funding_txo;
+}
+
+final class wire_cst_Event_SpliceFailed extends ffi.Struct {
+  external ffi.Pointer<wire_cst_channel_id> channel_id;
+
+  external ffi.Pointer<wire_cst_user_channel_id> user_channel_id;
+
+  external ffi.Pointer<wire_cst_public_key> counterparty_node_id;
+
+  external ffi.Pointer<wire_cst_out_point> abandoned_funding_txo;
+}
+
 final class EventKind extends ffi.Union {
   external wire_cst_Event_PaymentClaimable PaymentClaimable;
 
@@ -8787,6 +9459,10 @@ final class EventKind extends ffi.Union {
   external wire_cst_Event_ChannelClosed ChannelClosed;
 
   external wire_cst_Event_PaymentForwarded PaymentForwarded;
+
+  external wire_cst_Event_SplicePending SplicePending;
+
+  external wire_cst_Event_SpliceFailed SpliceFailed;
 }
 
 final class wire_cst_event extends ffi.Struct {
@@ -8806,6 +9482,12 @@ final class wire_cst_ffi_log_record extends ffi.Struct {
 
   @ffi.Uint32()
   external int line;
+}
+
+final class wire_cst_lsp_fee_limits extends ffi.Struct {
+  external ffi.Pointer<ffi.Uint64> max_total_opening_fee_msat;
+
+  external ffi.Pointer<ffi.Uint64> max_proportional_opening_fee_ppm_msat;
 }
 
 final class wire_cst_node_announcement_info extends ffi.Struct {
@@ -8830,11 +9512,97 @@ final class wire_cst_node_info extends ffi.Struct {
   external ffi.Pointer<wire_cst_node_announcement_info> announcement_info;
 }
 
+final class wire_cst_offer_id extends ffi.Struct {
+  external ffi.Pointer<wire_cst_list_prim_u_8_strict> field0;
+}
+
+final class wire_cst_PaymentKind_Onchain extends ffi.Struct {
+  external ffi.Pointer<wire_cst_txid> txid;
+
+  external ffi.Pointer<wire_cst_confirmation_status> status;
+}
+
+final class wire_cst_payment_secret extends ffi.Struct {
+  external ffi.Pointer<wire_cst_list_prim_u_8_strict> data;
+}
+
+final class wire_cst_PaymentKind_Bolt11 extends ffi.Struct {
+  external ffi.Pointer<wire_cst_payment_hash> hash;
+
+  external ffi.Pointer<wire_cst_payment_preimage> preimage;
+
+  external ffi.Pointer<wire_cst_payment_secret> secret;
+}
+
+final class wire_cst_PaymentKind_Bolt11Jit extends ffi.Struct {
+  external ffi.Pointer<wire_cst_payment_hash> hash;
+
+  external ffi.Pointer<wire_cst_payment_preimage> preimage;
+
+  external ffi.Pointer<wire_cst_payment_secret> secret;
+
+  external ffi.Pointer<wire_cst_lsp_fee_limits> lsp_fee_limits;
+
+  external ffi.Pointer<ffi.Uint64> counterparty_skimmed_fee_msat;
+}
+
+final class wire_cst_PaymentKind_Spontaneous extends ffi.Struct {
+  external ffi.Pointer<wire_cst_payment_hash> hash;
+
+  external ffi.Pointer<wire_cst_payment_preimage> preimage;
+}
+
+final class wire_cst_PaymentKind_Bolt12Offer extends ffi.Struct {
+  external ffi.Pointer<wire_cst_payment_hash> hash;
+
+  external ffi.Pointer<wire_cst_payment_preimage> preimage;
+
+  external ffi.Pointer<wire_cst_payment_secret> secret;
+
+  external ffi.Pointer<wire_cst_offer_id> offer_id;
+
+  external ffi.Pointer<wire_cst_list_prim_u_8_strict> payer_note;
+
+  external ffi.Pointer<ffi.Uint64> quantity;
+}
+
+final class wire_cst_PaymentKind_Bolt12Refund extends ffi.Struct {
+  external ffi.Pointer<wire_cst_payment_hash> hash;
+
+  external ffi.Pointer<wire_cst_payment_preimage> preimage;
+
+  external ffi.Pointer<wire_cst_payment_secret> secret;
+
+  external ffi.Pointer<wire_cst_list_prim_u_8_strict> payer_note;
+
+  external ffi.Pointer<ffi.Uint64> quantity;
+}
+
+final class PaymentKindKind extends ffi.Union {
+  external wire_cst_PaymentKind_Onchain Onchain;
+
+  external wire_cst_PaymentKind_Bolt11 Bolt11;
+
+  external wire_cst_PaymentKind_Bolt11Jit Bolt11Jit;
+
+  external wire_cst_PaymentKind_Spontaneous Spontaneous;
+
+  external wire_cst_PaymentKind_Bolt12Offer Bolt12Offer;
+
+  external wire_cst_PaymentKind_Bolt12Refund Bolt12Refund;
+}
+
+final class wire_cst_payment_kind extends ffi.Struct {
+  @ffi.Int32()
+  external int tag;
+
+  external PaymentKindKind kind;
+}
+
 final class wire_cst_payment_details extends ffi.Struct {
   external wire_cst_payment_id id;
 
-  @ffi.UintPtr()
-  external int kind;
+  external wire_cst_payment_kind kind;
 
   external ffi.Pointer<ffi.Uint64> amount_msat;
 
@@ -9201,18 +9969,9 @@ final class wire_cst_ffi_node_error extends ffi.Struct {
   external FfiNodeErrorKind kind;
 }
 
-final class wire_cst_lsp_fee_limits extends ffi.Struct {
-  external ffi.Pointer<ffi.Uint64> max_total_opening_fee_msat;
-
-  external ffi.Pointer<ffi.Uint64> max_proportional_opening_fee_ppm_msat;
-}
-
 final class wire_cst_node_status extends ffi.Struct {
   @ffi.Bool()
   external bool is_running;
-
-  @ffi.Bool()
-  external bool is_listening;
 
   external wire_cst_best_block current_best_block;
 
@@ -9227,14 +9986,6 @@ final class wire_cst_node_status extends ffi.Struct {
   external ffi.Pointer<ffi.Uint64> latest_node_announcement_broadcast_timestamp;
 
   external ffi.Pointer<ffi.Uint32> latest_channel_monitor_archival_height;
-}
-
-final class wire_cst_offer_id extends ffi.Struct {
-  external ffi.Pointer<wire_cst_list_prim_u_8_strict> field0;
-}
-
-final class wire_cst_payment_secret extends ffi.Struct {
-  external ffi.Pointer<wire_cst_list_prim_u_8_strict> data;
 }
 
 final class wire_cst_QrPaymentResult_Onchain extends ffi.Struct {

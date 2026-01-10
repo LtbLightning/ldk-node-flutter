@@ -77,7 +77,7 @@ class core extends BaseEntrypoint<coreApi, coreApiImpl, coreWire> {
   String get codegenVersion => '2.11.1';
 
   @override
-  int get rustContentHash => -409041388;
+  int get rustContentHash => -988816805;
 
   static const kDefaultExternalLibraryLoaderConfig =
       ExternalLibraryLoaderConfig(
@@ -117,7 +117,8 @@ abstract class coreApi extends BaseApi {
       ChainDataSourceConfig? chainDataSourceConfig,
       EntropySourceConfig? entropySourceConfig,
       GossipSourceConfig? gossipSourceConfig,
-      LiquiditySourceConfig? liquiditySourceConfig});
+      LiquiditySourceConfig? liquiditySourceConfig,
+      String? pathfindingScoresSource});
 
   FfiBuilder crateApiBuilderFfiBuilderSetEntropySeedBytes(
       {required FfiBuilder that, required List<int> seedBytes});
@@ -132,120 +133,144 @@ abstract class coreApi extends BaseApi {
 
   Future<Config> crateApiTypesConfigDefault();
 
-  Future<void> crateApiBolt11FfiBolt11PaymentClaimForHash(
+  Future<void> crateApiBolt11FfiBolt11PaymentClaimForHashUnsafe(
       {required FfiBolt11Payment that,
       required PaymentHash paymentHash,
       required BigInt claimableAmountMsat,
       required PaymentPreimage preimage});
 
-  Future<void> crateApiBolt11FfiBolt11PaymentFailForHash(
+  Future<void> crateApiBolt11FfiBolt11PaymentFailForHashUnsafe(
       {required FfiBolt11Payment that, required PaymentHash paymentHash});
 
-  Future<Bolt11Invoice> crateApiBolt11FfiBolt11PaymentReceive(
-      {required FfiBolt11Payment that,
-      required BigInt amountMsat,
-      required String description,
-      required int expirySecs});
-
-  Future<Bolt11Invoice> crateApiBolt11FfiBolt11PaymentReceiveForHash(
+  Future<Bolt11Invoice> crateApiBolt11FfiBolt11PaymentReceiveForHashUnsafe(
       {required FfiBolt11Payment that,
       required PaymentHash paymentHash,
       required BigInt amountMsat,
       required String description,
       required int expirySecs});
 
-  Future<Bolt11Invoice> crateApiBolt11FfiBolt11PaymentReceiveVariableAmount(
+  Future<Bolt11Invoice> crateApiBolt11FfiBolt11PaymentReceiveUnsafe(
       {required FfiBolt11Payment that,
+      required BigInt amountMsat,
       required String description,
       required int expirySecs});
 
   Future<Bolt11Invoice>
-      crateApiBolt11FfiBolt11PaymentReceiveVariableAmountForHash(
+      crateApiBolt11FfiBolt11PaymentReceiveVariableAmountForHashUnsafe(
           {required FfiBolt11Payment that,
           required String description,
           required int expirySecs,
           required PaymentHash paymentHash});
 
   Future<Bolt11Invoice>
-      crateApiBolt11FfiBolt11PaymentReceiveVariableAmountViaJitChannel(
+      crateApiBolt11FfiBolt11PaymentReceiveVariableAmountUnsafe(
+          {required FfiBolt11Payment that,
+          required String description,
+          required int expirySecs});
+
+  Future<Bolt11Invoice>
+      crateApiBolt11FfiBolt11PaymentReceiveVariableAmountViaJitChannelUnsafe(
           {required FfiBolt11Payment that,
           required String description,
           required int expirySecs,
           BigInt? maxProportionalLspFeeLimitPpmMsat});
 
-  Future<Bolt11Invoice> crateApiBolt11FfiBolt11PaymentReceiveViaJitChannel(
-      {required FfiBolt11Payment that,
-      required BigInt amountMsat,
-      required String description,
-      required int expirySecs,
-      BigInt? maxTotalLspFeeLimitMsat});
+  Future<Bolt11Invoice>
+      crateApiBolt11FfiBolt11PaymentReceiveViaJitChannelUnsafe(
+          {required FfiBolt11Payment that,
+          required BigInt amountMsat,
+          required String description,
+          required int expirySecs,
+          BigInt? maxTotalLspFeeLimitMsat});
 
-  Future<PaymentId> crateApiBolt11FfiBolt11PaymentSend(
+  Future<void> crateApiBolt11FfiBolt11PaymentSendProbesUnsafe(
       {required FfiBolt11Payment that,
       required Bolt11Invoice invoice,
       SendingParameters? sendingParameters});
 
-  Future<void> crateApiBolt11FfiBolt11PaymentSendProbes(
-      {required FfiBolt11Payment that, required Bolt11Invoice invoice});
-
-  Future<void> crateApiBolt11FfiBolt11PaymentSendProbesUsingAmount(
-      {required FfiBolt11Payment that,
-      required Bolt11Invoice invoice,
-      required BigInt amountMsat});
-
-  Future<PaymentId> crateApiBolt11FfiBolt11PaymentSendUsingAmount(
+  Future<void> crateApiBolt11FfiBolt11PaymentSendProbesUsingAmountUnsafe(
       {required FfiBolt11Payment that,
       required Bolt11Invoice invoice,
       required BigInt amountMsat,
       SendingParameters? sendingParameters});
 
-  Future<Refund> crateApiBolt12FfiBolt12PaymentInitiateRefund(
+  Future<PaymentId> crateApiBolt11FfiBolt11PaymentSendUnsafe(
+      {required FfiBolt11Payment that,
+      required Bolt11Invoice invoice,
+      SendingParameters? sendingParameters});
+
+  Future<PaymentId> crateApiBolt11FfiBolt11PaymentSendUsingAmountUnsafe(
+      {required FfiBolt11Payment that,
+      required Bolt11Invoice invoice,
+      required BigInt amountMsat,
+      SendingParameters? sendingParameters});
+
+  Future<List<BlindedMessagePath>>
+      crateApiBolt12FfiBolt12PaymentBlindedPathsForAsyncRecipientUnsafe(
+          {required FfiBolt12Payment that, required List<int> recipientId});
+
+  Future<Refund> crateApiBolt12FfiBolt12PaymentInitiateRefundUnsafe(
       {required FfiBolt12Payment that,
       required BigInt amountMsat,
       required int expirySecs,
       BigInt? quantity,
-      String? payerNote});
+      String? payerNote,
+      RouteParametersConfig? routeParams});
 
-  Future<Offer> crateApiBolt12FfiBolt12PaymentReceive(
+  Future<Offer> crateApiBolt12FfiBolt12PaymentReceiveAsyncUnsafe(
+      {required FfiBolt12Payment that});
+
+  Future<Offer> crateApiBolt12FfiBolt12PaymentReceiveUnsafe(
       {required FfiBolt12Payment that,
       required BigInt amountMsat,
       required String description,
       int? expirySecs,
       BigInt? quantity});
 
-  Future<Offer> crateApiBolt12FfiBolt12PaymentReceiveVariableAmount(
+  Future<Offer> crateApiBolt12FfiBolt12PaymentReceiveVariableAmountUnsafe(
       {required FfiBolt12Payment that,
       required String description,
       int? expirySecs});
 
-  Future<Bolt12Invoice> crateApiBolt12FfiBolt12PaymentRequestRefundPayment(
-      {required FfiBolt12Payment that, required Refund refund});
+  Future<Bolt12Invoice>
+      crateApiBolt12FfiBolt12PaymentRequestRefundPaymentUnsafe(
+          {required FfiBolt12Payment that, required Refund refund});
 
-  Future<PaymentId> crateApiBolt12FfiBolt12PaymentSend(
+  Future<PaymentId> crateApiBolt12FfiBolt12PaymentSendUnsafe(
       {required FfiBolt12Payment that,
       required Offer offer,
       BigInt? quantity,
-      String? payerNote});
+      String? payerNote,
+      RouteParametersConfig? routeParams});
 
-  Future<PaymentId> crateApiBolt12FfiBolt12PaymentSendUsingAmount(
+  Future<PaymentId> crateApiBolt12FfiBolt12PaymentSendUsingAmountUnsafe(
       {required FfiBolt12Payment that,
       required Offer offer,
       required BigInt amountMsat,
       BigInt? quantity,
-      String? payerNote});
+      String? payerNote,
+      RouteParametersConfig? routeParams});
+
+  Future<void>
+      crateApiBolt12FfiBolt12PaymentSetPathsToStaticInvoiceServerUnsafe(
+          {required FfiBolt12Payment that,
+          required List<BlindedMessagePath> paths});
 
   Future<FfiMnemonic> crateApiBuilderFfiMnemonicGenerate();
 
-  Future<ChannelInfo?> crateApiGraphFfiNetworkGraphChannel(
+  Future<FfiMnemonic> crateApiBuilderFfiMnemonicGenerateWithWordCount(
+      {required int wordCount});
+
+  Future<ChannelInfo?> crateApiGraphFfiNetworkGraphChannelUnsafe(
       {required FfiNetworkGraph that, required BigInt shortChannelId});
 
-  Future<Uint64List> crateApiGraphFfiNetworkGraphListChannels(
+  Future<Uint64List> crateApiGraphFfiNetworkGraphListChannelsUnsafe(
       {required FfiNetworkGraph that});
 
-  Future<List<NodeId>> crateApiGraphFfiNetworkGraphListNodes(
+  Future<List<NodeId>> crateApiGraphFfiNetworkGraphListNodesUnsafe(
       {required FfiNetworkGraph that});
 
-  Future<NodeInfo?> crateApiGraphFfiNetworkGraphNode(
+  Future<NodeInfo?> crateApiGraphFfiNetworkGraphNodeUnsafe(
       {required FfiNetworkGraph that, required NodeId nodeId});
 
   Future<FfiBolt11Payment> crateApiNodeFfiNodeBolt11Payment(
@@ -378,41 +403,46 @@ abstract class coreApi extends BaseApi {
       required BigInt amountSats,
       BigInt? feeRateSatPerKwu});
 
-  Future<PaymentId> crateApiSpontaneousFfiSpontaneousPaymentSend(
+  Future<void> crateApiSpontaneousFfiSpontaneousPaymentSendProbesUnsafe(
+      {required FfiSpontaneousPayment that,
+      required BigInt amountMsat,
+      required PublicKey nodeId});
+
+  Future<PaymentId> crateApiSpontaneousFfiSpontaneousPaymentSendUnsafe(
       {required FfiSpontaneousPayment that,
       required BigInt amountMsat,
       required PublicKey nodeId,
       SendingParameters? sendingParameters});
 
-  Future<void> crateApiSpontaneousFfiSpontaneousPaymentSendProbes(
-      {required FfiSpontaneousPayment that,
-      required BigInt amountMsat,
-      required PublicKey nodeId});
+  Future<PaymentId>
+      crateApiSpontaneousFfiSpontaneousPaymentSendWithCustomTlvsUnsafe(
+          {required FfiSpontaneousPayment that,
+          required BigInt amountMsat,
+          required PublicKey nodeId,
+          SendingParameters? sendingParameters,
+          required List<CustomTlvRecord> customTlvs});
 
-  Future<PaymentId> crateApiSpontaneousFfiSpontaneousPaymentSendWithCustomTlvs(
-      {required FfiSpontaneousPayment that,
-      required BigInt amountMsat,
-      required PublicKey nodeId,
-      SendingParameters? sendingParameters,
-      required List<CustomTlvRecord> customTlvs});
+  Future<PaymentId>
+      crateApiSpontaneousFfiSpontaneousPaymentSendWithPreimageUnsafe(
+          {required FfiSpontaneousPayment that,
+          required BigInt amountMsat,
+          required PublicKey nodeId,
+          required PaymentPreimage preimage,
+          SendingParameters? sendingParameters});
 
-  Future<String> crateApiUnifiedQrFfiUnifiedQrPaymentReceive(
+  Future<String> crateApiUnifiedQrFfiUnifiedQrPaymentReceiveUnsafe(
       {required FfiUnifiedQrPayment that,
       required BigInt amountSats,
       required String message,
       required int expirySec});
 
-  Future<QrPaymentResult> crateApiUnifiedQrFfiUnifiedQrPaymentSend(
-      {required FfiUnifiedQrPayment that, required String uriStr});
+  Future<QrPaymentResult> crateApiUnifiedQrFfiUnifiedQrPaymentSendUnsafe(
+      {required FfiUnifiedQrPayment that,
+      required String uriStr,
+      RouteParametersConfig? routeParameters});
 
-  RustArcIncrementStrongCountFnType
-      get rust_arc_increment_strong_count_ConfirmationStatus;
-
-  RustArcDecrementStrongCountFnType
-      get rust_arc_decrement_strong_count_ConfirmationStatus;
-
-  CrossPlatformFinalizerArg
-      get rust_arc_decrement_strong_count_ConfirmationStatusPtr;
+  Future<PaymentPreimage> crateApiTypesPaymentPreimageNew(
+      {required U8Array32 data});
 
   RustArcIncrementStrongCountFnType
       get rust_arc_increment_strong_count_FfiBuilder;
@@ -421,14 +451,6 @@ abstract class coreApi extends BaseApi {
       get rust_arc_decrement_strong_count_FfiBuilder;
 
   CrossPlatformFinalizerArg get rust_arc_decrement_strong_count_FfiBuilderPtr;
-
-  RustArcIncrementStrongCountFnType
-      get rust_arc_increment_strong_count_PaymentKind;
-
-  RustArcDecrementStrongCountFnType
-      get rust_arc_decrement_strong_count_PaymentKind;
-
-  CrossPlatformFinalizerArg get rust_arc_decrement_strong_count_PaymentKindPtr;
 
   RustArcIncrementStrongCountFnType get rust_arc_increment_strong_count_Builder;
 
@@ -696,7 +718,8 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
       ChainDataSourceConfig? chainDataSourceConfig,
       EntropySourceConfig? entropySourceConfig,
       GossipSourceConfig? gossipSourceConfig,
-      LiquiditySourceConfig? liquiditySourceConfig}) {
+      LiquiditySourceConfig? liquiditySourceConfig,
+      String? pathfindingScoresSource}) {
     return handler.executeSync(SyncTask(
       callFfi: () {
         var arg0 = cst_encode_box_autoadd_config(config);
@@ -708,8 +731,9 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
             cst_encode_opt_box_autoadd_gossip_source_config(gossipSourceConfig);
         var arg4 = cst_encode_opt_box_autoadd_liquidity_source_config(
             liquiditySourceConfig);
+        var arg5 = cst_encode_opt_String(pathfindingScoresSource);
         return wire.wire__crate__api__builder__FfiBuilder_create_builder(
-            arg0, arg1, arg2, arg3, arg4);
+            arg0, arg1, arg2, arg3, arg4, arg5);
       },
       codec: DcoCodec(
         decodeSuccessData:
@@ -722,7 +746,8 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
         chainDataSourceConfig,
         entropySourceConfig,
         gossipSourceConfig,
-        liquiditySourceConfig
+        liquiditySourceConfig,
+        pathfindingScoresSource
       ],
       apiImpl: this,
     ));
@@ -736,7 +761,8 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
           "chainDataSourceConfig",
           "entropySourceConfig",
           "gossipSourceConfig",
-          "liquiditySourceConfig"
+          "liquiditySourceConfig",
+          "pathfindingScoresSource"
         ],
       );
 
@@ -873,7 +899,7 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
       );
 
   @override
-  Future<void> crateApiBolt11FfiBolt11PaymentClaimForHash(
+  Future<void> crateApiBolt11FfiBolt11PaymentClaimForHashUnsafe(
       {required FfiBolt11Payment that,
       required PaymentHash paymentHash,
       required BigInt claimableAmountMsat,
@@ -885,84 +911,60 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
         var arg2 = cst_encode_u_64(claimableAmountMsat);
         var arg3 = cst_encode_box_autoadd_payment_preimage(preimage);
         return wire
-            .wire__crate__api__bolt11__ffi_bolt_11_payment_claim_for_hash(
+            .wire__crate__api__bolt11__ffi_bolt_11_payment_claim_for_hash_unsafe(
                 port_, arg0, arg1, arg2, arg3);
       },
       codec: DcoCodec(
         decodeSuccessData: dco_decode_unit,
         decodeErrorData: dco_decode_ffi_node_error,
       ),
-      constMeta: kCrateApiBolt11FfiBolt11PaymentClaimForHashConstMeta,
+      constMeta: kCrateApiBolt11FfiBolt11PaymentClaimForHashUnsafeConstMeta,
       argValues: [that, paymentHash, claimableAmountMsat, preimage],
       apiImpl: this,
     ));
   }
 
-  TaskConstMeta get kCrateApiBolt11FfiBolt11PaymentClaimForHashConstMeta =>
-      const TaskConstMeta(
-        debugName: "ffi_bolt_11_payment_claim_for_hash",
-        argNames: ["that", "paymentHash", "claimableAmountMsat", "preimage"],
-      );
+  TaskConstMeta
+      get kCrateApiBolt11FfiBolt11PaymentClaimForHashUnsafeConstMeta =>
+          const TaskConstMeta(
+            debugName: "ffi_bolt_11_payment_claim_for_hash_unsafe",
+            argNames: [
+              "that",
+              "paymentHash",
+              "claimableAmountMsat",
+              "preimage"
+            ],
+          );
 
   @override
-  Future<void> crateApiBolt11FfiBolt11PaymentFailForHash(
+  Future<void> crateApiBolt11FfiBolt11PaymentFailForHashUnsafe(
       {required FfiBolt11Payment that, required PaymentHash paymentHash}) {
     return handler.executeNormal(NormalTask(
       callFfi: (port_) {
         var arg0 = cst_encode_box_autoadd_ffi_bolt_11_payment(that);
         var arg1 = cst_encode_box_autoadd_payment_hash(paymentHash);
-        return wire.wire__crate__api__bolt11__ffi_bolt_11_payment_fail_for_hash(
-            port_, arg0, arg1);
+        return wire
+            .wire__crate__api__bolt11__ffi_bolt_11_payment_fail_for_hash_unsafe(
+                port_, arg0, arg1);
       },
       codec: DcoCodec(
         decodeSuccessData: dco_decode_unit,
         decodeErrorData: dco_decode_ffi_node_error,
       ),
-      constMeta: kCrateApiBolt11FfiBolt11PaymentFailForHashConstMeta,
+      constMeta: kCrateApiBolt11FfiBolt11PaymentFailForHashUnsafeConstMeta,
       argValues: [that, paymentHash],
       apiImpl: this,
     ));
   }
 
-  TaskConstMeta get kCrateApiBolt11FfiBolt11PaymentFailForHashConstMeta =>
+  TaskConstMeta get kCrateApiBolt11FfiBolt11PaymentFailForHashUnsafeConstMeta =>
       const TaskConstMeta(
-        debugName: "ffi_bolt_11_payment_fail_for_hash",
+        debugName: "ffi_bolt_11_payment_fail_for_hash_unsafe",
         argNames: ["that", "paymentHash"],
       );
 
   @override
-  Future<Bolt11Invoice> crateApiBolt11FfiBolt11PaymentReceive(
-      {required FfiBolt11Payment that,
-      required BigInt amountMsat,
-      required String description,
-      required int expirySecs}) {
-    return handler.executeNormal(NormalTask(
-      callFfi: (port_) {
-        var arg0 = cst_encode_box_autoadd_ffi_bolt_11_payment(that);
-        var arg1 = cst_encode_u_64(amountMsat);
-        var arg2 = cst_encode_String(description);
-        var arg3 = cst_encode_u_32(expirySecs);
-        return wire.wire__crate__api__bolt11__ffi_bolt_11_payment_receive(
-            port_, arg0, arg1, arg2, arg3);
-      },
-      codec: DcoCodec(
-        decodeSuccessData: dco_decode_bolt_11_invoice,
-        decodeErrorData: dco_decode_ffi_node_error,
-      ),
-      constMeta: kCrateApiBolt11FfiBolt11PaymentReceiveConstMeta,
-      argValues: [that, amountMsat, description, expirySecs],
-      apiImpl: this,
-    ));
-  }
-
-  TaskConstMeta get kCrateApiBolt11FfiBolt11PaymentReceiveConstMeta =>
-      const TaskConstMeta(
-        debugName: "ffi_bolt_11_payment_receive",
-        argNames: ["that", "amountMsat", "description", "expirySecs"],
-      );
-
-  @override
-  Future<Bolt11Invoice> crateApiBolt11FfiBolt11PaymentReceiveForHash(
+  Future<Bolt11Invoice> crateApiBolt11FfiBolt11PaymentReceiveForHashUnsafe(
       {required FfiBolt11Payment that,
       required PaymentHash paymentHash,
       required BigInt amountMsat,
@@ -976,65 +978,67 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
         var arg3 = cst_encode_String(description);
         var arg4 = cst_encode_u_32(expirySecs);
         return wire
-            .wire__crate__api__bolt11__ffi_bolt_11_payment_receive_for_hash(
+            .wire__crate__api__bolt11__ffi_bolt_11_payment_receive_for_hash_unsafe(
                 port_, arg0, arg1, arg2, arg3, arg4);
       },
       codec: DcoCodec(
         decodeSuccessData: dco_decode_bolt_11_invoice,
         decodeErrorData: dco_decode_ffi_node_error,
       ),
-      constMeta: kCrateApiBolt11FfiBolt11PaymentReceiveForHashConstMeta,
+      constMeta: kCrateApiBolt11FfiBolt11PaymentReceiveForHashUnsafeConstMeta,
       argValues: [that, paymentHash, amountMsat, description, expirySecs],
       apiImpl: this,
     ));
   }
 
-  TaskConstMeta get kCrateApiBolt11FfiBolt11PaymentReceiveForHashConstMeta =>
-      const TaskConstMeta(
-        debugName: "ffi_bolt_11_payment_receive_for_hash",
-        argNames: [
-          "that",
-          "paymentHash",
-          "amountMsat",
-          "description",
-          "expirySecs"
-        ],
-      );
+  TaskConstMeta
+      get kCrateApiBolt11FfiBolt11PaymentReceiveForHashUnsafeConstMeta =>
+          const TaskConstMeta(
+            debugName: "ffi_bolt_11_payment_receive_for_hash_unsafe",
+            argNames: [
+              "that",
+              "paymentHash",
+              "amountMsat",
+              "description",
+              "expirySecs"
+            ],
+          );
 
   @override
-  Future<Bolt11Invoice> crateApiBolt11FfiBolt11PaymentReceiveVariableAmount(
+  Future<Bolt11Invoice> crateApiBolt11FfiBolt11PaymentReceiveUnsafe(
       {required FfiBolt11Payment that,
+      required BigInt amountMsat,
       required String description,
       required int expirySecs}) {
     return handler.executeNormal(NormalTask(
       callFfi: (port_) {
         var arg0 = cst_encode_box_autoadd_ffi_bolt_11_payment(that);
-        var arg1 = cst_encode_String(description);
-        var arg2 = cst_encode_u_32(expirySecs);
+        var arg1 = cst_encode_u_64(amountMsat);
+        var arg2 = cst_encode_String(description);
+        var arg3 = cst_encode_u_32(expirySecs);
         return wire
-            .wire__crate__api__bolt11__ffi_bolt_11_payment_receive_variable_amount(
-                port_, arg0, arg1, arg2);
+            .wire__crate__api__bolt11__ffi_bolt_11_payment_receive_unsafe(
+                port_, arg0, arg1, arg2, arg3);
       },
       codec: DcoCodec(
         decodeSuccessData: dco_decode_bolt_11_invoice,
         decodeErrorData: dco_decode_ffi_node_error,
       ),
-      constMeta: kCrateApiBolt11FfiBolt11PaymentReceiveVariableAmountConstMeta,
-      argValues: [that, description, expirySecs],
+      constMeta: kCrateApiBolt11FfiBolt11PaymentReceiveUnsafeConstMeta,
+      argValues: [that, amountMsat, description, expirySecs],
       apiImpl: this,
     ));
   }
 
-  TaskConstMeta
-      get kCrateApiBolt11FfiBolt11PaymentReceiveVariableAmountConstMeta =>
-          const TaskConstMeta(
-            debugName: "ffi_bolt_11_payment_receive_variable_amount",
-            argNames: ["that", "description", "expirySecs"],
-          );
+  TaskConstMeta get kCrateApiBolt11FfiBolt11PaymentReceiveUnsafeConstMeta =>
+      const TaskConstMeta(
+        debugName: "ffi_bolt_11_payment_receive_unsafe",
+        argNames: ["that", "amountMsat", "description", "expirySecs"],
+      );
 
   @override
   Future<Bolt11Invoice>
-      crateApiBolt11FfiBolt11PaymentReceiveVariableAmountForHash(
+      crateApiBolt11FfiBolt11PaymentReceiveVariableAmountForHashUnsafe(
           {required FfiBolt11Payment that,
           required String description,
           required int expirySecs,
@@ -1046,7 +1050,7 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
         var arg2 = cst_encode_u_32(expirySecs);
         var arg3 = cst_encode_box_autoadd_payment_hash(paymentHash);
         return wire
-            .wire__crate__api__bolt11__ffi_bolt_11_payment_receive_variable_amount_for_hash(
+            .wire__crate__api__bolt11__ffi_bolt_11_payment_receive_variable_amount_for_hash_unsafe(
                 port_, arg0, arg1, arg2, arg3);
       },
       codec: DcoCodec(
@@ -1054,22 +1058,56 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
         decodeErrorData: dco_decode_ffi_node_error,
       ),
       constMeta:
-          kCrateApiBolt11FfiBolt11PaymentReceiveVariableAmountForHashConstMeta,
+          kCrateApiBolt11FfiBolt11PaymentReceiveVariableAmountForHashUnsafeConstMeta,
       argValues: [that, description, expirySecs, paymentHash],
       apiImpl: this,
     ));
   }
 
   TaskConstMeta
-      get kCrateApiBolt11FfiBolt11PaymentReceiveVariableAmountForHashConstMeta =>
+      get kCrateApiBolt11FfiBolt11PaymentReceiveVariableAmountForHashUnsafeConstMeta =>
           const TaskConstMeta(
-            debugName: "ffi_bolt_11_payment_receive_variable_amount_for_hash",
+            debugName:
+                "ffi_bolt_11_payment_receive_variable_amount_for_hash_unsafe",
             argNames: ["that", "description", "expirySecs", "paymentHash"],
           );
 
   @override
   Future<Bolt11Invoice>
-      crateApiBolt11FfiBolt11PaymentReceiveVariableAmountViaJitChannel(
+      crateApiBolt11FfiBolt11PaymentReceiveVariableAmountUnsafe(
+          {required FfiBolt11Payment that,
+          required String description,
+          required int expirySecs}) {
+    return handler.executeNormal(NormalTask(
+      callFfi: (port_) {
+        var arg0 = cst_encode_box_autoadd_ffi_bolt_11_payment(that);
+        var arg1 = cst_encode_String(description);
+        var arg2 = cst_encode_u_32(expirySecs);
+        return wire
+            .wire__crate__api__bolt11__ffi_bolt_11_payment_receive_variable_amount_unsafe(
+                port_, arg0, arg1, arg2);
+      },
+      codec: DcoCodec(
+        decodeSuccessData: dco_decode_bolt_11_invoice,
+        decodeErrorData: dco_decode_ffi_node_error,
+      ),
+      constMeta:
+          kCrateApiBolt11FfiBolt11PaymentReceiveVariableAmountUnsafeConstMeta,
+      argValues: [that, description, expirySecs],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta
+      get kCrateApiBolt11FfiBolt11PaymentReceiveVariableAmountUnsafeConstMeta =>
+          const TaskConstMeta(
+            debugName: "ffi_bolt_11_payment_receive_variable_amount_unsafe",
+            argNames: ["that", "description", "expirySecs"],
+          );
+
+  @override
+  Future<Bolt11Invoice>
+      crateApiBolt11FfiBolt11PaymentReceiveVariableAmountViaJitChannelUnsafe(
           {required FfiBolt11Payment that,
           required String description,
           required int expirySecs,
@@ -1082,7 +1120,7 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
         var arg3 =
             cst_encode_opt_box_autoadd_u_64(maxProportionalLspFeeLimitPpmMsat);
         return wire
-            .wire__crate__api__bolt11__ffi_bolt_11_payment_receive_variable_amount_via_jit_channel(
+            .wire__crate__api__bolt11__ffi_bolt_11_payment_receive_variable_amount_via_jit_channel_unsafe(
                 port_, arg0, arg1, arg2, arg3);
       },
       codec: DcoCodec(
@@ -1090,7 +1128,7 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
         decodeErrorData: dco_decode_ffi_node_error,
       ),
       constMeta:
-          kCrateApiBolt11FfiBolt11PaymentReceiveVariableAmountViaJitChannelConstMeta,
+          kCrateApiBolt11FfiBolt11PaymentReceiveVariableAmountViaJitChannelUnsafeConstMeta,
       argValues: [
         that,
         description,
@@ -1102,10 +1140,10 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
   }
 
   TaskConstMeta
-      get kCrateApiBolt11FfiBolt11PaymentReceiveVariableAmountViaJitChannelConstMeta =>
+      get kCrateApiBolt11FfiBolt11PaymentReceiveVariableAmountViaJitChannelUnsafeConstMeta =>
           const TaskConstMeta(
             debugName:
-                "ffi_bolt_11_payment_receive_variable_amount_via_jit_channel",
+                "ffi_bolt_11_payment_receive_variable_amount_via_jit_channel_unsafe",
             argNames: [
               "that",
               "description",
@@ -1115,12 +1153,13 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
           );
 
   @override
-  Future<Bolt11Invoice> crateApiBolt11FfiBolt11PaymentReceiveViaJitChannel(
-      {required FfiBolt11Payment that,
-      required BigInt amountMsat,
-      required String description,
-      required int expirySecs,
-      BigInt? maxTotalLspFeeLimitMsat}) {
+  Future<Bolt11Invoice>
+      crateApiBolt11FfiBolt11PaymentReceiveViaJitChannelUnsafe(
+          {required FfiBolt11Payment that,
+          required BigInt amountMsat,
+          required String description,
+          required int expirySecs,
+          BigInt? maxTotalLspFeeLimitMsat}) {
     return handler.executeNormal(NormalTask(
       callFfi: (port_) {
         var arg0 = cst_encode_box_autoadd_ffi_bolt_11_payment(that);
@@ -1129,14 +1168,15 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
         var arg3 = cst_encode_u_32(expirySecs);
         var arg4 = cst_encode_opt_box_autoadd_u_64(maxTotalLspFeeLimitMsat);
         return wire
-            .wire__crate__api__bolt11__ffi_bolt_11_payment_receive_via_jit_channel(
+            .wire__crate__api__bolt11__ffi_bolt_11_payment_receive_via_jit_channel_unsafe(
                 port_, arg0, arg1, arg2, arg3, arg4);
       },
       codec: DcoCodec(
         decodeSuccessData: dco_decode_bolt_11_invoice,
         decodeErrorData: dco_decode_ffi_node_error,
       ),
-      constMeta: kCrateApiBolt11FfiBolt11PaymentReceiveViaJitChannelConstMeta,
+      constMeta:
+          kCrateApiBolt11FfiBolt11PaymentReceiveViaJitChannelUnsafeConstMeta,
       argValues: [
         that,
         amountMsat,
@@ -1149,9 +1189,9 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
   }
 
   TaskConstMeta
-      get kCrateApiBolt11FfiBolt11PaymentReceiveViaJitChannelConstMeta =>
+      get kCrateApiBolt11FfiBolt11PaymentReceiveViaJitChannelUnsafeConstMeta =>
           const TaskConstMeta(
-            debugName: "ffi_bolt_11_payment_receive_via_jit_channel",
+            debugName: "ffi_bolt_11_payment_receive_via_jit_channel_unsafe",
             argNames: [
               "that",
               "amountMsat",
@@ -1162,7 +1202,7 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
           );
 
   @override
-  Future<PaymentId> crateApiBolt11FfiBolt11PaymentSend(
+  Future<void> crateApiBolt11FfiBolt11PaymentSendProbesUnsafe(
       {required FfiBolt11Payment that,
       required Bolt11Invoice invoice,
       SendingParameters? sendingParameters}) {
@@ -1172,84 +1212,28 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
         var arg1 = cst_encode_box_autoadd_bolt_11_invoice(invoice);
         var arg2 =
             cst_encode_opt_box_autoadd_sending_parameters(sendingParameters);
-        return wire.wire__crate__api__bolt11__ffi_bolt_11_payment_send(
-            port_, arg0, arg1, arg2);
-      },
-      codec: DcoCodec(
-        decodeSuccessData: dco_decode_payment_id,
-        decodeErrorData: dco_decode_ffi_node_error,
-      ),
-      constMeta: kCrateApiBolt11FfiBolt11PaymentSendConstMeta,
-      argValues: [that, invoice, sendingParameters],
-      apiImpl: this,
-    ));
-  }
-
-  TaskConstMeta get kCrateApiBolt11FfiBolt11PaymentSendConstMeta =>
-      const TaskConstMeta(
-        debugName: "ffi_bolt_11_payment_send",
-        argNames: ["that", "invoice", "sendingParameters"],
-      );
-
-  @override
-  Future<void> crateApiBolt11FfiBolt11PaymentSendProbes(
-      {required FfiBolt11Payment that, required Bolt11Invoice invoice}) {
-    return handler.executeNormal(NormalTask(
-      callFfi: (port_) {
-        var arg0 = cst_encode_box_autoadd_ffi_bolt_11_payment(that);
-        var arg1 = cst_encode_box_autoadd_bolt_11_invoice(invoice);
-        return wire.wire__crate__api__bolt11__ffi_bolt_11_payment_send_probes(
-            port_, arg0, arg1);
-      },
-      codec: DcoCodec(
-        decodeSuccessData: dco_decode_unit,
-        decodeErrorData: dco_decode_ffi_node_error,
-      ),
-      constMeta: kCrateApiBolt11FfiBolt11PaymentSendProbesConstMeta,
-      argValues: [that, invoice],
-      apiImpl: this,
-    ));
-  }
-
-  TaskConstMeta get kCrateApiBolt11FfiBolt11PaymentSendProbesConstMeta =>
-      const TaskConstMeta(
-        debugName: "ffi_bolt_11_payment_send_probes",
-        argNames: ["that", "invoice"],
-      );
-
-  @override
-  Future<void> crateApiBolt11FfiBolt11PaymentSendProbesUsingAmount(
-      {required FfiBolt11Payment that,
-      required Bolt11Invoice invoice,
-      required BigInt amountMsat}) {
-    return handler.executeNormal(NormalTask(
-      callFfi: (port_) {
-        var arg0 = cst_encode_box_autoadd_ffi_bolt_11_payment(that);
-        var arg1 = cst_encode_box_autoadd_bolt_11_invoice(invoice);
-        var arg2 = cst_encode_u_64(amountMsat);
         return wire
-            .wire__crate__api__bolt11__ffi_bolt_11_payment_send_probes_using_amount(
+            .wire__crate__api__bolt11__ffi_bolt_11_payment_send_probes_unsafe(
                 port_, arg0, arg1, arg2);
       },
       codec: DcoCodec(
         decodeSuccessData: dco_decode_unit,
         decodeErrorData: dco_decode_ffi_node_error,
       ),
-      constMeta: kCrateApiBolt11FfiBolt11PaymentSendProbesUsingAmountConstMeta,
-      argValues: [that, invoice, amountMsat],
+      constMeta: kCrateApiBolt11FfiBolt11PaymentSendProbesUnsafeConstMeta,
+      argValues: [that, invoice, sendingParameters],
       apiImpl: this,
     ));
   }
 
-  TaskConstMeta
-      get kCrateApiBolt11FfiBolt11PaymentSendProbesUsingAmountConstMeta =>
-          const TaskConstMeta(
-            debugName: "ffi_bolt_11_payment_send_probes_using_amount",
-            argNames: ["that", "invoice", "amountMsat"],
-          );
+  TaskConstMeta get kCrateApiBolt11FfiBolt11PaymentSendProbesUnsafeConstMeta =>
+      const TaskConstMeta(
+        debugName: "ffi_bolt_11_payment_send_probes_unsafe",
+        argNames: ["that", "invoice", "sendingParameters"],
+      );
 
   @override
-  Future<PaymentId> crateApiBolt11FfiBolt11PaymentSendUsingAmount(
+  Future<void> crateApiBolt11FfiBolt11PaymentSendProbesUsingAmountUnsafe(
       {required FfiBolt11Payment that,
       required Bolt11Invoice invoice,
       required BigInt amountMsat,
@@ -1262,32 +1246,130 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
         var arg3 =
             cst_encode_opt_box_autoadd_sending_parameters(sendingParameters);
         return wire
-            .wire__crate__api__bolt11__ffi_bolt_11_payment_send_using_amount(
+            .wire__crate__api__bolt11__ffi_bolt_11_payment_send_probes_using_amount_unsafe(
+                port_, arg0, arg1, arg2, arg3);
+      },
+      codec: DcoCodec(
+        decodeSuccessData: dco_decode_unit,
+        decodeErrorData: dco_decode_ffi_node_error,
+      ),
+      constMeta:
+          kCrateApiBolt11FfiBolt11PaymentSendProbesUsingAmountUnsafeConstMeta,
+      argValues: [that, invoice, amountMsat, sendingParameters],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta
+      get kCrateApiBolt11FfiBolt11PaymentSendProbesUsingAmountUnsafeConstMeta =>
+          const TaskConstMeta(
+            debugName: "ffi_bolt_11_payment_send_probes_using_amount_unsafe",
+            argNames: ["that", "invoice", "amountMsat", "sendingParameters"],
+          );
+
+  @override
+  Future<PaymentId> crateApiBolt11FfiBolt11PaymentSendUnsafe(
+      {required FfiBolt11Payment that,
+      required Bolt11Invoice invoice,
+      SendingParameters? sendingParameters}) {
+    return handler.executeNormal(NormalTask(
+      callFfi: (port_) {
+        var arg0 = cst_encode_box_autoadd_ffi_bolt_11_payment(that);
+        var arg1 = cst_encode_box_autoadd_bolt_11_invoice(invoice);
+        var arg2 =
+            cst_encode_opt_box_autoadd_sending_parameters(sendingParameters);
+        return wire.wire__crate__api__bolt11__ffi_bolt_11_payment_send_unsafe(
+            port_, arg0, arg1, arg2);
+      },
+      codec: DcoCodec(
+        decodeSuccessData: dco_decode_payment_id,
+        decodeErrorData: dco_decode_ffi_node_error,
+      ),
+      constMeta: kCrateApiBolt11FfiBolt11PaymentSendUnsafeConstMeta,
+      argValues: [that, invoice, sendingParameters],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta get kCrateApiBolt11FfiBolt11PaymentSendUnsafeConstMeta =>
+      const TaskConstMeta(
+        debugName: "ffi_bolt_11_payment_send_unsafe",
+        argNames: ["that", "invoice", "sendingParameters"],
+      );
+
+  @override
+  Future<PaymentId> crateApiBolt11FfiBolt11PaymentSendUsingAmountUnsafe(
+      {required FfiBolt11Payment that,
+      required Bolt11Invoice invoice,
+      required BigInt amountMsat,
+      SendingParameters? sendingParameters}) {
+    return handler.executeNormal(NormalTask(
+      callFfi: (port_) {
+        var arg0 = cst_encode_box_autoadd_ffi_bolt_11_payment(that);
+        var arg1 = cst_encode_box_autoadd_bolt_11_invoice(invoice);
+        var arg2 = cst_encode_u_64(amountMsat);
+        var arg3 =
+            cst_encode_opt_box_autoadd_sending_parameters(sendingParameters);
+        return wire
+            .wire__crate__api__bolt11__ffi_bolt_11_payment_send_using_amount_unsafe(
                 port_, arg0, arg1, arg2, arg3);
       },
       codec: DcoCodec(
         decodeSuccessData: dco_decode_payment_id,
         decodeErrorData: dco_decode_ffi_node_error,
       ),
-      constMeta: kCrateApiBolt11FfiBolt11PaymentSendUsingAmountConstMeta,
+      constMeta: kCrateApiBolt11FfiBolt11PaymentSendUsingAmountUnsafeConstMeta,
       argValues: [that, invoice, amountMsat, sendingParameters],
       apiImpl: this,
     ));
   }
 
-  TaskConstMeta get kCrateApiBolt11FfiBolt11PaymentSendUsingAmountConstMeta =>
-      const TaskConstMeta(
-        debugName: "ffi_bolt_11_payment_send_using_amount",
-        argNames: ["that", "invoice", "amountMsat", "sendingParameters"],
-      );
+  TaskConstMeta
+      get kCrateApiBolt11FfiBolt11PaymentSendUsingAmountUnsafeConstMeta =>
+          const TaskConstMeta(
+            debugName: "ffi_bolt_11_payment_send_using_amount_unsafe",
+            argNames: ["that", "invoice", "amountMsat", "sendingParameters"],
+          );
 
   @override
-  Future<Refund> crateApiBolt12FfiBolt12PaymentInitiateRefund(
+  Future<List<BlindedMessagePath>>
+      crateApiBolt12FfiBolt12PaymentBlindedPathsForAsyncRecipientUnsafe(
+          {required FfiBolt12Payment that, required List<int> recipientId}) {
+    return handler.executeNormal(NormalTask(
+      callFfi: (port_) {
+        var arg0 = cst_encode_box_autoadd_ffi_bolt_12_payment(that);
+        var arg1 = cst_encode_list_prim_u_8_loose(recipientId);
+        return wire
+            .wire__crate__api__bolt12__ffi_bolt_12_payment_blinded_paths_for_async_recipient_unsafe(
+                port_, arg0, arg1);
+      },
+      codec: DcoCodec(
+        decodeSuccessData: dco_decode_list_blinded_message_path,
+        decodeErrorData: dco_decode_ffi_node_error,
+      ),
+      constMeta:
+          kCrateApiBolt12FfiBolt12PaymentBlindedPathsForAsyncRecipientUnsafeConstMeta,
+      argValues: [that, recipientId],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta
+      get kCrateApiBolt12FfiBolt12PaymentBlindedPathsForAsyncRecipientUnsafeConstMeta =>
+          const TaskConstMeta(
+            debugName:
+                "ffi_bolt_12_payment_blinded_paths_for_async_recipient_unsafe",
+            argNames: ["that", "recipientId"],
+          );
+
+  @override
+  Future<Refund> crateApiBolt12FfiBolt12PaymentInitiateRefundUnsafe(
       {required FfiBolt12Payment that,
       required BigInt amountMsat,
       required int expirySecs,
       BigInt? quantity,
-      String? payerNote}) {
+      String? payerNote,
+      RouteParametersConfig? routeParams}) {
     return handler.executeNormal(NormalTask(
       callFfi: (port_) {
         var arg0 = cst_encode_box_autoadd_ffi_bolt_12_payment(that);
@@ -1295,28 +1377,72 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
         var arg2 = cst_encode_u_32(expirySecs);
         var arg3 = cst_encode_opt_box_autoadd_u_64(quantity);
         var arg4 = cst_encode_opt_String(payerNote);
+        var arg5 =
+            cst_encode_opt_box_autoadd_route_parameters_config(routeParams);
         return wire
-            .wire__crate__api__bolt12__ffi_bolt_12_payment_initiate_refund(
-                port_, arg0, arg1, arg2, arg3, arg4);
+            .wire__crate__api__bolt12__ffi_bolt_12_payment_initiate_refund_unsafe(
+                port_, arg0, arg1, arg2, arg3, arg4, arg5);
       },
       codec: DcoCodec(
         decodeSuccessData: dco_decode_refund,
         decodeErrorData: dco_decode_ffi_node_error,
       ),
-      constMeta: kCrateApiBolt12FfiBolt12PaymentInitiateRefundConstMeta,
-      argValues: [that, amountMsat, expirySecs, quantity, payerNote],
+      constMeta: kCrateApiBolt12FfiBolt12PaymentInitiateRefundUnsafeConstMeta,
+      argValues: [
+        that,
+        amountMsat,
+        expirySecs,
+        quantity,
+        payerNote,
+        routeParams
+      ],
       apiImpl: this,
     ));
   }
 
-  TaskConstMeta get kCrateApiBolt12FfiBolt12PaymentInitiateRefundConstMeta =>
-      const TaskConstMeta(
-        debugName: "ffi_bolt_12_payment_initiate_refund",
-        argNames: ["that", "amountMsat", "expirySecs", "quantity", "payerNote"],
-      );
+  TaskConstMeta
+      get kCrateApiBolt12FfiBolt12PaymentInitiateRefundUnsafeConstMeta =>
+          const TaskConstMeta(
+            debugName: "ffi_bolt_12_payment_initiate_refund_unsafe",
+            argNames: [
+              "that",
+              "amountMsat",
+              "expirySecs",
+              "quantity",
+              "payerNote",
+              "routeParams"
+            ],
+          );
 
   @override
-  Future<Offer> crateApiBolt12FfiBolt12PaymentReceive(
+  Future<Offer> crateApiBolt12FfiBolt12PaymentReceiveAsyncUnsafe(
+      {required FfiBolt12Payment that}) {
+    return handler.executeNormal(NormalTask(
+      callFfi: (port_) {
+        var arg0 = cst_encode_box_autoadd_ffi_bolt_12_payment(that);
+        return wire
+            .wire__crate__api__bolt12__ffi_bolt_12_payment_receive_async_unsafe(
+                port_, arg0);
+      },
+      codec: DcoCodec(
+        decodeSuccessData: dco_decode_offer,
+        decodeErrorData: dco_decode_ffi_node_error,
+      ),
+      constMeta: kCrateApiBolt12FfiBolt12PaymentReceiveAsyncUnsafeConstMeta,
+      argValues: [that],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta
+      get kCrateApiBolt12FfiBolt12PaymentReceiveAsyncUnsafeConstMeta =>
+          const TaskConstMeta(
+            debugName: "ffi_bolt_12_payment_receive_async_unsafe",
+            argNames: ["that"],
+          );
+
+  @override
+  Future<Offer> crateApiBolt12FfiBolt12PaymentReceiveUnsafe(
       {required FfiBolt12Payment that,
       required BigInt amountMsat,
       required String description,
@@ -1329,22 +1455,23 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
         var arg2 = cst_encode_String(description);
         var arg3 = cst_encode_opt_box_autoadd_u_32(expirySecs);
         var arg4 = cst_encode_opt_box_autoadd_u_64(quantity);
-        return wire.wire__crate__api__bolt12__ffi_bolt_12_payment_receive(
-            port_, arg0, arg1, arg2, arg3, arg4);
+        return wire
+            .wire__crate__api__bolt12__ffi_bolt_12_payment_receive_unsafe(
+                port_, arg0, arg1, arg2, arg3, arg4);
       },
       codec: DcoCodec(
         decodeSuccessData: dco_decode_offer,
         decodeErrorData: dco_decode_ffi_node_error,
       ),
-      constMeta: kCrateApiBolt12FfiBolt12PaymentReceiveConstMeta,
+      constMeta: kCrateApiBolt12FfiBolt12PaymentReceiveUnsafeConstMeta,
       argValues: [that, amountMsat, description, expirySecs, quantity],
       apiImpl: this,
     ));
   }
 
-  TaskConstMeta get kCrateApiBolt12FfiBolt12PaymentReceiveConstMeta =>
+  TaskConstMeta get kCrateApiBolt12FfiBolt12PaymentReceiveUnsafeConstMeta =>
       const TaskConstMeta(
-        debugName: "ffi_bolt_12_payment_receive",
+        debugName: "ffi_bolt_12_payment_receive_unsafe",
         argNames: [
           "that",
           "amountMsat",
@@ -1355,7 +1482,7 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
       );
 
   @override
-  Future<Offer> crateApiBolt12FfiBolt12PaymentReceiveVariableAmount(
+  Future<Offer> crateApiBolt12FfiBolt12PaymentReceiveVariableAmountUnsafe(
       {required FfiBolt12Payment that,
       required String description,
       int? expirySecs}) {
@@ -1365,92 +1492,99 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
         var arg1 = cst_encode_String(description);
         var arg2 = cst_encode_opt_box_autoadd_u_32(expirySecs);
         return wire
-            .wire__crate__api__bolt12__ffi_bolt_12_payment_receive_variable_amount(
+            .wire__crate__api__bolt12__ffi_bolt_12_payment_receive_variable_amount_unsafe(
                 port_, arg0, arg1, arg2);
       },
       codec: DcoCodec(
         decodeSuccessData: dco_decode_offer,
         decodeErrorData: dco_decode_ffi_node_error,
       ),
-      constMeta: kCrateApiBolt12FfiBolt12PaymentReceiveVariableAmountConstMeta,
+      constMeta:
+          kCrateApiBolt12FfiBolt12PaymentReceiveVariableAmountUnsafeConstMeta,
       argValues: [that, description, expirySecs],
       apiImpl: this,
     ));
   }
 
   TaskConstMeta
-      get kCrateApiBolt12FfiBolt12PaymentReceiveVariableAmountConstMeta =>
+      get kCrateApiBolt12FfiBolt12PaymentReceiveVariableAmountUnsafeConstMeta =>
           const TaskConstMeta(
-            debugName: "ffi_bolt_12_payment_receive_variable_amount",
+            debugName: "ffi_bolt_12_payment_receive_variable_amount_unsafe",
             argNames: ["that", "description", "expirySecs"],
           );
 
   @override
-  Future<Bolt12Invoice> crateApiBolt12FfiBolt12PaymentRequestRefundPayment(
-      {required FfiBolt12Payment that, required Refund refund}) {
+  Future<Bolt12Invoice>
+      crateApiBolt12FfiBolt12PaymentRequestRefundPaymentUnsafe(
+          {required FfiBolt12Payment that, required Refund refund}) {
     return handler.executeNormal(NormalTask(
       callFfi: (port_) {
         var arg0 = cst_encode_box_autoadd_ffi_bolt_12_payment(that);
         var arg1 = cst_encode_box_autoadd_refund(refund);
         return wire
-            .wire__crate__api__bolt12__ffi_bolt_12_payment_request_refund_payment(
+            .wire__crate__api__bolt12__ffi_bolt_12_payment_request_refund_payment_unsafe(
                 port_, arg0, arg1);
       },
       codec: DcoCodec(
         decodeSuccessData: dco_decode_bolt_12_invoice,
         decodeErrorData: dco_decode_ffi_node_error,
       ),
-      constMeta: kCrateApiBolt12FfiBolt12PaymentRequestRefundPaymentConstMeta,
+      constMeta:
+          kCrateApiBolt12FfiBolt12PaymentRequestRefundPaymentUnsafeConstMeta,
       argValues: [that, refund],
       apiImpl: this,
     ));
   }
 
   TaskConstMeta
-      get kCrateApiBolt12FfiBolt12PaymentRequestRefundPaymentConstMeta =>
+      get kCrateApiBolt12FfiBolt12PaymentRequestRefundPaymentUnsafeConstMeta =>
           const TaskConstMeta(
-            debugName: "ffi_bolt_12_payment_request_refund_payment",
+            debugName: "ffi_bolt_12_payment_request_refund_payment_unsafe",
             argNames: ["that", "refund"],
           );
 
   @override
-  Future<PaymentId> crateApiBolt12FfiBolt12PaymentSend(
+  Future<PaymentId> crateApiBolt12FfiBolt12PaymentSendUnsafe(
       {required FfiBolt12Payment that,
       required Offer offer,
       BigInt? quantity,
-      String? payerNote}) {
+      String? payerNote,
+      RouteParametersConfig? routeParams}) {
     return handler.executeNormal(NormalTask(
       callFfi: (port_) {
         var arg0 = cst_encode_box_autoadd_ffi_bolt_12_payment(that);
         var arg1 = cst_encode_box_autoadd_offer(offer);
         var arg2 = cst_encode_opt_box_autoadd_u_64(quantity);
         var arg3 = cst_encode_opt_String(payerNote);
-        return wire.wire__crate__api__bolt12__ffi_bolt_12_payment_send(
-            port_, arg0, arg1, arg2, arg3);
+        var arg4 =
+            cst_encode_opt_box_autoadd_route_parameters_config(routeParams);
+        return wire.wire__crate__api__bolt12__ffi_bolt_12_payment_send_unsafe(
+            port_, arg0, arg1, arg2, arg3, arg4);
       },
       codec: DcoCodec(
         decodeSuccessData: dco_decode_payment_id,
         decodeErrorData: dco_decode_ffi_node_error,
       ),
-      constMeta: kCrateApiBolt12FfiBolt12PaymentSendConstMeta,
-      argValues: [that, offer, quantity, payerNote],
+      constMeta: kCrateApiBolt12FfiBolt12PaymentSendUnsafeConstMeta,
+      argValues: [that, offer, quantity, payerNote, routeParams],
       apiImpl: this,
     ));
   }
 
-  TaskConstMeta get kCrateApiBolt12FfiBolt12PaymentSendConstMeta =>
+  TaskConstMeta get kCrateApiBolt12FfiBolt12PaymentSendUnsafeConstMeta =>
       const TaskConstMeta(
-        debugName: "ffi_bolt_12_payment_send",
-        argNames: ["that", "offer", "quantity", "payerNote"],
+        debugName: "ffi_bolt_12_payment_send_unsafe",
+        argNames: ["that", "offer", "quantity", "payerNote", "routeParams"],
       );
 
   @override
-  Future<PaymentId> crateApiBolt12FfiBolt12PaymentSendUsingAmount(
+  Future<PaymentId> crateApiBolt12FfiBolt12PaymentSendUsingAmountUnsafe(
       {required FfiBolt12Payment that,
       required Offer offer,
       required BigInt amountMsat,
       BigInt? quantity,
-      String? payerNote}) {
+      String? payerNote,
+      RouteParametersConfig? routeParams}) {
     return handler.executeNormal(NormalTask(
       callFfi: (port_) {
         var arg0 = cst_encode_box_autoadd_ffi_bolt_12_payment(that);
@@ -1458,25 +1592,67 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
         var arg2 = cst_encode_u_64(amountMsat);
         var arg3 = cst_encode_opt_box_autoadd_u_64(quantity);
         var arg4 = cst_encode_opt_String(payerNote);
+        var arg5 =
+            cst_encode_opt_box_autoadd_route_parameters_config(routeParams);
         return wire
-            .wire__crate__api__bolt12__ffi_bolt_12_payment_send_using_amount(
-                port_, arg0, arg1, arg2, arg3, arg4);
+            .wire__crate__api__bolt12__ffi_bolt_12_payment_send_using_amount_unsafe(
+                port_, arg0, arg1, arg2, arg3, arg4, arg5);
       },
       codec: DcoCodec(
         decodeSuccessData: dco_decode_payment_id,
         decodeErrorData: dco_decode_ffi_node_error,
       ),
-      constMeta: kCrateApiBolt12FfiBolt12PaymentSendUsingAmountConstMeta,
-      argValues: [that, offer, amountMsat, quantity, payerNote],
+      constMeta: kCrateApiBolt12FfiBolt12PaymentSendUsingAmountUnsafeConstMeta,
+      argValues: [that, offer, amountMsat, quantity, payerNote, routeParams],
       apiImpl: this,
     ));
   }
 
-  TaskConstMeta get kCrateApiBolt12FfiBolt12PaymentSendUsingAmountConstMeta =>
-      const TaskConstMeta(
-        debugName: "ffi_bolt_12_payment_send_using_amount",
-        argNames: ["that", "offer", "amountMsat", "quantity", "payerNote"],
-      );
+  TaskConstMeta
+      get kCrateApiBolt12FfiBolt12PaymentSendUsingAmountUnsafeConstMeta =>
+          const TaskConstMeta(
+            debugName: "ffi_bolt_12_payment_send_using_amount_unsafe",
+            argNames: [
+              "that",
+              "offer",
+              "amountMsat",
+              "quantity",
+              "payerNote",
+              "routeParams"
+            ],
+          );
+
+  @override
+  Future<void>
+      crateApiBolt12FfiBolt12PaymentSetPathsToStaticInvoiceServerUnsafe(
+          {required FfiBolt12Payment that,
+          required List<BlindedMessagePath> paths}) {
+    return handler.executeNormal(NormalTask(
+      callFfi: (port_) {
+        var arg0 = cst_encode_box_autoadd_ffi_bolt_12_payment(that);
+        var arg1 = cst_encode_list_blinded_message_path(paths);
+        return wire
+            .wire__crate__api__bolt12__ffi_bolt_12_payment_set_paths_to_static_invoice_server_unsafe(
+                port_, arg0, arg1);
+      },
+      codec: DcoCodec(
+        decodeSuccessData: dco_decode_unit,
+        decodeErrorData: dco_decode_ffi_node_error,
+      ),
+      constMeta:
+          kCrateApiBolt12FfiBolt12PaymentSetPathsToStaticInvoiceServerUnsafeConstMeta,
+      argValues: [that, paths],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta
+      get kCrateApiBolt12FfiBolt12PaymentSetPathsToStaticInvoiceServerUnsafeConstMeta =>
+          const TaskConstMeta(
+            debugName:
+                "ffi_bolt_12_payment_set_paths_to_static_invoice_server_unsafe",
+            argNames: ["that", "paths"],
+          );
 
   @override
   Future<FfiMnemonic> crateApiBuilderFfiMnemonicGenerate() {
@@ -1501,104 +1677,132 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
       );
 
   @override
-  Future<ChannelInfo?> crateApiGraphFfiNetworkGraphChannel(
+  Future<FfiMnemonic> crateApiBuilderFfiMnemonicGenerateWithWordCount(
+      {required int wordCount}) {
+    return handler.executeNormal(NormalTask(
+      callFfi: (port_) {
+        var arg0 = cst_encode_u_8(wordCount);
+        return wire
+            .wire__crate__api__builder__ffi_mnemonic_generate_with_word_count(
+                port_, arg0);
+      },
+      codec: DcoCodec(
+        decodeSuccessData: dco_decode_ffi_mnemonic,
+        decodeErrorData: dco_decode_ffi_builder_error,
+      ),
+      constMeta: kCrateApiBuilderFfiMnemonicGenerateWithWordCountConstMeta,
+      argValues: [wordCount],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta get kCrateApiBuilderFfiMnemonicGenerateWithWordCountConstMeta =>
+      const TaskConstMeta(
+        debugName: "ffi_mnemonic_generate_with_word_count",
+        argNames: ["wordCount"],
+      );
+
+  @override
+  Future<ChannelInfo?> crateApiGraphFfiNetworkGraphChannelUnsafe(
       {required FfiNetworkGraph that, required BigInt shortChannelId}) {
     return handler.executeNormal(NormalTask(
       callFfi: (port_) {
         var arg0 = cst_encode_box_autoadd_ffi_network_graph(that);
         var arg1 = cst_encode_u_64(shortChannelId);
-        return wire.wire__crate__api__graph__ffi_network_graph_channel(
+        return wire.wire__crate__api__graph__ffi_network_graph_channel_unsafe(
             port_, arg0, arg1);
       },
       codec: DcoCodec(
         decodeSuccessData: dco_decode_opt_box_autoadd_channel_info,
         decodeErrorData: null,
       ),
-      constMeta: kCrateApiGraphFfiNetworkGraphChannelConstMeta,
+      constMeta: kCrateApiGraphFfiNetworkGraphChannelUnsafeConstMeta,
       argValues: [that, shortChannelId],
       apiImpl: this,
     ));
   }
 
-  TaskConstMeta get kCrateApiGraphFfiNetworkGraphChannelConstMeta =>
+  TaskConstMeta get kCrateApiGraphFfiNetworkGraphChannelUnsafeConstMeta =>
       const TaskConstMeta(
-        debugName: "ffi_network_graph_channel",
+        debugName: "ffi_network_graph_channel_unsafe",
         argNames: ["that", "shortChannelId"],
       );
 
   @override
-  Future<Uint64List> crateApiGraphFfiNetworkGraphListChannels(
+  Future<Uint64List> crateApiGraphFfiNetworkGraphListChannelsUnsafe(
       {required FfiNetworkGraph that}) {
     return handler.executeNormal(NormalTask(
       callFfi: (port_) {
         var arg0 = cst_encode_box_autoadd_ffi_network_graph(that);
-        return wire.wire__crate__api__graph__ffi_network_graph_list_channels(
-            port_, arg0);
+        return wire
+            .wire__crate__api__graph__ffi_network_graph_list_channels_unsafe(
+                port_, arg0);
       },
       codec: DcoCodec(
         decodeSuccessData: dco_decode_list_prim_u_64_strict,
         decodeErrorData: null,
       ),
-      constMeta: kCrateApiGraphFfiNetworkGraphListChannelsConstMeta,
+      constMeta: kCrateApiGraphFfiNetworkGraphListChannelsUnsafeConstMeta,
       argValues: [that],
       apiImpl: this,
     ));
   }
 
-  TaskConstMeta get kCrateApiGraphFfiNetworkGraphListChannelsConstMeta =>
+  TaskConstMeta get kCrateApiGraphFfiNetworkGraphListChannelsUnsafeConstMeta =>
       const TaskConstMeta(
-        debugName: "ffi_network_graph_list_channels",
+        debugName: "ffi_network_graph_list_channels_unsafe",
         argNames: ["that"],
       );
 
   @override
-  Future<List<NodeId>> crateApiGraphFfiNetworkGraphListNodes(
+  Future<List<NodeId>> crateApiGraphFfiNetworkGraphListNodesUnsafe(
       {required FfiNetworkGraph that}) {
     return handler.executeNormal(NormalTask(
       callFfi: (port_) {
         var arg0 = cst_encode_box_autoadd_ffi_network_graph(that);
-        return wire.wire__crate__api__graph__ffi_network_graph_list_nodes(
-            port_, arg0);
+        return wire
+            .wire__crate__api__graph__ffi_network_graph_list_nodes_unsafe(
+                port_, arg0);
       },
       codec: DcoCodec(
         decodeSuccessData: dco_decode_list_node_id,
         decodeErrorData: null,
       ),
-      constMeta: kCrateApiGraphFfiNetworkGraphListNodesConstMeta,
+      constMeta: kCrateApiGraphFfiNetworkGraphListNodesUnsafeConstMeta,
       argValues: [that],
       apiImpl: this,
     ));
   }
 
-  TaskConstMeta get kCrateApiGraphFfiNetworkGraphListNodesConstMeta =>
+  TaskConstMeta get kCrateApiGraphFfiNetworkGraphListNodesUnsafeConstMeta =>
       const TaskConstMeta(
-        debugName: "ffi_network_graph_list_nodes",
+        debugName: "ffi_network_graph_list_nodes_unsafe",
         argNames: ["that"],
       );
 
   @override
-  Future<NodeInfo?> crateApiGraphFfiNetworkGraphNode(
+  Future<NodeInfo?> crateApiGraphFfiNetworkGraphNodeUnsafe(
       {required FfiNetworkGraph that, required NodeId nodeId}) {
     return handler.executeNormal(NormalTask(
       callFfi: (port_) {
         var arg0 = cst_encode_box_autoadd_ffi_network_graph(that);
         var arg1 = cst_encode_box_autoadd_node_id(nodeId);
-        return wire.wire__crate__api__graph__ffi_network_graph_node(
+        return wire.wire__crate__api__graph__ffi_network_graph_node_unsafe(
             port_, arg0, arg1);
       },
       codec: DcoCodec(
         decodeSuccessData: dco_decode_opt_box_autoadd_node_info,
         decodeErrorData: dco_decode_ffi_node_error,
       ),
-      constMeta: kCrateApiGraphFfiNetworkGraphNodeConstMeta,
+      constMeta: kCrateApiGraphFfiNetworkGraphNodeUnsafeConstMeta,
       argValues: [that, nodeId],
       apiImpl: this,
     ));
   }
 
-  TaskConstMeta get kCrateApiGraphFfiNetworkGraphNodeConstMeta =>
+  TaskConstMeta get kCrateApiGraphFfiNetworkGraphNodeUnsafeConstMeta =>
       const TaskConstMeta(
-        debugName: "ffi_network_graph_node",
+        debugName: "ffi_network_graph_node_unsafe",
         argNames: ["that", "nodeId"],
       );
 
@@ -2597,7 +2801,39 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
       );
 
   @override
-  Future<PaymentId> crateApiSpontaneousFfiSpontaneousPaymentSend(
+  Future<void> crateApiSpontaneousFfiSpontaneousPaymentSendProbesUnsafe(
+      {required FfiSpontaneousPayment that,
+      required BigInt amountMsat,
+      required PublicKey nodeId}) {
+    return handler.executeNormal(NormalTask(
+      callFfi: (port_) {
+        var arg0 = cst_encode_box_autoadd_ffi_spontaneous_payment(that);
+        var arg1 = cst_encode_u_64(amountMsat);
+        var arg2 = cst_encode_box_autoadd_public_key(nodeId);
+        return wire
+            .wire__crate__api__spontaneous__ffi_spontaneous_payment_send_probes_unsafe(
+                port_, arg0, arg1, arg2);
+      },
+      codec: DcoCodec(
+        decodeSuccessData: dco_decode_unit,
+        decodeErrorData: dco_decode_ffi_node_error,
+      ),
+      constMeta:
+          kCrateApiSpontaneousFfiSpontaneousPaymentSendProbesUnsafeConstMeta,
+      argValues: [that, amountMsat, nodeId],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta
+      get kCrateApiSpontaneousFfiSpontaneousPaymentSendProbesUnsafeConstMeta =>
+          const TaskConstMeta(
+            debugName: "ffi_spontaneous_payment_send_probes_unsafe",
+            argNames: ["that", "amountMsat", "nodeId"],
+          );
+
+  @override
+  Future<PaymentId> crateApiSpontaneousFfiSpontaneousPaymentSendUnsafe(
       {required FfiSpontaneousPayment that,
       required BigInt amountMsat,
       required PublicKey nodeId,
@@ -2609,63 +2845,35 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
         var arg2 = cst_encode_box_autoadd_public_key(nodeId);
         var arg3 =
             cst_encode_opt_box_autoadd_sending_parameters(sendingParameters);
-        return wire.wire__crate__api__spontaneous__ffi_spontaneous_payment_send(
-            port_, arg0, arg1, arg2, arg3);
+        return wire
+            .wire__crate__api__spontaneous__ffi_spontaneous_payment_send_unsafe(
+                port_, arg0, arg1, arg2, arg3);
       },
       codec: DcoCodec(
         decodeSuccessData: dco_decode_payment_id,
         decodeErrorData: dco_decode_ffi_node_error,
       ),
-      constMeta: kCrateApiSpontaneousFfiSpontaneousPaymentSendConstMeta,
+      constMeta: kCrateApiSpontaneousFfiSpontaneousPaymentSendUnsafeConstMeta,
       argValues: [that, amountMsat, nodeId, sendingParameters],
       apiImpl: this,
     ));
   }
 
-  TaskConstMeta get kCrateApiSpontaneousFfiSpontaneousPaymentSendConstMeta =>
-      const TaskConstMeta(
-        debugName: "ffi_spontaneous_payment_send",
-        argNames: ["that", "amountMsat", "nodeId", "sendingParameters"],
-      );
-
-  @override
-  Future<void> crateApiSpontaneousFfiSpontaneousPaymentSendProbes(
-      {required FfiSpontaneousPayment that,
-      required BigInt amountMsat,
-      required PublicKey nodeId}) {
-    return handler.executeNormal(NormalTask(
-      callFfi: (port_) {
-        var arg0 = cst_encode_box_autoadd_ffi_spontaneous_payment(that);
-        var arg1 = cst_encode_u_64(amountMsat);
-        var arg2 = cst_encode_box_autoadd_public_key(nodeId);
-        return wire
-            .wire__crate__api__spontaneous__ffi_spontaneous_payment_send_probes(
-                port_, arg0, arg1, arg2);
-      },
-      codec: DcoCodec(
-        decodeSuccessData: dco_decode_unit,
-        decodeErrorData: dco_decode_ffi_node_error,
-      ),
-      constMeta: kCrateApiSpontaneousFfiSpontaneousPaymentSendProbesConstMeta,
-      argValues: [that, amountMsat, nodeId],
-      apiImpl: this,
-    ));
-  }
-
   TaskConstMeta
-      get kCrateApiSpontaneousFfiSpontaneousPaymentSendProbesConstMeta =>
+      get kCrateApiSpontaneousFfiSpontaneousPaymentSendUnsafeConstMeta =>
           const TaskConstMeta(
-            debugName: "ffi_spontaneous_payment_send_probes",
-            argNames: ["that", "amountMsat", "nodeId"],
+            debugName: "ffi_spontaneous_payment_send_unsafe",
+            argNames: ["that", "amountMsat", "nodeId", "sendingParameters"],
           );
 
   @override
-  Future<PaymentId> crateApiSpontaneousFfiSpontaneousPaymentSendWithCustomTlvs(
-      {required FfiSpontaneousPayment that,
-      required BigInt amountMsat,
-      required PublicKey nodeId,
-      SendingParameters? sendingParameters,
-      required List<CustomTlvRecord> customTlvs}) {
+  Future<PaymentId>
+      crateApiSpontaneousFfiSpontaneousPaymentSendWithCustomTlvsUnsafe(
+          {required FfiSpontaneousPayment that,
+          required BigInt amountMsat,
+          required PublicKey nodeId,
+          SendingParameters? sendingParameters,
+          required List<CustomTlvRecord> customTlvs}) {
     return handler.executeNormal(NormalTask(
       callFfi: (port_) {
         var arg0 = cst_encode_box_autoadd_ffi_spontaneous_payment(that);
@@ -2675,7 +2883,7 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
             cst_encode_opt_box_autoadd_sending_parameters(sendingParameters);
         var arg4 = cst_encode_list_custom_tlv_record(customTlvs);
         return wire
-            .wire__crate__api__spontaneous__ffi_spontaneous_payment_send_with_custom_tlvs(
+            .wire__crate__api__spontaneous__ffi_spontaneous_payment_send_with_custom_tlvs_unsafe(
                 port_, arg0, arg1, arg2, arg3, arg4);
       },
       codec: DcoCodec(
@@ -2683,16 +2891,16 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
         decodeErrorData: dco_decode_ffi_node_error,
       ),
       constMeta:
-          kCrateApiSpontaneousFfiSpontaneousPaymentSendWithCustomTlvsConstMeta,
+          kCrateApiSpontaneousFfiSpontaneousPaymentSendWithCustomTlvsUnsafeConstMeta,
       argValues: [that, amountMsat, nodeId, sendingParameters, customTlvs],
       apiImpl: this,
     ));
   }
 
   TaskConstMeta
-      get kCrateApiSpontaneousFfiSpontaneousPaymentSendWithCustomTlvsConstMeta =>
+      get kCrateApiSpontaneousFfiSpontaneousPaymentSendWithCustomTlvsUnsafeConstMeta =>
           const TaskConstMeta(
-            debugName: "ffi_spontaneous_payment_send_with_custom_tlvs",
+            debugName: "ffi_spontaneous_payment_send_with_custom_tlvs_unsafe",
             argNames: [
               "that",
               "amountMsat",
@@ -2703,7 +2911,51 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
           );
 
   @override
-  Future<String> crateApiUnifiedQrFfiUnifiedQrPaymentReceive(
+  Future<PaymentId>
+      crateApiSpontaneousFfiSpontaneousPaymentSendWithPreimageUnsafe(
+          {required FfiSpontaneousPayment that,
+          required BigInt amountMsat,
+          required PublicKey nodeId,
+          required PaymentPreimage preimage,
+          SendingParameters? sendingParameters}) {
+    return handler.executeNormal(NormalTask(
+      callFfi: (port_) {
+        var arg0 = cst_encode_box_autoadd_ffi_spontaneous_payment(that);
+        var arg1 = cst_encode_u_64(amountMsat);
+        var arg2 = cst_encode_box_autoadd_public_key(nodeId);
+        var arg3 = cst_encode_box_autoadd_payment_preimage(preimage);
+        var arg4 =
+            cst_encode_opt_box_autoadd_sending_parameters(sendingParameters);
+        return wire
+            .wire__crate__api__spontaneous__ffi_spontaneous_payment_send_with_preimage_unsafe(
+                port_, arg0, arg1, arg2, arg3, arg4);
+      },
+      codec: DcoCodec(
+        decodeSuccessData: dco_decode_payment_id,
+        decodeErrorData: dco_decode_ffi_node_error,
+      ),
+      constMeta:
+          kCrateApiSpontaneousFfiSpontaneousPaymentSendWithPreimageUnsafeConstMeta,
+      argValues: [that, amountMsat, nodeId, preimage, sendingParameters],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta
+      get kCrateApiSpontaneousFfiSpontaneousPaymentSendWithPreimageUnsafeConstMeta =>
+          const TaskConstMeta(
+            debugName: "ffi_spontaneous_payment_send_with_preimage_unsafe",
+            argNames: [
+              "that",
+              "amountMsat",
+              "nodeId",
+              "preimage",
+              "sendingParameters"
+            ],
+          );
+
+  @override
+  Future<String> crateApiUnifiedQrFfiUnifiedQrPaymentReceiveUnsafe(
       {required FfiUnifiedQrPayment that,
       required BigInt amountSats,
       required String message,
@@ -2715,58 +2967,80 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
         var arg2 = cst_encode_String(message);
         var arg3 = cst_encode_u_32(expirySec);
         return wire
-            .wire__crate__api__unified_qr__ffi_unified_qr_payment_receive(
+            .wire__crate__api__unified_qr__ffi_unified_qr_payment_receive_unsafe(
                 port_, arg0, arg1, arg2, arg3);
       },
       codec: DcoCodec(
         decodeSuccessData: dco_decode_String,
         decodeErrorData: dco_decode_ffi_node_error,
       ),
-      constMeta: kCrateApiUnifiedQrFfiUnifiedQrPaymentReceiveConstMeta,
+      constMeta: kCrateApiUnifiedQrFfiUnifiedQrPaymentReceiveUnsafeConstMeta,
       argValues: [that, amountSats, message, expirySec],
       apiImpl: this,
     ));
   }
 
-  TaskConstMeta get kCrateApiUnifiedQrFfiUnifiedQrPaymentReceiveConstMeta =>
-      const TaskConstMeta(
-        debugName: "ffi_unified_qr_payment_receive",
-        argNames: ["that", "amountSats", "message", "expirySec"],
-      );
+  TaskConstMeta
+      get kCrateApiUnifiedQrFfiUnifiedQrPaymentReceiveUnsafeConstMeta =>
+          const TaskConstMeta(
+            debugName: "ffi_unified_qr_payment_receive_unsafe",
+            argNames: ["that", "amountSats", "message", "expirySec"],
+          );
 
   @override
-  Future<QrPaymentResult> crateApiUnifiedQrFfiUnifiedQrPaymentSend(
-      {required FfiUnifiedQrPayment that, required String uriStr}) {
+  Future<QrPaymentResult> crateApiUnifiedQrFfiUnifiedQrPaymentSendUnsafe(
+      {required FfiUnifiedQrPayment that,
+      required String uriStr,
+      RouteParametersConfig? routeParameters}) {
     return handler.executeNormal(NormalTask(
       callFfi: (port_) {
         var arg0 = cst_encode_box_autoadd_ffi_unified_qr_payment(that);
         var arg1 = cst_encode_String(uriStr);
-        return wire.wire__crate__api__unified_qr__ffi_unified_qr_payment_send(
-            port_, arg0, arg1);
+        var arg2 =
+            cst_encode_opt_box_autoadd_route_parameters_config(routeParameters);
+        return wire
+            .wire__crate__api__unified_qr__ffi_unified_qr_payment_send_unsafe(
+                port_, arg0, arg1, arg2);
       },
       codec: DcoCodec(
         decodeSuccessData: dco_decode_qr_payment_result,
         decodeErrorData: dco_decode_ffi_node_error,
       ),
-      constMeta: kCrateApiUnifiedQrFfiUnifiedQrPaymentSendConstMeta,
-      argValues: [that, uriStr],
+      constMeta: kCrateApiUnifiedQrFfiUnifiedQrPaymentSendUnsafeConstMeta,
+      argValues: [that, uriStr, routeParameters],
       apiImpl: this,
     ));
   }
 
-  TaskConstMeta get kCrateApiUnifiedQrFfiUnifiedQrPaymentSendConstMeta =>
+  TaskConstMeta get kCrateApiUnifiedQrFfiUnifiedQrPaymentSendUnsafeConstMeta =>
       const TaskConstMeta(
-        debugName: "ffi_unified_qr_payment_send",
-        argNames: ["that", "uriStr"],
+        debugName: "ffi_unified_qr_payment_send_unsafe",
+        argNames: ["that", "uriStr", "routeParameters"],
       );
 
-  RustArcIncrementStrongCountFnType
-      get rust_arc_increment_strong_count_ConfirmationStatus => wire
-          .rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerConfirmationStatus;
+  @override
+  Future<PaymentPreimage> crateApiTypesPaymentPreimageNew(
+      {required U8Array32 data}) {
+    return handler.executeNormal(NormalTask(
+      callFfi: (port_) {
+        var arg0 = cst_encode_u_8_array_32(data);
+        return wire.wire__crate__api__types__payment_preimage_new(port_, arg0);
+      },
+      codec: DcoCodec(
+        decodeSuccessData: dco_decode_payment_preimage,
+        decodeErrorData: null,
+      ),
+      constMeta: kCrateApiTypesPaymentPreimageNewConstMeta,
+      argValues: [data],
+      apiImpl: this,
+    ));
+  }
 
-  RustArcDecrementStrongCountFnType
-      get rust_arc_decrement_strong_count_ConfirmationStatus => wire
-          .rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerConfirmationStatus;
+  TaskConstMeta get kCrateApiTypesPaymentPreimageNewConstMeta =>
+      const TaskConstMeta(
+        debugName: "payment_preimage_new",
+        argNames: ["data"],
+      );
 
   RustArcIncrementStrongCountFnType
       get rust_arc_increment_strong_count_FfiBuilder => wire
@@ -2775,14 +3049,6 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
   RustArcDecrementStrongCountFnType
       get rust_arc_decrement_strong_count_FfiBuilder => wire
           .rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerFfiBuilder;
-
-  RustArcIncrementStrongCountFnType
-      get rust_arc_increment_strong_count_PaymentKind => wire
-          .rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPaymentKind;
-
-  RustArcDecrementStrongCountFnType
-      get rust_arc_decrement_strong_count_PaymentKind => wire
-          .rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPaymentKind;
 
   RustArcIncrementStrongCountFnType
       get rust_arc_increment_strong_count_Builder =>
@@ -2847,27 +3113,11 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
           .rust_arc_decrement_strong_count_RustOpaque_ldk_nodepaymentUnifiedQrPayment;
 
   @protected
-  ConfirmationStatus
-      dco_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerConfirmationStatus(
-          dynamic raw) {
-    // Codec=Dco (DartCObject based), see doc to use other codecs
-    return ConfirmationStatusImpl.frbInternalDcoDecode(raw as List<dynamic>);
-  }
-
-  @protected
   FfiBuilder
       dco_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerFfiBuilder(
           dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     return FfiBuilderImpl.frbInternalDcoDecode(raw as List<dynamic>);
-  }
-
-  @protected
-  PaymentKind
-      dco_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPaymentKind(
-          dynamic raw) {
-    // Codec=Dco (DartCObject based), see doc to use other codecs
-    return PaymentKindImpl.frbInternalDcoDecode(raw as List<dynamic>);
   }
 
   @protected
@@ -2894,27 +3144,11 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
   }
 
   @protected
-  ConfirmationStatus
-      dco_decode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerConfirmationStatus(
-          dynamic raw) {
-    // Codec=Dco (DartCObject based), see doc to use other codecs
-    return ConfirmationStatusImpl.frbInternalDcoDecode(raw as List<dynamic>);
-  }
-
-  @protected
   FfiBuilder
       dco_decode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerFfiBuilder(
           dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     return FfiBuilderImpl.frbInternalDcoDecode(raw as List<dynamic>);
-  }
-
-  @protected
-  PaymentKind
-      dco_decode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPaymentKind(
-          dynamic raw) {
-    // Codec=Dco (DartCObject based), see doc to use other codecs
-    return PaymentKindImpl.frbInternalDcoDecode(raw as List<dynamic>);
   }
 
   @protected
@@ -3053,6 +3287,17 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
   }
 
   @protected
+  BlindedMessagePath dco_decode_blinded_message_path(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    final arr = raw as List<dynamic>;
+    if (arr.length != 1)
+      throw Exception('unexpected arr length: expect 1 but see ${arr.length}');
+    return BlindedMessagePath(
+      data: dco_decode_list_prim_u_8_strict(arr[0]),
+    );
+  }
+
+  @protected
   Bolt11Invoice dco_decode_bolt_11_invoice(dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     final arr = raw as List<dynamic>;
@@ -3098,6 +3343,8 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
         return Bolt12ParseError_InvalidSignature(
           dco_decode_String(raw[1]),
         );
+      case 6:
+        return Bolt12ParseError_InvalidLeadingWhitespace();
       default:
         throw Exception("unreachable");
     }
@@ -3188,6 +3435,12 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
   Config dco_decode_box_autoadd_config(dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     return dco_decode_config(raw);
+  }
+
+  @protected
+  ConfirmationStatus dco_decode_box_autoadd_confirmation_status(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return dco_decode_confirmation_status(raw);
   }
 
   @protected
@@ -3297,6 +3550,12 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
   }
 
   @protected
+  LSPFeeLimits dco_decode_box_autoadd_lsp_fee_limits(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return dco_decode_lsp_fee_limits(raw);
+  }
+
+  @protected
   MaxTotalRoutingFeeLimit dco_decode_box_autoadd_max_total_routing_fee_limit(
       dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
@@ -3332,6 +3591,12 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
   Offer dco_decode_box_autoadd_offer(dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     return dco_decode_offer(raw);
+  }
+
+  @protected
+  OfferId dco_decode_box_autoadd_offer_id(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return dco_decode_offer_id(raw);
   }
 
   @protected
@@ -3372,6 +3637,12 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
   }
 
   @protected
+  PaymentSecret dco_decode_box_autoadd_payment_secret(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return dco_decode_payment_secret(raw);
+  }
+
+  @protected
   PublicKey dco_decode_box_autoadd_public_key(dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     return dco_decode_public_key(raw);
@@ -3381,6 +3652,13 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
   Refund dco_decode_box_autoadd_refund(dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     return dco_decode_refund(raw);
+  }
+
+  @protected
+  RouteParametersConfig dco_decode_box_autoadd_route_parameters_config(
+      dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return dco_decode_route_parameters_config(raw);
   }
 
   @protected
@@ -3441,16 +3719,31 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
           syncConfig: dco_decode_opt_box_autoadd_esplora_sync_config(raw[2]),
         );
       case 1:
+        return ChainDataSourceConfig_EsploraWithHeaders(
+          serverUrl: dco_decode_String(raw[1]),
+          syncConfig: dco_decode_opt_box_autoadd_esplora_sync_config(raw[2]),
+          headers: dco_decode_Map_String_String_None(raw[3]),
+        );
+      case 2:
         return ChainDataSourceConfig_Electrum(
           serverUrl: dco_decode_String(raw[1]),
           syncConfig: dco_decode_opt_box_autoadd_electrum_sync_config(raw[2]),
         );
-      case 2:
+      case 3:
         return ChainDataSourceConfig_BitcoindRpc(
           rpcHost: dco_decode_String(raw[1]),
           rpcPort: dco_decode_u_16(raw[2]),
           rpcUser: dco_decode_String(raw[3]),
           rpcPassword: dco_decode_String(raw[4]),
+        );
+      case 4:
+        return ChainDataSourceConfig_BitcoindRest(
+          restHost: dco_decode_String(raw[1]),
+          restPort: dco_decode_u_16(raw[2]),
+          rpcHost: dco_decode_String(raw[3]),
+          rpcPort: dco_decode_u_16(raw[4]),
+          rpcUser: dco_decode_String(raw[5]),
+          rpcPassword: dco_decode_String(raw[6]),
         );
       default:
         throw Exception("unreachable");
@@ -3619,8 +3912,26 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
       probingLiquidityLimitMultiplier: dco_decode_u_64(arr[6]),
       anchorChannelsConfig:
           dco_decode_opt_box_autoadd_anchor_channels_config(arr[7]),
-      sendingParameters: dco_decode_opt_box_autoadd_sending_parameters(arr[8]),
+      routeParameters:
+          dco_decode_opt_box_autoadd_route_parameters_config(arr[8]),
     );
+  }
+
+  @protected
+  ConfirmationStatus dco_decode_confirmation_status(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    switch (raw[0]) {
+      case 0:
+        return ConfirmationStatus_Confirmed(
+          blockHash: dco_decode_String(raw[1]),
+          height: dco_decode_u_32(raw[2]),
+          timestamp: dco_decode_u_64(raw[3]),
+        );
+      case 1:
+        return ConfirmationStatus_Unconfirmed();
+      default:
+        throw Exception("unreachable");
+    }
   }
 
   @protected
@@ -3753,6 +4064,7 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
           channelId: dco_decode_box_autoadd_channel_id(raw[1]),
           userChannelId: dco_decode_box_autoadd_user_channel_id(raw[2]),
           counterpartyNodeId: dco_decode_opt_box_autoadd_public_key(raw[3]),
+          fundingTxo: dco_decode_opt_box_autoadd_out_point(raw[4]),
         );
       case 6:
         return Event_ChannelClosed(
@@ -3773,6 +4085,20 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
           skimmedFeeMsat: dco_decode_opt_box_autoadd_u_64(raw[8]),
           claimFromOnchainTx: dco_decode_bool(raw[9]),
           outboundAmountForwardedMsat: dco_decode_opt_box_autoadd_u_64(raw[10]),
+        );
+      case 8:
+        return Event_SplicePending(
+          channelId: dco_decode_box_autoadd_channel_id(raw[1]),
+          userChannelId: dco_decode_box_autoadd_user_channel_id(raw[2]),
+          counterpartyNodeId: dco_decode_box_autoadd_public_key(raw[3]),
+          newFundingTxo: dco_decode_box_autoadd_out_point(raw[4]),
+        );
+      case 9:
+        return Event_SpliceFailed(
+          channelId: dco_decode_box_autoadd_channel_id(raw[1]),
+          userChannelId: dco_decode_box_autoadd_user_channel_id(raw[2]),
+          counterpartyNodeId: dco_decode_box_autoadd_public_key(raw[3]),
+          abandonedFundingTxo: dco_decode_opt_box_autoadd_out_point(raw[4]),
         );
       default:
         throw Exception("unreachable");
@@ -3867,120 +4193,128 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
       case 0:
         return FfiNodeError_InvalidTxid();
       case 1:
-        return FfiNodeError_AlreadyRunning();
+        return FfiNodeError_InvalidBlockHash();
       case 2:
-        return FfiNodeError_NotRunning();
+        return FfiNodeError_AlreadyRunning();
       case 3:
-        return FfiNodeError_OnchainTxCreationFailed();
+        return FfiNodeError_NotRunning();
       case 4:
-        return FfiNodeError_ConnectionFailed();
+        return FfiNodeError_OnchainTxCreationFailed();
       case 5:
-        return FfiNodeError_InvoiceCreationFailed();
+        return FfiNodeError_ConnectionFailed();
       case 6:
-        return FfiNodeError_PaymentSendingFailed();
+        return FfiNodeError_InvoiceCreationFailed();
       case 7:
-        return FfiNodeError_ProbeSendingFailed();
+        return FfiNodeError_PaymentSendingFailed();
       case 8:
-        return FfiNodeError_ChannelCreationFailed();
+        return FfiNodeError_ProbeSendingFailed();
       case 9:
-        return FfiNodeError_ChannelClosingFailed();
+        return FfiNodeError_ChannelCreationFailed();
       case 10:
-        return FfiNodeError_ChannelConfigUpdateFailed();
+        return FfiNodeError_ChannelClosingFailed();
       case 11:
-        return FfiNodeError_PersistenceFailed();
+        return FfiNodeError_ChannelConfigUpdateFailed();
       case 12:
-        return FfiNodeError_WalletOperationFailed();
+        return FfiNodeError_PersistenceFailed();
       case 13:
-        return FfiNodeError_OnchainTxSigningFailed();
+        return FfiNodeError_WalletOperationFailed();
       case 14:
-        return FfiNodeError_MessageSigningFailed();
+        return FfiNodeError_OnchainTxSigningFailed();
       case 15:
-        return FfiNodeError_TxSyncFailed();
+        return FfiNodeError_MessageSigningFailed();
       case 16:
-        return FfiNodeError_GossipUpdateFailed();
+        return FfiNodeError_TxSyncFailed();
       case 17:
-        return FfiNodeError_InvalidAddress();
+        return FfiNodeError_GossipUpdateFailed();
       case 18:
-        return FfiNodeError_InvalidSocketAddress();
+        return FfiNodeError_InvalidAddress();
       case 19:
-        return FfiNodeError_InvalidPublicKey();
+        return FfiNodeError_InvalidSocketAddress();
       case 20:
-        return FfiNodeError_InvalidSecretKey();
+        return FfiNodeError_InvalidPublicKey();
       case 21:
-        return FfiNodeError_InvalidPaymentHash();
+        return FfiNodeError_InvalidSecretKey();
       case 22:
-        return FfiNodeError_InvalidPaymentPreimage();
+        return FfiNodeError_InvalidPaymentHash();
       case 23:
-        return FfiNodeError_InvalidPaymentSecret();
+        return FfiNodeError_InvalidPaymentPreimage();
       case 24:
-        return FfiNodeError_InvalidAmount();
+        return FfiNodeError_InvalidPaymentSecret();
       case 25:
-        return FfiNodeError_InvalidInvoice();
+        return FfiNodeError_InvalidAmount();
       case 26:
-        return FfiNodeError_InvalidChannelId();
+        return FfiNodeError_InvalidInvoice();
       case 27:
-        return FfiNodeError_InvalidNetwork();
+        return FfiNodeError_InvalidChannelId();
       case 28:
-        return FfiNodeError_DuplicatePayment();
+        return FfiNodeError_InvalidNetwork();
       case 29:
-        return FfiNodeError_InsufficientFunds();
+        return FfiNodeError_DuplicatePayment();
       case 30:
-        return FfiNodeError_FeerateEstimationUpdateFailed();
+        return FfiNodeError_InsufficientFunds();
       case 31:
-        return FfiNodeError_LiquidityRequestFailed();
+        return FfiNodeError_FeerateEstimationUpdateFailed();
       case 32:
-        return FfiNodeError_LiquiditySourceUnavailable();
+        return FfiNodeError_LiquidityRequestFailed();
       case 33:
-        return FfiNodeError_LiquidityFeeTooHigh();
+        return FfiNodeError_LiquiditySourceUnavailable();
       case 34:
-        return FfiNodeError_InvalidPaymentId();
+        return FfiNodeError_LiquidityFeeTooHigh();
       case 35:
+        return FfiNodeError_InvalidPaymentId();
+      case 36:
         return FfiNodeError_Decode(
           dco_decode_box_autoadd_decode_error(raw[1]),
         );
-      case 36:
+      case 37:
         return FfiNodeError_Bolt12Parse(
           dco_decode_box_autoadd_bolt_12_parse_error(raw[1]),
         );
-      case 37:
-        return FfiNodeError_InvoiceRequestCreationFailed();
       case 38:
-        return FfiNodeError_OfferCreationFailed();
+        return FfiNodeError_InvoiceRequestCreationFailed();
       case 39:
-        return FfiNodeError_RefundCreationFailed();
+        return FfiNodeError_OfferCreationFailed();
       case 40:
-        return FfiNodeError_FeerateEstimationUpdateTimeout();
+        return FfiNodeError_RefundCreationFailed();
       case 41:
-        return FfiNodeError_WalletOperationTimeout();
+        return FfiNodeError_FeerateEstimationUpdateTimeout();
       case 42:
-        return FfiNodeError_TxSyncTimeout();
+        return FfiNodeError_WalletOperationTimeout();
       case 43:
-        return FfiNodeError_GossipUpdateTimeout();
+        return FfiNodeError_TxSyncTimeout();
       case 44:
-        return FfiNodeError_InvalidOfferId();
+        return FfiNodeError_GossipUpdateTimeout();
       case 45:
-        return FfiNodeError_InvalidNodeId();
+        return FfiNodeError_InvalidOfferId();
       case 46:
-        return FfiNodeError_InvalidOffer();
+        return FfiNodeError_InvalidNodeId();
       case 47:
-        return FfiNodeError_InvalidRefund();
+        return FfiNodeError_InvalidOffer();
       case 48:
-        return FfiNodeError_UnsupportedCurrency();
+        return FfiNodeError_InvalidRefund();
       case 49:
-        return FfiNodeError_UriParameterParsingFailed();
+        return FfiNodeError_UnsupportedCurrency();
       case 50:
-        return FfiNodeError_InvalidUri();
+        return FfiNodeError_UriParameterParsingFailed();
       case 51:
-        return FfiNodeError_InvalidQuantity();
+        return FfiNodeError_InvalidUri();
       case 52:
-        return FfiNodeError_InvalidNodeAlias();
+        return FfiNodeError_InvalidQuantity();
       case 53:
-        return FfiNodeError_InvalidCustomTlvs();
+        return FfiNodeError_InvalidNodeAlias();
       case 54:
-        return FfiNodeError_InvalidDateTime();
+        return FfiNodeError_InvalidCustomTlvs();
       case 55:
-        return FfiNodeError_InvalidFeeRate();
+        return FfiNodeError_InvalidDateTime();
       case 56:
+        return FfiNodeError_InvalidFeeRate();
+      case 57:
+        return FfiNodeError_ChannelSplicingFailed();
+      case 58:
+        return FfiNodeError_InvalidBlindedPaths();
+      case 59:
+        return FfiNodeError_AsyncPaymentServicesDisabled();
+      case 60:
         return FfiNodeError_CreationError(
           dco_decode_ffi_creation_error(raw[1]),
         );
@@ -4113,6 +4447,12 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
       lsps2Service:
           dco_decode_record_socket_address_public_key_opt_string(arr[0]),
     );
+  }
+
+  @protected
+  List<BlindedMessagePath> dco_decode_list_blinded_message_path(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return (raw as List<dynamic>).map(dco_decode_blinded_message_path).toList();
   }
 
   @protected
@@ -4303,22 +4643,21 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
   NodeStatus dco_decode_node_status(dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     final arr = raw as List<dynamic>;
-    if (arr.length != 9)
-      throw Exception('unexpected arr length: expect 9 but see ${arr.length}');
+    if (arr.length != 8)
+      throw Exception('unexpected arr length: expect 8 but see ${arr.length}');
     return NodeStatus(
       isRunning: dco_decode_bool(arr[0]),
-      isListening: dco_decode_bool(arr[1]),
-      currentBestBlock: dco_decode_best_block(arr[2]),
+      currentBestBlock: dco_decode_best_block(arr[1]),
       latestLightningWalletSyncTimestamp:
-          dco_decode_opt_box_autoadd_u_64(arr[3]),
-      latestOnchainWalletSyncTimestamp: dco_decode_opt_box_autoadd_u_64(arr[4]),
+          dco_decode_opt_box_autoadd_u_64(arr[2]),
+      latestOnchainWalletSyncTimestamp: dco_decode_opt_box_autoadd_u_64(arr[3]),
       latestFeeRateCacheUpdateTimestamp:
-          dco_decode_opt_box_autoadd_u_64(arr[5]),
-      latestRgsSnapshotTimestamp: dco_decode_opt_box_autoadd_u_64(arr[6]),
+          dco_decode_opt_box_autoadd_u_64(arr[4]),
+      latestRgsSnapshotTimestamp: dco_decode_opt_box_autoadd_u_64(arr[5]),
       latestNodeAnnouncementBroadcastTimestamp:
-          dco_decode_opt_box_autoadd_u_64(arr[7]),
+          dco_decode_opt_box_autoadd_u_64(arr[6]),
       latestChannelMonitorArchivalHeight:
-          dco_decode_opt_box_autoadd_u_32(arr[8]),
+          dco_decode_opt_box_autoadd_u_32(arr[7]),
     );
   }
 
@@ -4539,9 +4878,24 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
   }
 
   @protected
+  PaymentSecret? dco_decode_opt_box_autoadd_payment_secret(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return raw == null ? null : dco_decode_box_autoadd_payment_secret(raw);
+  }
+
+  @protected
   PublicKey? dco_decode_opt_box_autoadd_public_key(dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     return raw == null ? null : dco_decode_box_autoadd_public_key(raw);
+  }
+
+  @protected
+  RouteParametersConfig? dco_decode_opt_box_autoadd_route_parameters_config(
+      dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return raw == null
+        ? null
+        : dco_decode_box_autoadd_route_parameters_config(raw);
   }
 
   @protected
@@ -4607,9 +4961,7 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
       throw Exception('unexpected arr length: expect 6 but see ${arr.length}');
     return PaymentDetails(
       id: dco_decode_payment_id(arr[0]),
-      kind:
-          dco_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPaymentKind(
-              arr[1]),
+      kind: dco_decode_payment_kind(arr[1]),
       amountMsat: dco_decode_opt_box_autoadd_u_64(arr[2]),
       direction: dco_decode_payment_direction(arr[3]),
       status: dco_decode_payment_status(arr[4]),
@@ -4649,6 +5001,56 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
     return PaymentId(
       data: dco_decode_list_prim_u_8_strict(arr[0]),
     );
+  }
+
+  @protected
+  PaymentKind dco_decode_payment_kind(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    switch (raw[0]) {
+      case 0:
+        return PaymentKind_Onchain(
+          txid: dco_decode_box_autoadd_txid(raw[1]),
+          status: dco_decode_box_autoadd_confirmation_status(raw[2]),
+        );
+      case 1:
+        return PaymentKind_Bolt11(
+          hash: dco_decode_box_autoadd_payment_hash(raw[1]),
+          preimage: dco_decode_opt_box_autoadd_payment_preimage(raw[2]),
+          secret: dco_decode_opt_box_autoadd_payment_secret(raw[3]),
+        );
+      case 2:
+        return PaymentKind_Bolt11Jit(
+          hash: dco_decode_box_autoadd_payment_hash(raw[1]),
+          preimage: dco_decode_opt_box_autoadd_payment_preimage(raw[2]),
+          secret: dco_decode_opt_box_autoadd_payment_secret(raw[3]),
+          lspFeeLimits: dco_decode_box_autoadd_lsp_fee_limits(raw[4]),
+          counterpartySkimmedFeeMsat: dco_decode_opt_box_autoadd_u_64(raw[5]),
+        );
+      case 3:
+        return PaymentKind_Spontaneous(
+          hash: dco_decode_box_autoadd_payment_hash(raw[1]),
+          preimage: dco_decode_opt_box_autoadd_payment_preimage(raw[2]),
+        );
+      case 4:
+        return PaymentKind_Bolt12Offer(
+          hash: dco_decode_opt_box_autoadd_payment_hash(raw[1]),
+          preimage: dco_decode_opt_box_autoadd_payment_preimage(raw[2]),
+          secret: dco_decode_opt_box_autoadd_payment_secret(raw[3]),
+          offerId: dco_decode_box_autoadd_offer_id(raw[4]),
+          payerNote: dco_decode_opt_String(raw[5]),
+          quantity: dco_decode_opt_box_autoadd_u_64(raw[6]),
+        );
+      case 5:
+        return PaymentKind_Bolt12Refund(
+          hash: dco_decode_opt_box_autoadd_payment_hash(raw[1]),
+          preimage: dco_decode_opt_box_autoadd_payment_preimage(raw[2]),
+          secret: dco_decode_opt_box_autoadd_payment_secret(raw[3]),
+          payerNote: dco_decode_opt_String(raw[4]),
+          quantity: dco_decode_opt_box_autoadd_u_64(raw[5]),
+        );
+      default:
+        throw Exception("unreachable");
+    }
   }
 
   @protected
@@ -4789,6 +5191,21 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
       throw Exception('unexpected arr length: expect 1 but see ${arr.length}');
     return Refund(
       s: dco_decode_String(arr[0]),
+    );
+  }
+
+  @protected
+  RouteParametersConfig dco_decode_route_parameters_config(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    final arr = raw as List<dynamic>;
+    if (arr.length != 4)
+      throw Exception('unexpected arr length: expect 4 but see ${arr.length}');
+    return RouteParametersConfig(
+      maxTotalRoutingFeeMsat:
+          dco_decode_opt_box_autoadd_max_total_routing_fee_limit(arr[0]),
+      maxTotalCltvExpiryDelta: dco_decode_opt_box_autoadd_u_32(arr[1]),
+      maxPathCount: dco_decode_opt_box_autoadd_u_8(arr[2]),
+      maxChannelSaturationPowerOfHalf: dco_decode_opt_box_autoadd_u_8(arr[3]),
     );
   }
 
@@ -4943,29 +5360,11 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
   }
 
   @protected
-  ConfirmationStatus
-      sse_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerConfirmationStatus(
-          SseDeserializer deserializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    return ConfirmationStatusImpl.frbInternalSseDecode(
-        sse_decode_usize(deserializer), sse_decode_i_32(deserializer));
-  }
-
-  @protected
   FfiBuilder
       sse_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerFfiBuilder(
           SseDeserializer deserializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     return FfiBuilderImpl.frbInternalSseDecode(
-        sse_decode_usize(deserializer), sse_decode_i_32(deserializer));
-  }
-
-  @protected
-  PaymentKind
-      sse_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPaymentKind(
-          SseDeserializer deserializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    return PaymentKindImpl.frbInternalSseDecode(
         sse_decode_usize(deserializer), sse_decode_i_32(deserializer));
   }
 
@@ -4996,29 +5395,11 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
   }
 
   @protected
-  ConfirmationStatus
-      sse_decode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerConfirmationStatus(
-          SseDeserializer deserializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    return ConfirmationStatusImpl.frbInternalSseDecode(
-        sse_decode_usize(deserializer), sse_decode_i_32(deserializer));
-  }
-
-  @protected
   FfiBuilder
       sse_decode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerFfiBuilder(
           SseDeserializer deserializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     return FfiBuilderImpl.frbInternalSseDecode(
-        sse_decode_usize(deserializer), sse_decode_i_32(deserializer));
-  }
-
-  @protected
-  PaymentKind
-      sse_decode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPaymentKind(
-          SseDeserializer deserializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    return PaymentKindImpl.frbInternalSseDecode(
         sse_decode_usize(deserializer), sse_decode_i_32(deserializer));
   }
 
@@ -5156,6 +5537,14 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
   }
 
   @protected
+  BlindedMessagePath sse_decode_blinded_message_path(
+      SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    var var_data = sse_decode_list_prim_u_8_strict(deserializer);
+    return BlindedMessagePath(data: var_data);
+  }
+
+  @protected
   Bolt11Invoice sse_decode_bolt_11_invoice(SseDeserializer deserializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     var var_signedRawInvoice = sse_decode_String(deserializer);
@@ -5192,6 +5581,8 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
       case 5:
         var var_field0 = sse_decode_String(deserializer);
         return Bolt12ParseError_InvalidSignature(var_field0);
+      case 6:
+        return Bolt12ParseError_InvalidLeadingWhitespace();
       default:
         throw UnimplementedError('');
     }
@@ -5288,6 +5679,13 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
   Config sse_decode_box_autoadd_config(SseDeserializer deserializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     return (sse_decode_config(deserializer));
+  }
+
+  @protected
+  ConfirmationStatus sse_decode_box_autoadd_confirmation_status(
+      SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    return (sse_decode_confirmation_status(deserializer));
   }
 
   @protected
@@ -5407,6 +5805,13 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
   }
 
   @protected
+  LSPFeeLimits sse_decode_box_autoadd_lsp_fee_limits(
+      SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    return (sse_decode_lsp_fee_limits(deserializer));
+  }
+
+  @protected
   MaxTotalRoutingFeeLimit sse_decode_box_autoadd_max_total_routing_fee_limit(
       SseDeserializer deserializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
@@ -5442,6 +5847,12 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
   Offer sse_decode_box_autoadd_offer(SseDeserializer deserializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     return (sse_decode_offer(deserializer));
+  }
+
+  @protected
+  OfferId sse_decode_box_autoadd_offer_id(SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    return (sse_decode_offer_id(deserializer));
   }
 
   @protected
@@ -5485,6 +5896,13 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
   }
 
   @protected
+  PaymentSecret sse_decode_box_autoadd_payment_secret(
+      SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    return (sse_decode_payment_secret(deserializer));
+  }
+
+  @protected
   PublicKey sse_decode_box_autoadd_public_key(SseDeserializer deserializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     return (sse_decode_public_key(deserializer));
@@ -5494,6 +5912,13 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
   Refund sse_decode_box_autoadd_refund(SseDeserializer deserializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     return (sse_decode_refund(deserializer));
+  }
+
+  @protected
+  RouteParametersConfig sse_decode_box_autoadd_route_parameters_config(
+      SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    return (sse_decode_route_parameters_config(deserializer));
   }
 
   @protected
@@ -5563,15 +5988,38 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
       case 1:
         var var_serverUrl = sse_decode_String(deserializer);
         var var_syncConfig =
+            sse_decode_opt_box_autoadd_esplora_sync_config(deserializer);
+        var var_headers = sse_decode_Map_String_String_None(deserializer);
+        return ChainDataSourceConfig_EsploraWithHeaders(
+            serverUrl: var_serverUrl,
+            syncConfig: var_syncConfig,
+            headers: var_headers);
+      case 2:
+        var var_serverUrl = sse_decode_String(deserializer);
+        var var_syncConfig =
             sse_decode_opt_box_autoadd_electrum_sync_config(deserializer);
         return ChainDataSourceConfig_Electrum(
             serverUrl: var_serverUrl, syncConfig: var_syncConfig);
-      case 2:
+      case 3:
         var var_rpcHost = sse_decode_String(deserializer);
         var var_rpcPort = sse_decode_u_16(deserializer);
         var var_rpcUser = sse_decode_String(deserializer);
         var var_rpcPassword = sse_decode_String(deserializer);
         return ChainDataSourceConfig_BitcoindRpc(
+            rpcHost: var_rpcHost,
+            rpcPort: var_rpcPort,
+            rpcUser: var_rpcUser,
+            rpcPassword: var_rpcPassword);
+      case 4:
+        var var_restHost = sse_decode_String(deserializer);
+        var var_restPort = sse_decode_u_16(deserializer);
+        var var_rpcHost = sse_decode_String(deserializer);
+        var var_rpcPort = sse_decode_u_16(deserializer);
+        var var_rpcUser = sse_decode_String(deserializer);
+        var var_rpcPassword = sse_decode_String(deserializer);
+        return ChainDataSourceConfig_BitcoindRest(
+            restHost: var_restHost,
+            restPort: var_restPort,
             rpcHost: var_rpcHost,
             rpcPort: var_rpcPort,
             rpcUser: var_rpcUser,
@@ -5784,8 +6232,8 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
     var var_probingLiquidityLimitMultiplier = sse_decode_u_64(deserializer);
     var var_anchorChannelsConfig =
         sse_decode_opt_box_autoadd_anchor_channels_config(deserializer);
-    var var_sendingParameters =
-        sse_decode_opt_box_autoadd_sending_parameters(deserializer);
+    var var_routeParameters =
+        sse_decode_opt_box_autoadd_route_parameters_config(deserializer);
     return Config(
         storageDirPath: var_storageDirPath,
         network: var_network,
@@ -5795,7 +6243,29 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
         trustedPeers0Conf: var_trustedPeers0Conf,
         probingLiquidityLimitMultiplier: var_probingLiquidityLimitMultiplier,
         anchorChannelsConfig: var_anchorChannelsConfig,
-        sendingParameters: var_sendingParameters);
+        routeParameters: var_routeParameters);
+  }
+
+  @protected
+  ConfirmationStatus sse_decode_confirmation_status(
+      SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+
+    var tag_ = sse_decode_i_32(deserializer);
+    switch (tag_) {
+      case 0:
+        var var_blockHash = sse_decode_String(deserializer);
+        var var_height = sse_decode_u_32(deserializer);
+        var var_timestamp = sse_decode_u_64(deserializer);
+        return ConfirmationStatus_Confirmed(
+            blockHash: var_blockHash,
+            height: var_height,
+            timestamp: var_timestamp);
+      case 1:
+        return ConfirmationStatus_Unconfirmed();
+      default:
+        throw UnimplementedError('');
+    }
   }
 
   @protected
@@ -5945,10 +6415,12 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
             sse_decode_box_autoadd_user_channel_id(deserializer);
         var var_counterpartyNodeId =
             sse_decode_opt_box_autoadd_public_key(deserializer);
+        var var_fundingTxo = sse_decode_opt_box_autoadd_out_point(deserializer);
         return Event_ChannelReady(
             channelId: var_channelId,
             userChannelId: var_userChannelId,
-            counterpartyNodeId: var_counterpartyNodeId);
+            counterpartyNodeId: var_counterpartyNodeId,
+            fundingTxo: var_fundingTxo);
       case 6:
         var var_channelId = sse_decode_box_autoadd_channel_id(deserializer);
         var var_userChannelId =
@@ -5990,6 +6462,31 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
             skimmedFeeMsat: var_skimmedFeeMsat,
             claimFromOnchainTx: var_claimFromOnchainTx,
             outboundAmountForwardedMsat: var_outboundAmountForwardedMsat);
+      case 8:
+        var var_channelId = sse_decode_box_autoadd_channel_id(deserializer);
+        var var_userChannelId =
+            sse_decode_box_autoadd_user_channel_id(deserializer);
+        var var_counterpartyNodeId =
+            sse_decode_box_autoadd_public_key(deserializer);
+        var var_newFundingTxo = sse_decode_box_autoadd_out_point(deserializer);
+        return Event_SplicePending(
+            channelId: var_channelId,
+            userChannelId: var_userChannelId,
+            counterpartyNodeId: var_counterpartyNodeId,
+            newFundingTxo: var_newFundingTxo);
+      case 9:
+        var var_channelId = sse_decode_box_autoadd_channel_id(deserializer);
+        var var_userChannelId =
+            sse_decode_box_autoadd_user_channel_id(deserializer);
+        var var_counterpartyNodeId =
+            sse_decode_box_autoadd_public_key(deserializer);
+        var var_abandonedFundingTxo =
+            sse_decode_opt_box_autoadd_out_point(deserializer);
+        return Event_SpliceFailed(
+            channelId: var_channelId,
+            userChannelId: var_userChannelId,
+            counterpartyNodeId: var_counterpartyNodeId,
+            abandonedFundingTxo: var_abandonedFundingTxo);
       default:
         throw UnimplementedError('');
     }
@@ -6072,119 +6569,127 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
       case 0:
         return FfiNodeError_InvalidTxid();
       case 1:
-        return FfiNodeError_AlreadyRunning();
+        return FfiNodeError_InvalidBlockHash();
       case 2:
-        return FfiNodeError_NotRunning();
+        return FfiNodeError_AlreadyRunning();
       case 3:
-        return FfiNodeError_OnchainTxCreationFailed();
+        return FfiNodeError_NotRunning();
       case 4:
-        return FfiNodeError_ConnectionFailed();
+        return FfiNodeError_OnchainTxCreationFailed();
       case 5:
-        return FfiNodeError_InvoiceCreationFailed();
+        return FfiNodeError_ConnectionFailed();
       case 6:
-        return FfiNodeError_PaymentSendingFailed();
+        return FfiNodeError_InvoiceCreationFailed();
       case 7:
-        return FfiNodeError_ProbeSendingFailed();
+        return FfiNodeError_PaymentSendingFailed();
       case 8:
-        return FfiNodeError_ChannelCreationFailed();
+        return FfiNodeError_ProbeSendingFailed();
       case 9:
-        return FfiNodeError_ChannelClosingFailed();
+        return FfiNodeError_ChannelCreationFailed();
       case 10:
-        return FfiNodeError_ChannelConfigUpdateFailed();
+        return FfiNodeError_ChannelClosingFailed();
       case 11:
-        return FfiNodeError_PersistenceFailed();
+        return FfiNodeError_ChannelConfigUpdateFailed();
       case 12:
-        return FfiNodeError_WalletOperationFailed();
+        return FfiNodeError_PersistenceFailed();
       case 13:
-        return FfiNodeError_OnchainTxSigningFailed();
+        return FfiNodeError_WalletOperationFailed();
       case 14:
-        return FfiNodeError_MessageSigningFailed();
+        return FfiNodeError_OnchainTxSigningFailed();
       case 15:
-        return FfiNodeError_TxSyncFailed();
+        return FfiNodeError_MessageSigningFailed();
       case 16:
-        return FfiNodeError_GossipUpdateFailed();
+        return FfiNodeError_TxSyncFailed();
       case 17:
-        return FfiNodeError_InvalidAddress();
+        return FfiNodeError_GossipUpdateFailed();
       case 18:
-        return FfiNodeError_InvalidSocketAddress();
+        return FfiNodeError_InvalidAddress();
       case 19:
-        return FfiNodeError_InvalidPublicKey();
+        return FfiNodeError_InvalidSocketAddress();
       case 20:
-        return FfiNodeError_InvalidSecretKey();
+        return FfiNodeError_InvalidPublicKey();
       case 21:
-        return FfiNodeError_InvalidPaymentHash();
+        return FfiNodeError_InvalidSecretKey();
       case 22:
-        return FfiNodeError_InvalidPaymentPreimage();
+        return FfiNodeError_InvalidPaymentHash();
       case 23:
-        return FfiNodeError_InvalidPaymentSecret();
+        return FfiNodeError_InvalidPaymentPreimage();
       case 24:
-        return FfiNodeError_InvalidAmount();
+        return FfiNodeError_InvalidPaymentSecret();
       case 25:
-        return FfiNodeError_InvalidInvoice();
+        return FfiNodeError_InvalidAmount();
       case 26:
-        return FfiNodeError_InvalidChannelId();
+        return FfiNodeError_InvalidInvoice();
       case 27:
-        return FfiNodeError_InvalidNetwork();
+        return FfiNodeError_InvalidChannelId();
       case 28:
-        return FfiNodeError_DuplicatePayment();
+        return FfiNodeError_InvalidNetwork();
       case 29:
-        return FfiNodeError_InsufficientFunds();
+        return FfiNodeError_DuplicatePayment();
       case 30:
-        return FfiNodeError_FeerateEstimationUpdateFailed();
+        return FfiNodeError_InsufficientFunds();
       case 31:
-        return FfiNodeError_LiquidityRequestFailed();
+        return FfiNodeError_FeerateEstimationUpdateFailed();
       case 32:
-        return FfiNodeError_LiquiditySourceUnavailable();
+        return FfiNodeError_LiquidityRequestFailed();
       case 33:
-        return FfiNodeError_LiquidityFeeTooHigh();
+        return FfiNodeError_LiquiditySourceUnavailable();
       case 34:
-        return FfiNodeError_InvalidPaymentId();
+        return FfiNodeError_LiquidityFeeTooHigh();
       case 35:
+        return FfiNodeError_InvalidPaymentId();
+      case 36:
         var var_field0 = sse_decode_box_autoadd_decode_error(deserializer);
         return FfiNodeError_Decode(var_field0);
-      case 36:
+      case 37:
         var var_field0 =
             sse_decode_box_autoadd_bolt_12_parse_error(deserializer);
         return FfiNodeError_Bolt12Parse(var_field0);
-      case 37:
-        return FfiNodeError_InvoiceRequestCreationFailed();
       case 38:
-        return FfiNodeError_OfferCreationFailed();
+        return FfiNodeError_InvoiceRequestCreationFailed();
       case 39:
-        return FfiNodeError_RefundCreationFailed();
+        return FfiNodeError_OfferCreationFailed();
       case 40:
-        return FfiNodeError_FeerateEstimationUpdateTimeout();
+        return FfiNodeError_RefundCreationFailed();
       case 41:
-        return FfiNodeError_WalletOperationTimeout();
+        return FfiNodeError_FeerateEstimationUpdateTimeout();
       case 42:
-        return FfiNodeError_TxSyncTimeout();
+        return FfiNodeError_WalletOperationTimeout();
       case 43:
-        return FfiNodeError_GossipUpdateTimeout();
+        return FfiNodeError_TxSyncTimeout();
       case 44:
-        return FfiNodeError_InvalidOfferId();
+        return FfiNodeError_GossipUpdateTimeout();
       case 45:
-        return FfiNodeError_InvalidNodeId();
+        return FfiNodeError_InvalidOfferId();
       case 46:
-        return FfiNodeError_InvalidOffer();
+        return FfiNodeError_InvalidNodeId();
       case 47:
-        return FfiNodeError_InvalidRefund();
+        return FfiNodeError_InvalidOffer();
       case 48:
-        return FfiNodeError_UnsupportedCurrency();
+        return FfiNodeError_InvalidRefund();
       case 49:
-        return FfiNodeError_UriParameterParsingFailed();
+        return FfiNodeError_UnsupportedCurrency();
       case 50:
-        return FfiNodeError_InvalidUri();
+        return FfiNodeError_UriParameterParsingFailed();
       case 51:
-        return FfiNodeError_InvalidQuantity();
+        return FfiNodeError_InvalidUri();
       case 52:
-        return FfiNodeError_InvalidNodeAlias();
+        return FfiNodeError_InvalidQuantity();
       case 53:
-        return FfiNodeError_InvalidCustomTlvs();
+        return FfiNodeError_InvalidNodeAlias();
       case 54:
-        return FfiNodeError_InvalidDateTime();
+        return FfiNodeError_InvalidCustomTlvs();
       case 55:
-        return FfiNodeError_InvalidFeeRate();
+        return FfiNodeError_InvalidDateTime();
       case 56:
+        return FfiNodeError_InvalidFeeRate();
+      case 57:
+        return FfiNodeError_ChannelSplicingFailed();
+      case 58:
+        return FfiNodeError_InvalidBlindedPaths();
+      case 59:
+        return FfiNodeError_AsyncPaymentServicesDisabled();
+      case 60:
         var var_field0 = sse_decode_ffi_creation_error(deserializer);
         return FfiNodeError_CreationError(var_field0);
       default:
@@ -6347,6 +6852,19 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
     var var_lsps2Service =
         sse_decode_record_socket_address_public_key_opt_string(deserializer);
     return LiquiditySourceConfig(lsps2Service: var_lsps2Service);
+  }
+
+  @protected
+  List<BlindedMessagePath> sse_decode_list_blinded_message_path(
+      SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+
+    var len_ = sse_decode_i_32(deserializer);
+    var ans_ = <BlindedMessagePath>[];
+    for (var idx_ = 0; idx_ < len_; ++idx_) {
+      ans_.add(sse_decode_blinded_message_path(deserializer));
+    }
+    return ans_;
   }
 
   @protected
@@ -6597,7 +7115,6 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
   NodeStatus sse_decode_node_status(SseDeserializer deserializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     var var_isRunning = sse_decode_bool(deserializer);
-    var var_isListening = sse_decode_bool(deserializer);
     var var_currentBestBlock = sse_decode_best_block(deserializer);
     var var_latestLightningWalletSyncTimestamp =
         sse_decode_opt_box_autoadd_u_64(deserializer);
@@ -6613,7 +7130,6 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
         sse_decode_opt_box_autoadd_u_32(deserializer);
     return NodeStatus(
         isRunning: var_isRunning,
-        isListening: var_isListening,
         currentBestBlock: var_currentBestBlock,
         latestLightningWalletSyncTimestamp:
             var_latestLightningWalletSyncTimestamp,
@@ -6961,12 +7477,36 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
   }
 
   @protected
+  PaymentSecret? sse_decode_opt_box_autoadd_payment_secret(
+      SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+
+    if (sse_decode_bool(deserializer)) {
+      return (sse_decode_box_autoadd_payment_secret(deserializer));
+    } else {
+      return null;
+    }
+  }
+
+  @protected
   PublicKey? sse_decode_opt_box_autoadd_public_key(
       SseDeserializer deserializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
 
     if (sse_decode_bool(deserializer)) {
       return (sse_decode_box_autoadd_public_key(deserializer));
+    } else {
+      return null;
+    }
+  }
+
+  @protected
+  RouteParametersConfig? sse_decode_opt_box_autoadd_route_parameters_config(
+      SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+
+    if (sse_decode_bool(deserializer)) {
+      return (sse_decode_box_autoadd_route_parameters_config(deserializer));
     } else {
       return null;
     }
@@ -7064,9 +7604,7 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
   PaymentDetails sse_decode_payment_details(SseDeserializer deserializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     var var_id = sse_decode_payment_id(deserializer);
-    var var_kind =
-        sse_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPaymentKind(
-            deserializer);
+    var var_kind = sse_decode_payment_kind(deserializer);
     var var_amountMsat = sse_decode_opt_box_autoadd_u_64(deserializer);
     var var_direction = sse_decode_payment_direction(deserializer);
     var var_status = sse_decode_payment_status(deserializer);
@@ -7107,6 +7645,81 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
     // Codec=Sse (Serialization based), see doc to use other codecs
     var var_data = sse_decode_list_prim_u_8_strict(deserializer);
     return PaymentId(data: var_data);
+  }
+
+  @protected
+  PaymentKind sse_decode_payment_kind(SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+
+    var tag_ = sse_decode_i_32(deserializer);
+    switch (tag_) {
+      case 0:
+        var var_txid = sse_decode_box_autoadd_txid(deserializer);
+        var var_status =
+            sse_decode_box_autoadd_confirmation_status(deserializer);
+        return PaymentKind_Onchain(txid: var_txid, status: var_status);
+      case 1:
+        var var_hash = sse_decode_box_autoadd_payment_hash(deserializer);
+        var var_preimage =
+            sse_decode_opt_box_autoadd_payment_preimage(deserializer);
+        var var_secret =
+            sse_decode_opt_box_autoadd_payment_secret(deserializer);
+        return PaymentKind_Bolt11(
+            hash: var_hash, preimage: var_preimage, secret: var_secret);
+      case 2:
+        var var_hash = sse_decode_box_autoadd_payment_hash(deserializer);
+        var var_preimage =
+            sse_decode_opt_box_autoadd_payment_preimage(deserializer);
+        var var_secret =
+            sse_decode_opt_box_autoadd_payment_secret(deserializer);
+        var var_lspFeeLimits =
+            sse_decode_box_autoadd_lsp_fee_limits(deserializer);
+        var var_counterpartySkimmedFeeMsat =
+            sse_decode_opt_box_autoadd_u_64(deserializer);
+        return PaymentKind_Bolt11Jit(
+            hash: var_hash,
+            preimage: var_preimage,
+            secret: var_secret,
+            lspFeeLimits: var_lspFeeLimits,
+            counterpartySkimmedFeeMsat: var_counterpartySkimmedFeeMsat);
+      case 3:
+        var var_hash = sse_decode_box_autoadd_payment_hash(deserializer);
+        var var_preimage =
+            sse_decode_opt_box_autoadd_payment_preimage(deserializer);
+        return PaymentKind_Spontaneous(hash: var_hash, preimage: var_preimage);
+      case 4:
+        var var_hash = sse_decode_opt_box_autoadd_payment_hash(deserializer);
+        var var_preimage =
+            sse_decode_opt_box_autoadd_payment_preimage(deserializer);
+        var var_secret =
+            sse_decode_opt_box_autoadd_payment_secret(deserializer);
+        var var_offerId = sse_decode_box_autoadd_offer_id(deserializer);
+        var var_payerNote = sse_decode_opt_String(deserializer);
+        var var_quantity = sse_decode_opt_box_autoadd_u_64(deserializer);
+        return PaymentKind_Bolt12Offer(
+            hash: var_hash,
+            preimage: var_preimage,
+            secret: var_secret,
+            offerId: var_offerId,
+            payerNote: var_payerNote,
+            quantity: var_quantity);
+      case 5:
+        var var_hash = sse_decode_opt_box_autoadd_payment_hash(deserializer);
+        var var_preimage =
+            sse_decode_opt_box_autoadd_payment_preimage(deserializer);
+        var var_secret =
+            sse_decode_opt_box_autoadd_payment_secret(deserializer);
+        var var_payerNote = sse_decode_opt_String(deserializer);
+        var var_quantity = sse_decode_opt_box_autoadd_u_64(deserializer);
+        return PaymentKind_Bolt12Refund(
+            hash: var_hash,
+            preimage: var_preimage,
+            secret: var_secret,
+            payerNote: var_payerNote,
+            quantity: var_quantity);
+      default:
+        throw UnimplementedError('');
+    }
   }
 
   @protected
@@ -7231,6 +7844,24 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
     // Codec=Sse (Serialization based), see doc to use other codecs
     var var_s = sse_decode_String(deserializer);
     return Refund(s: var_s);
+  }
+
+  @protected
+  RouteParametersConfig sse_decode_route_parameters_config(
+      SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    var var_maxTotalRoutingFeeMsat =
+        sse_decode_opt_box_autoadd_max_total_routing_fee_limit(deserializer);
+    var var_maxTotalCltvExpiryDelta =
+        sse_decode_opt_box_autoadd_u_32(deserializer);
+    var var_maxPathCount = sse_decode_opt_box_autoadd_u_8(deserializer);
+    var var_maxChannelSaturationPowerOfHalf =
+        sse_decode_opt_box_autoadd_u_8(deserializer);
+    return RouteParametersConfig(
+        maxTotalRoutingFeeMsat: var_maxTotalRoutingFeeMsat,
+        maxTotalCltvExpiryDelta: var_maxTotalCltvExpiryDelta,
+        maxPathCount: var_maxPathCount,
+        maxChannelSaturationPowerOfHalf: var_maxChannelSaturationPowerOfHalf);
   }
 
   @protected
@@ -7382,27 +8013,11 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
   }
 
   @protected
-  int cst_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerConfirmationStatus(
-      ConfirmationStatus raw) {
-    // Codec=Cst (C-struct based), see doc to use other codecs
-// ignore: invalid_use_of_internal_member
-    return (raw as ConfirmationStatusImpl).frbInternalCstEncode(move: true);
-  }
-
-  @protected
   int cst_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerFfiBuilder(
       FfiBuilder raw) {
     // Codec=Cst (C-struct based), see doc to use other codecs
 // ignore: invalid_use_of_internal_member
     return (raw as FfiBuilderImpl).frbInternalCstEncode(move: true);
-  }
-
-  @protected
-  int cst_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPaymentKind(
-      PaymentKind raw) {
-    // Codec=Cst (C-struct based), see doc to use other codecs
-// ignore: invalid_use_of_internal_member
-    return (raw as PaymentKindImpl).frbInternalCstEncode(move: true);
   }
 
   @protected
@@ -7422,27 +8037,11 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
   }
 
   @protected
-  int cst_encode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerConfirmationStatus(
-      ConfirmationStatus raw) {
-    // Codec=Cst (C-struct based), see doc to use other codecs
-// ignore: invalid_use_of_internal_member
-    return (raw as ConfirmationStatusImpl).frbInternalCstEncode();
-  }
-
-  @protected
   int cst_encode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerFfiBuilder(
       FfiBuilder raw) {
     // Codec=Cst (C-struct based), see doc to use other codecs
 // ignore: invalid_use_of_internal_member
     return (raw as FfiBuilderImpl).frbInternalCstEncode();
-  }
-
-  @protected
-  int cst_encode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPaymentKind(
-      PaymentKind raw) {
-    // Codec=Cst (C-struct based), see doc to use other codecs
-// ignore: invalid_use_of_internal_member
-    return (raw as PaymentKindImpl).frbInternalCstEncode();
   }
 
   @protected
@@ -7589,30 +8188,11 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
 
   @protected
   void
-      sse_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerConfirmationStatus(
-          ConfirmationStatus self, SseSerializer serializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    sse_encode_usize(
-        (self as ConfirmationStatusImpl).frbInternalSseEncode(move: true),
-        serializer);
-  }
-
-  @protected
-  void
       sse_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerFfiBuilder(
           FfiBuilder self, SseSerializer serializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     sse_encode_usize(
         (self as FfiBuilderImpl).frbInternalSseEncode(move: true), serializer);
-  }
-
-  @protected
-  void
-      sse_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPaymentKind(
-          PaymentKind self, SseSerializer serializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    sse_encode_usize(
-        (self as PaymentKindImpl).frbInternalSseEncode(move: true), serializer);
   }
 
   @protected
@@ -7643,30 +8223,11 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
 
   @protected
   void
-      sse_encode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerConfirmationStatus(
-          ConfirmationStatus self, SseSerializer serializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    sse_encode_usize(
-        (self as ConfirmationStatusImpl).frbInternalSseEncode(move: null),
-        serializer);
-  }
-
-  @protected
-  void
       sse_encode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerFfiBuilder(
           FfiBuilder self, SseSerializer serializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     sse_encode_usize(
         (self as FfiBuilderImpl).frbInternalSseEncode(move: null), serializer);
-  }
-
-  @protected
-  void
-      sse_encode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPaymentKind(
-          PaymentKind self, SseSerializer serializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    sse_encode_usize(
-        (self as PaymentKindImpl).frbInternalSseEncode(move: null), serializer);
   }
 
   @protected
@@ -7793,6 +8354,13 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
   }
 
   @protected
+  void sse_encode_blinded_message_path(
+      BlindedMessagePath self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_list_prim_u_8_strict(self.data, serializer);
+  }
+
+  @protected
   void sse_encode_bolt_11_invoice(
       Bolt11Invoice self, SseSerializer serializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
@@ -7827,6 +8395,8 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
       case Bolt12ParseError_InvalidSignature(field0: final field0):
         sse_encode_i_32(5, serializer);
         sse_encode_String(field0, serializer);
+      case Bolt12ParseError_InvalidLeadingWhitespace():
+        sse_encode_i_32(6, serializer);
     }
   }
 
@@ -7922,6 +8492,13 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
   void sse_encode_box_autoadd_config(Config self, SseSerializer serializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     sse_encode_config(self, serializer);
+  }
+
+  @protected
+  void sse_encode_box_autoadd_confirmation_status(
+      ConfirmationStatus self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_confirmation_status(self, serializer);
   }
 
   @protected
@@ -8042,6 +8619,13 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
   }
 
   @protected
+  void sse_encode_box_autoadd_lsp_fee_limits(
+      LSPFeeLimits self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_lsp_fee_limits(self, serializer);
+  }
+
+  @protected
   void sse_encode_box_autoadd_max_total_routing_fee_limit(
       MaxTotalRoutingFeeLimit self, SseSerializer serializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
@@ -8079,6 +8663,12 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
   void sse_encode_box_autoadd_offer(Offer self, SseSerializer serializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     sse_encode_offer(self, serializer);
+  }
+
+  @protected
+  void sse_encode_box_autoadd_offer_id(OfferId self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_offer_id(self, serializer);
   }
 
   @protected
@@ -8124,6 +8714,13 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
   }
 
   @protected
+  void sse_encode_box_autoadd_payment_secret(
+      PaymentSecret self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_payment_secret(self, serializer);
+  }
+
+  @protected
   void sse_encode_box_autoadd_public_key(
       PublicKey self, SseSerializer serializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
@@ -8134,6 +8731,13 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
   void sse_encode_box_autoadd_refund(Refund self, SseSerializer serializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     sse_encode_refund(self, serializer);
+  }
+
+  @protected
+  void sse_encode_box_autoadd_route_parameters_config(
+      RouteParametersConfig self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_route_parameters_config(self, serializer);
   }
 
   @protected
@@ -8199,11 +8803,20 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
         sse_encode_i_32(0, serializer);
         sse_encode_String(serverUrl, serializer);
         sse_encode_opt_box_autoadd_esplora_sync_config(syncConfig, serializer);
+      case ChainDataSourceConfig_EsploraWithHeaders(
+          serverUrl: final serverUrl,
+          syncConfig: final syncConfig,
+          headers: final headers
+        ):
+        sse_encode_i_32(1, serializer);
+        sse_encode_String(serverUrl, serializer);
+        sse_encode_opt_box_autoadd_esplora_sync_config(syncConfig, serializer);
+        sse_encode_Map_String_String_None(headers, serializer);
       case ChainDataSourceConfig_Electrum(
           serverUrl: final serverUrl,
           syncConfig: final syncConfig
         ):
-        sse_encode_i_32(1, serializer);
+        sse_encode_i_32(2, serializer);
         sse_encode_String(serverUrl, serializer);
         sse_encode_opt_box_autoadd_electrum_sync_config(syncConfig, serializer);
       case ChainDataSourceConfig_BitcoindRpc(
@@ -8212,7 +8825,22 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
           rpcUser: final rpcUser,
           rpcPassword: final rpcPassword
         ):
-        sse_encode_i_32(2, serializer);
+        sse_encode_i_32(3, serializer);
+        sse_encode_String(rpcHost, serializer);
+        sse_encode_u_16(rpcPort, serializer);
+        sse_encode_String(rpcUser, serializer);
+        sse_encode_String(rpcPassword, serializer);
+      case ChainDataSourceConfig_BitcoindRest(
+          restHost: final restHost,
+          restPort: final restPort,
+          rpcHost: final rpcHost,
+          rpcPort: final rpcPort,
+          rpcUser: final rpcUser,
+          rpcPassword: final rpcPassword
+        ):
+        sse_encode_i_32(4, serializer);
+        sse_encode_String(restHost, serializer);
+        sse_encode_u_16(restPort, serializer);
         sse_encode_String(rpcHost, serializer);
         sse_encode_u_16(rpcPort, serializer);
         sse_encode_String(rpcUser, serializer);
@@ -8355,8 +8983,27 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
     sse_encode_u_64(self.probingLiquidityLimitMultiplier, serializer);
     sse_encode_opt_box_autoadd_anchor_channels_config(
         self.anchorChannelsConfig, serializer);
-    sse_encode_opt_box_autoadd_sending_parameters(
-        self.sendingParameters, serializer);
+    sse_encode_opt_box_autoadd_route_parameters_config(
+        self.routeParameters, serializer);
+  }
+
+  @protected
+  void sse_encode_confirmation_status(
+      ConfirmationStatus self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    switch (self) {
+      case ConfirmationStatus_Confirmed(
+          blockHash: final blockHash,
+          height: final height,
+          timestamp: final timestamp
+        ):
+        sse_encode_i_32(0, serializer);
+        sse_encode_String(blockHash, serializer);
+        sse_encode_u_32(height, serializer);
+        sse_encode_u_64(timestamp, serializer);
+      case ConfirmationStatus_Unconfirmed():
+        sse_encode_i_32(1, serializer);
+    }
   }
 
   @protected
@@ -8492,12 +9139,14 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
       case Event_ChannelReady(
           channelId: final channelId,
           userChannelId: final userChannelId,
-          counterpartyNodeId: final counterpartyNodeId
+          counterpartyNodeId: final counterpartyNodeId,
+          fundingTxo: final fundingTxo
         ):
         sse_encode_i_32(5, serializer);
         sse_encode_box_autoadd_channel_id(channelId, serializer);
         sse_encode_box_autoadd_user_channel_id(userChannelId, serializer);
         sse_encode_opt_box_autoadd_public_key(counterpartyNodeId, serializer);
+        sse_encode_opt_box_autoadd_out_point(fundingTxo, serializer);
       case Event_ChannelClosed(
           channelId: final channelId,
           userChannelId: final userChannelId,
@@ -8535,6 +9184,28 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
         sse_encode_bool(claimFromOnchainTx, serializer);
         sse_encode_opt_box_autoadd_u_64(
             outboundAmountForwardedMsat, serializer);
+      case Event_SplicePending(
+          channelId: final channelId,
+          userChannelId: final userChannelId,
+          counterpartyNodeId: final counterpartyNodeId,
+          newFundingTxo: final newFundingTxo
+        ):
+        sse_encode_i_32(8, serializer);
+        sse_encode_box_autoadd_channel_id(channelId, serializer);
+        sse_encode_box_autoadd_user_channel_id(userChannelId, serializer);
+        sse_encode_box_autoadd_public_key(counterpartyNodeId, serializer);
+        sse_encode_box_autoadd_out_point(newFundingTxo, serializer);
+      case Event_SpliceFailed(
+          channelId: final channelId,
+          userChannelId: final userChannelId,
+          counterpartyNodeId: final counterpartyNodeId,
+          abandonedFundingTxo: final abandonedFundingTxo
+        ):
+        sse_encode_i_32(9, serializer);
+        sse_encode_box_autoadd_channel_id(channelId, serializer);
+        sse_encode_box_autoadd_user_channel_id(userChannelId, serializer);
+        sse_encode_box_autoadd_public_key(counterpartyNodeId, serializer);
+        sse_encode_opt_box_autoadd_out_point(abandonedFundingTxo, serializer);
     }
   }
 
@@ -8600,120 +9271,128 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
     switch (self) {
       case FfiNodeError_InvalidTxid():
         sse_encode_i_32(0, serializer);
-      case FfiNodeError_AlreadyRunning():
+      case FfiNodeError_InvalidBlockHash():
         sse_encode_i_32(1, serializer);
-      case FfiNodeError_NotRunning():
+      case FfiNodeError_AlreadyRunning():
         sse_encode_i_32(2, serializer);
-      case FfiNodeError_OnchainTxCreationFailed():
+      case FfiNodeError_NotRunning():
         sse_encode_i_32(3, serializer);
-      case FfiNodeError_ConnectionFailed():
+      case FfiNodeError_OnchainTxCreationFailed():
         sse_encode_i_32(4, serializer);
-      case FfiNodeError_InvoiceCreationFailed():
+      case FfiNodeError_ConnectionFailed():
         sse_encode_i_32(5, serializer);
-      case FfiNodeError_PaymentSendingFailed():
+      case FfiNodeError_InvoiceCreationFailed():
         sse_encode_i_32(6, serializer);
-      case FfiNodeError_ProbeSendingFailed():
+      case FfiNodeError_PaymentSendingFailed():
         sse_encode_i_32(7, serializer);
-      case FfiNodeError_ChannelCreationFailed():
+      case FfiNodeError_ProbeSendingFailed():
         sse_encode_i_32(8, serializer);
-      case FfiNodeError_ChannelClosingFailed():
+      case FfiNodeError_ChannelCreationFailed():
         sse_encode_i_32(9, serializer);
-      case FfiNodeError_ChannelConfigUpdateFailed():
+      case FfiNodeError_ChannelClosingFailed():
         sse_encode_i_32(10, serializer);
-      case FfiNodeError_PersistenceFailed():
+      case FfiNodeError_ChannelConfigUpdateFailed():
         sse_encode_i_32(11, serializer);
-      case FfiNodeError_WalletOperationFailed():
+      case FfiNodeError_PersistenceFailed():
         sse_encode_i_32(12, serializer);
-      case FfiNodeError_OnchainTxSigningFailed():
+      case FfiNodeError_WalletOperationFailed():
         sse_encode_i_32(13, serializer);
-      case FfiNodeError_MessageSigningFailed():
+      case FfiNodeError_OnchainTxSigningFailed():
         sse_encode_i_32(14, serializer);
-      case FfiNodeError_TxSyncFailed():
+      case FfiNodeError_MessageSigningFailed():
         sse_encode_i_32(15, serializer);
-      case FfiNodeError_GossipUpdateFailed():
+      case FfiNodeError_TxSyncFailed():
         sse_encode_i_32(16, serializer);
-      case FfiNodeError_InvalidAddress():
+      case FfiNodeError_GossipUpdateFailed():
         sse_encode_i_32(17, serializer);
-      case FfiNodeError_InvalidSocketAddress():
+      case FfiNodeError_InvalidAddress():
         sse_encode_i_32(18, serializer);
-      case FfiNodeError_InvalidPublicKey():
+      case FfiNodeError_InvalidSocketAddress():
         sse_encode_i_32(19, serializer);
-      case FfiNodeError_InvalidSecretKey():
+      case FfiNodeError_InvalidPublicKey():
         sse_encode_i_32(20, serializer);
-      case FfiNodeError_InvalidPaymentHash():
+      case FfiNodeError_InvalidSecretKey():
         sse_encode_i_32(21, serializer);
-      case FfiNodeError_InvalidPaymentPreimage():
+      case FfiNodeError_InvalidPaymentHash():
         sse_encode_i_32(22, serializer);
-      case FfiNodeError_InvalidPaymentSecret():
+      case FfiNodeError_InvalidPaymentPreimage():
         sse_encode_i_32(23, serializer);
-      case FfiNodeError_InvalidAmount():
+      case FfiNodeError_InvalidPaymentSecret():
         sse_encode_i_32(24, serializer);
-      case FfiNodeError_InvalidInvoice():
+      case FfiNodeError_InvalidAmount():
         sse_encode_i_32(25, serializer);
-      case FfiNodeError_InvalidChannelId():
+      case FfiNodeError_InvalidInvoice():
         sse_encode_i_32(26, serializer);
-      case FfiNodeError_InvalidNetwork():
+      case FfiNodeError_InvalidChannelId():
         sse_encode_i_32(27, serializer);
-      case FfiNodeError_DuplicatePayment():
+      case FfiNodeError_InvalidNetwork():
         sse_encode_i_32(28, serializer);
-      case FfiNodeError_InsufficientFunds():
+      case FfiNodeError_DuplicatePayment():
         sse_encode_i_32(29, serializer);
-      case FfiNodeError_FeerateEstimationUpdateFailed():
+      case FfiNodeError_InsufficientFunds():
         sse_encode_i_32(30, serializer);
-      case FfiNodeError_LiquidityRequestFailed():
+      case FfiNodeError_FeerateEstimationUpdateFailed():
         sse_encode_i_32(31, serializer);
-      case FfiNodeError_LiquiditySourceUnavailable():
+      case FfiNodeError_LiquidityRequestFailed():
         sse_encode_i_32(32, serializer);
-      case FfiNodeError_LiquidityFeeTooHigh():
+      case FfiNodeError_LiquiditySourceUnavailable():
         sse_encode_i_32(33, serializer);
-      case FfiNodeError_InvalidPaymentId():
+      case FfiNodeError_LiquidityFeeTooHigh():
         sse_encode_i_32(34, serializer);
-      case FfiNodeError_Decode(field0: final field0):
+      case FfiNodeError_InvalidPaymentId():
         sse_encode_i_32(35, serializer);
+      case FfiNodeError_Decode(field0: final field0):
+        sse_encode_i_32(36, serializer);
         sse_encode_box_autoadd_decode_error(field0, serializer);
       case FfiNodeError_Bolt12Parse(field0: final field0):
-        sse_encode_i_32(36, serializer);
+        sse_encode_i_32(37, serializer);
         sse_encode_box_autoadd_bolt_12_parse_error(field0, serializer);
       case FfiNodeError_InvoiceRequestCreationFailed():
-        sse_encode_i_32(37, serializer);
-      case FfiNodeError_OfferCreationFailed():
         sse_encode_i_32(38, serializer);
-      case FfiNodeError_RefundCreationFailed():
+      case FfiNodeError_OfferCreationFailed():
         sse_encode_i_32(39, serializer);
-      case FfiNodeError_FeerateEstimationUpdateTimeout():
+      case FfiNodeError_RefundCreationFailed():
         sse_encode_i_32(40, serializer);
-      case FfiNodeError_WalletOperationTimeout():
+      case FfiNodeError_FeerateEstimationUpdateTimeout():
         sse_encode_i_32(41, serializer);
-      case FfiNodeError_TxSyncTimeout():
+      case FfiNodeError_WalletOperationTimeout():
         sse_encode_i_32(42, serializer);
-      case FfiNodeError_GossipUpdateTimeout():
+      case FfiNodeError_TxSyncTimeout():
         sse_encode_i_32(43, serializer);
-      case FfiNodeError_InvalidOfferId():
+      case FfiNodeError_GossipUpdateTimeout():
         sse_encode_i_32(44, serializer);
-      case FfiNodeError_InvalidNodeId():
+      case FfiNodeError_InvalidOfferId():
         sse_encode_i_32(45, serializer);
-      case FfiNodeError_InvalidOffer():
+      case FfiNodeError_InvalidNodeId():
         sse_encode_i_32(46, serializer);
-      case FfiNodeError_InvalidRefund():
+      case FfiNodeError_InvalidOffer():
         sse_encode_i_32(47, serializer);
-      case FfiNodeError_UnsupportedCurrency():
+      case FfiNodeError_InvalidRefund():
         sse_encode_i_32(48, serializer);
-      case FfiNodeError_UriParameterParsingFailed():
+      case FfiNodeError_UnsupportedCurrency():
         sse_encode_i_32(49, serializer);
-      case FfiNodeError_InvalidUri():
+      case FfiNodeError_UriParameterParsingFailed():
         sse_encode_i_32(50, serializer);
-      case FfiNodeError_InvalidQuantity():
+      case FfiNodeError_InvalidUri():
         sse_encode_i_32(51, serializer);
-      case FfiNodeError_InvalidNodeAlias():
+      case FfiNodeError_InvalidQuantity():
         sse_encode_i_32(52, serializer);
-      case FfiNodeError_InvalidCustomTlvs():
+      case FfiNodeError_InvalidNodeAlias():
         sse_encode_i_32(53, serializer);
-      case FfiNodeError_InvalidDateTime():
+      case FfiNodeError_InvalidCustomTlvs():
         sse_encode_i_32(54, serializer);
-      case FfiNodeError_InvalidFeeRate():
+      case FfiNodeError_InvalidDateTime():
         sse_encode_i_32(55, serializer);
-      case FfiNodeError_CreationError(field0: final field0):
+      case FfiNodeError_InvalidFeeRate():
         sse_encode_i_32(56, serializer);
+      case FfiNodeError_ChannelSplicingFailed():
+        sse_encode_i_32(57, serializer);
+      case FfiNodeError_InvalidBlindedPaths():
+        sse_encode_i_32(58, serializer);
+      case FfiNodeError_AsyncPaymentServicesDisabled():
+        sse_encode_i_32(59, serializer);
+      case FfiNodeError_CreationError(field0: final field0):
+        sse_encode_i_32(60, serializer);
         sse_encode_ffi_creation_error(field0, serializer);
     }
   }
@@ -8860,6 +9539,16 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
     // Codec=Sse (Serialization based), see doc to use other codecs
     sse_encode_record_socket_address_public_key_opt_string(
         self.lsps2Service, serializer);
+  }
+
+  @protected
+  void sse_encode_list_blinded_message_path(
+      List<BlindedMessagePath> self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_i_32(self.length, serializer);
+    for (final item in self) {
+      sse_encode_blinded_message_path(item, serializer);
+    }
   }
 
   @protected
@@ -9066,7 +9755,6 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
   void sse_encode_node_status(NodeStatus self, SseSerializer serializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     sse_encode_bool(self.isRunning, serializer);
-    sse_encode_bool(self.isListening, serializer);
     sse_encode_best_block(self.currentBestBlock, serializer);
     sse_encode_opt_box_autoadd_u_64(
         self.latestLightningWalletSyncTimestamp, serializer);
@@ -9389,6 +10077,17 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
   }
 
   @protected
+  void sse_encode_opt_box_autoadd_payment_secret(
+      PaymentSecret? self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+
+    sse_encode_bool(self != null, serializer);
+    if (self != null) {
+      sse_encode_box_autoadd_payment_secret(self, serializer);
+    }
+  }
+
+  @protected
   void sse_encode_opt_box_autoadd_public_key(
       PublicKey? self, SseSerializer serializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
@@ -9396,6 +10095,17 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
     sse_encode_bool(self != null, serializer);
     if (self != null) {
       sse_encode_box_autoadd_public_key(self, serializer);
+    }
+  }
+
+  @protected
+  void sse_encode_opt_box_autoadd_route_parameters_config(
+      RouteParametersConfig? self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+
+    sse_encode_bool(self != null, serializer);
+    if (self != null) {
+      sse_encode_box_autoadd_route_parameters_config(self, serializer);
     }
   }
 
@@ -9484,8 +10194,7 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
       PaymentDetails self, SseSerializer serializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     sse_encode_payment_id(self.id, serializer);
-    sse_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPaymentKind(
-        self.kind, serializer);
+    sse_encode_payment_kind(self.kind, serializer);
     sse_encode_opt_box_autoadd_u_64(self.amountMsat, serializer);
     sse_encode_payment_direction(self.direction, serializer);
     sse_encode_payment_status(self.status, serializer);
@@ -9516,6 +10225,71 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
   void sse_encode_payment_id(PaymentId self, SseSerializer serializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     sse_encode_list_prim_u_8_strict(self.data, serializer);
+  }
+
+  @protected
+  void sse_encode_payment_kind(PaymentKind self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    switch (self) {
+      case PaymentKind_Onchain(txid: final txid, status: final status):
+        sse_encode_i_32(0, serializer);
+        sse_encode_box_autoadd_txid(txid, serializer);
+        sse_encode_box_autoadd_confirmation_status(status, serializer);
+      case PaymentKind_Bolt11(
+          hash: final hash,
+          preimage: final preimage,
+          secret: final secret
+        ):
+        sse_encode_i_32(1, serializer);
+        sse_encode_box_autoadd_payment_hash(hash, serializer);
+        sse_encode_opt_box_autoadd_payment_preimage(preimage, serializer);
+        sse_encode_opt_box_autoadd_payment_secret(secret, serializer);
+      case PaymentKind_Bolt11Jit(
+          hash: final hash,
+          preimage: final preimage,
+          secret: final secret,
+          lspFeeLimits: final lspFeeLimits,
+          counterpartySkimmedFeeMsat: final counterpartySkimmedFeeMsat
+        ):
+        sse_encode_i_32(2, serializer);
+        sse_encode_box_autoadd_payment_hash(hash, serializer);
+        sse_encode_opt_box_autoadd_payment_preimage(preimage, serializer);
+        sse_encode_opt_box_autoadd_payment_secret(secret, serializer);
+        sse_encode_box_autoadd_lsp_fee_limits(lspFeeLimits, serializer);
+        sse_encode_opt_box_autoadd_u_64(counterpartySkimmedFeeMsat, serializer);
+      case PaymentKind_Spontaneous(hash: final hash, preimage: final preimage):
+        sse_encode_i_32(3, serializer);
+        sse_encode_box_autoadd_payment_hash(hash, serializer);
+        sse_encode_opt_box_autoadd_payment_preimage(preimage, serializer);
+      case PaymentKind_Bolt12Offer(
+          hash: final hash,
+          preimage: final preimage,
+          secret: final secret,
+          offerId: final offerId,
+          payerNote: final payerNote,
+          quantity: final quantity
+        ):
+        sse_encode_i_32(4, serializer);
+        sse_encode_opt_box_autoadd_payment_hash(hash, serializer);
+        sse_encode_opt_box_autoadd_payment_preimage(preimage, serializer);
+        sse_encode_opt_box_autoadd_payment_secret(secret, serializer);
+        sse_encode_box_autoadd_offer_id(offerId, serializer);
+        sse_encode_opt_String(payerNote, serializer);
+        sse_encode_opt_box_autoadd_u_64(quantity, serializer);
+      case PaymentKind_Bolt12Refund(
+          hash: final hash,
+          preimage: final preimage,
+          secret: final secret,
+          payerNote: final payerNote,
+          quantity: final quantity
+        ):
+        sse_encode_i_32(5, serializer);
+        sse_encode_opt_box_autoadd_payment_hash(hash, serializer);
+        sse_encode_opt_box_autoadd_payment_preimage(preimage, serializer);
+        sse_encode_opt_box_autoadd_payment_secret(secret, serializer);
+        sse_encode_opt_String(payerNote, serializer);
+        sse_encode_opt_box_autoadd_u_64(quantity, serializer);
+    }
   }
 
   @protected
@@ -9628,6 +10402,18 @@ class coreApiImpl extends coreApiImplPlatform implements coreApi {
   void sse_encode_refund(Refund self, SseSerializer serializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     sse_encode_String(self.s, serializer);
+  }
+
+  @protected
+  void sse_encode_route_parameters_config(
+      RouteParametersConfig self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_opt_box_autoadd_max_total_routing_fee_limit(
+        self.maxTotalRoutingFeeMsat, serializer);
+    sse_encode_opt_box_autoadd_u_32(self.maxTotalCltvExpiryDelta, serializer);
+    sse_encode_opt_box_autoadd_u_8(self.maxPathCount, serializer);
+    sse_encode_opt_box_autoadd_u_8(
+        self.maxChannelSaturationPowerOfHalf, serializer);
   }
 
   @protected
@@ -9822,27 +10608,6 @@ class BuilderImpl extends RustOpaque implements Builder {
 }
 
 @sealed
-class ConfirmationStatusImpl extends RustOpaque implements ConfirmationStatus {
-  // Not to be used by end users
-  ConfirmationStatusImpl.frbInternalDcoDecode(List<dynamic> wire)
-      : super.frbInternalDcoDecode(wire, _kStaticData);
-
-  // Not to be used by end users
-  ConfirmationStatusImpl.frbInternalSseDecode(
-      BigInt ptr, int externalSizeOnNative)
-      : super.frbInternalSseDecode(ptr, externalSizeOnNative, _kStaticData);
-
-  static final _kStaticData = RustArcStaticData(
-    rustArcIncrementStrongCount:
-        core.instance.api.rust_arc_increment_strong_count_ConfirmationStatus,
-    rustArcDecrementStrongCount:
-        core.instance.api.rust_arc_decrement_strong_count_ConfirmationStatus,
-    rustArcDecrementStrongCountPtr:
-        core.instance.api.rust_arc_decrement_strong_count_ConfirmationStatusPtr,
-  );
-}
-
-@sealed
 class FfiBuilderImpl extends RustOpaque implements FfiBuilder {
   // Not to be used by end users
   FfiBuilderImpl.frbInternalDcoDecode(List<dynamic> wire)
@@ -9974,26 +10739,6 @@ class OnchainPaymentImpl extends RustOpaque implements OnchainPayment {
         core.instance.api.rust_arc_decrement_strong_count_OnchainPayment,
     rustArcDecrementStrongCountPtr:
         core.instance.api.rust_arc_decrement_strong_count_OnchainPaymentPtr,
-  );
-}
-
-@sealed
-class PaymentKindImpl extends RustOpaque implements PaymentKind {
-  // Not to be used by end users
-  PaymentKindImpl.frbInternalDcoDecode(List<dynamic> wire)
-      : super.frbInternalDcoDecode(wire, _kStaticData);
-
-  // Not to be used by end users
-  PaymentKindImpl.frbInternalSseDecode(BigInt ptr, int externalSizeOnNative)
-      : super.frbInternalSseDecode(ptr, externalSizeOnNative, _kStaticData);
-
-  static final _kStaticData = RustArcStaticData(
-    rustArcIncrementStrongCount:
-        core.instance.api.rust_arc_increment_strong_count_PaymentKind,
-    rustArcDecrementStrongCount:
-        core.instance.api.rust_arc_decrement_strong_count_PaymentKind,
-    rustArcDecrementStrongCountPtr:
-        core.instance.api.rust_arc_decrement_strong_count_PaymentKindPtr,
   );
 }
 
