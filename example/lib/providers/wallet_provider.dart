@@ -36,7 +36,7 @@ class WalletNotifier extends StateNotifier<WalletState> {
           .setStorageDirPath(nodeStorageDir)
           .setNetwork(ldk.Network.signet)
           .setChainSourceEsplora(
-              esploraServerUrl: 'https://mutinynet.ltbl.io/api/')
+              esploraServerUrl: 'https://mutinynet.com/api/')
           .setListeningAddresses(
               [ldk.SocketAddress.hostname(addr: '0.0.0.0', port: port)])
           .setLiquiditySourceLsps2(
