@@ -1,5 +1,24 @@
-## [0.6.1]
-Updated `ldk-node` to `0.6.1`.
+## [0.7.0]
+Updated `ldk-node` to `0.7.0`.
+
+### APIs added
+
+- **Channel Splicing**: Experimental support for channel splicing via `spliceIn()` and `spliceOut()` methods
+- **Async Payments**: Static invoice support with `receiveStaticInvoice()` and `sendStaticInvoice()` methods
+- **Bitcoin Core REST**: New chain data source via `ChainDataSourceConfig.bitcoindRest()`
+- **Esplora with Headers**: `ChainDataSourceConfig.esploraWithHeaders()` for custom HTTP headers
+- **Pathfinding Scores**: `importPathfindingScores()` and `mergePathfindingScores()` methods
+- **Custom Preimage**: `sendWithPreimage()` for spontaneous payments with custom preimage
+- **Route Parameters**: `RouteParametersConfig` support for BOLT12 payments and refunds
+- **Mnemonic Word Count**: `Mnemonic.generateWithWordCount()` for configurable entropy
+
+### Notes
+- Splicing-related transactions may still get misclassified in the payment store
+- Liquidity service data is now persisted across restarts
+- Improved shutdown robustness and reduced IO load via differential channel monitor updates
+
+## [0.6.2]
+Updated `ldk-node` to `0.6.2`.
 
 ### Notes
 - No breaking changes and no new functions exposed.
