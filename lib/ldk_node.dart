@@ -51,6 +51,7 @@ export 'src/generated/api/types.dart'
         PeerDetails,
         PendingSweepBalance,
         PublicKey,
+        RouteParametersConfig,
         SendingParameters,
         SocketAddress,
         Txid,
