@@ -8,7 +8,7 @@ Pod::Spec.new do |s|
   s.summary          = 'A ready-to-go Lightning node library built using LDK and BDK.'
   s.homepage         = 'https://www.LtbL.io'
   s.license          = { :file => '../LICENSE' }
-  s.author           = { 'Let there be Lightning, Inc' => 'hello@LtbLightning.io' }
+  s.author           = { 'Let there be Lightning, Inc' => 'hello@LtbL.io' }
   s.source           = { :path => '.' }
   s.source_files     = 'Classes/**/*'
   s.source_files     = 'Classes/**/*'
