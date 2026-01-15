@@ -12,7 +12,7 @@ import 'package:path_provider/path_provider.dart';
 void main() {
   String esploraUrl = Platform.isAndroid
       ?
-      //10.0.2.2 to access the AVD
+      //µ m mmmmm,ccc,0 900v,10.0.2.2 to access the AVD
       'http://10.0.2.2:30000'
       : 'http://127.0.0.1:30000';
   final regTestClient = BtcClient("");
