@@ -54,7 +54,7 @@ jobs:
           echo "IPHONESIMULATOR_SDK=$IPHONESIMULATOR_SDK" >> $GITHUB_ENV
       - name: Precompile (with iOS)
         if: matrix.os == 'macOS-latest'
-        run: dart run build_tool precompile-binaries -v --manifest-dir=../../rust --repository=LtbLightning/test-pub
+        run: dart run build_tool precompile-binaries -v --manifest-dir=../../rust --repository=LtbLightning/ldk-node-flutter
         working-directory: cargokit/build_tool
         env:
           GITHUB_TOKEN: ${{ secrets.RELEASE_TOKEN }}
@@ -70,7 +70,7 @@ jobs:
           echo "ANDROID_NDK_SYSROOT=$SYSROOT" >> $GITHUB_ENV
       - name: Precompile (with Android)
         if: matrix.os == 'ubuntu-latest'
-        run: dart run build_tool precompile-binaries -v --target=aarch64-linux-android,armv7-linux-androideabi,x86_64-linux-android --manifest-dir=../../rust --repository=LtbLightning/test-pub --android-sdk-location=/usr/local/lib/android/sdk --android-ndk-version=25.1.8937393 --android-min-sdk-version=23
+        run: dart run build_tool precompile-binaries -v --target=aarch64-linux-android,armv7-linux-androideabi,x86_64-linux-android --manifest-dir=../../rust --repository=LtbLightning/ldk-node-flutter --android-sdk-location=/usr/local/lib/android/sdk --android-ndk-version=25.1.8937393 --android-min-sdk-version=23
         working-directory: cargokit/build_tool
         env:
           GITHUB_TOKEN: ${{ secrets.RELEASE_TOKEN }}
