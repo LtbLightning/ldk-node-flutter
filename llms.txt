@@ -1,0 +1,402 @@
+# LDK Node Flutter
+> A non-custodial Lightning Network node library for Flutter applications.
+> Enables sending and receiving Bitcoin over Lightning Network using LDK and BDK.
+
+## Package
+name: ldk_node
+version: 0.7.0
+platform: Flutter (iOS, Android, macOS)
+license: MIT / Apache-2.0
+
+## Install
+```yaml
+dependencies:
+  ldk_node: ^0.7.0
+```
+
+## Quick Start Pattern
+```dart
+import 'package:ldk_node/ldk_node.dart';
+import 'package:path_provider/path_provider.dart';
+
+// 1. Get app directory
+final dir = await getApplicationDocumentsDirectory();
+
+// 2. Build node
+final node = await Builder.testnet()
+    .setStorageDirPath('${dir.path}/lightning_node')
+    .setEntropyBip39Mnemonic(mnemonic: await Mnemonic.generate())
+    .build();
+
+// 3. Start and sync
+await node.start();
+await node.syncWallets();
+```
+
+## Core APIs
+
+### Builder & Node Lifecycle
+- `Builder()` - Create default builder
+- `Builder.fromConfig(config: Config)` - Create builder from config
+- `Builder.testnet()` - Create builder with testnet defaults (Esplora + RGS configured)
+- `Builder.mutinynet()` - Create builder with mutinynet/signet defaults (includes LSPS2 liquidity)
+- `builder.setStorageDirPath(path)` - Set persistent storage location
+- `builder.setNetwork(Network)` - Set Bitcoin network
+- `builder.setEntropyBip39Mnemonic(mnemonic, passphrase?)` - Set wallet mnemonic
+- `builder.setEntropySeedPath(path)` - Set seed file path
+- `builder.setEntropySeedBytes(bytes)` - Set 64-byte seed directly
+- `builder.setChainSourceEsplora(esploraServerUrl, syncConfig?)` - Set Esplora server
+- `builder.setChainSourceBitcoinRpc(rpcHost, rpcPort, rpcUser, rpcPassword)` - Set Bitcoin Core RPC
+- `builder.setGossipSourceP2p()` - Use P2P network for gossip
+- `builder.setGossipSourceRgs(rgsServerUrl)` - Use Rapid Gossip Sync
+- `builder.setLiquiditySourceLsps2(address, publicKey, token?)` - Configure LSPS2 liquidity
+- `builder.setListeningAddresses(addresses)` - Set listening addresses
+- `builder.setNodeAlias(alias)` - Set node alias (max 32 bytes)
+- `builder.setFilesystemLogger(logFilePath?, maxLogLevel?)` - Enable file logging
+- `builder.setLogFacadeLogger()` - Enable Rust log facade
+- `builder.build()` - Build node with SQLite store
+- `builder.buildWithFsStore()` - Build node with filesystem store
+- `builder.buildWithVssStore(vssUrl, storeId, lnurlAuthServerUrl, fixedHeaders)` - Build with VSS store
+- `node.start()` - Start node (REQUIRED before any operations)
+- `node.stop()` - Stop node gracefully
+- `node.syncWallets()` - Sync on-chain and Lightning wallets
+- `node.status()` - Get node status
+- `node.config()` - Get node configuration
+- `node.nodeId()` - Get node's public key
+- `node.listeningAddresses()` - Get listening addresses
+
+### Payment Handlers (accessed via async getters)
+```dart
+final bolt11 = await node.bolt11Payment();
+final bolt12 = await node.bolt12Payment();
+final onChain = await node.onChainPayment();
+final spontaneous = await node.spontaneousPayment();
+final unifiedQr = await node.unifiedQrPayment();
+```
+
+### Lightning Payments (BOLT11)
+- `bolt11.receiveUnsafe(amountMsat, description, expirySecs)` - Create invoice
+- `bolt11.receiveVariableAmountUnsafe(description, expirySecs)` - Create zero-amount invoice
+- `bolt11.receiveViaJitChannelUnsafe(amountMsat, description, expirySecs, maxTotalLspFeeLimitMsat?)` - Receive via JIT channel
+- `bolt11.receiveVariableAmountViaJitChannelUnsafe(description, expirySecs, maxProportionalLspFeeLimitPpmMsat?)` - Variable amount via JIT
+- `bolt11.receiveForHashUnsafe(paymentHash, amountMsat, description, expirySecs)` - Create invoice for specific hash
+- `bolt11.sendUnsafe(invoice, sendingParameters?)` - Pay invoice, returns PaymentId
+- `bolt11.sendUsingAmountUnsafe(invoice, amountMsat, sendingParameters?)` - Pay with custom amount
+- `bolt11.sendProbesUnsafe(invoice, sendingParameters?)` - Probe payment path
+- `bolt11.sendProbesUsingAmountUnsafe(invoice, amountMsat, sendingParameters?)` - Probe with amount
+- `bolt11.claimForHashUnsafe(paymentHash, claimableAmountMsat, preimage)` - Claim payment
+- `bolt11.failForHashUnsafe(paymentHash)` - Fail payment
+
+### Lightning Payments (BOLT12)
+- `bolt12.receiveUnsafe(amountMsat, description, expirySecs?, quantity?)` - Create offer
+- `bolt12.receiveVariableAmountUnsafe(description, expirySecs?)` - Create variable amount offer
+- `bolt12.receiveAsyncUnsafe()` - Create async payment offer
+- `bolt12.sendUnsafe(offer, quantity?, payerNote?, routeParams?)` - Pay offer, returns PaymentId
+- `bolt12.sendUsingAmountUnsafe(offer, amountMsat, quantity?, payerNote?, routeParams?)` - Pay with amount
+- `bolt12.initiateRefundUnsafe(amountMsat, expirySecs, quantity?, payerNote?, routeParams?)` - Create refund
+- `bolt12.requestRefundPaymentUnsafe(refund)` - Request payment for refund
+
+### On-Chain Payments
+- `onChain.newAddress()` - Generate receive address
+- `onChain.sendToAddress(address, amountSats, feeRateSatPerKwu?)` - Send Bitcoin
+- `onChain.sendAllToAddress(address, retainReserves, feeRateSatPerKwu?)` - Sweep funds
+
+### Spontaneous Payments (Keysend)
+- `spontaneous.sendUnsafe(amountMsat, nodeId, sendingParameters?)` - Send keysend payment
+- `spontaneous.sendWithPreimageUnsafe(amountMsat, nodeId, preimage, sendingParameters?)` - Send with preimage
+- `spontaneous.sendWithCustomTlvsUnsafe(amountMsat, nodeId, sendingParameters?, customTlvs)` - Send with TLVs
+- `spontaneous.sendProbesUnsafe(amountMsat, nodeId)` - Probe spontaneous path
+
+### Unified QR (BIP21)
+- `unifiedQr.receiveUnsafe(amountSats, message, expirySec)` - Create BIP21 URI with on-chain + BOLT11 + BOLT12
+- `unifiedQr.sendUnsafe(uriStr, routeParameters?)` - Pay BIP21 URI, returns QrPaymentResult
+
+### Balances
+- `node.listBalances()` - Get all balances (BalanceDetails)
+  - `totalOnchainBalanceSats` - Total on-chain balance
+  - `spendableOnchainBalanceSats` - Spendable on-chain balance
+  - `totalLightningBalanceSats` - Total Lightning balance
+  - `lightningBalances` - List of LightningBalance
+  - `pendingBalancesFromChannelClosures` - List of PendingSweepBalance
+
+### Channels
+- `node.openChannel(socketAddress, nodeId, channelAmountSats, pushToCounterpartyMsat?, channelConfig?)` - Open private channel
+- `node.openAnnouncedChannel(socketAddress, nodeId, channelAmountSats, pushToCounterpartyMsat?, channelConfig?)` - Open public channel
+- `node.closeChannel(userChannelId, counterpartyNodeId)` - Cooperative close
+- `node.forceCloseChannel(userChannelId, counterpartyNodeId)` - Force close
+- `node.updateChannelConfig(userChannelId, counterpartyNodeId, channelConfig)` - Update config
+- `node.listChannels()` - Get channel list
+
+### Peers
+- `node.connect(nodeId, address, persist)` - Connect to peer
+- `node.disconnect(counterpartyNodeId)` - Disconnect from peer
+- `node.listPeers()` - List connected peers
+
+### Payments
+- `node.listPayments()` - List all payments
+- `node.listPaymentsWithFilter(paymentDirection)` - Filter by direction
+- `node.payment(paymentId)` - Get payment details
+- `node.removePayment(paymentId)` - Remove payment from store
+
+### Events
+- `node.nextEvent()` - Get next event (non-blocking)
+- `node.nextEventAsync()` - Get next event (async wait)
+- `node.waitNextHandled()` - Wait for next event
+- `node.eventHandled()` - Confirm event was handled (MUST call after handling)
+
+### Signing
+- `node.signMessage(msg)` - Sign message with node key
+- `node.verifySignature(msg, sig, publicKey)` - Verify signature
+
+### Network Graph
+- `node.networkGraph()` - Get network graph handler
+  - `networkGraph.listChannelsUnsafe()` - List all channel IDs in the graph
+  - `networkGraph.listNodesUnsafe()` - List all node IDs in the graph
+  - `networkGraph.channelUnsafe(shortChannelId)` - Get channel info by ID
+  - `networkGraph.nodeUnsafe(nodeId)` - Get node info by ID
+
+### Pathfinding Scores
+- `node.exportPathfindingScores()` - Export pathfinding scores as bytes
+
+## Common Patterns
+
+### Receive Lightning Payment
+```dart
+final bolt11 = await node.bolt11Payment();
+// Generate invoice for 10,000 sats
+final invoice = await bolt11.receiveUnsafe(
+  amountMsat: BigInt.from(10000 * 1000), // Convert sats to millisats
+  description: 'Payment for coffee',
+  expirySecs: 3600,
+);
+print('Share this invoice: ${invoice.signedRawInvoice}');
+```
+
+### Send Lightning Payment
+```dart
+final bolt11 = await node.bolt11Payment();
+final bolt11String = 'lnbc...'; // Invoice from recipient
+final paymentId = await bolt11.sendUnsafe(
+  invoice: Bolt11Invoice(signedRawInvoice: bolt11String),
+);
+```
+
+### Check Balances
+```dart
+final balances = await node.listBalances();
+print('On-chain: ${balances.spendableOnchainBalanceSats} sats');
+print('Lightning: ${balances.totalLightningBalanceSats} sats');
+```
+
+### Open Channel
+```dart
+final userChannelId = await node.openChannel(
+  socketAddress: SocketAddress.hostname(addr: '127.0.0.1', port: 9735),
+  nodeId: PublicKey(hex: '02...'),
+  channelAmountSats: BigInt.from(100000),
+);
+```
+
+### Event Handling
+```dart
+while (true) {
+  final event = await node.nextEventAsync();
+  // Handle event based on type
+  switch (event) {
+    case Event_PaymentReceived(:final paymentHash, :final amountMsat):
+      print('Received payment: $amountMsat msat');
+    case Event_PaymentSuccessful(:final paymentId):
+      print('Payment succeeded: $paymentId');
+    case Event_PaymentFailed(:final paymentId, :final reason):
+      print('Payment failed: $reason');
+    case Event_ChannelReady(:final channelId, :final userChannelId):
+      print('Channel ready: $channelId');
+    case Event_ChannelClosed(:final channelId, :final reason):
+      print('Channel closed: $reason');
+    default:
+      print('Other event: $event');
+  }
+  await node.eventHandled(); // MUST call after handling
+}
+```
+
+### Receive via JIT Channel (LSPS2)
+```dart
+// Configure liquidity source in builder
+final node = await Builder.mutinynet()
+    .setStorageDirPath(path)
+    .setEntropyBip39Mnemonic(mnemonic: mnemonic)
+    .build();
+
+final bolt11 = await node.bolt11Payment();
+// Create invoice that can open JIT channel if needed
+final invoice = await bolt11.receiveViaJitChannelUnsafe(
+  amountMsat: BigInt.from(50000 * 1000),
+  description: 'JIT channel payment',
+  expirySecs: 3600,
+  maxTotalLspFeeLimitMsat: BigInt.from(5000 * 1000), // Max 5000 sats fee
+);
+```
+
+### BOLT12 Offers
+```dart
+final bolt12 = await node.bolt12Payment();
+// Create reusable offer
+final offer = await bolt12.receiveUnsafe(
+  amountMsat: BigInt.from(10000 * 1000),
+  description: 'My store',
+  expirySecs: null, // No expiry
+  quantity: null,
+);
+print('Offer: ${offer.s}');
+
+// Pay an offer
+final paymentId = await bolt12.sendUnsafe(
+  offer: Offer(s: 'lno1...'),
+  payerNote: 'Thanks!',
+);
+```
+
+## Critical Requirements
+1. MUST call `node.start()` before any operations
+2. MUST call `node.syncWallets()` for accurate balances
+3. MUST call `node.eventHandled()` after processing each event
+4. Storage path MUST be app-writable directory (use path_provider)
+5. Mnemonic MUST be stored securely (use flutter_secure_storage)
+6. DO NOT use mainnet without explicit user confirmation
+7. Payment handlers are async: `await node.bolt11Payment()` not property access
+
+## Key Types
+- `Mnemonic` - BIP39 mnemonic (use `await Mnemonic.generate()`)
+- `PublicKey` - Node public key (hex string)
+- `Address` - Bitcoin address (s field)
+- `SocketAddress` - Network address (hostname, tcpIpV4, tcpIpV6, onionV3)
+- `Bolt11Invoice` - BOLT11 invoice (signedRawInvoice field)
+- `Offer` - BOLT12 offer (s field)
+- `Refund` - BOLT12 refund (s field)
+- `PaymentId` - Payment identifier (data: Uint8List)
+- `PaymentHash` - Payment hash (data: U8Array32)
+- `PaymentPreimage` - Payment preimage (data: U8Array32)
+- `PaymentSecret` - Payment secret (data: U8Array32)
+- `UserChannelId` - Local channel identifier (data: Uint8List)
+- `ChannelId` - Global channel identifier (data: U8Array32)
+- `ChannelConfig` - Channel configuration options
+- `ChannelDetails` - Channel information (channelId, counterpartyNodeId, channelValueSats, etc.)
+- `Config` - Node configuration
+- `BalanceDetails` - Balance information
+- `PaymentDetails` - Payment information (id, kind, amountMsat, direction, status)
+- `PeerDetails` - Peer information (nodeId, address, isConnected)
+- `NodeStatus` - Node status (isRunning, currentBestBlock, sync timestamps)
+- `Txid` - Transaction ID (hash field)
+- `OutPoint` - Transaction output reference (txid, vout)
+
+## Event Types
+Events are returned by `node.nextEvent()` / `node.nextEventAsync()`:
+- `Event.paymentClaimable` - Payment received, needs manual claim (for hash-based)
+- `Event.paymentSuccessful` - Outbound payment succeeded
+- `Event.paymentFailed` - Payment failed (with reason)
+- `Event.paymentReceived` - Inbound payment received
+- `Event.channelPending` - Channel created, awaiting confirmation
+- `Event.channelReady` - Channel ready to use
+- `Event.channelClosed` - Channel closed (with reason)
+- `Event.paymentForwarded` - Payment forwarded (routing node)
+- `Event.splicePending` - Splice pending confirmation
+- `Event.spliceFailed` - Splice failed
+
+## Payment Kinds
+Returned in `PaymentDetails.kind`:
+- `PaymentKind.onchain` - On-chain payment (txid, status)
+- `PaymentKind.bolt11` - BOLT11 payment (hash, preimage, secret)
+- `PaymentKind.bolt11Jit` - BOLT11 via JIT channel (includes lspFeeLimits)
+- `PaymentKind.spontaneous` - Keysend payment
+- `PaymentKind.bolt12Offer` - BOLT12 offer payment
+- `PaymentKind.bolt12Refund` - BOLT12 refund payment
+
+## Config Options
+```dart
+Config(
+  storageDirPath: '/path/to/storage',
+  network: Network.testnet,
+  listeningAddresses: [SocketAddress.hostname(addr: '0.0.0.0', port: 9735)],
+  announcementAddresses: null,  // For public channels
+  nodeAlias: null,              // Max 32 bytes, required for public channels
+  trustedPeers0Conf: [],        // Peers allowed for 0-conf channels
+  probingLiquidityLimitMultiplier: BigInt.from(3),
+  anchorChannelsConfig: null,   // Anchor channel reserve settings
+  routeParameters: null,        // Default routing parameters
+)
+```
+
+## Sync Configuration
+```dart
+// Esplora with background sync
+EsploraSyncConfig(
+  backgroundSyncConfig: BackgroundSyncConfig(
+    onchainWalletSyncIntervalSecs: BigInt.from(80),
+    lightningWalletSyncIntervalSecs: BigInt.from(30),
+    feeRateCacheUpdateIntervalSecs: BigInt.from(600),
+  ),
+)
+
+// Set to null to disable background sync (manual sync only)
+builder.setChainSourceEsplora(
+  esploraServerUrl: 'https://...',
+  syncConfig: null,  // Manual sync via node.syncWallets()
+)
+```
+
+## Sending Parameters
+Control routing behavior per-payment:
+```dart
+SendingParameters(
+  maxTotalRoutingFeeMsat: MaxTotalRoutingFeeLimit.feeCap(amountMsat: BigInt.from(1000)),
+  maxTotalCltvExpiryDelta: 1008,
+  maxPathCount: 10,
+  maxChannelSaturationPowerOfHalf: 2,
+)
+```
+
+## Networks
+- `Network.testnet` - Bitcoin testnet (for development)
+- `Network.signet` - Bitcoin signet (for development)
+- `Network.regtest` - Bitcoin regtest (local testing)
+- `Network.bitcoin` - Bitcoin mainnet (REAL MONEY - use carefully)
+
+## Default Services (Built-in)
+Testnet defaults (used by `Builder.testnet()`):
+- Esplora: `https://testnet.ltbl.io/api`
+- RGS: `https://testnet.ltbl.io/snapshot`
+
+Mutinynet/Signet defaults (used by `Builder.mutinynet()`):
+- Esplora: `https://mutinynet.ltbl.io/api`
+- RGS: `https://mutinynet.ltbl.io/snapshot`
+- LSPS2 LSP for liquidity
+
+## Exception Types
+All exceptions extend `LdkFfiException` with `errorMessage` and `code`:
+- `NodeException` - Node operation failures
+- `BuilderException` - Builder configuration failures
+- `PaymentException` - Payment operation failures
+- `ChannelException` - Channel operation failures
+- `WalletException` - Wallet operation failures
+- `ValidationException` - Invalid inputs
+- `NetworkException` - Connection failures
+- `TimeoutException` - Timeout operations
+- `LiquidityException` - Liquidity service failures
+- `DecodeException` - Decoding/parsing failures
+
+## Dependencies
+Requires in pubspec.yaml:
+```yaml
+dependencies:
+  ldk_node: ^0.7.0
+  path_provider: ^2.1.5  # For storage directory
+  flutter_secure_storage: ^9.0.0  # For mnemonic storage (recommended)
+```
+
+## Links
+- Documentation: https://pub.dev/documentation/ldk_node/latest/
+- GitHub: https://github.com/LtbLightning/ldk-node-flutter
+- Demo App: https://github.com/LtbLightning/ldk-node-flutter-demo
+- Workshop: https://github.com/LtbLightning/ldk-node-flutter-workshop
+- LDK Documentation: https://lightningdevkit.org/
