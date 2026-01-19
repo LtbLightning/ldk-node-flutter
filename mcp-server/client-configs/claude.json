@@ -1,0 +1,11 @@
+{
+  "mcpServers": {
+    "ldk-node-flutter": {
+      "command": "python",
+      "args": ["-m", "ldk_node_mcp.server"],
+      "env": {
+        "PYTHONPATH": "/absolute/path/to/ldk_node_flutter/mcp-server/src"
+      }
+    }
+  }
+}
