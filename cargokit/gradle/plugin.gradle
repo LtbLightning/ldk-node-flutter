@@ -86,7 +86,7 @@ class CargoKitPlugin implements Plugin<Project> {
    private Plugin _findFlutterPlugin(Map projects) {
         for (project in projects) {
             for (plugin in project.value.getPlugins()) {
-                if (plugin.class.name == "FlutterPlugin") {
+                if (plugin.class.name == "com.flutter.gradle.FlutterPlugin") {
                     return plugin;
                 }
             }
@@ -119,12 +119,29 @@ class CargoKitPlugin implements Plugin<Project> {
             def jniLibs = project.android.sourceSets.maybeCreate(buildType).jniLibs;
             jniLibs.srcDir(new File(cargoOutputDir))
 
-            def platforms = plugin.getTargetPlatforms().collect()
+            def platforms = ["android-arm", "android-arm64", "android-x64"]
+
+            // Respect NDK ABI filters if set
+            def abiFilters = plugin.project.android.defaultConfig.ndk?.abiFilters
+            if (abiFilters != null && !abiFilters.isEmpty()) {
+                // Filter platforms based on ABI filters
+                platforms = platforms.findAll { platform ->
+                    if (platform == "android-arm" && abiFilters.contains("armeabi-v7a")) return true
+                    if (platform == "android-arm64" && abiFilters.contains("arm64-v8a")) return true
+                    // if (platform == "android-x86" && abiFilters.contains("x86")) return true
+                    if (platform == "android-x64" && abiFilters.contains("x86_64")) return true
+                    return false
+                }
+            }
 
             // Same thing addFlutterDependencies does in flutter.gradle
             if (buildType == "debug") {
-                // platforms.add("android-x86")
-                platforms.add("android-x64")
+                // Only add x64 if it's in ABI filters or no filters are set
+                if (abiFilters == null || abiFilters.isEmpty() || abiFilters.contains("x86_64")) {
+                    if (!platforms.contains("android-x64")) {
+                        platforms.add("android-x64")
+                    }
+                }
             }
 
             // The task name depends on plugin properties, which are not available

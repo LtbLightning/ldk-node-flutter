@@ -13,6 +13,7 @@ export 'src/generated/api/types.dart'
     show
         Address,
         AnchorChannelsConfig,
+        BackgroundSyncConfig,
         BalanceDetails,
         BalanceSource,
         LightningBalance,
@@ -23,6 +24,7 @@ export 'src/generated/api/types.dart'
         ChannelId,
         ClosureReason,
         Config,
+        ConfirmationStatus,
         EntropySourceConfig,
         EsploraSyncConfig,
         GossipSourceConfig,
@@ -30,6 +32,7 @@ export 'src/generated/api/types.dart'
         LSPFeeLimits,
         MaxDustHTLCExposure,
         MaxTotalRoutingFeeLimit,
+        OfferId,
         Event,
         LogLevel,
         Network,
@@ -56,3 +59,4 @@ export 'src/root.dart';
 export 'src/generated/lib.dart' show U8Array4, U8Array12, U8Array64, U8Array32;
 export 'src/utils/default_services.dart';
 export 'src/utils/exceptions.dart' show NodeException, BuilderException;
+export 'src/utils/extensions.dart';

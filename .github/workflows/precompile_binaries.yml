@@ -30,12 +30,28 @@ jobs:
       - uses: subosito/flutter-action@v2
         with:
           channel: 'stable'
+          architecture: x64
+      - name: Set up Java
+        if: (matrix.os == 'ubuntu-latest')
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
       - name: Set up Android SDK
         if: (matrix.os == 'ubuntu-latest')
         uses: android-actions/setup-android@v2 
       - name: Install Specific NDK
         if: (matrix.os == 'ubuntu-latest')
-        run: sdkmanager --install "ndk;25.1.8937393"      
+        run: sdkmanager --install "ndk;25.1.8937393"
+      - name: Install bindgen-cli
+        run: cargo install --force --locked bindgen-cli
+      - name: Set iOS SDK environment
+        if: matrix.os == 'macOS-latest'
+        run: |
+          IPHONEOS_SDK=$(xcrun --sdk iphoneos --show-sdk-path)
+          IPHONESIMULATOR_SDK=$(xcrun --sdk iphonesimulator --show-sdk-path)
+          echo "IPHONEOS_SDK=$IPHONEOS_SDK" >> $GITHUB_ENV
+          echo "IPHONESIMULATOR_SDK=$IPHONESIMULATOR_SDK" >> $GITHUB_ENV
       - name: Precompile (with iOS)
         if: matrix.os == 'macOS-latest'
         run: dart run build_tool precompile-binaries -v --manifest-dir=../../rust --repository=LtbLightning/ldk-node-flutter
@@ -43,6 +59,15 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.RELEASE_TOKEN }}
           PRIVATE_KEY: ${{ secrets.CARGOKIT_PRIVATE_KEY }}
+          BINDGEN_EXTRA_CLANG_ARGS: "--sysroot=${{ env.IPHONEOS_SDK }} -I${{ env.IPHONEOS_SDK }}/usr/include"
+          CFLAGS: "--sysroot=${{ env.IPHONEOS_SDK }}"
+      - name: Set Android NDK environment
+        if: matrix.os == 'ubuntu-latest'
+        run: |
+          NDK_HOME=/usr/local/lib/android/sdk/ndk/25.1.8937393
+          SYSROOT=$NDK_HOME/toolchains/llvm/prebuilt/linux-x86_64/sysroot
+          echo "ANDROID_NDK_HOME=$NDK_HOME" >> $GITHUB_ENV
+          echo "ANDROID_NDK_SYSROOT=$SYSROOT" >> $GITHUB_ENV
       - name: Precompile (with Android)
         if: matrix.os == 'ubuntu-latest'
         run: dart run build_tool precompile-binaries -v --target=aarch64-linux-android,armv7-linux-androideabi,x86_64-linux-android --manifest-dir=../../rust --repository=LtbLightning/ldk-node-flutter --android-sdk-location=/usr/local/lib/android/sdk --android-ndk-version=25.1.8937393 --android-min-sdk-version=23
@@ -50,3 +75,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.RELEASE_TOKEN }}
           PRIVATE_KEY: ${{ secrets.CARGOKIT_PRIVATE_KEY }}
+          BINDGEN_EXTRA_CLANG_ARGS_aarch64_linux_android: "--sysroot=${{ env.ANDROID_NDK_SYSROOT }} -I${{ env.ANDROID_NDK_SYSROOT }}/usr/include -I${{ env.ANDROID_NDK_SYSROOT }}/usr/include/aarch64-linux-android"
+          BINDGEN_EXTRA_CLANG_ARGS_armv7_linux_androideabi: "--sysroot=${{ env.ANDROID_NDK_SYSROOT }} -I${{ env.ANDROID_NDK_SYSROOT }}/usr/include -I${{ env.ANDROID_NDK_SYSROOT }}/usr/include/arm-linux-androideabi"
+          BINDGEN_EXTRA_CLANG_ARGS_x86_64_linux_android: "--sysroot=${{ env.ANDROID_NDK_SYSROOT }} -I${{ env.ANDROID_NDK_SYSROOT }}/usr/include -I${{ env.ANDROID_NDK_SYSROOT }}/usr/include/x86_64-linux-android"
+          CFLAGS: "--sysroot=${{ env.ANDROID_NDK_SYSROOT }}"

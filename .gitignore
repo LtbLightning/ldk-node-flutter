@@ -20,6 +20,7 @@ migrate_working_dir/
 # VS Code which you may wish to be included in version control, so this line
 # is commented out by default.
 .vscode/
+temp/
 
 # Flutter/Dart/Pub related
 # Libraries should not include pubspec.lock, per https://dart.dev/guides/libraries/private-files#pubspeclock.
@@ -31,3 +32,7 @@ build/
 rust/target/
 rust/wallets/
 rust/ldk.0.2.1/
+reference/
+
+# FVM Version Cache
+.fvm/

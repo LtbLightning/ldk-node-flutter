@@ -1,0 +1,14 @@
+# iOS build configuration
+[target.aarch64-apple-ios]
+linker = "clang"
+
+[target.aarch64-apple-ios-sim]
+linker = "clang"
+
+[target.x86_64-apple-ios]
+linker = "clang"
+
+# Environment variables for AWS LC sys
+[env]
+CMAKE_SYSTEM_NAME = { value = "iOS", condition = { any-of = ["cfg(target_os = \"ios\")", "cfg(target_arch = \"aarch64\")"] } }
+BINDGEN_EXTRA_CLANG_ARGS = { value = "-I/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/usr/include", condition = { cfg = "target_os = \"ios\"" } }

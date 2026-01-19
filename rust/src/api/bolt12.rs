@@ -1,5 +1,5 @@
-use crate::api::types::PaymentId;
-use ldk_node::lightning::util::ser::Writeable;
+use crate::api::types::{PaymentId, RouteParametersConfig};
+use ldk_node::lightning::util::ser::{Readable, Writeable};
 use std::str::FromStr;
 
 use crate::frb_generated::RustOpaque;
@@ -16,30 +16,34 @@ impl From<ldk_node::payment::Bolt12Payment> for FfiBolt12Payment {
     }
 }
 impl FfiBolt12Payment {
-    pub fn send(
+    pub fn send_unsafe(
         &self,
         offer: Offer,
         quantity: Option<u64>,
         payer_note: Option<String>,
+        route_params: Option<RouteParametersConfig>,
     ) -> Result<PaymentId, FfiNodeError> {
         self.opaque
-            .send(&offer.try_into()?, quantity, payer_note)
+            .send(&offer.try_into()?, quantity, payer_note, route_params.map(|e| e.into()))
             .map_err(|e| e.into())
             .map(|e| e.into())
     }
-    pub fn send_using_amount(
+    
+    pub fn send_using_amount_unsafe(
         &self,
         offer: Offer,
         amount_msat: u64,
         quantity: Option<u64>,
         payer_note: Option<String>,
+        route_params: Option<RouteParametersConfig>,
     ) -> anyhow::Result<PaymentId, FfiNodeError> {
         self.opaque
-            .send_using_amount(&offer.try_into()?, amount_msat, quantity, payer_note)
+            .send_using_amount(&offer.try_into()?, amount_msat, quantity, payer_note, route_params.map(|e| e.into()))
             .map_err(|e| e.into())
             .map(|e| e.into())
     }
-    pub fn receive(
+    
+    pub fn receive_unsafe(
         &self,
         amount_msat: u64,
         description: String,
@@ -51,7 +55,7 @@ impl FfiBolt12Payment {
             .map_err(|e| e.into())
             .map(|e| e.into())
     }
-    pub fn receive_variable_amount(
+    pub fn receive_variable_amount_unsafe(
         &self,
         description: String,
         expiry_secs: Option<u32>,
@@ -62,7 +66,7 @@ impl FfiBolt12Payment {
             .map(|e| e.into())
     }
 
-    pub fn request_refund_payment(
+    pub fn request_refund_payment_unsafe(
         &self,
         refund: Refund,
     ) -> anyhow::Result<Bolt12Invoice, FfiNodeError> {
@@ -72,18 +76,50 @@ impl FfiBolt12Payment {
             .map(|e| e.into())
     }
 
-    pub fn initiate_refund(
+    pub fn initiate_refund_unsafe(
         &self,
         amount_msat: u64,
         expiry_secs: u32,
         quantity: Option<u64>,
         payer_note: Option<String>,
+        route_params: Option<RouteParametersConfig>,
     ) -> anyhow::Result<Refund, FfiNodeError> {
         self.opaque
-            .initiate_refund(amount_msat, expiry_secs, quantity, payer_note)
+            .initiate_refund(amount_msat, expiry_secs, quantity, payer_note, route_params.map(|e| e.into()))
             .map_err(|e| e.into())
             .map(|e| e.into())
     }
+
+    pub fn receive_async_unsafe(&self) -> anyhow::Result<Offer, FfiNodeError> {
+        self.opaque
+            .receive_async()
+            .map_err(|e| e.into())
+            .map(|e| e.into())
+    }
+
+    pub fn set_paths_to_static_invoice_server_unsafe(
+        &self,
+        paths: Vec<BlindedMessagePath>,
+    ) -> anyhow::Result<(), FfiNodeError> {
+        let native_paths: Result<Vec<_>, _> = paths.into_iter()
+            .map(|p| p.try_into())
+            .collect();
+        
+        self.opaque
+            .set_paths_to_static_invoice_server(native_paths?)
+            .map_err(|e| e.into())
+    }
+
+    pub fn blinded_paths_for_async_recipient_unsafe(
+        &self,
+        recipient_id: Vec<u8>,
+    ) -> anyhow::Result<Vec<BlindedMessagePath>, FfiNodeError> {
+        self.opaque
+            .blinded_paths_for_async_recipient(recipient_id)
+            .map_err(|e| e.into())
+            .map(|paths| paths.into_iter().map(|p| p.into()).collect())
+    }
+
 }
 /// An `Offer` is a potentially long-lived proposal for payment of a good or service.
 ///
@@ -156,5 +192,51 @@ impl From<ldk_node::lightning::offers::invoice::Bolt12Invoice> for Bolt12Invoice
         Bolt12Invoice {
             data: value.encode(),
         }
+    }
+}
+
+#[derive(Debug, Clone, PartialEq, Eq)]
+/// A StaticInvoice is a reusable payment request for Async Payments.
+pub struct StaticInvoice {
+    pub data: Vec<u8>,
+}
+
+impl TryFrom<StaticInvoice> for ldk_node::lightning::offers::static_invoice::StaticInvoice {
+    type Error = FfiNodeError;
+
+    fn try_from(value: StaticInvoice) -> Result<Self, Self::Error> {
+        ldk_node::lightning::offers::static_invoice::StaticInvoice::try_from(value.data)
+            .map_err(|_| FfiNodeError::InvalidInvoice)
+    }
+}
+
+impl From<ldk_node::lightning::offers::static_invoice::StaticInvoice> for StaticInvoice {
+    fn from(value: ldk_node::lightning::offers::static_invoice::StaticInvoice) -> Self {
+        StaticInvoice {
+            data: value.encode(),
+        }
+    }
+}
+
+#[derive(Debug, Clone, PartialEq, Eq)]
+/// A BlindedMessagePath for async payments.
+pub struct BlindedMessagePath {
+    pub data: Vec<u8>,
+}
+
+impl TryFrom<BlindedMessagePath> for ldk_node::lightning::blinded_path::message::BlindedMessagePath {
+    type Error = FfiNodeError;
+
+    fn try_from(value: BlindedMessagePath) -> Result<Self, Self::Error> {
+        <ldk_node::lightning::blinded_path::message::BlindedMessagePath as Readable>::read(&mut &value.data[..])
+            .map_err(|_| FfiNodeError::InvalidBlindedPaths)
+    }
+}
+
+impl From<ldk_node::lightning::blinded_path::message::BlindedMessagePath> for BlindedMessagePath {
+    fn from(value: ldk_node::lightning::blinded_path::message::BlindedMessagePath) -> Self {
+        let mut bytes = Vec::new();
+        value.write(&mut bytes).expect("Failed to serialize BlindedMessagePath");
+        BlindedMessagePath { data: bytes }
     }
 }

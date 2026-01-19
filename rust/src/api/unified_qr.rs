@@ -1,6 +1,6 @@
 use crate::{frb_generated::RustOpaque, utils::error::FfiNodeError};
 
-use super::types::{PaymentId, Txid};
+use super::types::{PaymentId, RouteParametersConfig, Txid};
 
 pub struct FfiUnifiedQrPayment {
     pub opaque: RustOpaque<ldk_node::payment::UnifiedQrPayment>,
@@ -31,7 +31,7 @@ impl FfiUnifiedQrPayment {
     ///
     /// [BOLT 11]: https://github.com/lightning/bolts/blob/master/11-payment-encoding.md
     /// [BOLT 12]: https://github.com/lightning/bolts/blob/master/12-offer-encoding.md
-    pub fn receive(
+    pub fn receive_unsafe(
         &self,
         amount_sats: u64,
         message: String,
@@ -44,9 +44,9 @@ impl FfiUnifiedQrPayment {
     ///Sends a payment given a BIP 21 URI.
 
     ///This method parses the provided URI string and attempts to send the payment. If the URI has an offer and or invoice, it will try to pay the offer first followed by the invoice. If they both fail, the on-chain payment will be paid.
-    pub fn send(&self, uri_str: String) -> anyhow::Result<QrPaymentResult, FfiNodeError> {
+    pub fn send_unsafe(&self, uri_str: String, route_parameters: Option<RouteParametersConfig>) -> anyhow::Result<QrPaymentResult, FfiNodeError> {
         self.opaque
-            .send(uri_str.as_str())
+            .send(uri_str.as_str(), route_parameters.map(|e| e.into()))
             .map_err(|e| e.into())
             .map(|e| e.into())
     }

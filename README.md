@@ -28,11 +28,20 @@ A Flutter library for [LDK Node](https://github.com/lightningdevkit/ldk-node), a
 
 LDK Node is a non-custodial Lightning node. Its central goal is to provide a small, simple, and straightforward interface that enables users to easily set up and run a Lightning node with an integrated on-chain wallet. While minimalism is at its core, LDK Node aims to be sufficiently modular and configurable to be useful for a variety of use cases.
 
-The primary abstraction of the library is the Node, which can be retrieved by setting up and configuring a Builder to your liking and calling build(). Node can then be controlled via commands such as start, stop, connectOpenChannel, sendPayment, etc.:
+The primary abstraction of the library is the Node, which can be retrieved by setting up and configuring a Builder to your liking and calling build(). Node can then be controlled via commands such as start, stop, openChannel, sendPayment, etc.
 
-This release covers the same API from LDK Node 0.1.0 Rust. It has support for sourcing chain data via an Esplora server, filesystem persistence, gossip sourcing via the Lightning peer-to-peer network, and configurable entropy sources for the integrated LDK and BDK-based wallets.
+This release covers the API from LDK Node 0.7.0 Rust. It has support for sourcing chain data via Esplora, Electrum, or Bitcoin Core RPC/REST backends, filesystem persistence, gossip sourcing via the Lightning peer-to-peer network, and configurable entropy sources for the integrated LDK and BDK-based wallets.
 
-Please note: This release is considered experimental, and should not be run in production
+### Key Features
+
+- **Multiple Chain Data Sources**: Esplora, Electrum, and Bitcoin Core (RPC & REST) backends
+- **Channel Splicing**: Experimental support via `spliceIn()` and `spliceOut()` methods
+- **Async Payments**: Static invoice support with `receiveStaticInvoice()` and `sendStaticInvoice()`
+- **BOLT11 & BOLT12**: Full support for Lightning invoices, offers, and refunds
+- **LSP Integration**: LSPS2 just-in-time (JIT) channel support for inbound liquidity
+- **Unified QR Payments**: Generate and pay unified QR codes
+- **Custom Fee Rates**: Comprehensive `FeeRate` class for fine-grained fee control
+- **Pathfinding Scores**: Import and merge pathfinding scores for optimized routing
 ### How to use ldk_node
 
 To use the `ldk_node` package in your project, add it as a dependency in your project's pubspec.yaml:
@@ -40,7 +49,7 @@ To use the `ldk_node` package in your project, add it as a dependency in your pr
 
 ```dart
 dependencies:
-  ldk_node: ^0.4.2
+  ldk_node: ^0.7.0
 ```
 or add from pub.dev using `pub add` command
 
