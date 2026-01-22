@@ -1,9 +1,12 @@
+import 'dart:typed_data';
+
 import '../generated/api/bolt11.dart' as bolt11;
 import '../generated/api/bolt12.dart' as bolt12;
 import '../generated/api/graph.dart' as graph;
 import '../generated/api/spontaneous.dart' as spontaneous;
 import '../generated/api/types.dart' as types;
 import '../generated/api/unified_qr.dart' as unified_qr;
+import '../generated/lib.dart';
 import '../generated/utils/error.dart' as error;
 import '../utils/frb.dart';
 import '../utils/exceptions.dart';
@@ -436,5 +439,23 @@ extension Bolt12PaymentExtensions on bolt12.FfiBolt12Payment {
     } on error.FfiNodeError catch (e) {
       throw mapFfiNodeError(e);
     }
+  }
+}
+
+/// Extension methods for PaymentPreimage to provide convenience constructors
+extension PaymentPreimageExtensions on types.PaymentPreimage {
+  /// Creates a PaymentPreimage from a List<int> of 32 bytes.
+  /// 
+  /// This is a convenience method that handles the U8Array32 conversion internally.
+  /// 
+  /// Example:
+  /// ```dart
+  /// final preimage = PaymentPreimageExtensions.fromBytes([1, 2, 3, ..., 32]);
+  /// ```
+  static types.PaymentPreimage fromBytes(List<int> bytes) {
+    if (bytes.length != 32) {
+      throw ArgumentError('PaymentPreimage must be exactly 32 bytes, got ${bytes.length}');
+    }
+    return types.PaymentPreimage(data: U8Array32(Uint8List.fromList(bytes)));
   }
 }
