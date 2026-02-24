@@ -1,0 +1,1684 @@
+# LDK Node Flutter - Complete API Reference
+
+> Version: 0.7.0
+> A non-custodial Lightning Network node library for Flutter applications.
+> Powered by LDK (Lightning Dev Kit) and BDK (Bitcoin Dev Kit).
+
+---
+
+## Table of Contents
+
+1. [Mnemonic Class](#mnemonic-class)
+2. [Builder Class](#builder-class)
+3. [Node Class](#node-class)
+4. [Bolt11Payment Class](#bolt11payment-class)
+5. [Bolt12Payment Class](#bolt12payment-class)
+6. [OnChainPayment Class](#onchainpayment-class)
+7. [SpontaneousPayment Class](#spontaneouspayment-class)
+8. [UnifiedQrPayment Class](#unifiedqrpayment-class)
+9. [NetworkGraph Class](#networkgraph-class)
+10. [Configuration Types](#configuration-types)
+11. [Payment Types](#payment-types)
+12. [Channel Types](#channel-types)
+13. [Balance Types](#balance-types)
+14. [Event Types](#event-types)
+15. [Network & Address Types](#network--address-types)
+16. [Error Types](#error-types)
+17. [Exception Classes](#exception-classes)
+
+---
+
+## Mnemonic Class
+
+BIP39 mnemonic for wallet entropy.
+
+### Constructor
+```dart
+Mnemonic({required String seedPhrase})
+```
+
+### Static Methods
+```dart
+/// Generate a new random 12-word mnemonic
+static Future<Mnemonic> generate()
+
+/// Generate mnemonic with specific word count (12, 15, 18, 21, or 24)
+static Future<Mnemonic> generateWithWordCount({required int wordCount})
+```
+
+### Properties
+```dart
+String seedPhrase  // The mnemonic phrase
+```
+
+---
+
+## Builder Class
+
+Builder for creating and configuring a Node instance.
+
+### Factory Constructors
+```dart
+/// Create default builder (mainnet)
+factory Builder()
+
+/// Create builder from existing Config
+factory Builder.fromConfig({required Config config})
+
+/// Create builder with testnet defaults (Esplora + RGS preconfigured)
+/// Esplora: https://testnet.ltbl.io/api
+/// RGS: https://testnet.ltbl.io/snapshot
+factory Builder.testnet({Config? config})
+
+/// Create builder with mutinynet/signet defaults (includes LSPS2 liquidity)
+/// Esplora: https://mutinynet.ltbl.io/api
+/// RGS: https://mutinynet.ltbl.io/snapshot
+/// LSPS2: Preconfigured LSP for JIT channels
+factory Builder.mutinynet({Config? config})
+```
+
+### Entropy Configuration Methods (chainable)
+```dart
+/// Set entropy from BIP39 mnemonic
+Builder setEntropyBip39Mnemonic({
+  required Mnemonic mnemonic,
+  String? passphrase,
+})
+
+/// Set entropy from seed file path
+Builder setEntropySeedPath(String seedPath)
+
+/// Set entropy from 64 raw seed bytes
+Builder setEntropySeedBytes(U8Array64 seedBytes)
+```
+
+### Chain Data Source Methods (chainable)
+```dart
+/// Configure Esplora server for blockchain data
+Builder setChainSourceEsplora({
+  required String esploraServerUrl,
+  EsploraSyncConfig? syncConfig,
+})
+
+/// Configure Bitcoin Core RPC for blockchain data
+Builder setChainSourceBitcoinRpc({
+  required String rpcHost,
+  required int rpcPort,
+  required String rpcUser,
+  required String rpcPassword,
+})
+```
+
+### Gossip Source Methods (chainable)
+```dart
+/// Use P2P network for gossip data
+Builder setGossipSourceP2p()
+
+/// Use Rapid Gossip Sync server
+Builder setGossipSourceRgs(String rgsServerUrl)
+```
+
+### Network Configuration Methods (chainable)
+```dart
+/// Set storage directory path (defaults to app documents directory)
+Builder setStorageDirPath(String storageDirPath)
+
+/// Set Bitcoin network
+Builder setNetwork(Network network)
+
+/// Set listening addresses (max 100)
+Builder setListeningAddresses(List<SocketAddress> listeningAddresses)
+
+/// Set node alias for gossip announcements (max 32 bytes UTF-8)
+Builder setNodeAlias(String nodeAlias)
+```
+
+### Liquidity Configuration Methods (chainable)
+```dart
+/// Configure LSPS2 liquidity source for JIT channels
+Builder setLiquiditySourceLsps2({
+  required SocketAddress address,
+  required PublicKey publicKey,
+  String? token,
+})
+```
+
+### Logging Configuration Methods (chainable)
+```dart
+/// Enable filesystem logging
+Builder setFilesystemLogger({
+  String? logFilePath,    // Defaults to 'ldk_node.log' in storage dir
+  LogLevel? maxLogLevel,  // Defaults to Debug
+})
+
+/// Enable Rust log facade logger
+Builder setLogFacadeLogger()
+```
+
+### Build Methods
+```dart
+/// Build Node with SQLite storage (recommended)
+Future<Node> build()
+
+/// Build Node with filesystem storage
+Future<Node> buildWithFsStore()
+
+/// Build Node with VSS (Versioned Storage Service) store
+Future<Node> buildWithVssStore({
+  required String vssUrl,
+  required String storeId,
+  required String lnurlAuthServerUrl,
+  required Map<String, String> fixedHeaders,
+})
+
+/// Build Node with VSS store using fixed headers
+Future<Node> buildWithVssStoreAndFixedHeaders({
+  required String vssUrl,
+  required String storeId,
+  required Map<String, String> fixedHeaders,
+})
+```
+
+---
+
+## Node Class
+
+The main interface for LDK Node operations.
+
+### Lifecycle Methods
+```dart
+/// Start the node (REQUIRED before any operations)
+Future<void> start()
+
+/// Stop the node gracefully
+Future<void> stop()
+
+/// Sync on-chain and Lightning wallets with chain state
+/// Called automatically if background sync is enabled
+Future<void> syncWallets()
+```
+
+### Node Information Methods
+```dart
+/// Get node's public key
+Future<PublicKey> nodeId()
+
+/// Get listening addresses
+Future<List<SocketAddress>?> listeningAddresses()
+
+/// Get node status
+Future<NodeStatus> status()
+
+/// Get node configuration
+Future<Config> config()
+```
+
+### Payment Handler Accessors
+```dart
+/// Get BOLT11 payment handler
+Future<Bolt11Payment> bolt11Payment()
+
+/// Get BOLT12 payment handler
+Future<Bolt12Payment> bolt12Payment()
+
+/// Get on-chain payment handler
+Future<OnChainPayment> onChainPayment()
+
+/// Get spontaneous (keysend) payment handler
+Future<SpontaneousPayment> spontaneousPayment()
+
+/// Get unified QR (BIP21) payment handler
+Future<UnifiedQrPayment> unifiedQrPayment()
+
+/// Get network graph handler
+Future<NetworkGraph> networkGraph()
+```
+
+### Balance Methods
+```dart
+/// Get all balance details
+Future<BalanceDetails> listBalances()
+```
+
+### Channel Methods
+```dart
+/// Open a private (unannounced) channel
+Future<UserChannelId> openChannel({
+  required SocketAddress socketAddress,
+  required PublicKey nodeId,
+  required BigInt channelAmountSats,
+  BigInt? pushToCounterpartyMsat,
+  ChannelConfig? channelConfig,
+})
+
+/// Open a public (announced) channel
+/// Requires nodeAlias and listeningAddresses to be set
+Future<UserChannelId> openAnnouncedChannel({
+  required SocketAddress socketAddress,
+  required PublicKey nodeId,
+  required BigInt channelAmountSats,
+  BigInt? pushToCounterpartyMsat,
+  ChannelConfig? channelConfig,
+})
+
+/// Close channel cooperatively
+Future<void> closeChannel({
+  required UserChannelId userChannelId,
+  required PublicKey counterpartyNodeId,
+})
+
+/// Force close channel (use as last resort)
+Future<void> forceCloseChannel({
+  required UserChannelId userChannelId,
+  required PublicKey counterpartyNodeId,
+})
+
+/// Update channel configuration
+Future<void> updateChannelConfig({
+  required UserChannelId userChannelId,
+  required PublicKey counterpartyNodeId,
+  required ChannelConfig channelConfig,
+})
+
+/// List all channels
+Future<List<ChannelDetails>> listChannels()
+```
+
+### Peer Methods
+```dart
+/// Connect to a peer
+Future<void> connect({
+  required PublicKey nodeId,
+  required SocketAddress address,
+  required bool persist,  // Remember peer for reconnection on restart
+})
+
+/// Disconnect from a peer
+Future<void> disconnect({required PublicKey counterpartyNodeId})
+
+/// List connected peers
+Future<List<PeerDetails>> listPeers()
+```
+
+### Payment Methods
+```dart
+/// Get payment details by ID
+Future<PaymentDetails?> payment({required PaymentId paymentId})
+
+/// Remove payment from store
+Future<void> removePayment({required PaymentId paymentId})
+
+/// List all payments
+Future<List<PaymentDetails>> listPayments()
+
+/// List payments filtered by direction
+Future<List<PaymentDetails>> listPaymentsWithFilter({
+  required PaymentDirection paymentDirection,
+})
+```
+
+### Event Methods
+```dart
+/// Get next event (non-blocking, returns null if none)
+Future<Event?> nextEvent()
+
+/// Get next event (async, waits for event)
+Future<Event> nextEventAsync()
+
+/// Wait for next event (blocking)
+Future<Event?> waitNextHandled()
+
+/// Confirm event was handled (MUST call after processing each event)
+Future<void> eventHandled()
+```
+
+### Signing Methods
+```dart
+/// Sign a message with node's secret key (EC recoverable)
+Future<String> signMessage({required List<int> msg})
+
+/// Verify a signature
+Future<bool> verifySignature({
+  required List<int> msg,
+  required String sig,
+  required PublicKey publicKey,
+})
+```
+
+### Pathfinding Methods
+```dart
+/// Export pathfinding scores as bytes
+Future<Uint8List> exportPathfindingScores()
+```
+
+---
+
+## Bolt11Payment Class
+
+Handler for BOLT11 Lightning invoice operations.
+
+### Receive Methods
+```dart
+/// Create invoice with fixed amount
+Future<Bolt11Invoice> receiveUnsafe({
+  required BigInt amountMsat,
+  required String description,
+  required int expirySecs,
+})
+
+/// Create zero-amount (variable) invoice
+Future<Bolt11Invoice> receiveVariableAmountUnsafe({
+  required String description,
+  required int expirySecs,
+})
+
+/// Create invoice for specific payment hash (advanced)
+Future<Bolt11Invoice> receiveForHashUnsafe({
+  required PaymentHash paymentHash,
+  required BigInt amountMsat,
+  required String description,
+  required int expirySecs,
+})
+
+/// Create variable amount invoice for specific hash (advanced)
+Future<Bolt11Invoice> receiveVariableAmountForHashUnsafe({
+  required String description,
+  required int expirySecs,
+  required PaymentHash paymentHash,
+})
+
+/// Receive via JIT channel (requires LSPS2 liquidity source)
+Future<Bolt11Invoice> receiveViaJitChannelUnsafe({
+  required BigInt amountMsat,
+  required String description,
+  required int expirySecs,
+  BigInt? maxTotalLspFeeLimitMsat,
+})
+
+/// Receive variable amount via JIT channel
+Future<Bolt11Invoice> receiveVariableAmountViaJitChannelUnsafe({
+  required String description,
+  required int expirySecs,
+  BigInt? maxProportionalLspFeeLimitPpmMsat,
+})
+```
+
+### Send Methods
+```dart
+/// Pay a BOLT11 invoice
+Future<PaymentId> sendUnsafe({
+  required Bolt11Invoice invoice,
+  SendingParameters? sendingParameters,
+})
+
+/// Pay a zero-amount invoice with specified amount
+Future<PaymentId> sendUsingAmountUnsafe({
+  required Bolt11Invoice invoice,
+  required BigInt amountMsat,
+  SendingParameters? sendingParameters,
+})
+```
+
+### Probe Methods
+```dart
+/// Probe payment path without sending
+Future<void> sendProbesUnsafe({
+  required Bolt11Invoice invoice,
+  SendingParameters? sendingParameters,
+})
+
+/// Probe with specific amount
+Future<void> sendProbesUsingAmountUnsafe({
+  required Bolt11Invoice invoice,
+  required BigInt amountMsat,
+  SendingParameters? sendingParameters,
+})
+```
+
+### Hash-Based Claim Methods (Advanced)
+```dart
+/// Claim payment for a specific hash with preimage
+Future<void> claimForHashUnsafe({
+  required PaymentHash paymentHash,
+  required BigInt claimableAmountMsat,
+  required PaymentPreimage preimage,
+})
+
+/// Fail payment for a specific hash
+Future<void> failForHashUnsafe({required PaymentHash paymentHash})
+```
+
+---
+
+## Bolt12Payment Class
+
+Handler for BOLT12 offer operations.
+
+### Receive Methods
+```dart
+/// Create a BOLT12 offer with fixed amount
+Future<Offer> receiveUnsafe({
+  required BigInt amountMsat,
+  required String description,
+  int? expirySecs,
+  BigInt? quantity,
+})
+
+/// Create a BOLT12 offer with variable amount
+Future<Offer> receiveVariableAmountUnsafe({
+  required String description,
+  int? expirySecs,
+})
+
+/// Create async payment offer
+Future<Offer> receiveAsyncUnsafe()
+```
+
+### Send Methods
+```dart
+/// Pay a BOLT12 offer
+Future<PaymentId> sendUnsafe({
+  required Offer offer,
+  BigInt? quantity,
+  String? payerNote,
+  RouteParametersConfig? routeParams,
+})
+
+/// Pay a BOLT12 offer with specific amount
+Future<PaymentId> sendUsingAmountUnsafe({
+  required Offer offer,
+  required BigInt amountMsat,
+  BigInt? quantity,
+  String? payerNote,
+  RouteParametersConfig? routeParams,
+})
+```
+
+### Refund Methods
+```dart
+/// Initiate a refund request
+Future<Refund> initiateRefundUnsafe({
+  required BigInt amountMsat,
+  required int expirySecs,
+  BigInt? quantity,
+  String? payerNote,
+  RouteParametersConfig? routeParams,
+})
+
+/// Request payment for a refund
+Future<Bolt12Invoice> requestRefundPaymentUnsafe({required Refund refund})
+```
+
+### Async Payment Methods (Advanced)
+```dart
+/// Get blinded paths for async recipient
+Future<List<BlindedMessagePath>> blindedPathsForAsyncRecipientUnsafe({
+  required List<int> recipientId,
+})
+
+/// Set paths to static invoice server
+Future<void> setPathsToStaticInvoiceServerUnsafe({
+  required List<BlindedMessagePath> paths,
+})
+```
+
+---
+
+## OnChainPayment Class
+
+Handler for on-chain Bitcoin operations.
+
+### Methods
+```dart
+/// Generate new receive address
+Future<Address> newAddress()
+
+/// Send to address with specific amount
+Future<Txid> sendToAddress({
+  required Address address,
+  required BigInt amountSats,
+  BigInt? feeRateSatPerKwu,
+})
+
+/// Send all funds to address
+/// WARNING: If retainReserves=false, may leave anchor channels without reserves
+Future<Txid> sendAllToAddress({
+  required Address address,
+  required bool retainReserves,
+  BigInt? feeRateSatPerKwu,
+})
+```
+
+---
+
+## SpontaneousPayment Class
+
+Handler for spontaneous (keysend) payments.
+
+### Send Methods
+```dart
+/// Send spontaneous payment to node
+Future<PaymentId> sendUnsafe({
+  required BigInt amountMsat,
+  required PublicKey nodeId,
+  SendingParameters? sendingParameters,
+})
+
+/// Send spontaneous payment with specific preimage
+Future<PaymentId> sendWithPreimageUnsafe({
+  required BigInt amountMsat,
+  required PublicKey nodeId,
+  required PaymentPreimage preimage,
+  SendingParameters? sendingParameters,
+})
+
+/// Send spontaneous payment with custom TLV records
+Future<PaymentId> sendWithCustomTlvsUnsafe({
+  required BigInt amountMsat,
+  required PublicKey nodeId,
+  SendingParameters? sendingParameters,
+  required List<CustomTlvRecord> customTlvs,
+})
+```
+
+### Probe Methods
+```dart
+/// Probe spontaneous payment path
+Future<void> sendProbesUnsafe({
+  required BigInt amountMsat,
+  required PublicKey nodeId,
+})
+```
+
+---
+
+## UnifiedQrPayment Class
+
+Handler for BIP21 unified payment URIs (combines on-chain + BOLT11 + BOLT12).
+
+### Methods
+```dart
+/// Create BIP21 URI with on-chain address, BOLT11 invoice, and BOLT12 offer
+Future<String> receiveUnsafe({
+  required BigInt amountSats,
+  required String message,
+  required int expirySec,
+})
+
+/// Pay a BIP21 URI (tries BOLT12, then BOLT11, then on-chain)
+Future<QrPaymentResult> sendUnsafe({
+  required String uriStr,
+  RouteParametersConfig? routeParameters,
+})
+```
+
+### QrPaymentResult (sealed class)
+```dart
+sealed class QrPaymentResult {
+  /// On-chain payment was made
+  QrPaymentResult.onchain({required Txid txid})
+  
+  /// BOLT11 payment was made
+  QrPaymentResult.bolt11({required PaymentId paymentId})
+  
+  /// BOLT12 payment was made
+  QrPaymentResult.bolt12({required PaymentId paymentId})
+}
+```
+
+---
+
+## NetworkGraph Class
+
+Handler for querying the Lightning network graph.
+
+### Methods
+```dart
+/// List all channel IDs in the graph
+Future<Uint64List> listChannelsUnsafe()
+
+/// List all node IDs in the graph
+Future<List<NodeId>> listNodesUnsafe()
+
+/// Get channel info by short channel ID
+Future<ChannelInfo?> channelUnsafe({required BigInt shortChannelId})
+
+/// Get node info by node ID
+Future<NodeInfo?> nodeUnsafe({required NodeId nodeId})
+```
+
+### Supporting Types
+```dart
+class ChannelInfo {
+  NodeId nodeOne;
+  ChannelUpdateInfo? oneToTwo;
+  NodeId nodeTwo;
+  ChannelUpdateInfo? twoToOne;
+  BigInt? capacitySats;
+}
+
+class ChannelUpdateInfo {
+  int lastUpdate;
+  bool enabled;
+  int cltvExpiryDelta;
+  BigInt htlcMinimumMsat;
+  BigInt htlcMaximumMsat;
+  RoutingFees fees;
+}
+
+class NodeInfo {
+  Uint64List channels;
+  NodeAnnouncementInfo? announcementInfo;
+}
+
+class NodeAnnouncementInfo {
+  int lastUpdate;
+  String alias;
+  List<SocketAddress> addresses;
+}
+
+class NodeId {
+  Uint8List compressed;  // 33 bytes compressed public key
+}
+
+class RoutingFees {
+  int baseMsat;
+  int proportionalMillionths;
+}
+```
+
+---
+
+## Configuration Types
+
+### Config
+```dart
+class Config {
+  String storageDirPath;
+  Network network;
+  List<SocketAddress>? listeningAddresses;
+  List<SocketAddress>? announcementAddresses;
+  NodeAlias? nodeAlias;
+  List<PublicKey> trustedPeers0Conf;
+  BigInt probingLiquidityLimitMultiplier;
+  AnchorChannelsConfig? anchorChannelsConfig;
+  RouteParametersConfig? routeParameters;
+  
+  static Future<Config> default_()
+}
+```
+
+### AnchorChannelsConfig
+```dart
+class AnchorChannelsConfig {
+  List<PublicKey> trustedPeersNoReserve;
+  BigInt perChannelReserveSats;  // Default: 25000
+  
+  static Future<AnchorChannelsConfig> default_()
+}
+```
+
+### BackgroundSyncConfig
+```dart
+class BackgroundSyncConfig {
+  BigInt onchainWalletSyncIntervalSecs;    // Default: 80, min: 10
+  BigInt lightningWalletSyncIntervalSecs;  // Default: 30, min: 10
+  BigInt feeRateCacheUpdateIntervalSecs;   // Default: 600, min: 10
+}
+```
+
+### EsploraSyncConfig
+```dart
+class EsploraSyncConfig {
+  BackgroundSyncConfig? backgroundSyncConfig;  // null = manual sync only
+}
+```
+
+### ElectrumSyncConfig
+```dart
+class ElectrumSyncConfig {
+  BackgroundSyncConfig? backgroundSyncConfig;  // null = manual sync only
+}
+```
+
+### ChainDataSourceConfig (sealed)
+```dart
+sealed class ChainDataSourceConfig {
+  ChainDataSourceConfig.esplora({
+    required String serverUrl,
+    EsploraSyncConfig? syncConfig,
+  })
+  
+  ChainDataSourceConfig.esploraWithHeaders({
+    required String serverUrl,
+    EsploraSyncConfig? syncConfig,
+    required Map<String, String> headers,
+  })
+  
+  ChainDataSourceConfig.electrum({
+    required String serverUrl,
+    ElectrumSyncConfig? syncConfig,
+  })
+  
+  ChainDataSourceConfig.bitcoindRpc({
+    required String rpcHost,
+    required int rpcPort,
+    required String rpcUser,
+    required String rpcPassword,
+  })
+  
+  ChainDataSourceConfig.bitcoindRest({
+    required String restHost,
+    required int restPort,
+    required String rpcHost,
+    required int rpcPort,
+    required String rpcUser,
+    required String rpcPassword,
+  })
+}
+```
+
+### GossipSourceConfig (sealed)
+```dart
+sealed class GossipSourceConfig {
+  GossipSourceConfig.p2PNetwork()
+  GossipSourceConfig.rapidGossipSync(String serverUrl)
+}
+```
+
+### EntropySourceConfig (sealed)
+```dart
+sealed class EntropySourceConfig {
+  EntropySourceConfig.seedFile(String path)
+  EntropySourceConfig.seedBytes(U8Array64 bytes)
+  EntropySourceConfig.bip39Mnemonic({
+    required FfiMnemonic mnemonic,
+    String? passphrase,
+  })
+}
+```
+
+### LiquiditySourceConfig
+```dart
+class LiquiditySourceConfig {
+  (SocketAddress, PublicKey, String?) lsps2Service;
+}
+```
+
+### RouteParametersConfig
+```dart
+class RouteParametersConfig {
+  MaxTotalRoutingFeeLimit? maxTotalRoutingFeeMsat;
+  int? maxTotalCltvExpiryDelta;
+  int? maxPathCount;
+  int? maxChannelSaturationPowerOfHalf;  // 0=100%, 1=50%, 2=25%, etc.
+}
+```
+
+### SendingParameters
+```dart
+class SendingParameters {
+  MaxTotalRoutingFeeLimit? maxTotalRoutingFeeMsat;
+  int? maxTotalCltvExpiryDelta;
+  int? maxPathCount;
+  int? maxChannelSaturationPowerOfHalf;
+}
+```
+
+### MaxTotalRoutingFeeLimit (sealed)
+```dart
+sealed class MaxTotalRoutingFeeLimit {
+  MaxTotalRoutingFeeLimit.noFeeCap()
+  MaxTotalRoutingFeeLimit.feeCap({required BigInt amountMsat})
+}
+```
+
+### ChannelConfig
+```dart
+class ChannelConfig {
+  int forwardingFeeProportionalMillionths;  // Default: 0
+  int forwardingFeeBaseMsat;                 // Default: 1000
+  int cltvExpiryDelta;                       // Default: 72
+  MaxDustHTLCExposure maxDustHtlcExposure;
+  BigInt forceCloseAvoidanceMaxFeeSatoshis;  // Default: 1000
+  bool acceptUnderpayingHtlcs;
+}
+```
+
+### MaxDustHTLCExposure (sealed)
+```dart
+sealed class MaxDustHTLCExposure {
+  MaxDustHTLCExposure.fixedLimitMsat(BigInt msat)
+  MaxDustHTLCExposure.feeRateMultiplier(BigInt multiplier)
+}
+```
+
+### LogLevel (enum)
+```dart
+enum LogLevel {
+  gossip,  // Most verbose
+  trace,
+  debug,
+  info,
+  warn,
+  error,   // Least verbose
+}
+```
+
+### NodeAlias
+```dart
+class NodeAlias {
+  U8Array32 field0;  // 32-byte alias
+}
+```
+
+---
+
+## Payment Types
+
+### Bolt11Invoice
+```dart
+class Bolt11Invoice {
+  String signedRawInvoice;
+}
+```
+
+### Offer
+```dart
+class Offer {
+  String s;  // BOLT12 offer string
+}
+```
+
+### Refund
+```dart
+class Refund {
+  String s;  // BOLT12 refund string
+}
+```
+
+### Bolt12Invoice
+```dart
+class Bolt12Invoice {
+  Uint8List data;
+}
+```
+
+### PaymentId
+```dart
+class PaymentId {
+  Uint8List data;
+}
+```
+
+### PaymentHash
+```dart
+class PaymentHash {
+  U8Array32 data;
+}
+```
+
+### PaymentPreimage
+```dart
+class PaymentPreimage {
+  U8Array32 data;
+  
+  static Future<PaymentPreimage> newInstance({required U8Array32 data})
+}
+```
+
+### PaymentSecret
+```dart
+class PaymentSecret {
+  U8Array32 data;
+}
+```
+
+### PaymentDetails
+```dart
+class PaymentDetails {
+  PaymentId id;
+  PaymentKind kind;
+  BigInt? amountMsat;
+  PaymentDirection direction;
+  PaymentStatus status;
+  BigInt latestUpdateTimestamp;
+}
+```
+
+### PaymentDirection (enum)
+```dart
+enum PaymentDirection {
+  inbound,
+  outbound,
+}
+```
+
+### PaymentStatus (enum)
+```dart
+enum PaymentStatus {
+  pending,
+  succeeded,
+  failed,
+}
+```
+
+### PaymentKind (sealed)
+```dart
+sealed class PaymentKind {
+  PaymentKind.onchain({
+    required Txid txid,
+    required ConfirmationStatus status,
+  })
+  
+  PaymentKind.bolt11({
+    required PaymentHash hash,
+    PaymentPreimage? preimage,
+    PaymentSecret? secret,
+  })
+  
+  PaymentKind.bolt11Jit({
+    required PaymentHash hash,
+    PaymentPreimage? preimage,
+    PaymentSecret? secret,
+    required LSPFeeLimits lspFeeLimits,
+    BigInt? counterpartySkimmedFeeMsat,
+  })
+  
+  PaymentKind.spontaneous({
+    required PaymentHash hash,
+    PaymentPreimage? preimage,
+  })
+  
+  PaymentKind.bolt12Offer({
+    PaymentHash? hash,
+    PaymentPreimage? preimage,
+    PaymentSecret? secret,
+    required OfferId offerId,
+    String? payerNote,
+    BigInt? quantity,
+  })
+  
+  PaymentKind.bolt12Refund({
+    PaymentHash? hash,
+    PaymentPreimage? preimage,
+    PaymentSecret? secret,
+    String? payerNote,
+    BigInt? quantity,
+  })
+}
+```
+
+### PaymentFailureReason (enum)
+```dart
+enum PaymentFailureReason {
+  recipientRejected,
+  userAbandoned,
+  retriesExhausted,
+  paymentExpired,
+  routeNotFound,
+  unexpectedError,
+  unknownRequiredFeatures,
+  invoiceRequestExpired,
+  invoiceRequestRejected,
+  blindedPathCreationFailed,
+}
+```
+
+### ConfirmationStatus (sealed)
+```dart
+sealed class ConfirmationStatus {
+  ConfirmationStatus.confirmed({
+    required String blockHash,
+    required int height,
+    required BigInt timestamp,
+  })
+  
+  ConfirmationStatus.unconfirmed()
+}
+```
+
+### LSPFeeLimits
+```dart
+class LSPFeeLimits {
+  BigInt? maxTotalOpeningFeeMsat;
+  BigInt? maxProportionalOpeningFeePpmMsat;
+}
+```
+
+### CustomTlvRecord
+```dart
+class CustomTlvRecord {
+  BigInt typeNum;
+  Uint8List value;
+}
+```
+
+### OfferId
+```dart
+class OfferId {
+  U8Array32 field0;
+}
+```
+
+### BlindedMessagePath
+```dart
+class BlindedMessagePath {
+  Uint8List data;
+}
+```
+
+---
+
+## Channel Types
+
+### UserChannelId
+```dart
+class UserChannelId {
+  Uint8List data;
+}
+```
+
+### ChannelId
+```dart
+class ChannelId {
+  U8Array32 data;
+}
+```
+
+### ChannelDetails
+```dart
+class ChannelDetails {
+  ChannelId channelId;
+  PublicKey counterpartyNodeId;
+  OutPoint? fundingTxo;
+  BigInt channelValueSats;
+  BigInt? unspendablePunishmentReserve;
+  UserChannelId userChannelId;
+  int feerateSatPer1000Weight;
+  BigInt outboundCapacityMsat;
+  BigInt inboundCapacityMsat;
+  int? confirmationsRequired;
+  int? confirmations;
+  bool isOutbound;
+  bool isChannelReady;
+  bool isUsable;
+  int? cltvExpiryDelta;
+  BigInt counterpartyUnspendablePunishmentReserve;
+  BigInt? counterpartyOutboundHtlcMinimumMsat;
+  BigInt? counterpartyOutboundHtlcMaximumMsat;
+  int? counterpartyForwardingInfoFeeBaseMsat;
+  int? counterpartyForwardingInfoFeeProportionalMillionths;
+  int? counterpartyForwardingInfoCltvExpiryDelta;
+  BigInt nextOutboundHtlcLimitMsat;
+  BigInt nextOutboundHtlcMinimumMsat;
+  int? forceCloseSpendDelay;
+  BigInt inboundHtlcMinimumMsat;
+  BigInt? inboundHtlcMaximumMsat;
+  ChannelConfig config;
+}
+```
+
+### ClosureReason (sealed)
+```dart
+sealed class ClosureReason {
+  ClosureReason.peerFeerateTooLow({
+    required int peerFeerateSatPerKw,
+    required int requiredFeerateSatPerKw,
+  })
+  ClosureReason.counterpartyForceClosed({required String peerMsg})
+  ClosureReason.holderForceClosed({bool? broadcastedLatestTxn})
+  ClosureReason.legacyCooperativeClosure()
+  ClosureReason.counterpartyInitiatedCooperativeClosure()
+  ClosureReason.locallyInitiatedCooperativeClosure()
+  ClosureReason.commitmentTxConfirmed()
+  ClosureReason.fundingTimedOut()
+  ClosureReason.processingError({required String err})
+  ClosureReason.disconnectedPeer()
+  ClosureReason.outdatedChannelManager()
+  ClosureReason.counterpartyCoopClosedUnfundedChannel()
+  ClosureReason.fundingBatchClosure()
+  ClosureReason.htlCsTimedOut()
+}
+```
+
+---
+
+## Balance Types
+
+### BalanceDetails
+```dart
+class BalanceDetails {
+  BigInt totalOnchainBalanceSats;
+  BigInt spendableOnchainBalanceSats;
+  BigInt totalLightningBalanceSats;
+  List<LightningBalance> lightningBalances;
+  List<PendingSweepBalance> pendingBalancesFromChannelClosures;
+}
+```
+
+### LightningBalance (sealed)
+```dart
+sealed class LightningBalance {
+  LightningBalance.claimableOnChannelClose({
+    required ChannelId channelId,
+    required PublicKey counterpartyNodeId,
+    required BigInt amountSatoshis,
+    required BigInt transactionFeeSatoshis,
+    required BigInt outboundPaymentHtlcRoundedMsat,
+    required BigInt outboundForwardedHtlcRoundedMsat,
+    required BigInt inboundClaimingHtlcRoundedMsat,
+    required BigInt inboundHtlcRoundedMsat,
+  })
+  
+  LightningBalance.claimableAwaitingConfirmations({
+    required ChannelId channelId,
+    required PublicKey counterpartyNodeId,
+    required BigInt amountSatoshis,
+    required int confirmationHeight,
+    required BalanceSource source,
+  })
+  
+  LightningBalance.contentiousClaimable({
+    required ChannelId channelId,
+    required PublicKey counterpartyNodeId,
+    required BigInt amountSatoshis,
+    required int timeoutHeight,
+    required PaymentHash paymentHash,
+    required PaymentPreimage paymentPreimage,
+  })
+  
+  LightningBalance.maybeTimeoutClaimableHtlc({
+    required ChannelId channelId,
+    required PublicKey counterpartyNodeId,
+    required BigInt amountSatoshis,
+    required int claimableHeight,
+    required PaymentHash paymentHash,
+    required bool outboundPayment,
+  })
+  
+  LightningBalance.maybePreimageClaimableHtlc({
+    required ChannelId channelId,
+    required PublicKey counterpartyNodeId,
+    required BigInt amountSatoshis,
+    required int expiryHeight,
+    required PaymentHash paymentHash,
+  })
+  
+  LightningBalance.counterpartyRevokedOutputClaimable({
+    required ChannelId channelId,
+    required PublicKey counterpartyNodeId,
+    required BigInt amountSatoshis,
+  })
+}
+```
+
+### BalanceSource (enum)
+```dart
+enum BalanceSource {
+  holderForceClosed,
+  counterpartyForceClosed,
+  coopClose,
+  htlc,
+}
+```
+
+### PendingSweepBalance (sealed)
+```dart
+sealed class PendingSweepBalance {
+  PendingSweepBalance.pendingBroadcast({
+    ChannelId? channelId,
+    required BigInt amountSatoshis,
+  })
+  
+  PendingSweepBalance.broadcastAwaitingConfirmation({
+    ChannelId? channelId,
+    required int latestBroadcastHeight,
+    required Txid latestSpendingTxid,
+    required BigInt amountSatoshis,
+  })
+  
+  PendingSweepBalance.awaitingThresholdConfirmations({
+    ChannelId? channelId,
+    required Txid latestSpendingTxid,
+    required String confirmationHash,
+    required int confirmationHeight,
+    required BigInt amountSatoshis,
+  })
+}
+```
+
+---
+
+## Event Types
+
+### Event (sealed)
+```dart
+sealed class Event {
+  /// Payment claimable (for hash-based receiving)
+  Event.paymentClaimable({
+    required PaymentId paymentId,
+    required PaymentHash paymentHash,
+    required BigInt claimableAmountMsat,
+    int? claimDeadline,
+    required List<CustomTlvRecord> customRecords,
+  })
+  
+  /// Outbound payment succeeded
+  Event.paymentSuccessful({
+    PaymentId? paymentId,
+    required PaymentHash paymentHash,
+    BigInt? feePaidMsat,
+    PaymentPreimage? preimage,
+  })
+  
+  /// Payment failed
+  Event.paymentFailed({
+    PaymentId? paymentId,
+    PaymentHash? paymentHash,
+    PaymentFailureReason? reason,
+  })
+  
+  /// Inbound payment received
+  Event.paymentReceived({
+    PaymentId? paymentId,
+    required PaymentHash paymentHash,
+    required BigInt amountMsat,
+    required List<CustomTlvRecord> customRecords,
+  })
+  
+  /// Channel pending confirmation
+  Event.channelPending({
+    required ChannelId channelId,
+    required UserChannelId userChannelId,
+    required ChannelId formerTemporaryChannelId,
+    required PublicKey counterpartyNodeId,
+    required OutPoint fundingTxo,
+  })
+  
+  /// Channel ready for use
+  Event.channelReady({
+    required ChannelId channelId,
+    required UserChannelId userChannelId,
+    PublicKey? counterpartyNodeId,
+    OutPoint? fundingTxo,
+  })
+  
+  /// Channel closed
+  Event.channelClosed({
+    required ChannelId channelId,
+    required UserChannelId userChannelId,
+    PublicKey? counterpartyNodeId,
+    ClosureReason? reason,
+  })
+  
+  /// Payment forwarded (routing node)
+  Event.paymentForwarded({
+    required ChannelId prevChannelId,
+    required ChannelId nextChannelId,
+    UserChannelId? prevUserChannelId,
+    UserChannelId? nextUserChannelId,
+    PublicKey? prevNodeId,
+    PublicKey? nextNodeId,
+    BigInt? totalFeeEarnedMsat,
+    BigInt? skimmedFeeMsat,
+    required bool claimFromOnchainTx,
+    BigInt? outboundAmountForwardedMsat,
+  })
+  
+  /// Splice pending confirmation
+  Event.splicePending({
+    required ChannelId channelId,
+    required UserChannelId userChannelId,
+    required PublicKey counterpartyNodeId,
+    required OutPoint newFundingTxo,
+  })
+  
+  /// Splice failed
+  Event.spliceFailed({
+    required ChannelId channelId,
+    required UserChannelId userChannelId,
+    required PublicKey counterpartyNodeId,
+    OutPoint? abandonedFundingTxo,
+  })
+}
+```
+
+---
+
+## Network & Address Types
+
+### Network (enum)
+```dart
+enum Network {
+  bitcoin,   // Mainnet (real money!)
+  testnet,   // Bitcoin testnet
+  signet,    // Bitcoin signet
+  regtest,   // Local regtest
+}
+```
+
+### SocketAddress (sealed)
+```dart
+sealed class SocketAddress {
+  SocketAddress.tcpIpV4({required U8Array4 addr, required int port})
+  SocketAddress.tcpIpV6({required U8Array16 addr, required int port})
+  SocketAddress.onionV2(U8Array12 data)
+  SocketAddress.onionV3({
+    required U8Array32 ed25519Pubkey,
+    required int checksum,
+    required int version,
+    required int port,
+  })
+  SocketAddress.hostname({required String addr, required int port})
+}
+```
+
+### PublicKey
+```dart
+class PublicKey {
+  String hex;  // 66 character hex string (33 bytes)
+}
+```
+
+### Address
+```dart
+class Address {
+  String s;  // Bitcoin address string
+}
+```
+
+### Txid
+```dart
+class Txid {
+  String hash;  // Transaction hash hex string
+}
+```
+
+### OutPoint
+```dart
+class OutPoint {
+  Txid txid;
+  int vout;
+}
+```
+
+### BestBlock
+```dart
+class BestBlock {
+  String blockHash;
+  int height;
+}
+```
+
+### NodeStatus
+```dart
+class NodeStatus {
+  bool isRunning;
+  BestBlock currentBestBlock;
+  BigInt? latestLightningWalletSyncTimestamp;
+  BigInt? latestOnchainWalletSyncTimestamp;
+  BigInt? latestFeeRateCacheUpdateTimestamp;
+  BigInt? latestRgsSnapshotTimestamp;
+  BigInt? latestNodeAnnouncementBroadcastTimestamp;
+  int? latestChannelMonitorArchivalHeight;
+}
+```
+
+### PeerDetails
+```dart
+class PeerDetails {
+  PublicKey nodeId;
+  SocketAddress address;
+  bool isConnected;
+}
+```
+
+---
+
+## Error Types
+
+All errors are mapped from FFI to Dart exception classes.
+
+### FfiNodeError Variants
+- `invalidTxid` - Invalid transaction ID
+- `invalidBlockHash` - Invalid block hash
+- `alreadyRunning` - Node already running
+- `notRunning` - Node not running
+- `onchainTxCreationFailed` - On-chain tx creation failed
+- `connectionFailed` - Network connection failed
+- `invoiceCreationFailed` - Invoice creation failed
+- `paymentSendingFailed` - Payment sending failed
+- `probeSendingFailed` - Probe sending failed
+- `channelCreationFailed` - Channel creation failed
+- `channelClosingFailed` - Channel closing failed
+- `channelConfigUpdateFailed` - Channel config update failed
+- `persistenceFailed` - Persistence failed
+- `walletOperationFailed` - Wallet operation failed
+- `onchainTxSigningFailed` - On-chain tx signing failed
+- `messageSigningFailed` - Message signing failed
+- `txSyncFailed` - Transaction sync failed
+- `gossipUpdateFailed` - Gossip update failed
+- `invalidAddress` - Invalid Bitcoin address
+- `invalidSocketAddress` - Invalid network address
+- `invalidPublicKey` - Invalid public key
+- `invalidSecretKey` - Invalid secret key
+- `invalidPaymentHash` - Invalid payment hash
+- `invalidPaymentPreimage` - Invalid payment preimage
+- `invalidPaymentSecret` - Invalid payment secret
+- `invalidAmount` - Invalid amount
+- `invalidInvoice` - Invalid invoice
+- `invalidChannelId` - Invalid channel ID
+- `invalidNetwork` - Invalid network
+- `duplicatePayment` - Payment already exists
+- `insufficientFunds` - Insufficient funds
+- `feerateEstimationUpdateFailed` - Fee rate estimation failed
+- `liquidityRequestFailed` - Liquidity request failed
+- `liquiditySourceUnavailable` - Liquidity source unavailable
+- `liquidityFeeTooHigh` - Liquidity fee too high
+- `invalidPaymentId` - Invalid payment ID
+- `decode` - Decoding error
+- `bolt12Parse` - BOLT12 parsing error
+- `invoiceRequestCreationFailed` - Invoice request creation failed
+- `offerCreationFailed` - Offer creation failed
+- `refundCreationFailed` - Refund creation failed
+- `feerateEstimationUpdateTimeout` - Fee rate update timeout
+- `walletOperationTimeout` - Wallet operation timeout
+- `txSyncTimeout` - Transaction sync timeout
+- `gossipUpdateTimeout` - Gossip update timeout
+- `invalidOfferId` - Invalid offer ID
+- `invalidNodeId` - Invalid node ID
+- `invalidOffer` - Invalid offer
+- `invalidRefund` - Invalid refund
+- `unsupportedCurrency` - Unsupported currency
+- `uriParameterParsingFailed` - URI parameter parsing failed
+- `invalidUri` - Invalid URI
+- `invalidQuantity` - Invalid quantity
+- `invalidNodeAlias` - Invalid node alias
+- `invalidCustomTlvs` - Invalid custom TLVs
+- `invalidDateTime` - Invalid date/time
+- `invalidFeeRate` - Invalid fee rate
+- `channelSplicingFailed` - Channel splicing failed
+- `invalidBlindedPaths` - Invalid blinded paths
+- `asyncPaymentServicesDisabled` - Async payment services disabled
+- `creationError` - Invoice creation error
+
+### FfiBuilderError Variants
+- `invalidSeedBytes` - Invalid seed bytes
+- `invalidSeedFile` - Invalid seed file
+- `invalidSystemTime` - Invalid system time
+- `invalidChannelMonitor` - Invalid channel monitor
+- `invalidListeningAddress` - Invalid listening address
+- `readFailed` - Read failed
+- `writeFailed` - Write failed
+- `storagePathAccessFailed` - Storage path access failed
+- `kvStoreSetupFailed` - KV store setup failed
+- `walletSetupFailed` - Wallet setup failed
+- `loggerSetupFailed` - Logger setup failed
+- `invalidNodeAlias` - Invalid node alias
+- `invalidPublicKey` - Invalid public key
+- `invalidAnnouncementAddresses` - Invalid announcement addresses
+- `networkMismatch` - Network mismatch
+- `invalidParameter` - Invalid parameter
+- `runtimeSetupFailed` - Runtime setup failed
+- `asyncPaymentsConfigMismatch` - Async payments config mismatch
+- `socketAddressParseError` - Socket address parse error
+- `opaqueNotFound` - Opaque not found
+
+---
+
+## Exception Classes
+
+All exceptions extend `LdkFfiException`:
+
+```dart
+abstract class LdkFfiException implements Exception {
+  String? errorMessage;
+  String code;
+}
+
+/// Node operation failures
+class NodeException extends LdkFfiException {}
+
+/// Builder configuration failures
+class BuilderException extends LdkFfiException {}
+
+/// Payment operation failures
+class PaymentException extends LdkFfiException {}
+
+/// Channel operation failures
+class ChannelException extends LdkFfiException {}
+
+/// Wallet operation failures
+class WalletException extends LdkFfiException {}
+
+/// Input validation failures
+class ValidationException extends LdkFfiException {}
+
+/// Network/connection failures
+class NetworkException extends LdkFfiException {}
+
+/// Timeout failures
+class TimeoutException extends LdkFfiException {}
+
+/// Liquidity service failures
+class LiquidityException extends LdkFfiException {}
+
+/// Decoding/parsing failures
+class DecodeException extends LdkFfiException {}
+
+/// Flutter Rust Bridge initialization failure
+class BridgeException extends LdkFfiException {}
+```
+
+### Exception Mapping
+
+| FFI Error | Dart Exception |
+|-----------|----------------|
+| `alreadyRunning`, `notRunning`, `persistenceFailed`, `messageSigningFailed` | `NodeException` |
+| Builder errors | `BuilderException` |
+| `paymentSendingFailed`, `probeSendingFailed`, `invoiceCreationFailed`, `duplicatePayment` | `PaymentException` |
+| `channelCreationFailed`, `channelClosingFailed`, `channelConfigUpdateFailed`, `channelSplicingFailed` | `ChannelException` |
+| `onchainTxCreationFailed`, `walletOperationFailed`, `onchainTxSigningFailed`, `txSyncFailed`, `insufficientFunds` | `WalletException` |
+| `invalid*` (address, publicKey, amount, invoice, etc.) | `ValidationException` |
+| `connectionFailed`, `gossipUpdateFailed`, `feerateEstimationUpdateFailed` | `NetworkException` |
+| `*Timeout` | `TimeoutException` |
+| `liquidityRequestFailed`, `liquiditySourceUnavailable`, `liquidityFeeTooHigh` | `LiquidityException` |
+| `decode`, `bolt12Parse` | `DecodeException` |
+
+---
+
+## Usage Examples
+
+### Complete Node Setup
+```dart
+import 'package:ldk_node/ldk_node.dart';
+import 'package:path_provider/path_provider.dart';
+
+Future<Node> setupNode() async {
+  final dir = await getApplicationDocumentsDirectory();
+  final mnemonic = await Mnemonic.generate();
+  
+  final node = await Builder.testnet()
+      .setStorageDirPath('${dir.path}/ldk_node')
+      .setEntropyBip39Mnemonic(mnemonic: mnemonic)
+      .build();
+  
+  await node.start();
+  await node.syncWallets();
+  
+  return node;
+}
+```
+
+### Receive Lightning Payment
+```dart
+Future<String> createInvoice(Node node, int amountSats) async {
+  final bolt11 = await node.bolt11Payment();
+  final invoice = await bolt11.receiveUnsafe(
+    amountMsat: BigInt.from(amountSats * 1000),
+    description: 'Payment',
+    expirySecs: 3600,
+  );
+  return invoice.signedRawInvoice;
+}
+```
+
+### Send Lightning Payment
+```dart
+Future<PaymentId> payInvoice(Node node, String invoiceStr) async {
+  final bolt11 = await node.bolt11Payment();
+  return await bolt11.sendUnsafe(
+    invoice: Bolt11Invoice(signedRawInvoice: invoiceStr),
+  );
+}
+```
+
+### Event Loop
+```dart
+Future<void> handleEvents(Node node) async {
+  while (true) {
+    final event = await node.nextEventAsync();
+    switch (event) {
+      case Event_PaymentReceived(:final amountMsat, :final paymentHash):
+        print('Received: $amountMsat msat');
+      case Event_PaymentSuccessful(:final paymentId):
+        print('Payment succeeded: $paymentId');
+      case Event_PaymentFailed(:final reason):
+        print('Payment failed: $reason');
+      case Event_ChannelReady(:final channelId):
+        print('Channel ready: $channelId');
+      case Event_ChannelClosed(:final reason):
+        print('Channel closed: $reason');
+      default:
+        break;
+    }
+    await node.eventHandled();
+  }
+}
+```
+
+### Error Handling
+```dart
+try {
+  final bolt11 = await node.bolt11Payment();
+  await bolt11.sendUnsafe(invoice: invoice);
+} on PaymentException catch (e) {
+  print('Payment failed: ${e.code} - ${e.errorMessage}');
+} on WalletException catch (e) {
+  print('Wallet error: ${e.code} - ${e.errorMessage}');
+} on LdkFfiException catch (e) {
+  print('Error: ${e.code} - ${e.errorMessage}');
+}
+```
+
+---
+
+## Links
+
+- **Package**: https://pub.dev/packages/ldk_node
+- **Documentation**: https://pub.dev/documentation/ldk_node/latest/
+- **GitHub**: https://github.com/LtbLightning/ldk-node-flutter
+- **Demo App**: https://github.com/LtbLightning/ldk-node-flutter-demo
+- **Workshop**: https://github.com/LtbLightning/ldk-node-flutter-workshop
+- **LDK Documentation**: https://lightningdevkit.org/

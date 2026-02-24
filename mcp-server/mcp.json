@@ -1,0 +1,29 @@
+{
+  "name": "ldk-node-flutter",
+  "version": "0.7.0",
+  "description": "Lightning Network node operations for Flutter apps (MCP server for ldk_node)",
+  "author": "LtbLightning",
+  "repository": "https://github.com/LtbLightning/ldk_node_flutter",
+  "capabilities": [
+    "lightning-payments",
+    "bitcoin-wallet",
+    "channel-management"
+  ],
+  "tools": [
+    "search_api_docs",
+    "get_code_example",
+    "get_setup_guide",
+    "get_error_solution",
+    "get_example_prompt",
+    "validate_code"
+  ],
+  "documentation": "https://pub.dev/documentation/ldk_node/latest/",
+  "command": "python",
+  "args": ["-m", "ldk_node_mcp.server"],
+  "env": {
+    "PYTHONPATH": "./src"
+  },
+  "workingDirectory": ".",
+  "homepage": "https://github.com/LtbLightning/ldk_node_flutter",
+  "license": "MIT OR Apache-2.0"
+}
